@@ -6,6 +6,7 @@ This guide explains what every Python file in `core/` is responsible for, why th
 
 | Step | Goal | Program | Required? |
 |---|---|---|---|
+| 0. Stage a rework batch | Resolve one source drawing per library symbol from a rework JSON and lay out the batch folder | `fetch_rework_batch.py` | Required only for the JSON rework workflow |
 | 1. Inspect reference | Convert source SVG geometry into reviewable evidence | `detect_svg_shapes.py` or `batch_detect_svg_shapes.py` | Required when the reference is SVG and no valid report exists |
 | 2. Compose | Build editable icon JSON from registered atoms | `shape_registry.py` and `icon_geometry.py` are imported by authoring tools | Required infrastructure; not run directly |
 | 3. Emit | Produce canonical 48-unit and 24-pixel SVGs | `emit_icon.py` | Required |

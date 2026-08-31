@@ -7,6 +7,11 @@ set of references is processed in one execution. That runbook keeps this
 per-icon discipline and adds a staged scope boundary, a shared skill read, an
 atom-consolidation gate, and a family review.
 
+Use [icon-rework-execution-steps.md](icon-rework-execution-steps.md) instead when
+the input is a symbol-library rework JSON rather than an SVG file. There the
+brief in `minimal_description` outranks the source drawing, and the finished
+icon is posted back to the library.
+
 ## Single-icon boundary
 
 - Process exactly one source SVG per execution.

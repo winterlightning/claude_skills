@@ -8,6 +8,9 @@ icon is selected. The two runbooks share the same specification and the same
 per-icon discipline; this one adds a staged scope boundary, a shared skill read,
 an atom-consolidation gate, and a family review.
 
+Use [icon-rework-execution-steps.md](icon-rework-execution-steps.md) when the
+batch arrives as a symbol-library rework JSON instead of staged SVG files.
+
 ## Why batch
 
 Batching is not only a throughput change. Three things are impossible in a

@@ -8,6 +8,7 @@ This folder is the human-readable entry point for designing, reviewing, and ship
 2. Read [icon-authoring-guide.md](icon-authoring-guide.md) for composition decisions and common failure modes.
 3. Follow [icon-execution-steps.md](icon-execution-steps.md) for one icon or [icon-batch-execution-steps.md](icon-batch-execution-steps.md) for a family.
    If your usual handoff is the runbook plus one supplied SVG, use [README-svg-input-processing.md](README-svg-input-processing.md) as the concise operator guide and request template.
+   If the handoff is a symbol-library rework JSON rather than SVG files, follow [icon-rework-execution-steps.md](icon-rework-execution-steps.md); it resolves each symbol's source, remakes it against the supplied brief, and posts the result back as the symbol's final.
 4. Use [atomic-shapes.md](atomic-shapes.md) to choose registered primitives before adding a new one.
 5. Use [core-scripts-guide.md](core-scripts-guide.md) to understand which program runs at each workflow step, what it protects, and what it produces.
 6. Read [negative-space-repair-examples.md](negative-space-repair-examples.md) before repairing a failed hole or pinch — four worked cases, one per repair option, plus the sizing math.

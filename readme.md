@@ -10,6 +10,17 @@ For the complete detect → load skill → map → remake → validate workflow,
 [docs/icon-execution-steps.md](docs/icon-execution-steps.md).
 For the usual two-file handoff—this runbook plus one supplied SVG—use
 [docs/README-svg-input-processing.md](docs/README-svg-input-processing.md).
+For a symbol-library rework JSON—fetch, remake against the supplied brief, and
+upload the result—follow
+[docs/icon-rework-execution-steps.md](docs/icon-rework-execution-steps.md).
+
+```bash
+./rework_opus.sh "https://symlib.pictographic.ai/download-wrong-icons-json?cat=Building+Construction"
+```
+
+`rework_opus.sh` drives that runbook end to end—stage, detect, remake with
+Claude, verify every QA gate, then upload—and every stage is idempotent, so
+re-running the same command resumes instead of starting over.
 
 ## Detect an SVG reference first
 
