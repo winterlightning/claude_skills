@@ -1,60 +1,95 @@
-# Unlimited Shapes icon system
+# Unlimited Shapes Icon Documentation
 
-This folder is the human-readable entry point for designing, reviewing, and shipping Unlimited Shapes icons. The system uses a 48-unit design canvas and emits exact half-scale 24-pixel SVGs. All geometry and QA programs in `core/` are Python so the math can be inspected, tested, and reused without a JavaScript runtime.
+Start with the rules, choose one input lane, and follow one shared pipeline. The
+documentation is organized so numeric rules are defined once and the runbooks do
+not repeat them.
 
-## Start here
+## Source-of-truth order
 
-1. Read [icon-rules.md](icon-rules.md) for the binding visual and numeric rules.
-2. Read [icon-authoring-guide.md](icon-authoring-guide.md) for composition decisions and common failure modes.
-3. Follow [icon-execution-steps.md](icon-execution-steps.md) for one icon or [icon-batch-execution-steps.md](icon-batch-execution-steps.md) for a family.
-   If your usual handoff is the runbook plus one supplied SVG, use [README-svg-input-processing.md](README-svg-input-processing.md) as the concise operator guide and request template.
-   If the handoff is a symbol-library rework JSON rather than SVG files, follow [icon-rework-execution-steps.md](icon-rework-execution-steps.md); it resolves each symbol's source, remakes it against the supplied brief, and posts the result back as the symbol's final.
-4. Use [atomic-shapes.md](atomic-shapes.md) to choose registered primitives before adding a new one.
-5. Use [core-scripts-guide.md](core-scripts-guide.md) to understand which program runs at each workflow step, what it protects, and what it produces.
-6. Read [negative-space-repair-examples.md](negative-space-repair-examples.md) before repairing a failed hole or pinch — four worked cases, one per repair option, plus the sizing math.
-7. Use [qa-overlays-guide.md](qa-overlays-guide.md) to run and interpret the canonical `core/qa_overlays.py` hole-and-pinch gate.
+1. [Icon types](icon-types.md) — choose `normal`, `sub`, or `container` and read
+   its purpose and delivery contract. Exact profile geometry comes from
+   `core/icon_profiles.json` and its generated reference.
+2. [Icon style rules](icon-rules.md) — binding visual and numeric rules, R1–R9.
+3. [Atomic shapes](atomic-shapes.md) — reusable primitive contract and catalog;
+   the current catalog never outranks visual quality.
+4. [Canonical icon pipeline](icon-pipeline.md) — the only shared execution and
+   repair sequence, with the script attached to each gate.
+5. One lane adapter:
+   - [one supplied SVG](icon-execution-steps.md);
+   - [an explicit SVG batch](icon-batch-execution-steps.md);
+   - [a symbol-library rework JSON](icon-rework-execution-steps.md).
 
-## Core rules at a glance
+An installed agent skill can help perform the workflow, but it does not override
+the in-repository specification above.
 
-- Design on `48×48`; ship on `24×24` at exactly half scale.
-- Use a `4u` design stroke and `2px` shipping stroke, with round caps and joins.
-- Use a 1u minor / 4u major grid and one centered painted keyshape: circle Ø44u, square 40×40u, portrait 36×44u, or landscape 44×36u. The keyshape is the padding boundary.
-- Prefer whole design units and straight angles on the 15-degree grid.
-- Paint must reach all four cardinals or rectangular edges and remain inside the selected boundary; circle paint may not enter the corner regions of its 44×44 bounding box. Resize/recompose editable atomic instances and resnap ordinary coordinates—never scale flattened SVG paths.
-- Use only registered atomic shapes. New atoms must be genuinely reusable and documented.
-- Keep distinct centerlines at least `4u` apart unless a measured relationship explicitly declares a connection or intentional overlap.
-- A negative-space hole must have at least a `1u` inscribed radius (`2u` diameter), and a solid junction must be filled at least `1u` deep — a junction held closed by less paint is a squeeze, and fails the same way.
-- Repair a failing zone by giving it room, in this order: enlarge the opening, rebalance the composition so the crowded detail is big enough to carry a legal opening, or remove the whole part when it is not identity-bearing. Record the omission and revalidate. Never push parts together to close a hole, and never delete an arbitrary path fragment. See R9 in [icon-rules.md](icon-rules.md).
-- Any repair must keep the same declared keyshape, stay centered, reach its target extents, and remain inside its boundary. Re-run `check_keyfit.py` after every hole or pinch repair because every repair moves paint.
-- When keyshape containment fails, first reposition or resize. A complete low-priority SVG element or atom instance may be removed only when identity and visual quality remain intact. Never clip or delete an arbitrary path fragment.
+## Pipeline at a glance
 
-## Python commands
-
-Run these from the project root:
-
-```bash
-python3 core/emit_icon.py path/to/icon.json
-python3 core/validate_icon.py path/to/icon.json
-python3 core/render_overlap_audit.py path/to/icon.json
-python3 core/detect_svg_shapes.py path/to/icon.svg
-python3 core/generate_assets.py
-python3 core/compose_examples.py
-python3 -m unittest discover -s core -p 'test_*.py'
+```text
+Input lane → type → detection → evidence mapping
+→ quality-first reuse-or-extend decision → editable JSON
+→ emit → structural → grid → overlap → keyshape → holes/pinches
+→ true-size review → deliver → rework-only approved upload
 ```
 
-The emitter writes `<name>-design.svg` and `<name>.svg`. The validator checks canvas safety, declared centered-keyshape containment, angle discipline, pair spacing, and emitted SVG properties. Visual review at true 24-pixel size remains mandatory after numeric checks pass.
+Every repair returns to editable JSON, re-emits both SVG sizes, and reruns all
+affected downstream gates. See [icon-pipeline.md](icon-pipeline.md) for commands,
+artifacts, pass criteria, the repair loop, and the current type-support matrix.
 
-For the mission, timing, inputs, outputs, and failure meaning of every script, see [Core scripts: mission and workflow](core-scripts-guide.md).
+## Choose the input lane
 
-## Source layout
+| Request | Use | What the adapter adds |
+| --- | --- | --- |
+| Exactly one chosen SVG | [Single-icon adapter](icon-execution-steps.md) | Single-file evidence boundary and delivery |
+| An explicit set of SVGs | [Batch adapter](icon-batch-execution-steps.md) | Staging, whole-batch reuse-or-extend review, checkpoints, and family review |
+| A `kind: "rework"` JSON payload | [Rework adapter](icon-rework-execution-steps.md) | Brief authority, source-priority ladder, concept review, and controlled upload |
 
-- `core/shape_registry.py` — Python atomic-shape registry.
-- `core/icon_geometry.py` — shared path parsing, transforms, rendering, and sampling math.
-- `core/emit_icon.py` — canonical 48-unit and 24-pixel SVG output.
-- `core/validate_icon.py` — numeric and keyshape validation.
-- `core/render_overlap_audit.py` — negative-space envelope panels.
-- `core/qa_overlays.py` — rendered enclosed-hole and pinched-junction QA.
-- `core/detect_svg_shapes.py` and `core/batch_detect_svg_shapes.py` — source/reference detection evidence.
-- `core/test_*.py` — executable regression tests.
+Do not turn a single-file request into a sibling scan or a batch request. Do not
+turn a staged batch into a category sweep.
 
-Do not add shell, JavaScript, or other executable scripts to `core/`. Supporting non-code data belongs in a clearly named data or reference folder.
+## Profile-aware workflow
+
+- `core/icon_profiles.json` is the machine authority for normal, sub, and
+  container canvas, stroke, keyshape, and slot data. [Icon types](icon-types.md)
+  explains how those profiles are used; generated mirrors feed the browser and
+  human-readable profile table.
+- The browser editor selects all three profiles and exports a canonical-schema
+  editable JSON scaffold. Its explicit `sourceAnalysis.incomplete: true` marker
+  must be resolved before `core/validate_icon.py` accepts it; the emitter and
+  validator infer the profile from that JSON.
+- Grid, painted-keyshape, and hole/pinch QA run against the declared profile, so
+  sub icons retain their 32×32 → 16×16 geometry and true-size 16px review.
+- Container validation checks the fixed slot metadata and rejects container paint
+  entering the full centered 32×32 clearance square. The non-shipping filled
+  preview still requires combined visual review at the 32px container ship size.
+
+## Supporting guides
+
+- [Icon authoring guide](icon-authoring-guide.md) — composition technique and
+  common visual checks.
+- [Script and module inventory](scripts.md) — exhaustive command, input/output,
+  exit-behavior, and type-support reference.
+- [Core scripts guide](core-scripts-guide.md) — concise workflow overview and
+  pointer to the inventory.
+- [Hole and pinch QA](qa-overlays-guide.md) — operation and interpretation of the
+  rendered negative-space gate.
+- [Negative-space repair examples](negative-space-repair-examples.md) — worked R9
+  repairs and sizing math.
+- [Process one supplied SVG](README-svg-input-processing.md) — portable request
+  template for a single SVG using any declared profile.
+- [Sub-icon handoff](README-sub-icon-making.md) and
+  [container handoff](README-container-icon-making.md) — type-specific request
+  templates; the normative type contract remains in [icon-types.md](icon-types.md).
+
+## Repository map
+
+| Path | Role |
+| --- | --- |
+| `core/` | Python geometry, emission, validation, QA, asset generation, and tests |
+| `frontend/` | Profile-aware browser composition aid and generated profile/atom mirrors |
+| `assets/shapes/` | Generated standalone atom assets |
+| `docs/` | Specifications, canonical pipeline, adapters, and review guides |
+| `work/` | Source evidence, editable compositions, output, and QA work products |
+
+Run repository commands from the project root. Keep generated evidence out of the
+original source folder, and never edit generated atom assets or flattened final
+paths as the source of a repair.

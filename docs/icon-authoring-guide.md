@@ -1,92 +1,110 @@
-# Unlimited Shapes Icon Authoring Guide
+# Icon authoring techniques
 
-Use [icon-rules.md](icon-rules.md) as the canonical specification. This guide summarizes day-to-day work on the new 48-unit design grid and 24px ship grid.
+This is the practical drawing guide. It intentionally does not repeat profile
+numbers, validation commands, or delivery rules.
 
-For the required operational order—including detection, skill loading, evidence handoff, mapping, registry extension, validation, and delivery—follow [icon-execution-steps.md](icon-execution-steps.md).
+- Start with the shared [icon pipeline](icon-pipeline.md).
+- Treat [icon-rules.md](icon-rules.md) as the written visual specification.
+- Read the generated [profile reference](generated/icon-profiles.md) for exact
+  canvas, stroke, center, keyshape, distinct-part distance, and container-slot values.
+- Use [atomic-shapes.md](atomic-shapes.md) to choose registered building blocks.
+- Use [scripts.md](scripts.md) to understand a command before running it.
 
-## Deliverables
+The machine authority for profile geometry is
+[`core/icon_profiles.json`](../core/icon_profiles.json). Do not copy those values
+into another guide; update that source and regenerate its mirrors instead.
 
-For each new-grid icon, keep:
+## Reduce before composing
 
-- `<name>.json` (or equivalent): editable atomic composition source on the 48×48 design canvas.
-- `<name>-design.svg`: editable 48×48 design SVG with a 4u Regular stroke.
-- `<name>.svg`: clean 24×24 ship SVG with the same geometry at half scale and a 2px Regular stroke.
+Describe the subject in one short sentence, then keep only:
 
-Grid overlays, keyshape guides, collision views, and QA annotations are temporary review material and never ship.
+1. its smallest recognizable silhouette;
+2. one to three identity-bearing features;
+3. no secondary detail that disappears at the selected profile's ship size.
 
-## Baseline at a glance
+Sub icons need an especially strict edit: prefer one silhouette and no more
+than two internal identity features.
 
-| Design source | Ship output |
-| --- | --- |
-| 48×48 canvas | 24×24 canvas |
-| 1u minor / 4u major grid | Exact half-scale geometry |
-| Circle Ø44u; square 40×40u; portrait 36×44u; landscape 44×36u | Circle Ø22px; square 20×20px; portrait 18×22px; landscape 22×18px |
-| 4u Regular stroke | 2px Regular stroke |
-| Corner radii 4u / 8u | Corner radii 2px / 4px |
-| Center `(24,24)` | Center `(12,12)` |
+## Choose quality first, then reuse or extend
 
-Use `currentColor`, centered strokes, and round caps/joins. Regular is the only launch weight.
+Decide the clearest, most natural silhouette before treating the current catalog
+as a menu. Build the editable JSON from registered atoms, not flattened output
+paths, but reuse a current atom only when it produces that intended form without
+compromise. If reuse makes the icon stiff, generic, distorted, fragmented, or
+less recognizable, create and register a new generic parametric atom immediately.
+One initial icon is sufficient; do not make a worse icon to avoid registry work.
 
-## Workflow
+When two approaches are genuinely close, render both at true ship size and keep
+the visually stronger result. Existing-atom reuse is only a tie-breaker. Place,
+resize, rotate, or reflect complete instances after making that decision.
 
-1. Run shape detection on SVG references before interpreting or rebuilding them:
+Good compositions usually have:
 
-   ```bash
-   python3 core/detect_svg_shapes.py path/to/input.svg \
-     --output path/to/input-shapes.json \
-     --plot path/to/input-preflight.png
-   ```
+- one dominant mass or outline;
+- a clear symmetry or intentional asymmetry;
+- a small number of readable internal relationships;
+- negative spaces that survive true-size review.
 
-   Add `--show` to open the Matplotlib view interactively. Add `--strict` in automated pipelines; it exits with status 3 when unsupported or ambiguous geometry needs review. The plot overlays sampled geometry, detection bounds, labels, the 48-unit grid, the live area, and color-coded QA. The report identifies native and path-based lines, arcs, quadratic/cubic curves, circles, ellipses, rectangles, pills, rounded rectangles, triangles, diamonds, and compound paths. Its `makerPreflight.suggestedAtoms` are starting suggestions, not final artwork.
-2. Review every `specIssues` and `makerPreflight.manualReview` entry. Replace detected cubics with arcs or quadratics, flatten transforms before coordinate conversion, and resolve ambiguous compound paths semantically.
-3. Reduce the subject or reference to its smallest recognizable silhouette and one to three identity-bearing features. Do not trace secondary detail literally.
-4. Establish `x=24` or `y=24` as the symmetry axis when the subject is naturally bilateral.
-5. Compose only from approved atoms on the 1u minor / 4u major grid to exactly match one centered painted keyshape. The keyshape is the padding boundary: circle Ø44u, square 40×40u, portrait 36×44u, or landscape 44×36u. Paint must reach its cardinals/edges and remain inside it; circle paint may not enter the corner regions. Resize/recompose atomic instances, never flattened path data.
-6. Snap straight lines to 15° increments. Use arcs and quadratic curves only; do not add freehand cubic paths.
-7. Use 4u or 8u for ordinary rounded corners. Circles and capsule ends are geometric exceptions.
-8. Check every nearby pair. Distinct centerline paths stay at least 4u apart; with a 4u stroke, their painted edges may touch but must not overlap.
-9. Make connected components meet cleanly. Trim redundant segments at joints. Where an overlap needs separation, cut the underlying path with a 3u cutout.
-10. Inspect on the 48-unit design canvas and at 24px. Check clipping, symmetry, visual centering, negative space, and recognition.
-11. Export the 24×24 SVG by dividing design coordinates, dimensions, radii, and stroke width by two. Do not scale only the outer SVG size while leaving undocumented geometry transforms.
-12. Run `python3 core/check_svg_grid.py <final-svg-or-folder> --expected ship --output-dir <grid-qa>`. Fix mixed canvases, off-15° segments, and avoidable fractional axis/45° coordinates in the editable atomic source, then regenerate both sizes.
+Choose the semantic keyshape before tuning the drawing. The complete painted
+artwork must reach the selected keyshape's cardinals or edges without crossing
+its boundary. Do not switch keyshapes merely to make a weak composition pass.
 
-## Composite icons
+## Join and spacing technique
 
-- Reduce the main symbol to a 32×32u box.
-- Use a 16u-diameter or nominal 16×16u subicon.
-- For the standard bottom-right placement, center the subicon at `(32,32)`.
-- Bottom-right means additive; top-right means status; bottom-left means modifier; top-left means security.
-- Rework the main icon before moving a subicon to a semantically incorrect corner.
+- Make connected parts meet cleanly and trim redundant segments.
+- Keep distinct parts separated according to the Distance Rule in
+  [icon-rules.md](icon-rules.md).
+- When an overlap needs visual separation, cut the underlying path rather than
+  stacking an opaque patch over it.
+- Prefer enlarging an opening, rebalancing the composition, or removing a whole
+  part over squeezing a gap until it disappears.
+- Keep line directions on the allowed angular grid and use registered arcs or
+  quadratic curves instead of freehand cubic paths.
+
+Inspect the actual painted result, not just centerlines. A mathematically even
+layout can still need a small optical correction when one side carries more
+visual weight.
+
+## Containers
+
+A container is authored on its own profile and declares an accepted sub-icon
+keyshape for preview compatibility. Keep the full centered 32×32 slot free of
+container paint; the accepted keyshape does not reduce this clearance.
+Review both states:
+
+- the empty container, which is the shipping artwork;
+- a filled preview with an accepted sub icon, which is review evidence only.
+
+Do not scale a flattened normal icon into the slot. Compose the sub icon on the
+sub profile and place its design source into the declared container slot.
+
+## Composite badges
+
+A badge is a semantic modifier inside a normal icon, not a standalone sub-icon
+profile. Use the badge geometry defined by [icon-rules.md](icon-rules.md), and
+respect the corner semantics documented there. Rework the main symbol before
+moving a badge to a semantically incorrect corner.
 
 ## Runtime axes
 
-Expose these renderer parameters:
+The renderer may expose color, ship stroke, keyshape, and corner style. Treat
+these as controlled parameters of one composition, not permission to improvise
+separate drawings. Every variant must preserve recognition, spacing semantics,
+and optical centering.
 
-- Color: `currentColor`.
-- Ship stroke: 1–3px; 2px is Regular.
-- Keyshape: `circle-44`, `square-40`, `portrait-36x44`, or `landscape-44x36`. Choose and record the intended semantic target; paint must reach and remain inside it.
-- Corner style: `round` uses the 4u/8u design tokens; `sharp` resolves ordinary corners to zero radius.
+## Review at two scales
 
-Runtime variants must preserve recognition, spacing semantics, and optical centering. They are parameters, not separately improvised icon drawings.
+Always inspect both the editable design canvas and the profile's true ship
+size. At design scale, look for geometry, grid, joins, protected regions, and
+keyfit. At ship size, look for clipping, crowded negative space, imbalance,
+and lost recognition.
 
-## Final checks
-
-- Design SVG uses `viewBox="0 0 48 48"`; ship SVG uses `viewBox="0 0 24 24"`.
-- Production paint is `fill="none"`, `stroke="currentColor"`, with round caps and joins.
-- Default stroke is 4u design / 2px ship and is centered.
-- Complete painted artwork reaches the selected keyshape's four cardinals/edges and remains inside it.
-- Keyfit fitting did not scale flattened path data or create bulk fractional coordinates; the final SVG grid audit passes.
-- Ordinary radii are 4u or 8u; line angles are multiples of 15°.
-- Curves are arcs or quadratics; there are no freehand cubics.
-- Outlined circles and square-like shapes are at least 4×4u. Smaller marks are point-line dots or removed.
-- Distinct parts satisfy the 4u centerline Distance Rule.
-- Connected parts meet; redundant paths are trimmed; overlap cutouts are 3u.
-- Every enclosed region clears a 1u inscribed radius; every solid junction is filled at least 1u deep. A crowded zone is repaired by enlarging the opening, rebalancing the composition, or removing a whole part — never by squeezing parts together until the gap closes (R9).
-- Any such repair keeps the same declared keyshape, remains centered, and does not cross its boundary.
-- Symmetrical subjects are deliberately mirrored.
-- Composite icons follow the 32u main / 16u subicon system and corner semantics.
-- The subject remains clean and recognizable at 24px.
+The pipeline's automated gates establish structural compliance. Human review
+still decides whether the icon is legible and visually convincing.
 
 ## Migration note
 
-Legacy 40×40 canvases, former 40u/44u/48u keyfit ladders, common-fit exports, and `-fit.svg` artifacts do not define the four current centered keyshapes.
+Legacy canvases, old keyfit ladders, common-fit exports, and `-fit.svg`
+artifacts are historical inputs, not current authority. Migrate their meaning
+into editable atomic JSON, select an explicit profile, and regenerate outputs
+through the shared pipeline.

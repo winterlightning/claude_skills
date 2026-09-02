@@ -1,304 +1,151 @@
-# Icon Processing Execution Steps
+# Single-Icon SVG Adapter
 
-Follow this runbook whenever one selected SVG reference is traced, simplified, and remade as one Unlimited Shapes icon.
+Use this adapter when one selected SVG is remade as one Unlimited Shapes icon.
+Follow the shared stages, commands, type-support limits, QA order, and repair loop
+in [icon-pipeline.md](icon-pipeline.md). This page adds only the single-file scope,
+evidence checkpoint, and handoff rules.
 
-Use [icon-batch-execution-steps.md](icon-batch-execution-steps.md) instead when a
-set of references is processed in one execution. That runbook keeps this
-per-icon discipline and adds a staged scope boundary, a shared skill read, an
-atom-consolidation gate, and a family review.
+Use [icon-batch-execution-steps.md](icon-batch-execution-steps.md) for an explicit
+set of SVGs. Use
+[icon-rework-execution-steps.md](icon-rework-execution-steps.md) when the input is
+a symbol-library rework JSON whose brief outranks the drawing.
 
-Use [icon-rework-execution-steps.md](icon-rework-execution-steps.md) instead when
-the input is a symbol-library rework JSON rather than an SVG file. There the
-brief in `minimal_description` outranks the source drawing, and the finished
-icon is posted back to the library.
+## Single-file boundary
 
-## Single-icon boundary
+- Process exactly one source SVG in this execution.
+- Do not scan, detect, compare, rank, or remake sibling files or variants.
+- A filename such as `variant 1` is only the selected source's name; it does not
+  authorize opening variants 2–4.
+- Preserve the source unchanged and put every generated artifact in a separate
+  work folder.
+- If the user later selects another SVG, start a separate execution from intake.
 
-- Process exactly one source SVG per execution.
-- Do not scan, detect, compare, rank, or remake sibling variants.
-- Do not run folder or batch detection as part of this workflow.
-- A filename such as `variant 1` is only the selected source's name; it does not authorize inspecting variants 2–4.
-- Start a separate execution from Step 1 if the user later selects another SVG.
-
-## Required order
-
-```text
-1. Select one source SVG
-2. Run shape detection on that SVG only
-3. Verify detection JSON + Matplotlib plot
-4. Load SKILL.md + required references
-5. Send the complete evidence bundle into icon making
-6. Map detected elements to maker decisions
-7. Reuse or create atoms without overfitting
-8. Compose the icon
-9. Validate the atomic grid, then spacing, keyshape containment, and visual quality
-10. Deliver source, mappings, outputs, and registry changes
-```
-
-Do not begin icon composition before steps 1–5 are complete.
-
-## Step 0 — Work from the project root
-
-```bash
-cd /Applications/Workspaces/pictographic/unlimited_shapes
-python3 -m pip install -r requirements.txt
-```
-
-Keep the selected reference file unchanged. Write its detection and icon outputs to a separate output folder.
-
-## Step 1 — Select the source SVG
-
-Record exactly one input path. For example:
+## Lane sequence
 
 ```text
-test_input/Building - variant 1.svg
+record one SVG + output folder + icon type
+→ detect that SVG only
+→ verify the three-file evidence bundle
+→ enter the canonical pipeline at evidence review
+→ deliver one icon and stop
 ```
 
-That file is the complete reference scope for this execution. Ignore every other variant, even when it is stored beside the selected SVG. Do not use sibling variants to improve, correct, compare, or reinterpret the selected source.
+Do not compose before detection, evidence review, type declaration, and source
+mapping are complete.
 
-## Step 2 — Run shape detection first
+## 1. Record scope and type
+
+Record:
+
+```text
+source SVG:    /absolute/path/to/reference.svg
+output folder: /absolute/path/to/work/<icon-name>
+icon type:     normal | sub | container
+```
+
+Choose the type from [icon-types.md](icon-types.md). A request for an icon inside,
+within, or held by another icon normally means a separately authored `container`
+and `sub`, not the legacy 16u corner badge. If that interpretation would change
+the requested meaning, stop for a user decision.
+
+A useful folder layout is:
+
+```text
+work/<icon-name>/
+├── detection/
+├── editable/
+├── output/
+└── qa/
+```
+
+Run commands from the repository root; do not use a machine-specific absolute
+project path.
+
+## 2. Detect only the selected SVG
 
 ```bash
-mkdir -p work
 python3 core/detect_svg_shapes.py \
-  "test_input/Building - variant 1.svg" \
-  --output "work/Building - variant 1-shapes.json" \
-  --plot "work/Building - variant 1-preflight.png"
+  "/absolute/path/to/reference.svg" \
+  --output "work/<icon-name>/detection/<icon-name>-shapes.json" \
+  --plot "work/<icon-name>/detection/<icon-name>-preflight.png"
 ```
 
-Do not pass a folder, wildcard, or list of SVGs. Do not run `batch_detect_svg_shapes.py` for an individual icon-making execution.
+Do not pass a folder, wildcard, or list. Do not substitute
+`batch_detect_svg_shapes.py` in a single-icon execution.
 
-## Step 3 — Detection checkpoint
+## 3. Pass the evidence checkpoint
 
-Before opening the icon-making skill, verify the three evidence files for the one selected icon exist:
+Before composition, verify these three artifacts describe the same selected icon:
 
-- Original source SVG.
-- Matching `*-shapes.json` report.
-- Matching `*-preflight.png` Matplotlib plot.
+1. Original source SVG.
+2. Matching `*-shapes.json` detection report.
+3. Matching `*-preflight.png` plot.
 
-Then inspect:
+Inspect:
 
-- `summary.readyForIconMaker`.
-- `elements` and their source element IDs.
-- `makerPreflight.suggestedAtoms`.
-- `makerPreflight.manualReview`.
-- Every `specIssues` warning or error.
-- The visual labels and geometry in the Matplotlib plot.
+- `summary.readyForIconMaker`;
+- every source element ID;
+- `makerPreflight.suggestedAtoms`;
+- `makerPreflight.manualReview`;
+- every `specIssues` warning or error;
+- labeled geometry in the preflight plot and the original rendered source.
 
-`readyForIconMaker: false` does not mean stop permanently. It means the agent must resolve the marked geometry semantically instead of accepting detector suggestions automatically.
+`readyForIconMaker: false` is a manual-review requirement, not permission to guess
+and not necessarily a permanent stop. Resolve the marked geometry semantically.
+If the source name, geometry, JSON, or plot does not correspond, regenerate the
+detection artifacts before continuing.
 
-If the JSON source name, geometry, or plot does not match the SVG, regenerate both detection artifacts before continuing.
+## 4. Enter the canonical pipeline
 
-## Step 4 — Load the icon-making skill
-
-Invoke `$unlimited-shapes-icons` when the agent supports named skills. The installed entrypoint for this workspace is:
-
-```text
-/Applications/Workspaces/pictographic/unlimited_shapes/.agents/skills/unlimited-shapes-icons/SKILL.md
-```
-
-Read `SKILL.md` completely. Then read all required references:
-
-```text
-references/icon-style-rules.md
-references/detection-to-atom-pipeline.md
-references/negative-space-and-topology.md
-references/keyfit-validation.md
-references/hole-diameter-validation.md
-```
-
-Resolve relative reference paths from the skill folder. Do not use an older copied prompt or rely on memory; the skill is the current source of workflow instructions.
-
-## Step 5 — Send the evidence bundle into icon making
-
-The agent receives these paths together:
+Continue at “Review evidence and map the source” in
+[icon-pipeline.md](icon-pipeline.md). Keep the complete evidence bundle together:
 
 ```text
 source SVG:      /absolute/path/to/reference.svg
-detection JSON:  /absolute/path/to/reference-shapes.json
-preflight plot:  /absolute/path/to/reference-preflight.png
-output folder:   /absolute/path/to/icon-output
+detection JSON:  /absolute/path/to/<icon-name>-shapes.json
+preflight plot:  /absolute/path/to/<icon-name>-preflight.png
+editable source: /absolute/path/to/editable/<icon-name>.json
+output folder:   /absolute/path/to/output
 ```
 
-All three evidence paths must refer to the same selected SVG. Do not attach or inspect sibling variants.
+Single-icon work still requires:
 
-Recommended agent request:
+- one recorded maker decision for every identity-bearing source element;
+- relationship and painted-clearance records for relevant pairs and openings;
+- an existing atom that preserves visual quality, or a fully integrated new
+  generic parametric atom when it does not;
+- editable atomic JSON as the repair source;
+- the type-appropriate emission and QA path;
+- a visual keyshape rationale based on the whole composition at true ship size;
+- documented simplifications, omissions, exceptions, and blocked checks.
 
-```text
-Use $unlimited-shapes-icons to remake this icon.
+Do not attach or inspect sibling variants while resolving a mapping or choosing an
+atom.
 
-Process only the supplied source SVG. Ignore every sibling or alternate variant.
-Read the skill and its required references completely.
-Use the supplied SVG, detection JSON, and Matplotlib plot as one evidence bundle.
-Create the source-element mapping before composition.
-Render the source and map foreground/background, connections, overlaps, and
-identity-bearing openings before composition. Record painted-clearance checks;
-the 4u centerline rule is a collision floor, not a visual-spacing target.
-Render and inspect the current composition at 48u and true-size 24px before
-choosing its keyshape. A dominant large circle selects `circle-44`; a dominant
-large square selects `square-40`. Do not decide from bounds or a small inset.
-Do not overfit an unrelated existing atom. If an essential form has no honest
-catalog match, create and integrate a reusable parametric atom following the
-detection-to-atom pipeline.
+## 5. Deliver one traceable result
 
-Source SVG: <absolute path>
-Detection JSON: <absolute path>
-Preflight plot: <absolute path>
-Output folder: <absolute path>
-```
+The handoff contains:
 
-## Step 6 — Create the source-element mapping
+- editable JSON with `iconType`, declared keyshape, `sourceAnalysis` mappings,
+  relationships, and spacing checks;
+- type-appropriate design and exact half-scale ship SVGs;
+- container slot metadata and non-shipping filled preview when applicable;
+- the detection JSON and preflight plot;
+- grid, overlap, keyshape, hole/pinch, and true-size evidence for the declared
+  profile;
+- intentional simplifications, omissions, approved exceptions, and new-atom work.
 
-For every identity-bearing element or semantic group, record one decision:
-
-- `existing-atom`
-- `new-atom`
-- `simplify`
-- `omit`
-- `merge`
-- `manual`
-
-Carry detector element IDs into the editable icon source under `sourceAnalysis.mappings`, or an equivalent project field. Include a short reason for every `new-atom`, `simplify`, `omit`, or `manual` decision.
-
-Also record `sourceAnalysis.relationships` (or equivalent) for connected,
-ordinary-distinct, visual-opening, and intentional-overlap pairs. For every
-identity-bearing opening, store a `spacingChecks` entry with centerline distance,
-painted clearance, minimum painted clearance, and pass/fail status.
-
-Do not compose while an essential feature remains unexplained.
-
-## Step 7 — Reuse or create atoms honestly
-
-Use an existing atom only when it preserves the source feature's topology, shape family, and semantic role.
-
-Create a new atom when the feature is essential and existing atoms would require extreme distortion, unrelated geometry, redundant overlaps, or several atoms to imitate one simple contour. One essential source is enough justification; previous recurrence is not required.
-
-A new atom must be generic and parametric, not a frozen trace or complete icon. It must use allowed lines, arcs, and quadratics—never cubic paths. Integrate the ID across the registry, renderers/validators, generator, atom asset, detector when applicable, documentation, and tests before composing with it.
-
-## Step 8 — Compose the icon
-
-Before declaring the keyshape, render and visually inspect the whole composition
-at 48u and true-size 24px. Choose from the dominant outer silhouette: a large
-circular/radial body selects `circle-44`, while a large four-sided/cornered body
-selects `square-40`. Small internal wheels, buttons, windows, badges, or insets
-do not control the decision. Save the visualization and record a short visual
-rationale with `keyfitCheck.targetToken`.
-
-Apply the active specification:
-
-- 48×48 design canvas.
-- 24×24 ship canvas.
-- 1u minor / 4u major grid on the 48×48u canvas.
-- Four centered painted keyshapes—the keyshape is the padding boundary: circle Ø44u (2u cardinal padding), square 40×40u (4u per side), portrait 36×44u (6u sides / 2u ends), and landscape 44×36u (2u sides / 6u ends).
-- Regular stroke 4u design / 2px ship.
-- `currentColor`, no fill, centered stroke, round caps/joins.
-- Ordinary radii 4u or 8u.
-- Straight-line angles in 15° increments.
-- Arcs and quadratics only.
-- Minimum 4u centerline distance between ordinary distinct parts; this is only the collision floor.
-- Identity-bearing openings and parallel structural gaps prefer 4u painted clearance (8u centerline at Regular) and require at least 3u painted clearance (7u centerline) after true-size review.
-- 3u overlap cutout where separation is required.
-- Every enclosed negative-space region at least 1u inscribed radius, and every solid junction filled at least 1u deep. Crowding is solved by giving the zone room — enlarge, rebalance, or remove a whole part (R9) — never by pushing parts together until a gap closes.
-- Symmetry preferred when the subject is naturally symmetrical.
-
-Simplify the reference where needed, but retain its identity-bearing topology and silhouette.
-
-Treat keyshapes as exact painted padding boundaries: paint must reach all four
-cardinals or rectangular edges and stay entirely inside the selected boundary.
-Circle paint may not enter the corner regions of its 44×44 bounding box. Never multiply every coordinate in a
-completed or flattened SVG to fill a keyshape. Resize or recompose the source atoms, then snap ordinary
-axis-aligned and 45-degree endpoints back to whole design units. Fractional
-coordinates are reserved for exact rotated/arc junctions or a documented optical
-correction, not as residue from bulk scaling.
-
-## Step 9 — Validate
-
-Emit both canonical outputs and run structural and overlap validation first:
-
-```bash
-python3 core/emit_icon.py <icon.json> --out-dir <output-folder>
-python3 core/validate_icon.py <icon.json> --dir <output-folder>
-python3 core/render_overlap_audit.py <icon.json> <overlap-audit.svg>
-```
-
-Run the grid gate before spacing, hole, or keyshape validation:
-
-```bash
-python3 core/check_svg_grid.py <design-svg-or-folder> \
-  --expected design \
-  --output-dir <grid-qa-folder>
-```
-
-Do not continue while the grid gate reports a wrong canvas, wrong normalized
-stroke, cubic geometry, an off-grid straight angle, or fractional ordinary
-axis/45-degree line endpoints. Correct the editable atomic composition and
-re-emit it; do not round a flattened path blindly.
-
-Then validate the declared keyshape and enclosed negative space on the clean
-24px ship SVG:
-
-```bash
-python3 core/check_keyfit.py <ship.svg> \
-  --expected-editable-dir <editable-json-folder> \
-  --output-dir <keyshape-qa-folder>
-python3 core/qa_overlays.py <ship.svg> \
-  --output-dir <hole-qa-folder> \
-  --min-radius-design-u 1
-```
-
-Inspect these artifacts together:
-
-1. Original source SVG rendered at a comparable square size.
-2. Detection JSON.
-3. Matplotlib preflight plot.
-4. Source-element and relationship mappings.
-5. Painted-clearance measurements for identity-bearing openings.
-6. 48-unit design SVG.
-7. True-size 24px ship SVG.
-
-Confirm:
-
-- Every essential detector element has a resolved mapping.
-- Foreground/background order, connections, contour terminations, and openings match the rendered source or have a documented simplification.
-- Every identity-bearing opening has a passing painted-clearance measurement; numeric collision-floor compliance alone is insufficient.
-- No atom was overfit to represent a different shape family.
-- New atoms satisfy their reusable parametric contract.
-- `check_svg_grid.py` passes the design output before the downstream checks run.
-- No cubic paths exist in new-grid output.
-- Distance, visual-clearance, connection, cutout, angle, radius, symmetry, and canvas-safety rules pass.
-- `core/qa_overlays.py` reports no undersized hole and no pinched junction. If a zone failed and was repaired, the repair enlarged the opening, rebalanced the composition, or removed a whole part; nothing was squeezed shut or clipped. See [qa-overlays-guide.md](qa-overlays-guide.md) for operation details and [negative-space-repair-examples.md](negative-space-repair-examples.md) for worked repairs.
-- `check_keyfit.py` confirms the same declared keyshape after the repair; paint remains centered, reaches the target cardinals/edges, and never crosses the selected boundary.
-- The declared keyshape still agrees with the dominant silhouette in both the saved 48u visualization and the true-size 24px output.
-- The subject and every opening are recognizable and optically balanced at the true 24px output size, not only enlarged.
-
-## Step 10 — Deliver
-
-The normal handoff for this one icon contains:
-
-- Editable icon source with `sourceAnalysis` mappings, relationship classifications, and `spacingChecks`.
-- 48×48 `-design.svg`.
-- 24×24 clean ship `.svg`.
-- Detection JSON and Matplotlib preflight plot used for the decision.
-- List of intentional simplifications or unresolved exceptions.
-
-When a new atom was created, also include:
-
-- New atom ID and contract.
-- Registry implementation.
-- Generated atom asset.
-- Renderer/validator/detector integration.
-- Documentation and passing tests.
-
-The process is complete only when the output can be traced from source element → maker decision → atom instance → final SVG.
-
-End the execution after delivering this icon. Do not automatically continue to another file or variant.
+Completion means each important source element traces through maker decision →
+atom instance → emitted SVG → QA evidence. End after delivering this icon.
 
 ## Stop conditions
 
 Stop and report the blocker instead of guessing when:
 
-- The source SVG and detection report do not correspond.
-- A required source, JSON, or plot is missing and cannot be generated.
-- The requested output location is unavailable.
-- Creating a necessary atom would require prohibited cubic geometry or a whole-icon primitive.
-- A user decision would materially change the subject or intended icon meaning.
+- more than one source SVG is presented without an explicit batch request;
+- the selected source and detection artifacts do not correspond;
+- a source, report, dependency, or output location is unavailable;
+- an essential feature remains semantically unexplained;
+- a required atom would need prohibited cubic geometry or encode a whole icon;
+- a required checker or profile artifact is unavailable;
+- a user decision would materially change the subject or intended icon meaning.

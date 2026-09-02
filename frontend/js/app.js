@@ -1,28 +1,40 @@
 'use strict';
 
-/* Icon builder editor: 48x48 canvas, 1-unit snapping, drag/resize/rotate/flip,
- * fill & stroke styling, standalone SVG export. Depends on SHAPES (shapes.js). */
+/* Profile-aware atomic icon editor with canonical-schema JSON scaffold export.
+ * Depends on ICON_PROFILES (icon-profiles.js) and SHAPES (shapes.js). */
 
 const SVGNS = 'http://www.w3.org/2000/svg';
-const CANVAS_SIZE = 48;
 const MIN_SIZE = 1;
 const ROT_SNAP = 15;
-const DEFAULT_FILL = '#1f2937';
-const DEFAULT_STROKE = '#1f2937';
+const LEGACY_PALETTE_SHAPES = new Set(['rounded-square', 's-curve']);
 
-/* Persisted user settings. Stroke is in 48u design units; 4u is Regular. */
+function resolveProfile(iconType) {
+  const raw = ICON_PROFILES.profiles[iconType];
+  if (!raw) throw new Error(`Unknown icon profile: ${iconType}`);
+  const base = raw.extends ? resolveProfile(raw.extends) : {};
+  return { ...base, ...raw, iconType };
+}
+
+const profileFor = iconType => resolveProfile(iconType);
+const currentProfile = () => profileFor(settings.iconType);
+const canvasSize = () => currentProfile().designCanvas;
+
+/* Persisted user settings. Geometry and Regular stroke come from the profile. */
 const SETTINGS_KEY = 'unlimited-shapes.settings.v3';
-const settings = { strokeWidth: 4, keyshape: 'square-40', showSkeleton: false };
+const settings = {
+  iconName: 'icon',
+  iconType: ICON_PROFILES.defaultIconType,
+  keyshape: 'square-40',
+  containerAcceptedKeyshape: 'square-24',
+  showSkeleton: false,
+};
 try {
   Object.assign(settings, JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {});
 } catch (e) { /* storage unavailable or corrupt — fall back to defaults */ }
 function saveSettings() {
   try { localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); } catch (e) { /* ignore */ }
 }
-const storedStrokeWidth = Number(settings.strokeWidth);
-settings.strokeWidth = Number.isFinite(storedStrokeWidth)
-  ? Math.min(6, Math.max(0, storedStrokeWidth))
-  : 4;
+if (!ICON_PROFILES.profiles[settings.iconType]) settings.iconType = ICON_PROFILES.defaultIconType;
 saveSettings();
 
 const svg = document.getElementById('canvas');
@@ -118,13 +130,11 @@ function instanceTransform(inst) {
 function buildInstanceNode(inst) {
   const def = shapeById(inst.shapeId);
   const node = makeShapeEl(def, inst.w, inst.h);
-  node.setAttribute('fill', def.closed && inst.fillOn ? inst.fill : 'none');
-  if (inst.strokeWidth > 0) {
-    node.setAttribute('stroke', inst.stroke);
-    node.setAttribute('stroke-width', fmt(inst.strokeWidth));
-    node.setAttribute('stroke-linecap', 'round');
-    node.setAttribute('stroke-linejoin', 'round');
-  }
+  node.setAttribute('fill', 'none');
+  node.setAttribute('stroke', 'currentColor');
+  node.setAttribute('stroke-width', fmt(currentProfile().designStroke));
+  node.setAttribute('stroke-linecap', 'round');
+  node.setAttribute('stroke-linejoin', 'round');
   const g = document.createElementNS(SVGNS, 'g');
   g.setAttribute('transform', instanceTransform(inst));
   g.appendChild(node);
@@ -263,6 +273,8 @@ function renderOverlay() {
 
 function renderGrid() {
   gridLayer.replaceChildren();
+  const size = canvasSize();
+  svg.setAttribute('viewBox', `0 0 ${size} ${size}`);
   const line = (x1, y1, x2, y2, color, width) => {
     const l = document.createElementNS(SVGNS, 'line');
     l.setAttribute('x1', x1); l.setAttribute('y1', y1);
@@ -271,38 +283,73 @@ function renderGrid() {
     l.setAttribute('stroke-width', width);
     gridLayer.appendChild(l);
   };
-  for (let v = 0; v <= CANVAS_SIZE; v += 1) {
+  for (let v = 0; v <= size; v += 1) {
     const major = v % 4 === 0;
-    const center = v === CANVAS_SIZE / 2;
+    const center = v === size / 2;
     const color = center ? '#aeb8c7' : major ? '#d1d7df' : '#edf0f4';
     const width = center ? 0.12 : major ? 0.08 : 0.035;
-    line(v, 0, v, CANVAS_SIZE, color, width);
-    line(0, v, CANVAS_SIZE, v, color, width);
+    line(v, 0, v, size, color, width);
+    line(0, v, size, v, color, width);
   }
 }
 
-const KEYSHAPES = {
-  'circle-44': { kind: 'circle', cx: 24, cy: 24, r: 22 },
-  'square-40': { kind: 'rect', x: 4, y: 4, w: 40, h: 40 },
-  'portrait-36x44': { kind: 'rect', x: 6, y: 2, w: 36, h: 44 },
-  'landscape-44x36': { kind: 'rect', x: 2, y: 6, w: 44, h: 36 },
-};
+function keyshapeNamed(profile, name) {
+  return profile.keyshapes.find(keyshape => keyshape.name === name) || null;
+}
+
+function appendKeyshapeGuide(profile, token, offsetX = 0, offsetY = 0, protectedRegion = false) {
+  const guide = document.createElementNS(SVGNS, token.shape === 'circle' ? 'circle' : 'rect');
+  if (token.shape === 'circle') {
+    guide.setAttribute('cx', profile.center.x + offsetX);
+    guide.setAttribute('cy', profile.center.y + offsetY);
+    guide.setAttribute('r', token.diameter / 2);
+  } else {
+    guide.setAttribute('x', profile.center.x - token.width / 2 + offsetX);
+    guide.setAttribute('y', profile.center.y - token.height / 2 + offsetY);
+    guide.setAttribute('width', token.width);
+    guide.setAttribute('height', token.height);
+  }
+  guide.setAttribute('fill', 'none');
+  guide.setAttribute('stroke', protectedRegion ? '#dc2626' : '#16a34a');
+  guide.setAttribute('stroke-width', '0.18');
+  guide.setAttribute('stroke-dasharray', protectedRegion ? '0.35 0.55' : '0.8 0.8');
+  guide.setAttribute('pointer-events', 'none');
+  keyshapeLayer.appendChild(guide);
+}
+
+function appendContainerSlotGuide(slot) {
+  const guide = document.createElementNS(SVGNS, 'rect');
+  guide.setAttribute('x', slot.x);
+  guide.setAttribute('y', slot.y);
+  guide.setAttribute('width', slot.w);
+  guide.setAttribute('height', slot.h);
+  guide.setAttribute('fill', 'none');
+  guide.setAttribute('stroke', '#7c3aed');
+  guide.setAttribute('stroke-width', '0.14');
+  guide.setAttribute('stroke-dasharray', '1 1');
+  guide.setAttribute('pointer-events', 'none');
+  guide.dataset.containerSlotGuide = 'true';
+  keyshapeLayer.appendChild(guide);
+}
 
 function renderKeyshape() {
   keyshapeLayer.replaceChildren();
-  const token = KEYSHAPES[settings.keyshape] || KEYSHAPES['square-40'];
-  const guide = document.createElementNS(SVGNS, token.kind);
-  if (token.kind === 'circle') {
-    guide.setAttribute('cx', token.cx); guide.setAttribute('cy', token.cy); guide.setAttribute('r', token.r);
-  } else {
-    guide.setAttribute('x', token.x); guide.setAttribute('y', token.y);
-    guide.setAttribute('width', token.w); guide.setAttribute('height', token.h);
+  const profile = currentProfile();
+  const token = keyshapeNamed(profile, settings.keyshape) || profile.keyshapes[0];
+  appendKeyshapeGuide(profile, token);
+
+  if (settings.iconType === 'container') {
+    const acceptedProfile = profileFor(profile.containerSlot.acceptedProfile);
+    const accepted = keyshapeNamed(acceptedProfile, settings.containerAcceptedKeyshape) || acceptedProfile.keyshapes[0];
+    appendContainerSlotGuide(profile.containerSlot);
+    appendKeyshapeGuide(
+      acceptedProfile,
+      accepted,
+      profile.containerSlot.x,
+      profile.containerSlot.y,
+      true,
+    );
   }
-  guide.setAttribute('fill', 'none');
-  guide.setAttribute('stroke', '#16a34a');
-  guide.setAttribute('stroke-width', '0.18');
-  guide.setAttribute('stroke-dasharray', '0.8 0.8');
-  keyshapeLayer.appendChild(guide);
 }
 
 function render() {
@@ -326,11 +373,6 @@ const props = {
   w: document.getElementById('p-w'),
   h: document.getElementById('p-h'),
   rot: document.getElementById('p-rot'),
-  fill: document.getElementById('p-fill'),
-  fillOn: document.getElementById('p-fill-on'),
-  fillRow: document.getElementById('row-fill'),
-  stroke: document.getElementById('p-stroke'),
-  sw: document.getElementById('p-sw'),
 };
 
 function setInput(input, value) {
@@ -351,11 +393,6 @@ function renderProps() {
   setInput(props.w, inst.w);
   setInput(props.h, inst.h);
   setInput(props.rot, inst.rotation);
-  props.fillRow.hidden = !def.closed;
-  props.fillOn.checked = !!inst.fillOn;
-  setInput(props.fill, inst.fill);
-  setInput(props.stroke, inst.stroke);
-  setInput(props.sw, inst.strokeWidth);
 }
 
 function bindNumberInput(input, apply) {
@@ -376,24 +413,6 @@ bindNumberInput(props.cy, (i, v) => { i.y = v - i.h / 2; });
 bindNumberInput(props.w, (i, v) => { i.w = Math.max(MIN_SIZE, v); });
 bindNumberInput(props.h, (i, v) => { i.h = Math.max(MIN_SIZE, v); });
 bindNumberInput(props.rot, (i, v) => { i.rotation = ((v % 360) + 360) % 360; });
-bindNumberInput(props.sw, (i, v) => {
-  i.strokeWidth = clamp(v, 0, 6);
-  settings.strokeWidth = i.strokeWidth;
-  saveSettings();
-});
-
-props.fill.addEventListener('input', () => {
-  const inst = selected();
-  if (inst) { pushHistory('fill'); inst.fill = props.fill.value; inst.fillOn = true; render(); }
-});
-props.fillOn.addEventListener('change', () => {
-  const inst = selected();
-  if (inst) { pushHistory(); inst.fillOn = props.fillOn.checked; render(); }
-});
-props.stroke.addEventListener('input', () => {
-  const inst = selected();
-  if (inst) { pushHistory('stroke'); inst.stroke = props.stroke.value; render(); }
-});
 
 document.getElementById('btn-flip-h').addEventListener('click', () => {
   const inst = selected();
@@ -415,6 +434,7 @@ const buttons = {
   duplicate: document.getElementById('btn-duplicate'),
   del: document.getElementById('btn-delete'),
   clear: document.getElementById('btn-clear'),
+  preview: document.getElementById('btn-preview'),
   export: document.getElementById('btn-export'),
 };
 
@@ -428,6 +448,7 @@ function renderToolbar() {
   buttons.duplicate.disabled = !hasSel;
   buttons.del.disabled = !hasSel;
   buttons.clear.disabled = state.instances.length === 0;
+  buttons.preview.disabled = state.instances.length === 0;
   buttons.export.disabled = state.instances.length === 0;
 }
 
@@ -475,21 +496,84 @@ buttons.clear.addEventListener('click', () => {
   state.selectedId = null;
   render();
 });
-buttons.export.addEventListener('click', exportSVG);
+buttons.preview.addEventListener('click', exportPreviewSVG);
+buttons.export.addEventListener('click', exportJSON);
 
-function exportSVG() {
+function validatedIconName() {
+  const input = document.getElementById('icon-name');
+  const name = input.value.trim();
+  const valid = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(name);
+  input.setCustomValidity(valid ? '' : 'Use a kebab-case name such as coffee-mug.');
+  if (!valid) input.reportValidity();
+  return valid ? name : null;
+}
+
+function download(filename, body, type) {
+  const blob = new Blob([body], { type });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = filename;
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+function editableDocument(name) {
+  const profile = currentProfile();
+  const document = {
+    name,
+    iconType: settings.iconType,
+    canvas: profile.designCanvas,
+    strokeWidth: profile.designStroke,
+    keyfitCheck: { targetToken: settings.keyshape },
+    cornerStyle: 'round',
+    sourceAnalysis: {
+      incomplete: true,
+      mappings: [],
+      relationships: [],
+      spacingChecks: [],
+    },
+    instances: state.instances.map((instance, z) => ({
+      shapeId: instance.shapeId,
+      x: instance.x,
+      y: instance.y,
+      w: instance.w,
+      h: instance.h,
+      rotation: instance.rotation,
+      flipX: instance.flipX,
+      flipY: instance.flipY,
+      z,
+    })),
+  };
+  if (settings.iconType === 'container') {
+    document.containerSlot = {
+      x: profile.containerSlot.x,
+      y: profile.containerSlot.y,
+      w: profile.containerSlot.w,
+      h: profile.containerSlot.h,
+      acceptedKeyshape: settings.containerAcceptedKeyshape,
+    };
+  }
+  return document;
+}
+
+function exportJSON() {
   if (state.instances.length === 0) return;
+  const name = validatedIconName();
+  if (!name) return;
+  download(`${name}.json`, `${JSON.stringify(editableDocument(name), null, 2)}\n`, 'application/json');
+}
+
+function exportPreviewSVG() {
+  if (state.instances.length === 0) return;
+  const name = validatedIconName();
+  if (!name) return;
+  const profile = currentProfile();
   const body = state.instances
     .map(inst => `  ${buildInstanceNode(inst).outerHTML}`)
     .join('\n');
-  const doc = `<svg xmlns="${SVGNS}" viewBox="0 0 ${CANVAS_SIZE} ${CANVAS_SIZE}" data-keyshape="${settings.keyshape}">\n${body}\n</svg>\n`;
-  const blob = new Blob([doc], { type: 'image/svg+xml' });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'icon.svg';
-  a.click();
-  URL.revokeObjectURL(url);
+  const doc = `<svg xmlns="${SVGNS}" viewBox="0 0 ${profile.designCanvas} ${profile.designCanvas}" fill="none" stroke="currentColor" stroke-width="${profile.designStroke}" stroke-linecap="round" stroke-linejoin="round" data-icon-type="${settings.iconType}" data-keyshape="${settings.keyshape}">\n${body}\n</svg>\n`;
+  download(`${name}-preview.svg`, doc, 'image/svg+xml');
 }
 
 /* ---------------- Canvas interactions ---------------- */
@@ -618,7 +702,7 @@ function buildPalette() {
     closed: document.getElementById('palette-closed'),
     open: document.getElementById('palette-open'),
   };
-  for (const def of SHAPES) {
+  for (const def of SHAPES.filter(shape => !LEGACY_PALETTE_SHAPES.has(shape.id))) {
     const item = document.createElement('div');
     item.className = 'palette-item';
     item.title = def.name;
@@ -634,20 +718,30 @@ function buildPalette() {
 function addInstance(shapeId, cx, cy) {
   pushHistory();
   const def = shapeById(shapeId);
+  const size = canvasSize();
+  const profile = currentProfile();
+  const maximumCenterlineExtent = Math.max(
+    ...profile.keyshapes.flatMap(token => [token.width, token.height]),
+  ) - profile.designStroke;
+  let fit = 1;
+  while (Math.max(def.defaultW, def.defaultH) * fit > maximumCenterlineExtent) {
+    fit /= 2;
+  }
+  // A uniform power-of-two fit preserves atom proportions and angle-critical
+  // relationships. Independent width/height rounding can turn a 45° contour
+  // into an off-grid one.
+  const width = Math.max(MIN_SIZE, def.defaultW * fit);
+  const height = Math.max(MIN_SIZE, def.defaultH * fit);
   const inst = {
     id: state.nextId++,
     shapeId,
-    w: def.defaultW,
-    h: def.defaultH,
-    x: clamp(snap(cx - def.defaultW / 2), -def.defaultW / 2, CANVAS_SIZE - def.defaultW / 2),
-    y: clamp(snap(cy - def.defaultH / 2), -def.defaultH / 2, CANVAS_SIZE - def.defaultH / 2),
+    w: width,
+    h: height,
+    x: clamp(snap(cx - width / 2), 0, size - width),
+    y: clamp(snap(cy - height / 2), 0, size - height),
     rotation: 0,
     flipX: false,
     flipY: false,
-    fillOn: false,
-    fill: DEFAULT_FILL,
-    stroke: DEFAULT_STROKE,
-    strokeWidth: clamp(settings.strokeWidth, 0, 6),
   };
   state.instances.push(inst);
   state.selectedId = inst.id;
@@ -679,11 +773,12 @@ function startPaletteDrag(evt, def) {
     ghost.remove();
     if (!moved) {
       // Plain click: drop the shape at the center of the canvas.
-      addInstance(def.id, CANVAS_SIZE / 2, CANVAS_SIZE / 2);
+      addInstance(def.id, canvasSize() / 2, canvasSize() / 2);
       return;
     }
     const p = toCanvas(e);
-    if (p.x >= 0 && p.x <= CANVAS_SIZE && p.y >= 0 && p.y <= CANVAS_SIZE) {
+    const size = canvasSize();
+    if (p.x >= 0 && p.x <= size && p.y >= 0 && p.y <= size) {
       addInstance(def.id, p.x, p.y);
     }
   };
@@ -695,7 +790,7 @@ function startPaletteDrag(evt, def) {
 
 document.addEventListener('keydown', evt => {
   const tag = document.activeElement && document.activeElement.tagName;
-  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+  if (['INPUT', 'TEXTAREA', 'SELECT', 'BUTTON'].includes(tag) || document.activeElement?.isContentEditable) return;
   const inst = selected();
 
   if (evt.metaKey || evt.ctrlKey) {
@@ -731,12 +826,83 @@ document.addEventListener('keydown', evt => {
 
 /* ---------------- Init ---------------- */
 
+const iconNameInput = document.getElementById('icon-name');
+const iconTypeSelect = document.getElementById('icon-type-select');
 const keyshapeSelect = document.getElementById('keyshape-select');
+const containerKeyshapeControl = document.getElementById('container-keyshape-control');
+const containerKeyshapeSelect = document.getElementById('container-keyshape-select');
 const skeletonToggle = document.getElementById('skeleton-toggle');
-settings.keyshape = KEYSHAPES[settings.keyshape] ? settings.keyshape : 'square-40';
-keyshapeSelect.value = settings.keyshape;
+
+function replaceKeyshapeOptions(select, profile) {
+  select.replaceChildren(...profile.keyshapes.map(token => {
+    const option = document.createElement('option');
+    option.value = token.name;
+    option.textContent = token.name;
+    return option;
+  }));
+}
+
+function syncProfileControls() {
+  const profile = currentProfile();
+  replaceKeyshapeOptions(keyshapeSelect, profile);
+  if (!keyshapeNamed(profile, settings.keyshape)) {
+    settings.keyshape = profile.keyshapes.find(token => token.orientation === 'square')?.name || profile.keyshapes[0].name;
+  }
+  keyshapeSelect.value = settings.keyshape;
+
+  const isContainer = settings.iconType === 'container';
+  containerKeyshapeControl.hidden = !isContainer;
+  if (isContainer) {
+    const acceptedProfile = profileFor(profile.containerSlot.acceptedProfile);
+    replaceKeyshapeOptions(containerKeyshapeSelect, acceptedProfile);
+    if (!keyshapeNamed(acceptedProfile, settings.containerAcceptedKeyshape)) {
+      settings.containerAcceptedKeyshape = acceptedProfile.keyshapes.find(token => token.orientation === 'square')?.name || acceptedProfile.keyshapes[0].name;
+    }
+    containerKeyshapeSelect.value = settings.containerAcceptedKeyshape;
+  }
+  saveSettings();
+  renderGrid();
+  renderKeyshape();
+  render();
+}
+
+settings.iconName = /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(settings.iconName) ? settings.iconName : 'icon';
+iconNameInput.value = settings.iconName;
+iconNameInput.addEventListener('input', () => {
+  iconNameInput.setCustomValidity('');
+  settings.iconName = iconNameInput.value.trim();
+  saveSettings();
+});
+
+iconTypeSelect.value = settings.iconType;
+iconTypeSelect.addEventListener('change', () => {
+  const nextIconType = iconTypeSelect.value;
+  if (nextIconType === settings.iconType) return;
+  const hasProfileState = state.instances.length > 0 || history.length > 0 || clipboard !== null;
+  if (hasProfileState) {
+    const reset = window.confirm(
+      'Changing icon type clears the current composition, undo history, and clipboard so geometry from one profile cannot leak into another. Continue?',
+    );
+    if (!reset) {
+      iconTypeSelect.value = settings.iconType;
+      return;
+    }
+    state.instances = [];
+    state.selectedId = null;
+    state.nextId = 1;
+    history.length = 0;
+    clipboard = null;
+  }
+  settings.iconType = nextIconType;
+  syncProfileControls();
+});
 keyshapeSelect.addEventListener('change', () => {
   settings.keyshape = keyshapeSelect.value;
+  saveSettings();
+  renderKeyshape();
+});
+containerKeyshapeSelect.addEventListener('change', () => {
+  settings.containerAcceptedKeyshape = containerKeyshapeSelect.value;
   saveSettings();
   renderKeyshape();
 });
@@ -747,7 +913,5 @@ skeletonToggle.addEventListener('change', () => {
   render();
 });
 
-renderGrid();
-renderKeyshape();
 buildPalette();
-render();
+syncProfileControls();

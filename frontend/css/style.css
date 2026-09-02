@@ -26,15 +26,17 @@ body {
   align-items: center;
   justify-content: space-between;
   padding: 0 16px;
-  height: 52px;
+  min-height: 52px;
   background: var(--panel);
   border-bottom: 1px solid var(--border);
   flex: 0 0 auto;
+  gap: 12px;
+  padding-block: 8px;
 }
 
 #toolbar h1 { font-size: 15px; font-weight: 600; }
 
-.tools { display: flex; align-items: center; gap: 8px; }
+.tools { display: flex; align-items: center; justify-content: flex-end; gap: 8px; flex-wrap: wrap; }
 
 .tools .sep { width: 1px; height: 22px; background: var(--border); }
 
@@ -48,8 +50,10 @@ body {
   user-select: none;
   -webkit-user-select: none;
 }
+.tools .toggle[hidden] { display: none; }
 .tools .toggle input { accent-color: var(--accent); }
-.tools select {
+.tools select,
+.tools input[type="text"] {
   font: inherit;
   font-size: 12px;
   padding: 4px 7px;
@@ -58,6 +62,7 @@ body {
   background: var(--panel);
   color: var(--text);
 }
+.tools input[type="text"] { width: 112px; }
 
 button {
   font: inherit;
@@ -171,6 +176,7 @@ aside h3 {
 /* ---- Properties ---- */
 #props-empty { font-size: 12px; color: var(--muted); }
 .props-title { font-size: 12px; font-weight: 600; margin-bottom: 10px; }
+.canonical-style { font-size: 11px; color: var(--muted); line-height: 1.4; margin-top: 12px; }
 
 .skeleton-control {
   display: flex;

@@ -70,6 +70,41 @@ class RasterKeyshapeTests(unittest.TestCase):
             with self.subTest(token=token):
                 self.assertEqual(self.check(body, token)["status"], "pass")
 
+    def test_sub_circle_uses_32u_design_and_16px_ship_profile(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            svg = root / "sub.svg"
+            svg.write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" '
+                'fill="none" stroke="currentColor" stroke-width="2">'
+                '<circle cx="8" cy="8" r="6"/></svg>'
+            )
+            result = self.module.process(svg, root, 64, 2 / 64, "circle-28", "sub")
+            self.assertEqual(result["status"], "pass")
+            self.assertEqual(result["iconType"], "sub")
+            self.assertEqual((result["designCanvas"], result["shipCanvas"]), (32, 16))
+
+    def test_container_circle_uses_64u_design_and_32px_ship_profile(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            svg = root / "container.svg"
+            svg.write_text(
+                '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" '
+                'fill="none" stroke="currentColor" stroke-width="2">'
+                '<circle cx="16" cy="16" r="14"/></svg>'
+            )
+            result = self.module.process(
+                svg,
+                root,
+                64,
+                2 / 64,
+                "circle-60",
+                "container",
+            )
+            self.assertEqual(result["status"], "pass")
+            self.assertEqual(result["iconType"], "container")
+            self.assertEqual((result["designCanvas"], result["shipCanvas"]), (64, 32))
+
     def test_cli_returns_failure_status_for_keyshape_violation(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)

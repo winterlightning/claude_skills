@@ -4,8 +4,7 @@
 This core validator is adapted from the supplied ``qa_overlays.py`` utility.
 The original tool's source-PNG fidelity gates were tied to a 1024px png2svg
 pipeline and did not measure hole diameter.  This version renders finished
-SVGs directly and reports two related defects on the current 48u design /
-24px ship canvas:
+SVGs directly and reports two related defects on the selected icon profile:
 
 * **Undersized holes** — a background region enclosed by ink whose largest
   inscribed radius is below the design minimum.
@@ -55,10 +54,12 @@ import cairosvg
 import cv2
 import numpy as np
 from PIL import Image
+from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names
 
 
-DESIGN_CANVAS = 48.0
-SHIP_CANVAS = 24.0
+_NORMAL_PROFILE=get_profile(DEFAULT_ICON_TYPE)
+DESIGN_CANVAS = float(_NORMAL_PROFILE["designCanvas"])
+SHIP_CANVAS = float(_NORMAL_PROFILE["shipCanvas"])
 DEFAULT_SAMPLES_PER_UNIT = 32
 REGULAR_STROKE_SHIP = 2.0
 DEFAULT_MIN_RADIUS_DESIGN_U = 1.0
@@ -80,15 +81,15 @@ def _number(value: str | None, fallback: float) -> float:
         return fallback
 
 
-def svg_canvas(svg_path: Path) -> tuple[float, float, float, float]:
+def svg_canvas(svg_path: Path,fallback_canvas: float=SHIP_CANVAS) -> tuple[float, float, float, float]:
     root = ET.parse(svg_path).getroot()
     raw = root.get("viewBox")
     if raw:
         values = [float(item) for item in raw.replace(",", " ").split()]
         if len(values) == 4 and values[2] > 0 and values[3] > 0:
             return tuple(values)  # type: ignore[return-value]
-    width = _number(root.get("width"), SHIP_CANVAS)
-    height = _number(root.get("height"), SHIP_CANVAS)
+    width = _number(root.get("width"), fallback_canvas)
+    height = _number(root.get("height"), fallback_canvas)
     return 0.0, 0.0, width, height
 
 
@@ -133,12 +134,14 @@ def measure_holes(
     view_box: tuple[float, float, float, float],
     samples_per_unit: int,
     min_radius_design_u: float,
+    design_canvas: float=DESIGN_CANVAS,
+    ship_canvas: float=SHIP_CANVAS,
 ) -> list[dict]:
     min_x, min_y, view_width, view_height = view_box
-    ship_scale_x = SHIP_CANVAS / view_width
-    ship_scale_y = SHIP_CANVAS / view_height
-    design_scale_x = DESIGN_CANVAS / view_width
-    design_scale_y = DESIGN_CANVAS / view_height
+    ship_scale_x = ship_canvas / view_width
+    ship_scale_y = ship_canvas / view_height
+    design_scale_x = design_canvas / view_width
+    design_scale_y = design_canvas / view_height
     pixel_area_in_view_units = 1.0 / (samples_per_unit**2)
     measured = []
 
@@ -211,11 +214,11 @@ def measure_holes(
     return measured
 
 
-def authored_stroke_design_u(svg_path, view_box):
+def authored_stroke_design_u(svg_path, view_box,design_canvas: float=DESIGN_CANVAS):
     root = ET.parse(svg_path).getroot()
     m = re.search(r"stroke-width\s*:\s*([0-9.eE+-]+)", root.get("style") or "")
     width = _number(m.group(1) if m else root.get("stroke-width"), REGULAR_STROKE_SHIP)
-    return width * min(DESIGN_CANVAS / view_box[2], DESIGN_CANVAS / view_box[3])
+    return width * min(design_canvas / view_box[2], design_canvas / view_box[3])
 
 
 def _thinned_svg(svg_path: Path, retreat_view_units: float) -> bytes:
@@ -289,6 +292,7 @@ def find_pinches(
     samples_per_unit: int,
     min_fill_depth_design_u: float,
     base_retreat_view_units: float = 0.0,
+    design_canvas: float=DESIGN_CANVAS,
 ) -> list[dict]:
     """Report regions that are solid only because parts were squeezed together.
 
@@ -299,7 +303,7 @@ def find_pinches(
     if min_fill_depth_design_u <= 0:
         return []
     min_x, min_y, view_width, view_height = view_box
-    design_scale = min(DESIGN_CANVAS / view_width, DESIGN_CANVAS / view_height)
+    design_scale = min(design_canvas / view_width, design_canvas / view_height)
     retreat = min_fill_depth_design_u / design_scale
     background = ~ink
     cache: dict[float, np.ndarray] = {}
@@ -450,10 +454,12 @@ def process(
     samples_per_unit: int,
     min_radius_design_u: float,
     min_fill_depth_design_u: float,
+    icon_type: str=DEFAULT_ICON_TYPE,
 ) -> dict:
-    view_box = svg_canvas(svg_path)
-    design_scale = min(DESIGN_CANVAS / view_box[2], DESIGN_CANVAS / view_box[3])
-    authored = authored_stroke_design_u(svg_path, view_box)
+    profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); ship_canvas=float(profile["shipCanvas"])
+    view_box = svg_canvas(svg_path,ship_canvas)
+    design_scale = min(design_canvas / view_box[2], design_canvas / view_box[3])
+    authored = authored_stroke_design_u(svg_path, view_box,design_canvas)
     measure = min(DEFAULT_MEASURE_STROKE_DESIGN_U, authored)
     retreat_design = (authored - measure) / 2.0
     retreat_view = retreat_design / design_scale
@@ -467,9 +473,11 @@ def process(
         view_box,
         samples_per_unit,
         min_radius_design_u,
+        design_canvas,
+        ship_canvas,
     )
     pinches = find_pinches(
-        svg_path, ink, view_box, samples_per_unit, min_fill_depth_design_u, retreat_view
+        svg_path, ink, view_box, samples_per_unit, min_fill_depth_design_u, retreat_view,design_canvas
     )
     for _h in holes:
         _h["equivalent_radius_at_authored_stroke_design_u"] = round(
@@ -478,8 +486,9 @@ def process(
     result = {
         "file": svg_path.name,
         "source": str(svg_path),
+        "iconType": icon_type,
         "viewBox": list(view_box),
-        "normalizedCanvases": {"designUnits": DESIGN_CANVAS, "shipPixels": SHIP_CANVAS},
+        "normalizedCanvases": {"designUnits": design_canvas, "shipPixels": ship_canvas},
         "samplesPerViewBoxUnit": samples_per_unit,
         "minimumRadiusDesignUnits": min_radius_design_u,
         "minimumFillDepthDesignUnits": min_fill_depth_design_u,
@@ -739,7 +748,7 @@ def collect_failures(
         "# Hole-gate failures",
         "",
         f"{len(failed)} of {len(results)} icons failed. Gate: enclosed regions need an",
-        f"inscribed radius of at least {min_radius_design_u:g}u on the 48u design canvas, and a solid",
+        f"inscribed radius of at least {min_radius_design_u:g}u on the design canvas, and a solid",
         f"junction must be filled at least {min_fill_depth_design_u:g}u deep or it counts as a pinch.",
         "",
         "Each icon is copied here with its `_holes.png` overlay and `.metrics.json`.",
@@ -794,6 +803,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("inputs", nargs="+", help="SVG files or flat SVG folders")
     parser.add_argument(
+        "--icon-type",choices=profile_names(),default=DEFAULT_ICON_TYPE,
+        help="icon profile to normalize against (default: normal)",
+    )
+    parser.add_argument(
         "--output-dir", required=True, help="folder for reports and overlays"
     )
     parser.add_argument(
@@ -814,14 +827,14 @@ def main() -> None:
         "--min-radius-design-u",
         type=float,
         default=DEFAULT_MIN_RADIUS_DESIGN_U,
-        help="minimum passing inscribed hole radius in 48u design units (default: 1)",
+        help="minimum passing inscribed hole radius in profile design units (default: 1)",
     )
     parser.add_argument(
         "--min-fill-depth-design-u",
         type=float,
         default=DEFAULT_MIN_FILL_DEPTH_DESIGN_U,
         help=(
-            "minimum paint depth, in 48u design units, that must fill a solid "
+            "minimum paint depth, in profile design units, that must fill a solid "
             "junction before it counts as a connection instead of a squeeze; "
             "0 disables the pinch check (default: 1)"
         ),
@@ -849,6 +862,7 @@ def main() -> None:
                 args.samples_per_unit,
                 args.min_radius_design_u,
                 args.min_fill_depth_design_u,
+                args.icon_type,
             )
             results.append(result)
             print(

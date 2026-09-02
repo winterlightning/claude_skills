@@ -17,8 +17,10 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from icon_geometry import parse_path
+from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names
+from keyfit import canonical_tokens
 
-DESIGN_CANVAS = 48.0
+DESIGN_CANVAS = float(get_profile(DEFAULT_ICON_TYPE)["designCanvas"])
 ANGLE_STEP = 15.0
 TOLERANCE = 1e-3
 AXIS_GRID_ANGLES = (0, 45, 90, 135)
@@ -48,29 +50,31 @@ def fractional(value: float) -> bool:
     return abs(value - round(value)) > TOLERANCE
 
 
-def normalized_view(root: ET.Element) -> tuple[float, float, float]:
-    values = [float(item) for item in root.get("viewBox", "0 0 48 48").replace(",", " ").split()]
+def normalized_view(root: ET.Element,design_canvas: float=DESIGN_CANVAS) -> tuple[float, float, float]:
+    values = [float(item) for item in root.get("viewBox", f"0 0 {design_canvas:g} {design_canvas:g}").replace(",", " ").split()]
     if len(values) != 4 or values[2] <= 0 or values[3] <= 0 or abs(values[2] - values[3]) > TOLERANCE:
         raise ValueError("viewBox must be a positive square")
-    return values[2], values[3], DESIGN_CANVAS / values[2]
+    return values[2], values[3], design_canvas / values[2]
 
 
-def inspect(path: Path, expected: str) -> dict:
+def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict:
+    profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"])
     root = ET.parse(path).getroot()
-    view_w, view_h, scale = normalized_view(root)
+    view_w, view_h, scale = normalized_view(root,design_canvas)
     stroke = number(root.get("stroke-width"), 0) * scale
     issues: list[dict] = []
     fractional_values = 0
     fractional_axis_segments = 0
     off_angle_segments = 0
 
-    expected_canvas = {"design": 48.0, "ship": 24.0}.get(expected)
+    expected_canvas = {"design": float(profile["designCanvas"]), "ship": float(profile["shipCanvas"])}.get(expected)
     if expected_canvas is not None and abs(view_w - expected_canvas) > TOLERANCE:
         issues.append({"code": "wrong-canvas", "detail": f"expected {expected_canvas:g}x{expected_canvas:g}, found {view_w:g}x{view_h:g}"})
-    if expected == "either" and all(abs(view_w - size) > TOLERANCE for size in (24.0, 48.0)):
-        issues.append({"code": "wrong-canvas", "detail": f"expected 24x24 or 48x48, found {view_w:g}x{view_h:g}"})
-    if abs(stroke - 4.0) > TOLERANCE:
-        issues.append({"code": "wrong-stroke", "detail": f"stroke normalizes to {stroke:g}u instead of 4u"})
+    allowed_canvases=(float(profile["shipCanvas"]),float(profile["designCanvas"]))
+    if expected == "either" and all(abs(view_w - size) > TOLERANCE for size in allowed_canvases):
+        issues.append({"code": "wrong-canvas", "detail": f"expected {allowed_canvases[0]:g}x{allowed_canvases[0]:g} or {allowed_canvases[1]:g}x{allowed_canvases[1]:g}, found {view_w:g}x{view_h:g}"})
+    if abs(stroke - profile["designStroke"]) > TOLERANCE:
+        issues.append({"code": "wrong-stroke", "detail": f"stroke normalizes to {stroke:g}u instead of {profile['designStroke']:g}u"})
 
     paths = root.findall(".//{*}path")
     other = [node.tag.rsplit("}", 1)[-1] for node in root.iter() if node is not root and node.tag.rsplit("}", 1)[-1] != "path"]
@@ -129,6 +133,9 @@ def inspect(path: Path, expected: str) -> dict:
     return {
         "file": path.name,
         "source": str(path),
+        "iconType": icon_type,
+        "designCanvas": profile["designCanvas"],
+        "designStroke": profile["designStroke"],
         "status": status,
         "viewBox": [0, 0, view_w, view_h],
         "normalizedStroke": round(stroke, 4),
@@ -197,21 +204,21 @@ def write_report(results: list[dict], output_dir: Path) -> None:
 
     def target_token(item: dict) -> dict:
         keyfit = item.get("keyfit") or {}
-        return keyfit.get("assignedToken") or keyfit.get("targetToken") or {
-            "name": "square-40", "shape": "rect", "bounds": [4.0, 4.0, 44.0, 44.0]
-        }
+        fallback=next(token for token in canonical_tokens(item.get("iconType",DEFAULT_ICON_TYPE)) if token["orientation"]=="square")
+        return keyfit.get("assignedToken") or keyfit.get("targetToken") or fallback
 
     def boundary_style(item: dict, centerline: bool = False) -> str:
         token = target_token(item)
-        bounds = token.get("bounds", [4.0, 4.0, 44.0, 44.0])
-        inset = 2.0 if centerline else 0.0
+        bounds = token["bounds"]
+        inset = item.get("designStroke",4.0)/2 if centerline else 0.0
+        canvas=item.get("designCanvas",DESIGN_CANVAS)
         left, top, right, bottom = (
             bounds[0] + inset, bounds[1] + inset,
             bounds[2] - inset, bounds[3] - inset,
         )
         style = (
-            f"left:{left / 48 * 100:.6f}%;top:{top / 48 * 100:.6f}%;"
-            f"width:{(right - left) / 48 * 100:.6f}%;height:{(bottom - top) / 48 * 100:.6f}%"
+            f"left:{left / canvas * 100:.6f}%;top:{top / canvas * 100:.6f}%;"
+            f"width:{(right - left) / canvas * 100:.6f}%;height:{(bottom - top) / canvas * 100:.6f}%"
         )
         return style + (";border-radius:50%" if token.get("shape") == "circle" else "")
 
@@ -232,7 +239,7 @@ def write_report(results: list[dict], output_dir: Path) -> None:
 
     cards = "".join(
         f'''<article class="icon-card status-{item['overallStatus']} keyfit-{(item.get('keyfit') or {}).get('status', 'not-run')}">
-        <div class="preview" title="Target: {html.escape(target_token(item).get('name', 'unknown'), quote=True)}">
+        <div class="preview" style="--grid-major:{item.get('designCanvas',48)/4:g};--grid-canvas:{item.get('designCanvas',48):g}" title="Target: {html.escape(target_token(item).get('name', 'unknown'), quote=True)}">
           <img src="icons/{quote(item['file'])}" alt="{html.escape(item['file'], quote=True)}">
           <span class="keyfit-boundary" style="{boundary_style(item)}" aria-hidden="true"></span>
           <span class="centerline-boundary" style="{boundary_style(item, True)}" aria-hidden="true"></span>
@@ -264,7 +271,7 @@ h1{{font-size:24px;margin:0 0 6px}}header p{{margin:0;color:var(--muted)}}main{{
 .key-swatch{{width:18px;height:18px;border:2px solid rgba(22,121,75,.7);background:#fff}}.center-swatch{{width:18px;height:18px;border:2px dashed rgba(37,99,235,.7);background:#fff}}
 .gallery{{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}}
 .icon-card{{overflow:hidden;border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(16,24,40,.04)}}
-.preview{{position:relative;aspect-ratio:1;overflow:hidden;background-color:#fff;background-image:linear-gradient(to right,rgba(72,85,105,.48) 1px,transparent 1px),linear-gradient(to bottom,rgba(72,85,105,.48) 1px,transparent 1px),linear-gradient(to right,rgba(121,134,153,.27) 1px,transparent 1px),linear-gradient(to bottom,rgba(121,134,153,.27) 1px,transparent 1px);background-size:calc(100% / 12) calc(100% / 12),calc(100% / 12) calc(100% / 12),calc(100% / 48) calc(100% / 48),calc(100% / 48) calc(100% / 48)}}
+.preview{{position:relative;aspect-ratio:1;overflow:hidden;background-color:#fff;background-image:linear-gradient(to right,rgba(72,85,105,.48) 1px,transparent 1px),linear-gradient(to bottom,rgba(72,85,105,.48) 1px,transparent 1px),linear-gradient(to right,rgba(121,134,153,.27) 1px,transparent 1px),linear-gradient(to bottom,rgba(121,134,153,.27) 1px,transparent 1px);background-size:calc(100% / var(--grid-major)) calc(100% / var(--grid-major)),calc(100% / var(--grid-major)) calc(100% / var(--grid-major)),calc(100% / var(--grid-canvas)) calc(100% / var(--grid-canvas)),calc(100% / var(--grid-canvas)) calc(100% / var(--grid-canvas))}}
 .preview img{{position:absolute;inset:0;width:100%;height:100%;display:block;z-index:2}}.keyfit-boundary{{position:absolute;z-index:3;pointer-events:none;border:2px solid rgba(22,121,75,.68)}}.centerline-boundary{{position:absolute;z-index:3;pointer-events:none;border:1px dashed rgba(37,99,235,.72)}}.keyfit-fail .keyfit-boundary{{border-color:rgba(200,50,50,.9);border-width:3px}}
 .card-body{{padding:12px}}.card-heading{{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}}code{{font-size:12px;overflow-wrap:anywhere}}.badge{{padding:2px 7px;border-radius:999px;font-size:10px;font-weight:750;text-transform:uppercase;background:#eaf7f0;color:var(--pass)}}
 .status-review .badge{{background:#fff3dc;color:var(--review)}}.status-fail .badge{{background:#ffebeb;color:var(--fail)}}.gate-row{{display:flex;gap:6px;margin-top:9px;flex-wrap:wrap}}.gate{{font-size:10px;font-weight:700;padding:2px 6px;border-radius:5px;text-transform:uppercase;background:#edf1f5;color:var(--muted)}}.grid-pass,.shape-pass{{background:#eaf7f0;color:var(--pass)}}.grid-review{{background:#fff3dc;color:var(--review)}}.grid-fail,.shape-fail{{background:#ffebeb;color:var(--fail)}}.metrics{{margin-top:8px;font-size:12px;color:var(--muted)}}.note{{margin-top:5px;font-size:11px;line-height:1.35;color:var(--muted);display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}}
@@ -281,6 +288,7 @@ details{{margin-top:32px;background:#fff;border:1px solid var(--line);border-rad
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("inputs", nargs="+")
+    parser.add_argument("--icon-type",choices=profile_names(),default=DEFAULT_ICON_TYPE,help="icon profile to normalize against (default: normal)")
     parser.add_argument("--expected", choices=("design", "ship", "either"), default="either")
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--exceptions", type=Path, help="hash-locked JSON exceptions for exact rotated/arc geometry")
@@ -293,7 +301,7 @@ def main() -> int:
     if args.exceptions:
         document = json.loads(args.exceptions.read_text())
         entries = document.get("files", {})
-    results = [apply_exceptions(inspect(path, args.expected), path, entries) for path in files]
+    results = [apply_exceptions(inspect(path, args.expected,args.icon_type), path, entries) for path in files]
     keyfits: dict[str, dict] = {}
     if args.keyfit_results:
         keyfit_document = json.loads(args.keyfit_results.read_text())

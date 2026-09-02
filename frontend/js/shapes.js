@@ -1,7 +1,7 @@
 'use strict';
 
 /**
- * Shape registry — the single source of truth for every primitive.
+ * Browser-side mirror of the authoritative Python shape registry.
  *
  * Geometry is PARAMETRIC: `geometry(w, h)` returns the actual SVG primitive
  * (tag + attributes) drawn at real size in a local 0..w x 0..h box. Shapes are
@@ -17,8 +17,9 @@
  *   defaultW/defaultH  size (in canvas units) when dropped on the canvas
  *   geometry(w, h)     the SVG primitive for a w x h instance
  *
- * `core/shape_registry.py` mirrors this runtime catalog for Python geometry,
- * validation, and standalone asset generation. Registry tests guard the IDs.
+ * `core/shape_registry.py` owns canonical geometry used for emission,
+ * validation, and standalone asset generation. Registry tests guard this
+ * browser mirror's IDs and representative formulas against drift.
  */
 const N = v => +v.toFixed(3);
 const TAN_15 = Math.tan(Math.PI / 12);
@@ -204,6 +205,22 @@ const SHAPES = [
     },
   },
   {
+    id: 'flared-horn', name: 'Flared horn', closed: true,
+    natural: { w: 24, h: 16 }, defaultW: 24, defaultH: 16,
+    // Closed flared tube with a narrow rear opening and a full-height bell.
+    // Its quadratic sides keep the silhouette natural across useful aspect
+    // ratios. Reuse it for horns, speaker bells, funnels, and nozzles.
+    geometry: (w, h) => ({
+      tag: 'path',
+      attrs: {
+        d: `M 0 ${N(h * 6 / 16)} ` +
+           `Q ${N(w * 0.5)} ${N(h * 0.25)} ${N(w)} 0 ` +
+           `L ${N(w)} ${N(h)} ` +
+           `Q ${N(w * 0.5)} ${N(h * 0.75)} 0 ${N(h * 0.625)} Z`,
+      },
+    }),
+  },
+  {
     id: 'cut-corner-box', name: 'Cut-corner box', closed: true,
     natural: { w: 20, h: 20 }, defaultW: 12, defaultH: 12,
     // Closed pentagon: a rectangle whose top-left corner is replaced by one
@@ -245,6 +262,36 @@ const SHAPES = [
              `L ${N(w - inset)} ${N(h)} L ${N(inset)} ${N(h)} L 0 ${N(h / 2)} Z`,
         },
       };
+    },
+  },
+  {
+    id: 'star', name: 'Star', closed: true,
+    natural: { w: 20, h: 20 }, defaultW: 16, defaultH: 16,
+    // Closed five-point star: the classic rating/favourite outline. Outer
+    // vertices sit every 72 degrees from the apex and the inner radius is
+    // cos(72)/cos(36), so each pair of edges is collinear with one pentagram
+    // line. The unit star is mapped onto the box, so the apex touches the top
+    // edge, the two upper arms the sides, and the two lower arms the bottom
+    // edge at every size. Its edges run at 18 and 54 degrees, which is off the
+    // 15 degree direction grid; an icon using it carries a documented grid
+    // exception.
+    geometry: (w, h) => {
+      const inner = Math.cos(Math.PI * 0.4) / Math.cos(Math.PI / 5);
+      const vertices = [];
+      for (let step = 0; step < 10; step += 1) {
+        const radius = step % 2 === 0 ? 1 : inner;
+        const angle = -Math.PI / 2 + (step * Math.PI) / 5;
+        vertices.push([radius * Math.cos(angle), radius * Math.sin(angle)]);
+      }
+      const xs = vertices.map(v => v[0]); const ys = vertices.map(v => v[1]);
+      const left = Math.min(...xs); const right = Math.max(...xs);
+      const top = Math.min(...ys); const bottom = Math.max(...ys);
+      const points = vertices.map(([x, y]) => [
+        ((x - left) * w) / (right - left),
+        ((y - top) * h) / (bottom - top),
+      ]);
+      const runs = points.slice(1).map(([x, y]) => `L ${N(x)} ${N(y)}`).join(' ');
+      return { tag: 'path', attrs: { d: `M ${N(points[0][0])} ${N(points[0][1])} ${runs} Z` } };
     },
   },
   {
@@ -386,6 +433,71 @@ const SHAPES = [
     }),
   },
   {
+    id: 'lightning-bolt', name: 'Lightning bolt', closed: true,
+    natural: { w: 20, h: 24 }, defaultW: 20, defaultH: 24,
+    // Upright six-vertex bolt. In the canonical 20x24 frame its two long
+    // diagonals use exact 14u and 12u square runs, so every edge sits on-grid.
+    geometry: (w, h) => {
+      const top = Math.min(w * 0.7, h);
+      const inner = w * 0.4;
+      const bottom = Math.max(0, h - (w - inner));
+      return {
+        tag: 'path',
+        attrs: {
+          d: `M ${N(w * 0.7)} 0 L 0 ${N(top)} L ${N(inner)} ${N(top)} ` +
+             `L ${N(inner)} ${N(h)} L ${N(w)} ${N(bottom)} ` +
+             `L ${N(w * 0.7)} ${N(bottom)} Z`,
+        },
+      };
+    },
+  },
+  {
+    id: 'puzzle-piece', name: 'Puzzle piece', closed: true,
+    natural: { w: 20, h: 20 }, defaultW: 20, defaultH: 20,
+    // Two outward tabs and two inward sockets form one reusable jigsaw
+    // silhouette. Quadratics keep every lobe cubic-free and inside the box.
+    geometry: (w, h) => ({
+      tag: 'path',
+      attrs: {
+        d: `M 0 ${N(h * 0.2)} L ${N(w * 0.35)} ${N(h * 0.2)} ` +
+           `Q ${N(w * 0.35)} 0 ${N(w * 0.5)} 0 Q ${N(w * 0.65)} 0 ${N(w * 0.65)} ${N(h * 0.2)} ` +
+           `L ${N(w * 0.8)} ${N(h * 0.2)} L ${N(w * 0.8)} ${N(h * 0.35)} ` +
+           `Q ${N(w)} ${N(h * 0.35)} ${N(w)} ${N(h * 0.5)} Q ${N(w)} ${N(h * 0.65)} ${N(w * 0.8)} ${N(h * 0.65)} ` +
+           `L ${N(w * 0.8)} ${N(h)} L ${N(w * 0.65)} ${N(h)} ` +
+           `Q ${N(w * 0.65)} ${N(h * 0.8)} ${N(w * 0.5)} ${N(h * 0.8)} Q ${N(w * 0.35)} ${N(h * 0.8)} ${N(w * 0.35)} ${N(h)} ` +
+           `L 0 ${N(h)} L 0 ${N(h * 0.65)} ` +
+           `Q ${N(w * 0.2)} ${N(h * 0.65)} ${N(w * 0.2)} ${N(h * 0.5)} Q ${N(w * 0.2)} ${N(h * 0.35)} 0 ${N(h * 0.35)} Z`,
+      },
+    }),
+  },
+  {
+    id: 'phone-handset-outline', name: 'Phone handset outline', closed: true,
+    natural: { w: 36, h: 36 }, defaultW: 36, defaultH: 36,
+    // Closed diagonal receiver with flared earpieces. The canonical square
+    // frame keeps every exposed straight run horizontal, vertical, or at 45
+    // degrees; quadratic shoulders form the curved connecting body.
+    geometry: (w, h) => {
+      const X = value => N(w * value / 36);
+      const Y = value => N(h * value / 36);
+      return {
+        tag: 'path',
+        attrs: {
+          d: `M ${X(6)} 0 L ${X(12)} 0 Q ${X(14)} 0 ${X(15)} ${Y(2)} ` +
+             `L ${X(20)} ${Y(7)} Q ${X(21)} ${Y(8)} ${X(20)} ${Y(9)} ` +
+             `L ${X(17)} ${Y(12)} Q ${X(15)} ${Y(14)} ${X(17)} ${Y(15)} ` +
+             `L ${X(21)} ${Y(19)} Q ${X(23)} ${Y(21)} ${X(24)} ${Y(19)} ` +
+             `L ${X(27)} ${Y(16)} Q ${X(29)} ${Y(14)} ${X(30)} ${Y(16)} ` +
+             `L ${X(35)} ${Y(21)} Q ${X(36)} ${Y(23)} ${X(36)} ${Y(24)} ` +
+             `L ${X(36)} ${Y(30)} Q ${X(36)} ${Y(33)} ${X(33)} ${Y(36)} ` +
+             `Q ${X(29)} ${Y(36)} ${X(25)} ${Y(34)} ` +
+             `Q ${X(12)} ${Y(30)} ${X(2)} ${Y(20)} Q 0 ${Y(17)} 0 ${Y(14)} ` +
+             `L 0 ${Y(9)} Q 0 ${Y(7)} ${X(2)} ${Y(6)} ` +
+             `L ${X(5)} ${Y(3)} Q ${X(6)} ${Y(2)} ${X(6)} 0 Z`,
+        },
+      };
+    },
+  },
+  {
     id: 'quarter-circle', name: 'Quarter circle', closed: true,
     natural: { w: 20, h: 20 }, defaultW: 8, defaultH: 8,
     geometry: (w, h) => ({ tag: 'path', attrs: { d: `M 0 ${N(h)} L 0 0 A ${N(w)} ${N(h)} 0 0 1 ${N(w)} ${N(h)} Z` } }),
@@ -410,6 +522,15 @@ const SHAPES = [
   },
 
   // ---- Open paths (lines & curves) -----------------------------------
+  {
+    id: 'dot', name: 'Dot', closed: false,
+    natural: { w: 4, h: 4 }, defaultW: 4, defaultH: 4,
+    // A true point-line dot. The renderer's round line cap supplies the
+    // visible disc, so its diameter always matches the selected stroke width.
+    geometry: (w, h) => ({
+      tag: 'path', attrs: { d: `M ${N(w / 2)} ${N(h / 2)} L ${N(w / 2)} ${N(h / 2)}` },
+    }),
+  },
   {
     id: 'line', name: 'Line', closed: false,
     natural: { w: 20, h: 2 }, defaultW: 8, defaultH: 1,
@@ -603,6 +724,151 @@ const SHAPES = [
     }),
   },
   {
+    id: 'worker-profile', name: 'Worker profile', closed: false,
+    natural: { w: 20, h: 40 }, defaultW: 18, defaultH: 40,
+    // Reusable side-view worker: separate circular head plus one open walking
+    // contour for torso, arm, and legs. Quadratics keep the pose cubic-free and
+    // adaptable across tall portrait proportions.
+    geometry: (w, h) => {
+      const r = Math.min(w * 0.20, h * 0.09);
+      const cx = w * 0.45;
+      return { tag: 'path', attrs: { d:
+        `M ${N(cx)} 0 A ${N(r)} ${N(r)} 0 1 1 ${N(cx)} ${N(2 * r)} ` +
+        `A ${N(r)} ${N(r)} 0 1 1 ${N(cx)} 0 Z ` +
+        `M ${N(cx)} ${N(2 * r)} ` +
+        `Q ${N(w * 0.20)} ${N(h * 0.32)} ${N(w * 0.38)} ${N(h * 0.52)} ` +
+        `Q ${N(w * 0.52)} ${N(h * 0.68)} 0 ${N(h)} ` +
+        `M ${N(w * 0.38)} ${N(h * 0.52)} Q ${N(w * 0.62)} ${N(h * 0.58)} ${N(w)} ${N(h * 0.70)} ` +
+        `M ${N(w * 0.38)} ${N(h * 0.52)} Q ${N(w * 0.58)} ${N(h * 0.72)} ${N(w * 0.68)} ${N(h)}` } };
+    },
+  },
+  {
+    id: 'worker-profile-solid', name: 'Worker profile solid', closed: false,
+    natural: { w: 12, h: 24 }, defaultW: 12, defaultH: 24,
+    // Compact sibling of worker-profile. Its body uses the identical
+    // proportional quadratic contours, while one zero-length point at the
+    // outlined head's centre lets round-cap paint make a solid 4u head with
+    // no enclosed hole.
+    geometry: (w, h) => {
+      const r = Math.min(w * 0.18, h * 0.08);
+      const cx = w * 0.45;
+      const cy = r;
+      return { tag: 'path', attrs: { d:
+        `M ${N(cx)} ${N(cy)} L ${N(cx)} ${N(cy)} ` +
+        `M ${N(cx)} ${N(2 * r)} ` +
+        `Q ${N(w * 0.20)} ${N(h * 0.32)} ${N(w * 0.38)} ${N(h * 0.52)} ` +
+        `Q ${N(w * 0.52)} ${N(h * 0.68)} 0 ${N(h)} ` +
+        `M ${N(w * 0.38)} ${N(h * 0.52)} Q ${N(w * 0.62)} ${N(h * 0.58)} ${N(w)} ${N(h * 0.70)} ` +
+        `M ${N(w * 0.38)} ${N(h * 0.52)} Q ${N(w * 0.58)} ${N(h * 0.72)} ${N(w * 0.68)} ${N(h)}` } };
+    },
+  },
+  {
+    id: 'pig-outline', name: 'Pig outline', closed: true,
+    natural: { w: 40, h: 22 }, defaultW: 40, defaultH: 22,
+    // Closed side-view pig body with a raised ear, blunt snout, belly, and two
+    // feet. The contour carries no bank slot or damage cue, so those remain
+    // composable semantic details.
+    geometry: (w, h) => ({ tag: 'path', attrs: { d:
+      `M 0 ${N(h * 0.50)} ` +
+      `Q ${N(w * 0.08)} ${N(h * 0.12)} ${N(w * 0.38)} ${N(h * 0.12)} ` +
+      `Q ${N(w * 0.44)} 0 ${N(w * 0.54)} 0 ` +
+      `Q ${N(w * 0.62)} ${N(h * 0.12)} ${N(w * 0.70)} ${N(h * 0.14)} ` +
+      `Q ${N(w * 0.90)} ${N(h * 0.14)} ${N(w)} ${N(h * 0.40)} ` +
+      `Q ${N(w)} ${N(h * 0.65)} ${N(w * 0.84)} ${N(h * 0.70)} ` +
+      `Q ${N(w * 0.82)} ${N(h * 0.90)} ${N(w * 0.72)} ${N(h)} ` +
+      `Q ${N(w * 0.60)} ${N(h)} ${N(w * 0.58)} ${N(h * 0.76)} ` +
+      `Q ${N(w * 0.40)} ${N(h * 0.80)} ${N(w * 0.30)} ${N(h * 0.76)} ` +
+      `Q ${N(w * 0.28)} ${N(h)} ${N(w * 0.16)} ${N(h)} ` +
+      `Q ${N(w * 0.04)} ${N(h * 0.86)} 0 ${N(h * 0.50)} Z` } }),
+  },
+  {
+    id: 'broken-pig-outline', name: 'Broken pig outline', closed: true,
+    natural: { w: 40, h: 22 }, defaultW: 40, defaultH: 22,
+    // Two independently closed pig halves separated by matching zigzag crack
+    // edges. The canonical 40x22 frame scales proportionally into the box;
+    // at its natural aspect ratio every crack run is exactly 45 degrees.
+    geometry: (w, h) => {
+      const X = value => N(w * value / 40);
+      const Y = value => N(h * value / 22);
+      return { tag: 'path', attrs: { d:
+        `M ${X(17)} ${Y(4)} ` +
+        `Q ${X(16)} ${Y(0)} ${X(12)} ${Y(0)} ` +
+        `Q ${X(8)} ${Y(2)} ${X(4)} ${Y(4)} ` +
+        `Q ${X(0)} ${Y(6)} ${X(0)} ${Y(11)} ` +
+        `Q ${X(0)} ${Y(16)} ${X(4)} ${Y(17)} ` +
+        `Q ${X(4)} ${Y(21)} ${X(8)} ${Y(22)} ` +
+        `Q ${X(12)} ${Y(22)} ${X(12)} ${Y(18)} ` +
+        `Q ${X(15)} ${Y(20)} ${X(17)} ${Y(20)} ` +
+        `L ${X(13)} ${Y(16)} L ${X(17)} ${Y(12)} L ${X(13)} ${Y(8)} L ${X(17)} ${Y(4)} Z ` +
+        `M ${X(27)} ${Y(4)} ` +
+        `Q ${X(30)} ${Y(2)} ${X(34)} ${Y(4)} ` +
+        `Q ${X(40)} ${Y(4)} ${X(40)} ${Y(10)} ` +
+        `Q ${X(40)} ${Y(14)} ${X(35)} ${Y(15)} ` +
+        `Q ${X(34)} ${Y(20)} ${X(30)} ${Y(22)} ` +
+        `Q ${X(26)} ${Y(22)} ${X(26)} ${Y(18)} ` +
+        `Q ${X(26)} ${Y(20)} ${X(27)} ${Y(20)} ` +
+        `L ${X(23)} ${Y(16)} L ${X(27)} ${Y(12)} L ${X(23)} ${Y(8)} L ${X(27)} ${Y(4)} Z` },
+      };
+    },
+  },
+  {
+    id: 'holding-hand', name: 'Holding hand', closed: false,
+    natural: { w: 24, h: 24 }, defaultW: 24, defaultH: 24,
+    // Side-view gripping hand with two broad finger lobes and an open wrist.
+    // Quadratics and elliptical arcs keep the contour reusable and cubic-free.
+    geometry: (w, h) => ({
+      tag: 'path',
+      attrs: {
+        d: `M 0 ${N(h * 14 / 24)} ` +
+           `Q ${N(w * 4 / 24)} 0 ${N(w * 14 / 24)} 0 ` +
+           `L ${N(w * 20 / 24)} 0 ` +
+           `A ${N(w * 4 / 24)} ${N(h * 4 / 24)} 0 0 1 ${N(w * 20 / 24)} ${N(h * 8 / 24)} ` +
+           `L ${N(w * 16 / 24)} ${N(h * 8 / 24)} ` +
+           `A ${N(w * 4 / 24)} ${N(h * 4 / 24)} 0 0 0 ${N(w * 16 / 24)} ${N(h * 16 / 24)} ` +
+           `L ${N(w * 20 / 24)} ${N(h * 16 / 24)} ` +
+           `A ${N(w * 4 / 24)} ${N(h * 4 / 24)} 0 0 1 ${N(w * 20 / 24)} ${N(h)} ` +
+           `L ${N(w * 14 / 24)} ${N(h)} ` +
+           `Q ${N(w * 10 / 24)} ${N(h)} ${N(w * 8 / 24)} ${N(h * 20 / 24)} ` +
+           `L 0 ${N(h * 20 / 24)}`,
+      },
+    }),
+  },
+  {
+    id: 'bottle-outline', name: 'Bottle outline', closed: true,
+    natural: { w: 14, h: 20 }, defaultW: 14, defaultH: 20,
+    // Broad 8u neck, exact 45-degree shoulders, and ordinary 4u circular
+    // lower corners at the canonical 14x20 size.
+    geometry: (w, h) => {
+      const neck = Math.min(8, w - 4);
+      const shoulder = (w - neck) / 2;
+      const neckHeight = Math.min(4, Math.max(0, h - 12));
+      const shoulderBottom = neckHeight + shoulder;
+      const radius = Math.min(4, w / 2, Math.max(0, (h - shoulderBottom) / 2));
+      return { tag: 'path', attrs: { d:
+        `M ${N(shoulder)} 0 L ${N(w - shoulder)} 0 ` +
+        `L ${N(w - shoulder)} ${N(neckHeight)} ` +
+        `L ${N(w)} ${N(shoulderBottom)} L ${N(w)} ${N(h - radius)} ` +
+        `A ${N(radius)} ${N(radius)} 0 0 1 ${N(w - radius)} ${N(h)} ` +
+        `L ${N(radius)} ${N(h)} ` +
+        `A ${N(radius)} ${N(radius)} 0 0 1 0 ${N(h - radius)} ` +
+        `L 0 ${N(shoulderBottom)} L ${N(shoulder)} ${N(neckHeight)} Z` } };
+    },
+  },
+  {
+    id: 'transfer-hand', name: 'Transfer hand', closed: false,
+    natural: { w: 20, h: 12 }, defaultW: 20, defaultH: 12,
+    // Compact open wrist, thumb rise, and broad fingertip for small transfer
+    // gestures. Canonical exposed diagonals sit on the 45-degree grid.
+    geometry: (w, h) => ({ tag: 'path', attrs: { d:
+      `M 0 0 L ${N(w * 0.2)} 0 ` +
+      `Q ${N(w * 0.3)} 0 ${N(w * 0.4)} ${N(h * 0.25)} ` +
+      `L ${N(w * 0.55)} ${N(h * 0.5)} L ${N(w * 0.9)} ${N(h * 0.5)} ` +
+      `Q ${N(w)} ${N(h * 0.5)} ${N(w)} ${N(h * 2 / 3)} ` +
+      `Q ${N(w)} ${N(h * 5 / 6)} ${N(w * 0.9)} ${N(h * 5 / 6)} ` +
+      `L ${N(w * 0.6)} ${N(h * 5 / 6)} ` +
+      `Q ${N(w * 0.45)} ${N(h)} ${N(w * 0.3)} ${N(h)} L 0 ${N(h * 0.5)}` } }),
+  },
+  {
     id: 'radial-ticks', name: 'Radial ticks', closed: false,
     natural: { w: 20, h: 20 }, defaultW: 12, defaultH: 12,
     // Twelve evenly spaced radial ticks running from the 0.8 inner ellipse out
@@ -705,5 +971,110 @@ const SHAPES = [
         `A ${N(r)} ${N(r)} 0 0 1 0 ${N(h - r)} L 0 ${N(r)} ` +
         `A ${N(r)} ${N(r)} 0 0 1 ${N(r)} 0 L ${N(left)} 0` } };
     },
+  },
+  {
+    id: 'corner-gapped-rounded-rectangle', name: 'Corner-gapped rounded rectangle', closed: false,
+    natural: { w: 28, h: 20 }, defaultW: 28, defaultH: 20,
+    // Rounded frame with its lower-left corner deliberately removed so a
+    // foreground object can cross the frame without doubled hidden geometry.
+    geometry: (w, h) => {
+      const radius = Math.min(4, w / 2, h / 2);
+      const bottomLip = w * 0.75;
+      return {
+        tag: 'path',
+        attrs: {
+          d: `M 0 ${N(radius)} ` +
+             `A ${N(radius)} ${N(radius)} 0 0 1 ${N(radius)} 0 L ${N(w - radius)} 0 ` +
+             `A ${N(radius)} ${N(radius)} 0 0 1 ${N(w)} ${N(radius)} L ${N(w)} ${N(h - radius)} ` +
+             `A ${N(radius)} ${N(radius)} 0 0 1 ${N(w - radius)} ${N(h)} L ${N(bottomLip)} ${N(h)}`,
+        },
+      };
+    },
+  },
+  {
+    id: 'open-shell', name: 'Open shell', closed: false,
+    natural: { w: 40, h: 32 }, defaultW: 32, defaultH: 24,
+    geometry: (w, h) => ({
+      tag: 'path', attrs: { d:
+        `M 0 ${N(h / 2)} Q ${N(w * 0.3)} 0 ${N(w * 0.8)} 0 Q ${N(w)} 0 ${N(w)} ${N(h * 0.25)} ` +
+        `M 0 ${N(h / 2)} Q ${N(w * 0.3)} ${N(h)} ${N(w * 0.75)} ${N(h)} Q ${N(w)} ${N(h)} ${N(w)} ${N(h * 0.75)}` },
+    }),
+  },
+  {
+    id: 'oyster-shell', name: 'Oyster shell', closed: false,
+    natural: { w: 40, h: 32 }, defaultW: 40, defaultH: 32,
+    geometry: (w, h) => ({
+      tag: 'path', attrs: { d:
+        `M ${N(w * 0.53)} ${N(h * 0.38)} ` +
+        `Q ${N(w * 0.82)} ${N(h * 0.28)} ${N(w * 0.98)} ${N(h * 0.08)} ` +
+        `Q ${N(w)} 0 ${N(w * 0.83)} 0 ` +
+        `Q ${N(w * 0.43)} 0 ${N(w * 0.16)} ${N(h * 0.25)} ` +
+        `Q 0 ${N(h * 0.42)} 0 ${N(h * 0.55)} ` +
+        `Q ${N(w * 0.03)} ${N(h * 0.78)} ${N(w * 0.27)} ${N(h * 0.94)} ` +
+        `Q ${N(w * 0.58)} ${N(h * 1.0648)} ${N(w * 0.85)} ${N(h * 0.93)} ` +
+        `Q ${N(w)} ${N(h * 0.86)} ${N(w)} ${N(h * 0.73)} ` +
+        `Q ${N(w)} ${N(h * 0.63)} ${N(w * 0.85)} ${N(h * 0.60)} ` +
+        `Q ${N(w * 0.75)} ${N(h * 0.58)} ${N(w * 0.67)} ${N(h * 0.55)}` },
+    }),
+  },
+  {
+    id: 'side-gapped-rounded-rectangle', name: 'Side-gapped rounded rectangle', closed: false,
+    natural: { w: 20, h: 32 }, defaultW: 18, defaultH: 32,
+    geometry: (w, h) => {
+      const radius = Math.min(4, w / 2, h / 2);
+      const gapTop = h * 0.375;
+      const gapBottom = h * 0.625;
+      return { tag: 'path', attrs: { d:
+        `M 0 ${N(gapBottom)} L 0 ${N(h - radius)} ` +
+        `A ${N(radius)} ${N(radius)} 0 0 0 ${N(radius)} ${N(h)} L ${N(w - radius)} ${N(h)} ` +
+        `A ${N(radius)} ${N(radius)} 0 0 0 ${N(w)} ${N(h - radius)} L ${N(w)} ${N(radius)} ` +
+        `A ${N(radius)} ${N(radius)} 0 0 0 ${N(w - radius)} 0 L ${N(radius)} 0 ` +
+        `A ${N(radius)} ${N(radius)} 0 0 0 0 ${N(radius)} L 0 ${N(gapTop)}` } };
+    },
+  },
+  {
+    id: 'shark-fin', name: 'Shark fin', closed: false,
+    natural: { w: 20, h: 24 }, defaultW: 20, defaultH: 24,
+    geometry: (w, h) => ({ tag: 'path', attrs: { d:
+      `M 0 ${N(h)} Q ${N(w / 4)} ${N(h * 3 / 8)} ${N(w)} 0 ` +
+      `Q ${N(w * 4 / 5)} ${N(h / 2)} ${N(w * 4 / 5)} ${N(h)}` },
+    }),
+  },
+  {
+    id: 'wave-line', name: 'Wave line', closed: false,
+    natural: { w: 40, h: 8 }, defaultW: 32, defaultH: 8,
+    geometry: (w, h) => {
+      const mid = h / 2;
+      return { tag: 'path', attrs: { d:
+        `M 0 ${N(mid)} Q ${N(w / 8)} ${N(-h / 2)} ${N(w / 4)} ${N(mid)} ` +
+        `Q ${N(3 * w / 8)} ${N(3 * h / 2)} ${N(w / 2)} ${N(mid)} ` +
+        `Q ${N(5 * w / 8)} ${N(-h / 2)} ${N(3 * w / 4)} ${N(mid)} ` +
+        `Q ${N(7 * w / 8)} ${N(3 * h / 2)} ${N(w)} ${N(mid)}` } };
+    },
+  },
+  {
+    id: 'gripping-hand', name: 'Gripping hand', closed: false,
+    natural: { w: 24, h: 20 }, defaultW: 24, defaultH: 20,
+    geometry: (w, h) => ({ tag: 'path', attrs: { d:
+      `M ${N(w / 2)} 0 Q ${N(w / 3)} 0 ${N(w / 6)} ${N(h / 5)} L 0 ${N(2 * h / 5)} ` +
+      `Q 0 ${N(3 * h / 5)} ${N(w / 12)} ${N(4 * h / 5)} Q ${N(5 * w / 24)} ${N(h)} ${N(w / 3)} ${N(h)} ` +
+      `Q ${N(w / 2)} ${N(h)} ${N(7 * w / 12)} ${N(4 * h / 5)} L ${N(2 * w / 3)} ${N(7 * h / 10)} ` +
+      `Q ${N(3 * w / 4)} ${N(3 * h / 5)} ${N(11 * w / 12)} ${N(3 * h / 5)} Q ${N(w)} ${N(3 * h / 5)} ${N(w)} ${N(3 * h / 4)} ` +
+      `Q ${N(w)} ${N(9 * h / 10)} ${N(7 * w / 8)} ${N(9 * h / 10)} L ${N(2 * w / 3)} ${N(9 * h / 10)} ` +
+      `M ${N(7 * w / 12)} ${N(3 * h / 10)} L ${N(5 * w / 6)} ${N(3 * h / 10)} ` +
+      `Q ${N(w)} ${N(3 * h / 10)} ${N(w)} ${N(9 * h / 20)} Q ${N(w)} ${N(3 * h / 5)} ${N(5 * w / 6)} ${N(3 * h / 5)} ` +
+      `L ${N(2 * w / 3)} ${N(3 * h / 5)}` },
+    }),
+  },
+  {
+    id: 'gapped-eye', name: 'Gapped eye', closed: false,
+    natural: { w: 40, h: 28 }, defaultW: 40, defaultH: 28,
+    // The lower quadratic is split around a broad lower-right cutout so a
+    // search handle or foreground tool can pass without a doubled crossing.
+    geometry: (w, h) => ({ tag: 'path', attrs: { d:
+      `M 0 ${N(h / 2)} Q ${N(w / 2)} ${N(-h / 2)} ${N(w)} ${N(h / 2)} ` +
+      `M 0 ${N(h / 2)} Q ${N(w * 0.275)} ${N(h)} ${N(w * 0.55)} ${N(h)} ` +
+      `M ${N(w * 0.85)} ${N(3 * h / 4)} Q ${N(w * 0.925)} ${N(9 * h / 14)} ${N(w)} ${N(h / 2)}` },
+    }),
   },
 ];

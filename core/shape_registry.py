@@ -167,6 +167,33 @@ def hexagon(w: float, h: float) -> tuple[str, dict[str, object]]:
     )
 
 
+STAR_POINTS = 5
+STAR_INNER = math.cos(math.radians(72)) / math.cos(math.radians(36))
+
+
+def star(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed five-point star: the classic rating/favourite outline.
+
+    Outer vertices sit every 72 degrees from the apex and the inner radius is
+    cos(72)/cos(36), so each pair of edges is collinear with one pentagram
+    line. The unit star is mapped onto the box, so the apex touches the top
+    edge, the two upper arms the sides, and the two lower arms the bottom edge
+    at every size. Its edges run at 18 and 54 degrees, which is off the 15
+    degree direction grid; an icon using it carries a documented grid
+    exception.
+    """
+    vertices = []
+    for step in range(2 * STAR_POINTS):
+        radius = 1.0 if step % 2 == 0 else STAR_INNER
+        angle = -math.pi / 2 + step * math.pi / STAR_POINTS
+        vertices.append((radius * math.cos(angle), radius * math.sin(angle)))
+    left = min(x for x, _ in vertices); right = max(x for x, _ in vertices)
+    top = min(y for _, y in vertices); bottom = max(y for _, y in vertices)
+    points = [((x - left) * w / (right - left), (y - top) * h / (bottom - top)) for x, y in vertices]
+    runs = " ".join(f"L {n(x)} {n(y)}" for x, y in points[1:])
+    return path(f"M {n(points[0][0])} {n(points[0][1])} {runs} Z")
+
+
 SCALLOP_LOBES = 8
 SCALLOP_VALLEY = 0.82
 
@@ -219,6 +246,138 @@ def head_profile(w: float, h: float) -> tuple[str, dict[str, object]]:
     )
 
 
+def worker_profile(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Open side-view worker with a separate head and one walking body contour."""
+    radius = min(w * .20, h * .09)
+    cx = w * .45
+    return path(
+        f"M {n(cx)} 0 A {n(radius)} {n(radius)} 0 1 1 {n(cx)} {n(2*radius)} "
+        f"A {n(radius)} {n(radius)} 0 1 1 {n(cx)} 0 Z "
+        f"M {n(cx)} {n(2*radius)} "
+        f"Q {n(w*.20)} {n(h*.32)} {n(w*.38)} {n(h*.52)} "
+        f"Q {n(w*.52)} {n(h*.68)} 0 {n(h)} "
+        f"M {n(w*.38)} {n(h*.52)} Q {n(w*.62)} {n(h*.58)} {n(w)} {n(h*.70)} "
+        f"M {n(w*.38)} {n(h*.52)} Q {n(w*.58)} {n(h*.72)} {n(w*.68)} {n(h)}"
+    )
+
+
+def worker_profile_solid(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Small worker profile with a round-cap point head and quadratic body."""
+    radius = min(w * .18, h * .08)
+    cx = w * .45
+    cy = radius
+    return path(
+        f"M {n(cx)} {n(cy)} L {n(cx)} {n(cy)} "
+        f"M {n(cx)} {n(2*radius)} "
+        f"Q {n(w*.20)} {n(h*.32)} {n(w*.38)} {n(h*.52)} "
+        f"Q {n(w*.52)} {n(h*.68)} 0 {n(h)} "
+        f"M {n(w*.38)} {n(h*.52)} Q {n(w*.62)} {n(h*.58)} {n(w)} {n(h*.70)} "
+        f"M {n(w*.38)} {n(h*.52)} Q {n(w*.58)} {n(h*.72)} {n(w*.68)} {n(h)}"
+    )
+
+
+def pig_outline(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed side-view pig body with a raised ear, snout, belly, and two feet."""
+    return path(
+        f"M 0 {n(h*.50)} "
+        f"Q {n(w*.08)} {n(h*.12)} {n(w*.38)} {n(h*.12)} "
+        f"Q {n(w*.44)} 0 {n(w*.54)} 0 "
+        f"Q {n(w*.62)} {n(h*.12)} {n(w*.70)} {n(h*.14)} "
+        f"Q {n(w*.90)} {n(h*.14)} {n(w)} {n(h*.40)} "
+        f"Q {n(w)} {n(h*.65)} {n(w*.84)} {n(h*.70)} "
+        f"Q {n(w*.82)} {n(h*.90)} {n(w*.72)} {n(h)} "
+        f"Q {n(w*.60)} {n(h)} {n(w*.58)} {n(h*.76)} "
+        f"Q {n(w*.40)} {n(h*.80)} {n(w*.30)} {n(h*.76)} "
+        f"Q {n(w*.28)} {n(h)} {n(w*.16)} {n(h)} "
+        f"Q {n(w*.04)} {n(h*.86)} 0 {n(h*.50)} Z"
+    )
+
+
+def broken_pig_outline(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Two separated pig halves divided by parallel zigzag crack edges.
+
+    The canonical 40x22 frame is scaled proportionally into the requested box.
+    At its natural aspect ratio, both crack contours use exact 45-degree runs.
+    """
+    x = lambda value: n(w * value / 40)
+    y = lambda value: n(h * value / 22)
+    return path(
+        f"M {x(17)} {y(4)} "
+        f"Q {x(16)} {y(0)} {x(12)} {y(0)} "
+        f"Q {x(8)} {y(2)} {x(4)} {y(4)} "
+        f"Q {x(0)} {y(6)} {x(0)} {y(11)} "
+        f"Q {x(0)} {y(16)} {x(4)} {y(17)} "
+        f"Q {x(4)} {y(21)} {x(8)} {y(22)} "
+        f"Q {x(12)} {y(22)} {x(17)} {y(20)} "
+        f"L {x(13)} {y(16)} L {x(17)} {y(12)} L {x(13)} {y(8)} L {x(17)} {y(4)} Z "
+        f"M {x(27)} {y(4)} "
+        f"Q {x(30)} {y(2)} {x(34)} {y(4)} "
+        f"Q {x(40)} {y(4)} {x(40)} {y(10)} "
+        f"Q {x(40)} {y(14)} {x(35)} {y(15)} "
+        f"Q {x(34)} {y(20)} {x(30)} {y(22)} "
+        f"Q {x(26)} {y(22)} {x(27)} {y(20)} "
+        f"L {x(23)} {y(16)} L {x(27)} {y(12)} L {x(23)} {y(8)} L {x(27)} {y(4)} Z"
+    )
+
+
+def holding_hand(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Open side-view hand contour with two gripping finger lobes and a wrist gap."""
+    return path(
+        f"M 0 {n(h*14/24)} "
+        f"Q {n(w*4/24)} 0 {n(w*14/24)} 0 "
+        f"L {n(w*20/24)} 0 "
+        f"A {n(w*4/24)} {n(h*4/24)} 0 0 1 {n(w*20/24)} {n(h*8/24)} "
+        f"L {n(w*16/24)} {n(h*8/24)} "
+        f"A {n(w*4/24)} {n(h*4/24)} 0 0 0 {n(w*16/24)} {n(h*16/24)} "
+        f"L {n(w*20/24)} {n(h*16/24)} "
+        f"A {n(w*4/24)} {n(h*4/24)} 0 0 1 {n(w*20/24)} {n(h)} "
+        f"L {n(w*14/24)} {n(h)} "
+        f"Q {n(w*10/24)} {n(h)} {n(w*8/24)} {n(h*20/24)} "
+        f"L 0 {n(h*20/24)}"
+    )
+
+
+def bottle_outline(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed shouldered bottle with a broad neck and ordinary 4u feet.
+
+    The canonical 14x20 form uses an 8u neck, exact 45-degree shoulders, and
+    4u circular lower corners.  Preserve that aspect ratio when the shoulder
+    angle is identity-bearing.
+    """
+    neck = min(8.0, w - 4.0)
+    shoulder = (w - neck) / 2
+    neck_height = min(4.0, max(0.0, h - 12.0))
+    shoulder_bottom = neck_height + shoulder
+    radius = min(4.0, w / 2, max(0.0, (h - shoulder_bottom) / 2))
+    return path(
+        f"M {n(shoulder)} 0 L {n(w - shoulder)} 0 "
+        f"L {n(w - shoulder)} {n(neck_height)} "
+        f"L {n(w)} {n(shoulder_bottom)} L {n(w)} {n(h - radius)} "
+        f"A {n(radius)} {n(radius)} 0 0 1 {n(w - radius)} {n(h)} "
+        f"L {n(radius)} {n(h)} "
+        f"A {n(radius)} {n(radius)} 0 0 1 0 {n(h - radius)} "
+        f"L 0 {n(shoulder_bottom)} L {n(shoulder)} {n(neck_height)} Z"
+    )
+
+
+def transfer_hand(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Compact open transfer palm with one thumb rise and finger block.
+
+    At the canonical 20x12 size, the two exposed palm diagonals are exact 45
+    degrees.  The open wrist and broad fingertip stay legible at true 24px
+    without the dense finger lobes of the larger hand atoms.
+    """
+    return path(
+        f"M 0 0 L {n(w * .2)} 0 "
+        f"Q {n(w * .3)} 0 {n(w * .4)} {n(h * .25)} "
+        f"L {n(w * .55)} {n(h * .5)} L {n(w * .9)} {n(h * .5)} "
+        f"Q {n(w)} {n(h * .5)} {n(w)} {n(h * 2 / 3)} "
+        f"Q {n(w)} {n(h * 5 / 6)} {n(w * .9)} {n(h * 5 / 6)} "
+        f"L {n(w * .6)} {n(h * 5 / 6)} "
+        f"Q {n(w * .45)} {n(h)} {n(w * .3)} {n(h)} L 0 {n(h * .5)}"
+    )
+
+
 
 def lens(w: float, h: float) -> tuple[str, dict[str, object]]:
     radius = (w*w + h*h) / (4*h)
@@ -239,6 +398,22 @@ def ring(w: float, h: float) -> tuple[str, dict[str, object]]:
 def trapezoid(w: float, h: float) -> tuple[str, dict[str, object]]:
     inset = min(h / math.tan(math.pi / 3), w * 0.4)
     return path(f"M {n(inset)} 0 L {n(w - inset)} 0 L {n(w)} {n(h)} L 0 {n(h)} Z")
+
+
+def flared_horn(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed, right-opening horn with a narrow rear and full-height bell.
+
+    The two quadratic rails keep the flare natural at compact sizes while the
+    whole-unit canonical 24x16 geometry stays free of off-angle straight runs.
+    The form is intentionally generic enough for speaker bells, funnels, and
+    nozzles as well as acoustic horns.
+    """
+    return path(
+        f"M 0 {n(h * 6 / 16)} "
+        f"Q {n(w * .5)} {n(h * .25)} {n(w)} 0 "
+        f"L {n(w)} {n(h)} "
+        f"Q {n(w * .5)} {n(h * .75)} 0 {n(h * .625)} Z"
+    )
 
 
 def sloped_box(w: float, h: float) -> tuple[str, dict[str, object]]:
@@ -307,6 +482,66 @@ def twin_lobed_drop(w: float, h: float) -> tuple[str, dict[str, object]]:
         f"Q {n(w*21/36)} 0 {n(w*27/36)} 0 "
         f"Q {n(w)} {n(h*2/36)} {n(w)} {n(h*12/36)} "
         f"Q {n(w)} {n(h*26/36)} {n(w/2)} {n(h)} Z"
+    )
+
+
+def lightning_bolt(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed upright lightning bolt with two exact 45-degree canonical flanks.
+
+    The natural 20x24 frame gives the two identity-bearing diagonals exact
+    14u-by-14u and 12u-by-12u runs. Other portrait sizes retain the same simple
+    six-vertex topology without leaving the instance box.
+    """
+    top = min(w*.7, h)
+    inner = w*.4
+    bottom = max(0, h-(w-inner))
+    return path(
+        f"M {n(w*.7)} 0 L 0 {n(top)} L {n(inner)} {n(top)} "
+        f"L {n(inner)} {n(h)} L {n(w)} {n(bottom)} "
+        f"L {n(w*.7)} {n(bottom)} Z"
+    )
+
+
+def puzzle_piece(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed jigsaw piece with two outward tabs and two inward sockets.
+
+    The top and right tabs reach the box edges; the bottom and left sockets
+    cut into the body while straight perimeter runs still reach the remaining
+    edges. Eight quadratics keep the lobes smooth and cubic-free at any size.
+    """
+    return path(
+        f"M 0 {n(h*.2)} L {n(w*.35)} {n(h*.2)} "
+        f"Q {n(w*.35)} 0 {n(w*.5)} 0 Q {n(w*.65)} 0 {n(w*.65)} {n(h*.2)} "
+        f"L {n(w*.8)} {n(h*.2)} L {n(w*.8)} {n(h*.35)} "
+        f"Q {n(w)} {n(h*.35)} {n(w)} {n(h*.5)} Q {n(w)} {n(h*.65)} {n(w*.8)} {n(h*.65)} "
+        f"L {n(w*.8)} {n(h)} L {n(w*.65)} {n(h)} "
+        f"Q {n(w*.65)} {n(h*.8)} {n(w*.5)} {n(h*.8)} Q {n(w*.35)} {n(h*.8)} {n(w*.35)} {n(h)} "
+        f"L 0 {n(h)} L 0 {n(h*.65)} "
+        f"Q {n(w*.2)} {n(h*.65)} {n(w*.2)} {n(h*.5)} Q {n(w*.2)} {n(h*.35)} 0 {n(h*.35)} Z"
+    )
+
+
+def phone_handset_outline(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Closed diagonal telephone handset with flared earpieces.
+
+    The canonical square frame keeps each exposed straight run horizontal,
+    vertical, or at 45 degrees. Quadratic shoulders join the two earpieces to
+    the curved receiver body without encoding any secondary phone detail.
+    """
+    x = lambda value: n(w * value / 36)
+    y = lambda value: n(h * value / 36)
+    return path(
+        f"M {x(6)} 0 L {x(12)} 0 Q {x(14)} 0 {x(15)} {y(2)} "
+        f"L {x(20)} {y(7)} Q {x(21)} {y(8)} {x(20)} {y(9)} "
+        f"L {x(17)} {y(12)} Q {x(15)} {y(14)} {x(17)} {y(15)} "
+        f"L {x(21)} {y(19)} Q {x(23)} {y(21)} {x(24)} {y(19)} "
+        f"L {x(27)} {y(16)} Q {x(29)} {y(14)} {x(30)} {y(16)} "
+        f"L {x(35)} {y(21)} Q {x(36)} {y(23)} {x(36)} {y(24)} "
+        f"L {x(36)} {y(30)} Q {x(36)} {y(33)} {x(33)} {y(36)} "
+        f"Q {x(29)} {y(36)} {x(25)} {y(34)} "
+        f"Q {x(12)} {y(30)} {x(2)} {y(20)} Q 0 {y(17)} 0 {y(14)} "
+        f"L 0 {y(9)} Q 0 {y(7)} {x(2)} {y(6)} "
+        f"L {x(5)} {y(3)} Q {x(6)} {y(2)} {x(6)} 0 Z"
     )
 
 
@@ -385,6 +620,97 @@ def gapped_rounded_rectangle(w: float, h: float) -> tuple[str, dict[str, object]
     )
 
 
+def corner_gapped_rounded_rectangle(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Rounded frame with a lower-left cutout for a foreground overlap."""
+    radius = min(4, w / 2, h / 2)
+    bottom_lip = w * .75
+    return path(
+        f"M 0 {n(radius)} "
+        f"A {n(radius)} {n(radius)} 0 0 1 {n(radius)} 0 L {n(w-radius)} 0 "
+        f"A {n(radius)} {n(radius)} 0 0 1 {n(w)} {n(radius)} L {n(w)} {n(h-radius)} "
+        f"A {n(radius)} {n(radius)} 0 0 1 {n(w-radius)} {n(h)} L {n(bottom_lip)} {n(h)}"
+    )
+
+
+def open_shell(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Two asymmetric quadratic shell lips sharing a hinge and opening to the right."""
+    return path(
+        f"M 0 {n(h/2)} Q {n(w*.3)} 0 {n(w*.8)} 0 Q {n(w)} 0 {n(w)} {n(h*.25)} "
+        f"M 0 {n(h/2)} Q {n(w*.3)} {n(h)} {n(w*.75)} {n(h)} Q {n(w)} {n(h)} {n(w)} {n(h*.75)}"
+    )
+
+
+def oyster_shell(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """One asymmetric oyster rim with a compact right-facing mouth."""
+    return path(
+        f"M {n(w*.53)} {n(h*.38)} "
+        f"Q {n(w*.82)} {n(h*.28)} {n(w*.98)} {n(h*.08)} "
+        f"Q {n(w)} 0 {n(w*.83)} 0 "
+        f"Q {n(w*.43)} 0 {n(w*.16)} {n(h*.25)} "
+        f"Q 0 {n(h*.42)} 0 {n(h*.55)} "
+        f"Q {n(w*.03)} {n(h*.78)} {n(w*.27)} {n(h*.94)} "
+        f"Q {n(w*.58)} {n(h*1.0648)} {n(w*.85)} {n(h*.93)} "
+        f"Q {n(w)} {n(h*.86)} {n(w)} {n(h*.73)} "
+        f"Q {n(w)} {n(h*.63)} {n(w*.85)} {n(h*.60)} "
+        f"Q {n(w*.75)} {n(h*.58)} {n(w*.67)} {n(h*.55)}"
+    )
+
+
+def side_gapped_rounded_rectangle(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Rounded frame with a centred gap in its left side for an entering arm."""
+    radius = min(4, w / 2, h / 2)
+    gap_top, gap_bottom = h * .375, h * .625
+    return path(
+        f"M 0 {n(gap_bottom)} L 0 {n(h-radius)} "
+        f"A {n(radius)} {n(radius)} 0 0 0 {n(radius)} {n(h)} L {n(w-radius)} {n(h)} "
+        f"A {n(radius)} {n(radius)} 0 0 0 {n(w)} {n(h-radius)} L {n(w)} {n(radius)} "
+        f"A {n(radius)} {n(radius)} 0 0 0 {n(w-radius)} 0 L {n(radius)} 0 "
+        f"A {n(radius)} {n(radius)} 0 0 0 0 {n(radius)} L 0 {n(gap_top)}"
+    )
+
+
+def shark_fin(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Open asymmetric fin contour with a long convex face and short trailing edge."""
+    return path(
+        f"M 0 {n(h)} Q {n(w/4)} {n(h*3/8)} {n(w)} 0 "
+        f"Q {n(w*4/5)} {n(h/2)} {n(w*4/5)} {n(h)}"
+    )
+
+
+def wave_line(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Two-cycle horizontal wave made from four tangent quadratic lobes."""
+    mid = h / 2
+    return path(
+        f"M 0 {n(mid)} Q {n(w/8)} {n(-h/2)} {n(w/4)} {n(mid)} "
+        f"Q {n(3*w/8)} {n(3*h/2)} {n(w/2)} {n(mid)} "
+        f"Q {n(5*w/8)} {n(-h/2)} {n(3*w/4)} {n(mid)} "
+        f"Q {n(7*w/8)} {n(3*h/2)} {n(w)} {n(mid)}"
+    )
+
+
+def gripping_hand(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Open side-view palm with a separate broad finger wrap around a tool grip."""
+    return path(
+        f"M {n(w/2)} 0 Q {n(w/3)} 0 {n(w/6)} {n(h/5)} L 0 {n(2*h/5)} "
+        f"Q 0 {n(3*h/5)} {n(w/12)} {n(4*h/5)} Q {n(5*w/24)} {n(h)} {n(w/3)} {n(h)} "
+        f"Q {n(w/2)} {n(h)} {n(7*w/12)} {n(4*h/5)} L {n(2*w/3)} {n(7*h/10)} "
+        f"Q {n(3*w/4)} {n(3*h/5)} {n(11*w/12)} {n(3*h/5)} Q {n(w)} {n(3*h/5)} {n(w)} {n(3*h/4)} "
+        f"Q {n(w)} {n(9*h/10)} {n(7*w/8)} {n(9*h/10)} L {n(2*w/3)} {n(9*h/10)} "
+        f"M {n(7*w/12)} {n(3*h/10)} L {n(5*w/6)} {n(3*h/10)} "
+        f"Q {n(w)} {n(3*h/10)} {n(w)} {n(9*h/20)} Q {n(w)} {n(3*h/5)} {n(5*w/6)} {n(3*h/5)} "
+        f"L {n(2*w/3)} {n(3*h/5)}"
+    )
+
+
+def gapped_eye(w: float, h: float) -> tuple[str, dict[str, object]]:
+    """Quadratic eye outline with a broad lower-right cutout for an overlapping handle."""
+    return path(
+        f"M 0 {n(h/2)} Q {n(w/2)} {n(-h/2)} {n(w)} {n(h/2)} "
+        f"M 0 {n(h/2)} Q {n(w*.275)} {n(h)} {n(w*.55)} {n(h)} "
+        f"M {n(w*.85)} {n(3*h/4)} Q {n(w*.925)} {n(9*h/14)} {n(w)} {n(h/2)}"
+    )
+
+
 RADIAL_TICK_COUNT = 12
 RADIAL_TICK_INNER = 0.8
 
@@ -426,8 +752,10 @@ SHAPES = [
     Shape("twin-gable", "Twin gable", True, (40, 32), (16, 12), twin_gable),
     Shape("sloped-box", "Sloped box", True, (24, 18), (16, 14), sloped_box),
     Shape("trapezoid", "Trapezoid", True, (24, 12), (16, 8), trapezoid),
+    Shape("flared-horn", "Flared horn", True, (24, 16), (24, 16), flared_horn),
     Shape("cut-corner-box", "Cut-corner box", True, (20, 20), (12, 12), lambda w,h: path(f"M 0 {n(min(w,h)/2)} L {n(min(w,h)/2)} 0 L {n(w)} 0 L {n(w)} {n(h)} L 0 {n(h)} Z")),
     Shape("hexagon", "Hexagon", True, (24, 16), (16, 12), hexagon),
+    Shape("star", "Star", True, (20, 20), (16, 16), star),
     Shape("dome", "Dome", True, (20, 10), (10, 5), lambda w,h: path(f"M 0 {n(h)} A {n(w/2)} {n(h)} 0 0 1 {n(w)} {n(h)} Z")),
     Shape("cloud", "Cloud", True, (24, 14), (16, 10), cloud),
     Shape("scalloped-oval", "Scalloped oval", True, (20, 20), (16, 16), scalloped_oval),
@@ -435,8 +763,12 @@ SHAPES = [
     Shape("lobed-drop", "Lobed drop", True, (20, 24), (12, 16), lobed_drop),
     Shape("stepped-cog", "Stepped cog", True, (20, 20), (12, 12), stepped_cog),
     Shape("twin-lobed-drop", "Twin-lobed drop", True, (20, 20), (12, 12), twin_lobed_drop),
+    Shape("lightning-bolt", "Lightning bolt", True, (20, 24), (20, 24), lightning_bolt),
+    Shape("puzzle-piece", "Puzzle piece", True, (20, 20), (20, 20), puzzle_piece),
+    Shape("phone-handset-outline", "Phone handset outline", True, (36, 36), (36, 36), phone_handset_outline),
     Shape("quarter-circle", "Quarter circle", True, (20, 20), (8, 8), lambda w,h: path(f"M 0 {n(h)} L 0 0 A {n(w)} {n(h)} 0 0 1 {n(w)} {n(h)} Z")),
     Shape("ring", "Ring", True, (20, 20), (8, 8), ring),
+    Shape("dot", "Dot", False, (4, 4), (4, 4), lambda w,h: path(f"M {n(w/2)} {n(h/2)} L {n(w/2)} {n(h/2)}")),
     Shape("line", "Line", False, (20, 2), (8, 1), lambda w,h: path(f"M 0 {n(h/2)} L {n(w)} {n(h/2)}")),
     Shape("diagonal-line", "Diagonal line", False, (20, 20), (8, 8), lambda w,h: path(f"M 0 {n(h)} L {n(w)} 0")),
     Shape("curve", "Curve", False, (20, 12), (10, 6), lambda w,h: path(f"M 0 {n(h)} Q {n(w/2)} {n(-h)} {n(w)} {n(h)}")),
@@ -452,10 +784,25 @@ SHAPES = [
     Shape("open-end-wrench", "Open-end wrench", False, (24, 8), (20, 8), open_end_wrench),
     Shape("open-gable", "Open gable", False, (20, 20), (12, 14), open_gable),
     Shape("head-profile", "Head profile", False, (24, 32), (18, 24), head_profile),
+    Shape("worker-profile", "Worker profile", False, (20, 40), (18, 40), worker_profile),
+    Shape("worker-profile-solid", "Worker profile solid", False, (12, 24), (12, 24), worker_profile_solid),
+    Shape("pig-outline", "Pig outline", True, (40, 22), (40, 22), pig_outline),
+    Shape("broken-pig-outline", "Broken pig outline", True, (40, 22), (40, 22), broken_pig_outline),
+    Shape("holding-hand", "Holding hand", False, (24, 24), (24, 24), holding_hand),
+    Shape("bottle-outline", "Bottle outline", True, (14, 20), (14, 20), bottle_outline),
+    Shape("transfer-hand", "Transfer hand", False, (20, 12), (20, 12), transfer_hand),
     Shape("radial-ticks", "Radial ticks", False, (20, 20), (12, 12), radial_ticks),
     Shape("open-twin-gable", "Open twin gable", False, (40, 32), (16, 12), open_twin_gable),
     Shape("spiral", "Spiral", False, (22, 20), (16, 14), spiral),
     Shape("gapped-rounded-rectangle", "Gapped rounded rectangle", False, (24, 32), (16, 20), gapped_rounded_rectangle),
+    Shape("corner-gapped-rounded-rectangle", "Corner-gapped rounded rectangle", False, (28, 20), (28, 20), corner_gapped_rounded_rectangle),
+    Shape("open-shell", "Open shell", False, (40, 32), (32, 24), open_shell),
+    Shape("oyster-shell", "Oyster shell", False, (40, 32), (40, 32), oyster_shell),
+    Shape("side-gapped-rounded-rectangle", "Side-gapped rounded rectangle", False, (20, 32), (18, 32), side_gapped_rounded_rectangle),
+    Shape("shark-fin", "Shark fin", False, (20, 24), (20, 24), shark_fin),
+    Shape("wave-line", "Wave line", False, (40, 8), (32, 8), wave_line),
+    Shape("gripping-hand", "Gripping hand", False, (24, 20), (24, 20), gripping_hand),
+    Shape("gapped-eye", "Gapped eye", False, (40, 28), (40, 28), gapped_eye),
 ]
 
 BY_ID = {shape.id: shape for shape in SHAPES}

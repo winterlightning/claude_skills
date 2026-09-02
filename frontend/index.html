@@ -4,20 +4,31 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Unlimited Shapes — Icon Builder</title>
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
   <header id="toolbar">
     <h1>Unlimited Shapes</h1>
     <div class="tools">
+      <label class="toggle" title="Kebab-case name used by the editable JSON and emitted SVG files">
+        Name
+        <input id="icon-name" type="text" value="icon" pattern="[a-z0-9]+(?:-[a-z0-9]+)*" spellcheck="false">
+      </label>
+      <label class="toggle" title="Choose the icon profile before composing geometry">
+        Type
+        <select id="icon-type-select">
+          <option value="normal">Normal</option>
+          <option value="sub">Sub</option>
+          <option value="container">Container</option>
+        </select>
+      </label>
       <label class="toggle" title="Choose the centered painted padding boundary">
         Keyshape
-        <select id="keyshape-select">
-          <option value="circle-44">Circle Ø44</option>
-          <option value="square-40">Square 40×40</option>
-          <option value="portrait-36x44">Portrait 36×44</option>
-          <option value="landscape-44x36">Landscape 44×36</option>
-        </select>
+        <select id="keyshape-select"></select>
+      </label>
+      <label class="toggle" id="container-keyshape-control" title="Sub keyshape used for the preview; the full centered 32×32 container slot must remain clear" hidden>
+        Accepted sub
+        <select id="container-keyshape-select"></select>
       </label>
       <span class="sep"></span>
       <button id="btn-undo" title="Undo (Ctrl/Cmd+Z)">Undo</button>
@@ -32,7 +43,8 @@
       <button id="btn-delete" title="Delete (Del)">Delete</button>
       <span class="sep"></span>
       <button id="btn-clear" title="Remove every shape">Clear</button>
-      <button id="btn-export" class="primary" title="Download the icon as icon.svg">Export SVG</button>
+      <button id="btn-preview" title="Download a non-canonical transformed SVG for visual review">Preview SVG</button>
+      <button id="btn-export" class="primary" title="Download an editable JSON scaffold; complete sourceAnalysis before validation">Export JSON</button>
     </div>
   </header>
 
@@ -91,16 +103,7 @@
           <button id="btn-flip-h" title="Mirror horizontally">Flip H</button>
           <button id="btn-flip-v" title="Mirror vertically">Flip V</button>
         </div>
-        <div class="row" id="row-fill">
-          <label class="check"><input id="p-fill-on" type="checkbox"> Fill</label>
-          <label class="color"><input id="p-fill" type="color"></label>
-        </div>
-        <div class="row">
-          <label class="color">Stroke <input id="p-stroke" type="color"></label>
-        </div>
-        <div class="row">
-          <label>Stroke width <input id="p-sw" type="number" step="1" min="0" max="6"></label>
-        </div>
+        <p class="canonical-style">Canonical style: no fill, <code>currentColor</code>, 4u Regular stroke.</p>
       </div>
       <div class="shortcuts">
         <h3>Shortcuts</h3>
@@ -116,7 +119,8 @@
     </aside>
   </main>
 
-  <script src="js/shapes.js?v=3"></script>
-  <script src="js/app.js?v=3"></script>
+  <script src="js/icon-profiles.js?v=3"></script>
+  <script src="js/shapes.js?v=4"></script>
+  <script src="js/app.js?v=5"></script>
 </body>
 </html>

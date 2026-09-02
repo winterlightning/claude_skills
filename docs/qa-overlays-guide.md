@@ -36,6 +36,7 @@ Pass only the selected ship SVG during a single-icon execution:
 
 ```bash
 python3 core/qa_overlays.py <ship.svg> \
+  --icon-type <normal|sub|container> \
   --output-dir <qa-output-folder> \
   --min-radius-design-u 1 \
   --min-fill-depth-design-u 1
@@ -50,8 +51,8 @@ python3 core/qa_overlays.py work/building/output/building.svg \
   --min-fill-depth-design-u 1
 ```
 
-Do not pass the source/reference SVG. The input is the clean emitted 24×24 ship
-SVG. The program normalizes measurements to the 48u design canvas.
+Do not pass the source/reference SVG. The input is the clean emitted ship SVG.
+The program normalizes measurements to the selected profile's design canvas.
 
 ## Authorized batch command
 
@@ -59,18 +60,20 @@ The input may be a flat folder when the user has requested a batch:
 
 ```bash
 python3 core/qa_overlays.py final-svg/ \
+  --icon-type <normal|sub|container> \
   --output-dir qa/hole-detection/ \
   --min-radius-design-u 1 \
   --min-fill-depth-design-u 1
 ```
 
 Directory input is intentionally flat; the program checks `.svg` files directly
-inside that folder and does not recurse.
+inside that folder and does not recurse. Use one icon type per invocation.
 
 ## Pass rules
 
 - Every enclosed region needs an inscribed radius of at least **1u** on the
-  48×48 design canvas, equivalent to a 2u design diameter or 1px ship diameter.
+  selected design canvas, equivalent to a 2u design diameter or 1px ship
+  diameter.
 - A solid junction must remain filled at least **1u** deep.
 - Equality passes.
 - An icon with no enclosed background region passes the hole portion.
@@ -119,7 +122,8 @@ folder acts as the current repair queue rather than an accumulated history.
 2. Open its `_holes.png` overlay.
 3. Match each numbered hole or red pinch marker to the editable atom instances.
 4. Read the per-icon metrics to confirm the measured radius or closure margin.
-5. Check the true-size 24px SVG; numeric output does not replace visual review.
+5. Check the profile's true-size ship SVG; numeric output does not replace
+   visual review.
 6. Record the affected instances, measurement, repair, and passing rerun under
    `holeDiameterChecks` or equivalent editable metadata.
 
@@ -145,6 +149,7 @@ bounds.
 
 ```text
 --error-dir <folder>                 Override the default hole_error queue.
+--icon-type <normal|sub|container>   Select the profile used for normalization.
 --samples-per-unit <integer>         Raster supersampling; minimum 4, default 32.
 --min-radius-design-u <number>       Hole-radius gate; must be greater than 0.
 --min-fill-depth-design-u <number>   Pinch gate; 0 disables pinch detection.

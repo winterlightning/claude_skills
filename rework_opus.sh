@@ -254,8 +254,14 @@ Binding points, from that runbook:
   these briefs are explicitly budgeted.
 - This staged folder is the entire evidence scope. Do not open an SVG outside it
   and do not fetch anything.
-- Phase 1 maps every symbol before any composition; the atom gate comes next;
-  compose only after both.
+- Phase 1 maps every symbol before any composition; the quality-first
+  reuse-or-extend review comes next; compose only after both.
+- Visual quality is the acceptance priority. Choose the strongest natural,
+  immediately recognizable silhouette before consulting the catalog. Reuse an
+  existing atom only when it preserves that result without forced proportions,
+  awkward seams, excess parts, or semantic drift. Otherwise create and fully
+  register a new generic parametric atom. New-atom count is not a quota, and a
+  technically compliant but visually weak icon must be rejected.
 - Write editable sources to $BATCH/editable/<icon-name>.json using the
   iconName in batch.json, and emit to $BATCH/output.
 - Run every gate in Step 10 and both reviews in Step 11.
@@ -300,34 +306,102 @@ PY
   SHIPS=(); for f in "$BATCH"/output/*.svg; do [[ "$f" == *-design.svg ]] || SHIPS+=("$f"); done
   shopt -u nullglob
 
+  BATCH_PHYSICAL="$(cd "$BATCH" && pwd -P)"
+  QA_ROOT="$BATCH_PHYSICAL/qa"
+  [[ ! -L "$QA_ROOT" ]] || die "refusing to use symlinked QA root $QA_ROOT"
+  mkdir -p "$QA_ROOT"
+  QA_ROOT="$(cd "$QA_ROOT" && pwd -P)"
+  [[ "$QA_ROOT" == "$BATCH_PHYSICAL/qa" ]] || die "QA root escaped the batch: $QA_ROOT"
+  mkdir -p "$QA_ROOT/structure" "$QA_ROOT/overlap"
+  STRUCTURE_FAILED=0
+  OVERLAP_FAILED=0
+  QA_FAILED=0
+
+  # Report-producing gates must never read a previous run's aggregate after
+  # their current command fails. Only these exact, batch-scoped QA folders may
+  # be reset here.
+  reset_qa_dir() {
+    local gate="$1" target
+    case "$gate" in
+      grid|keyshape|holes) target="$QA_ROOT/$gate" ;;
+      *) die "refusing to reset unknown QA directory '$gate'" ;;
+    esac
+    [[ "$target" == "$QA_ROOT"/* ]] || die "refusing to reset QA outside $QA_ROOT"
+    rm -rf -- "$target"
+    mkdir -p "$target"
+  }
+
+  note "structural validation (editable source + emitted parity)"
+  for source in "$BATCH"/editable/*.json; do
+    name="$(basename "$source" .json)"
+    if ! python3 core/validate_icon.py "$source" --dir "$BATCH/output" \
+      2>&1 | tee "$QA_ROOT/structure/$name.log"; then
+      STRUCTURE_FAILED=1
+    fi
+  done
+
+  note "overlap evidence (icons with declared spacing relationships)"
+  for source in "$BATCH"/editable/*.json; do
+    name="$(basename "$source" .json)"
+    SPACING_COUNT="$(python3 -c 'import json,sys; doc=json.load(open(sys.argv[1])); print(len((doc.get("sourceAnalysis") or {}).get("spacingChecks") or []))' "$source")"
+    if [[ "$SPACING_COUNT" -eq 0 ]]; then
+      note "$name: no declared spacing relationships — audit not applicable"
+      continue
+    fi
+    if ! python3 core/render_overlap_audit.py "$source" \
+      "$QA_ROOT/overlap/$name-overlap-audit.svg" \
+      2>&1 | tee "$QA_ROOT/overlap/$name.log"; then
+      OVERLAP_FAILED=1
+    fi
+  done
+
   note "grid gate (design canvas)"
-  python3 core/check_svg_grid.py "${DESIGNS[@]}" --expected design \
-    --output-dir "$BATCH/qa/grid" >/dev/null || true
+  reset_qa_dir "grid"
+  if ! python3 core/check_svg_grid.py "${DESIGNS[@]}" --expected design \
+    --output-dir "$QA_ROOT/grid" >/dev/null; then
+    QA_FAILED=1
+  fi
   note "keyshape containment (ship canvas)"
-  python3 core/check_keyfit.py "${SHIPS[@]}" \
+  reset_qa_dir "keyshape"
+  if ! python3 core/check_keyfit.py "${SHIPS[@]}" \
     --expected-editable-dir "$BATCH/editable" \
-    --output-dir "$BATCH/qa/keyshape" >/dev/null || true
+    --output-dir "$QA_ROOT/keyshape" >/dev/null; then
+    QA_FAILED=1
+  fi
   note "hole and pinch QA (ship canvas)"
-  python3 core/qa_overlays.py "${SHIPS[@]}" \
-    --output-dir "$BATCH/qa/holes" --min-radius-design-u 1 >/dev/null || true
+  reset_qa_dir "holes"
+  if ! python3 core/qa_overlays.py "${SHIPS[@]}" \
+    --output-dir "$QA_ROOT/holes" --min-radius-design-u 1 >/dev/null; then
+    QA_FAILED=1
+  fi
 
   # Each gate writes a flat JSON list of {file, status}; read those rather than
   # scraping stdout, which the HTML reports pollute with the word "fail".
-  python3 - "$BATCH" <<'PY' || die "not uploading a batch with failing QA. Fix it, then re-run with --from verify."
+  python3 - "$BATCH" <<'PY' || QA_FAILED=1
 import json, sys
 from pathlib import Path
 
 qa = Path(sys.argv[1]) / "qa"
+batch = json.loads((Path(sys.argv[1]) / "batch.json").read_text())
 GATES = (("grid",     qa / "grid" / "grid-results.json",       "overallStatus"),
          ("keyshape", qa / "keyshape" / "keyfit-results.json", "status"),
          ("holes",    qa / "holes" / "hole-diameters.json",    "status"))
+EXPECTED = {
+    "grid": {Path(row["design"]).name for row in batch["symbols"]},
+    "keyshape": {Path(row["ship"]).name for row in batch["symbols"]},
+    "holes": {Path(row["ship"]).name for row in batch["symbols"]},
+}
 
 bad = []
 for gate, path, key in GATES:
     if not path.is_file():
         bad.append((gate, path.name, "report missing — the gate did not run"))
         continue
-    for row in json.loads(path.read_text()):
+    rows = json.loads(path.read_text())
+    seen = {row.get("file") for row in rows}
+    for missing in sorted(EXPECTED[gate] - seen):
+        bad.append((gate, missing, "result missing — the file was not processed"))
+    for row in rows:
         status = str(row.get(key) or row.get("status") or "").lower()
         if status not in ("pass", "ok"):
             detail = row.get("reason") or row.get("remediation") or ""
@@ -346,8 +420,13 @@ if bad:
             print(f"               {detail}")
     print(f"\n    full reports: {qa}")
     sys.exit(1)
-print("    all gates clean")
+print("    grid, keyshape, and hole/pinch reports clean")
 PY
+
+  if [[ "$STRUCTURE_FAILED" -ne 0 || "$OVERLAP_FAILED" -ne 0 || "$QA_FAILED" -ne 0 ]]; then
+    die "not uploading a batch with failing QA. Fix it, then re-run with --from verify."
+  fi
+  note "structural gates clean; all required overlap evidence was generated"
 fi
 
 # --------------------------------------------------------------------- upload
