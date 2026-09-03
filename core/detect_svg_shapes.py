@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Detect SVG primitives and propose Unlimited Shapes atoms before icon making."""
+"""Analyze source SVG geometry; legacy shape matches are optional hints only."""
 
 from __future__ import annotations
 
@@ -14,6 +14,8 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
+
+from icon_geometry import parse_path as parse_geometry_path
 
 NUMBER_PATTERN = r"[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?"
 NUMBER_RE = re.compile(NUMBER_PATTERN)
@@ -101,84 +103,21 @@ def parse_points(source: str = "") -> list[Point]:
 
 
 def parse_path(data: str) -> list[dict[str, Any]]:
-    tokens = PATH_TOKEN_RE.findall(data or "")
+    """Adapt the emitter's strict, normalized parser to detector segments."""
     segments: list[dict[str, Any]] = []
-    index = 0
-    command: str | None = None
     current = Point(0, 0)
     start = Point(0, 0)
-    previous_control: Point | None = None
-
-    def make_point(x: float, y: float, relative: bool) -> Point:
-        return Point(current.x + x, current.y + y) if relative else Point(x, y)
-
-    while index < len(tokens):
-        if tokens[index].isalpha():
-            command = tokens[index]
-            index += 1
-        if command is None:
-            raise ValueError("Path data must begin with a command")
-        upper = command.upper()
-        relative = command != upper
-        count = COMMAND_PARAMS.get(upper)
-        if count is None:
-            raise ValueError(f"Unsupported path command {command}")
-        if upper == "Z":
-            segments.append({"type": "Z", "from": current, "to": start})
-            current, previous_control, command = start, None, None
-            continue
-        if index + count > len(tokens) or tokens[index].isalpha():
-            raise ValueError(f"Path command {command} has incomplete parameters")
-        values = [float(value) for value in tokens[index : index + count]]
-        origin = current
-
-        if upper in {"M", "L", "T"}:
-            target = make_point(values[0], values[1], relative)
-            segment: dict[str, Any] = {"type": upper, "from": origin, "to": target}
-            if upper == "T":
-                control = Point(2 * origin.x - previous_control.x, 2 * origin.y - previous_control.y) if previous_control else origin
-                segment["control"] = control
-                previous_control = control
-            else:
-                previous_control = None
-            current = target
-            if upper == "M":
-                start = target
-                command = "l" if relative else "L"
-        elif upper == "H":
-            target = Point(current.x + values[0] if relative else values[0], current.y)
-            segment = {"type": "L", "from": origin, "to": target, "sourceType": "H"}
-            current, previous_control = target, None
-        elif upper == "V":
-            target = Point(current.x, current.y + values[0] if relative else values[0])
-            segment = {"type": "L", "from": origin, "to": target, "sourceType": "V"}
-            current, previous_control = target, None
-        elif upper == "C":
-            control1 = make_point(values[0], values[1], relative)
-            control2 = make_point(values[2], values[3], relative)
-            target = make_point(values[4], values[5], relative)
-            segment = {"type": "C", "from": origin, "control1": control1, "control2": control2, "to": target}
-            current, previous_control = target, control2
-        elif upper == "S":
-            control1 = Point(2 * origin.x - previous_control.x, 2 * origin.y - previous_control.y) if previous_control else origin
-            control2 = make_point(values[0], values[1], relative)
-            target = make_point(values[2], values[3], relative)
-            segment = {"type": "C", "from": origin, "control1": control1, "control2": control2, "to": target, "sourceType": "S"}
-            current, previous_control = target, control2
-        elif upper == "Q":
-            control = make_point(values[0], values[1], relative)
-            target = make_point(values[2], values[3], relative)
-            segment = {"type": "Q", "from": origin, "control": control, "to": target}
-            current, previous_control = target, control
-        else:  # A
-            target = make_point(values[5], values[6], relative)
-            segment = {
-                "type": "A", "from": origin, "rx": abs(values[0]), "ry": abs(values[1]),
-                "rotation": values[2], "largeArc": bool(values[3]), "sweep": bool(values[4]), "to": target,
-            }
-            current, previous_control = target, None
-        segments.append(segment)
-        index += count
+    for command in parse_geometry_path(data):
+        kind=command.type
+        target=start if kind=="Z" else Point(*command.points[-1])
+        segment={"type":kind,"from":current,"to":target}
+        if kind=="M": start=target
+        elif kind=="Q": segment["control"]=Point(*command.points[0])
+        elif kind=="C": segment.update(control1=Point(*command.points[0]),control2=Point(*command.points[1]))
+        elif kind=="A":
+            rx,ry,rotation,large,sweep=command.arc
+            segment.update(rx=rx,ry=ry,rotation=rotation,largeArc=bool(large),sweep=bool(sweep))
+        segments.append(segment); current=target
     return segments
 
 
@@ -1054,7 +993,7 @@ def classify_path(segments: list[dict[str, Any]], view_box: Bounds) -> dict[str,
     if not visible:
         return {"kind": "empty-path", "atomicShape": None, "confidence": 1}
     if "C" in types:
-        return {"kind": "cubic-curve", "atomicShape": None, "confidence": 1, "unsupported": True}
+        return {"kind": "cubic-curve", "atomicShape": None, "confidence": 1}
     if types <= {"L", "Z"}:
         total = sum(distance(segment["from"], segment["to"]) for segment in visible)
         if not closed and total <= tolerance:
@@ -1130,10 +1069,7 @@ def classify_path(segments: list[dict[str, Any]], view_box: Bounds) -> dict[str,
 
 def angle_info(start: Point, end: Point) -> dict[str, float | int]:
     angle = math.degrees(math.atan2(end.y - start.y, end.x - start.x)) % 180
-    snapped = round(angle / 15) * 15
-    canonical = 0 if snapped == 180 else snapped
-    deviation = min(abs(angle - snapped), abs(angle - canonical))
-    return {"degrees": clean(angle), "nearest15": canonical, "deviation": clean(deviation)}
+    return {"degrees": clean(angle)}
 
 
 def primitive_geometry(tag: str, attrs: dict[str, str]) -> dict[str, Any]:
@@ -1182,18 +1118,15 @@ def spec_issues(element: dict[str, Any], view_box: Bounds) -> list[dict[str, str
     issues: list[dict[str, str]] = []
     classification, normalized = element["classification"], element["normalizedBounds"]
     if classification.get("unsupported"):
-        issues.append({"rule": "R3", "severity": "error", "message": "Cubic curve detected; replace it with an arc or quadratic curve."})
-    angle = element.get("angle")
-    if angle and angle["deviation"] > 1:
-        issues.append({"rule": "R3", "severity": "warning", "message": f"Line angle {angle['degrees']}° is {angle['deviation']}° away from the 15° grid."})
+        issues.append({"rule": "R3", "severity": "error", "message": "Malformed or unsupported source geometry requires repair before authoring."})
     if normalized and classification["kind"] in {"circle", "ellipse", "square", "rounded-square"} and (normalized["width"] < 4 or normalized["height"] < 4):
         issues.append({"rule": "R3", "severity": "warning", "message": f"Outlined {classification['kind']} normalizes below 4×4u; convert it to a point-line dot or simplify it."})
     if element.get("radius") and classification["kind"] in {"rounded-square", "rounded-rectangle", "gapped-rounded-rectangle"}:
         radius = element["radius"] * 48 / max(view_box.width, view_box.height)
-        if not near(radius, 4, 0.35) and not near(radius, 8, 0.35):
-            issues.append({"rule": "R3", "severity": "warning", "message": f"Corner radius normalizes to {clean(radius)}u; new-grid corners must resolve to 4u or 8u."})
+        if not any(near(radius,reference,0.35) for reference in (2,4,8)):
+            issues.append({"rule": "R3", "severity": "info", "message": f"Corner radius normalizes to {clean(radius)}u; compare its scale and tangent continuity with the selected Lucide references (2u/4u are common, not mandatory)."})
     if element.get("transform"):
-        issues.append({"rule": "R1", "severity": "info", "message": "Transform is preserved as metadata; flatten it before converting coordinates to maker instances."})
+        issues.append({"rule": "R1", "severity": "info", "message": "Transform is preserved as source metadata; bake it into direct geometry before emission."})
     return issues
 
 
@@ -1271,8 +1204,8 @@ def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]
                 {"name": "portrait-36x44", "shape": "rect", "width": 36, "height": 44, "padding": [6, 2]},
                 {"name": "landscape-44x36", "shape": "rect", "width": 44, "height": 36, "padding": [2, 6]},
             ],
-            "regularStroke": {"design": 4, "ship": 2}, "angleStep": 15,
-            "cornerRadii": [4, 8], "curves": ["arc", "quadratic"],
+            "regularStroke": {"design": 4, "ship": 2},
+            "cornerRadii": [2, 4, 8], "cornerRadiusPolicy": "reference-guided, not an exhaustive restriction", "curves": ["arc", "quadratic", "cubic"],
         },
         "summary": {
             "elementCount": len(elements), "categoryCounts": category_counts,
@@ -1283,11 +1216,11 @@ def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]
         "elements": elements,
         "makerPreflight": {
             "suggestedAtoms": [
-                {"sourceElement": element["index"], "shapeId": element["classification"]["atomicShape"], "confidence": element["classification"]["confidence"], "normalizedBounds": element["normalizedBounds"], "rotation": element["angle"]["nearest15"] if element.get("angle") else 0}
+                {"sourceElement": element["index"], "shapeId": element["classification"]["atomicShape"], "confidence": element["classification"]["confidence"], "normalizedBounds": element["normalizedBounds"], "rotation": element["angle"]["degrees"] if element.get("angle") else 0}
                 for element in elements if element["classification"].get("atomicShape")
             ],
             "manualReview": manual_review,
-            "note": "Suggestions are semantic preprocessing, not final geometry. Simplify, snap, center, and enforce R4/R5 during icon making.",
+            "note": "Shape matches are optional legacy semantic hints, not an authoring palette. Study relevant original and atomic Lucide references, construct editable schemaVersion:2 elements, and review true-size proportions, connections, spacing, and profile fit.",
         },
     }
 

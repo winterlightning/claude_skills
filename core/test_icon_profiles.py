@@ -44,11 +44,11 @@ class IconProfileTests(unittest.TestCase):
         self.assertEqual(profile["minimumDistinctCenterlineDistance"], 3)
         self.assertEqual(
             [item["name"] for item in canonical_tokens("sub")],
-            ["circle-28", "square-24", "portrait-24x28", "landscape-28x24"],
+            ["circle-32", "square-32", "portrait-28x32", "landscape-32x28"],
         )
-        self.assertEqual(token_box(28, 24, "sub"), (2, 4, 30, 28))
-        self.assertEqual(assign((2, 4, 30, 28), icon_type="sub")["name"], "landscape-28x24")
-        self.assertLessEqual(circle_overflow([(16, 4)], 4, "sub"), 0)
+        self.assertEqual(token_box(32, 28, "sub"), (0, 2, 32, 30))
+        self.assertEqual(assign((0, 2, 32, 30), icon_type="sub")["name"], "landscape-32x28")
+        self.assertLessEqual(circle_overflow([(16, 2)], 4, "sub"), 0)
 
     def test_profile_declarations_reject_cross_profile_canvas(self):
         with self.assertRaisesRegex(ValueError, "sub design canvas is fixed at 32"):
@@ -64,7 +64,7 @@ class IconProfileTests(unittest.TestCase):
                         "y": 16,
                         "w": 32,
                         "h": 32,
-                        "acceptedKeyshape": "square-24",
+                        "acceptedKeyshape": "square-32",
                     },
                 }
             )
@@ -94,10 +94,10 @@ class IconProfileTests(unittest.TestCase):
 
     def test_container_slot_translates_each_sub_keyshape(self):
         expected = {
-            "circle-28": [18, 18, 46, 46],
-            "square-24": [20, 20, 44, 44],
-            "portrait-24x28": [20, 18, 44, 46],
-            "landscape-28x24": [18, 20, 46, 44],
+            "circle-32": [16, 16, 48, 48],
+            "square-32": [16, 16, 48, 48],
+            "portrait-28x32": [18, 16, 46, 48],
+            "landscape-32x28": [16, 18, 48, 46],
         }
         for token, bounds in expected.items():
             with self.subTest(token=token):
@@ -113,7 +113,7 @@ class IconProfileTests(unittest.TestCase):
             "iconType": "container",
             "canvas": 64,
             "strokeWidth": 4,
-            "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-28"},
+            "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-32"},
         }
         _, profile = validate_document_profile(document)
         slot = validate_container_slot(document, profile)
@@ -133,8 +133,8 @@ class IconProfileTests(unittest.TestCase):
                 "iconType": "sub",
                 "canvas": 32,
                 "strokeWidth": 4,
-                "keyfitCheck": {"targetToken": "circle-28"},
-                "instances": [{"shapeId": "circle", "x": 4, "y": 4, "w": 24, "h": 24, "rotation": 0, "z": 0}],
+                "keyfitCheck": {"targetToken": "circle-32"},
+                "instances": [{"shapeId": "circle", "x": 2, "y": 2, "w": 28, "h": 28, "rotation": 0, "z": 0}],
             },
             {
                 "name": "profile-container",
@@ -142,7 +142,7 @@ class IconProfileTests(unittest.TestCase):
                 "canvas": 64,
                 "strokeWidth": 4,
                 "keyfitCheck": {"targetToken": "circle-60"},
-                "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-28"},
+                "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-32"},
                 "instances": [{"shapeId": "circle", "x": 4, "y": 4, "w": 56, "h": 56, "rotation": 0, "z": 0}],
             },
         ]
@@ -225,18 +225,14 @@ class IconProfileTests(unittest.TestCase):
             self.assertEqual(checked.returncode, 1)
             self.assertIn("does not match canonical core/emit_icon.py output", checked.stdout)
 
-    def test_structural_validation_leaves_angle_authority_to_grid_gate(self):
+    def test_structural_validation_accepts_star_without_angle_exceptions(self):
         document = {
             "name": "star-profile",
             "iconType": "sub",
             "canvas": 32,
             "strokeWidth": 4,
-            "keyfitCheck": {"targetToken": "square-24"},
-            "gridExceptions": {
-                "offAngleInstances": [0],
-                "reason": "A canonical five-point star has exact off-grid edges.",
-            },
-            "instances": [{"shapeId": "star", "x": 6, "y": 6, "w": 20, "h": 20, "rotation": 0, "z": 0}],
+            "keyfitCheck": {"targetToken": "square-32"},
+            "instances": [{"shapeId": "star", "x": 2, "y": 2, "w": 28, "h": 28, "rotation": 0, "z": 0}],
         }
         with TemporaryDirectory() as folder:
             root = Path(folder)
@@ -288,13 +284,13 @@ class IconProfileTests(unittest.TestCase):
 
     def test_structural_spacing_floor_is_profile_specific(self):
         fixtures = [
-            ("sub-distance-three", "sub", 32, "square-24", 20, 8.5, 0, None),
-            ("sub-distance-under-three", "sub", 32, "square-24", 20, 8.25, 1, "under the 3u sub collision floor"),
-            ("normal-distance-three", "normal", 48, "square-40", 36, 8.5, 1, "under the 4u normal collision floor"),
+            ("sub-distance-three", "sub", 32, "square-32", 2, 28, 4.5, 0, None),
+            ("sub-distance-under-three", "sub", 32, "square-32", 2, 28, 4.25, 1, "under the 3u sub collision floor"),
+            ("normal-distance-three", "normal", 48, "square-40", 6, 36, 8.5, 1, "under the 4u normal collision floor"),
         ]
         with TemporaryDirectory() as folder:
             root = Path(folder)
-            for name, icon_type, canvas, token, shell_size, detail_y, expected_code, expected_message in fixtures:
+            for name, icon_type, canvas, token, shell_origin, shell_size, detail_y, expected_code, expected_message in fixtures:
                 with self.subTest(icon_type=icon_type, detail_y=detail_y):
                     document = {
                         "name": name,
@@ -303,7 +299,7 @@ class IconProfileTests(unittest.TestCase):
                         "strokeWidth": 4,
                         "keyfitCheck": {"targetToken": token},
                         "instances": [
-                            {"shapeId": "square", "x": 6, "y": 6, "w": shell_size, "h": shell_size, "rotation": 0, "z": 0},
+                            {"shapeId": "square", "x": shell_origin, "y": shell_origin, "w": shell_size, "h": shell_size, "rotation": 0, "z": 0},
                             {"shapeId": "line", "x": 10, "y": detail_y, "w": 12, "h": 1, "rotation": 0, "z": 1},
                         ],
                     }
@@ -331,7 +327,7 @@ class IconProfileTests(unittest.TestCase):
             "canvas": 64,
             "strokeWidth": 4,
             "keyfitCheck": {"targetToken": "circle-60"},
-            "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-28"},
+            "containerSlot": {"x": 16, "y": 16, "w": 32, "h": 32, "acceptedKeyshape": "circle-32"},
             "instances": [
                 {"shapeId": "circle", "x": 4, "y": 4, "w": 56, "h": 56, "rotation": 0, "z": 0},
                 {"shapeId": "dot", "x": 14, "y": 14, "w": 4, "h": 4, "rotation": 0, "z": 1},

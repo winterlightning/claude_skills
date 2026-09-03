@@ -15,5 +15,5 @@ def main() -> int:
     design=out/f"{name}-design.svg"; ship=out/f"{name}.svg"
     scale=profile["shipCanvas"]/profile["designCanvas"]
     design.write_text(svg(paths,profile["designCanvas"],profile["designStroke"])); ship.write_text(svg(paths,profile["shipCanvas"],profile["shipStroke"],scale))
-    print(f"Emitted {len(paths)} {icon_type} instances to {design} and {ship}"); return 0
+    print(f"Emitted {len(paths)} {icon_type} geometry elements to {design} and {ship}"); return 0
 if __name__=="__main__": raise SystemExit(main())

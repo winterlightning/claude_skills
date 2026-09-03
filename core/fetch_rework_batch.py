@@ -19,7 +19,7 @@ Source priority per symbol, highest first:
     4. none of those       no file staged; the agent authors sources/<name>.svg
                            from concept + minimal_description before detection
 
-See docs/icon-rework-execution-steps.md for the surrounding workflow.
+See docs/icons/rework.md for the surrounding workflow.
 """
 from __future__ import annotations
 import argparse

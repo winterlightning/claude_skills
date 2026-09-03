@@ -11,7 +11,7 @@
 #   ./rework_opus.sh <url> --to detect          # stage, draft, detect, then stop
 #
 # Every stage is idempotent, so re-running the same command resumes rather than
-# starting over. The workflow it drives is docs/icon-rework-execution-steps.md.
+# starting over. The workflow it drives is docs/icons/rework.md.
 #
 set -euo pipefail
 
@@ -125,9 +125,8 @@ note "batch: $BATCH  ($COUNT symbols)"
 
 # ---------------------------------------------------------------------- draft
 # Symbols that resolved to no final, reference, or prototype have nothing to
-# detect.
-# The runbook's Step 3 says author one from the brief first, so do exactly that
-# and nothing else — the full remake happens later, from the same evidence.
+# detect. The runbook's "Source-priority ladder" requires a draft from the brief
+# first; the full remake happens later, from the same evidence.
 if active draft; then
   step "2/6  draft — author a source for symbols no ladder rung resolved"
   NEEDED="$(python3 - "$BATCH" <<'PYD'
@@ -146,22 +145,22 @@ PYD
     command -v claude >/dev/null || die "the claude CLI is not on PATH"
     printf '%s\n' "$NEEDED" | while IFS='|' read -r n _ _; do note "needs a draft: $n"; done
     {
+      echo "Read docs/icons/SKILL.md and the Source-priority ladder and"
+      echo "Read briefs and verify sources sections in docs/icons/rework.md."
+      echo
       echo "Author one draft source SVG for each symbol listed below, into:"
       echo
       echo "  $BATCH/sources/<icon-name>.svg"
       echo
       echo "These symbols have no current final, no reference, and no prototype,"
-      echo "so the brief is all there is. Per"
-      echo "docs/icon-rework-execution-steps.md Step 3 a"
-      echo "draft is a legible sketch that fixes subject, part count, and"
-      echo "arrangement so detection has something to measure — NOT a finished"
-      echo "icon, and not a composition. Do not compose, emit, or validate"
-      echo "anything; do not touch any other symbol; do not fetch anything."
+      echo "so the brief defines the draft's subject, feature budget, and arrangement."
+      echo "The draft gives detection a drawing to measure. Final composition"
+      echo "comes later. Do not compose, emit, or validate anything; do not touch"
+      echo "any other symbol; do not fetch anything."
       echo
-      echo "Each file: viewBox=\"0 0 48 48\", fill=\"none\","
-      echo "stroke=\"currentColor\", stroke-width=\"4\", round caps and joins."
-      echo "Lines, arcs, and quadratics only — never a cubic. Draw only the parts"
-      echo "the brief authorizes; its feature budget is binding."
+      echo "Use the normal design canvas, stroke, and permitted geometry in"
+      echo "docs/icons/rules.md. Draw only the parts the brief authorizes; its"
+      echo "feature budget is binding."
       echo
       echo "Symbols (icon-name | concept | brief):"
       printf '%s\n' "$NEEDED"
@@ -194,7 +193,7 @@ if missing:
     for line in missing:
         print("      " + line)
     print("    These symbols resolved to no final, reference, or prototype.")
-    print("    Per docs/icon-rework-execution-steps.md Step 3, author")
+    print("    Per the Source-priority ladder in docs/icons/rework.md, author")
     print(f"    {root}/sources/<icon-name>.svg from the brief first.")
 if strays:
     print("    unexpected file(s) in the source folder:")
@@ -225,52 +224,72 @@ if active make; then
   step "4/6  make — remake every symbol with Claude ($MODEL)"
   command -v claude >/dev/null || die "the claude CLI is not on PATH"
   cat > "$BATCH/make-prompt.txt" <<EOF
-Read docs/icon-rework-execution-steps.md completely and follow it for the
-staged batch at:
+Read docs/icons/SKILL.md, then docs/icons/rework.md completely. Follow their
+linked normal rules and shared pipeline for the staged batch at:
 
   $BATCH
 
-Steps 1-5 are already done: the batch is staged and detection has run. Begin at
-Step 6 and work through Step 11.
+The wrapper's stage, draft, and detect stages are complete: the batch is staged,
+missing-source drafts are present, and detection has run. Brief review, source
+triage, mapping, composition, and QA still need to be completed.
+
+Read briefs.md and verify the staged sources and detection evidence, then follow
+these sections of docs/icons/rework.md in order:
+- Map every symbol against its brief
+- Inspect references, compose, and run QA
+- Perform concept review, then family review
 
 Binding points, from that runbook:
 - R0 — the brief outranks the source drawing. minimal_description in briefs.md is
   the authoritative subject and feature budget; the staged source is evidence of
   geometry, never of meaning. Record a briefDiff entry for every disagreement and
-  omit every part the brief does not authorize. batch.json records which ladder
-  rung each source came from as sourceOrigin: final, reference, prototype, or
-  brief. A prototype is foreign-grid (26u viewBox, 1.5 stroke) and is usually the
-  drawing that was already rejected — read it only for subject, part count, and
-  arrangement, together with the brief, and rebuild all of its geometry from
-  atoms.
+  omit every part the brief does not authorize. Preserve sourceOrigin from
+  batch.json and apply the runbook's source-priority and prototype rules.
 - R1 — judge before you remake. For every symbol sourced from a final or a
-  prototype, enumerate the features
-  minimal_description requires and account for each as present, missing, or
-  excess against the staged drawing, then record
+  prototype, account for every required feature as present, missing, or excess
+  against the staged drawing, then record
   sourceAnalysis.briefCompliance with a verdict of correct, partial, or wrong.
   The library's "wrong" flag is a claim to be tested, not a finding to assume: if
   a current final already implements its brief, say so and reproduce it rather
-  than redrawing it to justify the rework. Watch especially for excess features —
-  these briefs are explicitly budgeted.
-- This staged folder is the entire evidence scope. Do not open an SVG outside it
-  and do not fetch anything.
-- Phase 1 maps every symbol before any composition; the quality-first
-  reuse-or-extend review comes next; compose only after both.
-- Visual quality is the acceptance priority. Choose the strongest natural,
-  immediately recognizable silhouette before consulting the catalog. Reuse an
-  existing atom only when it preserves that result without forced proportions,
-  awkward seams, excess parts, or semantic drift. Otherwise create and fully
-  register a new generic parametric atom. New-atom count is not a quota, and a
-  technically compliant but visually weak icon must be rejected.
+  than redrawing it to justify the rework.
+- This staged folder is the entire subject-input scope. Do not open unselected
+  user SVGs or variants, stage extra subjects, or fetch anything. Relevant paired
+  SVGs under references/lucide/original/ and references/lucide/atomic-debug/ may
+  be inspected as construction references; they cannot change a symbol's brief.
+- Resolve each symbol's brief, mapping and material review questions before
+  composing it. Continue safe work on other symbols when one is blocked.
+- Read docs/shared/atomic-shapes.md for exact editable geometry and reference
+  retrieval. Use python3 core/lucide_reference.py search 'query' --limit 6 and
+  python3 core/lucide_reference.py inspect ICON --json to inspect useful pairs.
+  Original SVGs are authoritative reference evidence; debug segmentation is an
+  inspection aid, not a required output structure or proof of design intent.
+- Record sourceAnalysis.lucideReferences with each name, selection reason and
+  applied construction principles. Do not invent a match when none is useful.
+- Apply the linked guides' visual-quality requirements. New contours live
+  directly in editable geometry; do not extend the shape registry or generate
+  shape assets. There is no element-count quota, strict 45-degree rule, fixed
+  radius list or compulsory reuse gate. Technical compliance alone does not
+  make an icon acceptable.
 - Write editable sources to $BATCH/editable/<icon-name>.json using the
-  iconName in batch.json, and emit to $BATCH/output.
-- Run every gate in Step 10 and both reviews in Step 11.
+  iconName in batch.json, and emit to $BATCH/output. New sources must declare
+  schemaVersion: 2, iconType: normal, and an ordered elements array with stable
+  id, optional role, supported tag and geometry-only attrs. Do not use legacy
+  instances/shapeId. Preserve sourceAnalysis and profile/keyfit metadata; use
+  elements:[id,id] for spacing relationships. Keep connected contours as paths
+  when useful, including intentional arcs, quadratic and cubic curves.
+- Use the default exact keyfit mode unless an intrinsically thin/sparse subject
+  justifies the documented optical mode, rationale and measured paintedBounds.
+  Optical mode still requires containment and true-size visual review.
+- Run every normal-profile QA gate in docs/shared/icon-pipeline.md, then the
+  concept and family reviews in the rework adapter. Repair and rerun downstream
+  gates before reporting completion.
 
-Do NOT run upload.py and do NOT POST anything. The wrapper script handles the
-upload after it verifies your output.
+Do NOT run upload.py and do NOT POST anything. The wrapper handles a separately
+authorized upload after verification and its dry-run/confirmation sequence.
 
 Report at the end: per symbol, the icon name, the R1 verdict, the keyshape token,
-the brief-diff decisions, and the QA result. List separately any symbol you
+the brief-diff decisions, reference choices/construction principles, and the QA
+result. List separately any symbol you
 judged already correct. Name any symbol you could not finish and why.
 EOF
   note "prompt written to $BATCH/make-prompt.txt"
@@ -288,14 +307,34 @@ if active verify; then
 import json,sys
 from pathlib import Path
 root=Path(sys.argv[1]); batch=json.loads((root/"batch.json").read_text())
-missing=[]
+missing=[]; invalid=[]
 for r in batch["symbols"]:
     for key in ("design","ship"):
         if not (root/r[key]).is_file(): missing.append(f"{r['sid']}  {r[key]}")
-    if not (root/"editable"/f"{r['iconName']}.json").is_file():
+    source=root/"editable"/f"{r['iconName']}.json"
+    if not source.is_file():
         missing.append(f"{r['sid']}  editable/{r['iconName']}.json")
+        continue
+    try:
+        doc=json.loads(source.read_text())
+    except (OSError, ValueError) as error:
+        invalid.append(f"{r['sid']}  unreadable editable source: {error}")
+        continue
+    if not isinstance(doc,dict):
+        invalid.append(f"{r['sid']}  editable source must be a JSON object")
+        continue
+    if (doc.get("schemaVersion") != 2 or not isinstance(doc.get("elements"),list)
+            or not doc["elements"] or "instances" in doc):
+        invalid.append(f"{r['sid']}  new reworks require schemaVersion 2 and nonempty elements, not legacy instances")
+    if doc.get("iconType") != "normal":
+        invalid.append(f"{r['sid']}  this payload lane requires an explicit normal profile")
+    if doc.get("name") != r["iconName"]:
+        invalid.append(f"{r['sid']}  editable name must match batch iconName {r['iconName']!r}")
 if missing:
     print("    missing output:"); [print("      "+m) for m in missing]
+if invalid:
+    print("    invalid editable source:"); [print("      "+message) for message in invalid]
+if missing or invalid:
     print("    re-run with --from make, or finish those symbols by hand.")
     sys.exit(1)
 print(f"    {len(batch['symbols'])} symbols have editable source, design SVG, and ship SVG")
@@ -357,7 +396,12 @@ PY
 
   note "grid gate (design canvas)"
   reset_qa_dir "grid"
+  GRID_EXCEPTIONS=()
+  if [[ -f "$BATCH/grid-exceptions.json" ]]; then
+    GRID_EXCEPTIONS=(--exceptions "$BATCH/grid-exceptions.json")
+  fi
   if ! python3 core/check_svg_grid.py "${DESIGNS[@]}" --expected design \
+    ${GRID_EXCEPTIONS[@]+"${GRID_EXCEPTIONS[@]}"} \
     --output-dir "$QA_ROOT/grid" >/dev/null; then
     QA_FAILED=1
   fi

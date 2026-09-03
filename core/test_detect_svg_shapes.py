@@ -1,3 +1,4 @@
+import math
 import unittest
 from importlib.util import find_spec
 from pathlib import Path
@@ -12,6 +13,7 @@ class ShapeDetectorTests(unittest.TestCase):
     def test_report_uses_current_centered_keyshapes(self):
         report = analyze_svg('<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/></svg>')
         self.assertEqual(report["targetSpec"]["grid"], {"minor": 1, "major": 4})
+        self.assertNotIn("angleStep", report["targetSpec"])
         self.assertEqual(
             [item["name"] for item in report["targetSpec"]["keyshapes"]],
             ["circle-44", "square-40", "portrait-36x44", "landscape-44x36"],
@@ -22,13 +24,30 @@ class ShapeDetectorTests(unittest.TestCase):
         self.assertEqual([segment["type"] for segment in segments], ["M", "L", "L", "L", "Z"])
         self.assertEqual(segments[-1]["to"].as_dict(), {"x": 1.0, "y": 2.0})
 
-    def test_native_primitives_and_spec_warnings(self):
+    def test_native_primitives_accept_arbitrary_line_angles(self):
         report = analyze_svg('''<svg viewBox="0 0 48 48">
           <circle cx="12" cy="12" r="6"/><rect x="20" y="4" width="20" height="8" rx="4"/>
           <line x1="4" y1="30" x2="20" y2="30"/><line x1="4" y1="40" x2="20" y2="37"/>
         </svg>''')
         self.assertEqual([item["classification"]["kind"] for item in report["elements"]], ["circle", "pill", "straight-line", "straight-line"])
-        self.assertTrue(any("15° grid" in issue["message"] for issue in report["elements"][3]["specIssues"]))
+        self.assertEqual(report["elements"][3]["specIssues"], [])
+        self.assertEqual(report["summary"]["warningCount"], 0)
+
+    def test_line_suggestions_preserve_measured_orientation(self):
+        for geometry, dy in (
+            ('<line x1="2" y1="2" x2="19" y2="9"/>', 7),
+            ('<polyline points="2,2 19,9"/>', 7),
+            ('<path d="M 2 2 L 19 9"/>', 7),
+            ('<path d="M 2 9 L 19 2"/>', -7),
+        ):
+            with self.subTest(geometry=geometry):
+                report = analyze_svg(f'<svg viewBox="0 0 48 48">{geometry}</svg>')
+                angle = round(math.degrees(math.atan2(dy, 17)) % 180, 3)
+                element = report["elements"][0]
+                self.assertEqual(element["angle"], {"degrees": angle})
+                self.assertEqual(element["specIssues"], [])
+                self.assertEqual(report["makerPreflight"]["suggestedAtoms"][0]["rotation"], angle)
+                self.assertTrue(report["summary"]["readyForIconMaker"])
 
     def test_token_rounded_rectangle_maps_to_the_rounded_rectangle_atom(self):
         report = analyze_svg('<svg viewBox="0 0 48 48"><rect x="8" y="4" width="32" height="40" rx="4"/></svg>')
@@ -45,7 +64,30 @@ class ShapeDetectorTests(unittest.TestCase):
         </svg>''')
         self.assertEqual([item["classification"]["kind"] for item in report["elements"]], ["straight-line", "arc", "quadratic-curve", "cubic-curve", "circle"])
         self.assertEqual(report["elements"][4]["normalizedBounds"], {"x": 26, "y": 4, "width": 12, "height": 12})
-        self.assertEqual(report["summary"]["errorCount"], 1)
+        self.assertEqual(report["summary"]["errorCount"], 0)
+        self.assertNotIn("unsupported", report["elements"][3]["classification"])
+
+    def test_small_lucide_corner_radius_has_no_rule_warning(self):
+        report=analyze_svg('<svg viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="1"/></svg>')
+        self.assertEqual(report["elements"][0]["specIssues"],[])
+        self.assertIn(2,report["targetSpec"]["cornerRadii"])
+        self.assertIn("cubic",report["targetSpec"]["curves"])
+
+    def test_nonstandard_radius_is_reference_information_not_a_rejection(self):
+        report=analyze_svg('<svg viewBox="0 0 48 48"><rect x="4" y="4" width="32" height="32" rx="6"/></svg>')
+        self.assertEqual(report["summary"]["warningCount"],0)
+        self.assertEqual(report["summary"]["errorCount"],0)
+        self.assertEqual(report["elements"][0]["specIssues"][0]["severity"],"info")
+
+    def test_bad_path_text_is_not_silently_ignored(self):
+        report=analyze_svg('<svg viewBox="0 0 48 48"><path d="M4 4 L20 4 script"/></svg>')
+        self.assertEqual(report["elements"][0]["classification"]["kind"],"unparsed-path")
+        self.assertGreater(report["summary"]["errorCount"],0)
+
+    def test_quadratic_shorthand_normalizes_for_analysis(self):
+        segments=parse_path("M0 0 Q2 2 4 0 T8 0")
+        self.assertEqual(segments[-1]["type"],"Q")
+        self.assertEqual(segments[-1]["control"].as_dict(),{"x":6,"y":-2})
 
     def test_polygons(self):
         report = analyze_svg('''<svg viewBox="0 0 48 48">

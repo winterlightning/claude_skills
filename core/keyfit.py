@@ -115,6 +115,31 @@ def matches(
     )
 
 
+def validate_optical_bounds(check: dict, target_bounds, actual_bounds, tolerance: float = 1e-3) -> list[str]:
+    """Validate an explicit optical fit without weakening painted containment.
+
+    Sparse marks and narrow glyphs need not be stretched to four keyshape edges.
+    Their authored painted bounds and reason must be recorded, not inferred from
+    a passing render. Circle radial containment is checked by the caller.
+    """
+    failures = []
+    if not isinstance(check.get("rationale"), str) or not check["rationale"].strip():
+        failures.append("optical keyshape fit requires a nonempty rationale")
+    declared = check.get("paintedBounds")
+    if (not isinstance(declared, (list, tuple)) or len(declared) != 4
+            or any(isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v) for v in declared)):
+        return failures + ["optical keyshape fit requires four finite paintedBounds in design units"]
+    if declared[0] >= declared[2] or declared[1] >= declared[3]:
+        failures.append("optical paintedBounds must have positive width and height")
+    if not contains(tuple(target_bounds), tuple(declared), tolerance):
+        failures.append("declared optical paintedBounds exceed the selected keyshape")
+    if not contains(tuple(target_bounds), tuple(actual_bounds), tolerance):
+        failures.append("painted geometry exceeds the selected optical keyshape")
+    if not matches(tuple(declared), tuple(actual_bounds), tolerance):
+        failures.append("optical paintedBounds are stale: measured paint does not match the declaration")
+    return failures
+
+
 def circle_overflow(
     points: list[tuple[float, float]],
     stroke_width: float = 0.0,

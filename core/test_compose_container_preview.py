@@ -16,7 +16,7 @@ from compose_container_preview import compose
 CORE = Path(__file__).resolve().parent
 
 
-def container_document(accepted_keyshape: str = "circle-28") -> dict:
+def container_document(accepted_keyshape: str = "circle-32") -> dict:
     return {
         "name": "badge-container",
         "iconType": "container",
@@ -44,11 +44,11 @@ def container_document(accepted_keyshape: str = "circle-28") -> dict:
     }
 
 
-def sub_document(keyshape: str = "circle-28") -> dict:
-    if keyshape == "circle-28":
-        shape_id, x, y, width, height = "circle", 4, 4, 24, 24
-    elif keyshape == "square-24":
-        shape_id, x, y, width, height = "square", 6, 6, 20, 20
+def sub_document(keyshape: str = "circle-32") -> dict:
+    if keyshape == "circle-32":
+        shape_id, x, y, width, height = "circle", 2, 2, 28, 28
+    elif keyshape == "square-32":
+        shape_id, x, y, width, height = "square", 2, 2, 28, 28
     else:
         raise ValueError(f"unsupported test keyshape {keyshape}")
     return {
@@ -74,8 +74,8 @@ def sub_document(keyshape: str = "circle-28") -> dict:
 def write_fixture(
     root: Path,
     *,
-    accepted_keyshape: str = "circle-28",
-    sub_keyshape: str = "circle-28",
+    accepted_keyshape: str = "circle-32",
+    sub_keyshape: str = "circle-32",
 ) -> Path:
     sources = root / "sources"
     sources.mkdir()
@@ -127,19 +127,19 @@ class ContainerPreviewTests(unittest.TestCase):
             ship_text = ship.read_text(encoding="utf-8")
             self.assertIn('viewBox="0 0 64 64"', design_text)
             self.assertIn('viewBox="0 0 32 32"', ship_text)
-            self.assertIn('<path d="M 32 20 A 12 12', design_text)
-            self.assertIn('<path d="M 16 10 A 6 6', ship_text)
+            self.assertIn('<path d="M 32 18 A 14 14', design_text)
+            self.assertIn('<path d="M 16 9 A 7 7', ship_text)
 
     def test_reusable_sub_source_is_a_real_sub_profile_document(self):
-        circle = sub_document("circle-28")
-        square = sub_document("square-24")
+        circle = sub_document("circle-32")
+        square = sub_document("square-32")
         self.assertEqual(
             (circle["iconType"], circle["canvas"], circle["keyfitCheck"]["targetToken"]),
-            ("sub", 32, "circle-28"),
+            ("sub", 32, "circle-32"),
         )
         self.assertEqual(
             (square["iconType"], square["canvas"], square["keyfitCheck"]["targetToken"]),
-            ("sub", 32, "square-24"),
+            ("sub", 32, "square-32"),
         )
 
     def test_manifest_references_are_resolved_relative_to_the_manifest(self):
@@ -147,20 +147,20 @@ class ContainerPreviewTests(unittest.TestCase):
             root = Path(folder)
             manifest = write_fixture(root)
             design, ship = compose(manifest, root / "out")
-            self.assertIn('<path d="M 32 20 A 12 12', design.read_text(encoding="utf-8"))
-            self.assertIn('<path d="M 16 10 A 6 6', ship.read_text(encoding="utf-8"))
+            self.assertIn('<path d="M 32 18 A 14 14', design.read_text(encoding="utf-8"))
+            self.assertIn('<path d="M 16 9 A 7 7', ship.read_text(encoding="utf-8"))
 
     def test_accepted_keyshape_must_match_sub_declaration(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
             manifest = write_fixture(
                 root,
-                accepted_keyshape="circle-28",
-                sub_keyshape="square-24",
+                accepted_keyshape="circle-32",
+                sub_keyshape="square-32",
             )
             with self.assertRaisesRegex(
                 ValueError,
-                "container accepts circle-28, but sub declares square-24",
+                "container accepts circle-32, but sub declares square-32",
             ):
                 compose(manifest, root / "out")
 

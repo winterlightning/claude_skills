@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Validate finished SVG paint against the selected profile's keyshapes.
 
-The keyshape is the painted padding boundary: circle-44, square-40,
-portrait-36x44, or landscape-44x36. Stroke paint is included.
+Each icon profile declares its own centered painted keyshape boundaries.
+Stroke paint is included, even where it extends beyond the SVG canvas.
 
 When editable metadata does not declare a target, circle inference requires a
 large, nearly constant-radius outer silhouette. All other icons fall back by
@@ -17,6 +17,8 @@ import csv
 import html
 import io
 import json
+import math
+import os
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -34,7 +36,7 @@ if PROJECT_ROOT is None:
     raise RuntimeError("cannot locate project core/keyfit.py from the keyfit checker")
 sys.path.insert(0, str(PROJECT_ROOT / "core"))
 from icon_profiles import DEFAULT_ICON_TYPE,document_icon_type,get_profile,profile_names
-from keyfit import DESIGN_CANVAS,CIRCLE_DIAMETER,SHIP_CANVAS,assign,canonical_tokens,max_box,token_box,token_named
+from keyfit import DESIGN_CANVAS,CIRCLE_DIAMETER,SHIP_CANVAS,canonical_tokens,matches,max_box,token_box,token_named,validate_optical_bounds
 
 DEFAULT_SAMPLES_PER_UNIT = 32
 CIRCLE_ANGULAR_BINS = 180
@@ -73,46 +75,89 @@ def svg_canvas(svg_path: Path, fallback_canvas: float=SHIP_CANVAS) -> tuple[floa
 
 
 def render_mask(
-    svg_path: Path, view_width: float, view_height: float, samples_per_unit: int
+    svg_path: Path,
+    view_width: float,
+    view_height: float,
+    samples_per_unit: int,
+    padding_pixels: int = 0,
 ) -> tuple[np.ndarray, Image.Image]:
     width = max(1, int(round(view_width * samples_per_unit)))
     height = max(1, int(round(view_height * samples_per_unit)))
-    png = cairosvg.svg2png(
-        url=str(svg_path), output_width=width, output_height=height
-    )
+    if padding_pixels:
+        # Keep the original viewport and percentage geometry, but expose paint
+        # outside its canvas. Measuring an already-clipped bitmap would accept
+        # oversized strokes when a keyshape reaches all the way to the edge.
+        source = ET.parse(svg_path).getroot()
+        source.set("x", "0")
+        source.set("y", "0")
+        source.set("width", f"{view_width:g}")
+        source.set("height", f"{view_height:g}")
+        source.set("overflow", "visible")
+        source.set(
+            "style",
+            source.get("style", "").rstrip(";") + ";overflow:visible !important",
+        )
+        padding_x = padding_pixels * view_width / width
+        padding_y = padding_pixels * view_height / height
+        wrapper = ET.Element(
+            "{http://www.w3.org/2000/svg}svg",
+            {
+                "viewBox": (
+                    f"{-padding_x:g} {-padding_y:g} "
+                    f"{view_width + 2 * padding_x:g} {view_height + 2 * padding_y:g}"
+                ),
+            },
+        )
+        wrapper.append(source)
+        png = cairosvg.svg2png(
+            bytestring=ET.tostring(wrapper),
+            url=str(svg_path),
+            output_width=width + 2 * padding_pixels,
+            output_height=height + 2 * padding_pixels,
+        )
+    else:
+        png = cairosvg.svg2png(
+            url=str(svg_path), output_width=width, output_height=height
+        )
     rgba = Image.open(io.BytesIO(png)).convert("RGBA")
     alpha = np.asarray(rgba)[:, :, 3]
     return alpha >= 128, rgba
 
 
 def painted_bounds(
-    mask: np.ndarray, view_box: tuple[float, float, float, float],design_canvas: float=DESIGN_CANVAS
+    mask: np.ndarray,
+    view_box: tuple[float, float, float, float],
+    design_canvas: float = DESIGN_CANVAS,
+    padding_pixels: int = 0,
 ) -> tuple[float, float, float, float] | None:
     ys, xs = np.where(mask)
     if not len(xs):
         return None
-    _, _, view_width, view_height = view_box
     raster_h, raster_w = mask.shape
-    scale_x = design_canvas / raster_w
-    scale_y = design_canvas / raster_h
-    left = xs.min() * scale_x
-    top = ys.min() * scale_y
-    right = (xs.max() + 1) * scale_x
-    bottom = (ys.max() + 1) * scale_y
+    scale_x = design_canvas / (raster_w - 2 * padding_pixels)
+    scale_y = design_canvas / (raster_h - 2 * padding_pixels)
+    left = (xs.min() - padding_pixels) * scale_x
+    top = (ys.min() - padding_pixels) * scale_y
+    right = (xs.max() + 1 - padding_pixels) * scale_x
+    bottom = (ys.max() + 1 - padding_pixels) * scale_y
     return left, top, right, bottom
 
 
-def painted_circle_overflow(mask: np.ndarray,icon_type: str=DEFAULT_ICON_TYPE) -> float:
+def painted_circle_overflow(
+    mask: np.ndarray,
+    icon_type: str = DEFAULT_ICON_TYPE,
+    padding_pixels: int = 0,
+) -> float:
     """Maximum painted-sample overflow beyond the profile's circle."""
     ys, xs = np.where(mask)
     if not len(xs):
         return 0.0
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); center=profile["center"]
     circle=next(item for item in canonical_tokens(icon_type) if item["shape"]=="circle")
-    scale_x = design_canvas / mask.shape[1]
-    scale_y = design_canvas / mask.shape[0]
-    dx = (xs + 0.5) * scale_x - center["x"]
-    dy = (ys + 0.5) * scale_y - center["y"]
+    scale_x = design_canvas / (mask.shape[1] - 2 * padding_pixels)
+    scale_y = design_canvas / (mask.shape[0] - 2 * padding_pixels)
+    dx = (xs + 0.5 - padding_pixels) * scale_x - center["x"]
+    dy = (ys + 0.5 - padding_pixels) * scale_y - center["y"]
     return float(np.hypot(dx, dy).max() - circle["diameter"] / 2.0)
 
 
@@ -120,6 +165,7 @@ def dominant_circle_evidence(
     mask: np.ndarray,
     bounds: tuple[float, float, float, float] | None,
     icon_type: str=DEFAULT_ICON_TYPE,
+    padding_pixels: int = 0,
 ) -> dict:
     """Detect a large, continuous circular form in rendered paint.
 
@@ -155,10 +201,10 @@ def dominant_circle_evidence(
             "maximumEnvelopeSpreadDesignU": CIRCLE_MAX_ENVELOPE_SPREAD,
         }
 
-    scale_x = design_canvas / mask.shape[1]
-    scale_y = design_canvas / mask.shape[0]
-    dx = (xs + 0.5) * scale_x - center["x"]
-    dy = (ys + 0.5) * scale_y - center["y"]
+    scale_x = design_canvas / (mask.shape[1] - 2 * padding_pixels)
+    scale_y = design_canvas / (mask.shape[0] - 2 * padding_pixels)
+    dx = (xs + 0.5 - padding_pixels) * scale_x - center["x"]
+    dy = (ys + 0.5 - padding_pixels) * scale_y - center["y"]
     radii = np.hypot(dx, dy)
     angles = np.mod(np.arctan2(dy, dx), 2.0 * np.pi)
     angle_bins = np.minimum(
@@ -249,6 +295,7 @@ def classify_keyfit(
     circle_radial_overflow: float = 0.0,
     circle_evidence: dict | None = None,
     icon_type: str=DEFAULT_ICON_TYPE,
+    keyfit_check: dict | None = None,
 ) -> dict:
     if bounds is None:
         return {
@@ -268,7 +315,6 @@ def classify_keyfit(
         if expected_token_name is not None
         else bool(circle_evidence.get("isDominantLargeCircle"))
     )
-    assigned = assign(bounds, tolerance, allow_circle=allow_circle,icon_type=icon_type)
     if expected_token_name:
         assert expected is not None
         box = token_box(expected["width"], expected["height"],icon_type)
@@ -283,12 +329,26 @@ def classify_keyfit(
             },
         }
     else:
-        target = assigned or inferred_visual_target(bounds, allow_circle,icon_type)
-    selected = expected if expected_token_name else assigned
-    radial_overflow = circle_radial_overflow if selected and selected["shape"] == "circle" else 0.0
-    matches_expected = bool(assigned) and radial_overflow <= tolerance and (
-        expected_token_name is None or assigned["name"] == expected_token_name
+        target = inferred_visual_target(bounds, allow_circle,icon_type)
+    # A circle and a square can have identical bounds. Match the declared or
+    # raster-inferred shape itself, never whichever equal-size token sorts first.
+    keyfit_check = keyfit_check or {}
+    fit_mode = keyfit_check.get("mode", "exact")
+    if fit_mode not in ("exact", "optical"):
+        raise ValueError(f"unknown keyshape fit mode: {fit_mode!r}")
+    optical_failures = []
+    if fit_mode == "optical":
+        if not expected_token_name:
+            optical_failures.append("optical fit requires a declared keyshape token")
+        optical_failures.extend(validate_optical_bounds(keyfit_check, target["bounds"], bounds, tolerance))
+    fits_bounds = not optical_failures if fit_mode == "optical" else matches(tuple(target["bounds"]), bounds, tolerance)
+    assigned = (
+        {key: value for key, value in target.items() if key != "edgeDeltaToTarget"}
+        if fits_bounds
+        else None
     )
+    radial_overflow = circle_radial_overflow if target["shape"] == "circle" else 0.0
+    matches_expected = bool(assigned) and radial_overflow <= tolerance
     maximum = max_box(icon_type)
     overflow = {
         "left": max(0.0, maximum[0] - bounds[0]),
@@ -300,11 +360,15 @@ def classify_keyfit(
         "status": "pass" if matches_expected else "fail",
         "reason": (
             None if matches_expected
-            else "paint-crosses-circle-keyshape" if selected and selected["shape"] == "circle" and radial_overflow > tolerance
+            else "paint-crosses-circle-keyshape" if target["shape"] == "circle" and radial_overflow > tolerance
+            else "; ".join(optical_failures) if optical_failures
             else "paint-does-not-match-declared-keyshape-target" if expected_token_name
             else "paint-does-not-match-canonical-keyshape-target"
         ),
         "expectedTokenName": expected_token_name,
+        "fitMode": fit_mode,
+        "opticalRationale": keyfit_check.get("rationale") if fit_mode == "optical" else None,
+        "declaredOpticalBounds": keyfit_check.get("paintedBounds") if fit_mode == "optical" else None,
         "assignedToken": assigned,
         "targetToken": target,
         "paintedBoundsDesign": [round(value, 4) for value in bounds],
@@ -338,19 +402,26 @@ def save_overlay(
     bounds: tuple[float, float, float, float] | None,
     result: dict,
     output_path: Path,
+    padding_pixels: int = 0,
 ) -> None:
     canvas = Image.new("RGB", rgba.size, "white")
     ink = Image.new("RGB", rgba.size, (28, 30, 34))
     canvas.paste(ink, mask=rgba.getchannel("A"))
     draw = ImageDraw.Draw(canvas)
     design_canvas=float(result.get("designCanvas",DESIGN_CANVAS)); icon_type=result.get("iconType",DEFAULT_ICON_TYPE)
-    scale_x = canvas.width / design_canvas
-    scale_y = canvas.height / design_canvas
+    scale_x = (canvas.width - 2 * padding_pixels) / design_canvas
+    scale_y = (canvas.height - 2 * padding_pixels) / design_canvas
+    if padding_pixels:
+        draw.rectangle(
+            (padding_pixels, padding_pixels, canvas.width - padding_pixels, canvas.height - padding_pixels),
+            outline=(203, 213, 225),
+            width=max(1, canvas.width // 768),
+        )
 
     selected = result.get("targetToken") or result.get("assignedToken")
     box = selected["bounds"] if selected else list(max_box(icon_type))
     color = (24, 151, 84) if result["status"] == "pass" else (210, 47, 47)
-    outline = tuple(int(round(value * (scale_x if index % 2 == 0 else scale_y))) for index, value in enumerate(box))
+    outline = tuple(int(round(padding_pixels + value * (scale_x if index % 2 == 0 else scale_y))) for index, value in enumerate(box))
     if selected and selected.get("shape") == "circle":
         draw.ellipse(outline, outline=color, width=max(2, canvas.width // 384))
     else:
@@ -358,10 +429,10 @@ def save_overlay(
     if bounds:
         draw.rectangle(
             (
-                int(round(bounds[0] * scale_x)),
-                int(round(bounds[1] * scale_y)),
-                int(round(bounds[2] * scale_x)),
-                int(round(bounds[3] * scale_y)),
+                int(round(padding_pixels + bounds[0] * scale_x)),
+                int(round(padding_pixels + bounds[1] * scale_y)),
+                int(round(padding_pixels + bounds[2] * scale_x)),
+                int(round(padding_pixels + bounds[3] * scale_y)),
             ),
             outline=(24, 94, 210),
             width=max(2, canvas.width // 512),
@@ -389,19 +460,29 @@ def process(
     tolerance: float,
     expected_token_name: str | None = None,
     icon_type: str=DEFAULT_ICON_TYPE,
+    keyfit_check: dict | None = None,
 ) -> dict:
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"])
     view_box = svg_canvas(svg_path,float(profile["shipCanvas"]))
-    mask, rgba = render_mask(svg_path, view_box[2], view_box[3], samples_per_unit)
-    bounds = painted_bounds(mask, view_box,design_canvas)
-    circle_evidence = dominant_circle_evidence(mask, bounds,icon_type)
+    # One design stroke of inspection space reveals centered-stroke overflow
+    # around the original canvas, including full-canvas sub keyshapes.
+    padding_pixels = max(1, math.ceil(
+        profile["designStroke"] / design_canvas
+        * max(view_box[2], view_box[3]) * samples_per_unit
+    ))
+    mask, rgba = render_mask(
+        svg_path, view_box[2], view_box[3], samples_per_unit, padding_pixels
+    )
+    bounds = painted_bounds(mask, view_box, design_canvas, padding_pixels)
+    circle_evidence = dominant_circle_evidence(mask, bounds, icon_type, padding_pixels)
     check = classify_keyfit(
         bounds,
         tolerance,
         expected_token_name,
-        painted_circle_overflow(mask,icon_type),
+        painted_circle_overflow(mask, icon_type, padding_pixels),
         circle_evidence,
         icon_type,
+        keyfit_check,
     )
     result = {
         "file": svg_path.name,
@@ -421,6 +502,7 @@ def process(
         bounds,
         result,
         output_dir / f"{svg_path.stem}_keyfit.png",
+        padding_pixels,
     )
     return result
 
@@ -430,6 +512,8 @@ def write_csv(results: list[dict], output_dir: Path) -> None:
         "file",
         "status",
         "reason",
+        "fit_mode",
+        "optical_rationale",
         "assigned_token",
         "target_token",
         "painted_width_design_u",
@@ -462,6 +546,8 @@ def write_csv(results: list[dict], output_dir: Path) -> None:
                     "file": result["file"],
                     "status": result["status"],
                     "reason": result.get("reason"),
+                    "fit_mode": result.get("fitMode", "exact"),
+                    "optical_rationale": result.get("opticalRationale") or "",
                     "assigned_token": (result.get("assignedToken") or {}).get("name"),
                     "target_token": (result.get("targetToken") or {}).get("name"),
                     "painted_width_design_u": size[0],
@@ -485,6 +571,7 @@ def write_csv(results: list[dict], output_dir: Path) -> None:
 def write_html(results: list[dict], output_dir: Path) -> None:
     failed = [result for result in results if result["status"] == "fail"]
     passing = [result for result in results if result["status"] == "pass"]
+    optical_passing = [result for result in passing if result.get("fitMode") == "optical"]
     declared_count = sum(bool(result.get("expectedTokenName")) for result in results)
     inferred_count = len(results) - declared_count
     rows = []
@@ -496,7 +583,13 @@ def write_html(results: list[dict], output_dir: Path) -> None:
         target = target_token.get("name", "unknown")
         delta_text = ", ".join(
             f"{side} {amount:+g}u" for side, amount in delta.items() if abs(amount) > 1e-6
-        ) or "no edge adjustment measured"
+        ) or "no boundary delta measured"
+        fit_mode = result.get("fitMode", "exact")
+        if fit_mode == "optical":
+            delta_text = ("Optical fit: check declared painted bounds, rationale, and containment. "
+                          "Boundary deltas are diagnostic, not an instruction to stretch. " + delta_text)
+        else:
+            delta_text = "Exact-mode edge adjustment: " + delta_text
         if result.get("expectedTokenName"):
             basis = "declared"
         elif target_token.get("shape") == "circle":
@@ -526,10 +619,13 @@ def write_html(results: list[dict], output_dir: Path) -> None:
                 f'<rect class="painted-boundary" x="{left:g}" y="{top:g}" '
                 f'width="{right - left:g}" height="{bottom - top:g}"/>'
             )
-        source_href = quote(f"../../final/{result['file']}")
+        source = result.get("source")
+        source_href = quote(os.path.relpath(Path(source).resolve(), output_dir.resolve()).replace(os.sep, "/"), safe="/") if source else None
+        source_markup = (f'<img src="{source_href}" alt="Rendered {html.escape(result["file"], quote=True)}">'
+                         if source_href else '<span class="source-missing">SVG source path unavailable; use the overlay evidence.</span>')
         preview = (
             f'<div class="preview" style="--grid-major:{canvas/4:g};--grid-canvas:{canvas:g}">'
-            f'<img src="{source_href}" alt="Rendered {html.escape(result["file"])}">'
+            f'{source_markup}'
             f'<svg class="inspection-overlay" viewBox="0 0 {canvas:g} {canvas:g}" aria-hidden="true">'
             f'{keyshape_markup}{painted_markup}</svg>'
             '</div>'
@@ -538,8 +634,9 @@ def write_html(results: list[dict], output_dir: Path) -> None:
             "<tr>"
             f"<td>{preview}</td>"
             f"<td><code>{html.escape(result['file'])}</code></td>"
-            f"<td>{size[0]:g}×{size[1]:g}u</td>"
-            f"<td>{html.escape(target)}<br><small>{html.escape(basis)}</small></td>"
+            f"<td>{'×'.join(f'{value:g}' if isinstance(value, (int, float)) else '—' for value in size)}u</td>"
+            f"<td>{html.escape(target)}<br><small>{html.escape(basis)} · {html.escape(fit_mode)} mode</small>"
+            f"<br>{html.escape(result.get('opticalRationale') or '')}</td>"
             f"<td>{html.escape(reason)}</td>"
             f"<td>{html.escape(delta_text)}</td>"
             f"<td>L {padding.get('left', 0):g} · T {padding.get('top', 0):g} · "
@@ -552,6 +649,15 @@ def write_html(results: list[dict], output_dir: Path) -> None:
         '<tr><td colspan="8" class="empty">No files failed.</td></tr>'
     )
     passing_text = ", ".join(result["file"] for result in passing) or "None"
+    optical_rows = "".join(
+        f"<tr><td><code>{html.escape(result['file'])}</code></td>"
+        f"<td>{html.escape((result.get('targetToken') or {}).get('name', 'unknown'))}</td>"
+        f"<td>{html.escape(result.get('opticalRationale') or '')}</td></tr>"
+        for result in optical_passing
+    )
+    optical_summary = (f'<section><h2>Accepted optical fits ({len(optical_passing)})</h2>'
+                       '<p>Declared proportions are preserved inside the selected keyshape; reaching all four edges is not required.</p>'
+                       f'<table><thead><tr><th>File</th><th>Containing keyshape</th><th>Declared rationale</th></tr></thead><tbody>{optical_rows}</tbody></table></section>') if optical_passing else ""
     document = f"""<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -578,19 +684,22 @@ border:1px solid #cbd5e1;border-radius:8px;overflow:hidden}}
 .keyshape-boundary{{stroke:#dc2626;stroke-width:.55}}
 .painted-boundary{{stroke:#2563eb;stroke-width:.45;stroke-dasharray:1.2 1}}
 small{{color:#6b7280}}@media(max-width:900px){{.preview{{width:180px}}th,td{{padding:10px}}}}
+.source-missing{{display:block;padding:16px;color:#69707c;font-size:12px}}section{{margin:28px 0}}h2{{font-size:18px}}
 </style></head><body><main><h1>Centered keyshape QA</h1>
-<p class="lede">Paint must exactly reach and remain inside one centered keyshape from the selected icon profile. Stroke paint is included.</p>
+<p class="lede"><strong>Exact mode:</strong> painted bounds must reach all four edges of the selected centered keyshape within tolerance.
+<strong>Optical mode:</strong> measured paint must match the declared painted bounds and remain contained by the selected keyshape, with a recorded rationale; it need not reach all four edges. Stroke paint is included in both modes.</p>
 <p class="lede"><strong>Evidence basis:</strong> {declared_count} declared target(s), {inferred_count} target(s)
 inferred from rendered paint. Circle inference requires a dominant large-radius form with at least
 {CIRCLE_MIN_ANGULAR_COVERAGE:.0%} angular coverage and no more than {CIRCLE_MAX_ENVELOPE_SPREAD:g}u
 of robust outer-radius variation; other silhouettes use a rectangular fallback. Visual confirmation remains required;
-geometric failure still means the paint fits none of the canonical boundaries.</p>
+each result is judged against its declared fit mode and selected boundary.</p>
 <p class="lede"><strong>Passing files:</strong> {html.escape(passing_text)}</p>
 <div class="cards"><div class="card"><span class="value">{len(results)}</span><span class="label">SVGs checked</span></div>
 <div class="card"><span class="value bad">{len(failed)}</span><span class="label">failed files</span></div>
 <div class="card"><span class="value">{inferred_count}</span><span class="label">inferred targets</span></div></div>
+{optical_summary}
 <div class="legend"><span><i class="swatch keyshape"></i>selected keyshape</span><span><i class="swatch paint"></i>measured painted bounds</span><span>Grid: 1u minor / 4u major</span></div>
-<table><thead><tr><th>SVG + grid</th><th>File</th><th>Painted size</th><th>Target / basis</th><th>Failure</th><th>Required edge adjustment</th><th>Canvas padding</th><th>Evidence</th></tr></thead>
+<table><thead><tr><th>SVG + grid</th><th>File</th><th>Painted size</th><th>Target / basis / mode</th><th>Failure</th><th>Boundary deltas / fit guidance</th><th>Canvas padding</th><th>Evidence</th></tr></thead>
 <tbody>{body}</tbody></table></main></body></html>"""
     (output_dir / "keyfit-report.html").write_text(document, encoding="utf-8")
 
@@ -648,6 +757,7 @@ def main() -> int:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     expected_tokens: dict[str, str] = {}
+    expected_checks: dict[str, dict] = {}
     icon_types: dict[str,str] = {}
     if args.expected_editable_dir:
         for svg_path in svgs:
@@ -663,6 +773,7 @@ def main() -> int:
             if not token:
                 parser.error(f"missing keyfitCheck.targetToken in {editable}")
             expected_tokens[svg_path.stem] = token
+            expected_checks[svg_path.stem] = document.get("keyfitCheck") or {}
 
     results = []
     processing_errors = 0
@@ -675,6 +786,7 @@ def main() -> int:
                 tolerance,
                 expected_tokens.get(svg_path.stem),
                 icon_types.get(svg_path.stem,args.icon_type or DEFAULT_ICON_TYPE),
+                expected_checks.get(svg_path.stem),
             )
             results.append(result)
             token = (result.get("assignedToken") or {}).get("name", "none")

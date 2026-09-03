@@ -1,5 +1,8 @@
 'use strict';
 
+// Legacy schema-v1 compatibility fixture only. The editor does not load this
+// registry: new icons use schema-v2 geometry in geometry.js and app.js.
+
 /**
  * Browser-side mirror of the authoritative Python shape registry.
  *
@@ -187,9 +190,8 @@ const SHAPES = [
     id: 'trapezoid', name: 'Trapezoid', closed: true,
     natural: { w: 24, h: 12 }, defaultW: 16, defaultH: 8,
     // Closed symmetric quadrilateral: a full-width base under a narrower flat
-    // top, both sides fixed at exactly 60 degrees from horizontal at every
-    // size — the same on-grid guarantee `gable` gives its 45 degree roof and
-    // `sloped-box` its 15 degree one. The inset is `h / tan(60deg)`, clamped to
+    // top, with 60-degree sides unless the inset reaches its width clamp.
+    // The inset is `h / tan(60deg)`, clamped to
     // `w * 0.4` so the top edge can never collapse to a point and the whole
     // size range stays valid; a squat box gives a shallow flare, a tall one
     // reaches the clamp and holds a 20 percent top edge. This is the
@@ -245,8 +247,7 @@ const SHAPES = [
     natural: { w: 24, h: 16 }, defaultW: 16, defaultH: 12,
     // Closed flat-top hexagon: a rectangle whose two ends are mitred to a
     // point. The mitre inset is `min(h, w) / 2`, so all four slanted edges sit
-    // at exactly 45 degrees whenever `w >= h` — the same on-grid guarantee
-    // `gable` gives its roof and `cut-corner-box` its corner — and the whole
+    // at exactly 45 degrees whenever `w >= h`, and the whole
     // outline stays edge-to-edge in the box. The polygon-family companion to
     // `triangle`, `square` and `diamond`: chips, badges, honeycomb cells, nuts,
     // and angular geometric bodies. At `w === h` the flats vanish and the
@@ -272,9 +273,7 @@ const SHAPES = [
     // cos(72)/cos(36), so each pair of edges is collinear with one pentagram
     // line. The unit star is mapped onto the box, so the apex touches the top
     // edge, the two upper arms the sides, and the two lower arms the bottom
-    // edge at every size. Its edges run at 18 and 54 degrees, which is off the
-    // 15 degree direction grid; an icon using it carries a documented grid
-    // exception.
+    // edge at every size.
     geometry: (w, h) => {
       const inner = Math.cos(Math.PI * 0.4) / Math.cos(Math.PI / 5);
       const vertices = [];
@@ -436,7 +435,7 @@ const SHAPES = [
     id: 'lightning-bolt', name: 'Lightning bolt', closed: true,
     natural: { w: 20, h: 24 }, defaultW: 20, defaultH: 24,
     // Upright six-vertex bolt. In the canonical 20x24 frame its two long
-    // diagonals use exact 14u and 12u square runs, so every edge sits on-grid.
+    // diagonals use exact 14u and 12u square runs, giving 45-degree flanks.
     geometry: (w, h) => {
       const top = Math.min(w * 0.7, h);
       const inner = w * 0.4;
@@ -706,8 +705,7 @@ const SHAPES = [
     // back of the skull on the left, the crown on top, the nose tip on the
     // right, both neck ends on the bottom — and the bottom stays open between
     // them so a shoulder, collar, or frame can be drawn separately. Built from
-    // quadratics only, so the atom never emits a straight segment and can
-    // never leave the 15 degree angle grid at any size. `flipX` faces it left.
+    // quadratics throughout. `flipX` faces it left.
     geometry: (w, h) => ({
       tag: 'path',
       attrs: {
@@ -858,7 +856,7 @@ const SHAPES = [
     id: 'transfer-hand', name: 'Transfer hand', closed: false,
     natural: { w: 20, h: 12 }, defaultW: 20, defaultH: 12,
     // Compact open wrist, thumb rise, and broad fingertip for small transfer
-    // gestures. Canonical exposed diagonals sit on the 45-degree grid.
+    // gestures. Canonical exposed diagonals sit at exactly 45 degrees.
     geometry: (w, h) => ({ tag: 'path', attrs: { d:
       `M 0 0 L ${N(w * 0.2)} 0 ` +
       `Q ${N(w * 0.3)} 0 ${N(w * 0.4)} ${N(h * 0.25)} ` +
@@ -872,16 +870,16 @@ const SHAPES = [
     id: 'radial-ticks', name: 'Radial ticks', closed: false,
     natural: { w: 20, h: 20 }, defaultW: 12, defaultH: 12,
     // Twelve evenly spaced radial ticks running from the 0.8 inner ellipse out
-    // to the box edges, emitted as twelve open subpaths. Every tick sits on a
-    // 30-degree ray, so the whole ring stays on the 15-degree grid at any size,
-    // and the inner endpoints land exactly on the 0.8 ellipse so a separate
-    // `circle` rim drawn in that box meets them without doubled paint. Reusable
-    // wherever a rim carries repeated radial marks — cog and gear teeth, dial
-    // and gauge ticks, compass rose, sun rays, spinner segments. Rotation
+    // to the box edges, emitted as twelve open subpaths. In a square box the
+    // rays are 30 degrees apart. The inner endpoints land exactly on the 0.8
+    // ellipse so a separate `circle` rim drawn in that box meets them without
+    // doubled paint. Reusable wherever a rim carries repeated radial marks —
+    // cog and gear teeth, dial and gauge ticks, compass rose, sun rays, spinner
+    // segments. Rotation
     // offsets the whole ring; a non-square box gives the elliptical variant.
     // Endpoints keep four decimals rather than the usual three: a tick is only
-    // 0.2 of the box radius long, so at small sizes three-decimal rounding can
-    // swing a 30-degree ray past the 0.01-degree straight-angle tolerance.
+    // 0.2 of the box radius long, so the extra precision keeps the short rays
+    // evenly spaced at small sizes.
     geometry: (w, h) => {
       const R = v => +v.toFixed(4);
       const cx = w / 2, cy = h / 2, inner = 0.8;
@@ -899,8 +897,7 @@ const SHAPES = [
     natural: { w: 40, h: 32 }, defaultW: 16, defaultH: 12,
     // `twin-gable` with its base removed — the two-peak counterpart of
     // `open-gable`, and the open counterpart of `twin-gable`. The rise is
-    // min(w/4, h), so all four flanks sit at exactly 45 degrees and the whole
-    // contour stays on the 15-degree grid at any size; when the box is taller
+    // min(w/4, h), giving 45-degree flanks when h >= w/4. When the box is taller
     // than that rise the two end stems drop to the bottom edge so the box is
     // still filled edge to edge. Use it wherever a repeated peaked edge is a
     // contour rather than a silhouette: a cracked shell or broken edge, a comb

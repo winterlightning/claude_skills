@@ -1,30 +1,74 @@
 # Unlimited Shapes
 
-Build normal, sub, and container icons from registered parametric atoms. The
-machine-readable profile source is
-[`core/icon_profiles.json`](core/icon_profiles.json); every profile emits a
-canonical design/ship pair through the same Python toolchain.
+Build normal, sub, and container icons with exact editable geometry and
+reference-informed construction. New sources use `schemaVersion: 2` and an
+ordered `elements` array: lines, native shapes, and connected paths with arcs or
+quadratic/cubic curves. A new contour does not require a named shape, registry
+change, or generated shape asset.
 
-Visual quality comes before catalog reuse. Existing atoms are reusable
-candidates, not limits on the design: when they would make an icon awkward,
-unnatural, or less recognizable, add a new generic parametric atom instead of
-accepting the weaker icon.
+The semantic brief and supplied prototype define what to draw. Relevant Lucide
+original/debug pairs help explain how to construct it. Preserve useful contour
+grouping, proportions, joints and gaps; do not treat debug segmentation or a
+target part count as the style.
 
-Start at [docs/README.md](docs/README.md), then follow the shared
-[icon pipeline](docs/icon-pipeline.md). The single-SVG, batch-SVG, and rework-JSON
-documents are thin lane adapters and do not redefine the rules.
+Start with the skill for the icon's role:
+
+- [Normal icons](docs/icons/SKILL.md)
+- [Sub icons](docs/sub-icons/SKILL.md)
+- [Container icons](docs/container-icons/SKILL.md)
+
+The [documentation index](docs/README.md) routes to shared rules and input lanes.
+[Editable geometry and references](docs/shared/atomic-shapes.md) defines the
+source schema. [The canonical pipeline](docs/shared/icon-pipeline.md) defines
+emission, QA, repair and delivery. Exact canvas, stroke, keyshape and slot values
+remain in [core/icon_profiles.json](core/icon_profiles.json).
+
+## Find a construction reference
 
 ```bash
-./rework_opus.sh "https://symlib.pictographic.ai/download-wrong-icons-json?cat=Building+Construction"
+python3 core/lucide_reference.py search 'cloud' --limit 6
+python3 core/lucide_reference.py inspect cloud --json
 ```
 
-`rework_opus.sh` drives that runbook end to end—stage, detect, remake with
-Claude, verify every automated QA gate, then upload—and every stage is idempotent, so
-re-running the same command resumes instead of starting over.
+The local bundle contains authoritative original SVGs, generated colored
+segment views, an index, provenance and license information. Inspect only
+relevant examples and record the selected names and principles in
+`sourceAnalysis.lucideReferences`. Original SVGs remain authoritative reference
+evidence; debug files are an inspection aid, not required production markup.
 
-## Detect an SVG reference first
+## Rework a local pack
 
-Run the dependency-free preflight detector before rebuilding an input icon:
+For a user-selected pack containing `manifest.json` and prototypes:
+
+```bash
+python3 core/rework_pack.py inspect path/to/pack
+python3 core/rework_pack.py prepare path/to/pack
+```
+
+Follow the [local pack lane](docs/icons/rework.md#local-manifest-pack-lane) to
+author the exact selected symbols in `editable/`, emit and inspect the drafts,
+and record a hash-locked true-size visual review. Then run:
+
+```bash
+python3 core/rework_pack.py build path/to/pack
+```
+
+Build emits the existing editable sources, verifies QA and prepares manifest
+delivery files plus a local review gallery. It does not author the subjects or
+upload them. Keep manifest/prototypes unchanged and inspect true-size results.
+`--skip-qa` is diagnostic only, not a completed delivery.
+
+The separate URL/payload workflow remains available:
+
+```bash
+./rework_opus.sh "https://symlib.pictographic.ai/download-wrong-icons-json?cat=Building+Construction" --to verify
+```
+
+It stages, detects, makes and verifies normal icons. Uploading is a separate,
+explicitly authorized action after dry-run and review; a rework request alone
+does not authorize it.
+
+## Detect supplied SVG evidence
 
 ```bash
 python3 -m pip install -r requirements.txt
@@ -33,47 +77,37 @@ python3 core/detect_svg_shapes.py path/to/input.svg \
   --plot path/to/input-preflight.png
 ```
 
-It detects native and path-based lines, point dots, arcs, quadratic and cubic
-curves, circles, ellipses, rectangles, rounded rectangles, pills, triangles,
-diamonds, arches, polylines, and compound paths. It also proposes atomic candidates
-and flags new-grid conflicts. The Matplotlib overlay includes the 1u minor / 4u
-major 48-unit grid, detection labels/bounds, and color-coded QA. Final icons use
-one centered painted keyshape from their declared profile; the keyshape is the
-padding boundary. The detector's 48-unit grid is source-analysis evidence only:
-recompose sub and container icons on their declared 32-unit and 64-unit design
-canvases instead of treating detector coordinates as an authoring scaffold. Add `--show` for
-an interactive window. Use `--strict` in automation; status `3` means the
-report needs manual review before icon making.
+Inspect the source, report and plot together. Detector coordinates use a 48-unit
+analysis grid; recompose on the chosen normal/sub/container profile. Legacy atom
+suggestions are optional hints, not an authoring restriction. Under `--strict`,
+status `3` means manual review is required before making the icon.
 
-## Run it
+## Editor and output
 
-Open `frontend/index.html` directly in a browser — no build step, no server,
-no dependencies.
+Open `frontend/index.html` directly in a browser; no build step is required.
+Start a path, line, circle, ellipse, rectangle, polyline or polygon. Edit exact
+geometry attributes and semantic roles, or import/edit/export the whole version-2
+document. Dragging and nudging bake coordinates rather than saving transforms.
+Undo, duplication, ordering, profile guides and actual ship-size previews support
+review. Geometry edits mark source analysis incomplete until it is reviewed again.
 
-- Drag a shape from the palette onto the canvas (or click it to drop it in the
-  center).
-- Choose the icon type and its keyshape in the toolbar. Containers also show the
-  protected 32×32 clearance slot and the accepted sub keyshape used for previews.
-- Move with fixed 1u grid snapping, resize with
-  the handles (Shift keeps aspect), rotate with the top handle (15° snap),
-  flip, and inspect exact coordinates. Canonical paint is fixed to no fill,
-  `currentColor`, and the profile's Regular stroke. Resizing recomputes geometry
-  and never scales it.
-- Copy/paste (Ctrl/Cmd+C/V), undo (Ctrl/Cmd+Z, up to 100 steps), and duplicate
-  (Ctrl/Cmd+D) work from the keyboard or the toolbar buttons.
-- Name, type, keyshape, and display preferences persist in localStorage.
-- **Export JSON** downloads a canonical-schema geometry scaffold. Complete its
-  `sourceAnalysis` mappings and spacing checks before validation and delivery.
-  **Preview SVG** is explicitly non-canonical and exists only for visual review.
+Canonical paint is imposed centrally. Exported editable JSON remains the repair
+source; final design/ship SVGs come from `core/emit_icon.py` and the shared QA
+pipeline. Browser previews do not replace validation. The editor requires
+version-2 sources; legacy documents remain backend compatibility inputs and
+must be converted before editor import.
 
 ## Layout
 
 | Folder | Contents |
 | --- | --- |
-| `frontend/` | Profile-aware editable-JSON composer; `js/icon-profiles.js` is generated from `core/icon_profiles.json` |
-| `assets/shapes/` | Standalone SVG files for every shape, generated from the registry |
-| `core/` | Python-only geometry, emission, validation, overlap, hole/pinch QA, asset-generation, and regression-test tooling |
-| `docs/` | Source hierarchy, canonical pipeline, thin lane adapters, script matrix, and QA guides |
-| `backend/` | (reserved, empty for now) |
+| `frontend/` | Profile-aware editable geometry editor |
+| `references/lucide/` | Original/debug SVG pairs, searchable index, provenance and license |
+| `core/` | Geometry, emission, validation, reference retrieval, rework and QA tools |
+| `docs/icons/` | Normal-icon skill, rules, requests and rework adapters |
+| `docs/sub-icons/` | Sub-icon skill, rules and requests |
+| `docs/container-icons/` | Container skill, rules and requests |
+| `docs/shared/` | Geometry schema, pipeline, input adapters and QA guides |
 
-Start with [docs/README.md](docs/README.md).
+Legacy `instances` documents remain supported for compatibility. Do not extend
+the old shape registry or regenerate its assets during ordinary icon authoring.

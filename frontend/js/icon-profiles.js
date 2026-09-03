@@ -59,33 +59,33 @@ const ICON_PROFILES = Object.freeze({
       },
       "keyshapes": [
         {
-          "name": "circle-28",
+          "name": "circle-32",
           "orientation": "circle",
           "shape": "circle",
-          "width": 28,
-          "height": 28,
-          "diameter": 28
+          "width": 32,
+          "height": 32,
+          "diameter": 32
         },
         {
-          "name": "square-24",
+          "name": "square-32",
           "orientation": "square",
           "shape": "rect",
-          "width": 24,
-          "height": 24
+          "width": 32,
+          "height": 32
         },
         {
-          "name": "portrait-24x28",
+          "name": "portrait-28x32",
           "orientation": "portrait",
           "shape": "rect",
-          "width": 24,
-          "height": 28
+          "width": 28,
+          "height": 32
         },
         {
-          "name": "landscape-28x24",
+          "name": "landscape-32x28",
           "orientation": "landscape",
           "shape": "rect",
-          "width": 28,
-          "height": 24
+          "width": 32,
+          "height": 28
         }
       ]
     },

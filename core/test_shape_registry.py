@@ -61,17 +61,18 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual(commands[1].points[0],(w/2,h/2))
 
     def test_hexagon_mitres_are_exactly_45_degrees_and_edge_to_edge(self):
-        import math
         for w,h in ((24,16),(40,32),(36,12),(20,20)):
             pts=[(float(a),float(b)) for a,b in re.findall(r"(-?[\d.]+) (-?[\d.]+)",BY_ID["hexagon"].geometry(w,h)[1]["d"])]
             self.assertEqual(len(pts),6,(w,h))
             self.assertEqual((min(x for x,_ in pts),max(x for x,_ in pts)),(0,w))   # edge to edge
             self.assertEqual((min(y for _,y in pts),max(y for _,y in pts)),(0,h))
             self.assertAlmostEqual(pts[0][0],w-pts[1][0],3)                          # symmetric
-            for a,b in zip(pts,pts[1:]+pts[:1]):
+            for index,(a,b) in enumerate(zip(pts,pts[1:]+pts[:1])):
                 dx,dy=b[0]-a[0],b[1]-a[1]
-                angle=(math.degrees(math.atan2(dy,dx))+360)%180
-                self.assertAlmostEqual(angle,round(angle/15)*15,2,f"{w}x{h} edge {a}->{b}")
+                if index in (0,3):
+                    self.assertEqual(dy,0,f"{w}x{h} flat {a}->{b}")
+                else:
+                    self.assertAlmostEqual(abs(dx),abs(dy),3,f"{w}x{h} mitre {a}->{b}")
     def test_star_is_a_ten_vertex_edge_to_edge_symmetric_outline(self):
         for w,h in ((20,20),(16,16),(24,20)):
             pts=[(float(a),float(b)) for a,b in re.findall(r"(-?[\d.]+) (-?[\d.]+)",BY_ID["star"].geometry(w,h)[1]["d"])]
@@ -113,7 +114,7 @@ class RegistryTests(unittest.TestCase):
             self.assertEqual([command.type for command in commands][0],"M")
             self.assertEqual({command.type for command in commands[1:]},{"Q"},(w,h))  # no straight segment, no Z
             pts,segments=sample(commands,16)
-            self.assertEqual(segments,[],(w,h))                                       # nothing for the angle grid to fail
+            self.assertEqual(segments,[],(w,h))                                       # continuous quadratic contour
             xs=[x for x,_ in pts]; ys=[y for _,y in pts]
             for value,target in ((min(xs),0),(max(xs),w),(min(ys),0),(max(ys),h)):
                 self.assertAlmostEqual(value,target,1,f"{w}x{h}")
@@ -140,7 +141,7 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(commands[5].arc[:2],(4.0,4.0))
         self.assertEqual(commands[7].arc[:2],(4.0,4.0))
 
-    def test_transfer_hand_is_open_bounded_and_on_grid_at_canonical_size(self):
+    def test_transfer_hand_is_open_bounded_with_canonical_forty_five_degree_palm_diagonals(self):
         commands=parse_path(BY_ID["transfer-hand"].geometry(20,12)[1]["d"])
         self.assertNotIn("Z",[command.type for command in commands])
         self.assertTrue({command.type for command in commands}<={"M","L","Q"})
@@ -148,11 +149,10 @@ class RegistryTests(unittest.TestCase):
         xs=[x for x,_ in points]; ys=[y for _,y in points]
         self.assertAlmostEqual(min(xs),0,3); self.assertAlmostEqual(max(xs),20,3)
         self.assertAlmostEqual(min(ys),0,3); self.assertAlmostEqual(max(ys),12,3)
-        import math
-        for left,right in segments:
-            if math.dist(left,right)<1e-6: continue
-            angle=(math.degrees(math.atan2(right[1]-left[1],right[0]-left[0]))+360)%180
-            self.assertAlmostEqual(angle,round(angle/15)*15,6)
+        diagonals=[(left,right) for left,right in segments if left[1]!=right[1]]
+        self.assertEqual(len(diagonals),2)
+        for left,right in diagonals:
+            self.assertAlmostEqual(abs(right[0]-left[0]),abs(right[1]-left[1]),6)
 
     def test_worker_profile_default_head_clears_identity_opening(self):
         shape=BY_ID["worker-profile"]
@@ -239,7 +239,7 @@ class RegistryTests(unittest.TestCase):
             pts,_=sample(commands,32); xs=[x for x,_ in pts]; ys=[y for _,y in pts]
             self.assertGreaterEqual(min(xs),-1e-3,shape_id); self.assertLessEqual(max(xs),w+1e-3,shape_id)
             self.assertGreaterEqual(min(ys),-1e-3,shape_id); self.assertLessEqual(max(ys),h+1e-3,shape_id)
-    def test_trapezoid_is_symmetric_on_grid_and_inside_its_box(self):
+    def test_trapezoid_is_symmetric_with_sixty_degree_or_clamped_sides_inside_its_box(self):
         import math
         for w,h in ((24,12),(36,12),(16,8),(40,4),(12,20),(8,8)):
             d=BY_ID["trapezoid"].geometry(w,h)[1]["d"]
@@ -277,7 +277,7 @@ class RegistryTests(unittest.TestCase):
             points=[point for command in commands for point in command.points]
             self.assertEqual((min(x for x,_ in points),max(x for x,_ in points)),(0.0,float(w)))
             self.assertEqual((min(y for _,y in points),max(y for _,y in points)),(0.0,float(h)))
-    def test_radial_ticks_are_twelve_on_grid_rays_between_the_inner_ellipse_and_the_box(self):
+    def test_radial_ticks_are_twelve_rays_between_the_inner_ellipse_and_the_box(self):
         import math
         for w,h in ((20,20),(40,40),(24,16),(12,12)):
             commands=parse_path(BY_ID["radial-ticks"].geometry(w,h)[1]["d"])
@@ -294,14 +294,15 @@ class RegistryTests(unittest.TestCase):
             points=[point for command in commands for point in command.points]
             self.assertEqual((min(x for x,_ in points),max(x for x,_ in points)),(0.0,float(w)))
             self.assertEqual((min(y for _,y in points),max(y for _,y in points)),(0.0,float(h)))
-    def test_radial_ticks_stay_on_the_fifteen_degree_grid_in_a_square_box(self):
+    def test_radial_ticks_are_thirty_degrees_apart_in_a_square_box(self):
         import math
         for size in (20,40,48):
             commands=parse_path(BY_ID["radial-ticks"].geometry(size,size)[1]["d"])
             for step in range(12):
                 (x0,y0),(x1,y1)=commands[step*2].points[0],commands[step*2+1].points[0]
-                angle=(math.degrees(math.atan2(y1-y0,x1-x0))+360)%180
-                self.assertLess(abs(angle-round(angle/15)*15),0.01,f"{size} tick {step}")
+                angle=(math.degrees(math.atan2(y1-y0,x1-x0))+360)%360
+                difference=(angle-step*30+180)%360-180
+                self.assertLess(abs(difference),0.01,f"{size} tick {step}")
     def test_water_drop_is_symmetric_quadratic_and_edge_to_edge(self):
         for w,h in ((8,12),(12,18),(16,24)):
             commands=parse_path(BY_ID["water-drop"].geometry(w,h)[1]["d"])
@@ -398,8 +399,7 @@ class RegistryTests(unittest.TestCase):
             points=[point for command in commands for point in command.points]
             self.assertEqual((min(x for x,_ in points),max(x for x,_ in points)),(0.0,float(w)))
             self.assertEqual((min(y for _,y in points),max(y for _,y in points)),(0.0,float(h)))
-    def test_lightning_bolt_is_closed_edge_to_edge_and_on_grid_at_canonical_size(self):
-        import math
+    def test_lightning_bolt_is_closed_edge_to_edge_with_canonical_vertices(self):
         shape=BY_ID["lightning-bolt"]
         self.assertTrue(shape.closed)
         self.assertEqual(shape.natural,(20,24))
@@ -412,9 +412,6 @@ class RegistryTests(unittest.TestCase):
         commands=parse_path(shape.geometry(*shape.natural)[1]["d"])
         points=[command.points[0] for command in commands[:6]]
         self.assertEqual(points,[(14.0,0.0),(0.0,14.0),(8.0,14.0),(8.0,24.0),(20.0,12.0),(14.0,12.0)])
-        for left,right in zip(points,points[1:]+points[:1]):
-            angle=(math.degrees(math.atan2(right[1]-left[1],right[0]-left[0]))+360)%180
-            self.assertAlmostEqual(angle,round(angle/15)*15,6,(left,right))
     def test_puzzle_piece_has_two_tabs_two_sockets_and_stays_bounded(self):
         shape=BY_ID["puzzle-piece"]
         self.assertTrue(shape.closed)
@@ -437,7 +434,6 @@ class RegistryTests(unittest.TestCase):
             if command.type in {"M","L"}:
                 self.assertTrue(all(value.is_integer() for point in command.points for value in point),command)
     def test_phone_handset_outline_is_closed_quadratic_and_edge_to_edge(self):
-        import math
         shape=BY_ID["phone-handset-outline"]
         self.assertTrue(shape.closed)
         self.assertEqual(shape.natural,(36,36))
@@ -451,9 +447,9 @@ class RegistryTests(unittest.TestCase):
             self.assertAlmostEqual(min(ys),0,3); self.assertAlmostEqual(max(ys),h,3)
         _,segments=sample(parse_path(shape.geometry(*shape.natural)[1]["d"]),8)
         for left,right in segments:
-            if math.dist(left,right)<1e-6: continue
-            angle=(math.degrees(math.atan2(right[1]-left[1],right[0]-left[0]))+360)%180
-            self.assertAlmostEqual(angle,round(angle/15)*15,6,(left,right))
+            dx,dy=right[0]-left[0],right[1]-left[1]
+            if dx and dy:
+                self.assertAlmostEqual(abs(dx),abs(dy),6,(left,right))
     def test_gapped_rounded_rectangle_breaks_only_its_head_and_stays_edge_to_edge(self):
         for w,h in ((32,36),(24,32),(40,20),(20,20),(16,8)):
             commands=parse_path(BY_ID["gapped-rounded-rectangle"].geometry(w,h)[1]["d"])
@@ -483,7 +479,6 @@ class RegistryTests(unittest.TestCase):
     def test_twin_gable_and_open_twin_gable_share_vertices(self):
         closed=BY_ID["twin-gable"].geometry(40,32)[1]["d"].rstrip(" Z"); opened=BY_ID["open-twin-gable"].geometry(40,32)[1]["d"]; self.assertEqual(closed,opened)
     def test_open_twin_gable_is_two_forty_five_degree_peaks_edge_to_edge(self):
-        import math
         for w,h in ((32,8),(40,32),(24,6),(16,20)):
             d=BY_ID["open-twin-gable"].geometry(w,h)[1]["d"]
             self.assertNotRegex(d,r"[CcAaQqZz]")
@@ -494,8 +489,6 @@ class RegistryTests(unittest.TestCase):
             rise=min(w/4,h)
             self.assertEqual([y for _,y in points if y==0],[0.0,0.0])   # exactly two peaks
             for a,b in zip(points,points[1:]):
-                angle=(math.degrees(math.atan2(b[1]-a[1],b[0]-a[0]))+360)%180
-                self.assertAlmostEqual(angle,round(angle/15)*15,2,(a,b))
                 if a[1]!=b[1] and a[0]!=b[0]:
                     self.assertAlmostEqual(abs(b[1]-a[1]),abs(b[0]-a[0]),3)   # 45-degree flanks
             self.assertAlmostEqual(min(y for _,y in points if y>0) if h>rise else rise,rise,3)

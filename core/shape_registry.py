@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Authoritative Python geometry registry for Unlimited Shapes atoms."""
+"""Legacy geometry registry for historical Unlimited Shapes instance documents.
+
+New schema-v2 icons own exact geometry in their ``elements`` arrays and do not
+import or extend this compatibility registry.
+"""
 
 from __future__ import annotations
 
@@ -159,7 +163,7 @@ def cloud(w: float, h: float) -> tuple[str, dict[str, object]]:
 
 
 def hexagon(w: float, h: float) -> tuple[str, dict[str, object]]:
-    """Closed flat-top hexagon: a rectangle with both ends mitred at exactly 45 degrees."""
+    """Closed flat-top hexagon with 45-degree mitres when the box is at least as wide as tall."""
     inset = min(h / 2, w / 2)
     return path(
         f"M {n(inset)} 0 L {n(w - inset)} 0 L {n(w)} {n(h/2)} "
@@ -178,9 +182,7 @@ def star(w: float, h: float) -> tuple[str, dict[str, object]]:
     cos(72)/cos(36), so each pair of edges is collinear with one pentagram
     line. The unit star is mapped onto the box, so the apex touches the top
     edge, the two upper arms the sides, and the two lower arms the bottom edge
-    at every size. Its edges run at 18 and 54 degrees, which is off the 15
-    degree direction grid; an icon using it carries a documented grid
-    exception.
+    at every size.
     """
     vertices = []
     for step in range(2 * STAR_POINTS):
@@ -230,8 +232,8 @@ def head_profile(w: float, h: float) -> tuple[str, dict[str, object]]:
     Up the back of the neck, up the back of the skull, over the crown, down the
     forehead, out to the nose, in at the lip, out at the chin, down the front of
     the neck. Both neck runs leave the bottom edge vertically, so the head sits
-    on a shoulder line or a frame instead of flaring into it. Quadratics only, so the atom never emits a straight segment and
-    stays on the angle grid at every size. `flipX` faces it left.
+    on a shoulder line or a frame instead of flaring into it. The contour uses
+    quadratics throughout. `flipX` faces it left.
     """
     return path(
         f"M {n(w*.10)} {n(h)} "
@@ -403,8 +405,8 @@ def trapezoid(w: float, h: float) -> tuple[str, dict[str, object]]:
 def flared_horn(w: float, h: float) -> tuple[str, dict[str, object]]:
     """Closed, right-opening horn with a narrow rear and full-height bell.
 
-    The two quadratic rails keep the flare natural at compact sizes while the
-    whole-unit canonical 24x16 geometry stays free of off-angle straight runs.
+    The two quadratic rails keep the flare natural at compact sizes, with
+    whole-unit coordinates in the canonical 24x16 geometry.
     The form is intentionally generic enough for speaker bells, funnels, and
     nozzles as well as acoustic horns.
     """
@@ -719,8 +721,8 @@ def radial_ticks(w: float, h: float) -> tuple[str, dict[str, object]]:
     """Twelve evenly spaced radial ticks between the 0.8 inner ellipse and the box edges.
 
     Endpoints keep four decimals rather than the usual three: a tick is only
-    0.2 of the box radius long, so at small sizes three-decimal rounding can
-    swing a 30-degree ray past the 0.01-degree straight-angle tolerance.
+    0.2 of the box radius long, so the extra precision keeps the short rays
+    evenly spaced at small sizes.
     """
     cx, cy = w / 2, h / 2
     parts = []

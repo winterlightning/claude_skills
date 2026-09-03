@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Audit final SVGs for canvas consistency, atomic-grid placement, and line angles."""
+"""Audit final SVGs for canvas consistency and atomic-grid placement."""
 
 from __future__ import annotations
 
@@ -21,9 +21,7 @@ from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names
 from keyfit import canonical_tokens
 
 DESIGN_CANVAS = float(get_profile(DEFAULT_ICON_TYPE)["designCanvas"])
-ANGLE_STEP = 15.0
 TOLERANCE = 1e-3
-AXIS_GRID_ANGLES = (0, 45, 90, 135)
 
 
 def collect(inputs: list[str]) -> list[Path]:
@@ -65,7 +63,6 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
     issues: list[dict] = []
     fractional_values = 0
     fractional_axis_segments = 0
-    off_angle_segments = 0
 
     expected_canvas = {"design": float(profile["designCanvas"]), "ship": float(profile["shipCanvas"])}.get(expected)
     if expected_canvas is not None and abs(view_w - expected_canvas) > TOLERANCE:
@@ -83,9 +80,6 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
 
     for path_index, node in enumerate(paths):
         data = node.get("d", "")
-        if re.search(r"[CcSs]", data):
-            issues.append({"code": "cubic", "detail": f"path {path_index} contains a cubic command"})
-            continue
         try:
             commands = parse_path(data)
         except Exception as error:
@@ -115,20 +109,18 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
             dy = (end[1] - cursor[1]) * scale
             if math.hypot(dx, dy) > TOLERANCE:
                 angle = (math.degrees(math.atan2(dy, dx)) + 360) % 180
-                nearest = round(angle / ANGLE_STEP) * ANGLE_STEP
-                if abs(angle - nearest) > 0.01:
-                    off_angle_segments += 1
                 endpoints = [cursor[0] * scale, cursor[1] * scale, end[0] * scale, end[1] * scale]
-                if int(round(nearest)) in AXIS_GRID_ANGLES and any(fractional(value) for value in endpoints):
+                # Only actual axis/45-degree lines have avoidable fractional
+                # placement; arbitrary slopes must retain their geometry.
+                axis_or_45 = abs(angle - round(angle / 45) * 45) <= 0.01
+                if axis_or_45 and any(fractional(value) for value in endpoints):
                     fractional_axis_segments += 1
             cursor = end
 
-    if off_angle_segments:
-        issues.append({"code": "off-angle", "detail": f"{off_angle_segments} straight segment(s) leave the 15-degree grid"})
     if fractional_axis_segments:
         issues.append({"code": "fractional-grid-lines", "detail": f"{fractional_axis_segments} axis/45-degree segment(s) use avoidable fractional design coordinates"})
 
-    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "cubic", "parse-error", "path-order", "off-angle", "fractional-grid-lines"}
+    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines"}
     status = "fail" if any(issue["code"] in failure_codes for issue in issues) else ("review" if fractional_values else "pass")
     return {
         "file": path.name,
@@ -141,7 +133,6 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
         "normalizedStroke": round(stroke, 4),
         "fractionalDesignValues": fractional_values,
         "fractionalAxisOr45Segments": fractional_axis_segments,
-        "offAngleSegments": off_angle_segments,
         "issues": issues,
         "documentedExceptions": [],
     }
@@ -152,6 +143,11 @@ def apply_exceptions(result: dict, path: Path, entries: dict[str, dict]) -> dict
     entry = entries.get(path.name)
     if not entry:
         return result
+    allowed = set(entry.get("allow", []))
+    if allowed == {"off-angle"}:
+        # This retired rule no longer needs a waiver or a matching SVG hash.
+        # Return the unmodified result so unrelated failures/reviews still apply.
+        return result
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     if digest != entry.get("sha256"):
         result["issues"].append({
@@ -160,7 +156,6 @@ def apply_exceptions(result: dict, path: Path, entries: dict[str, dict]) -> dict
         })
         result["status"] = "fail"
         return result
-    allowed = set(entry.get("allow", []))
     retained = []
     waived = []
     for issue in result["issues"]:
@@ -180,7 +175,7 @@ def apply_exceptions(result: dict, path: Path, entries: dict[str, dict]) -> dict
             "reason": entry.get("reason", "documented exact geometry"),
             "source": entry.get("source"),
         }]
-    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "cubic", "parse-error", "path-order", "off-angle", "fractional-grid-lines", "stale-exception"}
+    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines", "stale-exception"}
     result["status"] = "fail" if any(issue["code"] in failure_codes for issue in retained) else "pass"
     return result
 
@@ -194,12 +189,12 @@ def write_report(results: list[dict], output_dir: Path) -> None:
     (output_dir / "grid-results.json").write_text(json.dumps(results, indent=2) + "\n")
     with (output_dir / "grid-results.csv").open("w", newline="") as handle:
         writer = csv.writer(handle)
-        writer.writerow(["file", "status", "grid_status", "keyshape_status", "keyshape_token", "painted_padding_left", "painted_padding_top", "painted_padding_right", "painted_padding_bottom", "viewBox", "fractional_design_values", "fractional_axis_or_45_segments", "off_angle_segments", "issues"])
+        writer.writerow(["file", "status", "grid_status", "keyshape_status", "keyshape_token", "painted_padding_left", "painted_padding_top", "painted_padding_right", "painted_padding_bottom", "viewBox", "fractional_design_values", "fractional_axis_or_45_segments", "issues"])
         for item in results:
             keyfit = item.get("keyfit") or {}
             padding = keyfit.get("paintedPaddingDesign") or {}
             token = keyfit.get("assignedToken") or keyfit.get("targetToken") or {}
-            writer.writerow([item["file"], item["overallStatus"], item["status"], keyfit.get("status", "not-run"), token.get("name", ""), padding.get("left", ""), padding.get("top", ""), padding.get("right", ""), padding.get("bottom", ""), item["viewBox"][2], item["fractionalDesignValues"], item["fractionalAxisOr45Segments"], item["offAngleSegments"], "; ".join(issue["detail"] for issue in item["issues"])])
+            writer.writerow([item["file"], item["overallStatus"], item["status"], keyfit.get("status", "not-run"), token.get("name", ""), padding.get("left", ""), padding.get("top", ""), padding.get("right", ""), padding.get("bottom", ""), item["viewBox"][2], item["fractionalDesignValues"], item["fractionalAxisOr45Segments"], "; ".join(issue["detail"] for issue in item["issues"])])
     display_results = sorted(results, key=lambda item: (item["overallStatus"] != "fail", item["file"]))
 
     def target_token(item: dict) -> dict:
@@ -224,6 +219,9 @@ def write_report(results: list[dict], output_dir: Path) -> None:
 
     def card_note(item: dict) -> str:
         keyfit = item.get("keyfit") or {}
+        if keyfit.get("fitMode") == "optical" and keyfit.get("status") == "pass":
+            rationale = keyfit.get("opticalRationale") or "Declared painted proportions preserved."
+            return f"Optical fit inside {target_token(item).get('name')}: {rationale}"
         delta = keyfit.get("edgeDeltaToTarget") or {}
         adjustment = ", ".join(
             f"{side} {amount:+g}u" for side, amount in delta.items()
@@ -279,7 +277,7 @@ details{{margin-top:32px;background:#fff;border:1px solid var(--line);border-rad
 @media(max-width:600px){{header,main{{padding-left:14px;padding-right:14px}}.gallery{{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}}}}
 </style></head>
 <body><header><h1>Visual grid + keyshape audit</h1><p>{len(results)} checked · {sum(x['overallStatus']=='pass' for x in results)} overall pass · {sum(x['overallStatus']=='review' for x in results)} review · {sum(x['overallStatus']=='fail' for x in results)} overall fail</p></header>
-<main><div class="legend"><span><i class="swatch"></i>1u grid, heavier every 4u</span><span><i class="key-swatch"></i>selected exact painted-bounds target</span><span><i class="center-swatch"></i>target inset by the 2u stroke radius</span></div>
+<main><div class="legend"><span><i class="swatch"></i>1u grid, heavier every 4u</span><span><i class="key-swatch"></i>selected keyshape: exact target or optical containment</span><span><i class="center-swatch"></i>keyshape inset by the 2u stroke radius (guide)</span></div>
 <section class="gallery">{cards}</section>
 <details><summary>Open numeric audit table</summary><table><thead><tr><th>File</th><th>Overall</th><th>Grid</th><th>Keyshape</th><th>Token</th><th>Canvas</th><th>Fractional values</th><th>Fractional axis/45° lines</th><th>Issues</th><th>Documented exception</th></tr></thead><tbody>{rows}</tbody></table></details></main></body></html>"""
     (output_dir / "grid-report.html").write_text(document)
@@ -318,7 +316,7 @@ def main() -> int:
     write_report(results, args.output_dir)
     for item in results:
         keyfit_status = (item.get("keyfit") or {}).get("status", "not-run")
-        print(f"{item['file']}: {item['overallStatus'].upper()} (grid {item['status']}, keyshape {keyfit_status}; {item['fractionalAxisOr45Segments']} fractional grid-line segments, {item['offAngleSegments']} off-angle)")
+        print(f"{item['file']}: {item['overallStatus'].upper()} (grid {item['status']}, keyshape {keyfit_status}; {item['fractionalAxisOr45Segments']} fractional grid-line segments)")
     print(f"wrote {len(results)} grid reports to {args.output_dir}")
     return 1 if any(item["overallStatus"] == "fail" for item in results) else 0
 

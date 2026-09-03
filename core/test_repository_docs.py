@@ -3,7 +3,11 @@
 
 from __future__ import annotations
 
+import json
 import re
+import subprocess
+import sys
+import tempfile
 import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -54,6 +58,48 @@ def markdown_anchors(path: Path) -> set[str]:
 
 
 class RepositoryDocumentationTests(unittest.TestCase):
+    def run_rework_source_preflight(self, document: object) -> subprocess.CompletedProcess[str]:
+        """Exercise only the wrapper's read-only source check, never its stages."""
+        wrapper = (ROOT / "rework_opus.sh").read_text(encoding="utf-8")
+        verify = wrapper.split("# --------------------------------------------------------------------- verify", 1)[1]
+        script = verify.split("<<'PY' || exit 1\n", 1)[1].split("\nPY\n", 1)[0]
+        with tempfile.TemporaryDirectory(prefix="rework-source-check-") as temporary:
+            batch = Path(temporary)
+            (batch / "editable").mkdir()
+            (batch / "output").mkdir()
+            symbol = {"sid": "sym_000005", "iconName": "test-icon",
+                      "design": "output/test-icon-design.svg", "ship": "output/test-icon.svg"}
+            (batch / "batch.json").write_text(json.dumps({"symbols": [symbol]}), encoding="utf-8")
+            (batch / "editable/test-icon.json").write_text(json.dumps(document), encoding="utf-8")
+            # Geometry/paint correctness belongs to the later structural gate.
+            for key in ("design", "ship"):
+                (batch / symbol[key]).write_text("<svg />", encoding="utf-8")
+            return subprocess.run([sys.executable, "-B", "-c", script, str(batch)],
+                                  cwd=ROOT, capture_output=True, text=True)
+
+    def test_rework_source_preflight_accepts_version_two_normal_geometry(self) -> None:
+        document = {"schemaVersion": 2, "name": "test-icon", "iconType": "normal",
+                    "elements": [{"id": "line", "tag": "line",
+                                  "attrs": {"x1": 4, "y1": 24, "x2": 44, "y2": 24}}]}
+        result = self.run_rework_source_preflight(document)
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rework_source_preflight_rejects_legacy_or_mismatched_sources(self) -> None:
+        valid = {"schemaVersion": 2, "name": "test-icon", "iconType": "normal",
+                 "elements": [{"id": "line", "tag": "line", "attrs": {}}]}
+        invalid_sources = [
+            {"name": "test-icon", "instances": [{"shapeId": "line"}]},
+            {**valid, "instances": []},
+            {**valid, "elements": []},
+            {**valid, "iconType": "sub"},
+            {**valid, "name": "other-icon"},
+            [],
+        ]
+        for document in invalid_sources:
+            with self.subTest(document=document):
+                result = self.run_rework_source_preflight(document)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_local_markdown_links_resolve(self) -> None:
         missing: list[str] = []
         for source in maintained_markdown():
@@ -65,8 +111,8 @@ class RepositoryDocumentationTests(unittest.TestCase):
         self.assertEqual(missing, [], "broken local Markdown links:\n" + "\n".join(missing))
 
     def test_every_core_python_file_is_in_the_script_inventory(self) -> None:
-        inventory_path = ROOT / "docs" / "scripts.md"
-        self.assertTrue(inventory_path.is_file(), "docs/scripts.md is missing")
+        inventory_path = ROOT / "docs" / "shared" / "scripts.md"
+        self.assertTrue(inventory_path.is_file(), "docs/shared/scripts.md is missing")
         inventory = inventory_path.read_text(encoding="utf-8")
         missing = [
             f"core/{path.name}"
