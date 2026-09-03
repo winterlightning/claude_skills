@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Emit exact design and shipping SVGs from profiled icon JSON."""
+"""Emit native-size SVGs and their same-size -design compatibility aliases."""
 from __future__ import annotations
 import argparse,json,re
 from pathlib import Path

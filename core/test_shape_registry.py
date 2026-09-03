@@ -9,10 +9,6 @@ class RegistryTests(unittest.TestCase):
     def test_ids_are_unique(self): self.assertEqual(len(BY_ID),len(SHAPES))
     def test_expected_atoms_exist(self):
         required={"circle","ellipse","square","rectangle","dashed-rectangle","water-drop","tapered-spire","rounded-square","rounded-rectangle","pill","triangle","right-triangle","diamond","gable","twin-gable","sloped-box","trapezoid","flared-horn","cut-corner-box","dome","cloud","lens","lobed-drop","stepped-cog","twin-lobed-drop","lightning-bolt","puzzle-piece","phone-handset-outline","quarter-circle","ring","dot","line","diagonal-line","curve","s-bend","arc","quarter-arc","bulb-outline","open-rectangle","arch","hook","faucet","open-end-wrench","open-gable","radial-ticks","hexagon","scalloped-oval","head-profile","worker-profile-solid","broken-pig-outline","holding-hand","bottle-outline","transfer-hand","open-twin-gable","spiral","gapped-rounded-rectangle","corner-gapped-rounded-rectangle","open-shell","oyster-shell","side-gapped-rounded-rectangle","shark-fin","wave-line","gripping-hand","gapped-eye"}; self.assertTrue(required<=set(BY_ID))
-    def test_frontend_and_python_registry_ids_match(self):
-        frontend=(__import__("pathlib").Path(__file__).resolve().parent.parent/"frontend"/"js"/"shapes.js").read_text()
-        ids=re.findall(r"\bid:\s*'([^']+)'",frontend)
-        self.assertEqual(ids,[shape.id for shape in SHAPES])
     def test_new_grid_atoms_have_no_cubics(self):
         for shape in SHAPES:
             tag,attrs=shape.geometry(*shape.natural)
@@ -21,9 +17,9 @@ class RegistryTests(unittest.TestCase):
         for shape in SHAPES:
             tag,attrs=shape.geometry(*shape.natural)
             if tag=="path" and shape.id!="s-curve": self.assertTrue(parse_path(str(attrs["d"])),shape.id)
-    def test_half_scale_is_exact(self):
-        doc={"instances":[{"shapeId":"arch","x":4,"y":6,"w":40,"h":36}]}; paths=resolve_icon(doc); design=svg(paths,48,4); ship=svg(paths,24,2,.5)
-        self.assertIn('viewBox="0 0 48 48"',design); self.assertIn('viewBox="0 0 24 24"',ship); self.assertNotRegex(design.replace("currentColor",""),r"[Cc](?=[\s\-0-9.])")
+    def test_legacy_native_output_is_identical(self):
+        doc={"instances":[{"shapeId":"arch","x":4,"y":6,"w":40,"h":36}]}; paths=resolve_icon(doc); design=svg(paths,48,4); final=svg(paths,48,4)
+        self.assertIn('viewBox="0 0 48 48"',design); self.assertEqual(design,final); self.assertNotRegex(design.replace("currentColor",""),r"[Cc](?=[\s\-0-9.])")
 
     def test_new_registered_atom_resolves_without_a_second_allowlist(self):
         shape = Shape(

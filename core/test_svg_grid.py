@@ -67,23 +67,23 @@ class SvgGridTests(unittest.TestCase):
                     self.assertEqual(result["fractionalAxisOr45Segments"], 1)
                     self.assertEqual([issue["code"] for issue in result["issues"]], ["fractional-grid-lines"])
 
-    def test_ship_coordinates_normalize_to_design_grid(self):
-        result = inspect(self.write('<path d="M 1 1 L 23 1"/>', 24, 2), "ship")
+    def test_final_coordinates_use_native_normal_grid(self):
+        result = inspect(self.write('<path d="M 2 2 L 46 2"/>', 48, 4), "ship")
         self.assertEqual(result["status"], "pass")
 
-    def test_sub_ship_coordinates_normalize_to_32u_profile(self):
-        result = inspect(self.write('<path d="M 1 1 L 15 1"/>', 16, 2), "ship", "sub")
+    def test_sub_final_coordinates_use_native_32_profile(self):
+        result = inspect(self.write('<path d="M 2 2 L 30 2"/>', 32, 4), "ship", "sub")
         self.assertEqual(result["status"], "pass")
         self.assertEqual(result["designCanvas"], 32)
 
     def test_sub_canvas_is_not_accepted_as_normal(self):
-        result = inspect(self.write('<path d="M 1 1 L 15 1"/>', 16, 2), "ship")
+        result = inspect(self.write('<path d="M 2 2 L 30 2"/>', 32, 4), "ship")
         self.assertEqual(result["status"], "fail")
         self.assertIn("wrong-canvas", [issue["code"] for issue in result["issues"]])
 
-    def test_container_ship_coordinates_normalize_to_64u_profile(self):
+    def test_container_final_coordinates_use_native_64_profile(self):
         result = inspect(
-            self.write('<path d="M 1 1 L 31 1"/>', 32, 2),
+            self.write('<path d="M 2 2 L 62 2"/>', 64, 4),
             "ship",
             "container",
         )
@@ -91,9 +91,29 @@ class SvgGridTests(unittest.TestCase):
         self.assertEqual(result["designCanvas"], 64)
 
     def test_container_canvas_is_not_accepted_as_normal(self):
-        result = inspect(self.write('<path d="M 1 1 L 31 1"/>', 32, 2), "ship")
+        result = inspect(self.write('<path d="M 2 2 L 62 2"/>', 64, 4), "ship")
         self.assertEqual(result["status"], "fail")
         self.assertIn("wrong-canvas", [issue["code"] for issue in result["issues"]])
+
+    def test_reduced_final_canvases_fail_for_every_profile_and_mode(self):
+        for icon_type, canvas in (("sub", 16), ("normal", 24), ("container", 32)):
+            for expected in ("design", "ship", "either"):
+                with self.subTest(icon_type=icon_type, expected=expected):
+                    result = inspect(self.write('<path d="M 1 1 L 15 1"/>', canvas, 2), expected, icon_type)
+                    self.assertEqual(result["status"], "fail")
+                    self.assertIn("wrong-canvas", [issue["code"] for issue in result["issues"]])
+
+    def test_reduced_render_dimensions_fail_and_cannot_be_waived(self):
+        path = self.write('<path d="M 6 6 L 42 6"/>')
+        path.write_text(path.read_text().replace('<svg ', '<svg width="24" height="24" '))
+        result = inspect(path, "ship")
+        self.assertEqual(result["status"], "fail")
+        self.assertIn("wrong-render-size", [issue["code"] for issue in result["issues"]])
+        result = apply_exceptions(result, path, {path.name: {
+            "sha256": hashlib.sha256(path.read_bytes()).hexdigest(),
+            "allow": ["wrong-render-size"], "reason": "cannot waive output dimensions",
+        }})
+        self.assertEqual(result["status"], "fail")
 
     def test_hash_locked_exception_passes_documented_fraction(self):
         path = self.write('<path d="M 2 10.8 L 46 10.8"/>')

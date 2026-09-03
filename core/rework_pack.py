@@ -27,6 +27,7 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parent.parent
 SID = re.compile(r"sym_[0-9]+\Z")
 ICON_NAME = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+DELIVERY_LABEL = re.compile(r"[a-z0-9]+(?:[-_][a-z0-9]+)*\Z")
 
 
 def scoped_path(pack: Path, value: str) -> Path:
@@ -50,6 +51,10 @@ def load_pack(pack: Path) -> list[dict]:
     symbols = manifest.get("symbols")
     if not isinstance(symbols, list) or not symbols:
         raise ValueError("manifest must contain a nonempty symbols list")
+    # Rework packs deliver `<sid>_rework.svg`; generation packs name their
+    # delivery after the manifest's upload label (for example `_generated`).
+    label = (manifest.get("api") or {}).get("label")
+    suffixes = {"rework"} | ({label} if isinstance(label, str) and DELIVERY_LABEL.fullmatch(label) else set())
     seen = set()
     rows = []
     for symbol in symbols:
@@ -61,7 +66,7 @@ def load_pack(pack: Path) -> list[dict]:
         destination = scoped_path(pack, symbol.get("upload"))
         if source.suffix != ".svg" or not source.is_file():
             raise ValueError(f"missing SVG prototype for {sid}")
-        if destination.name != f"{sid}_rework.svg" or destination.parent.name != sid:
+        if destination.name not in {f"{sid}_{suffix}.svg" for suffix in suffixes} or destination.parent.name != sid:
             raise ValueError(f"unexpected rework destination for {sid}: {destination}")
         if destination == source:
             raise ValueError("rework must never overwrite its prototype")
@@ -88,6 +93,8 @@ def generated_path(pack: Path, path: Path, rows: list[dict]) -> Path:
 
 def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
     """Stage beside the exact destination; leave old output intact on failure."""
+    from icon_profiles import get_profile
+
     destination = generated_path(pack, row["destination"], rows)
     ship = generated_path(pack, row["ship"], rows)
     source = scoped_path(pack, str(row["editable"].relative_to(pack)))
@@ -95,6 +102,22 @@ def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
         raise ValueError("editable source changed after validation; rebuild and review")
     if hashlib.sha256(ship.read_bytes()).hexdigest() != row["shipSha256"]:
         raise ValueError("emitted geometry changed after validation; rebuild and review")
+
+    def verify_gate_evidence() -> None:
+        evidence = row.get("canvasKeyshapeReports")
+        emitted_files = (ship, generated_path(pack, row["design"], rows))
+        if not isinstance(evidence, dict) or set(evidence) != {path.name for path in emitted_files}:
+            raise ValueError("canvas/keyshape evidence is incomplete at delivery")
+        for emitted in emitted_files:
+            report_path = generated_path(pack, Path(evidence[emitted.name]), rows)
+            report = json.loads(report_path.read_text())
+            failure = canvas_keyshape_failure(report)
+            if failure:
+                raise ValueError("canvas/keyshape evidence is no longer passing: " + failure)
+            verify_canvas_keyshape_evidence(report, emitted, source, get_profile(row["iconType"]),
+                                            qa / "canvas-keyshape")
+
+    verify_gate_evidence()
     if destination.is_file() and destination.read_bytes() != ship.read_bytes():
         previous = generated_path(pack, qa / "previous-delivery" / destination.name, rows)
         previous.parent.mkdir(parents=True, exist_ok=True)
@@ -115,6 +138,7 @@ def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
             raise ValueError("staged geometry differs from the visually reviewed output")
         if hashlib.sha256(source.read_bytes()).hexdigest() != row["sourceSha256"]:
             raise ValueError("editable source changed during delivery; rebuild and review")
+        verify_gate_evidence()
         os.replace(staged, destination)
     finally:
         if staged is not None and staged.exists():
@@ -124,6 +148,12 @@ def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
 def save_json(path: Path, data) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+
+
+def native_review_size(row: dict) -> int:
+    """Review at the profile canvas, never at a historical half-size hint."""
+    from icon_profiles import get_profile
+    return int(get_profile(row.get("iconType"))["designCanvas"])
 
 
 def render_sheet(rows: list[dict], output: Path, sources: bool = False) -> None:
@@ -141,13 +171,13 @@ def render_sheet(rows: list[dict], output: Path, sources: bool = False) -> None:
         x, y = (i % cols) * cell_w, (i // cols) * cell_h
         draw.rounded_rectangle((x + 7, y + 7, x + cell_w - 7, y + cell_h - 7), radius=10, fill="white", outline="#e5e5e0")
         path = row["prototype"] if sources else row.get("ship")
+        size = native_review_size(row)
         if path and Path(path).is_file():
-            png = cairosvg.svg2png(url=str(path), output_width=72, output_height=72)
+            png = cairosvg.svg2png(url=str(path), output_width=size, output_height=size)
             icon = Image.open(io.BytesIO(png)).convert("RGBA")
-            sheet.paste(icon, (x + 74, y + 20), icon)
-            size = row.get("shipSize", 24)
-            tiny = Image.open(io.BytesIO(cairosvg.svg2png(url=str(path), output_width=size, output_height=size))).convert("RGBA")
-            sheet.paste(tiny, (x + (cell_w - size) // 2, y + 102), tiny)
+            sheet.paste(icon, (x + (cell_w - size) // 2, y + 14 + (96 - size) // 2), icon)
+        size_label = "source comparison" if sources else "native output"
+        draw.text((x + 17, y + 112), f"{size}×{size}px · {size_label}", font=small, fill="#59645f")
         draw.text((x + 17, y + 139), row["name"][:29], font=font, fill="#17211e")
         draw.text((x + 17, y + 158), row["sid"] + (" · prototype" if sources else " · " + row.get("status", "draft")), font=small, fill="#59645f")
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -216,12 +246,52 @@ def reference_evidence(doc: dict) -> list[str]:
     return problems
 
 
+def canvas_keyshape_failure(report: object) -> str | None:
+    """A missing, malformed, or errored gate result is never passing evidence."""
+    if not isinstance(report, dict):
+        return "missing or malformed canvas/keyshape report"
+    if (report.get("ok") is True and report.get("status") == "pass"
+            and isinstance(report.get("errors"), list) and not report["errors"]
+            and isinstance(report.get("keyfit"), dict)
+            and report["keyfit"].get("status") == "pass"):
+        return None
+    errors = report.get("errors")
+    if isinstance(errors, list) and errors:
+        return "; ".join(str(error) for error in errors)
+    return str(report.get("reason") or f"incomplete or unsuccessful canvas/keyshape report (status={report.get('status')!r})")
+
+
+def verify_canvas_keyshape_evidence(report: dict, emitted: Path, source: Path, profile: dict, output_dir: Path) -> None:
+    """Bind a gate's passing verdict and its raster evidence to these inputs."""
+    if report.get("file") != emitted.name:
+        raise ValueError("canvas/keyshape result does not identify the emitted file")
+    for key, path in (("svgSha256", emitted), ("editableSha256", source)):
+        if report.get(key) != hashlib.sha256(path.read_bytes()).hexdigest():
+            raise ValueError(f"canvas/keyshape {key} evidence is missing or stale")
+    snapshot = json.dumps(profile, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode("utf-8")
+    if report.get("profileSha256") != hashlib.sha256(snapshot).hexdigest():
+        raise ValueError("canvas/keyshape profile evidence is missing or stale")
+    evidence_directory = report.get("evidenceDirectory")
+    if (not isinstance(evidence_directory, str) or not Path(evidence_directory).is_dir()
+            or not Path(evidence_directory).resolve().is_relative_to(output_dir.resolve())):
+        raise ValueError("canvas/keyshape evidence directory is missing or outside this run")
+    evidence = Path(evidence_directory) / "canvas-keyshape.json"
+    if not evidence.is_file() or evidence.is_symlink() or json.loads(evidence.read_text()) != report:
+        raise ValueError("canvas/keyshape persisted report is missing or inconsistent")
+    for key in ("keyfitReport", "keyfitOverlay"):
+        artifact = report.get(key)
+        if (not isinstance(artifact, str) or not Path(artifact).is_file() or Path(artifact).is_symlink()
+                or not Path(artifact).resolve().is_relative_to(Path(evidence_directory).resolve())):
+            raise ValueError(f"canvas/keyshape {key} artifact is missing")
+
+
 def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
     from icon_geometry import resolve_icon, svg
     from icon_profiles import validate_document_profile
     import check_keyfit
     import check_svg_grid
     import qa_overlays
+    import validate_icon_keyshapes
     sources = authored_sources(pack, rows)
     output = scoped_path(pack, "output")
     qa_root = scoped_path(pack, "qa")
@@ -238,9 +308,10 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
     # Every run gets new evidence. A failed tool cannot reuse an old passing JSON.
     run = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     qa = qa_root / run
-    for gate in ("structural", "grid", "keyshape", "holes", "overlap"):
+    for gate in ("structural", "grid", "canvas-keyshape", "keyshape", "holes", "overlap"):
         (qa / gate).mkdir(parents=True, exist_ok=True)
     all_grid, all_keyshape, all_holes = [], [], []
+    all_canvas_keyshape = []
     for row in rows:
         source, doc = sources[row["sid"]]
         row["editable"] = source
@@ -249,13 +320,16 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
         row["status"] = "draft" if skip_qa else "fail"
         try:
             icon_type, profile = validate_document_profile(doc)
-            row["iconType"], row["shipSize"] = icon_type, profile["shipCanvas"]
+            row["iconType"], row["shipSize"] = icon_type, profile["designCanvas"]
             paths = resolve_icon(doc)
             design = generated_path(pack, output / f"{doc['name']}-design.svg", rows)
             ship = generated_path(pack, output / f"{doc['name']}.svg", rows)
             row["design"], row["ship"] = design, ship
-            design.write_text(svg(paths, profile["designCanvas"], profile["designStroke"]))
-            ship.write_text(svg(paths, profile["shipCanvas"], profile["shipStroke"], profile["shipCanvas"] / profile["designCanvas"]))
+            # Both retained filenames refer to the same native output, not two
+            # production sizes. Keep the alias for existing QA/wrapper callers.
+            native_svg = svg(paths, profile["designCanvas"], profile["designStroke"])
+            design.write_text(native_svg)
+            ship.write_text(native_svg)
             row["sourceSha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
             row["shipSha256"] = hashlib.sha256(ship.read_bytes()).hexdigest()
             if skip_qa:
@@ -266,14 +340,50 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
             (qa / "structural" / f"{doc['name']}.log").write_text(result.stdout + result.stderr)
             if result.returncode:
                 row["failures"].append("structural: " + (result.stdout + result.stderr).strip())
+            # Both filenames are native-size deliverables. Checking only the
+            # canonical SVG leaves the upload alias outside the mandatory gate.
+            keyshape = None
+            row["canvasKeyshapeReports"] = {}
+            for emitted in (ship, design):
+                try:
+                    canvas_keyshape = validate_icon_keyshapes.check_file(
+                        emitted, editable=source, icon_type=icon_type,
+                        output_dir=qa / "canvas-keyshape")
+                    failure = canvas_keyshape_failure(canvas_keyshape)
+                    if failure is None:
+                        verify_canvas_keyshape_evidence(canvas_keyshape, emitted, source, profile, qa / "canvas-keyshape")
+                        row["canvasKeyshapeReports"][emitted.name] = str(Path(canvas_keyshape["evidenceDirectory"]) / "canvas-keyshape.json")
+                    if emitted == ship and isinstance(canvas_keyshape, dict):
+                        keyshape = canvas_keyshape.get("keyfit")
+                        # Keep the existing HTML/CSV painted-bounds report and
+                        # its sibling links without running a third raster pass.
+                        if isinstance(keyshape, dict):
+                            for field, name in (("keyfitReport", f"{ship.stem}.keyfit.json"),
+                                                ("keyfitOverlay", f"{ship.stem}_keyfit.png")):
+                                artifact = canvas_keyshape.get(field)
+                                if not isinstance(artifact, str) or not Path(artifact).is_file():
+                                    raise ValueError(f"canvas/keyshape {field} artifact is missing")
+                                shutil.copy2(artifact, qa / "keyshape" / name)
+                except Exception as error:
+                    canvas_keyshape = {"file": emitted.name, "ok": False,
+                                       "status": "fail", "errors": [str(error)],
+                                       "issues": [{"code": "gate-error", "detail": str(error)}]}
+                failure = canvas_keyshape_failure(canvas_keyshape)
+                if not isinstance(canvas_keyshape, dict):
+                    canvas_keyshape = {"file": emitted.name, "ok": False, "status": "fail",
+                                       "errors": [failure], "issues": []}
+                all_canvas_keyshape.append(canvas_keyshape)
+                if failure:
+                    row["failures"].append(f"canvas/keyshape ({emitted.name}): {failure}")
             grid = check_svg_grid.inspect(design, "design", icon_type)
             # A documented geometric exception is hash-locked to this exact SVG.
             exceptions_path = pack / "grid-exceptions.json"
             if exceptions_path.is_file():
                 grid = check_svg_grid.apply_exceptions(grid, design, json.loads(exceptions_path.read_text()).get("files", {}))
-            keyshape = check_keyfit.process(ship, qa / "keyshape", 32, 2 / 32,
-                                           doc["keyfitCheck"]["targetToken"], icon_type, doc["keyfitCheck"])
-            holes = qa_overlays.process(ship, qa / "holes", 32, 1, 1, icon_type)
+            if not isinstance(keyshape, dict):
+                keyshape = {"file": ship.name, "source": str(ship), "iconType": icon_type,
+                            "status": "fail", "reason": "missing-canvas-keyshape-raster-evidence"}
+            holes = qa_overlays.process(ship, qa / "holes", 32, None, None, icon_type)
             grid["keyfit"] = keyshape
             grid["overallStatus"] = "pass" if grid["status"] == keyshape["status"] == "pass" else "fail"
             all_grid.append(grid)
@@ -288,20 +398,27 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
                 if overlap.returncode:
                     row["failures"].append("overlap: " + overlap.stdout + overlap.stderr)
             review = (doc.get("sourceAnalysis") or {}).get("visualReview") or {}
-            if review.get("status") != "pass" or not review.get("notes") or review.get("shipSize") != profile["shipCanvas"]:
-                row["failures"].append("requires recorded true-size visual review (status, shipSize, notes)")
+            if review.get("status") != "pass" or not review.get("notes") or review.get("shipSize") != profile["designCanvas"]:
+                size = profile["designCanvas"]
+                row["failures"].append(f"requires recorded native-size visual review at {size}×{size}px (status, shipSize, notes)")
             if review.get("geometrySha256") != row["shipSha256"]:
                 row["failures"].append("visual review is missing or stale for the emitted geometry")
-            if icon_type == "container":
+            if profile.get("containerSlot"):
                 row["failures"].append("container delivery requires separate filled-preview evidence; use the container workflow")
             row["status"] = "pass" if not row["failures"] else "fail"
         except Exception as error:
             row["failures"].append(str(error))
         print(f"{row['sid']}: {row['status'].upper()}" + (" — " + "; ".join(row["failures"])[:220] if row["failures"] else ""), flush=True)
     if not skip_qa:
+        canvas_failed = sum(canvas_keyshape_failure(report) is not None for report in all_canvas_keyshape)
+        save_json(qa / "canvas-keyshape" / "canvas-keyshape-results.json", {
+            "checked": len(all_canvas_keyshape), "failed": canvas_failed,
+            "ok": len(all_canvas_keyshape) == 2 * len(rows) and canvas_failed == 0,
+            "rows": all_canvas_keyshape,
+        })
         check_svg_grid.write_report(all_grid, qa / "grid")
         check_keyfit.write_aggregate(all_keyshape, qa / "keyshape")
-        qa_overlays.write_aggregate(all_holes, qa / "holes", 1, 1)
+        qa_overlays.write_aggregate(all_holes, qa / "holes", None, None)
     # Publish only after all required checks for that icon, with old output backed up.
     for row in rows:
         row["delivered"] = False
@@ -329,9 +446,8 @@ def write_gallery(pack: Path, rows: list[dict], qa: Path, draft: bool) -> None:
     cards = []
     for row in rows:
         ship = row.get("ship")
-        new = f'<img src="{link(ship)}" width="88" height="88" alt="{html.escape(row["name"])}">' if ship else "Not emitted"
-        size = row.get("shipSize", 24)
-        tiny = f'<img src="{link(ship)}" width="{size}" height="{size}" alt="Actual size">' if ship else ""
+        size = native_review_size(row)
+        new = f'<img src="{link(ship)}" width="{size}" height="{size}" alt="{html.escape(row["name"])}">' if ship else "Not emitted"
         references = row.get("references", [])
         if not isinstance(references, list):
             references = []
@@ -341,10 +457,11 @@ def write_gallery(pack: Path, rows: list[dict], qa: Path, draft: bool) -> None:
         failures = html.escape("; ".join(row.get("failures", [])))
         qa_details = ("Diagnostic draft only: automated QA and visual-review verification were skipped. Nothing delivered."
                       if draft else failures or "All required automated checks and recorded visual review passed.")
-        cards.append(f'<article><div class="title"><h2>{html.escape(row["name"])}</h2><span class="{row.get("status", "draft")}">{row.get("status", "draft")}</span></div><p class="id">{row["sid"]} · {row.get("iconType", "normal")}</p><div class="pair"><figure><img src="{link(row["prototype"])}" width="88" height="88" alt="Prototype"><figcaption>Prototype</figcaption></figure><figure>{new}<figcaption>Rework</figcaption></figure></div><div class="actual">{tiny}<span>{size}px actual size</span></div><p>{html.escape(row["brief"])}</p><p class="links">{downloads}</p><p class="refs">References: {refs}</p><details><summary>QA details</summary><p>{qa_details}</p></details></article>')
+        cards.append(f'<article><div class="title"><h2>{html.escape(row["name"])}</h2><span class="{row.get("status", "draft")}">{row.get("status", "draft")}</span></div><p class="id">{row["sid"]} · {row.get("iconType", "normal")}</p><div class="pair"><figure><img src="{link(row["prototype"])}" width="{size}" height="{size}" alt="Prototype"><figcaption>Prototype comparison</figcaption></figure><figure>{new}<figcaption>Native rework</figcaption></figure></div><div class="actual"><span>{size}×{size}px native size · 1:1</span></div><p>{html.escape(row["brief"])}</p><p class="links">{downloads}</p><p class="refs">References: {refs}</p><details><summary>QA details</summary><p>{qa_details}</p></details></article>')
     passed = sum(row.get("status") == "pass" for row in rows)
     label = "Diagnostic drafts — not delivered" if draft else f"{passed} of {len(rows)} passed and delivered locally"
-    qa_links = "" if draft else (f' · <a href="{link(qa / "grid/grid-report.html")}">Grid</a>'
+    qa_links = "" if draft else (f' · <a href="{link(qa / "canvas-keyshape/canvas-keyshape-results.json")}">Canvas + keyshape gate</a>'
+                                  f' · <a href="{link(qa / "grid/grid-report.html")}">Grid</a>'
                                   f' · <a href="{link(qa / "keyshape/keyfit-report.html")}">Painted bounds</a>'
                                   f' · <a href="{link(qa / "holes/hole-radius-report.html")}">Negative space</a>')
     document = f'''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Lucide-guided rework review</title><style>

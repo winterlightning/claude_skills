@@ -2,8 +2,8 @@
 """Canonical centered painted-keyshape helpers for every icon profile.
 
 The normal defaults and exported constants are retained for older callers.
-Pass ``icon_type="sub"`` for the 32u/16px sub-icon profile or
-``icon_type="container"`` for the dedicated 64u/32px container profile.
+Pass ``icon_type="sub"`` for the native 32×32 sub-icon profile or
+``icon_type="container"`` for the dedicated native 64×64 container profile.
 """
 
 from __future__ import annotations
@@ -14,6 +14,7 @@ from icon_profiles import (
     DEFAULT_ICON_TYPE,
     canonical_tokens as profile_tokens,
     get_profile,
+    validation_settings,
 )
 
 
@@ -28,16 +29,17 @@ CENTERLINE_INSET = REGULAR_STROKE / 2.0
 _NORMAL_BY_ORIENTATION = {
     item["orientation"]: item for item in profile_tokens(DEFAULT_ICON_TYPE)
 }
-KEYFIT_MAJOR = float(_NORMAL_BY_ORIENTATION["circle"]["width"])
+_FALLBACK_TOKEN = profile_tokens(DEFAULT_ICON_TYPE)[0]
+KEYFIT_MAJOR = float(_NORMAL_BY_ORIENTATION.get("circle", _FALLBACK_TOKEN)["width"])
 CIRCLE_DIAMETER = KEYFIT_MAJOR
-SQUARE_SIZE = float(_NORMAL_BY_ORIENTATION["square"]["width"])
+SQUARE_SIZE = float(_NORMAL_BY_ORIENTATION.get("square", _FALLBACK_TOKEN)["width"])
 PORTRAIT_SIZE = (
-    float(_NORMAL_BY_ORIENTATION["portrait"]["width"]),
-    float(_NORMAL_BY_ORIENTATION["portrait"]["height"]),
+    float(_NORMAL_BY_ORIENTATION.get("portrait", _FALLBACK_TOKEN)["width"]),
+    float(_NORMAL_BY_ORIENTATION.get("portrait", _FALLBACK_TOKEN)["height"]),
 )
 LANDSCAPE_SIZE = (
-    float(_NORMAL_BY_ORIENTATION["landscape"]["width"]),
-    float(_NORMAL_BY_ORIENTATION["landscape"]["height"]),
+    float(_NORMAL_BY_ORIENTATION.get("landscape", _FALLBACK_TOKEN)["width"]),
+    float(_NORMAL_BY_ORIENTATION.get("landscape", _FALLBACK_TOKEN)["height"]),
 )
 
 
@@ -78,17 +80,14 @@ def candidate_tokens(
     """Semantically plausible targets for the painted box."""
     width = bounds[2] - bounds[0]
     height = bounds[3] - bounds[1]
-    tokens = {
-        item["orientation"]: item for item in canonical_tokens(icon_type)
-    }
-    isotropic = [tokens["square"]]
+    tokens = canonical_tokens(icon_type)
+    isotropic = [item for item in tokens if item["orientation"] == "square"]
     if allow_circle:
-        isotropic.append(tokens["circle"])
-    if abs(width - height) <= 0.25:
-        return isotropic
-    if width > height:
-        return [tokens["landscape"], *isotropic]
-    return [tokens["portrait"], *isotropic]
+        isotropic += [item for item in tokens if item["orientation"] == "circle"]
+    orientation = "square" if abs(width - height) <= 0.25 else "landscape" if width > height else "portrait"
+    preferred = [item for item in tokens if item["orientation"] == orientation and item not in isotropic] + isotropic
+    eligible = [item for item in tokens if allow_circle or item["shape"] != "circle"]
+    return preferred or eligible or tokens
 
 
 def contains(
@@ -115,13 +114,14 @@ def matches(
     )
 
 
-def validate_optical_bounds(check: dict, target_bounds, actual_bounds, tolerance: float = 1e-3) -> list[str]:
+def validate_optical_bounds(check: dict, target_bounds, actual_bounds, tolerance: float | None = None) -> list[str]:
     """Validate an explicit optical fit without weakening painted containment.
 
     Sparse marks and narrow glyphs need not be stretched to four keyshape edges.
     Their authored painted bounds and reason must be recorded, not inferred from
     a passing render. Circle radial containment is checked by the caller.
     """
+    tolerance = validation_settings()["geometryTolerance"] if tolerance is None else tolerance
     failures = []
     if not isinstance(check.get("rationale"), str) or not check["rationale"].strip():
         failures.append("optical keyshape fit requires a nonempty rationale")
@@ -144,14 +144,15 @@ def circle_overflow(
     points: list[tuple[float, float]],
     stroke_width: float = 0.0,
     icon_type: str = DEFAULT_ICON_TYPE,
+    circle_token: dict | None = None,
 ) -> float:
     """Positive radial overflow beyond the selected circle keyshape."""
     if not points:
         return 0.0
     profile = get_profile(icon_type)
-    circle = next(
-        item for item in canonical_tokens(icon_type) if item["shape"] == "circle"
-    )
+    circle = circle_token or next((item for item in canonical_tokens(icon_type) if item["shape"] == "circle"), None)
+    if circle is None or circle["shape"] != "circle":
+        return 0.0
     allowed_radius = float(circle["diameter"]) / 2.0 - stroke_width / 2.0
     center = profile["center"]
     return max(
@@ -216,10 +217,8 @@ def assign(
 
 
 def max_box(icon_type: str = DEFAULT_ICON_TYPE) -> tuple[float, float, float, float]:
-    circle = next(
-        item for item in canonical_tokens(icon_type) if item["shape"] == "circle"
-    )
-    return token_box(circle["width"], circle["height"], icon_type)
+    boxes = [tuple(token["bounds"]) for token in canonical_tokens(icon_type)]
+    return min(box[0] for box in boxes), min(box[1] for box in boxes), max(box[2] for box in boxes), max(box[3] for box in boxes)
 
 
 def describe(icon_type: str = DEFAULT_ICON_TYPE) -> str:

@@ -31,7 +31,7 @@ It does not authorize using one icon's source geometry to reinterpret another.
   cannot replace an individual icon's meaning. The bundled Lucide corpus is
   an additional style/construction reference, not part of the subject input set.
 - Record `iconType` per icon. Keep QA inputs separated by type/canvas; do not mix
-  design and ship outputs or different profiles in one checker invocation.
+  duplicate canonical/compatibility aliases or different profiles in one checker invocation.
 
 ## Lane sequence
 
@@ -157,7 +157,7 @@ done
 Then run the remaining grid, overlap, declared-keyshape, hole/pinch, and true-size
 stages in the order defined by [icon-pipeline.md](icon-pipeline.md). Pass the
 matching `--icon-type` to profile-selected QA commands. Container structural
-validation checks its slot and full 32×32 clear region; retain filled-preview visual
+validation checks its configured slot and full protected clear region; retain filled-preview visual
 evidence as the combined-use review.
 
 Checkpoint after each group. Do not carry an unresolved failure into the next
@@ -165,8 +165,9 @@ group.
 
 ## 7. Validate the completed batch
 
-Point each profile's design grid gate only at its `-design.svg` files; the output
-folder also contains ship files. For a normal-only group:
+Point each profile's grid gate at one file per icon. The same-size `-design.svg`
+alias can be selected conveniently when the folder also contains canonical SVGs;
+this is not a second-size check. For a normal-only group:
 
 ```bash
 python3 core/check_svg_grid.py \
@@ -184,28 +185,32 @@ including declared keyshape containment.
 For every icon confirm:
 
 - each essential detector element has a resolved decision;
-- source topology is preserved or the simplification is documented;
+- intended subject topology is preserved; any simplification or reconstruction
+  of an [extraction-clearance artifact](icon-rules.md#extracted-prototypes-restore-missing-geometry)
+  is documented;
 - identity-bearing openings have recorded passing painted clearance;
 - no borrowed motif was forced into an inappropriate shape family;
 - every required automated gate passes for the declared profile;
-- the icon and its openings remain recognizable at true ship size.
+- the icon and its openings remain recognizable at native size.
 
 ## 8. Perform family review
 
-Generate one sheet of all finished ship icons at true size and inspect a second
-magnified view of the same raster decisions:
+Generate one sheet of all finished native icons, with each icon shown at its
+native dimensions. Do not produce a second magnified or reduced review export:
 
 ```bash
 python3 core/render_svg_contact_sheet.py \
   "work/$BATCH/output" \
   "work/$BATCH/qa/family-contact-sheet.png" \
-  --true-size 24 --preview-scale 4 --columns 10
+  --icon-type normal --preview-scale 1 --columns 10
 ```
 
-Use a ship-only folder if `output/` also contains design SVGs. The example is
-for a normal family. Use `--true-size 16` for a separately reviewed sub family
-and `--true-size 32` for a separately reviewed container family; do not mix
-profiles on one sheet.
+Use a canonical-only folder or the tool's alias filtering to avoid duplicate
+`-design.svg` images. The example uses configured `normal` dimensions. Use
+`--icon-type sub`, `--icon-type container`, or a custom configured name for its
+respective family; do not mix profiles on one sheet. Optional `--true-size`
+must equal the selected profile's native size. Manual zoom can aid diagnosis,
+but the acceptance verdict remains at native dimensions.
 
 Review:
 

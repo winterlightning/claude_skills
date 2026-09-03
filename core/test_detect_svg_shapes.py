@@ -13,6 +13,8 @@ class ShapeDetectorTests(unittest.TestCase):
     def test_report_uses_current_centered_keyshapes(self):
         report = analyze_svg('<svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20"/></svg>')
         self.assertEqual(report["targetSpec"]["grid"], {"minor": 1, "major": 4})
+        self.assertEqual(report["targetSpec"]["shipCanvas"], 48)
+        self.assertEqual(report["targetSpec"]["regularStroke"], {"design": 4, "ship": 4})
         self.assertNotIn("angleStep", report["targetSpec"])
         self.assertEqual(
             [item["name"] for item in report["targetSpec"]["keyshapes"]],

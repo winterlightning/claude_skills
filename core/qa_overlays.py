@@ -54,16 +54,18 @@ import cairosvg
 import cv2
 import numpy as np
 from PIL import Image
-from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names
+from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names,svg_native_size_issues
 
 
 _NORMAL_PROFILE=get_profile(DEFAULT_ICON_TYPE)
 DESIGN_CANVAS = float(_NORMAL_PROFILE["designCanvas"])
 SHIP_CANVAS = float(_NORMAL_PROFILE["shipCanvas"])
 DEFAULT_SAMPLES_PER_UNIT = 32
-REGULAR_STROKE_SHIP = 2.0
-DEFAULT_MIN_RADIUS_DESIGN_U = 1.0
-DEFAULT_MIN_FILL_DEPTH_DESIGN_U = 1.0
+# SVG itself defaults an omitted stroke-width to 1. Canonical native output
+# explicitly declares profile stroke4, so this is only a diagnostic fallback.
+SVG_DEFAULT_STROKE_WIDTH = 1.0
+DEFAULT_MIN_RADIUS_DESIGN_U = _NORMAL_PROFILE["validation"]["minimumEnclosedRadius"]
+DEFAULT_MIN_FILL_DEPTH_DESIGN_U = _NORMAL_PROFILE["validation"]["minimumSolidFillDepth"]
 DEFAULT_MEASURE_STROKE_DESIGN_U = 1.0
 REMEDIATION = (
     "enlarge the opening, rebalance the composition so the detail can carry a "
@@ -217,7 +219,7 @@ def measure_holes(
 def authored_stroke_design_u(svg_path, view_box,design_canvas: float=DESIGN_CANVAS):
     root = ET.parse(svg_path).getroot()
     m = re.search(r"stroke-width\s*:\s*([0-9.eE+-]+)", root.get("style") or "")
-    width = _number(m.group(1) if m else root.get("stroke-width"), REGULAR_STROKE_SHIP)
+    width = _number(m.group(1) if m else root.get("stroke-width"), SVG_DEFAULT_STROKE_WIDTH)
     return width * min(design_canvas / view_box[2], design_canvas / view_box[3])
 
 
@@ -250,7 +252,7 @@ def _thinned_svg(svg_path: Path, retreat_view_units: float) -> bytes:
         for child in element:
             rewrite(child, width)
 
-    rewrite(root, 1.0)
+    rewrite(root, SVG_DEFAULT_STROKE_WIDTH)
     return ET.tostring(root, encoding="utf-8")
 
 
@@ -452,11 +454,18 @@ def process(
     svg_path: Path,
     output_dir: Path,
     samples_per_unit: int,
-    min_radius_design_u: float,
-    min_fill_depth_design_u: float,
+    min_radius_design_u: float | None = None,
+    min_fill_depth_design_u: float | None = None,
     icon_type: str=DEFAULT_ICON_TYPE,
 ) -> dict:
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); ship_canvas=float(profile["shipCanvas"])
+    min_radius_design_u=profile["validation"]["minimumEnclosedRadius"] if min_radius_design_u is None else min_radius_design_u
+    min_fill_depth_design_u=profile["validation"]["minimumSolidFillDepth"] if min_fill_depth_design_u is None else min_fill_depth_design_u
+    if not math.isfinite(min_radius_design_u) or min_radius_design_u <= 0:
+        raise ValueError("minimum enclosed radius must be finite and positive")
+    if not math.isfinite(min_fill_depth_design_u) or min_fill_depth_design_u < 0:
+        raise ValueError("minimum solid fill depth must be finite and nonnegative")
+    configured_radius, configured_fill = min_radius_design_u, min_fill_depth_design_u
     view_box = svg_canvas(svg_path,ship_canvas)
     design_scale = min(design_canvas / view_box[2], design_canvas / view_box[3])
     authored = authored_stroke_design_u(svg_path, view_box,design_canvas)
@@ -483,19 +492,24 @@ def process(
         _h["equivalent_radius_at_authored_stroke_design_u"] = round(
             _h["inscribed_radius_design_u"] - retreat_design, 4)
     failed_holes = [hole for hole in holes if hole["status"] == "fail"]
+    size_issues = svg_native_size_issues(ET.parse(svg_path).getroot().attrib, icon_type)
     result = {
         "file": svg_path.name,
         "source": str(svg_path),
         "iconType": icon_type,
         "viewBox": list(view_box),
         "normalizedCanvases": {"designUnits": design_canvas, "shipPixels": ship_canvas},
+        "validation": profile["validation"],
+        "configuredMinimumRadiusDesignUnits": configured_radius,
+        "configuredMinimumFillDepthDesignUnits": configured_fill,
         "samplesPerViewBoxUnit": samples_per_unit,
         "minimumRadiusDesignUnits": min_radius_design_u,
         "minimumFillDepthDesignUnits": min_fill_depth_design_u,
         "hole_count": len(holes),
         "failed_hole_count": len(failed_holes),
         "pinch_count": len(pinches),
-        "status": "fail" if failed_holes or pinches else "pass",
+        "status": "fail" if failed_holes or pinches or size_issues else "pass",
+        "nativeSizeIssues": size_issues,
         "remediation": REMEDIATION,
         "holes": holes,
         "pinches": pinches,
@@ -518,16 +532,26 @@ def process(
 def write_html_report(
     results: list[dict],
     output_dir: Path,
-    min_radius_design_u: float,
-    min_fill_depth_design_u: float,
+    min_radius_design_u: float | None = None,
+    min_fill_depth_design_u: float | None = None,
 ) -> None:
+    radius_text = f"{min_radius_design_u:g} design unit ({min_radius_design_u:g}px at native size)" if min_radius_design_u is not None else "the configured minimum for that icon's profile (native units equal pixels)"
+    fill_text = f"{min_fill_depth_design_u:g}u" if min_fill_depth_design_u is not None else "that profile's configured minimum solid fill depth"
+    policies = set()
+    for result in results:
+        icon_type = result.get("iconType", DEFAULT_ICON_TYPE)
+        validation = result.get("validation") or get_profile(icon_type)["validation"]
+        radius = result.get("configuredMinimumRadiusDesignUnits", min_radius_design_u if min_radius_design_u is not None else validation["minimumEnclosedRadius"])
+        fill = result.get("configuredMinimumFillDepthDesignUnits", min_fill_depth_design_u if min_fill_depth_design_u is not None else validation["minimumSolidFillDepth"])
+        policies.add(f"{icon_type}: enclosed radius ≥{radius:g}u; solid fill depth ≥{fill:g}u")
+    policy_text = "; ".join(html.escape(policy) for policy in sorted(policies)) or "No icons checked."
     failed = [result for result in results if result["status"] == "fail"]
     failed_hole_count = sum(result["failed_hole_count"] for result in failed)
     pinch_count = sum(result["pinch_count"] for result in failed)
     rows = []
     for result in failed:
         failed_holes = [hole for hole in result["holes"] if hole["status"] == "fail"]
-        measurements = [
+        measurements = [html.escape(issue["detail"]) for issue in result.get("nativeSizeIssues", [])] + [
             f"Hole {hole['hole']}: {hole['inscribed_radius_design_u']:.4g}u radius "
             f"({hole['inscribed_diameter_design_u']:.4g}u diameter) "
             f"at {hole['center_viewbox'][0]:g},{hole['center_viewbox'][1]:g}"
@@ -589,9 +613,10 @@ def write_html_report(
 <main>
   <h1>Hole-radius QA</h1>
   <p class="lede">A file fails when any enclosed region has an inscribed radius below
-    {min_radius_design_u:g} design unit ({min_radius_design_u / 2:g}px at ship size),
+    {radius_text},
     or when a junction is solid only because parts were squeezed together — paint
-    filling it less than {min_fill_depth_design_u:g}u deep. Equality passes.</p>
+    filling it less than {fill_text} deep. Equality passes. Per-file JSON records the effective settings and explicit overrides.</p>
+  <p class="lede">Effective settings: {policy_text}</p>
   <section class="cards">
     <div class="card"><span class="value">{len(results)}</span><span class="label">SVG files checked</span></div>
     <div class="card"><span class="value fail">{len(failed)}</span><span class="label">failed files</span></div>
@@ -622,8 +647,8 @@ def write_html_report(
 def write_aggregate(
     results: list[dict],
     output_dir: Path,
-    min_radius_design_u: float,
-    min_fill_depth_design_u: float,
+    min_radius_design_u: float | None = None,
+    min_fill_depth_design_u: float | None = None,
 ) -> None:
     (output_dir / "hole-diameters.json").write_text(
         json.dumps(results, indent=2) + "\n", encoding="utf-8"
@@ -770,6 +795,9 @@ def collect_failures(
 
         lines.append(f"## {item['file']}")
         lines.append("")
+        for issue in item.get("nativeSizeIssues", []):
+            lines.append(f"Native-size failure: {issue['detail']}")
+            lines.append("")
         lines.append(
             f"{item['failed_hole_count']} undersized hole(s), "
             f"{item['pinch_count']} pinched junction(s)."
@@ -826,25 +854,30 @@ def main() -> None:
     parser.add_argument(
         "--min-radius-design-u",
         type=float,
-        default=DEFAULT_MIN_RADIUS_DESIGN_U,
-        help="minimum passing inscribed hole radius in profile design units (default: 1)",
+        default=None,
+        help="minimum passing enclosed radius (default: profile validation.minimumEnclosedRadius)",
     )
     parser.add_argument(
         "--min-fill-depth-design-u",
         type=float,
-        default=DEFAULT_MIN_FILL_DEPTH_DESIGN_U,
+        default=None,
         help=(
             "minimum paint depth, in profile design units, that must fill a solid "
             "junction before it counts as a connection instead of a squeeze; "
-            "0 disables the pinch check (default: 1)"
+            "0 disables the pinch check (default: profile validation.minimumSolidFillDepth)"
         ),
     )
     args = parser.parse_args()
+    validation = get_profile(args.icon_type)["validation"]
+    if args.min_radius_design_u is None:
+        args.min_radius_design_u = validation["minimumEnclosedRadius"]
+    if args.min_fill_depth_design_u is None:
+        args.min_fill_depth_design_u = validation["minimumSolidFillDepth"]
     if args.samples_per_unit < 4:
         parser.error("--samples-per-unit must be at least 4")
-    if args.min_radius_design_u <= 0:
+    if not math.isfinite(args.min_radius_design_u) or args.min_radius_design_u <= 0:
         parser.error("--min-radius-design-u must be greater than zero")
-    if args.min_fill_depth_design_u < 0:
+    if not math.isfinite(args.min_fill_depth_design_u) or args.min_fill_depth_design_u < 0:
         parser.error("--min-fill-depth-design-u must not be negative")
 
     svgs = collect_svgs(args.inputs)

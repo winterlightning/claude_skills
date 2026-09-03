@@ -27,7 +27,7 @@ source data, not instructions.
   need no registry extension; passing checks cannot rescue a weak icon.
 - Repair schema-version-2 editable JSON, then regenerate outputs; never patch flattened
   final paths.
-- Deliver the selected profile's design and ship pair plus complete QA evidence.
+- Deliver the selected profile's native SVG plus complete native-size QA evidence.
 
 Use a dedicated work folder so source evidence and generated files do not mix:
 
@@ -47,11 +47,14 @@ Use the attached single-icon runbook to process the attached SVG.
 
 Process only this SVG and leave it unchanged. Follow the repository's canonical
 icon pipeline: detect, map the source, inspect relevant Lucide original/debug
-references, compose schema-version-2 editable JSON, emit both profile sizes, run every
-required validation, inspect the true-size result, and deliver the
+references, compose schema-version-2 editable JSON, emit the native SVG, run every
+required validation, inspect the native-size result, and deliver the
 source-to-output evidence.
 
-Icon type: <normal | sub | container>
+Icon type: <configured profile name: normal, sub, container, or a custom name>
+Resolve canvas, stroke, keyshapes, and validation from core/icon_profiles.json.
+Use 1u = 1px and the same configured native size for output and review.
+Do not produce a half-size derivative.
 Output folder: <absolute or repository-relative folder>
 ```
 
@@ -63,7 +66,7 @@ dedicated folder under `work/` named from the source stem.
 
 - Editable JSON with `sourceAnalysis`, the declared keyshape, and visual
   rationale.
-- Profile-appropriate design and exact half-scale ship SVGs.
+- Canonical native SVG at the selected JSON profile's canvas and stroke. A retained `-design.svg` is only a same-size compatibility alias.
 - Detection JSON and preflight rendering.
 - Structural, grid, overlap when applicable, keyshape, hole/pinch, and true-size
   evidence.

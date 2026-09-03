@@ -1,7 +1,11 @@
 # Unlimited Shapes documentation
 
 Choose the icon type first. Each folder contains its agent skill, type-specific
-rules, generated numeric profile, and a portable request template.
+rules, generated numeric profile, and a portable request template. Built-in
+defaults are **48×48 normal/main**, **32×32 sub**, and **64×64 container**, with
+4px stroke. Sizes, strokes, keyshapes, validation and custom profile names are
+configured in JSON through the [profile manager](shared/profile-configuration.md).
+Output and acceptance review remain native 1:1 (1u = 1px); there is no half-size export.
 
 | Type | Agent entrypoint | Rules | Numeric profile | Request template |
 | --- | --- | --- | --- | --- |
@@ -11,7 +15,9 @@ rules, generated numeric profile, and a portable request template.
 
 An agent starts with the selected `SKILL.md` and reads its local rules and profile.
 It loads another type only when the task also needs that type, such as the sub icon
-used in a container preview. These are repository skill sources; pass the selected
+used in a container preview. The three skills are role templates, not a fixed
+enumeration of allowed types; custom named profiles use the shared pipeline and
+[configuration guide](shared/profile-configuration.md). These are repository skill sources; pass the selected
 entrypoint with the request when using an agent outside the repository.
 
 ## Where rules live
@@ -27,8 +33,8 @@ entrypoint with the request when using an agent outside the repository.
 - The [shared pipeline](shared/icon-pipeline.md) owns command order and repair
   loops. Input adapters add only their scope and intake requirements.
 
-Update the owning source when a rule changes. Regenerate profile pages and the
-browser mirror after changing the profile JSON:
+Update the owning source when a rule changes. Regenerate Markdown profile
+references after changing the profile JSON:
 
 ```bash
 python3 core/generate_profile_assets.py
@@ -44,11 +50,14 @@ python3 core/generate_profile_assets.py --check
 | An explicitly selected SVG batch | [Batch adapter](shared/icon-batch-execution-steps.md) |
 | Symbol-library `kind: "rework"` JSON | [Normal-icon rework](icons/rework.md) |
 | Local manifest-based rework pack | [Local pack lane](icons/rework.md#local-manifest-pack-lane) |
+| Symbol-library generation pack (`kind: "generate"`, per-symbol `icon_type.txt`) | [Generate skill](GENERATE_SKILL.md) |
 
 The automated rework/upload wrapper produces normal icons. Sub and container
 work use the same profile-aware core commands through their own skills.
 
 ## Shared references
+
+- [Profile configuration and manager](shared/profile-configuration.md): edit the JSON source, manage validation/inheritance, and add custom profiles.
 
 - [Editable geometry and Lucide references](shared/atomic-shapes.md): schema-version-2 elements, exact construction and on-demand reference retrieval.
 - [Authoring techniques](shared/icon-authoring-guide.md): silhouette, joins, and optical review.
@@ -60,6 +69,7 @@ work use the same profile-aware core commands through their own skills.
 
 Run commands from the repository root. Keep job evidence and outputs under
 `work/<job>/`, separate from maintained rules and source assets. Repair editable
-geometry JSON, re-emit both SVG sizes, and rerun the affected checks before delivery.
+geometry JSON, re-emit the native SVG and any same-size compatibility alias, and
+rerun the affected checks before delivery.
 New contours require no registry extension or generated shape assets. Keep any
 remote upload separate from local delivery and require explicit authorization.

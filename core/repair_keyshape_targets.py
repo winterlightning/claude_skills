@@ -19,6 +19,7 @@ from pathlib import Path
 ROOT = Path.cwd()
 sys.path.insert(0, str(ROOT / "core"))
 from icon_geometry import resolve_icon, sample, svg
+from icon_profiles import validate_document_profile
 
 
 SEMANTIC_TARGETS = {
@@ -427,14 +428,16 @@ def main() -> int:
     args = ap.parse_args()
     editable_dir = args.output / "editable"
     design_dir = args.output / "final"
-    ship_dir = args.output / "final_24"
-    for folder in (editable_dir, design_dir, ship_dir):
+    for folder in (editable_dir, design_dir):
         folder.mkdir(parents=True, exist_ok=True)
     audit = {x["file"]: x for x in json.loads(args.audit.read_text())}
     changed = 0
     grid_exceptions = {"version": 1, "files": {}}
     for source in sorted(args.source.glob("*.json")):
         doc = json.loads(source.read_text())
+        icon_type, profile = validate_document_profile(doc)
+        if icon_type != "normal":
+            raise ValueError("this legacy repair set supports only the normal profile")
         result = audit[source.with_suffix(".svg").name]
         if result["status"] == "fail":
             old = result["paintedBoundsDesign"]
@@ -463,9 +466,8 @@ def main() -> int:
         (editable_dir / source.name).write_text(json.dumps(doc, indent=2) + "\n")
         paths = resolve_icon(doc)
         design_path = design_dir / f"{doc['name']}.svg"
-        design_svg = svg(paths, 48, 4)
+        design_svg = svg(paths, profile["designCanvas"], profile["designStroke"])
         design_path.write_text(design_svg)
-        (ship_dir / f"{doc['name']}.svg").write_text(svg(paths, 24, 2, .5))
         reasons = fractional_reasons(doc, design_svg)
         if reasons:
             grid_exceptions["files"][design_path.name] = {

@@ -2,7 +2,7 @@
 """Compose a non-shipping filled container preview from two editable sources.
 
 The manifest keeps the shipping container and the candidate sub icon separate.
-Only the rendered preview pair is produced; no flattened editable document is
+Only the native-size preview and its same-size compatibility alias are produced; no flattened editable document is
 created because such a document is not a valid icon type and must never enter
 the shipping validation path.
 """
@@ -14,6 +14,7 @@ import json
 from pathlib import Path
 import re
 from typing import Any
+import xml.etree.ElementTree as ET
 
 from icon_geometry import Command, resolve_icon, sample, svg
 from icon_profiles import (
@@ -56,7 +57,9 @@ def _referenced_json(manifest_path: Path, manifest: dict[str, Any], field: str) 
 
 def _validate_sub_keyshape(document: dict[str, Any], paths: list[dict], target_name: str) -> None:
     """Keep a preview candidate honest about the accepted painted boundary."""
-    target = token_named(target_name, "sub")
+    icon_type, profile = validate_document_profile(document)
+    tolerance = profile["validation"]["geometryTolerance"]
+    target = token_named(target_name, icon_type)
     if target is None:
         raise ValueError(f"unknown sub keyshape target {target_name!r}")
     points = [
@@ -66,7 +69,7 @@ def _validate_sub_keyshape(document: dict[str, Any], paths: list[dict], target_n
     ]
     if not points:
         raise ValueError("sub source has no painted geometry")
-    stroke = float(document.get("strokeWidth", 4))
+    stroke = float(profile["strokeWidth"])
     radius = stroke / 2.0
     actual = (
         min(x for x, _ in points) - radius,
@@ -74,14 +77,14 @@ def _validate_sub_keyshape(document: dict[str, Any], paths: list[dict], target_n
         max(x for x, _ in points) + radius,
         max(y for _, y in points) + radius,
     )
-    expected = token_box(target["width"], target["height"], "sub")
-    if not matches(expected, actual, 1e-3):
+    expected = token_box(target["width"], target["height"], icon_type)
+    if not matches(expected, actual, tolerance):
         raise ValueError(
             f"sub painted bounds {actual} do not match declared {target_name} bounds {expected}"
         )
     if target["shape"] == "circle":
-        overflow = circle_overflow(points, stroke, "sub")
-        if overflow > 1e-3:
+        overflow = circle_overflow(points, stroke, icon_type, target)
+        if overflow > tolerance:
             raise ValueError(
                 f"sub painted geometry exceeds {target_name} by {overflow:.4g}u"
             )
@@ -122,14 +125,13 @@ def compose(manifest_path: Path, output_dir: Path) -> tuple[Path, Path]:
     sub_path, sub = _referenced_json(manifest_path, manifest, "sub")
     container_type, container_profile = validate_document_profile(container)
     sub_type, sub_profile = validate_document_profile(sub)
-    if container_type != "container":
+    if "containerSlot" not in container_profile:
         raise ValueError(
-            f"container source must declare iconType 'container': {container_path}"
+            f"container source must declare an iconType with containerSlot: {container_path}"
         )
-    if sub_type != "sub":
-        raise ValueError(f"sub source must declare iconType 'sub': {sub_path}")
-
     slot = validate_container_slot(container, container_profile)
+    if sub_type != slot["acceptedProfile"]:
+        raise ValueError(f"sub source must declare iconType {slot['acceptedProfile']!r}: {sub_path}")
     target_name = (sub.get("keyfitCheck") or {}).get("targetToken")
     if not isinstance(target_name, str) or not target_name:
         raise ValueError("sub source requires keyfitCheck.targetToken")
@@ -154,19 +156,24 @@ def compose(manifest_path: Path, output_dir: Path) -> tuple[Path, Path]:
     design_stroke = container_profile["designStroke"]
     ship_stroke = container_profile["shipStroke"]
     scale = ship_canvas / design_canvas
-    if scale != 0.5 or ship_stroke / design_stroke != 0.5:
-        raise ValueError("filled previews require exact half-scale ship geometry")
+    if scale != 1 or ship_stroke != design_stroke:
+        raise ValueError("filled previews require native-size 1:1 final geometry")
 
     output_dir = output_dir.expanduser().resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     design_path = output_dir / f"{name}-design.svg"
     ship_path = output_dir / f"{name}.svg"
-    design_path.write_text(
-        svg(paths, design_canvas, design_stroke), encoding="utf-8"
-    )
-    ship_path.write_text(
-        svg(paths, ship_canvas, ship_stroke, scale), encoding="utf-8"
-    )
+    preview = svg(paths, design_canvas, design_stroke)
+    if sub_profile["strokeWidth"] != design_stroke:
+        # A filled preview is not a shipping icon. Preserve the accepted
+        # profile's own stroke instead of silently restyling its geometry.
+        ET.register_namespace("", "http://www.w3.org/2000/svg")
+        root = ET.fromstring(preview)
+        for path in list(root)[len(container_paths):]:
+            path.set("stroke-width", f"{sub_profile['strokeWidth']:g}")
+        preview = ET.tostring(root, encoding="unicode") + "\n"
+    design_path.write_text(preview, encoding="utf-8")
+    ship_path.write_text(preview, encoding="utf-8")
     return design_path, ship_path
 
 

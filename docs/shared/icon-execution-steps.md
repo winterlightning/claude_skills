@@ -42,7 +42,7 @@ Record:
 ```text
 source SVG:    /absolute/path/to/reference.svg
 output folder: /absolute/path/to/work/<icon-name>
-icon type:     normal | sub | container
+icon type:     <configured profile name>
 ```
 
 Choose the type from [icon-types.md](icon-types.md). A request for an icon inside,
@@ -118,7 +118,7 @@ Single-icon work still requires:
 - exact editable elements with stable IDs, including connected contours where useful;
 - schema-version-2 editable JSON as the repair source;
 - the type-appropriate emission and QA path;
-- a visual keyshape rationale based on the whole composition at true ship size;
+- a visual keyshape rationale based on the whole composition at native size;
 - documented simplifications, omissions, exceptions, and blocked checks.
 
 Do not attach or inspect unselected sibling variants while resolving a mapping
@@ -130,7 +130,7 @@ The handoff contains:
 
 - editable JSON with `iconType`, declared keyshape, `sourceAnalysis` mappings,
   relationships, and spacing checks;
-- type-appropriate design and exact half-scale ship SVGs;
+- canonical native SVG at the declared profile's configured canvas and stroke; any `-design.svg` is a same-size alias;
 - container slot metadata and non-shipping filled preview when applicable;
 - the detection JSON and preflight plot;
 - grid, overlap, keyshape, hole/pinch, and true-size evidence for the declared

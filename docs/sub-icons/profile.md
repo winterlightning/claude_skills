@@ -5,22 +5,35 @@ Generated from [the canonical profile JSON](../../core/icon_profiles.json). All 
 
 ## Canvas and stroke
 
-| Property | Design | Ship |
+| Property | Editable | Final / native review |
 | --- | --- | --- |
-| Canvas | 32×32u | 16×16px |
-| Stroke | 4u | 2px |
-| Center | `(16,16)`u | `(8,8)`px |
-| Minimum distinct centerline distance | 3u | 1.5px |
+| Canvas | 32×32u | 32×32px |
+| Stroke | 4u | 4px |
+| Center | `(16,16)`u | `(16,16)`px |
+| Minimum distinct centerline distance | 3u | 3px |
 
-Design-to-ship scale: **0.5×** for coordinates, dimensions, and stroke width.
+Native output scale: **1:1**. Editable, final, and visual-review geometry use the same canvas and stroke; no half-size output is generated.
+The legacy `design*` and `ship*` profile keys are same-size compatibility aliases.
 
 ## Keyshapes
 
 Bounds are `(left,top)…(right,bottom)` and include stroke paint. Each token is centered on the profile center. Circle width and height equal its diameter.
 
-| Token | Shape | Orientation | Design size | Design painted bounds | Ship painted bounds |
+| Token | Shape | Orientation | Native size | Editable painted bounds | Final painted bounds (same size) |
 | --- | --- | --- | --- | --- | --- |
-| `circle-32` | circle | circle | 32×32u | `(0,0)…(32,32)` | `(0,0)…(16,16)` |
-| `square-32` | rect | square | 32×32u | `(0,0)…(32,32)` | `(0,0)…(16,16)` |
-| `portrait-28x32` | rect | portrait | 28×32u | `(2,0)…(30,32)` | `(1,0)…(15,16)` |
-| `landscape-32x28` | rect | landscape | 32×28u | `(0,2)…(32,30)` | `(0,1)…(16,15)` |
+| `circle-32` | circle | circle | 32×32u | `(0,0)…(32,32)` | `(0,0)…(32,32)` |
+| `square-32` | rect | square | 32×32u | `(0,0)…(32,32)` | `(0,0)…(32,32)` |
+| `portrait-28x32` | rect | portrait | 28×32u | `(2,0)…(30,32)` | `(2,0)…(30,32)` |
+| `landscape-32x28` | rect | landscape | 32×28u | `(0,2)…(32,30)` | `(0,2)…(32,30)` |
+
+## Validation settings
+
+| Validation setting | Effective value |
+| --- | ---: |
+| `gridStep` | 1 |
+| `majorGridStep` | 4 |
+| `geometryTolerance` | 0.001 |
+| `keyshapeTolerance` | 0.03125 |
+| `minimumDistinctCenterlineDistance` | 3 |
+| `minimumEnclosedRadius` | 1 |
+| `minimumSolidFillDepth` | 1 |

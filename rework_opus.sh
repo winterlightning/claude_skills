@@ -7,7 +7,7 @@
 #   ./rework_opus.sh "Building Construction"
 #   ./rework_opus.sh <url> --from make          # re-run the remake onward
 #   ./rework_opus.sh <url> --to verify --yes    # build and check, upload nothing
-#   ./rework_opus.sh <url> --from upload --yes  # just re-upload what is already built
+#   ./rework_opus.sh <url> --from upload --yes  # re-verify, then upload existing output
 #   ./rework_opus.sh <url> --to detect          # stage, draft, detect, then stop
 #
 # Every stage is idempotent, so re-running the same command resumes rather than
@@ -158,9 +158,9 @@ PYD
       echo "comes later. Do not compose, emit, or validate anything; do not touch"
       echo "any other symbol; do not fetch anything."
       echo
-      echo "Use the normal design canvas, stroke, and permitted geometry in"
-      echo "docs/icons/rules.md. Draw only the parts the brief authorizes; its"
-      echo "feature budget is binding."
+      echo "Resolve the native normal profile canvas/stroke from core/icon_profiles.json."
+      echo "Follow docs/icons/rules.md. Draw only the parts the brief authorizes; its"
+      echo "feature budget is binding. Do not create a half-size draft."
       echo
       echo "Symbols (icon-name | concept | brief):"
       printf '%s\n' "$NEEDED"
@@ -245,6 +245,15 @@ Binding points, from that runbook:
   geometry, never of meaning. Record a briefDiff entry for every disagreement and
   omit every part the brief does not authorize. Preserve sourceOrigin from
   batch.json and apply the runbook's source-priority and prototype rules.
+- Extracted prototypes can have cutouts or missing parts left as clearance
+  around another object in a larger icon. Reconstruct the complete intended
+  contour or part when that overlapping object is absent from the new icon;
+  do not copy the leftover gap or truncation. Follow the extracted-prototype
+  rule in docs/shared/icon-rules.md. Preserve intentional openings, current
+  overlap clearance, protected slots, and the original source files. Record
+  the restoration and its evidence as a rebuild mapping; filling a missing
+  part means restoring stroked geometry, not adding an opaque patch. Flag a
+  genuinely ambiguous continuation that would change the subject.
 - R1 — judge before you remake. For every symbol sourced from a final or a
   prototype, account for every required feature as present, missing, or excess
   against the staged drawing, then record
@@ -263,6 +272,8 @@ Binding points, from that runbook:
   python3 core/lucide_reference.py inspect ICON --json to inspect useful pairs.
   Original SVGs are authoritative reference evidence; debug segmentation is an
   inspection aid, not a required output structure or proof of design intent.
+  Keep those original 24px reference files unchanged; they do not set this
+  system's output or acceptance-review dimensions.
 - Record sourceAnalysis.lucideReferences with each name, selection reason and
   applied construction principles. Do not invent a match when none is useful.
 - Apply the linked guides' visual-quality requirements. New contours live
@@ -272,17 +283,39 @@ Binding points, from that runbook:
   make an icon acceptable.
 - Write editable sources to $BATCH/editable/<icon-name>.json using the
   iconName in batch.json, and emit to $BATCH/output. New sources must declare
-  schemaVersion: 2, iconType: normal, and an ordered elements array with stable
+  schemaVersion: 2, iconType: normal, canvas and strokeWidth from the configured
+  normal profile, and an ordered elements array with stable
   id, optional role, supported tag and geometry-only attrs. Do not use legacy
   instances/shapeId. Preserve sourceAnalysis and profile/keyfit metadata; use
   elements:[id,id] for spacing relationships. Keep connected contours as paths
   when useful, including intentional arcs, quadratic and cubic curves.
+- Resolve normal canvas, strokeWidth, keyshapes, and validation settings from
+  core/icon_profiles.json. Built-in 48px/4px values are defaults, not constants.
+  Author, export, and review at that configured native size with 1u = 1px.
+  Canonical <icon-name>.svg and the retained
+  <icon-name>-design.svg upload alias have identical native dimensions; they
+  are not two resolutions. Do not create half-size output. Review one
+  native-size contact sheet (preview scale 1), not a second reduced or enlarged
+  export. Optional manual zoom is diagnostic, not acceptance at another size.
 - Use the default exact keyfit mode unless an intrinsically thin/sparse subject
   justifies the documented optical mode, rationale and measured paintedBounds.
   Optical mode still requires containment and true-size visual review.
+- Canvas and declared keyshape verification is mandatory for both native SVGs:
+  run python3 core/validate_icon_keyshapes.py "$BATCH/output"
+  --expected-editable-dir "$BATCH/editable" --icon-type normal
+  --output-dir "$BATCH/qa/canvas-keyshape". Every expected canonical and design
+  alias must have a fresh passing result. Missing metadata, incorrect native
+  width/height, clipped paint, undersized exact fits, and missing/error reports
+  block completion. Fix the editable geometry, regenerate both SVGs, rerun this
+  gate and all downstream QA, and repeat until every required check passes.
+  Never change profile dimensions, keyshape declarations, fit mode, tolerances,
+  validation code, or review metadata merely to hide a failure. If a genuine
+  design decision blocks repair, report that icon as blocked, not complete.
 - Run every normal-profile QA gate in docs/shared/icon-pipeline.md, then the
   concept and family reviews in the rework adapter. Repair and rerun downstream
-  gates before reporting completion.
+  gates before reporting completion. Use profile-default QA thresholds; do not
+  override them with fixed example values. Profile changes require new emission,
+  all QA, and actual native-size review, not merely changed review metadata.
 
 Do NOT run upload.py and do NOT POST anything. The wrapper handles a separately
 authorized upload after verification and its dry-run/confirmation sequence.
@@ -301,7 +334,7 @@ EOF
 fi
 
 # --------------------------------------------------------------------- verify
-if active verify; then
+if active verify || active upload; then
   step "5/6  verify — emitted outputs and the QA gates"
   python3 - "$BATCH" <<'PY' || exit 1
 import json,sys
@@ -337,7 +370,7 @@ if invalid:
 if missing or invalid:
     print("    re-run with --from make, or finish those symbols by hand.")
     sys.exit(1)
-print(f"    {len(batch['symbols'])} symbols have editable source, design SVG, and ship SVG")
+print(f"    {len(batch['symbols'])} symbols have editable source, canonical native SVG, and same-size upload alias")
 PY
 
   shopt -s nullglob
@@ -362,7 +395,7 @@ PY
   reset_qa_dir() {
     local gate="$1" target
     case "$gate" in
-      grid|keyshape|holes) target="$QA_ROOT/$gate" ;;
+      grid|canvas-keyshape|keyshape|holes) target="$QA_ROOT/$gate" ;;
       *) die "refusing to reset unknown QA directory '$gate'" ;;
     esac
     [[ "$target" == "$QA_ROOT"/* ]] || die "refusing to reset QA outside $QA_ROOT"
@@ -394,44 +427,84 @@ PY
     fi
   done
 
-  note "grid gate (design canvas)"
+  note "grid gate (configured normal native canvas; design alias)"
   reset_qa_dir "grid"
   GRID_EXCEPTIONS=()
   if [[ -f "$BATCH/grid-exceptions.json" ]]; then
     GRID_EXCEPTIONS=(--exceptions "$BATCH/grid-exceptions.json")
   fi
-  if ! python3 core/check_svg_grid.py "${DESIGNS[@]}" --expected design \
+  if ! python3 core/check_svg_grid.py "${DESIGNS[@]}" --icon-type normal --expected design \
     ${GRID_EXCEPTIONS[@]+"${GRID_EXCEPTIONS[@]}"} \
     --output-dir "$QA_ROOT/grid" >/dev/null; then
     QA_FAILED=1
   fi
-  note "keyshape containment (ship canvas)"
-  reset_qa_dir "keyshape"
-  if ! python3 core/check_keyfit.py "${SHIPS[@]}" \
+  note "mandatory canvas + declared keyshape gate (both native output filenames)"
+  reset_qa_dir "canvas-keyshape"
+  if ! python3 core/validate_icon_keyshapes.py "${SHIPS[@]}" "${DESIGNS[@]}" --icon-type normal \
     --expected-editable-dir "$BATCH/editable" \
-    --output-dir "$QA_ROOT/keyshape" >/dev/null; then
+    --output-dir "$QA_ROOT/canvas-keyshape" >/dev/null; then
     QA_FAILED=1
   fi
-  note "hole and pinch QA (ship canvas)"
+  note "painted-bounds report (reuse mandatory gate raster evidence)"
+  reset_qa_dir "keyshape"
+  python3 - "$BATCH" "$QA_ROOT/keyshape" <<'PY' || QA_FAILED=1
+import json, shutil, sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path.cwd() / "core"))
+import check_keyfit
+
+root, output = Path(sys.argv[1]), Path(sys.argv[2])
+batch = json.loads((root / "batch.json").read_text())
+expected = {Path(row["ship"]).name for row in batch["symbols"]}
+aggregate = json.loads((root / "qa/canvas-keyshape/canvas-keyshape-results.json").read_text())
+rows = aggregate.get("rows")
+if not isinstance(rows, list):
+    raise SystemExit("missing mandatory canvas/keyshape rows; no painted-bounds report can be reused")
+selected = [row for row in rows if isinstance(row, dict) and row.get("file") in expected]
+if len(selected) != len(expected) or {row["file"] for row in selected} != expected:
+    raise SystemExit("incomplete canonical canvas/keyshape evidence")
+results = []
+for row in selected:
+    keyfit = row.get("keyfit")
+    if not isinstance(keyfit, dict):
+        raise SystemExit(f"no raster keyshape evidence for {row['file']}")
+    stem = Path(row["file"]).stem
+    for field, name in (("keyfitReport", f"{stem}.keyfit.json"), ("keyfitOverlay", f"{stem}_keyfit.png")):
+        artifact = row.get(field)
+        if (not isinstance(artifact, str) or not Path(artifact).is_file() or Path(artifact).is_symlink()
+                or not Path(artifact).resolve().is_relative_to((root / "qa/canvas-keyshape").resolve())):
+            raise SystemExit(f"missing current-run {field} for {row['file']}")
+        shutil.copy2(artifact, output / name)
+    results.append(keyfit)
+check_keyfit.write_aggregate(results, output)
+PY
+  note "hole and pinch QA (configured normal canvas/stroke/validation)"
   reset_qa_dir "holes"
   if ! python3 core/qa_overlays.py "${SHIPS[@]}" \
-    --output-dir "$QA_ROOT/holes" --min-radius-design-u 1 >/dev/null; then
+    --icon-type normal --output-dir "$QA_ROOT/holes" >/dev/null; then
     QA_FAILED=1
   fi
 
-  # Each gate writes a flat JSON list of {file, status}; read those rather than
-  # scraping stdout, which the HTML reports pollute with the word "fail".
+  # Read structured results and enforce complete input coverage. In particular,
+  # an empty/malformed aggregate must never turn a missing gate into success.
   python3 - "$BATCH" <<'PY' || QA_FAILED=1
 import json, sys
 from pathlib import Path
 
+sys.path.insert(0, str(Path.cwd() / "core"))
+from icon_profiles import get_profile
+from rework_pack import verify_canvas_keyshape_evidence
+
 qa = Path(sys.argv[1]) / "qa"
 batch = json.loads((Path(sys.argv[1]) / "batch.json").read_text())
 GATES = (("grid",     qa / "grid" / "grid-results.json",       "overallStatus"),
+         ("canvas-keyshape", qa / "canvas-keyshape" / "canvas-keyshape-results.json", "status"),
          ("keyshape", qa / "keyshape" / "keyfit-results.json", "status"),
          ("holes",    qa / "holes" / "hole-diameters.json",    "status"))
 EXPECTED = {
     "grid": {Path(row["design"]).name for row in batch["symbols"]},
+    "canvas-keyshape": {Path(row[key]).name for row in batch["symbols"] for key in ("ship", "design")},
     "keyshape": {Path(row["ship"]).name for row in batch["symbols"]},
     "holes": {Path(row["ship"]).name for row in batch["symbols"]},
 }
@@ -441,12 +514,49 @@ for gate, path, key in GATES:
     if not path.is_file():
         bad.append((gate, path.name, "report missing — the gate did not run"))
         continue
-    rows = json.loads(path.read_text())
+    try:
+        report = json.loads(path.read_text())
+    except (OSError, ValueError) as error:
+        bad.append((gate, path.name, f"unreadable report: {error}"))
+        continue
+    if gate == "canvas-keyshape":
+        if (not isinstance(report, dict) or report.get("ok") is not True
+                or type(report.get("checked")) is not int or report["checked"] != len(EXPECTED[gate])
+                or type(report.get("failed")) is not int or report["failed"] != 0):
+            bad.append((gate, path.name, "aggregate did not record a complete passing run"))
+        rows = report.get("rows") if isinstance(report, dict) else None
+    else:
+        rows = report
+    if not isinstance(rows, list) or any(not isinstance(row, dict) for row in rows):
+        bad.append((gate, path.name, "malformed report rows"))
+        continue
     seen = {row.get("file") for row in rows}
+    if len(seen) != len(rows):
+        bad.append((gate, path.name, "duplicate file results"))
     for missing in sorted(EXPECTED[gate] - seen):
         bad.append((gate, missing, "result missing — the file was not processed"))
+    for unexpected in sorted(seen - EXPECTED[gate], key=str):
+        bad.append((gate, str(unexpected), "unexpected result outside the staged batch"))
     for row in rows:
         status = str(row.get(key) or row.get("status") or "").lower()
+        if gate == "canvas-keyshape":
+            errors = row.get("errors")
+            keyfit = row.get("keyfit")
+            if (row.get("ok") is not True or status != "pass"
+                    or not isinstance(errors, list) or errors
+                    or not isinstance(keyfit, dict) or keyfit.get("status") != "pass"):
+                bad.append((gate, row.get("file", "?"), "missing, failed, or errored canvas/keyshape evidence"))
+            expected = next(((symbol, item) for symbol in batch["symbols"] for item in ("ship", "design")
+                             if Path(symbol[item]).name == row.get("file")), None)
+            if expected:
+                symbol, item = expected
+                try:
+                    verify_canvas_keyshape_evidence(
+                        row, Path(sys.argv[1]) / symbol[item],
+                        Path(sys.argv[1]) / "editable" / f"{symbol['iconName']}.json",
+                        get_profile("normal"), qa / "canvas-keyshape")
+                except (OSError, ValueError, TypeError) as error:
+                    bad.append((gate, row.get("file", "?"), str(error)))
         if status not in ("pass", "ok"):
             detail = row.get("reason") or row.get("remediation") or ""
             issues = row.get("issues") or []
@@ -464,18 +574,18 @@ if bad:
             print(f"               {detail}")
     print(f"\n    full reports: {qa}")
     sys.exit(1)
-print("    grid, keyshape, and hole/pinch reports clean")
+print("    canvas/keyshape, grid, painted-bounds, and hole/pinch reports clean")
 PY
 
   if [[ "$STRUCTURE_FAILED" -ne 0 || "$OVERLAP_FAILED" -ne 0 || "$QA_FAILED" -ne 0 ]]; then
-    die "not uploading a batch with failing QA. Fix it, then re-run with --from verify."
+    die "not uploading a batch with failing or incomplete QA. Fix editable geometry, regenerate both SVGs, and re-run all verification; do not relax the rules."
   fi
   note "structural gates clean; all required overlap evidence was generated"
 fi
 
 # --------------------------------------------------------------------- upload
 if active upload; then
-  step "6/6  upload — POST each design SVG back as the symbol's final"
+  step "6/6  upload — POST each native SVG design alias back as the symbol's final"
   [[ -f "$BATCH/upload.py" && -f "$BATCH/manifest.json" ]] \
     || die "$BATCH is missing upload.py or manifest.json — re-stage the batch"
   UP=(); [[ -n "$LABEL" ]] && UP=(--name "$LABEL")

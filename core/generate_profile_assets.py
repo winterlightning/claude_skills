@@ -1,23 +1,20 @@
 #!/usr/bin/env python3
-"""Generate browser and documentation mirrors from core/icon_profiles.json."""
+"""Generate Markdown profile references from core/icon_profiles.json."""
 
 from __future__ import annotations
 
 import argparse
-import json
 from pathlib import Path
 
 from icon_profiles import (
     get_profile,
     profile_names,
-    source_document,
-    token_box,
-    validate_container_slot,
+    resolve_profiles,
+    validate_profile_source,
 )
 
 
 ROOT = Path(__file__).resolve().parent.parent
-DEFAULT_FRONTEND = ROOT / "frontend" / "js" / "icon-profiles.js"
 DEFAULT_DOCS = ROOT / "docs" / "shared" / "icon-profiles.md"
 DEFAULT_TYPE_DOCS_ROOT = ROOT / "docs"
 TYPE_DOC_DIRECTORIES = {
@@ -33,15 +30,24 @@ def bounds_text(bounds, scale: float = 1) -> str:
     return f"`({left:g},{top:g})…({right:g},{bottom:g})`"
 
 
-def keyshape_lines(name: str) -> list[str]:
-    profile = get_profile(name)
+def _catalog(profiles: dict | None = None) -> dict:
+    return profiles if profiles is not None else {name: get_profile(name) for name in profile_names()}
+
+
+def _bounds(token: dict, profile: dict) -> tuple[float, float, float, float]:
+    x, y = profile["center"]["x"], profile["center"]["y"]
+    return x - token["width"] / 2, y - token["height"] / 2, x + token["width"] / 2, y + token["height"] / 2
+
+
+def keyshape_lines(name: str, profiles: dict | None = None) -> list[str]:
+    profile = _catalog(profiles)[name]
     scale = profile["shipCanvas"] / profile["designCanvas"]
     lines = [
-        "| Token | Shape | Orientation | Design size | Design painted bounds | Ship painted bounds |",
+        "| Token | Shape | Orientation | Native size | Editable painted bounds | Final painted bounds (same size) |",
         "| --- | --- | --- | --- | --- | --- |",
     ]
     for token in profile["keyshapes"]:
-        bounds = token_box(token, name)
+        bounds = _bounds(token, profile)
         lines.append(
             f"| `{token['name']}` | {token['shape']} | {token['orientation']} | "
             f"{token['width']:g}×{token['height']:g}u | "
@@ -50,24 +56,19 @@ def keyshape_lines(name: str) -> list[str]:
     return lines
 
 
-def container_slot_lines(profile: dict) -> list[str]:
+def container_slot_lines(profile: dict, profiles: dict | None = None) -> list[str]:
     slot = profile["containerSlot"]
     scale = profile["shipCanvas"] / profile["designCanvas"]
-    accepted = get_profile(slot["acceptedProfile"])
-    resolved = [
-        validate_container_slot(
-            {"containerSlot": {**slot, "acceptedKeyshape": token["name"]}}, profile
-        )
-        for token in accepted["keyshapes"]
-    ]
-    protected = resolved[0]["protectedBounds"]
-    center = resolved[0]["protectedCenter"]
+    accepted = _catalog(profiles)[slot["acceptedProfile"]]
     clear = slot["minimumClearSquare"]
+    left, top = slot["x"] + (slot["w"] - clear) / 2, slot["y"] + (slot["h"] - clear) / 2
+    protected = [left, top, left + clear, top + clear]
+    center = {"x": slot["x"] + accepted["center"]["x"], "y": slot["y"] + accepted["center"]["y"]}
     lines = [
         f"Accepted profile: `{slot['acceptedProfile']}`. Declare one accepted keyshape "
         "from the table below in `containerSlot.acceptedKeyshape`.",
         "",
-        "| Slot property | Design | Ship |",
+        "| Slot property | Editable | Final (same size) |",
         "| --- | --- | --- |",
         f"| Origin | `({slot['x']:g},{slot['y']:g})`u | `({slot['x'] * scale:g},{slot['y'] * scale:g})`px |",
         f"| Size | {slot['w']:g}×{slot['h']:g}u | {slot['w'] * scale:g}×{slot['h'] * scale:g}px |",
@@ -77,20 +78,30 @@ def container_slot_lines(profile: dict) -> list[str]:
         "",
         "Container paint must leave the protected square completely clear for every accepted keyshape.",
         "",
-        "| Accepted keyshape | Bounds in container design coordinates | Bounds in container ship coordinates |",
+        "| Accepted keyshape | Bounds in container editable coordinates | Bounds in container final coordinates (same size) |",
         "| --- | --- | --- |",
     ]
-    for item in resolved:
+    for token in accepted["keyshapes"]:
+        accepted_bounds = [value + slot["x" if index % 2 == 0 else "y"] for index, value in enumerate(_bounds(token, accepted))]
         lines.append(
-            f"| `{item['acceptedToken']['name']}` | "
-            f"{bounds_text(item['acceptedBounds'])} | "
-            f"{bounds_text(item['acceptedBounds'], scale)} |"
+            f"| `{token['name']}` | "
+            f"{bounds_text(accepted_bounds)} | "
+            f"{bounds_text(accepted_bounds, scale)} |"
         )
     return lines
 
 
-def type_markdown_source(name: str) -> str:
-    profile = get_profile(name)
+def validation_lines(profile: dict) -> list[str]:
+    return ["| Validation setting | Effective value |", "| --- | ---: |", *[
+        f"| `{key}` | {value:g} |" for key, value in profile["validation"].items()
+    ]]
+
+
+def type_markdown_source(name: str, profiles: dict | None = None) -> str:
+    profiles = _catalog(profiles)
+    if name not in profiles:
+        return "\n".join([GENERATED_NOTICE, f"# `{name}` icon profile", "", "This icon type is not configured in [the canonical profile JSON](../../core/icon_profiles.json).", "", "See the [current profile catalog](../shared/icon-profiles.md) and [shared workflow](../shared/icon-pipeline.md).", ""])
+    profile = profiles[name]
     scale = profile["shipCanvas"] / profile["designCanvas"]
     center = profile["center"]
     distance = profile["minimumDistinctCenterlineDistance"]
@@ -103,50 +114,46 @@ def type_markdown_source(name: str) -> str:
         "",
         "## Canvas and stroke",
         "",
-        "| Property | Design | Ship |",
+        "| Property | Editable | Final / native review |",
         "| --- | --- | --- |",
         f"| Canvas | {profile['designCanvas']:g}×{profile['designCanvas']:g}u | {profile['shipCanvas']:g}×{profile['shipCanvas']:g}px |",
         f"| Stroke | {profile['designStroke']:g}u | {profile['shipStroke']:g}px |",
         f"| Center | `({center['x']:g},{center['y']:g})`u | `({center['x'] * scale:g},{center['y'] * scale:g})`px |",
         f"| Minimum distinct centerline distance | {distance:g}u | {distance * scale:g}px |",
         "",
-        f"Design-to-ship scale: **{scale:g}×** for coordinates, dimensions, and stroke width.",
+        f"Native output scale: **{scale:g}:1**. Editable, final, and visual-review geometry use the same canvas and stroke; no half-size output is generated.",
+        "The legacy `design*` and `ship*` profile keys are same-size compatibility aliases.",
         "",
         "## Keyshapes",
         "",
         "Bounds are `(left,top)…(right,bottom)` and include stroke paint. "
         "Each token is centered on the profile center. Circle width and height equal its diameter.",
         "",
-        *keyshape_lines(name),
+        *keyshape_lines(name, profiles),
+        "",
+        "## Validation settings",
+        "",
+        *validation_lines(profile),
         "",
     ]
     if "containerSlot" in profile:
-        lines.extend(["## Container slot", "", *container_slot_lines(profile), ""])
+        lines.extend(["## Container slot", "", *container_slot_lines(profile, profiles), ""])
     return "\n".join(lines)
 
 
-def browser_source() -> str:
-    payload = json.dumps(source_document(), indent=2, ensure_ascii=False)
-    return (
-        "'use strict';\n\n"
-        "// Generated by core/generate_profile_assets.py. Do not edit by hand.\n"
-        f"const ICON_PROFILES = Object.freeze({payload});\n"
-    )
-
-
-def markdown_source() -> str:
+def markdown_source(profiles: dict | None = None) -> str:
+    profiles = _catalog(profiles)
     lines = [
         GENERATED_NOTICE,
         "# Generated icon profile reference",
         "",
         "Generated from [the canonical profile JSON](../../core/icon_profiles.json). "
-        "Each type also has a complete generated `profile.md` in its documentation folder.",
+        "Built-in types also have a generated `profile.md` in their documentation folders; custom types are listed here.",
         "",
-        "| Type | Design | Ship | Design stroke | Ship stroke | Distinct centerline distance |",
+        "| Type | Editable | Final / native review | Editable stroke | Final stroke | Distinct centerline distance |",
         "| --- | ---: | ---: | ---: | ---: | ---: |",
     ]
-    for name in profile_names():
-        profile = get_profile(name)
+    for name, profile in profiles.items():
         lines.append(
             f"| `{name}` | {profile['designCanvas']}×{profile['designCanvas']} | "
             f"{profile['shipCanvas']}×{profile['shipCanvas']} | "
@@ -154,8 +161,7 @@ def markdown_source() -> str:
             f"{profile['minimumDistinctCenterlineDistance']}u |"
         )
     lines.extend(["", "## Keyshapes", ""])
-    for name in profile_names():
-        profile = get_profile(name)
+    for name, profile in profiles.items():
         lines.extend(
             [
                 f"### `{name}`",
@@ -165,17 +171,33 @@ def markdown_source() -> str:
             ]
         )
         for token in profile["keyshapes"]:
-            lines.append(f"| `{token['name']}` | {token['shape']} | {bounds_text(token_box(token, name))} |")
+            lines.append(f"| `{token['name']}` | {token['shape']} | {bounds_text(_bounds(token, profile))} |")
         lines.append("")
-    lines.extend(
-        [
-            "## Container slot",
-            "",
-            *container_slot_lines(get_profile("container")),
-            "",
-        ]
-    )
+    lines.extend(["## Effective validation settings", ""])
+    for name, profile in profiles.items():
+        lines.extend([f"### `{name}`", "", *validation_lines(profile), ""])
+    for name, profile in profiles.items():
+        if "containerSlot" in profile:
+            lines.extend([f"## `{name}` container slot", "", *container_slot_lines(profile, profiles), ""])
     return "\n".join(lines)
+
+
+def profile_asset_contents(source: dict, root: Path = ROOT) -> dict[Path, str]:
+    """Purely validate and render managed Markdown for a supplied source.
+
+    The caller can stage/save these contents atomically with the JSON. Unknown
+    profile names appear in the catalog, never as invented doc paths.
+    Removed built-ins get explicit generated notices instead of stale numbers.
+    """
+    source = validate_profile_source(source)
+    profiles = resolve_profiles(source)
+    root = Path(root)
+    outputs = {
+        root / "docs/shared/icon-profiles.md": markdown_source(profiles),
+    }
+    outputs.update({root / "docs" / directory / "profile.md": type_markdown_source(name, profiles)
+                    for name, directory in TYPE_DOC_DIRECTORIES.items()})
+    return outputs
 
 
 def sync(path: Path, content: str, check: bool) -> bool:
@@ -193,7 +215,6 @@ def sync(path: Path, content: str, check: bool) -> bool:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--frontend", type=Path, default=DEFAULT_FRONTEND)
     parser.add_argument("--docs", type=Path, default=DEFAULT_DOCS, help="aggregate Markdown reference path")
     parser.add_argument(
         "--type-docs-root", type=Path, default=DEFAULT_TYPE_DOCS_ROOT,
@@ -202,12 +223,11 @@ def main() -> int:
     parser.add_argument("--check", action="store_true")
     args = parser.parse_args()
     results = [
-        sync(args.frontend, browser_source(), args.check),
         sync(args.docs, markdown_source(), args.check),
     ]
     results.extend(
         sync(args.type_docs_root / TYPE_DOC_DIRECTORIES[name] / "profile.md", type_markdown_source(name), args.check)
-        for name in profile_names()
+        for name in TYPE_DOC_DIRECTORIES
     )
     return 0 if all(results) else 1
 

@@ -5,43 +5,56 @@ Generated from [the canonical profile JSON](../../core/icon_profiles.json). All 
 
 ## Canvas and stroke
 
-| Property | Design | Ship |
+| Property | Editable | Final / native review |
 | --- | --- | --- |
-| Canvas | 64×64u | 32×32px |
-| Stroke | 4u | 2px |
-| Center | `(32,32)`u | `(16,16)`px |
-| Minimum distinct centerline distance | 4u | 2px |
+| Canvas | 64×64u | 64×64px |
+| Stroke | 4u | 4px |
+| Center | `(32,32)`u | `(32,32)`px |
+| Minimum distinct centerline distance | 4u | 4px |
 
-Design-to-ship scale: **0.5×** for coordinates, dimensions, and stroke width.
+Native output scale: **1:1**. Editable, final, and visual-review geometry use the same canvas and stroke; no half-size output is generated.
+The legacy `design*` and `ship*` profile keys are same-size compatibility aliases.
 
 ## Keyshapes
 
 Bounds are `(left,top)…(right,bottom)` and include stroke paint. Each token is centered on the profile center. Circle width and height equal its diameter.
 
-| Token | Shape | Orientation | Design size | Design painted bounds | Ship painted bounds |
+| Token | Shape | Orientation | Native size | Editable painted bounds | Final painted bounds (same size) |
 | --- | --- | --- | --- | --- | --- |
-| `circle-60` | circle | circle | 60×60u | `(2,2)…(62,62)` | `(1,1)…(31,31)` |
-| `square-56` | rect | square | 56×56u | `(4,4)…(60,60)` | `(2,2)…(30,30)` |
-| `portrait-52x60` | rect | portrait | 52×60u | `(6,2)…(58,62)` | `(3,1)…(29,31)` |
-| `landscape-60x52` | rect | landscape | 60×52u | `(2,6)…(62,58)` | `(1,3)…(31,29)` |
+| `circle-60` | circle | circle | 60×60u | `(2,2)…(62,62)` | `(2,2)…(62,62)` |
+| `square-56` | rect | square | 56×56u | `(4,4)…(60,60)` | `(4,4)…(60,60)` |
+| `portrait-52x60` | rect | portrait | 52×60u | `(6,2)…(58,62)` | `(6,2)…(58,62)` |
+| `landscape-60x52` | rect | landscape | 60×52u | `(2,6)…(62,58)` | `(2,6)…(62,58)` |
+
+## Validation settings
+
+| Validation setting | Effective value |
+| --- | ---: |
+| `gridStep` | 1 |
+| `majorGridStep` | 4 |
+| `geometryTolerance` | 0.001 |
+| `keyshapeTolerance` | 0.03125 |
+| `minimumDistinctCenterlineDistance` | 4 |
+| `minimumEnclosedRadius` | 1 |
+| `minimumSolidFillDepth` | 1 |
 
 ## Container slot
 
 Accepted profile: `sub`. Declare one accepted keyshape from the table below in `containerSlot.acceptedKeyshape`.
 
-| Slot property | Design | Ship |
+| Slot property | Editable | Final (same size) |
 | --- | --- | --- |
-| Origin | `(16,16)`u | `(8,8)`px |
-| Size | 32×32u | 16×16px |
-| Center | `(32,32)`u | `(16,16)`px |
-| Minimum clear square | 32×32u | 16×16px |
-| Protected bounds | `(16,16)…(48,48)` | `(8,8)…(24,24)` |
+| Origin | `(16,16)`u | `(16,16)`px |
+| Size | 32×32u | 32×32px |
+| Center | `(32,32)`u | `(32,32)`px |
+| Minimum clear square | 32×32u | 32×32px |
+| Protected bounds | `(16,16)…(48,48)` | `(16,16)…(48,48)` |
 
 Container paint must leave the protected square completely clear for every accepted keyshape.
 
-| Accepted keyshape | Bounds in container design coordinates | Bounds in container ship coordinates |
+| Accepted keyshape | Bounds in container editable coordinates | Bounds in container final coordinates (same size) |
 | --- | --- | --- |
-| `circle-32` | `(16,16)…(48,48)` | `(8,8)…(24,24)` |
-| `square-32` | `(16,16)…(48,48)` | `(8,8)…(24,24)` |
-| `portrait-28x32` | `(18,16)…(46,48)` | `(9,8)…(23,24)` |
-| `landscape-32x28` | `(16,18)…(48,46)` | `(8,9)…(24,23)` |
+| `circle-32` | `(16,16)…(48,48)` | `(16,16)…(48,48)` |
+| `square-32` | `(16,16)…(48,48)` | `(16,16)…(48,48)` |
+| `portrait-28x32` | `(18,16)…(46,48)` | `(18,16)…(46,48)` |
+| `landscape-32x28` | `(16,18)…(48,46)` | `(16,18)…(48,46)` |

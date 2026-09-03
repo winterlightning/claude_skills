@@ -6,7 +6,8 @@ its historical filename so existing skill links still resolve; it is no longer
 a catalog of mandatory building blocks.
 
 The [shared rules](icon-rules.md) define style and QA. The selected type's
-`profile.md` supplies canvas, stroke, keyshape, and spacing values. Reference
+resolved JSON profile supplies canvas, stroke, keyshape, grid and validation
+values; see [profile configuration](profile-configuration.md). Reference
 geometry informs construction; it does not override either source.
 
 ## Work at the useful level
@@ -47,7 +48,8 @@ An editable source retains its existing profile and evidence fields and adds
 }
 ```
 
-This is a schema illustration, not a validated deliverable. Complete the source
+This uses built-in normal defaults as a schema illustration, not a validated
+deliverable or a fixed canvas/stroke requirement. Complete the source
 analysis, choose the appropriate keyshape, and run the pipeline before shipping.
 Containers also retain their required `containerSlot` metadata.
 
@@ -75,12 +77,12 @@ Author coordinates on the declared design canvas. Geometry attributes cannot
 contain paint, CSS, transforms, event handlers, external references, or arbitrary
 SVG markup. The emitter supplies no fill, `currentColor`, profile stroke width,
 and round caps/joins centrally. Bake deliberate rotations/reflections into the
-coordinates rather than adding SVG transforms. Repair this JSON and re-emit both
-sizes; never patch only the final SVG.
+coordinates rather than adding SVG transforms. Repair this JSON and re-emit the
+native SVG and any same-size compatibility alias; never patch only the final SVG.
 
 ## Curve and corner construction
 
-- Prefer a 4u ordinary corner radius (2px at ship size); 2u can serve compact
+- For the built-in 4u stroke, prefer a 4u ordinary corner radius; 2u can serve compact
   forms. Other radii are valid when they produce a smooth geometric join or a
   justified optical result. There is no 4u/8u-only token gate.
 - Use circular/elliptical arcs when the contour is genuinely circular/elliptical.
@@ -89,7 +91,7 @@ sizes; never patch only the final SVG.
 - Use quadratic or cubic Béziers for contours that need them. Align tangent
   directions at smooth joins and keep control points economical. Cubics are not
   prohibited merely because they are cubics.
-- Prefer simple whole-unit construction where useful, while retaining exact arc
+- Prefer the configured ordinary grid where useful, while retaining exact arc
   junctions, diagonal geometry and documented optical corrections. There is no
   prescribed 45-degree angle restriction.
 - Keep a connected contour connected when that preserves its stroke joins and
@@ -97,7 +99,11 @@ sizes; never patch only the final SVG.
 
 ## Retrieve references instead of loading the whole corpus
 
-Use the local Lucide bundle at `references/lucide/`:
+Use the local Lucide bundle at `references/lucide/`. Its original 24px canvases
+remain unchanged reference evidence. They do not set the output/review size:
+use the selected profile's configured native dimensions.
+
+The bundle contains:
 
 - `original/<name>.svg`: authoritative reference appearance and SVG structure.
 - `atomic-debug/<name>.svg`: generated colored segments for inspecting geometry.

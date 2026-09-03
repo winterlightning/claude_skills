@@ -17,11 +17,11 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from icon_geometry import parse_path
-from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names
+from icon_profiles import DEFAULT_ICON_TYPE,get_profile,profile_names,svg_native_size_issues
 from keyfit import canonical_tokens
 
 DESIGN_CANVAS = float(get_profile(DEFAULT_ICON_TYPE)["designCanvas"])
-TOLERANCE = 1e-3
+TOLERANCE = get_profile(DEFAULT_ICON_TYPE)["validation"]["geometryTolerance"]
 
 
 def collect(inputs: list[str]) -> list[Path]:
@@ -44,33 +44,31 @@ def number(value: str | None, fallback: float) -> float:
     return float(match.group()) if match else fallback
 
 
-def fractional(value: float) -> bool:
-    return abs(value - round(value)) > TOLERANCE
+def fractional(value: float, grid_step: float = 1, tolerance: float = TOLERANCE) -> bool:
+    return abs(value - round(value / grid_step) * grid_step) > tolerance
 
 
-def normalized_view(root: ET.Element,design_canvas: float=DESIGN_CANVAS) -> tuple[float, float, float]:
+def normalized_view(root: ET.Element,design_canvas: float=DESIGN_CANVAS,tolerance: float=TOLERANCE) -> tuple[float, float, float]:
     values = [float(item) for item in root.get("viewBox", f"0 0 {design_canvas:g} {design_canvas:g}").replace(",", " ").split()]
-    if len(values) != 4 or values[2] <= 0 or values[3] <= 0 or abs(values[2] - values[3]) > TOLERANCE:
+    if len(values) != 4 or not all(math.isfinite(value) for value in values) or values[2] <= 0 or values[3] <= 0 or abs(values[2] - values[3]) > tolerance:
         raise ValueError("viewBox must be a positive square")
     return values[2], values[3], design_canvas / values[2]
 
 
 def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict:
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"])
+    validation=profile["validation"]; grid_step=validation["gridStep"]; tolerance=validation["geometryTolerance"]
     root = ET.parse(path).getroot()
-    view_w, view_h, scale = normalized_view(root,design_canvas)
+    view_w, view_h, scale = normalized_view(root,design_canvas,tolerance)
     stroke = number(root.get("stroke-width"), 0) * scale
-    issues: list[dict] = []
+    issues: list[dict] = svg_native_size_issues(root.attrib, icon_type)
     fractional_values = 0
     fractional_axis_segments = 0
 
-    expected_canvas = {"design": float(profile["designCanvas"]), "ship": float(profile["shipCanvas"])}.get(expected)
-    if expected_canvas is not None and abs(view_w - expected_canvas) > TOLERANCE:
-        issues.append({"code": "wrong-canvas", "detail": f"expected {expected_canvas:g}x{expected_canvas:g}, found {view_w:g}x{view_h:g}"})
-    allowed_canvases=(float(profile["shipCanvas"]),float(profile["designCanvas"]))
-    if expected == "either" and all(abs(view_w - size) > TOLERANCE for size in allowed_canvases):
-        issues.append({"code": "wrong-canvas", "detail": f"expected {allowed_canvases[0]:g}x{allowed_canvases[0]:g} or {allowed_canvases[1]:g}x{allowed_canvases[1]:g}, found {view_w:g}x{view_h:g}"})
-    if abs(stroke - profile["designStroke"]) > TOLERANCE:
+    # design/ship/either are compatible names for the same native contract.
+    if expected not in {"design", "ship", "either"}:
+        raise ValueError(f"unknown expected SVG mode: {expected}")
+    if not math.isfinite(stroke) or abs(stroke - profile["designStroke"]) > tolerance:
         issues.append({"code": "wrong-stroke", "detail": f"stroke normalizes to {stroke:g}u instead of {profile['designStroke']:g}u"})
 
     paths = root.findall(".//{*}path")
@@ -90,7 +88,7 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
             values = [coordinate * scale for point in command.points for coordinate in point]
             if command.arc:
                 values.extend([command.arc[0] * scale, command.arc[1] * scale])
-            fractional_values += sum(fractional(value) for value in values)
+            fractional_values += sum(fractional(value,grid_step,tolerance) for value in values)
             if command.type == "M":
                 cursor = start = command.points[0]
                 continue
@@ -107,20 +105,20 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
                 continue
             dx = (end[0] - cursor[0]) * scale
             dy = (end[1] - cursor[1]) * scale
-            if math.hypot(dx, dy) > TOLERANCE:
+            if math.hypot(dx, dy) > tolerance:
                 angle = (math.degrees(math.atan2(dy, dx)) + 360) % 180
                 endpoints = [cursor[0] * scale, cursor[1] * scale, end[0] * scale, end[1] * scale]
                 # Only actual axis/45-degree lines have avoidable fractional
                 # placement; arbitrary slopes must retain their geometry.
                 axis_or_45 = abs(angle - round(angle / 45) * 45) <= 0.01
-                if axis_or_45 and any(fractional(value) for value in endpoints):
+                if axis_or_45 and any(fractional(value,grid_step,tolerance) for value in endpoints):
                     fractional_axis_segments += 1
             cursor = end
 
     if fractional_axis_segments:
-        issues.append({"code": "fractional-grid-lines", "detail": f"{fractional_axis_segments} axis/45-degree segment(s) use avoidable fractional design coordinates"})
+        issues.append({"code": "fractional-grid-lines", "detail": f"{fractional_axis_segments} axis/45-degree segment(s) are off the {grid_step:g}u profile grid"})
 
-    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines"}
+    failure_codes = {"wrong-canvas", "wrong-render-size", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines"}
     status = "fail" if any(issue["code"] in failure_codes for issue in issues) else ("review" if fractional_values else "pass")
     return {
         "file": path.name,
@@ -128,6 +126,7 @@ def inspect(path: Path, expected: str, icon_type: str=DEFAULT_ICON_TYPE) -> dict
         "iconType": icon_type,
         "designCanvas": profile["designCanvas"],
         "designStroke": profile["designStroke"],
+        "validation": validation,
         "status": status,
         "viewBox": [0, 0, view_w, view_h],
         "normalizedStroke": round(stroke, 4),
@@ -148,6 +147,9 @@ def apply_exceptions(result: dict, path: Path, entries: dict[str, dict]) -> dict
         # This retired rule no longer needs a waiver or a matching SVG hash.
         # Return the unmodified result so unrelated failures/reviews still apply.
         return result
+    # A documented optical fraction cannot waive the native canvas, stroke,
+    # parse, or output-format contract.
+    allowed &= {"fractional-grid-lines", "fractional-design-values"}
     digest = hashlib.sha256(path.read_bytes()).hexdigest()
     if digest != entry.get("sha256"):
         result["issues"].append({
@@ -175,7 +177,7 @@ def apply_exceptions(result: dict, path: Path, entries: dict[str, dict]) -> dict
             "reason": entry.get("reason", "documented exact geometry"),
             "source": entry.get("source"),
         }]
-    failure_codes = {"wrong-canvas", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines", "stale-exception"}
+    failure_codes = {"wrong-canvas", "wrong-render-size", "wrong-stroke", "non-path-geometry", "parse-error", "path-order", "fractional-grid-lines", "stale-exception"}
     result["status"] = "fail" if any(issue["code"] in failure_codes for issue in retained) else "pass"
     return result
 
@@ -199,13 +201,14 @@ def write_report(results: list[dict], output_dir: Path) -> None:
 
     def target_token(item: dict) -> dict:
         keyfit = item.get("keyfit") or {}
-        fallback=next(token for token in canonical_tokens(item.get("iconType",DEFAULT_ICON_TYPE)) if token["orientation"]=="square")
+        tokens=canonical_tokens(item.get("iconType",DEFAULT_ICON_TYPE))
+        fallback=next((token for token in tokens if token["orientation"]=="square"),tokens[0])
         return keyfit.get("assignedToken") or keyfit.get("targetToken") or fallback
 
     def boundary_style(item: dict, centerline: bool = False) -> str:
         token = target_token(item)
         bounds = token["bounds"]
-        inset = item.get("designStroke",4.0)/2 if centerline else 0.0
+        inset = item.get("designStroke",get_profile(item.get("iconType",DEFAULT_ICON_TYPE))["strokeWidth"])/2 if centerline else 0.0
         canvas=item.get("designCanvas",DESIGN_CANVAS)
         left, top, right, bottom = (
             bounds[0] + inset, bounds[1] + inset,
@@ -233,11 +236,11 @@ def write_report(results: list[dict], output_dir: Path) -> None:
             issue["detail"] for issue in item["issues"]
         ) or "; ".join(
             exception["reason"] for exception in item.get("documentedExceptions", [])
-        ) or "Exact keyshape target and whole-unit grid geometry"
+        ) or "Exact keyshape target and profile-grid geometry"
 
     cards = "".join(
         f'''<article class="icon-card status-{item['overallStatus']} keyfit-{(item.get('keyfit') or {}).get('status', 'not-run')}">
-        <div class="preview" style="--grid-major:{item.get('designCanvas',48)/4:g};--grid-canvas:{item.get('designCanvas',48):g}" title="Target: {html.escape(target_token(item).get('name', 'unknown'), quote=True)}">
+        <div class="preview" style="--grid-major:{item.get('designCanvas',DESIGN_CANVAS)/get_profile(item.get('iconType',DEFAULT_ICON_TYPE))['validation']['majorGridStep']:g};--grid-canvas:{item.get('designCanvas',DESIGN_CANVAS)/get_profile(item.get('iconType',DEFAULT_ICON_TYPE))['validation']['gridStep']:g}" title="Target: {html.escape(target_token(item).get('name', 'unknown'), quote=True)}">
           <img src="icons/{quote(item['file'])}" alt="{html.escape(item['file'], quote=True)}">
           <span class="keyfit-boundary" style="{boundary_style(item)}" aria-hidden="true"></span>
           <span class="centerline-boundary" style="{boundary_style(item, True)}" aria-hidden="true"></span>
@@ -277,7 +280,7 @@ details{{margin-top:32px;background:#fff;border:1px solid var(--line);border-rad
 @media(max-width:600px){{header,main{{padding-left:14px;padding-right:14px}}.gallery{{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px}}}}
 </style></head>
 <body><header><h1>Visual grid + keyshape audit</h1><p>{len(results)} checked · {sum(x['overallStatus']=='pass' for x in results)} overall pass · {sum(x['overallStatus']=='review' for x in results)} review · {sum(x['overallStatus']=='fail' for x in results)} overall fail</p></header>
-<main><div class="legend"><span><i class="swatch"></i>1u grid, heavier every 4u</span><span><i class="key-swatch"></i>selected keyshape: exact target or optical containment</span><span><i class="center-swatch"></i>keyshape inset by the 2u stroke radius (guide)</span></div>
+<main><div class="legend"><span><i class="swatch"></i>profile grid and major steps</span><span><i class="key-swatch"></i>selected keyshape: exact target or optical containment</span><span><i class="center-swatch"></i>keyshape inset by half the profile stroke (guide)</span></div>
 <section class="gallery">{cards}</section>
 <details><summary>Open numeric audit table</summary><table><thead><tr><th>File</th><th>Overall</th><th>Grid</th><th>Keyshape</th><th>Token</th><th>Canvas</th><th>Fractional values</th><th>Fractional axis/45° lines</th><th>Issues</th><th>Documented exception</th></tr></thead><tbody>{rows}</tbody></table></details></main></body></html>"""
     (output_dir / "grid-report.html").write_text(document)

@@ -1,6 +1,10 @@
 # Negative-space repair examples
 
-Use these patterns after `core/qa_overlays.py` identifies an undersized enclosed region or pinched junction. A failing measurement tells you where the problem is; it does not choose the repair.
+Use these patterns after `core/qa_overlays.py` identifies an undersized enclosed
+region or pinched junction. A failing measurement locates the problem; it does
+not choose the repair. Examples use the built-in normal 48px canvas, 4px stroke,
+keyshapes, and 1px radius/fill-depth defaults. For a changed or custom profile,
+use its resolved JSON values rather than copying these illustrative numbers.
 
 ## Repair ladder
 
@@ -81,16 +85,27 @@ Circle containment is a separate verification from rectangular painted bounds.
 
 ## Useful sizing math
 
-Values below are ship pixels at the Regular 2px stroke; double them for design units. An enclosed region passes at an inscribed radius of at least `0.5px = 1u design`.
+Values below are native pixels and geometry units for the default 4px stroke
+and 1px minimum enclosed radius:
+**1u = 1px**, with no doubling or halving. An enclosed region passes at an
+inscribed radius of at least `1u = 1px` (diameter `2u = 2px`).
 
-| Opening | Inscribed radius after 2px stroke | Minimum geometry |
+| Opening | Inscribed radius after 4px stroke | Minimum geometry (u = px) |
 | --- | --- | --- |
-| Slot between parallel centerlines distance `d` | `(d - 2) / 2` | `d ≥ 3px` (6u design centerline distance) |
-| Centerline polygon with inradius `R` | `R - 1` | `R ≥ 1.5px` |
-| Right triangle with legs `a`,`b`, hypotenuse `c` | `(a + b - c)/2 - 1` | `a + b - c ≥ 3px` |
-| 45° right isosceles triangle with legs `a` | `0.293a - 1` | `a ≥ 5.12px` |
-| Equilateral triangle side `s` | `0.289s - 1` | `s ≥ 5.20px` |
-| Square side `s` | `s/2 - 1` | `s ≥ 3px` |
+| Slot between parallel centerlines distance `d` | `(d - 4) / 2` | `d ≥ 6` |
+| Centerline polygon with inradius `R` | `R - 2` | `R ≥ 3` |
+| Right triangle with legs `a`,`b`, hypotenuse `c` | `(a + b - c)/2 - 2` | `a + b - c ≥ 6` |
+| 45° right isosceles triangle with legs `a` | `a(2 - √2)/2 - 2` | `a ≥ 6/(2 - √2) ≈ 10.243` |
+| Equilateral triangle side `s` | `s√3/6 - 2` | `s ≥ 6√3 ≈ 10.392` |
+| Square side `s` | `s/2 - 2` | `s ≥ 6` |
+
+For another profile, let `S = strokeWidth` and `r = minimumEnclosedRadius`.
+A polygon's centerline inradius must be at least `r + S/2`; a parallel slot needs
+`d ≥ S + 2r`. Apply the configured solid-fill-depth check independently.
+
+These are the enclosed-hole floor, not a visual-opening target. A declared
+identity-bearing opening still needs R5's 3px painted clearance: 7px between
+Regular-stroke centerlines. Keep margin above rounded numerical thresholds.
 
 A stroked V does not open at its centerline tip. Its painted inner apex sits farther inward, so sharp openings need more height than their centerline diagram suggests.
 
@@ -100,5 +115,5 @@ A stroked V does not open at its centerline tip. Its painted inner apex sits far
 - `check_keyfit.py` passes the same declared keyshape.
 - Circle paint remains inside radius 22; rectangle paint remains inside its exact boundary.
 - The icon still reaches all required cardinals or edges and stays centered.
-- Grid, overlap, connection, and true-size 24px reviews still pass.
+- Grid, overlap, connection, and native-size reviews still pass (48×48 for these normal-icon examples).
 - The repair can be named as enlarge, rebalance, or remove.

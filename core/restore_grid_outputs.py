@@ -12,6 +12,7 @@ import sys
 from pathlib import Path
 
 from icon_geometry import resolve_icon, svg
+from icon_profiles import validate_document_profile
 
 
 def source_for(root: Path, name: str) -> Path:
@@ -58,9 +59,8 @@ def main() -> int:
             parser.error(f"output exists: {output}; pass --overwrite to replace generated files")
         shutil.rmtree(output)
     design_dir = output / "final"
-    ship_dir = output / "final_24"
     editable_dir = output / "editable"
-    for folder in (design_dir, ship_dir, editable_dir):
+    for folder in (design_dir, editable_dir):
         folder.mkdir(parents=True, exist_ok=True)
 
     manifest = {"version": 1, "files": {}}
@@ -71,14 +71,11 @@ def main() -> int:
         document = json.loads(source.read_text())
         if document.get("name") != name:
             raise ValueError(f"{source}: expected name {name!r}, found {document.get('name')!r}")
-        if document.get("canvas", 48) != 48 or document.get("strokeWidth", 4) != 4:
-            raise ValueError(f"{source}: canonical canvas/stroke is not 48/4")
+        _, profile = validate_document_profile(document)
         paths = resolve_icon(document)
         design_path = design_dir / f"{name}.svg"
-        ship_path = ship_dir / f"{name}.svg"
-        design_svg = svg(paths, 48, 4)
+        design_svg = svg(paths, profile["designCanvas"], profile["designStroke"])
         design_path.write_text(design_svg)
-        ship_path.write_text(svg(paths, 24, 2, .5))
         shutil.copy2(source, editable_dir / source.name)
         reasons = fractional_reasons(document, design_svg)
         if reasons:
@@ -95,8 +92,7 @@ def main() -> int:
     (output / "README.md").write_text(
         "# Atomic-grid repair output\n\n"
         "This set was regenerated from the canonical editable icon JSON sources; it was not rounded or globally scaled.\n\n"
-        "- `final/`: 48x48 design SVGs.\n"
-        "- `final_24/`: exact half-scale 24x24 ship SVGs.\n"
+        "- `final/`: native-size SVGs matching their configured icon profiles; editable and final geometry are identical.\n"
         "- `editable/`: source JSON used for regeneration.\n"
         "- `grid-exceptions.json`: SHA-256-locked reasons for exact rotated, curved, junction, or optical fractions.\n"
         "- `repair-manifest.json`: source provenance for every icon.\n"

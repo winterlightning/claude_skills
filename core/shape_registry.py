@@ -366,7 +366,7 @@ def transfer_hand(w: float, h: float) -> tuple[str, dict[str, object]]:
     """Compact open transfer palm with one thumb rise and finger block.
 
     At the canonical 20x12 size, the two exposed palm diagonals are exact 45
-    degrees.  The open wrist and broad fingertip stay legible at true 24px
+    degrees.  The open wrist and broad fingertip stay legible at native size
     without the dense finger lobes of the larger hand atoms.
     """
     return path(

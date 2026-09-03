@@ -11,9 +11,12 @@ numbers, validation commands, or delivery rules.
 - Use [atomic-shapes.md](atomic-shapes.md) for editable geometry and reference retrieval.
 - Use [scripts.md](scripts.md) to understand a command before running it.
 
-The machine authority for profile geometry is
+The machine authority for profile geometry and numerical validation is
 [`core/icon_profiles.json`](../../core/icon_profiles.json). Do not copy those values
-into another guide; update that source and regenerate its mirrors instead.
+into another guide; use the [profile manager](profile-configuration.md) to update
+that source and its mirrors. The built-in skills are role templates; custom
+profile names use this same shared workflow. Configuration changes do not migrate
+existing icons or preserve their old QA verdicts.
 
 ## Reduce before composing
 
@@ -21,7 +24,7 @@ Describe the subject in one short sentence, then keep only:
 
 1. its smallest recognizable silhouette;
 2. the identity-bearing features allowed by the selected type's detail guidance;
-3. no secondary detail that disappears at the selected profile's ship size.
+3. no secondary detail that disappears at the selected profile's native size.
 
 The selected type's rules define its detail budget.
 
@@ -38,7 +41,7 @@ connected line/arc/quadratic/cubic segments within one path; a simple native
 shape need not be split. New contours do not require registry additions. Do not
 force a form into a named template or add segments to meet a density target.
 
-When two approaches are genuinely close, render both at true ship size and keep
+When two approaches are genuinely close, render both at native size and keep
 the visually stronger result. Edit endpoints, curve controls and attachments
 directly so the source remains clear and re-emittable.
 
@@ -92,12 +95,14 @@ these as controlled parameters of one composition, not permission to improvise
 separate drawings. Every variant must preserve recognition, spacing semantics,
 and optical centering.
 
-## Review at two scales
+## Review at native size
 
-Always inspect both the editable design canvas and the profile's true ship
-size. At design scale, look for geometry, grid, joins, protected regions, and
-keyfit. At ship size, look for clipping, crowded negative space, imbalance,
-and lost recognition.
+Inspect the editable composition and canonical SVG at the same native profile
+size. Check geometry, grid, joins, protected regions, keyfit, negative space,
+balance and recognition there. Native-size acceptance is mandatory; do not
+produce a second reduced or enlarged review export. Optional manual zoom can
+help diagnose a coordinate or join, but it is not another deliverable size and
+cannot replace the native-size verdict.
 
 The pipeline's automated gates establish structural compliance. Human review
 still decides whether the icon is legible and visually convincing.

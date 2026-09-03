@@ -118,7 +118,7 @@ class ContainerPreviewTests(unittest.TestCase):
             self.assertEqual(first_design.read_bytes(), second_design.read_bytes())
             self.assertEqual(first_ship.read_bytes(), second_ship.read_bytes())
 
-    def test_preview_uses_64_32_container_canvases_and_centered_slot(self):
+    def test_preview_uses_native_64_container_canvas_and_centered_slot(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
             manifest_path = write_fixture(root)
@@ -126,9 +126,10 @@ class ContainerPreviewTests(unittest.TestCase):
             design_text = design.read_text(encoding="utf-8")
             ship_text = ship.read_text(encoding="utf-8")
             self.assertIn('viewBox="0 0 64 64"', design_text)
-            self.assertIn('viewBox="0 0 32 32"', ship_text)
+            self.assertIn('viewBox="0 0 64 64"', ship_text)
             self.assertIn('<path d="M 32 18 A 14 14', design_text)
-            self.assertIn('<path d="M 16 9 A 7 7', ship_text)
+            self.assertIn('<path d="M 32 18 A 14 14', ship_text)
+            self.assertEqual(design_text, ship_text)
 
     def test_reusable_sub_source_is_a_real_sub_profile_document(self):
         circle = sub_document("circle-32")
@@ -148,7 +149,7 @@ class ContainerPreviewTests(unittest.TestCase):
             manifest = write_fixture(root)
             design, ship = compose(manifest, root / "out")
             self.assertIn('<path d="M 32 18 A 14 14', design.read_text(encoding="utf-8"))
-            self.assertIn('<path d="M 16 9 A 7 7', ship.read_text(encoding="utf-8"))
+            self.assertIn('<path d="M 32 18 A 14 14', ship.read_text(encoding="utf-8"))
 
     def test_accepted_keyshape_must_match_sub_declaration(self):
         with TemporaryDirectory() as folder:

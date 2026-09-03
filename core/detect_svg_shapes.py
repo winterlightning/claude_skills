@@ -16,6 +16,9 @@ from pathlib import Path
 from typing import Any, Iterable
 
 from icon_geometry import parse_path as parse_geometry_path
+from icon_profiles import DEFAULT_ICON_TYPE, canonical_tokens, get_profile, profile_names
+
+DEFAULT_CANVAS = get_profile(DEFAULT_ICON_TYPE)["canvas"]
 
 NUMBER_PATTERN = r"[-+]?(?:\d*\.\d+|\d+\.?)(?:[eE][-+]?\d+)?"
 NUMBER_RE = re.compile(NUMBER_PATTERN)
@@ -305,7 +308,7 @@ def element_polylines(tag: str, attrs: dict[str, str]) -> list[list[Point]]:
     return [rounded_rect_points(x, y, width, height, rx, ry)]
 
 
-def plot_items(svg_text: str, view_box: Bounds) -> list[list[list[Point]]]:
+def plot_items(svg_text: str, view_box: Bounds, canvas: int = DEFAULT_CANVAS) -> list[list[list[Point]]]:
     root = ET.fromstring(svg_text)
     items: list[list[list[Point]]] = []
 
@@ -320,8 +323,8 @@ def plot_items(svg_text: str, view_box: Bounds) -> list[list[list[Point]]]:
             normalized_lines = [
                 [
                     Point(
-                        (transformed.x - view_box.x) * 48 / view_box.width,
-                        (transformed.y - view_box.y) * 48 / view_box.height,
+                        (transformed.x - view_box.x) * canvas / view_box.width,
+                        (transformed.y - view_box.y) * canvas / view_box.height,
                     )
                     for point in polyline
                     for transformed in [apply_affine(matrix, point)]
@@ -354,7 +357,10 @@ def render_detection_plot(svg_text: str, report: dict[str, Any], output_path: Pa
 
     source_view = report["source"]["viewBox"]
     view_box = Bounds(source_view["x"], source_view["y"], source_view["width"], source_view["height"])
-    geometry = plot_items(svg_text, view_box)
+    profile = get_profile(report.get("iconType", DEFAULT_ICON_TYPE))
+    canvas = profile["canvas"]
+    grid_step, major_step = profile["validation"]["gridStep"], profile["validation"]["majorGridStep"]
+    geometry = plot_items(svg_text, view_box, canvas)
     manual_review = set(report["makerPreflight"]["manualReview"])
     palette = {
         "line": "#2563eb", "curve": "#7c3aed", "circle": "#059669", "ellipse": "#0d9488",
@@ -364,17 +370,17 @@ def render_detection_plot(svg_text: str, report: dict[str, Any], output_path: Pa
     figure, axis = plt.subplots(figsize=(10, 10), constrained_layout=True)
     figure.patch.set_facecolor("#f8fafc")
     axis.set_facecolor("white")
-    for value in range(0, 49):
-        major = value % 4 == 0
+    for index in range(math.floor(canvas / grid_step) + 1):
+        value = index * grid_step
+        major = math.isclose(value / major_step, round(value / major_step), rel_tol=0, abs_tol=1e-9)
         axis.axvline(value, color="#cbd5e1" if major else "#e2e8f0", linewidth=0.55 if major else 0.25, zorder=0)
         axis.axhline(value, color="#cbd5e1" if major else "#e2e8f0", linewidth=0.55 if major else 0.25, zorder=0)
-    axis.add_patch(Rectangle((0, 0), 48, 48, fill=False, edgecolor="#16a34a", linewidth=1.4, linestyle=(0, (5, 3)), zorder=1))
+    axis.add_patch(Rectangle((0, 0), canvas, canvas, fill=False, edgecolor="#16a34a", linewidth=1.4, linestyle=(0, (5, 3)), zorder=1))
     # Canonical painted padding boundaries. They are evidence guides only;
     # the icon maker selects one semantic keyshape for the finished icon.
-    axis.add_patch(Circle((24, 24), 22, fill=False, edgecolor="#16a34a", linewidth=0.7, linestyle=(0, (4, 3)), alpha=0.55, zorder=1))
-    axis.add_patch(Rectangle((4, 4), 40, 40, fill=False, edgecolor="#0d9488", linewidth=0.7, linestyle=(0, (3, 3)), alpha=0.45, zorder=1))
-    axis.add_patch(Rectangle((6, 2), 36, 44, fill=False, edgecolor="#7c3aed", linewidth=0.7, linestyle=(0, (2, 3)), alpha=0.4, zorder=1))
-    axis.add_patch(Rectangle((2, 6), 44, 36, fill=False, edgecolor="#db2777", linewidth=0.7, linestyle=(0, (2, 3)), alpha=0.4, zorder=1))
+    for token in canonical_tokens(profile["iconType"]):
+        style = {"fill": False, "edgecolor": "#16a34a" if token["shape"] == "circle" else "#0d9488", "linewidth": .7, "linestyle": (0, (4, 3)), "alpha": .45, "zorder": 1}
+        axis.add_patch(Circle((canvas / 2, canvas / 2), token["diameter"] / 2, **style) if token["shape"] == "circle" else Rectangle(tuple(token["bounds"][:2]), token["width"], token["height"], **style))
 
     for element, polylines in zip(report["elements"], geometry):
         index = element["index"]
@@ -427,14 +433,15 @@ def render_detection_plot(svg_text: str, report: dict[str, Any], output_path: Pa
         Line2D([0], [0], color=palette["error"], lw=2.4, label="spec error"),
     ], loc="upper left", bbox_to_anchor=(1.01, 1), frameon=False, fontsize=8)
     axis.set_title(f"Unlimited Shapes preflight — {report['source']['name'] or 'SVG input'}", fontsize=13, weight="bold", loc="left")
-    axis.set_xlim(0, 48)
-    axis.set_ylim(48, 0)
+    axis.set_xlim(0, canvas)
+    axis.set_ylim(canvas, 0)
     axis.set_aspect("equal", adjustable="box")
-    axis.set_xticks(range(0, 49, 4))
-    axis.set_yticks(range(0, 49, 4))
+    ticks = [index * major_step for index in range(math.floor(canvas / major_step) + 1)]
+    axis.set_xticks(ticks)
+    axis.set_yticks(ticks)
     axis.tick_params(labelsize=7, colors="#64748b")
-    axis.set_xlabel("48-unit design grid", fontsize=9, color="#475569")
-    axis.set_ylabel("Centered keyshapes: circle Ø44, square 40, portrait 36×44, landscape 44×36", fontsize=9, color="#475569")
+    axis.set_xlabel(f"{canvas:g}-unit native grid ({grid_step:g} minor / {major_step:g} major)", fontsize=9, color="#475569")
+    axis.set_ylabel("Centered keyshapes: " + ", ".join(token["name"] for token in profile["keyshapes"]), fontsize=9, color="#475569")
     for spine in axis.spines.values():
         spine.set_color("#94a3b8")
     if output_path:
@@ -1103,26 +1110,28 @@ def primitive_geometry(tag: str, attrs: dict[str, str]) -> dict[str, Any]:
     return {"classification": {"kind": "straight-line" if straight else "polyline", "atomicShape": "line" if straight else None, "confidence": 0.98 if straight else 0.9}, "bounds": bounds_from_points(points), "angle": angle_info(points[0], points[-1]) if straight else None}
 
 
-def normalized_bounds(bounds: Bounds | None, view_box: Bounds) -> dict[str, float | int] | None:
+def normalized_bounds(bounds: Bounds | None, view_box: Bounds, canvas: int = DEFAULT_CANVAS) -> dict[str, float | int] | None:
     if bounds is None:
         return None
     return {
-        "x": clean((bounds.x - view_box.x) * 48 / view_box.width),
-        "y": clean((bounds.y - view_box.y) * 48 / view_box.height),
-        "width": clean(bounds.width * 48 / view_box.width),
-        "height": clean(bounds.height * 48 / view_box.height),
+        "x": clean((bounds.x - view_box.x) * canvas / view_box.width),
+        "y": clean((bounds.y - view_box.y) * canvas / view_box.height),
+        "width": clean(bounds.width * canvas / view_box.width),
+        "height": clean(bounds.height * canvas / view_box.height),
     }
 
 
-def spec_issues(element: dict[str, Any], view_box: Bounds) -> list[dict[str, str]]:
+def spec_issues(element: dict[str, Any], view_box: Bounds, icon_type: str = DEFAULT_ICON_TYPE) -> list[dict[str, str]]:
+    profile = get_profile(icon_type)
     issues: list[dict[str, str]] = []
     classification, normalized = element["classification"], element["normalizedBounds"]
     if classification.get("unsupported"):
         issues.append({"rule": "R3", "severity": "error", "message": "Malformed or unsupported source geometry requires repair before authoring."})
-    if normalized and classification["kind"] in {"circle", "ellipse", "square", "rounded-square"} and (normalized["width"] < 4 or normalized["height"] < 4):
-        issues.append({"rule": "R3", "severity": "warning", "message": f"Outlined {classification['kind']} normalizes below 4×4u; convert it to a point-line dot or simplify it."})
+    minimum = profile["strokeWidth"]
+    if normalized and classification["kind"] in {"circle", "ellipse", "square", "rounded-square"} and (normalized["width"] < minimum or normalized["height"] < minimum):
+        issues.append({"rule": "R3", "severity": "warning", "message": f"Outlined {classification['kind']} normalizes below {minimum:g}×{minimum:g}u (the authored stroke); convert it to a point-line dot or simplify it."})
     if element.get("radius") and classification["kind"] in {"rounded-square", "rounded-rectangle", "gapped-rounded-rectangle"}:
-        radius = element["radius"] * 48 / max(view_box.width, view_box.height)
+        radius = element["radius"] * profile["canvas"] / max(view_box.width, view_box.height)
         if not any(near(radius,reference,0.35) for reference in (2,4,8)):
             issues.append({"rule": "R3", "severity": "info", "message": f"Corner radius normalizes to {clean(radius)}u; compare its scale and tangent continuity with the selected Lucide references (2u/4u are common, not mandatory)."})
     if element.get("transform"):
@@ -1130,7 +1139,8 @@ def spec_issues(element: dict[str, Any], view_box: Bounds) -> list[dict[str, str
     return issues
 
 
-def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]:
+def analyze_svg(svg_text: str, source_name: str | None = None, icon_type: str = DEFAULT_ICON_TYPE) -> dict[str, Any]:
+    profile = get_profile(icon_type)
     try:
         root = ET.fromstring(svg_text)
     except ET.ParseError as error:
@@ -1168,12 +1178,12 @@ def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]
                 "transform": " ".join(transforms) or None,
                 "classification": geometry["classification"],
                 "bounds": bounds.rounded() if bounds else None,
-                "normalizedBounds": normalized_bounds(bounds, view_box),
+                "normalizedBounds": normalized_bounds(bounds, view_box, profile["canvas"]),
                 "angle": geometry.get("angle"), "radius": clean(geometry["radius"]) if geometry.get("radius") else None,
                 "pathCommands": list(dict.fromkeys(segment["type"] for segment in geometry.get("segments", []))) if "segments" in geometry else None,
                 "parseError": parse_error,
             }
-            element["specIssues"] = spec_issues(element, view_box)
+            element["specIssues"] = spec_issues(element, view_box, icon_type)
             if parse_error:
                 element["specIssues"].append({"rule": "R3", "severity": "error", "message": parse_error})
             elements.append(element)
@@ -1193,18 +1203,15 @@ def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]
     ]
     return {
         "schemaVersion": 1,
+        "iconType": icon_type,
         "source": {"name": source_name, "viewBox": view_box.rounded(), "width": root.attrib.get("width"), "height": root.attrib.get("height")},
         "targetSpec": {
-            "designCanvas": 48,
-            "shipCanvas": 24,
-            "grid": {"minor": 1, "major": 4},
-            "keyshapes": [
-                {"name": "circle-44", "shape": "circle", "diameter": 44, "cardinalPadding": 2},
-                {"name": "square-40", "shape": "rect", "width": 40, "height": 40, "padding": [4, 4]},
-                {"name": "portrait-36x44", "shape": "rect", "width": 36, "height": 44, "padding": [6, 2]},
-                {"name": "landscape-44x36", "shape": "rect", "width": 44, "height": 36, "padding": [2, 6]},
-            ],
-            "regularStroke": {"design": 4, "ship": 2},
+            "designCanvas": profile["canvas"],
+            "shipCanvas": profile["canvas"],
+            "grid": {"minor": profile["validation"]["gridStep"], "major": profile["validation"]["majorGridStep"]},
+            "keyshapes": canonical_tokens(icon_type),
+            "regularStroke": {"design": profile["strokeWidth"], "ship": profile["strokeWidth"]},
+            "validation": profile["validation"],
             "cornerRadii": [2, 4, 8], "cornerRadiusPolicy": "reference-guided, not an exhaustive restriction", "curves": ["arc", "quadratic", "cubic"],
         },
         "summary": {
@@ -1228,6 +1235,7 @@ def analyze_svg(svg_text: str, source_name: str | None = None) -> dict[str, Any]
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input", type=Path, help="SVG reference to analyze")
+    parser.add_argument("--icon-type", choices=profile_names(), default=DEFAULT_ICON_TYPE, help="target profile for normalized geometry and grid guides")
     parser.add_argument("-o", "--output", type=Path, help="write JSON report to this path; defaults to stdout")
     parser.add_argument("--strict", action="store_true", help="exit 3 when the report needs manual review")
     parser.add_argument("--compact", action="store_true", help="write compact JSON")
@@ -1240,7 +1248,7 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     try:
         svg_text = args.input.read_text(encoding="utf-8")
-        report = analyze_svg(svg_text, args.input.name)
+        report = analyze_svg(svg_text, args.input.name, args.icon_type)
         output = json.dumps(report, ensure_ascii=False, indent=None if args.compact else 2) + "\n"
         if args.output:
             args.output.write_text(output, encoding="utf-8")

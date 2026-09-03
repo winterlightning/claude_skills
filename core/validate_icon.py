@@ -24,7 +24,7 @@ def container_paint_overlap(points,slot,stroke_width,tolerance=1e-3):
 def main() -> int:
     parser=argparse.ArgumentParser(); parser.add_argument("input",type=Path); parser.add_argument("--dir",type=Path); args=parser.parse_args()
     doc=json.loads(args.input.read_text()); name=doc.get("name",args.input.stem); failures=[]; notes=[]
-    icon_type=document_icon_type(doc); profile=get_profile(icon_type)
+    icon_type=document_icon_type(doc); profile=get_profile(icon_type); validation=profile["validation"]; tolerance=validation["geometryTolerance"]
     try: validate_document_profile(doc)
     except ValueError as error: failures.append(str(error))
     if (doc.get("sourceAnalysis") or {}).get("incomplete") is True: failures.append("sourceAnalysis is marked incomplete; populate the source mappings before shipping")
@@ -34,8 +34,8 @@ def main() -> int:
         pts,segs=sample(p["commands"]); sampled.append({**p,"points":pts,"segments":segs})
     all_points=[p for item in sampled for p in item["points"]]; minx=min(x for x,y in all_points); maxx=max(x for x,y in all_points); miny=min(y for x,y in all_points); maxy=max(y for x,y in all_points)
     radius=profile["designStroke"]/2; absolute=max_box(icon_type); centerline=(absolute[0]+radius,absolute[1]+radius,absolute[2]-radius,absolute[3]-radius)
-    if minx<centerline[0]-1e-6 or maxx>centerline[2]+1e-6: failures.append(f"centerline x extent {minx:.4g}..{maxx:.4g} exceeds the {icon_type} circle-cardinal range {centerline[0]:g}..{centerline[2]:g}")
-    if miny<centerline[1]-1e-6 or maxy>centerline[3]+1e-6: failures.append(f"centerline y extent {miny:.4g}..{maxy:.4g} exceeds the {icon_type} circle-cardinal range {centerline[1]:g}..{centerline[3]:g}")
+    if minx<centerline[0]-tolerance or maxx>centerline[2]+tolerance: failures.append(f"centerline x extent {minx:.4g}..{maxx:.4g} exceeds the {icon_type} keyshape range {centerline[0]:g}..{centerline[2]:g}")
+    if miny<centerline[1]-tolerance or maxy>centerline[3]+tolerance: failures.append(f"centerline y extent {miny:.4g}..{maxy:.4g} exceeds the {icon_type} keyshape range {centerline[1]:g}..{centerline[3]:g}")
     painted=(minx-radius,maxx+radius,miny-radius,maxy+radius); notes.append(f"painted extent x {painted[0]:.4g}..{painted[1]:.4g}, y {painted[2]:.4g}..{painted[3]:.4g}")
     width,height=painted[1]-painted[0],painted[3]-painted[2]
     painted_box=(painted[0],painted[2],painted[1],painted[3])
@@ -51,22 +51,22 @@ def main() -> int:
         else:
             box=token_box(expected["width"],expected["height"],icon_type)
             if fit_mode=="optical":
-                failures.extend(validate_optical_bounds(keyfit_check,box,painted_box))
+                failures.extend(validate_optical_bounds(keyfit_check,box,painted_box,tolerance))
                 assigned={**expected,"bounds":list(box)}
                 notes.append(f"optical fit within {expected_name}; inspect the declared proportions at true size")
             else:
-                assigned={**expected,"bounds":list(box)} if matches(box,painted_box,1e-3) else None
+                assigned={**expected,"bounds":list(box)} if matches(box,painted_box,tolerance) else None
                 if not assigned: failures.append(f"painted bounds {painted_box} do not exactly match declared {expected_name} bounds {box}")
     else:
-        assigned=assign(painted_box,1e-3,icon_type=icon_type)
+        assigned=assign(painted_box,tolerance,icon_type=icon_type)
         if not assigned: failures.append(f"painted bounds {width:.4g}x{height:.4g} do not exactly match a {icon_type} keyshape ({describe(icon_type)})")
     if assigned and assigned["shape"]=="circle":
-        overflow=circle_overflow(all_points,profile["designStroke"],icon_type)
-        if overflow>1e-3: failures.append(f"painted geometry exceeds the {assigned['name']} boundary by {overflow:.4g}u")
-    if icon_type=="container":
+        overflow=circle_overflow(all_points,profile["designStroke"],icon_type,assigned)
+        if overflow>tolerance: failures.append(f"painted geometry exceeds the {assigned['name']} boundary by {overflow:.4g}u")
+    if "containerSlot" in profile:
         try:
             slot=validate_container_slot(doc,profile); notes.append(f"protected container clearance {slot['minimumClearSquare']:g}x{slot['minimumClearSquare']:g} at {slot['protectedBounds']}")
-            overlap=container_paint_overlap(all_points,slot,profile["designStroke"])
+            overlap=container_paint_overlap(all_points,slot,profile["designStroke"],tolerance)
             if overlap: failures.append(f"container paint enters the protected {slot['minimumClearSquare']:g}x{slot['minimumClearSquare']:g} clearance near {overlap[0][0]:.4g},{overlap[0][1]:.4g}")
         except ValueError as error:
             if str(error) not in failures: failures.append(str(error))
@@ -81,10 +81,10 @@ def main() -> int:
         except ValueError as error: failures.append(str(error))
     connected={pair for pair,check in checks if check.get("relation") in ("connected","intentional-overlap")}
     labels={item["order"]:item["elementId"] for item in paths}
-    collision_floor=float(profile["minimumDistinctCenterlineDistance"])
+    collision_floor=float(validation["minimumDistinctCenterlineDistance"])
     for pair,distance in measured.items():
         if pair in connected and distance<=.25: continue
-        if 1e-6<distance<collision_floor-1e-3 or (doc.get("schemaVersion")==2 and distance<=1e-6): failures.append(f"elements {labels[pair[0]]} and {labels[pair[1]]} are {distance:.4g}u apart on centerlines, under the {collision_floor:g}u {icon_type} collision floor")
+        if 1e-6<distance<collision_floor-tolerance or (doc.get("schemaVersion")==2 and distance<=1e-6): failures.append(f"elements {labels[pair[0]]} and {labels[pair[1]]} are {distance:.4g}u apart on centerlines, under the {collision_floor:g}u {icon_type} collision floor")
     for pair,check in checks:
         actual=measured[pair]; declared=check.get("centerlineDistance")
         if declared is not None:
@@ -110,7 +110,7 @@ def main() -> int:
         text=path.read_text()
         if f'viewBox="0 0 {canvas} {canvas}"' not in text: failures.append(f"{path.name} has the wrong canvas")
         if f'stroke-width="{stroke}"' not in text: failures.append(f"{path.name} has the wrong stroke")
-        if text!=canonical[path]: failures.append(f"{path.name} does not match canonical core/emit_icon.py output; re-emit both SVG sizes")
+        if text!=canonical[path]: failures.append(f"{path.name} does not match canonical core/emit_icon.py output; re-emit both same-size canonical files")
     print(f"{name} — {len(paths)} geometry elements"); [print(f"  · {n}") for n in notes]
     if failures:
         [print(f"  FAIL {f}") for f in failures]; return 1

@@ -43,6 +43,11 @@ resolve shape meaning. Unlike the payload lane, a local pack may lack `concept`.
 Do not invent required features from its list of downstream icon usages.
 Record disagreements or an ambiguous essential cue instead of guessing.
 
+Apply the shared [extracted-prototype rule](../shared/icon-rules.md#extracted-prototypes-restore-missing-geometry):
+restore contours or parts missing because of clearance around an object in the
+larger source icon. Preserve prototype files, not those extraction artifacts;
+retain genuine openings and overlaps required by the new composition.
+
 For each selected symbol:
 
 1. Review its brief and prototype/source; detect the chosen SVG and record its
@@ -55,23 +60,36 @@ For each selected symbol:
    have exactly one mapped editable source. New contours are geometry, not
    requests to add registry entries.
 4. Emit and inspect drafts with the canonical emitter or diagnostic build.
-   Review each source/output comparison at design size and true 24px ship size.
-   Record `sourceAnalysis.visualReview` for the exact emitted ship SVG:
+   Review the output at the configured profile's native canvas/stroke; keep foreign-grid sources
+   unchanged as evidence. Record `sourceAnalysis.visualReview` for the exact
+   emitted canonical SVG:
 
 ```json
 "visualReview": {
   "status": "pass",
-  "shipSize": 24,
+  "shipSize": 48,
   "notes": "Describe the actual recognition, balance, joins and spacing review.",
-  "geometrySha256": "SHA-256 of the reviewed ship SVG bytes"
+  "geometrySha256": "SHA-256 of the reviewed native SVG bytes"
 }
 ```
+
+`shipSize` is a compatibility field name: it records the resolved native canvas,
+not a half-size export. The JSON above illustrates the built-in 48px normal
+default; use the actual configured value. Container previews still follow their
+separate workflow.
 
 Obtain the hash with `shasum -a 256 <pack-folder>/output/<name>.svg` after
 inspection; a placeholder or stale hash cannot pass. Geometry changes require
 fresh emission and review, not copying the previous verdict. The local
 Lucide-guided runner also requires useful valid reference records; if no relevant
 reference can be found, report that evidence gap rather than inventing one.
+
+Historical half-size review evidence is stale under the native-size contract.
+If an old source is explicitly selected for migration, re-emit it at the native
+dimensions, inspect that actual SVG, and record its new hash and findings. Never
+turn a 24px verdict into a 48px verdict by changing `shipSize` alone. Existing
+ignored rework packs are historical artifacts and are not rebuilt or edited
+automatically when the rules change.
 
 5. Run the local build to emit, validate and prepare the reviewed sources:
 
@@ -80,10 +98,11 @@ python3 core/rework_pack.py build <pack-folder>
 ```
 
 `build` processes existing editable JSON; it does not infer or author the
-symbol's meaning. It emits the design/ship pair and runs required QA, then copies
-passing, hash-reviewed ship SVGs to the exact relative paths declared by the manifest's
+symbol's meaning. It emits the canonical native SVG and same-size compatibility
+alias and runs required QA, then copies
+passing, hash-reviewed native SVGs to the exact relative paths declared by the manifest's
 `upload` fields. Its `review.html` gallery and `contact-sheet.png` support visual
-review. Inspect every source/output comparison at design and true ship size;
+review. Inspect every canonical output at its native size;
 numerical success alone does not prove semantic or visual quality. Keep explicit
 review findings and any corrections with the pack.
 
@@ -95,13 +114,15 @@ and inspect the refreshed evidence. Preserve original inputs throughout.
 Each build writes fresh `qa/<timestamp>/` evidence plus `rework-results.json`,
 `review.html` and `contact-sheet.png` at the pack root. Prior delivered files are
 not proof that the current run passed; inspect the current per-symbol results.
-The local lane delivers editable sources, both canonical sizes, per-symbol
-manifest delivery SVGs, QA and review artifacts. It does not execute `upload.py`.
+The local lane delivers editable sources, canonical native SVGs, per-symbol
+manifest delivery SVGs, QA and native-size review artifacts. Same-size filename
+aliases are compatibility artifacts, not additional required resolutions. It does not execute `upload.py`.
 The pack runner does not deliver containers without separate filled-preview
 evidence; use the container skill and manual profile-aware pipeline for that case.
 If the user later explicitly authorizes uploading, inspect the local uploader's
 dry-run, exact destinations and files first. Do not substitute the payload
-lane's design-SVG upload convention for this pack's verified delivery contract.
+lane's filename convention for this pack's verified manifest destinations;
+the native geometry stays 1:1 in either case.
 
 ## URL and payload lane boundary
 
@@ -112,9 +133,10 @@ lane's design-SVG upload convention for this pack's verified delivery contract.
 | Source | supplied | resolved through the priority ladder below |
 | Acceptance | source-informed simplification | brief compliance, then icon QA |
 | Delivery | files | files plus an optional approved POST |
-| Uploaded artifact | none | 48×48 `<name>-design.svg` with 4u stroke |
+| Uploaded artifact | none | Configured normal-native SVG; the staged manifest retains its `<name>-design.svg` compatibility alias |
 
-The URL/payload lane currently produces normal 48×48 → 24×24 library icons. Do not silently
+The URL/payload lane produces the configured `normal` role only (built-in
+48px/4px defaults), even though the generic pipeline supports custom profiles. Do not silently
 upload a sub icon, container preview, or another profile as a symbol final.
 
 ## R0 — the brief outranks the drawing
@@ -165,6 +187,10 @@ failure even when the geometry passes every numeric gate.
 
 A `correct` prototype verdict means its subject and features match. Prototype
 geometry is still foreign-grid and must be recomposed as exact editable elements.
+It does not require copying extraction cutouts: apply the shared
+[prototype reconstruction rule](../shared/icon-rules.md#extracted-prototypes-restore-missing-geometry)
+and record restored geometry in the source mapping. If the artifact hides a
+required cue, record that cue as missing and use `partial` rather than `correct`.
 
 ## Payload field contract
 
@@ -222,7 +248,7 @@ The prototype is normally a 26u viewBox with 1.5 stroke and a literal color. Use
 it for subject, part count, and arrangement, never for canvas, stroke, or exact
 proportion. Read it together with `minimal_description`; the brief wins.
 
-When no drawing exists, first author a legible 48u draft from `concept` and
+When no drawing exists, first author a legible configured-normal draft from `concept` and
 `minimal_description`. The draft fixes subject, part count, and arrangement; it
 is not the finished composition. Use supported editable geometry, including
 intentional quadratic or cubic curves. Do not
@@ -371,18 +397,21 @@ Then verify the output against R1:
 
 - `wrong` or `partial`: the output differs from the source exactly where
   `missing` and `excess` said it should.
-- `correct`: the output remains faithful, and the delivery report explains why
-  the library's `wrong` flag appears mistaken.
-- Every required feature is visible at 24px and no unauthorized feature appears.
+- `correct`: the output remains faithful to the intended subject and features,
+  not extraction artifacts, and the delivery report explains why the library's
+  `wrong` flag appears mistaken. Any contour reconstruction is documented.
+- Every required feature is visible at the configured normal native size and no unauthorized feature appears.
 
-Finish with the batch family review: true-size and magnified contact sheets,
+Finish with the configured-normal batch family review: one native-size contact sheet,
 consistent optical weight, motifs, gap rhythm, stance, margins, and no accidental
 near-duplicates.
 
 ## Dry-run and approve the upload
 
 `upload.py` reads `manifest.json` beside itself, so run it inside the batch folder.
-The staged manifest points each symbol's upload to its 48×48 design SVG.
+The staged manifest points each symbol's upload to its `-design.svg`
+compatibility alias. It has the same configured native geometry and stroke as canonical
+`<name>.svg`; do not create a reduced companion.
 
 Always dry-run first:
 
@@ -441,8 +470,9 @@ confirmation unless the requester explicitly authorized `--yes`.
 Per symbol, deliver the canonical pipeline artifacts plus:
 
 - `sid`, `concept`, brief, source origin, R1 verdict, and brief diff;
-- `<icon-name>-design.svg`, the uploaded artifact when upload was authorized;
-- `<icon-name>.svg`, the 24px ship output;
+- `<icon-name>.svg`, the canonical output at the configured normal canvas/stroke;
+- `<icon-name>-design.svg`, the same-size compatibility alias referenced by the
+  staged upload manifest when upload was authorized;
 - concept-review result and upload result or “not uploaded”.
 
 Per batch, deliver one `batch-notes.md` with:

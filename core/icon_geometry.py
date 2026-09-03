@@ -244,7 +244,7 @@ def path_data(commands: list[Command], scale: float=1) -> str:
 
 def svg(paths: list[dict], canvas: int, stroke: int, scale: float=1) -> str:
     body="\n".join(f'  <path d="{path_data(p["commands"],scale)}"/>' for p in paths)
-    return f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {canvas} {canvas}"\n     fill="none" stroke="currentColor" stroke-width="{stroke}"\n     stroke-linecap="round" stroke-linejoin="round">\n{body}\n</svg>\n'
+    return f'<svg xmlns="http://www.w3.org/2000/svg" width="{canvas}" height="{canvas}" viewBox="0 0 {canvas} {canvas}"\n     fill="none" stroke="currentColor" stroke-width="{stroke}"\n     stroke-linecap="round" stroke-linejoin="round">\n{body}\n</svg>\n'
 
 
 def sample(commands: list[Command], density: int=4) -> tuple[list[tuple[float,float]],list[tuple[tuple[float,float],tuple[float,float]]]]:

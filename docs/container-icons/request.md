@@ -2,7 +2,11 @@
 
 Use this template when requesting one or more `container` icons. A container is
 an independently recognizable outer icon with a protected centered region for
-a separately authored sub icon.
+a separately authored sub icon. Use the configured `container` profile (built-in
+default 64×64px with 4px stroke). Use [the sub request](../sub-icons/request.md)
+for its compatible unscaled insert and [the normal request](../icons/request.md)
+for a main icon instead. Custom named profiles use
+[profile configuration](../shared/profile-configuration.md).
 
 The [skill](SKILL.md) selects the input lane, [rules.md](rules.md) owns
 container-specific policy, [profile.md](profile.md) provides generated geometry,
@@ -21,8 +25,12 @@ Reference SVGs: <explicit selected files, or omit for a description-only request
 Output folder: <path, or omit to use work/<job>>
 
 For each subject, deliver schema-version-2 editable JSON with iconType "container", the
-empty design and ship SVG pair, complete QA evidence, and a non-shipping filled
-preview using an accepted sub icon. Process only the listed subjects.
+empty canonical <name>.svg at the configured container canvas/stroke, complete QA
+evidence, and a filled preview at that same native size. Use an unscaled insert
+matching containerSlot.acceptedProfile and acceptedKeyshape. Resolve sizes,
+keyshapes, slot and validation settings from core/icon_profiles.json; no half-size
+container derivative.
+Process only the listed subjects.
 Use exact elements, inspect relevant local Lucide original/debug pairs, and
 record applied construction principles. Do not add registry shapes or upload.
 ```
@@ -32,8 +40,9 @@ For one subject:
 ```text
 Use docs/container-icons/SKILL.md to generate a container icon of <subject>.
 Choose the accepted sub-icon keyshape that best preserves the container's
-identity. Deliver schema-version-2 editable JSON, both empty profile sizes, QA evidence,
-and a non-shipping filled preview.
+identity. Deliver schema-version-2 editable JSON, the configured container-native
+SVG, QA evidence, and a non-shipping filled preview at that same size. Author its
+insert at the accepted profile's configured size and place it unscaled. Do not create half-size derivatives.
 ```
 
 When no folder is supplied, choose a dedicated `work/<job>` folder named from

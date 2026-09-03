@@ -162,7 +162,7 @@ class GeometryWorkflowTests(unittest.TestCase):
     def run_tool(self,name,path,*extra):
         return subprocess.run([sys.executable,str(CORE/name),str(path),*map(str,extra)],capture_output=True,text=True)
 
-    def test_shape_free_emit_validate_and_ship_equivalence(self):
+    def test_shape_free_emit_validate_and_native_alias_equivalence(self):
         doc=source(element("rect",{"x":6,"y":6,"width":36,"height":36,"rx":2}))
         with tempfile.TemporaryDirectory() as folder:
             path=Path(folder)/"test-icon.json"; path.write_text(json.dumps(doc))
@@ -170,8 +170,10 @@ class GeometryWorkflowTests(unittest.TestCase):
             validated=self.run_tool("validate_icon.py",path); self.assertEqual(validated.returncode,0,validated.stdout+validated.stderr)
             design=ET.parse(Path(folder)/"test-icon-design.svg").getroot(); ship=ET.parse(Path(folder)/"test-icon.svg").getroot()
             design_commands=parse_path(design.find("{*}path").get("d"))
-            self.assertEqual(ship.find("{*}path").get("d"),path_data(design_commands,.5))
-            self.assertEqual(ship.get("stroke-width"),"2")
+            self.assertEqual(ship.find("{*}path").get("d"),path_data(design_commands))
+            self.assertEqual(ship.get("stroke-width"),"4")
+            self.assertEqual((ship.get("width"),ship.get("height"),ship.get("viewBox")),("48","48","0 0 48 48"))
+            self.assertEqual((Path(folder)/"test-icon-design.svg").read_bytes(),(Path(folder)/"test-icon.svg").read_bytes())
             (Path(folder)/"test-icon.svg").write_text("<svg/>")
             tampered=self.run_tool("validate_icon.py",path)
             self.assertNotEqual(tampered.returncode,0)

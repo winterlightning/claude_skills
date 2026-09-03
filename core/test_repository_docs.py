@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 import subprocess
 import sys
@@ -58,6 +59,59 @@ def markdown_anchors(path: Path) -> set[str]:
 
 
 class RepositoryDocumentationTests(unittest.TestCase):
+    def run_rework_report_preflight(self, mutate=None) -> subprocess.CompletedProcess[str]:
+        """Run the wrapper's report reader with local evidence; never upload."""
+        from icon_profiles import get_profile
+
+        wrapper = (ROOT / "rework_opus.sh").read_text(encoding="utf-8")
+        verify = wrapper.split("# --------------------------------------------------------------------- verify", 1)[1]
+        script = verify.split('python3 - "$BATCH" <<\'PY\' || QA_FAILED=1\n', 1)[1].split("\nPY\n", 1)[0]
+        with tempfile.TemporaryDirectory(prefix="rework-gate-check-") as temporary:
+            batch = Path(temporary).resolve()
+            (batch / "editable").mkdir()
+            (batch / "output").mkdir()
+            symbol = {"sid": "sym_000005", "iconName": "test-icon",
+                      "design": "output/test-icon-design.svg", "ship": "output/test-icon.svg"}
+            (batch / "batch.json").write_text(json.dumps({"symbols": [symbol]}))
+            source = batch / "editable/test-icon.json"
+            source.write_text('{"iconType":"normal"}')
+            rows = []
+            profile = json.dumps(get_profile("normal"), sort_keys=True, separators=(",", ":"),
+                                 ensure_ascii=False, allow_nan=False).encode()
+            for field in ("ship", "design"):
+                emitted = batch / symbol[field]
+                emitted.write_text("<svg />")
+                evidence = batch / "qa/canvas-keyshape/files" / emitted.stem
+                evidence.mkdir(parents=True)
+                keyfit = {"file": emitted.name, "status": "pass"}
+                keyfit_report = evidence / f"{emitted.stem}.keyfit.json"
+                keyfit_overlay = evidence / f"{emitted.stem}_keyfit.png"
+                keyfit_report.write_text(json.dumps(keyfit))
+                keyfit_overlay.write_bytes(b"mock overlay")
+                rows.append({"file": emitted.name, "ok": True, "status": "pass", "errors": [],
+                             "issues": [], "keyfit": keyfit,
+                             "svgSha256": hashlib.sha256(emitted.read_bytes()).hexdigest(),
+                             "editableSha256": hashlib.sha256(source.read_bytes()).hexdigest(),
+                             "profileSha256": hashlib.sha256(profile).hexdigest(),
+                             "evidenceDirectory": str(evidence), "keyfitReport": str(keyfit_report),
+                             "keyfitOverlay": str(keyfit_overlay)})
+            for gate, filename, field, status in (("grid", "grid-results.json", "design", "overallStatus"),
+                                                 ("keyshape", "keyfit-results.json", "ship", "status"),
+                                                 ("holes", "hole-diameters.json", "ship", "status")):
+                folder = batch / "qa" / gate
+                folder.mkdir(parents=True)
+                (folder / filename).write_text(json.dumps([{"file": Path(symbol[field]).name, status: "pass"}]))
+            aggregate = {"checked": 2, "failed": 0, "ok": True, "rows": rows}
+            keep_report = mutate(batch, aggregate) if mutate else True
+            for row in aggregate.get("rows", []) if isinstance(aggregate.get("rows"), list) else []:
+                if isinstance(row, dict) and isinstance(row.get("evidenceDirectory"), str):
+                    evidence = Path(row["evidenceDirectory"]) / "canvas-keyshape.json"
+                    evidence.write_text(json.dumps(row))
+            if keep_report is not False:
+                (batch / "qa/canvas-keyshape/canvas-keyshape-results.json").write_text(json.dumps(aggregate))
+            return subprocess.run([sys.executable, "-B", "-c", script, str(batch)],
+                                  cwd=ROOT, capture_output=True, text=True)
+
     def run_rework_source_preflight(self, document: object) -> subprocess.CompletedProcess[str]:
         """Exercise only the wrapper's read-only source check, never its stages."""
         wrapper = (ROOT / "rework_opus.sh").read_text(encoding="utf-8")
@@ -100,6 +154,41 @@ class RepositoryDocumentationTests(unittest.TestCase):
                 result = self.run_rework_source_preflight(document)
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_rework_report_reader_accepts_complete_fresh_canvas_gate_evidence(self) -> None:
+        result = self.run_rework_report_preflight()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rework_report_reader_rejects_missing_failed_or_incomplete_canvas_gate(self) -> None:
+        mutations = (
+            lambda batch, report: False,
+            lambda batch, report: report["rows"].pop(),
+            lambda batch, report: report.update(rows=[]),
+            lambda batch, report: report.update(rows="malformed"),
+            lambda batch, report: report["rows"].append(report["rows"][0]),
+            lambda batch, report: report.update(ok=False, failed=1),
+            lambda batch, report: report["rows"][0].update(ok=False, status="fail", errors=["incorrect native width"]),
+            lambda batch, report: report["rows"][0].update(status="error"),
+            lambda batch, report: report["rows"][0].pop("keyfit"),
+            lambda batch, report: report["rows"][0].update(errors=["renderer unavailable"]),
+        )
+        for index, mutate in enumerate(mutations):
+            with self.subTest(case=index):
+                result = self.run_rework_report_preflight(mutate)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rework_report_reader_rejects_stale_geometry_profile_and_missing_artifacts(self) -> None:
+        mutations = (
+            lambda batch, report: (batch / "output/test-icon-design.svg").write_text("changed after QA"),
+            lambda batch, report: (batch / "editable/test-icon.json").write_text("changed after QA"),
+            lambda batch, report: report["rows"][0].update(profileSha256="0" * 64),
+            lambda batch, report: Path(report["rows"][0]["keyfitOverlay"]).unlink(),
+            lambda batch, report: report["rows"][0].pop("evidenceDirectory"),
+        )
+        for index, mutate in enumerate(mutations):
+            with self.subTest(case=index):
+                result = self.run_rework_report_preflight(mutate)
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_local_markdown_links_resolve(self) -> None:
         missing: list[str] = []
         for source in maintained_markdown():
@@ -128,9 +217,10 @@ class RepositoryDocumentationTests(unittest.TestCase):
         verify_stage = wrapper[verify:upload]
         for command in (
             "core/validate_icon.py",
+            "core/validate_icon_keyshapes.py",
             "core/check_svg_grid.py",
             "core/render_overlap_audit.py",
-            "core/check_keyfit.py",
+            "check_keyfit.write_aggregate",
             "core/qa_overlays.py",
         ):
             with self.subTest(command=command):
@@ -142,12 +232,13 @@ class RepositoryDocumentationTests(unittest.TestCase):
 
         # A failed command must not be allowed to reuse a passing aggregate
         # from an earlier verification run.
-        self.assertIn('grid|keyshape|holes) target="$QA_ROOT/$gate"', verify_stage)
+        self.assertIn('grid|canvas-keyshape|keyshape|holes) target="$QA_ROOT/$gate"', verify_stage)
+        self.assertIn("if active verify || active upload; then", verify_stage)
         self.assertIn('[[ ! -L "$QA_ROOT" ]]', verify_stage)
         self.assertIn('rm -rf -- "$target"', verify_stage)
         for gate, command in (
             ("grid", "core/check_svg_grid.py"),
-            ("keyshape", "core/check_keyfit.py"),
+            ("canvas-keyshape", "core/validate_icon_keyshapes.py"),
             ("holes", "core/qa_overlays.py"),
         ):
             with self.subTest(fresh_report_gate=gate):
@@ -158,6 +249,12 @@ class RepositoryDocumentationTests(unittest.TestCase):
                 self.assertIn("QA_FAILED=1", verify_stage[command_at:command_end])
 
         self.assertIn("python3 - \"$BATCH\" <<'PY' || QA_FAILED=1", verify_stage)
+
+        gate_command = verify_stage.split("if ! python3 core/validate_icon_keyshapes.py", 1)[1].split("\n  fi", 1)[0]
+        self.assertIn('"${SHIPS[@]}" "${DESIGNS[@]}"', gate_command)
+        self.assertIn('--expected-editable-dir "$BATCH/editable"', gate_command)
+        self.assertNotIn("python3 core/check_keyfit.py", verify_stage,
+                         "reuse the mandatory gate's raster evidence rather than render it again")
 
 
 if __name__ == "__main__":

@@ -65,7 +65,7 @@ class OpticalKeyfitReportTests(unittest.TestCase):
     def result(self, optical=True, check=None):
         result = classify_keyfit(tuple(self.bounds), .01, "portrait-28x32", icon_type="sub", keyfit_check=(check or self.check) if optical else None)
         return {"file": self.source.name, "source": str(self.source), "iconType": "sub", "designCanvas": 32,
-                "shipCanvas": 16, "viewBox": [0, 0, 16, 16], **result}
+                "shipCanvas": 32, "viewBox": [0, 0, 32, 32], **result}
 
     def test_csv_records_fit_mode_and_optical_rationale(self):
         write_csv([self.result(), self.result(optical=False)], self.output)

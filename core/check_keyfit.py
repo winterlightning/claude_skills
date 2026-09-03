@@ -35,8 +35,8 @@ PROJECT_ROOT = next(
 if PROJECT_ROOT is None:
     raise RuntimeError("cannot locate project core/keyfit.py from the keyfit checker")
 sys.path.insert(0, str(PROJECT_ROOT / "core"))
-from icon_profiles import DEFAULT_ICON_TYPE,document_icon_type,get_profile,profile_names
-from keyfit import DESIGN_CANVAS,CIRCLE_DIAMETER,SHIP_CANVAS,canonical_tokens,matches,max_box,token_box,token_named,validate_optical_bounds
+from icon_profiles import DEFAULT_ICON_TYPE,document_icon_type,get_profile,profile_names,svg_native_size_issues
+from keyfit import DESIGN_CANVAS,CIRCLE_DIAMETER,SHIP_CANVAS,canonical_tokens,matches,max_box,nearest,token_box,token_named,validate_optical_bounds
 
 DEFAULT_SAMPLES_PER_UNIT = 32
 CIRCLE_ANGULAR_BINS = 180
@@ -147,13 +147,16 @@ def painted_circle_overflow(
     mask: np.ndarray,
     icon_type: str = DEFAULT_ICON_TYPE,
     padding_pixels: int = 0,
+    circle_token: dict | None = None,
 ) -> float:
     """Maximum painted-sample overflow beyond the profile's circle."""
     ys, xs = np.where(mask)
     if not len(xs):
         return 0.0
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); center=profile["center"]
-    circle=next(item for item in canonical_tokens(icon_type) if item["shape"]=="circle")
+    circle=circle_token or next((item for item in canonical_tokens(icon_type) if item["shape"]=="circle"),None)
+    if circle is None or circle["shape"] != "circle":
+        return 0.0
     scale_x = design_canvas / (mask.shape[1] - 2 * padding_pixels)
     scale_y = design_canvas / (mask.shape[0] - 2 * padding_pixels)
     dx = (xs + 0.5 - padding_pixels) * scale_x - center["x"]
@@ -175,9 +178,9 @@ def dominant_circle_evidence(
     houses, boxes, and other rectilinear or peaked silhouettes.
     """
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); center=profile["center"]
-    circle=next(item for item in canonical_tokens(icon_type) if item["shape"]=="circle")
+    circle=max((item for item in canonical_tokens(icon_type) if item["shape"]=="circle"),key=lambda item:item["diameter"],default=None)
     minimum_profile_radius=CIRCLE_MIN_RADIUS*design_canvas/DESIGN_CANVAS
-    if bounds is None:
+    if bounds is None or circle is None:
         return {
             "isDominantLargeCircle": False,
             "angularCoverage": 0.0,
@@ -266,15 +269,17 @@ def inferred_visual_target(
     """Choose circle only from raster evidence; otherwise use whole-box orientation."""
     width = bounds[2] - bounds[0]
     height = bounds[3] - bounds[1]
-    by_orientation={item["orientation"]:item for item in canonical_tokens(icon_type)}
+    tokens=canonical_tokens(icon_type)
     if allow_circle:
-        token = by_orientation["circle"]
+        orientation = "circle"
     elif width / max(height, 1e-9) >= RECTANGULAR_ORIENTATION_RATIO:
-        token = by_orientation["landscape"]
+        orientation = "landscape"
     elif height / max(width, 1e-9) >= RECTANGULAR_ORIENTATION_RATIO:
-        token = by_orientation["portrait"]
+        orientation = "portrait"
     else:
-        token = by_orientation["square"]
+        orientation = "square"
+    candidates = [token for token in tokens if token["orientation"] == orientation]
+    token = min(candidates,key=lambda item:abs(item["width"]-width)+abs(item["height"]-height)) if candidates else nearest(bounds,allow_circle,icon_type)
     box = token_box(token["width"], token["height"],icon_type)
     return {
         **token,
@@ -290,13 +295,14 @@ def inferred_visual_target(
 
 def classify_keyfit(
     bounds: tuple[float, float, float, float] | None,
-    tolerance: float,
+    tolerance: float | None = None,
     expected_token_name: str | None = None,
     circle_radial_overflow: float = 0.0,
     circle_evidence: dict | None = None,
     icon_type: str=DEFAULT_ICON_TYPE,
     keyfit_check: dict | None = None,
 ) -> dict:
+    tolerance=get_profile(icon_type)["validation"]["keyshapeTolerance"] if tolerance is None else tolerance
     if bounds is None:
         return {
             "status": "fail",
@@ -457,12 +463,15 @@ def process(
     svg_path: Path,
     output_dir: Path,
     samples_per_unit: int,
-    tolerance: float,
+    tolerance: float | None = None,
     expected_token_name: str | None = None,
     icon_type: str=DEFAULT_ICON_TYPE,
     keyfit_check: dict | None = None,
 ) -> dict:
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"])
+    tolerance=profile["validation"]["keyshapeTolerance"] if tolerance is None else tolerance
+    if not math.isfinite(tolerance) or tolerance < 0:
+        raise ValueError("keyshape tolerance must be finite and nonnegative")
     view_box = svg_canvas(svg_path,float(profile["shipCanvas"]))
     # One design stroke of inspection space reveals centered-stroke overflow
     # around the original canvas, including full-canvas sub keyshapes.
@@ -475,15 +484,20 @@ def process(
     )
     bounds = painted_bounds(mask, view_box, design_canvas, padding_pixels)
     circle_evidence = dominant_circle_evidence(mask, bounds, icon_type, padding_pixels)
+    selected = token_named(expected_token_name,icon_type) if expected_token_name else (
+        inferred_visual_target(bounds,bool(circle_evidence.get("isDominantLargeCircle")),icon_type) if bounds is not None else None)
     check = classify_keyfit(
         bounds,
         tolerance,
         expected_token_name,
-        painted_circle_overflow(mask, icon_type, padding_pixels),
+        painted_circle_overflow(mask, icon_type, padding_pixels, selected),
         circle_evidence,
         icon_type,
         keyfit_check,
     )
+    size_issues = svg_native_size_issues(ET.parse(svg_path).getroot().attrib, icon_type)
+    if size_issues:
+        check.update(status="fail", reason="non-native-svg-size", nativeSizeIssues=size_issues)
     result = {
         "file": svg_path.name,
         "source": str(svg_path),
@@ -491,6 +505,7 @@ def process(
         "iconType": icon_type,
         "designCanvas": profile["designCanvas"],
         "shipCanvas": profile["shipCanvas"],
+        "validation": profile["validation"],
         "toleranceDesignUnits": tolerance,
         **check,
     }
@@ -624,7 +639,7 @@ def write_html(results: list[dict], output_dir: Path) -> None:
         source_markup = (f'<img src="{source_href}" alt="Rendered {html.escape(result["file"], quote=True)}">'
                          if source_href else '<span class="source-missing">SVG source path unavailable; use the overlay evidence.</span>')
         preview = (
-            f'<div class="preview" style="--grid-major:{canvas/4:g};--grid-canvas:{canvas:g}">'
+            f'<div class="preview" style="--grid-major:{canvas/get_profile(icon_type)["validation"]["majorGridStep"]:g};--grid-canvas:{canvas/get_profile(icon_type)["validation"]["gridStep"]:g}">'
             f'{source_markup}'
             f'<svg class="inspection-overlay" viewBox="0 0 {canvas:g} {canvas:g}" aria-hidden="true">'
             f'{keyshape_markup}{painted_markup}</svg>'
@@ -698,7 +713,7 @@ each result is judged against its declared fit mode and selected boundary.</p>
 <div class="card"><span class="value bad">{len(failed)}</span><span class="label">failed files</span></div>
 <div class="card"><span class="value">{inferred_count}</span><span class="label">inferred targets</span></div></div>
 {optical_summary}
-<div class="legend"><span><i class="swatch keyshape"></i>selected keyshape</span><span><i class="swatch paint"></i>measured painted bounds</span><span>Grid: 1u minor / 4u major</span></div>
+<div class="legend"><span><i class="swatch keyshape"></i>selected keyshape</span><span><i class="swatch paint"></i>measured painted bounds</span><span>Grid: profile minor / major steps</span></div>
 <table><thead><tr><th>SVG + grid</th><th>File</th><th>Painted size</th><th>Target / basis / mode</th><th>Failure</th><th>Boundary deltas / fit guidance</th><th>Canvas padding</th><th>Evidence</th></tr></thead>
 <tbody>{body}</tbody></table></main></body></html>"""
     (output_dir / "keyfit-report.html").write_text(document, encoding="utf-8")
@@ -737,18 +752,14 @@ def main() -> int:
         "--tolerance-design-u",
         type=float,
         default=None,
-        help="edge tolerance in design units (default: one raster sample)",
+        help="edge tolerance in native design units (default: profile validation.keyshapeTolerance)",
     )
     args = parser.parse_args()
     if args.samples_per_unit < 4:
         parser.error("--samples-per-unit must be at least 4")
-    tolerance = (
-        args.tolerance_design_u
-        if args.tolerance_design_u is not None
-        else 2.0 / args.samples_per_unit
-    )
-    if tolerance < 0:
-        parser.error("--tolerance-design-u cannot be negative")
+    tolerance = args.tolerance_design_u
+    if tolerance is not None and (not math.isfinite(tolerance) or tolerance < 0):
+        parser.error("--tolerance-design-u must be finite and nonnegative")
 
     svgs = collect_svgs(args.inputs)
     if not svgs:

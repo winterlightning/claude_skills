@@ -10,8 +10,9 @@ values.
 
 - Declare `"iconType": "normal"` in every new editable source. Omission is
   supported only for backward compatibility.
-- Author directly on the normal design canvas and emit its exact design/ship
-  pair through the shared pipeline.
+- Author, export, and review at the configured `normal` canvas and stroke
+  (built-in defaults 48×48px and 4px). Emit canonical `<name>.svg` at 1:1;
+  do not create a half-size derivative.
 - Prefer a few large, legible forms. Preserve
   the silhouette and one to three identity-bearing features; remove texture
   and incidental repetition. Feature guidance is not an element-count quota.
@@ -19,13 +20,16 @@ values.
   `keyfitCheck.targetToken` and preserve its painted extent and containment.
   Intrinsically thin/sparse subjects may use shared R1's documented optical mode;
   do not stretch them to all four edges merely to satisfy exact mode.
-- Review recognition, optical balance, and negative space at the exact ship
-  size in the generated profile.
+- Review recognition, optical balance, and negative space at the exact native
+  size in the resolved profile.
 
 ## Composite corner badges
 
 A badge is a semantic modifier within a normal icon. It is distinct from a
-standalone `sub` icon placed inside a container.
+standalone `sub` icon placed inside a container. The dimensions below are
+composition guidance for the built-in 48px normal profile, not registry
+constraints. If its canvas/keyshapes change, recompose the badge within the
+configured keyshape and recheck spacing instead of blindly scaling final paths.
 
 - Keep 4u canvas-edge padding.
 - Fit the main symbol to a 32×32u box and use a 16u-diameter or nominal-box
@@ -48,7 +52,6 @@ simplify or reposition the main symbol before changing a badge's corner.
 
 ## Delivery
 
-Use a kebab-case name and deliver schema-version-2 editable JSON, both canonical SVG
-sizes, and the evidence required by the [shared pipeline](../shared/icon-pipeline.md).
+Use a kebab-case name and deliver schema-version-2 editable JSON, the configured native SVG, and the evidence required by the [shared pipeline](../shared/icon-pipeline.md).
 For symbol-library work, also apply [rework.md](rework.md); its brief review and
 upload contract belong only to that input lane.

@@ -1,4 +1,4 @@
 #!/bin/sh
-# Opens the Unlimited Shapes editor in the default browser.
-# Usage: ./open_app.sh
-open "$(dirname "$0")/frontend/index.html"
+# Starts the local Profile Manager and opens its session URL.
+# Usage: ./open_app.sh [--port NUMBER] [--no-open]
+exec python3 "$(dirname "$0")/core/profile_manager.py" "$@"
