@@ -93,7 +93,7 @@ specify only the keys they change. Values use native units (1u = 1px).
 | `majorGridStep` | 4 | Major guide interval; a positive integer multiple of `gridStep` |
 | `geometryTolerance` | 0.001 | Numeric geometry agreement/tolerance checks |
 | `keyshapeTolerance` | 0.03125 | Painted-keyshape measurement tolerance |
-| `minimumDistinctCenterlineDistance` | 4; sub overrides to 3 | Minimum distance between distinct geometry centerlines |
+| `minimumDistinctCenterlineDistance` | Global 4; normal 8, sub 3, container 4 | Minimum distance between distinct geometry centerlines |
 | `minimumEnclosedRadius` | 1 | Enclosed negative-space radius floor |
 | `minimumSolidFillDepth` | 1 | Solid junction depth/pinch gate; 0 explicitly disables this gate |
 
@@ -103,6 +103,12 @@ Ordinary QA commands use resolved settings when no explicit diagnostic override
 is supplied. Visual construction guidance, such as corner treatment and declared
 opening clearance, still belongs in [shared rules](icon-rules.md); it is not an
 undocumented extra manager setting.
+
+`check_svg_spacing.py` reads this distance directly from the selected profile.
+For normal48's 4u stroke, its 8u centerline floor means 4u clear ink space.
+Its `geometryTolerance` controls curve approximation accuracy, not permission to
+pass an undersized gap. Container explicitly keeps a 4u floor despite inheriting
+other normal settings; change that override deliberately if its policy changes.
 
 ### Container slots
 

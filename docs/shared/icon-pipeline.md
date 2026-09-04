@@ -266,7 +266,8 @@ or shape-asset generation. See [the geometry guide](atomic-shapes.md).
 The schema-version-2 editable JSON is the source of truth for repair and re-emission. It
 must declare at least:
 
-- a stable kebab-case `name`;
+- a stable kebab-case `name` following [R8](icon-rules.md#symbol-ids-and-variants),
+  retaining any supplied `sym-<id>` prefix for the icon and its requested variants;
 - `iconType`, `canvas`, and `strokeWidth`;
 - `keyfitCheck.targetToken` plus a short visual rationale;
 - `schemaVersion: 2` and ordered `elements` with unique `id`, optional `role`,
@@ -354,6 +355,36 @@ One invocation uses one profile. Separate mixed-type batches before running this
 gate.
 
 ## 8. Review declared overlaps and spacing
+
+For normal-profile SVGs, the disconnected-stroke spacing check is required even
+when the editable source has no declared spacing pairs:
+
+```bash
+python3 core/check_svg_spacing.py <native-svg-or-flat-folder> \
+  --icon-type normal --output-dir <qa-folder>/spacing
+```
+
+The current normal48 setting requires 8u between centerlines, equivalent to 4u
+between ink edges with its 4u stroke. It comes from the profile JSON; this update
+does not impose that number on sub or container profiles. The standalone command
+can check those explicitly with `--icon-type` and their own configured floors.
+
+Read `spacing-results.json`, `spacing-report.html`, and each fresh `files/` report
+and native-size colored `spacing.svg`. Each disconnected `M` contour is identified,
+true centerline-connected contours are grouped, and every separate component pair
+has a measured centerline distance, ink clearance, nearest points and verdict.
+Ink contact alone does not join components. Curves use bounded approximation;
+ambiguous contact or threshold cases require review. Exit `1` includes violations,
+review cases and errors; require exit `0` and complete passing report coverage.
+Do not skip an unsupported SVG, relax a threshold, or add a spurious connection to
+make it pass. Repair editable geometry, re-emit and rerun all affected QA.
+
+`validate_icon.py` also runs this numerical check for normal icons after verifying
+both emitted aliases match canonical geometry, so existing pack and wrapper
+structural gates reject hidden subpath spacing failures. The standalone command
+provides per-pair diagnostics without needing editable metadata. Neither route
+approves intentional connections semantically or checks internal gaps in one
+connected shape; keep the declared overlap and hole/pinch reviews below.
 
 For each editable icon with two-element spacing checks:
 

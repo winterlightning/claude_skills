@@ -21,6 +21,31 @@ def container_paint_overlap(points,slot,stroke_width,tolerance=1e-3):
     bounds=slot["protectedBounds"]
     return [point for point in points if _point_rect_distance(point,bounds) < radius-tolerance]
 
+def disconnected_spacing_failures(path):
+    """Require the actual normal SVG's disconnected-subpath spacing verdict."""
+    try:
+        from check_svg_spacing import check_file
+        report=check_file(path,icon_type="normal")
+        if not isinstance(report,dict) or not isinstance(report.get("errors"),list) or not isinstance(report.get("pairs"),list):
+            raise ValueError("spacing checker returned a malformed report")
+        failures=[f"disconnected SVG spacing error: {error}" for error in report["errors"]]
+        for pair in report["pairs"]:
+            if not isinstance(pair,dict) or pair.get("status") not in ("pass","fail","review"):
+                raise ValueError("spacing checker returned a malformed pair verdict")
+            if pair["status"]=="pass": continue
+            contours=pair.get("closestContours")
+            if not isinstance(contours,list) or len(contours)!=2 or not all(isinstance(identifier,str) and identifier for identifier in contours):
+                raise ValueError("spacing checker returned a pair without two contour IDs")
+            measured=finite_number(pair.get("centerlineDistance"),"measured centerline distance")
+            required=finite_number(pair.get("requiredCenterline"),"required centerline distance")
+            reason=f"; {pair['reason']}" if pair.get("reason") else ""
+            failures.append(f"disconnected contours {contours[0]} and {contours[1]}: {measured:.4g}u centerline distance; required {required:g}u — {pair['status']}{reason}")
+        if report.get("ok") is not True or report.get("status")!="pass":
+            if not failures: failures.append(f"disconnected SVG spacing did not pass (status {report.get('status')!r}); rerun core/check_svg_spacing.py for details")
+        return failures
+    except Exception as error:
+        return [f"disconnected SVG spacing could not be verified: {type(error).__name__}: {error}"]
+
 def main() -> int:
     parser=argparse.ArgumentParser(); parser.add_argument("input",type=Path); parser.add_argument("--dir",type=Path); args=parser.parse_args()
     doc=json.loads(args.input.read_text()); name=doc.get("name",args.input.stem); failures=[]; notes=[]
@@ -105,12 +130,17 @@ def main() -> int:
         design:svg(paths,profile["designCanvas"],profile["designStroke"]),
         ship:svg(paths,profile["shipCanvas"],profile["shipStroke"],scale),
     }
+    parity_confirmed=True
     for path,canvas,stroke in ((design,profile["designCanvas"],profile["designStroke"]),(ship,profile["shipCanvas"],profile["shipStroke"])):
-        if not path.exists(): failures.append(f"missing emitted file {path.name} — run core/emit_icon.py first"); continue
+        if not path.exists(): failures.append(f"missing emitted file {path.name} — run core/emit_icon.py first"); parity_confirmed=False; continue
         text=path.read_text()
         if f'viewBox="0 0 {canvas} {canvas}"' not in text: failures.append(f"{path.name} has the wrong canvas")
         if f'stroke-width="{stroke}"' not in text: failures.append(f"{path.name} has the wrong stroke")
-        if text!=canonical[path]: failures.append(f"{path.name} does not match canonical core/emit_icon.py output; re-emit both same-size canonical files")
+        if text!=canonical[path]: failures.append(f"{path.name} does not match canonical core/emit_icon.py output; re-emit both same-size canonical files"); parity_confirmed=False
+    # Both aliases are byte-for-byte canonical, so one numerical SVG pass covers
+    # both without duplicating curve work. Existing element-level checks remain.
+    if icon_type=="normal" and parity_confirmed:
+        failures.extend(disconnected_spacing_failures(ship))
     print(f"{name} — {len(paths)} geometry elements"); [print(f"  · {n}") for n in notes]
     if failures:
         [print(f"  FAIL {f}") for f in failures]; return 1

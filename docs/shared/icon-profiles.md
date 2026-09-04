@@ -5,7 +5,7 @@ Generated from [the canonical profile JSON](../../core/icon_profiles.json). Buil
 
 | Type | Editable | Final / native review | Editable stroke | Final stroke | Distinct centerline distance |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| `normal` | 48×48 | 48×48 | 4u | 4px | 4u |
+| `normal` | 48×48 | 48×48 | 4u | 4px | 8u |
 | `sub` | 32×32 | 32×32 | 4u | 4px | 3u |
 | `container` | 64×64 | 64×64 | 4u | 4px | 4u |
 
@@ -48,7 +48,7 @@ Generated from [the canonical profile JSON](../../core/icon_profiles.json). Buil
 | `majorGridStep` | 4 |
 | `geometryTolerance` | 0.001 |
 | `keyshapeTolerance` | 0.03125 |
-| `minimumDistinctCenterlineDistance` | 4 |
+| `minimumDistinctCenterlineDistance` | 8 |
 | `minimumEnclosedRadius` | 1 |
 | `minimumSolidFillDepth` | 1 |
 

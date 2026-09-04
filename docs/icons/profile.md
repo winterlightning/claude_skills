@@ -10,7 +10,7 @@ Generated from [the canonical profile JSON](../../core/icon_profiles.json). All 
 | Canvas | 48×48u | 48×48px |
 | Stroke | 4u | 4px |
 | Center | `(24,24)`u | `(24,24)`px |
-| Minimum distinct centerline distance | 4u | 4px |
+| Minimum distinct centerline distance | 8u | 8px |
 
 Native output scale: **1:1**. Editable, final, and visual-review geometry use the same canvas and stroke; no half-size output is generated.
 The legacy `design*` and `ship*` profile keys are same-size compatibility aliases.
@@ -34,6 +34,6 @@ Bounds are `(left,top)…(right,bottom)` and include stroke paint. Each token is
 | `majorGridStep` | 4 |
 | `geometryTolerance` | 0.001 |
 | `keyshapeTolerance` | 0.03125 |
-| `minimumDistinctCenterlineDistance` | 4 |
+| `minimumDistinctCenterlineDistance` | 8 |
 | `minimumEnclosedRadius` | 1 |
 | `minimumSolidFillDepth` | 1 |

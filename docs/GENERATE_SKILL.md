@@ -119,6 +119,14 @@ follow the [shared pipeline](shared/icon-pipeline.md). Declare `iconType` in
 every editable source to match the routing table. Never mix profiles in one
 QA invocation or one contact sheet.
 
+Choose each authored `icon-name` with the shared
+[symbol/variant naming rule](shared/icon-rules.md#symbol-ids-and-variants):
+`sym_000123` with subject `Bell` becomes `sym-000123-bell`; requested alternatives
+retain that base and add a variant suffix. Keep the original manifest `sid` in
+`sourceAnalysis.symbolId`. The local builder accepts one chosen editable source
+per symbol, so keep exploratory alternatives outside its final `editable/` folder.
+The manifest's delivery filename remains unchanged.
+
 **Sub and normal symbols** use the
 [local manifest pack lane](icons/rework.md#local-manifest-pack-lane). The pack
 builder accepts this pack's `<sid>_generated.svg` delivery name:
@@ -126,7 +134,7 @@ builder accepts this pack's `<sid>_generated.svg` delivery name:
 ```bash
 python3 core/rework_pack.py inspect <batch-folder>
 python3 core/rework_pack.py prepare <batch-folder>
-# author <batch-folder>/editable/<kebab-case-name>.json per symbol,
+# author <batch-folder>/editable/<icon-name>.json per symbol,
 # with sourceAnalysis.symbolId = sid and iconType from the routing table
 python3 core/rework_pack.py build <batch-folder>
 ```
@@ -160,7 +168,7 @@ name:
 ```bash
 python3 core/validate_icon_keyshapes.py \
   <batch-folder>/sym_XXXXXX/sym_XXXXXX_generated.svg \
-  --editable <batch-folder>/editable/<kebab-case-name>.json \
+  --editable <batch-folder>/editable/<icon-name>.json \
   --output-dir <batch-folder>/qa/<sid>/delivery-keyshape
 ```
 

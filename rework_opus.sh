@@ -281,6 +281,12 @@ Binding points, from that runbook:
   shape assets. There is no element-count quota, strict 45-degree rule, fixed
   radius list or compulsory reuse gate. Technical compliance alone does not
   make an icon acceptable.
+- Follow shared R8 naming: when a symbol has sym-<id> or sym_<id>, preserve its
+  complete sym-<id> prefix, including leading zeroes, in every requested variant.
+  Keep the same ID-bearing base and append a variant suffix; never replace it
+  with only a subject name or variant number. Preserve raw sourceAnalysis.sid
+  and manifest/upload mappings. Use the exact staged iconName for the selected
+  deliverable; this rule does not authorize additional variants.
 - Write editable sources to $BATCH/editable/<icon-name>.json using the
   iconName in batch.json, and emit to $BATCH/output. New sources must declare
   schemaVersion: 2, iconType: normal, canvas and strokeWidth from the configured

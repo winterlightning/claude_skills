@@ -175,6 +175,22 @@ must show an opening, use R5's painted-clearance requirement. The
 [sub-icon rules](../sub-icons/rules.md) explain that profile's compact spacing.
 Intentional connections and meaningful crossings also follow R5.
 
+For the normal 48×48 profile, separated strokes require **8u minimum centerline
+distance**. With its 4u round stroke this is **4u clear space between ink edges**:
+`ink clearance = max(0, centerline distance - strokeWidth)`. These are equivalent
+measurements of one requirement, not alternative ways to waive it. The numerical
+setting is `profiles.normal.validation.minimumDistinctCenterlineDistance` in
+`core/icon_profiles.json`; sub and container keep their own configured floors.
+
+Use `core/check_svg_spacing.py` on the actual normal SVG. It splits disconnected
+`M` subpaths even inside one `<path>`, measures continuous geometry between every
+disconnected centerline component, and reports the closest contour pair. Actual
+centerline joins/crossings form one component; paint merely touching does not.
+Curved contacts or distances that cannot be resolved within the measurement
+bound require review, never an automatic pass. Internal spacing inside a connected
+shape still needs the other R4/R5 checks and hole/pinch review. Do not add a bridge
+or close a gap merely to merge components and evade the rule.
+
 ### R5 — Connections, intersections, and cutouts
 
 - Connected parts must visibly meet at a shared endpoint, coincident edge, tangent, or intentional crossing.
@@ -182,11 +198,12 @@ Intentional connections and meaningful crossings also follow R5.
 - A declared visual opening uses 3u painted clearance as the shared visual
   default unless its purpose justifies a documented alternative. With stroke
   `S`, the corresponding centerline distance is `S + clearance` (7u for the
-  built-in 4u stroke and 3u opening). Record the chosen minimum in spacing checks;
-  it is distinct from the configurable ordinary-part distance floor.
+  built-in 4u stroke and 3u opening). This never lowers R4's configured floor:
+  separated normal48 strokes need at least 8u centerline / 4u ink clearance.
+  Record the applicable minimum in spacing checks; use the stricter requirement.
 - When one element in the new composition visually overlaps another but needs
   separation, cut the underlying path and preserve its declared clearance
-  (visual default 3u). Do not retain a cutout left by an absent source object;
+  (visual default 3u, subject to the stricter R4 floor). Do not retain a cutout left by an absent source object;
   apply [prototype reconstruction](#extracted-prototypes-restore-missing-geometry).
 - Preserve a full crossing only when the crossing communicates the subject.
 - Prefer rearrangement and path trimming to masks, erasers, or decorative fills.
@@ -214,6 +231,31 @@ reference fidelity. A compliant but awkward icon still fails.
 - Use kebab-case names.
 - Keep elements in conceptual build order: main form first, attachments and details afterward.
 - Use explicit stacking only when it materially affects an overlap.
+
+#### Symbol IDs and variants
+
+- When the selected source or symbol metadata has a `sym-<id>` or `sym_<id>`
+  identity, every newly authored icon and requested variant must retain
+  `sym-<id>` at the start of its name. Preserve the complete ID, including leading
+  zeroes; convert the underscore separator to a hyphen only in generated names.
+- Use the existing base convention `sym-<id>-<concept-kebab>`. Append a stable
+  variant suffix when distinguishing requested alternatives, for example
+  `sym-000123-bell-variant-1` and `sym-000123-bell-variant-2`. Keep the same
+  ID-bearing base; do not rename a variant to just `bell` or `variant-2`.
+  An already normalized `sym-<id>` prefix is retained, not added twice.
+  Profile suffixes such as `-sub` and `-container` also follow this base;
+  `-design.svg` remains a same-size file alias, not a different variant.
+- The editable JSON `name` and its filename stem must agree. Use that same stem
+  for the canonical SVG, its `-design.svg` alias, and per-icon QA artifacts.
+  Keep the raw symbol ID unchanged in the lane's identity metadata
+  (`sourceAnalysis.symbolId` for local packs, `sourceAnalysis.sid` for payloads).
+- Staged `batch.json` names and manifest delivery paths remain authoritative:
+  use the staged `iconName` for its selected deliverable, and copy the accepted
+  output to the exact manifest path even when it uses `sym_<id>_generated.svg`.
+  Do not rewrite prototypes, manifests, or upload destinations to match a variant.
+- If no symbol ID is supplied, ordinary descriptive kebab-case naming still
+  applies; do not invent an ID. Resolve conflicting supplied IDs before authoring.
+  Naming a variant does not authorize generating or inspecting extra variants.
 
 ### R9 — Enclosed negative space
 
@@ -301,6 +343,8 @@ Keep the production output transparent. Construction keyshapes, grids, collision
 - [ ] The icon has a natural, convincing silhouette and is immediately
   recognizable; no reference motif was reused at the expense of visual quality.
 - [ ] `iconType` is declared; source, canonical output, and acceptance preview all use its one native canvas.
+- [ ] Names follow R8: every ID-bearing icon/variant retains its `sym-<id>` prefix,
+  editable and generated stems agree, and required manifest destinations are unchanged.
 - [ ] Paint satisfies the declared exact or documented optical keyfit mode and remains inside the selected centered keyshape.
 - [ ] The profile-aware grid audit passes: configured canvas/stroke, grid step, and tolerances.
 - [ ] Paint is `currentColor`, no fill, centered profile Regular stroke, round caps/joins.

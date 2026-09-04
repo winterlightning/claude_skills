@@ -4,7 +4,9 @@
 from __future__ import annotations
 
 from copy import deepcopy
+from contextlib import redirect_stdout
 import importlib.util
+import io
 import json
 from pathlib import Path
 import shutil
@@ -12,6 +14,7 @@ import subprocess
 import sys
 from tempfile import TemporaryDirectory
 import unittest
+from unittest import mock
 import xml.etree.ElementTree as ET
 
 from icon_profiles import (
@@ -43,6 +46,29 @@ def custom_catalog():
 
 
 class ProfileSourceTests(unittest.TestCase):
+    def test_native_spacing_floors_reload_from_json_without_changing_other_profiles(self):
+        with TemporaryDirectory() as folder:
+            runtime = Path(folder)
+            shutil.copy2(CORE / "icon_profiles.py", runtime / "icon_profiles.py")
+            catalog = runtime / "icon_profiles.json"
+            source = source_document()
+
+            def load_distances():
+                catalog.write_text(json.dumps(source), encoding="utf-8")
+                result = subprocess.run(
+                    [sys.executable, "-B", "-c", "import json; from icon_profiles import get_profile; "
+                     "print(json.dumps({name: get_profile(name)['minimumDistinctCenterlineDistance'] "
+                     "for name in ('normal', 'sub', 'container')}))"],
+                    cwd=runtime, capture_output=True, text=True,
+                )
+                self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+                return json.loads(result.stdout)
+
+            self.assertEqual(load_distances(), {"normal": 8, "sub": 3, "container": 4})
+            source["profiles"]["normal"]["validation"]["minimumDistinctCenterlineDistance"] = 10
+            self.assertEqual(load_distances(), {"normal": 10, "sub": 3, "container": 4})
+            self.assertEqual(get_profile("normal")["minimumDistinctCenterlineDistance"], 8)
+
     def test_v2_has_one_size_and_deeply_inherited_validation(self):
         source = custom_catalog()
         source["profiles"]["badge"]["validation"]["geometryTolerance"] = .005
@@ -246,7 +272,8 @@ class IconProfileTests(unittest.TestCase):
             (profile["designCanvas"], profile["shipCanvas"], profile["designStroke"], profile["shipStroke"]),
             (48, 48, 4, 4),
         )
-        self.assertEqual(profile["minimumDistinctCenterlineDistance"], 4)
+        self.assertEqual(profile["minimumDistinctCenterlineDistance"], 8)
+        self.assertEqual(profile["validation"]["minimumDistinctCenterlineDistance"] - profile["strokeWidth"], 4)
         self.assertEqual(
             [item["name"] for item in canonical_tokens("normal")],
             ["circle-44", "square-40", "portrait-36x44", "landscape-44x36"],
@@ -306,6 +333,81 @@ class IconProfileTests(unittest.TestCase):
             ["circle-60", "square-56", "portrait-52x60", "landscape-60x52"],
         )
         self.assertEqual(token_box(60, 52, "container"), (2, 6, 62, 58))
+
+    def test_normal_structural_validation_checks_one_actual_svg_after_both_aliases_match(self):
+        from icon_geometry import resolve_icon, svg
+        import validate_icon
+
+        for icon_type, mismatch, expected_calls in (("normal", False, 1), ("normal", True, 0), ("sub", False, 0), ("container", False, 0)):
+            with self.subTest(icon_type=icon_type, mismatch=mismatch), TemporaryDirectory() as folder:
+                root=Path(folder)
+                profile=get_profile(icon_type)
+                token=next(item for item in profile["keyshapes"] if item["orientation"]=="square")
+                origin=(profile["canvas"]-token["width"]+profile["strokeWidth"])/2
+                size=token["width"]-profile["strokeWidth"]
+                document={"name":"spacing-gate", "schemaVersion":2, "iconType":icon_type,
+                          "canvas":profile["canvas"], "strokeWidth":profile["strokeWidth"],
+                          "keyfitCheck":{"targetToken":token["name"]},
+                          "elements":[{"id":"outline", "tag":"rect", "attrs":{"x":origin,"y":origin,"width":size,"height":size}}]}
+                if icon_type=="container":
+                    document["containerSlot"]={"x":16,"y":16,"w":32,"h":32,"acceptedKeyshape":"square-32"}
+                editable=root/"spacing-gate.json"
+                editable.write_text(json.dumps(document),encoding="utf-8")
+                text=svg(resolve_icon(document),profile["canvas"],profile["strokeWidth"])
+                ship=root/"spacing-gate.svg"
+                ship.write_text(text,encoding="utf-8")
+                (root/"spacing-gate-design.svg").write_text(text+("\n" if mismatch else ""),encoding="utf-8")
+                output=io.StringIO()
+                with mock.patch("check_svg_spacing.check_file",return_value={"ok":True,"status":"pass","errors":[],"pairs":[]}) as checker:
+                    with mock.patch.object(sys,"argv",["validate_icon.py",str(editable)]),redirect_stdout(output):
+                        result=validate_icon.main()
+                self.assertEqual(result,1 if mismatch else 0,output.getvalue())
+                self.assertEqual(checker.call_count,expected_calls)
+                if expected_calls:
+                    checker.assert_called_once_with(ship,icon_type="normal")
+
+    def test_normal_structural_spacing_fails_closed_with_contour_details(self):
+        from validate_icon import disconnected_spacing_failures
+
+        pair={"status":"fail","closestContours":["element-0/subpath-1","element-0/subpath-2"],
+              "centerlineDistance":7,"requiredCenterline":8}
+        for status in ("fail","review"):
+            report={"ok":False,"status":status,"errors":[],"pairs":[{**pair,"status":status}]}
+            with self.subTest(status=status),mock.patch("check_svg_spacing.check_file",return_value=report):
+                result=disconnected_spacing_failures(Path("icon.svg"))
+            self.assertEqual(len(result),1)
+            for detail in ("element-0/subpath-1","element-0/subpath-2","7u centerline distance","required 8u",status):
+                self.assertIn(detail,result[0])
+        for report in (None, {"ok":True,"status":"pass"}, {"ok":False,"status":"error","errors":["geometry too complex"],"pairs":[]},
+                       {"ok":False,"status":"fail","errors":[],"pairs":[]},
+                       {"ok":True,"status":"pass","errors":[],"pairs":[pair]}):
+            with self.subTest(report=report),mock.patch("check_svg_spacing.check_file",return_value=report):
+                self.assertTrue(disconnected_spacing_failures(Path("icon.svg")))
+        with mock.patch("check_svg_spacing.check_file",side_effect=RuntimeError("engine unavailable")):
+            self.assertIn("engine unavailable",disconnected_spacing_failures(Path("icon.svg"))[0])
+
+    def test_separate_subpaths_in_one_element_must_meet_normal_eight_unit_spacing(self):
+        from icon_geometry import resolve_icon, svg
+        import validate_icon
+
+        for distance,expected in ((7,1),(8,0)):
+            with self.subTest(distance=distance),TemporaryDirectory() as folder:
+                root=Path(folder)
+                document={"name":"separate-subpaths","schemaVersion":2,"iconType":"normal","canvas":48,"strokeWidth":4,
+                          "keyfitCheck":{"targetToken":"square-40"},
+                          "elements":[{"id":"outline-and-detail","tag":"path","attrs":{"d":f"M6 6H42V42H6ZM14 {6+distance}H34"}}]}
+                editable=root/"separate-subpaths.json"
+                editable.write_text(json.dumps(document),encoding="utf-8")
+                text=svg(resolve_icon(document),48,4)
+                for filename in ("separate-subpaths.svg","separate-subpaths-design.svg"):
+                    (root/filename).write_text(text,encoding="utf-8")
+                output=io.StringIO()
+                with mock.patch.object(sys,"argv",["validate_icon.py",str(editable)]),redirect_stdout(output):
+                    result=validate_icon.main()
+                self.assertEqual(result,expected,output.getvalue())
+                if distance<8:
+                    self.assertIn("disconnected contours",output.getvalue())
+                    self.assertIn("7u centerline distance; required 8u",output.getvalue())
 
     def test_container_slot_translates_each_sub_keyshape(self):
         expected = {
@@ -586,7 +688,9 @@ class IconProfileTests(unittest.TestCase):
         fixtures = [
             ("sub-distance-three", "sub", 32, "square-32", 2, 28, 4.5, 0, None),
             ("sub-distance-under-three", "sub", 32, "square-32", 2, 28, 4.25, 1, "under the 3u sub collision floor"),
-            ("normal-distance-three", "normal", 48, "square-40", 6, 36, 8.5, 1, "under the 4u normal collision floor"),
+            ("normal-distance-three", "normal", 48, "square-40", 6, 36, 8.5, 1, "under the 8u normal collision floor"),
+            ("normal-distance-eight", "normal", 48, "square-40", 6, 36, 13.5, 0, None),
+            ("normal-distance-under-eight", "normal", 48, "square-40", 6, 36, 13.25, 1, "under the 8u normal collision floor"),
         ]
         with TemporaryDirectory() as folder:
             root = Path(folder)
@@ -600,7 +704,7 @@ class IconProfileTests(unittest.TestCase):
                         "keyfitCheck": {"targetToken": token},
                         "instances": [
                             {"shapeId": "square", "x": shell_origin, "y": shell_origin, "w": shell_size, "h": shell_size, "rotation": 0, "z": 0},
-                            {"shapeId": "line", "x": 10, "y": detail_y, "w": 12, "h": 1, "rotation": 0, "z": 1},
+                            {"shapeId": "line", "x": 14 if icon_type == "normal" else 10, "y": detail_y, "w": 12, "h": 1, "rotation": 0, "z": 1},
                         ],
                     }
                     editable = root / f"{name}.json"

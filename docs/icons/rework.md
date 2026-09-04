@@ -54,11 +54,15 @@ For each selected symbol:
    source origin, required cues and any intended simplification.
 2. Search the bundled Lucide corpus, inspect useful original/debug pairs, and
    record names, reasons and applied principles in `sourceAnalysis.lucideReferences`.
-3. Author `editable/<kebab-case-name>.json` in the pack, matching the JSON `name`,
+3. Author `editable/<icon-name>.json` in the pack, matching the JSON `name`,
    using schema-version-2 `elements`, the normal profile, and complete evidence.
+   Follow [R8 naming](../shared/icon-rules.md#symbol-ids-and-variants):
+   retain the normalized `sym-<id>` prefix in the base name and every requested
+   variant; keep the original ID in metadata and manifest destinations unchanged.
    Set `sourceAnalysis.symbolId` to the manifest `sid`; each pack symbol must
-   have exactly one mapped editable source. New contours are geometry, not
-   requests to add registry entries.
+   have exactly one chosen editable source in this folder. Keep exploratory
+   variants outside the builder's final `editable/` folder. New contours are
+   geometry, not requests to add registry entries.
 4. Emit and inspect drafts with the canonical emitter or diagnostic build.
    Review the output at the configured profile's native canvas/stroke; keep foreign-grid sources
    unchanged as evidence. Record `sourceAnalysis.visualReview` for the exact
@@ -314,6 +318,9 @@ references may inform construction, not subject meaning. Do not inspect unselect
 user variants or fetch another category into the same folder. Icon names are
 `<sid-kebab>-<concept-kebab>`; the staging script stops on a collision because two
 identical names would overwrite output and upload state.
+Use the exact staged `iconName` for the selected output. Apply the shared
+[R8 naming rule](../shared/icon-rules.md#symbol-ids-and-variants) to any
+separately requested variants without changing staged names or upload mappings.
 
 ## Read briefs and verify sources
 

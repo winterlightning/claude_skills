@@ -12,7 +12,9 @@ test('canonical profiles resolve inheritance, native aliases and shared validati
   assert.equal(profiles.container.shipCanvas, 64);
   assert.equal(profiles.container.designCanvas, 64);
   assert.equal(profiles.sub.validation.minimumDistinctCenterlineDistance, 3);
-  assert.equal(profiles.normal.validation.minimumDistinctCenterlineDistance, 4);
+  assert.equal(profiles.normal.validation.minimumDistinctCenterlineDistance, 8);
+  assert.equal(profiles.normal.validation.minimumDistinctCenterlineDistance - profiles.normal.strokeWidth, 4);
+  assert.equal(profiles.container.validation.minimumDistinctCenterlineDistance, 4);
   assert.deepEqual(profiles.container.center, { x: 32, y: 32 });
   assert.equal(JSON.stringify(raw), before);
 });
