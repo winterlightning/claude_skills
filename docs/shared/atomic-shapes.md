@@ -53,10 +53,12 @@ deliverable or a fixed canvas/stroke requirement. Complete the source
 analysis, choose the appropriate keyshape, and run the pipeline before shipping.
 Containers also retain their required `containerSlot` metadata.
 
-Keyfit defaults to `exact`. Intrinsically thin/sparse forms may use
-`keyfitCheck.mode: "optical"` with a meaningful `rationale` and design-unit
-`paintedBounds: [left, top, right, bottom]`. These are measured targets, not
-permission to overflow a token. See shared R1 for the complete review contract.
+Keyfit defaults to `exact`; the agent may approve a subject- or prototype-justified
+[keyshape exception](icon-pipeline.md#keyshape-exceptions) using
+`keyfitCheck.mode: "optical"`, a meaningful `rationale`, and measured
+`paintedBounds: [left, top, right, bottom]` in native units. Retain the containing
+token and pass all three gates plus native-size review; this is not an overflow
+or threshold waiver.
 
 Each element has a stable unique `id`, an optional readable `role`, a supported
 `tag`, and geometry-only `attrs`. Array order is drawing order.

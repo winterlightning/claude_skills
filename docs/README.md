@@ -43,9 +43,18 @@ python3 core/generate_profile_assets.py --check
 
 ## Input workflows
 
+There is one [shared pipeline](shared/icon-pipeline.md), with two intake modes:
+**name + minimal description**, either **without references** or **with optional
+SVG/PNG/other files**. Analyze the input and intended type, read that profile, plan
+and author the icon, then pass **distance → holes/pinches → canvas/keyshape**.
+Every repair restarts these three gates on regenerated output. All three fresh
+passes, structural/grid/overlap prerequisites, and native-size visual approval
+are required for completion. Text-only briefs need no fabricated SVG or detection.
+
 | Input | Workflow |
 | --- | --- |
-| Subject or short description | The selected type's skill, then [shared intake](shared/icon-pipeline.md#0-route-the-request) |
+| Name + minimal description, no references | The selected type's skill, then [brief-only intake](shared/icon-pipeline.md#brief-only-intake) |
+| Name + minimal description + PNG/other/mixed references | The selected type's skill, then [reference-backed intake](shared/icon-pipeline.md#reference-backed-intake) |
 | Exactly one supplied SVG | [Single-SVG adapter](shared/icon-execution-steps.md) |
 | An explicitly selected SVG batch | [Batch adapter](shared/icon-batch-execution-steps.md) |
 | Symbol-library `kind: "rework"` JSON | [Normal-icon rework](icons/rework.md) |
@@ -70,6 +79,6 @@ work use the same profile-aware core commands through their own skills.
 Run commands from the repository root. Keep job evidence and outputs under
 `work/<job>/`, separate from maintained rules and source assets. Repair editable
 geometry JSON, re-emit the native SVG and any same-size compatibility alias, and
-rerun the affected checks before delivery.
+recheck prerequisites and restart distance → holes → keyshape before delivery.
 New contours require no registry extension or generated shape assets. Keep any
 remote upload separate from local delivery and require explicit authorization.

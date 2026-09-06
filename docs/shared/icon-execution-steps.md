@@ -1,6 +1,10 @@
 # Single-Icon SVG Adapter
 
 Use this adapter when one selected SVG is remade as one Unlimited Shapes icon.
+It implements the SVG-reference intake of the shared workflow, not a separate
+generation pipeline. For name + description without a reference, or with a PNG
+or another file format, use the corresponding intake in
+[icon-pipeline.md](icon-pipeline.md); do not fabricate an SVG for this adapter.
 Follow the shared stages, commands, type-support limits, QA order, and repair loop
 in [icon-pipeline.md](icon-pipeline.md). This page adds only the single-file scope,
 evidence checkpoint, and handoff rules.
@@ -25,10 +29,12 @@ a symbol-library rework JSON whose brief outranks the drawing.
 ## Lane sequence
 
 ```text
-record one SVG + output folder + icon type
+normalize concept name + minimal description + selected SVG + icon type/profile
 → detect that SVG only
 → verify the three-file evidence bundle
-→ enter the canonical pipeline at evidence review
+→ analyze the reference, then plan from the selected profile and Lucide style guidance
+→ canonical composition and prerequisites
+→ distance → holes → keyshape → native-size visual review
 → deliver one icon and stop
 ```
 
@@ -40,10 +46,16 @@ mapping are complete.
 Record:
 
 ```text
+concept name:  <subject>
+minimal description: <required features and arrangement>
 source SVG:    /absolute/path/to/reference.svg
 output folder: /absolute/path/to/work/<icon-name>
 icon type:     <configured profile name>
 ```
+
+Use the supplied name and description as the brief. For a legacy SVG-only
+request, record the subject and essential features inferred from that selected
+reference; ask only when ambiguity would materially change the intended icon.
 
 Choose the type from [icon-types.md](icon-types.md). A request for an icon inside,
 within, or held by another icon normally means a separately authored `container`
@@ -118,11 +130,19 @@ Single-icon work still requires:
 - exact editable elements with stable IDs, including connected contours where useful;
 - schema-version-2 editable JSON as the repair source;
 - the type-appropriate emission and QA path;
+- fresh passing distance, hole, and keyshape gates on the same final geometry and
+  resolved profile, in that order;
 - a visual keyshape rationale based on the whole composition at native size;
 - documented simplifications, omissions, exceptions, and blocked checks.
 
 Do not attach or inspect unselected sibling variants while resolving a mapping
 or choosing a construction approach.
+
+After any geometry repair, re-emit both output aliases, recheck the prerequisites,
+and restart at distance—even if the repair addressed a hole or keyshape failure.
+Use the reported element pair, violating zone, or measured bounds to repair the
+drawing. A missing/stale report, checker error, or unresolved review blocks
+completion; do not alter intended connections or relax the profile to force a pass.
 
 ## 5. Deliver one traceable result
 
@@ -133,7 +153,7 @@ The handoff contains:
 - canonical native SVG at the declared profile's configured canvas and stroke; any `-design.svg` is a same-size alias;
 - container slot metadata and non-shipping filled preview when applicable;
 - the detection JSON and preflight plot;
-- grid, overlap, keyshape, hole/pinch, and true-size evidence for the declared
+- grid, overlap, distance, hole/pinch, keyshape, and true-size evidence for the declared
   profile;
 - intentional simplifications, omissions, approved exceptions, and reference choices.
 

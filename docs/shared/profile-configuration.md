@@ -189,6 +189,12 @@ automatic optical waivers; optical intent can only come from verified source
 metadata. Inspect numeric findings and the actual target-native
 rendering before deciding what needs recomposition or simplification.
 
+The trial runs structural/grid prerequisites and the same ordered **distance →
+holes/pinches → canvas/keyshape** checks, including both native aliases in the
+keyshape gate. Reports bind to the checked geometry and effective profile; missing
+or stale evidence cannot receive a numeric pass. Any repair starts those gates
+again. These diagnostics do not complete semantic analysis or visual approval.
+
 Exit `0` means the selected inputs were emitted and QA ran, **not that the icons
 are approved**. Numeric failures remain disclosed in the draft results. Exit `1`
 indicates a file-processing error; `2` indicates invalid input or command usage.
@@ -215,7 +221,8 @@ outside the app. Generated Markdown is a reference, not a separate configuration
 source. A successful configuration save does not prove any existing icon still
 conforms.
 
-Re-emit affected sources under the changed profile, rerun all relevant QA, and
+Re-emit affected sources under the changed profile, recheck prerequisites, restart
+distance → holes/pinches → canvas/keyshape, and
 review the actual native SVG before delivery. Update recorded bounds, spacing,
 review size/hash, and reference rationale where they changed. A profile or
 validation change invalidates prior acceptance evidence even if the SVG bytes

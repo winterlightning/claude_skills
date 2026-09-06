@@ -19,6 +19,14 @@ symbol to the type skill that owns its profile:
 Exact canvas, stroke, keyshape, and slot values come from
 `core/icon_profiles.json`; the sizes above are the built-in defaults.
 
+This is a pack-intake adapter for the [shared pipeline](shared/icon-pipeline.md),
+not a separate generation process. Generic requests need a concept name and
+minimal description, with user reference files optional. This downloaded-pack
+format additionally supplies prototypes and routing files; its SVG classifier
+and local builder do not accept arbitrary PNG/text-only inputs. Such requests
+use the shared brief-only or format-appropriate reference intake instead of
+inventing a prototype.
+
 ## Scope and inputs
 
 Work on one explicitly selected `batch-NN` folder (or several named folders).
@@ -32,7 +40,8 @@ Read, in this order:
 4. Per symbol folder `sym_XXXXXX/`: `description.txt`,
    `<sid>_prototype.svg`, and `icon_type.txt`.
 
-The brief is `name` + `minimal_description`. `icons[]` lists downstream
+Normalize the brief to a concept name (`name`) + minimal description
+(`minimal_description`), with the prototype as a user reference. `icons[]` lists downstream
 icons that use the symbol; it is context for the container decision, never a
 feature list. The prototype is a 26u foreign-grid drawing (24u art box, 1u
 margin, 1.5 stroke): use it for subject, part count, and arrangement, never
@@ -114,8 +123,10 @@ the [container-icons skill](container-icons/SKILL.md).
 
 ## Step 3 — execute each symbol with its skill
 
-Load the selected skill, its `rules.md`, and its generated `profile.md`; then
-follow the [shared pipeline](shared/icon-pipeline.md). Declare `iconType` in
+Load the selected skill, its `rules.md`, and its generated `profile.md`; read the
+resolved profile before choosing the icon idea, keyshape and arrangement. Follow
+the [shared pipeline](shared/icon-pipeline.md), including internal Lucide style
+reference study. Declare `iconType` in
 every editable source to match the routing table. Never mix profiles in one
 QA invocation or one contact sheet.
 
@@ -139,31 +150,37 @@ python3 core/rework_pack.py prepare <batch-folder>
 python3 core/rework_pack.py build <batch-folder>
 ```
 
-`build` emits the native SVG and its same-size design alias, runs the mandatory
-native canvas/keyshape gate on both alongside the other profile-aware QA gates,
+`build` emits the native SVG and its same-size design alias, checks prerequisites,
+then runs distance → holes → keyshape (including canvas/keyshape on both aliases),
 checks the hash-locked visual review, and copies each passing SVG to its manifest
 `upload` path. It processes the whole manifest, so containers in the same
 batch must have their editable sources present too; the builder does not
 deliver a container without separate filled-preview evidence.
 
 **Container symbols** use the manual profile-aware pipeline from the
-container skill: emit with `core/emit_icon.py`, run the structural, grid,
-overlap, keyshape, and hole/pinch gates with `--icon-type container`, author
-the accepted sub icon and compose the filled preview with
+container skill: emit with `core/emit_icon.py`, run the structural, grid, and
+declared-overlap prerequisites, then distance → holes → keyshape with
+`--icon-type container`, author the accepted sub icon and compose the filled preview with
 `core/compose_container_preview.py`, review at native size, then copy the
 passing empty container SVG to that symbol's manifest `upload` path.
 
 ## Step 4 — verify every generated output and repair failures
 
-Follow the [mandatory canvas/keyshape gate](shared/icon-pipeline.md#9-validate-the-declared-painted-keyshape)
-for every symbol; a plausible-looking preview or a correct viewBox alone is not
-acceptance. The gate checks the configured native output dimensions and stroke
-against the editable source's declared keyshape, including stroke overflow and
+Every symbol must pass distance → holes → keyshape in that order, with fresh
+reports for the same final geometry and resolved profile. Read the distance
+error summary and identified pairs, hole/pinch violation zones, and expected
+versus actual keyshape dimensions before repairing. A plausible-looking preview
+or correct viewBox alone is not acceptance.
+
+The final [canvas/keyshape gate](shared/icon-pipeline.md#11-validate-the-declared-painted-keyshape)
+checks the configured native output dimensions and stroke against the editable
+source's declared keyshape, including stroke overflow and
 container-slot protection. It does not replace the other pipeline gates.
 
 After copying to a manifest delivery name, verify that actual file with the
 explicit editable mapping because `<sid>_generated.svg` differs from the editable
-name:
+name. Verify that the copy is byte-identical to the accepted canonical SVG, then
+run this additional final-path keyshape check:
 
 ```bash
 python3 core/validate_icon_keyshapes.py \
@@ -174,11 +191,20 @@ python3 core/validate_icon_keyshapes.py \
 
 Require a successful exit and a fresh passing report for every expected delivery.
 If any result fails, repair the editable geometry, regenerate both canonical and
-design SVGs, rerun all affected structural/grid/spacing/keyshape/hole/visual gates,
-and replace the delivery only after it passes. Do not change the profile, token,
-optical-fit mode, or validator thresholds merely to make the result pass. Missing,
-stale, or failed outputs block completion; report genuinely blocked symbols and
-continue safe work on the others. Numeric success is not native-size visual
+design SVGs, recheck prerequisites, restart at distance → holes → keyshape, and
+repeat native-size visual review. Replace the delivery only after all pass.
+The agent may approve a subject- or prototype-justified
+[keyshape exception](shared/icon-pipeline.md#keyshape-exceptions) using documented
+optical bounds while retaining the containing token; no extra user approval is
+required. The exceptional centerline width and height must each be divisible by
+4 (20×40 and 24×40 are valid; 22×40 is not); record those measured dimensions in
+the rationale. Reject non-multiples even if the optical checker passes.
+Do not change profile dimensions or validator thresholds, or fabricate
+an exception merely to hide a failure. Missing,
+stale, failed, review, or checker-error results block completion. Investigate
+ambiguous intended connections instead of distorting them to appease a checker;
+report genuinely blocked symbols and continue safe work on the others.
+Numeric success is not native-size visual
 approval and never authorizes uploading.
 
 ## Delivery
@@ -187,8 +213,8 @@ Per batch, deliver `batch-notes.md` with:
 
 - batch ID and the exact symbol list;
 - per symbol: `icon_type.txt` value, the normal/container verdict and reason,
-  the editable source name, and gate results including the fresh native
-  canvas/keyshape report for the actual delivery;
+  the editable source name, and fresh distance, hole/pinch, and keyshape results,
+  including the canvas/keyshape report for the actual unchanged delivery;
 - blocked or omitted symbols with the stopping step and reason;
 - one native-size contact sheet per profile present in the batch.
 

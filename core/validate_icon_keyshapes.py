@@ -31,8 +31,10 @@ MAX_INPUT_BYTES = 4 * 1024 * 1024
 MAX_RASTER_PIXELS = 32 * 1024 * 1024
 REPAIR = (
     "Repair the editable geometry, regenerate canonical SVG and its design alias, "
-    "then rerun this gate and all affected QA. Do not change the profile, target "
-    "or thresholds merely to obtain a pass."
+    "recheck prerequisites, then restart distance -> holes -> keyshape. If exact proportions distort the subject, "
+    "the AI may approve the documented optical keyshape exception with rationale and measured paintedBounds; "
+    "the exceptional centerline width and height must each be divisible by 4, and the rationale must record that size. "
+    "Containment and all other gates still apply. Do not change profile thresholds or edit reports to obtain a pass."
 )
 
 

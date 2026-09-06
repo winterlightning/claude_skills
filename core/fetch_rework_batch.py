@@ -16,8 +16,8 @@ Source priority per symbol, highest first:
     2. files.reference_svg the chosen pictoicon reference
     3. files.prototype     the earlier foreign-grid drawing, read together with
                            minimal_description
-    4. none of those       no file staged; the agent authors sources/<name>.svg
-                           from concept + minimal_description before detection
+    4. none of those       no reference staged; analyze concept + description
+                           directly, without a synthetic SVG or detection
 
 See docs/icons/rework.md for the surrounding workflow.
 """
@@ -66,14 +66,16 @@ def fetch_batch(base: str, category: str) -> dict:
 
 def stage_source(symbol: dict, destination: Path, overwrite: bool) -> tuple[str, str]:
     """Download the highest-priority available drawing. Returns (origin, note)."""
-    if destination.is_file() and not overwrite:
-        return "existing", f"kept {destination.name}"
     files = symbol.get("files") or {}
     chosen = next((r.get("path") for r in symbol.get("references") or []
                    if r.get("chosen") and r.get("path")), None)
     ladder = (("final", files.get("final")),
               ("reference", files.get("reference_svg") or chosen),
               ("prototype", files.get("prototype")))
+    if not any(url for _, url in ladder):
+        return "brief", "no reference supplied — analyze concept + description directly"
+    if destination.is_file() and not overwrite:
+        return "existing", f"kept {destination.name}"
     for origin, url in ladder:
         if not url:
             continue
@@ -87,7 +89,7 @@ def stage_source(symbol: dict, destination: Path, overwrite: bool) -> tuple[str,
             continue
         destination.write_bytes(body)
         return origin, f"{len(body)}B from {origin}"
-    return "brief", "no drawing available — author from minimal_description"
+    return "brief", "no drawing available — analyze concept + description directly"
 
 
 def main() -> int:
@@ -158,7 +160,10 @@ def main() -> int:
             "minimalDescription": symbol.get("minimal_description"),
             "description": symbol.get("description"),
             "sourceOrigin": origin,
+            # Keep the reserved path for older consumers, but it is not a
+            # required file or input reference when sourceOrigin is brief.
             "sourcePath": f"sources/{name}.svg",
+            "hasReference": origin != "brief",
             "sourceUrl": (symbol.get("files") or {}).get(
                 {"final": "final", "reference": "reference_svg",
                  "prototype": "prototype"}.get(origin, "")),
@@ -195,13 +200,14 @@ def main() -> int:
     }, indent=2) + "\n", "utf-8")
 
     briefs = [f"# Rework briefs — {label}", "",
-              f"{len(symbols)} symbols · upload target: 48x48 design SVG", ""]
+              f"{len(symbols)} symbols · upload target: configured native normal-profile SVG", ""]
     for row in rows:
         briefs += [
             f"## {row['sid']} — {row['concept']}",
             "",
             f"- icon name: `{row['iconName']}`",
-            f"- source: **{row['sourceOrigin']}** (`{row['sourcePath']}`)",
+            (f"- source: **{row['sourceOrigin']}** (`{row['sourcePath']}`)" if row["hasReference"]
+             else "- source: **brief** — no reference; semantic analysis only, no SVG detection"),
             f"- brief: {row['minimalDescription'] or '(none supplied)'}",
             f"- upload: `{row['design']}` -> `{row['uploadUrl']}`",
             "",
@@ -223,7 +229,7 @@ def main() -> int:
             print(f"  {line}")
     missing = [r["sid"] for r in rows if r["sourceOrigin"] == "brief"]
     if missing:
-        print("author a draft SVG from the brief for: " + ", ".join(missing))
+        print("analyze concept + description directly (no reference detection): " + ", ".join(missing))
     print(f"wrote manifest.json, batch.json, briefs.md, upload.py in {out}")
     return 1 if collisions else 0
 

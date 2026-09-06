@@ -20,8 +20,9 @@ generated canvas, stroke, center, keyshape, and distance values.
   `keyfitCheck.targetToken` explicitly. In the built-in defaults the sub circle
   and square share full-canvas bounds; a bounding box alone cannot distinguish
   them. Always use the configured token's actual shape and dimensions.
-  Shared R1's explicit optical mode may preserve an intrinsically thin/sparse
-  form; it never waives containment or independent true-size review.
+  The agent may approve a subject- or prototype-justified
+  [keyshape exception](../shared/icon-pipeline.md#keyshape-exceptions) using
+  optical mode; containment, native-size review, and all three gates still apply.
 - Keep the centered stroke inside the canvas even where paint reaches its edge.
   Viewport clipping does not count as a keyshape fit.
 - Use the sub profile's configured minimum distinct centerline distance

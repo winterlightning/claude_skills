@@ -216,16 +216,16 @@ def authored_ink_diagnostics(path: Path, profile: dict) -> dict:
 
 def run_qa(document: dict, editable: Path, emitted: Path, source_path: Path,
            source_type: str, source_profile: dict, target_type: str, target_profile: dict, output: Path) -> dict:
-    import check_keyfit as keyfit
+    import check_svg_spacing as spacing
+    import validate_icon_keyshapes as keyshape
     import check_svg_grid as grid
     import qa_overlays as holes
-    for name in ("grid", "keyshape", "holes", "structure", "authored-ink"):
+    aliases = [emitted, emitted.with_name(f"{document['name']}-design.svg")]
+    checked_inputs = {path: sha256(path.read_bytes()) for path in [editable, *aliases]}
+    profile_digest = sha256(json.dumps(target_profile, sort_keys=True, separators=(",", ":"),
+                                     ensure_ascii=False, allow_nan=False).encode("utf-8"))
+    for name in ("grid", "spacing", "keyshape", "holes", "structure", "authored-ink"):
         (output / "qa" / name).mkdir(parents=True, exist_ok=True)
-    grid_result = grid.inspect(emitted, "design", target_type)
-    write_json(output / "qa/grid" / f"{document['name']}.json", grid_result)
-    keyfit_result = keyfit.process(emitted, output / "qa/keyshape", SAMPLES, None,
-        document["keyfitCheck"]["targetToken"], target_type, document["keyfitCheck"])
-    hole_result = holes.process(emitted, output / "qa/holes", SAMPLES, None, None, target_type)
     structure = subprocess.run([sys.executable, "-B", str(CORE / "validate_icon.py"), str(editable),
                                 "--dir", str(emitted.parent)], capture_output=True, text=True)
     structure_text = structure.stdout + structure.stderr
@@ -234,6 +234,15 @@ def run_qa(document: dict, editable: Path, emitted: Path, source_path: Path,
     geometry_issues = [issue for issue in structural_issues if not issue.startswith("sourceAnalysis is marked incomplete;")]
     if structure.returncode not in (0, 1) or (structure.returncode and not structural_issues):
         raise RuntimeError(f"Structural validator could not check the draft: {structure_text}")
+    grid_result = grid.inspect(emitted, "design", target_type)
+    write_json(output / "qa/grid" / f"{document['name']}.json", grid_result)
+    # Keep the universal acceptance order even in this explicitly unapproved
+    # diagnostic trial. Later findings do not waive an earlier failure/review.
+    spacing_result = spacing.check_file(emitted, icon_type=target_type, output_dir=output / "qa/spacing")
+    hole_result = holes.process(emitted, output / "qa/holes", SAMPLES, None, None, target_type)
+    keyshape_results = [keyshape.check_file(path, editable=editable, icon_type=target_type,
+                                          output_dir=output / "qa/keyshape") for path in aliases]
+    keyfit_result = keyshape_results[0].get("keyfit") or {"status": "fail", "reason": "Canvas/keyshape verification failed"}
     source_ink = authored_ink_diagnostics(source_path, source_profile)
     target_ink = authored_ink_diagnostics(emitted, target_profile)
     topology_changed = source_ink["holeCount"] != target_ink["holeCount"]
@@ -241,10 +250,44 @@ def run_qa(document: dict, editable: Path, emitted: Path, source_path: Path,
     write_json(output / "qa/authored-ink" / f"{document['name']}.json",
                {"source": source_ink, "target": target_ink, "holeCountChanged": topology_changed,
                 "note": "A changed count is a review signal, not proof that all topology changes are detected."})
-    mechanical_pass = (grid_result["status"] == keyfit_result["status"] == hole_result["status"]
+    changed_inputs = [str(path) for path, digest in checked_inputs.items()
+                      if not path.is_file() or sha256(path.read_bytes()) != digest]
+    spacing_pass = (spacing_result.get("ok") is True and spacing_result.get("status") == "pass"
+                    and spacing_result.get("errors") == []
+                    and isinstance(spacing_result.get("pairs"), list)
+                    and all(pair.get("status") == "pass" for pair in spacing_result["pairs"])
+                    and spacing_result.get("svgSha256") == checked_inputs[emitted]
+                    and spacing_result.get("profileSha256") == profile_digest)
+    keyshape_pass = all(result.get("ok") is True and result.get("status") == "pass"
+                        and result.get("errors") == [] and (result.get("keyfit") or {}).get("status") == "pass"
+                        and result.get("svgSha256") == checked_inputs[path]
+                        and result.get("editableSha256") == checked_inputs[editable]
+                        and result.get("profileSha256") == profile_digest
+                        for path, result in zip(aliases, keyshape_results, strict=True))
+    hole_metrics = output / "qa/holes" / f"{document['name']}.metrics.json"
+    hole_overlay = output / "qa/holes" / f"{document['name']}_holes.png"
+    hole_pass = (hole_result.get("status") == "pass" and not hole_result.get("processingErrors")
+                 and hole_result.get("nativeSizeIssues") == []
+                 and hole_result.get("configuredMinimumRadiusDesignUnits") == target_profile["validation"]["minimumEnclosedRadius"]
+                 and hole_result.get("configuredMinimumFillDepthDesignUnits") == target_profile["validation"]["minimumSolidFillDepth"]
+                 and hole_result.get("failed_hole_count") == hole_result.get("pinch_count") == 0
+                 and hole_result.get("pinches") == [] and isinstance(hole_result.get("holes"), list)
+                 and type(hole_result.get("hole_count")) is int and hole_result["hole_count"] == len(hole_result["holes"])
+                 and all(isinstance(hole, dict) and hole.get("status") == "pass" for hole in hole_result["holes"])
+                 and hole_result.get("svgSha256") == checked_inputs[emitted]
+                 and hole_result.get("profileSha256") == profile_digest
+                 and hole_metrics.is_file() and not hole_metrics.is_symlink()
+                 and hole_overlay.is_file() and not hole_overlay.is_symlink()
+                 and json.loads(hole_metrics.read_text()) == hole_result)
+    mechanical_pass = (spacing_pass and hole_pass and keyshape_pass and not changed_inputs
+                       and grid_result["status"] == keyfit_result["status"] == hole_result["status"]
                        == target_ink["status"] == "pass" and not geometry_issues and not topology_changed
                        and not collapsed_segments)
-    return {"grid": grid_result, "keyshape": keyfit_result, "holes": hole_result,
+    return {"grid": grid_result, "spacing": spacing_result, "holes": hole_result,
+            "keyshape": keyfit_result, "canvasKeyshape": keyshape_results,
+            "gateOrder": ["distance", "holes", "keyshape"],
+            "inputHashes": {str(path): digest for path, digest in checked_inputs.items()},
+            "profileSha256": profile_digest, "changedInputs": changed_inputs,
             "structure": {"status": "blocked-draft", "exitCode": structure.returncode,
                           "issues": structural_issues, "geometryIssues": geometry_issues},
             "authoredInk": {"source": source_ink, "target": target_ink, "holeCountChanged": topology_changed},
@@ -283,9 +326,13 @@ def write_reviews(rows: list[dict], output: Path, source_profile: dict, target_p
             drawing.text((x + offset - 7, y + 44 + max(native_source, native_target)), f"{label} {size}px", fill="#57686b", font=font)
             images.append(f'<figure><div><img src="{quote(relative)}" width="{size}" height="{size}" alt="{html.escape(name)} {label.lower()}"></div><figcaption>{label} {size}×{size}</figcaption></figure>')
         drawing.text((x + 12, y + cell_h - 42), badge, fill="#285e48" if qa["mechanicalChecksPassed"] else "#ae2929", font=font)
-        gate_text = f"Grid: {qa['grid']['status']} · keyshape: {qa['keyshape']['status']} · holes: {qa['holes']['status']}"
+        gate_text = f"Distance: {qa['spacing']['status']} · holes: {qa['holes']['status']} · keyshape: {'pass' if all(item['ok'] for item in qa['canvasKeyshape']) else 'fail'}"
         drawing.text((x + 12, y + cell_h - 24), gate_text.replace(" · ", " / "), fill="#57686b", font=font)
         details = [*row["warnings"], *qa["structure"]["geometryIssues"]]
+        if qa["spacing"]["status"] != "pass":
+            details.append("Distance: " + qa["spacing"]["status"] + " — inspect the nearest-pair report before repairing.")
+        if qa["changedInputs"]:
+            details.append("QA inputs changed during verification; rerun all three gates.")
         if qa["keyshape"]["status"] != "pass":
             details.append("Keyshape: " + str(qa["keyshape"].get("reason", "failed")))
         if qa["holes"]["status"] != "pass":
@@ -295,10 +342,16 @@ def write_reviews(rows: list[dict], output: Path, source_profile: dict, target_p
         if qa["authoredInk"]["target"]["pinches"]:
             details.append(f"Supplementary authored-stroke diagnostic: {len(qa['authoredInk']['target']['pinches'])} pinch(es)")
         entries = "".join(f"<li>{html.escape(item)}</li>" for item in details)
+        evidence_links = []
+        for label, path in (("Keyshape overlay", qa["canvasKeyshape"][0].get("keyfitOverlay")),
+                            ("Distance overlay", qa["spacing"].get("overlayPath"))):
+            if path:
+                relative = str(Path(path).relative_to(output))
+                evidence_links.append(f'<a href="{quote(relative)}">{label}</a>')
         cards.append(f'<article><h2>{html.escape(name)}</h2><p class="badge">{badge}</p><div class="pair">{"".join(images)}</div>'
                      f'<p>{html.escape(gate_text)}</p><p><code>{html.escape(row["sourceToken"])} → {html.escape(row["targetToken"])}</code></p>'
                      f'<p><a href="{quote(row["svg"])}">Draft SVG</a> · <a href="{quote(row["editable"])}">Editable JSON</a> · '
-                     f'<a href="qa/keyshape/{quote(name)}_keyfit.png">Keyshape overlay</a> · <a href="qa/holes/{quote(name)}_holes.png">Hole overlay</a></p>'
+                     f'{" · ".join(evidence_links)} · <a href="qa/holes/{quote(name)}_holes.png">Hole overlay</a></p>'
                      f'<details><summary>Geometry notes ({len(details)})</summary><ul>{entries}</ul></details></article>')
     sheet.save(output / "comparison.png")
     success = sum(row.get("qa", {}).get("mechanicalChecksPassed", False) for row in rows)
@@ -381,7 +434,7 @@ def run_trial(args: argparse.Namespace) -> dict:
                        targetToken=target_token["name"], fitMode=document["keyfitCheck"]["mode"],
                        warnings=adapted["warnings"], metrics=adapted["metrics"], qa=qa,
                        status="draft-numeric-pass" if qa["mechanicalChecksPassed"] else "draft-needs-geometry-review")
-            print(f"{base}: {row['status']} (grid {qa['grid']['status']}, keyshape {qa['keyshape']['status']}, holes {qa['holes']['status']})", flush=True)
+            print(f"{base}: {row['status']} (distance {qa['spacing']['status']}, holes {qa['holes']['status']}, keyshape {qa['keyshape']['status']})", flush=True)
         except Exception as error:
             row.update(status="error", error=str(error))
             print(f"{base}: ERROR — {error}", file=sys.stderr, flush=True)

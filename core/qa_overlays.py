@@ -32,12 +32,17 @@ Outputs:
   <output-dir>/hole-diameters.csv
   <output-dir>/hole-diameters.json
   <output-dir>/hole-radius-report.html
+  <error-dir>/README.md links the current run-specific diagnostic evidence
+
+Exit 0: all selected inputs pass. Exit 1: any failed hole, pinch, input,
+processing, or report error. Exit 2: invalid arguments or an empty selection.
 """
 
 from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
 import html
 import io
 import json
@@ -47,6 +52,7 @@ import re
 import shutil
 from pathlib import Path
 import sys
+import tempfile
 import xml.etree.ElementTree as ET
 from urllib.parse import quote
 
@@ -437,17 +443,79 @@ def save_overlay(
     Image.fromarray(canvas).save(output_path)
 
 
-def collect_svgs(inputs: list[str]) -> list[Path]:
+def _collect_svg_inputs(inputs: list[str]) -> tuple[list[Path], list[tuple[Path, str]]]:
     files: set[Path] = set()
+    errors: dict[Path, str] = {}
     for raw in inputs:
-        path = Path(raw).expanduser().resolve()
-        if path.is_dir():
-            files.update(item for item in path.glob("*.svg") if item.is_file())
-        elif path.is_file() and path.suffix.lower() == ".svg":
-            files.add(path)
-        else:
-            print(f"warn: skipping missing/non-SVG input: {path}", file=sys.stderr)
-    return sorted(files)
+        path = Path(raw).expanduser().absolute()
+        try:
+            path = path.resolve()
+            if path.is_dir():
+                selected = [item.resolve() for item in path.iterdir() if item.suffix.lower() == ".svg"]
+                if selected:
+                    files.update(selected)
+                else:
+                    errors[path] = "folder contains no immediate SVG files"
+            elif path.suffix.lower() == ".svg":
+                files.add(path)
+            else:
+                errors[path] = "input must be an SVG file or flat SVG folder"
+        except (OSError, RuntimeError) as error:
+            errors[path] = str(error)
+    return sorted(files), sorted(errors.items())
+
+
+def collect_svgs(inputs: list[str]) -> list[Path]:
+    """Collect SVG candidates; malformed selections raise, missing SVGs stay visible."""
+    files, errors = _collect_svg_inputs(inputs)
+    if errors:
+        raise ValueError("; ".join(f"{path}: {error}" for path, error in errors))
+    return files
+
+
+def _safe_target(path: Path, protected=()) -> None:
+    if path.is_symlink() or path.exists() and not path.is_file():
+        raise ValueError(f"unsafe report target: {path}")
+    for source in protected:
+        source = Path(source)
+        if path.resolve() == source.resolve() or (path.exists() and source.exists() and path.samefile(source)):
+            raise ValueError(f"report target would overwrite a selected input: {path}")
+
+
+def _write_text(path: Path, text: str, protected=()) -> None:
+    _safe_target(path, protected)
+    staged = None
+    try:
+        with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=path.parent,
+                                         prefix=".hole-qa-", delete=False) as handle:
+            staged = Path(handle.name)
+            handle.write(text)
+        os.replace(staged, path)
+    finally:
+        if staged is not None and staged.exists():
+            staged.unlink()
+
+
+def _validate_directories(output_dir: Path, error_dir: Path, protected) -> None:
+    for directory in (output_dir, error_dir):
+        if directory.is_symlink() or directory.exists() and not directory.is_dir():
+            raise ValueError(f"unsafe QA directory: {directory}")
+        for source in protected:
+            if Path(source).resolve().is_relative_to(directory.resolve()):
+                raise ValueError(f"QA/error directory contains a selected input: {directory}")
+    if output_dir.resolve().is_relative_to(error_dir.resolve()):
+        raise ValueError("error directory cannot equal or contain the QA output directory")
+
+
+def _error_result(path: Path, error: object, icon_type: str, radius: float, fill: float) -> dict:
+    return {"file": path.name, "source": str(path), "iconType": icon_type,
+            "validation": get_profile(icon_type)["validation"],
+            "configuredMinimumRadiusDesignUnits": radius,
+            "configuredMinimumFillDepthDesignUnits": fill,
+            "hole_count": 0, "failed_hole_count": 0, "pinch_count": 0,
+            "status": "fail", "holes": [], "pinches": [], "nativeSizeIssues": [],
+            "svgSha256": None, "profileSha256": None,
+            "processingErrors": [str(error)], "remediation": REMEDIATION}
 
 
 def process(
@@ -459,6 +527,10 @@ def process(
     icon_type: str=DEFAULT_ICON_TYPE,
 ) -> dict:
     profile=get_profile(icon_type); design_canvas=float(profile["designCanvas"]); ship_canvas=float(profile["shipCanvas"])
+    source_bytes = svg_path.read_bytes()
+    svg_sha256 = hashlib.sha256(source_bytes).hexdigest()
+    profile_sha256 = hashlib.sha256(json.dumps(profile, sort_keys=True, separators=(",", ":"),
+                                               ensure_ascii=False, allow_nan=False).encode("utf-8")).hexdigest()
     min_radius_design_u=profile["validation"]["minimumEnclosedRadius"] if min_radius_design_u is None else min_radius_design_u
     min_fill_depth_design_u=profile["validation"]["minimumSolidFillDepth"] if min_fill_depth_design_u is None else min_fill_depth_design_u
     if not math.isfinite(min_radius_design_u) or min_radius_design_u <= 0:
@@ -496,6 +568,8 @@ def process(
     result = {
         "file": svg_path.name,
         "source": str(svg_path),
+        "svgSha256": svg_sha256,
+        "profileSha256": profile_sha256,
         "iconType": icon_type,
         "viewBox": list(view_box),
         "normalizedCanvases": {"designUnits": design_canvas, "shipPixels": ship_canvas},
@@ -514,18 +588,26 @@ def process(
         "holes": holes,
         "pinches": pinches,
     }
+    try:
+        if svg_path.read_bytes() != source_bytes:
+            result.update(status="fail", processingErrors=["SVG changed during hole/pinch measurement; regenerate and rerun all verification gates"])
+    except OSError as error:
+        result.update(status="fail", processingErrors=[f"SVG became unreadable during hole/pinch measurement: {error}"])
     metrics_path = output_dir / f"{svg_path.stem}.metrics.json"
-    metrics_path.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")
+    overlay_path = output_dir / f"{svg_path.stem}_holes.png"
+    _safe_target(metrics_path, [svg_path])
+    _safe_target(overlay_path, [svg_path])
     save_overlay(
         ink,
         labels,
         hole_labels,
         holes,
         pinches,
-        output_dir / f"{svg_path.stem}_holes.png",
+        overlay_path,
         view_box,
         samples_per_unit,
     )
+    _write_text(metrics_path, json.dumps(result, indent=2, allow_nan=False) + "\n", [svg_path])
     return result
 
 
@@ -551,7 +633,8 @@ def write_html_report(
     rows = []
     for result in failed:
         failed_holes = [hole for hole in result["holes"] if hole["status"] == "fail"]
-        measurements = [html.escape(issue["detail"]) for issue in result.get("nativeSizeIssues", [])] + [
+        measurements = [html.escape(str(error)) for error in result.get("processingErrors", [])]
+        measurements += [html.escape(issue["detail"]) for issue in result.get("nativeSizeIssues", [])] + [
             f"Hole {hole['hole']}: {hole['inscribed_radius_design_u']:.4g}u radius "
             f"({hole['inscribed_diameter_design_u']:.4g}u diameter) "
             f"at {hole['center_viewbox'][0]:g},{hole['center_viewbox'][1]:g}"
@@ -566,14 +649,16 @@ def write_html_report(
         stem = Path(result["file"]).stem
         overlay = quote(f"{stem}_holes.png")
         metrics = quote(f"{stem}.metrics.json")
+        evidence = "Processing failed; see aggregate JSON" if result.get("processingErrors") else (
+            f'<a href="{overlay}">overlay</a> · <a href="{metrics}">metrics</a>'
+        )
         rows.append(
             "<tr>"
             f"<td><code>{html.escape(result['file'])}</code></td>"
             f"<td>{len(failed_holes)}</td>"
             f"<td>{result['pinch_count']}</td>"
             f"<td>{'<br>'.join(measurements)}</td>"
-            f"<td><a href=\"{overlay}\">overlay</a> · "
-            f"<a href=\"{metrics}\">metrics</a></td>"
+            f"<td>{evidence}</td>"
             "</tr>"
         )
     body = "\n".join(rows) if rows else (
@@ -617,8 +702,9 @@ def write_html_report(
     or when a junction is solid only because parts were squeezed together — paint
     filling it less than {fill_text} deep. Equality passes. Per-file JSON records the effective settings and explicit overrides.</p>
   <p class="lede">Effective settings: {policy_text}</p>
+  <p class="lede">Invalid or unreadable inputs and processing errors also fail the gate; they are never skipped.</p>
   <section class="cards">
-    <div class="card"><span class="value">{len(results)}</span><span class="label">SVG files checked</span></div>
+    <div class="card"><span class="value">{len(results)}</span><span class="label">selected inputs</span></div>
     <div class="card"><span class="value fail">{len(failed)}</span><span class="label">failed files</span></div>
     <div class="card"><span class="value fail">{failed_hole_count}</span><span class="label">failed holes</span></div>
     <div class="card"><span class="value fail">{pinch_count}</span><span class="label">pinched junctions</span></div>
@@ -641,7 +727,7 @@ def write_html_report(
 </body>
 </html>
 """
-    (output_dir / "hole-radius-report.html").write_text(document, encoding="utf-8")
+    _write_text(output_dir / "hole-radius-report.html", document, [item["source"] for item in results])
 
 
 def write_aggregate(
@@ -650,9 +736,8 @@ def write_aggregate(
     min_radius_design_u: float | None = None,
     min_fill_depth_design_u: float | None = None,
 ) -> None:
-    (output_dir / "hole-diameters.json").write_text(
-        json.dumps(results, indent=2) + "\n", encoding="utf-8"
-    )
+    protected = [item["source"] for item in results]
+    _write_text(output_dir / "hole-diameters.json", json.dumps(results, indent=2, allow_nan=False) + "\n", protected)
     columns = [
         "file",
         "region_type",
@@ -674,13 +759,14 @@ def write_aggregate(
         "trapped_radius_design_u",
         "minimum_fill_depth_design_u",
         "status",
+        "processing_error",
     ]
-    with (output_dir / "hole-diameters.csv").open(
-        "w", newline="", encoding="utf-8"
-    ) as handle:
+    with io.StringIO(newline="") as handle:
         writer = csv.DictWriter(handle, fieldnames=columns)
         writer.writeheader()
         for result in results:
+            for error in result.get("processingErrors", []):
+                writer.writerow({"file": result["file"], "region_type": "processing-error", "status": "fail", "processing_error": str(error)})
             for hole in result["holes"]:
                 writer.writerow(
                     {
@@ -737,17 +823,13 @@ def write_aggregate(
                         "status": pinch["status"],
                     }
                 )
+        _write_text(output_dir / "hole-diameters.csv", handle.getvalue(), protected)
     write_html_report(
         results, output_dir, min_radius_design_u, min_fill_depth_design_u
     )
 
 
 DEFAULT_ERROR_DIRNAME = "hole_error"
-
-#: File patterns this tool owns inside the error folder, cleared on every run so
-#: a fixed icon never lingers there and gets re-reported as still failing.
-ERROR_DIR_OWNED = ("*.svg", "*_holes.png", "*.metrics.json", "README.md")
-
 
 def collect_failures(
     results: list[dict],
@@ -756,28 +838,33 @@ def collect_failures(
     min_radius_design_u: float,
     min_fill_depth_design_u: float,
 ) -> list[dict]:
-    """Copy every failing icon into `error_dir` with its overlay and metrics.
+    """Save current failure evidence in a fresh run; never delete user SVGs.
 
-    The folder is a ready-to-work queue: the SVG to edit, the overlay showing
-    where it fails, the numbers behind the call, and a README naming each zone.
+    Copies are diagnostic references, not editable source or production output.
+    The root README identifies the current run; older runs remain historical.
     """
     failed = [item for item in results if item["status"] == "fail"]
+    protected = [Path(item["source"]) for item in results]
+    _validate_directories(output_dir, error_dir, protected)
     error_dir.mkdir(parents=True, exist_ok=True)
-    for pattern in ERROR_DIR_OWNED:
-        for stale in error_dir.glob(pattern):
-            stale.unlink()
+    _safe_target(error_dir / "README.md", protected)
     if not failed:
+        _write_text(error_dir / "README.md", "# Hole-gate results\n\nNo inputs failed in the current run.\n\nOlder run folders are historical diagnostic evidence, not current approval.\n", protected)
         return failed
+
+    run_dir = Path(tempfile.mkdtemp(prefix="run-", dir=error_dir))
 
     lines = [
         "# Hole-gate failures",
         "",
-        f"{len(failed)} of {len(results)} icons failed. Gate: enclosed regions need an",
+        f"{len(failed)} of {len(results)} inputs failed. Gate: enclosed regions need an",
         f"inscribed radius of at least {min_radius_design_u:g}u on the design canvas, and a solid",
         f"junction must be filled at least {min_fill_depth_design_u:g}u deep or it counts as a pinch.",
         "",
-        "Each icon is copied here with its `_holes.png` overlay and `.metrics.json`.",
-        "Repair in place, then rerun the gate on this folder.",
+        "Each available SVG is copied into a numbered evidence folder with its overlay and metrics when processing succeeded.",
+        "These copies are diagnostic references only. Repair the authoritative editable JSON,",
+        "regenerate both canonical SVG aliases, then rerun distance → holes/pinches → keyshape verification on those outputs.",
+        "Do not edit or validate these report copies as production output, and do not change thresholds to conceal failures.",
         "",
         "Ladder (stop at the first rung that keeps the icon recognisable):",
         "enlarge the opening, rebalance the composition, or remove the whole part.",
@@ -785,16 +872,25 @@ def collect_failures(
         "rung moves paint, and the token is measured from painted bounds.",
         "",
     ]
-    for item in failed:
+    for index, item in enumerate(failed, start=1):
         source = Path(item["source"])
-        shutil.copy2(source, error_dir / source.name)
-        for extra in (f"{source.stem}_holes.png", f"{source.stem}.metrics.json"):
-            candidate = output_dir / extra
-            if candidate.is_file():
-                shutil.copy2(candidate, error_dir / extra)
+        evidence = run_dir / str(index)
+        evidence.mkdir()
+        if source.is_file() and source.suffix.lower() == ".svg":
+            shutil.copy2(source, evidence / source.name)
+        if not item.get("processingErrors"):
+            for extra in (f"{source.stem}_holes.png", f"{source.stem}.metrics.json"):
+                candidate = output_dir / extra
+                if candidate.is_file():
+                    shutil.copy2(candidate, evidence / extra)
 
         lines.append(f"## {item['file']}")
         lines.append("")
+        lines.append(f"Authoritative generated SVG: `{source}`. Diagnostic evidence: `{index}/`.")
+        lines.append("")
+        for error in item.get("processingErrors", []):
+            lines.append(f"Processing failure: {error}")
+            lines.append("")
         for issue in item.get("nativeSizeIssues", []):
             lines.append(f"Native-size failure: {issue['detail']}")
             lines.append("")
@@ -822,12 +918,16 @@ def collect_failures(
                 f"fill depth {min_fill_depth_design_u:g}u |"
             )
         lines.append("")
-    (error_dir / "README.md").write_text("\n".join(lines), encoding="utf-8")
+    _write_text(run_dir / "README.md", "\n".join(lines), protected)
+    _write_text(error_dir / "README.md",
+                f"# Hole-gate results\n\nCurrent run: [{run_dir.name}]({run_dir.name}/README.md) — {len(failed)} of {len(results)} inputs failed.\n\n"
+                "Repair the authoritative editable JSON and regenerate both canonical SVGs; report copies are diagnostic only.\n\n"
+                "Older run folders are historical diagnostic evidence, not current approval.\n", protected)
     return failed
 
 
 
-def main() -> None:
+def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("inputs", nargs="+", help="SVG files or flat SVG folders")
     parser.add_argument(
@@ -841,7 +941,7 @@ def main() -> None:
         "--error-dir",
         default=None,
         help=(
-            "folder to copy failing icons into, with their overlays and metrics "
+            "folder for run-specific failure evidence; SVG copies are diagnostic only "
             f"(default: <output-dir>/{DEFAULT_ERROR_DIRNAME})"
         ),
     )
@@ -867,7 +967,7 @@ def main() -> None:
             "0 disables the pinch check (default: profile validation.minimumSolidFillDepth)"
         ),
     )
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     validation = get_profile(args.icon_type)["validation"]
     if args.min_radius_design_u is None:
         args.min_radius_design_u = validation["minimumEnclosedRadius"]
@@ -880,15 +980,35 @@ def main() -> None:
     if not math.isfinite(args.min_fill_depth_design_u) or args.min_fill_depth_design_u < 0:
         parser.error("--min-fill-depth-design-u must not be negative")
 
-    svgs = collect_svgs(args.inputs)
-    if not svgs:
+    svgs, selection_errors = _collect_svg_inputs(args.inputs)
+    if not svgs and selection_errors and all(path.is_dir() and error == "folder contains no immediate SVG files" for path, error in selection_errors):
         parser.error("no SVG files found")
-    output_dir = Path(args.output_dir).expanduser().resolve()
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = Path(args.output_dir).expanduser().absolute()
+    error_dir = Path(args.error_dir).expanduser().absolute() if args.error_dir else output_dir / DEFAULT_ERROR_DIRNAME
+    protected = [*svgs, *(path for path, _ in selection_errors)]
+    try:
+        _validate_directories(output_dir, error_dir, protected)
+        output_dir.mkdir(parents=True, exist_ok=True)
+        for name in ("hole-diameters.json", "hole-diameters.csv", "hole-radius-report.html"):
+            _safe_target(output_dir / name, protected)
+        for svg_path in svgs:
+            for name in (f"{svg_path.stem}.metrics.json", f"{svg_path.stem}_holes.png"):
+                _safe_target(output_dir / name, protected)
+    except (OSError, ValueError) as error:
+        print(f"FAIL unsafe or unavailable QA destination: {error}", file=sys.stderr)
+        return 1
 
-    results = []
+    results = [_error_result(path, error, args.icon_type, args.min_radius_design_u, args.min_fill_depth_design_u)
+               for path, error in selection_errors]
+    stems = {}
+    for path in svgs:
+        stems.setdefault(path.stem.casefold(), []).append(path)
     for svg_path in svgs:
         try:
+            if not svg_path.is_file() or svg_path.suffix.lower() != ".svg":
+                raise ValueError("selected input is missing or is not a regular SVG file")
+            if len(stems[svg_path.stem.casefold()]) > 1:
+                raise ValueError("selected SVGs have duplicate stems; use unique names so QA artifacts cannot overwrite each other")
             result = process(
                 svg_path,
                 output_dir,
@@ -897,7 +1017,23 @@ def main() -> None:
                 args.min_fill_depth_design_u,
                 args.icon_type,
             )
-            results.append(result)
+            if not isinstance(result, dict) or result.get("status") not in ("pass", "fail"):
+                raise ValueError("hole/pinch checker returned a malformed result")
+            for field in ("hole_count", "failed_hole_count", "pinch_count"):
+                if type(result.get(field)) is not int or result[field] < 0:
+                    raise ValueError(f"hole/pinch checker returned an invalid {field}")
+            if result.get("file") != svg_path.name or result.get("source") != str(svg_path):
+                raise ValueError("hole/pinch checker returned a report for a different input")
+            if not isinstance(result.get("holes"), list) or not isinstance(result.get("pinches"), list):
+                raise ValueError("hole/pinch checker returned missing region measurements")
+            if any(not isinstance(region, dict) or region.get("status") not in ("pass", "fail")
+                   for region in [*result["holes"], *result["pinches"]]):
+                raise ValueError("hole/pinch checker returned invalid region verdicts")
+            if (result["hole_count"] != len(result["holes"]) or result["pinch_count"] != len(result["pinches"])
+                    or result["failed_hole_count"] != sum(hole["status"] == "fail" for hole in result["holes"])):
+                raise ValueError("hole/pinch checker returned inconsistent region counts")
+            if result["failed_hole_count"] or result["pinch_count"] or result.get("nativeSizeIssues") or result.get("processingErrors"):
+                result["status"] = "fail"
             print(
                 f"{svg_path.name}: {result['hole_count']} enclosed hole(s), "
                 f"{result['failed_hole_count']} undersized, "
@@ -905,31 +1041,32 @@ def main() -> None:
                 f"{result['status'].upper()}"
             )
         except Exception as exc:
-            print(f"warn: {svg_path.name}: {exc}", file=sys.stderr)
-    write_aggregate(
-        results,
-        output_dir,
-        args.min_radius_design_u,
-        args.min_fill_depth_design_u,
-    )
-    print(f"wrote {len(results)} icon reports to {output_dir}")
-
-    error_dir = (
-        Path(args.error_dir).expanduser().resolve()
-        if args.error_dir
-        else output_dir / DEFAULT_ERROR_DIRNAME
-    )
-    failed = collect_failures(
-        results,
-        output_dir,
-        error_dir,
-        args.min_radius_design_u,
-        args.min_fill_depth_design_u,
-    )
+            result = _error_result(svg_path, f"{type(exc).__name__}: {exc}", args.icon_type, args.min_radius_design_u, args.min_fill_depth_design_u)
+            print(f"FAIL {svg_path.name}: {exc}", file=sys.stderr)
+            if len(stems[svg_path.stem.casefold()]) == 1:
+                try:
+                    _write_text(output_dir / f"{svg_path.stem}.metrics.json", json.dumps(result, indent=2) + "\n", protected)
+                except (OSError, ValueError) as error:
+                    result["processingErrors"].append(f"error report could not be written: {error}")
+        results.append(result)
+    report_failed = False
+    try:
+        write_aggregate(results, output_dir, args.min_radius_design_u, args.min_fill_depth_design_u)
+        print(f"wrote {len(results)} input reports to {output_dir}")
+    except Exception as error:
+        report_failed = True
+        print(f"FAIL writing aggregate reports: {error}", file=sys.stderr)
+    failed = [item for item in results if item["status"] != "pass"]
+    try:
+        collect_failures(results, output_dir, error_dir, args.min_radius_design_u, args.min_fill_depth_design_u)
+    except Exception as error:
+        report_failed = True
+        print(f"FAIL collecting failure evidence: {error}", file=sys.stderr)
     if failed:
-        print(f"copied {len(failed)} failing icon(s) to {error_dir}")
+        print(f"{len(failed)} input(s) failed; diagnostic evidence directory: {error_dir}")
         print(f"fix a failing zone by: {REMEDIATION}.", file=sys.stderr)
+    return 1 if report_failed or failed or not results else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

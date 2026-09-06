@@ -214,7 +214,7 @@ class ProfileSourceTests(unittest.TestCase):
             self.assertEqual(initial["status"], "pass")
             source["validationDefaults"]["minimumEnclosedRadius"] = 18
             catalog_path.write_text(json.dumps(source))
-            run("qa_overlays", final, "--samples-per-unit", 8, "--output-dir", root / "holes-strict")
+            run("qa_overlays", final, "--samples-per-unit", 8, "--output-dir", root / "holes-strict", expected=1)
             strict = json.loads((root / "holes-strict/badge-mark.metrics.json").read_text())
             self.assertEqual(strict["status"], "fail")
             self.assertEqual(strict["configuredMinimumRadiusDesignUnits"], 18)

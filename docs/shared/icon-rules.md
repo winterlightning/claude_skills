@@ -57,6 +57,23 @@ actual geometry on the design canvas with no SVG transforms or per-element paint
 Prefer the configured grid for ordinary construction; exact curve junctions,
 deliberate diagonal geometry and documented optical corrections may use fractions.
 
+### Universal input and verification contract
+
+Every icon starts from a concept name and minimal description. User-supplied
+SVG, PNG, or other reference files are optional. Analyze the brief and any selected
+references, choose the intended type, read its JSON profile, and plan the silhouette
+and keyshape before authoring. Text-only input needs no synthetic source SVG or
+detector report; non-SVG references need appropriate visual/content inspection.
+Bundled Lucide references remain style/construction guidance for both modes.
+
+Follow the [canonical pipeline](icon-pipeline.md) for every type and input mode:
+after emission and structural/grid/overlap prerequisites, pass **distance →
+holes/pinches → canvas/keyshape**, then native-size review. Each failure requires
+its error summary and affected pair, zone, or bounds to be examined before a
+geometry repair. Re-emit and restart at distance after every change. All three
+must pass on the same final SVG/profile; missing, stale, errored, or unresolved
+review results block completion. Repair the drawing, not the configured limits.
+
 ### SVG reference preflight
 
 Before rebuilding an SVG reference, run the project detector:
@@ -116,13 +133,20 @@ overlapping object, not an intended feature of the extracted subject.
 - In the default `exact` keyfit mode, paint must reach the selected keyshape's four cardinals or rectangular edges
   and remain entirely inside it. Circle paint may not enter the corner regions
   of that token's square bounding box. Merely fitting inside fails in exact mode.
-- Intrinsically thin or sparse subjects, such as a divider, ellipsis or glyph,
-  may use `keyfitCheck.mode: "optical"` rather than being stretched to four edges.
-  This requires a meaningful `rationale` and explicit design-unit
+- When the icon's meaning or reference-supported proportions make exact fitting
+  unnatural, the AI may approve a [keyshape exception](icon-pipeline.md#keyshape-exceptions)
+  without additional user approval. This includes narrow forks, dividers, and
+  other subjects, not only thin/sparse glyphs. Both exceptional **centerline
+  bounding-box dimensions must be divisible by 4**: 20×40 and 24×40
+  are valid; 22×40 is not. AI approval cannot waive this condition, even when
+  an optical checker passes. Use `keyfitCheck.mode: "optical"`
+  rather than stretching to four edges. This requires a meaningful `rationale` and explicit design-unit
   `paintedBounds: [left, top, right, bottom]`. Measured paint must match those
   declared bounds and stay inside the selected token, including radial circle
-  containment. True-size visual review is mandatory; optical mode is not an
-  overflow waiver or a substitute for repairing unintended undersizing.
+  containment. Report a fresh passing result as an AI-approved optical exception,
+  not an exact fit. Native-size review remains mandatory; the exception does not
+  waive canvas/stroke, containment, distance, holes, or container-slot checks, nor
+  excuse accidental undersizing or unfinished geometry.
 - Export at 1:1 without coordinate, radius, or stroke scaling.
 - Centered strokes must not clip the canvas or cross the selected keyshape boundary.
 - Apply the selected type's additional constraints, including the
@@ -182,7 +206,8 @@ measurements of one requirement, not alternative ways to waive it. The numerical
 setting is `profiles.normal.validation.minimumDistinctCenterlineDistance` in
 `core/icon_profiles.json`; sub and container keep their own configured floors.
 
-Use `core/check_svg_spacing.py` on the actual normal SVG. It splits disconnected
+Use `core/check_svg_spacing.py --icon-type <profile-name>` on every actual native
+SVG, including sub, container, and custom types with their own floors. It splits disconnected
 `M` subpaths even inside one `<path>`, measures continuous geometry between every
 disconnected centerline component, and reports the closest contour pair. Actual
 centerline joins/crossings form one component; paint merely touching does not.
@@ -276,9 +301,11 @@ Geometric shapes keep their spacing. Both defects mean the artwork is short of r
 2. **Rebalance the composition.** Scale the dominant part down and the crowded detail up, so the detail is large enough to carry a legal opening. Recenter on the selected profile afterwards; redistribute space, never steal it.
 3. **Remove the part.** Delete the complete non-essential element or semantic group that creates the sub-minimum region. Record the omission. Two clean parts beat four crowded ones.
 
-**A repair may not change the icon's declared keyshape.** Every rung moves paint, so a repair that clears R9 can silently break R1:
+**A hole repair is not permission to change the declared keyshape.** A separately
+reasoned R1 keyshape exception may be approved by the AI, but cannot waive R9.
+Every rung moves paint, so a repair that clears R9 can silently break R1:
 
-- Record the declared keyshape with `check_keyfit.py` *before* repairing.
+- Record the declared keyshape and its latest measured bounds *before* repairing.
 - After repairing, the paint must still satisfy the **same declared keyshape and keyfit mode** and stay optically centered. Exact mode retains its edge/cardinal contacts; optical mode retains its justified measured-bound declaration.
 - Rung 1 pushes paint outward — verify nothing crossed the selected circle or rectangle boundary. If clearing the opening needs more room, use rung 2 instead of overflowing.
 - Rungs 2 and 3 remove paint — verify the artwork still meets its declared extents and did not become unintentionally undersized.
@@ -292,7 +319,11 @@ Geometric shapes keep their spacing. Both defects mean the artwork is short of r
 - Clip or delete an arbitrary path fragment, or leave a part visibly truncated.
 - Let the silhouette cross its keyshape boundary or become undersized in order to open a zone.
 
-Regenerate the native SVG and any compatibility alias, then rerun structural, overlap, keyshape, hole-diameter, pinch, and true-size checks after every correction — keyshape containment included even when the repair looks local, because painted bounds are what the token is measured from. `core/qa_overlays.py` measures both gates; see [qa-overlays-guide.md](qa-overlays-guide.md).
+Regenerate the native SVG and any compatibility alias after every correction.
+Recheck structural/grid/overlap prerequisites, then rerun **distance → holes and
+pinches → canvas/keyshape**, followed by native-size review. Keyshape containment
+is required even when the repair looks local. `core/qa_overlays.py` measures holes
+and pinches; see [qa-overlays-guide.md](qa-overlays-guide.md).
 
 The configured minimum is the authored rule. For stable raster measurement,
 the checker uses a narrowed measuring stroke and adjusts its threshold by the
@@ -340,6 +371,10 @@ Keep the production output transparent. Construction keyshapes, grids, collision
 
 ## 7. Review checklist
 
+- [ ] The name and minimal description are recorded; optional references are
+  inspected without inventing source files or detector evidence.
+- [ ] Fresh distance, hole/pinch, and canvas/keyshape gates all pass on the same
+  final SVG and effective profile, with no unresolved review or skipped result.
 - [ ] The icon has a natural, convincing silhouette and is immediately
   recognizable; no reference motif was reused at the expense of visual quality.
 - [ ] `iconType` is declared; source, canonical output, and acceptance preview all use its one native canvas.

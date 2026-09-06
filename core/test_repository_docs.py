@@ -12,6 +12,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
+from unittest.mock import patch
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -59,6 +60,38 @@ def markdown_anchors(path: Path) -> set[str]:
 
 
 class RepositoryDocumentationTests(unittest.TestCase):
+    def test_rework_detection_skips_brief_rows_even_with_legacy_drafts(self) -> None:
+        wrapper = (ROOT / "rework_opus.sh").read_text()
+        section = wrapper.split("# --------------------------------------------------------------------- detect", 1)[1]
+        script = section.split("<<'PY' || die", 1)[1].split("\n", 1)[1].split("\nPY\n", 1)[0]
+        with tempfile.TemporaryDirectory() as temporary:
+            batch = Path(temporary)
+            (batch / "sources").mkdir()
+            (batch / "sources/brief.svg").write_text("legacy synthetic drawing, not a reference")
+            (batch / "sources/reference.svg").write_text("<svg />")
+            rows = [{"sid": "sym_1", "iconName": "brief", "sourceOrigin": "brief", "sourcePath": "sources/brief.svg"},
+                    {"sid": "sym_2", "iconName": "reference", "sourceOrigin": "prototype", "sourcePath": "sources/reference.svg"}]
+            (batch / "batch.json").write_text(json.dumps({"symbols": rows}))
+            with patch.object(sys, "argv", ["detect", str(batch), "0"]), patch("subprocess.run") as detector:
+                exec(compile(script, "wrapper-detect", "exec"), {})
+            self.assertEqual(detector.call_count, 1)
+            self.assertIn(str(batch / "sources/reference.svg"), detector.call_args.args[0])
+            self.assertNotIn(str(batch / "sources/brief.svg"), detector.call_args.args[0])
+            (batch / "sources/reference.svg").unlink()
+            with patch.object(sys, "argv", ["detect", str(batch), "0"]), self.assertRaisesRegex(SystemExit, "missing supplied SVG"):
+                exec(compile(script, "wrapper-detect", "exec"), {})
+
+    def test_brief_staging_never_promotes_a_legacy_draft_to_reference(self) -> None:
+        import fetch_rework_batch
+        with tempfile.TemporaryDirectory() as temporary:
+            source = Path(temporary) / "old-draft.svg"
+            source.write_text("legacy drawing")
+            with patch.object(fetch_rework_batch, "get") as fetch:
+                origin, _ = fetch_rework_batch.stage_source({"concept": "clock", "minimal_description": "A clock face"}, source, False)
+            self.assertEqual(origin, "brief")
+            self.assertEqual(source.read_text(), "legacy drawing")
+            fetch.assert_not_called()
+
     def run_rework_report_preflight(self, mutate=None) -> subprocess.CompletedProcess[str]:
         """Run the wrapper's report reader with local evidence; never upload."""
         from icon_profiles import get_profile
@@ -95,12 +128,33 @@ class RepositoryDocumentationTests(unittest.TestCase):
                              "profileSha256": hashlib.sha256(profile).hexdigest(),
                              "evidenceDirectory": str(evidence), "keyfitReport": str(keyfit_report),
                              "keyfitOverlay": str(keyfit_overlay)})
+            spacing_dir = batch / "qa/spacing/files/test-icon"
+            spacing_dir.mkdir(parents=True)
+            spacing_overlay = spacing_dir / "spacing.svg"
+            spacing_overlay.write_text("<svg />")
+            spacing = {"file": "test-icon.svg", "ok": True, "status": "pass", "errors": [], "pairs": [],
+                       "svgSha256": hashlib.sha256((batch / symbol["ship"]).read_bytes()).hexdigest(),
+                       "profileSha256": hashlib.sha256(profile).hexdigest(),
+                       "reportPath": str(spacing_dir / "spacing.json"), "overlayPath": str(spacing_overlay)}
+            (spacing_dir / "spacing.json").write_text(json.dumps(spacing))
+            (batch / "qa/spacing/spacing-results.json").write_text(json.dumps({"ok": True, "checked": 1, "failed": 0, "rows": [spacing]}))
             for gate, filename, field, status in (("grid", "grid-results.json", "design", "overallStatus"),
                                                  ("keyshape", "keyfit-results.json", "ship", "status"),
                                                  ("holes", "hole-diameters.json", "ship", "status")):
                 folder = batch / "qa" / gate
                 folder.mkdir(parents=True)
                 (folder / filename).write_text(json.dumps([{"file": Path(symbol[field]).name, status: "pass"}]))
+            validation = get_profile("normal")["validation"]
+            holes = {"file": "test-icon.svg", "source": str(batch / symbol["ship"]), "status": "pass",
+                     "nativeSizeIssues": [], "holes": [], "pinches": [],
+                     "hole_count": 0, "failed_hole_count": 0, "pinch_count": 0,
+                     "svgSha256": hashlib.sha256((batch / symbol["ship"]).read_bytes()).hexdigest(),
+                     "profileSha256": hashlib.sha256(profile).hexdigest(),
+                     "configuredMinimumRadiusDesignUnits": validation["minimumEnclosedRadius"],
+                     "configuredMinimumFillDepthDesignUnits": validation["minimumSolidFillDepth"]}
+            (batch / "qa/holes/test-icon.metrics.json").write_text(json.dumps(holes))
+            (batch / "qa/holes/test-icon_holes.png").write_bytes(b"mock hole overlay")
+            (batch / "qa/holes/hole-diameters.json").write_text(json.dumps([holes]))
             aggregate = {"checked": 2, "failed": 0, "ok": True, "rows": rows}
             keep_report = mutate(batch, aggregate) if mutate else True
             for row in aggregate.get("rows", []) if isinstance(aggregate.get("rows"), list) else []:
@@ -189,6 +243,40 @@ class RepositoryDocumentationTests(unittest.TestCase):
                 result = self.run_rework_report_preflight(mutate)
                 self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_rework_report_reader_rejects_incomplete_or_uncertain_distance_results(self) -> None:
+        def mutate_report(batch, change):
+            path = batch / "qa/spacing/spacing-results.json"
+            report = json.loads(path.read_text())
+            change(report)
+            path.write_text(json.dumps(report))
+        for change in (lambda report: report.update(rows=[]),
+                       lambda report: report["rows"].append(report["rows"][0]),
+                       lambda report: report.update(ok=False, failed=1),
+                       lambda report: report["rows"][0].update(status="review", ok=False),
+                       lambda report: report["rows"][0].update(errors=["engine error"]),
+                       lambda report: report["rows"][0].update(profileSha256="stale")):
+            result = self.run_rework_report_preflight(lambda batch, report: mutate_report(batch, change))
+            self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_rework_report_reader_rejects_stale_incomplete_or_contradictory_holes(self) -> None:
+        def change_holes(batch, updates):
+            path = batch / "qa/holes/hole-diameters.json"
+            report = json.loads(path.read_text())
+            report[0].update(updates)
+            path.write_text(json.dumps(report))
+            (batch / "qa/holes/test-icon.metrics.json").write_text(json.dumps(report[0]))
+        for updates in ({"svgSha256": "old"}, {"profileSha256": "old"}, {"status": "error"},
+                        {"failed_hole_count": 1}, {"pinch_count": 1}, {"hole_count": 1},
+                        {"processingErrors": ["renderer unavailable"]},
+                        {"configuredMinimumRadiusDesignUnits": 0.01}):
+            with self.subTest(updates=updates):
+                result = self.run_rework_report_preflight(lambda batch, report: change_holes(batch, updates))
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+        for filename in ("test-icon.metrics.json", "test-icon_holes.png", "hole-diameters.json"):
+            with self.subTest(missing=filename):
+                result = self.run_rework_report_preflight(lambda batch, report: (batch / "qa/holes" / filename).unlink())
+                self.assertNotEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_local_markdown_links_resolve(self) -> None:
         missing: list[str] = []
         for source in maintained_markdown():
@@ -219,6 +307,7 @@ class RepositoryDocumentationTests(unittest.TestCase):
             "core/validate_icon.py",
             "core/validate_icon_keyshapes.py",
             "core/check_svg_grid.py",
+            "core/check_svg_spacing.py",
             "core/render_overlap_audit.py",
             "check_keyfit.write_aggregate",
             "core/qa_overlays.py",
@@ -232,12 +321,13 @@ class RepositoryDocumentationTests(unittest.TestCase):
 
         # A failed command must not be allowed to reuse a passing aggregate
         # from an earlier verification run.
-        self.assertIn('grid|canvas-keyshape|keyshape|holes) target="$QA_ROOT/$gate"', verify_stage)
+        self.assertIn('grid|spacing|canvas-keyshape|keyshape|holes) target="$QA_ROOT/$gate"', verify_stage)
         self.assertIn("if active verify || active upload; then", verify_stage)
         self.assertIn('[[ ! -L "$QA_ROOT" ]]', verify_stage)
         self.assertIn('rm -rf -- "$target"', verify_stage)
         for gate, command in (
             ("grid", "core/check_svg_grid.py"),
+            ("spacing", "core/check_svg_spacing.py"),
             ("canvas-keyshape", "core/validate_icon_keyshapes.py"),
             ("holes", "core/qa_overlays.py"),
         ):
@@ -255,6 +345,11 @@ class RepositoryDocumentationTests(unittest.TestCase):
         self.assertIn('--expected-editable-dir "$BATCH/editable"', gate_command)
         self.assertNotIn("python3 core/check_keyfit.py", verify_stage,
                          "reuse the mandatory gate's raster evidence rather than render it again")
+        distance_at = verify_stage.index("if ! python3 core/check_svg_spacing.py")
+        holes_at = verify_stage.index("if ! python3 core/qa_overlays.py")
+        keyshape_at = verify_stage.index("if ! python3 core/validate_icon_keyshapes.py")
+        self.assertLess(distance_at, holes_at)
+        self.assertLess(holes_at, keyshape_at)
 
 
 if __name__ == "__main__":

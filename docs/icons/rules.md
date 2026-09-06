@@ -18,8 +18,9 @@ values.
   and incidental repetition. Feature guidance is not an element-count quota.
 - Choose a normal keyshape from the dominant whole-icon silhouette. Declare
   `keyfitCheck.targetToken` and preserve its painted extent and containment.
-  Intrinsically thin/sparse subjects may use shared R1's documented optical mode;
-  do not stretch them to all four edges merely to satisfy exact mode.
+  The agent may approve a subject- or prototype-justified
+  [keyshape exception](../shared/icon-pipeline.md#keyshape-exceptions) using
+  optical mode; do not distort the form merely to satisfy exact edge contacts.
 - Review recognition, optical balance, and negative space at the exact native
   size in the resolved profile.
 

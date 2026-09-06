@@ -29,7 +29,9 @@ import xml.etree.ElementTree as ET
 
 MAX_INPUT_BYTES = 4 * 1024 * 1024
 PALETTE = ("#2563eb", "#9333ea", "#087f5b", "#c2410c", "#be185d", "#0e7490")
-REPAIR = "Repair the editable geometry, regenerate both SVG aliases, and rerun spacing and all affected QA; do not lower thresholds to hide a failure."
+REPAIR = ("Inspect the failing pair and any unresolved contact first. Repair editable geometry, regenerate both SVG aliases, "
+          "recheck prerequisites, then restart distance -> holes -> keyshape. Investigate checker errors/reviews; "
+          "do not distort intended joins or lower thresholds to hide a failure.")
 NOTICE = (
     "Measures disconnected centerline components, not internal gaps within a connected shape. "
     "Geometric connections are not semantic approval; structural relationships, holes/pinches, "

@@ -146,6 +146,28 @@ class CanvasKeyshapeGateTests(unittest.TestCase):
         self.assertPass(self.check(drawing('<rect x="4" y="8" width="40" height="32"/>'), document("landscape-44x36")))
         self.assertPass(self.check(drawing('<rect x="8" y="4" width="32" height="40"/>'), document("portrait-36x44")))
 
+    def test_ai_approved_narrow_forks_pass_optical_not_exact_keyshape(self):
+        # The reference/semantic judgment belongs to the agent. This verifies
+        # that its documented 20x40 and 16x40 centerline choices can be measured
+        # honestly, without relabeling a failed exact fit or changing profiles.
+        for width in (20, 16):
+            with self.subTest(centerline_width=width):
+                left, right = 24 - width / 2, 24 + width / 2
+                source = drawing(f'<path d="M{left:g} 4V16H{right:g}V4M24 4V44"/>')
+                self.assertFail(self.check(source, document("portrait-36x44")))
+                bounds = [left - 2, 2, right + 2, 46]
+                check = {"targetToken": "portrait-36x44", "mode": "optical",
+                         "rationale": "AI-approved exception: preserve the fork's slender utensil proportions.",
+                         "paintedBounds": bounds}
+                result = self.check(source, document(keyfitCheck=check))
+                self.assertPass(result)
+                self.assertEqual(result["fitMode"], "optical")
+                self.assertEqual(result["keyfit"]["paintedBoundsDesign"], bounds)
+                # An exception still needs real stroke-inclusive measurements
+                # and a rationale; centerline bounds are not painted bounds.
+                for invalid in ({"paintedBounds": [left, 4, right, 44]}, {"rationale": ""}):
+                    self.assertFail(self.check(source, document(keyfitCheck={**check, **invalid})))
+
     def test_sub_circle_accepts_correct_stroke_inset_but_rejects_clipped_paint(self):
         metadata = document("circle-32", "sub")
         self.assertPass(self.check(drawing('<circle cx="16" cy="16" r="14"/>', canvas=32), metadata))

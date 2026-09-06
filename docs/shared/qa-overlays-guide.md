@@ -2,14 +2,22 @@
 
 `core/qa_overlays.py` is the canonical rendered-geometry gate for enclosed
 negative space and squeezed junctions in Unlimited Shapes native SVGs. Run it
-after emission, structural/grid validation, overlap review, and keyshape
-validation, then inspect its visual and numeric evidence before delivery.
+after emission, structural/grid validation, declared-overlap review, and the
+distance gate. Inspect its visual and numeric evidence, then run the keyshape
+gate and native-size review. The shared acceptance order is
+distance → holes/pinches → keyshape; all three must pass on the same final
+geometry and resolved profile.
 
 This guide covers operation and interpretation. The binding design rules remain
 in [icon-rules.md](icon-rules.md), and repair examples are in
 [negative-space-repair-examples.md](negative-space-repair-examples.md).
 
 ## What it detects
+
+Per-icon metrics include `svgSha256` and `profileSha256`, binding measurements
+to the exact SVG and resolved profile. A source change during measurement fails
+verification. Acceptance also requires the recorded configured radius/fill-depth
+thresholds to equal profile defaults; diagnostic overrides cannot approve output.
 
 The validator rasterizes each finished SVG and reports:
 
@@ -63,7 +71,10 @@ python3 core/qa_overlays.py final-svg/ \
 ```
 
 Directory input is intentionally flat; the program checks `.svg` files directly
-inside that folder and does not recurse. Use one icon type per invocation.
+inside that folder and does not recurse. Use one icon type per invocation and
+select only one canonical SVG per icon, not aliases or diagnostic copies.
+Selected files need unique stems so their output artifacts cannot overwrite one
+another.
 
 ## Pass rules
 
@@ -74,10 +85,15 @@ inside that folder and does not recurse. Use one icon type per invocation.
 - Equality passes.
 - An icon with no enclosed background region passes the hole portion.
 - Any undersized hole or pinched junction makes the icon fail.
+- Processing errors, missing inputs, native-size violations, and incomplete
+  results fail closed; a zero hole count on an error row is not a pass.
 
 The report's per-file `status` and failure counts are the QA verdict. Always
 inspect `hole-diameters.json`, the per-icon metrics, and the HTML report; do not
-use process exit status alone as proof of a visual pass.
+use process exit status alone as proof of a visual pass. Exit `0` means every
+selected input has a complete passing result and reports were written. Exit `1`
+means a measurement, input, processing, or report-writing failure. Exit `2`
+means invalid arguments or a selection consisting only of empty folders.
 
 ## Measurement model
 
@@ -103,20 +119,33 @@ The output folder contains:
 
 | Artifact | Purpose |
 | --- | --- |
-| `<icon>.metrics.json` | Per-icon holes, pinches, measurements, thresholds, and status |
-| `<icon>_holes.png` | Painted overlay with numbered holes and red pinch markers |
-| `hole-diameters.json` | Aggregate machine-readable results |
+| `<icon>.metrics.json` | Per-icon measurements/status, or processing-error details when writable |
+| `<icon>_holes.png` | Successful processing's painted overlay with numbered holes and red pinch markers |
+| `hole-diameters.json` | Aggregate list with one result per selected input, including failures |
 | `hole-diameters.csv` | Aggregate tabular measurements |
 | `hole-radius-report.html` | Human-readable summary and evidence links |
-| `hole_error/` | Current failing SVGs, overlays, metrics, and repair README |
+| `hole_error/README.md` | Points to the current failing run, or records that the current run passed |
+| `hole_error/run-<id>/` | Preserved failing-run diagnostics, with one numbered subfolder per failed input |
 
-The validator clears the files it owns in `hole_error/` before each run, so that
-folder acts as the current repair queue rather than an accumulated history.
+Failure folders are fresh per run; older evidence is retained, never cleared.
+Each numbered folder includes an available SVG reference and, only when
+processing succeeded, its overlay and metrics. Processing failures appear as
+`status: "fail"` with a nonempty `processingErrors` list; their empty region lists
+and zero counts do not certify geometry. A stale flat overlay from an earlier
+run is not current evidence—consult the current aggregate and error README.
+
+Use separate QA folders. A QA or error directory containing a selected input is
+rejected, and the error directory cannot equal or contain the QA output folder.
+The default nested `hole_error/` is allowed. Report paths that would overwrite
+selected inputs, including link aliases, are rejected. If safe reports cannot be
+written, the run fails and earlier artifacts cannot substitute for current QA.
 
 ## How to review a result
 
 1. Open `hole-radius-report.html` and identify every failed icon.
-2. Open its `_holes.png` overlay.
+2. Check for `processingErrors` first. Resolve checker/input problems before
+   attempting a geometry repair; open `_holes.png` only for the current
+   successfully processed result.
 3. Match each numbered hole or red pinch marker to the editable elements.
 4. Read the per-icon metrics to confirm the measured radius or closure margin.
 5. Check the profile's native-size SVG; numeric output does not replace
@@ -126,7 +155,8 @@ folder acts as the current repair queue rather than an accumulated history.
 
 ## Repair order
 
-Repair the editable geometry composition, never the flattened ship paths:
+Repair the authoritative editable geometry composition, never flattened output
+paths or SVG copies under `hole_error/`:
 
 1. Enlarge the opening by growing its enclosure or moving adjacent parts apart.
 2. Rebalance the composition so the identity-bearing detail can carry a legal
@@ -137,16 +167,17 @@ Repair the editable geometry composition, never the flattened ship paths:
 Do not delete an arbitrary path fragment, clip the problem, or push surrounding
 parts together until the opening disappears.
 
-After any repair, regenerate the native SVG and any same-size compatibility alias,
-then rerun structural,
-grid, overlap, keyshape, hole/pinch, and true-size checks. Keyshape validation
-must be repeated because changing local paint can move the overall painted
-bounds.
+After any repair, regenerate the native SVG and its same-size compatibility
+alias, recheck structural/grid and declared-overlap prerequisites, and restart
+at distance → holes/pinches → keyshape before native-size review. A hole repair
+can change both disconnected spacing and painted bounds, so earlier passes
+cannot be carried forward. Diagnose unresolved distance reviews or intended
+connections instead of distorting the geometry to force a pass.
 
 ## Useful options
 
 ```text
---error-dir <folder>                 Override the default hole_error queue.
+--error-dir <folder>                 Override the default hole_error history root.
 --icon-type <profile-name>   Select the profile used for normalization.
 --samples-per-unit <integer>         Raster supersampling; minimum 4, default 32.
 --min-radius-design-u <number>       Hole-radius gate; must be greater than 0.
@@ -156,8 +187,9 @@ bounds.
 Omit threshold overrides during ordinary work so the selected profile's
 `minimumEnclosedRadius` and `minimumSolidFillDepth` take effect. Explicit CLI
 values are diagnostic overrides; a relaxed result does not replace the configured
-delivery gate. Change shared policy through [profile configuration](profile-configuration.md),
-then rerun QA and native review for affected icons.
+delivery gate. Change shared policy through
+[profile configuration](profile-configuration.md) only when explicitly requested,
+then rerun all three gates and native review for affected icons.
 
 ## Blocker handling
 

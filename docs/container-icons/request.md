@@ -21,7 +21,8 @@ Use docs/container-icons/SKILL.md to generate container icons for:
 - <another subject, optional>
 
 Accepted sub-icon keyshape: <sub-profile token, or choose per subject>
-Reference SVGs: <explicit selected files, or omit for a description-only request>
+For each subject, provide: <concept name> — <minimal description>.
+References (optional): <selected SVG/PNG/other files, or none>
 Output folder: <path, or omit to use work/<job>>
 
 For each subject, deliver schema-version-2 editable JSON with iconType "container", the
@@ -31,6 +32,12 @@ matching containerSlot.acceptedProfile and acceptedKeyshape. Resolve sizes,
 keyshapes, slot and validation settings from core/icon_profiles.json; no half-size
 container derivative.
 Process only the listed subjects.
+Analyze the input, read the selected profile, and plan the icon before drawing.
+No-reference briefs need no synthetic source SVG or detector report.
+After structural/grid/overlap prerequisites, pass distance → holes/pinches →
+canvas/keyshape. Read each failing pair/zone/bounds, repair editable geometry,
+regenerate, and restart at distance. All three must pass on the same final
+SVG/profile before native-size visual approval; report blockers, never waive them.
 Use exact elements, inspect relevant local Lucide original/debug pairs, and
 record applied construction principles. Do not add registry shapes or upload.
 ```

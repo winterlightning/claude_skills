@@ -7,6 +7,7 @@ from copy import deepcopy
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 from tempfile import TemporaryDirectory
 import unittest
 from unittest.mock import patch
@@ -157,6 +158,12 @@ class AdaptTrialTests(unittest.TestCase):
         row, = report["files"]
         self.assertEqual(row["qa"]["structure"]["status"], "blocked-draft")
         self.assertEqual(row["qa"]["structure"]["geometryIssues"], [])
+        self.assertEqual(row["qa"]["gateOrder"], ["distance", "holes", "keyshape"])
+        self.assertEqual(row["qa"]["spacing"]["status"], "pass")
+        self.assertEqual(len(row["qa"]["canvasKeyshape"]), 2)
+        for result in row["qa"]["canvasKeyshape"]:
+            self.assertTrue(result["ok"])
+            self.assertTrue(Path(result["keyfitOverlay"]).is_file())
         self.assertEqual((output / row["svg"]).read_bytes(), (output / "output/circle-outline-sub-design.svg").read_bytes())
         self.assertTrue(json.loads((output / row["editable"]).read_text())["sourceAnalysis"]["incomplete"])
         self.assertIn('width="32" height="32"', (output / row["svg"]).read_text())
@@ -166,7 +173,7 @@ class AdaptTrialTests(unittest.TestCase):
             adapter.run_trial(self.args())
 
     def test_a_completed_experiment_can_have_no_passing_drafts(self):
-        fake_qa = {"mechanicalChecksPassed": False, "grid": {"status": "review"},
+        fake_qa = {"mechanicalChecksPassed": False, "grid": {"status": "review"}, "spacing": {"status": "fail"},
                    "keyshape": {"status": "fail"}, "holes": {"status": "fail"}}
         with patch.object(adapter, "run_qa", return_value=fake_qa), patch.object(adapter, "write_reviews"):
             report = adapter.run_trial(self.args())
@@ -202,7 +209,7 @@ class AdaptTrialTests(unittest.TestCase):
     def test_external_input_changes_cannot_leave_a_false_unchanged_claim(self):
         def external_edit(*args, **kwargs):
             self.metadata_path.write_text("{\"externallyChanged\":true}")
-            return {"mechanicalChecksPassed": False, "grid": {"status": "review"},
+            return {"mechanicalChecksPassed": False, "grid": {"status": "review"}, "spacing": {"status": "fail"},
                     "keyshape": {"status": "fail"}, "holes": {"status": "fail"}}
         with patch.object(adapter, "run_qa", side_effect=external_edit), patch.object(adapter, "write_reviews") as review:
             report = adapter.run_trial(self.args())
@@ -210,6 +217,110 @@ class AdaptTrialTests(unittest.TestCase):
         self.assertFalse(report["originalsUnchanged"])
         self.assertIn(str(self.metadata_path), report["changedInputs"])
         self.assertFalse(review.call_args.kwargs["originals_unchanged"])
+
+    def run_mocked_gates(self, target_type="sub", spacing_override=None, mutate=False, hole_override=None, missing_hole_evidence=False):
+        """Exercise real orchestration with isolated checker results, not text assertions."""
+        profile = get_profile(target_type)
+        document = deepcopy(self.document)
+        document.update(iconType=target_type, canvas=profile["canvas"], strokeWidth=profile["strokeWidth"])
+        output = self.root / "mock-trial"
+        emitted = output / "output" / "circle-outline.svg"
+        editable = output / "editable" / "circle-outline.json"
+        adapter.write_json(editable, document)
+        emitted.parent.mkdir(parents=True, exist_ok=True)
+        emitted.write_text("isolated native SVG test snapshot")
+        emitted.with_name("circle-outline-design.svg").write_bytes(emitted.read_bytes())
+        digest = adapter.sha256(json.dumps(profile, sort_keys=True, separators=(",", ":"),
+                                           ensure_ascii=False, allow_nan=False).encode())
+        order = []
+
+        def structure(*args, **kwargs):
+            order.append("structure")
+            return subprocess.CompletedProcess(args, 1, "  FAIL sourceAnalysis is marked incomplete; finish review\n", "")
+
+        def grid(*args, **kwargs):
+            order.append("grid")
+            return {"status": "pass"}
+
+        def distance(path, **kwargs):
+            order.append("distance")
+            self.assertEqual(kwargs["icon_type"], target_type)
+            result = {"status": "pass", "ok": True, "errors": [], "pairs": [],
+                      "svgSha256": adapter.sha256(path.read_bytes()), "profileSha256": digest}
+            result.update(spacing_override or {})
+            return result
+
+        def holes(*args, **kwargs):
+            order.append("holes")
+            if mutate:
+                emitted.write_text("changed after distance gate")
+            result = {"status": "pass", "processingErrors": [], "nativeSizeIssues": [],
+                      "hole_count": 0, "failed_hole_count": 0, "pinch_count": 0, "holes": [], "pinches": [],
+                      "configuredMinimumRadiusDesignUnits": profile["validation"]["minimumEnclosedRadius"],
+                      "configuredMinimumFillDepthDesignUnits": profile["validation"]["minimumSolidFillDepth"],
+                      "svgSha256": adapter.sha256(emitted.read_bytes()), "profileSha256": digest}
+            result.update(hole_override or {})
+            metrics = output / "qa/holes/circle-outline.metrics.json"
+            overlay = output / "qa/holes/circle-outline_holes.png"
+            adapter.write_json(metrics, result)
+            overlay.write_bytes(b"isolated overlay")
+            if missing_hole_evidence:
+                metrics.unlink()
+            return result
+
+        def keyshape(path, **kwargs):
+            order.append("keyshape")
+            self.assertEqual(kwargs["icon_type"], target_type)
+            self.assertEqual(kwargs["editable"], editable)
+            return {"status": "pass", "ok": True, "errors": [], "keyfit": {"status": "pass"},
+                    "svgSha256": adapter.sha256(path.read_bytes()),
+                    "editableSha256": adapter.sha256(editable.read_bytes()), "profileSha256": digest}
+
+        ink = {"status": "pass", "holeCount": 0, "pinches": []}
+        with patch.object(adapter.subprocess, "run", side_effect=structure), \
+                patch("check_svg_grid.inspect", side_effect=grid), \
+                patch("check_svg_spacing.check_file", side_effect=distance), \
+                patch("qa_overlays.process", side_effect=holes), \
+                patch("validate_icon_keyshapes.check_file", side_effect=keyshape), \
+                patch.object(adapter, "authored_ink_diagnostics", return_value=ink):
+            report = adapter.run_qa(document, editable, emitted, self.source, "normal", get_profile("normal"),
+                                    target_type, profile, output)
+        return order, report
+
+    def test_all_supported_trial_profiles_use_ordered_three_gates_and_both_aliases(self):
+        for profile in ("normal", "sub"):
+            with self.subTest(profile=profile):
+                order, report = self.run_mocked_gates(profile)
+                self.assertEqual(order, ["structure", "grid", "distance", "holes", "keyshape", "keyshape"])
+                self.assertTrue(report["mechanicalChecksPassed"])
+                self.assertEqual(report["visualApproval"], "pending")
+
+    def test_unresolved_failed_malformed_or_stale_distance_cannot_pass_trial(self):
+        for override in ({"status": "review", "ok": False}, {"status": "fail", "ok": False},
+                         {"status": "error", "ok": False, "errors": ["unreadable"]},
+                         {"ok": None}, {"pairs": None}, {"pairs": [{"status": "review"}]},
+                         {"svgSha256": "old"}, {"profileSha256": "old"}):
+            with self.subTest(override=override):
+                _, report = self.run_mocked_gates(spacing_override=override)
+                self.assertFalse(report["mechanicalChecksPassed"])
+
+    def test_edit_after_distance_invalidates_the_whole_trial_gate_set(self):
+        _, report = self.run_mocked_gates(mutate=True)
+        self.assertFalse(report["mechanicalChecksPassed"])
+        self.assertEqual(len(report["changedInputs"]), 1)
+
+    def test_missing_stale_or_contradictory_hole_evidence_blocks_trial(self):
+        for override in ({"svgSha256": "old"}, {"profileSha256": "old"},
+                         {"status": "fail"}, {"processingErrors": ["renderer error"]},
+                         {"failed_hole_count": 1}, {"pinch_count": 1},
+                         {"holes": [{"status": "fail"}]}, {"hole_count": 1},
+                         {"configuredMinimumRadiusDesignUnits": 0.1},
+                         {"configuredMinimumFillDepthDesignUnits": 0}):
+            with self.subTest(override=override):
+                _, report = self.run_mocked_gates(hole_override=override)
+                self.assertFalse(report["mechanicalChecksPassed"])
+        _, report = self.run_mocked_gates(missing_hole_evidence=True)
+        self.assertFalse(report["mechanicalChecksPassed"])
 
 
 if __name__ == "__main__":

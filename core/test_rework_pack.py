@@ -28,6 +28,20 @@ PROTOTYPE = '<svg xmlns="http://www.w3.org/2000/svg"><circle cx="4" cy="4" r="2"
 PRIOR = '<svg xmlns="http://www.w3.org/2000/svg"><path d="M1 1L2 2"/></svg>\n'
 
 
+def mock_hole_evidence(emitted, output, profile, **overrides):
+    """A passing mock must provide the same bound evidence as the real gate."""
+    output.mkdir(parents=True, exist_ok=True)
+    report = {"file": emitted.name, "source": str(emitted), "status": "pass", "nativeSizeIssues": [],
+              "holes": [], "pinches": [], "hole_count": 0, "failed_hole_count": 0, "pinch_count": 0,
+              "svgSha256": hashlib.sha256(emitted.read_bytes()).hexdigest(),
+              "profileSha256": hashlib.sha256(json.dumps(profile, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+              "configuredMinimumRadiusDesignUnits": profile["validation"]["minimumEnclosedRadius"],
+              "configuredMinimumFillDepthDesignUnits": profile["validation"]["minimumSolidFillDepth"], **overrides}
+    (output / f"{emitted.stem}.metrics.json").write_text(json.dumps(report))
+    (output / f"{emitted.stem}_holes.png").write_bytes(b"mock hole overlay")
+    return report
+
+
 class Links(HTMLParser):
     def __init__(self):
         super().__init__()
@@ -145,7 +159,7 @@ class RealCanvasGatePublicationTests(unittest.TestCase):
               patch.object(rework_pack.subprocess, "run", return_value=subprocess.CompletedProcess([], 0, "PASS", "")),
               patch.object(check_svg_grid, "inspect", return_value={"status": "pass"}),
               patch.object(check_svg_grid, "write_report", side_effect=report),
-              patch.object(qa_overlays, "process", return_value={"status": "pass"}),
+              patch.object(qa_overlays, "process", side_effect=lambda *args: mock_hole_evidence(args[0], args[1], profile)),
               patch.object(qa_overlays, "write_aggregate", side_effect=report),
               patch.object(rework_pack, "render_sheet", side_effect=lambda rows, output, sources=False: output.write_bytes(b"sheet"))):
             status = rework_pack.build(pack, rework_pack.load_pack(pack))
@@ -213,12 +227,28 @@ class ReworkPackTests(unittest.TestCase):
         self.rows = rework_pack.load_pack(self.pack)
         self.stack = ExitStack()
         self.addCleanup(self.stack.close)
-        self.profile = {"designCanvas": 48, "shipCanvas": 48, "designStroke": 4, "shipStroke": 4}
+        self.profile = {"designCanvas": 48, "shipCanvas": 48, "designStroke": 4, "shipStroke": 4,
+                        "validation": {"minimumEnclosedRadius": 2, "minimumSolidFillDepth": 1}}
         self.resolve = Mock(return_value=["resolved geometry"])
         self.structural = Mock(return_value=subprocess.CompletedProcess([], 0, "PASS\n", ""))
         self.grid = Mock(return_value={"status": "pass"})
         self.keyshape = Mock(return_value={"status": "pass"})
-        self.holes = Mock(return_value={"status": "pass"})
+        self.holes_result = lambda *args: mock_hole_evidence(args[0], args[1], self.profile)
+        self.holes = Mock(side_effect=self.holes_result)
+
+        def spacing_gate(emitted, *, icon_type, output_dir):
+            artifacts = output_dir / "files" / emitted.stem
+            artifacts.mkdir(parents=True, exist_ok=True)
+            overlay = artifacts / "spacing.svg"
+            overlay.write_text(SHIP)
+            report = {"file": emitted.name, "ok": True, "status": "pass", "errors": [], "pairs": [],
+                      "svgSha256": hashlib.sha256(emitted.read_bytes()).hexdigest(),
+                      "profileSha256": hashlib.sha256(json.dumps(self.profile, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode()).hexdigest(),
+                      "reportPath": str(artifacts / "spacing.json"), "overlayPath": str(overlay)}
+            (artifacts / "spacing.json").write_text(json.dumps(report))
+            return report
+        self.spacing_result = spacing_gate
+        self.spacing = Mock(side_effect=spacing_gate)
 
         def canvas_gate(emitted, *, editable, icon_type, output_dir):
             artifacts = output_dir / "files" / emitted.stem
@@ -258,6 +288,7 @@ class ReworkPackTests(unittest.TestCase):
             "check_keyfit": types.SimpleNamespace(process=self.keyshape, write_aggregate=Mock(side_effect=report("keyfit-report.html"))),
             "qa_overlays": types.SimpleNamespace(process=self.holes, write_aggregate=Mock(side_effect=report("hole-radius-report.html"))),
             "validate_icon_keyshapes": types.SimpleNamespace(check_file=self.canvas_gate),
+            "check_svg_spacing": types.SimpleNamespace(check_file=self.spacing),
             "lucide_reference": types.SimpleNamespace(reference_paths=lambda name: (Path(name), Path(name))),
         }
         self.modules = modules
@@ -302,6 +333,7 @@ class ReworkPackTests(unittest.TestCase):
         self.grid.assert_not_called()
         self.keyshape.assert_not_called()
         self.holes.assert_not_called()
+        self.spacing.assert_not_called()
         self.canvas_gate.assert_not_called()
         gallery = (self.pack / "review.html").read_text()
         self.assertIn("automated QA and visual-review verification were skipped", gallery)
@@ -425,10 +457,90 @@ class ReworkPackTests(unittest.TestCase):
     def test_any_grid_keyshape_or_hole_gate_failure_blocks_delivery(self):
         for gate, mock in (("grid", self.grid), ("keyshape", self.keyshape), ("holes", self.holes)):
             with self.subTest(gate=gate):
+                previous_effect = mock.side_effect
+                mock.side_effect = None
                 mock.return_value = {"status": "fail", "reason": "test failure"}
                 self.assertEqual(self.build(), 1)
                 self.assert_not_delivered(gate)
                 mock.return_value = {"status": "pass"}
+                mock.side_effect = previous_effect
+
+    def test_ordered_acceptance_gates_use_selected_profile(self):
+        events = []
+        self.spacing.side_effect = lambda *args, **kwargs: (events.append("spacing"), self.spacing_result(*args, **kwargs))[1]
+        self.holes.side_effect = lambda *args: (events.append("holes"), self.holes_result(*args))[1]
+        self.canvas_gate.side_effect = lambda *args, **kwargs: (events.append("keyshape"), self.canvas_gate_result(*args, **kwargs))[1]
+        for icon_type in ("normal", "sub", "custom"):
+            with self.subTest(icon_type=icon_type):
+                events.clear()
+                self.doc["iconType"] = icon_type
+                self.write_source()
+                self.assertEqual(self.build(), 0)
+                self.assertEqual(events, ["spacing", "holes", "keyshape", "keyshape"])
+                self.assertEqual(self.spacing.call_args.kwargs["icon_type"], icon_type)
+
+    def test_spacing_nonpass_missing_malformed_and_exception_block_delivery(self):
+        for result in (None, {}, {"status": "pass", "ok": True},
+                       {"status": "fail", "ok": False}, {"status": "review", "ok": False},
+                       {"status": "error", "ok": False}):
+            with self.subTest(result=result):
+                self.spacing.side_effect = None
+                self.spacing.return_value = result
+                self.assertEqual(self.build(), 1)
+                self.assert_not_delivered("spacing")
+        self.spacing.side_effect = RuntimeError("distance engine unavailable")
+        self.assertEqual(self.build(), 1)
+        self.assert_not_delivered("distance engine unavailable")
+
+    def test_spacing_evidence_changed_after_checks_blocks_delivery(self):
+        def change_report(*args):
+            for path in (self.pack / "qa").rglob("spacing.json"):
+                report = json.loads(path.read_text())
+                report.update(status="review", ok=False)
+                path.write_text(json.dumps(report))
+        self.modules["check_keyfit"].write_aggregate.side_effect = change_report
+        self.assertEqual(self.build(), 1)
+        self.assert_not_delivered("spacing")
+
+    def test_holes_missing_stale_or_contradictory_evidence_blocks_delivery(self):
+        for updates in ({"svgSha256": "stale"}, {"profileSha256": "stale"},
+                        {"status": "error"}, {"processingErrors": ["renderer failed"]},
+                        {"failed_hole_count": 1}, {"pinch_count": 1}, {"hole_count": 1},
+                        {"holes": [{"status": "fail"}], "hole_count": 1},
+                        {"configuredMinimumRadiusDesignUnits": 0.01},
+                        {"configuredMinimumFillDepthDesignUnits": 0}):
+            with self.subTest(updates=updates):
+                self.holes.side_effect = lambda *args: mock_hole_evidence(args[0], args[1], self.profile, **updates)
+                self.assertEqual(self.build(), 1)
+                self.assert_not_delivered("holes")
+        for result in (None, {}, {"status": "pass"}):
+            with self.subTest(result=result):
+                self.holes.side_effect = None
+                self.holes.return_value = result
+                self.assertEqual(self.build(), 1)
+                self.assert_not_delivered("holes")
+
+    def test_hole_metrics_and_overlay_are_rechecked_at_delivery(self):
+        for mutation in ("missing-metrics", "missing-overlay", "nonpassing-metrics", "stale-profile"):
+            with self.subTest(mutation=mutation):
+                def change_evidence(*args):
+                    for path in (self.pack / "qa").rglob("test-icon.metrics.json"):
+                        if mutation == "missing-metrics":
+                            path.unlink()
+                        elif mutation == "missing-overlay":
+                            path.with_name("test-icon_holes.png").unlink(missing_ok=True)
+                        else:
+                            report = json.loads(path.read_text())
+                            report.update({"status": "fail"} if mutation == "nonpassing-metrics" else {"profileSha256": "stale"})
+                            path.write_text(json.dumps(report))
+                self.modules["check_keyfit"].write_aggregate.side_effect = change_evidence
+                self.assertEqual(self.build(), 1)
+                self.assert_not_delivered("delivery:")
+
+    def test_raw_profile_change_cannot_be_hidden_by_cached_profile(self):
+        with patch.object(rework_pack, "profile_configuration_sha256", side_effect=["before", "before", "changed"]):
+            self.assertEqual(self.build(), 1)
+        self.assert_not_delivered("profile configuration changed")
 
     def test_geometry_resolution_failure_preserves_prior_destination(self):
         self.resolve.side_effect = ValueError("bad geometry")
@@ -463,7 +575,7 @@ class ReworkPackTests(unittest.TestCase):
     def test_source_changed_after_gate_checks_is_not_delivered(self):
         def mutate_source(*args):
             self.source.write_text(self.source.read_text() + "\n")
-            return {"status": "pass"}
+            return self.holes_result(*args)
         self.holes.side_effect = mutate_source
         self.assertEqual(self.build(), 1)
         self.assert_not_delivered("source changed")
@@ -471,7 +583,7 @@ class ReworkPackTests(unittest.TestCase):
     def test_emitted_geometry_changed_after_gate_checks_is_not_delivered(self):
         def mutate_svg(*args):
             (self.pack / "output" / "test-icon.svg").write_text("not reviewed")
-            return {"status": "pass"}
+            return self.holes_result(*args)
         self.holes.side_effect = mutate_svg
         self.assertEqual(self.build(), 1)
         self.assert_not_delivered("geometry changed")
@@ -479,7 +591,7 @@ class ReworkPackTests(unittest.TestCase):
     def test_design_alias_changed_after_gate_checks_is_not_delivered(self):
         def mutate_alias(*args):
             (self.pack / "output" / "test-icon-design.svg").write_text("not reviewed")
-            return {"status": "pass"}
+            return self.holes_result(*args)
         self.holes.side_effect = mutate_alias
         self.assertEqual(self.build(), 1)
         self.assert_not_delivered("svgSha256")
@@ -489,7 +601,7 @@ class ReworkPackTests(unittest.TestCase):
             for report in (self.pack / "qa").rglob("canvas-keyshape.json"):
                 report.unlink()
             return {"status": "pass"}
-        self.holes.side_effect = remove_evidence
+        self.modules["check_keyfit"].write_aggregate.side_effect = remove_evidence
         self.assertEqual(self.build(), 1)
         self.assert_not_delivered("delivery:")
 
@@ -500,7 +612,7 @@ class ReworkPackTests(unittest.TestCase):
                 content.update(status="error", ok=False, errors=["gate crashed"])
                 report.write_text(json.dumps(content))
             return {"status": "pass"}
-        self.holes.side_effect = mutate_evidence
+        self.modules["check_keyfit"].write_aggregate.side_effect = mutate_evidence
         self.assertEqual(self.build(), 1)
         self.assert_not_delivered("canvas/keyshape evidence is no longer passing")
 

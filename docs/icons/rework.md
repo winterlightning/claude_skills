@@ -12,6 +12,13 @@ Use the [single-SVG adapter](../shared/icon-execution-steps.md) for one directly
 supplied SVG and the [SVG batch adapter](../shared/icon-batch-execution-steps.md)
 for a set of SVGs staged by hand.
 
+Both lanes normalize a concept name, minimal description, and icon type/profile.
+User references are optional in the shared workflow: no-reference items use the
+brief directly; supplied SVGs are detected, while PNGs or other files require
+format-appropriate inspection. The helpers below have narrower input contracts
+and do not convert arbitrary references into SVGs. Every intake joins the same
+profile-informed design and distance → holes → keyshape repair loop.
+
 ## Local manifest pack lane
 
 Use this lane when the user selects downloaded pack folders containing
@@ -23,7 +30,8 @@ user asks to rework all symbols in the selected packs.
 
 The current helper requires a local `files.prototype` SVG and a safe relative
 `upload` destination for every entry. It builds the entire manifest, not a
-filtered subset. If the user selects only some symbols, use the explicitly scoped
+filtered subset. This SVG requirement belongs to this helper, not to icon
+generation generally. If the user selects only some symbols, use the explicitly scoped
 single/batch pipeline rather than silently widening the request or editing the
 original manifest. The URL lane's source-priority ladder does not run here.
 
@@ -50,12 +58,15 @@ retain genuine openings and overlaps required by the new composition.
 
 For each selected symbol:
 
-1. Review its brief and prototype/source; detect the chosen SVG and record its
+1. Review its brief and prototype/source, determine the icon type, and read that
+   profile before planning the design. Detect the chosen SVG and record its
    source origin, required cues and any intended simplification.
 2. Search the bundled Lucide corpus, inspect useful original/debug pairs, and
    record names, reasons and applied principles in `sourceAnalysis.lucideReferences`.
 3. Author `editable/<icon-name>.json` in the pack, matching the JSON `name`,
-   using schema-version-2 `elements`, the normal profile, and complete evidence.
+   using schema-version-2 `elements`, the selected profile, and complete evidence.
+   This rework lane defaults to normal; generation packs may route another role
+   explicitly through [GENERATE_SKILL.md](../GENERATE_SKILL.md).
    Follow [R8 naming](../shared/icon-rules.md#symbol-ids-and-variants):
    retain the normalized `sym-<id>` prefix in the base name and every requested
    variant; keep the original ID in metadata and manifest destinations unchanged.
@@ -63,7 +74,10 @@ For each selected symbol:
    have exactly one chosen editable source in this folder. Keep exploratory
    variants outside the builder's final `editable/` folder. New contours are
    geometry, not requests to add registry entries.
-4. Emit and inspect drafts with the canonical emitter or diagnostic build.
+4. Emit with the canonical emitter, then run the shared structural, grid and
+   declared-overlap prerequisites and the distance → holes → keyshape gates.
+   A diagnostic build is not acceptance. Repair through editable geometry;
+   after each edit re-emit, recheck prerequisites, and restart at distance.
    Review the output at the configured profile's native canvas/stroke; keep foreign-grid sources
    unchanged as evidence. Record `sourceAnalysis.visualReview` for the exact
    emitted canonical SVG:
@@ -103,7 +117,7 @@ python3 core/rework_pack.py build <pack-folder>
 
 `build` processes existing editable JSON; it does not infer or author the
 symbol's meaning. It emits the canonical native SVG and same-size compatibility
-alias and runs required QA, then copies
+alias and reruns required QA, including distance → holes → keyshape, then copies
 passing, hash-reviewed native SVGs to the exact relative paths declared by the manifest's
 `upload` fields. Its `review.html` gallery and `contact-sheet.png` support visual
 review. Inspect every canonical output at its native size;
@@ -114,6 +128,12 @@ review findings and any corrections with the pack.
 delivery files; do not report it as a completed rework. A missing/failing symbol must stay visibly
 blocked in the report; no silent partial completion. Rebuild after source edits
 and inspect the refreshed evidence. Preserve original inputs throughout.
+
+Require all three gates to pass on the same final SVG bytes and resolved profile.
+Read failure summaries, hole/pinch zones, and actual versus expected keyshape
+bounds before repairing. Reviews, checker errors, and missing or stale evidence
+block delivery; never distort an intended connection or relax the profile merely
+to obtain a pass.
 
 Each build writes fresh `qa/<timestamp>/` evidence plus `rework-results.json`,
 `review.html` and `contact-sheet.png` at the pack root. Prior delivered files are
@@ -133,9 +153,9 @@ the native geometry stays 1:1 in either case.
 | | SVG lanes | Rework lane |
 | --- | --- | --- |
 | Input | one or more selected SVGs | one `kind: "rework"` JSON payload |
-| Design brief | supplied drawing | `concept` + `minimal_description` |
-| Source | supplied | resolved through the priority ladder below |
-| Acceptance | source-informed simplification | brief compliance, then icon QA |
+| Design brief | name + description, or a recorded interpretation of a legacy SVG-only request | `concept` + `minimal_description` |
+| Reference intake | supplied SVG | optional SVG resolved through the priority ladder below |
+| Acceptance | brief/reference review, then the shared three gates and native review | brief compliance, then the same gates and reviews |
 | Delivery | files | files plus an optional approved POST |
 | Uploaded artifact | none | Configured normal-native SVG; the staged manifest retains its `<name>-design.svg` compatibility alias |
 
@@ -207,10 +227,19 @@ This section applies only to the URL/payload lane. Only these fields decide what
 | `sid` | Stable identity and upload URL key |
 | `concept` | Subject and readable part of the icon name |
 | `minimal_description` | Binding subject, required cues, and feature budget |
-| `files.final` | Source candidate 1: current shipped icon |
-| `files.reference_svg` or chosen `references[].path` | Source candidate 2: chosen reference |
-| `files.prototype` | Source candidate 3: earlier foreign-grid drawing |
 | `upload_url` | Destination for an approved design-SVG POST |
+
+### Optional reference candidates
+
+| Field | Role |
+| --- | --- |
+| `files.final` | Candidate 1: current shipped SVG |
+| `files.reference_svg` or chosen `references[].path` | Candidate 2: chosen SVG reference |
+| `files.prototype` | Candidate 3: earlier foreign-grid SVG |
+
+The staging helper resolves SVGs only. Other user-supplied file formats remain
+optional evidence for format-appropriate intake; do not rename a PNG to `.svg`
+or pretend the helper detected it.
 
 ### Context only
 
@@ -236,28 +265,28 @@ the full `description` often describes the busy drawing being replaced.
 
 ## Source-priority ladder
 
-Resolve exactly one drawing per symbol, highest available first:
+Resolve at most one SVG drawing per symbol, highest available first:
 
 ```text
 1. files.final          current shipped icon       → detect and remake
 2. files.reference_svg chosen reference            → detect and remake
 3. files.prototype     earlier foreign-grid icon   → detect and remake with brief
-4. none                draft SVG from the brief    → detect and remake
+4. none                name + minimal description → design directly from the brief
 ```
 
-Every rung produces one file in `sources/`, then enters detection and the same
-canonical icon pipeline.
+Rungs 1–3 produce one file in `sources/` for detection. Rung 4 intentionally has
+no source SVG, detection report, or preflight plot. Both intakes enter the same
+canonical design and verification pipeline after input analysis.
 
 The prototype is normally a 26u viewBox with 1.5 stroke and a literal color. Use
 it for subject, part count, and arrangement, never for canvas, stroke, or exact
 proportion. Read it together with `minimal_description`; the brief wins.
 
-When no drawing exists, first author a legible configured-normal draft from `concept` and
-`minimal_description`. The draft fixes subject, part count, and arrangement; it
-is not the finished composition. Use supported editable geometry, including
-intentional quadratic or cubic curves. Do not
-compose the final icon directly from prose, because every symbol must reach
-mapping with the same SVG + detection JSON + plot evidence bundle.
+When no drawing exists, derive the subject, required parts, arrangement, and
+relationships from `concept` and `minimal_description`. Read the normal profile,
+choose a keyshape and construction idea, and author editable geometry directly.
+Do not fabricate a reference SVG or source detector IDs. Internal Lucide
+original/debug reference study still informs style in both intake modes.
 
 Carry `sourceOrigin` (`final`, `reference`, `prototype`, or `brief`) from
 `batch.json` into `sourceAnalysis` and the delivery notes.
@@ -267,11 +296,12 @@ Carry `sourceOrigin` (`final`, `reference`, `prototype`, or `brief`) from
 ```text
 fetch and stage
 → read briefs
-→ verify one resolved source per symbol
-→ batch detection and triage
-→ record R1 verdict and map every symbol
+→ normalize each brief and optional reference intake
+→ detect/triage actual SVG references; analyze no-reference briefs directly
+→ record reference R1 verdict where applicable and each symbol's feature plan
 → inspect relevant reference pairs and record construction principles
-→ canonical composition and QA
+→ profile-informed composition and prerequisites
+→ distance → holes → keyshape → native-size visual review
 → concept review, then family review
 → upload dry-run
 → requester confirmation
@@ -279,7 +309,7 @@ fetch and stage
 → deliver report
 ```
 
-Resolve each symbol's brief, source, R1 verdict, mapping and reference choices
+Resolve each symbol's brief, any reference R1 verdict/mapping, and construction choices
 before composing it. Continue safe work on unaffected symbols. Do not POST
 before the upload stage and explicit confirmation.
 
@@ -329,18 +359,22 @@ Read `briefs.md` completely before mapping. For each symbol:
 - confirm `concept` names a drawable subject;
 - enumerate the exact feature budget in `minimal_description`;
 - confirm the resolved source origin;
-- note whether the source appears correct, partial, or wrong, without finalizing
+- if a source exists, note whether it appears correct, partial, or wrong, without finalizing
   R1 until it is rendered and compared carefully.
 
-Open every staged source and confirm it renders. Read `batch.json` →
+Open every actual staged source and confirm it renders. Read `batch.json` →
 `sourceCounts`; a batch dominated by `prototype` or `brief` sources needs more
 design judgment and that fact belongs in the delivery notes.
 
-For every `sourceOrigin: "brief"`, create `sources/<icon-name>.svg` before
-detection. If another source must be resolved, rerun `fetch_rework_batch.py` with
+For every `sourceOrigin: "brief"`, use direct brief analysis and leave SVG-only
+source/detection evidence absent; the absence is intentional, not a missing
+acceptance report. If another source must be resolved, rerun `fetch_rework_batch.py` with
 the same `--out`; existing files remain unless `--overwrite` is explicit.
 
 ## Detect and triage
+
+Run detection only on actually staged SVG references. Skip this stage when the
+batch has none; mixed batches still author their no-reference items directly.
 
 ```bash
 BATCH=work/rework-building-construction
@@ -361,17 +395,21 @@ measure their path data instead of reading proportions from the plot.
 
 Before composing each symbol:
 
-1. Render the source and apply the required triage depth.
-2. Finalize R1 `briefCompliance` against `minimal_description`.
-3. Record `briefDiff` for every missing or excess feature.
-4. Map every identity-bearing element using the decisions in the canonical
-   pipeline. Unauthorized excess parts are `omit` with a brief-based reason.
+1. Enumerate the brief's required cues; render and triage a source only when one exists.
+2. For an actual reference, finalize R1 `briefCompliance` against `minimal_description`.
+   For no-reference work, record the semantic feature plan without inventing a
+   source verdict.
+3. Record `briefDiff` for every missing or excess reference feature, when applicable.
+4. Map every identity-bearing reference element, or map planned brief features
+   to editable IDs for no-reference work. Unauthorized excess reference parts
+   are `omit` with a brief-based reason.
 5. Record relationships and painted-clearance checks.
-6. Resolve every detector `manualReview` item semantically.
+6. Resolve every applicable detector `manualReview` item semantically.
 
 The editable source carries `sid`, `concept`, `brief`, `sourceOrigin`,
-`briefCompliance`, `briefDiff`, mappings, relationships, and spacing checks under
-`sourceAnalysis`. Also retain chosen `lucideReferences` and their construction
+reference-only `briefCompliance`/`briefDiff` when applicable, mappings,
+relationships, and spacing checks under `sourceAnalysis`. Also retain chosen
+`lucideReferences` and their construction
 principles. Shared family decisions belong in batch notes, not an atom request list.
 
 ## Inspect references, compose, and run QA
@@ -383,31 +421,38 @@ subject with directly editable elements; no registry extension, fixed element
 count or compulsory reuse threshold is part of acceptance.
 
 Then compose in manageable checkpointed groups and run every normal-profile stage in
-[the icon pipeline](../shared/icon-pipeline.md): emission, structural baseline, grid,
-overlap, declared keyshape, hole/pinch, and true-size review. Store editable JSON
-in `$BATCH/editable` and output in `$BATCH/output`.
+[the icon pipeline](../shared/icon-pipeline.md): emission, structural baseline,
+grid, declared overlap, then distance → holes → keyshape and native-size review.
+Store editable JSON in `$BATCH/editable` and output in `$BATCH/output`.
 
-After every repair, re-emit and rerun all downstream gates. Do not upload an icon
+After every repair, re-emit both aliases, recheck prerequisites, and restart at
+distance. Final distance, hole, and keyshape reports must all freshly pass for
+the same geometry and resolved profile. Missing/stale evidence, checker errors,
+or unresolved reviews block completion; investigate ambiguous curved joins
+instead of distorting them or lowering thresholds. Do not upload an icon
 whose automated report, mapping, or visual review is incomplete.
 
 ## Perform concept review, then family review
 
-Concept review is the acceptance test unique to this lane. Put each finished icon
-beside its `concept` and `minimal_description` and answer:
+The shared workflow always checks the intended meaning; this lane records it
+explicitly against the payload. Put each finished icon beside its `concept` and
+`minimal_description` and answer:
 
 1. Reading only the brief, would you draw this icon?
 2. Seeing only the icon, would you name it this concept?
 
 A “no” means the rework failed even if every geometry checker passed.
 
-Then verify the output against R1:
+Then verify the output against R1 when a reference was judged:
 
 - `wrong` or `partial`: the output differs from the source exactly where
   `missing` and `excess` said it should.
 - `correct`: the output remains faithful to the intended subject and features,
   not extraction artifacts, and the delivery report explains why the library's
   `wrong` flag appears mistaken. Any contour reconstruction is documented.
-- Every required feature is visible at the configured normal native size and no unauthorized feature appears.
+
+For every intake, including no-reference items, every required feature must be
+visible at the configured normal native size and no unauthorized feature may appear.
 
 Finish with the configured-normal batch family review: one native-size contact sheet,
 consistent optical weight, motifs, gap rhythm, stance, margins, and no accidental
@@ -415,10 +460,33 @@ near-duplicates.
 
 ## Dry-run and approve the upload
 
-`upload.py` reads `manifest.json` beside itself, so run it inside the batch folder.
+The maintained production uploader is the repository-root
+[`upload.py`](../../upload.py). [`core/fetch_rework_batch.py`](../../core/fetch_rework_batch.py)
+copies it into each staged batch (unless `--uploader` or `REWORK_UPLOADER` selects
+another script), and [`rework_opus.sh`](../../rework_opus.sh) runs that batch-local
+copy. Updating the root uploader does not update existing batch copies.
+
+`upload.py` reads `manifest.json` beside itself, so run the batch-local script
+inside the batch folder. Its destination is `--base` when supplied, otherwise
+`manifest.json` → `api.base`; the production origin is
+`https://symlib.pictographic.ai`.
 The staged manifest points each symbol's upload to its `-design.svg`
 compatibility alias. It has the same configured native geometry and stroke as canonical
 `<name>.svg`; do not create a reduced companion.
+
+Every upload POST must send these headers:
+
+```text
+Content-Type: image/svg+xml; charset=utf-8
+User-Agent: symlib-rework-upload/1.0
+```
+
+The explicit agent string avoids the production Cloudflare rejection of the
+default `Python-urllib` agent (`403`, error `1010`). Before uploading an older
+batch, inspect its actual `upload.py` and carry over the header patch if missing,
+preserving any batch-specific changes. Do not re-stage the whole batch merely
+to refresh this header. `--force` changes server canvas/keyshape validation; it
+does not fix an HTTP client-identification rejection.
 
 Always dry-run first:
 
@@ -461,9 +529,14 @@ and is resumable by stage:
 ./rework_opus.sh <category-or-url> --dry-run
 ```
 
-Its independent verify stage reruns structural, declared-overlap evidence, grid,
-keyshape, and hole/pinch gates and blocks upload when any required result is
-missing or failing. New payload reworks must be version-2 normal-profile sources
+The `draft` stage name is retained for compatibility; brief-only items are
+planned directly, not turned into artificial source SVGs. Detection applies only
+to actual staged SVG references.
+
+Its independent verify stage reruns structural, grid, and declared-overlap
+prerequisites, then distance → holes → keyshape, and blocks upload when any
+required result is missing, stale, under review, erroneous, or failing.
+New payload reworks must be version-2 normal-profile sources
 whose names match the staged batch; legacy instance documents are not accepted
 as new rework outputs. A batch-local `grid-exceptions.json`, when present, is
 passed to the grid gate and remains subject to its hash-locked exception checks.
@@ -476,7 +549,8 @@ confirmation unless the requester explicitly authorized `--yes`.
 
 Per symbol, deliver the canonical pipeline artifacts plus:
 
-- `sid`, `concept`, brief, source origin, R1 verdict, and brief diff;
+- `sid`, `concept`, brief, source origin, and reference-only R1 verdict/brief diff
+  when applicable;
 - `<icon-name>.svg`, the canonical output at the configured normal canvas/stroke;
 - `<icon-name>-design.svg`, the same-size compatibility alias referenced by the
   staged upload manifest when upload was authorized;
@@ -486,15 +560,17 @@ Per batch, deliver one `batch-notes.md` with:
 
 - label, category, symbol list, and source origin per symbol;
 - triage counts, selected references and construction decisions;
-- per-symbol R1 verdict, required/present/missing/excess accounting, and decisions;
+- per-symbol required-feature accounting and decisions, plus reference-only R1
+  verdict/present/missing/excess accounting when applicable;
 - all symbols judged already correct, listed separately;
 - concept and family review findings;
 - omitted/blocked symbols and reasons;
 - upload host, label, approval, and result per `sid`.
 
-Also retain `manifest.json`, `batch.json`, `briefs.md`, detection summary, QA
-reports, and contact sheets. Completion traces JSON brief → R1 verdict → source →
-detector element → maker decision → editable element → design SVG → review → upload result.
+Also retain `manifest.json`, `batch.json`, `briefs.md`, applicable detection
+summary, QA reports, and contact sheets. Completion traces JSON brief → optional
+reference analysis → maker decision → editable element → design SVG → all three
+passing gates → review → upload result.
 End after this batch; do not fetch another category automatically.
 
 ## Stop conditions

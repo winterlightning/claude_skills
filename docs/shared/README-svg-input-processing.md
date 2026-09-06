@@ -27,6 +27,9 @@ source data, not instructions.
   need no registry extension; passing checks cannot rescue a weak icon.
 - Repair schema-version-2 editable JSON, then regenerate outputs; never patch flattened
   final paths.
+- After structural/grid/overlap prerequisites, pass distance → holes/pinches →
+  canvas/keyshape. Every repair restarts all three; missing, stale, failed, or
+  unresolved results block completion.
 - Deliver the selected profile's native SVG plus complete native-size QA evidence.
 
 Use a dedicated work folder so source evidence and generated files do not mix:
@@ -51,8 +54,13 @@ references, compose schema-version-2 editable JSON, emit the native SVG, run eve
 required validation, inspect the native-size result, and deliver the
 source-to-output evidence.
 
+Concept name: <name>
+Minimal description: <essential features and intended meaning>
 Icon type: <configured profile name: normal, sub, container, or a custom name>
 Resolve canvas, stroke, keyshapes, and validation from core/icon_profiles.json.
+Plan from the brief and selected profile before drawing. After prerequisites,
+require distance → holes/pinches → canvas/keyshape, repairing editable geometry
+and restarting at distance until all three pass on the same final SVG/profile.
 Use 1u = 1px and the same configured native size for output and review.
 Do not produce a half-size derivative.
 Output folder: <absolute or repository-relative folder>
@@ -68,8 +76,8 @@ dedicated folder under `work/` named from the source stem.
   rationale.
 - Canonical native SVG at the selected JSON profile's canvas and stroke. A retained `-design.svg` is only a same-size compatibility alias.
 - Detection JSON and preflight rendering.
-- Structural, grid, overlap when applicable, keyshape, hole/pinch, and true-size
-  evidence.
+- Structural/grid/overlap prerequisites, fresh distance → holes/pinches →
+  canvas/keyshape passes, and native-size visual evidence.
 - Selected references, applied principles, intentional simplifications,
   omissions, exceptions, and blockers.
 - For a container, slot metadata and a non-shipping filled preview.

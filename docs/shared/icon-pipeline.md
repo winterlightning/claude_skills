@@ -2,7 +2,9 @@
 
 This document is the single operational sequence for making, checking, repairing,
 and delivering Unlimited Shapes icons. The lane adapters link here and describe
-only what changes for their input:
+only what changes for their input. There are two intake modes: **concept name +
+minimal description**, either **without references** or **with optional SVG,
+PNG, or other reference files**. Both join the same design and verification loop:
 
 - [icon-execution-steps.md](icon-execution-steps.md) — one supplied SVG.
 - [icon-batch-execution-steps.md](icon-batch-execution-steps.md) — a staged SVG batch.
@@ -59,7 +61,7 @@ profile throughout the pipeline.
 
 | Type | Numeric profile | Automated path | Additional review and delivery |
 | --- | --- | --- | --- |
-| `normal` | [Normal profile](../icons/profile.md) | Profile-aware emission, structural, grid, overlap, keyshape, and hole/pinch QA | [Normal rules](../icons/rules.md) |
+| `normal` | [Normal profile](../icons/profile.md) | Profile-aware emission; structural/grid/overlap prerequisites; distance → holes → keyshape gates | [Normal rules](../icons/rules.md) |
 | `sub` | [Sub profile](../sub-icons/profile.md) | The same core path using the sub profile | [Sub rules](../sub-icons/rules.md) |
 | `container` | [Container profile](../container-icons/profile.md) | The same outer gates plus declared slot and clearance validation | [Empty and filled review](../container-icons/rules.md#filled-preview) |
 
@@ -72,36 +74,44 @@ accepted-profile insert into the slot without scaling.
 ## Workflow map
 
 ```mermaid
-flowchart LR
-    A[Choose input lane and icon type] --> B[Resolve source SVG and detect geometry]
-    B --> C[Review evidence and map source elements]
-    C --> D[Choose the strongest natural silhouette]
-    D --> E[Inspect relevant original and debug references]
-    E --> H[Compose exact editable elements]
-    H --> I[Emit native-size SVG]
-    I --> J[Structural validation]
-    J --> K[Grid gate]
-    K --> L[Overlap review]
-    L --> M[Native canvas and declared keyshape gate]
-    M --> N[Hole and pinch gate]
-    N --> O[True-size visual review]
-    O --> P{Looks good and all required gates pass?}
-    P -- No --> Q[Repair editable geometry]
-    Q --> D
-    P -- Yes --> R[Deliver]
-    R --> S[Rework lane only: dry-run, approval, upload]
+flowchart TD
+    A[Concept name + minimal description] --> B{User references supplied?}
+    B -- No --> C[Analyze the brief and required features]
+    B -- Yes --> D[Analyze the brief and inspect selected references]
+    C --> E[Choose icon type and read its JSON profile]
+    D --> E
+    E --> F[Plan silhouette, keyshape and Lucide-style construction]
+    F --> G[Author editable JSON and emit native SVG]
+    G --> H[Structural, grid and declared-overlap prerequisites]
+    H --> I[1. Distance gate]
+    I -- Pass --> J[2. Hole and pinch gate]
+    J -- Pass --> K[3. Canvas and keyshape gate]
+    K -- Pass --> L[Native-size visual review]
+    I -- Violation --> M[Read failing pair or zone; repair editable geometry]
+    J -- Violation --> M
+    K -- Violation --> M
+    L -- Revise --> M
+    H -- Violation --> M
+    M --> G
+    L -- Pass --> N[Deliver only fresh passing outputs]
 ```
 
 The required order is:
 
 ```text
-route → resolve source → detect → map → inspect relevant references → compose exact elements → emit → structural
-→ grid → overlap → native canvas/keyshape → holes/pinches → true-size review → deliver
+analyze brief (+ supplied references) and choose type
+→ read profile and plan the icon → author editable geometry → emit
+→ structural/grid/overlap prerequisites
+→ distance → holes/pinches → canvas/keyshape → native-size review → deliver
 ```
 
 `validate_icon.py` includes some spacing and keyshape checks. Treat those as an
-early structural baseline; the grid gate still blocks the later rendered overlap,
-keyshape, and negative-space acceptance gates.
+early baseline, not a substitute for the three ordered acceptance gates. Repair
+the first failing gate, regenerate both aliases, and restart at distance after
+rechecking the prerequisites. A batch runner may collect later diagnostics on a
+failed icon; those findings never authorize delivery. Any geometry or effective
+profile change invalidates all three earlier passes. Errors, unresolved reviews,
+missing inputs, and stale evidence block acceptance; see [Repair loop](#repair-loop).
 
 ## Suggested artifact layout
 
@@ -109,8 +119,8 @@ Keep source evidence, editable composition, emitted output, and QA separate:
 
 ```text
 work/<job>/
-├── sources/
-├── detection/
+├── sources/              # only when user references exist
+├── detection/            # only for supplied SVG references
 │   ├── <name>-shapes.json
 │   └── <name>-preflight.png
 ├── editable/
@@ -121,8 +131,9 @@ work/<job>/
 └── qa/
     ├── grid/
     ├── overlap/
-    ├── keyshape/
+    ├── spacing/
     ├── holes/
+    ├── keyshape/
     └── previews/
 ```
 
@@ -135,17 +146,37 @@ python3 -m pip install -r requirements.txt
 
 ## 0. Route the request
 
-Choose exactly one input lane:
+Normalize each selected input to a concept name, minimal description, required
+identity-bearing features, any supplied symbol ID, intended role, and a list of
+user reference files (empty is valid). Preserve supplied wording and IDs. For
+older reference-only requests, derive a short brief from the selected evidence
+and record that it is inferred; ask only if ambiguity would change the subject.
+Do not add files or variants to the requested scope.
+
+Choose the intake mode and, only when needed, a staging adapter:
 
 | Input | Adapter | Intake script |
 | --- | --- | --- |
-| Subject or short description without an SVG | Selected type's skill and the brief-only intake below | none |
+| Name + minimal description, no references | Selected type's skill and brief-only intake below | none |
+| Name + minimal description + PNG/other files, or mixed references for one subject | Selected type's skill and reference-backed intake below | format-appropriate inspection; SVG detection only for actual SVGs |
 | One selected SVG | [single-icon adapter](icon-execution-steps.md) | none |
 | Explicit staged set of SVGs | [batch adapter](icon-batch-execution-steps.md) | none |
 | Symbol rework JSON | [rework adapter](../icons/rework.md) | `core/fetch_rework_batch.py` |
 | Local manifest-based rework pack | [local pack lane](../icons/rework.md#local-manifest-pack-lane) | `core/rework_pack.py inspect`, then `prepare` |
 
-Then declare exactly one `iconType` per editable icon. Select its keyshape from
+The SVG and manifest helpers have narrower input contracts; a pack requiring a
+prototype is not a requirement for ordinary brief-only authoring. A batch may
+contain either intake mode, but each icon keeps its own brief and evidence.
+
+Analyze the intended role, then declare exactly one `iconType` per editable icon.
+Use the user-selected type when specified; otherwise choose from meaning and
+intended use, not the source file's canvas or final bounds. Read that type's
+resolved JSON profile **before designing the icon**: canvas, stroke, keyshapes,
+grid, distance floor, enclosed-radius/fill-depth thresholds, and any protected
+slot. Record the idea: dominant silhouette, essential parts, intended joins and
+openings, selected keyshape, and why it preserves recognition.
+
+Select its keyshape from
 the resolved profile's keyshapes (built-in `profile.md` or generated aggregate)
 by visually inspecting the dominant whole-icon
 silhouette at its native size. A small wheel, button, window,
@@ -153,21 +184,40 @@ badge, or inset does not choose the whole icon's keyshape.
 
 ### Brief-only intake
 
-When the user supplies a subject without an SVG, record the description and its
-required cues. Create a preliminary `sources/<name>.svg` on the selected design
-profile to establish subject, part count, and arrangement. This is an authored
-draft, not an external reference or final composition. Follow shared geometry
-and paint conventions without adding details absent from the request.
+Use the name and minimal description directly to identify the subject, essential
+parts, and arrangement. Record `sourceAnalysis.sourceOrigin: "brief"`,
+`conceptName`, `minimalDescription`, and `references: []` in editable JSON. Plan
+semantic groups with your own descriptive IDs; do not invent detector IDs or
+pretend a drawing was supplied.
 
-Record `sourceOrigin: "brief"` and the user description under `sourceAnalysis`,
-then detect and map the draft using the same stages below. For several requested
-subjects, create one draft per subject and use the batch adapter after staging.
-The symbol-library rework adapter adds its own brief-compliance and upload
-contract only when the input is an actual rework payload.
+No preliminary source SVG, detector run, or preflight plot is required. Proceed
+to the shared design stages below and author the actual editable icon. A sketch
+may help reasoning, but is a draft, not independent reference evidence.
+
+### Reference-backed intake
+
+Record `sourceAnalysis.conceptName`, `minimalDescription`, and `references` with
+the selected files and their role in understanding the subject. Preserve adapter
+provenance fields such as `sourceOrigin`, `symbolId`, or `sid`. Inspect only the
+references placed in scope:
+
+- Supplied SVG: run the detector below and review its source, report, and plot.
+- PNG/raster: inspect the visible silhouette, parts, openings, and cutouts;
+  record semantic regions, not fabricated SVG element IDs.
+- Other files: inspect the relevant content using an appropriate reader. If
+  essential content cannot be inspected, report the limitation; do not silently
+  substitute a different reference or claim it was reviewed.
+
+The brief defines the intended subject; references provide evidence, not a demand
+to reproduce their grid, stroke, defects, or missing extraction geometry. Resolve
+material conflicts before authoring. Bundled Lucide original/debug files are
+shared **style and construction references**, not required user-supplied input;
+their use below applies to both intake modes.
 
 ## 1. Detect the source before composition
 
-For one SVG:
+This stage applies **only when a selected user reference is an SVG**. Skip it for
+brief-only and non-SVG reference inputs. For one supplied SVG:
 
 ```bash
 python3 core/detect_svg_shapes.py <source.svg> \
@@ -193,7 +243,8 @@ Detection does not convert a sub or container into a normal icon.
 
 ## 2. Review evidence and map the source
 
-Inspect the source rendering, detection JSON, and preflight plot together. Review:
+For a supplied SVG, inspect its rendering, detection JSON, and preflight plot
+together. Review:
 
 - `summary.readyForIconMaker` or the batch status.
 - Every source element ID.
@@ -208,7 +259,9 @@ openings or overlaps still needed in the new composition. Plan reconstruction
 of the complete intended form; do not copy the extraction artifact into the
 standalone result. Keep the source SVG unchanged as evidence.
 
-For every identity-bearing element or semantic group, record one mapping decision:
+For every intake mode, map each identity-bearing feature or semantic group to the
+planned editable geometry. Use observed reference elements when available, or
+brief-derived features when not. Record one mapping decision:
 
 - `rebuild` into exact editable geometry
 - `preserve` a source form that already fits the brief and current profile
@@ -217,7 +270,9 @@ For every identity-bearing element or semantic group, record one mapping decisio
 - `merge`
 - `manual`
 
-Carry the detector IDs and reasons into `sourceAnalysis.mappings`. Also record
+Carry actual detector IDs and reasons into `sourceAnalysis.mappings` when they
+exist; otherwise use explicitly labeled semantic features or image regions.
+Never require fictitious detection evidence for a text or PNG brief. Also record
 `sourceAnalysis.relationships` for `connected`, `ordinary-distinct`,
 `visual-opening`, and `intentional-overlap` pairs. Each identity-bearing opening
 needs a `spacingChecks` entry with the measured centerline distance, painted
@@ -239,7 +294,9 @@ do not use it as a delivery waiver.
 
 ## 3. Select references and construction principles
 
-Choose the cleanest recognizable form from the brief and source evidence.
+Choose the cleanest recognizable form from the brief, selected profile, and any
+source evidence. Initialize the design idea before writing geometry: silhouette,
+essential parts, relative proportions, keyshape, and spacing budget.
 Search for a relevant Lucide subject or construction family, then inspect the
 original/debug pair and its exact geometry:
 
@@ -279,11 +336,13 @@ Render and inspect the composition at its declared native size before finalizing
 the keyshape. Fit by recomposing editable coordinates.
 Never globally scale or patch flattened output paths.
 
-Exact edge/cardinal contact is the default keyfit mode. Intrinsically thin/sparse
-subjects may declare `keyfitCheck.mode: "optical"`, a meaningful `rationale`, and
-design-unit `paintedBounds: [left, top, right, bottom]`. Validate measured bounds
-against that declaration and token containment; do not distort a natural glyph
-or waive overflow to achieve fit. See shared R1 for this reviewed exception.
+Exact edge/cardinal contact is the default keyfit mode. When the subject's meaning
+or reference-supported proportions make every exact keyshape fit unnatural, the
+AI may approve a [keyshape exception](#keyshape-exceptions) using the existing
+`keyfitCheck.mode: "optical"`, a meaningful `rationale`, and design-unit
+`paintedBounds: [left, top, right, bottom]`. This is not limited to thin glyphs.
+Validate measured bounds against that declaration and the containing token;
+do not distort the subject just to reach all four edges.
 
 Author and repair the editable JSON directly. Before validation, complete
 `sourceAnalysis` with the source mapping, relationship, painted-clearance, and
@@ -354,37 +413,7 @@ re-emit, and rerun; do not blindly round flattened paths.
 One invocation uses one profile. Separate mixed-type batches before running this
 gate.
 
-## 8. Review declared overlaps and spacing
-
-For normal-profile SVGs, the disconnected-stroke spacing check is required even
-when the editable source has no declared spacing pairs:
-
-```bash
-python3 core/check_svg_spacing.py <native-svg-or-flat-folder> \
-  --icon-type normal --output-dir <qa-folder>/spacing
-```
-
-The current normal48 setting requires 8u between centerlines, equivalent to 4u
-between ink edges with its 4u stroke. It comes from the profile JSON; this update
-does not impose that number on sub or container profiles. The standalone command
-can check those explicitly with `--icon-type` and their own configured floors.
-
-Read `spacing-results.json`, `spacing-report.html`, and each fresh `files/` report
-and native-size colored `spacing.svg`. Each disconnected `M` contour is identified,
-true centerline-connected contours are grouped, and every separate component pair
-has a measured centerline distance, ink clearance, nearest points and verdict.
-Ink contact alone does not join components. Curves use bounded approximation;
-ambiguous contact or threshold cases require review. Exit `1` includes violations,
-review cases and errors; require exit `0` and complete passing report coverage.
-Do not skip an unsupported SVG, relax a threshold, or add a spurious connection to
-make it pass. Repair editable geometry, re-emit and rerun all affected QA.
-
-`validate_icon.py` also runs this numerical check for normal icons after verifying
-both emitted aliases match canonical geometry, so existing pack and wrapper
-structural gates reject hidden subpath spacing failures. The standalone command
-provides per-pair diagnostics without needing editable metadata. Neither route
-approves intentional connections semantically or checks internal gaps in one
-connected shape; keep the declared overlap and hole/pinch reviews below.
+## 8. Review declared overlaps
 
 For each editable icon with two-element spacing checks:
 
@@ -397,11 +426,77 @@ Inspect every generated panel. The command visualizes transformed paths and
 envelopes using dense centerline sampling plus stroke radius rather than an exact
 Boolean stroke outline; it does not make the final visual decision for you. If the
 source has no two-element spacing checks, “nothing to audit” is expected rather
-than proof of a failure.
+than proof of a failure. This review does not replace any acceptance gate below.
 
-## 9. Validate the declared painted keyshape
+## 9. Pass the distance gate
 
-`validate_icon_keyshapes.py` is a mandatory, completion-blocking gate for every
+**Gate 1 of 3, for every profile and both intake modes.** Check the actual native
+SVG even when the editable source has no declared spacing pairs:
+
+```bash
+python3 core/check_svg_spacing.py <native-svg-or-flat-folder> \
+  --icon-type <profile-name> --output-dir <qa-folder>/spacing
+```
+
+The current normal48 setting requires 8u between centerlines, equivalent to 4u
+between ink edges with its 4u stroke. It comes from the profile JSON; this update
+does not impose that number on sub or container profiles. Always pass the selected
+profile explicitly, including custom types, and use its own configured floor.
+
+Read `spacing-results.json`, `spacing-report.html`, and each fresh `files/` report
+and native-size colored `spacing.svg`. Each disconnected `M` contour is identified,
+true centerline-connected contours are grouped, and every separate component pair
+has a measured centerline distance, ink clearance, nearest points and verdict.
+Ink contact alone does not join components. Curves use bounded approximation;
+ambiguous contact or threshold cases require review. Exit `1` includes violations,
+review cases and errors; require exit `0` and complete passing report coverage.
+Do not skip an unsupported SVG, relax a threshold, or add a spurious connection to
+make it pass. Read the failing contour/component IDs, nearest points, measured
+distance/ink clearance, required minimum, and diagnostic SVG. Use these to locate
+the actual gap; repair editable geometry, re-emit, recheck prerequisites, and
+restart at this gate. Only a passing result advances to the hole gate.
+
+The current engine can leave curved contacts unresolved, including a curve
+endpoint meeting the interior of a line. Connected artwork may then be reported
+as multiple components and produce an apparent distance violation. Investigate
+such topology before moving paint. A `review`, unsupported geometry, or suspected
+checker defect is a blocker to resolve, not permission to distort an intended
+join, force a pass, or claim the icon is compliant.
+
+`validate_icon.py` also runs this numerical check for normal icons after verifying
+both emitted aliases match canonical geometry, so existing pack and wrapper
+structural gates reject hidden subpath spacing failures. The standalone command
+provides per-pair diagnostics without needing editable metadata. Neither route
+approves intentional connections semantically or checks internal gaps in one
+connected shape; keep the declared overlap and hole/pinch reviews.
+
+## 10. Pass the hole and pinch gate
+
+**Gate 2 of 3.** After distance passes, check the same native SVG:
+
+```bash
+python3 core/qa_overlays.py <native.svg> \
+  --icon-type <profile-name> \
+  --output-dir <qa-folder>/holes
+```
+
+Read `hole-diameters.json`, the per-icon metrics, the overlay, and the HTML report.
+Require a successful exit **and** a fresh `status: "pass"` row for every expected
+input. Missing rows, processing errors, holes below the configured radius, and
+under-depth solid pinches all block acceptance. Omit threshold overrides so the
+profile's configured radius and fill-depth gates apply; relaxed CLI values are
+diagnostics, not delivery acceptance. Use one declared profile per invocation.
+
+Locate each violating zone in the overlay and its hole/pinch metrics, identify
+the enclosing editable elements, then apply the R9 repair ladder: enlarge the
+opening, rebalance the composition, or remove a complete non-essential part.
+Do not squeeze the hole shut or edit QA copies. Re-emit from editable JSON,
+recheck prerequisites, and restart at distance; only a fresh hole pass advances
+to keyshape.
+
+## 11. Validate the declared painted keyshape
+
+**Gate 3 of 3.** `validate_icon_keyshapes.py` is completion-blocking for every
 production SVG, including its same-size `-design.svg` alias. It verifies native
 `width`, `height`, and `viewBox`, the configured stroke, the declared painted
 keyshape, and the protected slot when the selected profile has one. Canvas and
@@ -445,29 +540,81 @@ coverage of the intended outputs; a missing or stale output/report is not a pass
 Exit `1` includes validation, read, and dependency failures; `2` is CLI misuse.
 The checker does not modify SVGs, editable sources, or profiles.
 
+On failure, compare expected canvas/stroke and token bounds against actual
+stroke-inclusive bounds, overflow, containment, and slot findings. Fix the
+editable icon's extent, centering, or contour, or assess a justified
+[keyshape exception](#keyshape-exceptions), then regenerate and restart at
+distance. “Fix the keyshape dimension” normally means fix the artwork's fit,
+not edit profile JSON or relax a validator. An AI-approved optical exception is
+an authorized alternative to forced exact proportions, not an edited pass flag.
+
 Run this gate on the empty production container. Its deliberately filled preview
 is a separate combined-use review artifact, not a replacement production input.
 A pass here does not replace structural, grid, spacing/overlap, hole/pinch, or
 native-size visual acceptance.
 
-## 10. Pass the hole and pinch gate
+### Keyshape exceptions
 
-For a clean native SVG:
+Some icons cannot naturally match any defined keyshape's exact proportions,
+because of the prototype reference or the icon's own meaning. **The AI agent may
+decide whether to approve or reject a keyshape exception**, without additional
+user approval. Preserve the subject's recognizable proportions instead of
+stretching or widening it solely to satisfy the standard box. A reference is
+evidence for this judgment, not a reason to copy extraction cutouts or defects.
 
-```bash
-python3 core/qa_overlays.py <ship.svg> \
-  --icon-type <profile-name> \
-  --output-dir <qa-folder>/holes
+- Approve when exact fitting would distort the subject, weaken recognition, or
+  contradict meaningful reference proportions, and the proposed natural form
+  reads well at the profile's native size. Record the reason and chosen bounds.
+- **Both exceptional keyshape dimensions must be divisible by 4**, measured
+  from the actual centerline bounding box in native design units: width = 4 × n
+  and height = 4 × m, for non-negative integers n and m. **20×40 and 24×40 are valid;
+  22×40 is invalid**, as is 20×42. This constrains the exception's width and
+  height, not every coordinate or the stroke-inclusive painted dimensions.
+  Record the measured centerline size in the rationale. Reject and repair
+  non-multiples; do not round the reported measurements, change only metadata,
+  or waive this rule through AI judgment or a passing optical checker result.
+- Reject when the mismatch is accidental undersizing, poor centering, unfinished
+  geometry, or merely an attempt to avoid repair. Explain the decision and fix
+  the editable icon; an exception is not automatic after a failed check.
+- Implement an approved exception with existing **optical fit**: retain a
+  suitable profile token as the containing boundary, set `keyfitCheck.mode` to
+  `"optical"`, and declare the actual stroke-inclusive `paintedBounds` and a
+  subject-specific `rationale`. The icon need not reach that token's four edges.
+  The AI judges the design; the checker verifies the declared geometry.
+- This exception changes the exact-fit requirement only. Native canvas, stroke,
+  painted containment, protected container slots, distance, holes/pinches, grid,
+  and native-size visual review still apply. Do not change profile JSON, invent
+  an unregistered target token, edit reports, or convert checker errors to passes.
+- After changing fit metadata or geometry, regenerate both aliases and restart
+  **distance → holes → keyshape**. Require a fresh passing optical result and
+  report it as **“keyshape: pass — AI-approved optical exception”**, including
+  the rationale; never describe it as an exact standard-keyshape fit.
+
+**Fork example (current normal 48px profile, 4px stroke):** the standard portrait
+token `portrait-36x44` describes a 36×44 painted box, corresponding to a 32×40
+centerline box. A fork may read better at **20×40, 24×40, or 16×40 centerline**
+instead; all dimensions are divisible by 4. These are examples, not new
+mandatory tokens. Their painted boxes are 24×44, 28×44, and 20×44 respectively.
+A 22×40 centerline fork is not eligible for an exception, even if centered,
+contained, and visually recognizable. For a centered 20×40 centerline fork, record:
+
+```json
+"keyfitCheck": {
+  "targetToken": "portrait-36x44",
+  "mode": "optical",
+  "rationale": "AI-approved keyshape exception: a 20x40 centerline fork keeps a slender utensil silhouette; widening it to 32x40 would distort the subject.",
+  "paintedBounds": [12, 2, 36, 46]
+}
 ```
 
-Read `hole-diameters.json`, the per-icon metrics, the overlay, and the HTML report.
-The report status is the verdict; process exit status alone is not proof of a pass.
-Omit threshold overrides so the profile's configured radius and fill-depth gates
-apply. Treat explicit relaxed CLI values as diagnostics, not delivery acceptance.
-Use one declared profile per invocation so measurements normalize to the correct
-design canvas.
+For centered 24×40 and 16×40 centerline examples, use painted bounds
+`[10, 2, 38, 46]` and `[14, 2, 34, 46]` respectively.
+Measure the actual finished stroke envelope; do not put centerline dimensions
+into `paintedBounds` or copy an example onto geometry with different bounds.
+An approved exception can pass this gate even though the same artwork fails
+default exact mode. Distance and hole verdicts are still independently required.
 
-## 11. Perform true-size visual review
+## 12. Perform true-size visual review
 
 Numeric success does not prove recognition, balance, or family consistency.
 Inspect the canonical SVG at the selected profile's native size only. For a flat
@@ -506,18 +653,32 @@ R9 repair ladder:
 3. Remove a complete non-identity-bearing part and record the omission.
 
 Never squeeze a hole shut, delete an arbitrary path fragment, or clip the defect.
-Do not change the declared profile or keyshape, switch to optical mode, or relax
-validation settings merely to obtain a pass. Fit the intended form by repairing
-editable geometry; a real semantic or profile change needs its own justification
-and any required user decision.
+Do not change the profile or validation settings merely to obtain a pass. Repair
+geometry when the mismatch is a construction defect. When exact proportions
+conflict with the subject, the AI may instead approve the documented
+[keyshape exception](#keyshape-exceptions) and switch to optical mode with a
+reasoned declaration and fresh QA; this does not require another user decision.
+A change to the intended subject or profile itself still needs its own
+justification and any required user decision.
 
-Repeat **validate → repair editable geometry → regenerate both native SVG aliases
-→ rerun all affected gates** until the expected outputs pass. After each repair,
-rerun structural, grid, overlap, `validate_icon_keyshapes.py`, hole/pinch, and
-true-size checks. A local repair moves paint and can break a previously passing
-outer gate. Do not mark the icon complete while a required output or fresh report
-is missing, stale, or failing. If satisfying the gates would require guessing
-about the subject or changing the authorized scope, report the blocker instead.
+Repeat **distance → holes → keyshape** until all three pass on the same final
+geometry and effective profile. After any repair, regenerate both native aliases,
+recheck structural/grid/overlap prerequisites, and restart at distance—even when
+the last defect concerned only a hole or the outer bounds. Repeat native-size
+review after the gates pass. A later visual correction also restarts this loop.
+
+Keep a concise per-icon error summary: gate, affected pair/zone/bounds, measured
+and required values, repair made, and links to fresh reports. Bind evidence to the
+exact checked SVG and profile using the three checkers' SVG/profile hashes; do
+not reuse stale reports or
+mix passes from different revisions. Verify both emitted aliases still match.
+
+Do not stop at an ordinary repairable violation, or mark the icon complete while
+a required input/result is missing, stale, failing, or under review. A checker
+error, unresolved measurement/topology limitation, missing dependency, repeated
+failure without a justified next repair, or required semantic/profile change is
+a blocker to investigate and report—not an endless blind repair loop. Continue
+safe work on other batch items, but label blocked items unapproved.
 
 ## Delivery gate
 
@@ -528,9 +689,10 @@ Deliver only when every required gate passes. The handoff includes:
   is a same-size compatibility alias, not another required delivery resolution;
 - source detection JSON and preflight plot when a source SVG existed;
 - mapping, relationship, spacing, and keyshape rationale metadata;
-- grid, overlap, fresh native canvas/keyshape results covering both emitted
-  aliases, negative-space, and true-size evidence;
-- intentional simplifications, omissions, approved exceptions, and blocked gates;
+- grid/overlap evidence; fresh **distance, holes, and canvas/keyshape passes**,
+  with keyshape results covering both emitted aliases; and native-size review;
+- intentional simplifications, omissions, and approved exceptions; report blocked
+  items separately, never as completed output;
 - container slot metadata and filled preview when applicable;
 - selected Lucide references and applied construction principles, or an explicit
   note that no useful match was found.

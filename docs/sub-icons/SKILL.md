@@ -20,13 +20,33 @@ Read [rules.md](rules.md) and the generated [profile.md](profile.md), then apply
 the [shared visual rules](../shared/icon-rules.md). These files define the sub
 type; exact profile geometry comes from `core/icon_profiles.json`.
 
-Follow the [shared pipeline](../shared/icon-pipeline.md). Load only the adapter
-that matches the input:
+Follow the [shared pipeline](../shared/icon-pipeline.md) for both input modes:
+**concept name + minimal description**, without references or with optional
+SVG/PNG/other reference files. Analyze the input and intended role first, read
+the selected JSON profile, then plan and author the icon. A text-only brief needs
+no fabricated source SVG or detector run; inspect non-SVG references appropriately.
+Load only the adapter that matches actual supplied inputs:
 
 - One supplied SVG: [single-icon adapter](../shared/icon-execution-steps.md).
 - An explicitly selected SVG set: [batch adapter](../shared/icon-batch-execution-steps.md).
-- A subject description without an SVG: use the shared pipeline's brief-only
-  intake.
+- Name + description without references: use shared brief-only intake.
+- Name + description with PNG/other files: use shared reference-backed intake.
+
+After emission and structural/grid/overlap prerequisites, require **distance →
+holes/pinches → canvas/keyshape**, in that order, for this profile. Read failing
+pairs/zones/bounds, repair editable geometry, regenerate both aliases, and restart
+at distance. Deliver only fresh passes from all three on the same SVG/profile,
+plus native-size visual approval. Unresolved reviews, checker errors, missing or
+stale results block completion; never weaken the profile to force a pass.
+
+When exact keyshape proportions would distort the subject, the AI may approve
+a [keyshape exception](../shared/icon-pipeline.md#keyshape-exceptions) without
+additional user approval. Record the rationale and measured painted bounds in
+optical mode, rerun all gates, and label the passing result as an exception.
+Only approve exceptions whose measured centerline width and height are each
+divisible by 4; record that size in the rationale and reject non-multiples
+even if the optical checker passes.
+This does not waive containment, distance, holes, or native-size visual review.
 
 Use the [geometry and reference guide](../shared/atomic-shapes.md) for schema-version-2
 elements and relevant Lucide original/debug pairs. New contours need no registry

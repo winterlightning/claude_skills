@@ -5,6 +5,11 @@ execution. Follow the shared stages, commands, type-support limits, QA order, an
 repair loop in [icon-pipeline.md](icon-pipeline.md). This page adds batch staging,
 shared construction review, checkpointing, and family review.
 
+This is the SVG-reference intake adapter. Text-only briefs and optional PNG or
+other file references use the corresponding intake in the shared pipeline;
+they do not need a fabricated source SVG or detection bundle. The SVG batch
+detector itself accepts SVGs only.
+
 Use [icon-execution-steps.md](icon-execution-steps.md) for one selected SVG and
 [normal-icon rework](../icons/rework.md) for a
 local manifest pack or symbol-library rework JSON.
@@ -36,11 +41,13 @@ It does not authorize using one icon's source geometry to reinterpret another.
 ## Lane sequence
 
 ```text
-stage explicit sources
+normalize a concept name + minimal description + icon type/profile per item
+→ stage explicit SVG references
 → batch detection and triage
 → map source meaning and inspect relevant original/debug reference pairs
 → record common construction principles where useful
-→ compose exact elements in checkpointed groups through the canonical pipeline
+→ plan from each profile and compose through the canonical pipeline
+→ prerequisites → distance → holes → keyshape → native-size review per icon
 → family review
 → batch delivery
 ```
@@ -154,14 +161,15 @@ for name in icon-a icon-b icon-c icon-d icon-e; do
 done
 ```
 
-Then run the remaining grid, overlap, declared-keyshape, hole/pinch, and true-size
-stages in the order defined by [icon-pipeline.md](icon-pipeline.md). Pass the
+Then run the grid and declared-overlap prerequisites, followed by distance →
+holes → keyshape and native-size review, as defined by
+[icon-pipeline.md](icon-pipeline.md). Pass the
 matching `--icon-type` to profile-selected QA commands. Container structural
 validation checks its configured slot and full protected clear region; retain filled-preview visual
 evidence as the combined-use review.
 
-Checkpoint after each group. Do not carry an unresolved failure into the next
-group.
+Checkpoint after each group. Keep unresolved items visibly blocked while
+continuing safe work on unaffected icons; a checkpoint is not a waiver.
 
 ## 7. Validate the completed batch
 
@@ -177,10 +185,13 @@ python3 core/check_svg_grid.py \
   --output-dir "work/$BATCH/qa/grid"
 ```
 
-Run the per-icon overlap, declared keyshape, and hole/pinch commands from the
-canonical pipeline. Read each report rather than relying only on exit status.
-After any repair, edit the version-2 geometry JSON, re-emit, and rerun all affected gates,
-including declared keyshape containment.
+Run the per-icon declared-overlap prerequisite, then the distance, hole/pinch,
+and declared-keyshape gates from the canonical pipeline. Read each report rather
+than relying only on exit status. After any repair, edit the version-2 geometry
+JSON, re-emit both aliases, recheck prerequisites, and restart at distance.
+All three reports must pass on the same final geometry and resolved profile;
+stale, missing, review, or error results block completion. Investigate ambiguous
+connections rather than distorting them or relaxing profile thresholds.
 
 For every icon confirm:
 
@@ -190,7 +201,8 @@ For every icon confirm:
   is documented;
 - identity-bearing openings have recorded passing painted clearance;
 - no borrowed motif was forced into an inappropriate shape family;
-- every required automated gate passes for the declared profile;
+- distance, holes, and keyshape all have fresh passing evidence for the same
+  final geometry/profile, and the other required prerequisites pass;
 - the icon and its openings remain recognizable at native size.
 
 ## 8. Perform family review

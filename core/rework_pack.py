@@ -104,8 +104,22 @@ def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
         raise ValueError("emitted geometry changed after validation; rebuild and review")
 
     def verify_gate_evidence() -> None:
+        if row.get("profileConfigurationSha256") != profile_configuration_sha256():
+            raise ValueError("profile configuration changed after validation; rebuild all gates")
+        spacing_path = row.get("spacingReport")
+        if not isinstance(spacing_path, str):
+            raise ValueError("spacing evidence is incomplete at delivery")
+        spacing = json.loads(generated_path(pack, Path(spacing_path), rows).read_text())
+        verify_spacing_evidence(spacing, ship, get_profile(row["iconType"]), qa / "spacing")
+        hole_path = row.get("holeReport")
+        if not isinstance(hole_path, str):
+            raise ValueError("holes evidence is incomplete at delivery")
+        holes = json.loads(generated_path(pack, Path(hole_path), rows).read_text())
+        verify_hole_evidence(holes, ship, get_profile(row["iconType"]), qa / "holes")
         evidence = row.get("canvasKeyshapeReports")
         emitted_files = (ship, generated_path(pack, row["design"], rows))
+        if any(hashlib.sha256(path.read_bytes()).hexdigest() != row["shipSha256"] for path in emitted_files):
+            raise ValueError("canvas/keyshape svgSha256 is stale or aliases lost canonical parity")
         if not isinstance(evidence, dict) or set(evidence) != {path.name for path in emitted_files}:
             raise ValueError("canvas/keyshape evidence is incomplete at delivery")
         for emitted in emitted_files:
@@ -148,6 +162,11 @@ def publish_file(pack: Path, row: dict, rows: list[dict], qa: Path) -> None:
 def save_json(path: Path, data) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(data, indent=2, ensure_ascii=False) + "\n")
+
+
+def profile_configuration_sha256() -> str:
+    """Detect configuration edits even while imported profiles remain cached."""
+    return hashlib.sha256((ROOT / "core/icon_profiles.json").read_bytes()).hexdigest()
 
 
 def native_review_size(row: dict) -> int:
@@ -246,6 +265,57 @@ def reference_evidence(doc: dict) -> list[str]:
     return problems
 
 
+def verify_spacing_evidence(report: object, emitted: Path, profile: dict, output_dir: Path) -> None:
+    """Require a fresh, persisted passing distance result for this exact SVG."""
+    if (not isinstance(report, dict) or report.get("ok") is not True
+            or report.get("status") != "pass" or report.get("errors") != []
+            or not isinstance(report.get("pairs"), list)
+            or any(not isinstance(pair, dict) or pair.get("status") != "pass" for pair in report["pairs"])):
+        raise ValueError("spacing result is missing, malformed, failed, or requires review")
+    if report.get("file") != emitted.name or report.get("svgSha256") != hashlib.sha256(emitted.read_bytes()).hexdigest():
+        raise ValueError("spacing SVG evidence is missing or stale")
+    snapshot = json.dumps(profile, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+    if report.get("profileSha256") != hashlib.sha256(snapshot).hexdigest():
+        raise ValueError("spacing profile evidence is missing or stale")
+    for field in ("reportPath", "overlayPath"):
+        path = report.get(field)
+        if (not isinstance(path, str) or not Path(path).is_file() or Path(path).is_symlink()
+                or not Path(path).resolve().is_relative_to(output_dir.resolve())):
+            raise ValueError(f"spacing {field} artifact is missing or outside this run")
+    if json.loads(Path(report["reportPath"]).read_text()) != report:
+        raise ValueError("spacing persisted report is inconsistent")
+
+
+def verify_hole_evidence(report: object, emitted: Path, profile: dict, output_dir: Path) -> None:
+    """Require complete, current negative-space metrics and their zone overlay."""
+    if (not isinstance(report, dict) or report.get("status") != "pass"
+            or report.get("processingErrors", []) != []
+            or report.get("nativeSizeIssues") != []
+            or not isinstance(report.get("holes"), list)
+            or report.get("pinches") != []
+            or any(type(report.get(key)) is not int for key in ("hole_count", "failed_hole_count", "pinch_count"))
+            or report["hole_count"] != len(report["holes"])
+            or report["failed_hole_count"] != 0 or report["pinch_count"] != 0
+            or any(not isinstance(hole, dict) or hole.get("status") != "pass" for hole in report["holes"])):
+        raise ValueError("holes result is missing, malformed, failed, or contradicts its zone counts")
+    if report.get("file") != emitted.name or report.get("svgSha256") != hashlib.sha256(emitted.read_bytes()).hexdigest():
+        raise ValueError("holes SVG evidence is missing or stale")
+    snapshot = json.dumps(profile, sort_keys=True, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
+    if report.get("profileSha256") != hashlib.sha256(snapshot).hexdigest():
+        raise ValueError("holes profile evidence is missing or stale")
+    for field, setting in (("configuredMinimumRadiusDesignUnits", "minimumEnclosedRadius"),
+                           ("configuredMinimumFillDepthDesignUnits", "minimumSolidFillDepth")):
+        if type(report.get(field)) not in (int, float) or report[field] != profile["validation"][setting]:
+            raise ValueError("holes thresholds do not match the selected profile")
+    metrics = output_dir / f"{emitted.stem}.metrics.json"
+    overlay = output_dir / f"{emitted.stem}_holes.png"
+    for path in (metrics, overlay):
+        if not path.is_file() or path.is_symlink() or not path.resolve().is_relative_to(output_dir.resolve()):
+            raise ValueError("holes metrics or overlay is missing or outside this run")
+    if json.loads(metrics.read_text()) != report:
+        raise ValueError("holes persisted metrics are inconsistent")
+
+
 def canvas_keyshape_failure(report: object) -> str | None:
     """A missing, malformed, or errored gate result is never passing evidence."""
     if not isinstance(report, dict):
@@ -290,8 +360,10 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
     from icon_profiles import validate_document_profile
     import check_keyfit
     import check_svg_grid
+    import check_svg_spacing
     import qa_overlays
     import validate_icon_keyshapes
+    configuration_sha256 = profile_configuration_sha256()
     sources = authored_sources(pack, rows)
     output = scoped_path(pack, "output")
     qa_root = scoped_path(pack, "qa")
@@ -308,16 +380,18 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
     # Every run gets new evidence. A failed tool cannot reuse an old passing JSON.
     run = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     qa = qa_root / run
-    for gate in ("structural", "grid", "canvas-keyshape", "keyshape", "holes", "overlap"):
+    for gate in ("structural", "grid", "spacing", "canvas-keyshape", "keyshape", "holes", "overlap"):
         (qa / gate).mkdir(parents=True, exist_ok=True)
     all_grid, all_keyshape, all_holes = [], [], []
     all_canvas_keyshape = []
+    all_spacing = []
     for row in rows:
         source, doc = sources[row["sid"]]
         row["editable"] = source
         row["references"] = (doc.get("sourceAnalysis") or {}).get("lucideReferences", [])
         row["failures"] = reference_evidence(doc)
         row["status"] = "draft" if skip_qa else "fail"
+        row["profileConfigurationSha256"] = configuration_sha256
         try:
             icon_type, profile = validate_document_profile(doc)
             row["iconType"], row["shipSize"] = icon_type, profile["designCanvas"]
@@ -340,6 +414,44 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
             (qa / "structural" / f"{doc['name']}.log").write_text(result.stdout + result.stderr)
             if result.returncode:
                 row["failures"].append("structural: " + (result.stdout + result.stderr).strip())
+            grid = check_svg_grid.inspect(design, "design", icon_type)
+            exceptions_path = pack / "grid-exceptions.json"
+            if exceptions_path.is_file():
+                grid = check_svg_grid.apply_exceptions(grid, design, json.loads(exceptions_path.read_text()).get("files", {}))
+            if (doc.get("sourceAnalysis") or {}).get("spacingChecks"):
+                overlap = subprocess.run([sys.executable, "-B", str(ROOT / "core" / "render_overlap_audit.py"),
+                                          str(source), str(qa / "overlap" / f"{doc['name']}.svg")], capture_output=True, text=True, cwd=ROOT)
+                if overlap.returncode:
+                    row["failures"].append("overlap: " + overlap.stdout + overlap.stderr)
+            # Ordered acceptance gates: distance, negative-space zones, keyshape.
+            # Continue collecting diagnostics, but no non-pass can be delivered.
+            spacing = None
+            try:
+                spacing = check_svg_spacing.check_file(ship, icon_type=icon_type, output_dir=qa / "spacing")
+                verify_spacing_evidence(spacing, ship, profile, qa / "spacing")
+                row["spacingReport"] = spacing["reportPath"]
+            except Exception as error:
+                row["failures"].append("spacing: " + str(error))
+                if not isinstance(spacing, dict):
+                    spacing = {"file": ship.name, "ok": False, "status": "error", "errors": [str(error)]}
+                elif spacing.get("ok") is True:
+                    spacing = {**spacing, "ok": False, "status": "error", "errors": [str(error)]}
+            all_spacing.append(spacing)
+            holes = qa_overlays.process(ship, qa / "holes", 32, None, None, icon_type)
+            try:
+                verify_hole_evidence(holes, ship, profile, qa / "holes")
+                row["holeReport"] = str(qa / "holes" / f"{ship.stem}.metrics.json")
+            except (OSError, ValueError, TypeError) as error:
+                row["failures"].append("holes: " + str(error))
+                if (not isinstance(holes, dict) or not isinstance(holes.get("holes"), list)
+                        or not isinstance(holes.get("pinches"), list)
+                        or any(type(holes.get(key)) is not int for key in ("hole_count", "failed_hole_count", "pinch_count"))):
+                    holes = {"file": ship.name, "source": str(ship), "iconType": icon_type,
+                             "status": "fail", "holes": [], "pinches": [], "nativeSizeIssues": [],
+                             "hole_count": 0, "failed_hole_count": 0, "pinch_count": 0,
+                             "processingErrors": [str(error)]}
+                elif holes.get("status") == "pass":
+                    holes = {**holes, "status": "fail", "processingErrors": [str(error)]}
             # Both filenames are native-size deliverables. Checking only the
             # canonical SVG leaves the upload alias outside the mandatory gate.
             keyshape = None
@@ -375,15 +487,9 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
                 all_canvas_keyshape.append(canvas_keyshape)
                 if failure:
                     row["failures"].append(f"canvas/keyshape ({emitted.name}): {failure}")
-            grid = check_svg_grid.inspect(design, "design", icon_type)
-            # A documented geometric exception is hash-locked to this exact SVG.
-            exceptions_path = pack / "grid-exceptions.json"
-            if exceptions_path.is_file():
-                grid = check_svg_grid.apply_exceptions(grid, design, json.loads(exceptions_path.read_text()).get("files", {}))
             if not isinstance(keyshape, dict):
                 keyshape = {"file": ship.name, "source": str(ship), "iconType": icon_type,
                             "status": "fail", "reason": "missing-canvas-keyshape-raster-evidence"}
-            holes = qa_overlays.process(ship, qa / "holes", 32, None, None, icon_type)
             grid["keyfit"] = keyshape
             grid["overallStatus"] = "pass" if grid["status"] == keyshape["status"] == "pass" else "fail"
             all_grid.append(grid)
@@ -392,11 +498,6 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
             for gate, report in (("grid", grid), ("keyshape", keyshape), ("holes", holes)):
                 if report["status"] != "pass":
                     row["failures"].append(f"{gate}: {report.get('reason') or report.get('issues') or report['status']}")
-            if (doc.get("sourceAnalysis") or {}).get("spacingChecks"):
-                overlap = subprocess.run([sys.executable, "-B", str(ROOT / "core" / "render_overlap_audit.py"),
-                                          str(source), str(qa / "overlap" / f"{doc['name']}.svg")], capture_output=True, text=True, cwd=ROOT)
-                if overlap.returncode:
-                    row["failures"].append("overlap: " + overlap.stdout + overlap.stderr)
             review = (doc.get("sourceAnalysis") or {}).get("visualReview") or {}
             if review.get("status") != "pass" or not review.get("notes") or review.get("shipSize") != profile["designCanvas"]:
                 size = profile["designCanvas"]
@@ -405,11 +506,18 @@ def build(pack: Path, rows: list[dict], skip_qa: bool = False) -> int:
                 row["failures"].append("visual review is missing or stale for the emitted geometry")
             if profile.get("containerSlot"):
                 row["failures"].append("container delivery requires separate filled-preview evidence; use the container workflow")
+            if profile_configuration_sha256() != configuration_sha256:
+                row["failures"].append("profile configuration changed during validation; rebuild all gates")
             row["status"] = "pass" if not row["failures"] else "fail"
         except Exception as error:
             row["failures"].append(str(error))
         print(f"{row['sid']}: {row['status'].upper()}" + (" — " + "; ".join(row["failures"])[:220] if row["failures"] else ""), flush=True)
     if not skip_qa:
+        spacing_failed = sum(report.get("ok") is not True or report.get("status") != "pass" for report in all_spacing)
+        save_json(qa / "spacing" / "spacing-results.json", {
+            "checked": len(all_spacing), "failed": spacing_failed,
+            "ok": len(all_spacing) == len(rows) and spacing_failed == 0, "rows": all_spacing,
+        })
         canvas_failed = sum(canvas_keyshape_failure(report) is not None for report in all_canvas_keyshape)
         save_json(qa / "canvas-keyshape" / "canvas-keyshape-results.json", {
             "checked": len(all_canvas_keyshape), "failed": canvas_failed,
@@ -460,7 +568,8 @@ def write_gallery(pack: Path, rows: list[dict], qa: Path, draft: bool) -> None:
         cards.append(f'<article><div class="title"><h2>{html.escape(row["name"])}</h2><span class="{row.get("status", "draft")}">{row.get("status", "draft")}</span></div><p class="id">{row["sid"]} · {row.get("iconType", "normal")}</p><div class="pair"><figure><img src="{link(row["prototype"])}" width="{size}" height="{size}" alt="Prototype"><figcaption>Prototype comparison</figcaption></figure><figure>{new}<figcaption>Native rework</figcaption></figure></div><div class="actual"><span>{size}×{size}px native size · 1:1</span></div><p>{html.escape(row["brief"])}</p><p class="links">{downloads}</p><p class="refs">References: {refs}</p><details><summary>QA details</summary><p>{qa_details}</p></details></article>')
     passed = sum(row.get("status") == "pass" for row in rows)
     label = "Diagnostic drafts — not delivered" if draft else f"{passed} of {len(rows)} passed and delivered locally"
-    qa_links = "" if draft else (f' · <a href="{link(qa / "canvas-keyshape/canvas-keyshape-results.json")}">Canvas + keyshape gate</a>'
+    qa_links = "" if draft else (f' · <a href="{link(qa / "spacing/spacing-results.json")}">Distance gate</a>'
+                                  f' · <a href="{link(qa / "canvas-keyshape/canvas-keyshape-results.json")}">Canvas + keyshape gate</a>'
                                   f' · <a href="{link(qa / "grid/grid-report.html")}">Grid</a>'
                                   f' · <a href="{link(qa / "keyshape/keyfit-report.html")}">Painted bounds</a>'
                                   f' · <a href="{link(qa / "holes/hole-radius-report.html")}">Negative space</a>')

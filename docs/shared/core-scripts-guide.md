@@ -14,9 +14,9 @@ pipeline has five tooling lanes:
 
 | Lane | Purpose | Start in the inventory |
 | --- | --- | --- |
-| Intake | Inspect a local pack, stage a rework payload, or analyze supplied SVG evidence | [Pipeline commands](scripts.md#pipeline-commands) |
+| Intake | Analyze name + minimal description and optional references; use pack/payload/SVG helpers only when applicable | [Pipeline commands](scripts.md#pipeline-commands) |
 | Build | Retrieve relevant references and emit editable geometry as a native-size SVG | [Pipeline commands](scripts.md#pipeline-commands) |
-| Verify | Run structural, grid, overlap, keyshape, hole, pinch, and true-size checks | [Pipeline commands](scripts.md#pipeline-commands) |
+| Verify | Structural/grid/overlap prerequisites, then distance → holes/pinches → canvas/keyshape, followed by native-size review | [Pipeline commands](scripts.md#pipeline-commands) |
 | Maintain | Manage JSON profiles/custom types, regenerate mirrors, or inspect a scoped legacy migration | [Registry, compatibility, and migration commands](scripts.md#registry-compatibility-and-migration-commands) |
 | Protect | Run unit tests plus documentation/inventory consistency checks | [Regression and repository checks](scripts.md#regression-and-repository-checks) |
 

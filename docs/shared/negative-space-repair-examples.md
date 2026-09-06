@@ -6,6 +6,12 @@ not choose the repair. Examples use the built-in normal 48px canvas, 4px stroke,
 keyshapes, and 1px radius/fill-depth defaults. For a changed or custom profile,
 use its resolved JSON values rather than copying these illustrative numbers.
 
+The shared order is structural/grid and declared-overlap prerequisites, then
+distance → holes/pinches → keyshape, followed by native-size review. After any
+repair, regenerate from the authoritative editable JSON, recheck prerequisites,
+and restart at distance. Do not edit diagnostic SVG copies or carry forward
+earlier passing reports for changed geometry.
+
 ## Repair ladder
 
 Work in this order and stop at the first option that preserves recognition:
@@ -18,16 +24,18 @@ Never push parts together until a hole disappears. That changes topology and cre
 
 ## The keyshape still controls every repair
 
-The keyshape is the painted padding boundary. Record the declared token before editing and validate the same token afterward:
+The keyshape is the painted padding boundary. Record the declared token before
+editing and validate it after fresh distance and hole/pinch passes:
 
-These worked examples use default exact keyfit mode. For an intrinsically
-thin/sparse subject using documented optical mode, preserve its justified
-measured-bound declaration and token containment instead of inventing cardinal
-contacts. See shared R1; optical mode cannot hide a failed negative-space repair.
+These worked examples use default exact keyfit mode. For an agent-approved
+[keyshape exception](icon-pipeline.md#keyshape-exceptions) justified by the subject
+or prototype, use documented optical bounds and retain token containment instead
+of inventing cardinal contacts. Optical mode cannot hide a failed negative-space
+repair; all three gates and native-size review remain required.
 
 ```bash
-python3 core/check_keyfit.py <ship.svg> \
-  --expected-editable-dir <editable-json-folder> \
+python3 core/validate_icon_keyshapes.py <ship.svg> \
+  --editable <editable-source.json> \
   --output-dir <keyshape-qa-folder>
 ```
 
@@ -38,7 +46,9 @@ python3 core/check_keyfit.py <ship.svg> \
 | `portrait-36x44` | Paint reaches and stays inside `(6,2)…(42,46)` |
 | `landscape-44x36` | Paint reaches and stays inside `(2,6)…(46,42)` |
 
-An opening can pass while the keyshape becomes undersized, offset, or crossed. Both gates must pass independently.
+An opening can pass while disconnected spacing fails or the keyshape becomes
+undersized, offset, or crossed. All three gates must pass independently on the
+same final geometry and resolved profile.
 
 ## Example A — remove a clipped secondary detail
 
@@ -103,7 +113,10 @@ For another profile, let `S = strokeWidth` and `r = minimumEnclosedRadius`.
 A polygon's centerline inradius must be at least `r + S/2`; a parallel slot needs
 `d ≥ S + 2r`. Apply the configured solid-fill-depth check independently.
 
-These are the enclosed-hole floor, not a visual-opening target. A declared
+These are the enclosed-hole floor, not the disconnected-line spacing rule or a
+visual-opening target. For built-in normal icons, distinct components still
+require 8px between centerlines (4px between 4px-wide ink); a hole-only `d ≥ 6`
+example cannot waive that separate gate. A declared
 identity-bearing opening still needs R5's 3px painted clearance: 7px between
 Regular-stroke centerlines. Keep margin above rounded numerical thresholds.
 
@@ -111,9 +124,16 @@ A stroked V does not open at its centerline tip. Its painted inner apex sits far
 
 ## Before calling the repair complete
 
-- `core/qa_overlays.py` reports zero undersized holes and zero pinches.
-- `check_keyfit.py` passes the same declared keyshape.
+- The distance gate has a fresh passing result on the repaired output.
+- `core/qa_overlays.py` has a complete fresh passing result, zero undersized
+  holes, zero pinches, and no processing/native-size errors.
+- `validate_icon_keyshapes.py` passes the same declared keyshape on those bytes
+  and the unchanged resolved profile; same-size output aliases also pass.
 - Circle paint remains inside radius 22; rectangle paint remains inside its exact boundary.
 - The icon still reaches all required cardinals or edges and stays centered.
 - Grid, overlap, connection, and native-size reviews still pass (48×48 for these normal-icon examples).
 - The repair can be named as enlarge, rebalance, or remove.
+
+Missing, stale, failed, or unresolved-review evidence blocks completion. Resolve
+checker errors and ambiguous intended joins instead of widening real connections
+or weakening profile thresholds to obtain a pass.

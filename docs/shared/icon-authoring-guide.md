@@ -54,8 +54,9 @@ Good compositions usually have:
 
 Choose the semantic keyshape before tuning the drawing. The complete painted
 artwork must meet its declared exact or reviewed optical keyfit contract and stay
-inside the boundary. For intrinsically thin/sparse subjects, optical mode records
-justified measured bounds instead of stretching the form to all four edges.
+inside the boundary. The agent may approve a subject- or prototype-justified
+[keyshape exception](icon-pipeline.md#keyshape-exceptions), recording optical
+mode and measured bounds instead of distorting the form to reach every edge.
 Do not switch keyshapes merely to make a weak composition pass.
 
 ## Join and spacing technique
@@ -104,8 +105,8 @@ produce a second reduced or enlarged review export. Optional manual zoom can
 help diagnose a coordinate or join, but it is not another deliverable size and
 cannot replace the native-size verdict.
 
-The pipeline's automated gates establish structural compliance. Human review
-still decides whether the icon is legible and visually convincing.
+The pipeline's automated gates establish structural compliance. Native-size visual
+review still decides whether the icon is legible and visually convincing.
 
 ## Migration note
 
