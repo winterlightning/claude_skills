@@ -15,15 +15,31 @@
         "elementId": "monument",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 17 8 L 31 8 A 15 32 0 0 0 46 40 L 33 40 A 27 27 0 0 0 24 19 A 27 27 0 0 0 15 40 L 2 40 A 15 32 0 0 0 17 8 Z",
+        "pathData": "M 14 5 L 34 5 L 35 16 A 34 34 0 0 0 40 33 L 46 43 L 34 43 L 32 33 A 27 27 0 0 0 24 16 A 27 27 0 0 0 16 33 L 14 43 L 2 43 L 8 33 A 34 34 0 0 0 13 16 L 14 5 Z",
         "bounds": [
           2.0,
-          8.0,
+          5.0,
           46.0,
-          40.0
+          43.0
         ],
-        "segmentCount": 388,
-        "approximationError": 0.0006290177430606374,
+        "segmentCount": 266,
+        "approximationError": 0.00041621715334445636,
+        "hasCurves": true
+      },
+      {
+        "id": "lower-arch:subpath-1",
+        "elementId": "lower-arch",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 16 33 A 10 10 0 0 1 24 27 A 10 10 0 0 1 32 33",
+        "bounds": [
+          16.0,
+          27.0,
+          32.0,
+          33.0
+        ],
+        "segmentCount": 128,
+        "approximationError": 0.0003346626935908392,
         "hasCurves": true
       }
     ],
@@ -31,25 +47,60 @@
       {
         "id": "component-1",
         "memberIds": [
-          "monument:subpath-1"
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
         ],
         "contourIds": [
-          "monument:subpath-1"
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
         ],
         "elementIds": [
-          "monument"
+          "monument",
+          "lower-arch"
         ],
         "bounds": [
           2.0,
-          8.0,
+          5.0,
           46.0,
-          40.0
+          43.0
         ]
       }
     ],
     "pairs": [],
-    "connectedPairs": [],
-    "excludedPairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          16.0,
+          33.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "monument:subpath-1",
+            "lower-arch:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            16.0,
+            33.0
+          ]
+        }
+      }
+    ],
     "errors": [],
     "requiredCenterline": 6.0,
     "requiredInkClearance": 2.0,
@@ -65,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 9,
-      "flattenedSegments": 388,
-      "adaptiveNodes": 764,
+      "commands": 18,
+      "flattenedSegments": 394,
+      "adaptiveNodes": 762,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -76,41 +127,73 @@
   },
   "negative_space": {
     "status": "pass",
-    "hole_count": 1,
+    "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          22.4219,
-          13.6406
+          19.7344,
+          11.2969
         ],
         "bbox_viewbox": [
-          5.875,
-          8.5,
-          36.25,
-          31.0
+          2.9062,
+          5.5,
+          42.1875,
+          37.0
         ],
         "bbox_ship_px": [
-          36.25,
-          31.0
+          42.1875,
+          37.0
         ],
         "bbox_design_u": [
-          36.25,
-          31.0
+          42.1875,
+          37.0
         ],
-        "area_ship_px2": 310.6777,
-        "equivalent_diameter_ship_px": 19.8889,
-        "equivalent_diameter_design_u": 19.8889,
-        "inscribed_diameter_ship_px": 10.3125,
-        "inscribed_diameter_design_u": 10.3125,
-        "inscribed_radius_ship_px": 5.1562,
-        "inscribed_radius_design_u": 5.1562,
+        "area_ship_px2": 592.876,
+        "equivalent_diameter_ship_px": 27.475,
+        "equivalent_diameter_design_u": 27.475,
+        "inscribed_diameter_ship_px": 11.625,
+        "inscribed_diameter_design_u": 11.625,
+        "inscribed_radius_ship_px": 5.8125,
+        "inscribed_radius_design_u": 5.8125,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 3.6562,
-        "equivalent_diameter_at_authored_stroke_design_u": 7.3124
+        "equivalent_radius_at_authored_stroke_design_u": 4.3125,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.625
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          23.9844,
+          22.7344
+        ],
+        "bbox_viewbox": [
+          16.8438,
+          16.7188,
+          14.3125,
+          13.8125
+        ],
+        "bbox_ship_px": [
+          14.3125,
+          13.8125
+        ],
+        "bbox_design_u": [
+          14.3125,
+          13.8125
+        ],
+        "area_ship_px2": 85.541,
+        "equivalent_diameter_ship_px": 10.4362,
+        "equivalent_diameter_design_u": 10.4362,
+        "inscribed_diameter_ship_px": 7.5395,
+        "inscribed_diameter_design_u": 7.5395,
+        "inscribed_radius_ship_px": 3.7698,
+        "inscribed_radius_design_u": 3.7698,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.2698,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.5396
       }
     ],
     "pinches": [],
@@ -136,7 +219,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b6620b07a6a1702ddb49ffa443ad255a3dca3d7cc7cc9e738c00a51ca84cefaa",
+  "svg_sha256": "e16e3772e532acc9814bedaa25a498195620424832e90d4a9a2c86c82e082eff",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -192,42 +275,42 @@
       {
         "contour": "monument",
         "elements": [
-          "right-flare",
-          "right-opening"
+          "right-shoulder",
+          "right-pointed-arch"
         ],
         "status": "review",
-        "sustained_length": 17.8923,
-        "centerline_distance": 3.389,
-        "ink_gap": -0.611,
+        "sustained_length": 2.2429,
+        "centerline_distance": 5.9649,
+        "ink_gap": 1.9649,
         "nearest_points": [
           [
-            34.41418596520202,
-            28.324466267251232
+            36.56971496709337,
+            25.475866516326214
           ],
           [
-            31.249520542193327,
-            29.537033888234795
+            30.878989232154872,
+            27.263432091526603
           ]
         ]
       },
       {
         "contour": "monument",
         "elements": [
-          "left-opening",
-          "left-flare"
+          "left-pointed-arch",
+          "left-shoulder"
         ],
         "status": "review",
-        "sustained_length": 17.8923,
-        "centerline_distance": 3.389,
-        "ink_gap": -0.611,
+        "sustained_length": 2.2429,
+        "centerline_distance": 5.9649,
+        "ink_gap": 1.9649,
         "nearest_points": [
           [
-            16.750479457806676,
-            29.537033888234788
+            17.121010767845128,
+            27.263432091526603
           ],
           [
-            13.585814034797972,
-            28.324466267251232
+            11.430285032906644,
+            25.475866516326164
           ]
         ]
       }
