@@ -1,0 +1,248 @@
+{
+  "icon_id": "waving-flag-on-pole-check",
+  "name": "waving-flag-on-pole-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "waving",
+    "flag",
+    "on",
+    "pole",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:waving-flag-on-pole:pole",
+      "start": [
+        6,
+        2
+      ],
+      "end": [
+        6,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:waving-flag-on-pole:banner-0",
+      "start": [
+        6,
+        8
+      ],
+      "end": [
+        32,
+        8
+      ],
+      "radius_x": 34,
+      "radius_y": 34,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:waving-flag-on-pole:banner-1",
+      "start": [
+        32,
+        8
+      ],
+      "end": [
+        58,
+        8
+      ],
+      "radius_x": 34,
+      "radius_y": 34,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:waving-flag-on-pole:banner-2",
+      "start": [
+        58,
+        8
+      ],
+      "end": [
+        52,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:waving-flag-on-pole:banner-3",
+      "start": [
+        52,
+        28
+      ],
+      "end": [
+        58,
+        48
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:waving-flag-on-pole:banner-4",
+      "start": [
+        58,
+        48
+      ],
+      "end": [
+        32,
+        48
+      ],
+      "radius_x": 34,
+      "radius_y": 34,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:waving-flag-on-pole:banner-5",
+      "start": [
+        32,
+        48
+      ],
+      "end": [
+        6,
+        48
+      ],
+      "radius_x": 34,
+      "radius_y": 34,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:waving-flag-on-pole:banner",
+      "members": [
+        "0:waving-flag-on-pole:banner-0",
+        "0:waving-flag-on-pole:banner-1",
+        "0:waving-flag-on-pole:banner-2",
+        "0:waving-flag-on-pole:banner-3",
+        "0:waving-flag-on-pole:banner-4",
+        "0:waving-flag-on-pole:banner-5"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:waving-flag-on-pole:center": [
+      32,
+      32
+    ],
+    "0:waving-flag-on-pole:content-top-left": [
+      16,
+      16
+    ],
+    "0:waving-flag-on-pole:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:waving-flag-on-pole:pole",
+        "0:waving-flag-on-pole:banner"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "waving-flag-on-pole",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/waving-flag-on-pole-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

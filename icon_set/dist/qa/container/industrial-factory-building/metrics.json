@@ -1,0 +1,368 @@
+{
+  "icon_id": "industrial-factory-building",
+  "family": "container",
+  "profile": "CONTAINER64",
+  "selected_for_build": false,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "building:subpath-1",
+        "elementId": "building",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 2 22 L 16 22 L 32 12 L 48 22 L 62 22 L 62 62 L 2 62 L 2 22 Z",
+        "bounds": [
+          2.0,
+          12.0,
+          62.0,
+          62.0
+        ],
+        "segmentCount": 8,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "left-stack:subpath-1",
+        "elementId": "left-stack",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 5 22 L 7 2 L 13 2 L 15 22",
+        "bounds": [
+          5.0,
+          2.0,
+          15.0,
+          22.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "right-stack:subpath-1",
+        "elementId": "right-stack",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 49 22 L 51 2 L 57 2 L 59 22",
+        "bounds": [
+          49.0,
+          2.0,
+          59.0,
+          22.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "building:subpath-1",
+          "left-stack:subpath-1",
+          "right-stack:subpath-1"
+        ],
+        "contourIds": [
+          "building:subpath-1",
+          "left-stack:subpath-1",
+          "right-stack:subpath-1"
+        ],
+        "elementIds": [
+          "building",
+          "left-stack",
+          "right-stack"
+        ],
+        "bounds": [
+          2.0,
+          2.0,
+          62.0,
+          62.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "left-stack:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          5.0,
+          22.0
+        ]
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "right-stack:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          49.0,
+          22.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "left-stack:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "building:subpath-1",
+            "left-stack:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            5.0,
+            22.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "right-stack:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "building:subpath-1",
+            "right-stack:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            49.0,
+            22.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "left-stack:subpath-1",
+          "right-stack:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 17,
+      "flattenedSegments": 14,
+      "adaptiveNodes": 0,
+      "distanceTests": 0,
+      "connectionTests": 2
+    },
+    "raw_status": "pass",
+    "canvas": 64
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 3,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          9.9844,
+          17.3594
+        ],
+        "bbox_viewbox": [
+          5.5625,
+          2.5,
+          8.875,
+          19.0
+        ],
+        "bbox_ship_px": [
+          8.875,
+          19.0
+        ],
+        "bbox_design_u": [
+          8.875,
+          19.0
+        ],
+        "area_ship_px2": 132.8828,
+        "equivalent_diameter_ship_px": 13.0074,
+        "equivalent_diameter_design_u": 13.0074,
+        "inscribed_diameter_ship_px": 8.0625,
+        "inscribed_diameter_design_u": 8.0625,
+        "inscribed_radius_ship_px": 4.0312,
+        "inscribed_radius_design_u": 4.0312,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.5312,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.0624
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          53.9844,
+          17.3594
+        ],
+        "bbox_viewbox": [
+          49.5625,
+          2.5,
+          8.875,
+          19.0
+        ],
+        "bbox_ship_px": [
+          8.875,
+          19.0
+        ],
+        "bbox_design_u": [
+          8.875,
+          19.0
+        ],
+        "area_ship_px2": 132.8828,
+        "equivalent_diameter_ship_px": 13.0074,
+        "equivalent_diameter_design_u": 13.0074,
+        "inscribed_diameter_ship_px": 8.0625,
+        "inscribed_diameter_design_u": 8.0625,
+        "inscribed_radius_ship_px": 4.0312,
+        "inscribed_radius_design_u": 4.0312,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.5312,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.0624
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          31.9531,
+          39.2344
+        ],
+        "bbox_viewbox": [
+          2.5,
+          12.5938,
+          59.0,
+          48.9062
+        ],
+        "bbox_ship_px": [
+          59.0,
+          48.9062
+        ],
+        "bbox_design_u": [
+          59.0,
+          48.9062
+        ],
+        "area_ship_px2": 2458.1406,
+        "equivalent_diameter_ship_px": 55.9446,
+        "equivalent_diameter_design_u": 55.9446,
+        "inscribed_diameter_ship_px": 44.5625,
+        "inscribed_diameter_design_u": 44.5625,
+        "inscribed_radius_ship_px": 22.2812,
+        "inscribed_radius_design_u": 22.2812,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 20.7812,
+        "equivalent_diameter_at_authored_stroke_design_u": 41.5624
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "container/industrial-factory-building/icon.svg",
+    "metrics": "container/industrial-factory-building/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "2a7a73b7e0541b6aff6b38147f7cadf63b8ec024b41b161ce318027f29aedc16",
+  "rules": {
+    "profile": {
+      "canvas_size": 64,
+      "family": "container",
+      "interior_guide_inset": 8,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 2,
+      "keyshape_scale_denominator": 1,
+      "semantic_use": "container noun, or a container hosting a sub icon"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

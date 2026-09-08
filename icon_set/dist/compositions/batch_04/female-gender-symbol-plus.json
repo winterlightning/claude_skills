@@ -1,0 +1,207 @@
+{
+  "icon_id": "female-gender-symbol-plus",
+  "name": "female-gender-symbol-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "female",
+    "gender",
+    "venus",
+    "woman",
+    "circle",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    8,
+    0,
+    56,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:female-gender-symbol:ring-left",
+      "start": [
+        32,
+        46
+      ],
+      "end": [
+        32,
+        2
+      ],
+      "radius_x": 22,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:female-gender-symbol:ring-right",
+      "start": [
+        32,
+        2
+      ],
+      "end": [
+        32,
+        46
+      ],
+      "radius_x": 22,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:female-gender-symbol:stem",
+      "start": [
+        32,
+        46
+      ],
+      "end": [
+        32,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:female-gender-symbol:crossbar",
+      "start": [
+        24,
+        56
+      ],
+      "end": [
+        40,
+        56
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:female-gender-symbol:ring",
+      "members": [
+        "0:female-gender-symbol:ring-left",
+        "0:female-gender-symbol:ring-right"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:female-gender-symbol:center": [
+      32,
+      32
+    ],
+    "0:female-gender-symbol:content-top-left": [
+      16,
+      16
+    ],
+    "0:female-gender-symbol:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:female-gender-symbol:ring",
+        "0:female-gender-symbol:stem"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:female-gender-symbol:stem",
+        "0:female-gender-symbol:crossbar"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "female-gender-symbol",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/batch_04/female-gender-symbol-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

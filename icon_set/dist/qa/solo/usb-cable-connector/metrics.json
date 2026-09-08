@@ -1,0 +1,503 @@
+{
+  "icon_id": "usb-cable-connector",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "tip:subpath-1",
+        "elementId": "tip",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 20 16 L 20 2 L 34 2 L 34 16",
+        "bounds": [
+          20.0,
+          2.0,
+          34.0,
+          16.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "tip-mark:subpath-1",
+        "elementId": "tip-mark",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 27 8 L 27 9",
+        "bounds": [
+          27.0,
+          8.0,
+          27.0,
+          9.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "body:subpath-1",
+        "elementId": "body",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 17 16 L 20 16 L 34 16 L 37 16 L 37 25 A 10 10 0 0 1 27 35 A 10 10 0 0 1 17 25 L 17 16 Z",
+        "bounds": [
+          17.0,
+          16.0,
+          37.0,
+          35.0
+        ],
+        "segmentCount": 134,
+        "approximationError": 0.0007529910589377332,
+        "hasCurves": true
+      },
+      {
+        "id": "cable:subpath-1",
+        "elementId": "cable",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 27 35 L 27 36 A 10 10 0 0 1 17 46 L 11 46",
+        "bounds": [
+          11.0,
+          35.0,
+          27.0,
+          46.0
+        ],
+        "segmentCount": 66,
+        "approximationError": 0.000752991059392467,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "tip:subpath-1",
+          "body:subpath-1",
+          "cable:subpath-1"
+        ],
+        "contourIds": [
+          "tip:subpath-1",
+          "body:subpath-1",
+          "cable:subpath-1"
+        ],
+        "elementIds": [
+          "tip",
+          "body",
+          "cable"
+        ],
+        "bounds": [
+          11.0,
+          2.0,
+          37.0,
+          46.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "tip-mark:subpath-1"
+        ],
+        "contourIds": [
+          "tip-mark:subpath-1"
+        ],
+        "elementIds": [
+          "tip-mark"
+        ],
+        "bounds": [
+          27.0,
+          8.0,
+          27.0,
+          9.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "tip:subpath-1",
+          "tip-mark:subpath-1"
+        ],
+        "centerlineDistance": 6.0,
+        "inkClearance": 2.0,
+        "signedInkClearance": 2.0,
+        "lowerBound": 6.0,
+        "upperBound": 6.0,
+        "inkClearanceLowerBound": 2.0,
+        "inkClearanceUpperBound": 2.0,
+        "approximationError": 0.0,
+        "nearestPoints": [
+          [
+            27.0,
+            2.0
+          ],
+          [
+            27.0,
+            8.0
+          ]
+        ],
+        "requiredCenterline": 6.0,
+        "requiredInkClearance": 2.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "tip:subpath-1",
+            "body:subpath-1",
+            "cable:subpath-1"
+          ],
+          [
+            "tip-mark:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "tip:subpath-1",
+              "tip-mark:subpath-1"
+            ],
+            "centerlineDistance": 6.0,
+            "inkClearance": 2.0,
+            "signedInkClearance": 2.0,
+            "lowerBound": 6.0,
+            "upperBound": 6.0,
+            "inkClearanceLowerBound": 2.0,
+            "inkClearanceUpperBound": 2.0,
+            "approximationError": 0.0,
+            "nearestPoints": [
+              [
+                27.0,
+                2.0
+              ],
+              [
+                27.0,
+                8.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "Exact straight-segment spacing meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "body:subpath-1",
+              "tip-mark:subpath-1"
+            ],
+            "centerlineDistance": 7.0,
+            "inkClearance": 3.0,
+            "signedInkClearance": 3.0,
+            "lowerBound": 6.999247008941062,
+            "upperBound": 7.000752991058938,
+            "inkClearanceLowerBound": 2.9992470089410617,
+            "inkClearanceUpperBound": 3.0007529910589383,
+            "approximationError": 0.0007529910589377332,
+            "nearestPoints": [
+              [
+                27.0,
+                16.0
+              ],
+              [
+                27.0,
+                9.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "cable:subpath-1",
+              "tip-mark:subpath-1"
+            ],
+            "centerlineDistance": 26.0,
+            "inkClearance": 22.0,
+            "signedInkClearance": 22.0,
+            "lowerBound": 25.999247008940603,
+            "upperBound": 26.000752991059397,
+            "inkClearanceLowerBound": 21.999247008940603,
+            "inkClearanceUpperBound": 22.000752991059397,
+            "approximationError": 0.000752991059392467,
+            "nearestPoints": [
+              [
+                27.0,
+                35.0
+              ],
+              [
+                27.0,
+                9.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "tip:subpath-1",
+          "body:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          20.0,
+          16.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "cable:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          27.0,
+          35.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "tip:subpath-1",
+          "body:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "tip:subpath-1",
+            "body:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            20.0,
+            16.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "tip:subpath-1",
+          "cable:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "cable:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "cable:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            27.0,
+            35.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 6.0,
+    "minimumInkClearance": 2.0,
+    "reason": "All disconnected components meet the required spacing.",
+    "stats": {
+      "commands": 19,
+      "flattenedSegments": 204,
+      "adaptiveNodes": 381,
+      "distanceTests": 4,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          24.0781,
+          11.9219
+        ],
+        "bbox_viewbox": [
+          20.5,
+          2.5,
+          13.0,
+          13.0
+        ],
+        "bbox_ship_px": [
+          13.0,
+          13.0
+        ],
+        "bbox_design_u": [
+          13.0,
+          13.0
+        ],
+        "area_ship_px2": 167.207,
+        "equivalent_diameter_ship_px": 14.5909,
+        "equivalent_diameter_design_u": 14.5909,
+        "inscribed_diameter_ship_px": 7.1875,
+        "inscribed_diameter_design_u": 7.1875,
+        "inscribed_radius_ship_px": 3.5938,
+        "inscribed_radius_design_u": 3.5938,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.0938,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.1876
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          26.9844,
+          25.4531
+        ],
+        "bbox_viewbox": [
+          17.5,
+          16.5,
+          19.0,
+          18.0
+        ],
+        "bbox_ship_px": [
+          19.0,
+          18.0
+        ],
+        "bbox_design_u": [
+          19.0,
+          18.0
+        ],
+        "area_ship_px2": 303.2627,
+        "equivalent_diameter_ship_px": 19.6501,
+        "equivalent_diameter_design_u": 19.6501,
+        "inscribed_diameter_ship_px": 17.8875,
+        "inscribed_diameter_design_u": 17.8875,
+        "inscribed_radius_ship_px": 8.9438,
+        "inscribed_radius_design_u": 8.9438,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 7.4438,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.8876
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/usb-cable-connector/icon.svg",
+    "metrics": "solo/usb-cable-connector/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "4869b93617c1fb660c127a719f18e117dfbf6d3354c8df5b0c8ad570471d5183",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

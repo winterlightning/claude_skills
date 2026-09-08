@@ -1,0 +1,278 @@
+{
+  "icon_id": "digital-video-camera",
+  "family": "container",
+  "profile": "CONTAINER64",
+  "selected_for_build": false,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "body:subpath-1",
+        "elementId": "body",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 8 14 L 38 14 A 6 6 0 0 1 44 20 L 44 44 A 6 6 0 0 1 38 50 L 8 50 A 6 6 0 0 1 2 44 L 2 20 A 6 6 0 0 1 8 14 Z",
+        "bounds": [
+          2.0,
+          14.0,
+          44.0,
+          50.0
+        ],
+        "segmentCount": 261,
+        "approximationError": 0.0004517946359992862,
+        "hasCurves": true
+      },
+      {
+        "id": "lens:subpath-1",
+        "elementId": "lens",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 44 24 L 62 18 L 62 46 L 44 40",
+        "bounds": [
+          44.0,
+          18.0,
+          62.0,
+          46.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "body:subpath-1",
+          "lens:subpath-1"
+        ],
+        "contourIds": [
+          "body:subpath-1",
+          "lens:subpath-1"
+        ],
+        "elementIds": [
+          "body",
+          "lens"
+        ],
+        "bounds": [
+          2.0,
+          14.0,
+          62.0,
+          50.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "lens:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          44.0,
+          24.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "lens:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "lens:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            44.0,
+            24.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 14,
+      "flattenedSegments": 264,
+      "adaptiveNodes": 508,
+      "distanceTests": 0,
+      "connectionTests": 1
+    },
+    "raw_status": "pass",
+    "canvas": 64
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          19.9844,
+          31.9844
+        ],
+        "bbox_viewbox": [
+          2.5,
+          14.5,
+          41.0,
+          35.0
+        ],
+        "bbox_ship_px": [
+          41.0,
+          35.0
+        ],
+        "bbox_design_u": [
+          41.0,
+          35.0
+        ],
+        "area_ship_px2": 1409.0342,
+        "equivalent_diameter_ship_px": 42.3561,
+        "equivalent_diameter_design_u": 42.3561,
+        "inscribed_diameter_ship_px": 35.0,
+        "inscribed_diameter_design_u": 35.0,
+        "inscribed_radius_ship_px": 17.5,
+        "inscribed_radius_design_u": 17.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 16.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 32.0
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          52.9844,
+          30.5469
+        ],
+        "bbox_viewbox": [
+          44.5,
+          18.6875,
+          17.0,
+          26.625
+        ],
+        "bbox_ship_px": [
+          17.0,
+          26.625
+        ],
+        "bbox_design_u": [
+          17.0,
+          26.625
+        ],
+        "area_ship_px2": 356.1152,
+        "equivalent_diameter_ship_px": 21.2937,
+        "equivalent_diameter_design_u": 21.2937,
+        "inscribed_diameter_ship_px": 17.0,
+        "inscribed_diameter_design_u": 17.0,
+        "inscribed_radius_ship_px": 8.5,
+        "inscribed_radius_design_u": 8.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 7.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "container/digital-video-camera/icon.svg",
+    "metrics": "container/digital-video-camera/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "65f5ac1b3034ba2d503f925d45d0dda136d740b8ee4cc7c3d1fb7bce722312c0",
+  "rules": {
+    "profile": {
+      "canvas_size": 64,
+      "family": "container",
+      "interior_guide_inset": 8,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 2,
+      "keyshape_scale_denominator": 1,
+      "semantic_use": "container noun, or a container hosting a sub icon"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

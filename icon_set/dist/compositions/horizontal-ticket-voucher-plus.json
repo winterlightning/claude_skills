@@ -1,0 +1,245 @@
+{
+  "icon_id": "horizontal-ticket-voucher-plus",
+  "name": "horizontal-ticket-voucher-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "horizontal",
+    "ticket",
+    "voucher",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "HRECT_S",
+  "keyshape_bounds": [
+    0,
+    16,
+    64,
+    48
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-0",
+      "start": [
+        12,
+        18
+      ],
+      "end": [
+        52,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-1",
+      "start": [
+        52,
+        18
+      ],
+      "end": [
+        52,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:horizontal-ticket-voucher:outline-2",
+      "start": [
+        52,
+        22
+      ],
+      "end": [
+        52,
+        42
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-3",
+      "start": [
+        52,
+        42
+      ],
+      "end": [
+        52,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-4",
+      "start": [
+        52,
+        46
+      ],
+      "end": [
+        12,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-5",
+      "start": [
+        12,
+        46
+      ],
+      "end": [
+        12,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:horizontal-ticket-voucher:outline-6",
+      "start": [
+        12,
+        42
+      ],
+      "end": [
+        12,
+        22
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:horizontal-ticket-voucher:outline-7",
+      "start": [
+        12,
+        22
+      ],
+      "end": [
+        12,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:horizontal-ticket-voucher:outline",
+      "members": [
+        "0:horizontal-ticket-voucher:outline-0",
+        "0:horizontal-ticket-voucher:outline-1",
+        "0:horizontal-ticket-voucher:outline-2",
+        "0:horizontal-ticket-voucher:outline-3",
+        "0:horizontal-ticket-voucher:outline-4",
+        "0:horizontal-ticket-voucher:outline-5",
+        "0:horizontal-ticket-voucher:outline-6",
+        "0:horizontal-ticket-voucher:outline-7"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:horizontal-ticket-voucher:center": [
+      32,
+      32
+    ],
+    "0:horizontal-ticket-voucher:content-top-left": [
+      16,
+      16
+    ],
+    "0:horizontal-ticket-voucher:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "horizontal-ticket-voucher",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/horizontal-ticket-voucher-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

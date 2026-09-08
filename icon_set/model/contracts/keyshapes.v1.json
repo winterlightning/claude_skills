@@ -1,0 +1,598 @@
+{
+ "contract": "keyshapes",
+ "version": 1,
+ "status": "locked",
+ "source": "ICON_SYSTEM_PLAN.md section 3.1",
+ "reserved_tokens": [
+  "HRECT_XS",
+  "VRECT_XS"
+ ],
+ "reserved_reason": "Reserved identifiers, not valid v1 enum values. Generation must fail until a fifth base size is explicitly approved.",
+ "free_token": {
+  "name": "FREE",
+  "requires": [
+   "explicit integer bounds",
+   "rationale",
+   "approval_id for release"
+  ],
+  "note": "A FREE envelope need not be centered or share canvas parity. It never waives canvas, grid, stroke or MIC rules."
+ },
+ "base": [
+  {
+   "name": "CIRCLE",
+   "token": "circle",
+   "orientation": "radial",
+   "width": 32,
+   "height": 32
+  },
+  {
+   "name": "SQUARE",
+   "token": "square",
+   "orientation": "square",
+   "width": 32,
+   "height": 32
+  },
+  {
+   "name": "HRECT_XL",
+   "token": "hrect-xl",
+   "orientation": "landscape",
+   "width": 32,
+   "height": 28
+  },
+  {
+   "name": "HRECT_L",
+   "token": "hrect-l",
+   "orientation": "landscape",
+   "width": 32,
+   "height": 24
+  },
+  {
+   "name": "HRECT_M",
+   "token": "hrect-m",
+   "orientation": "landscape",
+   "width": 32,
+   "height": 20
+  },
+  {
+   "name": "HRECT_S",
+   "token": "hrect-s",
+   "orientation": "landscape",
+   "width": 32,
+   "height": 16
+  },
+  {
+   "name": "VRECT_XL",
+   "token": "vrect-xl",
+   "orientation": "portrait",
+   "width": 28,
+   "height": 32
+  },
+  {
+   "name": "VRECT_L",
+   "token": "vrect-l",
+   "orientation": "portrait",
+   "width": 24,
+   "height": 32
+  },
+  {
+   "name": "VRECT_M",
+   "token": "vrect-m",
+   "orientation": "portrait",
+   "width": 20,
+   "height": 32
+  },
+  {
+   "name": "VRECT_S",
+   "token": "vrect-s",
+   "orientation": "portrait",
+   "width": 16,
+   "height": 32
+  }
+ ],
+ "resolved": {
+  "SUB32": {
+   "CIRCLE": {
+    "width": 32,
+    "height": 32,
+    "visible_bounds": [
+     0,
+     0,
+     32,
+     32
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     30,
+     30
+    ],
+    "visible_radius": 16,
+    "centerline_radius": 14,
+    "center": [
+     16,
+     16
+    ]
+   },
+   "SQUARE": {
+    "width": 32,
+    "height": 32,
+    "visible_bounds": [
+     0,
+     0,
+     32,
+     32
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     30,
+     30
+    ]
+   },
+   "HRECT_XL": {
+    "width": 32,
+    "height": 28,
+    "visible_bounds": [
+     0,
+     2,
+     32,
+     30
+    ],
+    "centerline_bounds": [
+     2,
+     4,
+     30,
+     28
+    ]
+   },
+   "HRECT_L": {
+    "width": 32,
+    "height": 24,
+    "visible_bounds": [
+     0,
+     4,
+     32,
+     28
+    ],
+    "centerline_bounds": [
+     2,
+     6,
+     30,
+     26
+    ]
+   },
+   "HRECT_M": {
+    "width": 32,
+    "height": 20,
+    "visible_bounds": [
+     0,
+     6,
+     32,
+     26
+    ],
+    "centerline_bounds": [
+     2,
+     8,
+     30,
+     24
+    ]
+   },
+   "HRECT_S": {
+    "width": 32,
+    "height": 16,
+    "visible_bounds": [
+     0,
+     8,
+     32,
+     24
+    ],
+    "centerline_bounds": [
+     2,
+     10,
+     30,
+     22
+    ]
+   },
+   "VRECT_XL": {
+    "width": 28,
+    "height": 32,
+    "visible_bounds": [
+     2,
+     0,
+     30,
+     32
+    ],
+    "centerline_bounds": [
+     4,
+     2,
+     28,
+     30
+    ]
+   },
+   "VRECT_L": {
+    "width": 24,
+    "height": 32,
+    "visible_bounds": [
+     4,
+     0,
+     28,
+     32
+    ],
+    "centerline_bounds": [
+     6,
+     2,
+     26,
+     30
+    ]
+   },
+   "VRECT_M": {
+    "width": 20,
+    "height": 32,
+    "visible_bounds": [
+     6,
+     0,
+     26,
+     32
+    ],
+    "centerline_bounds": [
+     8,
+     2,
+     24,
+     30
+    ]
+   },
+   "VRECT_S": {
+    "width": 16,
+    "height": 32,
+    "visible_bounds": [
+     8,
+     0,
+     24,
+     32
+    ],
+    "centerline_bounds": [
+     10,
+     2,
+     22,
+     30
+    ]
+   }
+  },
+  "SOLO48": {
+   "CIRCLE": {
+    "width": 48,
+    "height": 48,
+    "visible_bounds": [
+     0,
+     0,
+     48,
+     48
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     46,
+     46
+    ],
+    "visible_radius": 24,
+    "centerline_radius": 22,
+    "center": [
+     24,
+     24
+    ]
+   },
+   "SQUARE": {
+    "width": 48,
+    "height": 48,
+    "visible_bounds": [
+     0,
+     0,
+     48,
+     48
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     46,
+     46
+    ]
+   },
+   "HRECT_XL": {
+    "width": 48,
+    "height": 42,
+    "visible_bounds": [
+     0,
+     3,
+     48,
+     45
+    ],
+    "centerline_bounds": [
+     2,
+     5,
+     46,
+     43
+    ]
+   },
+   "HRECT_L": {
+    "width": 48,
+    "height": 36,
+    "visible_bounds": [
+     0,
+     6,
+     48,
+     42
+    ],
+    "centerline_bounds": [
+     2,
+     8,
+     46,
+     40
+    ]
+   },
+   "HRECT_M": {
+    "width": 48,
+    "height": 30,
+    "visible_bounds": [
+     0,
+     9,
+     48,
+     39
+    ],
+    "centerline_bounds": [
+     2,
+     11,
+     46,
+     37
+    ]
+   },
+   "HRECT_S": {
+    "width": 48,
+    "height": 24,
+    "visible_bounds": [
+     0,
+     12,
+     48,
+     36
+    ],
+    "centerline_bounds": [
+     2,
+     14,
+     46,
+     34
+    ]
+   },
+   "VRECT_XL": {
+    "width": 42,
+    "height": 48,
+    "visible_bounds": [
+     3,
+     0,
+     45,
+     48
+    ],
+    "centerline_bounds": [
+     5,
+     2,
+     43,
+     46
+    ]
+   },
+   "VRECT_L": {
+    "width": 36,
+    "height": 48,
+    "visible_bounds": [
+     6,
+     0,
+     42,
+     48
+    ],
+    "centerline_bounds": [
+     8,
+     2,
+     40,
+     46
+    ]
+   },
+   "VRECT_M": {
+    "width": 30,
+    "height": 48,
+    "visible_bounds": [
+     9,
+     0,
+     39,
+     48
+    ],
+    "centerline_bounds": [
+     11,
+     2,
+     37,
+     46
+    ]
+   },
+   "VRECT_S": {
+    "width": 24,
+    "height": 48,
+    "visible_bounds": [
+     12,
+     0,
+     36,
+     48
+    ],
+    "centerline_bounds": [
+     14,
+     2,
+     34,
+     46
+    ]
+   }
+  },
+  "CONTAINER64": {
+   "CIRCLE": {
+    "width": 64,
+    "height": 64,
+    "visible_bounds": [
+     0,
+     0,
+     64,
+     64
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     62,
+     62
+    ],
+    "visible_radius": 32,
+    "centerline_radius": 30,
+    "center": [
+     32,
+     32
+    ]
+   },
+   "SQUARE": {
+    "width": 64,
+    "height": 64,
+    "visible_bounds": [
+     0,
+     0,
+     64,
+     64
+    ],
+    "centerline_bounds": [
+     2,
+     2,
+     62,
+     62
+    ]
+   },
+   "HRECT_XL": {
+    "width": 64,
+    "height": 56,
+    "visible_bounds": [
+     0,
+     4,
+     64,
+     60
+    ],
+    "centerline_bounds": [
+     2,
+     6,
+     62,
+     58
+    ]
+   },
+   "HRECT_L": {
+    "width": 64,
+    "height": 48,
+    "visible_bounds": [
+     0,
+     8,
+     64,
+     56
+    ],
+    "centerline_bounds": [
+     2,
+     10,
+     62,
+     54
+    ]
+   },
+   "HRECT_M": {
+    "width": 64,
+    "height": 40,
+    "visible_bounds": [
+     0,
+     12,
+     64,
+     52
+    ],
+    "centerline_bounds": [
+     2,
+     14,
+     62,
+     50
+    ]
+   },
+   "HRECT_S": {
+    "width": 64,
+    "height": 32,
+    "visible_bounds": [
+     0,
+     16,
+     64,
+     48
+    ],
+    "centerline_bounds": [
+     2,
+     18,
+     62,
+     46
+    ]
+   },
+   "VRECT_XL": {
+    "width": 56,
+    "height": 64,
+    "visible_bounds": [
+     4,
+     0,
+     60,
+     64
+    ],
+    "centerline_bounds": [
+     6,
+     2,
+     58,
+     62
+    ]
+   },
+   "VRECT_L": {
+    "width": 48,
+    "height": 64,
+    "visible_bounds": [
+     8,
+     0,
+     56,
+     64
+    ],
+    "centerline_bounds": [
+     10,
+     2,
+     54,
+     62
+    ]
+   },
+   "VRECT_M": {
+    "width": 40,
+    "height": 64,
+    "visible_bounds": [
+     12,
+     0,
+     52,
+     64
+    ],
+    "centerline_bounds": [
+     14,
+     2,
+     50,
+     62
+    ]
+   },
+   "VRECT_S": {
+    "width": 32,
+    "height": 64,
+    "visible_bounds": [
+     16,
+     0,
+     48,
+     64
+    ],
+    "centerline_bounds": [
+     18,
+     2,
+     46,
+     62
+    ]
+   }
+  }
+ }
+}

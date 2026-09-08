@@ -1,0 +1,83 @@
+{
+  "contract": "composition-templates",
+  "version": 1,
+  "source": "ICON_SYSTEM_PLAN.md section 3.2; profile names updated 2026-09-07",
+  "scope_note": "SOLO and CONTAINER_COMBINE are frozen in this release. SIDE_COMBINE and DIAGRAM_COMBINE are declared so the enum and validator are complete, but carry no frozen slots yet and the validator rejects any icon that claims them. Their templates land with the M6 composition engine.",
+  "classes": {
+    "SOLO": {
+      "contract": "One independently readable icon: a sub glyph on SUB32, a solo subject on SOLO48, or a container standing empty on CONTAINER64. The family decides which.",
+      "frozen": true,
+      "output_profiles": [
+        "SUB32",
+        "SOLO48",
+        "CONTAINER64"
+      ],
+      "participants": {
+        "min": 1,
+        "max": 1
+      },
+      "roles": [
+        "MAIN",
+        "SUB"
+      ],
+      "slots": []
+    },
+    "SIDE_COMBINE": {
+      "contract": "A MAIN noun and a SUB verb/state/modifier placed beside one another.",
+      "frozen": false,
+      "output_profiles": [
+        "CONTAINER64"
+      ],
+      "slots": []
+    },
+    "CONTAINER_COMBINE": {
+      "contract": "A container encloses, hosts, or carries another icon. The container is placed at the origin and the content at (16,16), the SUB32 canvas centred on the CONTAINER64 canvas. Clearance between the two is measured, not reserved.",
+      "frozen": true,
+      "output_profiles": [
+        "CONTAINER64"
+      ],
+      "participants": {
+        "min": 2,
+        "max": 2
+      },
+      "withdrawn_slot": {
+        "was": [16, 16, 48, 48],
+        "withdrawn": "2026-09-07",
+        "rationale": "The slot reserved the middle 32x32 of every container and forbade container ink inside it, so that any sub icon would fit any container. It bought guaranteed hosting at the price of the containers themselves: a 64 canvas has 12 centerline units above a centred 32x32 slot, and a title bar with an indicator row needs 20, so no window, tab bar, lid or dial face could be drawn at all. Reconstructing a reference batch made the cost obvious -- the drawings came out as bare frames, correct against the rule and wrong against their subject. Moving the slot instead of removing it was measured and is worse: dropping it 8 units to make room for a header pushed hosted content into every container's bottom edge and broke hosting for the whole family. So the reservation is gone. Containers are now drawn as their subject requires.",
+        "what_replaces_it": "Nothing reserves interior space. Whether a particular container can host a particular sub icon is decided by the `mic` check on the flattened composition, which measures the ink that is actually there. It is a measured fact per pair, reported by compose.py, not a property a container must guarantee in advance. A container whose interior is open -- a circle, a square, a rounded square -- still hosts everything, exactly as before."
+      },
+      "children": [
+        {
+          "index": 0,
+          "slot_role": "container",
+          "profile": "CONTAINER64",
+          "position": [
+            0,
+            0
+          ],
+          "rule": "Drawn as its subject requires; no region of the canvas is reserved. Whether it clears a given child is measured by the mic check. Only the container family authors on CONTAINER64."
+        },
+        {
+          "index": 1,
+          "slot_role": "content",
+          "profile": "SUB32",
+          "position": [
+            16,
+            16
+          ],
+          "rule": "A valid SUB32 icon, so its ink is inside its own 32x32 canvas by construction and lands inside (16,16)-(48,48) once placed. Any semantic kind: a noun, a verb, a state or a modifier may be hosted. Only the sub family authors on SUB32, so only a sub icon can be content."
+        }
+      ],
+      "divergence_from_plan": "ICON_SYSTEM_PLAN.md section 3.2 words this class as 'A MAIN noun or container encloses, hosts, or carries a SUB element', and an earlier implementation read that as a permission: only an icon declaring semantic_role SUB could be content. That was wrong. MAIN/SUB describes what an icon IS when it stands alone; the role it plays in a composition is positional and belongs to the slot, not to the icon. A heart is a noun and stands alone as MAIN, and it is also perfectly good content inside a circle -- as is a circle itself. What a slot can hold is decided by geometry (does it fit, does it clear) and never by the participant's own semantic kind. Widened deliberately on 2026-09-07."
+    },
+    "DIAGRAM_COMBINE": {
+      "contract": "Multiple elements and connectors express flow, hierarchy, structure, or another relationship.",
+      "frozen": false,
+      "output_profiles": [
+        "CONTAINER64"
+      ],
+      "required_roles": [],
+      "slots": []
+    }
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "contract": "exceptions",
+  "version": 1,
+  "source": "ICON_SYSTEM_PLAN.md section 3.1 (FREE keyshape)",
+  "policy": "Every FREE use must appear here with explicit integer visible-ink bounds, a rationale, an approval_id, and a status. Release validation (require_free_approval=True, which the build script uses) demands status 'approved'. A draft run accepts 'proposed', so an agent can author a FREE icon and put the record up for review without being blocked -- but a proposed record never ships.",
+  "free_keyshapes": [
+    {
+      "icon_id": "minus",
+      "profile": "SUB32",
+      "bounds": [
+        0,
+        14,
+        32,
+        18
+      ],
+      "rationale": "1-D bar glyph. The short axis is entirely stroke-defined at 4 units; no standard keyshape has a 4-unit axis, and the smallest standard minor dimension is 16.",
+      "approval_id": "FREE-2026-09-07-001",
+      "status": "approved"
+    },
+    {
+      "icon_id": "dot",
+      "profile": "SUB32",
+      "bounds": [
+        14,
+        14,
+        18,
+        18
+      ],
+      "rationale": "0-D point glyph rendered as a single round cap. Both axes are stroke-defined at 4 units; enlarging it to any standard keyshape would make it a circle, a different symbol.",
+      "approval_id": "FREE-2026-09-07-002",
+      "status": "approved"
+    },
+    {
+      "icon_id": "bar",
+      "profile": "SUB32",
+      "bounds": [
+        14,
+        0,
+        18,
+        32
+      ],
+      "rationale": "Vertical transpose of minus. 1-D bar glyph whose short axis is stroke-defined at 4 units.",
+      "approval_id": "FREE-2026-09-07-003",
+      "status": "approved"
+    },
+    {
+      "icon_id": "exclamation",
+      "profile": "SUB32",
+      "bounds": [
+        14,
+        0,
+        18,
+        32
+      ],
+      "rationale": "Typographic mark whose width is stroke-defined at 4 units. Widening it to a standard 16-unit minor axis would break its read as a single vertical stroke plus point.",
+      "approval_id": "FREE-2026-09-07-004",
+      "status": "approved"
+    },
+    {
+      "icon_id": "ellipsis",
+      "profile": "SUB32",
+      "bounds": [
+        2,
+        14,
+        30,
+        18
+      ],
+      "rationale": "Row of three stroke-defined points. Height is 4 units by construction; no standard keyshape has a 4-unit axis.",
+      "approval_id": "FREE-2026-09-07-005",
+      "status": "approved"
+    },
+    {
+      "icon_id": "dots-vertical",
+      "profile": "SUB32",
+      "bounds": [
+        14,
+        2,
+        18,
+        30
+      ],
+      "rationale": "Vertical transpose of ellipsis. Width is stroke-defined at 4 units; no standard keyshape has a 4-unit axis.",
+      "approval_id": "FREE-2026-09-07-006",
+      "status": "approved"
+    }
+  ],
+  "statuses": {
+    "proposed": "Authored by an agent, awaiting human review. Draft only.",
+    "approved": "Reviewed and accepted. Required for release."
+  }
+}

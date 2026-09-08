@@ -1,0 +1,208 @@
+{
+  "icon_id": "double-concentric-circles-plus",
+  "name": "double-concentric-circles-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "concentric",
+    "target",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:double-concentric-circles:outer-ring-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:double-concentric-circles:outer-ring-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:double-concentric-circles:inner-ring-top",
+      "start": [
+        11,
+        32
+      ],
+      "end": [
+        53,
+        32
+      ],
+      "radius_x": 21,
+      "radius_y": 21,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:double-concentric-circles:inner-ring-bottom",
+      "start": [
+        53,
+        32
+      ],
+      "end": [
+        11,
+        32
+      ],
+      "radius_x": 21,
+      "radius_y": 21,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:double-concentric-circles:outer-ring",
+      "members": [
+        "0:double-concentric-circles:outer-ring-top",
+        "0:double-concentric-circles:outer-ring-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "0:double-concentric-circles:inner-ring",
+      "members": [
+        "0:double-concentric-circles:inner-ring-top",
+        "0:double-concentric-circles:inner-ring-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:double-concentric-circles:center": [
+      32,
+      32
+    ],
+    "0:double-concentric-circles:content-top-left": [
+      16,
+      16
+    ],
+    "0:double-concentric-circles:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "double-concentric-circles",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/batch_04/double-concentric-circles-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

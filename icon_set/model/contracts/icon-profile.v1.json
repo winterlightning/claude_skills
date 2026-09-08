@@ -1,0 +1,93 @@
+{
+  "contract": "icon-profile",
+  "version": 2,
+  "status": "locked",
+  "source": "ICON_SYSTEM_PLAN.md sections 2 and 3; family binding added 2026-09-07; SQUARE full-canvas and MIC 2 applied 2026-09-07",
+  "style": {
+    "grid": 1,
+    "snap_to_grid": true,
+    "authored_coordinates": "integer",
+    "stroke_width": 4,
+    "stroke": "currentColor",
+    "fill": "none",
+    "line_cap": "round",
+    "line_join": "round"
+  },
+  "tolerances": {
+    "rect_family_fit": 0,
+    "circle_touch": 0.5,
+    "canvas_overflow": 0,
+    "mic_flattening": 0.001,
+    "numeric_epsilon": 1e-09,
+    "_numeric_epsilon_note": "Absorbs floating-point construction error only. An SVG arc's centre is derived from its endpoints through a square root, so an extremum that is mathematically exact can land ~1e-15 off. This epsilon is applied to every geometric comparison on top of the design tolerances above; it is not itself a design tolerance and must never be raised to make artwork fit.",
+    "_note": "The painted envelope is the exact Minkowski sum of the centerline with a radius stroke/2 disc, because every cap and join is round. Rectangle-family visible bounds are therefore exact and require zero tolerance. CIRCLE is a radial test: containment is exact, and the artwork must touch within circle_touch because integer vertices cannot always land on the radius."
+  },
+  "families": {
+    "_rule": "Family, folder and profile are one thing seen three ways. An icon's family is decided by its job in the set; the family fixes the folder its module lives in, the profile it is authored on, and the dist folder it ships to. No family may author on another family's profile, and no folder may hold another family's icons. The registry, the validator and the schema each enforce this independently.",
+    "sub": {
+      "profile": "SUB32",
+      "package": "model/icons/sub",
+      "base_class": "Sub32",
+      "dist": "dist/sub32",
+      "job": "A glyph read small and hosted by others: a verb, a state, a modifier, or a simple noun shape that works as content inside a container. Its canvas is the CONTAINER_COMBINE slot."
+    },
+    "solo": {
+      "profile": "SOLO48",
+      "package": "model/icons/solo",
+      "base_class": "Solo48",
+      "dist": "dist/solo48",
+      "job": "A standalone subject drawn to be read on its own: a primary noun with its own silhouette. It hosts nothing and is hosted by nothing."
+    },
+    "container": {
+      "profile": "CONTAINER64",
+      "package": "model/icons/container",
+      "base_class": "Container64",
+      "dist": "dist/container64",
+      "job": "An enclosure or a framed device drawn at 64: a window, a screen, a board, a card, a badge. It stands alone as a noun and is the outer half of a CONTAINER_COMBINE when its interior happens to have room. Nothing is reserved inside it; see composition-templates.v1.json for why the protected slot was withdrawn."
+    }
+  },
+  "profiles": {
+    "SUB32": {
+      "family": "sub",
+      "semantic_use": "verb, state, or modifier; or a simple noun shape usable as content",
+      "canvas_size": 32,
+      "interior_guide_inset": 4,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 1,
+      "keyshape_scale_denominator": 1
+    },
+    "SOLO48": {
+      "family": "solo",
+      "semantic_use": "primary noun or standalone subject",
+      "canvas_size": 48,
+      "interior_guide_inset": 6,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2
+    },
+    "CONTAINER64": {
+      "family": "container",
+      "semantic_use": "container noun, or a container hosting a sub icon",
+      "canvas_size": 64,
+      "interior_guide_inset": 8,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 2,
+      "keyshape_scale_denominator": 1
+    }
+  },
+  "semantic_roles": [
+    "MAIN",
+    "SUB"
+  ],
+  "notes": [
+    "The interior guide constrains internal detail only. Full-width and circular keyshapes may reach the canvas boundary.",
+    "MIC is ink-to-ink clearance between distinct parts, never ink-to-canvas-edge clearance.",
+    "CONTAINER64's MIC was 6 (10 between centerlines) until 2026-09-07. At 64 that reserved 10 units for every gap, which is more than the canvas can spend on a subject with real interior furniture -- a title bar with indicators, a keypad, a dial face -- and the containers authored under it came out emptier than their references. It is now 4, matching SOLO48: 4 units of white at 64 pixels is legible, and it is the clearance the reference drawings themselves are spaced to.",
+    "Profile names are family name plus canvas size. Earlier releases called SOLO48 'MAIN48' and CONTAINER64 'COMPOSITE64'; the numbers are unchanged, only the binding to a family is new.",
+    "SQUARE became the full canvas on 2026-09-07: base 32, so 32 at SUB32, 48 at SOLO48 and 64 at CONTAINER64. It was 28 (28/42/56), which left every rectilinear full-bleed subject sitting 2 to 4 units short of the edge while CIRCLE reached it. SQUARE and CIRCLE are now both full-canvas tokens, one rectilinear and one radial, and there is no longer a 28-square envelope: the 33 icons authored on the old one were redrawn to the new bounds, not rescaled.",
+    "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say."
+  ]
+}

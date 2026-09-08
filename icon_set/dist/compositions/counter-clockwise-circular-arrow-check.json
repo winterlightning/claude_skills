@@ -1,0 +1,186 @@
+{
+  "icon_id": "counter-clockwise-circular-arrow-check",
+  "name": "counter-clockwise-circular-arrow-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circular",
+    "arrow",
+    "counterclockwise",
+    "ring",
+    "refresh",
+    "undo",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:counter-clockwise-circular-arrow:loop",
+      "start": [
+        34,
+        60
+      ],
+      "end": [
+        6,
+        32
+      ],
+      "radius_x": 28,
+      "radius_y": 28,
+      "large_arc": true,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:counter-clockwise-circular-arrow:arrowhead-1",
+      "start": [
+        4,
+        22
+      ],
+      "end": [
+        6,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:counter-clockwise-circular-arrow:arrowhead-2",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        16,
+        27
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:counter-clockwise-circular-arrow:arrowhead",
+      "members": [
+        "0:counter-clockwise-circular-arrow:arrowhead-1",
+        "0:counter-clockwise-circular-arrow:arrowhead-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:counter-clockwise-circular-arrow:center": [
+      32,
+      32
+    ],
+    "0:counter-clockwise-circular-arrow:content-top-left": [
+      16,
+      16
+    ],
+    "0:counter-clockwise-circular-arrow:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:counter-clockwise-circular-arrow:loop",
+        "0:counter-clockwise-circular-arrow:arrowhead"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "counter-clockwise-circular-arrow",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/counter-clockwise-circular-arrow-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

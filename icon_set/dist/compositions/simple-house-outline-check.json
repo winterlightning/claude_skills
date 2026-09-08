@@ -1,0 +1,246 @@
+{
+  "icon_id": "simple-house-outline-check",
+  "name": "simple-house-outline-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "simple",
+    "house",
+    "outline",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:simple-house-outline:roof-1",
+      "start": [
+        6,
+        24
+      ],
+      "end": [
+        32,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-house-outline:roof-2",
+      "start": [
+        32,
+        2
+      ],
+      "end": [
+        58,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-house-outline:right",
+      "start": [
+        58,
+        24
+      ],
+      "end": [
+        58,
+        58
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-house-outline:se",
+      "start": [
+        58,
+        58
+      ],
+      "end": [
+        54,
+        62
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-house-outline:base",
+      "start": [
+        54,
+        62
+      ],
+      "end": [
+        10,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-house-outline:sw",
+      "start": [
+        10,
+        62
+      ],
+      "end": [
+        6,
+        58
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-house-outline:left",
+      "start": [
+        6,
+        58
+      ],
+      "end": [
+        6,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:simple-house-outline:roof",
+      "members": [
+        "0:simple-house-outline:roof-1",
+        "0:simple-house-outline:roof-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "0:simple-house-outline:walls",
+      "members": [
+        "0:simple-house-outline:right",
+        "0:simple-house-outline:se",
+        "0:simple-house-outline:base",
+        "0:simple-house-outline:sw",
+        "0:simple-house-outline:left"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:simple-house-outline:center": [
+      32,
+      32
+    ],
+    "0:simple-house-outline:content-top-left": [
+      16,
+      16
+    ],
+    "0:simple-house-outline:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:simple-house-outline:roof",
+        "0:simple-house-outline:walls"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "simple-house-outline",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/simple-house-outline-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

@@ -1,0 +1,292 @@
+{
+  "icon_id": "towel-ring-plus",
+  "name": "towel-ring-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "towel",
+    "ring",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:mount-left",
+      "start": [
+        2,
+        6
+      ],
+      "end": [
+        27,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:mount-right",
+      "start": [
+        37,
+        6
+      ],
+      "end": [
+        62,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:bracket-top",
+      "start": [
+        27,
+        2
+      ],
+      "end": [
+        37,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:bracket-right",
+      "start": [
+        37,
+        2
+      ],
+      "end": [
+        37,
+        10
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:towel-ring:bracket-bottom",
+      "start": [
+        37,
+        10
+      ],
+      "end": [
+        27,
+        10
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:bracket-left",
+      "start": [
+        27,
+        10
+      ],
+      "end": [
+        27,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:towel-ring:hanger",
+      "start": [
+        32,
+        15
+      ],
+      "end": [
+        32,
+        18
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:towel-ring:ring-right",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        62
+      ],
+      "radius_x": 22,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:towel-ring:ring-left",
+      "start": [
+        32,
+        62
+      ],
+      "end": [
+        32,
+        18
+      ],
+      "radius_x": 22,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:towel-ring:bracket",
+      "members": [
+        "0:towel-ring:bracket-top",
+        "0:towel-ring:bracket-right",
+        "0:towel-ring:bracket-bottom",
+        "0:towel-ring:bracket-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "0:towel-ring:ring",
+      "members": [
+        "0:towel-ring:ring-right",
+        "0:towel-ring:ring-left"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:towel-ring:center": [
+      32,
+      32
+    ],
+    "0:towel-ring:content-top-left": [
+      16,
+      16
+    ],
+    "0:towel-ring:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:towel-ring:mount-left",
+        "0:towel-ring:bracket"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:towel-ring:mount-right",
+        "0:towel-ring:bracket"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:towel-ring:hanger",
+        "0:towel-ring:bracket"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:towel-ring:hanger",
+        "0:towel-ring:ring"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "towel-ring",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/towel-ring-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

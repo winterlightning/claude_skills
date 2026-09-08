@@ -1,0 +1,253 @@
+{
+  "icon_id": "rounded-vertical-rectangle-plus",
+  "name": "rounded-vertical-rectangle-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "rounded",
+    "vertical",
+    "rectangle",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:rounded-vertical-rectangle:top",
+      "start": [
+        13,
+        2
+      ],
+      "end": [
+        51,
+        2
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rounded-vertical-rectangle:ne",
+      "start": [
+        51,
+        2
+      ],
+      "end": [
+        58,
+        9
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rounded-vertical-rectangle:right",
+      "start": [
+        58,
+        9
+      ],
+      "end": [
+        58,
+        55
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rounded-vertical-rectangle:se",
+      "start": [
+        58,
+        55
+      ],
+      "end": [
+        51,
+        62
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rounded-vertical-rectangle:bottom",
+      "start": [
+        51,
+        62
+      ],
+      "end": [
+        13,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rounded-vertical-rectangle:sw",
+      "start": [
+        13,
+        62
+      ],
+      "end": [
+        6,
+        55
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rounded-vertical-rectangle:left",
+      "start": [
+        6,
+        55
+      ],
+      "end": [
+        6,
+        9
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rounded-vertical-rectangle:nw",
+      "start": [
+        6,
+        9
+      ],
+      "end": [
+        13,
+        2
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:rounded-vertical-rectangle:outline",
+      "members": [
+        "0:rounded-vertical-rectangle:top",
+        "0:rounded-vertical-rectangle:ne",
+        "0:rounded-vertical-rectangle:right",
+        "0:rounded-vertical-rectangle:se",
+        "0:rounded-vertical-rectangle:bottom",
+        "0:rounded-vertical-rectangle:sw",
+        "0:rounded-vertical-rectangle:left",
+        "0:rounded-vertical-rectangle:nw"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:rounded-vertical-rectangle:center": [
+      32,
+      32
+    ],
+    "0:rounded-vertical-rectangle:content-top-left": [
+      16,
+      16
+    ],
+    "0:rounded-vertical-rectangle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "rounded-vertical-rectangle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "assets/batch_12_compositions/rounded-vertical-rectangle-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

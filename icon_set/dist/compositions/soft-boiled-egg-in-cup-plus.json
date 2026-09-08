@@ -1,0 +1,186 @@
+{
+  "icon_id": "soft-boiled-egg-in-cup-plus",
+  "name": "soft-boiled-egg-in-cup-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "soft",
+    "boiled",
+    "egg",
+    "in",
+    "cup",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:soft-boiled-egg-in-cup:egg-crown",
+      "start": [
+        12,
+        42
+      ],
+      "end": [
+        52,
+        42
+      ],
+      "radius_x": 20,
+      "radius_y": 40,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:soft-boiled-egg-in-cup:cup-rim",
+      "start": [
+        6,
+        42
+      ],
+      "end": [
+        58,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:soft-boiled-egg-in-cup:cup-bowl",
+      "start": [
+        58,
+        42
+      ],
+      "end": [
+        6,
+        42
+      ],
+      "radius_x": 26,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [],
+  "anchors": {
+    "0:soft-boiled-egg-in-cup:center": [
+      32,
+      32
+    ],
+    "0:soft-boiled-egg-in-cup:content-top-left": [
+      16,
+      16
+    ],
+    "0:soft-boiled-egg-in-cup:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:soft-boiled-egg-in-cup:egg-crown",
+        "0:soft-boiled-egg-in-cup:cup-rim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:soft-boiled-egg-in-cup:cup-bowl",
+        "0:soft-boiled-egg-in-cup:cup-rim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "soft-boiled-egg-in-cup",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/soft-boiled-egg-in-cup-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

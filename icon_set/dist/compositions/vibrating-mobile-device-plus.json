@@ -1,0 +1,277 @@
+{
+  "icon_id": "vibrating-mobile-device-plus",
+  "name": "vibrating-mobile-device-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "vibrating",
+    "mobile",
+    "device",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:device-0",
+      "start": [
+        14,
+        2
+      ],
+      "end": [
+        50,
+        2
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:vibrating-mobile-device:device-1",
+      "start": [
+        50,
+        2
+      ],
+      "end": [
+        54,
+        6
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:device-2",
+      "start": [
+        54,
+        6
+      ],
+      "end": [
+        54,
+        58
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:vibrating-mobile-device:device-3",
+      "start": [
+        54,
+        58
+      ],
+      "end": [
+        50,
+        62
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:device-4",
+      "start": [
+        50,
+        62
+      ],
+      "end": [
+        14,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:vibrating-mobile-device:device-5",
+      "start": [
+        14,
+        62
+      ],
+      "end": [
+        10,
+        58
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:device-6",
+      "start": [
+        10,
+        58
+      ],
+      "end": [
+        10,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:vibrating-mobile-device:device-7",
+      "start": [
+        10,
+        6
+      ],
+      "end": [
+        14,
+        2
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:vibration-left",
+      "start": [
+        2,
+        12
+      ],
+      "end": [
+        2,
+        52
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:vibrating-mobile-device:vibration-right",
+      "start": [
+        62,
+        12
+      ],
+      "end": [
+        62,
+        52
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:vibrating-mobile-device:device",
+      "members": [
+        "0:vibrating-mobile-device:device-0",
+        "0:vibrating-mobile-device:device-1",
+        "0:vibrating-mobile-device:device-2",
+        "0:vibrating-mobile-device:device-3",
+        "0:vibrating-mobile-device:device-4",
+        "0:vibrating-mobile-device:device-5",
+        "0:vibrating-mobile-device:device-6",
+        "0:vibrating-mobile-device:device-7"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:vibrating-mobile-device:center": [
+      32,
+      32
+    ],
+    "0:vibrating-mobile-device:content-top-left": [
+      16,
+      16
+    ],
+    "0:vibrating-mobile-device:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "vibrating-mobile-device",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/vibrating-mobile-device-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

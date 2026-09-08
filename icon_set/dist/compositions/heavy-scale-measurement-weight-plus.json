@@ -1,0 +1,277 @@
+{
+  "icon_id": "heavy-scale-measurement-weight-plus",
+  "name": "heavy-scale-measurement-weight-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "heavy",
+    "scale",
+    "measurement",
+    "weight",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:heavy-scale-measurement-weight:outline-0",
+      "start": [
+        14,
+        18
+      ],
+      "end": [
+        50,
+        18
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:heavy-scale-measurement-weight:outline-1",
+      "start": [
+        50,
+        18
+      ],
+      "end": [
+        54,
+        22
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:heavy-scale-measurement-weight:outline-2",
+      "start": [
+        54,
+        22
+      ],
+      "end": [
+        62,
+        58
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:heavy-scale-measurement-weight:outline-3",
+      "start": [
+        62,
+        58
+      ],
+      "end": [
+        58,
+        62
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:heavy-scale-measurement-weight:outline-4",
+      "start": [
+        58,
+        62
+      ],
+      "end": [
+        6,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:heavy-scale-measurement-weight:outline-5",
+      "start": [
+        6,
+        62
+      ],
+      "end": [
+        2,
+        58
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:heavy-scale-measurement-weight:outline-6",
+      "start": [
+        2,
+        58
+      ],
+      "end": [
+        10,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:heavy-scale-measurement-weight:outline-7",
+      "start": [
+        10,
+        22
+      ],
+      "end": [
+        14,
+        18
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:heavy-scale-measurement-weight:handle",
+      "start": [
+        24,
+        18
+      ],
+      "end": [
+        40,
+        18
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": true,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:heavy-scale-measurement-weight:outline",
+      "members": [
+        "0:heavy-scale-measurement-weight:outline-0",
+        "0:heavy-scale-measurement-weight:outline-1",
+        "0:heavy-scale-measurement-weight:outline-2",
+        "0:heavy-scale-measurement-weight:outline-3",
+        "0:heavy-scale-measurement-weight:outline-4",
+        "0:heavy-scale-measurement-weight:outline-5",
+        "0:heavy-scale-measurement-weight:outline-6",
+        "0:heavy-scale-measurement-weight:outline-7"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:heavy-scale-measurement-weight:center": [
+      32,
+      32
+    ],
+    "0:heavy-scale-measurement-weight:content-top-left": [
+      16,
+      16
+    ],
+    "0:heavy-scale-measurement-weight:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:heavy-scale-measurement-weight:outline",
+        "0:heavy-scale-measurement-weight:handle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "heavy-scale-measurement-weight",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/heavy-scale-measurement-weight-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

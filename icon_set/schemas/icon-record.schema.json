@@ -1,0 +1,393 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://pictographic.dev/schemas/icon-record.v1.json",
+  "title": "Icon record",
+  "description": "One published icon: locked metadata plus the serializable geometry AST. Agents emit this shape; the registry instantiates it as model classes. It never carries final path data, so geometry cannot drift from the model. Family and profile must agree per the profile contract.",
+  "type": "object",
+  "required": [
+    "icon_id",
+    "name",
+    "category",
+    "family",
+    "profile",
+    "canvas_size",
+    "semantic_role",
+    "semantic_kind",
+    "composition_class",
+    "keyshape",
+    "keyshape_bounds",
+    "style",
+    "primitives",
+    "contours",
+    "anchors",
+    "relationships"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "icon_id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "aliases": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "category": {
+      "type": "string",
+      "minLength": 1
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "family": {
+      "enum": [
+        "sub",
+        "solo",
+        "container"
+      ],
+      "description": "The authored family. Bound one-to-one to profile by the profile contract: sub=SUB32, solo=SOLO48, container=CONTAINER64. A composition is 'container'."
+    },
+    "profile": {
+      "enum": [
+        "SUB32",
+        "SOLO48",
+        "CONTAINER64"
+      ]
+    },
+    "canvas_size": {
+      "enum": [
+        32,
+        48,
+        64
+      ]
+    },
+    "semantic_role": {
+      "enum": [
+        "MAIN",
+        "SUB",
+        null
+      ]
+    },
+    "semantic_kind": {
+      "enum": [
+        "noun",
+        "verb",
+        "state",
+        "modifier"
+      ]
+    },
+    "composition_class": {
+      "enum": [
+        "SOLO",
+        "SIDE_COMBINE",
+        "CONTAINER_COMBINE",
+        "DIAGRAM_COMBINE"
+      ]
+    },
+    "keyshape": {
+      "enum": [
+        "CIRCLE",
+        "SQUARE",
+        "HRECT_XL",
+        "HRECT_L",
+        "HRECT_M",
+        "HRECT_S",
+        "VRECT_XL",
+        "VRECT_L",
+        "VRECT_M",
+        "VRECT_S",
+        "FREE"
+      ],
+      "description": "HRECT_XS and VRECT_XS are reserved identifiers and are deliberately absent."
+    },
+    "keyshape_bounds": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 4,
+      "maxItems": 4,
+      "description": "Visible-ink bounds [left, top, right, bottom]."
+    },
+    "free_keyshape": {
+      "type": "object",
+      "required": [
+        "bounds",
+        "rationale",
+        "approval_id"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "bounds": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          },
+          "minItems": 4,
+          "maxItems": 4
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "approval_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "style": {
+      "type": "object",
+      "required": [
+        "stroke_width",
+        "line_cap",
+        "line_join",
+        "grid"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "stroke_width": {
+          "const": 4
+        },
+        "line_cap": {
+          "const": "round"
+        },
+        "line_join": {
+          "const": "round"
+        },
+        "grid": {
+          "const": 1
+        }
+      }
+    },
+    "primitives": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/primitive"
+      }
+    },
+    "contours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "contour_id",
+          "members",
+          "closed"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "contour_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "closed": {
+            "type": "boolean"
+          }
+        }
+      }
+    },
+    "anchors": {
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/$defs/point"
+      }
+    },
+    "relationships": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "members"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "connect",
+              "occlude",
+              "knockout"
+            ]
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          }
+        }
+      }
+    },
+    "children": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "icon_id",
+          "profile",
+          "position"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "icon_id": {
+            "type": "string"
+          },
+          "profile": {
+            "enum": [
+              "SUB32",
+              "SOLO48",
+              "CONTAINER64"
+            ]
+          },
+          "semantic_role": {
+            "enum": [
+              "MAIN",
+              "SUB",
+              null
+            ]
+          },
+          "position": {
+            "$ref": "#/$defs/point"
+          }
+        }
+      }
+    },
+    "svg_path": {
+      "type": "string"
+    },
+    "svg_sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "validation": {
+      "type": "object",
+      "required": [
+        "status"
+      ],
+      "properties": {
+        "status": {
+          "enum": [
+            "valid",
+            "invalid",
+            "review",
+            "not_implemented"
+          ]
+        },
+        "checks_run": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "warnings": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "point": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      },
+      "minItems": 2,
+      "maxItems": 2,
+      "description": "Integer canvas coordinates on grid 1."
+    },
+    "primitive": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "element_id",
+            "start",
+            "end"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "line"
+            },
+            "element_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "start": {
+              "$ref": "#/$defs/point"
+            },
+            "end": {
+              "$ref": "#/$defs/point"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "element_id",
+            "start",
+            "end",
+            "radius_x",
+            "radius_y"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "arc"
+            },
+            "element_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "start": {
+              "$ref": "#/$defs/point"
+            },
+            "end": {
+              "$ref": "#/$defs/point"
+            },
+            "radius_x": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "radius_y": {
+              "type": "integer",
+              "minimum": 1
+            },
+            "large_arc": {
+              "type": "boolean"
+            },
+            "sweep": {
+              "type": "boolean"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

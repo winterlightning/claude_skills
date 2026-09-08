@@ -1,0 +1,286 @@
+{
+  "icon_id": "dashed-rounded-square-plus",
+  "name": "dashed-rounded-square-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "dashed",
+    "rounded",
+    "square",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-rounded-square:corner-0",
+      "start": [
+        2,
+        10
+      ],
+      "end": [
+        10,
+        2
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-a-0",
+      "start": [
+        20,
+        2
+      ],
+      "end": [
+        27,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-b-0",
+      "start": [
+        37,
+        2
+      ],
+      "end": [
+        44,
+        2
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-rounded-square:corner-1",
+      "start": [
+        54,
+        2
+      ],
+      "end": [
+        62,
+        10
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-a-1",
+      "start": [
+        62,
+        20
+      ],
+      "end": [
+        62,
+        27
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-b-1",
+      "start": [
+        62,
+        37
+      ],
+      "end": [
+        62,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-rounded-square:corner-2",
+      "start": [
+        62,
+        54
+      ],
+      "end": [
+        54,
+        62
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-a-2",
+      "start": [
+        44,
+        62
+      ],
+      "end": [
+        37,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-b-2",
+      "start": [
+        27,
+        62
+      ],
+      "end": [
+        20,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-rounded-square:corner-3",
+      "start": [
+        10,
+        62
+      ],
+      "end": [
+        2,
+        54
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-a-3",
+      "start": [
+        2,
+        44
+      ],
+      "end": [
+        2,
+        37
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:dashed-rounded-square:dash-b-3",
+      "start": [
+        2,
+        27
+      ],
+      "end": [
+        2,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [],
+  "anchors": {
+    "0:dashed-rounded-square:center": [
+      32,
+      32
+    ],
+    "0:dashed-rounded-square:content-top-left": [
+      16,
+      16
+    ],
+    "0:dashed-rounded-square:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "dashed-rounded-square",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "assets/batch_12_compositions/dashed-rounded-square-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

@@ -1,0 +1,245 @@
+{
+  "icon_id": "simple-admission-ticket-check",
+  "name": "simple-admission-ticket-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "simple",
+    "admission",
+    "ticket",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    0,
+    8,
+    64,
+    56
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:top",
+      "start": [
+        2,
+        10
+      ],
+      "end": [
+        62,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:right-upper",
+      "start": [
+        62,
+        10
+      ],
+      "end": [
+        62,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-admission-ticket:right-notch",
+      "start": [
+        62,
+        22
+      ],
+      "end": [
+        62,
+        42
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:right-lower",
+      "start": [
+        62,
+        42
+      ],
+      "end": [
+        62,
+        54
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:bottom",
+      "start": [
+        62,
+        54
+      ],
+      "end": [
+        2,
+        54
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:left-lower",
+      "start": [
+        2,
+        54
+      ],
+      "end": [
+        2,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-admission-ticket:left-notch",
+      "start": [
+        2,
+        42
+      ],
+      "end": [
+        2,
+        22
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-admission-ticket:left-upper",
+      "start": [
+        2,
+        22
+      ],
+      "end": [
+        2,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:simple-admission-ticket:ticket",
+      "members": [
+        "0:simple-admission-ticket:top",
+        "0:simple-admission-ticket:right-upper",
+        "0:simple-admission-ticket:right-notch",
+        "0:simple-admission-ticket:right-lower",
+        "0:simple-admission-ticket:bottom",
+        "0:simple-admission-ticket:left-lower",
+        "0:simple-admission-ticket:left-notch",
+        "0:simple-admission-ticket:left-upper"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:simple-admission-ticket:center": [
+      32,
+      32
+    ],
+    "0:simple-admission-ticket:content-top-left": [
+      16,
+      16
+    ],
+    "0:simple-admission-ticket:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "simple-admission-ticket",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/simple-admission-ticket-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

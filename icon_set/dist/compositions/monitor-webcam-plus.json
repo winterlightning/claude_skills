@@ -1,0 +1,341 @@
+{
+  "icon_id": "monitor-webcam-plus",
+  "name": "monitor-webcam-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "monitor",
+    "webcam",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "HRECT_XL",
+  "keyshape_bounds": [
+    0,
+    4,
+    64,
+    60
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:top-right",
+      "start": [
+        42,
+        6
+      ],
+      "end": [
+        58,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:monitor-webcam:ne",
+      "start": [
+        58,
+        6
+      ],
+      "end": [
+        62,
+        10
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:right",
+      "start": [
+        62,
+        10
+      ],
+      "end": [
+        62,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:monitor-webcam:se",
+      "start": [
+        62,
+        42
+      ],
+      "end": [
+        58,
+        46
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:bottom",
+      "start": [
+        58,
+        46
+      ],
+      "end": [
+        6,
+        46
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:monitor-webcam:sw",
+      "start": [
+        6,
+        46
+      ],
+      "end": [
+        2,
+        42
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:left",
+      "start": [
+        2,
+        42
+      ],
+      "end": [
+        2,
+        10
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:monitor-webcam:nw",
+      "start": [
+        2,
+        10
+      ],
+      "end": [
+        6,
+        6
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:top-left",
+      "start": [
+        6,
+        6
+      ],
+      "end": [
+        22,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:webcam",
+      "start": [
+        32,
+        6
+      ],
+      "end": [
+        32,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:stand-left",
+      "start": [
+        26,
+        46
+      ],
+      "end": [
+        22,
+        58
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:stand-right",
+      "start": [
+        38,
+        46
+      ],
+      "end": [
+        42,
+        58
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:monitor-webcam:foot",
+      "start": [
+        18,
+        58
+      ],
+      "end": [
+        46,
+        58
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:monitor-webcam:screen",
+      "members": [
+        "0:monitor-webcam:top-right",
+        "0:monitor-webcam:ne",
+        "0:monitor-webcam:right",
+        "0:monitor-webcam:se",
+        "0:monitor-webcam:bottom",
+        "0:monitor-webcam:sw",
+        "0:monitor-webcam:left",
+        "0:monitor-webcam:nw",
+        "0:monitor-webcam:top-left"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:monitor-webcam:center": [
+      32,
+      32
+    ],
+    "0:monitor-webcam:content-top-left": [
+      16,
+      16
+    ],
+    "0:monitor-webcam:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:monitor-webcam:stand-left",
+        "0:monitor-webcam:screen"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:monitor-webcam:stand-right",
+        "0:monitor-webcam:screen"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:monitor-webcam:stand-left",
+        "0:monitor-webcam:foot"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:monitor-webcam:stand-right",
+        "0:monitor-webcam:foot"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "monitor-webcam",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/monitor-webcam-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

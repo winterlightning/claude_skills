@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pictographic Profile Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root {
+  --ground: #e8ebec;
+  --surface: #fbfcfc;
+  --surface-sunk: #eef1f2;
+  --ink: #14191c;
+  --ink-soft: #4a585f;
+  --ink-faint: #7d8b92;
+  --rule: #ccd5d9;
+  --rule-strong: #aab7bd;
+  --guide: #1f5fbf;
+  --guide-wash: rgba(31, 95, 191, 0.10);
+  --envelope: #a4680d;
+  --good: #1f7a55;
+  --warn: #96690a;
+  --critical: #c0392e;
+  --critical-wash: rgba(192, 57, 46, 0.12);
+  --focus: #1f5fbf;
+  --shadow: 0 1px 2px rgba(20, 25, 28, .07), 0 8px 20px rgba(20, 25, 28, .05);
+  --sans: "Archivo", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: #0f1315;
+    --surface: #171d20;
+    --surface-sunk: #121719;
+    --ink: #e4ebee;
+    --ink-soft: #a2b0b6;
+    --ink-faint: #74838a;
+    --rule: #293236;
+    --rule-strong: #3c474c;
+    --guide: #6ba3f5;
+    --guide-wash: rgba(107, 163, 245, 0.14);
+    --envelope: #d9a441;
+    --good: #4fbd8b;
+    --warn: #d8a53a;
+    --critical: #e8776b;
+    --critical-wash: rgba(232, 119, 107, 0.16);
+    --focus: #6ba3f5;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .3);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --ground: #0f1315;
+  --surface: #171d20;
+  --surface-sunk: #121719;
+  --ink: #e4ebee;
+  --ink-soft: #a2b0b6;
+  --ink-faint: #74838a;
+  --rule: #293236;
+  --rule-strong: #3c474c;
+  --guide: #6ba3f5;
+  --guide-wash: rgba(107, 163, 245, 0.14);
+  --envelope: #d9a441;
+  --good: #4fbd8b;
+  --warn: #d8a53a;
+  --critical: #e8776b;
+  --critical-wash: rgba(232, 119, 107, 0.16);
+  --focus: #6ba3f5;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4), 0 10px 24px rgba(0, 0, 0, .3);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font: 400 14px/1.5 var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 { margin: 0; text-wrap: balance; }
+button, input, select { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+
+/* ---------- masthead ---------- */
+.masthead {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px;
+  padding: 18px 24px; border-bottom: 1px solid var(--rule); background: var(--surface);
+}
+.masthead h1 { font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+.masthead .sub { color: var(--ink-soft); font-size: 13px; max-width: 62ch; }
+.masthead .spacer { flex: 1 1 auto; }
+.ghost {
+  border: 1px solid var(--rule-strong); background: transparent; color: var(--ink-soft);
+  border-radius: 6px; padding: 5px 11px; font-size: 12px; cursor: pointer;
+}
+.ghost:hover { color: var(--ink); border-color: var(--ink-faint); }
+
+/* ---------- shell ---------- */
+.shell { display: grid; grid-template-columns: 336px minmax(0, 1fr); align-items: start; }
+@media (max-width: 940px) { .shell { grid-template-columns: 1fr; } }
+
+.rail {
+  position: sticky; top: 0; align-self: start; max-height: 100vh; overflow-y: auto;
+  border-right: 1px solid var(--rule); background: var(--surface);
+  padding: 18px 20px 40px; display: flex; flex-direction: column; gap: 20px;
+}
+@media (max-width: 940px) { .rail { position: static; max-height: none; border-right: 0; border-bottom: 1px solid var(--rule); } }
+
+.eyebrow {
+  font-size: 10.5px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.panel { border: 1px solid var(--rule); border-radius: 9px; background: var(--surface-sunk); }
+.panel > header {
+  display: flex; align-items: baseline; gap: 8px; padding: 9px 12px;
+  border-bottom: 1px solid var(--rule);
+}
+.panel > header .name { font-weight: 600; font-family: var(--mono); font-size: 12.5px; }
+.panel > header .role { color: var(--ink-faint); font-size: 11.5px; }
+.panel > header .canvas { margin-left: auto; color: var(--ink-soft); font-size: 11.5px; }
+.panel .body { padding: 10px 12px 13px; display: flex; flex-direction: column; gap: 11px; }
+
+.control { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; align-items: center; }
+.control label { font-size: 12.5px; color: var(--ink-soft); }
+.control .value { font-family: var(--mono); font-size: 12.5px; font-variant-numeric: tabular-nums; }
+.control .value.moved { color: var(--guide); font-weight: 600; }
+.control input[type="range"] { grid-column: 1 / -1; width: 100%; accent-color: var(--guide); margin: 2px 0 0; }
+.control .hint { grid-column: 1 / -1; font-size: 11.5px; color: var(--ink-faint); }
+
+.derived {
+  display: flex; justify-content: space-between; gap: 10px;
+  font-size: 12px; color: var(--ink-soft); border-top: 1px dashed var(--rule); padding-top: 9px;
+}
+
+table.shapes { width: 100%; border-collapse: collapse; font-size: 12px; }
+table.shapes th { text-align: left; font-weight: 500; color: var(--ink-faint); font-size: 11px; padding: 0 0 5px; }
+table.shapes td { padding: 2px 0; }
+table.shapes td.name { font-family: var(--mono); font-size: 11.5px; }
+table.shapes input {
+  width: 52px; padding: 3px 6px; text-align: right; font-family: var(--mono); font-size: 12px;
+  border: 1px solid var(--rule-strong); border-radius: 5px; background: var(--surface);
+}
+table.shapes tr.moved input { border-color: var(--guide); color: var(--guide); }
+table.shapes tr.broken input { border-color: var(--critical); color: var(--critical); }
+
+/* ---------- main ---------- */
+main { padding: 18px 24px 56px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+
+.readout { display: grid; grid-template-columns: repeat(auto-fit, minmax(168px, 1fr)); gap: 10px; }
+.stat {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 9px;
+  padding: 11px 13px; display: flex; flex-direction: column; gap: 3px;
+}
+.stat .figure { font-family: var(--mono); font-size: 25px; font-weight: 600; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.stat .caption { font-size: 12px; color: var(--ink-soft); }
+.stat.hot { border-color: var(--critical); background: var(--critical-wash); }
+.stat.hot .figure { color: var(--critical); }
+.stat.calm .figure { color: var(--good); }
+
+.command {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 9px;
+  padding: 11px 13px; display: flex; gap: 12px; align-items: flex-start;
+}
+.command .lines { flex: 1 1 auto; min-width: 0; overflow-x: auto; }
+.command code {
+  display: block; font-family: var(--mono); font-size: 12.5px; white-space: pre;
+  color: var(--ink); padding-bottom: 2px;
+}
+.command .idle { color: var(--ink-faint); font-family: var(--sans); font-size: 12.5px; white-space: normal; }
+.command button {
+  border: 1px solid var(--rule-strong); background: var(--surface-sunk); border-radius: 6px;
+  padding: 5px 11px; font-size: 12px; cursor: pointer; white-space: nowrap;
+}
+.command button:hover { border-color: var(--ink-faint); }
+
+.filters { display: flex; flex-wrap: wrap; gap: 7px; align-items: center; }
+.chip {
+  border: 1px solid var(--rule-strong); background: transparent; border-radius: 999px;
+  padding: 4px 12px; font-size: 12px; cursor: pointer; color: var(--ink-soft);
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.filters .count { margin-left: auto; font-size: 12px; color: var(--ink-faint); font-family: var(--mono); }
+
+.plates { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px; }
+.plate {
+  background: var(--surface); border: 1px solid var(--rule); border-radius: 9px;
+  padding: 10px; display: flex; flex-direction: column; gap: 7px;
+}
+.plate.flagged { border-color: var(--critical); }
+.plate svg { display: block; width: 100%; height: auto; background: transparent; }
+.plate .id { font-size: 12px; font-weight: 500; line-height: 1.25; word-break: break-word; }
+.plate .meta { font-family: var(--mono); font-size: 10.5px; color: var(--ink-faint); letter-spacing: .01em; }
+.flags { display: flex; flex-wrap: wrap; gap: 4px; }
+.flag {
+  font-size: 10.5px; font-family: var(--mono); padding: 2px 6px; border-radius: 4px;
+  background: var(--critical-wash); color: var(--critical);
+}
+.flag.warn { background: transparent; color: var(--warn); border: 1px solid currentColor; }
+.empty { color: var(--ink-faint); font-size: 13px; padding: 26px 0; }
+
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 12px; color: var(--ink-soft); }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 15px; height: 0; border-top-width: 2px; border-top-style: solid; display: inline-block; }
+
+footer {
+  border-top: 1px solid var(--rule); padding: 16px 24px 40px; color: var(--ink-soft);
+  font-size: 12.5px; display: flex; flex-direction: column; gap: 6px;
+}
+footer code { font-family: var(--mono); font-size: 12px; color: var(--ink); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <h1>Pictographic Profile Lab</h1>
+  <p class="sub">Move a number and see which authored icons it costs you — before it goes anywhere near a locked contract.</p>
+  <span class="spacer"></span>
+  <button class="ghost" id="reset" type="button">Reset to shipped values</button>
+</header>
+
+<div class="shell">
+  <aside class="rail" id="rail">
+    <div>
+      <p class="eyebrow">Style</p>
+      <div class="panel" style="margin-top:8px">
+        <div class="body">
+          <div class="control">
+            <label for="stroke">Stroke width</label>
+            <span class="value" id="stroke-value">4</span>
+            <input type="range" id="stroke" min="2" max="8" step="1" value="4">
+            <p class="hint">Every icon is one weight. Painted ink is the centerline grown by half of this.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="profiles"></div>
+
+    <div>
+      <p class="eyebrow">Keyshape base sizes</p>
+      <div class="panel" style="margin-top:8px">
+        <div class="body">
+          <table class="shapes" id="shapes">
+            <thead><tr><th>token</th><th style="text-align:right">width</th><th style="text-align:right">height</th></tr></thead>
+            <tbody></tbody>
+          </table>
+          <p class="hint" style="font-size:11.5px;color:var(--ink-faint);margin:0">
+            Base is the 32-canvas size. SOLO48 takes it ×3⁄2 and CONTAINER64 ×2, so an odd
+            result has nowhere to land on the integer grid.
+          </p>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <main>
+    <section class="readout" id="readout"></section>
+
+    <section class="command">
+      <div class="lines" id="command"></div>
+      <button type="button" id="copy">Copy</button>
+    </section>
+
+    <section class="filters" id="filters">
+      <button class="chip" type="button" data-family="all" aria-pressed="true">All families</button>
+      <button class="chip" type="button" data-family="sub" aria-pressed="false">sub · 32</button>
+      <button class="chip" type="button" data-family="solo" aria-pressed="false">solo · 48</button>
+      <button class="chip" type="button" data-family="container" aria-pressed="false">container · 64</button>
+      <button class="chip" type="button" id="only-flagged" aria-pressed="false">Only affected</button>
+      <span class="count" id="count"></span>
+    </section>
+
+    <section class="legend">
+      <span><i style="border-color:var(--ink)"></i> ink</span>
+      <span><i style="border-color:var(--guide);border-top-style:dashed"></i> interior guide</span>
+      <span><i style="border-color:var(--envelope);border-top-style:dotted"></i> keyshape envelope</span>
+      <span><i style="border-color:var(--critical)"></i> part that breaks the proposed rule</span>
+    </section>
+
+    <section class="plates" id="plates"></section>
+  </main>
+</div>
+
+<footer>
+  <p style="margin:0">
+    Generated from the registry by <code>python3 icon_set/scripts/profile_lab.py page</code>.
+    Re-run it after authoring icons to refresh what is drawn here; edit
+    <code>icon_set/scripts/profile_lab.html</code> to change the page itself.
+  </p>
+  <p style="margin:0">
+    This page only measures. To apply a proposal, run the <code>try</code> line above, then add
+    <code>--write</code> once the report reads the way you want.
+  </p>
+</footer>
+
+<script>
+const DATA = /*PROFILE_LAB_DATA*/null;
+
+const TOLERANCE = 0.001;
+const CIRCLE_TOUCH = 0.5;
+
+const state = {
+  stroke: DATA.stroke,
+  profiles: Object.fromEntries(Object.entries(DATA.profiles).map(([name, row]) => [name, { inset: row.inset, mic: row.mic }])),
+  shapes: Object.fromEntries(Object.entries(DATA.keyshapes).map(([name, row]) => [name, { width: row.width, height: row.height }])),
+  family: "all",
+  onlyFlagged: false,
+};
+
+/* ---------- rules, mirrored from the contracts ---------- */
+
+function keyshapeBounds(shapeName, profileName) {
+  const profile = DATA.profiles[profileName];
+  const base = state.shapes[shapeName];
+  if (!base) return null;
+  const width = base.width * profile.numerator / profile.denominator;
+  const height = base.height * profile.numerator / profile.denominator;
+  if (!Number.isInteger(width) || !Number.isInteger(height)) return null;
+  const left = (profile.canvas - width) / 2;
+  const top = (profile.canvas - height) / 2;
+  if (!Number.isInteger(left) || !Number.isInteger(top)) return null;
+  return [left, top, left + width, top + height];
+}
+
+function guideBounds(profileName) {
+  const profile = DATA.profiles[profileName];
+  const inset = state.profiles[profileName].inset;
+  return [inset, inset, profile.canvas - inset, profile.canvas - inset];
+}
+
+function painted(bounds) {
+  const radius = state.stroke / 2;
+  return [bounds[0] - radius, bounds[1] - radius, bounds[2] + radius, bounds[3] + radius];
+}
+
+function assess(icon) {
+  const profile = DATA.profiles[icon.profile];
+  const guide = guideBounds(icon.profile);
+  const target = icon.keyshape === "FREE" ? icon.free_bounds : keyshapeBounds(icon.keyshape, icon.profile);
+  const ink = painted(icon.bounds);
+  const radius = state.stroke / 2;
+  const flags = [];
+  const badParts = new Set();
+
+  if (!target) {
+    flags.push({ kind: "bad", text: icon.keyshape + " has no integer size" });
+  } else if (icon.keyshape === "CIRCLE") {
+    const required = (target[2] - target[0]) / 2;
+    const reach = icon.radial + radius;
+    if (reach > required + TOLERANCE) flags.push({ kind: "bad", text: "outside radius by " + trim(reach - required) });
+    else if (reach < required - CIRCLE_TOUCH - TOLERANCE) flags.push({ kind: "bad", text: "short of radius by " + trim(required - reach) });
+  } else if (icon.keyshape !== "FREE") {
+    const off = Math.max(...[0, 1, 2, 3].map((i) => Math.abs(ink[i] - target[i])));
+    if (off > TOLERANCE) flags.push({ kind: "bad", text: "off its envelope by " + trim(off) });
+  }
+
+  let worstInterior = 0;
+  if (target) {
+    for (const part of icon.parts) {
+      const box = painted(part.bounds);
+      const onEnvelope = [0, 1, 2, 3].some((i) => Math.abs(box[i] - target[i]) <= TOLERANCE);
+      if (onEnvelope) continue;
+      const over = Math.max(guide[0] - box[0], guide[1] - box[1], box[2] - guide[2], box[3] - guide[3]);
+      if (over > TOLERANCE) { badParts.add(part.id); worstInterior = Math.max(worstInterior, over); }
+    }
+  }
+  if (worstInterior > 0) flags.push({ kind: "bad", text: "detail past guide by " + trim(worstInterior) });
+
+  const required = state.profiles[icon.profile].mic + state.stroke;
+  if (icon.clearance !== null && icon.clearance < required - TOLERANCE) {
+    flags.push({ kind: "warn", text: "gap " + trim(icon.clearance) + " needs " + trim(required) });
+  }
+  if (ink[0] < -TOLERANCE || ink[1] < -TOLERANCE || ink[2] > profile.canvas + TOLERANCE || ink[3] > profile.canvas + TOLERANCE) {
+    flags.push({ kind: "bad", text: "ink leaves the canvas" });
+  }
+  return { flags, badParts, target, guide, hard: flags.some((f) => f.kind === "bad") };
+}
+
+function trim(value) {
+  return Number(value.toFixed(4)).toString();
+}
+
+if (typeof module === "object" && module.exports) {
+  module.exports = { DATA, state, keyshapeBounds, guideBounds, painted, assess };
+}
+</script>
+
+<script>
+/* ---------- drawing ---------- */
+
+function plate(icon, verdict) {
+  const canvas = DATA.profiles[icon.profile].canvas;
+  const pad = 3;
+  const box = `${-pad} ${-pad} ${canvas + pad * 2} ${canvas + pad * 2}`;
+  const guide = verdict.guide;
+  const target = verdict.target;
+  const parts = icon.parts.map((part) => {
+    const bad = verdict.badParts.has(part.id);
+    return `<path d="${part.d}" fill="none" stroke="${bad ? "var(--critical)" : "var(--ink)"}"
+      stroke-width="${state.stroke}" stroke-linecap="round" stroke-linejoin="round"></path>`;
+  }).join("");
+  const envelope = target
+    ? (icon.keyshape === "CIRCLE"
+        ? `<circle cx="${canvas / 2}" cy="${canvas / 2}" r="${(target[2] - target[0]) / 2}"
+             fill="none" stroke="var(--envelope)" stroke-width=".5" stroke-dasharray="1 1.5"></circle>`
+        : `<rect x="${target[0]}" y="${target[1]}" width="${target[2] - target[0]}" height="${target[3] - target[1]}"
+             fill="none" stroke="var(--envelope)" stroke-width=".5" stroke-dasharray="1 1.5"></rect>`)
+    : "";
+  return `<svg viewBox="${box}" role="img" aria-label="${icon.id}">
+    <rect x="0" y="0" width="${canvas}" height="${canvas}" fill="var(--surface-sunk)" stroke="var(--rule-strong)" stroke-width=".5"></rect>
+    <rect x="${guide[0]}" y="${guide[1]}" width="${Math.max(0, guide[2] - guide[0])}" height="${Math.max(0, guide[3] - guide[1])}"
+      fill="var(--guide-wash)" stroke="var(--guide)" stroke-width=".5" stroke-dasharray="2 2"></rect>
+    ${envelope}${parts}
+  </svg>`;
+}
+
+/* ---------- rail ---------- */
+
+function buildRail() {
+  const profiles = document.getElementById("profiles");
+  profiles.innerHTML = `<p class="eyebrow">Profiles</p>` + Object.entries(DATA.profiles).map(([name, row]) => `
+    <div class="panel" style="margin-top:8px">
+      <header>
+        <span class="name">${name}</span>
+        <span class="role">${row.family}</span>
+        <span class="canvas num">${row.canvas}×${row.canvas}</span>
+      </header>
+      <div class="body">
+        <div class="control">
+          <label for="${name}-inset">Interior guide inset</label>
+          <span class="value" id="${name}-inset-value"></span>
+          <input type="range" id="${name}-inset" data-profile="${name}" data-field="inset"
+                 min="0" max="${Math.round(row.canvas / 4)}" step="1" value="${row.inset}">
+        </div>
+        <div class="control">
+          <label for="${name}-mic">Ink clearance (MIC)</label>
+          <span class="value" id="${name}-mic-value"></span>
+          <input type="range" id="${name}-mic" data-profile="${name}" data-field="mic"
+                 min="0" max="10" step="1" value="${row.mic}">
+        </div>
+        <div class="derived">
+          <span>guide box <span class="num" id="${name}-guide"></span></span>
+          <span>min gap <span class="num" id="${name}-gap"></span></span>
+        </div>
+      </div>
+    </div>`).join("");
+
+  const body = document.querySelector("#shapes tbody");
+  body.innerHTML = Object.entries(DATA.keyshapes).map(([name, row]) => `
+    <tr data-shape="${name}">
+      <td class="name">${name}</td>
+      <td style="text-align:right"><input type="number" step="1" min="4" max="64" value="${row.width}" data-shape="${name}" data-axis="width" aria-label="${name} width"></td>
+      <td style="text-align:right"><input type="number" step="1" min="4" max="64" value="${row.height}" data-shape="${name}" data-axis="height" aria-label="${name} height"></td>
+    </tr>`).join("");
+}
+
+/* ---------- render ---------- */
+
+function render() {
+  document.getElementById("stroke-value").textContent = state.stroke;
+  document.getElementById("stroke-value").classList.toggle("moved", state.stroke !== DATA.stroke);
+
+  for (const [name, row] of Object.entries(DATA.profiles)) {
+    const current = state.profiles[name];
+    const guide = guideBounds(name);
+    const insetValue = document.getElementById(`${name}-inset-value`);
+    const micValue = document.getElementById(`${name}-mic-value`);
+    insetValue.textContent = current.inset;
+    micValue.textContent = current.mic;
+    insetValue.classList.toggle("moved", current.inset !== row.inset);
+    micValue.classList.toggle("moved", current.mic !== row.mic);
+    document.getElementById(`${name}-guide`).textContent = `(${guide.join(",")})`;
+    document.getElementById(`${name}-gap`).textContent = current.mic + state.stroke;
+  }
+
+  for (const [name, row] of Object.entries(DATA.keyshapes)) {
+    const tr = document.querySelector(`tr[data-shape="${name}"]`);
+    const changed = state.shapes[name].width !== row.width || state.shapes[name].height !== row.height;
+    const broken = Object.keys(DATA.profiles).some((profile) => keyshapeBounds(name, profile) === null);
+    tr.classList.toggle("moved", changed && !broken);
+    tr.classList.toggle("broken", broken);
+  }
+
+  const results = DATA.icons.map((icon) => ({ icon, verdict: assess(icon) }));
+  const envelopeOff = results.filter((r) => r.verdict.flags.some((f) => f.text.includes("envelope") || f.text.includes("radius") || f.text.includes("canvas") || f.text.includes("integer"))).length;
+  const guidePast = results.filter((r) => r.verdict.flags.some((f) => f.text.startsWith("detail past"))).length;
+  const tight = results.filter((r) => r.verdict.flags.some((f) => f.kind === "warn")).length;
+  const clean = results.filter((r) => r.verdict.flags.length === 0).length;
+
+  document.getElementById("readout").innerHTML = [
+    { figure: envelopeOff, caption: "silhouettes off their keyshape envelope", hot: envelopeOff > 0 },
+    { figure: guidePast, caption: "icons with interior detail past the guide", hot: guidePast > 0 },
+    { figure: tight, caption: "icons with a gap under the proposed MIC", hot: tight > 0 },
+    { figure: `${clean}/${results.length}`, caption: "icons that need no work", calm: true },
+  ].map((stat) => `<div class="stat ${stat.hot ? "hot" : ""} ${stat.calm ? "calm" : ""}">
+      <span class="figure">${stat.figure}</span><span class="caption">${stat.caption}</span></div>`).join("");
+
+  const shown = results.filter(({ icon, verdict }) =>
+    (state.family === "all" || icon.family === state.family) &&
+    (!state.onlyFlagged || verdict.flags.length > 0));
+
+  document.getElementById("count").textContent = `${shown.length} shown`;
+  document.getElementById("plates").innerHTML = shown.length === 0
+    ? `<p class="empty">Nothing matches this filter — every icon in it clears the proposal.</p>`
+    : shown.map(({ icon, verdict }) => `
+      <article class="plate ${verdict.flags.length ? "flagged" : ""}">
+        ${plate(icon, verdict)}
+        <div>
+          <p class="id">${icon.id}</p>
+          <p class="meta">${icon.profile} · ${icon.keyshape}</p>
+        </div>
+        ${verdict.flags.length ? `<div class="flags">${verdict.flags.map((f) =>
+          `<span class="flag ${f.kind === "warn" ? "warn" : ""}">${f.text}</span>`).join("")}</div>` : ""}
+      </article>`).join("");
+
+  renderCommand();
+}
+
+function proposal() {
+  const parts = [];
+  if (state.stroke !== DATA.stroke) parts.push(`style.stroke_width=${state.stroke}`);
+  for (const [name, row] of Object.entries(DATA.profiles)) {
+    const current = state.profiles[name];
+    if (current.inset !== row.inset) parts.push(`${name}.interior_guide_inset=${current.inset}`);
+    if (current.mic !== row.mic) {
+      parts.push(`${name}.mic=${current.mic}`);
+      parts.push(`${name}.equal_stroke_centerline_min=${current.mic + state.stroke}`);
+    }
+  }
+  for (const [name, row] of Object.entries(DATA.keyshapes)) {
+    if (state.shapes[name].width !== row.width) parts.push(`${name}.width=${state.shapes[name].width}`);
+    if (state.shapes[name].height !== row.height) parts.push(`${name}.height=${state.shapes[name].height}`);
+  }
+  return parts;
+}
+
+function renderCommand() {
+  const parts = proposal();
+  const box = document.getElementById("command");
+  const copy = document.getElementById("copy");
+  if (parts.length === 0) {
+    box.innerHTML = `<p class="idle">No change yet. Move a slider and this becomes the command that measures it against the real corpus.</p>`;
+    copy.disabled = true;
+    copy.textContent = "Copy";
+    return;
+  }
+  copy.disabled = false;
+  box.innerHTML = `<code>python3 icon_set/scripts/profile_lab.py try \\\n  ${parts.join(" \\\n  ")}</code>`;
+}
+
+/* ---------- wiring ---------- */
+
+buildRail();
+
+document.getElementById("stroke").addEventListener("input", (event) => {
+  state.stroke = Number(event.target.value);
+  render();
+});
+
+document.getElementById("profiles").addEventListener("input", (event) => {
+  const input = event.target;
+  if (!input.dataset.profile) return;
+  state.profiles[input.dataset.profile][input.dataset.field] = Number(input.value);
+  render();
+});
+
+document.getElementById("shapes").addEventListener("input", (event) => {
+  const input = event.target;
+  if (!input.dataset.shape) return;
+  const value = Number(input.value);
+  if (!Number.isFinite(value) || value <= 0) return;
+  state.shapes[input.dataset.shape][input.dataset.axis] = value;
+  render();
+});
+
+document.getElementById("filters").addEventListener("click", (event) => {
+  const chip = event.target.closest(".chip");
+  if (!chip) return;
+  if (chip.id === "only-flagged") {
+    state.onlyFlagged = !state.onlyFlagged;
+    chip.setAttribute("aria-pressed", String(state.onlyFlagged));
+  } else {
+    state.family = chip.dataset.family;
+    document.querySelectorAll(".chip[data-family]").forEach((other) =>
+      other.setAttribute("aria-pressed", String(other === chip)));
+  }
+  render();
+});
+
+document.getElementById("copy").addEventListener("click", async () => {
+  const parts = proposal();
+  if (parts.length === 0) return;
+  const line = "python3 icon_set/scripts/profile_lab.py try " + parts.join(" ");
+  const button = document.getElementById("copy");
+  try {
+    await navigator.clipboard.writeText(line);
+    button.textContent = "Copied";
+  } catch {
+    button.textContent = "Select it manually";
+  }
+  setTimeout(() => { button.textContent = "Copy"; }, 1800);
+});
+
+document.getElementById("reset").addEventListener("click", () => {
+  state.stroke = DATA.stroke;
+  for (const [name, row] of Object.entries(DATA.profiles)) {
+    state.profiles[name] = { inset: row.inset, mic: row.mic };
+    document.getElementById(`${name}-inset`).value = row.inset;
+    document.getElementById(`${name}-mic`).value = row.mic;
+  }
+  for (const [name, row] of Object.entries(DATA.keyshapes)) {
+    state.shapes[name] = { width: row.width, height: row.height };
+  }
+  document.getElementById("stroke").value = DATA.stroke;
+  document.querySelectorAll("#shapes input").forEach((input) => {
+    input.value = DATA.keyshapes[input.dataset.shape][input.dataset.axis];
+  });
+  render();
+});
+
+render();
+</script>
+</body>
+</html>

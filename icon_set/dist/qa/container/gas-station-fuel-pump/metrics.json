@@ -1,0 +1,415 @@
+{
+  "icon_id": "gas-station-fuel-pump",
+  "family": "container",
+  "profile": "CONTAINER64",
+  "selected_for_build": false,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "body:subpath-1",
+        "elementId": "body",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 2 L 36 2 A 4 4 0 0 1 40 6 L 40 58 A 4 4 0 0 1 36 62 L 6 62 A 4 4 0 0 1 2 58 L 2 6 A 4 4 0 0 1 6 2 Z",
+        "bounds": [
+          2.0,
+          2.0,
+          40.0,
+          62.0
+        ],
+        "segmentCount": 261,
+        "approximationError": 0.00030119642430268906,
+        "hasCurves": true
+      },
+      {
+        "id": "display:subpath-1",
+        "elementId": "display",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 12 10 L 30 10 A 2 2 0 0 1 32 12 L 32 22 A 2 2 0 0 1 30 24 L 12 24 A 2 2 0 0 1 10 22 L 10 12 A 2 2 0 0 1 12 10 Z",
+        "bounds": [
+          10.0,
+          10.0,
+          32.0,
+          24.0
+        ],
+        "segmentCount": 133,
+        "approximationError": 0.0006023928472109794,
+        "hasCurves": true
+      },
+      {
+        "id": "hose:subpath-1",
+        "elementId": "hose",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 40 46 L 43 46 A 9 9 0 0 0 52 37 L 52 16 L 62 6",
+        "bounds": [
+          40.0,
+          6.0,
+          62.0,
+          46.0
+        ],
+        "segmentCount": 67,
+        "approximationError": 0.0006776919535441699,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "body:subpath-1",
+          "hose:subpath-1"
+        ],
+        "contourIds": [
+          "body:subpath-1",
+          "hose:subpath-1"
+        ],
+        "elementIds": [
+          "body",
+          "hose"
+        ],
+        "bounds": [
+          2.0,
+          2.0,
+          62.0,
+          62.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "display:subpath-1"
+        ],
+        "contourIds": [
+          "display:subpath-1"
+        ],
+        "elementIds": [
+          "display"
+        ],
+        "bounds": [
+          10.0,
+          10.0,
+          32.0,
+          24.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "body:subpath-1",
+          "display:subpath-1"
+        ],
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 7.999096410728486,
+        "upperBound": 8.000903589271516,
+        "inkClearanceLowerBound": 3.9990964107284857,
+        "inkClearanceUpperBound": 4.000903589271516,
+        "approximationError": 0.0009035892715161253,
+        "nearestPoints": [
+          [
+            2.0,
+            12.0
+          ],
+          [
+            10.0,
+            12.0
+          ]
+        ],
+        "requiredCenterline": 6.0,
+        "requiredInkClearance": 2.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "body:subpath-1",
+            "hose:subpath-1"
+          ],
+          [
+            "display:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "body:subpath-1",
+              "display:subpath-1"
+            ],
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 7.999096410728486,
+            "upperBound": 8.000903589271516,
+            "inkClearanceLowerBound": 3.9990964107284857,
+            "inkClearanceUpperBound": 4.000903589271516,
+            "approximationError": 0.0009035892715136685,
+            "nearestPoints": [
+              [
+                2.0,
+                12.0
+              ],
+              [
+                10.0,
+                12.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "hose:subpath-1",
+              "display:subpath-1"
+            ],
+            "centerlineDistance": 20.0,
+            "inkClearance": 16.0,
+            "signedInkClearance": 16.0,
+            "lowerBound": 19.998719915199242,
+            "upperBound": 20.001280084800758,
+            "inkClearanceLowerBound": 15.998719915199242,
+            "inkClearanceUpperBound": 16.001280084800758,
+            "approximationError": 0.0012800848007551492,
+            "nearestPoints": [
+              [
+                52.0,
+                22.0
+              ],
+              [
+                32.0,
+                22.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "hose:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          40.0,
+          46.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "hose:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "hose:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            40.0,
+            46.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
+    "reason": "All disconnected components meet the required spacing.",
+    "stats": {
+      "commands": 25,
+      "flattenedSegments": 461,
+      "adaptiveNodes": 887,
+      "distanceTests": 31,
+      "connectionTests": 1
+    },
+    "raw_status": "pass",
+    "canvas": 64
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          20.9844,
+          42.9844
+        ],
+        "bbox_viewbox": [
+          2.5,
+          2.5,
+          37.0,
+          59.0
+        ],
+        "bbox_ship_px": [
+          37.0,
+          59.0
+        ],
+        "bbox_design_u": [
+          37.0,
+          59.0
+        ],
+        "area_ship_px2": 1832.8584,
+        "equivalent_diameter_ship_px": 48.3081,
+        "equivalent_diameter_design_u": 48.3081,
+        "inscribed_diameter_ship_px": 37.0,
+        "inscribed_diameter_design_u": 37.0,
+        "inscribed_radius_ship_px": 18.5,
+        "inscribed_radius_design_u": 18.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 17.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 34.0
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          16.9844,
+          16.9844
+        ],
+        "bbox_viewbox": [
+          10.5,
+          10.5,
+          21.0,
+          13.0
+        ],
+        "bbox_ship_px": [
+          21.0,
+          13.0
+        ],
+        "bbox_design_u": [
+          21.0,
+          13.0
+        ],
+        "area_ship_px2": 271.0625,
+        "equivalent_diameter_ship_px": 18.5776,
+        "equivalent_diameter_design_u": 18.5776,
+        "inscribed_diameter_ship_px": 13.0,
+        "inscribed_diameter_design_u": 13.0,
+        "inscribed_radius_ship_px": 6.5,
+        "inscribed_radius_design_u": 6.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 5.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 10.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "container/gas-station-fuel-pump/icon.svg",
+    "metrics": "container/gas-station-fuel-pump/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "500f0599c2751d4ed2c77742a65cb5b92c75b3cd1e8f2526897d59f5f4eef2dd",
+  "rules": {
+    "profile": {
+      "canvas_size": 64,
+      "family": "container",
+      "interior_guide_inset": 8,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 2,
+      "keyshape_scale_denominator": 1,
+      "semantic_use": "container noun, or a container hosting a sub icon"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

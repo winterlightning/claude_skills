@@ -1,0 +1,274 @@
+{
+  "icon_id": "rectangular-signboard-on-a-pole-plus",
+  "name": "rectangular-signboard-on-a-pole-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "rectangular",
+    "signboard",
+    "on",
+    "a",
+    "pole",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel0",
+      "start": [
+        6,
+        2
+      ],
+      "end": [
+        58,
+        2
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel1",
+      "start": [
+        58,
+        2
+      ],
+      "end": [
+        62,
+        6
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel2",
+      "start": [
+        62,
+        6
+      ],
+      "end": [
+        62,
+        40
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel3",
+      "start": [
+        62,
+        40
+      ],
+      "end": [
+        58,
+        44
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel4",
+      "start": [
+        58,
+        44
+      ],
+      "end": [
+        6,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel5",
+      "start": [
+        6,
+        44
+      ],
+      "end": [
+        2,
+        40
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel6",
+      "start": [
+        2,
+        40
+      ],
+      "end": [
+        2,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:rectangular-signboard-on-a-pole:panel7",
+      "start": [
+        2,
+        6
+      ],
+      "end": [
+        6,
+        2
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:rectangular-signboard-on-a-pole:post",
+      "start": [
+        32,
+        44
+      ],
+      "end": [
+        32,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:rectangular-signboard-on-a-pole:panel",
+      "members": [
+        "0:rectangular-signboard-on-a-pole:panel0",
+        "0:rectangular-signboard-on-a-pole:panel1",
+        "0:rectangular-signboard-on-a-pole:panel2",
+        "0:rectangular-signboard-on-a-pole:panel3",
+        "0:rectangular-signboard-on-a-pole:panel4",
+        "0:rectangular-signboard-on-a-pole:panel5",
+        "0:rectangular-signboard-on-a-pole:panel6",
+        "0:rectangular-signboard-on-a-pole:panel7"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:rectangular-signboard-on-a-pole:center": [
+      32,
+      32
+    ],
+    "0:rectangular-signboard-on-a-pole:content-top-left": [
+      16,
+      16
+    ],
+    "0:rectangular-signboard-on-a-pole:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:rectangular-signboard-on-a-pole:panel",
+        "0:rectangular-signboard-on-a-pole:post"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "rectangular-signboard-on-a-pole",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/rectangular-signboard-on-a-pole-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

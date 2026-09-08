@@ -1,0 +1,254 @@
+{
+  "icon_id": "dashed-circle-shape-plus",
+  "name": "dashed-circle-shape-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "dashed",
+    "circle",
+    "shape",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:cardinal-0",
+      "start": [
+        25,
+        3
+      ],
+      "end": [
+        39,
+        3
+      ],
+      "radius_x": 25,
+      "radius_y": 25,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:diagonal-0",
+      "start": [
+        48,
+        7
+      ],
+      "end": [
+        57,
+        16
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:cardinal-1",
+      "start": [
+        61,
+        25
+      ],
+      "end": [
+        61,
+        39
+      ],
+      "radius_x": 25,
+      "radius_y": 25,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:diagonal-1",
+      "start": [
+        57,
+        48
+      ],
+      "end": [
+        48,
+        57
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:cardinal-2",
+      "start": [
+        39,
+        61
+      ],
+      "end": [
+        25,
+        61
+      ],
+      "radius_x": 25,
+      "radius_y": 25,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:diagonal-2",
+      "start": [
+        16,
+        57
+      ],
+      "end": [
+        7,
+        48
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:cardinal-3",
+      "start": [
+        3,
+        39
+      ],
+      "end": [
+        3,
+        25
+      ],
+      "radius_x": 25,
+      "radius_y": 25,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:dashed-circle-shape:diagonal-3",
+      "start": [
+        7,
+        16
+      ],
+      "end": [
+        16,
+        7
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [],
+  "anchors": {
+    "0:dashed-circle-shape:center": [
+      32,
+      32
+    ],
+    "0:dashed-circle-shape:content-top-left": [
+      16,
+      16
+    ],
+    "0:dashed-circle-shape:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "dashed-circle-shape",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/dashed-circle-shape-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

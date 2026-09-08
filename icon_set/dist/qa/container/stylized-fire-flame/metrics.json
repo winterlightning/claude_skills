@@ -1,0 +1,195 @@
+{
+  "icon_id": "stylized-fire-flame",
+  "family": "container",
+  "profile": "CONTAINER64",
+  "selected_for_build": false,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "flame:subpath-1",
+        "elementId": "flame",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 30 2 A 55 55 0 0 1 54 40 A 22 22 0 0 1 32 62 A 22 22 0 0 1 10 40 A 20 20 0 0 1 18 24 A 35 35 0 0 0 20 10 A 12 12 0 0 1 28 16 A 28 28 0 0 0 30 2 Z",
+        "bounds": [
+          10.0,
+          2.0,
+          54.0,
+          62.0
+        ],
+        "segmentCount": 577,
+        "approximationError": 0.0008911243028155032,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "flame:subpath-1"
+        ],
+        "contourIds": [
+          "flame:subpath-1"
+        ],
+        "elementIds": [
+          "flame"
+        ],
+        "bounds": [
+          10.0,
+          2.0,
+          54.0,
+          62.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [],
+    "excludedPairs": [],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 9,
+      "flattenedSegments": 577,
+      "adaptiveNodes": 1145,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 64
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          32.1719,
+          40.1719
+        ],
+        "bbox_viewbox": [
+          10.5,
+          3.0312,
+          43.0,
+          58.4688
+        ],
+        "bbox_ship_px": [
+          43.0,
+          58.4688
+        ],
+        "bbox_design_u": [
+          43.0,
+          58.4688
+        ],
+        "area_ship_px2": 1681.5215,
+        "equivalent_diameter_ship_px": 46.2707,
+        "equivalent_diameter_design_u": 46.2707,
+        "inscribed_diameter_ship_px": 41.7992,
+        "inscribed_diameter_design_u": 41.7992,
+        "inscribed_radius_ship_px": 20.8996,
+        "inscribed_radius_design_u": 20.8996,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 19.3996,
+        "equivalent_diameter_at_authored_stroke_design_u": 38.7992
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "container/stylized-fire-flame/icon.svg",
+    "metrics": "container/stylized-fire-flame/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "45a1903afbda8446c71ba8a039c3975df5337bcdf1195ac2cdb27e305aeadb0c",
+  "rules": {
+    "profile": {
+      "canvas_size": 64,
+      "family": "container",
+      "interior_guide_inset": 8,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 2,
+      "keyshape_scale_denominator": 1,
+      "semantic_use": "container noun, or a container hosting a sub icon"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

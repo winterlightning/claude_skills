@@ -1,0 +1,305 @@
+{
+  "icon_id": "digital-video-camera-plus",
+  "name": "digital-video-camera-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "digital",
+    "video",
+    "camera",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "HRECT_M",
+  "keyshape_bounds": [
+    0,
+    12,
+    64,
+    52
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:body-0",
+      "start": [
+        8,
+        14
+      ],
+      "end": [
+        38,
+        14
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:digital-video-camera:body-1",
+      "start": [
+        38,
+        14
+      ],
+      "end": [
+        44,
+        20
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:body-2",
+      "start": [
+        44,
+        20
+      ],
+      "end": [
+        44,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:digital-video-camera:body-3",
+      "start": [
+        44,
+        44
+      ],
+      "end": [
+        38,
+        50
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:body-4",
+      "start": [
+        38,
+        50
+      ],
+      "end": [
+        8,
+        50
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:digital-video-camera:body-5",
+      "start": [
+        8,
+        50
+      ],
+      "end": [
+        2,
+        44
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:body-6",
+      "start": [
+        2,
+        44
+      ],
+      "end": [
+        2,
+        20
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:digital-video-camera:body-7",
+      "start": [
+        2,
+        20
+      ],
+      "end": [
+        8,
+        14
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:lens-1",
+      "start": [
+        44,
+        24
+      ],
+      "end": [
+        62,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:lens-2",
+      "start": [
+        62,
+        18
+      ],
+      "end": [
+        62,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:digital-video-camera:lens-3",
+      "start": [
+        62,
+        46
+      ],
+      "end": [
+        44,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:digital-video-camera:body",
+      "members": [
+        "0:digital-video-camera:body-0",
+        "0:digital-video-camera:body-1",
+        "0:digital-video-camera:body-2",
+        "0:digital-video-camera:body-3",
+        "0:digital-video-camera:body-4",
+        "0:digital-video-camera:body-5",
+        "0:digital-video-camera:body-6",
+        "0:digital-video-camera:body-7"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "0:digital-video-camera:lens",
+      "members": [
+        "0:digital-video-camera:lens-1",
+        "0:digital-video-camera:lens-2",
+        "0:digital-video-camera:lens-3"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:digital-video-camera:center": [
+      32,
+      32
+    ],
+    "0:digital-video-camera:content-top-left": [
+      16,
+      16
+    ],
+    "0:digital-video-camera:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:digital-video-camera:body",
+        "0:digital-video-camera:lens"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "digital-video-camera",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/digital-video-camera-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

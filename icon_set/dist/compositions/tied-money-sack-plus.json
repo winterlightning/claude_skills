@@ -1,0 +1,329 @@
+{
+  "icon_id": "tied-money-sack-plus",
+  "name": "tied-money-sack-plus",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "tied",
+    "money",
+    "sack",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:tied-money-sack:body-left",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        6,
+        50
+      ],
+      "radius_x": 40,
+      "radius_y": 40,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:tied-money-sack:body-sw",
+      "start": [
+        6,
+        50
+      ],
+      "end": [
+        32,
+        62
+      ],
+      "radius_x": 26,
+      "radius_y": 12,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:tied-money-sack:body-se",
+      "start": [
+        32,
+        62
+      ],
+      "end": [
+        58,
+        50
+      ],
+      "radius_x": 26,
+      "radius_y": 12,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:tied-money-sack:body-right",
+      "start": [
+        58,
+        50
+      ],
+      "end": [
+        42,
+        18
+      ],
+      "radius_x": 40,
+      "radius_y": 40,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:tied-money-sack:neck",
+      "start": [
+        42,
+        18
+      ],
+      "end": [
+        22,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:tied-money-sack:mouth-left",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        18,
+        4
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:tied-money-sack:mouth-top",
+      "start": [
+        18,
+        4
+      ],
+      "end": [
+        46,
+        4
+      ],
+      "radius_x": 14,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:tied-money-sack:mouth-right",
+      "start": [
+        46,
+        4
+      ],
+      "end": [
+        42,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:tied-money-sack:tie-top",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        10,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:tied-money-sack:tie-bottom",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        8,
+        25
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:tied-money-sack:body",
+      "members": [
+        "0:tied-money-sack:body-left",
+        "0:tied-money-sack:body-sw",
+        "0:tied-money-sack:body-se",
+        "0:tied-money-sack:body-right",
+        "0:tied-money-sack:neck"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "0:tied-money-sack:mouth",
+      "members": [
+        "0:tied-money-sack:mouth-left",
+        "0:tied-money-sack:mouth-top",
+        "0:tied-money-sack:mouth-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:tied-money-sack:center": [
+      32,
+      32
+    ],
+    "0:tied-money-sack:content-top-left": [
+      16,
+      16
+    ],
+    "0:tied-money-sack:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:body",
+        "0:tied-money-sack:mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:tie-top",
+        "0:tied-money-sack:body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:tie-top",
+        "0:tied-money-sack:mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:tie-bottom",
+        "0:tied-money-sack:body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:tie-bottom",
+        "0:tied-money-sack:mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:tied-money-sack:tie-top",
+        "0:tied-money-sack:tie-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "tied-money-sack",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/tied-money-sack-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

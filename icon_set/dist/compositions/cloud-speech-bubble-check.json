@@ -1,0 +1,266 @@
+{
+  "icon_id": "cloud-speech-bubble-check",
+  "name": "cloud-speech-bubble-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "cloud",
+    "speech",
+    "bubble",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:cloud-speech-bubble:large-upper",
+      "start": [
+        2,
+        24
+      ],
+      "end": [
+        42,
+        24
+      ],
+      "radius_x": 20,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:cloud-speech-bubble:small-shoulder",
+      "start": [
+        42,
+        24
+      ],
+      "end": [
+        48,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:cloud-speech-bubble:small-upper",
+      "start": [
+        48,
+        24
+      ],
+      "end": [
+        62,
+        37
+      ],
+      "radius_x": 14,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:cloud-speech-bubble:small-lower",
+      "start": [
+        62,
+        37
+      ],
+      "end": [
+        48,
+        50
+      ],
+      "radius_x": 14,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:cloud-speech-bubble:floor",
+      "start": [
+        48,
+        50
+      ],
+      "end": [
+        38,
+        50
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:cloud-speech-bubble:tail-out",
+      "start": [
+        38,
+        50
+      ],
+      "end": [
+        24,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:cloud-speech-bubble:tail-in",
+      "start": [
+        24,
+        62
+      ],
+      "end": [
+        24,
+        50
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:cloud-speech-bubble:floor-left",
+      "start": [
+        24,
+        50
+      ],
+      "end": [
+        22,
+        50
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:cloud-speech-bubble:large-lower",
+      "start": [
+        22,
+        50
+      ],
+      "end": [
+        2,
+        24
+      ],
+      "radius_x": 20,
+      "radius_y": 26,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:cloud-speech-bubble:outline",
+      "members": [
+        "0:cloud-speech-bubble:large-upper",
+        "0:cloud-speech-bubble:small-shoulder",
+        "0:cloud-speech-bubble:small-upper",
+        "0:cloud-speech-bubble:small-lower",
+        "0:cloud-speech-bubble:floor",
+        "0:cloud-speech-bubble:tail-out",
+        "0:cloud-speech-bubble:tail-in",
+        "0:cloud-speech-bubble:floor-left",
+        "0:cloud-speech-bubble:large-lower"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:cloud-speech-bubble:center": [
+      32,
+      32
+    ],
+    "0:cloud-speech-bubble:content-top-left": [
+      16,
+      16
+    ],
+    "0:cloud-speech-bubble:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "cloud-speech-bubble",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "dist/compositions/cloud-speech-bubble-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}
