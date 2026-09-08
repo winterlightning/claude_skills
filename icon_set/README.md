@@ -437,3 +437,36 @@ This is an internal application. The Feedback tab opens directly without a login
 or access key. `GET /api/feedback-feed` returns requests with the icon family/ID,
 requested change, SVG hash, and timestamp. Restart `deploy.py` after updating
 server code; refresh the browser after gallery updates.
+
+### Preserve versions when applying feedback
+
+**Copy change brief** now instructs an agent to create a separate variant.
+From the repository root, scaffold a copy before changing its geometry:
+
+```bash
+python3 icon_set/scripts/create_variant.py --icon square --family sub --label "Softer corners"
+# Edit the NEW file printed by the command, then validate/export:
+python3 icon_set/scripts/build.py --family sub
+```
+
+The scaffold allocates a unique ID such as `square--v2`, then `square--v3`,
+and creates a separate class/file in the same family. It copies the current
+implementation and source-reference metadata. The parent file is never written.
+The new file is an independent starting copy, not an automatic geometry change.
+
+Variants declare `variant_of` (the immediate parent icon ID) and `variant_label`
+on their class. The registry rejects missing parents, cross-family ancestry,
+empty labels, and cycles. The fields are exported in manifests; the gallery
+links the complete version family and shows the previous generated version in
+the inspector alongside the usual output/original-reference comparison.
+
+Variants have separate feedback and approvals because their IDs differ. A new
+variant starts Ready. Creating or approving one does not change its parent's
+review status. Final icons shows every individually approved version. Existing
+icons need no metadata changes. Existing historical edits cannot be recovered
+by this feature; version preservation starts with new variants.
+
+For a manually created variant, use a unique ID, same family, parent ID, and
+nonempty label, and keep the old module in place. For shared modules, the scaffold imports sibling icons instead of registering
+duplicates. Per-ID FREE keyshape exceptions need a manual variant with valid
+exception metadata.

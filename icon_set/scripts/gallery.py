@@ -1,6 +1,7 @@
 """Generate a deterministic gallery from the manifests that will be published."""
 import json
 import hashlib
+import inspect
 import re
 import sys
 import shutil
@@ -75,11 +76,30 @@ def copy_originals(paths: list[Path], target: Path) -> list[dict]:
     return rows
 
 
+def python_sources() -> dict[str, dict]:
+    """Include registered authoring file locations, without publishing source code."""
+    from icon_set.model.icons.registry import factories
+    result = {}
+    for icon_id, factory in factories().items():
+        filename = inspect.getsourcefile(factory)
+        if not filename:
+            continue
+        path = Path(filename).resolve()
+        if not path.is_relative_to(REPO_ROOT) or not path.is_file():
+            continue
+        result[icon_id] = {'path': path.relative_to(REPO_ROOT).as_posix(),
+                           'family': factory.family, 'class_name': factory.__name__}
+    return result
+
+
 def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     target = staged / 'gallery'
     target.mkdir()
     records = []
     sources = original_sources()
+    authoring = python_sources()
+    from icon_set.model.icons.registry import factories
+    registered = factories()
     for folder in folders:
         manifest = staged / folder / 'manifest.json'
         if not manifest.exists():
@@ -91,6 +111,15 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
             record['key'] = record['family'] + '/' + record['icon_id']
             record['preview_url'] = '../' + quote(folder, safe='') + '/' + quote(record['icon_id'], safe='') + '.svg'
             record['original_sources'] = copy_originals(sources.get(record['icon_id'], []), target)
+            record['python_source'] = authoring.get(record['icon_id'])
+            factory = registered.get(record['icon_id'])
+            if factory is not None:
+                record['variant_of'] = getattr(factory, 'variant_of', None)
+                record['variant_label'] = getattr(factory, 'variant_label', '')
+                ancestor = factory
+                while getattr(ancestor, 'variant_of', None):
+                    ancestor = registered[ancestor.variant_of]
+                record['variant_root'] = ancestor.icon_id
             records.append(record)
     records.sort(key=lambda item: (item['family'], item['icon_id']))
     (target / 'icons.json').write_text(json.dumps({'icons': records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')

@@ -53,6 +53,8 @@ class Icon:
     aliases: tuple[str, ...] = ()
     composition_class: str = "SOLO"
     keywords: tuple[str, ...] = ()
+    variant_of: str | None = None
+    variant_label: str = ""
 
     def __init__(
         self,
@@ -248,6 +250,9 @@ class Icon:
                 for relation in drawing.relationships
             ],
         }
+        if self.variant_of:
+            record["variant_of"] = self.variant_of
+            record["variant_label"] = self.variant_label
         if self.free_keyshape is not None:
             record["free_keyshape"] = {
                 "bounds": [

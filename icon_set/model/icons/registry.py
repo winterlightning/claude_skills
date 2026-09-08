@@ -89,6 +89,29 @@ def _collect(
         factories[member.icon_id] = member
 
 
+def validate_variants(factories: dict) -> None:
+    """Each variant points to an existing parent in the same family, without cycles."""
+    for icon_id, factory in factories.items():
+        parent = getattr(factory, 'variant_of', None)
+        if parent is None:
+            continue
+        if not isinstance(parent, str) or not parent or parent not in factories:
+            raise ValueError(f'{icon_id}: variant parent {parent!r} does not exist')
+        label = getattr(factory, 'variant_label', '')
+        if not isinstance(label, str) or not label.strip():
+            raise ValueError(f'{icon_id}: variant_label must describe this variant')
+        if factory.family != factories[parent].family:
+            raise ValueError(f'{icon_id}: variant must keep its parent family')
+        seen = {icon_id}
+        while parent:
+            if parent in seen:
+                raise ValueError(f'{icon_id}: cyclic variant ancestry')
+            seen.add(parent)
+            if parent not in factories:
+                raise ValueError(f'{icon_id}: unknown variant ancestor {parent!r}')
+            parent = getattr(factories[parent], 'variant_of', None)
+
+
 def _discover() -> dict[str, Callable[[], Icon]]:
     factories: dict[str, Callable[[], Icon]] = {}
     bases = families()
@@ -96,6 +119,7 @@ def _discover() -> dict[str, Callable[[], Icon]]:
         for dotted in _modules(family):
             module = importlib.import_module(f".{dotted}", package=__package__)
             _collect(module, family, base, bases, factories)
+    validate_variants(factories)
     return dict(sorted(factories.items()))
 
 
