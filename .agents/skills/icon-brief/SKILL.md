@@ -7,7 +7,7 @@ description: Turn reference SVGs into authoring briefs for the Pictographic icon
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `icon_lib` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 A brief says **what the reference is**. It does not say how to draw it. You
 identify and name the subject; the family skill that authors it decides what

@@ -1,6 +1,6 @@
 # Category comparison reports
 
-Run from the `icon_lib` repository root:
+Run from the `claude_skills` repository root:
 
 ```sh
 python3 icon_set/scripts/category_report.py computers --full-qa

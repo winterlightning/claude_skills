@@ -21,7 +21,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `aquarius-zodiac-symbol`, `aries-zodiac-symbol`, `bathrobe-with-tied-belt`, `beer-mug-with-foam`, `bow-tie`, `capricorn-zodiac-symbol` and 113 more |
+| Existing icons to imitate | `academic-graduation-cap`, `aquarius-zodiac-symbol`, `aries-zodiac-symbol`, `bathrobe-with-tied-belt`, `beer-mug-with-foam`, `bobble-hat-with-seams` and 121 more |
 
 A **solo** icon is one independently readable subject. The whole 48 canvas belongs to it: there is nothing it must fit inside. It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 

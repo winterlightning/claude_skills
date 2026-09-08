@@ -7,7 +7,7 @@ description: Author a container-family icon for the Pictographic icon set on the
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `icon_lib` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts$icon-profile.v1.json`:

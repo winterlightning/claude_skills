@@ -419,7 +419,7 @@ def render_codex(content: str) -> str:
         "Request: $ARGUMENTS",
         "Use the user's request as the brief, including any supplied icon ID, "
         "reference paths, and output directory.\n\n"
-        "Resolve repository paths and run commands from the `icon_lib` directory "
+        "Resolve repository paths and run commands from the `claude_skills` directory "
         "containing `icon_set/` (three levels above this skill folder). "
         "In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, "
         "`$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. "
