@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3746d55b-f09e-427d-9fe4-ccb75164b650'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/snakes_3746d55b-f09e-427d-9fe4-ccb75164b650.svg'
+AUTHOR = 'astra-chatgpt'
 
 class IntertwinedSnakes(Solo48):
     icon_id = 'intertwined-snakes'

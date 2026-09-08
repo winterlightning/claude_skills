@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a263c19d-995f-538e-be68-34e37d18d87a'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/challice_a263c19d-995f-538e-be68-34e37d18d87a.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class StemmedChalice(Solo48):

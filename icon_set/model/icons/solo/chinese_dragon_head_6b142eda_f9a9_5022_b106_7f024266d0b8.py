@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6b142eda-f9a9-5022-b106-7f024266d0b8'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/chinese dragon_6b142eda-f9a9-5022-b106-7f024266d0b8.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ChineseDragonHead(Solo48):

@@ -9,6 +9,8 @@ Batch 01 hosting measured with compose.py: plus, heart, check pass.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PrecisionCrosshair(Container64):
     icon_id = 'precision-crosshair'

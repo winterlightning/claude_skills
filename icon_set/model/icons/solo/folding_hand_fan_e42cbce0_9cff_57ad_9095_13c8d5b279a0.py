@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'e42cbce0-9cff-57ad-9095-13c8d5b279a0'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/fan_e42cbce0-9cff-57ad-9095-13c8d5b279a0.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class FoldingHandFan(Solo48):

@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8bd2444f-5efb-508a-8576-7be7a1ed2a03'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/vase_8bd2444f-5efb-508a-8576-7be7a1ed2a03.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class NarrowNeckedVase(Solo48):

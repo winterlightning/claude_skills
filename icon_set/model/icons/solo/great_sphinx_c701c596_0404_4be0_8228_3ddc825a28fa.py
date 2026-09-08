@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'c701c596-0404-4be0-8228-3ddc825a28fa'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/sphinx_c701c596-0404-4be0-8228-3ddc825a28fa.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class GreatSphinx(Solo48):

@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'ed39cf15-fc56-485a-8d68-f5b5d3b362db'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/monitor_ed39cf15-fc56-485a-8d68-f5b5d3b362db.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class DesktopMonitorCurvedPedestal(Solo48):

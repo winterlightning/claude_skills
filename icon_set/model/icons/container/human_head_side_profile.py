@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus valid, heart blocked, check blocked.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class HumanHeadSideProfile(Container64):
     icon_id = 'human-head-side-profile'

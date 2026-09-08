@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '57680136-9b34-5273-871a-73ba089a1d22'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/astrology jupiter_57680136-9b34-5273-871a-73ba089a1d22.svg'
+AUTHOR = 'astra-chatgpt'
 
 class JupiterAstrologicalSymbol(Solo48):
     icon_id = 'jupiter-astrological-symbol'

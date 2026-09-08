@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a926bc8d-1ac4-5954-820d-cc012466623f'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/astrology venus_a926bc8d-1ac4-5954-820d-cc012466623f.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class VenusAstrologicalSymbol(Solo48):

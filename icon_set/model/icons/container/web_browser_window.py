@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus valid, heart blocked, check blocked.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class WebBrowserWindow(Container64):
     icon_id = 'web-browser-window'

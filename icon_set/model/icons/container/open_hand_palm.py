@@ -13,6 +13,8 @@ Hosting measured with compose.py: plus passes, heart does not clear, check passe
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class OpenHandPalm(Container64):
     icon_id = "open-hand-palm"

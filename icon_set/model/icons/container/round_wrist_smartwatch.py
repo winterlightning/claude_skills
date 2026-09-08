@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus does not clear, heart passes, check does 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RoundWristSmartwatch(Container64):
     icon_id = 'round-wrist-smartwatch'

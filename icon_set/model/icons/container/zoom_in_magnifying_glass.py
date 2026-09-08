@@ -13,6 +13,8 @@ Hosting measured with compose.py: plus does not pass MIC, heart does not pass MI
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class ZoomInMagnifyingGlass(Container64):
     icon_id = "zoom-in-magnifying-glass"

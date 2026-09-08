@@ -10,6 +10,8 @@ Hosting: plus passes, heart does not clear, check does not clear.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RoundBottomChemistryFlask(Container64):
     icon_id = 'round-bottom-chemistry-flask'

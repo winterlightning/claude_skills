@@ -9,6 +9,8 @@ Hosting (compose.py): plus valid, heart does not fit, check does not fit.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class DesktopMonitorFlaredStand(Container64):
     icon_id = 'desktop-monitor-flared-stand'

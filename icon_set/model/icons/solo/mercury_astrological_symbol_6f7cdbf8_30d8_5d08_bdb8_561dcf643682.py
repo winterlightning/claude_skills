@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6f7cdbf8-30d8-5d08-bdb8-561dcf643682'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/astrology mercury_6f7cdbf8-30d8-5d08-bdb8-561dcf643682.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class MercuryAstrologicalSymbol(Solo48):

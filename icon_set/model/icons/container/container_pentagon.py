@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus: pass; heart: pass; check: pass.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class ContainerPentagon(Container64):
     icon_id = "container-pentagon"

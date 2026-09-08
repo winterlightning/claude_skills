@@ -10,6 +10,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class BeerMugWithFoam(Solo48):
     """A straight-sided beer stein with foam and a right-hand handle."""

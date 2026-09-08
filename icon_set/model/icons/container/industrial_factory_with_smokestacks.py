@@ -8,6 +8,8 @@ Hosting (compose.py): plus valid, heart valid, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class IndustrialFactoryWithSmokestacks(Container64):
     icon_id = 'industrial-factory-with-smokestacks'

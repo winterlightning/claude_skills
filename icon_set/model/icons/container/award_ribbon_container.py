@@ -11,6 +11,8 @@ Batch 01 hosting measured with compose.py: plus, heart pass. check do not pass (
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class AwardRibbonContainer(Container64):
     icon_id = 'award-ribbon-container'

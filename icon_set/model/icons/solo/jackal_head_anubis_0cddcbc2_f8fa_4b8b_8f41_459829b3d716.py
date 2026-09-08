@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '0cddcbc2-f8fa-4b8b-8f41-459829b3d716'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/sphinx_0cddcbc2-f8fa-4b8b-8f41-459829b3d716.svg'
+AUTHOR = 'astra-chatgpt'
 
 class JackalHeadAnubis(Solo48):
     icon_id = 'jackal-head-anubis'

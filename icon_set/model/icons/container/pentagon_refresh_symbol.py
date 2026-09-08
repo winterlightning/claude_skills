@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus: pass; heart: does not clear; check: pass
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PentagonRefreshSymbol(Container64):
     icon_id = 'pentagon-refresh-symbol'

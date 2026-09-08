@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6c0a315d-d919-5e6b-8ff3-48d670cea3b4'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/primitive symbols group_6c0a315d-d919-5e6b-8ff3-48d670cea3b4.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class TwoStickFigures(Solo48):

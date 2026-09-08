@@ -8,6 +8,8 @@ Hosting (compose.py): plus valid, heart review, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class KitchenToasterWithBreadSlice(Container64):
     icon_id = 'kitchen-toaster-with-bread-slice'

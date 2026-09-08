@@ -10,6 +10,8 @@ Hosting measured with compose.py: plus does not pass, heart does not pass, check
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class FemaleTeacherWithWhiteboard(Container64):
     icon_id = 'female-teacher-with-whiteboard'

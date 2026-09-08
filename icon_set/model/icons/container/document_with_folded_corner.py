@@ -9,6 +9,8 @@ Hosting (compose.py): plus does not fit, heart does not fit, check does not fit.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class DocumentWithFoldedCorner(Container64):
     icon_id = 'document-with-folded-corner'

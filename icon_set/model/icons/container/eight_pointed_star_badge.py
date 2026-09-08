@@ -10,6 +10,8 @@ Hosting measured with compose.py: plus passes, heart passes, check does not pass
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class EightPointedStarBadge(Container64):
     icon_id = 'eight-pointed-star-badge'

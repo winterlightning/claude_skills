@@ -62,7 +62,27 @@ produces `blank_document_clipboard_200fc64a_3a4a_41c0_b9a5_1b38a7eada67.py` with
 ```python
 SOURCE_ICON_ID = "200fc64a-3a4a-41c0-b9a5-1b38a7eada67"
 SOURCE_PATH = "container_icons/svg/blank-document-clipboard-200fc64a-3a4a-41c0-b9a5-1b38a7eada67.svg"
+AUTHOR = "astra-chatgpt"
 ```
+
+## Who drew it
+
+Every icon module records the agent that authored it in a module-level `AUTHOR`,
+alongside `SOURCE_ICON_ID` and `SOURCE_PATH`. Name **your own** model, not the
+model that drew the icon you are imitating and not a generic label like "ai" or
+"assistant". If you are unsure which model you are, ask the user rather than
+guessing.
+
+Known values so far:
+
+| Value | Agent |
+|---|---|
+| `astra-chatgpt` | Astra, on a ChatGPT model — every icon authored before this field existed |
+
+Use an existing value when it names your model; add a new lowercase, hyphenated
+one when it does not, and say in your reply that you introduced it. When you
+patch an existing module, `AUTHOR` becomes yours: you are the one who drew the
+geometry that ships. A module with no `AUTHOR` predates the field; add it.
 
 Before creating a module, search existing Python files for the exact source ID
 and its underscore form. Patch the matching module for the requested family

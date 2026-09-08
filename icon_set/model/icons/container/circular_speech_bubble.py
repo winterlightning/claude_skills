@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus does not clear, heart passes, check passe
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class CircularSpeechBubble(Container64):
     icon_id = 'circular-speech-bubble'

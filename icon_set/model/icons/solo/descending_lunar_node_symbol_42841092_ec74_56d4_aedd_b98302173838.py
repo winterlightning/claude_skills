@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '42841092-ec74-56d4-aedd-b98302173838'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/astrology tail node_42841092-ec74-56d4-aedd-b98302173838.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class DescendingLunarNodeSymbol(Solo48):

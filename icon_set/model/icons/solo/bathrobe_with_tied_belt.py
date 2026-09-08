@@ -18,6 +18,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class BathrobeWithTiedBelt(Solo48):
     """A hanging bathrobe seen flat from the front."""

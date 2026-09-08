@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '10f87b03-becd-4543-a939-ff28e4353b11'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/tarot_10f87b03-becd-4543-a939-ff28e4353b11.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class TarotCardMoon(Solo48):

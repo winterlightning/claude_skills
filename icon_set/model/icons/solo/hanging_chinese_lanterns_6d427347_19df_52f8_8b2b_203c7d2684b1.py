@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6d427347-19df-52f8-8b2b-203c7d2684b1'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/chinese lantern_6d427347-19df-52f8-8b2b-203c7d2684b1.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class HangingChineseLanterns(Solo48):

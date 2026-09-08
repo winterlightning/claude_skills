@@ -8,6 +8,8 @@ Hosting (compose.py): plus review, heart review, check review.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class IntegratedCircuitMicrochip(Container64):
     icon_id = 'integrated-circuit-microchip'

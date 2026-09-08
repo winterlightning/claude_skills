@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'b0d17f74-4c9a-4f28-9e4f-254a27312c2d'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/resetta stone_b0d17f74-4c9a-4f28-9e4f-254a27312c2d.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class InscribedStoneTablet(Solo48):

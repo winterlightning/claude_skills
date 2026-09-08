@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart does not pass, check does n
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class TiedMoneySack(Container64):
     icon_id = 'tied-money-sack'

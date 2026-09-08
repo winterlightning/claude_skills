@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'ff3648e6-111a-5162-b458-16f454b6ef2e'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/cd_ff3648e6-111a-5162-b458-16f454b6ef2e.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CompactDiscWithSheenArcs(Solo48):

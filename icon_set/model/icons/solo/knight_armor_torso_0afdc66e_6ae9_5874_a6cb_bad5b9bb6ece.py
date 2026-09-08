@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '0afdc66e-6ae9-5874-a6cb-bad5b9bb6ece'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/armor_0afdc66e-6ae9-5874-a6cb-bad5b9bb6ece.svg'
+AUTHOR = 'astra-chatgpt'
 
 class KnightArmorTorso(Solo48):
     icon_id = 'knight-armor-torso'

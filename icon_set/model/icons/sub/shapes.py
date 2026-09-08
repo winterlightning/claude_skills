@@ -15,6 +15,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Sub32
 
+AUTHOR = 'astra-chatgpt'
+
 
 class Circle(Sub32):
     icon_id = "circle"

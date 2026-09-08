@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '5ae08697-a439-498f-937f-0695fa985da7'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/indian feather_5ae08697-a439-498f-937f-0695fa985da7.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class FeatheredWarBonnet(Solo48):

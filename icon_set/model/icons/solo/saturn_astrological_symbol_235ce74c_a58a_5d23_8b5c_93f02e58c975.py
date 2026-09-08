@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '235ce74c-a58a-5d23-8b5c-93f02e58c975'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology saturn_235ce74c-a58a-5d23-8b5c-93f02e58c975.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class SaturnAstrologicalSymbol(Solo48):

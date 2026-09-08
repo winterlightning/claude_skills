@@ -10,6 +10,8 @@ Batch 01 hosting measured with compose.py: none pass. plus, heart, check do not 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class CaptiveBeadRing(Container64):
     icon_id = 'captive-bead-ring'

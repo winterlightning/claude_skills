@@ -7,6 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8e82a03f-5829-47b0-8f3d-4e829ab80128'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-01/desktop monitor back_8e82a03f-5829-47b0-8f3d-4e829ab80128.svg'
+AUTHOR = 'astra-chatgpt'
 SOURCE_REFERENCES = (('8e82a03f-5829-47b0-8f3d-4e829ab80128', 'pictographic-primitives/computers/batch-01/desktop monitor back_8e82a03f-5829-47b0-8f3d-4e829ab80128.svg'), ('b5cf2b0b-f25b-5c64-97a8-08abb35fb265', 'pictographic-primitives/computers/batch-01/desktop monitor back_b5cf2b0b-f25b-5c64-97a8-08abb35fb265.svg'), ('181755f1-a8ab-4d25-8475-ebcf6885f0c8', 'pictographic-primitives/computers/batch-01/monitor_181755f1-a8ab-4d25-8475-ebcf6885f0c8.svg'), ('78e9aab1-7764-40a5-b4c1-bf8d31d6b2cb', 'pictographic-primitives/computers/batch-01/monitor_78e9aab1-7764-40a5-b4c1-bf8d31d6b2cb.svg'), ('8d7f3cd4-f98b-4ae1-b9de-7232643f178a', 'pictographic-primitives/computers/batch-02/monitor_8d7f3cd4-f98b-4ae1-b9de-7232643f178a.svg'))
 
 class DesktopMonitorCentrePostStand(Solo48):

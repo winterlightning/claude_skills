@@ -10,6 +10,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class TropicalIslandWithPalmTree(Solo48):
     """A wind-bent palm rising from a domed island above wavy water."""

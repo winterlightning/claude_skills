@@ -8,6 +8,8 @@ Hosting (compose.py): plus invalid, heart invalid, check invalid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class LiquidSoapDispenserBottle(Container64):
     icon_id = 'liquid-soap-dispenser-bottle'

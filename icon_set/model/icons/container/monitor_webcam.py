@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart does not clear, check does 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class MonitorWebcam(Container64):
     icon_id = 'monitor-webcam'

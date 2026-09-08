@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a181cba1-7a67-5780-bb8c-0de5147faaca'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/astrology neptune_a181cba1-7a67-5780-bb8c-0de5147faaca.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class NeptuneAstrologicalSymbol(Solo48):

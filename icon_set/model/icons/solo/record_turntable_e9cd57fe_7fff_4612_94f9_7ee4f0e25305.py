@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'e9cd57fe-7fff-4612-94f9-7ee4f0e25305'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/turntable 1_e9cd57fe-7fff-4612-94f9-7ee4f0e25305.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class RecordTurntable(Solo48):

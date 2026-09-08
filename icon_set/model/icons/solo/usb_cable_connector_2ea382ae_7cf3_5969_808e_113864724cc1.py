@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '2ea382ae-7cf3-5969-808e-113864724cc1'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/usb cable_2ea382ae-7cf3-5969-808e-113864724cc1.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class UsbCableConnector(Solo48):

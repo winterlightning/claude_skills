@@ -10,6 +10,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '290363ae-c3b3-42fa-a00e-0c632d7eefaa'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-03/desktop computer_290363ae-c3b3-42fa-a00e-0c632d7eefaa.svg'
+AUTHOR = 'astra-chatgpt'
 SOURCE_REFERENCES = (('290363ae-c3b3-42fa-a00e-0c632d7eefaa', 'pictographic-primitives/computers/batch-03/desktop computer_290363ae-c3b3-42fa-a00e-0c632d7eefaa.svg'), ('608b1519-3106-4016-b167-9a2fdd08b76b', 'pictographic-primitives/computers/batch-03/desktop computer_608b1519-3106-4016-b167-9a2fdd08b76b.svg'))
 
 

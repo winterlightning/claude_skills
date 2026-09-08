@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '42b12fe3-b736-5239-ab2e-91d8f0f66555'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/desktop monitor keyboard_42b12fe3-b736-5239-ab2e-91d8f0f66555.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class MonitorWithDeskKeyboard(Solo48):

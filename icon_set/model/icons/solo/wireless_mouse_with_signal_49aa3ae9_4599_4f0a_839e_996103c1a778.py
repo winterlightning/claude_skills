@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '49aa3ae9-4599-4f0a-839e-996103c1a778'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-07/mouse remote_49aa3ae9-4599-4f0a-839e-996103c1a778.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class WirelessMouseWithSignal(Solo48):

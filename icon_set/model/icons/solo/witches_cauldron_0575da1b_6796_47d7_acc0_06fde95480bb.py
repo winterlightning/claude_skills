@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '0575da1b-6796-47d7-acc0-06fde95480bb'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/witch cauldron_0575da1b-6796-47d7-acc0-06fde95480bb.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class WitchesCauldron(Solo48):

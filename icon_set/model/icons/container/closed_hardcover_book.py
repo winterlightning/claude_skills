@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart does not clear, check does 
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class ClosedHardcoverBook(Container64):
     icon_id = 'closed-hardcover-book'

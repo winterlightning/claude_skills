@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '14451638-0bdf-5872-a108-890009443142'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/astrology mars_14451638-0bdf-5872-a108-890009443142.svg'
+AUTHOR = 'astra-chatgpt'
 
 class MarsAstrologicalSymbol(Solo48):
     icon_id = 'mars-astrological-symbol'

@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'ab30910c-5cac-52c8-af79-c6cb1c622466'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/empire_ab30910c-5cac-52c8-af79-c6cb1c622466.svg'
+AUTHOR = 'astra-chatgpt'
 
 class IonicColumn(Solo48):
     icon_id = 'ionic-column'

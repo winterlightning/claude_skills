@@ -13,6 +13,8 @@ No semantic detail was dropped. Geometry is authored directly on CONTAINER64.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class CounterClockwiseCircularArrow(Container64):
     icon_id = "counter-clockwise-circular-arrow"

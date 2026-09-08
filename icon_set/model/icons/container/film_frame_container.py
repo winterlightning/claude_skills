@@ -10,6 +10,8 @@ Batch 01 hosting measured with compose.py: plus pass. heart, check do not pass (
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class FilmFrameContainer(Container64):
     icon_id = 'film-frame-container'

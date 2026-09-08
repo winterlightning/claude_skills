@@ -42,6 +42,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class UnrolledBlueprintContainer(Container64):
     icon_id = "unrolled-blueprint"

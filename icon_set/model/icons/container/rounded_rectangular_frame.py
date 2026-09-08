@@ -7,6 +7,8 @@ Hosting measured with compose.py: plus does not clear, heart does not clear, che
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RoundedRectangularFrame(Container64):
     icon_id = 'rounded-rectangular-frame'

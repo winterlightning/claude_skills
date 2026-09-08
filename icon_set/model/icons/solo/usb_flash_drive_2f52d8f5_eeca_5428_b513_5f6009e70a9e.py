@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '2f52d8f5-eeca-5428-b513-5f6009e70a9e'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/flash drive_2f52d8f5-eeca-5428-b513-5f6009e70a9e.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class UsbFlashDrive(Solo48):

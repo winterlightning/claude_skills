@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus: does not clear; heart: does not clear; c
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RectangularPictureFrame(Container64):
     icon_id = 'rectangular-picture-frame'

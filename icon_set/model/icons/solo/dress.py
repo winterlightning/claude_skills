@@ -10,6 +10,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class Dress(Solo48):
     icon_id = "dress"

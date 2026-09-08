@@ -11,6 +11,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Sub32
 
+AUTHOR = 'astra-chatgpt'
+
 
 class _Arrow(Sub32):
     semantic_kind = "verb"

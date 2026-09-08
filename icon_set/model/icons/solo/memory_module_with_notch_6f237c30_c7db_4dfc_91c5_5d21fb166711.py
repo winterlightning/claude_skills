@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6f237c30-c7db-4dfc-91c5-5d21fb166711'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/computer ram_6f237c30-c7db-4dfc-91c5-5d21fb166711.svg'
+AUTHOR = 'astra-chatgpt'
 
 class MemoryModuleWithNotch(Solo48):
     icon_id = 'memory-module-with-notch'

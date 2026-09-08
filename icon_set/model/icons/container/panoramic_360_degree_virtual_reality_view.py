@@ -8,6 +8,8 @@ Keyshape HRECT_XL; authored directly on CONTAINER64. Hosting measured with compo
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class Panoramic360DegreeVirtualRealityView(Container64):
     icon_id = 'panoramic-360-degree-virtual-reality-view'

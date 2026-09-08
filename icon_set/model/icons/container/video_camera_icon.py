@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus valid, heart blocked, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class VideoCameraIcon(Container64):
     icon_id = 'video-camera-icon'

@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '1bafc453-5bc6-415b-bdab-800770f2d87b'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/greek statue_1bafc453-5bc6-415b-bdab-800770f2d87b.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ClassicalStatueBust(Solo48):

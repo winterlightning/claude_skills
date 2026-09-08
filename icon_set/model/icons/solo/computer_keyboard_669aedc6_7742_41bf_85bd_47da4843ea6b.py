@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '669aedc6-7742-41bf-85bd-47da4843ea6b'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/keyboard_669aedc6-7742-41bf-85bd-47da4843ea6b.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ComputerKeyboard(Solo48):

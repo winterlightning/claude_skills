@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'b3dff2fa-37b5-4c07-a64d-1c001573067f'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/sphere teller_b3dff2fa-37b5-4c07-a64d-1c001573067f.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class FortuneTellerReading(Solo48):

@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f1ae7c28-2985-52cc-9f43-059fa21c80ee'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/right click mouse_f1ae7c28-2985-52cc-9f43-059fa21c80ee.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class RightClickMouse(Solo48):

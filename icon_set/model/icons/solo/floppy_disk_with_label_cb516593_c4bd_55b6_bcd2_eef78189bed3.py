@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'cb516593-c4bd-55b6-bcd2-eef78189bed3'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/floppy disk_cb516593-c4bd-55b6-bcd2-eef78189bed3.svg'
+AUTHOR = 'astra-chatgpt'
 
 class FloppyDiskWithLabel(Solo48):
     icon_id = 'floppy-disk-with-label'

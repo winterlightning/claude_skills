@@ -12,6 +12,11 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 
+SOURCE_ICON_ID = 'dcd267cd-6f18-4751-b281-118f4c4d05e0'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-02/watch_dcd267cd-6f18-4751-b281-118f4c4d05e0.svg'
+AUTHOR = 'astra-chatgpt'
+
+
 class Smartwatch(Solo48):
     """A square smartwatch case with an open strap sweeping right.
 

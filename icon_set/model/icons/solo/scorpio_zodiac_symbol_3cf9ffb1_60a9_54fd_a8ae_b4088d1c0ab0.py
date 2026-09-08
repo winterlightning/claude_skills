@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3cf9ffb1-60a9-54fd-a8ae-b4088d1c0ab0'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology scorpio_3cf9ffb1-60a9-54fd-a8ae-b4088d1c0ab0.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ScorpioZodiacSymbol(Solo48):

@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7169d0df-e69e-5ecc-8180-aa3f755ddd80'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology cane_7169d0df-e69e-5ecc-8180-aa3f755ddd80.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ShepherdsCrook(Solo48):

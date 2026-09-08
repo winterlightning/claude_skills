@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '1975cc8c-a609-4ae8-b0fe-2049efc52c92'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/sphinx_1975cc8c-a609-4ae8-b0fe-2049efc52c92.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class PharaohNemesMask(Solo48):

@@ -10,6 +10,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Sub32
 
+AUTHOR = 'astra-chatgpt'
+
 
 class Plus(Sub32):
     icon_id = "plus"

@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f8b2772e-1a7e-4a46-b432-a5aa1ea004a8'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/dinosaur skull fossil_f8b2772e-1a7e-4a46-b432-a5aa1ea004a8.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class DinosaurSkull(Solo48):

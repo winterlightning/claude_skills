@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '4e49d815-dbf2-5bb7-b3a8-7650a2bd21ef'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/cd partition_4e49d815-dbf2-5bb7-b3a8-7650a2bd21ef.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CompactDiscWithPartitionSegment(Solo48):

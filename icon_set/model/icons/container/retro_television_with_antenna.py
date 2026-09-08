@@ -10,6 +10,8 @@ Hosting: plus does not clear, heart passes, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RetroTelevisionWithAntenna(Container64):
     icon_id = 'retro-television-with-antenna'

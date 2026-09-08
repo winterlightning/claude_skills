@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'bc67a995-e7d3-4fbd-bda1-51b5a4a371f5'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/hard drive 1_bc67a995-e7d3-4fbd-bda1-51b5a4a371f5.svg'
+AUTHOR = 'astra-chatgpt'
 
 class ExternalHardDrive(Solo48):
     icon_id = 'external-hard-drive'

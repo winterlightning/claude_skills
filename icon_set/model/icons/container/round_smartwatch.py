@@ -10,6 +10,8 @@ Hosting: plus passes, heart passes, check does not clear.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RoundSmartwatch(Container64):
     icon_id = 'round-smartwatch'

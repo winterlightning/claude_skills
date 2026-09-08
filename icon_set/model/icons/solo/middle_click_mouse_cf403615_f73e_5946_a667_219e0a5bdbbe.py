@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'cf403615-f73e-5946-a667-219e0a5bdbbe'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/middle click mouse_cf403615-f73e-5946-a667-219e0a5bdbbe.svg'
+AUTHOR = 'astra-chatgpt'
 
 class MiddleClickMouse(Solo48):
     icon_id = 'middle-click-mouse'

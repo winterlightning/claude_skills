@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '79079df9-e96e-507d-97a5-a334e4f830fb'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/astrology ceres_79079df9-e96e-507d-97a5-a334e4f830fb.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CeresAstrologicalSymbol(Solo48):

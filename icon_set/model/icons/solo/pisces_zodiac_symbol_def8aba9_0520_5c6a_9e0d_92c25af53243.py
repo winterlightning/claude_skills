@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'def8aba9-0520-5c6a-9e0d-92c25af53243'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/astrology cancer_def8aba9-0520-5c6a-9e0d-92c25af53243.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class PiscesZodiacSymbol(Solo48):

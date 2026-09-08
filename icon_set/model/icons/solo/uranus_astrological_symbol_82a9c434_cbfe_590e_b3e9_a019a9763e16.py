@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '82a9c434-cbfe-590e-b3e9-a019a9763e16'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/astrology uranus_82a9c434-cbfe-590e-b3e9-a019a9763e16.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class UranusAstrologicalSymbol(Solo48):

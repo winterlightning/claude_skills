@@ -9,6 +9,8 @@ Hosting (compose.py): plus valid, heart does not fit, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class DigitalVideoCamera(Container64):
     icon_id = 'digital-video-camera'

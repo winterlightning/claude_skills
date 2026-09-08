@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '092d3271-bac7-5510-abc5-964d6b7f3f09'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/astrology chiron_092d3271-bac7-5510-abc5-964d6b7f3f09.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ChironAstrologicalSymbol(Solo48):

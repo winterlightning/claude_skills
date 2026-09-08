@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus blocked, heart valid, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class SimpleAdmissionTicket(Container64):
     icon_id = 'simple-admission-ticket'

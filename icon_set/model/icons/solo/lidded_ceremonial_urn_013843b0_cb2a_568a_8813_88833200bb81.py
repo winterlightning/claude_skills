@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '013843b0-cb2a-568a-8813-88833200bb81'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/urn_013843b0-cb2a-568a-8813-88833200bb81.svg'
+AUTHOR = 'astra-chatgpt'
 
 class LiddedCeremonialUrn(Solo48):
     icon_id = 'lidded-ceremonial-urn'

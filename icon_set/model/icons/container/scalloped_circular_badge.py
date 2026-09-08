@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart passes, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class ScallopedCircularBadge(Container64):
     icon_id = 'scalloped-circular-badge'

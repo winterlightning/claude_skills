@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus blocked, heart blocked, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class TrashBin(Container64):
     icon_id = 'trash-bin'

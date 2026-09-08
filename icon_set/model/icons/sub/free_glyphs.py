@@ -12,6 +12,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Sub32
 
+AUTHOR = 'astra-chatgpt'
+
 
 class _FreeGlyph(Sub32):
     keyshape = Keyshape.FREE

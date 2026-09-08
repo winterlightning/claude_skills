@@ -5,6 +5,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class OrganizationalHierarchyCube(Solo48):
     """An isometric cube feeding an even row of three circular children."""

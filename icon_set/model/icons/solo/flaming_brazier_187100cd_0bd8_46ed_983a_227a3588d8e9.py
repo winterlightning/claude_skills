@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '187100cd-0bd8-46ed-983a-227a3588d8e9'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/greek fire_187100cd-0bd8-46ed-983a-227a3588d8e9.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class FlamingBrazier(Solo48):

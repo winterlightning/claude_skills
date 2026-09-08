@@ -9,6 +9,8 @@ Hosting (compose.py): plus passes, heart passes, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class SquareSmartwatchDevice(Container64):
     icon_id = 'square-smartwatch-device'

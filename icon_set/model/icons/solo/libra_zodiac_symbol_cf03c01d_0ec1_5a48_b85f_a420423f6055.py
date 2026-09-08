@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'cf03c01d-0ec1-5a48-b85f-a420423f6055'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/astrology libra_cf03c01d-0ec1-5a48-b85f-a420423f6055.svg'
+AUTHOR = 'astra-chatgpt'
 
 class LibraZodiacSymbol(Solo48):
     icon_id = 'libra-zodiac-symbol'

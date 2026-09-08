@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '008c3781-679c-536b-8b56-abc407bd1ac1'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/armor shield_008c3781-679c-536b-8b56-abc407bd1ac1.svg'
+AUTHOR = 'astra-chatgpt'
 
 class KnightHelmOnShield(Solo48):
     icon_id = 'knight-helm-on-shield'

@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7ba30cb2-a7ee-5783-ac87-e8a711683857'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/trilobite fossil shell_7ba30cb2-a7ee-5783-ac87-e8a711683857.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class TrilobiteFossil(Solo48):

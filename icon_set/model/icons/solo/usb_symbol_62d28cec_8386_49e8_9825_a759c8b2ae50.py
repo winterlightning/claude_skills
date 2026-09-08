@@ -11,6 +11,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '62d28cec-8386-49e8-9825-a759c8b2ae50'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/usb port_62d28cec-8386-49e8-9825-a759c8b2ae50.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class UsbSymbol(Solo48):

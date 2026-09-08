@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7f8f9ab3-5fbb-5721-8ab4-02363d3861f3'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology proserpine_7f8f9ab3-5fbb-5721-8ab4-02363d3861f3.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ProserpineAstrologicalSymbol(Solo48):

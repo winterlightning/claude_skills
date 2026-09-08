@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus: pass; heart: does not clear; check: does
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PropaneGasCylinderTank(Container64):
     icon_id = 'propane-gas-cylinder-tank'

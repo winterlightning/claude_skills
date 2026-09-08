@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'cc11abce-7a28-4b1e-a5ae-362666f2e1a0'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/greek building_cc11abce-7a28-4b1e-a5ae-362666f2e1a0.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ClassicalTempleFacade(Solo48):

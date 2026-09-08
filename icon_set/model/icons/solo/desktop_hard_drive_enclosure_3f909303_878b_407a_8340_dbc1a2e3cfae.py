@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3f909303-878b-407a-8340-dbc1a2e3cfae'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/hard drive_3f909303-878b-407a-8340-dbc1a2e3cfae.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class DesktopHardDriveEnclosure(Solo48):

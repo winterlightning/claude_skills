@@ -18,6 +18,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class BrowserWindowContainer(Container64):
     icon_id = "browser-window"

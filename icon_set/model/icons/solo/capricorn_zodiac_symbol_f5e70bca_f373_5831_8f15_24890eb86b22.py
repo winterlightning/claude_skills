@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f5e70bca-f373-5831-8f15-24890eb86b22'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/astrology capricorn_f5e70bca-f373-5831-8f15-24890eb86b22.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CapricornZodiacSymbol(Solo48):

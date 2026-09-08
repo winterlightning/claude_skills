@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a0648045-9893-5531-ba83-222b2912e64c'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/palmistry_a0648045-9893-5531-ba83-222b2912e64c.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class PalmistryHand(Solo48):

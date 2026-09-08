@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'e293c424-d57f-4d98-b1df-4bd23b745b6a'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/left double click mouse_e293c424-d57f-4d98-b1df-4bd23b745b6a.svg'
+AUTHOR = 'astra-chatgpt'
 
 class LeftDoubleClickMouse(Solo48):
     icon_id = 'left-double-click-mouse'

@@ -10,10 +10,12 @@ the SVG, the PNG and the metadata record are build artifacts produced from it.
 Never hand-write or hand-patch a final SVG — repair the model and re-emit.
 
 Preserve the reference icon's supplied ID in every generated Python filename
-and in `SOURCE_ICON_ID`, with its source path in `SOURCE_PATH`. Search by that ID
-before authoring so existing icons can be patched in place. Follow
+and in `SOURCE_ICON_ID`, with its source path in `SOURCE_PATH`. Record the model
+you are running as in `AUTHOR`. Search by that ID before authoring so existing
+icons can be patched in place. Follow
 [naming.md](naming.md#reference-ids-in-python-scripts) for extraction, filenames,
-and handling references without IDs.
+and handling references without IDs, and [naming.md](naming.md#who-drew-it) for
+`AUTHOR`.
 
 Read [`../../README.md`](../../README.md) first if you have not: it states the
 three families, the keyshape table, and the two frozen tolerance decisions.

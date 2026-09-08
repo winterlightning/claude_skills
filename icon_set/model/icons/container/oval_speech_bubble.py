@@ -8,6 +8,8 @@ Keyshape HRECT_L; authored directly on CONTAINER64. Hosting measured with compos
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class OvalSpeechBubble(Container64):
     icon_id = 'oval-speech-bubble'

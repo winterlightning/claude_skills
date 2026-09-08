@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '57a16fd2-830f-58d2-b3fc-67f88bd66e78'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/babushka_57a16fd2-830f-58d2-b3fc-67f88bd66e78.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class MatryoshkaDoll(Solo48):

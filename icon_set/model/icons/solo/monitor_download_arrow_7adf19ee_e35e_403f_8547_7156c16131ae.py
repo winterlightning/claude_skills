@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7adf19ee-e35e-403f-8547-7156c16131ae'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/monitor download_7adf19ee-e35e-403f-8547-7156c16131ae.svg'
+AUTHOR = 'astra-chatgpt'
 
 class MonitorDownloadArrow(Solo48):
     icon_id = 'monitor-download-arrow'

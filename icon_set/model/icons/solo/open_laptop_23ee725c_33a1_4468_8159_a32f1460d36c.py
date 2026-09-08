@@ -7,6 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '23ee725c-33a1-4468-8159-a32f1460d36c'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-01/laptop 1_23ee725c-33a1-4468-8159-a32f1460d36c.svg'
+AUTHOR = 'astra-chatgpt'
 SOURCE_REFERENCES = (('23ee725c-33a1-4468-8159-a32f1460d36c', 'pictographic-primitives/computers/batch-01/laptop 1_23ee725c-33a1-4468-8159-a32f1460d36c.svg'), ('9c785f9a-558d-4793-8f09-218c477d8c84', 'pictographic-primitives/computers/batch-01/laptop 1_9c785f9a-558d-4793-8f09-218c477d8c84.svg'), ('0eca8bb8-75fe-4501-aa58-53ce337798cc', 'pictographic-primitives/computers/batch-01/laptop_0eca8bb8-75fe-4501-aa58-53ce337798cc.svg'), ('4679969c-dfb9-4a03-ab57-4d2eded56e5a', 'pictographic-primitives/computers/batch-01/laptop_4679969c-dfb9-4a03-ab57-4d2eded56e5a.svg'), ('7a7343f1-5eae-443d-b8b7-d063758ee85e', 'pictographic-primitives/computers/batch-01/laptop_7a7343f1-5eae-443d-b8b7-d063758ee85e.svg'), ('96bd0a70-5265-56a5-8f8c-7df6339b6c49', 'pictographic-primitives/computers/batch-01/laptop_96bd0a70-5265-56a5-8f8c-7df6339b6c49.svg'))
 
 class OpenLaptop(Solo48):

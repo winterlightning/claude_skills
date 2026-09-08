@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '385c6908-a197-4341-bf8b-45327ba1ea69'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/warrior_385c6908-a197-4341-bf8b-45327ba1ea69.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class FigureWithOutstretchedLimbs(Solo48):

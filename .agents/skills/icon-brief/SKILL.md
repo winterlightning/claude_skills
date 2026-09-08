@@ -34,7 +34,7 @@ Keep the complete source filename/path and its supplied ID in every brief and
 handoff, even when proposing a shorter descriptive `icon_id`. A trailing UUID
 belongs to the reference identity and must not be discarded. The authoring
 skill must carry it into the Python filename and `SOURCE_ICON_ID`, with the
-source path in `SOURCE_PATH`, as specified in
+source path in `SOURCE_PATH` and its own model in `AUTHOR`, as specified in
 `icon_set/skills/icon-design/naming.md`. Preserve the source/render/native path
 lines when editing generated briefs; those paths retain the original identity.
 

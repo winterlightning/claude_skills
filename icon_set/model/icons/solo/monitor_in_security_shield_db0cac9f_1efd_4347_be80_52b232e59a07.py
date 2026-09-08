@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'db0cac9f-1efd-4347-be80-52b232e59a07'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/computer shield_db0cac9f-1efd-4347-be80-52b232e59a07.svg'
+AUTHOR = 'astra-chatgpt'
 
 class MonitorInSecurityShield(Solo48):
     icon_id = 'monitor-in-security-shield'

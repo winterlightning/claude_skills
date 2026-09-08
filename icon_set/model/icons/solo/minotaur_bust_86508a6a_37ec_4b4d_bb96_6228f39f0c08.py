@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '86508a6a-37ec-4b4d-bb96-6228f39f0c08'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/minotaur_86508a6a-37ec-4b4d-bb96-6228f39f0c08.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class MinotaurBust(Solo48):

@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8d70aef7-a4a5-57c7-8ae8-a7af8092a967'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/astrology selene_8d70aef7-a4a5-57c7-8ae8-a7af8092a967.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class SeleneAstrologicalSymbol(Solo48):

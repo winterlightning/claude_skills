@@ -10,6 +10,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class OpenEndMaintenanceWrench(Solo48):
     """A constant-width wrench rising from lower-left to upper-right."""

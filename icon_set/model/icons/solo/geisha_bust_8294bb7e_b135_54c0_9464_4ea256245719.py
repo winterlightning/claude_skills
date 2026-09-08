@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8294bb7e-b135-54c0-9464-4ea256245719'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/geisha_8294bb7e-b135-54c0-9464-4ea256245719.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class GeishaBust(Solo48):

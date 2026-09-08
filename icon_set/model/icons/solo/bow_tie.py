@@ -1,7 +1,6 @@
 """A bow tie: two wings flaring from a rounded square centre knot, on SOLO48.
 
-Authored from the brief, with no reference SVG supplied, so ``SOURCE_ICON_ID``
-and ``SOURCE_PATH`` are ``None``.
+Matched to the supplied batch-05 bow-tie reference; source identity retained.
 
 Construction reference: Lucide ``hourglass``.  Its two halves flare from a
 shared waist as straight diagonals closed by a short axis-aligned run, with the
@@ -10,7 +9,7 @@ quarter turn: each wing is three straight runs -- a diagonal out, a vertical
 tip, a diagonal back -- and the knot's own side wall closes it, so the wing is a
 flaring triangle whose fourth side is the knot.
 
-Nothing in the source brief was dropped.  What is deliberately *not* drawn is a
+The source's two short wing-fold strokes are omitted for clearance.  What is deliberately *not* drawn is a
 seam, crease or centre fold inside the knot: a 12-unit knot has one 8-unit
 interior and a second level of detail inside it does not survive 48 pixels.
 
@@ -23,8 +22,9 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-SOURCE_ICON_ID = None  # no reference id was supplied
-SOURCE_PATH = None  # no reference path was supplied
+SOURCE_ICON_ID = 'a8df920a-b5e4-42ca-a8cb-d0665fd4de17'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-05/ribbon tie_a8df920a-b5e4-42ca-a8cb-d0665fd4de17.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class BowTie(Solo48):

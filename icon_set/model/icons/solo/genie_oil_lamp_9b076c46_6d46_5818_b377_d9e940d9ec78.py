@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '9b076c46-6d46-5818-b377-d9e940d9ec78'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/lamp genie_9b076c46-6d46-5818-b377-d9e940d9ec78.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class GenieOilLamp(Solo48):

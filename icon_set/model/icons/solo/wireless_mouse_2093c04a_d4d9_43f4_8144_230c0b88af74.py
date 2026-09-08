@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '2093c04a-d4d9-43f4-8144-230c0b88af74'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-07/mouse smart_2093c04a-d4d9-43f4-8144-230c0b88af74.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class WirelessMouse(Solo48):

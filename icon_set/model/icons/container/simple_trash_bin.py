@@ -7,6 +7,8 @@ Hosting measured with compose.py: plus review, heart review, check review.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class SimpleTrashBin(Container64):
     icon_id = 'simple-trash-bin'

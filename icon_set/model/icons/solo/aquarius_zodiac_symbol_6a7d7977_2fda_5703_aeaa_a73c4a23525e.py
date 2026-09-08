@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '6a7d7977-2fda-5703-aeaa-a73c4a23525e'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/astrology aquarius_6a7d7977-2fda-5703-aeaa-a73c4a23525e.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class AquariusZodiacSymbol(Solo48):

@@ -9,6 +9,8 @@ Hosting measured with compose.py: plus passes, heart passes, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class FramedAchievementCertificate(Container64):
     icon_id = 'framed-achievement-certificate'

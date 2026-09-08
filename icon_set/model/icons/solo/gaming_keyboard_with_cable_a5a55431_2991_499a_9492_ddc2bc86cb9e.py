@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a5a55431-2991-499a-9492-ddc2bc86cb9e'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/keyboard gaming_a5a55431-2991-499a-9492-ddc2bc86cb9e.svg'
+AUTHOR = 'astra-chatgpt'
 
 class GamingKeyboardWithCable(Solo48):
     icon_id = 'gaming-keyboard-with-cable'

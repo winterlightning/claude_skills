@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '28ab2a14-d6a4-56d6-82df-af778631fe00'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/astrology aries_28ab2a14-d6a4-56d6-82df-af778631fe00.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class AriesZodiacSymbol(Solo48):

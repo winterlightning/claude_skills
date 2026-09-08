@@ -11,6 +11,8 @@ Hosting: plus passes, heart does not clear, check does not clear.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RotatingCircularSyncArrows(Container64):
     icon_id = 'rotating-circular-sync-arrows'

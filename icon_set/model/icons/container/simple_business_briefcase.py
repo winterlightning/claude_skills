@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus valid, heart blocked, check blocked.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class SimpleBusinessBriefcase(Container64):
     icon_id = 'simple-business-briefcase'

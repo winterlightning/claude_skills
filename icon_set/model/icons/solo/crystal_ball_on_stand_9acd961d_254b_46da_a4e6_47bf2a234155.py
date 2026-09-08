@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '9acd961d-254b-46da-a4e6-47bf2a234155'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/sphere_9acd961d-254b-46da-a4e6-47bf2a234155.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CrystalBallOnStand(Solo48):

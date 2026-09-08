@@ -7,6 +7,8 @@ Hosting measured with compose.py: plus valid, heart valid, check valid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class SquareAlignmentMeasurementFrame(Container64):
     icon_id = 'square-alignment-measurement-frame'

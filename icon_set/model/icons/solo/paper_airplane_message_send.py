@@ -5,6 +5,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PaperAirplaneMessageSend(Solo48):
     """A swept paper dart whose centre fold separates the near wing."""

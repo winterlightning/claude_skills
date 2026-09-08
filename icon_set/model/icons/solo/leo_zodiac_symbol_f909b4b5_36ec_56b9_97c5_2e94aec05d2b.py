@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'f909b4b5-36ec-56b9-97c5-2e94aec05d2b'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-04/astrology leo_f909b4b5-36ec-56b9-97c5-2e94aec05d2b.svg'
+AUTHOR = 'astra-chatgpt'
 
 class LeoZodiacSymbol(Solo48):
     icon_id = 'leo-zodiac-symbol'

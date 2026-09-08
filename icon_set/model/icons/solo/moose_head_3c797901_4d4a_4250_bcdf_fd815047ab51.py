@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3c797901-4d4a-4250-bcdf-fd815047ab51'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/moose_3c797901-4d4a-4250-bcdf-fd815047ab51.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class MooseHead(Solo48):

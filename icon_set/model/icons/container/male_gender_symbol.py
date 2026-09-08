@@ -10,6 +10,8 @@ Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class MaleGenderSymbol(Container64):
     icon_id = 'male-gender-symbol'

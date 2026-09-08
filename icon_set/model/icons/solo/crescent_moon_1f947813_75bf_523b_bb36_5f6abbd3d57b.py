@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '1f947813-75bf-523b-bb36-5f6abbd3d57b'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/astrology moon_1f947813-75bf-523b-bb36-5f6abbd3d57b.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CrescentMoon(Solo48):

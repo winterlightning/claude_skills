@@ -8,6 +8,8 @@ Keyshape SQUARE; authored directly on CONTAINER64. Hosting measured with compose
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PairOfSquareBrackets(Container64):
     icon_id = 'pair-of-square-brackets'

@@ -10,6 +10,8 @@ Hosting: plus does not clear, heart does not clear, check does not clear.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RetailShoppingBag(Container64):
     icon_id = 'retail-shopping-bag'

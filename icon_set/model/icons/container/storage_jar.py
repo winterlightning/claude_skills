@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus blocked, heart passes, check passes.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class StorageJar(Container64):
     icon_id = 'storage-jar'

@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'af38802b-7208-5060-b370-9b6f0871299d'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/mouse_af38802b-7208-5060-b370-9b6f0871299d.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CordedComputerMouse(Solo48):

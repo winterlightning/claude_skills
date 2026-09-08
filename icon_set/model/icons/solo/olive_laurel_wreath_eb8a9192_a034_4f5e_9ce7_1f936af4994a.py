@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'eb8a9192-a034-4f5e-9ce7-1f936af4994a'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-05/olive wreath_eb8a9192-a034-4f5e-9ce7-1f936af4994a.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class OliveLaurelWreath(Solo48):

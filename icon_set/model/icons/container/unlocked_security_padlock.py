@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart does not pass, check passes
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class UnlockedSecurityPadlock(Container64):
     icon_id = 'unlocked-security-padlock'

@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8214f96f-5065-5adb-8225-f44c3d1738eb'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/spartan mask_8214f96f-5065-5adb-8225-f44c3d1738eb.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class PlumedBattleHelmet(Solo48):

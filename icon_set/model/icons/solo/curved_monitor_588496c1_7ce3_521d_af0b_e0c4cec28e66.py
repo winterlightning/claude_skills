@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '588496c1-7ce3-521d-af0b-e0c4cec28e66'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/screen curved_588496c1-7ce3-521d-af0b-e0c4cec28e66.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CurvedMonitor(Solo48):

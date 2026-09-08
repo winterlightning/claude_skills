@@ -8,6 +8,8 @@ Hosting (compose.py): plus invalid, heart invalid, check invalid.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class LandscapeMobilePhone(Container64):
     icon_id = 'landscape-mobile-phone'

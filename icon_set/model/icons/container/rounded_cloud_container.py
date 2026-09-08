@@ -8,6 +8,8 @@ Hosting measured with compose.py: plus passes, heart blocked, check blocked.
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class RoundedCloudContainer(Container64):
     icon_id = 'rounded-cloud-container'

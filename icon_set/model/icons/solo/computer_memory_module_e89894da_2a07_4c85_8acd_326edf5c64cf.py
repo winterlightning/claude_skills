@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'e89894da-2a07-4c85-8acd-326edf5c64cf'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/computer ram_e89894da-2a07-4c85-8acd-326edf5c64cf.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ComputerMemoryModule(Solo48):

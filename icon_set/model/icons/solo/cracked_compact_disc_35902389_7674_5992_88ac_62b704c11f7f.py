@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '35902389-7674-5992-88ac-62b704c11f7f'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/cd broken_35902389-7674-5992-88ac-62b704c11f7f.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class CrackedCompactDisc(Solo48):

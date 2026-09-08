@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '89829747-3c99-4088-88f2-439e8b3d4eb2'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/power supply_89829747-3c99-4088-88f2-439e8b3d4eb2.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class PowerSupplyUnit(Solo48):

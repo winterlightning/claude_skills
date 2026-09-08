@@ -9,6 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '80af2806-9c69-5162-a492-892383b21556'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/floppy disk_80af2806-9c69-5162-a492-892383b21556.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class DiskPlatterWithDriveSlots(Solo48):

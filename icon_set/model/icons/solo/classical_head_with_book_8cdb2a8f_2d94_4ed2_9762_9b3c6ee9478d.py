@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '8cdb2a8f-2d94-4ed2-9762-9b3c6ee9478d'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/greek mythology_8cdb2a8f-2d94-4ed2-9762-9b3c6ee9478d.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ClassicalHeadWithBook(Solo48):

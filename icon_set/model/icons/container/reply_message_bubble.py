@@ -21,6 +21,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class ReplyMessageBubbleContainer(Container64):
     icon_id = "reply-message-bubble"

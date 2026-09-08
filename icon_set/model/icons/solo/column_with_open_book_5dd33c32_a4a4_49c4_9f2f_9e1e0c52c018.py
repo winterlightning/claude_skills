@@ -4,6 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '5dd33c32-a4a4-49c4-9f2f-9e1e0c52c018'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-02/mythology_5dd33c32-a4a4-49c4-9f2f-9e1e0c52c018.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class ColumnWithOpenBook(Solo48):

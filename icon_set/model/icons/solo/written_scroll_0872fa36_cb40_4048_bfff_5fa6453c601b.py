@@ -8,6 +8,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '0872fa36-cb40-4048-bfff-5fa6453c601b'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-07/greek script_0872fa36-cb40-4048-bfff-5fa6453c601b.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class WrittenScroll(Solo48):

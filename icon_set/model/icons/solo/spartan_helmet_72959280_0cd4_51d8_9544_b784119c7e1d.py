@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '72959280-0cd4-51d8-9544-b784119c7e1d'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-06/spartan helmet_72959280-0cd4-51d8-9544-b784119c7e1d.svg'
+AUTHOR = 'astra-chatgpt'
 
 
 class SpartanHelmet(Solo48):

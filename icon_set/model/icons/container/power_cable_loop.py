@@ -37,6 +37,8 @@ from __future__ import annotations
 from ...keyshapes import Keyshape
 from ._base import Container64
 
+AUTHOR = 'astra-chatgpt'
+
 
 class PowerCableLoopContainer(Container64):
     icon_id = "power-cable-loop"

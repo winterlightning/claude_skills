@@ -5,6 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '48746c73-65fe-4268-a641-188cca21e945'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-01/caveman symbols_48746c73-65fe-4268-a641-188cca21e945.svg'
+AUTHOR = 'astra-chatgpt'
 SOURCE_REFERENCES = (('1837ed86-65ba-5a7c-9d4a-bcb9c0b8972e', 'pictographic-primitives/culture/batch-01/history caveman symbols_1837ed86-65ba-5a7c-9d4a-bcb9c0b8972e.svg'),)
 
 
