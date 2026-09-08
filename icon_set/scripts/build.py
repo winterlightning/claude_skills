@@ -31,6 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.icons.registry import icons_in  # noqa: E402
 from icon_set.model.profiles import Profile  # noqa: E402
@@ -216,7 +217,10 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
         failed = sum(bad for _, bad in counts)
         if failed:
             return 0, failed
+        gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()])
+        replacements.append((gallery, dist / 'gallery'))
         _publish(replacements)
+        print(f"Icon gallery -> {dist / 'gallery' / 'index.html'}")
     for family, (count, _) in zip(families, counts):
         print(f"[{family}] validated and exported {count} {Profile.for_family(family).name} icons "
               f"-> {dist / family_dist_name(family)}")

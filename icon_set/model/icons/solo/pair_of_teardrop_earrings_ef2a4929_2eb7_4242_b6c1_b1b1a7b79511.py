@@ -1,0 +1,45 @@
+"""Matched stud earrings with broad teardrops. Nested drop decoration is omitted to keep the openings clear.
+
+Authored directly on SOLO48 using the SQUARE centerline envelope.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'ef2a4929-2eb7-4242-b6c1-b1b1a7b79511'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-06/earrings oriental_ef2a4929-2eb7-4242-b6c1-b1b1a7b79511.svg'
+AUTHOR = 'astra-chatgpt'
+
+
+class PairOfTeardropEarrings(Solo48):
+    icon_id = 'pair-of-teardrop-earrings'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/accessories"
+    aliases = ()
+    keywords = ('pair', 'of', 'teardrop', 'earrings')
+
+    def build(self) -> None:
+        def line(n, a, b):
+            self.add_line(n, a, b)
+        def arc(n, a, b, r, ry=None, sweep=True):
+            self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
+        def contour(n, *parts, closed=False):
+            self.add_contour(n, *parts, closed=closed)
+        def connect(a, b):
+            self.relate("connect", a, b)
+        def circle(n, x, y, r, ry=None):
+            arc(n+"-top", (x-r,y), (x+r,y), r, ry)
+            arc(n+"-bottom", (x+r,y), (x-r,y), r, ry)
+            contour(n, n+"-top", n+"-bottom", closed=True)
+        for n,x in (("left",11),("right",37)):
+            circle(n+"-stud",x,5,3)
+            line(n+"-post",(x,8),(x,17))
+            line(n+"-side-r",(x,17),(x+8,33))
+            arc(n+"-lower-r",(x+8,33),(x+9,37),9)
+            arc(n+"-base",(x+9,37),(x-9,37),9)
+            arc(n+"-lower-l",(x-9,37),(x-8,33),9)
+            line(n+"-side-l",(x-8,33),(x,17))
+            contour(n+"-drop",n+"-side-r",n+"-lower-r",n+"-base",n+"-lower-l",n+"-side-l",closed=True)
+            connect(n+"-stud",n+"-post")
+            connect(n+"-post",n+"-drop")

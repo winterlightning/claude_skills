@@ -1,0 +1,435 @@
+{
+  "icon_id": "suspended-succulent-planter",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "cord:subpath-1",
+        "elementId": "cord",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 24 2 L 24 8",
+        "bounds": [
+          24.0,
+          2.0,
+          24.0,
+          8.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "suspension:subpath-1",
+        "elementId": "suspension",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 5 34 L 5 26 L 24 8 L 43 26 L 43 34",
+        "bounds": [
+          5.0,
+          8.0,
+          43.0,
+          34.0
+        ],
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "pot:subpath-1",
+        "elementId": "pot",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 5 34 L 43 34 A 19 12 0 0 1 5 34 Z",
+        "bounds": [
+          5.0,
+          34.0,
+          43.0,
+          46.0
+        ],
+        "segmentCount": 258,
+        "approximationError": 0.0003599357306970639,
+        "hasCurves": true
+      },
+      {
+        "id": "leaves:subpath-1",
+        "elementId": "leaves",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 12 34 L 12 25 L 19 28 L 24 19 L 29 28 L 36 25 L 36 34",
+        "bounds": [
+          12.0,
+          19.0,
+          36.0,
+          34.0
+        ],
+        "segmentCount": 6,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "cord:subpath-1",
+          "suspension:subpath-1",
+          "pot:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "contourIds": [
+          "cord:subpath-1",
+          "suspension:subpath-1",
+          "pot:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "elementIds": [
+          "cord",
+          "suspension",
+          "pot",
+          "leaves"
+        ],
+        "bounds": [
+          5.0,
+          2.0,
+          43.0,
+          46.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "cord:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          8.0
+        ]
+      },
+      {
+        "contourIds": [
+          "suspension:subpath-1",
+          "pot:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          5.0,
+          34.0
+        ]
+      },
+      {
+        "contourIds": [
+          "pot:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          12.0,
+          34.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "cord:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "cord:subpath-1",
+            "suspension:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            8.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "cord:subpath-1",
+          "pot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "cord:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "suspension:subpath-1",
+          "pot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "suspension:subpath-1",
+            "pot:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            5.0,
+            34.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "suspension:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "pot:subpath-1",
+          "leaves:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "pot:subpath-1",
+            "leaves:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            12.0,
+            34.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 18,
+      "flattenedSegments": 269,
+      "adaptiveNodes": 511,
+      "distanceTests": 0,
+      "connectionTests": 9
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 3,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          16.8281,
+          21.6406
+        ],
+        "bbox_viewbox": [
+          5.5,
+          8.7188,
+          37.0,
+          24.7812
+        ],
+        "bbox_ship_px": [
+          37.0,
+          24.7812
+        ],
+        "bbox_design_u": [
+          37.0,
+          24.7812
+        ],
+        "area_ship_px2": 369.0781,
+        "equivalent_diameter_ship_px": 21.6778,
+        "equivalent_diameter_design_u": 21.6778,
+        "inscribed_diameter_ship_px": 8.8501,
+        "inscribed_diameter_design_u": 8.8501,
+        "inscribed_radius_ship_px": 4.425,
+        "inscribed_radius_design_u": 4.425,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.925,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.85
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          23.9844,
+          29.1406
+        ],
+        "bbox_viewbox": [
+          12.5,
+          20.0625,
+          23.0,
+          13.4375
+        ],
+        "bbox_ship_px": [
+          23.0,
+          13.4375
+        ],
+        "bbox_design_u": [
+          23.0,
+          13.4375
+        ],
+        "area_ship_px2": 172.4355,
+        "equivalent_diameter_ship_px": 14.8173,
+        "equivalent_diameter_design_u": 14.8173,
+        "inscribed_diameter_ship_px": 8.688,
+        "inscribed_diameter_design_u": 8.688,
+        "inscribed_radius_ship_px": 4.344,
+        "inscribed_radius_design_u": 4.344,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.844,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.688
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          22.5156,
+          39.9844
+        ],
+        "bbox_viewbox": [
+          5.5312,
+          34.5,
+          36.9375,
+          11.0
+        ],
+        "bbox_ship_px": [
+          36.9375,
+          11.0
+        ],
+        "bbox_design_u": [
+          36.9375,
+          11.0
+        ],
+        "area_ship_px2": 315.3721,
+        "equivalent_diameter_ship_px": 20.0386,
+        "equivalent_diameter_design_u": 20.0386,
+        "inscribed_diameter_ship_px": 11.0,
+        "inscribed_diameter_design_u": 11.0,
+        "inscribed_radius_ship_px": 5.5,
+        "inscribed_radius_design_u": 5.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/suspended-succulent-planter/icon.svg",
+    "metrics": "solo/suspended-succulent-planter/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "f13f76d53d19379596c74ab78dc12b900be47c3e0adf4fc8d6e6544c59b0a378",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    }
+  },
+  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

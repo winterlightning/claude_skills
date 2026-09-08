@@ -368,3 +368,72 @@ edges and numbered red gap markers. The report lists both element IDs, the
 measured gap (negative for overlap), and the sustained length. Use its
 **Needs review (advisory)** filter to inspect candidates. Passing release checks
 and an advisory can coexist; JSON and manifests keep these separate.
+
+## Interactive icon gallery
+
+Every successful build also creates `dist/gallery/index.html` and `icons.json`.
+The gallery shows all currently exported families, including unchanged families
+when building with `--family`. It is generated even with `--no-report`. A failed
+build preserves the previous gallery and exported icons.
+
+Search by name or keyword, filter by family/category, and click an icon to see
+its enlarged preview, canvas, stroke, keyshape, SVG source, full metadata, and
+validation details. Download its SVG or describe a requested change in the
+feedback textarea. Submitted feedback is stored on the server with the icon
+family/ID, SVG revision hash, and timestamp. The inspector shows the latest
+100 submissions for that icon. Unsaved drafts stay in the current browser when
+local storage is available. Feedback records requests; it does not edit icons.
+
+From the repository root:
+
+```bash
+python3 icon_set/scripts/build.py
+python3 icon_set/scripts/deploy.py --open
+# On a server, listen on all interfaces:
+python3 icon_set/scripts/deploy.py --host 0.0.0.0 --port 8000
+```
+
+Open `http://localhost:8000/` locally or `http://SERVER_IP:8000/` remotely.
+`deploy.py` serves the build; it does not upload files or run a build for you.
+It needs only Python 3.10+ and the standard library; build requirements remain
+in `requirements-qa.txt`. Paths default relative to the script, so it works
+from any working directory. For deployment, copy `icon_set/dist/` and
+`icon_set/scripts/deploy.py`, preserving that layout.
+
+Feedback defaults to `icon_set/data/feedback.sqlite3`, outside the public build
+folder, and survives rebuilds/restarts. Back up this database. Override with
+`--database /persistent/path/feedback.sqlite3`; use `--dist /path/to/dist` for
+a custom build. The gallery is shared: all visitors can read and submit feedback.
+For an internet-facing server, run it behind a reverse proxy providing HTTPS,
+access control if needed, and request limits; preserve the original `Host`
+header. Use a service manager to keep the process running.
+
+### Review grid and approval
+
+Each icon card shows its category and review status, with an **Approve** button.
+Use the **All icons / Ready / Pending / Approved** tabs with the category,
+family, and search filters. Tab counts reflect the current category/search.
+Click a card to inspect it and change its status using the review dropdown.
+
+- **Ready**: a new icon version awaiting review.
+- **Pending**: needs changes; saving feedback sets this automatically.
+- **Approved**: a reviewer confirmed the icon is OK using **Approve**.
+
+Decisions are shared across visitors and saved in the existing SQLite database.
+They survive restarts and rebuilds of identical SVGs. A changed SVG starts Ready
+and requires a fresh approval. Existing feedback migrates to Pending without
+overwriting later decisions. Restart `deploy.py` after updating the server code,
+then reload the gallery. API status values are `ready`, `pending`, and `approve`.
+
+### Icons, generator feedback, and final icons
+
+The gallery has three top-level tabs. **Icons** browses the library. **Feedback**
+shows requests newest first, with category/status/search filters, the referenced
+SVG version, Copy change brief, Inspect & respond, and Mark ready for review.
+This page helps a generator review requests; it does not generate or edit files.
+**Final icons** shows only the currently approved generated SVG versions.
+
+This is an internal application. The Feedback tab opens directly without a login
+or access key. `GET /api/feedback-feed` returns requests with the icon family/ID,
+requested change, SVG hash, and timestamp. Restart `deploy.py` after updating
+server code; refresh the browser after gallery updates.
