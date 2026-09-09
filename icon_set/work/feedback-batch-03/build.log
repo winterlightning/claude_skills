@@ -1,0 +1,60 @@
+BUILD FAILED [solo]: 11 of 680 icons did not validate
+
+  anteater-v2
+    style/grid: element 'hind-leg-1' belongs to contours 'hind-leg' and 'outline'
+    ValueError: element 'hind-leg-1' belongs to contours 'hind-leg' and 'outline'
+  bird-in-flight-v2
+    style/grid: element 'beak-1' belongs to contours 'beak' and 'outline'
+    ValueError: element 'beak-1' belongs to contours 'beak' and 'outline'
+  buffalo-head-v2
+    mic [face]: face and muzzle are 5.99929 apart on centerlines nearest (30.6326, 40.7745)<->(27, 36); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+  cockatoo-v2
+    canvas/keyshape bounds: visible ink (2.44184, -0.0232108, 45, 48) leaves the 48x48 canvas
+    canvas/keyshape bounds: visible ink (2.44184, -0.0232108, 45, 48) does not match the VRECT_XL envelope (3, 0, 45, 48) (deltas [0.5582, 0.0232, 0.0, 0.0], tolerance 0.0)
+  crested-penguin-v2
+    canvas/keyshape bounds: visible ink (2.99458, 0, 45.0054, 48) does not match the VRECT_XL envelope (3, 0, 45, 48) (deltas [0.0054, 0.0, 0.0054, 0.0], tolerance 0.0)
+  grand-canyon-with-river-v2
+    mic [right-cliff]: right-cliff and river are 4.12311 apart on centerlines nearest (32, 19)<->(28, 18); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+  howling-wolf-v2
+    style/grid: contour 'outline' references unknown element 'neck'
+    ValueError: contour 'outline' references unknown element 'neck'
+  paw-print-small-outer-toes-v2
+    mic [outer-left]: outer-left and inner-left are 5.49684 apart on centerlines nearest (9.46449, 17.7795)<->(12.5355, 13.2205); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+    mic [inner-right]: inner-right and outer-right are 5.49684 apart on centerlines nearest (35.4645, 13.2205)<->(38.5355, 17.7795); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+  pelican-on-water-v2
+    holes/pinches: 5 undersized holes; 0 pinches
+  simple-gabled-shack-v2
+    style/grid: contour 'walls' references unknown element 'floor-mid'
+    ValueError: contour 'walls' references unknown element 'floor-mid'
+  twin-bell-alarm-clock-v2
+    mic [face]: face and bell-left are 5.39611 apart on centerlines nearest (21.0736, 13.2882)<->(20, 8); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+    mic [face]: face and bell-right are 5.39611 apart on centerlines nearest (26.9264, 13.2882)<->(28, 8); SOLO48 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 276, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 271, in main
+    return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
+                 debug=args.debug, report=args.report)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 249, in build
+    _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 211, in _build_selected
+    row = inspect_icon(icon, debug_dir=qa_dir / key if debug else None, selected=False)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/library_qa.py", line 157, in inspect_icon
+    row['spacing'] = measure_spacing(icon, drawing, validation)
+                     ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/library_qa.py", line 89, in measure_spacing
+    result = analyze_paths(
+        [{'elementId': p['id'], 'commands': commands_for_path(p['primitives'], p['closed'])} for p in paths],
+        minimum_distance=float(icon.profile.spec.equal_stroke_centerline_min),
+        stroke_width=float(STROKE_WIDTH),
+    )
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 650, in analyze_paths
+    contours = _contours(paths, requested_tolerance, budget)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 530, in _contours
+    _arc(contour, cursor, end, command.arc, tolerance, budget)
+    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 455, in _arc
+    continue
+KeyboardInterrupt

@@ -1,0 +1,2815 @@
+{
+  "manifest_version": 2,
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "count": 9,
+  "icons": [
+    {
+      "icon_id": "baby-figure-v2",
+      "name": "baby-figure-v2",
+      "aliases": [],
+      "category": "people/babies",
+      "keywords": [
+        "baby",
+        "figure",
+        "infant",
+        "nursery"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        3,
+        0,
+        45,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "head-top",
+          "start": [
+            18,
+            8
+          ],
+          "end": [
+            30,
+            8
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-bottom",
+          "start": [
+            30,
+            8
+          ],
+          "end": [
+            18,
+            8
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "shoulders",
+          "start": [
+            17,
+            22
+          ],
+          "end": [
+            31,
+            22
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "arm-left",
+          "start": [
+            17,
+            22
+          ],
+          "end": [
+            5,
+            33
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "arm-right",
+          "start": [
+            31,
+            22
+          ],
+          "end": [
+            43,
+            33
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "waist-left",
+          "start": [
+            17,
+            22
+          ],
+          "end": [
+            16,
+            37
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "waist-right",
+          "start": [
+            31,
+            22
+          ],
+          "end": [
+            32,
+            37
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "diaper-band",
+          "start": [
+            16,
+            37
+          ],
+          "end": [
+            32,
+            37
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "diaper",
+          "start": [
+            16,
+            37
+          ],
+          "end": [
+            32,
+            37
+          ],
+          "radius_x": 8,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "leg-left-1",
+          "start": [
+            16,
+            37
+          ],
+          "end": [
+            11,
+            42
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "leg-left-2",
+          "start": [
+            11,
+            42
+          ],
+          "end": [
+            16,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "leg-right-1",
+          "start": [
+            32,
+            37
+          ],
+          "end": [
+            37,
+            42
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "leg-right-2",
+          "start": [
+            37,
+            42
+          ],
+          "end": [
+            32,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "head-top",
+            "head-bottom"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "leg-left",
+          "members": [
+            "leg-left-1",
+            "leg-left-2"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "leg-right",
+          "members": [
+            "leg-right-1",
+            "leg-right-2"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "shoulders",
+            "waist-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "shoulders",
+            "waist-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "shoulders",
+            "arm-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "shoulders",
+            "arm-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "arm-left",
+            "waist-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "arm-right",
+            "waist-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "waist-left",
+            "diaper-band"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "waist-right",
+            "diaper-band"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "diaper-band",
+            "diaper"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "waist-left",
+            "diaper"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "waist-right",
+            "diaper"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-left",
+            "waist-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-left",
+            "diaper"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-left",
+            "diaper-band"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-right",
+            "waist-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-right",
+            "diaper"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "leg-right",
+            "diaper-band"
+          ]
+        }
+      ],
+      "variant_of": "baby-figure",
+      "variant_label": "arms must be the stick-lines",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/baby-figure-v2.svg",
+      "svg_sha256": "8289956e38f0f76d88d92eaf7a332cf4a3bbcbcf2eb6890a245cb9f5a7ced28d",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "baby-head-v2",
+      "name": "baby-head-v2",
+      "aliases": [],
+      "category": "people/babies",
+      "keywords": [
+        "baby",
+        "head",
+        "infant",
+        "nursery"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "head-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            24,
+            46
+          ],
+          "radius_x": 22,
+          "radius_y": 22,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-right",
+          "start": [
+            24,
+            46
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 22,
+          "radius_y": 22,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "curl-down",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            32,
+            10
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "curl-in",
+          "start": [
+            32,
+            10
+          ],
+          "end": [
+            26,
+            16
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "head-left",
+            "head-right"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "curl",
+          "members": [
+            "curl-down",
+            "curl-in"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "curl"
+          ]
+        }
+      ],
+      "variant_of": "baby-head",
+      "variant_label": "Simplify",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/baby-head-v2.svg",
+      "svg_sha256": "6d74382416714e27a0b161de4a33cb64190d06581da3a626fa75546a5e487b16",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "baby-bottle-with-handles-v3",
+      "name": "baby-bottle-with-handles-v3",
+      "aliases": [],
+      "category": "objects/baby-care",
+      "keywords": [
+        "bottle",
+        "handles",
+        "baby",
+        "milk",
+        "feeding",
+        "sippy",
+        "teat",
+        "infant"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "bottle-1",
+          "start": [
+            2,
+            34
+          ],
+          "end": [
+            14,
+            46
+          ],
+          "radius_x": 12,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "bottle-2",
+          "start": [
+            14,
+            46
+          ],
+          "end": [
+            22,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "bottle-3",
+          "start": [
+            22,
+            42
+          ],
+          "end": [
+            38,
+            26
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bottle-4",
+          "start": [
+            38,
+            26
+          ],
+          "end": [
+            22,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bottle-5",
+          "start": [
+            22,
+            10
+          ],
+          "end": [
+            6,
+            26
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "bottle-6",
+          "start": [
+            6,
+            26
+          ],
+          "end": [
+            2,
+            34
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "teat-1",
+          "start": [
+            22,
+            10
+          ],
+          "end": [
+            34,
+            6
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "teat-2",
+          "start": [
+            34,
+            6
+          ],
+          "end": [
+            40,
+            2
+          ],
+          "radius_x": 6,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "teat-3",
+          "start": [
+            40,
+            2
+          ],
+          "end": [
+            46,
+            8
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "teat-4",
+          "start": [
+            46,
+            8
+          ],
+          "end": [
+            42,
+            14
+          ],
+          "radius_x": 4,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "teat-5",
+          "start": [
+            42,
+            14
+          ],
+          "end": [
+            38,
+            26
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "handle-left-1",
+          "start": [
+            8,
+            24
+          ],
+          "end": [
+            20,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 9,
+          "large_arc": true,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "handle-right-1",
+          "start": [
+            36,
+            28
+          ],
+          "end": [
+            24,
+            40
+          ],
+          "radius_x": 9,
+          "radius_y": 9,
+          "large_arc": true,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "bottle",
+          "members": [
+            "bottle-1",
+            "bottle-2",
+            "bottle-3",
+            "bottle-4",
+            "bottle-5",
+            "bottle-6"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "teat",
+          "members": [
+            "teat-1",
+            "teat-2",
+            "teat-3",
+            "teat-4",
+            "teat-5"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "handle-left",
+          "members": [
+            "handle-left-1"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "handle-right",
+          "members": [
+            "handle-right-1"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "bottle",
+            "teat"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "bottle",
+            "handle-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "bottle",
+            "handle-right"
+          ]
+        }
+      ],
+      "variant_of": "baby-bottle-with-handles",
+      "variant_label": "The cap should touch both sides of the bottle. Avoid any small gaps",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/baby-bottle-with-handles-v3.svg",
+      "svg_sha256": "1d2647f1bb1066d111d4cbc7c273dd4afe2c5fe073a8a722b08afa7cec2399f2",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 4,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "bath-duck-v2",
+      "name": "bath-duck-v2",
+      "aliases": [],
+      "category": "objects/baby",
+      "keywords": [
+        "bath",
+        "duck",
+        "baby",
+        "nursery",
+        "toy"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "HRECT_L",
+      "keyshape_bounds": [
+        0,
+        6,
+        48,
+        42
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "head-top",
+          "start": [
+            10,
+            18
+          ],
+          "end": [
+            20,
+            8
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-back",
+          "start": [
+            20,
+            8
+          ],
+          "end": [
+            30,
+            18
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "neck",
+          "start": [
+            30,
+            18
+          ],
+          "end": [
+            26,
+            26
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "back",
+          "start": [
+            26,
+            26
+          ],
+          "end": [
+            46,
+            23
+          ],
+          "radius_x": 22,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "tail",
+          "start": [
+            46,
+            23
+          ],
+          "end": [
+            46,
+            26
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-right",
+          "start": [
+            46,
+            26
+          ],
+          "end": [
+            32,
+            40
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "belly",
+          "start": [
+            32,
+            40
+          ],
+          "end": [
+            22,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-left",
+          "start": [
+            22,
+            40
+          ],
+          "end": [
+            10,
+            28
+          ],
+          "radius_x": 12,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "throat",
+          "start": [
+            10,
+            28
+          ],
+          "end": [
+            13,
+            24
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "bill-1",
+          "start": [
+            13,
+            24
+          ],
+          "end": [
+            2,
+            18
+          ],
+          "radius_x": 11,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "bill-3",
+          "start": [
+            2,
+            18
+          ],
+          "end": [
+            10,
+            18
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "upper",
+          "members": [
+            "head-top",
+            "head-back",
+            "neck",
+            "back"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "lower",
+          "members": [
+            "tail",
+            "body-right",
+            "belly",
+            "body-left",
+            "throat",
+            "bill-1",
+            "bill-3"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "upper",
+            "lower"
+          ]
+        }
+      ],
+      "variant_of": "bath-duck",
+      "variant_label": "Make the beak curved rather than rectangular.",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/bath-duck-v2.svg",
+      "svg_sha256": "82c713ffc0341c29453c021d0068f78f87c2fad923e7682c7262b3423b46ac1a",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "beaded-loop-with-heart-charm-v2",
+      "name": "beaded-loop-with-heart-charm-v2",
+      "aliases": [],
+      "category": "objects/accessories",
+      "keywords": [
+        "bead",
+        "beaded",
+        "bracelet",
+        "necklace",
+        "heart",
+        "charm",
+        "jewellery",
+        "jewelry",
+        "loop"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "bead-0",
+          "start": [
+            18,
+            2
+          ],
+          "end": [
+            18,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-1",
+          "start": [
+            8,
+            8
+          ],
+          "end": [
+            8,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-2",
+          "start": [
+            2,
+            18
+          ],
+          "end": [
+            2,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-3",
+          "start": [
+            7,
+            28
+          ],
+          "end": [
+            7,
+            28
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-4",
+          "start": [
+            17,
+            33
+          ],
+          "end": [
+            17,
+            33
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-5",
+          "start": [
+            28,
+            28
+          ],
+          "end": [
+            28,
+            28
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-6",
+          "start": [
+            33,
+            18
+          ],
+          "end": [
+            33,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-7",
+          "start": [
+            28,
+            8
+          ],
+          "end": [
+            28,
+            8
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-left",
+          "start": [
+            34,
+            34
+          ],
+          "end": [
+            34,
+            46
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "side-left",
+          "start": [
+            34,
+            46
+          ],
+          "end": [
+            46,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "side-right",
+          "start": [
+            46,
+            46
+          ],
+          "end": [
+            46,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-right",
+          "start": [
+            46,
+            34
+          ],
+          "end": [
+            34,
+            34
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "link",
+          "start": [
+            28,
+            28
+          ],
+          "end": [
+            34,
+            34
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "charm",
+          "members": [
+            "lobe-left",
+            "side-left",
+            "side-right",
+            "lobe-right"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "bead-5",
+            "link"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "charm",
+            "link"
+          ]
+        }
+      ],
+      "variant_of": "beaded-loop-with-heart-charm",
+      "variant_label": "the heart must have the same angle",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/beaded-loop-with-heart-charm-v2.svg",
+      "svg_sha256": "182482707d4c1dd5faaec727c97e7fd5bf36b2feeb2e383aed6de8d1d0c52913",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "beaded-necklace-with-hexagon-stone-v2",
+      "name": "beaded-necklace-with-hexagon-stone-v2",
+      "aliases": [],
+      "category": "objects/accessories",
+      "keywords": [
+        "necklace",
+        "bead",
+        "stone",
+        "hexagon",
+        "gem",
+        "jewellery",
+        "jewelry",
+        "pendant",
+        "accessory"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        48,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "bead-left-top",
+          "start": [
+            2,
+            2
+          ],
+          "end": [
+            2,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-right-top",
+          "start": [
+            46,
+            2
+          ],
+          "end": [
+            46,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-left-low",
+          "start": [
+            10,
+            12
+          ],
+          "end": [
+            10,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bead-right-low",
+          "start": [
+            38,
+            12
+          ],
+          "end": [
+            38,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "chain-1",
+          "start": [
+            18,
+            21
+          ],
+          "end": [
+            24,
+            25
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "chain-2",
+          "start": [
+            24,
+            25
+          ],
+          "end": [
+            30,
+            21
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "link",
+          "start": [
+            24,
+            25
+          ],
+          "end": [
+            24,
+            30
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-1",
+          "start": [
+            24,
+            30
+          ],
+          "end": [
+            34,
+            34
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-2",
+          "start": [
+            34,
+            34
+          ],
+          "end": [
+            34,
+            42
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-3",
+          "start": [
+            34,
+            42
+          ],
+          "end": [
+            24,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-4",
+          "start": [
+            24,
+            46
+          ],
+          "end": [
+            14,
+            42
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-5",
+          "start": [
+            14,
+            42
+          ],
+          "end": [
+            14,
+            34
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "stone-6",
+          "start": [
+            14,
+            34
+          ],
+          "end": [
+            24,
+            30
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "chain",
+          "members": [
+            "chain-1",
+            "chain-2"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "stone",
+          "members": [
+            "stone-1",
+            "stone-2",
+            "stone-3",
+            "stone-4",
+            "stone-5",
+            "stone-6"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "chain",
+            "link"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "stone",
+            "link"
+          ]
+        }
+      ],
+      "variant_of": "beaded-necklace-with-hexagon-stone",
+      "variant_label": "too complex, simplify",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/beaded-necklace-with-hexagon-stone-v2.svg",
+      "svg_sha256": "10034583723bc8d90adc316daf59454a1879527db0c141e89acee1d9867280e8",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "bell-shaped-stupa-v2",
+      "name": "bell-shaped-stupa-v2",
+      "aliases": [],
+      "category": "objects/landmarks",
+      "keywords": [
+        "wat phra kaew",
+        "stupa",
+        "chedi",
+        "thailand",
+        "temple",
+        "buddhist",
+        "landmark",
+        "religion"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        3,
+        0,
+        45,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "spire-1",
+          "start": [
+            17,
+            16
+          ],
+          "end": [
+            24,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "spire-2",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            31,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "spire-3",
+          "start": [
+            31,
+            16
+          ],
+          "end": [
+            17,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "dome-top",
+          "start": [
+            17,
+            16
+          ],
+          "end": [
+            31,
+            16
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "dome-right",
+          "start": [
+            31,
+            16
+          ],
+          "end": [
+            39,
+            38
+          ],
+          "radius_x": 8,
+          "radius_y": 22,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "dome-base",
+          "start": [
+            39,
+            38
+          ],
+          "end": [
+            9,
+            38
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "dome-left",
+          "start": [
+            9,
+            38
+          ],
+          "end": [
+            17,
+            16
+          ],
+          "radius_x": 8,
+          "radius_y": 22,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "plinth-1",
+          "start": [
+            9,
+            38
+          ],
+          "end": [
+            5,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "plinth-2",
+          "start": [
+            5,
+            38
+          ],
+          "end": [
+            5,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "plinth-3",
+          "start": [
+            5,
+            46
+          ],
+          "end": [
+            43,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "plinth-4",
+          "start": [
+            43,
+            46
+          ],
+          "end": [
+            43,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "plinth-5",
+          "start": [
+            43,
+            38
+          ],
+          "end": [
+            39,
+            38
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "spire",
+          "members": [
+            "spire-1",
+            "spire-2",
+            "spire-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "dome",
+          "members": [
+            "dome-top",
+            "dome-right",
+            "dome-base",
+            "dome-left"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "plinth",
+          "members": [
+            "plinth-1",
+            "plinth-2",
+            "plinth-3",
+            "plinth-4",
+            "plinth-5"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "spire",
+            "dome"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "plinth",
+            "dome"
+          ]
+        }
+      ],
+      "variant_of": "bell-shaped-stupa",
+      "variant_label": "Not like the concept name",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/bell-shaped-stupa-v2.svg",
+      "svg_sha256": "0b7584ab87a49e6ba90abca4d246bce3a4c9fdef80ff04bc83b72462f9df529a",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "bobble-hat-with-panelled-cuff-v2",
+      "name": "bobble-hat-with-panelled-cuff-v2",
+      "aliases": [],
+      "category": "objects/accessories",
+      "keywords": [
+        "beanie",
+        "hat",
+        "bobble hat",
+        "winter",
+        "knit",
+        "pompom",
+        "cuff",
+        "clothing"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        3,
+        0,
+        45,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "cuff-0-attach-0",
+          "start": [
+            8,
+            32
+          ],
+          "end": [
+            18,
+            32
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-0-attach-1",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-0-attach-2",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff-1",
+          "start": [
+            40,
+            32
+          ],
+          "end": [
+            43,
+            35
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-2",
+          "start": [
+            43,
+            35
+          ],
+          "end": [
+            43,
+            43
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff-3",
+          "start": [
+            43,
+            43
+          ],
+          "end": [
+            40,
+            46
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-4-attach-0",
+          "start": [
+            40,
+            46
+          ],
+          "end": [
+            30,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-4-attach-1",
+          "start": [
+            30,
+            46
+          ],
+          "end": [
+            18,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-4-attach-2",
+          "start": [
+            18,
+            46
+          ],
+          "end": [
+            8,
+            46
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff-5",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            5,
+            43
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff-6",
+          "start": [
+            5,
+            43
+          ],
+          "end": [
+            5,
+            35
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff-7",
+          "start": [
+            5,
+            35
+          ],
+          "end": [
+            8,
+            32
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown-left",
+          "start": [
+            8,
+            32
+          ],
+          "end": [
+            24,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown-right",
+          "start": [
+            24,
+            12
+          ],
+          "end": [
+            40,
+            32
+          ],
+          "radius_x": 16,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-0",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            29,
+            7
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-1",
+          "start": [
+            29,
+            7
+          ],
+          "end": [
+            24,
+            12
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-2",
+          "start": [
+            24,
+            12
+          ],
+          "end": [
+            19,
+            7
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-3",
+          "start": [
+            19,
+            7
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cuff",
+          "members": [
+            "cuff-0-attach-0",
+            "cuff-0-attach-1",
+            "cuff-0-attach-2",
+            "cuff-1",
+            "cuff-2",
+            "cuff-3",
+            "cuff-4-attach-0",
+            "cuff-4-attach-1",
+            "cuff-4-attach-2",
+            "cuff-5",
+            "cuff-6",
+            "cuff-7"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "crown",
+          "members": [
+            "crown-left",
+            "crown-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "bobble",
+          "members": [
+            "bobble-0",
+            "bobble-1",
+            "bobble-2",
+            "bobble-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "bobble",
+            "crown"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "cuff",
+            "crown"
+          ]
+        }
+      ],
+      "variant_of": "bobble-hat-with-panelled-cuff",
+      "variant_label": "remove two lines inside the hat, only one line between",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/bobble-hat-with-panelled-cuff-v2.svg",
+      "svg_sha256": "45bde7af5c14cacbdc1824172843ce86626319140d985ef1e7985e4b42fdd0a6",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "bobble-hat-with-seams-v2",
+      "name": "bobble-hat-with-seams-v2",
+      "aliases": [],
+      "category": "objects/accessories",
+      "keywords": [
+        "beanie",
+        "hat",
+        "bobble hat",
+        "winter",
+        "knit",
+        "pompom",
+        "cap",
+        "clothing"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        3,
+        0,
+        45,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "cuff0",
+          "start": [
+            8,
+            34
+          ],
+          "end": [
+            40,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff1",
+          "start": [
+            40,
+            34
+          ],
+          "end": [
+            43,
+            37
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff2",
+          "start": [
+            43,
+            37
+          ],
+          "end": [
+            43,
+            43
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff3",
+          "start": [
+            43,
+            43
+          ],
+          "end": [
+            40,
+            46
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff4",
+          "start": [
+            40,
+            46
+          ],
+          "end": [
+            8,
+            46
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff5",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            5,
+            43
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cuff6",
+          "start": [
+            5,
+            43
+          ],
+          "end": [
+            5,
+            37
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cuff7",
+          "start": [
+            5,
+            37
+          ],
+          "end": [
+            8,
+            34
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "crown-l",
+          "start": [
+            8,
+            34
+          ],
+          "end": [
+            8,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown-a",
+          "start": [
+            8,
+            30
+          ],
+          "end": [
+            24,
+            14
+          ],
+          "radius_x": 16,
+          "radius_y": 16,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown-b",
+          "start": [
+            24,
+            14
+          ],
+          "end": [
+            40,
+            30
+          ],
+          "radius_x": 16,
+          "radius_y": 16,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "crown-r",
+          "start": [
+            40,
+            30
+          ],
+          "end": [
+            40,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-a",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            24,
+            14
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "bobble-b",
+          "start": [
+            24,
+            14
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cuff",
+          "members": [
+            "cuff0",
+            "cuff1",
+            "cuff2",
+            "cuff3",
+            "cuff4",
+            "cuff5",
+            "cuff6",
+            "cuff7"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "crown",
+          "members": [
+            "crown-l",
+            "crown-a",
+            "crown-b",
+            "crown-r"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "bobble",
+          "members": [
+            "bobble-a",
+            "bobble-b"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "crown",
+            "cuff"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "bobble",
+            "crown"
+          ]
+        }
+      ],
+      "variant_of": "bobble-hat-with-seams",
+      "variant_label": "remove two lines inside",
+      "svg_path": "work/feedback-solo-batch-01/review/solo48/bobble-hat-with-seams-v2.svg",
+      "svg_sha256": "8c0406e148fb712191a1bf5ab170d3606a19a5480c45c1f58e7462f89e5327e6",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    }
+  ]
+}

@@ -3,7 +3,7 @@
   "family": "sub",
   "profile": "SUB32",
   "canvas_size": 32,
-  "count": 52,
+  "count": 53,
   "icons": [
     {
       "icon_id": "arrow-down",
@@ -4844,6 +4844,179 @@
       "relationships": [],
       "svg_path": "dist/sub32/hexagon.svg",
       "svg_sha256": "b4e4a9e511b90697bd4df7e1031eb09f1922c3cef7abdb852506abfd8484341d",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "705812024a70286eeb4501118620b9bb84e3d43530d9a29359a408033a801cc2",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "hexagon-v2",
+      "name": "hexagon-v2",
+      "aliases": [],
+      "category": "primitives/shape",
+      "keywords": [
+        "cell",
+        "badge",
+        "honeycomb"
+      ],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "HRECT_L",
+      "keyshape_bounds": [
+        0,
+        4,
+        32,
+        28
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "outline-1",
+          "start": [
+            9,
+            6
+          ],
+          "end": [
+            23,
+            6
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "outline-2",
+          "start": [
+            23,
+            6
+          ],
+          "end": [
+            30,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "outline-3",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            23,
+            26
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "outline-4",
+          "start": [
+            23,
+            26
+          ],
+          "end": [
+            9,
+            26
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "outline-5",
+          "start": [
+            9,
+            26
+          ],
+          "end": [
+            2,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "outline-6",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            9,
+            6
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outline",
+          "members": [
+            "outline-1",
+            "outline-2",
+            "outline-3",
+            "outline-4",
+            "outline-5",
+            "outline-6"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [],
+      "variant_of": "hexagon",
+      "variant_label": "Wider proportions",
+      "svg_path": "dist/sub32/hexagon-v2.svg",
+      "svg_sha256": "d424b0c7de7254b819707010bb95dbd991e6660c5d556561fdd96a17b1737add",
       "validation": {
         "status": "valid",
         "checks_run": [

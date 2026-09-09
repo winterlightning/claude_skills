@@ -3,7 +3,7 @@
   "family": "container",
   "profile": "CONTAINER64",
   "canvas_size": 64,
-  "count": 157,
+  "count": 161,
   "icons": [
     {
       "icon_id": "aiming-reticle",
@@ -3756,6 +3756,165 @@
       ],
       "svg_path": "dist/container64/counter-clockwise-circular-arrow.svg",
       "svg_sha256": "9d88dfe81cc66511d320006b4ab2b4397343c85364bf3b76e96d334962138ea4",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 0,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "counter-clockwise-circular-arrow-v2",
+      "name": "counter-clockwise-circular-arrow-v2",
+      "aliases": [
+        "counterclockwise-arrow-container",
+        "circular-arrow-container"
+      ],
+      "category": "containers",
+      "keywords": [
+        "circular",
+        "arrow",
+        "counterclockwise",
+        "ring",
+        "refresh",
+        "undo"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "loop",
+          "start": [
+            38,
+            56
+          ],
+          "end": [
+            14,
+            32
+          ],
+          "radius_x": 24,
+          "radius_y": 24,
+          "large_arc": true,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "arrowhead-1",
+          "start": [
+            4,
+            22
+          ],
+          "end": [
+            14,
+            32
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "arrowhead-2",
+          "start": [
+            14,
+            32
+          ],
+          "end": [
+            24,
+            22
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "arrowhead",
+          "members": [
+            "arrowhead-1",
+            "arrowhead-2"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "loop",
+            "arrowhead"
+          ]
+        }
+      ],
+      "variant_of": "counter-clockwise-circular-arrow",
+      "variant_label": "Prominent outer arrowhead",
+      "svg_path": "dist/container64/counter-clockwise-circular-arrow-v2.svg",
+      "svg_sha256": "587bec192041ffb4de569d0b2f1ac75dc6e0a97643f0ec6a115bf10a11f9a547",
       "validation": {
         "status": "valid",
         "checks_run": [
@@ -9596,6 +9755,242 @@
       }
     },
     {
+      "icon_id": "fringed-area-rug-v2",
+      "name": "fringed-area-rug-v2",
+      "aliases": [
+        "fringed-rug",
+        "area-rug"
+      ],
+      "category": "containers",
+      "keywords": [
+        "rug",
+        "mat",
+        "textile",
+        "fringe"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "rug-1",
+          "start": [
+            6,
+            8
+          ],
+          "end": [
+            58,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-2",
+          "start": [
+            58,
+            8
+          ],
+          "end": [
+            58,
+            56
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-3",
+          "start": [
+            58,
+            56
+          ],
+          "end": [
+            6,
+            56
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-4",
+          "start": [
+            6,
+            56
+          ],
+          "end": [
+            6,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-6",
+          "start": [
+            6,
+            2
+          ],
+          "end": [
+            6,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-6",
+          "start": [
+            6,
+            56
+          ],
+          "end": [
+            6,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-58",
+          "start": [
+            58,
+            2
+          ],
+          "end": [
+            58,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-58",
+          "start": [
+            58,
+            56
+          ],
+          "end": [
+            58,
+            62
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rug",
+          "members": [
+            "rug-1",
+            "rug-2",
+            "rug-3",
+            "rug-4"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-6"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-6"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-58"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-58"
+          ]
+        }
+      ],
+      "variant_of": "fringed-area-rug",
+      "variant_label": "Four outer fringe strokes",
+      "svg_path": "dist/container64/fringed-area-rug-v2.svg",
+      "svg_sha256": "6fe3f9a068f56b15e1b92af6a480043d29ac525bfedfa3dbb061de304bd7d5c0",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "gas-cylinder-container",
       "name": "gas-cylinder-container",
       "aliases": [],
@@ -12400,6 +12795,464 @@
       ],
       "svg_path": "dist/container64/hexagonal-molecular-structure.svg",
       "svg_sha256": "d560c8d0a454950c5ed383707cfff42349176e5e87b71c75c8dcc4f1474cb1b2",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 4,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "hexagonal-molecular-structure-v2",
+      "name": "hexagonal-molecular-structure-v2",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "hexagonal",
+        "molecular",
+        "structure"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "top-0",
+          "start": [
+            25,
+            9
+          ],
+          "end": [
+            32,
+            2
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "top-1",
+          "start": [
+            32,
+            2
+          ],
+          "end": [
+            39,
+            9
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "top-2",
+          "start": [
+            39,
+            9
+          ],
+          "end": [
+            32,
+            16
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "top-3",
+          "start": [
+            32,
+            16
+          ],
+          "end": [
+            25,
+            9
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "left-0",
+          "start": [
+            6,
+            45
+          ],
+          "end": [
+            13,
+            38
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "left-1",
+          "start": [
+            13,
+            38
+          ],
+          "end": [
+            20,
+            45
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "left-2",
+          "start": [
+            20,
+            45
+          ],
+          "end": [
+            13,
+            52
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "left-3",
+          "start": [
+            13,
+            52
+          ],
+          "end": [
+            6,
+            45
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "right-0",
+          "start": [
+            44,
+            45
+          ],
+          "end": [
+            51,
+            38
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "right-1",
+          "start": [
+            51,
+            38
+          ],
+          "end": [
+            58,
+            45
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "right-2",
+          "start": [
+            58,
+            45
+          ],
+          "end": [
+            51,
+            52
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "right-3",
+          "start": [
+            51,
+            52
+          ],
+          "end": [
+            44,
+            45
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "upper-left-1",
+          "start": [
+            25,
+            9
+          ],
+          "end": [
+            13,
+            20
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "upper-left-2",
+          "start": [
+            13,
+            20
+          ],
+          "end": [
+            13,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "upper-right-1",
+          "start": [
+            39,
+            9
+          ],
+          "end": [
+            51,
+            20
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "upper-right-2",
+          "start": [
+            51,
+            20
+          ],
+          "end": [
+            51,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bottom-1",
+          "start": [
+            13,
+            52
+          ],
+          "end": [
+            32,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bottom-2",
+          "start": [
+            32,
+            62
+          ],
+          "end": [
+            51,
+            52
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "top",
+          "members": [
+            "top-0",
+            "top-1",
+            "top-2",
+            "top-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "left",
+          "members": [
+            "left-0",
+            "left-1",
+            "left-2",
+            "left-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "right",
+          "members": [
+            "right-0",
+            "right-1",
+            "right-2",
+            "right-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "upper-left",
+          "members": [
+            "upper-left-1",
+            "upper-left-2"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "upper-right",
+          "members": [
+            "upper-right-1",
+            "upper-right-2"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "bottom",
+          "members": [
+            "bottom-1",
+            "bottom-2"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "top",
+            "upper-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "top",
+            "upper-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "left",
+            "upper-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "left",
+            "bottom"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "right",
+            "upper-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "right",
+            "bottom"
+          ]
+        }
+      ],
+      "variant_of": "hexagonal-molecular-structure",
+      "variant_label": "Larger molecular rings",
+      "svg_path": "dist/container64/hexagonal-molecular-structure-v2.svg",
+      "svg_sha256": "91e996c033918f6c36c1044a8bd8198910aaccdd7fc4bf36d82c7fc976ea82ef",
       "validation": {
         "status": "valid",
         "checks_run": [
@@ -15631,6 +16484,366 @@
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 3,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "kitchen-oven-appliance-v2",
+      "name": "kitchen-oven-appliance-v2",
+      "aliases": [
+        "oven"
+      ],
+      "category": "containers",
+      "keywords": [
+        "kitchen",
+        "oven",
+        "appliance"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "top",
+          "start": [
+            6,
+            2
+          ],
+          "end": [
+            58,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "nw",
+          "start": [
+            2,
+            6
+          ],
+          "end": [
+            6,
+            2
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "left-header",
+          "start": [
+            2,
+            24
+          ],
+          "end": [
+            2,
+            6
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "ne",
+          "start": [
+            58,
+            2
+          ],
+          "end": [
+            62,
+            6
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "right-header",
+          "start": [
+            62,
+            6
+          ],
+          "end": [
+            62,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "divider",
+          "start": [
+            2,
+            24
+          ],
+          "end": [
+            62,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "right-door",
+          "start": [
+            62,
+            24
+          ],
+          "end": [
+            62,
+            58
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "se",
+          "start": [
+            62,
+            58
+          ],
+          "end": [
+            58,
+            62
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "bottom",
+          "start": [
+            58,
+            62
+          ],
+          "end": [
+            6,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "sw",
+          "start": [
+            6,
+            62
+          ],
+          "end": [
+            2,
+            58
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "left-door",
+          "start": [
+            2,
+            58
+          ],
+          "end": [
+            2,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "knob-18",
+          "start": [
+            18,
+            13
+          ],
+          "end": [
+            18,
+            13
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "knob-32",
+          "start": [
+            32,
+            13
+          ],
+          "end": [
+            32,
+            13
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "knob-46",
+          "start": [
+            46,
+            13
+          ],
+          "end": [
+            46,
+            13
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "header-left",
+          "members": [
+            "left-header",
+            "nw"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "header-right",
+          "members": [
+            "ne",
+            "right-header"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "door",
+          "members": [
+            "right-door",
+            "se",
+            "bottom",
+            "sw",
+            "left-door"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "top",
+            "header-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "top",
+            "header-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "divider",
+            "header-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "divider",
+            "header-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "divider",
+            "door"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "door",
+            "header-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "door",
+            "header-right"
+          ]
+        }
+      ],
+      "variant_of": "kitchen-oven-appliance",
+      "variant_label": "Solid control dots",
+      "svg_path": "dist/container64/kitchen-oven-appliance-v2.svg",
+      "svg_sha256": "cd4959b1b82c4ce0e23bdb98b4da2558459c8f0b641031c3c866231627446abb",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
           "minimum_authored_diameter": 2.0,
           "minimum_measured_diameter": 5.0,
           "configured_fill_depth": 1.0,

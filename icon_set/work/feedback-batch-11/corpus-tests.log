@@ -1,0 +1,15 @@
+...............F..
+======================================================================
+FAIL: test_exported_svg_matches_the_model (icon_set.tests.test_corpus.DistTests.test_exported_svg_matches_the_model) (icon='pregnant-belly-with-heart-v2')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_corpus.py", line 174, in test_exported_svg_matches_the_model
+    self.assertEqual(path.read_text(), render_svg(icon))
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: '<svg[243 chars] d="M8 2A3 22 0 0 0 5 24A3 22 0 0 0 8 46"/>\n [181 chars]g>\n' != '<svg[243 chars] d="M5 2L5 8L5 46"/>\n  <path id="arm" d="M5 8[257 chars]g>\n'
+Diff is 1020 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 18 tests in 18.203s
+
+FAILED (failures=1)

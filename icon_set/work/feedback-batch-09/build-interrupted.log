@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 276, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 271, in main
+    return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
+                 debug=args.debug, report=args.report)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 249, in build
+    _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report)
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 198, in _build_selected
+    counts.append(_stage_family(
+                  ~~~~~~~~~~~~~^
+        family, stages[dist], stages.get(png_dir),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        write_png=write_png, published_dist=dist,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        qa_rows=qa_rows, qa_dir=qa_dir, debug=debug,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ))
+    ^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 80, in _stage_family
+    qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/library_qa.py", line 158, in inspect_icon
+    row['internal_spacing'] = analyze_internal_spacing(icon, drawing)
+                              ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/internal_spacing.py", line 102, in analyze_internal_spacing
+    forward = _run(samples[first.element_id],samples[second.element_id],required)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/internal_spacing.py", line 46, in _run
+    t = np.clip(np.sum((mid[:,None,:]-b)*db, axis=2)/(lb*lb), 0, 1)
+  File "/opt/homebrew/lib/python3.13/site-packages/numpy/_core/fromnumeric.py", line 2202, in _clip_dispatcher
+    def _clip_dispatcher(a, a_min=None, a_max=None, out=None, *, min=None,
+    
+KeyboardInterrupt
