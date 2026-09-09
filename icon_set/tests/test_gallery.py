@@ -104,7 +104,7 @@ class ServerTests(unittest.TestCase):
     def test_review_states_persist_and_new_svg_requires_review(self):
         key = 'sub/square'
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'ready')
-        for status in ('pending', 'approve', 'ready', 'approve'):
+        for status in ('pending', 're-generated', 'approve', 'ready', 'approve'):
             self.assertEqual(self.request('POST', '/api/reviews',
                 {'icon': key, 'svg_sha256': 'abc', 'status': status})[0], 201)
             init_database(self.database)  # Startup migration preserves explicit choices.
@@ -127,6 +127,36 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/reviews', payload)[0], 201)
         init_database(self.database)
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'approve')
+
+    def test_published_variant_marks_pending_parent_regenerated(self):
+        key = 'sub/square'
+        self.request('POST', '/api/feedback',
+                     {'icon': key, 'svg_sha256': 'abc', 'feedback': 'Round corners'})
+        catalog = self.dist / 'gallery/icons.json'
+        data = json.loads(catalog.read_text())
+        data['icons'].append(dict(data['icons'][0], key='sub/square-v2',
+                                  icon_id='square-v2', variant_of='square'))
+        catalog.write_text(json.dumps(data))
+        states = json.loads(self.request('GET', '/api/reviews')[1])
+        self.assertEqual(states[key], 're-generated')
+        self.assertEqual(states['sub/square-v2'], 'ready')
+        self.request('POST', '/api/reviews',
+                     {'icon': key, 'svg_sha256': 'abc', 'status': 'approve'})
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'approve')
+
+    def test_legacy_review_schema_migrates_without_losing_decisions(self):
+        import sqlite3
+        with sqlite3.connect(self.database) as connection:
+            connection.execute('DROP TABLE reviews')
+            connection.execute("""CREATE TABLE reviews (
+                icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
+                status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 'approve')),
+                updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))""")
+            connection.execute("INSERT INTO reviews VALUES ('sub/square','abc','approve','old')")
+        init_database(self.database)
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'approve')
+        self.assertEqual(self.request('POST', '/api/reviews',
+                         {'icon': 'sub/square', 'svg_sha256': 'abc', 'status': 're-generated'})[0], 201)
 
     def test_review_validation(self):
         for payload, code in [({'icon': 'sub/square', 'svg_sha256': 'abc', 'status': 'unknown'}, 400),

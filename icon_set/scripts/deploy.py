@@ -43,8 +43,17 @@ def init_database(path: Path) -> None:
         connection.execute('CREATE INDEX IF NOT EXISTS feedback_icon ON feedback(icon, id)')
         connection.execute('''CREATE TABLE IF NOT EXISTS reviews (
             icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-            status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 'approve')),
+            status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve')),
             updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))''')
+        schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='reviews'").fetchone()[0]
+        if 're-generated' not in schema:
+            connection.execute('ALTER TABLE reviews RENAME TO reviews_legacy')
+            connection.execute("""CREATE TABLE reviews (
+                icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
+                status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve')),
+                updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))""")
+            connection.execute('INSERT INTO reviews SELECT * FROM reviews_legacy')
+            connection.execute('DROP TABLE reviews_legacy')
         # Existing feedback starts pending; never overwrite an explicit decision.
         connection.execute('''INSERT OR IGNORE INTO reviews(icon, svg_sha256, status, updated_at)
             SELECT icon, svg_sha256, 'pending', MAX(created_at)
@@ -149,6 +158,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 for key, sha, status in rows:
                     if key in catalog and catalog[key]['svg_sha256'] == sha:
                         statuses[key] = status
+                # A published child variant means the pending original has been regenerated.
+                for icon in catalog.values():
+                    parent = icon.get('variant_of')
+                    if parent:
+                        key = icon['family'] + '/' + parent
+                        if statuses.get(key) == 'pending':
+                            statuses[key] = 're-generated'
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     rejected = connection.execute('SELECT icon,svg_sha256 FROM split_requests WHERE active=1').fetchall()
                 for key, sha in rejected:
@@ -232,7 +248,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
                     raise ValueError()
                 status = 'pending'
-            elif status not in ('ready', 'pending', 'approve'):
+            elif status not in ('ready', 'pending', 're-generated', 'approve'):
                 raise ValueError()
             icon = self.catalog().get(key)
             if icon is None:
