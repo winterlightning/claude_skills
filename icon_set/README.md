@@ -398,7 +398,7 @@ Open `http://localhost:8000/` locally or `http://SERVER_IP:8000/` remotely.
 It needs only Python 3.10+ and the standard library; build requirements remain
 in `requirements-qa.txt`. Paths default relative to the script, so it works
 from any working directory. For deployment, copy `icon_set/dist/` and
-`icon_set/scripts/deploy.py`, preserving that layout.
+`icon_set/scripts/deploy.py` and `icon_set/scripts/brief_queue.py`, preserving that layout.
 
 Feedback defaults to `icon_set/data/feedback.sqlite3`, outside the public build
 folder, and survives rebuilds/restarts. Back up this database. Override with
@@ -470,3 +470,36 @@ For a manually created variant, use a unique ID, same family, parent ID, and
 nonempty label, and keep the old module in place. For shared modules, the scaffold imports sibling icons instead of registering
 duplicates. Per-ID FREE keyshape exceptions need a manual variant with valid
 exception metadata.
+
+### Icon-making router and combined-reference rejection
+
+Use `$icon-making` (Claude: `/icon-making`) as the entry point for a reference or
+creation request. It visually checks the subject, honors an explicit family,
+otherwise chooses solo/sub/container and reads the matching authoring skill.
+It preserves existing versions for review-driven changes.
+
+The router rejects two kinds of combined reference as a single primitive:
+container + hosted sub icon, and a main subject + adjacent sub modifier. It
+queues exactly two component briefs and stops instead of authoring the combined
+primitive, unless generating the components was also requested. Intrinsic parts
+of one object are not split.
+
+In the inspector, **Reject — combined primitive** opens a form for the
+combination type and two component names/families/descriptions. Submit to reject
+the current SVG revision and create two **Pending briefs**. Repeated submissions
+do not duplicate or reset an active split. A rejected icon cannot be approved or
+enter Final icons. Its files and feedback remain intact. **Restore for review**
+returns it to Ready and removes its split from the active queue.
+
+Pending briefs provide **Copy generation brief**, routed to `$icon-making`, and
+**Mark generated** to link a built standalone icon in the correct family. This
+does not approve the component. Existing standalone icons can fulfill a brief;
+the rejected composite cannot.
+
+Before a reference has a generated icon, the router can queue JSON with
+`icon_set/scripts/queue_brief.py --file <split.json>`. The JSON shape and routing
+rules are maintained in `.claude/skills/icon-making/SKILL.md`; generated Codex
+and portable copies live in `.agents/skills/icon-making/` and `skills/icon-making/`.
+The queue shares the server feedback database. Use the same `--database` path for
+the CLI and server; on a remote deployment transfer the JSON handoff or use the
+review app rather than writing to a different local queue.

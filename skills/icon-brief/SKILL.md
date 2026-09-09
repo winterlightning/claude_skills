@@ -1,13 +1,13 @@
 ---
 name: icon-brief
-description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that $icon-sub, $icon-solo or $icon-container can be run against. The requester names the icon family; this skill never infers it. Generated from .claude/skills/icon-brief/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
+description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that $icon-sub, $icon-solo or $icon-container can be run against. Detect container/side combinations and save separate component briefs with source copies for later authoring. The requested family applies to standalone icons; split components use their individual families. Generated from .claude/skills/icon-brief/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
 ---
 
 # $icon-brief — reference SVGs in, authoring briefs out
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `icon_lib` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 A brief says **what the reference is**. It does not say how to draw it. You
 identify and name the subject; the family skill that authors it decides what
@@ -15,10 +15,88 @@ survives at native size, what the keyshape is, and where every coordinate goes.
 Keep that line and the briefs stay useful for years.
 
 **The family comes with the request, not from you.** The requester names the
-icon type — `sub`, `solo` or `container` — and every brief in the run carries
-it. See [Family](#family) before writing anything.
+icon type — `sub`, `solo` or `container` — and standalone briefs carry
+it. Combined references use the separate component-family routing below. See [Family](#family) before writing anything.
 
-Per icon you produce exactly five fields:
+Before writing a standalone brief, visually classify the reference using
+`icon_set/skills/icon-design/reference-triage.md`. Do this within `icon-brief`;
+do not defer detection until authoring. Save a split handoff for either kind of
+combination as described below. `icon-making` handles those components later.
+When invoked by `$icon-making`, its chosen family is an explicit input.
+
+## Detect combinations and save them for later
+
+After opening each reference render, classify it as **standalone**,
+**container combination**, or **side combination**. Two parts must have
+independent icon meanings: a lid, handle, facial feature, or structural button
+alone does not make a combination. Never classify from the filename alone.
+
+- Container combination: a separate glyph inside an enclosure. Write two briefs:
+  the empty/standalone enclosure in `container/`, and its isolated content in `sub/`.
+- Side combination: a main subject with a separate adjacent action/state glyph.
+  Write the main subject in `solo/` (or `container/` if it is an enclosure), and
+  the modifier in `sub/`. Do not mislabel a solo subject as container merely to
+  fit a folder name.
+- Standalone: continue the ordinary five-field brief in the requested family.
+
+For a combination, do not produce one normal authoring brief for the whole
+reference. Write a split JSON handoff with `reference_path`, `combination_type`
+(`container` or `side`), a visual `reason`, and exactly two `components`. Each
+component has `name`, `family`, and `description`; include `icon_id` and `tags`
+when known. Descriptions say what to generate and which other component to
+exclude. Preserve the complete supplied source path and UUID.
+
+```json
+{
+  "reference_path": "pictographic-primitives/category/source_UUID.svg",
+  "combination_type": "container",
+  "reason": "A separate check mark inside a document enclosure.",
+  "components": [
+    {"name": "Document frame", "family": "container", "description": "The document enclosure alone. Exclude the check mark."},
+    {"name": "Check mark", "family": "sub", "description": "The check mark alone. Exclude the document."}
+  ]
+}
+```
+
+Save each split JSON under `work/pending-brief/requests/` with a unique source-based
+filename, then run:
+
+```bash
+python3 icon_set/scripts/queue_brief.py --file work/pending-brief/requests/split.json
+```
+
+This copies the unchanged full SVG (or PNG when that is the supplied reference)
+into **each component's folder**, with `brief.md` and `brief.json` beside it:
+
+```text
+work/pending-brief/
+  container/<reference-and-revision>/
+    <original-source-filename>.svg
+    brief.md
+    brief.json
+  sub/<reference-and-revision>/
+    <original-source-filename>.svg
+    brief.md
+    brief.json
+```
+
+Side combinations may also create `solo/<reference-and-revision>/`. The actual
+source filename and bytes are retained; the copied file is the full reference,
+not a generated or cropped component. The brief explains which part to isolate.
+The helper includes a source/revision digest in the folder name to avoid
+collisions, reuses an identical handoff, and refuses to overwrite modified work.
+
+By default it also adds the two components to the review app's Pending briefs.
+Use `--files-only` when only preparing files for later work; use `--out` to choose
+another handoff root, and `--database` if the review app uses a different database.
+If queueing fails after saving files, report the saved paths and the queue error
+rather than claiming the items appeared in the app.
+
+Check that each saved source copy matches the original and both briefs name
+their family and excluded component. Report standalone and split counts and the
+saved folders. Do not generate either component during a brief-only task.
+
+Per standalone icon you produce exactly five fields:
 
 | Field | What it is |
 |---|---|
@@ -34,7 +112,7 @@ Keep the complete source filename/path and its supplied ID in every brief and
 handoff, even when proposing a shorter descriptive `icon_id`. A trailing UUID
 belongs to the reference identity and must not be discarded. The authoring
 skill must carry it into the Python filename and `SOURCE_ICON_ID`, with the
-source path in `SOURCE_PATH`, as specified in
+source path in `SOURCE_PATH` and its own model in `AUTHOR`, as specified in
 `icon_set/skills/icon-design/naming.md`. Preserve the source/render/native path
 lines when editing generated briefs; those paths retain the original identity.
 
@@ -72,7 +150,8 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    describe from. Also open the `@<native>` copy: not to decide what to cut, but
    so your description does not lean on detail that is not actually there.
 
-3. **Write the manifest** at `<svg folder>/manifest.json` — a JSON array, one
+3. **Split combined references first** using the procedure above. Keep them out
+   of the standalone authoring handoff. Then **write the standalone manifest** at `<svg folder>/manifest.json` — a JSON array, one
    object per file, `file` matching the SVG filename exactly (including spaces
    and parentheses):
 
@@ -152,8 +231,9 @@ If it is taken by the same concept in another family, propose the suffixed form
 
 ## Family
 
-**The requester names the family. You do not choose it, and you do not vary it
-across a run.**
+**For standalone references, the requester names the family and it stays fixed
+across that standalone run. Combination detection is the explicit exception:
+save separate component briefs in their correct families as described above.**
 
 - `sub` (SUB32) — 32×32. A small glyph, mark, operator, arrow, chevron, state
   or modifier.

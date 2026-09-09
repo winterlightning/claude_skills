@@ -287,8 +287,14 @@ tight areas by rebalancing geometry, without weakening validation rules.
    search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
    Preserve any reference UUID or explicit source ID separately from the name.
    Search existing Python files by that ID before creating a new file; patch the
-   matching module for this family when it already exists.
+   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
    See `{SHARED}/naming.md`.
+
+Before reduction, apply `{SHARED}/reference-triage.md`. If the reference is a
+container combination or side combination, route to `/icon-making` to reject
+it as one primitive and queue two component briefs. A Pending component brief
+already specifies which single component to isolate. For review revisions,
+preserve the parent and edit a new file from `create_variant.py`.
 
 2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
    identity, and nothing that disappears at {spec.canvas_size} pixels. With a
@@ -408,7 +414,7 @@ tight areas by rebalancing geometry, without weakening validation rules.
 """
 
 
-def render_codex(content: str) -> str:
+def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     """Adapt host syntax while retaining the shared authoring instructions."""
     content = "\n".join(
         line for line in content.split("\n")
@@ -420,7 +426,7 @@ def render_codex(content: str) -> str:
     content = content.replace("\0", "skills/icon-design")
     content = content.replace(
         "Hand-authored; edit this file directly.",
-        "Generated from .claude/skills/icon-brief/SKILL.md by "
+        f"Generated from .claude/skills/{source_skill}/SKILL.md by "
         "icon_set/scripts/generate_skills.py; edit the source, not this copy.",
     )
     return content.replace(
@@ -448,6 +454,13 @@ def write_all(check_only: bool = False, agent: str = "all") -> int:
     if agent in ("all", "codex"):
         brief = (SKILLS_DIR / "icon-brief" / "SKILL.md").read_text(encoding="utf-8")
         outputs[CODEX_SKILLS_DIR / "icon-brief" / "SKILL.md"] = render_codex(brief)
+    if agent in ("all", "codex"):
+        making = (SKILLS_DIR / "icon-making" / "SKILL.md").read_text(encoding="utf-8")
+        outputs[CODEX_SKILLS_DIR / "icon-making" / "SKILL.md"] = render_codex(making, "icon-making")
+        # Portable skills are generated from the same Codex text, not edited separately.
+        for target, content in list(outputs.items()):
+            if target.parent.parent == CODEX_SKILLS_DIR:
+                outputs[REPO_ROOT / "skills" / target.parent.name / "SKILL.md"] = content
     for target, content in outputs.items():
         current = target.read_text(encoding="utf-8") if target.is_file() else None
         if current == content:

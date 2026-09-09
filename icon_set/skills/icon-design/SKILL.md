@@ -5,6 +5,12 @@ description: Design a new icon for the Pictographic icon set from a text brief, 
 
 # Designing an icon
 
+Use `icon-making` as the routing entry point when the family is not yet chosen.
+Before authoring a supplied reference, apply [reference-triage.md](reference-triage.md).
+Combined references must become two Pending component briefs rather than one
+primitive. For existing-icon feedback, preserve the old version using
+`icon_set/scripts/create_variant.py` and edit only the new variant file.
+
 You author **geometry**, not SVG. A Python `Icon` subclass owns typed primitives;
 the SVG, the PNG and the metadata record are build artifacts produced from it.
 Never hand-write or hand-patch a final SVG — repair the model and re-emit.
@@ -12,7 +18,7 @@ Never hand-write or hand-patch a final SVG — repair the model and re-emit.
 Preserve the reference icon's supplied ID in every generated Python filename
 and in `SOURCE_ICON_ID`, with its source path in `SOURCE_PATH`. Record the model
 you are running as in `AUTHOR`. Search by that ID before authoring so existing
-icons can be patched in place. Follow
+icons can be reused or preserved as parents of new variants. Follow
 [naming.md](naming.md#reference-ids-in-python-scripts) for extraction, filenames,
 and handling references without IDs, and [naming.md](naming.md#who-drew-it) for
 `AUTHOR`.

@@ -66,8 +66,14 @@ tight areas by rebalancing geometry, without weakening validation rules.
    search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
    Preserve any reference UUID or explicit source ID separately from the name.
    Search existing Python files by that ID before creating a new file; patch the
-   matching module for this family when it already exists.
+   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
    See `icon_set/skills/icon-design/naming.md`.
+
+Before reduction, apply `icon_set/skills/icon-design/reference-triage.md`. If the reference is a
+container combination or side combination, route to `$icon-making` to reject
+it as one primitive and queue two component briefs. A Pending component brief
+already specifies which single component to isolate. For review revisions,
+preserve the parent and edit a new file from `create_variant.py`.
 
 2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
    identity, and nothing that disappears at 32 pixels. With a

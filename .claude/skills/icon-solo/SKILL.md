@@ -21,7 +21,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `academic-graduation-cap`, `analogue-wristwatch`, `ant`, `ant-head`, `anteater` and 568 more |
+| Existing icons to imitate | `a-frame-church`, `academic-graduation-cap`, `analogue-wristwatch`, `ant`, `ant-head`, `anteater` and 570 more |
 
 A **solo** icon is one independently readable subject. The whole 48 canvas belongs to it: there is nothing it must fit inside. It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
@@ -65,8 +65,14 @@ tight areas by rebalancing geometry, without weakening validation rules.
    search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
    Preserve any reference UUID or explicit source ID separately from the name.
    Search existing Python files by that ID before creating a new file; patch the
-   matching module for this family when it already exists.
+   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
    See `icon_set/skills/icon-design/naming.md`.
+
+Before reduction, apply `icon_set/skills/icon-design/reference-triage.md`. If the reference is a
+container combination or side combination, route to `/icon-making` to reject
+it as one primitive and queue two component briefs. A Pending component brief
+already specifies which single component to isolate. For review revisions,
+preserve the parent and edit a new file from `create_variant.py`.
 
 2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
    identity, and nothing that disappears at 48 pixels. With a

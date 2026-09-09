@@ -7,7 +7,7 @@ description: Author a solo-family icon for the Pictographic icon set on the SOLO
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `icon_lib` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts$icon-profile.v1.json`:
@@ -22,7 +22,7 @@ family and read from `icon_set/model/contracts$icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `aquarius-zodiac-symbol`, `aries-zodiac-symbol`, `bathrobe-with-tied-belt`, `beer-mug-with-foam`, `capricorn-zodiac-symbol`, `cave-painting-symbols` and 112 more |
+| Existing icons to imitate | `a-frame-church`, `academic-graduation-cap`, `analogue-wristwatch`, `ant`, `ant-head`, `anteater` and 570 more |
 
 A **solo** icon is one independently readable subject. The whole 48 canvas belongs to it: there is nothing it must fit inside. It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
@@ -66,8 +66,14 @@ tight areas by rebalancing geometry, without weakening validation rules.
    search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
    Preserve any reference UUID or explicit source ID separately from the name.
    Search existing Python files by that ID before creating a new file; patch the
-   matching module for this family when it already exists.
+   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
    See `icon_set/skills/icon-design/naming.md`.
+
+Before reduction, apply `icon_set/skills/icon-design/reference-triage.md`. If the reference is a
+container combination or side combination, route to `$icon-making` to reject
+it as one primitive and queue two component briefs. A Pending component brief
+already specifies which single component to isolate. For review revisions,
+preserve the parent and edit a new file from `create_variant.py`.
 
 2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
    identity, and nothing that disappears at 48 pixels. With a
@@ -99,9 +105,15 @@ tight areas by rebalancing geometry, without weakening validation rules.
    For a supplied reference ID, the new filename must instead be
    `<descriptive_name>_<source_id_with_underscores>.py`. Every generated module
    or one-off Python generation script must include `SOURCE_ICON_ID` (the exact
-   original ID) and `SOURCE_PATH` (the supplied source path). Use `None` only
-   for missing values; never discard an ID because the input also has a name.
-   Follow the UUID example and patch lookup in `icon_set/skills/icon-design/naming.md`.
+   original ID), `SOURCE_PATH` (the supplied source path) and `AUTHOR` (the
+   model that drew it). Use `None` only for missing values; never discard an ID
+   because the input also has a name. `AUTHOR` is never `None` and never
+   guessed: name the model **you** are running as, in lowercase and hyphenated
+   -- `astra-chatgpt` labels everything authored before this field existed, so
+   use it only if that is you. If you do not know which model you are, ask
+   rather than guess. Patching an existing module makes `AUTHOR` yours. Follow
+   the UUID example, the author table and the patch lookup in
+   `icon_set/skills/icon-design/naming.md`.
 
    ```python
    from ...keyshapes import Keyshape
@@ -109,6 +121,7 @@ tight areas by rebalancing geometry, without weakening validation rules.
 
    SOURCE_ICON_ID = "<exact-reference-id>"  # None only if no ID was supplied
    SOURCE_PATH = "<source-path>"  # None only if no path was supplied
+   AUTHOR = "<your-model>"  # the model authoring this file; never None
 
 
    class <ClassName>(Solo48):
@@ -181,8 +194,9 @@ tight areas by rebalancing geometry, without weakening validation rules.
 ## Definition of done
 
 - Python filename includes the supplied source ID for a new file; the script
-  records the exact `SOURCE_ICON_ID` and `SOURCE_PATH`. Existing matches are
-  patched in place, with source metadata preserved or added.
+  records the exact `SOURCE_ICON_ID`, `SOURCE_PATH` and an `AUTHOR` naming your
+  own model. Existing matches are patched in place, with source metadata
+  preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family solo` exits 0; the icon is in
   `icon_set/dist/solo48/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
