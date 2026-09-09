@@ -411,13 +411,14 @@ header. Use a service manager to keep the process running.
 ### Review grid and approval
 
 Each icon card shows its category and review status, with an **Approve** button.
-Use the **All icons / Ready / Pending / Approved** tabs with the category,
+Use the **Active icons / Ready / Pending / Approved / Rejected** tabs with the category,
 family, and search filters. Tab counts reflect the current category/search.
 Click a card to inspect it and change its status using the review dropdown.
 
 - **Ready**: a new icon version awaiting review.
 - **Pending**: needs changes; saving feedback sets this automatically.
 - **Approved**: a reviewer confirmed the icon is OK using **Approve**.
+- **Rejected**: disabled in the review app. Use **Reject icon** on a feedback card or choose **Rejected** in the inspector. It is hidden from Active/Final icons, cannot be approved or regenerated, and is excluded from feedback brief downloads. Its Python source, preview, and feedback remain available for inspection in the Rejected filter. Use **Restore for review** to re-enable it; adding feedback or rebuilding its SVG does not restore it. Generated files remain on disk for review.
 
 Decisions are shared across visitors and saved in the existing SQLite database.
 They survive restarts and rebuilds of identical SVGs. A changed SVG starts Ready

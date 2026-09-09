@@ -43,14 +43,14 @@ def init_database(path: Path) -> None:
         connection.execute('CREATE INDEX IF NOT EXISTS feedback_icon ON feedback(icon, id)')
         connection.execute('''CREATE TABLE IF NOT EXISTS reviews (
             icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-            status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve')),
+            status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected')),
             updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))''')
         schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='reviews'").fetchone()[0]
-        if 're-generated' not in schema:
+        if 'rejected' not in schema:
             connection.execute('ALTER TABLE reviews RENAME TO reviews_legacy')
             connection.execute("""CREATE TABLE reviews (
                 icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-                status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve')),
+                status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected')),
                 updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))""")
             connection.execute('INSERT INTO reviews SELECT * FROM reviews_legacy')
             connection.execute('DROP TABLE reviews_legacy')
@@ -87,6 +87,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def catalog(self):
         data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
         return {item['key']: item for item in data['icons']}
+
+    def is_rejected(self, connection, key, sha):
+        return bool(connection.execute(
+            "SELECT 1 FROM reviews WHERE icon=? AND status='rejected' "
+            "UNION ALL SELECT 1 FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1",
+            (key, key, sha),
+        ).fetchone())
 
     def do_GET(self):
         parsed = urlsplit(self.path)
@@ -158,6 +165,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 for key, sha, status in rows:
                     if key in catalog and catalog[key]['svg_sha256'] == sha:
                         statuses[key] = status
+                for key, sha, status in rows:
+                    if key in catalog and status == 'rejected':
+                        statuses[key] = 'rejected'
                 # A published child variant means the pending original has been regenerated.
                 for icon in catalog.values():
                     parent = icon.get('variant_of')
@@ -231,11 +241,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.brief_action(route, data)
             if route in ('/api/generation', '/api/generation/accept', '/api/generation/discard'):
                 try:
+                    if route == '/api/generation' and data.get('mode') == 'fix':
+                        icon = self.catalog().get(data.get('icon'))
+                        if icon:
+                            with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                                if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
+                                    return self.json_response({'error': 'Restore this rejected icon before regenerating it.'}, 409)
                     manager = self.server.generation
                     result = manager.start(data, self.catalog()) if route == '/api/generation' else manager.decide(data.get('id'), route.endswith('/accept'))
                     return self.json_response(result, 202)
                 except (OSError, ValueError) as error:
                     return self.json_response({'error': str(error)}, 400)
+                except sqlite3.Error:
+                    return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data)
             if route == '/api/feedback/edit':
@@ -248,7 +266,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
                     raise ValueError()
                 status = 'pending'
-            elif status not in ('ready', 'pending', 're-generated', 'approve'):
+            elif status not in ('ready', 'pending', 're-generated', 'approve', 'rejected'):
                 raise ValueError()
             icon = self.catalog().get(key)
             if icon is None:
@@ -266,6 +284,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     (key, icon['svg_sha256']),
                 ).fetchone():
                     return self.json_response({'error': 'This combined icon is rejected. Restore it before changing its review status.'}, 409)
+                if self.is_rejected(connection, key, icon['svg_sha256']):
+                    if route == '/api/feedback':
+                        status = 'rejected'
+                    elif status != 'rejected':
+                        return self.json_response({'error': 'Restore this rejected icon before changing its review status.'}, 409)
                 now = datetime.now(timezone.utc).isoformat()
                 if route == '/api/feedback':
                     connection.execute(
@@ -331,8 +354,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     icon = catalog.get(key)
                     if not brief or not icon or icon['family'] != brief[0] or key == brief[1]:
                         raise ValueError('Choose a built standalone icon in this component family, not the rejected combination.')
-                    if connection.execute('SELECT 1 FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1', (key,icon['svg_sha256'])).fetchone():
-                        raise ValueError('A rejected combination cannot fulfill a component brief.')
+                    if self.is_rejected(connection, key, icon['svg_sha256']):
+                        raise ValueError('A rejected icon cannot fulfill a component brief.')
                     connection.execute("UPDATE pending_briefs SET status='generated',generated_icon=? WHERE id=?", (key,brief_id))
                     return self.json_response({'saved': True})
                 key = data.get('icon')
@@ -343,6 +366,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Icon changed. Refresh before rejecting or restoring.'}, 409)
                 if route == '/api/reject-combination/restore':
                     connection.execute('UPDATE split_requests SET active=0 WHERE icon=? AND svg_sha256=?', (key,icon['svg_sha256']))
+                    connection.execute("UPDATE reviews SET status='ready' WHERE icon=? AND status='rejected'", (key,))
                     # Explicit restore returns the icon to review, never silently approves it.
                     connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at) VALUES (?,?,'ready',?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='ready',updated_at=excluded.updated_at", (key,icon['svg_sha256'],datetime.now(timezone.utc).isoformat()))
                     return self.json_response({'saved': True, 'status': 'ready'})
