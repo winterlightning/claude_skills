@@ -18,8 +18,10 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
 if __package__:
+    from .generation import GenerationManager
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
 else:
+    from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
@@ -79,6 +81,23 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path.startswith('/api/generation'):
+            try:
+                manager = self.server.generation
+                if parsed.path == '/api/generation':
+                    return self.json_response(manager.listing())
+                if parsed.path in ('/api/generation/preview', '/api/generation/log'):
+                    content, mime = manager.artifact(parse_qs(parsed.query).get('id', [''])[0], parsed.path.rsplit('/',1)[1])
+                    self.send_response(200)
+                    self.send_header('Content-Type', mime)
+                    self.send_header('Content-Length', str(len(content)))
+                    self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+                return self.json_response({'error': 'Unknown generation route.'}, 404)
+            except (OSError, ValueError) as error:
+                return self.json_response({'error': str(error)}, 400)
         if parsed.path == '/api/icon-flag':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
@@ -174,7 +193,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
+        if route not in ('/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
             return self.json_response({'error': 'Not found'}, 404)
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
@@ -194,6 +213,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 raise ValueError()
             if route in ('/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
                 return self.brief_action(route, data)
+            if route in ('/api/generation', '/api/generation/accept', '/api/generation/discard'):
+                try:
+                    manager = self.server.generation
+                    result = manager.start(data, self.catalog()) if route == '/api/generation' else manager.decide(data.get('id'), route.endswith('/accept'))
+                    return self.json_response(result, 202)
+                except (OSError, ValueError) as error:
+                    return self.json_response({'error': str(error)}, 400)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data)
             if route == '/api/feedback/edit':
@@ -322,7 +348,9 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000):
     if database.is_relative_to(dist):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
     init_database(database)
-    return ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+    server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+    server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs')
+    return server
 
 
 def main(argv=None):
