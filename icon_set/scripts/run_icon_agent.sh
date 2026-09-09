@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # run_icon_agent.sh WORKSPACE PROMPT_FILE [MODEL]
 set -euo pipefail
+if [[ ${1:-} == generate || ${1:-} == fix ]]; then
+  script_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
+  exec "${PYTHON_BIN:-python3}" "$script_dir/submit_generation.py" "$@"
+fi
 if [[ $# -lt 2 || $# -gt 3 ]]; then
   echo 'Usage: run_icon_agent.sh WORKSPACE PROMPT_FILE [MODEL]' >&2
   exit 2

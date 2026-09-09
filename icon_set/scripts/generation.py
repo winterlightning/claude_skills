@@ -135,7 +135,7 @@ class GenerationManager:
                 if not existing.is_file() or existing.is_symlink() or digest(existing)!=sha:
                     raise ValueError('Agent changed an existing file; candidate was not published: '+name)
             new_python=[str(p.relative_to(workspace)) for p in workspace.rglob('*.py') if str(p.relative_to(workspace)) not in baseline]
-            if new_python != [relative]:
+            if sorted(new_python) != [relative]:
                 raise ValueError('Expected exactly one new Python module.')
             self.build(workspace,family,log)
             icons=json.loads((workspace/'icon_set/dist/gallery/icons.json').read_text())['icons']
