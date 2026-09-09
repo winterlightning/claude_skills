@@ -13,6 +13,21 @@ import uuid
 FAMILIES = ('sub', 'solo', 'container')
 
 
+def mission_prompt(row):
+    mode = row['mode']
+    if mode not in ('generate', 'fix'):
+        raise ValueError('Unknown icon mission.')
+    request = {key: row[key] for key in ('name', 'prompt', 'family')}
+    if mode == 'fix':
+        source = row.get('source')
+        if not source or not source.get('python_source', {}).get('path'):
+            raise ValueError('Fix requires the existing Python source.')
+        request['family'] = source['family']
+        request['source'] = {key: source.get(key) for key in ('key', 'icon_id', 'family', 'python_source')}
+    template = Path(__file__).with_name('templates') / (mode + '_icon_prompt.md')
+    return template.read_text().replace('{{REQUEST_JSON}}', json.dumps(request, ensure_ascii=False, indent=2))
+
+
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
@@ -110,15 +125,7 @@ class GenerationManager:
         try:
             baseline=self.snapshot(workspace)
             source=row['source']
-            context = '' if not source else '\nFix this icon by creating a NEW variant, never changing its old file:\n'+json.dumps({k:source.get(k) for k in ('key','icon_id','family','python_source')})
-            prompt = ('Read .agents/skills/icon-making/SKILL.md and route to the matching icon-sub, icon-solo or icon-container skill. '
-                'Create exactly ONE candidate in ONE NEW public Python module under icon_set/model/icons/<family>/. '
-                'Do not modify any existing files, contracts, skills, or registry. Choose a unique Python filename and icon_id. '
-                'For fixes, preserve the original and set variant_of to its icon_id with a descriptive variant_label. '
-                'Use existing dependencies only. Do not publish to any other directory. '
-                'Validate the candidate. If the request cannot produce one standalone icon, explain and stop. '
-                'Write candidate.json at the workspace root with {"path":"icon_set/model/icons/<family>/<filename>.py","family":"sub|solo|container","icon_id":"..."}.\n'
-                +context+'\nUser request:\n'+json.dumps({k:row[k] for k in ('mode','name','prompt','family')},ensure_ascii=False))
+            prompt = mission_prompt(row)
             prompt_path=folder/'prompt.txt'; prompt_path.write_text(prompt)
             self.command(['bash',str(self.root/'icon_set/scripts/run_icon_agent.sh'),str(workspace),str(prompt_path),row['model']],workspace,log)
             candidate=json.loads((workspace/'candidate.json').read_text())
