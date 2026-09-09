@@ -205,7 +205,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        if self.headers.get('Transfer-Encoding') or not 0 < size <= MAX_BODY:
+        if self.headers.get('Transfer-Encoding') or not 0 < size <= (131072 if route == '/api/generation' else MAX_BODY):
             return self.json_response({'error': 'Invalid request size'}, 413)
         try:
             data = json.loads(self.rfile.read(size))

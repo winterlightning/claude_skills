@@ -71,8 +71,8 @@ class GenerationManager:
         model = data.get('model', '')
         if mode not in ('generate', 'fix') or family not in ('auto', *FAMILIES):
             raise ValueError('Choose generate/fix and Auto, sub, solo or container.')
-        if not isinstance(name,str) or not 1 <= len(name.strip()) <= 160 or not isinstance(prompt,str) or not 1 <= len(prompt.strip()) <= 10000:
-            raise ValueError('Enter an icon name and a prompt (up to 10,000 characters).')
+        if not isinstance(name,str) or not 1 <= len(name.strip()) <= 160 or not isinstance(prompt,str) or not 1 <= len(prompt.strip()) <= (20000 if mode == 'fix' else 10000):
+            raise ValueError('Enter an icon name and a prompt (up to 20,000 characters for fixes; 10,000 for new icons).')
         if not isinstance(model,str) or len(model)>100 or (model and not re.fullmatch(r'[a-zA-Z0-9_.:/-]+',model)):
             raise ValueError('Invalid model name.')
         source = None
