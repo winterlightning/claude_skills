@@ -103,7 +103,7 @@ function buildChangeBrief(icon,row){
  '1. Open the Python file in the workspace and read applicable repository/family instructions before editing. Preserve existing unrelated changes.',
  '2. Keep the parent Python file, icon ID, geometry, and exports unchanged. Create an independent variant in the same family using the scaffold command below; choose a short descriptive label.',
  ['solo','sub','container'].includes(family)&&icon?'   python3 icon_set/scripts/create_variant.py --icon '+icon.icon_id+' --family '+family+' --label "Short description of the change"':'   Locate the registered parent and family, then run icon_set/scripts/create_variant.py.',
- '   The scaffold allocates the next root-name--vN ID and a new Python class/file, preserving source-reference metadata and recording variant_of and variant_label.',
+ '   The scaffold allocates the next root-name-vN ID and a new Python class/file, preserving source-reference metadata and recording variant_of and variant_label.',
  '3. Edit only the NEW variant Python file to address the feedback. Keep the inherited family canvas/style rules and parent link. Do not modify exported SVGs manually.',
  ['solo','sub','container'].includes(family)?'4. Validate and rebuild with: python3 icon_set/scripts/build.py --family '+family:'4. Confirm the family, then validate and rebuild using icon_set/scripts/build.py.',
  '5. Verify that the parent Python file and SVG are unchanged. Summarize the new variant ID, file path, changes, and validation results. Leave the new variant Ready for human review; do not approve it or change the parent review status.', '',

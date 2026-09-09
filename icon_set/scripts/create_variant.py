@@ -35,7 +35,7 @@ def prepare_variant(icon_id: str, family: str, label: str) -> tuple[Path, str, s
         root = registered[root.variant_of]
     number = 2
     while True:
-        new_id = f'{root.icon_id}--v{number}'
+        new_id = f'{root.icon_id}-v{number}'
         destination = source.with_name(new_id.replace('-', '_') + '.py')
         if new_id not in registered and not destination.exists():
             break

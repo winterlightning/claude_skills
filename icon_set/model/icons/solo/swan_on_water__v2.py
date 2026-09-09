@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/animals/swan water_42f8bd3b-a505-5e06-aa4
 AUTHOR = 'gpt-6'
 
 class SwanOnWaterVariant2(Solo48):
-    icon_id = 'swan-on-water--v2'
+    icon_id = 'swan-on-water-v2'
     variant_of = 'swan-on-water'
     variant_label = 'Smooth ripples and open wing'
     keyshape = Keyshape.HRECT_XL

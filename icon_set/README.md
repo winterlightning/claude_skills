@@ -449,7 +449,7 @@ python3 icon_set/scripts/create_variant.py --icon square --family sub --label "S
 python3 icon_set/scripts/build.py --family sub
 ```
 
-The scaffold allocates a unique ID such as `square--v2`, then `square--v3`,
+The scaffold allocates a unique ID such as `square-v2`, then `square-v3`,
 and creates a separate class/file in the same family. It copies the current
 implementation and source-reference metadata. The parent file is never written.
 The new file is an independent starting copy, not an automatic geometry change.

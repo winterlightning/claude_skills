@@ -45,7 +45,8 @@ class ScaffoldTests(unittest.TestCase):
                  patch.object(create_variant.inspect, 'getsourcefile', return_value=str(source)):
                 target, name, text = create_variant.prepare_variant('square', 'sub', 'Softer corners')
                 self.assertNotEqual(target, source)
-                self.assertEqual(name, 'square--v2')
+                self.assertEqual(name, 'square-v2')
+                self.assertRegex(name, r'^[a-z][a-z0-9]*(-[a-z0-9]+)*$')
                 self.assertEqual(source.read_text(), original)
                 ast.parse(text)
                 namespace = {'__name__': 'icon_set.model.icons.sub._variant_test', '__package__': 'icon_set.model.icons.sub'}
@@ -60,7 +61,7 @@ class ScaffoldTests(unittest.TestCase):
                 self.assertNotIn('variant_of', parent.to_record())
                 target.write_text(text)
                 next_target, next_name, _ = create_variant.prepare_variant('square', 'sub', 'Another option')
-                self.assertEqual(next_name, 'square--v3')
+                self.assertEqual(next_name, 'square-v3')
                 self.assertNotEqual(next_target, target)
                 self.assertEqual(target.read_text(), text)
 
@@ -73,7 +74,7 @@ class ScaffoldTests(unittest.TestCase):
         with TemporaryDirectory() as temp:
             target = Path(temp) / 'existing.py'
             target.write_text('keep me')
-            with patch.object(create_variant, 'prepare_variant', return_value=(target, 'test--v2', 'replace me')), \
+            with patch.object(create_variant, 'prepare_variant', return_value=(target, 'test-v2', 'replace me')), \
                  redirect_stdout(io.StringIO()), self.assertRaises(SystemExit):
                 create_variant.main(['--icon', 'square', '--family', 'sub', '--label', 'new'])
             self.assertEqual(target.read_text(), 'keep me')

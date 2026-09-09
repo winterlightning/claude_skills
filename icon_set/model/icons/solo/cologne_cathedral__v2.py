@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/landmarks/batch-01/cologne cathedral_07f6
 AUTHOR = 'gpt-6'
 
 class LandmarkVariant2(Solo48):
-    icon_id = 'cologne-cathedral--v2'
+    icon_id = 'cologne-cathedral-v2'
     variant_of = 'cologne-cathedral'
     variant_label = 'Line door'
     keyshape = Keyshape.SQUARE
