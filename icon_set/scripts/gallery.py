@@ -125,4 +125,5 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     (target / 'icons.json').write_text(json.dumps({'icons': records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
+    shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
     return target
