@@ -36,6 +36,12 @@ class GalleryTests(unittest.TestCase):
             self.assertEqual([r['key'] for r in rows], ['solo/retained', 'sub/new'])
             self.assertEqual(rows[1]['preview_url'], '../sub32/new.svg')
             first = (gallery / 'icons.json').read_bytes()
+            from icon_set.model import contracts
+            laboratory = json.loads((gallery / 'laboratory.json').read_text())
+            self.assertEqual(laboratory['profile'], contracts.icon_profile())
+            self.assertEqual(laboratory['keyshapes'], contracts.keyshapes())
+            for asset in ('icon-laboratory.html', 'icon-laboratory.css', 'icon-laboratory.js'):
+                self.assertTrue((gallery / asset).is_file())
             other = root / 'second'
             other.mkdir()
             manifest(other, 'sub', 'sub32', 'new')

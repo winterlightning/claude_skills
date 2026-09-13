@@ -3,7 +3,7 @@
   "family": "container",
   "profile": "CONTAINER64",
   "canvas_size": 64,
-  "count": 161,
+  "count": 162,
   "icons": [
     {
       "icon_id": "aiming-reticle",
@@ -9945,6 +9945,318 @@
       "variant_label": "Four outer fringe strokes",
       "svg_path": "dist/container64/fringed-area-rug-v2.svg",
       "svg_sha256": "6fe3f9a068f56b15e1b92af6a480043d29ac525bfedfa3dbb061de304bd7d5c0",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "05109472d65d288b59fa8a8e99b6a86925e22b3db7a7d4152907605028c1c4a9",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "fringed-area-rug-v3",
+      "name": "fringed-area-rug-v3",
+      "aliases": [
+        "fringed-rug",
+        "area-rug"
+      ],
+      "category": "containers",
+      "keywords": [
+        "rug",
+        "mat",
+        "textile",
+        "fringe"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "rug-1",
+          "start": [
+            6,
+            8
+          ],
+          "end": [
+            58,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-2",
+          "start": [
+            58,
+            8
+          ],
+          "end": [
+            58,
+            56
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-3",
+          "start": [
+            58,
+            56
+          ],
+          "end": [
+            6,
+            56
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "rug-4",
+          "start": [
+            6,
+            56
+          ],
+          "end": [
+            6,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-6",
+          "start": [
+            6,
+            2
+          ],
+          "end": [
+            6,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-6",
+          "start": [
+            6,
+            56
+          ],
+          "end": [
+            6,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-58",
+          "start": [
+            58,
+            2
+          ],
+          "end": [
+            58,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-58",
+          "start": [
+            58,
+            56
+          ],
+          "end": [
+            58,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-26",
+          "start": [
+            26,
+            2
+          ],
+          "end": [
+            26,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-26",
+          "start": [
+            26,
+            56
+          ],
+          "end": [
+            26,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-top-38",
+          "start": [
+            38,
+            2
+          ],
+          "end": [
+            38,
+            8
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "fringe-bottom-38",
+          "start": [
+            38,
+            56
+          ],
+          "end": [
+            38,
+            62
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rug",
+          "members": [
+            "rug-1",
+            "rug-2",
+            "rug-3",
+            "rug-4"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-6"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-6"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-58"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-58"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-26"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-26"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-top-38"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "rug",
+            "fringe-bottom-38"
+          ]
+        }
+      ],
+      "variant_of": "fringed-area-rug-v2",
+      "variant_label": "Paired middle fringe at both ends",
+      "svg_path": "dist/container64/fringed-area-rug-v3.svg",
+      "svg_sha256": "be00e316ff09aa69619e3f28f2d58d9c73c46f5d8ee1b8df96e23f1040394440",
       "validation": {
         "status": "valid",
         "checks_run": [

@@ -1,0 +1,693 @@
+{
+  "profile": {
+    "contract": "icon-profile",
+    "version": 2,
+    "status": "locked",
+    "source": "ICON_SYSTEM_PLAN.md sections 2 and 3; family binding added 2026-09-07; SQUARE full-canvas and MIC 2 applied 2026-09-07",
+    "style": {
+      "grid": 1,
+      "snap_to_grid": true,
+      "authored_coordinates": "integer",
+      "stroke_width": 4,
+      "stroke": "currentColor",
+      "fill": "none",
+      "line_cap": "round",
+      "line_join": "round"
+    },
+    "tolerances": {
+      "rect_family_fit": 0,
+      "circle_touch": 0.5,
+      "canvas_overflow": 0,
+      "mic_flattening": 0.001,
+      "numeric_epsilon": 1e-09,
+      "_numeric_epsilon_note": "Absorbs floating-point construction error only. An SVG arc's centre is derived from its endpoints through a square root, so an extremum that is mathematically exact can land ~1e-15 off. This epsilon is applied to every geometric comparison on top of the design tolerances above; it is not itself a design tolerance and must never be raised to make artwork fit.",
+      "_note": "The painted envelope is the exact Minkowski sum of the centerline with a radius stroke/2 disc, because every cap and join is round. Rectangle-family visible bounds are therefore exact and require zero tolerance. CIRCLE is a radial test: containment is exact, and the artwork must touch within circle_touch because integer vertices cannot always land on the radius."
+    },
+    "families": {
+      "_rule": "Family, folder and profile are one thing seen three ways. An icon's family is decided by its job in the set; the family fixes the folder its module lives in, the profile it is authored on, and the dist folder it ships to. No family may author on another family's profile, and no folder may hold another family's icons. The registry, the validator and the schema each enforce this independently.",
+      "sub": {
+        "profile": "SUB32",
+        "package": "model/icons/sub",
+        "base_class": "Sub32",
+        "dist": "dist/sub32",
+        "job": "A glyph read small and hosted by others: a verb, a state, a modifier, or a simple noun shape that works as content inside a container. Its canvas is the CONTAINER_COMBINE slot."
+      },
+      "solo": {
+        "profile": "SOLO48",
+        "package": "model/icons/solo",
+        "base_class": "Solo48",
+        "dist": "dist/solo48",
+        "job": "A standalone subject drawn to be read on its own: a primary noun with its own silhouette. It hosts nothing and is hosted by nothing."
+      },
+      "container": {
+        "profile": "CONTAINER64",
+        "package": "model/icons/container",
+        "base_class": "Container64",
+        "dist": "dist/container64",
+        "job": "An enclosure or a framed device drawn at 64: a window, a screen, a board, a card, a badge. It stands alone as a noun and is the outer half of a CONTAINER_COMBINE when its interior happens to have room. Nothing is reserved inside it; see composition-templates.v1.json for why the protected slot was withdrawn."
+      }
+    },
+    "profiles": {
+      "SUB32": {
+        "family": "sub",
+        "semantic_use": "verb, state, or modifier; or a simple noun shape usable as content",
+        "canvas_size": 32,
+        "interior_guide_inset": 4,
+        "mic": 2,
+        "equal_stroke_centerline_min": 6,
+        "keyshape_scale_numerator": 1,
+        "keyshape_scale_denominator": 1
+      },
+      "SOLO48": {
+        "family": "solo",
+        "semantic_use": "primary noun or standalone subject",
+        "canvas_size": 48,
+        "interior_guide_inset": 6,
+        "mic": 2,
+        "equal_stroke_centerline_min": 6,
+        "keyshape_scale_numerator": 3,
+        "keyshape_scale_denominator": 2
+      },
+      "CONTAINER64": {
+        "family": "container",
+        "semantic_use": "container noun, or a container hosting a sub icon",
+        "canvas_size": 64,
+        "interior_guide_inset": 8,
+        "mic": 2,
+        "equal_stroke_centerline_min": 6,
+        "keyshape_scale_numerator": 2,
+        "keyshape_scale_denominator": 1
+      }
+    },
+    "semantic_roles": [
+      "MAIN",
+      "SUB"
+    ],
+    "notes": [
+      "The interior guide constrains internal detail only. Full-width and circular keyshapes may reach the canvas boundary.",
+      "MIC is ink-to-ink clearance between distinct parts, never ink-to-canvas-edge clearance.",
+      "CONTAINER64's MIC was 6 (10 between centerlines) until 2026-09-07. At 64 that reserved 10 units for every gap, which is more than the canvas can spend on a subject with real interior furniture -- a title bar with indicators, a keypad, a dial face -- and the containers authored under it came out emptier than their references. It is now 4, matching SOLO48: 4 units of white at 64 pixels is legible, and it is the clearance the reference drawings themselves are spaced to.",
+      "Profile names are family name plus canvas size. Earlier releases called SOLO48 'MAIN48' and CONTAINER64 'COMPOSITE64'; the numbers are unchanged, only the binding to a family is new.",
+      "SQUARE became the full canvas on 2026-09-07: base 32, so 32 at SUB32, 48 at SOLO48 and 64 at CONTAINER64. It was 28 (28/42/56), which left every rectilinear full-bleed subject sitting 2 to 4 units short of the edge while CIRCLE reached it. SQUARE and CIRCLE are now both full-canvas tokens, one rectilinear and one radial, and there is no longer a 28-square envelope: the 33 icons authored on the old one were redrawn to the new bounds, not rescaled.",
+      "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say."
+    ]
+  },
+  "keyshapes": {
+    "contract": "keyshapes",
+    "version": 1,
+    "status": "locked",
+    "source": "ICON_SYSTEM_PLAN.md section 3.1",
+    "reserved_tokens": [
+      "HRECT_XS",
+      "VRECT_XS"
+    ],
+    "reserved_reason": "Reserved identifiers, not valid v1 enum values. Generation must fail until a fifth base size is explicitly approved.",
+    "free_token": {
+      "name": "FREE",
+      "requires": [
+        "explicit integer bounds",
+        "rationale",
+        "approval_id for release"
+      ],
+      "note": "A FREE envelope need not be centered or share canvas parity. It never waives canvas, grid, stroke or MIC rules."
+    },
+    "base": [
+      {
+        "name": "CIRCLE",
+        "token": "circle",
+        "orientation": "radial",
+        "width": 32,
+        "height": 32
+      },
+      {
+        "name": "SQUARE",
+        "token": "square",
+        "orientation": "square",
+        "width": 32,
+        "height": 32
+      },
+      {
+        "name": "HRECT_XL",
+        "token": "hrect-xl",
+        "orientation": "landscape",
+        "width": 32,
+        "height": 28
+      },
+      {
+        "name": "HRECT_L",
+        "token": "hrect-l",
+        "orientation": "landscape",
+        "width": 32,
+        "height": 24
+      },
+      {
+        "name": "HRECT_M",
+        "token": "hrect-m",
+        "orientation": "landscape",
+        "width": 32,
+        "height": 20
+      },
+      {
+        "name": "HRECT_S",
+        "token": "hrect-s",
+        "orientation": "landscape",
+        "width": 32,
+        "height": 16
+      },
+      {
+        "name": "VRECT_XL",
+        "token": "vrect-xl",
+        "orientation": "portrait",
+        "width": 28,
+        "height": 32
+      },
+      {
+        "name": "VRECT_L",
+        "token": "vrect-l",
+        "orientation": "portrait",
+        "width": 24,
+        "height": 32
+      },
+      {
+        "name": "VRECT_M",
+        "token": "vrect-m",
+        "orientation": "portrait",
+        "width": 20,
+        "height": 32
+      },
+      {
+        "name": "VRECT_S",
+        "token": "vrect-s",
+        "orientation": "portrait",
+        "width": 16,
+        "height": 32
+      }
+    ],
+    "resolved": {
+      "SUB32": {
+        "CIRCLE": {
+          "width": 32,
+          "height": 32,
+          "visible_bounds": [
+            0,
+            0,
+            32,
+            32
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            30,
+            30
+          ],
+          "visible_radius": 16,
+          "centerline_radius": 14,
+          "center": [
+            16,
+            16
+          ]
+        },
+        "SQUARE": {
+          "width": 32,
+          "height": 32,
+          "visible_bounds": [
+            0,
+            0,
+            32,
+            32
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            30,
+            30
+          ]
+        },
+        "HRECT_XL": {
+          "width": 32,
+          "height": 28,
+          "visible_bounds": [
+            0,
+            2,
+            32,
+            30
+          ],
+          "centerline_bounds": [
+            2,
+            4,
+            30,
+            28
+          ]
+        },
+        "HRECT_L": {
+          "width": 32,
+          "height": 24,
+          "visible_bounds": [
+            0,
+            4,
+            32,
+            28
+          ],
+          "centerline_bounds": [
+            2,
+            6,
+            30,
+            26
+          ]
+        },
+        "HRECT_M": {
+          "width": 32,
+          "height": 20,
+          "visible_bounds": [
+            0,
+            6,
+            32,
+            26
+          ],
+          "centerline_bounds": [
+            2,
+            8,
+            30,
+            24
+          ]
+        },
+        "HRECT_S": {
+          "width": 32,
+          "height": 16,
+          "visible_bounds": [
+            0,
+            8,
+            32,
+            24
+          ],
+          "centerline_bounds": [
+            2,
+            10,
+            30,
+            22
+          ]
+        },
+        "VRECT_XL": {
+          "width": 28,
+          "height": 32,
+          "visible_bounds": [
+            2,
+            0,
+            30,
+            32
+          ],
+          "centerline_bounds": [
+            4,
+            2,
+            28,
+            30
+          ]
+        },
+        "VRECT_L": {
+          "width": 24,
+          "height": 32,
+          "visible_bounds": [
+            4,
+            0,
+            28,
+            32
+          ],
+          "centerline_bounds": [
+            6,
+            2,
+            26,
+            30
+          ]
+        },
+        "VRECT_M": {
+          "width": 20,
+          "height": 32,
+          "visible_bounds": [
+            6,
+            0,
+            26,
+            32
+          ],
+          "centerline_bounds": [
+            8,
+            2,
+            24,
+            30
+          ]
+        },
+        "VRECT_S": {
+          "width": 16,
+          "height": 32,
+          "visible_bounds": [
+            8,
+            0,
+            24,
+            32
+          ],
+          "centerline_bounds": [
+            10,
+            2,
+            22,
+            30
+          ]
+        }
+      },
+      "SOLO48": {
+        "CIRCLE": {
+          "width": 48,
+          "height": 48,
+          "visible_bounds": [
+            0,
+            0,
+            48,
+            48
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            46,
+            46
+          ],
+          "visible_radius": 24,
+          "centerline_radius": 22,
+          "center": [
+            24,
+            24
+          ]
+        },
+        "SQUARE": {
+          "width": 48,
+          "height": 48,
+          "visible_bounds": [
+            0,
+            0,
+            48,
+            48
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            46,
+            46
+          ]
+        },
+        "HRECT_XL": {
+          "width": 48,
+          "height": 42,
+          "visible_bounds": [
+            0,
+            3,
+            48,
+            45
+          ],
+          "centerline_bounds": [
+            2,
+            5,
+            46,
+            43
+          ]
+        },
+        "HRECT_L": {
+          "width": 48,
+          "height": 36,
+          "visible_bounds": [
+            0,
+            6,
+            48,
+            42
+          ],
+          "centerline_bounds": [
+            2,
+            8,
+            46,
+            40
+          ]
+        },
+        "HRECT_M": {
+          "width": 48,
+          "height": 30,
+          "visible_bounds": [
+            0,
+            9,
+            48,
+            39
+          ],
+          "centerline_bounds": [
+            2,
+            11,
+            46,
+            37
+          ]
+        },
+        "HRECT_S": {
+          "width": 48,
+          "height": 24,
+          "visible_bounds": [
+            0,
+            12,
+            48,
+            36
+          ],
+          "centerline_bounds": [
+            2,
+            14,
+            46,
+            34
+          ]
+        },
+        "VRECT_XL": {
+          "width": 42,
+          "height": 48,
+          "visible_bounds": [
+            3,
+            0,
+            45,
+            48
+          ],
+          "centerline_bounds": [
+            5,
+            2,
+            43,
+            46
+          ]
+        },
+        "VRECT_L": {
+          "width": 36,
+          "height": 48,
+          "visible_bounds": [
+            6,
+            0,
+            42,
+            48
+          ],
+          "centerline_bounds": [
+            8,
+            2,
+            40,
+            46
+          ]
+        },
+        "VRECT_M": {
+          "width": 30,
+          "height": 48,
+          "visible_bounds": [
+            9,
+            0,
+            39,
+            48
+          ],
+          "centerline_bounds": [
+            11,
+            2,
+            37,
+            46
+          ]
+        },
+        "VRECT_S": {
+          "width": 24,
+          "height": 48,
+          "visible_bounds": [
+            12,
+            0,
+            36,
+            48
+          ],
+          "centerline_bounds": [
+            14,
+            2,
+            34,
+            46
+          ]
+        }
+      },
+      "CONTAINER64": {
+        "CIRCLE": {
+          "width": 64,
+          "height": 64,
+          "visible_bounds": [
+            0,
+            0,
+            64,
+            64
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            62,
+            62
+          ],
+          "visible_radius": 32,
+          "centerline_radius": 30,
+          "center": [
+            32,
+            32
+          ]
+        },
+        "SQUARE": {
+          "width": 64,
+          "height": 64,
+          "visible_bounds": [
+            0,
+            0,
+            64,
+            64
+          ],
+          "centerline_bounds": [
+            2,
+            2,
+            62,
+            62
+          ]
+        },
+        "HRECT_XL": {
+          "width": 64,
+          "height": 56,
+          "visible_bounds": [
+            0,
+            4,
+            64,
+            60
+          ],
+          "centerline_bounds": [
+            2,
+            6,
+            62,
+            58
+          ]
+        },
+        "HRECT_L": {
+          "width": 64,
+          "height": 48,
+          "visible_bounds": [
+            0,
+            8,
+            64,
+            56
+          ],
+          "centerline_bounds": [
+            2,
+            10,
+            62,
+            54
+          ]
+        },
+        "HRECT_M": {
+          "width": 64,
+          "height": 40,
+          "visible_bounds": [
+            0,
+            12,
+            64,
+            52
+          ],
+          "centerline_bounds": [
+            2,
+            14,
+            62,
+            50
+          ]
+        },
+        "HRECT_S": {
+          "width": 64,
+          "height": 32,
+          "visible_bounds": [
+            0,
+            16,
+            64,
+            48
+          ],
+          "centerline_bounds": [
+            2,
+            18,
+            62,
+            46
+          ]
+        },
+        "VRECT_XL": {
+          "width": 56,
+          "height": 64,
+          "visible_bounds": [
+            4,
+            0,
+            60,
+            64
+          ],
+          "centerline_bounds": [
+            6,
+            2,
+            58,
+            62
+          ]
+        },
+        "VRECT_L": {
+          "width": 48,
+          "height": 64,
+          "visible_bounds": [
+            8,
+            0,
+            56,
+            64
+          ],
+          "centerline_bounds": [
+            10,
+            2,
+            54,
+            62
+          ]
+        },
+        "VRECT_M": {
+          "width": 40,
+          "height": 64,
+          "visible_bounds": [
+            12,
+            0,
+            52,
+            64
+          ],
+          "centerline_bounds": [
+            14,
+            2,
+            50,
+            62
+          ]
+        },
+        "VRECT_S": {
+          "width": 32,
+          "height": 64,
+          "visible_bounds": [
+            16,
+            0,
+            48,
+            64
+          ],
+          "centerline_bounds": [
+            18,
+            2,
+            46,
+            62
+          ]
+        }
+      }
+    }
+  }
+}

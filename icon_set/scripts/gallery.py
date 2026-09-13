@@ -92,6 +92,17 @@ def python_sources() -> dict[str, dict]:
     return result
 
 
+def stage_laboratory(target: Path) -> None:
+    """Publish the learning page with the same contracts used by the builder."""
+    from icon_set.model import contracts
+    templates = Path(__file__).with_name('templates')
+    for name in ('icon-laboratory.html', 'icon-laboratory.css', 'icon-laboratory.js'):
+        shutil.copyfile(templates / name, target / name)
+    data = {'profile': contracts.icon_profile(), 'keyshapes': contracts.keyshapes()}
+    (target / 'laboratory.json').write_text(
+        json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+
+
 def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     target = staged / 'gallery'
     target.mkdir()
@@ -126,4 +137,5 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
+    stage_laboratory(target)
     return target
