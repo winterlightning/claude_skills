@@ -21,7 +21,7 @@ class CompassNorthwest(Solo48):
 
     def build(self) -> None:
         # Live CIRCLE visible bounds: (2, 2, 46, 46).
-        self.add_arc('dial-top', (6, 24), (42, 24), radius_x=20, radius_y=20, sweep=True, large_arc=False)
-        self.add_arc('dial-bottom', (42, 24), (6, 24), radius_x=20, radius_y=20, sweep=True, large_arc=False)
+        self.add_arc('dial-top', (4, 24), (44, 24), radius_x=20, radius_y=20, sweep=True, large_arc=False)
+        self.add_arc('dial-bottom', (44, 24), (4, 24), radius_x=20, radius_y=20, sweep=True, large_arc=False)
         self.add_contour('dial', 'dial-top', 'dial-bottom', closed=True)
         self.add_polyline('needle', (16, 16), (33, 24), (25, 26), (24, 33), closed=True)

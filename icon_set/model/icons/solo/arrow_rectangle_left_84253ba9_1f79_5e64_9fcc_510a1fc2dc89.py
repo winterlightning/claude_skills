@@ -1,10 +1,10 @@
-"""Arrow rectangle left (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Directional badge: shared mirrored outline, smoothly rounded tip and balanced internal mark. Lucide tag and chevron construction.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '84253ba9-1f79-5e64-9fcc-510a1fc2dc89'
 SOURCE_PATH = 'icons-json/arrows/arrow rectangle left_84253ba9-1f79-5e64-9fcc-510a1fc2dc89.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrowRectangleLeft84253ba9(Solo48):
     icon_id = 'arrow-rectangle-left-84253ba9'
@@ -15,20 +15,21 @@ class ArrowRectangleLeft84253ba9(Solo48):
     aliases = ()
     keywords = ('arrow', 'rectangle', 'left', 'arrows')
 
-    def build(self):
-        self.add_line('e0', (22, 8), (41, 8))
-        self.add_line('e1', (44, 11), (44, 37))
-        self.add_line('e2', (42, 40), (19, 40))
-        self.add_line('e3', (12, 34), (5, 26))
-        self.add_line('e4', (6, 22), (16, 10))
-        self.add_line('e5', (30, 16), (23, 24))
-        self.add_line('e6', (23, 24), (30, 32))
-        self.add_arc('e7-1', (14, 12), (20, 8), radius_x=7)
-        self.add_arc('e7-2', (20, 8), (22, 8), radius_x=32, sweep=False)
-        self.add_arc('e8', (41, 8), (44, 11), radius_x=3)
-        self.add_line('e9', (44, 37), (42, 40))
-        self.add_arc('e10', (19, 40), (12, 34), radius_x=15)
-        self.add_line('e11-1', (5, 26), (4, 25))
-        self.add_arc('e11-2', (4, 25), (6, 22), radius_x=4)
-        self.add_contour('c0', 'e7-1', 'e7-2', 'e0', 'e8', 'e1', 'e9', 'e2', 'e10', 'e3', 'e11-1', 'e11-2', 'e4')
-        self.add_contour('c1', 'e5', 'e6')
+    def build(self) -> None:
+        # One rounded tag outline, mirrored/rotated on the same SOLO48 grid.
+        # Shoulder/tip controls follow the adjoining slope exactly for smooth joins.
+        # HRECT_L ink (2,6)-(46,42), or VRECT_L ink (6,2)-(42,46).
+        def point(x,y): return (48-x,y)
+        self.add_line('top',point(8,8),point(30,8))
+        self.add_bezier('upper-shoulder',point(30,8),(point(32,8),point(33,12-18/7),point(35,12)))
+        self.add_line('upper-slope',point(35,12),point(42,21))
+        self.add_bezier('tip-upper',point(42,21),(point(42+7/9,22),point(44,23),point(44,24)))
+        self.add_bezier('tip-lower',point(44,24),(point(44,25),point(42+7/9,26),point(42,27)))
+        self.add_line('lower-slope',point(42,27),point(35,36))
+        self.add_bezier('lower-shoulder',point(35,36),(point(33,36+18/7),point(32,40),point(30,40)))
+        self.add_line('bottom',point(30,40),point(8,40))
+        self.add_bezier('lower-corner',point(8,40),(point(6,40),point(4,38),point(4,36)))
+        self.add_line('back',point(4,36),point(4,12))
+        self.add_bezier('upper-corner',point(4,12),(point(4,10),point(6,8),point(8,8)))
+        self.add_contour('outline','top','upper-shoulder','upper-slope','tip-upper','tip-lower','lower-slope','lower-shoulder','bottom','lower-corner','back','upper-corner',closed=True)
+        self.add_polyline('chevron',point(19,18),point(25,24),point(19,30))

@@ -1,4 +1,4 @@
-"""Windmill with more open space between its outer supports and doorway. VRECT_XL retains the four sails and tall base."""
+"""Windmill with more open space between its outer supports and doorway. VRECT_L retains the four sails and tall base."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '95c449a5-8e44-5a99-9486-caf1e3e38105'
@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class Windmill(Solo48):
     icon_id = 'windmill'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'places/landmarks'

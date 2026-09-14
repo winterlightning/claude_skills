@@ -1,4 +1,4 @@
-"""A castle with a lowered arched gate and shallower battlement notch to increase clearance. SQUARE preserves tower and flag extremes; Lucide castle informs the simple arched gate."""
+'Castle: clean battlement steps, a clear gateway and a proportional roof and flag.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '437c1e1f-16fd-515d-8ae3-fa2eab4a2640'
@@ -15,15 +15,23 @@ class Landmark(Solo48):
     keywords = ('castle', 'fortress', 'gate', 'tower', 'battlement', 'spire', 'medieval', 'flag')
 
     def build(self):
-        self.add_polyline('outline', (6, 42), (6, 24), (10, 24), (10, 28), (18, 28), (18, 24), (30, 24), (30, 16), (38, 6), (42, 16), (42, 42), (30, 42), (22, 42), (10, 42), closed=True)
-        self.add_polyline('tower', (30, 16), (42, 16))
-        self.add_line('tower-wall', (30, 24), (30, 42))
-        self.relate('connect', 'tower', 'outline')
-        self.relate('connect', 'tower-wall', 'outline')
-        self.add_polyline('flag', (6, 24), (6, 12), (6, 6), (16, 6), (12, 8), (16, 12), (6, 12))
-        self.relate('connect', 'flag', 'outline')
-        self.add_line('door-left', (10, 42), (10, 42))
-        self.add_arc('door-top', (10, 42), (22, 42), radius_x=6)
-        self.add_line('door-right', (22, 42), (22, 42))
-        self.add_contour('door', 'door-left', 'door-top', 'door-right')
-        self.relate('connect', 'door', 'outline')
+        # Castle: broad connected wall and tower, clear gateway and a balanced flag.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('castle',(6,42),(6,24),(30,24),(30,16),(42,16),(42,42),(6,42))
+        p('roof',(30,16),(36,6),(42,16))
+        link('connect','castle','roof')
+        l('tower',(30,24),(30,42))
+        link('connect','tower','castle')
+        p('gate',(14,42),(14,34),(22,34),(22,42))
+        link('connect','gate','castle')
+        l('pole',(6,24),(6,6))
+        p('flag',(6,6),(20,6),(16,14),(6,14))
+        link('connect','flag','pole')
+        link('connect','pole','castle')

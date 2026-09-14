@@ -1,10 +1,10 @@
-"""Drone (technology), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Drone: paired rotors, a symmetric flowing body and open landing struts.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6cdf8164-727e-4119-a576-7aff4948255a'
 SOURCE_PATH = 'icons-json/technology/drone_6cdf8164-727e-4119-a576-7aff4948255a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Drone(Solo48):
     icon_id = 'drone'
@@ -16,56 +16,40 @@ class Drone(Solo48):
     keywords = ('drone', 'technology')
 
     def build(self):
-        self.add_line('e0', (36, 40), (34, 40))
-        self.add_line('e1', (36, 22), (41, 22))
-        self.add_line('e2', (4, 8), (9, 8))
-        self.add_line('e3', (15, 40), (12, 40))
-        self.add_line('e4', (36, 8), (44, 8))
-        self.add_line('e5', (13, 8), (9, 8))
-        self.add_line('e6', (16, 14), (20, 12))
-        self.add_line('e7', (33, 14), (39, 14))
-        self.add_line('e8', (9, 14), (6, 15))
-        self.add_line('e9', (8, 22), (12, 22))
-        self.add_line('e10', (9, 14), (9, 8))
-        self.add_line('e11', (39, 9), (39, 14))
-        self.add_arc('e12', (31, 24), (18, 24), radius_x=13)
-        self.add_arc('e13', (31, 24), (36, 40), radius_x=12)
-        self.add_arc('e14', (31, 24), (36, 22), radius_x=8)
-        self.add_arc('e15-1', (41, 22), (43, 21), radius_x=2, sweep=False)
-        self.add_arc('e15-2', (43, 21), (44, 18), radius_x=5, sweep=False)
-        self.add_line('e15-3', (44, 18), (43, 15))
-        self.add_line('e15-4', (43, 15), (39, 14))
-        self.add_arc('e16', (12, 40), (18, 24), radius_x=13)
-        self.add_arc('e17', (9, 14), (16, 14), radius_x=22, sweep=False)
-        self.add_arc('e18', (20, 12), (33, 14), radius_x=14)
-        self.add_arc('e19-1', (6, 15), (4, 18), radius_x=4, sweep=False)
-        self.add_arc('e19-2', (4, 18), (8, 22), radius_x=4, sweep=False)
-        self.add_arc('e20', (12, 22), (18, 24), radius_x=9)
-        self.add_line('e21', (40, 8), (39, 9))
-        self.add_contour('c0', 'e12')
-        self.add_contour('c1', 'e13', 'e0')
-        self.add_contour('c2', 'e14', 'e1', 'e15-1', 'e15-2', 'e15-3', 'e15-4')
-        self.add_contour('c3', 'e2')
-        self.add_contour('c4', 'e3', 'e16')
-        self.add_contour('c5', 'e4')
-        self.add_contour('c6', 'e5')
-        self.add_contour('c7', 'e17', 'e6', 'e18', 'e7')
-        self.add_contour('c8', 'e8', 'e19-1', 'e19-2', 'e9', 'e20')
-        self.add_contour('c9', 'e10')
-        self.add_contour('c10', 'e21', 'e11')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c8')
-        self.relate('connect', 'c4', 'c8')
-        self.relate('connect', 'c10', 'c2')
-        self.relate('connect', 'c10', 'c7')
-        self.relate('connect', 'c2', 'c7')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c3', 'c9')
-        self.relate('connect', 'c6', 'c9')
-        self.relate('connect', 'c7', 'c8')
-        self.relate('connect', 'c7', 'c9')
-        self.relate('connect', 'c8', 'c9')
-        self.relate('connect', 'c10', 'c5')
+        # Drone: tangent capsule body, equal rotors and clean landing struts joined at exact endpoints.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('body',4,16,44,30,7)
+        for x in (12,36):
+            l(f'rotor-{x}',(x-8,8),(x+8,8))
+            l(f'arm-{x}',(x,8),(x,16))
+            link('connect',f'arm-{x}',f'rotor-{x}')
+            link('connect',f'arm-{x}','body')
+        p('landing-left',(14,30),(10,40),(14,40))
+        p('landing-right',(34,30),(38,40),(34,40))
+        link('connect','landing-left','body')
+        link('connect','landing-right','body')

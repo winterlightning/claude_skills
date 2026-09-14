@@ -517,7 +517,8 @@ Restart the server after updating `deploy.py`. Shared UI templates live in
 It needs only Python 3.10+ and the standard library; build requirements remain
 in `requirements-qa.txt`. Paths default relative to the script, so it works
 from any working directory. For deployment, copy `icon_set/dist/` and
-`icon_set/scripts/deploy.py` and `icon_set/scripts/brief_queue.py`, preserving that layout.
+`icon_set/scripts/deploy.py`, `icon_set/scripts/brief_queue.py` and `icon_set/scripts/discard_icon.py`, preserving that layout.
+Discard also needs the `icon_set/model/icons/` sources on the server.
 
 Feedback defaults to `icon_set/data/feedback.sqlite3`, outside the public build
 folder, and survives rebuilds/restarts. Back up this database. Override with
@@ -538,6 +539,7 @@ Click a card to inspect it and change its status using the review dropdown.
 - **Pending**: needs changes; saving feedback sets this automatically.
 - **Approved**: a reviewer confirmed the icon is OK using **Approve**.
 - **Rejected**: disabled in the review app. Use **Reject icon** on a feedback card or choose **Rejected** in the inspector. It is hidden from Active/Final icons, cannot be approved or regenerated, and is excluded from feedback brief downloads. Its Python source, preview, and feedback remain available for inspection in the Rejected filter. Use **Restore for review** to re-enable it; adding feedback or rebuilding its SVG does not restore it. Generated files remain on disk for review.
+- **Discard**: permanent removal, offered only for Rejected icons (card or inspector, login required, with a confirmation). The server deletes the icon's Python model (or only its class when the module holds other icons), its SVG, preview PNG, manifest and gallery entries, and its review, flag and feedback rows. It refuses when another module imports the class, a variant points at it, or it has a keyshape exception. The removed source and records are archived in `icon_set/data/discarded-icons/`, and the action is logged. The next build stays consistent because the model no longer exists.
 
 Decisions are shared across visitors and saved in the existing SQLite database.
 They survive restarts and rebuilds of identical SVGs. A changed SVG starts Ready

@@ -15,10 +15,27 @@ class LeapingAntelope(Solo48):
     aliases = ()
     keywords = ('antelope', 'deer', 'leap', 'jump', 'running', 'gazelle', 'wildlife', 'motion')
 
-    def build(self) -> None:
-        """Opening repair: Opened the thin doubled foreleg into a bent single stroke, preserving the leaping pose."""
-        self.add_polyline('silhouette', (6, 42), (6, 34), (12, 30), (12, 23), (30, 14), (34, 8), (40, 8), (42, 14), (38, 16), (38, 24), (10, 40), (6, 42), (6, 42))
-        self.add_polyline('horn', (34, 8), (28, 6), (38, 6))
-        self.relate('connect', 'silhouette', 'horn')
-        self.add_polyline('front-leg', (38, 24), (42, 22), (42, 34))
-        self.relate('connect', 'front-leg', 'silhouette')
+    def build(self):
+        # Leaping antelope: smooth back and belly, a compact head and single clean legs preserving the leap.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        a('back',(10,24),(22,14),12,10)
+        p('neck',(22,14),(30,14),(34,8),(42,12),(38,18),(34,18),(30,28))
+        a('belly',(30,28),(10,24),20,8)
+        link('connect','back','neck')
+        link('connect','neck','belly')
+        link('connect','belly','back')
+        p('rear-leg',(10,24),(6,34),(6,42))
+        p('front-leg',(30,28),(42,22),(42,34))
+        link('connect','rear-leg','back')
+        link('connect','rear-leg','belly')
+        link('connect','front-leg','neck')
+        link('connect','front-leg','belly')
+        p('horn',(34,8),(30,6),(24,6))
+        link('connect','horn','neck')

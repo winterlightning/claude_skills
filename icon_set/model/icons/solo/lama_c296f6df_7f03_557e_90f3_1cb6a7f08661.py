@@ -1,4 +1,4 @@
-"""Standing llama in left profile. Long neck, pointed ear and rounded rump retained; four legs reduced to two visible legs. No useful exact Lucide match; simple contour construction follows cat."""
+'Llama: smooth muzzle and rump, upright long neck and two broad readable legs.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,22 +16,25 @@ class Llama(Solo48):
     aliases = ()
     keywords = ('llama', 'alpaca', 'standing', 'andes', 'animal', 'wool', 'farm', 'south america')
 
-    def build(self) -> None:
-        # Exact visible extremes: (0, 0, 48, 48); centerline inset 2.
-        self.add_line('ear-rise', (15,12), (15,6))
-        self.add_line('ear-tip', (15,6), (20,7))
-        self.add_arc('neck-top', (20, 7), (23, 20), radius_x=24, radius_y=24, sweep=True, large_arc=False)
-        self.add_line('neck-back', (23, 20), (23, 25))
-        self.add_line('back', (23, 25), (34, 25))
-        self.add_arc('rump', (34, 25), (42, 34), radius_x=12, radius_y=9, sweep=True, large_arc=False)
-        self.add_line('rear-leg', (42, 34), (42, 42))
-        self.add_line('rear-hoof', (42, 42), (38, 42))
-        self.add_line('rear-inner', (38, 42), (38, 38))
-        self.add_line('belly', (38, 38), (20, 38))
-        self.add_line('front-inner', (20, 38), (20, 42))
-        self.add_line('front-hoof', (20, 42), (12, 42))
-        self.add_line('front-leg', (12, 42), (12, 23))
-        self.add_line('muzzle-bottom', (12, 23), (6, 23))
-        self.add_arc('muzzle', (6, 23), (6, 15), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('muzzle-top', (6, 15), (15, 12))
-        self.add_contour('outline', 'ear-rise', 'ear-tip', 'neck-top', 'neck-back', 'back', 'rump', 'rear-leg', 'rear-hoof', 'rear-inner', 'belly', 'front-inner', 'front-hoof', 'front-leg', 'muzzle-bottom', 'muzzle', 'muzzle-top', closed=True)
+    def build(self):
+        # Llama: smooth muzzle and rump, upright long neck and two broad readable legs.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('neck',(16,42),(16,22),(10,22))
+        a('snout',(10,22),(6,18),4)
+        a('muzzle',(6,18),(10,14),4)
+        p('head',(10,14),(20,10),(20,6),(28,6),(30,14),(30,24),(32,24))
+        a('rump',(32,24),(42,34),10)
+        p('legs',(42,34),(42,42),(34,42),(34,34),(24,34),(24,42),(16,42))
+        link('connect','neck','snout')
+        link('connect','snout','muzzle')
+        link('connect','muzzle','head')
+        link('connect','head','rump')
+        link('connect','rump','legs')
+        link('connect','legs','neck')

@@ -1,4 +1,6 @@
-"""Paired round sunglasses joined by low bridge. HRECT_S extremes (2,14)-(46,34). Lucide glasses informs paired lenses and arched bridge. Short outer stubs omitted to preserve full lenses."""
+"""Oval sunglasses with matched lenses, an arched bridge and unfolded temples.
+Lucide glasses informs the paired lenses and open arms. HRECT_L ink (2,6)-(46,42).
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class RoundSunglasses(Solo48):
     icon_id = 'round-sunglasses'
-    keyshape = Keyshape.HRECT_S
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"

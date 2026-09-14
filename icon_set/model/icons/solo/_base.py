@@ -9,12 +9,17 @@ proportions matter. Geometry is authored directly in 48x48 space.
 from __future__ import annotations
 
 from ...keyshapes import Keyshape
-from ...profiles import Profile
+from ...profiles import Profile, STROKE_WIDTH
+from ... import contracts
 from ..family import FamilyIcon
 
 PROFILE = Profile.for_family("solo")
 CANVAS = PROFILE.spec.canvas_size
 CENTER = PROFILE.spec.center
+
+# Specialized avatar authoring uses the solo family and its geometry rules.
+HEAD_BODY_INK_GAP = contracts.icon_profile()["authoring"]["avatar"]["head_body_ink_gap"]
+HEAD_BODY_CENTERLINE_GAP = HEAD_BODY_INK_GAP + STROKE_WIDTH
 
 
 class Solo48(FamilyIcon):

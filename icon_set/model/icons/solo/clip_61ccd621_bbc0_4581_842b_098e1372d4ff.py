@@ -1,10 +1,10 @@
-"""Clip (office), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Binder clip: balanced body and symmetric wire handle, preserving curved wire corners and exact attachment points.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '61ccd621-bbc0-4581-842b-098e1372d4ff'
 SOURCE_PATH = 'icons-json/office/clip_61ccd621-bbc0-4581-842b-098e1372d4ff.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Clip(Solo48):
     icon_id = 'clip'
@@ -15,39 +15,27 @@ class Clip(Solo48):
     aliases = ()
     keywords = ('clip', 'office')
 
-    def build(self):
-        self.add_line('e0', (19, 19), (7, 19))
-        self.add_line('e1', (4, 21), (4, 37))
-        self.add_line('e2', (7, 40), (13, 40))
-        self.add_line('e3', (15, 38), (19, 20))
-        self.add_line('e4', (17, 8), (31, 8))
-        self.add_line('e5', (29, 17), (29, 19))
-        self.add_line('e6', (19, 19), (29, 19))
-        self.add_line('e7', (29, 19), (41, 19))
-        self.add_line('e8', (44, 21), (44, 37))
-        self.add_line('e9', (41, 40), (35, 40))
-        self.add_line('e10', (33, 38), (29, 20))
-        self.add_line('e11', (19, 40), (29, 40))
-        self.add_arc('e12', (7, 19), (4, 21), radius_x=3, sweep=False)
-        self.add_arc('e13', (4, 37), (7, 40), radius_x=3, sweep=False)
-        self.add_arc('e14', (13, 40), (15, 38), radius_x=2, sweep=False)
-        self.add_arc('e15', (19, 20), (19, 19), radius_x=13)
-        self.add_line('e16-1', (19, 19), (14, 13))
-        self.add_arc('e16-2', (14, 13), (17, 8), radius_x=4)
-        self.add_arc('e17-1', (31, 8), (34, 12), radius_x=4)
-        self.add_arc('e17-2', (34, 12), (29, 17), radius_x=7)
-        self.add_arc('e18', (41, 19), (44, 21), radius_x=3)
-        self.add_arc('e19', (44, 37), (41, 40), radius_x=3)
-        self.add_arc('e20', (35, 40), (33, 38), radius_x=2)
-        self.add_line('e21', (29, 20), (29, 19))
-        self.add_contour('c0', 'e0', 'e12', 'e1', 'e13', 'e2', 'e14', 'e3', 'e15', closed=True)
-        self.add_contour('c1', 'e16-1', 'e16-2', 'e4', 'e17-1', 'e17-2', 'e5')
-        self.add_contour('c2', 'e6')
-        self.add_contour('c3', 'e7', 'e18', 'e8', 'e19', 'e9', 'e20', 'e10', 'e21', closed=True)
-        self.add_contour('c4', 'e11')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
+    def build(self) -> None:
+        # Binder clip: rounded body and a continuous wire handle; all contacts share nodes.
+        self.add_line('top-a',(8,20),(20,20))
+        self.add_line('top-b',(20,20),(28,20))
+        self.add_line('top-c',(28,20),(40,20))
+        self.add_arc('tr',(40,20),(44,24),radius_x=4)
+        self.add_line('right',(44,24),(44,36))
+        self.add_arc('br',(44,36),(40,40),radius_x=4)
+        self.add_line('bottom-a',(40,40),(32,40))
+        self.add_line('bottom-b',(32,40),(16,40))
+        self.add_line('bottom-c',(16,40),(8,40))
+        self.add_arc('bl',(8,40),(4,36),radius_x=4)
+        self.add_line('left',(4,36),(4,24))
+        self.add_arc('tl',(4,24),(8,20),radius_x=4)
+        self.add_contour('body','top-a','top-b','top-c','tr','right','br','bottom-a','bottom-b','bottom-c','bl','left','tl',closed=True)
+        self.add_line('handle-left',(16,40),(20,20))
+        self.add_bezier('handle-top-left',(20,20),((20,17),(16,16),(16,12)))
+        self.add_arc('handle-corner-left',(16,12),(20,8),radius_x=4)
+        self.add_line('handle-top',(20,8),(28,8))
+        self.add_arc('handle-corner-right',(28,8),(32,12),radius_x=4)
+        self.add_bezier('handle-top-right',(32,12),((32,16),(28,17),(28,20)))
+        self.add_line('handle-right',(28,20),(32,40))
+        self.add_contour('handle','handle-left','handle-top-left','handle-corner-left','handle-top','handle-corner-right','handle-top-right','handle-right')
+        self.relate('connect','handle','body')

@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 class AquariusZodiacSymbol(Solo48):
     icon_id = 'aquarius-zodiac-symbol'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "culture"
@@ -18,8 +18,8 @@ class AquariusZodiacSymbol(Solo48):
     keywords = ('aquarius', 'zodiac', 'astrology', 'water', 'waves', 'horoscope', 'star sign', 'symbol')
 
     def build(self) -> None:
-        # HRECT_M: visible extremes (0, 9, 48, 39); centerlines inset 2.
-        # Matching smooth waves, reflected about x=24; extrema y=11 and 37.
+        # HRECT_L: visible extremes (2, 6, 46, 42); centerlines inset 2.
+        # Matching smooth waves, reflected about x=24; extrema y=8 and 40.
         for label, y in (("upper", 13), ("lower", 35)):
             self.add_arc(label+"-left", (4,y), (16,y), radius_x=6, radius_y=5, sweep=False)
             self.add_arc(label+"-crest", (16,y), (32,y), radius_x=8, radius_y=5)

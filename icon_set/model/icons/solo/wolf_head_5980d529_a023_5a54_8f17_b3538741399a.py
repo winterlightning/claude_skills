@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class WolfHead(Solo48):
     icon_id = 'wolf-head'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/animals'
@@ -15,6 +15,6 @@ class WolfHead(Solo48):
     keywords = ('wolf', 'head', 'profile', 'minimal', 'snout', 'ear', 'canine', 'dog')
 
     def build(self) -> None:
-        # VRECT_XL centerline extremes (6,6)-(42,42).
+        # VRECT_L centerline extremes (8,4)-(40,44).
         self.add_polyline('outline', (8,40), (12,25), (15,16), (18,4), (28,15), (32,20), (40,22), (40,28), (34,33), (28,33), (21,40), (22,44))
         self.add_dot('eye', (23,24))

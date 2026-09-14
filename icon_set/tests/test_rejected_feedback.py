@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import unittest
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from icon_set.scripts.deploy import GalleryHandler, init_database
 from icon_set.scripts.reference_images import ReferenceStore
@@ -73,6 +74,50 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertEqual(source.read_bytes(), before)
         self.assertEqual(json.loads(self.request('GET', '/api/feedback-feed')[1])[0]['feedback'], 'Keep for reference')
 
+    def test_discard_removes_model_files_and_rows_of_a_rejected_icon_only(self):
+        source_root = self.root / 'repo'
+        family = source_root / 'icon_set/model/icons/sub'
+        family.mkdir(parents=True)
+        model = family / 'square.py'
+        model.write_text("from ._base import Sub32\n\nclass Square(Sub32):\n    icon_id = 'square'\n")
+        catalog = self.dist / 'gallery/icons.json'
+        data = json.loads(catalog.read_text())
+        data['icons'][0]['python_source'] = {'path': 'icon_set/model/icons/sub/square.py', 'family': 'sub', 'class_name': 'Square'}
+        catalog.write_text(json.dumps(data))
+        payload = {'icon': 'sub/square', 'svg_sha256': 'abc'}
+        # The handler resolves models under PACKAGE_ROOT.parent; point it at the fixture repo.
+        self.enterContext(patch('icon_set.scripts.deploy.PACKAGE_ROOT', source_root / 'icon_set'))
+
+        code, body = self.request('POST', '/api/icons/discard', payload)
+        self.assertEqual(code, 409)
+        self.assertIn('Only rejected icons', json.loads(body)['error'])
+        self.assertTrue(model.exists())
+
+        self.assertEqual(self.request('POST', '/api/feedback', dict(payload, feedback='Not needed'))[0], 201)
+        self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status='rejected'))[0], 201)
+        # Another module importing the class blocks the discard without touching anything.
+        (family / 'user.py').write_text('from .square import Square\n')
+        code, body = self.request('POST', '/api/icons/discard', payload)
+        self.assertEqual(code, 409)
+        self.assertIn('imports Square', json.loads(body)['error'])
+        self.assertTrue(model.exists())
+        (family / 'user.py').unlink()
+
+        code, body = self.request('POST', '/api/icons/discard', payload)
+        self.assertEqual(code, 200, body)
+        self.assertFalse(model.exists())
+        self.assertFalse((self.dist / 'sub32/square.svg').exists())
+        self.assertEqual(json.loads((self.dist / 'sub32/manifest.json').read_text())['icons'], [])
+        self.assertEqual(json.loads(catalog.read_text())['icons'], [])
+        with sqlite3.connect(self.database) as connection:
+            for table in ('reviews', 'feedback', 'icon_flags'):
+                self.assertEqual(connection.execute(f"SELECT COUNT(*) FROM {table} WHERE icon='sub/square'").fetchone()[0], 0)
+            self.assertEqual(connection.execute("SELECT action FROM activity_log ORDER BY id DESC").fetchone()[0], 'discard')
+        archived = list((self.root / 'discarded-icons').glob('*-sub-square.py'))
+        self.assertEqual(len(archived), 1)
+        self.assertIn("icon_id = 'square'", archived[0].read_text())
+        self.assertEqual(self.request('POST', '/api/icons/discard', payload)[0], 404)
+
     def test_existing_four_status_database_migrates_without_data_loss(self):
         with sqlite3.connect(self.database) as connection:
             connection.execute('DROP TABLE reviews')
@@ -117,8 +162,10 @@ const files=feedbackBriefFiles([{id:1,icon:rejected.key},{id:2,icon:approved.key
 assert.equal(files.length,1);assert.match(files[0].name,/approved/);
 syncInspector();assert.equal($('download').hidden,true);assert.equal($('fixPanel').hidden,true);
 assert.equal($('restoreCombined').hidden,false);assert.equal($('approveDetail').disabled,true);
+assert.equal($('discardIcon').hidden,false);
 reviews[rejected.key]='ready';syncInspector();assert.equal($('download').hidden,false);
 assert.equal($('fixPanel').hidden,false);assert.equal($('restoreCombined').hidden,true);
+assert.equal($('discardIcon').hidden,true);
 """
         subprocess.run(['node', '-e', harness], check=True, capture_output=True, text=True)
         script = template.split('<script>', 1)[1].split('</script>', 1)[0]

@@ -38,6 +38,6 @@ class RadarDialOuterTicks(Solo48):
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
         C('dial',24,24,17);self.add_dot('hub',(24,24))
-        for n,a,b in [('top',(24,7),(24,6)),('bottom',(24,41),(24,42)),('left',(7,24),(6,24)),('right',(41,24),(42,24))]:
+        for n,a,b in [('top',(24,7),(24,4)),('bottom',(24,41),(24,44)),('left',(7,24),(4,24)),('right',(41,24),(44,24))]:
             L(n,a,b);J(n,'dial')
         L('sweep',(24,24),(9,16));J('sweep','dial');J('sweep','hub')

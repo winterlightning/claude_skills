@@ -22,7 +22,7 @@ class EmergencyValveWheel(Solo48):
             self.add_arc(n+'-b', (x+r,y), (x-r,y), radius_x=r)
             self.add_contour(n,n+'-a',n+'-b',closed=True)
 
-        pts=[(24,6),(42,24),(24,42),(6,24)]
+        pts=[(24,4),(44,24),(24,44),(4,24)]
         for i in range(4):
             self.add_arc('rim'+str(i),pts[i],pts[(i+1)%4],radius_x=20)
         self.add_contour('rim',*[f'rim{i}' for i in range(4)],closed=True)

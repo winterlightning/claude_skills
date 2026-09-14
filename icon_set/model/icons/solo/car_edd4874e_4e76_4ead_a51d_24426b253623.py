@@ -1,10 +1,10 @@
-"""Car (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Compact car: round wheels, shared axle, smooth body and clear glazing. Reconstructed wheel openings remove the converted overlaps; Lucide car informs the body and wheel joins.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'edd4874e-4e76-4ead-a51d-24426b253623'
 SOURCE_PATH = 'icons-json/transportation/car_edd4874e-4e76-4ead-a51d-24426b253623.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CarEdd4874e(Solo48):
     icon_id = 'car-edd4874e'
@@ -15,41 +15,26 @@ class CarEdd4874e(Solo48):
     aliases = ()
     keywords = ('car', 'transportation')
 
-    def build(self):
-        self.add_line('e0', (29, 34), (19, 34))
-        self.add_line('e1', (27, 8), (27, 20))
-        self.add_line('e2', (12, 20), (16, 13))
-        self.add_line('e3', (20, 8), (31, 8))
-        self.add_line('e4', (37, 12), (39, 20))
-        self.add_line('e5', (12, 20), (39, 20))
-        self.add_arc('e6-top', (9, 35), (19, 35), radius_x=5)
-        self.add_arc('e6-bottom', (19, 35), (9, 35), radius_x=5)
-        self.add_arc('e7-top', (30, 35), (40, 35), radius_x=5)
-        self.add_arc('e7-bottom', (40, 35), (30, 35), radius_x=5)
-        self.add_line('e8-1', (39, 35), (43, 33))
-        self.add_line('e8-2', (43, 33), (44, 28))
-        self.add_line('e8-3', (44, 28), (43, 23))
-        self.add_line('e8-4', (43, 23), (39, 20))
-        self.add_arc('e9-1', (9, 35), (4, 28), radius_x=9)
-        self.add_arc('e9-2', (4, 28), (12, 20), radius_x=8)
-        self.add_arc('e10', (16, 13), (20, 8), radius_x=6)
-        self.add_arc('e11-1', (31, 8), (34, 9), radius_x=5)
-        self.add_arc('e11-2', (34, 9), (37, 12), radius_x=6)
-        self.add_contour('c0', 'e8-1', 'e8-2', 'e8-3', 'e8-4')
-        self.add_contour('c1', 'e0')
-        self.add_contour('c2', 'e9-1', 'e9-2')
-        self.add_contour('c3', 'e1')
-        self.add_contour('c4', 'e2', 'e10', 'e3', 'e11-1', 'e11-2', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('e6', 'e6-top', 'e6-bottom', closed=True)
-        self.add_contour('e7', 'e7-top', 'e7-bottom', closed=True)
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'e6')
-        self.relate('connect', 'c2', 'e6')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
+    def build(self) -> None:
+        # HRECT_L ink (2,6)-(46,42). Circular wheels share radius and axle height.
+        # Roof corners and body are smooth; wheel tops form real wheel openings.
+        self.add_bezier('rear',(8,35),((5,35),(4,32),(4,29)),((4,24),(7,21),(12,21)))
+        self.add_line('rear-window',(12,21),(16,12))
+        self.add_bezier('roof-left',(16,12),((16+4/3,9),(18,8),(21,8)))
+        self.add_line('roof-a',(21,8),(25,8))
+        self.add_line('roof-b',(25,8),(30,8))
+        self.add_bezier('roof-right',(30,8),((33,8),(34,9),(35,12)))
+        self.add_line('windscreen',(35,12),(38,21))
+        self.add_bezier('front',(38,21),((42,22),(44,25),(44,29)),((44,32),(43,35),(40,35)))
+        self.add_arc('front-wheel-top',(40,35),(30,35),radius_x=5,sweep=False)
+        self.add_line('chassis',(30,35),(18,35))
+        self.add_arc('rear-wheel-top',(18,35),(8,35),radius_x=5,sweep=False)
+        self.add_contour('body','rear','rear-window','roof-left','roof-a','roof-b','roof-right','windscreen','front','front-wheel-top','chassis','rear-wheel-top',closed=True)
+        self.add_polyline('waist',(12,21),(25,21),(38,21))
+        self.relate('connect','waist','body')
+        self.add_line('pillar',(25,8),(25,21))
+        self.relate('connect','pillar','body')
+        self.relate('connect','pillar','waist')
+        for label,x in (('rear-wheel',13),('front-wheel',35)):
+            self.add_arc(label+'-bottom',(x-5,35),(x+5,35),radius_x=5,sweep=False)
+            self.relate('connect',label+'-bottom','body')

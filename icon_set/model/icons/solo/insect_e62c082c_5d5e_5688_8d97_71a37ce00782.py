@@ -1,4 +1,4 @@
-"""Eye-free insect head with long paired antennae and two hooked legs. Centerline extremes (6,6)-(42,42). Mirrored quarter ellipses follow Lucide bug geometry; eyes omitted as in the source."""
+"""Eye-free insect head with long paired antennae and two hooked legs. Centerline extremes (8,4)-(40,44). Mirrored quarter ellipses follow Lucide bug geometry; eyes omitted as in the source."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class BugHeadWithAntennae(Solo48):
     icon_id = 'bug-head-with-antennae'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"

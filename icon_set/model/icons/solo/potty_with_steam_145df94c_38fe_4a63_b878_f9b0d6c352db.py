@@ -15,22 +15,20 @@ class PottyWithSteam(Solo48):
     keywords = ('potty', 'toilet', 'poop', 'steam', 'smell', 'training', 'baby', 'bathroom')
 
     # Designed to centerline extremes (6, 6)–(42, 42).
-    def build(self) -> None:
-        self.add_line('pot-1', (6, 42), (6, 24))
-        self.add_arc('pot-2', (6, 24), (8, 24), radius_x=2, radius_y=2, sweep=True)
-        self.add_arc('pot-3', (8, 24), (18, 32), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('pot-4', (18, 32), (30, 32))
-        self.add_arc('pot-5', (30, 32), (40, 22), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('pot-6', (40, 22), (40, 18))
-        self.add_arc('pot-7', (40, 18), (42, 18), radius_x=2, radius_y=2, sweep=True)
-        self.add_line('pot-8', (42, 18), (42, 42))
-        self.add_line('pot-9', (42, 42), (36, 42))
-        self.add_arc('pot-10', (36, 42), (12, 42), radius_x=15, radius_y=10, sweep=False)
-        self.add_line('pot-11', (12, 42), (6, 42))
-        self.add_contour('pot', 'pot-1', 'pot-2', 'pot-3', 'pot-4', 'pot-5', 'pot-6', 'pot-7', 'pot-8', 'pot-9', 'pot-10', 'pot-11', closed=True)
-        self.add_arc('steam-left-1', (17, 6), (17, 10), radius_x=7, radius_y=7, sweep=True)
-        self.add_arc('steam-left-2', (17, 10), (17, 18), radius_x=7, radius_y=7, sweep=False)
-        self.add_contour('steam-left', 'steam-left-1', 'steam-left-2', closed=False)
-        self.add_arc('steam-right-1', (28, 6), (28, 13), radius_x=7, radius_y=7, sweep=True)
-        self.add_arc('steam-right-2', (28, 13), (28, 21), radius_x=7, radius_y=7, sweep=False)
-        self.add_contour('steam-right', 'steam-right-1', 'steam-right-2', closed=False)
+    def build(self):
+        # Steaming potty: symmetric bowl and flowing steam strokes with a clear gap above the seat.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('potty',(6,24),(6,42),(16,36),(32,36),(42,42),(42,24))
+        a('bowl',(6,24),(42,24),18,8,sweep=False)
+        link('connect','bowl','potty')
+        for x in (14,34):
+            a(f'steam-a-{x}',(x,6),(x,12),4,3)
+            a(f'steam-b-{x}',(x,12),(x,18),4,3,sweep=False)
+            self.add_contour(f'steam-{x}',f'steam-a-{x}',f'steam-b-{x}')

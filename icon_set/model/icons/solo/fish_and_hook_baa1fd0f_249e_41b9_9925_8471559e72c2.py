@@ -1,4 +1,4 @@
-"""A left-facing fish sits beside a J-shaped fishing hook. HRECT_L centerline extremes (6,8)-(42,40) fit the scene. Lucide fish-symbol informs the open tail and pointed lens body. Omit the line break and intermediate tiny dot; retain the fish eye and hook. Deliberate asymmetry preserves the fish direction and the physical scene."""
+"""A left-facing fish sits beside a J-shaped fishing hook. HRECT_L centerline extremes (4,8)-(44,40) fit the scene. Lucide fish-symbol informs the open tail and pointed lens body. Omit the line break and intermediate tiny dot; retain the fish eye and hook. Deliberate asymmetry preserves the fish direction and the physical scene."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,12 +17,12 @@ class FishAndHook(Solo48):
     keywords = ('fishing', 'fish', 'hook', 'angling', 'sea', 'catch', 'hobby', 'line')
 
     def build(self) -> None:
-        self.add_line('line', (6,8), (6,36))
-        self.add_arc('hook', (6,36), (12,36), radius_x=4, sweep=False)
+        self.add_line('line', (4,8), (4,36))
+        self.add_arc('hook', (4,36), (12,36), radius_x=4, sweep=False)
         self.add_contour('fishing-line', 'line', 'hook')
-        self.add_arc('fish-back', (18,28), (42,28), radius_x=15, radius_y=25)
-        self.add_arc('fish-belly', (42,28), (18,28), radius_x=15, radius_y=25)
+        self.add_arc('fish-back', (20,28), (44,28), radius_x=15, radius_y=25)
+        self.add_arc('fish-belly', (44,28), (20,28), radius_x=15, radius_y=25)
         self.add_contour('fish', 'fish-back', 'fish-belly', closed=True)
-        self.add_polyline('tail', (42,18), (42,28), (42,38))
+        self.add_polyline('tail', (44,18), (44,28), (44,40))
         self.relate('connect', 'fish', 'tail')
-        self.add_dot('eye', (30,28))
+        self.add_dot('eye', (32,28))

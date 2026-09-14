@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class HangingSpider(Solo48):
     icon_id = 'hanging-spider'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/animals"
@@ -16,7 +16,7 @@ class HangingSpider(Solo48):
     keywords = ('spider', 'thread', 'hanging', 'web', 'arachnid', 'legs', 'halloween', 'drop')
 
     def build(self) -> None:
-        # Thread and oval body with four leg pairs; extremes (6,6)-(42,42).
+        # Thread and oval body with four leg pairs; extremes (8,4)-(40,44).
         self.add_arc('cap-top', (18, 22), (30, 22), radius_x=6, radius_y=8, sweep=True)
         self.add_line('side-r1', (30, 22), (30, 29))
         self.add_line('side-r2', (30, 29), (30, 36))

@@ -1,7 +1,7 @@
 """woodpecker-on-trunk: source silhouette re-authored on SOLO48.
 
 Lucide bird informs coherent body arcs and sparse detail.
-Keyshape VRECT_XL; extremes obtained from the SOLO48 contract.
+Keyshape VRECT_L; extremes obtained from the SOLO48 contract.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -13,7 +13,7 @@ AUTHOR = 'gpt-6'
 
 class WoodpeckerOnTrunk(Solo48):
     icon_id = 'woodpecker-on-trunk'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals/birds"

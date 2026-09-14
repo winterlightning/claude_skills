@@ -1,10 +1,10 @@
-"""Amazon lightsail (programing), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'Lightsail mark: preserve the curved asymmetric sail within its circular rim; replace fragmented conversion arcs with flowing curves.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '09e1b73f-4483-571c-9e3d-5bc2c49901b9'
 SOURCE_PATH = 'icons-json/programing/amazon lightsail_09e1b73f-4483-571c-9e3d-5bc2c49901b9.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AmazonLightsail(Solo48):
     icon_id = 'amazon-lightsail'
@@ -15,17 +15,13 @@ class AmazonLightsail(Solo48):
     aliases = ()
     keywords = ('amazon', 'lightsail', 'programing')
 
-    def build(self):
-        self.add_line('e0', (28, 35), (26, 38))
-        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e2-1', (26, 38), (16, 24), radius_x=16, sweep=False)
-        self.add_arc('e2-2', (16, 24), (15, 24), radius_x=18, sweep=False)
-        self.add_line('e2-3', (15, 24), (22, 19))
-        self.add_arc('e2-4', (22, 19), (26, 11), radius_x=18, sweep=False)
-        self.add_arc('e2-5', (26, 11), (26, 10), radius_x=23)
-        self.add_arc('e2-6', (26, 10), (29, 16), radius_x=50, sweep=False)
-        self.add_arc('e2-7', (29, 16), (30, 22), radius_x=27)
-        self.add_arc('e2-8', (30, 22), (28, 35), radius_x=27)
-        self.add_contour('c0', 'e2-1', 'e2-2', 'e2-3', 'e2-4', 'e2-5', 'e2-6', 'e2-7', 'e2-8', 'e0', closed=True)
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+
+        # Preserve the asymmetric sail, using three coherent curved runs.
+        self.add_bezier('sail-back',(26,13),((31,19),(31,29),(26,35)))
+        self.add_bezier('sail-lower',(26,35),((25,29),(21,25),(16,24)))
+        self.add_bezier('sail-upper',(16,24),((21,22),(25,18),(26,13)))
+        self.add_contour('sail','sail-back','sail-lower','sail-upper',closed=True)

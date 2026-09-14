@@ -1,10 +1,10 @@
-"""Adventure car (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Adventure car: balanced wheels and cabin, straight window divisions and a clear chassis.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b02948e6-fd8b-5c71-957a-a2dd0f63778b'
 SOURCE_PATH = 'icons-json/transportation/adventure car_b02948e6-fd8b-5c71-957a-a2dd0f63778b.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AdventureCar(Solo48):
     icon_id = 'adventure-car'
@@ -16,41 +16,29 @@ class AdventureCar(Solo48):
     keywords = ('adventure', 'car', 'transportation')
 
     def build(self):
-        self.add_line('e0', (32, 23), (40, 24))
-        self.add_line('e1', (44, 28), (44, 32))
-        self.add_line('e2', (32, 23), (30, 16))
-        self.add_line('e3', (27, 16), (16, 16))
-        self.add_line('e4', (12, 18), (6, 23))
-        self.add_line('e5', (32, 23), (21, 23))
-        self.add_line('e6', (21, 23), (21, 16))
-        self.add_line('e7', (10, 33), (4, 33))
-        self.add_line('e8', (29, 33), (21, 33))
-        self.add_line('e9', (6, 33), (6, 8))
-        self.add_arc('e10-top', (29, 34), (39, 34), radius_x=5, radius_y=6)
-        self.add_arc('e10-bottom', (39, 34), (29, 34), radius_x=5, radius_y=6)
-        self.add_arc('e11-top', (11, 34), (21, 34), radius_x=5, radius_y=6)
-        self.add_arc('e11-bottom', (21, 34), (11, 34), radius_x=5, radius_y=6)
-        self.add_arc('e12-1', (40, 24), (44, 25), radius_x=4)
-        self.add_line('e12-2', (44, 25), (44, 28))
-        self.add_arc('e13-1', (44, 32), (43, 33), radius_x=1)
-        self.add_line('e13-2', (43, 33), (39, 33))
-        self.add_line('e14', (30, 16), (27, 16))
-        self.add_arc('e15', (16, 16), (12, 18), radius_x=9, sweep=False)
-        self.add_contour('c0', 'e0', 'e12-1', 'e12-2', 'e1', 'e13-1', 'e13-2')
-        self.add_contour('c1', 'e2', 'e14', 'e3', 'e15', 'e4')
-        self.add_contour('c2', 'e5', 'e6')
-        self.add_contour('c3', 'e7')
-        self.add_contour('c4', 'e8')
-        self.add_contour('c5', 'e9')
-        self.add_contour('e10', 'e10-top', 'e10-bottom', closed=True)
-        self.add_contour('e11', 'e11-top', 'e11-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'e10')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c2', 'c1')
-        self.relate('connect', 'c3', 'e11')
-        self.relate('connect', 'c4', 'e10')
-        self.relate('connect', 'c4', 'e11')
-        self.relate('connect', 'c5', 'c3')
+        # Adventure car: equal circular wheels meet the chassis exactly, with a balanced cabin and clear window.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def c(name, x, y, radius):
+            a(name+'-top', (x-radius,y), (x+radius,y), radius)
+            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
+            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+        p('body',(8,34),(4,34),(4,20),(14,12),(30,12),(34,22),(44,24),(44,34),(42,34))
+        l('front',(4,8),(4,20))
+        link('connect','front','body')
+        p('window',(22,12),(22,22),(34,22))
+        link('connect','window','body')
+        c('wheel-left',14,34,6)
+        c('wheel-right',36,34,6)
+        l('chassis',(20,34),(30,34))
+        link('connect','chassis','wheel-left')
+        link('connect','chassis','wheel-right')
+        link('connect','body','wheel-left')
+        link('connect','body','wheel-right')

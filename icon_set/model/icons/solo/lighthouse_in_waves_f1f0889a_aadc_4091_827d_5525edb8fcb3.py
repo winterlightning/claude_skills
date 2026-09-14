@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class LighthouseInWaves(Solo48):
     icon_id = 'lighthouse-in-waves'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "places/landmarks"
@@ -17,7 +17,7 @@ class LighthouseInWaves(Solo48):
     keywords = ('lighthouse', 'beacon', 'sea', 'waves', 'coast', 'navigation', 'maritime', 'tower')
 
     def build(self) -> None:
-        # Centerline extremes (6,6)-(42,42).
+        # Centerline extremes (8,4)-(40,44).
         self.add_polyline("left-tower", (14,32), (17,23), (17,15))
         self.add_arc("cap-left", (17,15), (24,8), radius_x=7)
         self.add_arc("cap-right", (24,8), (31,15), radius_x=7)

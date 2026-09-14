@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class PointedCrystalCluster(Solo48):
     icon_id = 'pointed-crystal-cluster'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/decoration"

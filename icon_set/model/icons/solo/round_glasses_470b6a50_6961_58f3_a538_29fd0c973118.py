@@ -1,4 +1,6 @@
-"""Round glasses with matched lenses and arched bridge. Lucide glasses informs repeated circles; tiny temple stubs omitted."""
+"""Round glasses with matched lenses, an arched bridge and unfolded temples.
+Lucide glasses informs the paired lenses and open arms. HRECT_L ink (2,6)-(46,42).
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '470b6a50-6961-58f3-a538-29fd0c973118'
@@ -7,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class RoundGlasses(Solo48):
     icon_id = 'round-glasses'
-    keyshape = Keyshape.HRECT_S
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"

@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 4, 44, 44) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -33,15 +31,15 @@
         "elementId": "antenna-l",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 18 A 18 20 0 0 1 6 6",
+        "pathData": "M 18 18 A 18 20 0 0 1 8 4",
         "bounds": [
-          6.0,
-          6.0,
+          8.0,
+          4.0,
           18.0,
           18.0
         ],
         "segmentCount": 64,
-        "approximationError": 0.0005279726647229896,
+        "approximationError": 0.0005238662899030136,
         "hasCurves": true
       },
       {
@@ -49,15 +47,15 @@
         "elementId": "leg-l",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 38 A 10 10 0 0 0 13 42",
+        "pathData": "M 18 38 A 10 10 0 0 0 13 44",
         "bounds": [
           13.0,
           38.0,
           18.0,
-          42.0
+          44.0
         ],
         "segmentCount": 32,
-        "approximationError": 0.0005185895652755372,
+        "approximationError": 0.0007858983517698645,
         "hasCurves": true
       },
       {
@@ -65,15 +63,15 @@
         "elementId": "antenna-r",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 30 18 A 18 20 0 0 0 42 6",
+        "pathData": "M 30 18 A 18 20 0 0 0 40 4",
         "bounds": [
           30.0,
-          6.0,
-          42.0,
+          4.0,
+          40.0,
           18.0
         ],
         "segmentCount": 64,
-        "approximationError": 0.0005279726647207938,
+        "approximationError": 0.0005238662899008631,
         "hasCurves": true
       },
       {
@@ -81,15 +79,15 @@
         "elementId": "leg-r",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 30 38 A 10 10 0 0 1 35 42",
+        "pathData": "M 30 38 A 10 10 0 0 1 35 44",
         "bounds": [
           30.0,
           38.0,
           35.0,
-          42.0
+          44.0
         ],
         "segmentCount": 32,
-        "approximationError": 0.0005185895652755372,
+        "approximationError": 0.0007858983517680881,
         "hasCurves": true
       }
     ],
@@ -118,10 +116,10 @@
           "leg-r"
         ],
         "bounds": [
-          6.0,
-          6.0,
-          42.0,
-          42.0
+          8.0,
+          4.0,
+          40.0,
+          44.0
         ]
       }
     ],
@@ -330,6 +328,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          28.7656
+        ],
+        "bbox_viewbox": [
+          14.0,
+          20.0,
+          20.0,
+          17.6875
+        ],
+        "bbox_ship_px": [
+          20.0,
+          17.6875
+        ],
+        "bbox_design_u": [
+          20.0,
+          17.6875
+        ],
+        "area_ship_px2": 294.8076,
+        "equivalent_diameter_ship_px": 19.3742,
+        "equivalent_diameter_design_u": 19.3742,
+        "inscribed_diameter_ship_px": 17.5625,
+        "inscribed_diameter_design_u": 17.5625,
+        "inscribed_radius_ship_px": 8.7812,
+        "inscribed_radius_design_u": 8.7812,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -390,7 +422,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "402a7990f0054094ba78fd29ac5bac0b9fd73ec36c0fa40f80fee3a363d0180a",
+  "svg_sha256": "8a8609fec8aabda2b3a19d77d6032abc29c9363e5b07934fa0834165bc743a60",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -418,7 +450,7 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
       "version": 1,
@@ -442,7 +474,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

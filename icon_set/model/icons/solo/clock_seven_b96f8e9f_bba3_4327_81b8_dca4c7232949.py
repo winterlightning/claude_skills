@@ -2,8 +2,8 @@
 
 CIRCLE visible extremes (2, 2, 46, 46); centerlines (4, 4, 44, 44).
 Lucide clock: circular face and a single joined hand contour; source determines seven o’clock.
-Repeated features share dimensions; deliberate asymmetry preserves the
-letter order, handles and chart heights. Authored directly on SOLO48.
+Four true quarter-circle arcs share the dial center (24,24) and radius 20.
+The asymmetry of the hands preserves seven o’clock.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -23,17 +23,17 @@ class ClockSeven(Solo48):
     keywords = ('clock', 'time', 'hour', 'watch', 'schedule', 'minutes', 'wall-clock')
 
     def build(self) -> None:
-        self.add_arc('face-ne', (24, 6), (42, 24), radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('face-se', (42, 24), (24, 42), radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('face-sw', (24, 42), (6, 24), radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('face-nw', (6, 24), (24, 6), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('face-ne', (24, 4), (44, 24), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('face-se', (44, 24), (24, 44), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('face-sw', (24, 44), (4, 24), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('face-nw', (4, 24), (24, 4), radius_x=20, radius_y=20, sweep=True)
         self.add_contour('face', 'face-ne', 'face-se', 'face-sw', 'face-nw', closed=True)
         self.add_polyline('hands', (24, 16), (24, 24), (18, 30))
-        self.add_line('tick-top', (24, 6), (24, 7))
+        self.add_line('tick-top', (24, 4), (24, 7))
         self.relate("connect", 'face', 'tick-top')
-        self.add_line('tick-right', (42, 24), (41, 24))
+        self.add_line('tick-right', (44, 24), (41, 24))
         self.relate("connect", 'face', 'tick-right')
-        self.add_line('tick-bottom', (24, 42), (24, 41))
+        self.add_line('tick-bottom', (24, 44), (24, 41))
         self.relate("connect", 'face', 'tick-bottom')
-        self.add_line('tick-left', (6, 24), (7, 24))
+        self.add_line('tick-left', (4, 24), (7, 24))
         self.relate("connect", 'face', 'tick-left')

@@ -1,10 +1,10 @@
-"""Avocado slice (food), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Avocado half: smooth symmetric pear-shaped outline with a circular stone and balanced flesh around it.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f1d00dcf-8aff-5a5b-a65b-4f2e82febf7c'
 SOURCE_PATH = 'icons-json/food/avocado slice_f1d00dcf-8aff-5a5b-a65b-4f2e82febf7c.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AvocadoSlice(Solo48):
     icon_id = 'avocado-slice'
@@ -15,20 +15,14 @@ class AvocadoSlice(Solo48):
     aliases = ()
     keywords = ('avocado', 'slice', 'food')
 
-    def build(self):
-        self.add_arc('e0-1', (35, 39), (23, 44), radius_x=17)
-        self.add_arc('e0-2', (23, 44), (8, 29), radius_x=15)
-        self.add_line('e0-3', (8, 29), (9, 24))
-        self.add_line('e0-4', (9, 24), (17, 7))
-        self.add_arc('e0-5', (17, 7), (20, 5), radius_x=9)
-        self.add_arc('e0-6', (20, 5), (24, 4), radius_x=9)
-        self.add_arc('e0-7', (24, 4), (32, 9), radius_x=9)
-        self.add_arc('e0-8', (32, 9), (39, 24), radius_x=48, sweep=False)
-        self.add_arc('e0-9', (39, 24), (40, 29), radius_x=13)
-        self.add_arc('e0-10', (40, 29), (35, 39), radius_x=13)
-        self.add_arc('e1-1', (31, 27), (23, 20), radius_x=8, sweep=False)
-        self.add_arc('e1-2', (23, 20), (17, 31), radius_x=10, sweep=False)
-        self.add_arc('e1-3', (17, 31), (24, 36), radius_x=7, sweep=False)
-        self.add_arc('e1-4', (24, 36), (31, 27), radius_x=7, sweep=False)
-        self.add_contour('c0', 'e0-1', 'e0-2', 'e0-3', 'e0-4', 'e0-5', 'e0-6', 'e0-7', 'e0-8', 'e0-9', 'e0-10', closed=True)
-        self.add_contour('c1', 'e1-1', 'e1-2', 'e1-3', 'e1-4', closed=True)
+    def build(self) -> None:
+        # VRECT_L ink envelope; equal lower halves, smooth pear-shaped upper flanks.
+        self.add_bezier('upper-left',(24,4),((17,4),(17,13),(13,19)),((10,23),(8,26),(8,29)))
+        self.add_bezier('lower-left',(8,29),((8,37),(15,44),(24,44)))
+        self.add_bezier('lower-right',(24,44),((33,44),(40,37),(40,29)))
+        self.add_bezier('upper-right',(40,29),((40,26),(38,23),(35,19)),((31,13),(31,4),(24,4)))
+        self.add_contour('fruit','upper-left','lower-left','lower-right','upper-right',closed=True)
+
+        self.add_arc('stone-top', (18,29), (30,29), radius_x=6, radius_y=6)
+        self.add_arc('stone-bottom', (30,29), (18,29), radius_x=6, radius_y=6)
+        self.add_contour('stone', 'stone-top', 'stone-bottom', closed=True)

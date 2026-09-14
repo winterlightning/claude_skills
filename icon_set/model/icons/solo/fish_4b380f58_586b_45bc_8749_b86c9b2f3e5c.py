@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class IchthysFish(Solo48):
     icon_id = 'ichthys-fish'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/animals"
@@ -17,14 +17,14 @@ class IchthysFish(Solo48):
     keywords = ('ichthys', 'fish')
 
     def build(self) -> None:
-        # Visible keyshape bounds: (0, 9, 48, 39); centerlines inset by 2.
-        self.add_arc('upper-left', (12, 24), (29, 11), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('upper-right', (29, 11), (42, 24), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('lower-right', (42, 24), (29, 37), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('lower-left', (29, 37), (12, 24), radius_x=18, radius_y=18, sweep=True)
+        # Visible keyshape bounds: (2, 6, 46, 42); centerlines inset by 2.
+        self.add_arc('upper-left', (12, 24), (28, 8), radius_x=20, radius_y=40, sweep=True)
+        self.add_arc('upper-right', (28, 8), (44, 24), radius_x=20, radius_y=40, sweep=True)
+        self.add_arc('lower-right', (44, 24), (28, 40), radius_x=20, radius_y=40, sweep=True)
+        self.add_arc('lower-left', (28, 40), (12, 24), radius_x=20, radius_y=40, sweep=True)
         self.add_contour('body', 'upper-left', 'upper-right', 'lower-right', 'lower-left')
-        self.add_line('tail-upper', (12, 24), (6, 14))
-        self.add_line('tail-lower', (12, 24), (6, 34))
+        self.add_line('tail-upper', (12, 24), (4, 14))
+        self.add_line('tail-lower', (12, 24), (4, 34))
         self.relate("connect", 'body', 'tail-upper')
         self.relate("connect", 'body', 'tail-lower')
         self.relate("connect", 'tail-upper', 'tail-lower')

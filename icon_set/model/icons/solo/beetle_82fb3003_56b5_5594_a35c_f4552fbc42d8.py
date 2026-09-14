@@ -1,5 +1,4 @@
-"""Beetle with true elliptical wing case and exact shared attachment points. VRECT_XL (6,6)-(42,42). Lucide bug informs bilateral legs and central seam; replaced straight body sides and pinched base."""
-# Variant of beetle; parent file remains unchanged.
+"""Beetle with true elliptical wing case and exact shared attachment points. VRECT_L (8,4)-(40,44). Lucide bug informs bilateral legs and central seam; replaced straight body sides and pinched base."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '82fb3003-56b5-5594-a35c-f4552fbc42d8'
@@ -8,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class Beetle(Solo48):
     icon_id = 'beetle'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
@@ -17,7 +16,7 @@ class Beetle(Solo48):
 
     def build(self) -> None:
         # Oval wing case (rx 10, ry 15); exact shared leg/head attachment points.
-        # VRECT_XL centerline extremes (6,6)-(42,42).
+        # VRECT_L centerline extremes (8,4)-(40,44).
         self.add_arc('head-left',(16,22),(24,8),radius_x=8,radius_y=14)
         self.add_arc('head-right',(24,8),(32,22),radius_x=8,radius_y=14)
         self.add_contour('head','head-left','head-right')

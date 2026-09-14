@@ -16,7 +16,6 @@ from icon_set.model import contracts
 from icon_set.model.icons import registry
 from icon_set.model.icons.base import Icon
 from icon_set.model.icons.container._base import Container64
-from icon_set.model.icons.avatar._base import Avatar48
 from icon_set.model.icons.family import FamilyIcon
 from icon_set.model.icons.solo._base import Solo48
 from icon_set.model.icons.sub._base import Sub32
@@ -27,18 +26,18 @@ from icon_set.model.profiles import Profile
 class ContractBindingTests(unittest.TestCase):
     def test_the_contract_binds_each_family_to_one_profile_folder_and_dist(self) -> None:
         families = contracts.families()
-        self.assertEqual(list(families), ["sub", "solo", "container", "avatar"])
+        self.assertEqual(list(families), ["sub", "solo", "container"])
         self.assertEqual(
             {name: row["profile"] for name, row in families.items()},
-            {"sub": "SUB32", "solo": "SOLO48", "container": "CONTAINER64", "avatar": "AVATAR48"},
+            {"sub": "SUB32", "solo": "SOLO48", "container": "CONTAINER64"},
         )
         self.assertEqual(
             {name: row["package"].rsplit("/", 1)[-1] for name, row in families.items()},
-            {"sub": "sub", "solo": "solo", "container": "container", "avatar": "avatar"},
+            {"sub": "sub", "solo": "solo", "container": "container"},
         )
         self.assertEqual(
             {name: row["dist"].rsplit("/", 1)[-1] for name, row in families.items()},
-            {"sub": "sub32", "solo": "solo48", "container": "container64", "avatar": "avatar48"},
+            {"sub": "sub32", "solo": "solo48", "container": "container64"},
         )
 
     def test_profiles_point_back_at_their_family(self) -> None:
@@ -50,7 +49,7 @@ class ContractBindingTests(unittest.TestCase):
 class FamilyBaseTests(unittest.TestCase):
     def test_each_base_authors_on_its_own_profile(self) -> None:
         for base, profile in (
-            (Sub32, Profile.SUB32), (Solo48, Profile.SOLO48), (Container64, Profile.CONTAINER64), (Avatar48, Profile.AVATAR48),
+            (Sub32, Profile.SUB32), (Solo48, Profile.SOLO48), (Container64, Profile.CONTAINER64),
         ):
             class Probe(base):  # type: ignore[misc, valid-type]
                 icon_id = "probe"
@@ -110,7 +109,7 @@ class FamilyBaseTests(unittest.TestCase):
 class RegistryFolderTests(unittest.TestCase):
     def test_families_resolve_to_their_bases(self) -> None:
         self.assertEqual(
-            registry.families(), {"sub": Sub32, "solo": Solo48, "container": Container64, "avatar": Avatar48}
+            registry.families(), {"sub": Sub32, "solo": Solo48, "container": Container64}
         )
 
     def test_every_module_in_a_family_folder_is_discovered(self) -> None:

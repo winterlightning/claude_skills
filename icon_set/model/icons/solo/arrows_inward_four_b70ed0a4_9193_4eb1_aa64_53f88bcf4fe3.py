@@ -1,4 +1,4 @@
-"""Four equal arrows converge on an open center. CIRCLE radius20 reaches the four cardinal extremes. Lucide arrow-down informs the shaft and open head; a shared quarter-turn pattern preserves equal spacing. No arrows omitted."""
+"""Four equal arrows converge on an open center. SQUARE visible bounds (4,4)-(44,44) fit the four equal cardinal arrows. Lucide arrow-down informs the shaft and open head; a shared quarter-turn pattern preserves equal spacing. No arrows omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class ArrowsInwardFour(Solo48):
     icon_id = 'arrows-inward-four'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/symbols"

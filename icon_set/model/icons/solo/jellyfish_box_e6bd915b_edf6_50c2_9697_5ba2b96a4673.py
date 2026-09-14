@@ -1,4 +1,4 @@
-"""Jellyfish with a broad domed bell and three wavy hanging tentacles. Centerline extremes (6,6)-(42,42). No useful local Lucide jellyfish match. Shallow scallops reduced to a calm rim to keep tentacle junctions open."""
+"""Jellyfish with a broad domed bell and three wavy hanging tentacles. Centerline extremes (8,4)-(40,44). No useful local Lucide jellyfish match. Shallow scallops reduced to a calm rim to keep tentacle junctions open."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class Jellyfish(Solo48):
     icon_id = 'jellyfish'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"

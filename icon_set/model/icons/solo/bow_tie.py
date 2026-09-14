@@ -31,7 +31,7 @@ class BowTie(Solo48):
     """A front-facing bow tie, wings spread level."""
 
     icon_id = "bow-tie"
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/clothing"
@@ -45,9 +45,9 @@ class BowTie(Solo48):
     AXIS = 24
     KNOT = 6  # knot centreline half-size: x,y in 18..30
     KNOT_RADIUS = 3  # leaves a 6-unit straight run on each wall
-    TIP_X = 4  # HRECT_M centreline left edge
-    TIP_TOP = 8  # HRECT_M centreline top edge
-    TIP_BOTTOM = 40  # HRECT_M centreline bottom edge
+    TIP_X = 4  # HRECT_L centreline left edge
+    TIP_TOP = 8  # HRECT_L centreline top edge
+    TIP_BOTTOM = 40  # HRECT_L centreline bottom edge
 
     def build(self) -> None:
         axis, half, radius = self.AXIS, self.KNOT, self.KNOT_RADIUS

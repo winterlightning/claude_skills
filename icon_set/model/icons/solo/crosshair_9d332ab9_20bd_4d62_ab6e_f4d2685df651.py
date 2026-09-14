@@ -22,7 +22,7 @@ class Crosshair(Solo48):
         for i in range(4):
             self.add_arc(f'rim-{i}', nodes[i], nodes[(i+1)%4], radius_x=radius)
         self.add_contour('rim', *(f'rim-{i}' for i in range(4)), closed=True)
-        for name, a, b in [('top',(24,6),(24,16)),('right',(42,24),(32,24)),('bottom',(24,42),(24,32)),('left',(6,24),(16,24))]:
+        for name, a, b in [('top',(24,4),(24,16)),('right',(44,24),(32,24)),('bottom',(24,44),(24,32)),('left',(4,24),(16,24))]:
             node = {'top': (24,10), 'right': (38,24), 'bottom': (24,38), 'left': (10,24)}[name]
             self.add_polyline('tick-'+name, a, node, b)
             self.relate('connect', 'rim', 'tick-'+name)

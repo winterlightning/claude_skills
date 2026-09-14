@@ -15,7 +15,7 @@ AUTHOR = 'gpt-6'
 
 class PassengerBus(Solo48):
     icon_id = "passenger-bus"
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     category = "objects/transport"
     aliases = ("bus", "public-transport-passenger-bus", "transit-bus")
     keywords = (
@@ -24,7 +24,7 @@ class PassengerBus(Solo48):
     )
 
     def build(self) -> None:
-        # HRECT_M's centreline envelope is (2,11)-(46,37).  The upper body
+        # HRECT_L's centreline envelope is (4,8)-(44,40).  The upper body
         # supplies the first three extremes and the wheel bottoms supply the
         # fourth.  The upper wheel semicircles are part of the body contour,
         # cutting clean wheel openings in its lower rail; the lower halves

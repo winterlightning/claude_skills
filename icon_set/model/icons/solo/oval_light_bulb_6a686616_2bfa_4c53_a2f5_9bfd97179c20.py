@@ -1,6 +1,4 @@
-"""An upright light bulb with an oval glass envelope tapering into a narrow neck. A rounded socket band and small terminal form the base beneath the otherwise empty glass.
-Taller oval glass and rounded socket; Lucide lightbulb construction. Empty glass retained; tiny terminal omitted.
-Keyshape VRECT_L; centerline extremes (8,6)-(40,42). Tall envelope fits the upright subject. Source inspected as a standalone physical or conceptual subject."""
+'Light bulb: circular crown, equal shoulders and a base with a 10-unit interior height.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -18,17 +16,26 @@ class OvalLightBulb(Solo48):
     aliases = ()
     keywords = ('bulb', 'light', 'lamp', 'idea', 'illumination', 'electricity')
 
-    def build(self) -> None:
-        self.add_arc('dome', (8, 22), (40, 22), radius_x=16, radius_y=18, sweep=True, large_arc=False)
-        self.add_arc('shoulder-right', (40, 22), (32, 34), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_line('taper-right', (32, 34), (32, 36))
-        self.add_line('neck-right', (32, 36), (32, 40))
-        self.add_arc('base-right', (32, 40), (28, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('base-bottom', (28, 42), (20, 42))
-        self.add_arc('base-left', (20, 42), (16, 40), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('neck-left', (16, 40), (16, 36))
-        self.add_line('taper-left', (16, 36), (16, 34))
-        self.add_arc('shoulder-left', (16, 34), (8, 22), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_contour('outline', 'dome', 'shoulder-right', 'taper-right', 'neck-right', 'base-right', 'base-bottom', 'base-left', 'neck-left', 'taper-left', 'shoulder-left', closed=True)
-        self.add_line('base-seam', (16, 36), (32, 36))
-        self.relate("connect", 'base-seam', 'outline')
+    def build(self):
+        # Light bulb: tangent circular crown and reverse-curved shoulders, with a balanced open base.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        a('crown',(8,20),(40,20),16)
+        a('shoulder-r',(40,20),(32,28),8)
+        a('neck-r',(32,28),(28,32),4,sweep=False)
+        l('base-r',(28,32),(28,42))
+        a('base-br',(28,42),(26,44),2)
+        l('base-bottom',(26,44),(22,44))
+        a('base-bl',(22,44),(20,42),2)
+        l('base-l',(20,42),(20,32))
+        a('neck-l',(20,32),(16,28),4,sweep=False)
+        a('shoulder-l',(16,28),(8,20),8)
+        self.add_contour('bulb','crown','shoulder-r','neck-r','base-r','base-br','base-bottom','base-bl','base-l','neck-l','shoulder-l',closed=True)
+        l('seam',(20,34),(28,34))
+        link('connect','bulb','seam')

@@ -1,10 +1,10 @@
-"""Admob logo (_uncategorized_01), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'AdMob mark: smooth arch and return, consistent verticals and a clear inner counter.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '166238e9-fe64-4404-9aa2-ae5f4b82de80'
 SOURCE_PATH = 'icons-json/_uncategorized_01/admob logo_166238e9-fe64-4404-9aa2-ae5f4b82de80.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AdmobLogo(Solo48):
     icon_id = 'admob-logo'
@@ -16,20 +16,24 @@ class AdmobLogo(Solo48):
     keywords = ('admob', 'logo', '_uncategorized_01')
 
     def build(self):
-        self.add_line('e0', (22, 43), (14, 43))
-        self.add_line('e1', (8, 37), (8, 19))
-        self.add_line('e2', (40, 19), (40, 39))
-        self.add_line('e3', (29, 36), (20, 36))
-        self.add_line('e4', (19, 34), (19, 19))
-        self.add_line('e5', (29, 19), (29, 36))
-        self.add_arc('e6', (14, 43), (8, 37), radius_x=7)
-        self.add_arc('e7-1', (8, 19), (24, 4), radius_x=17)
-        self.add_arc('e7-2', (24, 4), (40, 19), radius_x=17)
-        self.add_arc('e8-1', (40, 39), (35, 44), radius_x=5)
-        self.add_line('e8-2', (35, 44), (30, 42))
-        self.add_arc('e8-3', (30, 42), (29, 36), radius_x=10)
-        self.add_arc('e9', (20, 36), (19, 34), radius_x=2)
-        self.add_arc('e10', (19, 19), (29, 19), radius_x=5)
-        self.add_contour('c0', 'e0', 'e6', 'e1', 'e7-1', 'e7-2', 'e2', 'e8-1', 'e8-2', 'e8-3')
-        self.add_contour('c1', 'e3', 'e9', 'e4', 'e10', 'e5', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # AdMob mark: smooth arch and return, consistent verticals and a clear inner counter.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        l('outer-start',(22,44),(16,44))
+        a('outer-bl',(16,44),(8,36),8)
+        l('outer-left',(8,36),(8,20))
+        a('outer-top',(8,20),(40,20),16)
+        l('outer-right',(40,20),(40,38))
+        a('outer-br',(40,38),(34,44),6)
+        a('tail',(34,44),(28,38),6)
+        l('inner-right',(28,38),(28,20))
+        a('inner-top',(28,20),(18,20),5,sweep=False)
+        l('inner-left',(18,20),(18,34))
+        l('inner-bottom',(18,34),(28,34))
+        self.add_contour('outer','outer-start','outer-bl','outer-left','outer-top','outer-right','outer-br','tail','inner-right','inner-top','inner-left','inner-bottom')

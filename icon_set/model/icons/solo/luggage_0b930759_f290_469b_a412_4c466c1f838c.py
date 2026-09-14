@@ -1,10 +1,10 @@
-"""Luggage (state), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Luggage: smooth equal corners, widened handle opening and matching feet.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0b930759-f290-469b-a412-4c466c1f838c'
 SOURCE_PATH = 'icons-json/state/luggage_0b930759-f290-469b-a412-4c466c1f838c.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Luggage(Solo48):
     icon_id = 'luggage'
@@ -16,24 +16,36 @@ class Luggage(Solo48):
     keywords = ('luggage', 'state')
 
     def build(self):
-        self.add_line('e0', (19, 10), (19, 5))
-        self.add_line('e1', (21, 4), (28, 4))
-        self.add_line('e2', (29, 5), (29, 10))
-        self.add_line('e3', (11, 40), (11, 44))
-        self.add_line('e4', (37, 40), (37, 44))
-        self.add_line('e5', (37, 40), (11, 40))
-        self.add_line('e6', (8, 38), (8, 13))
-        self.add_line('e7', (12, 10), (36, 10))
-        self.add_line('e8', (40, 13), (40, 38))
-        self.add_arc('e9', (19, 5), (21, 4), radius_x=3)
-        self.add_arc('e10', (28, 4), (29, 5), radius_x=1)
-        self.add_arc('e11', (11, 40), (8, 38), radius_x=3)
-        self.add_arc('e12', (8, 13), (12, 10), radius_x=4)
-        self.add_arc('e13', (36, 10), (40, 13), radius_x=4)
-        self.add_arc('e14', (40, 38), (37, 40), radius_x=3)
-        self.add_contour('c0', 'e0', 'e9', 'e1', 'e10', 'e2')
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4')
-        self.add_contour('c3', 'e5', 'e11', 'e6', 'e12', 'e7', 'e13', 'e8', 'e14', closed=True)
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c3')
+        # Luggage: smooth equal corners, widened handle opening and matching feet.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('case',8,14,40,40,4)
+        p('handle',(16,14),(16,4),(32,4),(32,14))
+        link('connect','handle','case')
+        for x in (12,36):
+            l(f'wheel-{x}',(x,40),(x,44))
+            link('connect',f'wheel-{x}','case')

@@ -20,6 +20,7 @@ import time
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 import sqlite3
+import threading
 from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
@@ -27,10 +28,12 @@ if __package__:
     from .generation import GenerationManager
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
+    from .discard_icon import discard as discard_icon
 else:
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
+    from discard_icon import discard as discard_icon
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
@@ -40,6 +43,8 @@ MAX_BODY = 65536
 MAX_REFERENCE_BODY = max(REFERENCE_LIMITS.values()) * 4 // 3 + 4096
 ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1"}
 SESSION_TTL = 12 * 60 * 60
+# Discards rewrite icons.json and manifests; one at a time.
+DISCARD_LOCK = threading.Lock()
 
 
 def init_database(path: Path) -> None:
@@ -373,7 +378,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -426,6 +431,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': str(error)}, 400)
                 except sqlite3.Error:
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
+            if route == '/api/icons/discard':
+                return self.discard_icon(data, user)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data, user)
             if route == '/api/feedback/edit':
@@ -502,6 +509,31 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': str(error)}, 400)
         except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
+
+    def discard_icon(self, data, user):
+        """Permanently remove a rejected icon: Python model, published files and its review rows."""
+        key = data.get('icon')
+        with DISCARD_LOCK:
+            try:
+                icon = self.catalog().get(key) if isinstance(key, str) else None
+                if icon is None:
+                    return self.json_response({'error': 'Unknown icon'}, 404)
+                if data.get('svg_sha256') != icon['svg_sha256']:
+                    return self.json_response({'error': 'Icon changed. Refresh before discarding.'}, 409)
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                    if not self.is_rejected(connection, key, icon['svg_sha256']):
+                        return self.json_response({'error': 'Only rejected icons can be discarded. Reject it first.'}, 409)
+                    source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
+                    result = discard_icon(icon, source_root=source_root, dist=self.root,
+                                          archive=self.database.parent / 'discarded-icons',
+                                          connection=connection, user=user)
+                    record_activity(connection, user, 'discard', key, svg_sha256=icon['svg_sha256'],
+                                    source=result['source'], archive=result['archive'])
+                return self.json_response(result)
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 409)
+            except (OSError, SyntaxError, sqlite3.Error):
+                return self.json_response({'error': 'Could not discard this icon. Please retry.'}, 503)
 
     def save_icon_flag(self, data, user):
         key, flag = data.get('icon'), data.get('flag')

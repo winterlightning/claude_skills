@@ -10,8 +10,7 @@
       "output_profiles": [
         "SUB32",
         "SOLO48",
-        "CONTAINER64",
-        "AVATAR48"
+        "CONTAINER64"
       ],
       "participants": {
         "min": 1,
@@ -42,7 +41,12 @@
         "max": 2
       },
       "withdrawn_slot": {
-        "was": [16, 16, 48, 48],
+        "was": [
+          16,
+          16,
+          48,
+          48
+        ],
         "withdrawn": "2026-09-07",
         "rationale": "The slot reserved the middle 32x32 of every container and forbade container ink inside it, so that any sub icon would fit any container. It bought guaranteed hosting at the price of the containers themselves: a 64 canvas has 12 centerline units above a centred 32x32 slot, and a title bar with an indicator row needs 20, so no window, tab bar, lid or dial face could be drawn at all. Reconstructing a reference batch made the cost obvious -- the drawings came out as bare frames, correct against the rule and wrong against their subject. Moving the slot instead of removing it was measured and is worse: dropping it 8 units to make room for a header pushed hosted content into every container's bottom edge and broke hosting for the whole family. So the reservation is gone. Containers are now drawn as their subject requires.",
         "what_replaces_it": "Nothing reserves interior space. Whether a particular container can host a particular sub icon is decided by the `mic` check on the flattened composition, which measures the ink that is actually there. It is a measured fact per pair, reported by compose.py, not a property a container must guarantee in advance. A container whose interior is open -- a circle, a square, a rounded square -- still hosts everything, exactly as before."

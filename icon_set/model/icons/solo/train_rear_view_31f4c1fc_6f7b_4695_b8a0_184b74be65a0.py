@@ -1,4 +1,4 @@
-"""Train rear view; authored directly on SOLO48."""
+'Train rear: balanced carriage, clear doorway and evenly spaced running gear.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -15,27 +15,39 @@ class TrainRearView(Solo48):
     aliases = ()
     keywords = ('train', 'rear', 'carriage', 'railway', 'back', 'wagon', 'rail', 'coach')
 
-    def build(self) -> None:
-        # VRECT_L (8,6)-(40,42); arched carriage roof and centered open doorway.
-        self.add_arc('roof',(10,10),(38,10),radius_x=14,radius_y=6)
-        self.add_line('right-wall',(38,10),(38,36))
-        self.add_line('base-1', (38, 36), (32, 36))
-        self.add_line('base-2', (32, 36), (28, 36))
-        self.add_line('base-3', (28, 36), (20, 36))
-        self.add_line('base-4', (20, 36), (16, 36))
-        self.add_line('base-5', (16, 36), (10, 36))
-        self.add_line('left-wall',(10,36),(10,10))
-        self.add_contour('body','roof','right-wall','base-1','base-2','base-3','base-4','base-5','left-wall',closed=True)
-        self.add_line('door-left',(20,36),(20,22))
-        self.add_arc('door-upper-left',(20,22),(22,20),radius_x=2)
-        self.add_line('door-top',(22,20),(26,20))
-        self.add_arc('door-upper-right',(26,20),(28,22),radius_x=2)
-        self.add_line('door-right',(28,22),(28,36))
-        self.add_contour('door','door-left','door-upper-left','door-top','door-upper-right','door-right')
-        self.relate('connect','door','body')
-        self.add_polyline('rail',(8,42),(16,42),(32,42),(40,42))
-        for name,x in [('left',16),('right',32)]:
-            self.add_line(name+'-bogie',(x,36),(x,44))
-            self.relate('connect',name+'-bogie','body')
-            self.relate('connect',name+'-bogie','rail')
+    def build(self):
+        # Train rear: balanced carriage, clear doorway and evenly spaced running gear.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
 
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('carriage',8,4,40,34,6)
+        p('door',(20,34),(20,20),(28,20),(28,34))
+        link('connect','door','carriage')
+        l('track',(8,44),(40,44))
+        for x in (16,32):
+            l(f'wheel-{x}',(x,34),(x,44))
+            link('connect',f'wheel-{x}','carriage')
+            link('connect',f'wheel-{x}','track')

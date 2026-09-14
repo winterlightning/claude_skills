@@ -1,4 +1,4 @@
-"""Round topiary crown on a straight trunk and trapezoidal pot. Tiny scallops reduced to a smooth circle; Lucide flower-2 informs simple crown/stem attachment."""
+'Topiary: a true round crown, centered trunk and symmetric 8-unit-deep pot.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,21 +9,30 @@ AUTHOR = 'gpt-6'
 
 class PottedRoundTopiary(Solo48):
     icon_id = 'potted-round-topiary'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/plants"
     aliases = ()
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 
-    def build(self) -> None:
-        # VRECT_M extremes (11,6)-(37,42).
-        self.add_arc("crown-top-left", (11,15), (24,6), radius_x=13)
-        self.add_arc("crown-top-right", (24,6), (37,15), radius_x=13)
-        self.add_arc("crown-bottom-right", (37,15), (24,28), radius_x=13)
-        self.add_arc("crown-bottom-left", (24,28), (11,15), radius_x=13)
-        self.add_contour("crown", "crown-top-left", "crown-top-right", "crown-bottom-right", "crown-bottom-left", closed=True)
-        self.add_line("trunk", (24,28), (24,36))
-        self.add_polyline("pot", (13,36), (24,36), (35,36), (32,42), (16,42), closed=True)
-        self.relate("connect", "crown", "trunk")
-        self.relate("connect", "trunk", "pot")
+    def build(self):
+        # Topiary: a true round crown, centered trunk and symmetric 8-unit-deep pot.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def c(name, x, y, radius):
+            a(name+'-top', (x-radius,y), (x+radius,y), radius)
+            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
+            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+        c('crown',24,18,14)
+        l('trunk',(24,32),(24,36))
+        p('pot',(8,36),(14,44),(34,44),(40,36),(8,36))
+        link('connect','trunk','crown')
+        link('connect','trunk','pot')

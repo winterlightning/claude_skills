@@ -1,10 +1,10 @@
-"""Arrow badge left 2 (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Directional badge: shared mirrored outline, smoothly rounded tip and balanced internal mark. Lucide tag and chevron construction.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8c768d69-aca2-51c3-bd28-a7c768d33357'
 SOURCE_PATH = 'icons-json/arrows/arrow badge left 2_8c768d69-aca2-51c3-bd28-a7c768d33357.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrowBadgeLeft2(Solo48):
     icon_id = 'arrow-badge-left-2'
@@ -15,22 +15,21 @@ class ArrowBadgeLeft2(Solo48):
     aliases = ()
     keywords = ('arrow', 'badge', 'left', 'arrows')
 
-    def build(self):
-        self.add_line('sym-e0', (24, 16), (17, 24))
-        self.add_line('sym-e1', (17, 24), (24, 32))
-        self.add_arc('sym-e3', (4, 24), (6, 28), radius_x=5, sweep=False)
-        self.add_line('sym-e4', (6, 28), (17, 39))
-        self.add_line('sym-e5', (17, 39), (19, 40))
-        self.add_line('sym-e6', (19, 40), (42, 40))
-        self.add_line('sym-e7', (42, 40), (44, 39))
-        self.add_line('sym-e8', (44, 39), (44, 38))
-        self.add_line('sym-e9', (44, 38), (44, 24))
-        self.add_line('sym-e10', (44, 24), (44, 10))
-        self.add_arc('sym-e11', (44, 10), (44, 9), radius_x=1)
-        self.add_line('sym-e12', (44, 9), (42, 8))
-        self.add_line('sym-e13', (42, 8), (19, 8))
-        self.add_line('sym-e14', (19, 8), (17, 9))
-        self.add_line('sym-e15', (17, 9), (6, 20))
-        self.add_arc('sym-e16', (6, 20), (4, 24), radius_x=5, sweep=False)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1')
-        self.add_contour('sym-c1', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', closed=True)
+    def build(self) -> None:
+        # One rounded tag outline, mirrored/rotated on the same SOLO48 grid.
+        # Shoulder/tip controls follow the adjoining slope exactly for smooth joins.
+        # HRECT_L ink (2,6)-(46,42), or VRECT_L ink (6,2)-(42,46).
+        def point(x,y): return (48-x,y)
+        self.add_line('top',point(8,8),point(30,8))
+        self.add_bezier('upper-shoulder',point(30,8),(point(32,8),point(33,12-18/7),point(35,12)))
+        self.add_line('upper-slope',point(35,12),point(42,21))
+        self.add_bezier('tip-upper',point(42,21),(point(42+7/9,22),point(44,23),point(44,24)))
+        self.add_bezier('tip-lower',point(44,24),(point(44,25),point(42+7/9,26),point(42,27)))
+        self.add_line('lower-slope',point(42,27),point(35,36))
+        self.add_bezier('lower-shoulder',point(35,36),(point(33,36+18/7),point(32,40),point(30,40)))
+        self.add_line('bottom',point(30,40),point(8,40))
+        self.add_bezier('lower-corner',point(8,40),(point(6,40),point(4,38),point(4,36)))
+        self.add_line('back',point(4,36),point(4,12))
+        self.add_bezier('upper-corner',point(4,12),(point(4,10),point(6,8),point(8,8)))
+        self.add_contour('outline','top','upper-shoulder','upper-slope','tip-upper','tip-lower','lower-slope','lower-shoulder','bottom','lower-corner','back','upper-corner',closed=True)
+        self.add_polyline('chevron',point(19,18),point(25,24),point(19,30))

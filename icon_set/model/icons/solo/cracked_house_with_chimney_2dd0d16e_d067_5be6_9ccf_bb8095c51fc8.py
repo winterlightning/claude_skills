@@ -1,4 +1,4 @@
-"""A gabled house with right chimney, left doorway and a jagged roof crack. Intentional asymmetric details convey damage."""
+'Cracked house: straight roof and walls, widened doorway and a deliberate fracture.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,14 +16,20 @@ class CrackedHouseWithChimney(Solo48):
     aliases = ()
     keywords = ('house', 'home', 'damage', 'crack', 'poverty', 'housing', 'shelter', 'chimney', 'repair')
 
-    def build(self) -> None:
-        # Centerline extremes (6,6)-(42,42).
-        self.add_polyline("roof", (6,22), (13,12), (24,6), (32,10), (42,20), (42,24))
-        self.add_polyline("chimney", (32,10), (32,6), (42,6), (42,20))
-        self.relate("connect", "roof", "chimney")
-        self.add_polyline("walls", (6,22), (6,42), (12,42), (26,42), (42,42), (42,24))
-        self.relate("connect", "roof", "walls")
-        self.add_polyline("door", (12,42), (12,32), (26,32), (26,42))
-        self.relate("connect", "door", "walls")
-        self.add_polyline("crack", (13,12), (18,19), (25,19), (29,25))
-        self.relate("connect", "crack", "roof")
+    def build(self):
+        # Cracked house: straight roof and walls, widened doorway and a deliberate fracture.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('house',(6,42),(6,22),(24,6),(42,22),(42,42),(6,42))
+        p('chimney',(32,13),(32,6),(42,6),(42,22))
+        link('connect','house','chimney')
+        p('crack',(16,13),(20,23),(28,23),(32,30))
+        link('connect','crack','house')
+        p('door',(16,42),(16,34),(26,34),(26,42))
+        link('connect','door','house')

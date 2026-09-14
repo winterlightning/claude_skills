@@ -1,10 +1,10 @@
-"""Cog (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Cog: symmetric broad teeth and a centered axle replace uneven micro-segments.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1e82d117-570c-41ee-9217-7031427f5fea'
 SOURCE_PATH = 'icons-json/interface-essential/cog_1e82d117-570c-41ee-9217-7031427f5fea.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cog(Solo48):
     icon_id = 'cog'
@@ -16,34 +16,18 @@ class Cog(Solo48):
     keywords = ('cog', 'interface-essential')
 
     def build(self):
-        self.add_line('e0', (14, 40), (20, 42))
-        self.add_line('e1', (20, 42), (22, 37))
-        self.add_line('e2', (22, 37), (26, 37))
-        self.add_line('e3', (26, 37), (28, 42))
-        self.add_line('e4', (28, 42), (33, 40))
-        self.add_line('e5', (33, 40), (33, 35))
-        self.add_line('e6', (33, 35), (35, 32))
-        self.add_line('e7', (35, 32), (40, 32))
-        self.add_line('e8', (40, 32), (42, 26))
-        self.add_line('e9', (42, 26), (38, 24))
-        self.add_line('e10', (37, 20), (40, 15))
-        self.add_line('e11', (40, 15), (37, 11))
-        self.add_line('e12', (37, 11), (31, 13))
-        self.add_line('e13', (31, 13), (28, 12))
-        self.add_line('e14', (28, 12), (26, 6))
-        self.add_line('e15', (26, 6), (22, 6))
-        self.add_line('e16', (22, 6), (20, 10))
-        self.add_line('e17', (19, 12), (17, 13))
-        self.add_line('e18', (17, 13), (11, 11))
-        self.add_line('e19', (11, 11), (8, 15))
-        self.add_line('e20', (8, 15), (11, 20))
-        self.add_line('e21', (8, 26), (6, 27))
-        self.add_line('e22', (6, 27), (8, 32))
-        self.add_line('e23', (8, 32), (13, 32))
-        self.add_line('e24', (13, 32), (16, 35))
-        self.add_line('e25', (16, 35), (14, 40))
-        self.add_arc('e26', (38, 24), (37, 20), radius_x=6)
-        self.add_line('e27', (20, 10), (19, 12))
-        self.add_arc('e28', (11, 20), (8, 26), radius_x=5)
-        self.add_dot('e30', (24, 24))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e26', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15', 'e16', 'e27', 'e17', 'e18', 'e19', 'e20', 'e28', 'e21', 'e22', 'e23', 'e24', 'e25')
+        # Cog: symmetric broad teeth and a centered axle replace uneven micro-segments.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        # Six broad teeth leave open valleys; opposite points share the centre.
+        points=[(20,6),(28,6),(30,14),(38,12),(42,20),(36,26),
+                (42,32),(38,40),(30,38),(28,42),(20,42),(18,38),
+                (10,40),(6,32),(12,26),(6,20),(10,12),(18,14),(20,6)]
+        p('gear',*points)
+        self.add_dot('axle',(24,24))

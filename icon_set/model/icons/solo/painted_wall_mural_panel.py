@@ -1,5 +1,4 @@
-# Review candidate; original preserved.
-"""Capped Berlin wall with right-facing painted head. Centerline extremes (6,6)-(42,42). Deliberate profile asymmetry; tiny mouth notch omitted."""
+'Mural panel: balanced frame and a wider central painted motif.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c05f1690-f04d-460c-a834-2bdbd5877990'
@@ -8,18 +7,24 @@ AUTHOR = 'gpt-6'
 
 class PaintedWallMuralPanel(Solo48):
     icon_id = 'painted-wall-mural-panel'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/landmarks'
     aliases = ()
     keywords = ('berlin wall', 'east side gallery', 'mural', 'graffiti', 'wall', 'art', 'landmark', 'panel', 'face')
 
-    def build(self) -> None:
-        """Opening repair: Replaced the thin hollow coping band with one solid cap stroke; retained the mural."""
-        self.add_polyline('cap', (8, 4), (8, 4), (40, 4), (40, 4), closed=False)
-        self.add_polyline('panel', (8, 4), (8, 44), (40, 44), (40, 4), closed=False)
-        self.add_arc('head', (18, 26), (30, 22), radius_x=8, radius_y=7, sweep=True)
-        self.add_polyline('face', (30, 22), (32, 28), (26, 31), (26, 36), (18, 36), (18, 26), closed=False)
-        self.relate('connect', 'cap', 'panel')
-        self.relate('connect', 'head', 'face')
+    def build(self):
+        # Mural panel: balanced frame and a wider central painted motif.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        l('rail',(6,6),(42,6))
+        p('panel',(10,6),(10,42),(38,42),(38,6))
+        link('connect','rail','panel')
+        p('mural',(20,32),(20,24),(28,18),(30,23),(28,24),(28,32),(20,32))

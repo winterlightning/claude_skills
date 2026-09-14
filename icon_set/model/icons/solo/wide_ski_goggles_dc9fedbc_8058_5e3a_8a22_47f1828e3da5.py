@@ -12,7 +12,7 @@ AUTHOR = 'gpt-6'
 
 class WideSkiGoggles(Solo48):
     icon_id = 'wide-ski-goggles'
-    keyshape = Keyshape.HRECT_S
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"
@@ -20,7 +20,7 @@ class WideSkiGoggles(Solo48):
     keywords = ('goggles', 'ski goggles', 'snow', 'ski', 'eyewear', 'winter', 'sports', 'visor')
 
     def build(self) -> None:
-        # Exact keyshape envelope: (0, 12, 48, 36).
+        # Exact keyshape envelope: (2, 6, 46, 42).
         self.add_line('top', (8, 8), (40, 8))
         self.add_arc('tr', (40, 8), (44, 14), radius_x=4, radius_y=6, sweep=True)
         self.add_line('right', (44, 14), (44, 32))

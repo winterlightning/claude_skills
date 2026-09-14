@@ -4,11 +4,11 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '7915a873-86f2-4c7a-9b75-f2f1e1d4be4c'
 SOURCE_PATH = 'icons-json/interface-essential/subtract_7915a873-86f2-4c7a-9b75-f2f1e1d4be4c.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Subtract(Solo48):
     icon_id = 'subtract'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'

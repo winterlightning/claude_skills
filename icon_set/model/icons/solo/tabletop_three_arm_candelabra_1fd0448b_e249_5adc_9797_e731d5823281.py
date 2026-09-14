@@ -1,4 +1,4 @@
-"""Three-arm candelabra on a table. VRECT_XL (6,6)-(42,42). Repeated circular arm bends follow Lucide-style tangent construction; no exact match. Flames become short strokes and ornate foot becomes a simple base."""
+"""Three-arm candelabra on a table. VRECT_L (8,4)-(40,44). Repeated circular arm bends follow Lucide-style tangent construction; no exact match. Flames become short strokes and ornate foot becomes a simple base."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class TabletopThreeArmCandelabra(Solo48):
     icon_id = 'tabletop-three-arm-candelabra'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/decoration"

@@ -103,7 +103,6 @@ class Profile(Enum):
     SUB32 = _spec("SUB32")
     SOLO48 = _spec("SOLO48")
     CONTAINER64 = _spec("CONTAINER64")
-    AVATAR48 = _spec("AVATAR48")
 
     @property
     def spec(self) -> ProfileSpec:

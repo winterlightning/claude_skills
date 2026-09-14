@@ -1,10 +1,10 @@
-"""Finger point (wayfinding), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Pointing hand: proportional fingers with equal circular caps and a smooth, balanced palm.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bae26537-844f-44bd-bc92-cf5af361e501'
 SOURCE_PATH = 'icons-json/wayfinding/finger point_bae26537-844f-44bd-bc92-cf5af361e501.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class FingerPoint(Solo48):
     icon_id = 'finger-point'
@@ -16,44 +16,34 @@ class FingerPoint(Solo48):
     keywords = ('finger', 'point', 'wayfinding')
 
     def build(self):
-        self.add_line('e0', (21, 21), (21, 18))
-        self.add_line('e1', (28, 21), (28, 19))
-        self.add_line('e2', (15, 29), (15, 24))
-        self.add_line('e3', (21, 18), (21, 7))
-        self.add_line('e4', (15, 7), (15, 24))
-        self.add_line('e5', (21, 18), (23, 17))
-        self.add_line('e6', (40, 33), (40, 21))
-        self.add_line('e7', (28, 19), (30, 18))
-        self.add_arc('e8', (35, 21), (35, 20), radius_x=23)
-        self.add_arc('e9-1', (21, 7), (18, 4), radius_x=3, sweep=False)
-        self.add_arc('e9-2', (18, 4), (15, 7), radius_x=3, sweep=False)
-        self.add_arc('e10', (23, 17), (28, 19), radius_x=3)
-        self.add_arc('e11-1', (15, 24), (8, 29), radius_x=6, sweep=False)
-        self.add_arc('e11-2', (8, 29), (11, 37), radius_x=16, sweep=False)
-        self.add_arc('e11-3', (11, 37), (15, 41), radius_x=15, sweep=False)
-        self.add_arc('e11-4', (15, 41), (19, 43), radius_x=16, sweep=False)
-        self.add_line('e11-5', (19, 43), (26, 44))
-        self.add_arc('e11-6', (26, 44), (39, 37), radius_x=16, sweep=False)
-        self.add_line('e11-7', (39, 37), (40, 33))
-        self.add_arc('e12', (40, 21), (35, 20), radius_x=3, sweep=False)
-        self.add_arc('e13', (30, 18), (35, 20), radius_x=4)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e8')
-        self.add_contour('c3', 'e2')
-        self.add_contour('c4', 'e3', 'e9-1', 'e9-2', 'e4')
-        self.add_contour('c5', 'e5', 'e10')
-        self.add_contour('c6', 'e11-1', 'e11-2', 'e11-3', 'e11-4', 'e11-5', 'e11-6', 'e11-7', 'e6', 'e12')
-        self.add_contour('c7', 'e7', 'e13')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c1', 'c7')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c2', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c4', 'c6')
+        # Pointing hand: proportional fingers with equal circular caps and a smooth, balanced palm.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        # Human hand: circular fingertip caps and one smooth palm, no tiny joints.
+        mirror=False
+        def pt(x,y):
+            return (48-x if mirror else x,y)
+        def arc(name,start,end,rx,ry=None,sweep=True):
+            a(name,pt(*start),pt(*end),rx,ry,not sweep if mirror else sweep)
+        def line(name,start,end):
+            l(name,pt(*start),pt(*end))
+        arc('palm',(8,32),(40,32),16,12,sweep=False)
+        line('right',(40,32),(40,24))
+        arc('little',(40,24),(32,24),4,sweep=False)
+        line('rise',(32,24),(32,20))
+        arc('middle',(32,20),(24,20),4,sweep=False)
+        line('finger-right',(24,20),(24,8))
+        arc('fingertip',(24,8),(16,8),4,sweep=False)
+        line('finger-left',(16,8),(16,24))
+        arc('thumb',(16,24),(8,24),4,sweep=False)
+        line('left',(8,24),(8,32))
+        self.add_contour('hand','palm','right','little','rise','middle','finger-right','fingertip','finger-left','thumb','left',closed=True)
+        for x,y in ((16,24),(24,20),(32,24)):
+            line(f'crease-{x}',(x,y),(x,y+4))
+            link('connect',f'crease-{x}','hand')

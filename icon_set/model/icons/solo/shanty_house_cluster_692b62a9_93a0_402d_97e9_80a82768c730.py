@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class ShantyHouseCluster(Solo48):
     icon_id = 'shanty-house-cluster'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "places/landmarks"
@@ -17,7 +17,7 @@ class ShantyHouseCluster(Solo48):
     keywords = ('shanty', 'slum', 'village', 'houses', 'informal', 'settlement', 'shelter', 'housing')
 
     def build(self) -> None:
-        # Centerline extremes (6,6)-(42,42).
+        # Centerline extremes (8,4)-(40,44).
         self.add_polyline("front-left", (8,44), (8,29), (14,23), (24,29), (24,44))
         self.add_polyline("front-right", (24,29), (24,22), (34,16), (37,18), (40,22), (40,44))
         self.relate("connect", "front-left", "front-right")

@@ -23,8 +23,8 @@ scale a finished icon between families or copy fractional reference coordinates.
 
 ## Head-to-body gap
 
-For `avatar`, read `profiles.AVATAR48.head_body_ink_gap` in
-`icon_set/model/contracts/icon-profile.v1.json`; the avatar base exports
+For the avatar skill within `solo`, read `authoring.avatar.head_body_ink_gap` in
+`icon_set/model/contracts/icon-profile.v1.json`; the solo base exports
 `HEAD_BODY_INK_GAP` and derives `HEAD_BODY_CENTERLINE_GAP` by adding the stroke.
 It currently matches the shared 4-unit gap below, but can be changed separately.
 Use `/icon-avatar` for a standalone 48x48 head-and-body avatar.

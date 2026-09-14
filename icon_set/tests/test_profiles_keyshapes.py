@@ -22,7 +22,6 @@ class ProfileSpecTests(unittest.TestCase):
             Profile.SUB32: (32, 4, 2, 6),
             Profile.SOLO48: (48, 6, 4, 8),
             Profile.CONTAINER64: (64, 8, 2, 6),
-            Profile.AVATAR48: (48, 6, 4, 8),
         }
         for profile, (canvas, inset, mic, spacing) in expected.items():
             spec = profile.spec
@@ -48,7 +47,7 @@ class ProfileSpecTests(unittest.TestCase):
 
     def test_family_binding_is_one_to_one(self) -> None:
         families = contracts.families()
-        self.assertEqual(set(families), {"sub", "solo", "container", "avatar"})
+        self.assertEqual(set(families), {"sub", "solo", "container"})
         self.assertEqual({Profile.for_family(f) for f in families}, set(Profile))
         for family in families:
             self.assertEqual(Profile.for_family(family).family, family)
@@ -76,15 +75,6 @@ class KeyshapeResolutionTests(unittest.TestCase):
                 self.assertEqual(list(shape.bounds_for(profile)), row["visible_bounds"])
                 count += 1
         self.assertEqual(count, len(Profile) * len(STANDARD))
-
-    def test_avatar_uses_solo_keyshape_choices_and_bounds(self) -> None:
-        profiles = contracts.icon_profile()['profiles']
-        self.assertEqual(profiles['AVATAR48']['keyshape_choices'],
-                         profiles['SOLO48']['keyshape_choices'])
-        for shape in STANDARD:
-            with self.subTest(shape=shape.name):
-                self.assertEqual(shape.bounds_for(Profile.AVATAR48),
-                                 shape.bounds_for(Profile.SOLO48))
 
     def test_solo48_independent_visible_envelopes(self) -> None:
         expected = {Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40)}

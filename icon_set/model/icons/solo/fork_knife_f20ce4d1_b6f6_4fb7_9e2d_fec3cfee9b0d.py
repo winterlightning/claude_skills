@@ -1,14 +1,14 @@
-"""Fork knife (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Cutlery: equal 8-unit tine spacing, smooth fork bowl and a clear 8-unit knife blade.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f20ce4d1-b6f6-4fb7-9e2d-fec3cfee9b0d'
 SOURCE_PATH = 'icons-json/symbol/fork knife_f20ce4d1-b6f6-4fb7-9e2d-fec3cfee9b0d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ForkKnife(Solo48):
     icon_id = 'fork-knife'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
@@ -16,19 +16,22 @@ class ForkKnife(Solo48):
     keywords = ('fork', 'knife', 'symbol')
 
     def build(self):
-        self.add_line('e0', (8, 4), (8, 15))
-        self.add_line('e1', (17, 22), (17, 4))
-        self.add_line('e2', (17, 44), (17, 22))
-        self.add_line('e3', (24, 15), (24, 4))
-        self.add_line('e4', (33, 44), (33, 4))
-        self.add_line('e5', (33, 4), (40, 24))
-        self.add_line('e6', (37, 28), (33, 28))
-        self.add_arc('e7', (8, 15), (17, 22), radius_x=8, sweep=False)
-        self.add_arc('e8', (17, 22), (24, 15), radius_x=8, sweep=False)
-        self.add_line('e9-1', (40, 24), (40, 25))
-        self.add_arc('e9-2', (40, 25), (37, 28), radius_x=3)
-        self.add_contour('c0', 'e0', 'e7', 'e1')
-        self.add_contour('c1', 'e2', 'e8', 'e3')
-        self.add_contour('c2', 'e4')
-        self.add_contour('c3', 'e5', 'e9-1', 'e9-2', 'e6')
-        self.relate('connect', 'c3', 'c2')
+        # Cutlery: equal 8-unit tine spacing, smooth fork bowl and a clear 8-unit knife blade.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        l('fork-left',(6,6),(6,18))
+        a('fork-bottom',(6,18),(22,18),8,sweep=False)
+        l('fork-right',(22,18),(22,6))
+        self.add_contour('fork','fork-left','fork-bottom','fork-right')
+        l('middle-tine',(14,6),(14,26))
+        l('fork-handle',(14,26),(14,42))
+        link('connect','middle-tine','fork')
+        link('connect','fork-handle','fork')
+        link('connect','middle-tine','fork-handle')
+        p('knife',(34,42),(34,6),(42,22),(42,30),(34,30))

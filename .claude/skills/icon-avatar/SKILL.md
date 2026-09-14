@@ -71,14 +71,15 @@ tight areas by rebalancing geometry, without weakening validation rules.
    search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
    Preserve any reference UUID or explicit source ID separately from the name.
    Search existing Python files by that ID before creating a new file; patch the
-   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
+   matching module in place, including review corrections. Preserve its icon_id, filename, and source metadata; create a variant only when the user explicitly requests alternatives.
    See `icon_set/skills/icon-design/naming.md`.
 
 Before reduction, apply `icon_set/skills/icon-design/reference-triage.md`. If the reference is a
 container combination or side combination, route to `/icon-making` to reject
 it as one primitive and queue two component briefs. A Pending component brief
-already specifies which single component to isolate. For review revisions,
-preserve the parent and edit a new file from `create_variant.py`.
+already specifies which single component to isolate. For avatar corrections,
+update the original module and rebuild its SVG, PNG, manifest and review previews.
+Do not leave a v2 beside an outdated original unless alternatives were requested.
 
 2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
    identity, and nothing that disappears at 48 pixels. With a
@@ -163,10 +164,30 @@ preserve the parent and edit a new file from `create_variant.py`.
    opening, rebalance, remove the part — never squeeze. Re-check the keyshape after
    every repair. See `icon_set/skills/icon-design/validation.md`.
 
+   **Check the exported stroke too.** `validate_icon()` covers vector rules;
+   it does not establish that holes/pinches pass. Run the release checker:
+
+   ```python
+   from icon_set.validation.library_qa import inspect_icon
+   qa = inspect_icon(create("<icon-id>"))
+   print(qa["status"], qa["errors"], qa["warnings"])
+   print(qa["negative_space"])
+   ```
+
+   Require `status == "pass"`, no errors/warnings, and passing negative-space
+   checks, including authored-stroke holes. Thinning a stroke can open a tiny
+   trapped pocket and hide it inside a larger region; inspect the actual
+   4-unit SVG stroke, especially fringe/crown junctions, lapels and collars.
+   Enlarge or rebalance a failing opening. Do not ink it over, weaken the
+   threshold, or assume a minimum-spacing pass proves the hole is safe.
+
 6. **Family-specific checks.**
 
 - AVATAR48 uses the same four keyshape choices and exact inset bounds as SOLO48: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Keep family `avatar`, profile `AVATAR48`, and base `Avatar48`; sharing keyshapes does not change the family. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
 - Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `profiles.AVATAR48.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly 4 units of visible ink clearance, or 8 between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
+- Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.
+- For a set of avatars, plan one recognizable body cue per subject before drawing: an apron, wrap collar, coat fastening, scarf, or natural arm pose. Compare neighboring avatars at native size, especially those sharing similar heads. Do not reuse an identical generic torso for every named subject or invent arbitrary costume details just to make it different; retain the simple bust for a generic user.
+- Budget head, exact gap, and torso together inside the inset keyshape. Keep hair/headwear within the same whole-avatar envelope. Leave enough torso height for broad readable clothing openings; simplify details instead of crowding collars, widening the gap, or replacing curved shoulders with angular clothing outlines.
 - Head and body are natural parts of one avatar: do not split them into Pending component briefs. A separate badge, enclosure, or state modifier still follows the shared combination triage.
 - Use the 48-unit keyshape table above and re-author the reference on the integer grid. The supplied user.svg uses the same 48x48 canvas; use its construction while fitting the chosen keyshape. Keep round caps, tangent shoulder curves, and coherent head/body proportions.
 - Verify the exact gap in emitted geometry; a generic MIC pass proves only minimum clearance. Record head/body parameters and the measured gap. Do not introduce a neck or false connect relationship to bypass spacing.
@@ -174,10 +195,16 @@ preserve the parent and edit a new file from `create_variant.py`.
 7. **Build and look.**
 
    ```bash
-   python3 -m unittest discover -s icon_set/tests -t .
-   python3 icon_set/scripts/build.py --family avatar
+   python3 -m unittest icon_set.tests.test_avatar icon_set.tests.test_profiles_keyshapes
+   python3 icon_set/scripts/build.py --family avatar --all --no-report
+   python3 icon_set/scripts/contact_sheet.py --family avatar --theme light --png /tmp/avatar-light.png
    python3 icon_set/scripts/contact_sheet.py --family avatar --theme dark --png /tmp/avatar.png
    ```
+
+   `--all` rechecks the avatar family after repairs; `--no-report` skips only
+   the library-wide report, not release validation. If shared validation code
+   changes, run its relevant regression tests too. Report unrelated test failures
+   separately; do not claim the entire suite passed.
 
    Open the PNG and judge it at 48 pixels. Numeric success is not
    visual approval; if two candidates are close, render both and keep the stronger.
@@ -206,6 +233,8 @@ preserve the parent and edit a new file from `create_variant.py`.
 - Tests green; `build.py --family avatar` exits 0; the icon is in
   `icon_set/dist/avatar48/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
+- Release QA passes, including holes measured at the actual 4-unit stroke; report its result separately from vector validation.
+- Named avatars have recognizable body cues while retaining curved reference shoulders; compare the set at native size.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.
 - State which Lucide construction informed the drawing, or that no useful match

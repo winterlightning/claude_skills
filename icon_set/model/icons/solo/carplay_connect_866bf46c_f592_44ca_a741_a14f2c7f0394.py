@@ -1,10 +1,10 @@
-"""Carplay connect (mobile), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'Play control: round rim and triangular play mark with balanced radial clearance.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '866bf46c-f592-44ca-a741-a14f2c7f0394'
 SOURCE_PATH = 'icons-json/mobile/carplay connect_866bf46c-f592-44ca-a741-a14f2c7f0394.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CarplayConnect(Solo48):
     icon_id = 'carplay-connect'
@@ -15,11 +15,8 @@ class CarplayConnect(Solo48):
     aliases = ()
     keywords = ('carplay', 'connect', 'mobile')
 
-    def build(self):
-        self.add_line('e0', (19, 13), (33, 24))
-        self.add_line('e1', (33, 24), (19, 35))
-        self.add_line('e2', (19, 35), (19, 13))
-        self.add_arc('e3-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e3-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_contour('c0', 'e0', 'e1', 'e2', closed=True)
-        self.add_contour('e3', 'e3-top', 'e3-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_polyline('play',(19,15),(32,24),(19,33),closed=True)

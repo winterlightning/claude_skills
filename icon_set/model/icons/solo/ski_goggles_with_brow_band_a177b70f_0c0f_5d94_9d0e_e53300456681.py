@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 class SkiGogglesWithBrowBand(Solo48):
     icon_id = 'ski-goggles-with-brow-band'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"
@@ -18,7 +18,7 @@ class SkiGogglesWithBrowBand(Solo48):
     keywords = ('goggles', 'ski goggles', 'snow', 'ski', 'eyewear', 'winter', 'sports', 'snowboard')
 
     def build(self) -> None:
-        # HRECT_M: authored directly to its SOLO48 centerline extremes.
+        # HRECT_L: authored directly to its SOLO48 centerline extremes.
         self.add_line('top', (8, 8), (40, 8))
         self.add_arc('tr', (40, 8), (44, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('r-upper', (44, 12), (44, 17))

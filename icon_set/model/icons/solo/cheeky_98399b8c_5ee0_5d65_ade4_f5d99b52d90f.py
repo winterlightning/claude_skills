@@ -1,10 +1,10 @@
-"""Cheeky (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'Cheeky smile: round face with paired smiling eyes and a continuous elliptical mouth curve.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '98399b8c-5ee0-5d65-ade4-f5d99b52d90f'
 SOURCE_PATH = 'icons-json/smileys/cheeky_98399b8c-5ee0-5d65-ade4-f5d99b52d90f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cheeky(Solo48):
     icon_id = 'cheeky'
@@ -15,14 +15,12 @@ class Cheeky(Solo48):
     aliases = ()
     keywords = ('cheeky', 'smileys')
 
-    def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1', (13, 21), (19, 21), radius_x=3)
-        self.add_arc('e2', (28, 21), (35, 19), radius_x=4)
-        self.add_arc('e3-1', (15, 29), (27, 35), radius_x=9, sweep=False)
-        self.add_arc('e3-2', (27, 35), (33, 29), radius_x=9, sweep=False)
-        self.add_contour('c0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3-1', 'e3-2')
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+
+        # Matched smiling eyes and a broad smooth smile; no elliptical distortion of the face.
+        for label,x in (('left',17),('right',31)):
+            self.add_arc(label+'-eye',(x-3,20),(x+3,20),radius_x=3,radius_y=2)
+        self.add_arc('smile',(16,28),(32,28),radius_x=8,radius_y=6,sweep=False)

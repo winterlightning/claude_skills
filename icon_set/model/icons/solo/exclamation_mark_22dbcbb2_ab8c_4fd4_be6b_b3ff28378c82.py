@@ -1,4 +1,7 @@
-"""A standalone exclamation mark. CIRCLE radial envelope reaches y4 and y44 without widening this narrow subject. Straight round-capped construction; no useful exact local Lucide match found."""
+"""Upright exclamation mark with a 4-unit-wide stem and separate round dot.
+Custom visible bounds (22,2)-(26,46) preserve the source typography.
+No standard SOLO48 envelope has a stroke-width minor axis.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +12,7 @@ AUTHOR = 'gpt-6'
 
 class ExclamationMark(Solo48):
     icon_id = 'exclamation-mark'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/symbols"
@@ -17,5 +20,5 @@ class ExclamationMark(Solo48):
     keywords = ('exclamation', 'warning', 'alert', 'attention', 'important', 'error', 'notice', 'caution')
 
     def build(self) -> None:
-        self.add_line('stem', (24,6), (24,31))
-        self.add_dot('dot', (24,42))
+        self.add_line('stem', (24,4), (24,31))
+        self.add_dot('dot', (24,44))

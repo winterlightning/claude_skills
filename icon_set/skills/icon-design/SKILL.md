@@ -1,6 +1,6 @@
 ---
 name: icon-design
-description: Design a new icon for the Pictographic icon set from a text brief, or from a brief plus reference images. Use when asked to create, draw, add, or redesign an icon, symbol, or glyph in this repository. Covers choosing the family (sub 32, solo 48, container 64, avatar 48), keyshape selection, authoring geometry with the Python model, Lucide construction references, the validator chain, and container composition.
+description: Design a new icon for the Pictographic icon set from a text brief, or from a brief plus reference images. Use when asked to create, draw, add, or redesign an icon, symbol, or glyph in this repository. Covers choosing the family (sub 32, solo 48, container 64; specialized avatar skill within solo 48), keyshape selection, authoring geometry with the Python model, Lucide construction references, the validator chain, and container composition.
 ---
 
 # Designing an icon
@@ -169,10 +169,10 @@ These are the rules that keep the set coherent. None of them bends.
 - You have looked at it at native size, in both themes, via
   `contact_sheet.py --family <family>`. Numeric success is not visual approval.
 
-## Avatar family
+## Avatar authoring skill
 
-Use `/icon-avatar` for a standalone head-and-body avatar: family `avatar`,
-profile `AVATAR48`, folder `avatar/`, base `Avatar48`, output `dist/avatar48/`.
+Use `/icon-avatar` for a standalone head-and-body avatar: family `solo`,
+profile `SOLO48`, folder `solo/`, base `Solo48`, output `dist/solo48/`.
 It uses a 64x64 canvas, stroke 4, and the 64-unit keyshape envelopes.
 Read the avatar-specific spacing from the profile contract and follow
 [human-reference.md](human-reference.md). Head and body form one natural subject.

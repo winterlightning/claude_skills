@@ -15,39 +15,46 @@ class Scorpion(Solo48):
     aliases = ()
     keywords = ('scorpion', 'sting', 'claws', 'arachnid', 'tail', 'desert', 'venom', 'zodiac')
 
-    def build(self) -> None:
-        """Opening repair: Opened both pincers by removing their closing jaw bridges; preserved the paired arms and curled tail."""
-        self.add_line('body-top', (22, 18), (26, 18))
-        self.add_arc('body-tr', (26, 18), (30, 22), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('body-r1', (30, 22), (30, 28))
-        self.add_line('body-r2', (30, 28), (30, 32))
-        self.add_arc('body-br', (30, 32), (24, 36), radius_x=6, radius_y=4, sweep=True)
-        self.add_arc('body-bl', (24, 36), (18, 32), radius_x=6, radius_y=4, sweep=True)
-        self.add_line('body-l2', (18, 32), (18, 28))
-        self.add_line('body-l1', (18, 28), (18, 22))
-        self.add_arc('body-tl', (18, 22), (22, 18), radius_x=4, radius_y=4, sweep=True)
-        self.add_contour('body', 'body-top', 'body-tr', 'body-r1', 'body-r2', 'body-br', 'body-bl', 'body-l2', 'body-l1', 'body-tl', closed=True)
-        self.add_arc('claw-l-outer', (6, 6), (8, 14), radius_x=6, radius_y=12, sweep=False)
-        self.add_arc('claw-l-inner', (8, 14), (14, 6), radius_x=6, radius_y=12, sweep=False)
-        self.add_polyline('arm-l', (8, 14), (8, 18), (18, 22))
-        self.relate('connect', 'body', 'arm-l')
-        self.add_polyline('leg-l-0', (18, 22), (8, 24), (6, 24))
-        self.relate('connect', 'body', 'leg-l-0')
-        self.add_polyline('leg-l-1', (18, 28), (8, 30), (6, 30))
-        self.relate('connect', 'body', 'leg-l-1')
-        self.add_arc('claw-r-outer', (42, 6), (40, 14), radius_x=6, radius_y=12, sweep=True)
-        self.add_arc('claw-r-inner', (40, 14), (34, 6), radius_x=6, radius_y=12, sweep=True)
-        self.add_polyline('arm-r', (40, 14), (40, 18), (30, 22))
-        self.relate('connect', 'body', 'arm-r')
-        self.add_polyline('leg-r-0', (30, 22), (40, 24), (42, 24))
-        self.relate('connect', 'body', 'leg-r-0')
-        self.add_polyline('leg-r-1', (30, 28), (40, 30), (42, 30))
-        self.relate('connect', 'body', 'leg-r-1')
-        self.add_arc('tail-r', (24, 36), (14, 42), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('tail-l', (14, 42), (6, 38), radius_x=8, radius_y=8, sweep=True)
-        self.add_contour('tail', 'tail-r', 'tail-l', closed=False)
-        self.relate('connect', 'body', 'tail')
-        self.add_contour('claw-l', 'claw-l-outer', 'claw-l-inner')
-        self.relate('connect', 'arm-l', 'claw-l')
-        self.add_contour('claw-r', 'claw-r-outer', 'claw-r-inner')
-        self.relate('connect', 'arm-r', 'claw-r')
+    def build(self):
+        # Scorpion: symmetric claws and legs attached at exact body extrema, plus a smooth curled tail.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('body',18,20,30,34,6)
+        for side in (-1,1):
+            l(f'upper-leg-{side}',(24+side*6,26),(24+side*18,24))
+            l(f'lower-leg-{side}',(24,34),(24+side*18,34))
+            link('connect',f'upper-leg-{side}','body')
+            link('connect',f'lower-leg-{side}','body')
+            p(f'arm-{side}',(24,20),(24+side*12,14),(24+side*14,6))
+            l(f'claw-{side}',(24+side*12,14),(24+side*8,6))
+            link('connect',f'arm-{side}',f'claw-{side}')
+            link('connect',f'arm-{side}','body')
+        link('connect','arm--1','arm-1')
+        link('connect','lower-leg--1','lower-leg-1')
+        a('tail',(24,34),(6,34),9,8,sweep=True)
+        for part in ('body','lower-leg--1','lower-leg-1'):
+            link('connect','tail',part)

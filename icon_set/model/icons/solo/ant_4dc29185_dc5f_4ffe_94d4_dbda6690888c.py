@@ -1,5 +1,4 @@
-"""Ant with the middle left and right leg lines removed as requested. VRECT_XL (6,6)-(42,42). Lucide bug informs mirrored attachments; retained parent antennae, head and abdomen."""
-# Variant of ant; parent file remains unchanged.
+"""Ant with the middle left and right leg lines removed as requested. VRECT_L (8,4)-(40,44). Lucide bug informs mirrored attachments; retained parent antennae, head and abdomen."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4dc29185-dc5f-4ffe-94d4-dbda6690888c'
@@ -8,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class Ant(Solo48):
     icon_id = 'ant'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'

@@ -1,5 +1,4 @@
-# Review candidate; original preserved.
-"""A stepped embassy office block with a rectangular rooftop flag; window ticks omitted."""
+'Stepped office: aligned floors and a broad flag band, with straight shared walls.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3c101274-9d7e-5fd8-9939-907b34ebbabe'
@@ -8,22 +7,25 @@ AUTHOR = 'gpt-6'
 
 class SteppedOfficeBlockWithFlag(Solo48):
     icon_id = 'stepped-office-block-with-flag'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'places/landmarks'
     aliases = ()
     keywords = ('embassy', 'office', 'building', 'government', 'flag', 'civic', 'tower', 'architecture')
 
-    def build(self) -> None:
-        """Opening repair: Deepened the rooftop flag from four to eight units, retaining the stepped building."""
-        self.add_polyline('building', (8, 44), (8, 30), (15, 30), (15, 20), (35, 20), (35, 44), (8, 44))
-        self.add_line('foreground-edge', (15, 30), (23, 30))
-        self.add_line('foreground-wall', (23, 30), (23, 44))
-        self.relate('connect', 'building', 'foreground-edge')
-        self.relate('connect', 'foreground-edge', 'foreground-wall')
-        self.relate('connect', 'building', 'foreground-wall')
-        self.add_polyline('flag', (23, 20), (23, 12), (23, 4), (37, 4), (37, 12), (23, 12))
-        self.relate('connect', 'flag', 'building')
-        self.add_line('ground-right', (35, 44), (40, 44))
-        self.relate('connect', 'ground-right', 'building')
+    def build(self):
+        # Stepped office: aligned floors and a broad flag band, with straight shared walls.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('steps',(6,42),(6,34),(20,34),(20,26),(34,26),(34,42),(6,42))
+        l('first-wall',(20,34),(20,42))
+        link('connect','first-wall','steps')
+        p('flag',(26,26),(26,6),(42,6),(42,14),(26,14))
+        link('connect','flag','steps')

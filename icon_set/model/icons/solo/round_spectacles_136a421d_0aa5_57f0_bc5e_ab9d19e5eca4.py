@@ -1,4 +1,6 @@
-"""Round spectacles with an arched bridge. HRECT_S extremes (2,14)-(46,34). Lucide glasses informs paired lens arcs and bridge; lenses are slightly tall to fit the keyshape. Tiny temples retained as short stubs."""
+"""Oval spectacles with matched lenses, an arched bridge and unfolded temples.
+Lucide glasses informs the paired lenses and open arms. HRECT_L ink (2,6)-(46,42).
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class RoundSpectacles(Solo48):
     icon_id = 'round-spectacles'
-    keyshape = Keyshape.HRECT_S
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"

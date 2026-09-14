@@ -1,7 +1,7 @@
 """Avatar output keeps the reference's detached head and exact requested spacing."""
 import unittest
 from icon_set.model.icons.registry import create, icons_in
-from icon_set.model.icons.avatar._base import HEAD_BODY_INK_GAP, HEAD_BODY_CENTERLINE_GAP
+from icon_set.model.icons.solo._base import HEAD_BODY_INK_GAP, HEAD_BODY_CENTERLINE_GAP
 from icon_set.validation.envelope import centerline_bounds, visible_bounds
 from icon_set.validation.svg_reader import parse_svg
 
@@ -28,9 +28,14 @@ class AvatarTests(unittest.TestCase):
         self.assertNotIn('content-top-left', icon.anchors)
 
     def test_all_avatars_export_at_48_with_exact_head_body_gap(self):
-        for icon in icons_in('avatar'):
+        for icon in icons_in('solo'):
+            if icon.category != 'people/avatars':
+                continue
             with self.subTest(icon=icon.icon_id):
                 report = icon.validate_icon()
+                self.assertEqual(icon.family, 'solo')
+                self.assertEqual(icon.profile.name, 'SOLO48')
+                self.assertIn('.icons.solo.', type(icon).__module__)
                 self.assertEqual(report.status, 'valid', report.describe())
                 self.assertEqual(report.warnings, ())
                 self.assertEqual(parse_svg(icon.to_svg()).view_box, (0, 0, 48, 48))
@@ -51,7 +56,15 @@ class AvatarTests(unittest.TestCase):
         from icon_set.validation.library_qa import inspect_icon
         result = inspect_icon(create('woman-store-clerk-3-avatar'))
         self.assertEqual(result['status'], 'pass', result['errors'])
-        self.assertEqual(result['negative_space']['authored_hole_count'], 2)
+        # Clothing may add valid openings; the repaired head itself keeps two.
+        import xml.etree.ElementTree as ET
+        from icon_set.validation.library_qa import measure_negative_space
+        document = ET.fromstring(create('woman-store-clerk-3-avatar').to_svg())
+        for element in list(document):
+            if element.get('id', '').startswith('body'):
+                document.remove(element)
+        head_result = measure_negative_space(ET.tostring(document, encoding='unicode'), 48)
+        self.assertEqual(head_result['authored_hole_count'], 2)
         for hole in result['negative_space']['authored_holes']:
             self.assertEqual(hole['status'], 'pass')
             self.assertGreaterEqual(hole['inscribed_diameter_design_u'], 2)

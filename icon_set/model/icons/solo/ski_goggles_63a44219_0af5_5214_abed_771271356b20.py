@@ -1,6 +1,6 @@
 """A broad ski lens with a raised nose notch. Mirrored shoulders and lower lobes preserve the one-piece silhouette.
 
-Authored directly on SOLO48 using the HRECT_S centerline envelope.
+Authored directly on SOLO48 using the HRECT_L centerline envelope.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -12,7 +12,7 @@ AUTHOR = 'gpt-6'
 
 class SkiGoggles(Solo48):
     icon_id = 'ski-goggles'
-    keyshape = Keyshape.HRECT_S
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"

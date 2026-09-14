@@ -15,23 +15,29 @@ class SealBalancingBall(Solo48):
     aliases = ()
     keywords = ('seal', 'ball', 'balance', 'circus', 'sea lion', 'trick', 'show', 'marine')
 
-    def build(self) -> None:
-        """Opening repair: Made the balanced ball round, preserving its nose contact and the seal’s silhouette."""
-        self.add_arc('ball-1', (12, 6), (12, 18), sweep=True, radius_x=6, radius_y=6)
-        self.add_arc('ball-2', (12, 18), (12, 6), sweep=True, radius_x=6, radius_y=6)
-        self.add_contour('ball', 'ball-1', 'ball-2', closed=True)
-        self.add_arc('body-1', (12, 18), (22, 28), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('body-2', (22, 28), (22, 34))
-        self.add_arc('body-3', (22, 34), (36, 40), radius_x=24, radius_y=18, sweep=True)
-        self.add_line('body-4', (36, 40), (40, 40))
-        self.add_arc('body-5', (40, 40), (42, 42), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('body-6', (42, 42), (20, 42))
-        self.add_line('body-7', (20, 42), (12, 42))
-        self.add_arc('body-8', (12, 42), (6, 36), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('body-9', (6, 36), (6, 28))
-        self.add_arc('body-10', (6, 28), (12, 18), radius_x=10, radius_y=10, sweep=True)
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', closed=True)
-        self.add_arc('flipper-1', (15, 39), (20, 42), radius_x=12, radius_y=12, sweep=False)
-        self.add_contour('flipper', 'flipper-1', closed=False)
-        self.relate('connect', 'body', 'flipper')
-        self.relate('connect', 'body', 'ball')
+    def build(self):
+        # Balancing seal: round ball and smooth upright body, with a single diagonal flipper.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def c(name, x, y, radius):
+            a(name+'-top', (x-radius,y), (x+radius,y), radius)
+            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
+            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+        c('ball',14,12,6)
+        a('head',(6,26),(22,26),8)
+        l('neck',(22,26),(22,33))
+        a('back',(22,33),(42,42),20,9)
+        l('base',(42,42),(16,42))
+        a('chest',(16,42),(6,32),10)
+        l('front',(6,32),(6,26))
+        self.add_contour('seal','head','neck','back','base','chest','front',closed=True)
+        l('flipper',(16,34),(28,42))
+        link('connect','flipper','seal')
+        link('connect','ball','seal')

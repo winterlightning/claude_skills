@@ -1,4 +1,4 @@
-"""AWD drivetrain label; narrow letters preserve the single-line reading. HRECT_L ink (6,6)-(42,42). Lucide type informs monoline lettering; D uses small left corners and larger right corners; the W right stem leans to provide curve clearance."""
+'AWD lettering: uniform vertical stems, a smooth D and a legible compact W.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -15,15 +15,24 @@ class AwdTextLabel(Solo48):
     aliases = ()
     keywords = ('awd', 'all wheel drive', 'drivetrain', 'car', 'dashboard', 'text', 'label', '4x4')
 
-    def build(self) -> None:
-        self.add_polyline('a-outline',(6,40),(6,12),(8,8),(12,12),(12,40))
-        self.add_line('a-bar',(6,25),(12,25))
-        self.relate('connect','a-outline','a-bar')
-        self.add_polyline('w',(20,8),(20,40),(24,29),(27,40),(28,8))
-        self.add_line('d-left',(36,38),(36,10))
-        self.add_arc('d-tl',(36,10),(38,8),radius_x=2)
-        self.add_arc('d-tr',(38,8),(42,14),radius_x=6)
-        self.add_line('d-right',(42,14),(42,34))
-        self.add_arc('d-br',(42,34),(38,40),radius_x=6)
-        self.add_arc('d-bl',(38,40),(36,38),radius_x=2)
-        self.add_contour('d','d-left','d-tl','d-tr','d-right','d-br','d-bl',closed=True)
+    def build(self):
+        # AWD wordmark: a naturally wide W shares its top endpoints with A and D instead of being squeezed.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        # Shared top endpoints make an intentional connected wordmark, leaving W its natural width.
+        p('a',(4,40),(4,8),(12,8),(12,40))
+        l('a-bar',(4,24),(12,24))
+        link('connect','a','a-bar')
+        p('w',(12,8),(19,40),(24,20),(29,40),(36,8))
+        l('d-left',(36,8),(36,40))
+        a('d-curve',(36,8),(36,40),8,16)
+        link('connect','a','w')
+        link('connect','w','d-left')
+        link('connect','w','d-curve')
+        link('connect','d-left','d-curve')

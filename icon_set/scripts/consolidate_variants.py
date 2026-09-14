@@ -30,6 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 from icon_set.model.icons.registry import factories  # noqa: E402
+from icon_set.scripts.discard_icon import remove_class  # noqa: E402
 
 PACKAGE_ROOT = REPO_ROOT / 'icon_set'
 DEFAULT_DB = PACKAGE_ROOT / 'data' / 'feedback.sqlite3'
@@ -138,17 +139,6 @@ def svg_hashes(plan: list[dict], registered: dict) -> None:
         group['old_sha'] = hashlib.sha256(document.encode('utf-8')).hexdigest()
         renamed = document.replace(title, f"<title>{group['root']}</title>")
         group['new_sha'] = hashlib.sha256(renamed.encode('utf-8')).hexdigest()
-
-
-def remove_class(text: str, class_name: str) -> str:
-    """Drop one top-level class (with its decorators and trailing blank lines) by line span."""
-    node = next(n for n in ast.parse(text).body if isinstance(n, ast.ClassDef) and n.name == class_name)
-    lines = text.splitlines(keepends=True)
-    start = min([node.lineno] + [d.lineno for d in node.decorator_list]) - 1
-    end = node.end_lineno
-    while end < len(lines) and not lines[end].strip():
-        end += 1
-    return ''.join(lines[:start] + lines[end:])
 
 
 def rewrite_latest(text: str, group: dict) -> str:

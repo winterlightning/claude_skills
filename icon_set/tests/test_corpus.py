@@ -52,9 +52,9 @@ class CorpusTests(unittest.TestCase):
     def test_each_family_ships_its_own_profile_and_no_other(self) -> None:
         """sub is SUB32, solo is SOLO48, container is CONTAINER64 -- one-to-one."""
         bases = registry.families()
-        self.assertEqual(set(bases), {"sub", "solo", "container", "avatar"})
+        self.assertEqual(set(bases), {"sub", "solo", "container"})
         expected = {
-            "sub": Profile.SUB32, "solo": Profile.SOLO48, "container": Profile.CONTAINER64, "avatar": Profile.AVATAR48,
+            "sub": Profile.SUB32, "solo": Profile.SOLO48, "container": Profile.CONTAINER64,
         }
         for icon in self.icons:
             with self.subTest(icon=icon.icon_id):

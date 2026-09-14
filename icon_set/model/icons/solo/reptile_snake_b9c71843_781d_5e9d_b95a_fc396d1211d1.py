@@ -1,4 +1,4 @@
-"""Flat switchback snake with a rounded hanging head. The source supplies pose; small eyes are omitted. Centerline extremes (6,6)-(42,42)."""
+'Slithering snake: coherent rounded turns with a broad body and a clearly separated tail.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,25 +16,39 @@ class SlitheringSnake(Solo48):
     aliases = ()
     keywords = ('snake', 'slither', 'serpent', 'reptile', 'zigzag', 'coil', 'python', 'wild')
 
-    def build(self) -> None:
-        self.add_line('body-1', (14, 16), (8, 16))
-        self.add_arc('body-2', (8, 16), (6, 22), radius_x=6, radius_y=6, sweep=False)
-        self.add_arc('body-3', (6, 22), (8, 28), radius_x=6, radius_y=6, sweep=False)
-        self.add_line('body-4', (8, 28), (14, 28))
-        self.add_arc('body-5', (14, 28), (18, 32), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('body-6', (18, 32), (18, 39))
-        self.add_arc('body-7', (18, 39), (24, 42), radius_x=6, radius_y=7, sweep=False)
-        self.add_arc('body-8', (24, 42), (30, 39), radius_x=6, radius_y=7, sweep=False)
-        self.add_line('body-9', (30, 39), (28, 31))
-        self.add_arc('body-10', (28, 31), (32, 26), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('body-11', (32, 26), (39, 26))
-        self.add_arc('body-12', (39, 26), (42, 19), radius_x=7, radius_y=7, sweep=False)
-        self.add_arc('body-13', (42, 19), (39, 12), radius_x=7, radius_y=7, sweep=False)
-        self.add_line('body-14', (39, 12), (22, 12))
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', 'body-11', 'body-12', 'body-13', 'body-14', closed=False)
-        self.add_arc('tail-1', (14, 16), (10, 10), radius_x=8, radius_y=8, sweep=True)
-        self.add_arc('tail-2', (10, 10), (18, 6), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('tail-3', (18, 6), (38, 6))
-        self.add_arc('tail-4', (38, 6), (30, 12), radius_x=12, radius_y=12, sweep=True)
-        self.add_contour('tail', 'tail-1', 'tail-2', 'tail-3', 'tail-4', closed=False)
-        self.relate("connect", 'body', 'tail')
+    def build(self):
+        # Slithering snake: a single flowing S-shaped body and rounded head, replacing overlapping cramped coils.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('head',32,6,42,14,4)
+        l('upper',(32,10),(15,10))
+        a('left-turn',(15,10),(15,24),9,7,sweep=False)
+        l('middle',(15,24),(33,24))
+        a('right-turn',(33,24),(33,42),9)
+        l('tail',(33,42),(15,42))
+        self.add_contour('body','upper','left-turn','middle','right-turn','tail')
+        link('connect','head','body')

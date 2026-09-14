@@ -1,4 +1,4 @@
-"""Streamlined right-facing pod with curved windshield. Radial envelope permits a naturally long silhouette; Lucide train-front coherent vehicle shell. Three trailing motion lines retained."""
+"""Streamlined right-facing pod with curved windshield. HRECT_L landscape envelope matches the horizontal vehicle and its motion trails; Lucide train-front coherent vehicle shell. Three trailing motion lines retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0b674991-fc01-44ec-9571-1f5372072662'
@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class HyperloopPodSpeedLines(Solo48):
     icon_id = 'hyperloop-pod-speed-lines'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/technology'
@@ -32,15 +32,15 @@ class HyperloopPodSpeedLines(Solo48):
             line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
             line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-        line('roof',(20,14),(24,14))
-        arc('nose-top',(24,14),(42,24),20,10)
-        arc('nose-bottom',(42,24),(24,34),20,10)
-        line('bottom',(24,34),(20,34))
-        arc('rear-bottom',(20,34),(16,30),4)
-        line('rear',(16,30),(16,18));arc('rear-top',(16,18),(20,14),4)
+        line('roof',(20,8),(24,8))
+        arc('nose-top',(24,8),(44,24),20,16)
+        arc('nose-bottom',(44,24),(24,40),20,16)
+        line('bottom',(24,40),(20,40))
+        arc('rear-bottom',(20,40),(16,36),4)
+        line('rear',(16,36),(16,12));arc('rear-top',(16,12),(20,8),4)
         contour('pod','roof','nose-top','nose-bottom','bottom','rear-bottom','rear','rear-top',closed=True)
-        line('speed-top',(8,14),(20,14));connect('speed-top','pod')
-        line('speed-mid',(6,24),(7,24))
-        line('speed-bottom',(8,34),(20,34));connect('speed-bottom','pod')
-        arc('window-curve',(24,14),(32,24),8,10,sweep=False)
-        line('window-bottom',(32,24),(42,24));contour('window','window-curve','window-bottom');connect('window','pod')
+        line('speed-top',(4,8),(20,8));connect('speed-top','pod')
+        line('speed-mid',(4,24),(7,24))
+        line('speed-bottom',(4,40),(20,40));connect('speed-bottom','pod')
+        arc('window-curve',(24,8),(32,24),8,16,sweep=False)
+        line('window-bottom',(32,24),(44,24));contour('window','window-curve','window-bottom');connect('window','pod')

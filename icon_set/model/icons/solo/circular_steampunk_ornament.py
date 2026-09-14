@@ -29,8 +29,10 @@ class CircularSteampunkOrnament(Solo48):
         self.add_line('spoke-top', (26, 17), (24, 4))
         self.relate('connect', 'spoke-top', 'hub')
         self.relate('connect', 'spoke-top', 'disc')
-        self.add_line('spoke-se', (30, 21), (35, 30))
+        self.add_line('spoke-se', (30, 21), (34, 29))
         self.relate('connect', 'spoke-se', 'hub')
-        self.add_arc('wave-a', (14, 18), (14, 24), radius_x=8, sweep=False)
-        self.add_arc('wave-b', (14, 24), (16, 30), radius_x=6, sweep=True)
+        self.add_arc('wave-a', (13, 20), (13, 24), radius_x=8, sweep=False)
+        self.add_arc('wave-b', (13, 24), (15, 29), radius_x=6, sweep=True)
         self.add_contour('wave', 'wave-a', 'wave-b')
+
+        self.relate('connect', 'spoke-ne', 'spoke-se')

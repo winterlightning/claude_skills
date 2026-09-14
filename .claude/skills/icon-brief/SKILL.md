@@ -192,7 +192,7 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    This writes `png/<stem>.png` (320px), `png/<stem>@<native>.png`, a contact
    sheet per 36 icons, `index.html`, `index.md`, and a placeholder brief each.
 
-   Pass `--native` for the requested family — 32 sub, 48 solo/avatar, 64 container. It
+   Pass `--native` for the requested family — 32 sub, 48 solo (including avatars), 64 container. It
    defaults to **64**, so omitting it on a solo run previews every icon at the
    wrong size and you describe detail the real canvas will not hold.
 

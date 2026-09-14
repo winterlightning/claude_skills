@@ -1,4 +1,4 @@
-"""Fedora with central crease, tapered crown and hatband. HRECT_M extremes (2,11)-(46,37). Lucide hat-glasses informs crease and flared crown; intentional crease corners retained."""
+"""Fedora with central crease, tapered crown and hatband. HRECT_L extremes (4,8)-(44,40). Lucide hat-glasses informs crease and flared crown; intentional crease corners retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class FedoraHat(Solo48):
     icon_id = 'fedora-hat'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/accessories"

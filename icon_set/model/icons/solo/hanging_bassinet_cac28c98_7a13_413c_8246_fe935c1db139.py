@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class HangingBassinet(Solo48):
     icon_id = 'hanging-bassinet'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/baby"
@@ -17,7 +17,7 @@ class HangingBassinet(Solo48):
     keywords = ('hanging', 'bassinet', 'baby', 'nursery', 'toy')
 
     def build(self) -> None:
-        # Centerline keyshape: VRECT_XL; Suspended basket and scalloped canopy; two broad scallops replace three, cords are vertical for clear space.
+        # Centerline keyshape: VRECT_L; Suspended basket and scalloped canopy; two broad scallops replace three, cords are vertical for clear space.
         self.add_line('roof', (13, 4), (35, 4))
         self.add_arc('roof-right', (35, 4), (40, 10), radius_x=5, radius_y=6, sweep=True)
         self.add_arc('scallop-right', (40, 10), (24, 10), radius_x=10, radius_y=6, sweep=True)

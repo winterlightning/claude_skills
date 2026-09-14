@@ -1,10 +1,10 @@
-"""Baggage (travel), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Suitcase: balanced rounded case, equal wheels, and a 10-unit handle opening.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b77cece9-c086-4a13-b1b9-cef4e798e9a6'
 SOURCE_PATH = 'icons-json/travel/baggage_b77cece9-c086-4a13-b1b9-cef4e798e9a6.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Baggage(Solo48):
     icon_id = 'baggage'
@@ -16,27 +16,36 @@ class Baggage(Solo48):
     keywords = ('baggage', 'travel')
 
     def build(self):
-        self.add_line('e0', (27, 6), (22, 6))
-        self.add_line('e1', (15, 42), (15, 39))
-        self.add_line('e2', (33, 42), (33, 39))
-        self.add_line('e3', (6, 34), (6, 17))
-        self.add_line('e4', (11, 13), (37, 13))
-        self.add_line('e5', (42, 17), (42, 34))
-        self.add_line('e6', (37, 39), (11, 39))
-        self.add_line('e7-1', (31, 13), (30, 8))
-        self.add_arc('e7-2', (30, 8), (27, 6), radius_x=4, sweep=False)
-        self.add_arc('e8-1', (22, 6), (18, 8), radius_x=5, sweep=False)
-        self.add_arc('e8-2', (18, 8), (17, 13), radius_x=9, sweep=False)
-        self.add_arc('e9', (6, 17), (11, 13), radius_x=5)
-        self.add_arc('e10', (37, 13), (42, 17), radius_x=5)
-        self.add_arc('e11', (42, 34), (37, 39), radius_x=5)
-        self.add_arc('e12-1', (11, 39), (6, 35), radius_x=5)
-        self.add_line('e12-2', (6, 35), (6, 34))
-        self.add_contour('c0', 'e7-1', 'e7-2', 'e0', 'e8-1', 'e8-2')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3', 'e9', 'e4', 'e10', 'e5', 'e11', 'e6', 'e12-1', 'e12-2', closed=True)
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
+        # Suitcase: balanced rounded case, equal wheels, and a 10-unit handle opening.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('case',6,16,42,38,4)
+        p('handle',(16,16),(16,6),(32,6),(32,16))
+        link('connect','handle','case')
+        for x in (14,34):
+            l(f'wheel-{x}',(x,38),(x,42))
+            link('connect',f'wheel-{x}','case')

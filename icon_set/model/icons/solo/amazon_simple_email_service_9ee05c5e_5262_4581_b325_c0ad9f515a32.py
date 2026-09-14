@@ -1,10 +1,10 @@
-"""Amazon simple email service (_uncategorized_02), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Email service: coherent envelope and network nodes, replacing tiny distorted node loops.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9ee05c5e-5262-4581-b325-c0ad9f515a32'
 SOURCE_PATH = 'icons-json/_uncategorized_02/amazon simple email service_9ee05c5e-5262-4581-b325-c0ad9f515a32.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AmazonSimpleEmailService(Solo48):
     icon_id = 'amazon-simple-email-service'
@@ -16,56 +16,50 @@ class AmazonSimpleEmailService(Solo48):
     keywords = ('amazon', 'simple', 'email', 'service', '_uncategorized_02')
 
     def build(self):
-        self.add_line('e0', (36, 31), (24, 31))
-        self.add_line('e1', (12, 31), (24, 31))
-        self.add_line('e2', (24, 35), (24, 31))
-        self.add_line('e3', (9, 7), (23, 17))
-        self.add_line('e4', (25, 17), (39, 7))
-        self.add_line('e5', (9, 7), (9, 22))
-        self.add_line('e6', (11, 24), (24, 24))
-        self.add_line('e7', (9, 7), (11, 6))
-        self.add_line('e8', (11, 6), (37, 6))
-        self.add_line('e9', (37, 6), (39, 7))
-        self.add_line('e10', (39, 7), (39, 22))
-        self.add_line('e11', (37, 24), (24, 24))
-        self.add_line('e12', (24, 24), (24, 31))
-        self.add_arc('e13-top', (36, 39), (42, 39), radius_x=3)
-        self.add_arc('e13-bottom', (42, 39), (36, 39), radius_x=3)
-        self.add_arc('e14-top', (6, 39), (12, 39), radius_x=3)
-        self.add_arc('e14-bottom', (12, 39), (6, 39), radius_x=3)
-        self.add_arc('e15-top', (21, 39), (27, 39), radius_x=3)
-        self.add_arc('e15-bottom', (27, 39), (21, 39), radius_x=3)
-        self.add_arc('e16', (39, 35), (36, 31), radius_x=4, sweep=False)
-        self.add_arc('e17', (9, 35), (12, 31), radius_x=4)
-        self.add_line('e19', (23, 17), (25, 17))
-        self.add_line('e20', (9, 22), (11, 24))
-        self.add_line('e21', (39, 22), (37, 24))
-        self.add_contour('c0', 'e16', 'e0')
-        self.add_contour('c1', 'e17', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3', 'e19', 'e4')
-        self.add_contour('c4', 'e5', 'e20', 'e6')
-        self.add_contour('c5', 'e7', 'e8', 'e9')
-        self.add_contour('c6', 'e10', 'e21', 'e11')
-        self.add_contour('c7', 'e12')
-        self.add_contour('e14', 'e14-top', 'e14-bottom', closed=True)
-        self.add_contour('e15', 'e15-top', 'e15-bottom', closed=True)
-        self.add_contour('e13', 'e13-top', 'e13-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c7')
-        self.relate('connect', 'c2', 'c7')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c4', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c0', 'e13')
-        self.relate('connect', 'c1', 'e14')
-        self.relate('connect', 'c2', 'e15')
+        # Email service: coherent envelope and network nodes, replacing tiny distorted node loops.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        def c(name, x, y, radius):
+            a(name+'-top', (x-radius,y), (x+radius,y), radius)
+            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
+            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+        def r(name, x0, y0, x1, y1, radius=4):
+            # Equal corner radii and shared tangent endpoints own the rounded box.
+            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
+                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
+                      (x0,y1-radius),(x0,y0+radius)]
+            ids=[]
+            for index,start in enumerate(points):
+                end=points[(index+1)%8]
+                if start==end:
+                    continue
+                part=f'{name}-{index}'
+                if index%2:
+                    a(part,start,end,radius)
+                else:
+                    l(part,start,end)
+                ids.append(part)
+            self.add_contour(name,*ids,closed=True)
+
+        r('envelope',6,6,42,24,3)
+        p('flap',(6,6),(24,17),(42,6))
+        link('connect','flap','envelope')
+        l('stem',(24,24),(24,33))
+        p('network',(9,36),(9,33),(39,33),(39,36))
+        link('connect','stem','envelope')
+        link('connect','stem','network')
+        for x in (9,24,39):
+            c(f'node-{x}',x,39,3)
+        link('connect','network','node-9')
+        link('connect','network','node-39')
+        l('middle',(24,33),(24,36))
+        link('connect','middle','stem')
+        link('connect','middle','network')
+        link('connect','middle','node-24')

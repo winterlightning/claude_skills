@@ -1,4 +1,4 @@
-"""The word FREE is written in rounded monoline capitals. VRECT_L extremes (8,6)-(40,42). Reflow FR above EE to preserve all four letters at 48px rather than crowd the R bowl. No useful local Lucide text match; use shared eight-unit bar spacing."""
+'FREE lettering: regular aligned letter stems, with compact but consistent counters.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,22 +16,21 @@ class FreeText(Solo48):
     aliases = ()
     keywords = ('free', 'label', 'no-cost', 'offer', 'promotion', 'badge', 'text', 'gratis')
 
-    def build(self) -> None:
-        # Row-major FREE preserves all four letters with legal 8-unit bar spacing.
-        self.add_polyline('f', (16,6), (8,6), (8,12), (8,19))
-        self.add_line('f-middle', (8,12), (16,12))
-        self.relate('connect', 'f', 'f-middle')
-        self.add_line('r-left-top-1', (32,19), (32,12))
-        self.add_line('r-left-top-2', (32,12), (32,6))
-        self.add_line('r-left-top-3', (32,6), (38,6))
-        self.add_arc('r-round-top', (38,6), (40,6), radius_x=2)
-        self.add_line('r-right', (40,6), (40,10))
-        self.add_arc('r-round-bottom', (40,10), (38,12), radius_x=2)
-        self.add_line('r-bowl-bottom', (38,12), (32,12))
-        self.add_contour('r', 'r-left-top-1', 'r-left-top-2', 'r-left-top-3', 'r-round-top', 'r-right', 'r-round-bottom', 'r-bowl-bottom')
-        self.add_line('r-leg', (32,12), (40,19))
-        self.relate('connect', 'r', 'r-leg')
-        for i,x in enumerate((8,32)):
-            self.add_polyline(f'e-{i}', (x+8,28), (x,28), (x,36), (x,44), (x+8,44))
-            self.add_line(f'e-{i}-middle', (x,36), (x+8,36))
-            self.relate('connect', f'e-{i}', f'e-{i}-middle')
+    def build(self):
+        # FREE lettering: equal 16-unit letter heights and 8-unit spacing between each horizontal stroke.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        p('f',(8,20),(8,4),(18,4))
+        l('f-bar',(8,12),(16,12))
+        link('connect','f','f-bar')
+        p('r',(30,20),(30,4),(40,4),(40,12),(30,12),(40,20))
+        for x in (8,30):
+            p(f'e-{x}',(x+10,28),(x,28),(x,44),(x+10,44))
+            l(f'bar-{x}',(x,36),(x+8,36))
+            link('connect',f'e-{x}',f'bar-{x}')

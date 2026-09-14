@@ -17,8 +17,8 @@ class FuelGaugeEmpty(Solo48):
     keywords = ('fuel gauge', 'empty', 'fuel', 'gauge', 'dashboard', 'car', 'petrol', 'low fuel')
 
     def build(self) -> None:
-        self.add_arc('face-top',(6,24),(42,24),radius_x=20)
-        self.add_arc('face-bottom',(42,24),(6,24),radius_x=20)
+        self.add_arc('face-top',(4,24),(44,24),radius_x=20)
+        self.add_arc('face-bottom',(44,24),(4,24),radius_x=20)
         self.add_contour('face','face-top','face-bottom',closed=True)
         self.add_polyline('e-outline',(22,16),(16,16),(16,24),(16,32),(22,32))
         self.add_line('e-middle',(16,24),(22,24))

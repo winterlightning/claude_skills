@@ -1,4 +1,4 @@
-"""Blocky tyrannosaurus with squared muzzle and hooked claw. Centerlines (6,6)-(42,42). Deliberately angular and asymmetric; one tooth replaces fine bars."""
+'T-rex head: a broad snout, coherent jaw and tangent crown curves; blocky identity retained.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,35 +9,33 @@ AUTHOR = 'gpt-6'
 
 class BlockyTrexHead(Solo48):
     icon_id = 'blocky-trex-head'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'animals/prehistoric'
     aliases = ()
     keywords = ('trex', 'tyrannosaurus', 'dinosaur', 'head', 'teeth', 'geometric', 'prehistoric', 'jaw')
 
-    def build(self) -> None:
-        self.add_line('muzzle', (6,22), (6,16))
-        self.add_arc('front-corner', (6,16), (10,8), radius_x=8)
-        self.add_line('brow-step', (10,8), (17,8))
-        self.add_arc('brow', (17,8), (28,6), radius_x=11, radius_y=3)
-        self.add_arc('skull', (28,6), (40,10), radius_x=12, radius_y=5)
-        self.add_line('back', (40,10), (42,15))
-        self.add_contour('upper','muzzle','front-corner','brow-step','brow','skull','back')
-        self.add_polyline('mouth', (6,22), (12,22), (12,17))
-        self.add_line('mouth-end', (12,22), (23,22))
-        self.relate('connect','mouth','mouth-end')
-        self.relate('connect','upper','mouth')
-        self.add_arc('chin', (6,22), (10,30), radius_x=8,sweep=False)
-        self.add_line('jaw', (10,30), (24,30))
-        self.add_line('throat', (24,30), (31,34))
-        self.add_contour('lower','chin','jaw','throat')
-        self.relate('connect','mouth','lower')
-        self.add_polyline('claw', (31,34), (38,36), (35,42))
-        self.relate('connect','lower','claw')
-        self.add_line('neck-back', (42,15), (42,39))
-        self.add_line('shoulder', (42,39), (38,36))
-        self.add_contour('neck','neck-back','shoulder')
-        self.relate('connect','upper','neck')
-        self.relate('connect','claw','neck')
-        self.add_dot('eye', (29,16))
+    def build(self):
+        # T-rex head: a broad snout, coherent jaw and tangent crown curves; blocky identity retained.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        l('top',(14,8),(34,8))
+        a('back',(34,8),(44,18),10)
+        l('neck-a',(44,18),(44,40))
+        l('neck-b',(44,40),(34,36))
+        l('neck-c',(34,36),(26,32))
+        l('neck-d',(26,32),(10,32))
+        a('jaw',(10,32),(4,26),6)
+        l('snout',(4,26),(4,18))
+        a('forehead',(4,18),(14,8),10)
+        self.add_contour('head','top','back','neck-a','neck-b','neck-c','neck-d','jaw','snout','forehead',closed=True)
+        l('mouth',(4,24),(20,24))
+        link('connect','head','mouth')
+        self.add_dot('eye',(31,19))

@@ -1,10 +1,10 @@
-"""Architecture door retro (building), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Retro arched door: matching vertical walls and one true semicircle; handle moved inward. Lucide door-closed informs the structural sill.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '21bcef34-df7d-57d1-bc33-3e7fc94fe5b3'
 SOURCE_PATH = 'icons-json/building/architecture door retro_21bcef34-df7d-57d1-bc33-3e7fc94fe5b3.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArchitectureDoorRetro(Solo48):
     icon_id = 'architecture-door-retro'
@@ -15,15 +15,12 @@ class ArchitectureDoorRetro(Solo48):
     aliases = ()
     keywords = ('architecture', 'door', 'retro', 'building')
 
-    def build(self):
-        self.add_line('e0', (36, 44), (36, 16))
-        self.add_line('e1', (12, 17), (12, 44))
-        self.add_line('e2', (40, 44), (8, 44))
-        self.add_line('e3', (28, 29), (28, 26))
-        self.add_arc('e4-1', (36, 16), (24, 4), radius_x=12, sweep=False)
-        self.add_arc('e4-2', (24, 4), (12, 17), radius_x=13, sweep=False)
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+    def build(self) -> None:
+        # VRECT_L extremes via sill and semicircular arch; exact bilateral construction.
+        self.add_line('left',(12,44),(12,16))
+        self.add_arc('arch',(12,16),(36,16),radius_x=12)
+        self.add_line('right',(36,16),(36,44))
+        self.add_contour('door','left','arch','right')
+        self.add_polyline('sill',(8,44),(12,44),(36,44),(40,44))
+        self.relate('connect','door','sill')
+        self.add_line('handle',(27,27),(27,30))

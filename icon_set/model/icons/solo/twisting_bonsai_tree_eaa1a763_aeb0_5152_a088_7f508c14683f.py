@@ -1,4 +1,4 @@
-"""A cloud-crowned bonsai with a twisting single-stroke trunk and shallow planter."""
+'Bonsai: smooth broad canopy, one curved trunk and an 8-unit-deep balanced planter.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,27 +16,26 @@ class TwistingBonsaiTree(Solo48):
     aliases = ()
     keywords = ('bonsai', 'tree', 'plant', 'planter', 'foliage', 'garden', 'decor')
 
-    def build(self) -> None:
-        self.add_arc('crown-left', (6,16), (12,6), radius_x=10)
-        self.add_line('crown-step-left', (12,6), (16,6))
-        self.add_arc('crown-top', (16,6), (32,6), radius_x=8, radius_y=4)
-        self.add_line('crown-step-right', (32,6), (36,6))
-        self.add_arc('crown-right', (36,6), (42,16), radius_x=10)
-        self.add_arc('crown-lower-right', (42,16), (40,22), radius_x=6)
-        self.add_line('crown-base-right', (40,22), (20,22))
-        self.add_line('crown-base-left', (20,22), (8,22))
-        self.add_arc('crown-lower-left', (8,22), (6,16), radius_x=6)
-        self.add_contour('crown', 'crown-left','crown-step-left','crown-top','crown-step-right','crown-right','crown-lower-right','crown-base-right','crown-base-left','crown-lower-left', closed=True)
-        self.add_polyline('pot-rim', (6,36), (24,36), (42,36))
-        self.add_arc('pot-right', (42,36), (32,42), radius_x=10)
-        self.add_line('pot-bottom', (32,42), (16,42))
-        self.add_arc('pot-left', (16,42), (6,36), radius_x=10)
-        self.add_contour('pot-bowl','pot-right','pot-bottom','pot-left')
-        self.relate('connect','pot-rim','pot-bowl')
-        
-        self.add_arc('trunk-upper', (20,22), (26,28), radius_x=6, sweep=False)
-        self.add_arc('trunk-turn', (26,28), (30,32), radius_x=4)
-        self.add_arc('trunk-root', (30,32), (24,36), radius_x=6, radius_y=4)
-        self.add_contour('trunk','trunk-upper','trunk-turn','trunk-root')
-        self.relate('connect','trunk','crown')
-        self.relate('connect','trunk','pot-rim')
+    def build(self):
+        # Bonsai: smooth broad canopy, one curved trunk and an 8-unit-deep balanced planter.
+        l = self.add_line
+        p = self.add_polyline
+        link = self.relate
+
+        def a(name, start, end, rx, ry=None, sweep=True):
+            self.add_arc(name, start, end, radius_x=rx,
+                         radius_y=rx if ry is None else ry, sweep=sweep)
+
+        l('canopy-base',(6,24),(42,24))
+        l('canopy-r',(42,24),(42,20))
+        a('canopy-tr',(42,20),(34,12),8,sweep=False)
+        a('crown',(34,12),(14,12),10,6,sweep=False)
+        a('canopy-tl',(14,12),(6,20),8,sweep=False)
+        l('canopy-l',(6,20),(6,24))
+        self.add_contour('canopy','canopy-base','canopy-r','canopy-tr','crown','canopy-tl','canopy-l',closed=True)
+        a('trunk-upper',(22,24),(28,30),6,sweep=False)
+        a('trunk-lower',(28,30),(22,34),6,4,sweep=True)
+        self.add_contour('trunk','trunk-upper','trunk-lower')
+        p('pot',(6,34),(14,42),(34,42),(42,34),(6,34))
+        link('connect','trunk','canopy')
+        link('connect','trunk','pot')
