@@ -98,16 +98,10 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 | Keyshape | Visible ink | Centerline box (author to this) |
 |---|---|---|
-| `CIRCLE` | radius 24 about (24,24) | radius 22 |
-| `SQUARE` | (0,0)-(48,48) | (2,2)-(46,46) |
-| `HRECT_XL` | (0,3)-(48,45) | (2,5)-(46,43) |
-| `HRECT_L` | (0,6)-(48,42) | (2,8)-(46,40) |
-| `HRECT_M` | (0,9)-(48,39) | (2,11)-(46,37) |
-| `HRECT_S` | (0,12)-(48,36) | (2,14)-(46,34) |
-| `VRECT_XL` | (3,0)-(45,48) | (5,2)-(43,46) |
-| `VRECT_L` | (6,0)-(42,48) | (8,2)-(40,46) |
-| `VRECT_M` | (9,0)-(39,48) | (11,2)-(37,46) |
-| `VRECT_S` | (12,0)-(36,48) | (14,2)-(34,46) |
+| `CIRCLE` | radius 22 about (24,24) | radius 20 |
+| `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
+| `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
 
    Ask the model instead of doing arithmetic:
    `Keyshape.HRECT_L.bounds_for(Profile.AVATAR48)`.
@@ -172,6 +166,7 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 6. **Family-specific checks.**
 
+- AVATAR48 uses the same four keyshape choices and exact inset bounds as SOLO48: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Keep family `avatar`, profile `AVATAR48`, and base `Avatar48`; sharing keyshapes does not change the family. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
 - Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `profiles.AVATAR48.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly 4 units of visible ink clearance, or 8 between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
 - Head and body are natural parts of one avatar: do not split them into Pending component briefs. A separate badge, enclosure, or state modifier still follows the shared combination triage.
 - Use the 48-unit keyshape table above and re-author the reference on the integer grid. The supplied user.svg uses the same 48x48 canvas; use its construction while fitting the chosen keyshape. Keep round caps, tangent shoulder curves, and coherent head/body proportions.

@@ -33,13 +33,13 @@ class Beetle(Solo48):
         self.relate('connect','head','shell')
         self.add_line('seam',(24,16),(24,42))
         self.relate('connect','shell','seam')
-        self.add_line('antenna-left',(24,8),(16,6))
-        self.add_line('antenna-right',(24,8),(32,6))
+        self.add_line('antenna-left',(24,8),(16,4))
+        self.add_line('antenna-right',(24,8),(32,4))
         self.relate('connect','antenna-left','head')
         self.relate('connect','antenna-right','head')
         self.relate('connect','antenna-left','antenna-right')
-        for side,upper,middle,lower,end in (('left',(16,22),(14,31),(16,40),5),('right',(32,22),(34,31),(32,40),43)):
-            for label,start,y in (('upper',upper,17),('middle',middle,31),('lower',lower,45)):
+        for side,upper,middle,lower,end in (('left',(16,22),(14,31),(16,40),8),('right',(32,22),(34,31),(32,40),40)):
+            for label,start,y in (('upper',upper,17),('middle',middle,31),('lower',lower,44)):
                 name=f'{label}-{side}'
                 self.add_line(name,start,(end,y))
                 self.relate('connect','shell',name)

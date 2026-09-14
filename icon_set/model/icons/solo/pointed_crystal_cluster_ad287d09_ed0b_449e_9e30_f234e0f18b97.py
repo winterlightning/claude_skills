@@ -17,8 +17,8 @@ class PointedCrystalCluster(Solo48):
     keywords = ('crystal', 'cluster', 'mineral', 'quartz', 'geology', 'points', 'gem')
 
     def build(self) -> None:
-        self.add_polyline('central',(16,42),(16,12),(24,6),(32,12),(32,42),closed=True)
-        self.add_polyline('left',(16,42),(6,22),(9,12),(16,20))
-        self.add_polyline('right',(32,20),(39,14),(42,24),(32,42))
+        self.add_polyline('central',(16,44),(16,12),(24,4),(32,12),(32,44),closed=True)
+        self.add_polyline('left',(16,44),(8,22),(9,12),(16,20))
+        self.add_polyline('right',(32,20),(39,14),(40,24),(32,44))
         self.relate('connect','left','central')
         self.relate('connect','right','central')

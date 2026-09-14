@@ -24,7 +24,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a8df920a-b5e4-42ca-a8cb-d0665fd4de17'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-05/ribbon tie_a8df920a-b5e4-42ca-a8cb-d0665fd4de17.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 
 class BowTie(Solo48):
@@ -45,9 +45,9 @@ class BowTie(Solo48):
     AXIS = 24
     KNOT = 6  # knot centreline half-size: x,y in 18..30
     KNOT_RADIUS = 3  # leaves a 6-unit straight run on each wall
-    TIP_X = 2  # HRECT_M centreline left edge
-    TIP_TOP = 11  # HRECT_M centreline top edge
-    TIP_BOTTOM = 37  # HRECT_M centreline bottom edge
+    TIP_X = 4  # HRECT_M centreline left edge
+    TIP_TOP = 8  # HRECT_M centreline top edge
+    TIP_BOTTOM = 40  # HRECT_M centreline bottom edge
 
     def build(self) -> None:
         axis, half, radius = self.AXIS, self.KNOT, self.KNOT_RADIUS

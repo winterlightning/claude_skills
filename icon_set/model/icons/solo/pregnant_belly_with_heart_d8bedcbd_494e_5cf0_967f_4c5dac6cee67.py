@@ -16,14 +16,14 @@ class PregnantBellyWithHeart(Solo48):
 
     def build(self) -> None:
         # VRECT_XL centerline extremes (6,6)-(42,42).
-        self.add_polyline('back', (6,6), (6,8), (6,42))
-        self.add_arc('arm-left', (6,8), (17,14), radius_x=12, radius_y=6, sweep=False)
+        self.add_polyline('back', (8,4), (8,8), (8,44))
+        self.add_arc('arm-left', (8,8), (17,14), radius_x=9, radius_y=6, sweep=False)
         self.add_arc('arm-right', (17,14), (32,8), radius_x=15, radius_y=6, sweep=False)
         self.add_contour('arm', 'arm-left', 'arm-right')
         self.relate('connect', 'back', 'arm')
-        self.add_line('chest', (32,6), (32,8))
-        self.add_arc('belly-top', (32,8), (42,27), radius_x=11, radius_y=19)
-        self.add_arc('belly-bottom', (42,27), (28,42), radius_x=15, radius_y=19)
+        self.add_line('chest', (32,4), (32,8))
+        self.add_arc('belly-top', (32,8), (40,27), radius_x=8, radius_y=19)
+        self.add_arc('belly-bottom', (40,27), (28,44), radius_x=12, radius_y=17)
         self.add_contour('belly', 'belly-top', 'belly-bottom')
         self.relate('connect', 'arm', 'chest')
         self.relate('connect', 'arm', 'belly')

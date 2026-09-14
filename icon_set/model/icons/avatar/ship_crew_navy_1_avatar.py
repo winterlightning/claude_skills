@@ -1,11 +1,11 @@
 """Head-and-body portrait corresponding to avatar-ship-crew-navy-1.
 
-AVATAR48 construction on VRECT_L: visible ink (6,0)-(42,48).
-Head bottom 26; shoulder top 34; measured head/body ink gap 4.
+AVATAR48 construction on VRECT_L: visible ink (6,2)-(42,46).
+Head bottom 28; shoulder top 36; measured head/body ink gap 4.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs and tangent shoulders. Retain the source hair/headwear silhouette;
-omit facial microdetails at 48. Shared axis x24 and radius10 shoulders.
+omit facial microdetails at 48. Shared axis x24 and radius6 shoulders.
 """
 from ...keyshapes import Keyshape
 from ._base import Avatar48, HEAD_BODY_CENTERLINE_GAP
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-ship-crew-navy-1.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-ship-crew-navy-1'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 26
+HEAD_BOTTOM = 28
 
 class ShipCrewNavy1Avatar(Avatar48):
     icon_id = 'ship-crew-navy-1-avatar'
@@ -27,16 +27,16 @@ class ShipCrewNavy1Avatar(Avatar48):
 
     def build(self):
         cx = 24
-        self.add_arc('crown',(16,10),(32,10),radius_x=8)
-        self.add_polyline('band',(16,10),(10,10),(14,18),(34,18),(38,10),(32,10),(16,10))
-        self.relate('connect','crown','band')
-        self.add_arc('face',(34,18),(14,18),radius_x=10,radius_y=8)
-        self.relate('connect','face','band')
+        self.add_arc('crown', (16, 12), (32, 12), radius_x=8)
+        self.add_polyline('band', (16, 12), (10, 12), (14, 20), (34, 20), (38, 12), (32, 12), (16, 12))
+        self.relate('connect', 'crown', 'band')
+        self.add_arc('face', (34, 20), (14, 20), radius_x=10, radius_y=8)
+        self.relate('connect', 'face', 'band')
 
         # Shoulders are a separate symbol: mirrored tangent quarter circles.
         # The jaw bottom lies over the plateau, certifying the exact ink gap.
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
-        left, right, bottom, shoulder_radius = 8, 40, 46, 10
+        left, right, bottom, shoulder_radius = 8, 40, 44, 6
         self.add_line('body-left',(left,bottom),(left,top+shoulder_radius))
         self.add_arc('body-shoulder-left',(left,top+shoulder_radius),(left+shoulder_radius,top),radius_x=shoulder_radius)
         self.add_line('body-top',(left+shoulder_radius,top),(right-shoulder_radius,top))

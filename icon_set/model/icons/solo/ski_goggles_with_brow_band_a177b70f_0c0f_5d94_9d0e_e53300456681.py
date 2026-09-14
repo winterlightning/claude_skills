@@ -5,7 +5,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'a177b70f-0c0f-5d94-9d0e-e53300456681'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-01/glasses ski_a177b70f-0c0f-5d94-9d0e-e53300456681.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 
 class SkiGogglesWithBrowBand(Solo48):
@@ -19,20 +19,20 @@ class SkiGogglesWithBrowBand(Solo48):
 
     def build(self) -> None:
         # HRECT_M: authored directly to its SOLO48 centerline extremes.
-        self.add_line('top', (6, 11), (42, 11))
-        self.add_arc('tr', (42, 11), (46, 15), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('r-upper', (46, 15), (46, 19))
-        self.add_line('r-lower', (46, 19), (46, 29))
-        self.add_arc('br', (46, 29), (38, 37), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('r-base', (38, 37), (34, 37))
-        self.add_arc('nose-r', (34, 37), (28, 31), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('nose', (28, 31), (20, 31), radius_x=4, radius_y=4, sweep=False)
-        self.add_arc('nose-l', (20, 31), (14, 37), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('l-base', (14, 37), (10, 37))
-        self.add_arc('bl', (10, 37), (2, 29), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('l-lower', (2, 29), (2, 19))
-        self.add_line('l-upper', (2, 19), (2, 15))
-        self.add_arc('tl', (2, 15), (6, 11), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('top', (8, 8), (40, 8))
+        self.add_arc('tr', (40, 8), (44, 12), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('r-upper', (44, 12), (44, 17))
+        self.add_line('r-lower', (44, 17), (44, 32))
+        self.add_arc('br', (44, 32), (38, 40), radius_x=6, radius_y=8, sweep=True)
+        self.add_line('r-base', (38, 40), (34, 40))
+        self.add_arc('nose-r', (34, 40), (28, 34), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('nose', (28, 34), (20, 34), radius_x=4, radius_y=4, sweep=False)
+        self.add_arc('nose-l', (20, 34), (14, 40), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('l-base', (14, 40), (10, 40))
+        self.add_arc('bl', (10, 40), (4, 32), radius_x=6, radius_y=8, sweep=True)
+        self.add_line('l-lower', (4, 32), (4, 17))
+        self.add_line('l-upper', (4, 17), (4, 12))
+        self.add_arc('tl', (4, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('outline', 'top', 'tr', 'r-upper', 'r-lower', 'br', 'r-base', 'nose-r', 'nose', 'nose-l', 'l-base', 'bl', 'l-lower', 'l-upper', 'tl', closed=True)
-        self.add_line('brow', (2, 19), (46, 19))
+        self.add_line('brow', (4, 17), (44, 17))
         self.relate("connect", 'brow', 'outline')

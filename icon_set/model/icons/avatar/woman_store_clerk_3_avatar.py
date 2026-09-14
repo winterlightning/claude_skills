@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-woman-store-clerk-3.
 
-AVATAR48 construction on VRECT_L: visible ink (6,0)-(42,48).
-Head bottom 22; shoulder top 30; measured head/body ink gap 4.
+AVATAR48 construction on VRECT_L: visible ink (6,2)-(42,46).
+Head bottom 24; shoulder top 32; measured head/body ink gap 4.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs and tangent shoulders. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-woman-store-clerk-3.svg
 SOURCE_HEAD_ICON_ID = 'avatar-woman-store-clerk-3'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 22
+HEAD_BOTTOM = 24
 
 class WomanStoreClerk3Avatar(Avatar48):
     icon_id = 'woman-store-clerk-3-avatar'
@@ -27,21 +27,20 @@ class WomanStoreClerk3Avatar(Avatar48):
 
     def build(self):
         cx = 24
-        radius, cy = 10, 12
-        self.add_arc('crown',(14,cy),(34,cy),radius_x=radius)
-        self.add_arc('jaw',(34,cy),(14,cy),radius_x=radius)
-        self.add_contour('head','crown','jaw',closed=True)
-        self.add_bezier('fringe',(14,12),((20,12),(25,9),(27,6)),((29,10),(32,12),(34,12)))
-        self.relate('connect','head','fringe')
-        # Intentional one-sided ponytail; no forced silhouette symmetry.
-        self.add_bezier('ponytail',(34,12),((40,12),(34,18),(39,22)))
-        self.relate('connect','head','ponytail')
-        self.relate('connect','fringe','ponytail')
+        radius, cy = (10, 14)
+        self.add_arc('crown', (14, cy), (34, cy), radius_x=radius)
+        self.add_arc('jaw', (34, cy), (14, cy), radius_x=radius)
+        self.add_contour('head', 'crown', 'jaw', closed=True)
+        self.add_bezier('fringe', (14, 14), ((20, 14), (24, 13), (27, 11)), ((29, 13), (32, 14), (34, 14)))
+        self.relate('connect', 'head', 'fringe')
+        self.add_bezier('ponytail', (34, 14), ((40, 14), (34, 20), (39, 24)))
+        self.relate('connect', 'head', 'ponytail')
+        self.relate('connect', 'fringe', 'ponytail')
 
         # Shoulders are a separate symbol: mirrored tangent quarter circles.
         # The jaw bottom lies over the plateau, certifying the exact ink gap.
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
-        left, right, bottom, shoulder_radius = 8, 40, 46, 10
+        left, right, bottom, shoulder_radius = 8, 40, 44, 10
         self.add_line('body-left',(left,bottom),(left,top+shoulder_radius))
         self.add_arc('body-shoulder-left',(left,top+shoulder_radius),(left+shoulder_radius,top),radius_x=shoulder_radius)
         self.add_line('body-top',(left+shoulder_radius,top),(right-shoulder_radius,top))

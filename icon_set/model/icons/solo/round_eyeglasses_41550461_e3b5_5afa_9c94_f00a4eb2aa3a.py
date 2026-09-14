@@ -7,7 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '41550461-e3b5-5afa-9c94-f00a4eb2aa3a'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-06/glasses retro_41550461-e3b5-5afa-9c94-f00a4eb2aa3a.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 
 class RoundEyeglasses(Solo48):
@@ -20,24 +20,21 @@ class RoundEyeglasses(Solo48):
     keywords = ('round', 'eyeglasses')
 
     def build(self) -> None:
-        def line(n, a, b):
-            self.add_line(n, a, b)
-        def arc(n, a, b, r, ry=None, sweep=True):
-            self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
-        def contour(n, *parts, closed=False):
-            self.add_contour(n, *parts, closed=closed)
-        def connect(a, b):
-            self.relate("connect", a, b)
-        def circle(n, x, y, r, ry=None):
-            arc(n+"-top", (x-r,y), (x+r,y), r, ry)
-            arc(n+"-bottom", (x+r,y), (x-r,y), r, ry)
-            contour(n, n+"-top", n+"-bottom", closed=True)
-        circle("left-lens",12,24,8,10)
-        circle("right-lens",36,24,8,10)
-        arc("bridge",(20,24),(28,24),4)
-        line("temple-left",(2,24),(4,24))
-        line("temple-right",(44,24),(46,24))
-        connect("left-lens","bridge")
-        connect("right-lens","bridge")
-        connect("left-lens","temple-left")
-        connect("right-lens","temple-right")
+        # Open temples reach y=8; paired lenses end at y=40. HRECT_L ink
+        # (2,6)-(46,42). Keep the lens proportions while unfolding the arms.
+        radius_x, radius_y = 8, 10
+        lens_y = 40 - radius_y
+        for side, cx in (('left', 12), ('right', 36)):
+            self.add_arc(side+'-lens-top', (cx-radius_x,lens_y), (cx+radius_x,lens_y),
+                         radius_x=radius_x, radius_y=radius_y)
+            self.add_arc(side+'-lens-bottom', (cx+radius_x,lens_y), (cx-radius_x,lens_y),
+                         radius_x=radius_x, radius_y=radius_y)
+            self.add_contour(side+'-lens', side+'-lens-top', side+'-lens-bottom', closed=True)
+        self.add_arc('bridge', (20,lens_y), (28,lens_y), radius_x=4, radius_y=4)
+        self.add_polyline('temple-left', (4,lens_y), (4,16), (8,8))
+        self.add_polyline('temple-right', (44,lens_y), (44,16), (40,8))
+        self.relate('connect', 'left-lens', 'bridge')
+        self.relate('connect', 'right-lens', 'bridge')
+        self.relate('connect', 'left-lens', 'temple-left')
+        self.relate('connect', 'right-lens', 'temple-right')
+

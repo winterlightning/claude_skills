@@ -17,9 +17,9 @@ class PaintedWallMuralPanel(Solo48):
 
     def build(self) -> None:
         """Opening repair: Replaced the thin hollow coping band with one solid cap stroke; retained the mural."""
-        self.add_polyline('cap', (6, 6), (10, 6), (38, 6), (42, 6), closed=False)
-        self.add_polyline('panel', (10, 6), (10, 42), (38, 42), (38, 6), closed=False)
+        self.add_polyline('cap', (8, 4), (8, 4), (40, 4), (40, 4), closed=False)
+        self.add_polyline('panel', (8, 4), (8, 44), (40, 44), (40, 4), closed=False)
         self.add_arc('head', (18, 26), (30, 22), radius_x=8, radius_y=7, sweep=True)
-        self.add_polyline('face', (30, 22), (32, 28), (26, 31), (26, 38), (18, 38), (18, 26), closed=False)
+        self.add_polyline('face', (30, 22), (32, 28), (26, 31), (26, 36), (18, 36), (18, 26), closed=False)
         self.relate('connect', 'cap', 'panel')
         self.relate('connect', 'head', 'face')

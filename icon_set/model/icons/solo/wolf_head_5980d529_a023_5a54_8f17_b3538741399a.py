@@ -16,5 +16,5 @@ class WolfHead(Solo48):
 
     def build(self) -> None:
         # VRECT_XL centerline extremes (6,6)-(42,42).
-        self.add_polyline('outline', (6,40), (12,25), (15,16), (18,6), (28,15), (32,20), (42,22), (42,28), (34,33), (28,33), (21,40), (22,42))
+        self.add_polyline('outline', (8,40), (12,25), (15,16), (18,4), (28,15), (32,20), (40,22), (40,28), (34,33), (28,33), (21,40), (22,44))
         self.add_dot('eye', (23,24))

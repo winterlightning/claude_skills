@@ -77,6 +77,15 @@ class KeyshapeResolutionTests(unittest.TestCase):
                 count += 1
         self.assertEqual(count, len(Profile) * len(STANDARD))
 
+    def test_avatar_uses_solo_keyshape_choices_and_bounds(self) -> None:
+        profiles = contracts.icon_profile()['profiles']
+        self.assertEqual(profiles['AVATAR48']['keyshape_choices'],
+                         profiles['SOLO48']['keyshape_choices'])
+        for shape in STANDARD:
+            with self.subTest(shape=shape.name):
+                self.assertEqual(shape.bounds_for(Profile.AVATAR48),
+                                 shape.bounds_for(Profile.SOLO48))
+
     def test_solo48_independent_visible_envelopes(self) -> None:
         expected = {Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40)}
         for shape in STANDARD:

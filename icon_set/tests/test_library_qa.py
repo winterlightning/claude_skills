@@ -24,6 +24,22 @@ def small_hole_icon():
 
 
 class NegativeSpaceTests(unittest.TestCase):
+    def test_actual_stroke_pocket_cannot_hide_in_a_larger_thinned_hole(self):
+        # The fringe nearly touches the crown, trapping a 0.26-unit pocket
+        # at stroke 4 that merges into a large passing region at stroke 1.
+        document = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" '
+                    'width="48" height="48" fill="none" stroke="black" '
+                    'stroke-width="4" stroke-linecap="round" stroke-linejoin="round">'
+                    '<path d="M14 12A10 10 0 0 1 34 12A10 10 0 0 1 14 12Z"/>'
+                    '<path d="M14 12C20 12 25 9 27 6C29 10 32 12 34 12"/></svg>')
+        result = qa.measure_negative_space(document, 48)
+        self.assertEqual(result['status'], 'fail')
+        self.assertEqual(result['authored_hole_count'], 3)
+        self.assertEqual(result['failed_hole_count'], 1)
+        failure = next(h for h in result['holes'] if h['status'] == 'fail')
+        self.assertEqual(failure['measuring_stroke_width'], 4)
+        self.assertLess(failure['inscribed_diameter_design_u'], 0.5)
+
     def test_large_hole_passes_and_small_hole_fails_at_native_stroke(self):
         for radius, expected in ((8, 'pass'), (2.5, 'fail')):
             with self.subTest(radius=radius):

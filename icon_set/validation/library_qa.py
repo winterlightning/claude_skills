@@ -71,11 +71,67 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         apply_circle_exceptions(holes, labels, region_ids, circle_candidates(document, drawing),
                                 rule=rules['circle_hole_exception'], samples=samples,
                                 measuring_stroke=rules['measurement_stroke_width'])
+        # Thinning can merge a tiny painted-stroke pocket into a larger hole.
+        # Check the actual exported ink too; a size correction alone cannot
+        # preserve that topology. Keep the same threshold and circle exceptions.
+        authored_ink = engine.render_ink_mask(path, canvas, canvas, samples, 0)
+        authored_labels, authored_ids = engine.enclosed_components(authored_ink)
+        authored_holes = engine.measure_holes(
+            authored_labels, authored_ids, view, samples,
+            rules['minimum_enclosed_radius'], canvas, canvas)
+        apply_circle_exceptions(
+            authored_holes, authored_labels, authored_ids, circle_candidates(document, drawing),
+            rule=rules['circle_hole_exception'], samples=samples, measuring_stroke=STROKE_WIDTH)
+        # A single background sample can be a raster-edge artifact at a
+        # tangency. Discard it only when a finer render confirms there is no
+        # undersized region in that neighborhood; retain all persistent pockets.
+        raster_artifacts = []
+        finer_labels = finer_ids = finer_holes = None
+        for hole in authored_holes:
+            if hole['status'] != 'fail' or hole['inscribed_radius_design_u'] > 1.01 / samples:
+                continue
+            if finer_labels is None:
+                finer_ink = engine.render_ink_mask(path, canvas, canvas, samples * 2, 0)
+                finer_labels, finer_ids = engine.enclosed_components(finer_ink)
+                finer_holes = engine.measure_holes(
+                    finer_labels, finer_ids, view, samples * 2,
+                    rules['minimum_enclosed_radius'], canvas, canvas)
+            x, y, width, height = hole['bbox_viewbox']
+            scale = samples * 2
+            left, top = max(0, int(x * scale) - 2), max(0, int(y * scale) - 2)
+            right = min(finer_labels.shape[1], int((x + width) * scale) + 3)
+            bottom = min(finer_labels.shape[0], int((y + height) * scale) + 3)
+            neighborhood = finer_labels[top:bottom, left:right]
+            if not any(refined['status'] == 'fail' and (neighborhood == region).any()
+                       for region, refined in zip(finer_ids, finer_holes)):
+                hole['status'] = 'raster-artifact'
+                hole['confirmation_samples_per_unit'] = samples * 2
+                raster_artifacts.append(hole)
+        measured_by_region = dict(zip(region_ids, holes))
+        additional_failures = []
+        for hole in authored_holes:
+            if hole['status'] != 'fail':
+                continue
+            x, y = hole['center_viewbox']
+            measured = measured_by_region.get(int(labels[int(y * samples), int(x * samples)]))
+            if measured is not None and measured['status'] == 'fail':
+                continue  # This pocket is already reported by the thin-stroke check.
+            additional_failures.append({
+                **hole, 'hole': len(holes) + len(additional_failures) + 1,
+                'measuring_stroke_width': STROKE_WIDTH,
+                'equivalent_radius_at_authored_stroke_design_u': hole['inscribed_radius_design_u'],
+                'equivalent_diameter_at_authored_stroke_design_u': hole['inscribed_diameter_design_u'],
+            })
         if overlay is not None:
             overlay.parent.mkdir(parents=True, exist_ok=True)
             engine.save_overlay(ink, labels, region_ids, holes, pinches, overlay, view, samples)
+            engine.save_overlay(authored_ink, authored_labels, authored_ids, authored_holes, [],
+                                overlay.with_name('authored-' + overlay.name), view, samples)
+        holes.extend(additional_failures)
     return {
         'status': 'fail' if any(h['status'] == 'fail' for h in holes) or pinches else 'pass',
+        'authored_holes': authored_holes, 'authored_hole_count': len(authored_holes) - len(raster_artifacts),
+        'raster_artifact_count': len(raster_artifacts),
         'hole_count': len(holes), 'failed_hole_count': sum(h['status'] == 'fail' for h in holes),
         'pinch_count': len(pinches), 'holes': holes, 'pinches': pinches,
         'exception_count': sum('exception' in h for h in holes),

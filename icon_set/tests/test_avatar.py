@@ -46,3 +46,12 @@ class AvatarTests(unittest.TestCase):
                 shoulder = next(p for p in body if p.element_id == shoulder_id)
                 self.assertLessEqual(shoulder.start.x, 24)
                 self.assertGreaterEqual(shoulder.end.x, 24)
+
+    def test_clerk_fringe_has_no_hidden_full_stroke_pocket(self):
+        from icon_set.validation.library_qa import inspect_icon
+        result = inspect_icon(create('woman-store-clerk-3-avatar'))
+        self.assertEqual(result['status'], 'pass', result['errors'])
+        self.assertEqual(result['negative_space']['authored_hole_count'], 2)
+        for hole in result['negative_space']['authored_holes']:
+            self.assertEqual(hole['status'], 'pass')
+            self.assertGreaterEqual(hole['inscribed_diameter_design_u'], 2)

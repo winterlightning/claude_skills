@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '470b6a50-6961-58f3-a538-29fd0c973118'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-07/glasses_470b6a50-6961-58f3-a538-29fd0c973118.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 class RoundGlasses(Solo48):
     icon_id = 'round-glasses'
@@ -15,13 +15,21 @@ class RoundGlasses(Solo48):
     keywords = ('round', 'glasses')
 
     def build(self) -> None:
-        self.add_arc("lens-left-top", (2,24), (22,24), radius_x=10)
-        self.add_arc("lens-left-bottom", (22,24), (2,24), radius_x=10)
-        self.add_contour("lens-left", "lens-left-top", "lens-left-bottom", closed=True)
-        self.add_arc("lens-right-top", (26,24), (46,24), radius_x=10)
-        self.add_arc("lens-right-bottom", (46,24), (26,24), radius_x=10)
-        self.add_contour("lens-right", "lens-right-top", "lens-right-bottom", closed=True)
-        # Centerline extremes (2,14)-(46,34).
-        self.add_arc("bridge", (22,24), (26,24), radius_x=2)
-        self.relate("connect", "lens-left", "bridge")
-        self.relate("connect", "lens-right", "bridge")
+        # Open temples reach y=8; paired lenses end at y=40. HRECT_L ink
+        # (2,6)-(46,42). Keep the lens proportions while unfolding the arms.
+        radius_x, radius_y = 8, 8
+        lens_y = 40 - radius_y
+        for side, cx in (('left', 12), ('right', 36)):
+            self.add_arc(side+'-lens-top', (cx-radius_x,lens_y), (cx+radius_x,lens_y),
+                         radius_x=radius_x, radius_y=radius_y)
+            self.add_arc(side+'-lens-bottom', (cx+radius_x,lens_y), (cx-radius_x,lens_y),
+                         radius_x=radius_x, radius_y=radius_y)
+            self.add_contour(side+'-lens', side+'-lens-top', side+'-lens-bottom', closed=True)
+        self.add_arc('bridge', (20,lens_y), (28,lens_y), radius_x=4, radius_y=4)
+        self.add_polyline('temple-left', (4,lens_y), (4,16), (8,8))
+        self.add_polyline('temple-right', (44,lens_y), (44,16), (40,8))
+        self.relate('connect', 'left-lens', 'bridge')
+        self.relate('connect', 'right-lens', 'bridge')
+        self.relate('connect', 'left-lens', 'temple-left')
+        self.relate('connect', 'right-lens', 'temple-right')
+

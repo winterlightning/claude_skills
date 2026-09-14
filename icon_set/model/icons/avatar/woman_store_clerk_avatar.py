@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-woman-store-clerk.
 
-AVATAR48 construction on VRECT_L: visible ink (6,0)-(42,48).
-Head bottom 22; shoulder top 30; measured head/body ink gap 4.
+AVATAR48 construction on VRECT_L: visible ink (6,2)-(42,46).
+Head bottom 24; shoulder top 32; measured head/body ink gap 4.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs and tangent shoulders. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-woman-store-clerk.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-woman-store-clerk'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 22
+HEAD_BOTTOM = 24
 
 class WomanStoreClerkAvatar(Avatar48):
     icon_id = 'woman-store-clerk-avatar'
@@ -27,24 +27,23 @@ class WomanStoreClerkAvatar(Avatar48):
 
     def build(self):
         cx = 24
-        # Plan: mirrored hair sweeps, an open face, and a shared centre part.
-        for side, sign in [('left',-1),('right',1)]:
-            pt = lambda x,y: (cx+sign*x,y)
-            self.add_arc('hair-'+side,(cx,2),pt(16,12),radius_x=16,radius_y=10,sweep=sign>0)
-            self.add_bezier('tip-'+side,pt(16,12),(pt(16,16),pt(12,19),pt(16,22)))
-            self.add_contour('outer-'+side,'hair-'+side,'tip-'+side)
-            self.add_arc('fringe-'+side,(cx,2),pt(9,12),radius_x=9,radius_y=10,sweep=sign<0)
-            self.relate('connect','outer-'+side,'fringe-'+side)
-        self.relate('connect','outer-left','outer-right')
-        self.relate('connect','fringe-left','fringe-right')
-        self.add_arc('face',(33,12),(15,12),radius_x=9,radius_y=10)
-        for side in ['left','right']:
-            self.relate('connect','face','fringe-'+side)
+        for side, sign in [('left', -1), ('right', 1)]:
+            pt = lambda x, y: (cx + sign * x, y)
+            self.add_arc('hair-' + side, (cx, 4), pt(16, 14), radius_x=16, radius_y=10, sweep=sign > 0)
+            self.add_bezier('tip-' + side, pt(16, 14), (pt(16, 18), pt(12, 21), pt(16, 24)))
+            self.add_contour('outer-' + side, 'hair-' + side, 'tip-' + side)
+            self.add_arc('fringe-' + side, (cx, 4), pt(9, 14), radius_x=9, radius_y=10, sweep=sign < 0)
+            self.relate('connect', 'outer-' + side, 'fringe-' + side)
+        self.relate('connect', 'outer-left', 'outer-right')
+        self.relate('connect', 'fringe-left', 'fringe-right')
+        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=10)
+        for side in ['left', 'right']:
+            self.relate('connect', 'face', 'fringe-' + side)
 
         # Shoulders are a separate symbol: mirrored tangent quarter circles.
         # The jaw bottom lies over the plateau, certifying the exact ink gap.
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
-        left, right, bottom, shoulder_radius = 8, 40, 46, 10
+        left, right, bottom, shoulder_radius = 8, 40, 44, 10
         self.add_line('body-left',(left,bottom),(left,top+shoulder_radius))
         self.add_arc('body-shoulder-left',(left,top+shoulder_radius),(left+shoulder_radius,top),radius_x=shoulder_radius)
         self.add_line('body-top',(left+shoulder_radius,top),(right-shoulder_radius,top))
