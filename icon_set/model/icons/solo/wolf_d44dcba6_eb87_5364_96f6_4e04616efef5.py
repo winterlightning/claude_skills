@@ -16,13 +16,13 @@ class WolfFace(Solo48):
     keywords = ('wolf', 'face', 'head', 'ears', 'front', 'muzzle', 'canine', 'wild')
 
     def build(self):
-        # SQUARE centerline extremes: (2,2)-(46,46). Mirror about x=24.
-        points = [(2,28), (7,18), (4,2), (16,10), (32,10), (44,2), (41,18), (46,28), (30,44)]
+        # SQUARE centerline extremes: (6,6)-(42,42). Mirror about x=24.
+        points = [(6,28), (7,18), (6,6), (16,10), (32,10), (42,6), (41,18), (42,28), (30,42)]
         for j, (a,b) in enumerate(zip(points, points[1:]), 1):
             self.add_line(f'upper-head-{j}', a, b)
-        self.add_arc('chin', (30,44), (18,44), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('left-jaw', (18,44), (2,28))
-        self.add_contour('head', *[f'upper-head-{i}' for i in range(1,9)], 'chin', 'left-jaw', closed=True)
+        self.add_arc('chin', (30,42), (18,42), radius_x=10, radius_y=10, sweep=True)
+        self.add_line('left-jaw', (18,42), (6,28))
+        self.add_contour('head', *[f'upper-head-{i}' for i in range(6,9)], 'chin', 'left-jaw', closed=True)
         self.add_arc('nose-top', (21,32), (27,32), radius_x=3, sweep=True)
         self.add_arc('nose-bottom', (27,32), (21,32), radius_x=3, sweep=True)
         self.add_contour('nose', 'nose-top', 'nose-bottom', closed=True)

@@ -1,4 +1,4 @@
-"""Bell dome, needle finial and broad plinth. Lucide bell informs the coherent dome; stepped bands reduced to one base."""
+'Tapered finial over a rounded bell body and broad plinth. Lucide bell informs the coherent silhouette; thin stepped collars omitted.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class BellShapedStupa(Solo48):
     icon_id = 'bell-shaped-stupa'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/landmarks"
@@ -16,12 +16,11 @@ class BellShapedStupa(Solo48):
     keywords = ('wat phra kaew', 'stupa', 'chedi', 'thailand', 'temple', 'buddhist', 'landmark', 'religion')
 
     def build(self) -> None:
-        # Centerline extremes (5, 2, 43, 46).
-        self.add_line("spire", (24,2), (24,14))
-        self.add_arc("dome-left", (24,14), (7,36), radius_x=17, radius_y=22, sweep=False)
-        self.add_line("base-left", (7,36), (24,36))
-        self.add_line("base-right", (24,36), (41,36))
-        self.add_arc("dome-right", (41,36), (24,14), radius_x=17, radius_y=22, sweep=False)
-        self.add_contour("dome", "dome-left", "base-left", "base-right", "dome-right", closed=True)
-        self.relate("connect", "spire", "dome")
-        self.add_line("plinth", (5,46), (43,46))
+        # VRECT_L centerline extremes (8,6)-(40,42), mirrored about 24.
+        self.add_line("finial-1", (17,18), (24,6))
+        self.add_line("finial-2", (24,6), (31,18))
+        self.add_arc("bell-right", (31,18), (37,34), radius_x=6, radius_y=16)
+        self.add_line("base", (37,34), (11,34))
+        self.add_arc("bell-left", (11,34), (17,18), radius_x=6, radius_y=16)
+        self.add_contour("body", "finial-1", "finial-2", "bell-right", "base", "bell-left", closed=True)
+        self.add_line("plinth", (8,42), (40,42))

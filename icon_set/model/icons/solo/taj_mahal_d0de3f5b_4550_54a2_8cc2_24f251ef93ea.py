@@ -1,4 +1,4 @@
-"""Taj Mahal onion dome, crescent and paired minarets. Centerline extremes (2,2)-(46,46). Terrace bands omitted; doorway retained."""
+'Taj Mahal with pointed dome, crescent and paired minaret uprights. SQUARE centerlines (6,6)-(42,42). Dome joins the cornice; terrace ornament omitted; arched doorway retained. Source supplies identity; shared-axis construction follows Lucide landmark.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,24 +16,18 @@ class TajMahal(Solo48):
     keywords = ('taj mahal', 'india', 'agra', 'mausoleum', 'dome', 'minaret', 'landmark', 'heritage')
 
     def build(self) -> None:
-        self.add_arc('crescent-left', (20, 2), (24, 6), radius_x=4, radius_y=4, sweep=False)
-        self.add_arc('crescent-right', (24, 6), (28, 2), radius_x=4, radius_y=4, sweep=False)
-        self.add_contour('crescent', 'crescent-left', 'crescent-right', closed=False)
-        self.add_line('finial', (24, 6), (24, 13))
-        self.add_arc('onion-left', (24, 13), (14, 26), radius_x=14, radius_y=11, sweep=False)
-        self.add_arc('onion-base-left', (14, 26), (24, 31), radius_x=10, radius_y=5, sweep=False)
-        self.add_arc('onion-base-right', (24, 31), (34, 26), radius_x=10, radius_y=5, sweep=False)
-        self.add_arc('onion-right', (34, 26), (24, 13), radius_x=14, radius_y=11, sweep=False)
-        self.add_contour('onion', 'onion-left', 'onion-base-left', 'onion-base-right', 'onion-right', closed=True)
-        self.add_line('dome-neck', (24, 31), (24, 33))
-        self.add_polyline('terrace', (2, 23), (2, 46), (20, 46), (28, 46), (46, 46), (46, 23), closed=False)
-        self.add_polyline('roof', (2, 33), (24, 33), (46, 33), closed=False)
-        self.add_line('door-left', (20, 46), (20, 44))
-        self.add_arc('door-arch', (20, 44), (28, 44), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('door-right', (28, 44), (28, 46))
-        self.add_contour('door', 'door-left', 'door-arch', 'door-right', closed=False)
-        self.relate("connect", 'crescent', 'finial')
-        self.relate("connect", 'finial', 'onion')
-        self.relate("connect", 'onion', 'dome-neck')
-        self.relate("connect", 'dome-neck', 'roof')
-        self.relate("connect", 'terrace', 'door')
+        axis, left, right, bottom = 24, 6, 42, 42
+        self.add_arc('crescent-left',(20,6),(axis,10),radius_x=4,sweep=False)
+        self.add_arc('crescent-right',(axis,10),(28,6),radius_x=4,sweep=False)
+        self.add_contour('crescent','crescent-left','crescent-right')
+        self.add_line('finial',(axis,10),(axis,17))
+        self.add_arc('dome-left',(axis,17),(14,28),radius_x=12,radius_y=11,sweep=False)
+        self.add_arc('dome-right',(34,28),(axis,17),radius_x=12,radius_y=11,sweep=False)
+        self.add_polyline('roof',(left,28),(14,28),(20,28),(28,28),(34,28),(right,28))
+        self.add_polyline('terrace',(left,20),(left,28),(left,bottom),(axis,bottom),(right,bottom),(right,28),(right,20))
+        self.add_line('door-left',(20,bottom),(20,37))
+        self.add_arc('door-arch',(20,37),(28,37),radius_x=4)
+        self.add_line('door-right',(28,37),(28,bottom))
+        self.add_contour('entrance','door-left','door-arch','door-right')
+        for a,b in [('crescent','finial'),('finial','dome-left'),('finial','dome-right'),('dome-left','dome-right'),('dome-left','roof'),('dome-right','roof'),('roof','terrace'),('entrance','terrace')]:
+            self.relate('connect',a,b)

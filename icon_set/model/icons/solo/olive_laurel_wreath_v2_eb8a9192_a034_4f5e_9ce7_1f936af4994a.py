@@ -22,12 +22,12 @@ class OliveLaurelWreathVariant2(Solo48):
 
             def p(x, y):
                 return (48 - x if flip else x, y)
-            self.add_line(side + '-tip', p(18, 2), p(14, 10))
+            self.add_line(side + '-tip', p(18, 6), p(14, 10))
             self.add_arc(side + '-upper', p(14, 10), p(8, 28), radius_x=6, radius_y=18, sweep=flip)
             self.add_arc(side + '-lower', p(8, 28), p(12, 38), radius_x=16, radius_y=18, sweep=flip)
-            self.add_arc(side + '-foot', p(12, 38), p(24, 46), radius_x=16, radius_y=18, sweep=flip)
+            self.add_arc(side + '-foot', p(12, 38), p(24, 42), radius_x=16, radius_y=18, sweep=flip)
             self.add_contour(side, side + '-tip', side + '-upper', side + '-lower', side + '-foot')
-            for name, a, b in (('outer-high', (8, 28), (2, 18)), ('outer-low', (12, 38), (2, 34))):
+            for name, a, b in (('outer-high', (8, 28), (6, 18)), ('outer-low', (12, 38), (6, 34))):
                 self.add_line(side + '-' + name, p(*a), p(*b))
                 self.relate('connect', side, side + '-' + name)
         self.relate('connect', 'left', 'right')

@@ -2,7 +2,7 @@
   "contract": "icon-profile",
   "version": 2,
   "status": "locked",
-  "source": "ICON_SYSTEM_PLAN.md sections 2 and 3; family binding added 2026-09-07; SQUARE full-canvas and MIC 2 applied 2026-09-07",
+  "source": "ICON_SYSTEM_PLAN.md sections 2 and 3; family binding added 2026-09-07; SQUARE full-canvas and MIC 2 applied 2026-09-07; SOLO48 independent keyshapes and MIC 4 applied 2026-09-13",
   "style": {
     "grid": 1,
     "snap_to_grid": true,
@@ -62,10 +62,52 @@
       "semantic_use": "primary noun or standalone subject",
       "canvas_size": 48,
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
-      "keyshape_scale_denominator": 2
+      "keyshape_scale_denominator": 2,
+      "keyshape_overrides": {
+        "CIRCLE": {
+          "width": 44,
+          "height": 44
+        },
+        "SQUARE": {
+          "width": 40,
+          "height": 40
+        },
+        "HRECT_XL": {
+          "width": 44,
+          "height": 36
+        },
+        "HRECT_L": {
+          "width": 44,
+          "height": 36
+        },
+        "HRECT_M": {
+          "width": 44,
+          "height": 36
+        },
+        "HRECT_S": {
+          "width": 44,
+          "height": 36
+        },
+        "VRECT_XL": {
+          "width": 36,
+          "height": 44
+        },
+        "VRECT_L": {
+          "width": 36,
+          "height": 44
+        },
+        "VRECT_M": {
+          "width": 36,
+          "height": 44
+        },
+        "VRECT_S": {
+          "width": 36,
+          "height": 44
+        }
+      }
     },
     "CONTAINER64": {
       "family": "container",
@@ -88,6 +130,7 @@
     "CONTAINER64's MIC was 6 (10 between centerlines) until 2026-09-07. At 64 that reserved 10 units for every gap, which is more than the canvas can spend on a subject with real interior furniture -- a title bar with indicators, a keypad, a dial face -- and the containers authored under it came out emptier than their references. It is now 4, matching SOLO48: 4 units of white at 64 pixels is legible, and it is the clearance the reference drawings themselves are spaced to.",
     "Profile names are family name plus canvas size. Earlier releases called SOLO48 'MAIN48' and CONTAINER64 'COMPOSITE64'; the numbers are unchanged, only the binding to a family is new.",
     "SQUARE became the full canvas on 2026-09-07: base 32, so 32 at SUB32, 48 at SOLO48 and 64 at CONTAINER64. It was 28 (28/42/56), which left every rectilinear full-bleed subject sitting 2 to 4 units short of the edge while CIRCLE reached it. SQUARE and CIRCLE are now both full-canvas tokens, one rectilinear and one radial, and there is no longer a 28-square envelope: the 33 icons authored on the old one were redrawn to the new bounds, not rescaled.",
-    "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say."
+    "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say.",
+    "2026-09-13: SOLO48 supersedes its historical scaled dimensions: visible circle 44x44, square 40x40, landscape 44x36, portrait 36x44; legacy rectangle size tokens resolve to the same orientation envelope. MIC is 4, centerline minimum 8. SUB32 and CONTAINER64 are unchanged."
   ]
 }

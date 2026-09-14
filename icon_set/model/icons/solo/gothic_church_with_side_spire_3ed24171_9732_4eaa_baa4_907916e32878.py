@@ -1,4 +1,7 @@
-"""Gothic Church with Side Spire. Rebuilt from the supplied silhouette."""
+"""SQUARE (6,6)-(42,42) centerlines. Preserve cross-topped left gable, high connector, tall right spire and structural divisions. Keep facade blank as requested. Deliberate asymmetric skyline follows the reference.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,14 +20,12 @@ class Landmark(Solo48):
     keywords = ('church', 'cathedral', 'spire', 'gothic', 'cross', 'tower', 'religion', 'worship')
 
     def build(self):
-        self.add_polyline('outline', (2, 46), (2, 25), (12, 17), (22, 25), (22, 32), (34, 32), (34, 24), (40, 2), (46, 24), (46, 46), (16, 46), (8, 46), closed=True)
-        self.add_polyline('cross-stem', (12, 5), (12, 9), (12, 17), closed=False)
-        self.add_polyline('cross-bar', (8, 9), (12, 9), (16, 9), closed=False)
-        self.relate("connect", "cross-stem", "cross-bar")
-        self.relate("connect", "cross-stem", 'outline')
-        self.add_polyline('left-block', (2, 25), (22, 25), (22, 46), closed=False)
-        self.add_polyline('right-block', (34, 46), (34, 32), (34, 24), (46, 24), closed=False)
-        self.relate("connect", "outline", "left-block")
-        self.relate("connect", "outline", "right-block")
-        self.add_polyline('window-left', (12, 33), (12, 38), closed=False)
-        self.add_polyline('window-right', (40, 32), (40, 37), closed=False)
+        self.add_polyline('outline',(6,42),(6,26),(15,18),(24,26),(24,30),(32,30),(32,22),(37,6),(42,22),(42,42),(32,42),(24,42),closed=True)
+        self.add_polyline('cross-stem',(15,6),(15,10),(15,18))
+        self.add_polyline('cross-bar',(11,10),(15,10),(19,10))
+        self.relate('connect','cross-stem','cross-bar')
+        self.relate('connect','cross-stem','outline')
+        self.add_polyline('nave-divider',(6,26),(24,26),(24,30),(24,42))
+        self.add_polyline('tower-divider',(32,42),(32,30),(32,22),(42,22))
+        self.relate('connect','nave-divider','outline')
+        self.relate('connect','tower-divider','outline')

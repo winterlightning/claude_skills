@@ -17,7 +17,7 @@ class StandingCow(Solo48):
     keywords = ('cow', 'cattle', 'farm', 'livestock', 'dairy', 'animal', 'bovine', 'standing')
 
     def build(self) -> None:
-        # HRECT_L centerline extremes: (2,8)-(46,40).
+        # HRECT_L centerline extremes: (6,8)-(42,40).
         # Circular shoulder eases into the level back. Single-stroke legs
         # remove narrow internal slivers; the rear hock preserves the stance.
         self.add_line('horn-front', (10, 12), (9, 8))
@@ -30,9 +30,9 @@ class StandingCow(Solo48):
         self.add_line('belly', (34, 28), (18, 28))
         self.add_arc('chest', (18, 28), (11, 24), radius_x=7, radius_y=4)
         self.add_line('throat', (11, 24), (8, 20))
-        self.add_line('muzzle-bottom', (8, 20), (4, 21))
-        self.add_arc('muzzle-tip', (4, 21), (2, 19), radius_x=2)
-        self.add_line('face', (2, 19), (10, 12))
+        self.add_line('muzzle-bottom', (8, 20), (6, 21))
+        self.add_arc('muzzle-tip', (6, 21), (6, 19), radius_x=2)
+        self.add_line('face', (6, 19), (10, 12))
         self.add_contour(
             'outline', 'horn-front', 'horn-back', 'shoulder', 'back', 'rump',
             'rear', 'haunch', 'belly', 'chest', 'throat', 'muzzle-bottom',
@@ -42,5 +42,5 @@ class StandingCow(Solo48):
         self.add_polyline('hind-leg', (34, 28), (38, 34), (38, 40))
         self.relate('connect', 'outline', 'front-leg')
         self.relate('connect', 'outline', 'hind-leg')
-        self.add_arc('tail', (42, 18), (46, 30), radius_x=4, radius_y=12, sweep=False)
+        self.add_arc('tail', (42, 18), (42, 30), radius_x=4, radius_y=12, sweep=False)
         self.relate('connect', 'outline', 'tail')

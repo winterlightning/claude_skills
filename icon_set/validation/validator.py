@@ -323,6 +323,9 @@ class IconValidator:
     ) -> bool:
         check = CHECK_ORDER[3]
         spec = icon.profile.spec
+        from .parallel_straight import check_parallel_straight
+
+        errors.extend(check_parallel_straight(icon, drawing))
         payload = [
             {
                 "elementId": path["id"],

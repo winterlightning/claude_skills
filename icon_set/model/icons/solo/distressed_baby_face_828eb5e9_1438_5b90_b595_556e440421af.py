@@ -17,7 +17,7 @@ class DistressedBabyFace(Solo48):
     keywords = ('distressed', 'baby', 'face', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
+        # Centerline extremes: (6,6)-(42,42).
         self.add_arc('crown', (8, 25), (40, 25), radius_x=16, radius_y=13, sweep=True, large_arc=False)
         self.add_arc('ear-right', (40, 25), (40, 33), radius_x=6, radius_y=4, sweep=True, large_arc=False)
         self.add_arc('jaw', (40, 33), (8, 33), radius_x=16, radius_y=13, sweep=True, large_arc=False)
@@ -30,6 +30,6 @@ class DistressedBabyFace(Solo48):
         self.add_line('eye-right-up', (29, 29), (33, 25))
         self.relate("connect", 'eye-right-down', 'eye-right-up')
         self.add_arc('frown', (20, 38), (28, 38), radius_x=5, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('ray-middle', (24, 2), (24, 5))
-        self.add_line('ray-left', (10, 4), (12, 7))
-        self.add_line('ray-right', (38, 4), (36, 7))
+        self.add_line('ray-middle', (24, 6), (24, 6))
+        self.add_line('ray-left', (10, 6), (12, 7))
+        self.add_line('ray-right', (38, 6), (36, 7))

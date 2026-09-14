@@ -17,21 +17,21 @@ class SlidingPenguin(Solo48):
     keywords = ('penguin', 'slide', 'sliding', 'snow', 'slope', 'ice', 'antarctic', 'motion')
 
     def build(self) -> None:
-        # SQUARE centerline extremes: (2,2)-(46,46).
+        # SQUARE centerline extremes: (6,6)-(42,42).
         # Rounded back and separate domed head make the belly-down bird explicit.
         self.add_arc('rump', (6, 14), (14, 6), radius_x=8, radius_y=8)
         self.add_arc('back', (14, 6), (26, 18), radius_x=12, radius_y=12)
         self.add_arc('head-front', (26, 18), (42, 18), radius_x=8, radius_y=8)
-        self.add_line('bill-top', (42, 18), (46, 24))
-        self.add_line('bill-bottom', (46, 24), (38, 28))
+        self.add_line('bill-top', (42, 18), (42, 24))
+        self.add_line('bill-bottom', (42, 24), (38, 28))
         self.add_arc('belly-front', (38, 28), (22, 30), radius_x=20, radius_y=12)
         self.add_arc('belly-back', (22, 30), (6, 14), radius_x=16, radius_y=16)
         self.add_contour('body', 'rump', 'back', 'head-front', 'bill-top',
                          'bill-bottom', 'belly-front', 'belly-back', closed=True)
-        self.add_line('foot-upper', (14, 6), (6, 2))
-        self.add_line('foot-lower', (6, 14), (2, 8))
+        self.add_line('foot-upper', (14, 6), (6, 6))
+        self.add_line('foot-lower', (6, 14), (6, 8))
         self.relate('connect', 'body', 'foot-upper')
         self.relate('connect', 'body', 'foot-lower')
         self.add_dot('eye', (34, 19))
         self.add_line('flipper', (15, 16), (20, 22))
-        self.add_line('slope', (2, 34), (46, 46))
+        self.add_line('slope', (6, 34), (42, 42))

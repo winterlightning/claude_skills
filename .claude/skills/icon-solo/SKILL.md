@@ -19,9 +19,9 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Module goes in | `icon_set/model/icons/solo/` — one file per icon |
 | Subclass | `Solo48` from `._base` |
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
-| Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
+| Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `academic-graduation-cap`, `analogue-wristwatch`, `ant`, `ant-head`, `anteater` and 570 more |
+| Existing icons to imitate | `a-frame-church`, `academic-graduation-cap`, `analogue-wristwatch`, `analogue-wristwatch-v2`, `ant`, `ant-head` and 687 more |
 
 A **solo** icon is one independently readable subject. The whole 48 canvas belongs to it: there is nothing it must fit inside. It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
@@ -79,22 +79,28 @@ preserve the parent and edit a new file from `create_variant.py`.
    reference in scope, render it and look at it; read the subject, never the
    coordinates. See `icon_set/skills/icon-design/intake.md`.
 
+   **Plan symbols before coordinates.** Read `icon_set/skills/icon-design/symbol-construction.md`.
+   Identify typed shapes, nesting, repeated definitions/series, intended symmetry,
+   and shared attachment points. Record a compact plan in the module; implement
+   it with shared Python parameters and the existing geometry API. During repairs,
+   change the owning symbol or repeat definition so joins and equality survive.
+
 3. **Choose the keyshape, write down its four extremes, design backwards to
    them.** The rectangle fit is exact (tolerance 0); `CIRCLE` is radial. These are
    the `SOLO48` numbers:
 
 | Keyshape | Visible ink | Centerline box (author to this) |
 |---|---|---|
-| `CIRCLE` | radius 24 about (24,24) | radius 22 |
-| `SQUARE` | (0,0)-(48,48) | (2,2)-(46,46) |
-| `HRECT_XL` | (0,3)-(48,45) | (2,5)-(46,43) |
-| `HRECT_L` | (0,6)-(48,42) | (2,8)-(46,40) |
-| `HRECT_M` | (0,9)-(48,39) | (2,11)-(46,37) |
-| `HRECT_S` | (0,12)-(48,36) | (2,14)-(46,34) |
-| `VRECT_XL` | (3,0)-(45,48) | (5,2)-(43,46) |
-| `VRECT_L` | (6,0)-(42,48) | (8,2)-(40,46) |
-| `VRECT_M` | (9,0)-(39,48) | (11,2)-(37,46) |
-| `VRECT_S` | (12,0)-(36,48) | (14,2)-(34,46) |
+| `CIRCLE` | radius 22 about (24,24) | radius 20 |
+| `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
+| `HRECT_XL` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_M` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_S` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `VRECT_XL` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_M` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_S` | (6,2)-(42,46) | (8,4)-(40,44) |
 
    Ask the model instead of doing arithmetic:
    `Keyshape.HRECT_L.bounds_for(Profile.SOLO48)`.
@@ -159,9 +165,11 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 6. **Family-specific checks.**
 
+- Use CIRCLE, SQUARE, HRECT_L or VRECT_L with the visible-ink bounds in the table above. Other rectangle size tokens are compatibility names for the same orientation bounds on SOLO48. If an upright subject cannot fit, try a recognizable diagonal construction on the integer grid. If it still cannot fit, retain the validation findings and request the gallery's exception flag for manual review; record the reason and attempted fit. The flag is not a validation waiver or permission to leave the 48x48 canvas.
 - Twelve stroke widths across the canvas: one more feature than a sub icon, no more. Between a curved outline and an interior part you need the 8-unit minimum *plus* a unit of margin, because the engine cannot certify a curved pair sitting exactly on the minimum. `film-frame` moved from `SQUARE` to `VRECT_XL` for exactly this reason: a 15-deep band cannot hold a 4-unit mark with 8 on both sides.
 - Traced references: render first, then re-author on this grid. Reconstruct the subject, never the source's coordinates. Pick arc radii whose apex *is* the endpoint so the arc cannot overshoot the keyshape (`smartwatch`: r 15 from (10,11) to (22,5)).
 - Split a wall where a part attaches so the two share an endpoint; declare the contact with `relate("connect", ...)`. An arc merely touching a line is not proved as a connection and comes back `review`.
+- Parallel straight edges inside the same contour must also meet the profile's ink clearance and centerline minimum. This is an exact blocking MIC check for positive overlapping runs, excluding adjacent segments and shared endpoints. Curved and near-parallel internal edges remain sampled advisories.
 - Same concept also wanted at 32 or 64? That is a separately authored icon in another family with a suffix (`bell-sub`, `bell-container`). Never scale.
 
 7. **Build and look.**

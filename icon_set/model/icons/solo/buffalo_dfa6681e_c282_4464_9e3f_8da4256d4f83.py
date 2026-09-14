@@ -18,15 +18,15 @@ class BuffaloHead(Solo48):
 
     def build(self) -> None:
         # HRECT_XL centerline extremes recorded in batch-02-review.md.
-        self.add_arc('horn-left-outer', (2, 5), (14, 23), radius_x=12, radius_y=18, sweep=False)
+        self.add_arc('horn-left-outer', (6, 6), (14, 23), radius_x=12, radius_y=18, sweep=False)
         self.add_arc('brow-left', (14, 23), (24, 19), radius_x=14, radius_y=10, sweep=False)
         self.add_arc('brow-right', (24, 19), (34, 23), radius_x=14, radius_y=10, sweep=False)
-        self.add_arc('horn-right-outer', (34, 23), (46, 5), radius_x=12, radius_y=18, sweep=False)
+        self.add_arc('horn-right-outer', (34, 23), (42, 6), radius_x=12, radius_y=18, sweep=False)
         self.add_contour('horns', 'horn-left-outer', 'brow-left', 'brow-right', 'horn-right-outer', closed=False)
         self.add_line('face-left', (14, 23), (17, 38))
-        self.add_arc('jaw-left', (17, 38), (22, 43), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('chin', (22, 43), (26, 43))
-        self.add_arc('jaw-right', (26, 43), (31, 38), radius_x=5, radius_y=5, sweep=True)
+        self.add_arc('jaw-left', (17, 38), (22, 42), radius_x=5, radius_y=5, sweep=True)
+        self.add_line('chin', (22, 42), (26, 42))
+        self.add_arc('jaw-right', (26, 42), (31, 38), radius_x=5, radius_y=5, sweep=True)
         self.add_line('face-right', (31, 38), (34, 23))
         self.add_contour('face', 'face-left', 'jaw-left', 'chin', 'jaw-right', 'face-right', closed=False)
         self.relate("connect", 'face', 'horns')

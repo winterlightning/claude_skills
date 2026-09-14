@@ -20,7 +20,7 @@ class ProfileSpecTests(unittest.TestCase):
     def test_locked_constants(self) -> None:
         expected = {
             Profile.SUB32: (32, 4, 2, 6),
-            Profile.SOLO48: (48, 6, 2, 6),
+            Profile.SOLO48: (48, 6, 4, 8),
             Profile.CONTAINER64: (64, 8, 2, 6),
         }
         for profile, (canvas, inset, mic, spacing) in expected.items():
@@ -76,12 +76,13 @@ class KeyshapeResolutionTests(unittest.TestCase):
                 count += 1
         self.assertEqual(count, 30)
 
-    def test_solo48_is_exactly_one_and_a_half_times_sub32(self) -> None:
+    def test_solo48_independent_visible_envelopes(self) -> None:
+        expected = {Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40)}
         for shape in STANDARD:
-            base = shape.size_for(Profile.SUB32)
-            main = shape.size_for(Profile.SOLO48)
-            self.assertEqual(main.width * 2, base.width * 3)
-            self.assertEqual(main.height * 2, base.height * 3)
+            width, height = expected.get(shape, (44, 36) if shape.orientation == 'landscape' else (36, 44))
+            self.assertEqual(shape.size_for(Profile.SOLO48), KeyshapeSize(width, height))
+        self.assertEqual(Keyshape.CIRCLE.centerline_radius_for(Profile.SOLO48), 20)
+        self.assertEqual(Keyshape.SQUARE.bounds_for(Profile.SOLO48), (4, 4, 44, 44))
 
     def test_container64_is_exactly_twice_sub32(self) -> None:
         for shape in STANDARD:

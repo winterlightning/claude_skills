@@ -18,9 +18,9 @@ class LandmarkVariant2(Solo48):
     keywords = ('minoan', 'palace', 'knossos', 'crete', 'greece', 'ancient', 'columns', 'ruins', 'heritage')
 
     def build(self):
-        self.add_polyline('roof', (2, 13), (24, 5), (46, 13))
-        self.add_polyline('hall', (2, 13), (2, 29), (12, 29), (20, 29), (28, 29), (36, 29), (46, 29), (46, 13))
-        self.add_polyline('base', (2, 43), (12, 43), (20, 43), (28, 43), (36, 43), (46, 43))
+        self.add_polyline('roof', (6, 13), (24, 6), (42, 13))
+        self.add_polyline('hall', (6, 13), (6, 29), (12, 29), (20, 29), (28, 29), (36, 29), (42, 29), (42, 13))
+        self.add_polyline('base', (6, 42), (12, 42), (20, 42), (28, 42), (36, 42), (42, 42))
         for x in (12, 20, 28, 36):
             self.add_line(f'column-{x}', (x, 29), (x, 43))
             self.relate('connect', f'column-{x}', 'hall')

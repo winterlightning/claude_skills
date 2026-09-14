@@ -1,6 +1,7 @@
 # Mission: generate a new standalone icon
 
 Read .agents/skills/icon-making/SKILL.md, then the matching icon-sub, icon-solo, or icon-container skill.
+Read icon_set/skills/icon-design/symbol-construction.md before placing points. Record a compact symbol plan in the candidate module and implement its shape, nesting, repetition, symmetry, and attachment constraints using the existing Python geometry API.
 Use the requested name and description to design a NEW standalone icon. If family is auto, choose sub, solo, or container by meaning and explain the choice. Otherwise honor the requested family.
 Choose a unique icon_id, Python filename, and class name. This is a new icon, not a fix or variant of an existing icon; do not set variant_of.
 Create exactly ONE candidate in ONE NEW public Python module under icon_set/model/icons/<family>/.

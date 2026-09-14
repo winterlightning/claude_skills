@@ -1,4 +1,4 @@
-"""Golden Temple with three pointed domes and arched entrance. Centerline extremes (2,2)-(46,46). Secondary domes reduced to pointed caps; roof bands omitted."""
+'Golden Temple with central pointed dome, corner spires and arched entrance. SQUARE centerlines (6,6)-(42,42). Small side domes reduced to spires and cornice bands omitted for clearance. Shared axis and sparse facade informed by Lucide landmark.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,21 +16,16 @@ class GoldenTemple(Solo48):
     keywords = ('golden temple', 'amritsar', 'india', 'sikh', 'gurdwara', 'dome', 'landmark', 'religion')
 
     def build(self) -> None:
-        self.add_arc('onion-left', (24, 2), (16, 15), radius_x=12, radius_y=11, sweep=False)
-        self.add_arc('onion-base-left', (16, 15), (24, 20), radius_x=8, radius_y=5, sweep=False)
-        self.add_arc('onion-base-right', (24, 20), (32, 15), radius_x=8, radius_y=5, sweep=False)
-        self.add_arc('onion-right', (32, 15), (24, 2), radius_x=12, radius_y=11, sweep=False)
-        self.add_contour('onion', 'onion-left', 'onion-base-left', 'onion-base-right', 'onion-right', closed=True)
-        self.add_line('dome-neck', (24, 20), (24, 26))
-        self.add_polyline('body', (2, 26), (24, 26), (46, 26), (46, 46), (28, 46), (20, 46), (2, 46), closed=True)
-        self.add_line('door-left', (20, 46), (20, 39))
-        self.add_arc('door-arch', (20, 39), (28, 39), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('door-right', (28, 39), (28, 46))
-        self.add_contour('door', 'door-left', 'door-arch', 'door-right', closed=False)
-        self.add_polyline('left-dome', (2, 26), (2, 16), (6, 10), (10, 16), (10, 26), closed=False)
-        self.add_polyline('right-dome', (38, 26), (38, 16), (42, 10), (46, 16), (46, 26), closed=False)
-        self.relate("connect", 'onion', 'dome-neck')
-        self.relate("connect", 'dome-neck', 'body')
-        self.relate("connect", 'body', 'door')
-        self.relate("connect", 'body', 'left-dome')
-        self.relate("connect", 'body', 'right-dome')
+        axis, left, right, bottom = 24, 6, 42, 42
+        self.add_arc('dome-left',(axis,6),(16,24),radius_x=12,radius_y=15,sweep=False)
+        self.add_arc('dome-right',(32,24),(axis,6),radius_x=12,radius_y=15,sweep=False)
+        self.add_polyline('body',(left,24),(16,24),(32,24),(right,24),(right,bottom),(28,bottom),(20,bottom),(left,bottom),closed=True)
+        for side,x in [('left',left),('right',right)]:
+            self.add_line(side+'-spire',(x,14),(x,24))
+            self.relate('connect',side+'-spire','body')
+        self.add_line('door-left',(20,bottom),(20,37))
+        self.add_arc('door-arch',(20,37),(28,37),radius_x=4,sweep=True)
+        self.add_line('door-right',(28,37),(28,bottom))
+        self.add_contour('door','door-left','door-arch','door-right')
+        for a,b in [('dome-left','dome-right'),('dome-left','body'),('dome-right','body'),('body','door')]:
+            self.relate('connect',a,b)

@@ -18,12 +18,12 @@ class LandmarkVariant3(Solo48):
     keywords = ('cologne', 'cathedral', 'germany', 'church', 'spire', 'gothic', 'landmark', 'religion')
 
     def build(self):
-        self.add_polyline('outline', (2, 46), (2, 23), (9, 14), (16, 23), (16, 31), (27, 23), (36, 31), (36, 35), (46, 39), (46, 46), (28, 46), closed=True)
-        self.add_polyline('cross-stem', (9, 2), (9, 6), (9, 14), closed=False)
-        self.add_polyline('cross-bar', (5, 6), (9, 6), (13, 6), closed=False)
+        self.add_polyline('outline', (6, 42), (6, 23), (9, 14), (16, 23), (16, 31), (27, 23), (36, 31), (36, 35), (42, 39), (42, 42), (28, 42), closed=True)
+        self.add_polyline('cross-stem', (9, 6), (9, 6), (9, 14), closed=False)
+        self.add_polyline('cross-bar', (6, 6), (9, 6), (13, 6), closed=False)
         self.relate('connect', 'cross-stem', 'cross-bar')
         self.relate('connect', 'cross-stem', 'outline')
-        self.add_polyline('tower', (2, 23), (16, 23), (16, 46), closed=False)
+        self.add_polyline('tower', (6, 23), (16, 23), (16, 42), closed=False)
         self.relate('connect', 'tower', 'outline')
-        self.add_line('door', (28, 46), (28, 38))
+        self.add_line('door', (28, 42), (28, 38))
         self.relate('connect', 'door', 'outline')

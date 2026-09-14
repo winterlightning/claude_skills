@@ -1,4 +1,4 @@
-"""Right-facing beetle with a capsule shell and a broad hooked horn. Centerline extremes (2,8)-(46,40). Lucide bug informs attached legs; profile asymmetry preserves the source. No tiny eye or shell texture."""
+"""Right-facing beetle with a capsule shell and a broad hooked horn. Centerline extremes (6,8)-(42,40). Lucide bug informs attached legs; profile asymmetry preserves the source. No tiny eye or shell texture."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -25,8 +25,8 @@ class HornedBeetle(Solo48):
         self.add_line('belly-back', (14, 32), (12, 32))
         self.add_contour('shell', 'shell-back', 'shell-top', 'shell-front', 'belly-front', 'belly-middle', 'belly-back', closed=True)
         self.add_arc('head-rise', (28, 16), (38, 8), radius_x=10, radius_y=8, sweep=True)
-        self.add_arc('horn-inner', (38, 8), (46, 20), radius_x=8, radius_y=8, sweep=False)
-        self.add_arc('head-front', (46, 20), (34, 32), radius_x=12, radius_y=12, sweep=True)
+        self.add_arc('horn-inner', (38, 8), (42, 20), radius_x=8, radius_y=8, sweep=False)
+        self.add_arc('head-front', (42, 20), (34, 32), radius_x=12, radius_y=12, sweep=True)
         self.add_line('head-base', (34, 32), (28, 32))
         self.add_contour('head', 'head-rise', 'horn-inner', 'head-front', 'head-base', closed=False)
         self.relate("connect", 'shell', 'head')

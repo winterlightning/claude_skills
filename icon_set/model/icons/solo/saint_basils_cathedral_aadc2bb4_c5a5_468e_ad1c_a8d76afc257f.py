@@ -1,4 +1,7 @@
-"""Saint Basil's Cathedral. Rebuilt from the supplied silhouette."""
+"""VRECT_XL (8,6)-(40,42) centerlines. Preserve three pointed onion domes, taller central tower and broad base. Replace tight upright shoulder notches with open diagonal shoulders. Mirrored radii and coordinates about x=24.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,21 +20,20 @@ class Landmark(Solo48):
     keywords = ('saint basil', 'moscow', 'russia', 'cathedral', 'onion dome', 'landmark', 'church', 'religion')
 
     def build(self):
-        self.add_line("base-1", (8,31), (8,46))
-        self.add_line("base-2", (8,46), (40,46))
-        self.add_line("base-3", (40,46), (40,31))
-        self.add_arc("right-lower", (40,31), (43,25), radius_x=3, radius_y=6, sweep=False)
-        self.add_arc("right-upper", (43,25), (38,17), radius_x=5, radius_y=8, sweep=False)
-        self.add_arc("right-inner", (38,17), (33,25), radius_x=5, radius_y=8, sweep=False)
-        self.add_line("shoulder-right-1", (33, 25), (33, 34))
-        self.add_line("shoulder-right-2", (33, 34), (28, 28))
-        self.add_line("shoulder-right-3", (28, 28), (28, 22))
-        self.add_arc("middle-right", (28,22), (24,2), radius_x=11, radius_y=13, sweep=False)
-        self.add_arc("middle-left", (24,2), (20,22), radius_x=11, radius_y=13, sweep=False)
-        self.add_line("shoulder-left-1", (20, 22), (20, 28))
-        self.add_line("shoulder-left-2", (20, 28), (15, 34))
-        self.add_line("shoulder-left-3", (15, 34), (15, 25))
-        self.add_arc("left-inner", (15,25), (10,17), radius_x=5, radius_y=8, sweep=False)
-        self.add_arc("left-upper", (10,17), (5,25), radius_x=5, radius_y=8, sweep=False)
-        self.add_arc("left-lower", (5,25), (8,31), radius_x=3, radius_y=6, sweep=False)
-        self.add_contour("outline", "base-1", "base-2", "base-3", "right-lower", "right-upper", "right-inner", "shoulder-right-1", "shoulder-right-2", "shoulder-right-3", "middle-right", "middle-left", "shoulder-left-1", "shoulder-left-2", "shoulder-left-3", "left-inner", "left-upper", "left-lower", closed=True)
+        self.add_polyline('base',(10,30),(10,42),(38,42),(38,30))
+        for side in (-1,1):
+            p='left' if side<0 else 'right'
+            def pt(x,y): return (x if side<0 else 48-x,y)
+            self.add_arc(p+'-lower',pt(10,30),pt(8,24),radius_x=2,radius_y=6,sweep=side<0)
+            self.add_arc(p+'-outer',pt(8,24),pt(12,16),radius_x=10,radius_y=10,sweep=side<0)
+            self.add_arc(p+'-inner',pt(12,16),pt(16,24),radius_x=10,radius_y=10,sweep=side<0)
+            self.add_arc(p+'-inner-lower',pt(16,24),pt(14,30),radius_x=2,radius_y=6,sweep=side<0)
+            self.add_polyline(p+'-shoulder',pt(14,30),pt(20,24),pt(20,22))
+            self.add_arc(p+'-central-lower',pt(20,22),pt(18,16),radius_x=2,radius_y=6,sweep=side<0)
+            self.add_arc(p+'-central-top',pt(18,16),(24,6),radius_x=15,sweep=side<0)
+            self.add_contour(p+'-central',p+'-central-lower',p+'-central-top')
+            self.add_contour(p+'-silhouette',p+'-lower',p+'-outer',p+'-inner',p+'-inner-lower')
+            self.relate('connect',p+'-silhouette','base')
+            self.relate('connect',p+'-silhouette',p+'-shoulder')
+            self.relate('connect',p+'-shoulder',p+'-central')
+        self.relate('connect','left-central','right-central')

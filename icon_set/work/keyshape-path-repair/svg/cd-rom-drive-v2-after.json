@@ -1,0 +1,162 @@
+{
+  "icon_id": "cd-rom-drive-v2-stretch-square",
+  "name": "cd-rom-drive-v2-stretch-square",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "cd",
+    "rom",
+    "drive"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "housing-0",
+      "start": [
+        6,
+        29
+      ],
+      "end": [
+        6,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "housing-1",
+      "start": [
+        6,
+        22
+      ],
+      "end": [
+        11,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "housing-2",
+      "start": [
+        11,
+        6
+      ],
+      "end": [
+        37,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "housing-3",
+      "start": [
+        37,
+        6
+      ],
+      "end": [
+        42,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "housing-4",
+      "start": [
+        42,
+        22
+      ],
+      "end": [
+        42,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "slot",
+      "start": [
+        17,
+        21
+      ],
+      "end": [
+        31,
+        21
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "disc-bottom",
+      "start": [
+        31,
+        21
+      ],
+      "end": [
+        17,
+        21
+      ],
+      "radius_x": 9,
+      "radius_y": 13,
+      "large_arc": true,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "hole",
+      "start": [
+        24,
+        31
+      ],
+      "end": [
+        24,
+        31
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "housing",
+      "members": [
+        "housing-0",
+        "housing-1",
+        "housing-2",
+        "housing-3",
+        "housing-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "ejecting-disc",
+      "members": [
+        "slot",
+        "disc-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [],
+  "variant_of": "cd-rom-drive-v2",
+  "variant_label": "Stretch to SQUARE"
+}

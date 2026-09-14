@@ -1,4 +1,4 @@
-"""Advisory internal clearance must find squeezes without blocking releases."""
+"""Sampled advisories coexist with exact blocking parallel-straight checks."""
 import unittest
 from tempfile import TemporaryDirectory
 from pathlib import Path
@@ -66,23 +66,29 @@ class InternalSpacingTests(unittest.TestCase):
                                    end=Point(14 if p.end.x==18 else p.end.x,p.end.y)) for p in icon.primitives]
         self.assertTrue(analyze_internal_spacing(icon,icon.draw())['findings'])
 
-    def test_advisory_is_visible_without_changing_release_status(self):
+    def test_advisory_remains_visible_when_exact_parallel_check_blocks(self):
         with TemporaryDirectory() as temporary:
             root=Path(temporary)
             row=inspect_icon(cramped_dress(),debug_dir=root/'solo/dress')
-            self.assertEqual(row['status'],'pass')
+            self.assertEqual(row['status'],'fail')
+            self.assertTrue(any('parallel straight edges' in error for error in row['errors']))
             self.assertTrue(row['needs_review'])
             row['_key']='solo/dress'
             save_evidence([row],root,debug=True,report=True)
             self.assertTrue((root/'solo/dress/internal-spacing.png').exists())
             html=(root/'index.html').read_text()
-            self.assertIn('needs review',html)
+            self.assertIn('Within-contour spacing: review',html)
             self.assertIn('strap-left-inner',html)
             self.assertIn('Advisory only',html)
 
-    def test_repaired_dress_and_wrench_clear_both_qa_and_internal_spacing(self):
-        for name in ('dress','open-end-maintenance-wrench'):
-            with self.subTest(icon=name):
-                row = inspect_icon(create(name))
-                self.assertEqual(row['status'],'pass',row['errors'])
-                self.assertFalse(row['needs_review'])
+    def test_wide_contour_clears_both_qa_and_internal_spacing(self):
+        from icon_set.model.keyshapes import Keyshape
+        icon = create('dress')
+        icon.primitives = []
+        icon.contours = []
+        icon.relationships = []
+        icon.keyshape = Keyshape.SQUARE
+        icon.add_polyline('u', (6,42), (6,6), (42,6), (42,42))
+        row = inspect_icon(icon)
+        self.assertEqual(row['status'],'pass',row['errors'])
+        self.assertFalse(row['needs_review'])

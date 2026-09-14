@@ -1,4 +1,4 @@
-"""Mirrored tiger face with rounded ears, central brow and cheek stripes. Bounds (2,2)-(46,46). Lucide cat: paired facial proportions, simplified muzzle; omit extra cheek hooks."""
+"""Mirrored tiger face with rounded ears, central brow and cheek stripes. Bounds (6,6)-(42,42). Lucide cat: paired facial proportions, simplified muzzle; omit extra cheek hooks."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,16 +17,16 @@ class TigerFace(Solo48):
     keywords = ('tiger', 'face', 'head', 'stripes', 'big cat', 'feline', 'bengal', 'wildlife')
 
     def build(self) -> None:
-        self.add_arc('ear-left',(2,8),(14,8),radius_x=6,radius_y=6,sweep=True)
+        self.add_arc('ear-left',(6,8),(14,8),radius_x=6,radius_y=6,sweep=True)
         self.add_line('ear-left-root',(14,8),(17,8))
         self.add_arc('forehead-left',(17,8),(24,6),radius_x=26,sweep=True)
         self.add_arc('forehead-right',(24,6),(31,8),radius_x=26,sweep=True)
         self.add_line('ear-right-root',(31,8),(34,8))
-        self.add_arc('ear-right',(34,8),(46,8),radius_x=6,radius_y=6,sweep=True)
-        self.add_line('side-right',(46,8),(46,26))
-        self.add_arc('jaw-right',(46,26),(24,46),radius_x=22,radius_y=20,sweep=True)
-        self.add_arc('jaw-left',(24,46),(2,26),radius_x=22,radius_y=20,sweep=True)
-        self.add_line('side-left',(2,26),(2,8))
+        self.add_arc('ear-right',(34,8),(42,8),radius_x=6,radius_y=6,sweep=True)
+        self.add_line('side-right',(42,8),(42,26))
+        self.add_arc('jaw-right',(42,26),(24,42),radius_x=22,radius_y=20,sweep=True)
+        self.add_arc('jaw-left',(24,42),(6,26),radius_x=22,radius_y=20,sweep=True)
+        self.add_line('side-left',(6,26),(6,8))
         self.add_contour('outline','ear-left','ear-left-root','forehead-left','forehead-right','ear-right-root','ear-right','side-right','jaw-right','jaw-left','side-left',closed=True)
         self.add_line('brow',(24,6),(24,17))
         self.add_line('brow-stripe',(17,14),(31,14))
@@ -42,7 +42,7 @@ class TigerFace(Solo48):
         self.relate('connect','muzzle-stem','muzzle-left')
         self.relate('connect','muzzle-stem','muzzle-right')
         self.relate('connect','muzzle-left','muzzle-right')
-        self.add_line('left-stripe',(2,26),(9,29))
-        self.add_line('right-stripe',(46,26),(39,29))
+        self.add_line('left-stripe',(6,26),(9,29))
+        self.add_line('right-stripe',(42,26),(39,29))
         self.relate('connect','left-stripe','outline')
         self.relate('connect','right-stripe','outline')

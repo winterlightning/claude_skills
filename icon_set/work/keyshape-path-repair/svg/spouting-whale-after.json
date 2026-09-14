@@ -1,0 +1,319 @@
+{
+  "icon_id": "spouting-whale-stretch-square",
+  "name": "spouting-whale-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "whale",
+    "spout",
+    "blow",
+    "water",
+    "sea",
+    "ocean",
+    "marine",
+    "mammal"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "forehead",
+      "start": [
+        6,
+        28
+      ],
+      "end": [
+        17,
+        25
+      ],
+      "radius_x": 21,
+      "radius_y": 21,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "back",
+      "start": [
+        17,
+        25
+      ],
+      "end": [
+        31,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "tail-rise",
+      "start": [
+        31,
+        25
+      ],
+      "end": [
+        35,
+        20
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "fluke-1",
+      "start": [
+        35,
+        20
+      ],
+      "end": [
+        32,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "fluke-2",
+      "start": [
+        32,
+        15
+      ],
+      "end": [
+        37,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "fluke-3",
+      "start": [
+        37,
+        17
+      ],
+      "end": [
+        42,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "fluke-4",
+      "start": [
+        42,
+        10
+      ],
+      "end": [
+        42,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "rump",
+      "start": [
+        42,
+        26
+      ],
+      "end": [
+        32,
+        39
+      ],
+      "radius_x": 10,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "fin-1",
+      "start": [
+        32,
+        39
+      ],
+      "end": [
+        34,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "fin-2",
+      "start": [
+        34,
+        42
+      ],
+      "end": [
+        25,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "fin-3",
+      "start": [
+        25,
+        40
+      ],
+      "end": [
+        19,
+        34
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly",
+      "start": [
+        25,
+        40
+      ],
+      "end": [
+        6,
+        28
+      ],
+      "radius_x": 21,
+      "radius_y": 21,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "spray-left",
+      "start": [
+        9,
+        6
+      ],
+      "end": [
+        16,
+        12
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "spray-right",
+      "start": [
+        16,
+        12
+      ],
+      "end": [
+        22,
+        6
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "spout-stem",
+      "start": [
+        16,
+        12
+      ],
+      "end": [
+        16,
+        17
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "outline",
+      "members": [
+        "forehead",
+        "back",
+        "tail-rise",
+        "fluke-1",
+        "fluke-2",
+        "fluke-3",
+        "fluke-4",
+        "rump",
+        "fin-1",
+        "fin-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "underside",
+      "members": [
+        "belly"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "pectoral-fin",
+      "members": [
+        "fin-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "spray",
+      "members": [
+        "spray-left",
+        "spray-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "outline",
+        "underside"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "outline",
+        "pectoral-fin"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "underside",
+        "pectoral-fin"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "spray",
+        "spout-stem"
+      ]
+    }
+  ],
+  "variant_of": "spouting-whale",
+  "variant_label": "Stretch to SQUARE"
+}

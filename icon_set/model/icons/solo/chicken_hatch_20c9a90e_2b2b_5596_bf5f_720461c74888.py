@@ -17,14 +17,14 @@ class HatchingChick(Solo48):
     keywords = ('chick', 'egg', 'hatch', 'shell', 'birth', 'easter', 'bird', 'new')
 
     def build(self) -> None:
-        # VRECT_XL visible (3,0)-(45,48); centerlines (5,2)-(43,46).
+        # VRECT_XL visible (6,6)-(42,42); centerlines (6,6)-(42,42).
         self.add_line('back', (13,32), (13,14))
         self.add_arc('head', (13,14), (35,14), radius_x=11, radius_y=12)
-        self.add_line('bill-top', (35,14), (43,19))
-        self.add_line('bill-bottom', (43,19), (35,24))
+        self.add_line('bill-top', (35,14), (42,19))
+        self.add_line('bill-bottom', (42,19), (35,24))
         self.add_line('breast', (35,24), (35,32))
         self.add_contour('chick', 'back', 'head', 'bill-top', 'bill-bottom', 'breast')
-        self.add_polyline('crack', (5,26), (13,32), (24,26), (35,32), (43,26))
-        self.add_arc('shell', (43,26), (5,26), radius_x=19, radius_y=20)
+        self.add_polyline('crack', (6,26), (13,32), (24,26), (35,32), (42,26))
+        self.add_arc('shell', (42,26), (6,26), radius_x=19, radius_y=20)
         self.relate('connect', 'shell', 'crack')
         self.relate('connect', 'chick', 'crack')

@@ -18,6 +18,6 @@ class LeaningTowerOfPisaVariant3(Solo48):
     keywords = ('pisa', 'tower', 'italy', 'leaning', 'landmark', 'campanile', 'travel', 'architecture')
 
     def build(self) -> None:
-        self.add_polyline('shaft', (11, 46), (13, 36), (15, 26), (17, 16), (19, 2), (35, 6), (33, 20), (31, 30), (29, 40), (28, 46), (11, 46), closed=True)
-        self.add_polyline('ground', (5, 46), (11, 46), (28, 46), (43, 46))
+        self.add_polyline('shaft', (11, 42), (13, 36), (15, 26), (17, 16), (19, 6), (35, 6), (33, 20), (31, 30), (29, 40), (28, 42), (11, 42), closed=True)
+        self.add_polyline('ground', (6, 42), (11, 42), (28, 42), (42, 42))
         self.relate('connect', 'ground', 'shaft')

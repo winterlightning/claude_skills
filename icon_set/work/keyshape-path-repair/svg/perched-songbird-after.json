@@ -1,0 +1,278 @@
+{
+  "icon_id": "perched-songbird-stretch-square",
+  "name": "perched-songbird-stretch-square",
+  "aliases": [],
+  "category": "objects/animals",
+  "keywords": [
+    "bird",
+    "songbird",
+    "sparrow",
+    "robin",
+    "perched",
+    "wildlife",
+    "wing",
+    "garden"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "head-left",
+      "start": [
+        24,
+        16
+      ],
+      "end": [
+        32,
+        6
+      ],
+      "radius_x": 8,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "head-right",
+      "start": [
+        32,
+        6
+      ],
+      "end": [
+        40,
+        16
+      ],
+      "radius_x": 8,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-1",
+      "start": [
+        40,
+        16
+      ],
+      "end": [
+        42,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-2",
+      "start": [
+        42,
+        19
+      ],
+      "end": [
+        37,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "breast-neck",
+      "start": [
+        37,
+        22
+      ],
+      "end": [
+        37,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "breast",
+      "start": [
+        37,
+        24
+      ],
+      "end": [
+        26,
+        35
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "belly",
+      "start": [
+        26,
+        35
+      ],
+      "end": [
+        19,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tail-1",
+      "start": [
+        19,
+        35
+      ],
+      "end": [
+        6,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tail-2",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        24,
+        16
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wing",
+      "start": [
+        29,
+        23
+      ],
+      "end": [
+        21,
+        28
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-left-1",
+      "start": [
+        19,
+        35
+      ],
+      "end": [
+        19,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-left-2",
+      "start": [
+        19,
+        42
+      ],
+      "end": [
+        16,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-right-1",
+      "start": [
+        26,
+        35
+      ],
+      "end": [
+        29,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-right-2",
+      "start": [
+        29,
+        42
+      ],
+      "end": [
+        32,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "outline",
+      "members": [
+        "head-left",
+        "head-right",
+        "beak-1",
+        "beak-2",
+        "breast-neck",
+        "breast",
+        "belly",
+        "tail-1",
+        "tail-2"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "leg-left",
+      "members": [
+        "leg-left-1",
+        "leg-left-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "leg-right",
+      "members": [
+        "leg-right-1",
+        "leg-right-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "outline",
+        "leg-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "outline",
+        "leg-right"
+      ]
+    }
+  ],
+  "variant_of": "perched-songbird",
+  "variant_label": "Stretch to SQUARE"
+}

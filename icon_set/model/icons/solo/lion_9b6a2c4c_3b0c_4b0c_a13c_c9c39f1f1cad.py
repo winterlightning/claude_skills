@@ -18,14 +18,14 @@ class ButterflyInHeart(Solo48):
 
     def build(self) -> None:
         # SQUARE: authored to its exact SOLO48 centerline bounds.
-        self.add_arc('heart-left-top', (24, 9), (13, 2), radius_x=11, radius_y=7, sweep=False)
-        self.add_arc('heart-left', (13, 2), (2, 15), radius_x=11, radius_y=13, sweep=False)
-        self.add_arc('heart-left-low', (2, 15), (8, 31), radius_x=25, radius_y=25, sweep=False)
-        self.add_line('heart-tip-left', (8, 31), (24, 46))
-        self.add_line('heart-tip-right', (24, 46), (40, 31))
-        self.add_arc('heart-right-low', (40, 31), (46, 15), radius_x=25, radius_y=25, sweep=False)
-        self.add_arc('heart-right', (46, 15), (35, 2), radius_x=11, radius_y=13, sweep=False)
-        self.add_arc('heart-right-top', (35, 2), (24, 9), radius_x=11, radius_y=7, sweep=False)
+        self.add_arc('heart-left-top', (24, 9), (13, 6), radius_x=11, radius_y=7, sweep=False)
+        self.add_arc('heart-left', (13, 6), (6, 15), radius_x=11, radius_y=13, sweep=False)
+        self.add_arc('heart-left-low', (6, 15), (8, 31), radius_x=25, radius_y=25, sweep=False)
+        self.add_line('heart-tip-left', (8, 31), (24, 42))
+        self.add_line('heart-tip-right', (24, 42), (40, 31))
+        self.add_arc('heart-right-low', (40, 31), (42, 15), radius_x=25, radius_y=25, sweep=False)
+        self.add_arc('heart-right', (42, 15), (35, 6), radius_x=11, radius_y=13, sweep=False)
+        self.add_arc('heart-right-top', (35, 6), (24, 9), radius_x=11, radius_y=7, sweep=False)
         self.add_contour('heart', 'heart-left-top', 'heart-left', 'heart-left-low', 'heart-tip-left', 'heart-tip-right', 'heart-right-low', 'heart-right', 'heart-right-top', closed=True)
         self.add_arc('wing-upper-left', (24, 23), (13, 17), radius_x=7, radius_y=7, sweep=False)
         self.add_arc('wing-left', (13, 17), (15, 27), radius_x=7, radius_y=7, sweep=False)

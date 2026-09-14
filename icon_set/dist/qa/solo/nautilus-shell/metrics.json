@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 3.99334, 44.0067, 43.2) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0067, 0.0067, 0.8], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "shell",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 40 A 5 6 0 0 0 12 40 L 12 19 A 17 17 0 0 1 29 2 A 17 17 0 0 1 46 19 A 17 17 0 0 1 29 36 A 9 9 0 0 1 20 27 L 20 19 A 9 9 0 0 1 29 10 A 9 9 0 0 1 38 19 A 9 9 0 0 1 29 28",
+        "pathData": "M 6 40 A 5 6 0 0 0 12 40 L 12 19 A 17 17 0 0 1 29 6 A 17 17 0 0 1 42 19 A 17 17 0 0 1 29 36 A 9 9 0 0 1 20 27 L 20 19 A 9 9 0 0 1 29 10 A 9 9 0 0 1 38 19 A 9 9 0 0 1 29 28",
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          5.99372626114771,
+          42.006273738852286,
+          41.2
         ],
-        "segmentCount": 770,
-        "approximationError": 0.0006776919530894591,
+        "segmentCount": 514,
+        "approximationError": 0.0009619180742084446,
         "hasCurves": true
       },
       {
@@ -59,10 +61,10 @@
           "aperture"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          5.99372626114771,
+          42.006273738852286,
+          41.2
         ]
       }
     ],
@@ -102,8 +104,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -117,8 +119,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 13,
-      "flattenedSegments": 771,
-      "adaptiveNodes": 1528,
+      "flattenedSegments": 515,
+      "adaptiveNodes": 1016,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -138,22 +140,22 @@
           19.0156
         ],
         "bbox_viewbox": [
-          12.5,
-          2.5,
-          33.0,
-          33.0
+          12.6562,
+          6.5,
+          28.8438,
+          29.0
         ],
         "bbox_ship_px": [
-          33.0,
-          33.0
+          28.8438,
+          29.0
         ],
         "bbox_design_u": [
-          33.0,
-          33.0
+          28.8438,
+          29.0
         ],
-        "area_ship_px2": 719.9434,
-        "equivalent_diameter_ship_px": 30.2764,
-        "equivalent_diameter_design_u": 30.2764,
+        "area_ship_px2": 496.1846,
+        "equivalent_diameter_ship_px": 25.1349,
+        "equivalent_diameter_design_u": 25.1349,
         "inscribed_diameter_ship_px": 16.7016,
         "inscribed_diameter_design_u": 16.7016,
         "inscribed_radius_ship_px": 8.3508,
@@ -187,14 +189,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "df3eae55d6cfe0269d70d30639449826cb73331f0bbf8510c21e95ba09d309b6",
+  "svg_sha256": "2331a71fe782c1459a3140af6acda08d7c36429f9cc7dc6041039d48fecd6b2b",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -224,13 +226,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,
@@ -239,8 +254,72 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [],
+    "findings": [
+      {
+        "contour": "shell",
+        "elements": [
+          "shell-top-left",
+          "coil-top-left"
+        ],
+        "status": "review",
+        "sustained_length": 21.4057,
+        "centerline_distance": 4.0316,
+        "ink_gap": 0.0316,
+        "nearest_points": [
+          [
+            28.128937032207343,
+            5.998397900908669
+          ],
+          [
+            28.406471139347243,
+            10.020410714239132
+          ]
+        ]
+      },
+      {
+        "contour": "shell",
+        "elements": [
+          "shell-top-right",
+          "coil-top-right"
+        ],
+        "status": "review",
+        "sustained_length": 17.93,
+        "centerline_distance": 2.892,
+        "ink_gap": -1.108,
+        "nearest_points": [
+          [
+            37.496338308186075,
+            10.679745898115517
+          ],
+          [
+            35.45104261851606,
+            12.724328790154042
+          ]
+        ]
+      },
+      {
+        "contour": "shell",
+        "elements": [
+          "shell-bottom-right",
+          "coil-bottom"
+        ],
+        "status": "review",
+        "sustained_length": 21.4057,
+        "centerline_distance": 4.0316,
+        "ink_gap": 0.0316,
+        "nearest_points": [
+          [
+            42.00160209909133,
+            19.871062967792657
+          ],
+          [
+            37.97958928576087,
+            19.59352886065272
+          ]
+        ]
+      }
+    ],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

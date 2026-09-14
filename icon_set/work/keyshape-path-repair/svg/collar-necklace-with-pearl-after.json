@@ -1,0 +1,172 @@
+{
+  "icon_id": "collar-necklace-with-pearl-stretch-vrect-l",
+  "name": "collar-necklace-with-pearl-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "collar",
+    "necklace",
+    "with",
+    "pearl"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "outer-top",
+      "start": [
+        8,
+        21
+      ],
+      "end": [
+        40,
+        21
+      ],
+      "radius_x": 16,
+      "radius_y": 17,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "outer-r",
+      "start": [
+        40,
+        21
+      ],
+      "end": [
+        28,
+        39
+      ],
+      "radius_x": 12,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "outer-l",
+      "start": [
+        20,
+        39
+      ],
+      "end": [
+        8,
+        21
+      ],
+      "radius_x": 12,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "inner",
+      "start": [
+        8,
+        21
+      ],
+      "end": [
+        40,
+        21
+      ],
+      "radius_x": 16,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "pearl-top",
+      "start": [
+        20,
+        39
+      ],
+      "end": [
+        28,
+        39
+      ],
+      "radius_x": 4,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "pearl-bottom",
+      "start": [
+        28,
+        39
+      ],
+      "end": [
+        20,
+        39
+      ],
+      "radius_x": 4,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "collar",
+      "members": [
+        "outer-l",
+        "outer-top",
+        "outer-r"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "pearl",
+      "members": [
+        "pearl-top",
+        "pearl-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "inner",
+        "collar"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "pearl",
+        "collar"
+      ]
+    }
+  ],
+  "variant_of": "collar-necklace-with-pearl",
+  "variant_label": "Stretch to VRECT_L"
+}

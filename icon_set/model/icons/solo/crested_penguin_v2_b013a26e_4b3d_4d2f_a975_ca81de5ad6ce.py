@@ -1,5 +1,5 @@
 # Variant of crested-penguin; parent file remains unchanged.
-'Crested penguin with a rounded head, uninterrupted body and long flippers. VRECT_XL (5,2)-(43,46) supports an upright body. Mirrored across x=24; pointed flipper notches removed. Lucide bird informed broad head and belly arcs.'
+'Crested penguin with a rounded head, uninterrupted body and long flippers. VRECT_XL (6,6)-(42,42) supports an upright body. Mirrored across x=24; pointed flipper notches removed. Lucide bird informed broad head and belly arcs.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b013a26e-4b3d-4d2f-a975-ca81de5ad6ce'
@@ -18,18 +18,18 @@ class CrestedPenguinVariant2(Solo48):
     keywords = ('penguin', 'crest', 'bird', 'antarctic', 'flippers', 'rockhopper', 'standing', 'cold')
 
     def build(self) -> None:
-        # VRECT_XL (5,2)-(43,46), mirrored about x=24.
-        self.add_arc('head-left', (14,12), (24,2), radius_x=10)
-        self.add_arc('head-right', (24,2), (34,12), radius_x=10)
+        # VRECT_XL (6,6)-(42,42), mirrored about x=24.
+        self.add_arc('head-left', (14,12), (24,6), radius_x=10)
+        self.add_arc('head-right', (24,6), (34,12), radius_x=10)
         self.add_line('side-right', (34,12), (36,34))
-        self.add_arc('belly-right', (36,34), (24,46), radius_x=12)
-        self.add_arc('belly-left', (24,46), (12,34), radius_x=12)
+        self.add_arc('belly-right', (36,34), (24,42), radius_x=12)
+        self.add_arc('belly-left', (24,42), (12,34), radius_x=12)
         self.add_line('side-left', (12,34), (14,12))
         self.add_contour('body','head-left','head-right','side-right','belly-right','belly-left','side-left',closed=True)
-        self.add_arc('flipper-left', (14,12), (5,34), radius_x=9, radius_y=22, sweep=False)
-        self.add_arc('flipper-right', (34,12), (43,34), radius_x=9, radius_y=22)
-        self.add_line('crest-left', (14,12), (5,7))
-        self.add_line('crest-right', (34,12), (43,7))
+        self.add_arc('flipper-left', (14,12), (6,34), radius_x=9, radius_y=22, sweep=False)
+        self.add_arc('flipper-right', (34,12), (42,34), radius_x=9, radius_y=22)
+        self.add_line('crest-left', (14,12), (6,7))
+        self.add_line('crest-right', (34,12), (42,7))
         for part in ('flipper-left','flipper-right','crest-left','crest-right'):
             self.relate('connect','body',part)
         self.relate('connect','flipper-left','crest-left')

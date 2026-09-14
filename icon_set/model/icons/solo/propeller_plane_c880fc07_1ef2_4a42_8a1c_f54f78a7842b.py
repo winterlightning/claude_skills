@@ -1,0 +1,24 @@
+"""Propeller plane; authored directly on SOLO48."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c880fc07-1ef2-4a42-8a1c-f54f78a7842b'
+SOURCE_PATH = 'pictographic-primitives/transportation/propeller_c880fc07-1ef2-4a42-8a1c-f54f78a7842b.svg'
+AUTHOR = 'gpt-6'
+
+class PropellerPlane(Solo48):
+    icon_id = 'propeller-plane'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/transportation'
+    aliases = ()
+    keywords = ('propeller plane', 'airplane', 'aircraft', 'plane', 'aviation', 'flight', 'light aircraft', 'propeller')
+
+    def build(self) -> None:
+        # SQUARE (6,6)-(42,42). Diagonal aircraft with an oval spinning-disc at its nose.
+        for name,a,b in [('upper',(30,22),(36,23)),('upper-right',(36,23),(40,27)),('lower-right',(40,27),(30,32)),('lower',(30,32),(24,31)),('lower-left',(24,31),(20,27)),('upper-left',(20,27),(30,22))]:
+            self.add_arc('disc-'+name,a,b,radius_x=10,radius_y=5)
+        self.add_contour('propeller-disc','disc-upper','disc-upper-right','disc-lower-right','disc-lower','disc-lower-left','disc-upper-left',closed=True)
+        self.add_polyline('airframe',(36,23),(42,12),(38,6),(34,6),(24,18),(14,18),(8,10),(6,12),(6,16),(12,26),(18,30),(12,40),(16,42),(24,31))
+        self.relate('connect','airframe','propeller-disc')

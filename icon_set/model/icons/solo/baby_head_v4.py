@@ -18,10 +18,10 @@ class BabyHeadVariant4(Solo48):
     keywords = ('baby', 'head', 'infant', 'nursery')
 
     def build(self) -> None:
-        self.add_arc('head-right', (24, 2), (24, 46), radius_x=22)
-        self.add_arc('head-left', (24, 46), (24, 2), radius_x=22)
+        self.add_arc('head-right', (24, 6), (24, 42), radius_x=22)
+        self.add_arc('head-left', (24, 42), (24, 6), radius_x=22)
         self.add_contour('head', 'head-right', 'head-left', closed=True)
-        self.add_arc('hair', (24, 2), (24, 16), radius_x=7)
+        self.add_arc('hair', (24, 6), (24, 16), radius_x=7)
         self.relate('connect', 'head', 'hair')
         self.add_dot('eye-left', (17, 26))
         self.add_dot('eye-right', (31, 26))

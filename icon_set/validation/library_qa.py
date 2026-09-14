@@ -18,6 +18,7 @@ from ..model.profiles import STROKE_WIDTH
 from ..renderers.svg import build_paths
 from .path_commands import commands_for_path
 from .internal_spacing import analyze_internal_spacing, internal_overlay, RULES as INTERNAL_RULES
+from .parallel_straight import RULES as PARALLEL_STRAIGHT_RULES
 from .circle_exceptions import circle_candidates, apply_circle_exceptions
 from .stroke_distance import analyze_paths
 from .validator import _declared_connections, _pair_elements
@@ -151,7 +152,8 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         row['_svg'] = document
         row['svg_sha256'] = _hash(document.encode('utf-8'))
         rules = {'profile': asdict(icon.profile.spec), 'stroke_width': STROKE_WIDTH,
-                 'negative_space': negative_space_rules(), 'internal_spacing': INTERNAL_RULES}
+                 'negative_space': negative_space_rules(), 'internal_spacing': INTERNAL_RULES,
+                 'internal_parallel_straight': PARALLEL_STRAIGHT_RULES}
         row['rules'] = rules
         row['rules_sha256'] = _hash(json.dumps(rules, sort_keys=True, separators=(',', ':')).encode('utf-8'))
         row['spacing'] = measure_spacing(icon, drawing, validation)

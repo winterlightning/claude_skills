@@ -1,0 +1,368 @@
+{
+  "icon_id": "sheep-jumping-fence-stretch-square",
+  "name": "sheep-jumping-fence-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "sheep",
+    "fence",
+    "jump",
+    "sleep",
+    "counting",
+    "insomnia",
+    "bedtime",
+    "rest"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "wool-top",
+      "start": [
+        17,
+        11
+      ],
+      "end": [
+        27,
+        11
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wool-shoulder",
+      "start": [
+        27,
+        11
+      ],
+      "end": [
+        37,
+        16
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wool-rump",
+      "start": [
+        37,
+        16
+      ],
+      "end": [
+        30,
+        25
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wool-base",
+      "start": [
+        30,
+        25
+      ],
+      "end": [
+        22,
+        26
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wool-left",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        16,
+        21
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "wool-neck",
+      "start": [
+        16,
+        21
+      ],
+      "end": [
+        17,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "head-top",
+      "start": [
+        17,
+        11
+      ],
+      "end": [
+        11,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "muzzle",
+      "start": [
+        11,
+        11
+      ],
+      "end": [
+        11,
+        21
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "jaw",
+      "start": [
+        11,
+        21
+      ],
+      "end": [
+        16,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "front-hoof",
+      "start": [
+        16,
+        21
+      ],
+      "end": [
+        11,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "rear-hoof",
+      "start": [
+        30,
+        25
+      ],
+      "end": [
+        39,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "post-l",
+      "start": [
+        19,
+        34
+      ],
+      "end": [
+        19,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "post-r",
+      "start": [
+        31,
+        35
+      ],
+      "end": [
+        31,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "rail",
+      "start": [
+        19,
+        35
+      ],
+      "end": [
+        31,
+        38
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-l",
+      "start": [
+        6,
+        42
+      ],
+      "end": [
+        19,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-mid",
+      "start": [
+        19,
+        42
+      ],
+      "end": [
+        31,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-r",
+      "start": [
+        31,
+        42
+      ],
+      "end": [
+        42,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "fleece",
+      "members": [
+        "wool-top",
+        "wool-shoulder",
+        "wool-rump",
+        "wool-base",
+        "wool-left",
+        "wool-neck"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "head",
+      "members": [
+        "head-top",
+        "muzzle",
+        "jaw"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "fleece",
+        "head"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "fleece",
+        "front-hoof"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "fleece",
+        "rear-hoof"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "front-hoof"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "post-l",
+        "ground-l"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "post-l",
+        "ground-mid"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "post-r",
+        "ground-mid"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "post-r",
+        "ground-r"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "ground-l",
+        "ground-mid"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "ground-mid",
+        "ground-r"
+      ]
+    }
+  ],
+  "variant_of": "sheep-jumping-fence",
+  "variant_label": "Stretch to SQUARE"
+}

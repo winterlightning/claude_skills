@@ -16,15 +16,15 @@ class SlothFace(Solo48):
     keywords = ('sloth', 'face', 'head', 'eyes', 'animal', 'slow', 'cute', 'wildlife')
 
     def build(self) -> None:
-        # Broad face with paired eye masks; extremes (2,5)-(46,43).
-        self.add_arc('head0', (2, 24), (24, 5), radius_x=22, radius_y=19, sweep=True)
-        self.add_arc('head1', (24, 5), (46, 24), radius_x=22, radius_y=19, sweep=True)
-        self.add_arc('head2', (46, 24), (24, 43), radius_x=22, radius_y=19, sweep=True)
-        self.add_arc('head3', (24, 43), (2, 24), radius_x=22, radius_y=19, sweep=True)
+        # Broad face with paired eye masks; extremes (6,6)-(42,42).
+        self.add_arc('head0', (6, 24), (24, 6), radius_x=22, radius_y=19, sweep=True)
+        self.add_arc('head1', (24, 6), (42, 24), radius_x=22, radius_y=19, sweep=True)
+        self.add_arc('head2', (42, 24), (24, 42), radius_x=22, radius_y=19, sweep=True)
+        self.add_arc('head3', (24, 42), (6, 24), radius_x=22, radius_y=19, sweep=True)
         self.add_contour('head', 'head0', 'head1', 'head2', 'head3', closed=True)
-        self.add_arc('left-mask', (2, 24), (19, 17), radius_x=17, radius_y=10, sweep=False)
+        self.add_arc('left-mask', (6, 24), (19, 17), radius_x=17, radius_y=10, sweep=False)
         self.add_dot('left-eye', (14, 30))
-        self.add_arc('right-mask', (46, 24), (29, 17), radius_x=17, radius_y=10, sweep=True)
+        self.add_arc('right-mask', (42, 24), (29, 17), radius_x=17, radius_y=10, sweep=True)
         self.add_dot('right-eye', (34, 30))
         self.relate("connect", 'head', 'left-mask')
         self.relate("connect", 'head', 'right-mask')

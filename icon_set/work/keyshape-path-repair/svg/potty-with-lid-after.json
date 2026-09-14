@@ -1,0 +1,253 @@
+{
+  "icon_id": "potty-with-lid-stretch-square",
+  "name": "potty-with-lid-stretch-square",
+  "aliases": [],
+  "category": "objects/baby-care",
+  "keywords": [
+    "potty",
+    "toilet",
+    "training",
+    "baby",
+    "lid",
+    "seat",
+    "bathroom",
+    "toddler"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "seat-1",
+      "start": [
+        9,
+        25
+      ],
+      "end": [
+        39,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "seat-2",
+      "start": [
+        39,
+        25
+      ],
+      "end": [
+        39,
+        33
+      ],
+      "radius_x": 3,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "seat-3",
+      "start": [
+        39,
+        33
+      ],
+      "end": [
+        9,
+        33
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "seat-4",
+      "start": [
+        9,
+        33
+      ],
+      "end": [
+        9,
+        25
+      ],
+      "radius_x": 3,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "lid-1",
+      "start": [
+        14,
+        26
+      ],
+      "end": [
+        14,
+        16
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "lid-2",
+      "start": [
+        14,
+        16
+      ],
+      "end": [
+        34,
+        16
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "lid-3",
+      "start": [
+        34,
+        16
+      ],
+      "end": [
+        34,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "base-1",
+      "start": [
+        9,
+        33
+      ],
+      "end": [
+        6,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "base-2",
+      "start": [
+        6,
+        42
+      ],
+      "end": [
+        17,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "base-3",
+      "start": [
+        17,
+        42
+      ],
+      "end": [
+        31,
+        42
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "base-4",
+      "start": [
+        31,
+        42
+      ],
+      "end": [
+        42,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "base-5",
+      "start": [
+        42,
+        42
+      ],
+      "end": [
+        39,
+        33
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "seat",
+      "members": [
+        "seat-1",
+        "seat-2",
+        "seat-3",
+        "seat-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "lid",
+      "members": [
+        "lid-1",
+        "lid-2",
+        "lid-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "base",
+      "members": [
+        "base-1",
+        "base-2",
+        "base-3",
+        "base-4",
+        "base-5"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "seat",
+        "lid"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "seat",
+        "base"
+      ]
+    }
+  ],
+  "variant_of": "potty-with-lid",
+  "variant_label": "Stretch to SQUARE"
+}

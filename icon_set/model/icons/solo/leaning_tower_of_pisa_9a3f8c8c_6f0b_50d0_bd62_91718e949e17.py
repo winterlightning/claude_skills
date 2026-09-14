@@ -17,12 +17,12 @@ class LeaningTowerOfPisa(Solo48):
     keywords = ('pisa', 'tower', 'italy', 'leaning', 'landmark', 'campanile', 'travel', 'architecture')
 
     def build(self) -> None:
-        # Centerline extremes: (5,2)-(43,46); tower leans right.
-        self.add_polyline('shaft',(11,46),(13,36),(15,26),(17,16),(19,2),(35,6),(33,20),(31,30),(29,40),(28,46),(11,46),closed=True)
+        # Centerline extremes: (6,6)-(42,42); tower leans right.
+        self.add_polyline('shaft',(11,42),(13,36),(15,26),(17,16),(19,6),(35,6),(33,20),(31,30),(29,40),(28,42),(11,42),closed=True)
         self.add_line('upper-floor',(17,16),(33,20))
         self.add_line('middle-floor',(15,26),(31,30))
         self.add_line('lower-floor',(13,36),(29,40))
         for part in ('upper-floor','middle-floor','lower-floor'):
             self.relate('connect',part,'shaft')
-        self.add_polyline('ground',(5,46),(11,46),(28,46),(43,46))
+        self.add_polyline('ground',(6,42),(11,42),(28,42),(42,42))
         self.relate('connect','ground','shaft')

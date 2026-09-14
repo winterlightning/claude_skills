@@ -1,0 +1,264 @@
+{
+  "icon_id": "monitor-download-arrow-stretch-hrect-l",
+  "name": "monitor-download-arrow-stretch-hrect-l",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "monitor",
+    "download",
+    "arrow",
+    "screen",
+    "computer",
+    "transfer",
+    "save",
+    "down"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "screen-t",
+      "start": [
+        8,
+        8
+      ],
+      "end": [
+        40,
+        8
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "screen-ne",
+      "start": [
+        40,
+        8
+      ],
+      "end": [
+        44,
+        11
+      ],
+      "radius_x": 4,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "screen-r",
+      "start": [
+        44,
+        11
+      ],
+      "end": [
+        44,
+        28
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "screen-se",
+      "start": [
+        44,
+        28
+      ],
+      "end": [
+        40,
+        32
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "screen-b",
+      "start": [
+        40,
+        32
+      ],
+      "end": [
+        8,
+        32
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "screen-sw",
+      "start": [
+        8,
+        32
+      ],
+      "end": [
+        4,
+        28
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "screen-l",
+      "start": [
+        4,
+        28
+      ],
+      "end": [
+        4,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "screen-nw",
+      "start": [
+        4,
+        11
+      ],
+      "end": [
+        8,
+        8
+      ],
+      "radius_x": 4,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "neck",
+      "start": [
+        24,
+        32
+      ],
+      "end": [
+        24,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "foot",
+      "start": [
+        16,
+        40
+      ],
+      "end": [
+        32,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "shaft",
+      "start": [
+        24,
+        17
+      ],
+      "end": [
+        24,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "arrow-1",
+      "start": [
+        18,
+        17
+      ],
+      "end": [
+        24,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "arrow-2",
+      "start": [
+        24,
+        23
+      ],
+      "end": [
+        30,
+        17
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "screen",
+      "members": [
+        "screen-t",
+        "screen-ne",
+        "screen-r",
+        "screen-se",
+        "screen-b",
+        "screen-sw",
+        "screen-l",
+        "screen-nw"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "arrow",
+      "members": [
+        "arrow-1",
+        "arrow-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "screen",
+        "neck"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "neck",
+        "foot"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft",
+        "arrow"
+      ]
+    }
+  ],
+  "variant_of": "monitor-download-arrow",
+  "variant_label": "Stretch to HRECT_L"
+}

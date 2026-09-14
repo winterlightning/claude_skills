@@ -1,4 +1,7 @@
-"""Byzantine Domed Church. Rebuilt from the supplied silhouette."""
+"""SQUARE (6,6)-(42,42) centerlines. Preserve tall central dome, two side domes and three repeated arches. Omit the facade band and side windows so the arches have space. Mirrored about x=24.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,19 +20,17 @@ class Landmark(Solo48):
     keywords = ('mystras', 'byzantine', 'church', 'dome', 'greece', 'monastery', 'heritage', 'religion')
 
     def build(self):
-        self.add_arc("dome", (10,20), (38,20), radius_x=14, radius_y=18)
-        self.add_arc("left-outer", (2,28), (10,20), radius_x=8)
-        self.add_arc("left-inner", (10,20), (18,28), radius_x=8)
-        self.add_line("bridge", (18,28), (30,28))
-        self.add_arc("right-inner", (30,28), (38,20), radius_x=8)
-        self.add_arc("right-outer", (38,20), (46,28), radius_x=8)
-        self.add_line("right-wall", (46,28), (46,46))
-        self.add_line("left-wall", (2,46), (2,28))
-        self.add_contour("outline", "left-wall", "left-outer", "left-inner", "bridge", "right-inner", "right-outer", "right-wall")
-        self.relate("connect", "dome", "outline")
-        self.add_polyline("band", (2,34), (46,34))
-        self.relate("connect", "band", "outline")
-        self.add_arc("arch-left", (9,46), (19,46), radius_x=5)
-        self.add_arc("arch-center", (19,46), (29,46), radius_x=5)
-        self.add_arc("arch-right", (29,46), (39,46), radius_x=5)
-        self.add_contour("arcade", "arch-left", "arch-center", "arch-right")
+        self.add_arc('central-dome',(12,20),(36,20),radius_x=12,radius_y=14)
+        self.add_line('left-wall',(6,42),(6,26))
+        self.add_arc('left-dome-outer',(6,26),(12,20),radius_x=6)
+        self.add_arc('left-dome-inner',(12,20),(18,26),radius_x=6)
+        self.add_line('valley',(18,26),(30,26))
+        self.add_arc('right-dome-inner',(30,26),(36,20),radius_x=6)
+        self.add_arc('right-dome-outer',(36,20),(42,26),radius_x=6)
+        self.add_line('right-wall',(42,26),(42,42))
+        self.add_contour('facade','left-wall','left-dome-outer','left-dome-inner','valley','right-dome-inner','right-dome-outer','right-wall')
+        self.relate('connect','central-dome','facade')
+        for i in range(3):
+            self.add_arc(f'arch-{i}',(42-i*12,42),(30-i*12,42),radius_x=6,sweep=False)
+        self.add_contour('arcade','arch-0','arch-1','arch-2')
+        self.relate('connect','facade','arcade')

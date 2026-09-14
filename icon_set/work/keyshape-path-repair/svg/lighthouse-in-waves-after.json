@@ -1,0 +1,269 @@
+{
+  "icon_id": "lighthouse-in-waves-stretch-vrect-l",
+  "name": "lighthouse-in-waves-stretch-vrect-l",
+  "aliases": [],
+  "category": "places/landmarks",
+  "keywords": [
+    "lighthouse",
+    "beacon",
+    "sea",
+    "waves",
+    "coast",
+    "navigation",
+    "maritime",
+    "tower"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left-tower-1",
+      "start": [
+        16,
+        35
+      ],
+      "end": [
+        18,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-tower-2",
+      "start": [
+        18,
+        23
+      ],
+      "end": [
+        18,
+        16
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "cap-left",
+      "start": [
+        18,
+        16
+      ],
+      "end": [
+        24,
+        9
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "cap-right",
+      "start": [
+        24,
+        9
+      ],
+      "end": [
+        30,
+        16
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right-tower-1",
+      "start": [
+        30,
+        16
+      ],
+      "end": [
+        30,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-tower-2",
+      "start": [
+        30,
+        23
+      ],
+      "end": [
+        32,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lantern-band",
+      "start": [
+        18,
+        23
+      ],
+      "end": [
+        30,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "mast",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        24,
+        9
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wave-left",
+      "start": [
+        8,
+        41
+      ],
+      "end": [
+        18,
+        41
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "wave-middle",
+      "start": [
+        18,
+        41
+      ],
+      "end": [
+        30,
+        41
+      ],
+      "radius_x": 6,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "wave-right",
+      "start": [
+        30,
+        41
+      ],
+      "end": [
+        40,
+        41
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "left-tower",
+      "members": [
+        "left-tower-1",
+        "left-tower-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-tower",
+      "members": [
+        "right-tower-1",
+        "right-tower-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "cap",
+      "members": [
+        "cap-left",
+        "cap-right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "water",
+      "members": [
+        "wave-left",
+        "wave-middle",
+        "wave-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "left-tower",
+        "cap"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-tower",
+        "cap"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "mast",
+        "cap"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "lantern-band",
+        "left-tower"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "lantern-band",
+        "right-tower"
+      ]
+    }
+  ],
+  "variant_of": "lighthouse-in-waves",
+  "variant_label": "Stretch to VRECT_L"
+}

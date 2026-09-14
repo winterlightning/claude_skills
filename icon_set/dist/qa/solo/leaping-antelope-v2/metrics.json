@@ -3,24 +3,26 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "mic [horn]: parallel straight edges horn-2 and silhouette-6 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "silhouette:subpath-1",
         "elementId": "silhouette",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 46 L 6 34 L 12 30 L 12 23 L 30 14 L 34 8 L 40 8 L 46 14 L 38 16 L 38 24 L 18 36 L 10 40 L 6 46 L 2 46",
+        "pathData": "M 6 42 L 6 34 L 12 30 L 12 23 L 30 14 L 34 8 L 40 8 L 42 14 L 38 16 L 38 24 L 18 36 L 10 40 L 6 42 L 6 42",
         "bounds": [
-          2.0,
+          6.0,
           8.0,
-          46.0,
-          46.0
+          42.0,
+          42.0
         ],
         "segmentCount": 13,
         "approximationError": 0.0,
@@ -31,10 +33,10 @@
         "elementId": "horn",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 8 L 28 2 L 38 2",
+        "pathData": "M 34 8 L 28 6 L 38 6",
         "bounds": [
           28.0,
-          2.0,
+          6.0,
           38.0,
           8.0
         ],
@@ -47,11 +49,11 @@
         "elementId": "right-leg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 38 24 L 44 34",
+        "pathData": "M 38 24 L 42 34",
         "bounds": [
           38.0,
           24.0,
-          44.0,
+          42.0,
           34.0
         ],
         "segmentCount": 1,
@@ -78,10 +80,10 @@
           "right-leg"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -160,8 +162,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -196,22 +198,22 @@
           27.2344
         ],
         "bbox_viewbox": [
-          2.6875,
+          6.5,
           8.5,
-          42.3125,
-          37.0
+          34.875,
+          32.6875
         ],
         "bbox_ship_px": [
-          42.3125,
-          37.0
+          34.875,
+          32.6875
         ],
         "bbox_design_u": [
-          42.3125,
-          37.0
+          34.875,
+          32.6875
         ],
-        "area_ship_px2": 473.7852,
-        "equivalent_diameter_ship_px": 24.561,
-        "equivalent_diameter_design_u": 24.561,
+        "area_ship_px2": 434.333,
+        "equivalent_diameter_ship_px": 23.5162,
+        "equivalent_diameter_design_u": 23.5162,
         "inscribed_diameter_ship_px": 12.7197,
         "inscribed_diameter_design_u": 12.7197,
         "inscribed_radius_ship_px": 6.3598,
@@ -245,14 +247,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "5db291007a9bfd7ff4c9b54c73b068e7a82f63244d7f674443fe9db2f4a5f8f6",
+  "svg_sha256": "4c7d08191f21692a50f89375821b896ef118555476b8564b02ac43e964b0d862",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -282,13 +284,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "review",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,
@@ -301,21 +316,42 @@
       {
         "contour": "silhouette",
         "elements": [
-          "silhouette-1",
-          "silhouette-12"
+          "silhouette-2",
+          "silhouette-11"
         ],
         "status": "review",
-        "sustained_length": 6.4486,
-        "centerline_distance": 4.0787,
-        "ink_gap": 0.0787,
+        "sustained_length": 5.9628,
+        "centerline_distance": 7.2881,
+        "ink_gap": 3.2881,
         "nearest_points": [
           [
-            2.901960784313726,
-            43.294117647058826
+            6.512820512820454,
+            33.658119658119695
           ],
           [
-            6.295625942684756,
-            45.55656108597287
+            10.555555555555557,
+            39.72222222222222
+          ]
+        ]
+      },
+      {
+        "contour": "silhouette",
+        "elements": [
+          "silhouette-6",
+          "silhouette-8"
+        ],
+        "status": "review",
+        "sustained_length": 2.5,
+        "centerline_distance": 6.9877,
+        "ink_gap": 2.9877,
+        "nearest_points": [
+          [
+            38.375,
+            8.0
+          ],
+          [
+            41.50000000000004,
+            14.24999999999998
           ]
         ]
       }

@@ -1,4 +1,4 @@
-"""Side-facing cobra head with flared hood and a single eye. VRECT_XL (5,2)-(43,46). Removed coil and tail clutter. No useful exact Lucide match; intentional profile asymmetry."""
+"""Side-facing cobra head with flared hood and a single eye. VRECT_XL (6,6)-(42,42). Removed coil and tail clutter. No useful exact Lucide match; intentional profile asymmetry."""
 # Variant of cobra-head; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,15 +19,15 @@ class CobraHeadVariant2(Solo48):
 
     def build(self) -> None:
         # Right-facing cobra head and flared hood; no coil or tail clutter.
-        # VRECT_XL extremes (5,2)-(43,46).
-        self.add_line('neck-back',(16,46),(16,38))
-        self.add_arc('hood-bottom',(16,38),(5,23),radius_x=11,radius_y=15)
-        self.add_arc('hood-top',(5,23),(24,2),radius_x=19,radius_y=21)
-        self.add_arc('crown',(24,2),(43,12),radius_x=19,radius_y=10)
-        self.add_arc('snout',(43,12),(35,20),radius_x=8)
+        # VRECT_XL extremes (6,6)-(42,42).
+        self.add_line('neck-back',(16,42),(16,38))
+        self.add_arc('hood-bottom',(16,38),(6,23),radius_x=11,radius_y=15)
+        self.add_arc('hood-top',(6,23),(24,6),radius_x=19,radius_y=21)
+        self.add_arc('crown',(24,6),(42,12),radius_x=19,radius_y=10)
+        self.add_arc('snout',(42,12),(35,20),radius_x=8)
         self.add_line('jaw',(35,20),(29,20))
         self.add_arc('throat',(29,20),(23,26),radius_x=6,sweep=False)
-        self.add_line('neck-front',(23,26),(29,46))
-        self.add_line('base',(29,46),(16,46))
+        self.add_line('neck-front',(23,26),(29,42))
+        self.add_line('base',(29,42),(16,42))
         self.add_contour('outline','neck-back','hood-bottom','hood-top','crown','snout','jaw','throat','neck-front','base',closed=True)
         self.add_dot('eye',(31,11))

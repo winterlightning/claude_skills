@@ -17,13 +17,13 @@ class StandingStag(Solo48):
     keywords = ('deer', 'stag', 'antlers', 'standing', 'buck', 'wildlife', 'forest', 'animal')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
-        self.add_polyline("body", (6,46),(8,26),(30,26),(32,16),(40,16),(46,22),(38,24),(38,46))
-        self.add_polyline("belly", (8,36),(28,36),(30,46))
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_polyline("body", (6,42),(8,26),(30,26),(32,16),(40,16),(42,22),(38,24),(38,42))
+        self.add_polyline("belly", (8,36),(28,36),(30,42))
         self.relate("connect","body","belly")
-        self.add_line("tail",(8,26),(2,20))
+        self.add_line("tail",(8,26),(6,20))
         self.relate("connect","tail","body")
-        self.add_polyline("antler",(36,16),(30,10),(28,2))
+        self.add_polyline("antler",(36,16),(30,10),(28,6))
         self.relate("connect","antler","body")
-        self.add_polyline("tine",(30,10),(40,8),(42,2))
+        self.add_polyline("tine",(30,10),(40,8),(42,6))
         self.relate("connect","antler","tine")

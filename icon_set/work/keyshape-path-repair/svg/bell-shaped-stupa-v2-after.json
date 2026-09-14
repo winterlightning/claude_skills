@@ -1,0 +1,245 @@
+{
+  "icon_id": "bell-shaped-stupa-v2-stretch-vrect-l",
+  "name": "bell-shaped-stupa-v2-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/landmarks",
+  "keywords": [
+    "wat phra kaew",
+    "stupa",
+    "chedi",
+    "thailand",
+    "temple",
+    "buddhist",
+    "landmark",
+    "religion"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "spire-1",
+      "start": [
+        18,
+        17
+      ],
+      "end": [
+        24,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "spire-2",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        30,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "spire-3",
+      "start": [
+        30,
+        17
+      ],
+      "end": [
+        18,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "dome-top",
+      "start": [
+        18,
+        17
+      ],
+      "end": [
+        30,
+        17
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "dome-right",
+      "start": [
+        30,
+        17
+      ],
+      "end": [
+        37,
+        36
+      ],
+      "radius_x": 7,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "dome-base",
+      "start": [
+        37,
+        36
+      ],
+      "end": [
+        11,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "dome-left",
+      "start": [
+        11,
+        36
+      ],
+      "end": [
+        18,
+        17
+      ],
+      "radius_x": 7,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-1",
+      "start": [
+        11,
+        36
+      ],
+      "end": [
+        8,
+        36
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-2",
+      "start": [
+        8,
+        36
+      ],
+      "end": [
+        8,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-3",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        40,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-4",
+      "start": [
+        40,
+        44
+      ],
+      "end": [
+        40,
+        36
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-5",
+      "start": [
+        40,
+        36
+      ],
+      "end": [
+        37,
+        36
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "spire",
+      "members": [
+        "spire-1",
+        "spire-2",
+        "spire-3"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "dome",
+      "members": [
+        "dome-top",
+        "dome-right",
+        "dome-base",
+        "dome-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "plinth",
+      "members": [
+        "plinth-1",
+        "plinth-2",
+        "plinth-3",
+        "plinth-4",
+        "plinth-5"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "spire",
+        "dome"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "plinth",
+        "dome"
+      ]
+    }
+  ],
+  "variant_of": "bell-shaped-stupa-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

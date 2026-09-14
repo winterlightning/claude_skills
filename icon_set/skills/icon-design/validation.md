@@ -93,3 +93,25 @@ has not passed. Each family ships to its own folder with its own manifest —
 `dist/sub32/`, `dist/solo48/`, `dist/container64/` — and a family's manifest
 lists one profile only. It prunes outputs for icons that no longer exist, and
 re-running it produces a byte-identical tree.
+
+## Whole-drawing parallel straight spacing
+
+The main MIC pipeline now checks exact parallel straight runs across the whole
+resolved drawing, including different contours within one connected shape.
+This specific rule requires **8 centerline units / 4 ink-clearance units** in
+all families. Other spacing checks retain their profile thresholds.
+
+Contiguous collinear pieces in one path are merged, then midpoint normals seek
+the nearest finite parallel line on both sides. Positive-overlap analysis also
+blocks staggered pairs that midpoint rays miss. Shared ink and declared
+connections do not exempt narrow facing edges. Curves and near-parallel edges
+remain covered by the other spacing checks; collinear duplicates are separate.
+
+`icon_set/validation/parallel_midpoints.py` contains the shared measurement
+engine. `parallel_straight.py` turns measurements into blocking MIC findings,
+so `validate_icon()` and build QA use the same rule. Each finding records the
+members, centerline and ink gaps, probe coordinates, and measurement method.
+
+Run `python3 icon_set/scripts/report_parallel_failures.py` to validate all
+registered models and write `work/parallel-pipeline-results/failing-icons.md`
+with failures of this check isolated from other validation failures.

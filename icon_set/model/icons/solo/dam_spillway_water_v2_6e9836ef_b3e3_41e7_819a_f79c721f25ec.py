@@ -22,6 +22,6 @@ class DamSpillwayWaterVariant2(Solo48):
             self.add_line(f'fall-{i}', (x, 5), (x, 25))
             self.add_arc(f'foot-{i}', (x, 25), (x + 5, 30), radius_x=5, sweep=False)
             self.add_contour(f'stream-{i}', f'fall-{i}', f'foot-{i}')
-        self.add_arc('water-left', (2, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
-        self.add_arc('water-right', (24, 40), (46, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-left', (6, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-right', (24, 40), (42, 40), radius_x=11, radius_y=3, sweep=False)
         self.add_contour('water', 'water-left', 'water-right')

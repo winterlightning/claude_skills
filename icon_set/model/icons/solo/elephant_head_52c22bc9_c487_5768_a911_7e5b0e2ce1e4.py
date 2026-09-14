@@ -18,14 +18,14 @@ class MinimalElephantHead(Solo48):
 
     def build(self) -> None:
         # SQUARE ink bounds (0, 0, 48, 48), centerline extremes 2 and 46.
-        self.add_arc('crown', (2, 16), (38, 16), radius_x=18, radius_y=14, sweep=True)
+        self.add_arc('crown', (6, 16), (38, 16), radius_x=18, radius_y=14, sweep=True)
         self.add_line('forehead', (38, 16), (38, 32))
-        self.add_arc('trunk-tip-inner', (38, 32), (46, 32), radius_x=4, sweep=False)
-        self.add_line('trunk-tip', (46, 32), (46, 38))
-        self.add_arc('trunk-outer', (46, 38), (30, 38), radius_x=8, sweep=True)
+        self.add_arc('trunk-tip-inner', (38, 32), (42, 32), radius_x=4, sweep=False)
+        self.add_line('trunk-tip', (42, 32), (42, 38))
+        self.add_arc('trunk-outer', (42, 38), (30, 38), radius_x=8, sweep=True)
         self.add_line('trunk-inner', (30, 38), (30, 30))
         self.add_line('jaw', (30, 30), (12, 32))
-        self.add_arc('ear-outline', (12, 32), (2, 16), radius_x=10, radius_y=16, sweep=True)
+        self.add_arc('ear-outline', (12, 32), (6, 16), radius_x=10, radius_y=16, sweep=True)
         self.add_contour('silhouette', 'crown', 'forehead', 'trunk-tip-inner', 'trunk-tip', 'trunk-outer', 'trunk-inner', 'jaw', 'ear-outline', closed=True)
         self.add_line('ear-fold', (18, 11), (18, 18))
         self.add_arc('ear-round', (18, 18), (12, 24), radius_x=6, sweep=True)

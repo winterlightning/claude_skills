@@ -17,10 +17,10 @@ class BurjAlArab(Solo48):
     keywords = ('burj al arab', 'dubai', 'uae', 'hotel', 'tower', 'sail', 'skyscraper', 'landmark', 'architecture')
 
     def build(self) -> None:
-        # Centerline extremes: (8,2)-(40,46); intentional sail asymmetry.
-        self.add_polyline('mast', (14,2), (14,10), (14,18), (14,46))
-        self.add_arc('sail', (14,10), (36,46), radius_x=52, sweep=True)
-        self.add_polyline('ground', (8,46), (14,46), (36,46), (40,46))
+        # Centerline extremes: (8,6)-(40,42); intentional sail asymmetry.
+        self.add_polyline('mast', (14,6), (14,10), (14,18), (14,42))
+        self.add_arc('sail', (14,10), (36,42), radius_x=52, sweep=True)
+        self.add_polyline('ground', (8,42), (14,42), (36,42), (40,42))
         self.add_line('arm', (8,18), (14,18))
         self.relate('connect','mast','sail')
         self.relate('connect','mast','ground')

@@ -18,14 +18,14 @@ class WitchesCauldronVariant2(Solo48):
     keywords = ('cauldron', 'witch', 'pot', 'potion', 'brew', 'magic', 'halloween', 'spell')
 
     def build(self) -> None:
-        self.add_polyline('rim', (2, 20), (7, 20), (11, 20), (25, 20), (41, 20), (46, 20))
+        self.add_polyline('rim', (6, 20), (7, 20), (11, 20), (25, 20), (41, 20), (42, 20))
         self.add_arc('bowl-right', (41, 20), (36, 40), radius_x=18, radius_y=16)
         self.add_arc('bowl-base', (36, 40), (12, 40), radius_x=22, radius_y=7)
         self.add_arc('bowl-left', (12, 40), (7, 20), radius_x=18, radius_y=16)
         self.add_contour('bowl', 'bowl-right', 'bowl-base', 'bowl-left')
         self.relate('connect', 'rim', 'bowl')
-        self.add_line('foot-left', (12, 40), (7, 46))
-        self.add_line('foot-right', (36, 40), (41, 46))
+        self.add_line('foot-left', (12, 40), (7, 42))
+        self.add_line('foot-right', (36, 40), (41, 42))
         self.relate('connect', 'bowl', 'foot-left')
         self.relate('connect', 'bowl', 'foot-right')
         for side, x in (('left', 17), ('right', 31)):

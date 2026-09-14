@@ -1,0 +1,250 @@
+{
+  "icon_id": "hanging-flower-pair-stretch-vrect-l",
+  "name": "hanging-flower-pair-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/decoration",
+  "keywords": [
+    "flower",
+    "hanging",
+    "petals",
+    "stem",
+    "leaf",
+    "botanical",
+    "decor"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left-stem",
+      "start": [
+        17,
+        4
+      ],
+      "end": [
+        17,
+        28
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "leaf-a",
+      "start": [
+        17,
+        28
+      ],
+      "end": [
+        8,
+        38
+      ],
+      "radius_x": 8,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "leaf-b",
+      "start": [
+        8,
+        38
+      ],
+      "end": [
+        17,
+        28
+      ],
+      "radius_x": 9,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "tail-a",
+      "start": [
+        17,
+        28
+      ],
+      "end": [
+        20,
+        30
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "tail-b",
+      "start": [
+        20,
+        30
+      ],
+      "end": [
+        20,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-stem",
+      "start": [
+        33,
+        9
+      ],
+      "end": [
+        33,
+        19
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "flower-a",
+      "start": [
+        27,
+        25
+      ],
+      "end": [
+        33,
+        19
+      ],
+      "radius_x": 7,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "flower-b",
+      "start": [
+        33,
+        19
+      ],
+      "end": [
+        40,
+        25
+      ],
+      "radius_x": 7,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "flower-c",
+      "start": [
+        40,
+        25
+      ],
+      "end": [
+        33,
+        25
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "flower-d",
+      "start": [
+        33,
+        25
+      ],
+      "end": [
+        27,
+        25
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "leaf",
+      "members": [
+        "leaf-a",
+        "leaf-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "tail",
+      "members": [
+        "tail-a",
+        "tail-b"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "flower",
+      "members": [
+        "flower-a",
+        "flower-b",
+        "flower-c",
+        "flower-d"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "left-stem",
+        "leaf"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "tail",
+        "leaf"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "tail",
+        "left-stem"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "flower",
+        "right-stem"
+      ]
+    }
+  ],
+  "variant_of": "hanging-flower-pair",
+  "variant_label": "Stretch to VRECT_L"
+}

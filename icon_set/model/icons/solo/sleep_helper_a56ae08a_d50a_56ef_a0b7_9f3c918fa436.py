@@ -16,7 +16,7 @@ class SheepJumpingFence(Solo48):
     keywords = ('sheep', 'fence', 'jump', 'sleep', 'counting', 'insomnia', 'bedtime', 'rest')
 
     def build(self) -> None:
-        # Airborne fleece above a two-post fence; extremes (2,2)-(46,46).
+        # Airborne fleece above a two-post fence; extremes (6,6)-(42,42).
         self.add_arc('wool-top', (16, 8), (28, 8), radius_x=6, radius_y=6, sweep=True)
         self.add_arc('wool-shoulder', (28, 8), (40, 14), radius_x=8, radius_y=8, sweep=True)
         self.add_arc('wool-rump', (40, 14), (34, 26), radius_x=8, radius_y=8, sweep=True)
@@ -30,12 +30,12 @@ class SheepJumpingFence(Solo48):
         self.add_contour('head', 'head-top', 'muzzle', 'jaw', closed=False)
         self.add_line('front-hoof', (14, 20), (8, 27))
         self.add_line('rear-hoof', (34, 26), (40, 31))
-        self.add_line('post-l', (18, 36), (18, 46))
-        self.add_line('post-r', (32, 38), (32, 46))
+        self.add_line('post-l', (18, 36), (18, 42))
+        self.add_line('post-r', (32, 38), (32, 42))
         self.add_line('rail', (18, 38), (32, 41))
-        self.add_line('ground-l', (2, 46), (18, 46))
-        self.add_line('ground-mid', (18, 46), (32, 46))
-        self.add_line('ground-r', (32, 46), (46, 46))
+        self.add_line('ground-l', (6, 42), (18, 42))
+        self.add_line('ground-mid', (18, 42), (32, 42))
+        self.add_line('ground-r', (32, 42), (42, 42))
         self.relate("connect", 'fleece', 'head')
         self.relate("connect", 'fleece', 'front-hoof')
         self.relate("connect", 'fleece', 'rear-hoof')

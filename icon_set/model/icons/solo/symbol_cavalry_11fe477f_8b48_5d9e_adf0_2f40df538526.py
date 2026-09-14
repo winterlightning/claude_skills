@@ -1,4 +1,4 @@
-"""Standing right-facing horse with arched neck and pricked ear. Bounds (2,2)-(46,46). No useful local horse match; retain angular equine head. Far legs merged into two clear legs."""
+"""Standing right-facing horse with arched neck and pricked ear. Bounds (6,6)-(42,42). No useful local horse match; retain angular equine head. Far legs merged into two clear legs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,12 +17,12 @@ class Horse(Solo48):
     keywords = ('horse', 'pony', 'stallion', 'equine', 'cavalry', 'animal', 'riding', 'profile')
 
     def build(self) -> None:
-        self.add_polyline('head',(30,14),(36,2),(36,9),(46,19),(44,24),(36,21),(36,30))
+        self.add_polyline('head',(30,14),(36,6),(36,9),(42,19),(42,24),(36,21),(36,30))
         self.add_arc('chest',(36,30),(32,36),radius_x=8,sweep=True)
-        self.add_polyline('front-leg',(32,36),(32,46),(26,46),(25,34))
+        self.add_polyline('front-leg',(32,36),(32,42),(26,42),(25,34))
         self.add_arc('belly',(25,34),(14,32),radius_x=24,sweep=True)
-        self.add_polyline('rear-leg',(14,32),(10,39),(10,46),(4,46),(4,30))
-        self.add_arc('rump',(4,30),(14,20),radius_x=10,sweep=True)
+        self.add_polyline('rear-leg',(14,32),(10,39),(10,42),(6,42),(6,30))
+        self.add_arc('rump',(6,30),(14,20),radius_x=10,sweep=True)
         self.add_line('back',(14,20),(24,20))
         self.add_arc('neck',(24,20),(30,14),radius_x=6,sweep=False)
         self.add_contour('body','chest')
@@ -34,8 +34,8 @@ class Horse(Solo48):
         self.relate('connect','rump','back')
         self.relate('connect','back','neck')
         self.relate('connect','neck','head')
-        self.add_arc('tail-top',(14,20),(2,30),radius_x=12,radius_y=10,sweep=False)
-        self.add_line('tail-drop',(2,30),(2,36))
+        self.add_arc('tail-top',(14,20),(6,30),radius_x=12,radius_y=10,sweep=False)
+        self.add_line('tail-drop',(6,30),(6,36))
         self.add_contour('tail','tail-top','tail-drop')
         self.relate('connect','tail','back')
         self.relate('connect','tail','rump')

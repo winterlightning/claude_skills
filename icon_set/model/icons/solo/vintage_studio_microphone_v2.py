@@ -18,8 +18,8 @@ class VintageStudioMicrophoneVariant2(Solo48):
     keywords = ('microphone', 'mic', 'podcast', 'audio', 'recording', 'broadcast', 'voice', 'studio', 'radio')
 
     def build(self) -> None:
-        self.add_arc('capsule-top-left', (16, 10), (24, 2), radius_x=8)
-        self.add_arc('capsule-top-right', (24, 2), (32, 10), radius_x=8)
+        self.add_arc('capsule-top-left', (16, 10), (24, 6), radius_x=8)
+        self.add_arc('capsule-top-right', (24, 6), (32, 10), radius_x=8)
         self.add_line('capsule-right-upper', (32, 10), (32, 16))
         self.add_line('capsule-right-lower', (32, 16), (32, 22))
         self.add_arc('capsule-bottom-right', (32, 22), (24, 30), radius_x=8)
@@ -34,9 +34,9 @@ class VintageStudioMicrophoneVariant2(Solo48):
             self.add_line(right, (28, y), (32, y))
             self.relate('connect', 'capsule', left)
             self.relate('connect', 'capsule', right)
-        self.add_line('stem', (24, 30), (24, 46))
-        self.add_line('base-left', (14, 46), (24, 46))
-        self.add_line('base-right', (24, 46), (34, 46))
+        self.add_line('stem', (24, 30), (24, 42))
+        self.add_line('base-left', (14, 42), (24, 42))
+        self.add_line('base-right', (24, 42), (34, 42))
         self.add_contour('base', 'base-left', 'base-right')
         self.relate('connect', 'capsule', 'stem')
         self.relate('connect', 'stem', 'base')

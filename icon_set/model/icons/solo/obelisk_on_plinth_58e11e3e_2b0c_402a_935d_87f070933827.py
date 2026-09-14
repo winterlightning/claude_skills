@@ -17,13 +17,13 @@ class ObeliskOnPlinth(Solo48):
     keywords = ('obelisk', 'monument', 'memorial', 'tower', 'landmark', 'cloud', 'plinth', 'pillar')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46); cloud balances tower at left.
-        self.add_polyline('obelisk',(11,46),(14,8),(17,2),(18,2),(22,8),(25,46))
-        self.add_polyline('plinth',(2,46),(11,46),(25,46),(46,46))
+        # Centerline extremes: (6,6)-(42,42); cloud balances tower at left.
+        self.add_polyline('obelisk',(11,42),(14,8),(17,6),(18,6),(22,8),(25,42))
+        self.add_polyline('plinth',(6,42),(11,42),(25,42),(42,42))
         self.relate('connect','plinth','obelisk')
         
-        self.add_arc('cloud-top',(32,10),(46,10),radius_x=7,sweep=True)
-        self.add_arc('cloud-right',(46,10),(40,16),radius_x=6,sweep=True)
+        self.add_arc('cloud-top',(32,10),(42,10),radius_x=7,sweep=True)
+        self.add_arc('cloud-right',(42,10),(40,16),radius_x=6,sweep=True)
         self.add_line('cloud-base',(40,16),(32,16))
         self.add_arc('cloud-left',(32,16),(32,10),radius_x=3,sweep=True)
         self.add_contour('cloud','cloud-top','cloud-right','cloud-base','cloud-left',closed=True)

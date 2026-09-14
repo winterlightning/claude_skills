@@ -16,12 +16,12 @@ class CurvedDamWall(Solo48):
     keywords = ('dam', 'wall', 'water', 'reservoir', 'barrier', 'spillway', 'infrastructure', 'river')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
-        wall = [(2, 40), (5, 15), (5, 5), (13, 5), (13, 13), (35, 13), (35, 5), (43, 5), (43, 15), (46, 40)]
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        wall = [(6, 40), (6, 15), (6, 6), (13, 6), (13, 13), (35, 13), (35, 6), (42, 6), (42, 15), (42, 40)]
         for j, (a, b) in enumerate(zip(wall, wall[1:]), 1):
             self.add_line(f'wall-{j}', a, b)
-        self.add_arc('water-right', (46, 40), (24, 40), radius_x=11, radius_y=3, sweep=True)
-        self.add_arc('water-left', (24, 40), (2, 40), radius_x=11, radius_y=3, sweep=True)
-        self.add_contour('outline', *[f'wall-{i}' for i in range(1,10)], 'water-right', 'water-left', closed=True)
+        self.add_arc('water-right', (42, 40), (24, 40), radius_x=11, radius_y=3, sweep=True)
+        self.add_arc('water-left', (24, 40), (6, 40), radius_x=11, radius_y=3, sweep=True)
+        self.add_contour('outline', *[f'wall-{i}' for i in range(6,10)], 'water-right', 'water-left', closed=True)
         self.add_line('flow-left', (19, 23), (17, 31))
         self.add_line('flow-right', (31, 23), (29, 31))

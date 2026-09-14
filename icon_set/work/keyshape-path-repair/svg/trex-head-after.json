@@ -1,0 +1,312 @@
+{
+  "icon_id": "trex-head-stretch-hrect-l",
+  "name": "trex-head-stretch-hrect-l",
+  "aliases": [],
+  "category": "animals/prehistoric",
+  "keywords": [
+    "trex",
+    "tyrannosaurus",
+    "dinosaur",
+    "head",
+    "jaws",
+    "teeth",
+    "prehistoric",
+    "roar"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "snout-rise",
+      "start": [
+        4,
+        24
+      ],
+      "end": [
+        4,
+        17
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "snout-round",
+      "start": [
+        4,
+        17
+      ],
+      "end": [
+        11,
+        11
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "brow",
+      "start": [
+        11,
+        11
+      ],
+      "end": [
+        22,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "skull",
+      "start": [
+        22,
+        11
+      ],
+      "end": [
+        30,
+        8
+      ],
+      "radius_x": 14,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "cranium",
+      "start": [
+        30,
+        8
+      ],
+      "end": [
+        44,
+        21
+      ],
+      "radius_x": 14,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "back",
+      "start": [
+        44,
+        21
+      ],
+      "end": [
+        44,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-jaw-1",
+      "start": [
+        4,
+        24
+      ],
+      "end": [
+        11,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-jaw-2",
+      "start": [
+        11,
+        24
+      ],
+      "end": [
+        11,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-jaw-3",
+      "start": [
+        11,
+        28
+      ],
+      "end": [
+        17,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-jaw-4",
+      "start": [
+        17,
+        24
+      ],
+      "end": [
+        24,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "mouth",
+      "start": [
+        24,
+        24
+      ],
+      "end": [
+        16,
+        32
+      ],
+      "radius_x": 11,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-lip",
+      "start": [
+        16,
+        32
+      ],
+      "end": [
+        10,
+        32
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "chin",
+      "start": [
+        10,
+        32
+      ],
+      "end": [
+        10,
+        40
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "jaw-bottom",
+      "start": [
+        10,
+        40
+      ],
+      "end": [
+        29,
+        40
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "jaw-hinge",
+      "start": [
+        29,
+        40
+      ],
+      "end": [
+        37,
+        33
+      ],
+      "radius_x": 8,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "eye",
+      "start": [
+        29,
+        17
+      ],
+      "end": [
+        29,
+        17
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "outer",
+      "members": [
+        "snout-rise",
+        "snout-round",
+        "brow",
+        "skull",
+        "cranium",
+        "back"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "upper-jaw",
+      "members": [
+        "upper-jaw-1",
+        "upper-jaw-2",
+        "upper-jaw-3",
+        "upper-jaw-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "lower-jaw",
+      "members": [
+        "mouth",
+        "lower-lip",
+        "chin",
+        "jaw-bottom",
+        "jaw-hinge"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "outer",
+        "upper-jaw"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "upper-jaw",
+        "lower-jaw"
+      ]
+    }
+  ],
+  "variant_of": "trex-head",
+  "variant_label": "Stretch to HRECT_L"
+}

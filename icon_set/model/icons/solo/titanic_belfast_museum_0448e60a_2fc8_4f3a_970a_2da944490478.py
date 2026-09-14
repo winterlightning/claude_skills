@@ -16,12 +16,12 @@ class TitanicBelfastMuseum(Solo48):
     keywords = ('titanic quarter', 'belfast', 'museum', 'building', 'angular', 'landmark', 'architecture', 'modern')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
-        self.add_polyline('center', (16, 35), (16, 7), (24, 5), (32, 7), (32, 35))
-        self.add_line('seam', (24, 5), (24, 35))
-        self.add_polyline('left-wing', (16, 15), (2, 11), (5, 35))
-        self.add_polyline('right-wing', (32, 15), (46, 11), (43, 35))
-        self.add_polyline('plinth', (2, 35), (46, 35), (46, 43), (2, 43), closed=True)
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        self.add_polyline('center', (16, 35), (16, 7), (24, 6), (32, 7), (32, 35))
+        self.add_line('seam', (24, 6), (24, 35))
+        self.add_polyline('left-wing', (16, 15), (6, 11), (6, 35))
+        self.add_polyline('right-wing', (32, 15), (42, 11), (42, 35))
+        self.add_polyline('plinth', (6, 35), (42, 35), (42, 42), (6, 42), closed=True)
         self.relate('connect', 'seam', 'center')
         self.relate('connect', 'left-wing', 'center')
         self.relate('connect', 'right-wing', 'center')

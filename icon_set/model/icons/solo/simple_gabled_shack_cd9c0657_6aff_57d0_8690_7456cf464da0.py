@@ -17,16 +17,16 @@ class SimpleGabledShack(Solo48):
     keywords = ('shack', 'house', 'home', 'shanty', 'hut', 'dwelling', 'shelter', 'gable')
 
     def build(self) -> None:
-        # Centerline extremes (2,2)-(46,46).
-        self.add_polyline("roof", (2,20), (8,15), (24,2), (40,15), (46,20))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_polyline("roof", (6,20), (8,15), (24,6), (40,15), (42,20))
         self.add_line("wall-right", (40,15), (40,42))
-        self.add_arc("corner-right", (40,42), (36,46), radius_x=4)
-        self.add_line("floor-right", (36,46), (31,46))
-        self.add_line("floor-mid", (31,46), (17,46))
-        self.add_line("floor-left", (17,46), (12,46))
-        self.add_arc("corner-left", (12,46), (8,42), radius_x=4)
+        self.add_arc("corner-right", (40,42), (36,42), radius_x=4)
+        self.add_line("floor-right", (36,42), (31,42))
+        self.add_line("floor-mid", (31,42), (17,42))
+        self.add_line("floor-left", (17,42), (12,42))
+        self.add_arc("corner-left", (12,42), (8,42), radius_x=4)
         self.add_line("wall-left", (8,42), (8,15))
         self.add_contour("walls", "wall-right", "corner-right", "floor-right", "floor-mid", "floor-left", "corner-left", "wall-left")
-        self.add_polyline("door", (17,46), (17,30), (31,30), (31,46))
+        self.add_polyline("door", (17,42), (17,30), (31,30), (31,42))
         self.relate("connect", "door", "walls")
         self.relate("connect", "roof", "walls")

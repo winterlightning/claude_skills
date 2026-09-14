@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (3.98075, 6, 44.0047, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [1.9807, 0.0, 1.9953, 0.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,11 +17,11 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 29 A 19 16 0 0 1 27 13 A 19 16 0 0 1 46 29 L 36 29 L 25 29 L 18 29 L 8 29 Z",
+        "pathData": "M 8 29 A 19 16 0 0 1 27 13 A 19 16 0 0 1 42 29 L 36 29 L 25 29 L 18 29 L 8 29 Z",
         "bounds": [
           8.0,
           13.0,
-          46.0,
+          42.00474372309942,
           29.0
         ],
         "segmentCount": 261,
@@ -47,9 +49,9 @@
         "elementId": "antenna",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 27 13 A 13 5 0 0 0 14 8 A 12 4 0 0 0 2 12",
+        "pathData": "M 27 13 A 13 5 0 0 0 14 8 A 12 4 0 0 0 6 12",
         "bounds": [
-          2.0,
+          5.980831844790433,
           8.0,
           27.0,
           13.0
@@ -116,9 +118,9 @@
           "leg-2"
         ],
         "bounds": [
-          2.0,
+          5.980831844790433,
           8.0,
-          46.0,
+          42.00474372309942,
           40.0
         ]
       }
@@ -345,8 +347,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -409,34 +411,34 @@
       {
         "hole": 2,
         "center_viewbox": [
-          31.2344,
-          21.3281
+          30.3594,
+          21.8594
         ],
         "bbox_viewbox": [
           18.875,
-          13.5,
-          26.625,
-          15.0
+          13.5625,
+          22.625,
+          14.9375
         ],
         "bbox_ship_px": [
-          26.625,
-          15.0
+          22.625,
+          14.9375
         ],
         "bbox_design_u": [
-          26.625,
-          15.0
+          22.625,
+          14.9375
         ],
-        "area_ship_px2": 274.832,
-        "equivalent_diameter_ship_px": 18.7063,
-        "equivalent_diameter_design_u": 18.7063,
-        "inscribed_diameter_ship_px": 14.3175,
-        "inscribed_diameter_design_u": 14.3175,
-        "inscribed_radius_ship_px": 7.1588,
-        "inscribed_radius_design_u": 7.1588,
+        "area_ship_px2": 220.5674,
+        "equivalent_diameter_ship_px": 16.7581,
+        "equivalent_diameter_design_u": 16.7581,
+        "inscribed_diameter_ship_px": 13.3064,
+        "inscribed_diameter_design_u": 13.3064,
+        "inscribed_radius_ship_px": 6.6532,
+        "inscribed_radius_design_u": 6.6532,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 5.6588,
-        "equivalent_diameter_at_authored_stroke_design_u": 11.3176
+        "equivalent_radius_at_authored_stroke_design_u": 5.1532,
+        "equivalent_diameter_at_authored_stroke_design_u": 10.3064
       }
     ],
     "pinches": [],
@@ -462,14 +464,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b33058642d1d441c32b8935cd3de9bbe986764fd6746ff18e1488225eae520af",
+  "svg_sha256": "7f648922cf6a441a9148589c2cb91f74aa6cbe249e206db04be8b5033744acc6",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -499,13 +501,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

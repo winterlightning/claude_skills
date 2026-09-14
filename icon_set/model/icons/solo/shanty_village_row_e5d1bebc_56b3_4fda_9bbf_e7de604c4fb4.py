@@ -17,8 +17,8 @@ class ShantyVillageRow(Solo48):
     keywords = ('shanty', 'slum', 'village', 'houses', 'informal', 'settlement', 'shelter', 'housing')
 
     def build(self) -> None:
-        # Centerline extremes (2,2)-(46,46).
-        self.add_polyline("rear-left", (2,26), (2,13), (12,7), (22,13), (22,21))
-        self.add_polyline("rear-right", (22,13), (22,8), (34,2), (46,8), (46,23))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_polyline("rear-left", (6,26), (6,13), (12,7), (22,13), (22,21))
+        self.add_polyline("rear-right", (22,13), (22,8), (34,6), (42,8), (42,23))
         self.relate("connect", "rear-left", "rear-right")
-        self.add_polyline("shed", (18,44), (18,33), (31,27), (46,33), (46,46), (18,44), (2,42), (2,34), (18,36))
+        self.add_polyline("shed", (18,42), (18,33), (31,27), (42,33), (42,42), (18,42), (6,42), (6,34), (18,36))

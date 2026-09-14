@@ -2,7 +2,7 @@
   "icon_id": "menu",
   "family": "sub",
   "profile": "SUB32",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -425,9 +425,22 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "705812024a70286eeb4501118620b9bb84e3d43530d9a29359a408033a801cc2",
+  "rules_sha256": "74477210c006868bc36be72d20ecfb0fbfe9136868bdcbf9a41503fd2e40e5a4",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

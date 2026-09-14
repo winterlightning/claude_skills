@@ -17,16 +17,17 @@ class Landmark(Solo48):
     keywords = ('bellas artes', 'palace', 'mexico', 'theatre', 'dome', 'landmark', 'architecture', 'museum')
 
     def build(self):
-        # Centerline extremes: (2,2)-(46,46); stepped wings and dome.
-        self.add_polyline("outline", (2,46), (2,30), (12,30), (12,20), (14,20), (24,20), (34,20), (36,20), (36,30), (46,30), (46,46), (30,46), (18,46), closed=True)
+        # SQUARE centerline extremes (6,6)-(42,42).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        self.add_polyline("outline", (6,42), (6,28), (14,28), (14,20), (24,20), (34,20), (34,28), (42,28), (42,42), (30,42), (18,42), closed=True)
         self.add_arc("dome-left", (14,20), (24,10), radius_x=10)
         self.add_arc("dome-right", (24,10), (34,20), radius_x=10)
         self.add_contour("dome", "dome-left", "dome-right")
-        self.add_line("finial", (24,2), (24,10))
+        self.add_line("finial", (24,6), (24,10))
         self.relate("connect", "finial", "dome")
         self.relate("connect", "dome", "outline")
-        self.add_line("door-left", (18, 46), (18, 36))
-        self.add_arc("door-top", (18, 36), (30, 36), radius_x=6)
-        self.add_line("door-right", (30, 36), (30, 46))
+        self.add_line("door-left", (18,42), (18,36))
+        self.add_arc("door-top", (18,36), (30,36), radius_x=6)
+        self.add_line("door-right", (30,36), (30,42))
         self.add_contour("door", "door-left", "door-top", "door-right")
         self.relate("connect", "door", "outline")

@@ -17,15 +17,15 @@ class FossilTablet(Solo48):
     keywords = ('fossil', 'dinosaur', 'skeleton', 'pterosaur', 'stone', 'tablet', 'archaeology', 'prehistoric')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
-        self.add_line("top",(10,2),(38,2))
-        self.add_arc("tr",(38,2),(46,10),radius_x=8)
-        self.add_line("right",(46,10),(46,38))
-        self.add_arc("br",(46,38),(38,46),radius_x=8)
-        self.add_line("bottom",(38,46),(10,46))
-        self.add_arc("bl",(10,46),(2,38),radius_x=8)
-        self.add_line("left",(2,38),(2,10))
-        self.add_arc("tl",(2,10),(10,2),radius_x=8)
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_line("top",(10,6),(38,6))
+        self.add_arc("tr",(38,6),(42,10),radius_x=8)
+        self.add_line("right",(42,10),(42,38))
+        self.add_arc("br",(42,38),(38,42),radius_x=8)
+        self.add_line("bottom",(38,42),(10,42))
+        self.add_arc("bl",(10,42),(6,38),radius_x=8)
+        self.add_line("left",(6,38),(6,10))
+        self.add_arc("tl",(6,10),(10,6),radius_x=8)
         self.add_contour("stone","top","tr","right","br","bottom","bl","left","tl",closed=True)
         self.add_polyline("spine",(24,11),(20,19),(26,28),(24,37))
         self.add_polyline("left-wing",(20,19),(11,21),(11,30))

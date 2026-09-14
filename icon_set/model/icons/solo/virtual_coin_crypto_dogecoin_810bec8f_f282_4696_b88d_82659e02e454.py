@@ -18,15 +18,15 @@ class ShibaInuFace(Solo48):
 
     def build(self) -> None:
         # Visible keyshape extremes: (0, 0, 48, 48).
-        self.add_line('ear-left-1', (4, 20), (4, 2))
-        self.add_line('ear-left-2', (4, 2), (16, 10))
+        self.add_line('ear-left-1', (6, 20), (6, 6))
+        self.add_line('ear-left-2', (6, 6), (16, 10))
         self.add_arc("forehead",(16,10),(32,10),radius_x=26)
-        self.add_line('ear-right-1', (32, 10), (44, 2))
-        self.add_line('ear-right-2', (44, 2), (44, 20))
-        self.add_arc("cheek-right",(44,20),(46,26),radius_x=10)
-        self.add_arc("chin-right",(46,26),(24,46),radius_x=22,radius_y=20)
-        self.add_arc("chin-left",(24,46),(2,26),radius_x=22,radius_y=20)
-        self.add_arc("cheek-left",(2,26),(4,20),radius_x=10)
+        self.add_line('ear-right-1', (32, 10), (42, 6))
+        self.add_line('ear-right-2', (42, 6), (42, 20))
+        self.add_arc("cheek-right",(42,20),(42,26),radius_x=10)
+        self.add_arc("chin-right",(42,26),(24,42),radius_x=22,radius_y=20)
+        self.add_arc("chin-left",(24,42),(6,26),radius_x=22,radius_y=20)
+        self.add_arc("cheek-left",(6,26),(6,20),radius_x=10)
         self.add_contour("head","ear-left-1","ear-left-2","forehead","ear-right-1","ear-right-2","cheek-right","chin-right","chin-left","cheek-left",closed=True)
         self.add_dot("eye-left",(14,22))
         self.add_dot("eye-right",(34,22))

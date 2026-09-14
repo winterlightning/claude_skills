@@ -17,7 +17,7 @@ class DeerHead(Solo48):
     keywords = ('deer', 'head', 'antlers', 'stag', 'face', 'muzzle', 'wildlife', 'buck')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
+        # Centerline extremes: (6,6)-(42,42).
         self.add_line("crown",(16,22),(32,22))
         self.add_line("cheek-right",(32,22),(30,40))
         self.add_arc("chin",(30,40),(18,40),radius_x=6)

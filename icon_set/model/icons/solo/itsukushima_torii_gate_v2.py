@@ -18,12 +18,12 @@ class ItsukushimaToriiGateVariant2(Solo48):
     keywords = ('itsukushima', 'torii', 'gate', 'shrine', 'japan', 'shinto', 'miyajima', 'landmark')
 
     def build(self) -> None:
-        self.add_arc('eave-left', (2, 8), (8, 11), radius_x=6, radius_y=3, sweep=False)
+        self.add_arc('eave-left', (6, 8), (8, 11), radius_x=6, radius_y=3, sweep=False)
         self.add_line('lintel-1', (8, 11), (10, 11))
         self.add_line('lintel-2', (10, 11), (24, 11))
         self.add_line('lintel-3', (24, 11), (38, 11))
         self.add_line('lintel-4', (38, 11), (40, 11))
-        self.add_arc('eave-right', (40, 11), (46, 8), radius_x=6, radius_y=3, sweep=False)
+        self.add_arc('eave-right', (40, 11), (42, 8), radius_x=6, radius_y=3, sweep=False)
         self.add_contour('roof', 'eave-left', 'lintel-1', 'lintel-2', 'lintel-3', 'lintel-4', 'eave-right')
         self.add_polyline('beam', (6, 21), (10, 21), (18, 21), (30, 21), (38, 21), (42, 21))
         self.add_polyline('post-left', (10, 11), (10, 21), (10, 40))

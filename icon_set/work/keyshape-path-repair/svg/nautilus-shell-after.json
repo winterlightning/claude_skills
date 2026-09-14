@@ -1,0 +1,236 @@
+{
+  "icon_id": "nautilus-shell-stretch-square",
+  "name": "nautilus-shell-stretch-square",
+  "aliases": [],
+  "category": "animals",
+  "keywords": [
+    "nautilus",
+    "shell",
+    "spiral",
+    "sea",
+    "marine",
+    "cephalopod",
+    "coil",
+    "ocean"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "tentacle-hook",
+      "start": [
+        6,
+        37
+      ],
+      "end": [
+        14,
+        37
+      ],
+      "radius_x": 4,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "tentacle",
+      "start": [
+        14,
+        37
+      ],
+      "end": [
+        14,
+        20
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shell-top-left",
+      "start": [
+        14,
+        20
+      ],
+      "end": [
+        28,
+        6
+      ],
+      "radius_x": 14,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "shell-top-right",
+      "start": [
+        28,
+        6
+      ],
+      "end": [
+        42,
+        20
+      ],
+      "radius_x": 14,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "shell-bottom-right",
+      "start": [
+        42,
+        20
+      ],
+      "end": [
+        28,
+        34
+      ],
+      "radius_x": 14,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "coil-entry",
+      "start": [
+        28,
+        34
+      ],
+      "end": [
+        22,
+        26
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "coil-left",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        22,
+        20
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "coil-top-left",
+      "start": [
+        22,
+        20
+      ],
+      "end": [
+        28,
+        13
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "coil-top-right",
+      "start": [
+        28,
+        13
+      ],
+      "end": [
+        35,
+        20
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "coil-bottom",
+      "start": [
+        35,
+        20
+      ],
+      "end": [
+        28,
+        27
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "aperture",
+      "start": [
+        14,
+        20
+      ],
+      "end": [
+        22,
+        20
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "shell",
+      "members": [
+        "tentacle-hook",
+        "tentacle",
+        "shell-top-left",
+        "shell-top-right",
+        "shell-bottom-right",
+        "coil-entry",
+        "coil-left",
+        "coil-top-left",
+        "coil-top-right",
+        "coil-bottom"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "shell",
+        "aperture"
+      ]
+    }
+  ],
+  "variant_of": "nautilus-shell",
+  "variant_label": "Stretch to SQUARE"
+}

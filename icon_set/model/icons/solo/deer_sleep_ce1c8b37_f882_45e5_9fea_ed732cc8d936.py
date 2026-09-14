@@ -17,17 +17,17 @@ class SleepingDeer(Solo48):
     keywords = ('deer', 'sleep', 'rest', 'curled', 'antlers', 'night', 'zzz', 'animal')
 
     def build(self) -> None:
-        # Centerline extremes: (2,5)-(46,43).
-        self.add_arc("rump",(12,25),(12,43),radius_x=10,radius_y=9,sweep=False)
-        self.add_arc("underside",(12,43),(42,25),radius_x=30,radius_y=18,sweep=False)
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_arc("rump",(12,25),(12,42),radius_x=10,radius_y=9,sweep=False)
+        self.add_arc("underside",(12,42),(42,25),radius_x=30,radius_y=18,sweep=False)
         self.add_arc("neck",(42,25),(34,15),radius_x=14,sweep=False)
         self.add_line("face-1",(34,15),(34,11))
         self.add_line("face-2",(34,11),(18,17))
         self.add_arc("muzzle",(18,17),(18,25),radius_x=4,sweep=False)
         self.add_line("tuck",(18,25),(12,25))
         self.add_contour("deer","rump","underside","neck","face-1","face-2","muzzle","tuck",closed=True)
-        self.add_polyline("antler",(22,15),(18,9),(18,5))
+        self.add_polyline("antler",(22,15),(18,9),(18,6))
         self.relate("connect","deer","antler")
         self.add_line("tine",(18,9),(10,7))
         self.relate("connect","antler","tine")
-        self.add_polyline("sleep",(41,5),(46,5),(41,11),(46,11))
+        self.add_polyline("sleep",(41,6),(42,6),(41,11),(42,11))

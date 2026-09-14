@@ -1,0 +1,376 @@
+{
+  "icon_id": "baby-pram-stretch-square",
+  "name": "baby-pram-stretch-square",
+  "aliases": [],
+  "category": "objects/baby",
+  "keywords": [
+    "baby",
+    "pram",
+    "baby",
+    "nursery",
+    "toy"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "hood",
+      "start": [
+        6,
+        21
+      ],
+      "end": [
+        21,
+        6
+      ],
+      "radius_x": 15,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "hood-back",
+      "start": [
+        21,
+        6
+      ],
+      "end": [
+        21,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "rim",
+      "start": [
+        6,
+        21
+      ],
+      "end": [
+        34,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-left",
+      "start": [
+        6,
+        21
+      ],
+      "end": [
+        6,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "body-bottom-left",
+      "start": [
+        6,
+        24
+      ],
+      "end": [
+        14,
+        32
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "body-bottom",
+      "start": [
+        14,
+        32
+      ],
+      "end": [
+        26,
+        32
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "body-bottom-right",
+      "start": [
+        26,
+        32
+      ],
+      "end": [
+        34,
+        24
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "body-right",
+      "start": [
+        34,
+        24
+      ],
+      "end": [
+        34,
+        21
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "handle-curve",
+      "start": [
+        34,
+        21
+      ],
+      "end": [
+        40,
+        13
+      ],
+      "radius_x": 7,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "handle-tip",
+      "start": [
+        40,
+        13
+      ],
+      "end": [
+        42,
+        13
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wheel-10-a",
+      "start": [
+        13,
+        37
+      ],
+      "end": [
+        13,
+        42
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wheel-10-b",
+      "start": [
+        13,
+        42
+      ],
+      "end": [
+        13,
+        37
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-10",
+      "start": [
+        14,
+        32
+      ],
+      "end": [
+        13,
+        37
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wheel-30-a",
+      "start": [
+        29,
+        37
+      ],
+      "end": [
+        29,
+        42
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wheel-30-b",
+      "start": [
+        29,
+        42
+      ],
+      "end": [
+        29,
+        37
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-30",
+      "start": [
+        26,
+        32
+      ],
+      "end": [
+        29,
+        37
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "hood-shell",
+      "members": [
+        "hood",
+        "hood-back"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "body",
+      "members": [
+        "body-left",
+        "body-bottom-left",
+        "body-bottom",
+        "body-bottom-right",
+        "body-right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "handle",
+      "members": [
+        "handle-curve",
+        "handle-tip"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "wheel-10",
+      "members": [
+        "wheel-10-a",
+        "wheel-10-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "wheel-30",
+      "members": [
+        "wheel-30-a",
+        "wheel-30-b"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "hood-shell",
+        "rim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "rim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "hood-shell"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "handle",
+        "rim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "handle",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "leg-10",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "leg-10",
+        "wheel-10"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "leg-30",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "leg-30",
+        "wheel-30"
+      ]
+    }
+  ],
+  "variant_of": "baby-pram",
+  "variant_label": "Stretch to SQUARE"
+}

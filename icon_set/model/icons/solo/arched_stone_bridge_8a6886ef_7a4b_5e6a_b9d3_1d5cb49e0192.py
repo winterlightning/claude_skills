@@ -17,9 +17,9 @@ class ArchedStoneBridge(Solo48):
     keywords = ('bridge', 'arch', 'viaduct', 'river', 'water', 'crossing', 'stone', 'landmark', 'infrastructure')
 
     def build(self) -> None:
-        # Centerline extremes (2,2)-(46,46).
-        self.add_line("deck-top", (2,2), (46,2))
-        self.add_line("deck-middle", (2,24), (46,24))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_line("deck-top", (6,6), (42,6))
+        self.add_line("deck-middle", (6,24), (42,24))
         for level, cy, ry, bottom in (("upper",16,6,17),("lower",36,5,37)):
             self.add_line(level+"-pier-left", (2,bottom), (2,cy))
             self.add_arc(level+"-arch-left", (2,cy), (24,cy), radius_x=11, radius_y=ry)
@@ -28,6 +28,6 @@ class ArchedStoneBridge(Solo48):
             self.add_contour(level, level+"-pier-left", level+"-arch-left", level+"-arch-right", level+"-pier-right")
             self.add_line(level+"-pier-middle", (24,cy), (24,bottom))
             self.relate("connect", level, level+"-pier-middle")
-        self.add_arc("water-left", (2,44), (24,44), radius_x=11, radius_y=2, sweep=False)
-        self.add_arc("water-right", (24,44), (46,44), radius_x=11, radius_y=2, sweep=False)
+        self.add_arc("water-left", (6,42), (24,42), radius_x=11, radius_y=2, sweep=False)
+        self.add_arc("water-right", (24,42), (42,42), radius_x=11, radius_y=2, sweep=False)
         self.add_contour("water", "water-left", "water-right")

@@ -1,0 +1,250 @@
+{
+  "icon_id": "a-frame-church-fit-hrect-l",
+  "name": "a-frame-church-fit-hrect-l",
+  "aliases": [],
+  "category": "places/landmarks",
+  "keywords": [
+    "church",
+    "chapel",
+    "cross",
+    "religion",
+    "worship",
+    "a-frame",
+    "roof",
+    "christian"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "roof-1",
+      "start": [
+        5,
+        30
+      ],
+      "end": [
+        24,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "roof-2",
+      "start": [
+        24,
+        18
+      ],
+      "end": [
+        43,
+        30
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "outline-1",
+      "start": [
+        11,
+        27
+      ],
+      "end": [
+        11,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "outline-2",
+      "start": [
+        11,
+        40
+      ],
+      "end": [
+        24,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "outline-3",
+      "start": [
+        24,
+        40
+      ],
+      "end": [
+        37,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "outline-4",
+      "start": [
+        37,
+        40
+      ],
+      "end": [
+        37,
+        27
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cross-stem-1",
+      "start": [
+        24,
+        8
+      ],
+      "end": [
+        24,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cross-stem-2",
+      "start": [
+        24,
+        11
+      ],
+      "end": [
+        24,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cross-bar-1",
+      "start": [
+        21,
+        11
+      ],
+      "end": [
+        24,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cross-bar-2",
+      "start": [
+        24,
+        11
+      ],
+      "end": [
+        27,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "door-1",
+      "start": [
+        24,
+        40
+      ],
+      "end": [
+        24,
+        33
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "roof",
+      "members": [
+        "roof-1",
+        "roof-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "outline",
+      "members": [
+        "outline-1",
+        "outline-2",
+        "outline-3",
+        "outline-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "cross-stem",
+      "members": [
+        "cross-stem-1",
+        "cross-stem-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "cross-bar",
+      "members": [
+        "cross-bar-1",
+        "cross-bar-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "door",
+      "members": [
+        "door-1"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "roof",
+        "outline"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "cross-stem",
+        "cross-bar"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "cross-stem",
+        "roof"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "door",
+        "outline"
+      ]
+    }
+  ],
+  "variant_of": "a-frame-church",
+  "variant_label": "Fit to HRECT_L"
+}

@@ -17,14 +17,14 @@ class SteppedOfficeBlockWithFlag(Solo48):
     keywords = ('embassy', 'office', 'building', 'government', 'flag', 'civic', 'tower', 'architecture')
 
     def build(self) -> None:
-        # Centerline extremes: (5,2)-(43,46).
-        self.add_polyline('building',(5,46),(5,30),(15,30),(15,20),(35,20),(35,46),(5,46))
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_polyline('building',(6,42),(6,30),(15,30),(15,20),(35,20),(35,42),(6,42))
         self.add_line('foreground-edge',(15,30),(23,30))
-        self.add_line('foreground-wall',(23,30),(23,46))
+        self.add_line('foreground-wall',(23,30),(23,42))
         self.relate('connect','building','foreground-edge')
         self.relate('connect','foreground-edge','foreground-wall')
         self.relate('connect','building','foreground-wall')
-        self.add_polyline('flag',(23,20),(23,2),(37,2),(37,10),(23,10))
+        self.add_polyline('flag',(23,20),(23,6),(37,6),(37,10),(23,10))
         self.relate('connect','flag','building')
-        self.add_line('ground-right',(35,46),(43,46))
+        self.add_line('ground-right',(35,42),(42,42))
         self.relate('connect','ground-right','building')

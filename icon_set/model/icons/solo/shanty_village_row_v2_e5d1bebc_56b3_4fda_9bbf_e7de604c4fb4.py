@@ -1,5 +1,5 @@
 # Variant of shanty-village-row; parent file remains unchanged.
-"""Staggered rear homes over level rectangular foreground buildings. SQUARE centerline bounds (2,2)-(46,46). Lucide house informs aligned wall runs and a symmetric gable; rear staggering is intentional."""
+"""Staggered rear homes over level rectangular foreground buildings. SQUARE centerline bounds (6,6)-(42,42). Lucide house informs aligned wall runs and a symmetric gable; rear staggering is intentional."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e5d1bebc-56b3-4fda-9bbf-e7de604c4fb4'
@@ -18,7 +18,7 @@ class ShantyVillageRowVariant2(Solo48):
     keywords = ('shanty', 'slum', 'village', 'houses', 'informal', 'settlement', 'shelter', 'housing')
 
     def build(self) -> None:
-        self.add_polyline('rear-left', (2, 26), (2, 13), (12, 7), (22, 13), (22, 21))
-        self.add_polyline('rear-right', (22, 13), (22, 8), (34, 2), (46, 8), (46, 23))
+        self.add_polyline('rear-left', (6, 26), (6, 13), (12, 7), (22, 13), (22, 21))
+        self.add_polyline('rear-right', (22, 13), (22, 8), (34, 6), (42, 8), (42, 23))
         self.relate('connect', 'rear-left', 'rear-right')
-        self.add_polyline('shed', (18, 46), (18, 34), (32, 27), (46, 34), (46, 46), (18, 46), (2, 46), (2, 34), (18, 34))
+        self.add_polyline('shed', (18, 42), (18, 34), (32, 27), (42, 34), (42, 42), (18, 42), (6, 42), (6, 34), (18, 34))

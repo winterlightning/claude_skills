@@ -1,0 +1,300 @@
+{
+  "icon_id": "stylized-ram-head-stretch-square",
+  "name": "stylized-ram-head-stretch-square",
+  "aliases": [],
+  "category": "animals/wildlife",
+  "keywords": [
+    "ram",
+    "sheep",
+    "horn",
+    "curl",
+    "head",
+    "profile",
+    "abstract",
+    "animal"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "curl",
+      "start": [
+        24,
+        16
+      ],
+      "end": [
+        22,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "horn-left",
+      "start": [
+        22,
+        22
+      ],
+      "end": [
+        14,
+        14
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "crown",
+      "start": [
+        14,
+        14
+      ],
+      "end": [
+        22,
+        6
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "forehead",
+      "start": [
+        22,
+        6
+      ],
+      "end": [
+        39,
+        21
+      ],
+      "radius_x": 23,
+      "radius_y": 23,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "nose",
+      "start": [
+        39,
+        21
+      ],
+      "end": [
+        42,
+        26
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "muzzle-round",
+      "start": [
+        42,
+        26
+      ],
+      "end": [
+        37,
+        31
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "muzzle-bottom",
+      "start": [
+        37,
+        31
+      ],
+      "end": [
+        32,
+        31
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "muzzle-bottom-inner",
+      "start": [
+        32,
+        31
+      ],
+      "end": [
+        27,
+        31
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "muzzle-inner",
+      "start": [
+        27,
+        31
+      ],
+      "end": [
+        22,
+        26
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bridge",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        22,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "neck-top",
+      "start": [
+        6,
+        21
+      ],
+      "end": [
+        14,
+        14
+      ],
+      "radius_x": 8,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "jaw-upper",
+      "start": [
+        32,
+        31
+      ],
+      "end": [
+        26,
+        37
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "jaw-lower",
+      "start": [
+        26,
+        37
+      ],
+      "end": [
+        17,
+        42
+      ],
+      "radius_x": 9,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "neck-base",
+      "start": [
+        17,
+        42
+      ],
+      "end": [
+        13,
+        40
+      ],
+      "radius_x": 5,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "head",
+      "members": [
+        "curl",
+        "horn-left",
+        "crown",
+        "forehead",
+        "nose",
+        "muzzle-round",
+        "muzzle-bottom",
+        "muzzle-bottom-inner",
+        "muzzle-inner",
+        "bridge"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "lower",
+      "members": [
+        "jaw-upper",
+        "jaw-lower",
+        "neck-base"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "neck-top"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "lower"
+      ]
+    }
+  ],
+  "variant_of": "stylized-ram-head",
+  "variant_label": "Stretch to SQUARE"
+}

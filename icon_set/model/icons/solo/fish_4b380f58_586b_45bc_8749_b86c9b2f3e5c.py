@@ -19,12 +19,12 @@ class IchthysFish(Solo48):
     def build(self) -> None:
         # Visible keyshape bounds: (0, 9, 48, 39); centerlines inset by 2.
         self.add_arc('upper-left', (12, 24), (29, 11), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('upper-right', (29, 11), (46, 24), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('lower-right', (46, 24), (29, 37), radius_x=18, radius_y=18, sweep=True)
+        self.add_arc('upper-right', (29, 11), (42, 24), radius_x=18, radius_y=18, sweep=True)
+        self.add_arc('lower-right', (42, 24), (29, 37), radius_x=18, radius_y=18, sweep=True)
         self.add_arc('lower-left', (29, 37), (12, 24), radius_x=18, radius_y=18, sweep=True)
         self.add_contour('body', 'upper-left', 'upper-right', 'lower-right', 'lower-left')
-        self.add_line('tail-upper', (12, 24), (2, 14))
-        self.add_line('tail-lower', (12, 24), (2, 34))
+        self.add_line('tail-upper', (12, 24), (6, 14))
+        self.add_line('tail-lower', (12, 24), (6, 34))
         self.relate("connect", 'body', 'tail-upper')
         self.relate("connect", 'body', 'tail-lower')
         self.relate("connect", 'tail-upper', 'tail-lower')

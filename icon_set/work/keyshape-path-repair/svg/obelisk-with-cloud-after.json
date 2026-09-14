@@ -1,0 +1,229 @@
+{
+  "icon_id": "obelisk-with-cloud-stretch-square",
+  "name": "obelisk-with-cloud-stretch-square",
+  "aliases": [],
+  "category": "places/landmarks",
+  "keywords": [
+    "obelisk",
+    "monument",
+    "memorial",
+    "tower",
+    "landmark",
+    "cloud",
+    "washington",
+    "pillar"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "obelisk-1",
+      "start": [
+        11,
+        42
+      ],
+      "end": [
+        14,
+        12
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "obelisk-2",
+      "start": [
+        14,
+        12
+      ],
+      "end": [
+        17,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "obelisk-3",
+      "start": [
+        17,
+        6
+      ],
+      "end": [
+        20,
+        12
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "obelisk-4",
+      "start": [
+        20,
+        12
+      ],
+      "end": [
+        23,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-1",
+      "start": [
+        6,
+        42
+      ],
+      "end": [
+        11,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-2",
+      "start": [
+        11,
+        42
+      ],
+      "end": [
+        23,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ground-3",
+      "start": [
+        23,
+        42
+      ],
+      "end": [
+        42,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "cloud-top",
+      "start": [
+        31,
+        13
+      ],
+      "end": [
+        42,
+        13
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "cloud-right",
+      "start": [
+        42,
+        13
+      ],
+      "end": [
+        37,
+        17
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "cloud-base",
+      "start": [
+        37,
+        17
+      ],
+      "end": [
+        31,
+        17
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "cloud-left",
+      "start": [
+        31,
+        17
+      ],
+      "end": [
+        31,
+        13
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "obelisk",
+      "members": [
+        "obelisk-1",
+        "obelisk-2",
+        "obelisk-3",
+        "obelisk-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "ground",
+      "members": [
+        "ground-1",
+        "ground-2",
+        "ground-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "cloud",
+      "members": [
+        "cloud-top",
+        "cloud-right",
+        "cloud-base",
+        "cloud-left"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "ground",
+        "obelisk"
+      ]
+    }
+  ],
+  "variant_of": "obelisk-with-cloud",
+  "variant_label": "Stretch to SQUARE"
+}

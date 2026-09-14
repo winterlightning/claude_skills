@@ -1,8 +1,7 @@
-"""Frozen keyshape tokens and the rational 1x / 1.5x / 2x resolver.
+"""Keyshape tokens with profile-specific dimensions and scaled defaults.
 
-All standard dimensions are centered *visible-ink* bounds. SOLO48 is exactly
-the SUB32 base multiplied by 3/2; CONTAINER64 is exactly the base multiplied
-by 2. Every resolution is integer arithmetic; nothing here uses floats.
+All standard dimensions are centered *visible-ink* bounds. SOLO48 has explicit
+dimensions; CONTAINER64 uses the SUB32 base multiplied by 2.
 
 The ten base sizes are read from ``keyshapes.v1.json`` rather than restated
 here, so the contract is the only place a keyshape dimension is written and a
@@ -76,6 +75,10 @@ class Keyshape(Enum):
     def size_for(self, profile: Profile) -> KeyshapeSize:
         if self.base_size is None:
             raise ValueError("FREE requires explicit approved dimensions")
+        override = contracts.icon_profile()["profiles"][profile.name].get(
+            "keyshape_overrides", {}).get(self.name)
+        if override:
+            return KeyshapeSize(override["width"], override["height"])
         return self.base_size.for_profile(profile)
 
     def bounds_for(self, profile: Profile) -> tuple[int, int, int, int]:

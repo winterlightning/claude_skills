@@ -1,0 +1,295 @@
+{
+  "icon_id": "baby-bottle-with-handles-stretch-square",
+  "name": "baby-bottle-with-handles-stretch-square",
+  "aliases": [],
+  "category": "objects/baby-care",
+  "keywords": [
+    "bottle",
+    "handles",
+    "baby",
+    "milk",
+    "feeding",
+    "sippy",
+    "teat",
+    "infant"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "bottle-1",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        16,
+        42
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottle-2",
+      "start": [
+        16,
+        42
+      ],
+      "end": [
+        22,
+        39
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "bottle-3",
+      "start": [
+        22,
+        39
+      ],
+      "end": [
+        35,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bottle-4",
+      "start": [
+        35,
+        26
+      ],
+      "end": [
+        22,
+        13
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bottle-5",
+      "start": [
+        22,
+        13
+      ],
+      "end": [
+        9,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottle-6",
+      "start": [
+        9,
+        26
+      ],
+      "end": [
+        6,
+        32
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "teat-1",
+      "start": [
+        24,
+        14
+      ],
+      "end": [
+        32,
+        9
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "teat-2",
+      "start": [
+        32,
+        9
+      ],
+      "end": [
+        37,
+        6
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "teat-3",
+      "start": [
+        37,
+        6
+      ],
+      "end": [
+        42,
+        11
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "teat-4",
+      "start": [
+        42,
+        11
+      ],
+      "end": [
+        39,
+        16
+      ],
+      "radius_x": 3,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "teat-5",
+      "start": [
+        39,
+        16
+      ],
+      "end": [
+        34,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "handle-left-1",
+      "start": [
+        13,
+        21
+      ],
+      "end": [
+        18,
+        16
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": true,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "handle-right-1",
+      "start": [
+        32,
+        30
+      ],
+      "end": [
+        27,
+        35
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": true,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "bottle",
+      "members": [
+        "bottle-1",
+        "bottle-2",
+        "bottle-3",
+        "bottle-4",
+        "bottle-5",
+        "bottle-6"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "teat",
+      "members": [
+        "teat-1",
+        "teat-2",
+        "teat-3",
+        "teat-4",
+        "teat-5"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "handle-left",
+      "members": [
+        "handle-left-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "handle-right",
+      "members": [
+        "handle-right-1"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "bottle",
+        "teat"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bottle",
+        "handle-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bottle",
+        "handle-right"
+      ]
+    }
+  ],
+  "variant_of": "baby-bottle-with-handles",
+  "variant_label": "Stretch to SQUARE"
+}

@@ -14,16 +14,16 @@ class BabyPotty(Solo48):
     aliases = ()
     keywords = ('potty', 'toilet', 'training', 'baby', 'toddler', 'bathroom', 'pot', 'hygiene')
 
-    # Designed to centerline extremes (2, 5)–(46, 43).
+    # Designed to centerline extremes (6, 6)–(42, 42).
     def build(self) -> None:
-        self.add_arc('tub-1', (4, 22), (21, 5), radius_x=17, radius_y=17, sweep=True)
-        self.add_arc('tub-2', (21, 5), (36, 12), radius_x=20, radius_y=20, sweep=True)
-        self.add_line('tub-3', (36, 12), (44, 18))
-        self.add_line('tub-4', (44, 18), (46, 34))
-        self.add_arc('tub-5', (46, 34), (2, 34), radius_x=22, radius_y=9, sweep=True)
-        self.add_line('tub-6', (2, 34), (4, 22))
+        self.add_arc('tub-1', (6, 22), (21, 6), radius_x=17, radius_y=17, sweep=True)
+        self.add_arc('tub-2', (21, 6), (36, 12), radius_x=20, radius_y=20, sweep=True)
+        self.add_line('tub-3', (36, 12), (42, 18))
+        self.add_line('tub-4', (42, 18), (42, 34))
+        self.add_arc('tub-5', (42, 34), (6, 34), radius_x=22, radius_y=9, sweep=True)
+        self.add_line('tub-6', (6, 34), (6, 22))
         self.add_contour('tub', 'tub-1', 'tub-2', 'tub-3', 'tub-4', 'tub-5', 'tub-6', closed=True)
-        self.add_arc('rim-1', (4, 22), (36, 22), radius_x=16, radius_y=6, sweep=True)
-        self.add_arc('rim-2', (36, 22), (4, 22), radius_x=16, radius_y=6, sweep=True)
+        self.add_arc('rim-1', (6, 22), (36, 22), radius_x=16, radius_y=6, sweep=True)
+        self.add_arc('rim-2', (36, 22), (6, 22), radius_x=16, radius_y=6, sweep=True)
         self.add_contour('rim', 'rim-1', 'rim-2', closed=True)
         self.relate("connect", "tub", "rim")

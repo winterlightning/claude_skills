@@ -1,4 +1,4 @@
-"""Curled fetus facing right. VRECT_XL extremes (5,2)-(43,46). Lucide baby informs a dominant rounded head; anatomy is intentionally asymmetric. Fingers and toes omitted."""
+"""Curled fetus facing right. VRECT_XL extremes (6,6)-(42,42). Lucide baby informs a dominant rounded head; anatomy is intentionally asymmetric. Fingers and toes omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,15 +16,15 @@ class Fetus(Solo48):
     keywords = ('fetus', 'pregnancy', 'unborn', 'womb', 'embryo', 'prenatal', 'baby', 'gestation')
 
     def build(self) -> None:
-        self.add_arc('head-right', (18,2), (31,15), radius_x=13)
+        self.add_arc('head-right', (18,6), (31,15), radius_x=13)
         self.add_arc('chin', (31,15), (22,24), radius_x=9)
         self.add_line('neck', (22,24), (19,24))
-        self.add_arc('head-left', (5,15), (18,2), radius_x=13)
-        self.add_line('back', (5,28), (5,15))
-        self.add_arc('spine', (23,46), (5,28), radius_x=18)
-        self.add_arc('tucked-leg', (33,41), (23,46), radius_x=13)
-        self.add_line('ankle', (38,44), (33,41))
-        self.add_arc('foot', (38,34), (38,44), radius_x=5)
+        self.add_arc('head-left', (6,15), (18,6), radius_x=13)
+        self.add_line('back', (6,28), (6,15))
+        self.add_arc('spine', (23,42), (6,28), radius_x=18)
+        self.add_arc('tucked-leg', (33,41), (23,42), radius_x=13)
+        self.add_line('ankle', (38,42), (33,41))
+        self.add_arc('foot', (38,34), (38,42), radius_x=5)
         self.add_arc('knee', (35,31), (38,34), radius_x=3)
         self.add_contour('body', 'knee', 'foot', 'ankle', 'tucked-leg', 'spine', 'back', 'head-left', 'head-right', 'chin', 'neck')
         self.add_line('upper-arm', (22,24), (27,27))

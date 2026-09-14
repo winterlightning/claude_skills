@@ -17,17 +17,17 @@ class BroadLeafSeedlingInRimmedPot(Solo48):
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 
     def build(self) -> None:
-        # VRECT_XL extremes (5,2)-(43,46); left leaf deliberately higher.
-        self.add_arc("left-upper", (5,2), (24,20), radius_x=19, radius_y=18)
-        self.add_arc("left-lower", (24,20), (5,2), radius_x=19, radius_y=18)
+        # VRECT_XL extremes (6,6)-(42,42); left leaf deliberately higher.
+        self.add_arc("left-upper", (6,6), (24,20), radius_x=19, radius_y=18)
+        self.add_arc("left-lower", (24,20), (6,6), radius_x=19, radius_y=18)
         self.add_contour("left-leaf", "left-upper", "left-lower", closed=True)
-        self.add_arc("right-upper", (24,23), (43,5), radius_x=19, radius_y=18)
-        self.add_arc("right-lower", (43,5), (24,23), radius_x=19, radius_y=18)
+        self.add_arc("right-upper", (24,23), (42,6), radius_x=19, radius_y=18)
+        self.add_arc("right-lower", (42,6), (24,23), radius_x=19, radius_y=18)
         self.add_contour("right-leaf", "right-upper", "right-lower", closed=True)
         self.add_polyline("stem", (24,20), (24,23), (24,30))
         self.relate("connect", "left-leaf", "stem")
         self.relate("connect", "right-leaf", "stem")
         self.add_polyline("rim", (10,30), (24,30), (38,30), (38,36), (34,36), (14,36), (10,36), closed=True)
-        self.add_polyline("pot", (14,36), (16,46), (32,46), (34,36))
+        self.add_polyline("pot", (14,36), (16,42), (32,42), (34,36))
         self.relate("connect", "rim", "pot")
         self.relate("connect", "stem", "rim")

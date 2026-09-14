@@ -15,6 +15,11 @@ You author **geometry**, not SVG. A Python `Icon` subclass owns typed primitives
 the SVG, the PNG and the metadata record are build artifacts produced from it.
 Never hand-write or hand-patch a final SVG — repair the model and re-emit.
 
+Before placing points, read [symbol-construction.md](symbol-construction.md) and plan
+typed shapes, nesting, repetition, symmetry and explicit shared attachments.
+Implement that plan with the existing Python API and the selected family's
+grid. Preserve those relationships when repairing geometry.
+
 Preserve the reference icon's supplied ID in every generated Python filename
 and in `SOURCE_ICON_ID`, with its source path in `SOURCE_PATH`. Record the model
 you are running as in `AUTHOR`. Search by that ID before authoring so existing

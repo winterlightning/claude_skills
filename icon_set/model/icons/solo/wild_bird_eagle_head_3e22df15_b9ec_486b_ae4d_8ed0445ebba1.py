@@ -1,4 +1,4 @@
-"""Front eagle head with scalloped feather hem and centered beak; extremes (2,2)-(46,46). Mirrored dome and brow strokes; three broad scallops replace small feather repetitions."""
+"""Front eagle head with scalloped feather hem and centered beak; extremes (6,6)-(42,42). Mirrored dome and brow strokes; three broad scallops replace small feather repetitions."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,15 +17,15 @@ class EagleHeadFront(Solo48):
     keywords = ('eagle', 'head', 'front', 'beak', 'feathers', 'raptor', 'bird', 'wildlife')
 
     def build(self) -> None:
-        self.add_arc('dome-left', (4, 23), (24, 2), radius_x=20, radius_y=21, sweep=True)
-        self.add_arc('dome-right', (24, 2), (44, 23), radius_x=20, radius_y=21, sweep=True)
-        self.add_line('side-right', (44, 23), (46, 40))
-        self.add_arc('feather-right', (46, 40), (34, 40), radius_x=6, radius_y=4, sweep=True)
+        self.add_arc('dome-left', (6, 23), (24, 6), radius_x=20, radius_y=21, sweep=True)
+        self.add_arc('dome-right', (24, 6), (42, 23), radius_x=20, radius_y=21, sweep=True)
+        self.add_line('side-right', (42, 23), (42, 40))
+        self.add_arc('feather-right', (42, 40), (34, 40), radius_x=6, radius_y=4, sweep=True)
         self.add_line('hem-right', (34, 40), (30, 42))
         self.add_arc('feather-center', (30, 42), (18, 42), radius_x=6, radius_y=4, sweep=True)
         self.add_line('hem-left', (18, 42), (14, 40))
-        self.add_arc('feather-left', (14, 40), (2, 40), radius_x=6, radius_y=4, sweep=True)
-        self.add_line('side-left', (2, 40), (4, 23))
+        self.add_arc('feather-left', (14, 40), (6, 40), radius_x=6, radius_y=4, sweep=True)
+        self.add_line('side-left', (6, 40), (6, 23))
         self.add_contour('head', 'dome-left', 'dome-right', 'side-right', 'feather-right', 'hem-right', 'feather-center', 'hem-left', 'feather-left', 'side-left', closed=True)
         self.add_line('brow-left', (12, 16), (17, 18))
         self.add_line('brow-right', (31, 18), (36, 16))

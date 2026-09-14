@@ -17,16 +17,18 @@ class Landmark(Solo48):
     keywords = ('castle', 'fortress', 'gate', 'tower', 'battlement', 'spire', 'medieval', 'flag')
 
     def build(self):
-        # Centerline extremes: (2,2)-(46,46); tall right tower beside curtain wall.
-        self.add_polyline("outline", (2,46), (2,24), (10,24), (10,30), (18,30), (18,24), (30,24), (30,16), (38,2), (46,16), (46,46), (30,46), (22,46), (10,46), closed=True)
-        self.add_polyline("tower", (30,16), (46,16))
-        self.add_line("tower-wall", (30,24), (30,46))
-        self.relate("connect", "tower", "outline")
+        # SQUARE centerline extremes (6,6)-(42,42).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        # Tall right turret and attached flag retain the source's asymmetry.
+        self.add_polyline("outline", (6,42), (6,26), (14,26), (14,30), (22,30), (22,26), (30,26), (30,18), (36,6), (42,18), (42,42), (30,42), (22,42), (14,42), closed=True)
+        self.add_line("tower-eave", (30,18), (42,18))
+        self.add_line("tower-wall", (30,26), (30,42))
+        self.relate("connect", "tower-eave", "outline")
         self.relate("connect", "tower-wall", "outline")
-        self.add_polyline("flag", (2,24), (2,12), (2,4), (16,4), (12,8), (16,12), (2,12))
+        self.add_polyline("flag", (6,26), (6,16), (6,8), (18,8), (18,16), (6,16))
         self.relate("connect", "flag", "outline")
-        self.add_line("door-left", (10, 46), (10, 40))
-        self.add_arc("door-top", (10, 40), (22, 40), radius_x=6)
-        self.add_line("door-right", (22, 40), (22, 46))
+        self.add_line("door-left", (14,42), (14,38))
+        self.add_arc("door-top", (14,38), (22,38), radius_x=4)
+        self.add_line("door-right", (22,38), (22,42))
         self.add_contour("door", "door-left", "door-top", "door-right")
         self.relate("connect", "door", "outline")

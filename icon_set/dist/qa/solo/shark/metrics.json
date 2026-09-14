@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 25 A 30 24 0 0 1 19 17 A 16 16 0 0 1 27 8 L 27 18 A 36 28 0 0 1 38 22 A 20 20 0 0 1 46 14 A 32 32 0 0 0 46 36 A 20 20 0 0 1 38 29 A 36 28 0 0 1 26 33 L 26 40 L 19 32 A 30 24 0 0 1 2 25 Z",
+        "pathData": "M 6 25 A 30 24 0 0 1 19 17 A 16 16 0 0 1 27 8 L 27 18 A 36 28 0 0 1 38 22 A 20 20 0 0 1 42 14 A 32 32 0 0 0 42 36 A 20 20 0 0 1 38 29 A 36 28 0 0 1 26 33 L 26 40 L 19 32 A 30 24 0 0 1 6 25 Z",
         "bounds": [
-          2.0,
+          6.0,
           8.0,
-          46.0,
+          42.0,
           40.0
         ],
         "segmentCount": 388,
-        "approximationError": 0.00080302070642286,
+        "approximationError": 0.0005844135149555221,
         "hasCurves": true
       },
       {
@@ -59,9 +61,9 @@
           "gill"
         ],
         "bounds": [
-          2.0,
+          6.0,
           8.0,
-          46.0,
+          42.0,
           40.0
         ]
       }
@@ -102,8 +104,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -138,22 +140,22 @@
           25.4219
         ],
         "bbox_viewbox": [
-          2.7812,
+          6.7188,
           8.8438,
-          42.3438,
+          33.9062,
           29.8125
         ],
         "bbox_ship_px": [
-          42.3438,
+          33.9062,
           29.8125
         ],
         "bbox_design_u": [
-          42.3438,
+          33.9062,
           29.8125
         ],
-        "area_ship_px2": 502.0479,
-        "equivalent_diameter_ship_px": 25.2829,
-        "equivalent_diameter_design_u": 25.2829,
+        "area_ship_px2": 400.8691,
+        "equivalent_diameter_ship_px": 22.5921,
+        "equivalent_diameter_design_u": 22.5921,
         "inscribed_diameter_ship_px": 13.706,
         "inscribed_diameter_design_u": 13.706,
         "inscribed_radius_ship_px": 6.853,
@@ -187,14 +189,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "55daffc91a29e59813d4844cba318666b827d182bbe7ed4eccf1667ebbbb237f",
+  "svg_sha256": "431b93e9c5abd3ae34283d0a4a5d504c629d0e4f1ece08f0f64e2452b4875c64",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -224,13 +226,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

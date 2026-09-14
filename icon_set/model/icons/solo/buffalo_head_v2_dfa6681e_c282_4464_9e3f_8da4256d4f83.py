@@ -1,4 +1,4 @@
-"""Frontal buffalo: broad brow, rounded jaw, mirrored upturned horns, eyes and muzzle. HRECT_XL (2,5)-(46,43). Removed pinched chin. No useful exact Lucide match."""
+"""Frontal buffalo: broad brow, rounded jaw, mirrored upturned horns, eyes and muzzle. HRECT_XL (6,6)-(42,42). Removed pinched chin. No useful exact Lucide match."""
 # Variant of buffalo-head; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,14 +18,14 @@ class BuffaloHeadVariant2(Solo48):
     keywords = ('buffalo', 'bison', 'head', 'horns', 'cattle', 'animal', 'wildlife', 'ox')
 
     def build(self) -> None:
-        # Broad front-facing head with short upturned horns, extremes (2,5)-(46,43).
-        self.add_arc('horn-left',(2,5),(13,20),radius_x=11,radius_y=15,sweep=False)
+        # Broad front-facing head with short upturned horns, extremes (6,6)-(42,42).
+        self.add_arc('horn-left',(6,6),(13,20),radius_x=11,radius_y=15,sweep=False)
         self.add_line('brow',(13,20),(35,20))
-        self.add_arc('horn-right',(35,20),(46,5),radius_x=11,radius_y=15,sweep=False)
+        self.add_arc('horn-right',(35,20),(42,6),radius_x=11,radius_y=15,sweep=False)
         self.add_contour('horns','horn-left','brow','horn-right')
         self.add_line('left-cheek',(13,20),(13,32))
-        self.add_arc('left-jaw',(13,32),(24,43),radius_x=11,sweep=False)
-        self.add_arc('right-jaw',(24,43),(35,32),radius_x=11,sweep=False)
+        self.add_arc('left-jaw',(13,32),(24,42),radius_x=11,sweep=False)
+        self.add_arc('right-jaw',(24,42),(35,32),radius_x=11,sweep=False)
         self.add_line('right-cheek',(35,32),(35,20))
         self.add_contour('face','left-cheek','left-jaw','right-jaw','right-cheek')
         self.relate('connect','horns','face')

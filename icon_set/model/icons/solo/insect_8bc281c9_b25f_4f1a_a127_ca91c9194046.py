@@ -1,4 +1,4 @@
-"""Left-facing crawling beetle, following the visible source head and antenna. Centerline extremes (2,8)-(46,40). Low dome and three swept legs; no useful exact Lucide match, bug informs sparse leg construction."""
+"""Left-facing crawling beetle, following the visible source head and antenna. Centerline extremes (6,8)-(42,40). Low dome and three swept legs; no useful exact Lucide match, bug informs sparse leg construction."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -18,8 +18,8 @@ class CrawlingBeetle(Solo48):
 
     def build(self) -> None:
         self.add_arc('dome-l', (8, 29), (27, 13), radius_x=19, radius_y=16, sweep=True)
-        self.add_arc('dome-r', (27, 13), (46, 29), radius_x=19, radius_y=16, sweep=True)
-        self.add_line('belly-1', (46, 29), (36, 29))
+        self.add_arc('dome-r', (27, 13), (42, 29), radius_x=19, radius_y=16, sweep=True)
+        self.add_line('belly-1', (42, 29), (36, 29))
         self.add_line('belly-2', (36, 29), (25, 29))
         self.add_line('belly-3', (25, 29), (18, 29))
         self.add_line('chin', (18, 29), (8, 29))
@@ -27,7 +27,7 @@ class CrawlingBeetle(Solo48):
         self.add_line('head-seam', (18, 29), (27, 13))
         self.relate("connect", 'body', 'head-seam')
         self.add_arc('antenna-r', (27, 13), (14, 8), radius_x=13, radius_y=5, sweep=False)
-        self.add_arc('antenna-l', (14, 8), (2, 12), radius_x=12, radius_y=4, sweep=False)
+        self.add_arc('antenna-l', (14, 8), (6, 12), radius_x=12, radius_y=4, sweep=False)
         self.add_contour('antenna', 'antenna-r', 'antenna-l', closed=False)
         self.relate("connect", 'body', 'antenna')
         self.relate("connect", 'head-seam', 'antenna')

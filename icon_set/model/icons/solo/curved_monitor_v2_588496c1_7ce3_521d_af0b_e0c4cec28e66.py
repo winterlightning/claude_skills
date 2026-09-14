@@ -18,14 +18,14 @@ class CurvedMonitorVariant2(Solo48):
     keywords = ('monitor', 'curved', 'screen', 'display', 'widescreen', 'gaming', 'computer', 'ultrawide')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
-        self.add_arc('top', (2,5), (46,5), radius_x=62, sweep=False)
-        self.add_line('right', (46,5), (46,31))
-        self.add_arc('bottom-right', (46,31), (24,35), radius_x=22, radius_y=4)
-        self.add_arc('bottom-left', (24,35), (2,31), radius_x=22, radius_y=4)
-        self.add_line('left', (2,31), (2,5))
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        self.add_arc('top', (6,6), (42,6), radius_x=62, sweep=False)
+        self.add_line('right', (42,6), (42,31))
+        self.add_arc('bottom-right', (42,31), (24,35), radius_x=22, radius_y=4)
+        self.add_arc('bottom-left', (24,35), (6,31), radius_x=22, radius_y=4)
+        self.add_line('left', (6,31), (6,6))
         self.add_contour('screen','top','right','bottom-right','bottom-left','left',closed=True)
-        self.add_line('stem',(24,35),(24,43))
-        self.add_polyline('base',(12,43),(24,43),(36,43))
+        self.add_line('stem',(24,35),(24,42))
+        self.add_polyline('base',(12,42),(24,42),(36,42))
         self.relate('connect','screen','stem')
         self.relate('connect','stem','base')

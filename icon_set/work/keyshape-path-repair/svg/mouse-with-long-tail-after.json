@@ -1,0 +1,231 @@
+{
+  "icon_id": "mouse-with-long-tail-stretch-square",
+  "name": "mouse-with-long-tail-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "mouse",
+    "with",
+    "long",
+    "tail"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "back",
+      "start": [
+        21,
+        14
+      ],
+      "end": [
+        11,
+        24
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "rump",
+      "start": [
+        11,
+        24
+      ],
+      "end": [
+        19,
+        32
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "belly",
+      "start": [
+        19,
+        32
+      ],
+      "end": [
+        31,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chest",
+      "start": [
+        31,
+        32
+      ],
+      "end": [
+        32,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "snout",
+      "start": [
+        32,
+        24
+      ],
+      "end": [
+        42,
+        17
+      ],
+      "radius_x": 10,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "face",
+      "start": [
+        42,
+        17
+      ],
+      "end": [
+        34,
+        14
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "ear",
+      "start": [
+        34,
+        14
+      ],
+      "end": [
+        24,
+        14
+      ],
+      "radius_x": 5,
+      "radius_y": 8,
+      "large_arc": true,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "tail-turn",
+      "start": [
+        11,
+        24
+      ],
+      "end": [
+        11,
+        38
+      ],
+      "radius_x": 5,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "tail-run",
+      "start": [
+        11,
+        38
+      ],
+      "end": [
+        26,
+        38
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "tail-tip",
+      "start": [
+        26,
+        38
+      ],
+      "end": [
+        26,
+        42
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "tail-end",
+      "start": [
+        26,
+        42
+      ],
+      "end": [
+        17,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "mouse",
+      "members": [
+        "back",
+        "rump",
+        "belly",
+        "chest",
+        "snout",
+        "face",
+        "ear"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "tail",
+      "members": [
+        "tail-turn",
+        "tail-run",
+        "tail-tip",
+        "tail-end"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "mouse",
+        "tail"
+      ]
+    }
+  ],
+  "variant_of": "mouse-with-long-tail",
+  "variant_label": "Stretch to SQUARE"
+}

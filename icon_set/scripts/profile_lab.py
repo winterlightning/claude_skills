@@ -292,6 +292,10 @@ def resolve_keyshape_table(profile_doc: dict, base_rows: list[dict]) -> dict:
         for base in base_rows:
             width, w_rest = divmod(base["width"] * numerator, denominator)
             height, h_rest = divmod(base["height"] * numerator, denominator)
+            override = profile.get("keyshape_overrides", {}).get(base["name"])
+            if override:
+                width, height = override["width"], override["height"]
+                w_rest = h_rest = 0
             if w_rest or h_rest:
                 raise SystemExit(f"error: {base['name']} does not scale to an "
                                  f"integer on {name} ({numerator}/{denominator})")

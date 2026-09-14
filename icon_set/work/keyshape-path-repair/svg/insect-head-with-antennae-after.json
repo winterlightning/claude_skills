@@ -1,0 +1,271 @@
+{
+  "icon_id": "insect-head-with-antennae-stretch-square",
+  "name": "insect-head-with-antennae-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "insect",
+    "head",
+    "antennae",
+    "eyes",
+    "bug",
+    "cricket",
+    "face",
+    "nature"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "face-top",
+      "start": [
+        20,
+        16
+      ],
+      "end": [
+        28,
+        18
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-right",
+      "start": [
+        28,
+        18
+      ],
+      "end": [
+        28,
+        38
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-bottom",
+      "start": [
+        28,
+        38
+      ],
+      "end": [
+        20,
+        38
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-left",
+      "start": [
+        20,
+        38
+      ],
+      "end": [
+        20,
+        16
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "antenna-stem-left",
+      "start": [
+        20,
+        16
+      ],
+      "end": [
+        16,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "antenna-arch-left",
+      "start": [
+        16,
+        11
+      ],
+      "end": [
+        6,
+        11
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-left",
+      "start": [
+        19,
+        28
+      ],
+      "end": [
+        19,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "palp-left",
+      "start": [
+        20,
+        38
+      ],
+      "end": [
+        18,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "antenna-stem-right",
+      "start": [
+        28,
+        18
+      ],
+      "end": [
+        32,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "antenna-arch-right",
+      "start": [
+        32,
+        11
+      ],
+      "end": [
+        42,
+        11
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-right",
+      "start": [
+        29,
+        28
+      ],
+      "end": [
+        29,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "palp-right",
+      "start": [
+        28,
+        38
+      ],
+      "end": [
+        30,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "face",
+      "members": [
+        "face-top",
+        "face-right",
+        "face-bottom",
+        "face-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "antenna-left",
+      "members": [
+        "antenna-stem-left",
+        "antenna-arch-left"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "antenna-right",
+      "members": [
+        "antenna-stem-right",
+        "antenna-arch-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "face",
+        "antenna-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "face",
+        "palp-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "face",
+        "antenna-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "face",
+        "palp-right"
+      ]
+    }
+  ],
+  "variant_of": "insect-head-with-antennae",
+  "variant_label": "Stretch to SQUARE"
+}

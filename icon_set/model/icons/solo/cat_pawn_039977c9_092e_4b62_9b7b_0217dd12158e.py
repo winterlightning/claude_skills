@@ -18,12 +18,12 @@ class CatPaw(Solo48):
 
     def build(self) -> None:
         # VRECT_XL centerline extremes recorded in batch-02-review.md.
-        self.add_line('leg-left', (5, 46), (5, 16))
-        self.add_arc('outer-toe-left', (5, 16), (12, 9), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('leg-left', (6, 42), (6, 16))
+        self.add_arc('outer-toe-left', (6, 16), (12, 9), radius_x=7, radius_y=7, sweep=True)
         self.add_arc('inner-toe-left', (12, 9), (24, 9), radius_x=6, radius_y=7, sweep=True)
         self.add_arc('inner-toe-right', (24, 9), (36, 9), radius_x=6, radius_y=7, sweep=True)
-        self.add_arc('outer-toe-right', (36, 9), (43, 16), radius_x=7, radius_y=7, sweep=True)
-        self.add_line('leg-right', (43, 16), (43, 46))
+        self.add_arc('outer-toe-right', (36, 9), (42, 16), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('leg-right', (42, 16), (42, 42))
         self.add_contour('outline', 'leg-left', 'outer-toe-left', 'inner-toe-left', 'inner-toe-right', 'outer-toe-right', 'leg-right', closed=False)
         self.add_dot('pad-outer-left', (13, 20))
         self.add_dot('pad-inner-left', (18, 13))

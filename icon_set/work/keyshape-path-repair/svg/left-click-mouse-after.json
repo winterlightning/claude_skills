@@ -1,0 +1,204 @@
+{
+  "icon_id": "left-click-mouse-stretch-vrect-l",
+  "name": "left-click-mouse-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "mouse",
+    "click",
+    "left click",
+    "cursor",
+    "pointer",
+    "input",
+    "peripheral",
+    "computer"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "upper-right",
+      "start": [
+        28,
+        13
+      ],
+      "end": [
+        40,
+        22
+      ],
+      "radius_x": 12,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right",
+      "start": [
+        40,
+        22
+      ],
+      "end": [
+        40,
+        33
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "lower",
+      "start": [
+        40,
+        33
+      ],
+      "end": [
+        16,
+        33
+      ],
+      "radius_x": 12,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left",
+      "start": [
+        16,
+        33
+      ],
+      "end": [
+        16,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "upper-left",
+      "start": [
+        16,
+        24
+      ],
+      "end": [
+        28,
+        13
+      ],
+      "radius_x": 12,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "button-v",
+      "start": [
+        28,
+        13
+      ],
+      "end": [
+        28,
+        21
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "button-turn",
+      "start": [
+        28,
+        21
+      ],
+      "end": [
+        24,
+        24
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "button-h",
+      "start": [
+        24,
+        24
+      ],
+      "end": [
+        16,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "click",
+      "start": [
+        8,
+        22
+      ],
+      "end": [
+        28,
+        4
+      ],
+      "radius_x": 20,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "body",
+      "members": [
+        "upper-right",
+        "right",
+        "lower",
+        "left",
+        "upper-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "button",
+      "members": [
+        "button-v",
+        "button-turn",
+        "button-h"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "button"
+      ]
+    }
+  ],
+  "variant_of": "left-click-mouse",
+  "variant_label": "Stretch to VRECT_L"
+}

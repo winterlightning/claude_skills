@@ -1,4 +1,7 @@
-"""Havana Cathedral Facade. Rebuilt from the supplied silhouette."""
+"""SQUARE (6,6)-(42,42) centerlines. Paired pointed towers and central gable flank an arched entrance. Omit the small interior cross and simplify the stepped gable for clear spacing. Mirrored about x=24.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,12 +20,9 @@ class Landmark(Solo48):
     keywords = ('cathedral', 'havana', 'cuba', 'church', 'facade', 'towers', 'landmark', 'religion', 'baroque')
 
     def build(self):
-        self.add_polyline('outline', (2, 46), (2, 12), (7, 2), (12, 12), (12, 22), (19, 16), (19, 10), (24, 5), (29, 10), (29, 16), (36, 22), (36, 12), (41, 2), (46, 12), (46, 46), (28, 46), (20, 46), closed=True)
-        self.add_line("door-left", (20, 46), (20, 36))
-        self.add_arc("door-arch", (20, 36), (28, 36), radius_x=4)
-        self.add_line("door-right", (28, 36), (28, 46))
-        self.add_contour("door", "door-left", "door-arch", "door-right")
-        self.relate("connect", "door", "outline")
-        self.add_polyline('cross-v', (24, 20), (24, 23), (24, 25), closed=False)
-        self.add_polyline('cross-h', (21, 23), (24, 23), (27, 23), closed=False)
-        self.relate("connect", "cross-v", "cross-h")
+        self.add_polyline('outline',(6,42),(6,16),(10,6),(14,16),(14,24),(24,14),(34,24),(34,16),(38,6),(42,16),(42,42),(28,42),(20,42),closed=True)
+        self.add_line('door-left',(20,42),(20,35))
+        self.add_arc('door-arch',(20,35),(28,35),radius_x=4)
+        self.add_line('door-right',(28,35),(28,42))
+        self.add_contour('door','door-left','door-arch','door-right')
+        self.relate('connect','door','outline')

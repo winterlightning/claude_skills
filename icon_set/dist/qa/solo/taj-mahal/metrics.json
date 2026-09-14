@@ -15,15 +15,15 @@
         "elementId": "crescent",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 2 A 4 4 0 0 0 24 6 A 4 4 0 0 0 28 2",
+        "pathData": "M 20 6 A 4 4 0 0 0 24 10 A 4 4 0 0 0 28 6",
         "bounds": [
           20.0,
-          2.0,
+          6.0,
           28.0,
-          6.0
+          10.0
         ],
         "segmentCount": 128,
-        "approximationError": 0.0003011964238483858,
+        "approximationError": 0.0003011964238488299,
         "hasCurves": true
       },
       {
@@ -31,46 +31,62 @@
         "elementId": "finial",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 6 L 24 13",
+        "pathData": "M 24 10 L 24 17",
         "bounds": [
           24.0,
-          6.0,
+          10.0,
           24.0,
-          13.0
+          17.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "onion:subpath-1",
-        "elementId": "onion",
+        "id": "dome-left:subpath-1",
+        "elementId": "dome-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 13 A 14 11 0 0 0 14 26 A 10 5 0 0 0 24 31 A 10 5 0 0 0 34 26 A 14 11 0 0 0 24 13 Z",
+        "pathData": "M 24 17 A 12 11 0 0 0 14 28",
         "bounds": [
-          13.667344799771099,
-          13.0,
-          34.3326552002289,
-          31.0
+          13.999230069322945,
+          17.0,
+          24.0,
+          28.0
         ],
-        "segmentCount": 257,
-        "approximationError": 0.0009926092999921793,
+        "segmentCount": 64,
+        "approximationError": 0.0007357446772079711,
         "hasCurves": true
       },
       {
-        "id": "dome-neck:subpath-1",
-        "elementId": "dome-neck",
+        "id": "dome-right:subpath-1",
+        "elementId": "dome-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 31 L 24 33",
+        "pathData": "M 34 28 A 12 11 0 0 0 24 17",
         "bounds": [
           24.0,
-          31.0,
-          24.0,
-          33.0
+          17.0,
+          34.00076993067705,
+          28.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 64,
+        "approximationError": 0.0007357446772079563,
+        "hasCurves": true
+      },
+      {
+        "id": "roof:subpath-1",
+        "elementId": "roof",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 28 L 14 28 L 20 28 L 28 28 L 34 28 L 42 28",
+        "bounds": [
+          6.0,
+          28.0,
+          42.0,
+          28.0
+        ],
+        "segmentCount": 5,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -79,44 +95,28 @@
         "elementId": "terrace",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 23 L 2 46 L 20 46 L 28 46 L 46 46 L 46 23",
+        "pathData": "M 6 20 L 6 28 L 6 42 L 24 42 L 42 42 L 42 28 L 42 20",
         "bounds": [
-          2.0,
-          23.0,
-          46.0,
-          46.0
+          6.0,
+          20.0,
+          42.0,
+          42.0
         ],
-        "segmentCount": 5,
+        "segmentCount": 6,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "roof:subpath-1",
-        "elementId": "roof",
+        "id": "entrance:subpath-1",
+        "elementId": "entrance",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 33 L 24 33 L 46 33",
-        "bounds": [
-          2.0,
-          33.0,
-          46.0,
-          33.0
-        ],
-        "segmentCount": 2,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "door:subpath-1",
-        "elementId": "door",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 20 46 L 20 44 A 4 4 0 0 1 28 44 L 28 46",
+        "pathData": "M 20 42 L 20 37 A 4 4 0 0 1 28 37 L 28 42",
         "bounds": [
           20.0,
-          40.0,
+          33.0,
           28.0,
-          46.0
+          42.0
         ],
         "segmentCount": 130,
         "approximationError": 0.0003016732614408059,
@@ -129,35 +129,35 @@
         "memberIds": [
           "crescent:subpath-1",
           "finial:subpath-1",
-          "onion:subpath-1",
-          "dome-neck:subpath-1",
-          "terrace:subpath-1",
+          "dome-left:subpath-1",
+          "dome-right:subpath-1",
           "roof:subpath-1",
-          "door:subpath-1"
+          "terrace:subpath-1",
+          "entrance:subpath-1"
         ],
         "contourIds": [
           "crescent:subpath-1",
           "finial:subpath-1",
-          "onion:subpath-1",
-          "dome-neck:subpath-1",
-          "terrace:subpath-1",
+          "dome-left:subpath-1",
+          "dome-right:subpath-1",
           "roof:subpath-1",
-          "door:subpath-1"
+          "terrace:subpath-1",
+          "entrance:subpath-1"
         ],
         "elementIds": [
           "crescent",
           "finial",
-          "onion",
-          "dome-neck",
-          "terrace",
+          "dome-left",
+          "dome-right",
           "roof",
-          "door"
+          "terrace",
+          "entrance"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -171,62 +171,84 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          6.0
+          10.0
         ]
       },
       {
         "contourIds": [
           "finial:subpath-1",
-          "onion:subpath-1"
+          "dome-left:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          13.0
+          17.0
         ]
       },
       {
         "contourIds": [
-          "onion:subpath-1",
-          "dome-neck:subpath-1"
+          "finial:subpath-1",
+          "dome-right:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          31.0
+          17.0
         ]
       },
       {
         "contourIds": [
-          "dome-neck:subpath-1",
+          "dome-left:subpath-1",
+          "dome-right:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          17.0
+        ]
+      },
+      {
+        "contourIds": [
+          "dome-left:subpath-1",
           "roof:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          24.0,
-          33.0
+          14.0,
+          28.0
+        ]
+      },
+      {
+        "contourIds": [
+          "dome-right:subpath-1",
+          "roof:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          34.0,
+          28.0
+        ]
+      },
+      {
+        "contourIds": [
+          "roof:subpath-1",
+          "terrace:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          6.0,
+          28.0
         ]
       },
       {
         "contourIds": [
           "terrace:subpath-1",
-          "roof:subpath-1"
+          "entrance:subpath-1"
         ],
         "reason": "exact original straight-segment intersection",
         "point": [
-          2.0,
-          33.0
-        ]
-      },
-      {
-        "contourIds": [
-          "terrace:subpath-1",
-          "door:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
           20.0,
-          46.0
+          42.0
         ]
       }
     ],
@@ -246,14 +268,14 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            6.0
+            10.0
           ]
         }
       },
       {
         "contourIds": [
           "crescent:subpath-1",
-          "onion:subpath-1"
+          "dome-left:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -262,16 +284,7 @@
       {
         "contourIds": [
           "crescent:subpath-1",
-          "dome-neck:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "crescent:subpath-1",
-          "terrace:subpath-1"
+          "dome-right:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -289,7 +302,16 @@
       {
         "contourIds": [
           "crescent:subpath-1",
-          "door:subpath-1"
+          "terrace:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "crescent:subpath-1",
+          "entrance:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -298,89 +320,44 @@
       {
         "contourIds": [
           "finial:subpath-1",
-          "onion:subpath-1"
+          "dome-left:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "finial:subpath-1",
-            "onion:subpath-1"
+            "dome-left:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            13.0
+            17.0
           ]
         }
       },
       {
         "contourIds": [
           "finial:subpath-1",
-          "dome-neck:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "finial:subpath-1",
-          "terrace:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "finial:subpath-1",
-          "roof:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "finial:subpath-1",
-          "door:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "onion:subpath-1",
-          "dome-neck:subpath-1"
+          "dome-right:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "onion:subpath-1",
-            "dome-neck:subpath-1"
+            "finial:subpath-1",
+            "dome-right:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            31.0
+            17.0
           ]
         }
       },
       {
         "contourIds": [
-          "onion:subpath-1",
-          "terrace:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "onion:subpath-1",
+          "finial:subpath-1",
           "roof:subpath-1"
         ],
         "componentId": "component-1",
@@ -389,16 +366,7 @@
       },
       {
         "contourIds": [
-          "onion:subpath-1",
-          "door:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "dome-neck:subpath-1",
+          "finial:subpath-1",
           "terrace:subpath-1"
         ],
         "componentId": "component-1",
@@ -407,27 +375,55 @@
       },
       {
         "contourIds": [
-          "dome-neck:subpath-1",
+          "finial:subpath-1",
+          "entrance:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "dome-left:subpath-1",
+          "dome-right:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "dome-left:subpath-1",
+            "dome-right:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            17.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "dome-left:subpath-1",
           "roof:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "dome-neck:subpath-1",
+            "dome-left:subpath-1",
             "roof:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            24.0,
-            33.0
+            14.0,
+            28.0
           ]
         }
       },
       {
         "contourIds": [
-          "dome-neck:subpath-1",
-          "door:subpath-1"
+          "dome-left:subpath-1",
+          "terrace:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -435,55 +431,101 @@
       },
       {
         "contourIds": [
-          "terrace:subpath-1",
+          "dome-left:subpath-1",
+          "entrance:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "dome-right:subpath-1",
           "roof:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "terrace:subpath-1",
+            "dome-right:subpath-1",
             "roof:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
-            2.0,
-            33.0
+            34.0,
+            28.0
           ]
         }
       },
       {
         "contourIds": [
-          "terrace:subpath-1",
-          "door:subpath-1"
+          "dome-right:subpath-1",
+          "terrace:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "dome-right:subpath-1",
+          "entrance:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "roof:subpath-1",
+          "terrace:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "terrace:subpath-1",
-            "door:subpath-1"
+            "roof:subpath-1",
+            "terrace:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            20.0,
-            46.0
+            6.0,
+            28.0
           ]
         }
       },
       {
         "contourIds": [
           "roof:subpath-1",
-          "door:subpath-1"
+          "entrance:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": null
+      },
+      {
+        "contourIds": [
+          "terrace:subpath-1",
+          "entrance:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "terrace:subpath-1",
+            "entrance:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            20.0,
+            42.0
+          ]
+        }
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -497,8 +539,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 26,
-      "flattenedSegments": 524,
-      "adaptiveNodes": 1017,
+      "flattenedSegments": 398,
+      "adaptiveNodes": 763,
       "distanceTests": 0,
       "connectionTests": 1
     },
@@ -515,97 +557,97 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          22.2969
+          22.5781
         ],
         "bbox_viewbox": [
-          14.1562,
-          13.5,
-          19.6875,
-          17.0
+          14.5,
+          17.5,
+          19.0,
+          10.0
         ],
         "bbox_ship_px": [
-          19.6875,
-          17.0
+          19.0,
+          10.0
         ],
         "bbox_design_u": [
-          19.6875,
-          17.0
+          19.0,
+          10.0
         ],
-        "area_ship_px2": 259.6953,
-        "equivalent_diameter_ship_px": 18.1839,
-        "equivalent_diameter_design_u": 18.1839,
-        "inscribed_diameter_ship_px": 16.4019,
-        "inscribed_diameter_design_u": 16.4019,
-        "inscribed_radius_ship_px": 8.201,
-        "inscribed_radius_design_u": 8.201,
+        "area_ship_px2": 141.335,
+        "equivalent_diameter_ship_px": 13.4147,
+        "equivalent_diameter_design_u": 13.4147,
+        "inscribed_diameter_ship_px": 9.8737,
+        "inscribed_diameter_design_u": 9.8737,
+        "inscribed_radius_ship_px": 4.9369,
+        "inscribed_radius_design_u": 4.9369,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 6.701,
-        "equivalent_diameter_at_authored_stroke_design_u": 13.402
+        "equivalent_radius_at_authored_stroke_design_u": 3.4369,
+        "equivalent_diameter_at_authored_stroke_design_u": 6.8738
       },
       {
         "hole": 2,
         "center_viewbox": [
-          8.4844,
-          39.4844
+          12.9844,
+          34.9844
         ],
         "bbox_viewbox": [
-          2.5,
-          33.5,
-          43.0,
-          12.0
+          6.5,
+          28.5,
+          35.0,
+          13.0
         ],
         "bbox_ship_px": [
-          43.0,
-          12.0
+          35.0,
+          13.0
         ],
         "bbox_design_u": [
-          43.0,
-          12.0
+          35.0,
+          13.0
         ],
-        "area_ship_px2": 470.6797,
-        "equivalent_diameter_ship_px": 24.4804,
-        "equivalent_diameter_design_u": 24.4804,
-        "inscribed_diameter_ship_px": 12.0,
-        "inscribed_diameter_design_u": 12.0,
-        "inscribed_radius_ship_px": 6.0,
-        "inscribed_radius_design_u": 6.0,
+        "area_ship_px2": 382.6797,
+        "equivalent_diameter_ship_px": 22.0736,
+        "equivalent_diameter_design_u": 22.0736,
+        "inscribed_diameter_ship_px": 13.0,
+        "inscribed_diameter_design_u": 13.0,
+        "inscribed_radius_ship_px": 6.5,
+        "inscribed_radius_design_u": 6.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 4.5,
-        "equivalent_diameter_at_authored_stroke_design_u": 9.0
+        "equivalent_radius_at_authored_stroke_design_u": 5.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 10.0
       },
       {
         "hole": 3,
         "center_viewbox": [
-          23.9219,
-          42.9844
+          23.9844,
+          37.1719
         ],
         "bbox_viewbox": [
           20.5,
-          40.5,
+          33.5,
           7.0,
-          5.0
+          8.0
         ],
         "bbox_ship_px": [
           7.0,
-          5.0
+          8.0
         ],
         "bbox_design_u": [
           7.0,
-          5.0
+          8.0
         ],
-        "area_ship_px2": 29.75,
-        "equivalent_diameter_ship_px": 6.1546,
-        "equivalent_diameter_design_u": 6.1546,
-        "inscribed_diameter_ship_px": 5.0,
-        "inscribed_diameter_design_u": 5.0,
-        "inscribed_radius_ship_px": 2.5,
-        "inscribed_radius_design_u": 2.5,
+        "area_ship_px2": 50.75,
+        "equivalent_diameter_ship_px": 8.0385,
+        "equivalent_diameter_design_u": 8.0385,
+        "inscribed_diameter_ship_px": 7.0,
+        "inscribed_diameter_design_u": 7.0,
+        "inscribed_radius_ship_px": 3.5,
+        "inscribed_radius_design_u": 3.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 1.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 2.0
+        "equivalent_radius_at_authored_stroke_design_u": 2.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.0
       }
     ],
     "pinches": [],
@@ -631,14 +673,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "fb6b6f7fe76495b9ad596da2d83dfd87f58ddfbbed8dad24caa36a6e540d6bba",
+  "svg_sha256": "ce44ca0f7db8dc98ebdb33fad8c6c5eaafc94e3b8c99bd159534f53f1caf3f97",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -668,13 +710,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

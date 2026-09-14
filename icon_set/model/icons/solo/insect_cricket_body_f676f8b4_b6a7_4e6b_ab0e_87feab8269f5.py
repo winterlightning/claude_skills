@@ -1,4 +1,4 @@
-"""Cricket profile; centerline extremes (2,8)-(46,40). Left-facing head follows actual reference; long wing and tall folded hind leg retained. Fine eye omitted."""
+"""Cricket profile; centerline extremes (6,8)-(42,40). Left-facing head follows actual reference; long wing and tall folded hind leg retained. Fine eye omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,18 +17,18 @@ class Cricket(Solo48):
     keywords = ('cricket', 'grasshopper', 'insect', 'locust', 'bug', 'jump', 'legs', 'chirp')
 
     def build(self) -> None:
-        # Cricket profile; centerline extremes (2,8)-(46,40). Left-facing head follows actual reference; long wing and tall folded hind leg retained. Fine eye omitted.
-        self.add_line('wing-front', (4, 22), (20, 25))
+        # Cricket profile; centerline extremes (6,8)-(42,40). Left-facing head follows actual reference; long wing and tall folded hind leg retained. Fine eye omitted.
+        self.add_line('wing-front', (6, 22), (20, 25))
         self.add_line('wing-top', (20, 25), (36, 28))
         self.add_arc('wing-bottom', (36, 28), (25, 33), radius_x=11, radius_y=5, sweep=True)
         self.add_line('belly', (25, 33), (16, 33))
-        self.add_arc('chest', (16, 33), (4, 22), radius_x=12, radius_y=11, sweep=True)
+        self.add_arc('chest', (16, 33), (6, 22), radius_x=12, radius_y=11, sweep=True)
         self.add_contour('body', 'wing-front', 'wing-top', 'wing-bottom', 'belly', 'chest', closed=True)
-        self.add_polyline('hind-leg', (20, 25), (36, 8), (43, 40), (46, 40), closed=False)
+        self.add_polyline('hind-leg', (20, 25), (36, 8), (42, 40), (42, 40), closed=False)
         self.relate("connect", 'body', 'hind-leg')
-        self.add_polyline('front-leg', (16, 33), (9, 40), (2, 40), closed=False)
+        self.add_polyline('front-leg', (16, 33), (9, 40), (6, 40), closed=False)
         self.relate("connect", 'body', 'front-leg')
         self.add_polyline('middle-leg', (25, 33), (22, 40), (17, 40), closed=False)
         self.relate("connect", 'body', 'middle-leg')
-        self.add_polyline('antenna', (4, 22), (2, 15), (2, 8), closed=False)
+        self.add_polyline('antenna', (6, 22), (6, 15), (6, 8), closed=False)
         self.relate("connect", 'body', 'antenna')

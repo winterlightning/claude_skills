@@ -17,11 +17,11 @@ class SuspendedSucculentPlanter(Solo48):
 
     def build(self) -> None:
         # VRECT_XL: exact SOLO48 extremes; geometry authored on the integer grid.
-        self.add_line('cord', (24, 2), (24, 8))
-        self.add_polyline('suspension', (5, 34), (5, 26), (24, 8), (43, 26), (43, 34), closed=False)
+        self.add_line('cord', (24, 6), (24, 8))
+        self.add_polyline('suspension', (6, 34), (6, 26), (24, 8), (42, 26), (42, 34), closed=False)
         self.relate('connect', 'cord', 'suspension')
-        self.add_line('potrim', (5, 34), (43, 34))
-        self.add_arc('potarc', (43, 34), (5, 34), radius_x=19, radius_y=12, sweep=True)
+        self.add_line('potrim', (6, 34), (42, 34))
+        self.add_arc('potarc', (42, 34), (6, 34), radius_x=19, radius_y=12, sweep=True)
         self.add_contour('pot', 'potrim', 'potarc', closed=True)
         self.relate('connect', 'suspension', 'pot')
         self.add_polyline('leaves', (12, 34), (12, 25), (19, 28), (24, 19), (29, 28), (36, 25), (36, 34), closed=False)

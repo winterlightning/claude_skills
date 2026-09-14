@@ -1,0 +1,240 @@
+{
+  "icon_id": "sliding-penguin-stretch-square",
+  "name": "sliding-penguin-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "penguin",
+    "slide",
+    "sliding",
+    "snow",
+    "slope",
+    "ice",
+    "antarctic",
+    "motion"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "rump",
+      "start": [
+        9,
+        14
+      ],
+      "end": [
+        16,
+        7
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "back",
+      "start": [
+        16,
+        7
+      ],
+      "end": [
+        26,
+        17
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "head-front",
+      "start": [
+        26,
+        17
+      ],
+      "end": [
+        39,
+        17
+      ],
+      "radius_x": 7,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bill-top",
+      "start": [
+        39,
+        17
+      ],
+      "end": [
+        42,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bill-bottom",
+      "start": [
+        42,
+        22
+      ],
+      "end": [
+        35,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly-front",
+      "start": [
+        35,
+        25
+      ],
+      "end": [
+        22,
+        27
+      ],
+      "radius_x": 16,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly-back",
+      "start": [
+        22,
+        27
+      ],
+      "end": [
+        9,
+        14
+      ],
+      "radius_x": 13,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "foot-upper",
+      "start": [
+        16,
+        7
+      ],
+      "end": [
+        9,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "foot-lower",
+      "start": [
+        9,
+        14
+      ],
+      "end": [
+        6,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye",
+      "start": [
+        32,
+        19
+      ],
+      "end": [
+        32,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "flipper",
+      "start": [
+        18,
+        17
+      ],
+      "end": [
+        20,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "slope",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        42,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "body",
+      "members": [
+        "rump",
+        "back",
+        "head-front",
+        "bill-top",
+        "bill-bottom",
+        "belly-front",
+        "belly-back"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "foot-upper"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "foot-lower"
+      ]
+    }
+  ],
+  "variant_of": "sliding-penguin",
+  "variant_label": "Stretch to SQUARE"
+}

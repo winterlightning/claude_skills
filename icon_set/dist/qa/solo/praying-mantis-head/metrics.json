@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (3.95339, 3.77124, 44.0466, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0466, 0.2288, 0.0466, 0.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -79,15 +81,15 @@
         "elementId": "antenna-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 8 A 9 6 0 0 0 2 8",
+        "pathData": "M 20 8 A 9 6 0 0 0 6 8",
         "bounds": [
-          2.0,
-          2.0,
+          6.0,
+          5.7712361663282525,
           20.0,
           8.0
         ],
-        "segmentCount": 128,
-        "approximationError": 0.0006787648365373743,
+        "segmentCount": 64,
+        "approximationError": 0.0008724235741920098,
         "hasCurves": true
       },
       {
@@ -95,15 +97,15 @@
         "elementId": "claw-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 11 21 A 9 12 0 0 0 2 33 A 5 13 0 0 0 7 46",
+        "pathData": "M 11 21 A 9 12 0 0 0 6 33 A 5 13 0 0 0 7 42",
         "bounds": [
-          2.0,
+          5.95358926723857,
           21.0,
           11.0,
-          46.0
+          42.0
         ],
-        "segmentCount": 128,
-        "approximationError": 0.000978888378392568,
+        "segmentCount": 96,
+        "approximationError": 0.0008624256720634646,
         "hasCurves": true
       },
       {
@@ -111,12 +113,12 @@
         "elementId": "claw-tip-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 7 46 L 15 34",
+        "pathData": "M 7 42 L 15 34",
         "bounds": [
           7.0,
           34.0,
           15.0,
-          46.0
+          42.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -127,15 +129,15 @@
         "elementId": "antenna-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 28 8 A 9 6 0 0 1 46 8",
+        "pathData": "M 28 8 A 9 6 0 0 1 42 8",
         "bounds": [
           28.0,
-          2.0,
-          46.0,
+          5.7712361663282525,
+          42.0,
           8.0
         ],
-        "segmentCount": 128,
-        "approximationError": 0.0006787648375614685,
+        "segmentCount": 64,
+        "approximationError": 0.0008724235752148235,
         "hasCurves": true
       },
       {
@@ -143,15 +145,15 @@
         "elementId": "claw-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 37 21 A 9 12 0 0 1 46 33 A 5 13 0 0 1 41 46",
+        "pathData": "M 37 21 A 9 12 0 0 1 42 33 A 5 13 0 0 1 41 42",
         "bounds": [
           37.0,
           21.0,
-          46.0,
-          46.0
+          42.04641073276143,
+          42.0
         ],
-        "segmentCount": 128,
-        "approximationError": 0.0009788883783925504,
+        "segmentCount": 96,
+        "approximationError": 0.0008624256720625599,
         "hasCurves": true
       },
       {
@@ -159,12 +161,12 @@
         "elementId": "claw-tip-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 41 46 L 33 34",
+        "pathData": "M 41 42 L 33 34",
         "bounds": [
           33.0,
           34.0,
           41.0,
-          46.0
+          42.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -249,10 +251,10 @@
           "antenna-stem-right"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          5.95358926723857,
+          5.7712361663282525,
+          42.04641073276143,
+          42.0
         ]
       }
     ],
@@ -387,7 +389,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           7.0,
-          46.0
+          42.0
         ]
       },
       {
@@ -409,7 +411,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           41.0,
-          46.0
+          42.0
         ]
       }
     ],
@@ -944,7 +946,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             7.0,
-            46.0
+            42.0
           ]
         }
       },
@@ -1099,7 +1101,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             41.0,
-            46.0
+            42.0
           ]
         }
       },
@@ -1150,8 +1152,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -1165,8 +1167,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 37,
-      "flattenedSegments": 779,
-      "adaptiveNodes": 1522,
+      "flattenedSegments": 587,
+      "adaptiveNodes": 1138,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -1321,14 +1323,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "44509d8fc9cb01096afffed9094782657c67bd75bebf9ce496a5d5f73b69c3bb",
+  "svg_sha256": "423778b85e08856968c07dde0b0204af609a11421ca451c22f56be4d4f002295",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -1358,13 +1360,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

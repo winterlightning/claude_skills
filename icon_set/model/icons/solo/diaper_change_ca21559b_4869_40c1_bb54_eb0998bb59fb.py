@@ -17,18 +17,18 @@ class DiaperChange(Solo48):
     keywords = ('diaper', 'change', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
+        # Centerline extremes: (6,6)-(42,42).
         self.add_arc('adult-head-top', (21, 7), (31, 7), radius_x=5, radius_y=5, sweep=True, large_arc=False)
         self.add_arc('adult-head-bottom', (31, 7), (21, 7), radius_x=5, radius_y=5, sweep=True, large_arc=False)
         self.add_contour('adult-head', 'adult-head-top', 'adult-head-bottom', closed=True)
-        self.add_polyline('adult-back', (17, 16), (9, 24), (2, 36), (15, 36))
-        self.add_line('adult-leg', (10, 36), (10, 46))
+        self.add_polyline('adult-back', (17, 16), (9, 24), (6, 36), (15, 36))
+        self.add_line('adult-leg', (10, 36), (10, 42))
         self.relate("connect", 'adult-back', 'adult-leg')
         self.add_polyline('adult-arm', (17, 16), (20, 26), (23, 32))
         self.relate("connect", 'adult-back', 'adult-arm')
-        self.add_arc('baby-head-top', (40, 33), (46, 33), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('baby-head-bottom', (46, 33), (40, 33), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_arc('baby-head-top', (40, 33), (42, 33), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_arc('baby-head-bottom', (42, 33), (40, 33), radius_x=3, radius_y=3, sweep=True, large_arc=False)
         self.add_contour('baby-head', 'baby-head-top', 'baby-head-bottom', closed=True)
         self.add_polyline('baby-body', (23, 32), (27, 38), (33, 38), (33, 31))
         self.relate("connect", 'adult-arm', 'baby-body')
-        self.add_line('surface', (22, 46), (46, 46))
+        self.add_line('surface', (22, 42), (42, 42))

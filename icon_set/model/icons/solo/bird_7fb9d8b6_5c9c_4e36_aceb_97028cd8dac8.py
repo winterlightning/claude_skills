@@ -18,12 +18,12 @@ class PenguinFace(Solo48):
 
     def build(self) -> None:
         # HRECT_XL centerline extremes recorded in batch-02-review.md.
-        self.add_line('shoulder-left', (2, 43), (8, 29))
+        self.add_line('shoulder-left', (6, 42), (8, 29))
         self.add_line('cheek-left', (8, 29), (8, 21))
-        self.add_arc('dome-left', (8, 21), (24, 5), radius_x=16, radius_y=16, sweep=True)
-        self.add_arc('dome-right', (24, 5), (40, 21), radius_x=16, radius_y=16, sweep=True)
+        self.add_arc('dome-left', (8, 21), (24, 6), radius_x=16, radius_y=16, sweep=True)
+        self.add_arc('dome-right', (24, 6), (40, 21), radius_x=16, radius_y=16, sweep=True)
         self.add_line('cheek-right', (40, 21), (40, 29))
-        self.add_line('shoulder-right', (40, 29), (46, 43))
+        self.add_line('shoulder-right', (40, 29), (42, 42))
         self.add_contour('head', 'shoulder-left', 'cheek-left', 'dome-left', 'dome-right', 'cheek-right', 'shoulder-right', closed=False)
         self.add_line('eye-left', (16, 21), (16, 23))
         self.add_line('eye-right', (32, 21), (32, 23))

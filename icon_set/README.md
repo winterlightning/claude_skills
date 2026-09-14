@@ -103,7 +103,79 @@ heart = Heart()
 heart.profile                    # Profile.SUB32 -- decided by the family, not the class
 heart.validate_icon()            # ValidationReport(status="valid", ...)
 heart.export_icon_to("heart.svg")
+heart.export_json_graph("heart.json")  # construction data; returns a Path
 ```
+
+`export_json_graph(destination)` writes the existing icon record as readable,
+deterministic UTF-8 JSON: ordered line/arc primitives, contour membership,
+anchors, relationships, and icon metadata including profile, keyshape, and
+style. Compositions include resolved geometry and child placements. It creates
+parent directories and supports unfinished drawings without running validation.
+Use `to_record()` when you need the same data as a Python dictionary.
+
+For migrating existing solo geometry to the current keyshapes, generate an
+isolated draft and inspect its report:
+
+```python
+result = icon.fit_to_keyshape(Keyshape.HRECT_L)
+result.icon.export_icon_to("review/candidate.svg")
+result.icon.export_json_graph("review/candidate.json")
+print(result.report["validation"]["status"])
+```
+
+To force a rectangular fit, use
+`icon.fit_to_keyshape(Keyshape.HRECT_L, force_stretch=True)`. This scales width
+and height independently, including the corresponding arc radii, while keeping
+stroke width fixed. Circles inside a rectangular subject may become ellipses.
+Circle keyshape targets retain proportional radial fitting. Snapped arc extrema
+can still miss the exact bounds, and all spacing/hole checks still run. The
+report records `mode`, `scale_x`, and `scale_y`; `scale` is `None` when the axis
+scales differ. Flat drawings cannot be stretched into a two-dimensional box.
+
+Audit the full solo library with force stretching and SVG comparisons:
+
+```bash
+python3 -m icon_set.scripts.audit_keyshape_fit --force-stretch --output icon_set/work/keyshape-stretch-audit
+```
+
+For local repairs after the stretch audit:
+
+```bash
+python3 -m icon_set.scripts.repair_keyshape_paths --workers 4 --budget 900
+```
+
+Use `--resume` to continue from completed checkpoints. Saved manual refinements
+and ring-preserving retries can be revalidated and merged into the final report
+with `python3 -m icon_set.scripts.merge_path_refinements`.
+
+This checks each failed candidate with bounded path moves, path resizing, and
+arc-radius adjustments. It propagates shared vertices, preserves axis-aligned
+and parallel straight edges, retains centerline component membership and hole
+count, preserves visible openings in existing circular features, and limits coordinate/radius displacement to 6 units from the stretched
+draft. A proposed step must improve the validation score; no features or
+relationships are removed. Each accepted step runs full vector and raster QA.
+Results, operation logs, JSON construction records for attempted failures, and
+before/after SVGs are saved in `work/keyshape-path-repair/`. Existing passes and
+review cases are carried forward unchanged. `--icons` selects a smaller batch.
+Unresolved results require further drawing work; exhausting this local search
+does not prove that an icon cannot be repaired. All results need visual review.
+
+This SOLO48-only helper measures actual arc/line extrema, uniformly scales
+centerlines, preserves the 4-unit stroke, and snaps points and radii to the
+integer grid. It returns a separate candidate with parent metadata, without
+registering it or editing source files. Shared points use the same mapping;
+the canvas `center` anchor stays fixed. Full vector and rendered hole/pinch QA
+is included under `report["validation"]` (using the existing QA dependencies).
+Every candidate needs visual review. Aspect-ratio mismatches and damage from
+snapping remain reported failures; structural changes are manual. Empty,
+point-only, FREE-target, other-family, and custom-draw inputs are rejected.
+Candidate IDs are deterministic draft names, not registry-allocated variants.
+
+Run `python3 -m icon_set.scripts.preview_keyshape_fit` for a six-icon comparison
+in `icon_set/work/keyshape-fit-preview/`, with graphs, reports, and native-size
+plus enlarged previews in both themes. Use `--icons <id> ...` and `--output`
+to choose another batch or destination. This does not rebuild or publish the
+library.
 
 Nothing to register: the folder is the registry. Geometry is authored
 **backwards from the keyshape's four extreme coordinates** in the family's own
@@ -251,6 +323,19 @@ A declaration excuses **that pair only**; it is never a global bypass, and
 | `VRECT_S` 16×32 | pause |
 | `FREE` | minus, bar, dot, exclamation, ellipsis, dots-vertical |
 
+## SOLO48 construction rules
+
+The 48×48 profile uses centered visible-ink keyshapes: circle 44×44, square
+40×40, landscape 44×36 and portrait 36×44. Ink clearance is 4 units, or 8
+between equal-width stroke centerlines. Rectangle size suffixes are legacy
+names for the same orientation envelope on this profile. Existing drawings
+must be revalidated against these rules before release.
+
+Plan geometry with [symbol construction](skills/icon-design/symbol-construction.md).
+For difficult fits, use the [keyshape guide](skills/icon-design/keyshape-fitting.md):
+try a recognizable diagonal layout, then flag unresolved cases as **Exception —
+manual review**. Flags preserve validation findings and do not approve an icon.
+
 ## The `solo` set (13, SOLO48)
 
 The set contains `award-ribbon`, `bathrobe-with-tied-belt`,
@@ -350,9 +435,16 @@ field can be added later without a format break.
 
 ## Within-contour spacing review
 
+SOLO48 parallel straight edges inside one contour have an **exact blocking
+check**: at least 4 units between ink edges (8 between centerlines). It uses
+the profile's existing MIC, measures perpendicular distance over a positive
+overlap, and excludes adjacent segments and shared endpoints. Failures appear
+under `mic` in both `validate_icon()` and build QA. Other profiles retain their
+existing checks.
+
 Every build also inspects sustained opposing edges within each contour. It can
 flag touching dress straps and narrow wrench jaws even when they belong to one
-connected component. This is an **advisory**: it sets `needs_review` and
+connected component. This sampled check is an **advisory**: it sets `needs_review` and
 `internal_spacing.status = "review"`, but leaves release status unchanged.
 Existing spacing uncertainties still block release as before.
 

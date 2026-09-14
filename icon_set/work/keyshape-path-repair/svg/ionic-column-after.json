@@ -1,0 +1,331 @@
+{
+  "icon_id": "ionic-column-stretch-square",
+  "name": "ionic-column-stretch-square",
+  "aliases": [],
+  "category": "objects/culture",
+  "keywords": [
+    "column",
+    "ionic",
+    "classical",
+    "greek",
+    "roman",
+    "architecture",
+    "pillar",
+    "antiquity"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "left-scroll-a",
+      "start": [
+        12,
+        6
+      ],
+      "end": [
+        12,
+        18
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-scroll-b",
+      "start": [
+        12,
+        18
+      ],
+      "end": [
+        12,
+        6
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-scroll-a",
+      "start": [
+        36,
+        6
+      ],
+      "end": [
+        36,
+        18
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-scroll-b",
+      "start": [
+        36,
+        18
+      ],
+      "end": [
+        36,
+        6
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "capital-top",
+      "start": [
+        12,
+        6
+      ],
+      "end": [
+        36,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "capital-bottom",
+      "start": [
+        12,
+        18
+      ],
+      "end": [
+        36,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "shaft-left",
+      "start": [
+        12,
+        18
+      ],
+      "end": [
+        12,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "shaft-right",
+      "start": [
+        36,
+        18
+      ],
+      "end": [
+        36,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-1",
+      "start": [
+        9,
+        42
+      ],
+      "end": [
+        9,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-2",
+      "start": [
+        9,
+        34
+      ],
+      "end": [
+        12,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-3",
+      "start": [
+        12,
+        34
+      ],
+      "end": [
+        36,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-4",
+      "start": [
+        36,
+        34
+      ],
+      "end": [
+        39,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-5",
+      "start": [
+        39,
+        34
+      ],
+      "end": [
+        39,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "plinth-6",
+      "start": [
+        39,
+        42
+      ],
+      "end": [
+        9,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "left-scroll",
+      "members": [
+        "left-scroll-a",
+        "left-scroll-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "right-scroll",
+      "members": [
+        "right-scroll-a",
+        "right-scroll-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "plinth",
+      "members": [
+        "plinth-1",
+        "plinth-2",
+        "plinth-3",
+        "plinth-4",
+        "plinth-5",
+        "plinth-6"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "left-scroll",
+        "capital-top"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-scroll",
+        "capital-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-scroll",
+        "capital-top"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-scroll",
+        "capital-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-left",
+        "plinth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-left",
+        "left-scroll"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-left",
+        "capital-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-right",
+        "right-scroll"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-right",
+        "capital-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "shaft-right",
+        "plinth"
+      ]
+    }
+  ],
+  "variant_of": "ionic-column",
+  "variant_label": "Stretch to SQUARE"
+}

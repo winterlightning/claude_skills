@@ -1,4 +1,4 @@
-"""Profile lion muzzle and rounded fish body with tail band. Reference faces left; deliberate asymmetry retained. Tiny facial details omitted."""
+'Left-facing Merlion with projecting muzzle, cheek arc and rounded body. Deliberate profile asymmetry; pointed mane band omitted to open the interior.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class MerlionStatue(Solo48):
     icon_id = 'merlion-statue'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/landmarks"
@@ -16,16 +16,14 @@ class MerlionStatue(Solo48):
     keywords = ('merlion', 'singapore', 'statue', 'lion', 'fish', 'landmark', 'monument', 'mascot')
 
     def build(self) -> None:
-        # Centerline extremes (5, 2, 43, 46).
-        self.add_arc("crown", (19,10), (31,2), radius_x=12, radius_y=8)
-        self.add_arc("back-top", (31,2), (43,14), radius_x=12)
-        self.add_line("back", (43,14), (43,30))
-        self.add_arc("tail", (43,30), (11,30), radius_x=16, radius_y=16)
-        self.add_line("chest-1", (11, 30), (17, 22))
-        self.add_line("chest-2", (17, 22), (11, 22))
-        self.add_arc("muzzle-bottom", (11,22), (11,10), radius_x=6, sweep=True)
-        self.add_line("muzzle-top", (11,10), (19,10))
-        self.add_contour("outline", "crown", "back-top", "back", "tail", "chest-1", "chest-2", "muzzle-bottom", "muzzle-top", closed=True)
-        self.add_polyline("fish-band", (11,30), (21,36), (31,30), (43,30))
-        self.relate("connect", "outline", "fish-band")
-        self.add_arc("mane", (29,12), (29,24), radius_x=6, sweep=True)
+        # VRECT_L centerline extremes (8,6)-(40,42).
+        self.add_arc("crown", (20,12), (28,6), radius_x=8)
+        self.add_arc("back-top", (28,6), (40,16), radius_x=12)
+        self.add_line("back", (40,16), (40,30))
+        self.add_arc("body-bottom", (40,30), (12,30), radius_x=14)
+        self.add_line("chest-1", (12,30), (16,24))
+        self.add_line("chest-2", (16,24), (14,24))
+        self.add_arc("muzzle", (14,24), (14,12), radius_x=6)
+        self.add_line("brow", (14,12), (20,12))
+        self.add_contour("outline", "crown", "back-top", "back", "body-bottom", "chest-1", "chest-2", "muzzle", "brow", closed=True)
+        self.add_arc("cheek", (27,17), (27,29), radius_x=4, radius_y=6)

@@ -1,4 +1,4 @@
-"""Empty ogee arch silhouette. Centerline extremes (5,2)-(43,46). Mirrored smooth shoulders; no interior additions."""
+'Mosque ogee silhouette, blank as in source. VRECT_XL centerlines (8,6)-(40,42) preserves upright proportions. Shared-axis mirrored shoulders. No useful Lucide ogee match; no added detail.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,13 +16,14 @@ class MosqueArchSilhouette(Solo48):
     keywords = ('mosque', 'arch', 'ogee', 'islamic', 'mihrab', 'silhouette', 'religion', 'architecture')
 
     def build(self) -> None:
-        self.add_arc('upper-left', (24, 2), (15, 11), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('bulb-left', (15, 11), (9, 29), radius_x=12, radius_y=12, sweep=False)
-        self.add_polyline('walls', (9, 29), (5, 33), (5, 46), (43, 46), (43, 33), (39, 29), closed=False)
-        self.add_arc('bulb-right', (39, 29), (33, 11), radius_x=12, radius_y=12, sweep=False)
-        self.add_arc('upper-right', (33, 11), (24, 2), radius_x=18, radius_y=18, sweep=True)
-        self.relate("connect", 'upper-left', 'bulb-left')
-        self.relate("connect", 'upper-left', 'upper-right')
-        self.relate("connect", 'bulb-left', 'walls')
-        self.relate("connect", 'walls', 'bulb-right')
-        self.relate("connect", 'bulb-right', 'upper-right')
+        # Shared axis and circle junctions keep the ogee shoulders smooth.
+        self.add_arc('tip-left',(24,6),(16,12),radius_x=8,sweep=True)
+        self.add_arc('bulb-left',(16,12),(8,20),radius_x=8,sweep=False)
+        self.add_arc('shoulder-left',(8,20),(12,28),radius_x=4,radius_y=8,sweep=False)
+        points = [(12,28),(8,32),(8,42),(40,42),(40,32),(36,28)]
+        for n, (a,b) in enumerate(zip(points,points[1:]),1):
+            self.add_line(f'walls-{n}',a,b)
+        self.add_arc('shoulder-right',(36,28),(40,20),radius_x=4,radius_y=8,sweep=False)
+        self.add_arc('bulb-right',(40,20),(32,12),radius_x=8,sweep=False)
+        self.add_arc('tip-right',(32,12),(24,6),radius_x=8,sweep=True)
+        self.add_contour('outline','tip-left','bulb-left','shoulder-left','walls-1','walls-2','walls-3','walls-4','walls-5','shoulder-right','bulb-right','tip-right',closed=True)

@@ -18,15 +18,15 @@ class MerlionStatueVariant2(Solo48):
     keywords = ('merlion', 'singapore', 'statue', 'lion', 'fish', 'landmark', 'monument', 'mascot')
 
     def build(self) -> None:
-        # SQUARE extremes (2,2)-(46,46); left-facing lion spouting water.
+        # SQUARE extremes (6,6)-(42,42); left-facing lion spouting water.
         self.add_line('brow-1',(16,14),(22,14))
-        self.add_line('brow-2',(22,14),(22,2))
-        self.add_line('brow-3',(22,2),(32,2))
-        self.add_arc('mane-top',(32,2),(46,16),radius_x=14)
-        self.add_line('back',(46,16),(46,30))
-        self.add_arc('fish-body',(46,30),(30,46),radius_x=16)
-        self.add_line('tail-1',(30,46),(16,46))
-        self.add_line('tail-2',(16,46),(24,34))
+        self.add_line('brow-2',(22,14),(22,6))
+        self.add_line('brow-3',(22,6),(32,6))
+        self.add_arc('mane-top',(32,6),(42,16),radius_x=14)
+        self.add_line('back',(42,16),(42,30))
+        self.add_arc('fish-body',(42,30),(30,42),radius_x=16)
+        self.add_line('tail-1',(30,42),(16,42))
+        self.add_line('tail-2',(16,42),(24,34))
         self.add_line('tail-3',(24,34),(24,26))
         self.add_line('tail-4',(24,26),(16,26))
         self.add_arc('muzzle-lower',(16,26),(10,20),radius_x=6)
@@ -34,5 +34,5 @@ class MerlionStatueVariant2(Solo48):
         self.add_contour('outline','brow-1','brow-2','brow-3','mane-top','back','fish-body','tail-1','tail-2','tail-3','tail-4','muzzle-lower','muzzle-upper',closed=True)
         self.add_dot('eye',(30,12))
         self.add_arc('mane',(34,20),(34,30),radius_x=5)
-        self.add_arc('water',(10,20),(2,36),radius_x=8,radius_y=16,sweep=False)
+        self.add_arc('water',(10,20),(6,36),radius_x=8,radius_y=16,sweep=False)
         self.relate('connect','water','outline')

@@ -18,15 +18,15 @@ class FoldingHandFanVariant2(Solo48):
     keywords = ('fan', 'folding fan', 'hand fan', 'japanese', 'asian', 'accessory', 'cooling', 'traditional')
 
     def build(self) -> None:
-        self.add_arc('edge-left-outer', (2, 18), (12, 8), radius_x=29)
-        self.add_arc('edge-left-inner', (12, 8), (24, 5), radius_x=29)
-        self.add_arc('edge-right-inner', (24, 5), (36, 8), radius_x=29)
-        self.add_arc('edge-right-outer', (36, 8), (46, 18), radius_x=29)
-        self.add_line('right-rib', (46, 18), (24, 43))
-        self.add_line('left-rib', (24, 43), (2, 18))
+        self.add_arc('edge-left-outer', (6, 18), (12, 8), radius_x=29)
+        self.add_arc('edge-left-inner', (12, 8), (24, 6), radius_x=29)
+        self.add_arc('edge-right-inner', (24, 6), (36, 8), radius_x=29)
+        self.add_arc('edge-right-outer', (36, 8), (42, 18), radius_x=29)
+        self.add_line('right-rib', (42, 18), (24, 42))
+        self.add_line('left-rib', (24, 42), (6, 18))
         self.add_contour('fan', 'edge-left-outer', 'edge-left-inner', 'edge-right-inner', 'edge-right-outer', 'right-rib', 'left-rib', closed=True)
-        self.add_line('rib-left', (12, 8), (24, 43))
-        self.add_line('rib-right', (36, 8), (24, 43))
+        self.add_line('rib-left', (12, 8), (24, 42))
+        self.add_line('rib-right', (36, 8), (24, 42))
         self.relate('connect', 'fan', 'rib-left')
         self.relate('connect', 'fan', 'rib-right')
 

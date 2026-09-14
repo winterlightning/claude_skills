@@ -1,0 +1,252 @@
+{
+  "icon_id": "hatching-dinosaur-egg-stretch-vrect-l",
+  "name": "hatching-dinosaur-egg-stretch-vrect-l",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "dinosaur",
+    "egg",
+    "hatch",
+    "baby",
+    "shell",
+    "prehistoric",
+    "birth",
+    "jurassic"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "shell-bottom",
+      "start": [
+        40,
+        28
+      ],
+      "end": [
+        8,
+        28
+      ],
+      "radius_x": 16,
+      "radius_y": 16,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "crack-1",
+      "start": [
+        8,
+        28
+      ],
+      "end": [
+        16,
+        33
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "crack-2",
+      "start": [
+        16,
+        33
+      ],
+      "end": [
+        24,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "crack-3",
+      "start": [
+        24,
+        26
+      ],
+      "end": [
+        33,
+        33
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "crack-4",
+      "start": [
+        33,
+        33
+      ],
+      "end": [
+        40,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "neck",
+      "start": [
+        33,
+        33
+      ],
+      "end": [
+        33,
+        13
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "skull",
+      "start": [
+        33,
+        13
+      ],
+      "end": [
+        24,
+        4
+      ],
+      "radius_x": 9,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "forehead",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        16,
+        11
+      ],
+      "radius_x": 8,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "snout-top",
+      "start": [
+        16,
+        11
+      ],
+      "end": [
+        14,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "snout",
+      "start": [
+        14,
+        11
+      ],
+      "end": [
+        14,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "jaw-1",
+      "start": [
+        14,
+        22
+      ],
+      "end": [
+        22,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "jaw-2",
+      "start": [
+        22,
+        22
+      ],
+      "end": [
+        22,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye",
+      "start": [
+        24,
+        13
+      ],
+      "end": [
+        24,
+        13
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "shell",
+      "members": [
+        "shell-bottom",
+        "crack-1",
+        "crack-2",
+        "crack-3",
+        "crack-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "hatchling",
+      "members": [
+        "neck",
+        "skull",
+        "forehead",
+        "snout-top",
+        "snout",
+        "jaw-1",
+        "jaw-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "hatchling",
+        "shell"
+      ]
+    }
+  ],
+  "variant_of": "hatching-dinosaur-egg",
+  "variant_label": "Stretch to VRECT_L"
+}

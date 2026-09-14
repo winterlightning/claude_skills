@@ -17,15 +17,15 @@ class OtterWithPaws(Solo48):
     keywords = ('otter', 'with', 'paws')
 
     def build(self) -> None:
-        # SQUARE centerline extremes: (2,2)-(46,46).
+        # SQUARE centerline extremes: (6,6)-(42,42).
         self.add_arc('ear-left',(6,8),(18,8),radius_x=6)
         self.add_line('crown',(18,8),(30,8))
         self.add_arc('ear-right',(30,8),(42,8),radius_x=6)
-        self.add_arc('temple-right',(42,8),(46,20),radius_x=4,radius_y=12)
-        self.add_arc('cheek-right',(46,20),(36,30),radius_x=10)
+        self.add_arc('temple-right',(42,8),(42,20),radius_x=4,radius_y=12)
+        self.add_arc('cheek-right',(42,20),(36,30),radius_x=10)
         self.add_contour('upper','ear-left','crown','ear-right','temple-right','cheek-right')
-        self.add_arc('temple-left',(6,8),(2,20),radius_x=4,radius_y=12,sweep=False)
-        self.add_arc('cheek-left',(2,20),(12,30),radius_x=10,sweep=False)
+        self.add_arc('temple-left',(6,8),(6,20),radius_x=4,radius_y=12,sweep=False)
+        self.add_arc('cheek-left',(6,20),(12,30),radius_x=10,sweep=False)
         self.add_contour('left','temple-left','cheek-left')
         self.relate('connect','upper','left')
         for side,cx in [('left',12),('right',36)]:
@@ -36,8 +36,8 @@ class OtterWithPaws(Solo48):
             self.relate('connect',side+'-paw',side+'-toe')
         self.relate('connect','upper','right-paw')
         self.relate('connect','left','left-paw')
-        self.add_line('whisker-left',(2,20),(10,23))
-        self.add_line('whisker-right',(46,20),(38,23))
+        self.add_line('whisker-left',(6,20),(10,23))
+        self.add_line('whisker-right',(42,20),(38,23))
         self.relate('connect','left','whisker-left')
         self.relate('connect','upper','whisker-right')
         self.add_dot('eye-left',(15,17))

@@ -1,4 +1,4 @@
-"""Domed government hall. Centerline extremes (2,2)-(46,46); symmetric sparse window ticks follow Lucide landmark. Extra cornice bands omitted."""
+'Government hall with dome and three windows. SQUARE centerlines (6,6)-(42,42). Repeated windows share spacing. Lucide landmark informs rhythm; extra cornices and drum window omitted.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,15 +16,14 @@ class DomedGovernmentBuilding(Solo48):
     keywords = ('government', 'official', 'building', 'dome', 'civic', 'parliament', 'institution', 'architecture')
 
     def build(self) -> None:
-        self.add_polyline('base', (2, 46), (2, 30), (12, 30), (36, 30), (46, 30), (46, 46), closed=True)
-        self.add_polyline('drum', (12, 30), (12, 20), (36, 20), (36, 30), closed=False)
-        self.add_arc('dome-left', (12, 20), (24, 8), radius_x=12, radius_y=12, sweep=True)
-        self.add_arc('dome-right', (24, 8), (36, 20), radius_x=12, radius_y=12, sweep=True)
-        self.add_contour('dome', 'dome-left', 'dome-right', closed=False)
-        self.add_line('mast', (24, 2), (24, 8))
-        self.add_line('window12', (12, 37), (12, 39))
-        self.add_line('window24', (24, 37), (24, 39))
-        self.add_line('window36', (36, 37), (36, 39))
-        self.relate("connect", 'base', 'drum')
-        self.relate("connect", 'drum', 'dome')
-        self.relate("connect", 'dome', 'mast')
+        axis, left, right, bottom = 24, 6, 42, 42
+        self.add_polyline('base',(left,bottom),(left,26),(14,26),(34,26),(right,26),(right,bottom),closed=True)
+        self.add_polyline('drum',(14,26),(14,18),(34,18),(34,26))
+        self.add_arc('dome-left',(14,18),(axis,8),radius_x=10)
+        self.add_arc('dome-right',(axis,8),(34,18),radius_x=10)
+        self.add_contour('dome','dome-left','dome-right')
+        self.add_line('finial',(axis,6),(axis,8))
+        for n in range(3):
+            self.add_dot(f'window-{n}',(axis+(n-1)*10,34))
+        for a,b in [('base','drum'),('drum','dome'),('dome','finial')]:
+            self.relate('connect',a,b)

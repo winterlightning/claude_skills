@@ -1,4 +1,4 @@
-"""Outstretched arms, round head and upright robe; folds and sleeve outlines omitted for clear negative space."""
+'Outstretched statue with long robe and pedestal. Sleeve outlines and diagonal cloth fold omitted for native-size clarity.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,9 +16,10 @@ class ChristTheRedeemer(Solo48):
     keywords = ('christ the redeemer', 'rio', 'brazil', 'statue', 'monument', 'figure', 'landmark', 'religion')
 
     def build(self) -> None:
-        # Centerline extremes (2, 2, 46, 46).
-        self.add_arc("head-top", (18,8), (30,8), radius_x=6)
-        self.add_arc("head-bottom", (30,8), (18,8), radius_x=6)
+        # SQUARE centerline extremes (6,6)-(42,42).
+        axis, radius = 24, 3
+        self.add_arc("head-top", (axis-radius,9), (axis+radius,9), radius_x=radius)
+        self.add_arc("head-bottom", (axis+radius,9), (axis-radius,9), radius_x=radius)
         self.add_contour("head", "head-top", "head-bottom", closed=True)
-        self.add_polyline("robe", (2,22), (17,22), (17,38), (31,38), (31,22), (46,22))
-        self.add_polyline("pedestal", (12,46), (36,46))
+        self.add_polyline("robe", (6,21), (17,21), (17,34), (31,34), (31,21), (42,21))
+        self.add_line("pedestal", (12,42), (36,42))

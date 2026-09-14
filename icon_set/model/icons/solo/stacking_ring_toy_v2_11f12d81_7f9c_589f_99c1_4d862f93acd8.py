@@ -18,7 +18,7 @@ class StackingRingToyVariant2(Solo48):
     keywords = ('stacking', 'ring', 'toy', 'infant', 'nursery')
 
     def build(self) -> None:
-        # VRECT_XL centerline extremes (5,2)-(43,46).
+        # VRECT_XL centerline extremes (6,6)-(42,42).
         self.add_arc('peg-top', (19,7), (29,7), radius_x=5)
         self.add_line('peg-right', (29,7), (29,10))
         self.add_line('peg-left', (19,10), (19,7))

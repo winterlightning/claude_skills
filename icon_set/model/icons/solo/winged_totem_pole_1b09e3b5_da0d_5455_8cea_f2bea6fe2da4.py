@@ -1,4 +1,4 @@
-"""Rounded carved post with paired eyes and broad wings; repeated feather blades omitted."""
+'Rounded carved pole with paired eyes and outstretched wings. One shared silhouette opens the wing joins; small feather steps omitted.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,19 +16,11 @@ class WingedTotemPole(Solo48):
     keywords = ('totem', 'pole', 'carving', 'wings', 'indigenous', 'monument', 'tribal', 'landmark')
 
     def build(self) -> None:
-        # Centerline extremes (2, 2, 46, 46).
-        self.add_arc("head", (14,12), (34,12), radius_x=10)
-        self.add_line("post-1", (34, 12), (34, 18))
-        self.add_line("post-2", (34, 18), (34, 32))
-        self.add_line("post-3", (34, 32), (34, 46))
-        self.add_line("post-4", (34, 46), (14, 46))
-        self.add_line("post-5", (14, 46), (14, 32))
-        self.add_line("post-6", (14, 32), (14, 18))
-        self.add_line("post-7", (14, 18), (14, 12))
-        self.add_contour("body", "head", "post-1", "post-2", "post-3", "post-4", "post-5", "post-6", "post-7", closed=True)
-        self.add_dot("eye-left", (21,13))
-        self.add_dot("eye-right", (27,13))
-        self.add_polyline("wing-left", (14,18), (2,18), (2,25), (14,32))
-        self.add_polyline("wing-right", (34,18), (46,18), (46,25), (34,32))
-        self.relate("connect", "body", "wing-left")
-        self.relate("connect", "body", "wing-right")
+        # SQUARE centerline extremes (6,6)-(42,42), mirrored about 24.
+        self.add_arc("head", (11,19), (37,19), radius_x=13)
+        points = [(37,19), (37,23), (42,23), (42,26), (31,30), (31,42), (17,42), (17,30), (6,26), (6,23), (11,23), (11,19)]
+        for n,(a,b) in enumerate(zip(points,points[1:]),1):
+            self.add_line(f"right-wing-{n}", a, b)
+        self.add_contour("outline", "head", *[f"right-wing-{n}" for n in range(6,12)], closed=True)
+        for side,x in (("left",20),("right",28)):
+            self.add_dot("eye-"+side, (x,20))

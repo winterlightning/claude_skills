@@ -129,6 +129,14 @@ FAMILY_TEXT = {
             "is always `semantic_role = \"MAIN\"`, `semantic_kind = \"noun\"`."
         ),
         "specifics": [
+            "Use CIRCLE, SQUARE, HRECT_L or VRECT_L with the visible-ink bounds "
+            "in the table above. Other rectangle size tokens are compatibility "
+            "names for the same orientation bounds on SOLO48. If an upright "
+            "subject cannot fit, try a recognizable diagonal construction on "
+            "the integer grid. If it still cannot fit, retain the validation "
+            "findings and request the gallery's exception flag for manual review; "
+            "record the reason and attempted fit. The flag is not a validation "
+            "waiver or permission to leave the 48x48 canvas.",
             "Twelve stroke widths across the canvas: one more feature than a sub icon, no "
             "more. Between a curved outline and an interior part you need the 8-unit "
             "minimum *plus* a unit of margin, because the engine cannot certify a curved "
@@ -142,6 +150,10 @@ FAMILY_TEXT = {
             "Split a wall where a part attaches so the two share an endpoint; declare "
             "the contact with `relate(\"connect\", ...)`. An arc merely touching a line is "
             "not proved as a connection and comes back `review`.",
+            "Parallel straight edges inside the same contour must also meet the "
+            "profile's ink clearance and centerline minimum. This is an exact blocking "
+            "MIC check for positive overlapping runs, excluding adjacent segments and "
+            "shared endpoints. Curved and near-parallel internal edges remain sampled advisories.",
             "Same concept also wanted at 32 or 64? That is a separately authored icon in "
             "another family with a suffix (`bell-sub`, `bell-container`). Never scale.",
         ],
@@ -300,6 +312,12 @@ preserve the parent and edit a new file from `create_variant.py`.
    identity, and nothing that disappears at {spec.canvas_size} pixels. With a
    reference in scope, render it and look at it; read the subject, never the
    coordinates. See `{SHARED}/intake.md`.
+
+   **Plan symbols before coordinates.** Read `{SHARED}/symbol-construction.md`.
+   Identify typed shapes, nesting, repeated definitions/series, intended symmetry,
+   and shared attachment points. Record a compact plan in the module; implement
+   it with shared Python parameters and the existing geometry API. During repairs,
+   change the owning symbol or repeat definition so joins and equality survive.
 
 3. **Choose the keyshape, write down its four extremes, design backwards to
    them.** The rectangle fit is exact (tolerance 0); `CIRCLE` is radial. These are

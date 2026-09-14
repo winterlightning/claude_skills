@@ -17,8 +17,8 @@ class ThreePrismCrystalCluster(Solo48):
 
     def build(self) -> None:
         # SQUARE: exact SOLO48 extremes; geometry authored on the integer grid.
-        self.add_polyline('central', (16, 46), (16, 12), (24, 2), (32, 12), (32, 46), closed=True)
-        self.add_polyline('left', (16, 46), (8, 46), (2, 26), (6, 18), (16, 26), closed=False)
-        self.add_polyline('right', (32, 46), (40, 46), (46, 26), (42, 18), (32, 26), closed=False)
+        self.add_polyline('central', (16, 42), (16, 12), (24, 6), (32, 12), (32, 42), closed=True)
+        self.add_polyline('left', (16, 42), (8, 42), (6, 26), (6, 18), (16, 26), closed=False)
+        self.add_polyline('right', (32, 42), (40, 42), (42, 26), (42, 18), (32, 26), closed=False)
         self.relate('connect', 'left', 'central')
         self.relate('connect', 'right', 'central')

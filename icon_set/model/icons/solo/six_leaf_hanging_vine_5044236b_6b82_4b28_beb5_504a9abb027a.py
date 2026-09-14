@@ -17,7 +17,7 @@ class SixLeafHangingVine(Solo48):
 
     def build(self) -> None:
         # VRECT_L: exact SOLO48 extremes; geometry authored on the integer grid.
-        self.add_line('stem', (24, 2), (24, 46))
+        self.add_line('stem', (24, 6), (24, 42))
         self.add_arc('leaf-0a', (24, 7), (40, 7), radius_x=10, radius_y=9, sweep=True)
         self.add_arc('leaf-0b', (40, 7), (24, 7), radius_x=10, radius_y=9, sweep=True)
         self.add_contour('leaf-0', 'leaf-0a', 'leaf-0b', closed=True)

@@ -35,8 +35,19 @@ def init_database(path: Path) -> None:
     with closing(sqlite3.connect(path)) as connection, connection:
         init_brief_queue(connection)
         connection.execute("""CREATE TABLE IF NOT EXISTS icon_flags (
-            icon TEXT PRIMARY KEY, flag TEXT NOT NULL CHECK(flag IN ('container_combination','combination','other')),
+            icon TEXT PRIMARY KEY, flag TEXT NOT NULL CHECK(flag IN ('container_combination','combination','other','exception')),
             updated_at TEXT NOT NULL)""")
+        # SQLite cannot alter a CHECK constraint; preserve existing flags while
+        # upgrading databases created before the manual-review exception flag.
+        schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='icon_flags'").fetchone()[0]
+        if "'exception'" not in schema:
+            connection.execute('ALTER TABLE icon_flags RENAME TO icon_flags_legacy')
+            connection.execute("""CREATE TABLE icon_flags (
+                icon TEXT PRIMARY KEY, flag TEXT NOT NULL CHECK(flag IN
+                ('container_combination','combination','other','exception')),
+                updated_at TEXT NOT NULL)""")
+            connection.execute('INSERT INTO icon_flags SELECT * FROM icon_flags_legacy')
+            connection.execute('DROP TABLE icon_flags_legacy')
         connection.execute('''CREATE TABLE IF NOT EXISTS feedback (
             id INTEGER PRIMARY KEY, icon TEXT NOT NULL, feedback TEXT NOT NULL,
             svg_sha256 TEXT NOT NULL, created_at TEXT NOT NULL)''')
@@ -307,7 +318,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def save_icon_flag(self, data):
         key, flag = data.get('icon'), data.get('flag')
-        if not isinstance(key, str) or flag not in ('', 'container_combination', 'combination', 'other'):
+        if not isinstance(key, str) or flag not in ('', 'container_combination', 'combination', 'other', 'exception'):
             return self.json_response({'error': 'Choose a valid icon flag.'}, 400)
         try:
             if key not in self.catalog():

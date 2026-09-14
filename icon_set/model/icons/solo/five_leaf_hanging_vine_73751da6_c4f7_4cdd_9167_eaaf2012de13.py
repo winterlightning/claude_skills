@@ -17,13 +17,13 @@ class FiveLeafHangingVine(Solo48):
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 
     def build(self) -> None:
-        # VRECT_L extremes (8,2)-(40,46). Staggered leaves retain the hanging rhythm.
-        self.add_polyline("stem", (24,2), (24,12), (24,16), (24,28), (24,34))
-        self.add_arc("upper-left-a", (8, 4), (24, 16), radius_x=16, radius_y=12)
-        self.add_arc("upper-left-b", (24, 16), (8, 4), radius_x=16, radius_y=12)
+        # VRECT_L extremes (8,6)-(40,42). Staggered leaves retain the hanging rhythm.
+        self.add_polyline("stem", (24,6), (24,12), (24,16), (24,28), (24,34))
+        self.add_arc("upper-left-a", (8, 6), (24, 16), radius_x=16, radius_y=12)
+        self.add_arc("upper-left-b", (24, 16), (8, 6), radius_x=16, radius_y=12)
         self.add_contour("upper-left", "upper-left-a", "upper-left-b", closed=True)
-        self.add_arc("upper-right-a", (24, 12), (40, 2), radius_x=16, radius_y=10)
-        self.add_arc("upper-right-b", (40, 2), (24, 12), radius_x=16, radius_y=10)
+        self.add_arc("upper-right-a", (24, 12), (40, 6), radius_x=16, radius_y=10)
+        self.add_arc("upper-right-b", (40, 6), (24, 12), radius_x=16, radius_y=10)
         self.add_contour("upper-right", "upper-right-a", "upper-right-b", closed=True)
         self.add_arc("lower-left-a", (8, 22), (24, 34), radius_x=16, radius_y=12)
         self.add_arc("lower-left-b", (24, 34), (8, 22), radius_x=16, radius_y=12)
@@ -31,8 +31,8 @@ class FiveLeafHangingVine(Solo48):
         self.add_arc("lower-right-a", (24, 28), (40, 16), radius_x=16, radius_y=12)
         self.add_arc("lower-right-b", (40, 16), (24, 28), radius_x=16, radius_y=12)
         self.add_contour("lower-right", "lower-right-a", "lower-right-b", closed=True)
-        self.add_arc("terminal-a", (24, 34), (36, 46), radius_x=12, radius_y=12)
-        self.add_arc("terminal-b", (36, 46), (24, 34), radius_x=12, radius_y=12)
+        self.add_arc("terminal-a", (24, 34), (36, 42), radius_x=12, radius_y=12)
+        self.add_arc("terminal-b", (36, 42), (24, 34), radius_x=12, radius_y=12)
         self.add_contour("terminal", "terminal-a", "terminal-b", closed=True)
         for name in ("upper-left", "upper-right", "lower-left", "lower-right", "terminal"):
             self.relate("connect", name, "stem")

@@ -17,13 +17,13 @@ class BoarHead(Solo48):
     keywords = ('boar', 'pig', 'head', 'ears', 'silhouette', 'face', 'wild', 'animal')
 
     def build(self) -> None:
-        # SQUARE centerline extremes (2,2)-(46,46).
-        self.add_polyline('ears-and-crown', (10,18), (2,2), (16,10), (32,10), (46,2), (38,18))
-        self.add_arc('right-cheek-top', (38,18), (46,26), radius_x=8)
-        self.add_arc('right-cheek-bottom', (46,26), (36,36), radius_x=10)
+        # SQUARE centerline extremes (6,6)-(42,42).
+        self.add_polyline('ears-and-crown', (10,18), (6,6), (16,10), (32,10), (42,6), (38,18))
+        self.add_arc('right-cheek-top', (38,18), (42,26), radius_x=8)
+        self.add_arc('right-cheek-bottom', (42,26), (36,36), radius_x=10)
         self.add_contour('right-cheek', 'right-cheek-top', 'right-cheek-bottom')
-        self.add_arc('left-cheek-bottom', (12,36), (2,26), radius_x=10)
-        self.add_arc('left-cheek-top', (2,26), (10,18), radius_x=8)
+        self.add_arc('left-cheek-bottom', (12,36), (6,26), radius_x=10)
+        self.add_arc('left-cheek-top', (6,26), (10,18), radius_x=8)
         self.add_contour('left-cheek', 'left-cheek-bottom', 'left-cheek-top')
         self.add_arc('snout-top', (12,36), (36,36), radius_x=12, radius_y=10)
         self.add_arc('snout-bottom', (36,36), (12,36), radius_x=12, radius_y=10)

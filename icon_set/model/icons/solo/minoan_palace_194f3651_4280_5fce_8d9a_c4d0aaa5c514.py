@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class Landmark(Solo48):
     icon_id = 'minoan-palace'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "places/landmarks"
@@ -17,14 +17,15 @@ class Landmark(Solo48):
     keywords = ('minoan', 'palace', 'knossos', 'crete', 'greece', 'ancient', 'columns', 'ruins', 'heritage')
 
     def build(self):
-        # Centerline extremes: (2,5)-(46,43); raised columned hall.
-        self.add_polyline("roof", (2,13), (24,5), (46,13))
-        self.add_polyline("hall", (2,13), (2,29), (12,29), (20,29), (28,29), (36,29), (46,29), (46,13))
-        self.add_polyline("base", (2,43), (12,43), (20,43), (28,43), (36,43), (46,43))
-        for x in (12,20,28,36):
-            self.add_line(f"column-{x}", (x,29), (x,43))
+        # HRECT_L centerline extremes (6,8)-(42,40).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        self.add_polyline("roof", (6,16), (24,8), (42,16))
+        self.add_polyline("hall", (6,16), (6,28), (12,28), (24,28), (36,28), (42,28), (42,16))
+        self.add_polyline("base", (6,40), (12,40), (24,40), (36,40), (42,40))
+        for x in (12,24,36):
+            self.add_line(f"column-{x}", (x,28), (x,40))
             self.relate("connect", f"column-{x}", "hall")
             self.relate("connect", f"column-{x}", "base")
-        self.add_line("window-left", (17,20), (17,22))
-        self.add_line("window-right", (31,20), (31,22))
+        for x in (17,31):
+            self.add_dot(f"window-{x}", (x,20))
         self.relate("connect", "roof", "hall")

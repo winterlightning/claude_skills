@@ -1,0 +1,261 @@
+{
+  "icon_id": "pipe-mounted-light-bulb-stretch-vrect-l",
+  "name": "pipe-mounted-light-bulb-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/decoration",
+  "keywords": [
+    "lamp",
+    "bulb",
+    "pipe",
+    "light",
+    "filament",
+    "steampunk",
+    "fixture"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "dome",
+      "start": [
+        16,
+        15
+      ],
+      "end": [
+        40,
+        15
+      ],
+      "radius_x": 12,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-r",
+      "start": [
+        40,
+        15
+      ],
+      "end": [
+        34,
+        26
+      ],
+      "radius_x": 15,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "socket-r",
+      "start": [
+        34,
+        26
+      ],
+      "end": [
+        34,
+        31
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "socket-base",
+      "start": [
+        34,
+        31
+      ],
+      "end": [
+        22,
+        31
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "socket-l",
+      "start": [
+        22,
+        31
+      ],
+      "end": [
+        22,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-l",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        16,
+        15
+      ],
+      "radius_x": 15,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "filament",
+      "start": [
+        28,
+        16
+      ],
+      "end": [
+        28,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "pipe-top",
+      "start": [
+        28,
+        31
+      ],
+      "end": [
+        28,
+        34
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "pipe-bend-r",
+      "start": [
+        28,
+        34
+      ],
+      "end": [
+        23,
+        39
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "pipe-run",
+      "start": [
+        23,
+        39
+      ],
+      "end": [
+        17,
+        39
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "pipe-bend-l",
+      "start": [
+        17,
+        39
+      ],
+      "end": [
+        12,
+        43
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "pipe-end",
+      "start": [
+        12,
+        43
+      ],
+      "end": [
+        12,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "foot",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        20,
+        44
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "bulb",
+      "members": [
+        "dome",
+        "shoulder-r",
+        "socket-r",
+        "socket-base",
+        "socket-l",
+        "shoulder-l"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "pipe",
+      "members": [
+        "pipe-top",
+        "pipe-bend-r",
+        "pipe-run",
+        "pipe-bend-l",
+        "pipe-end"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "pipe",
+        "bulb"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "pipe",
+        "foot"
+      ]
+    }
+  ],
+  "variant_of": "pipe-mounted-light-bulb",
+  "variant_label": "Stretch to VRECT_L"
+}

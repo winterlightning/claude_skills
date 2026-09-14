@@ -1,0 +1,304 @@
+{
+  "icon_id": "pregnant-belly-with-heart-v2-stretch-vrect-l",
+  "name": "pregnant-belly-with-heart-v2-stretch-vrect-l",
+  "aliases": [
+    "pregnancy-hug",
+    "baby-bump"
+  ],
+  "category": "objects/maternity",
+  "keywords": [
+    "pregnancy",
+    "belly",
+    "bump",
+    "expecting",
+    "heart",
+    "maternity",
+    "mother",
+    "prenatal"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "back-1",
+      "start": [
+        8,
+        4
+      ],
+      "end": [
+        8,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "back-2",
+      "start": [
+        8,
+        6
+      ],
+      "end": [
+        8,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "arm-left",
+      "start": [
+        8,
+        6
+      ],
+      "end": [
+        18,
+        12
+      ],
+      "radius_x": 11,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "arm-right",
+      "start": [
+        18,
+        12
+      ],
+      "end": [
+        31,
+        9
+      ],
+      "radius_x": 13,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "chest",
+      "start": [
+        31,
+        7
+      ],
+      "end": [
+        31,
+        9
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly-top",
+      "start": [
+        31,
+        9
+      ],
+      "end": [
+        40,
+        27
+      ],
+      "radius_x": 9,
+      "radius_y": 17,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly-bottom",
+      "start": [
+        40,
+        27
+      ],
+      "end": [
+        27,
+        44
+      ],
+      "radius_x": 13,
+      "radius_y": 17,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "heart-left",
+      "start": [
+        24,
+        25
+      ],
+      "end": [
+        17,
+        25
+      ],
+      "radius_x": 3,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "heart-shoulder-left",
+      "start": [
+        17,
+        25
+      ],
+      "end": [
+        19,
+        29
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "heart-down",
+      "start": [
+        19,
+        29
+      ],
+      "end": [
+        24,
+        36
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "heart-up",
+      "start": [
+        24,
+        36
+      ],
+      "end": [
+        29,
+        29
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "heart-shoulder-right",
+      "start": [
+        29,
+        29
+      ],
+      "end": [
+        31,
+        25
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "heart-right",
+      "start": [
+        31,
+        25
+      ],
+      "end": [
+        24,
+        25
+      ],
+      "radius_x": 3,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "back",
+      "members": [
+        "back-1",
+        "back-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "arm",
+      "members": [
+        "arm-left",
+        "arm-right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "belly",
+      "members": [
+        "belly-top",
+        "belly-bottom"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "heart",
+      "members": [
+        "heart-left",
+        "heart-shoulder-left",
+        "heart-down",
+        "heart-up",
+        "heart-shoulder-right",
+        "heart-right"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "back",
+        "arm"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "arm",
+        "chest"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "arm",
+        "belly"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "chest",
+        "belly"
+      ]
+    }
+  ],
+  "variant_of": "pregnant-belly-with-heart-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

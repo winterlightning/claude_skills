@@ -1,0 +1,167 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Solo fitting audit — SVG gallery</title><style>
+    :root{color-scheme:light;--bg:#f3f5f8;--card:#fff;--ink:#172238;--line:#d9e0ea}
+    body.dark{color-scheme:dark;--bg:#10151f;--card:#1a2332;--ink:#edf2fa;--line:#38455c}
+    *{box-sizing:border-box}body{font:15px system-ui;background:var(--bg);color:var(--ink);margin:0;padding:32px}
+    header,main{max-width:1500px;margin:auto}h1{font-size:30px;margin:0 0 8px}header p{line-height:1.5}
+    a{color:inherit}nav{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin:24px 0}
+    input,select,button{font:inherit;padding:10px 14px;border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink)}
+    input{min-width:240px}#count{margin-left:auto}main{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:18px}
+    article{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;overflow:hidden}
+    article[hidden]{display:none}.card-head{display:flex;justify-content:space-between;align-items:center;font-size:12px}
+    .badge{padding:4px 9px;border-radius:6px;font-weight:700}.pass{background:#d5f4e2;color:#135836}.fail,.error{background:#ffe1df;color:#92271f}.review{background:#fff0c9;color:#725000}
+    h2{font-size:16px;overflow-wrap:anywhere;min-height:40px;margin:14px 0}.pair{display:flex;gap:12px;justify-content:space-around}
+    .preview{text-align:center;flex:1;min-width:0}.preview a{font-size:12px}.large{height:150px;display:grid;place-items:center}
+    .large svg{width:144px;height:144px}.native svg{width:48px;height:48px}small{font-size:11px;opacity:.65}
+    details{font-size:12px;line-height:1.5;margin-top:12px}li{margin-bottom:8px;overflow-wrap:anywhere}ul{padding-left:16px}
+    .clean,.advisory{font-size:12px;margin-bottom:0}.advisory{color:#ab6910}
+    @media(max-width:600px){body{padding:16px}main{grid-template-columns:1fr}#count{margin-left:0}}
+    </style></head><body><header><h1>Solo keyshape fitting — path repair</h1><p><strong>2 passed · 2 failed · 1 review · 0 errors</strong> out of 5 solo icons.<br>Before and after SVGs at 3× and native size. Numeric passes still need visual review; 0 passing icons have spacing advisories.</p><p><a href="passed.html">View passing icons</a> · <a href="index.html">All icons</a> · <a href="results.json">Full JSON report</a> · <a href="repaired.html">Newly repaired icons</a></p><nav><label>Status <select id="filter"><option value="all">All (5)</option><option value="pass">Passed (2)</option><option value="fail">Failed (2)</option><option value="review">Review (1)</option><option value="error">Errors (0)</option><option value="repaired" selected>Newly repaired (2)</option></select></label><input id="search" type="search" placeholder="Search icon name" aria-label="Search icon name"><button id="theme">Dark theme</button><span id="count" aria-live="polite"></span></nav></header><main><article data-status="pass" data-repaired="true" data-name="compact-disc-with-partition-segment"><div class="card-head"><span class="badge pass">PASS</span><span>CIRCLE</span></div><h2>compact-disc-with-partition-segment</h2><div class="pair"><div class="preview"><a href="svg/compact-disc-with-partition-segment-before.svg">Stretched candidate</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>compact-disc-with-partition-segment-fit-circle</title>
+  <path id="rim" d="M24 4A20 20 0 0 1 44 24A20 20 0 0 1 24 44A20 20 0 0 1 4 24A20 20 0 0 1 24 4Z"/>
+  <path id="hub" d="M24 20A4 4 0 0 1 28 24A4 4 0 0 1 24 28A4 4 0 0 1 20 24A4 4 0 0 1 24 20Z"/>
+  <path id="sector" d="M44 24L35 24A11 11 0 0 1 24 35L24 44"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>compact-disc-with-partition-segment-fit-circle</title>
+  <path id="rim" d="M24 4A20 20 0 0 1 44 24A20 20 0 0 1 24 44A20 20 0 0 1 4 24A20 20 0 0 1 24 4Z"/>
+  <path id="hub" d="M24 20A4 4 0 0 1 28 24A4 4 0 0 1 24 28A4 4 0 0 1 20 24A4 4 0 0 1 24 20Z"/>
+  <path id="sector" d="M44 24L35 24A11 11 0 0 1 24 35L24 44"/>
+</svg>
+</div><small>48 px</small></div><div class="preview"><a href="svg/compact-disc-with-partition-segment-after.svg">After path repair</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>compact-disc-with-partition-segment-fit-circle</title>
+  <path id="rim" d="M24 4A20 20 0 0 1 43 25A20 20 0 0 1 25 43A20 20 0 0 1 4 24A20 20 0 0 1 24 4Z"/>
+  <path id="hub" d="M24 21A3 3 0 0 1 27 24A3 3 0 0 1 24 27A3 3 0 0 1 21 24A3 3 0 0 1 24 21Z"/>
+  <path id="sector" d="M43 25L35 25A10 10 0 0 1 25 35L25 43"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>compact-disc-with-partition-segment-fit-circle</title>
+  <path id="rim" d="M24 4A20 20 0 0 1 43 25A20 20 0 0 1 25 43A20 20 0 0 1 4 24A20 20 0 0 1 24 4Z"/>
+  <path id="hub" d="M24 21A3 3 0 0 1 27 24A3 3 0 0 1 24 27A3 3 0 0 1 21 24A3 3 0 0 1 24 21Z"/>
+  <path id="sector" d="M43 25L35 25A10 10 0 0 1 25 35L25 43"/>
+</svg>
+</div><small>48 px</small></div></div><details><summary>Findings (3)</summary><ul><li>hub: {&#x27;sx&#x27;: 0.75, &#x27;sy&#x27;: 0.75}</li><li>sector: {&#x27;sx&#x27;: 0.9, &#x27;sy&#x27;: 0.9}</li><li>Path repair: 181 candidates checked; visual review required.</li></ul></details></article><article hidden data-status="fail" data-repaired="false" data-name="hooked-beak-bird-head"><div class="card-head"><span class="badge fail">FAIL</span><span>VRECT_L</span></div><h2>hooked-beak-bird-head</h2><div class="pair"><div class="preview"><a href="svg/hooked-beak-bird-head-before.svg">Stretched candidate</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>hooked-beak-bird-head-stretch-vrect-l</title>
+  <path id="head" d="M8 44L8 24A19 20 0 0 1 27 4A8 9 0 0 1 35 13A17 18 0 0 1 28 29L28 44"/>
+  <path id="beak" d="M35 13A5 15 0 0 1 40 29L28 29"/>
+  <path id="eye" d="M21 15A3 3 0 0 1 27 15A3 3 0 0 1 21 15Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>hooked-beak-bird-head-stretch-vrect-l</title>
+  <path id="head" d="M8 44L8 24A19 20 0 0 1 27 4A8 9 0 0 1 35 13A17 18 0 0 1 28 29L28 44"/>
+  <path id="beak" d="M35 13A5 15 0 0 1 40 29L28 29"/>
+  <path id="eye" d="M21 15A3 3 0 0 1 27 15A3 3 0 0 1 21 15Z"/>
+</svg>
+</div><small>48 px</small></div><div class="preview"><a href="svg/hooked-beak-bird-head-after.svg">After path repair</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>hooked-beak-bird-head-stretch-vrect-l</title>
+  <path id="head" d="M8 44L8 24A17 19 0 0 1 27 4A8 9 0 0 1 35 13A17 18 0 0 1 28 29L28 44"/>
+  <path id="beak" d="M35 13A5 15 0 0 1 40 29L28 29"/>
+  <path id="eye" d="M21 15A3 3 0 0 1 27 15A3 3 0 0 1 21 15Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>hooked-beak-bird-head-stretch-vrect-l</title>
+  <path id="head" d="M8 44L8 24A17 19 0 0 1 27 4A8 9 0 0 1 35 13A17 18 0 0 1 28 29L28 44"/>
+  <path id="beak" d="M35 13A5 15 0 0 1 40 29L28 29"/>
+  <path id="eye" d="M21 15A3 3 0 0 1 27 15A3 3 0 0 1 21 15Z"/>
+</svg>
+</div><small>48 px</small></div></div><details><summary>Findings (4)</summary><ul><li>canvas/keyshape bounds: visible ink (5.96959, 1.864, 42.0111, 46) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0304, 0.136, 0.0111, 0.0], tolerance 0.0)</li><li>crown-left: {&#x27;radii&#x27;: (17, 18)}</li><li>crown-left: {&#x27;radii&#x27;: (17, 19)}</li><li>Path repair: 339 candidates checked; visual review required.</li></ul></details></article><article hidden data-status="review" data-repaired="false" data-name="house-shaped-pendulum-clock"><div class="card-head"><span class="badge review">REVIEW</span><span>VRECT_L</span></div><h2>house-shaped-pendulum-clock</h2><div class="pair"><div class="preview"><a href="svg/house-shaped-pendulum-clock-before.svg">Stretched candidate</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>house-shaped-pendulum-clock-stretch-vrect-l</title>
+  <path id="case" d="M8 44L11 44L11 15L24 4L37 15L37 44L40 44"/>
+  <path id="base" d="M11 44L37 44"/>
+  <path id="hands" d="M24 13L24 20L29 20"/>
+  <path id="pendulum-stem" d="M24 29L24 32"/>
+  <path id="bob" d="M24 32A3 3 0 0 1 24 38A3 3 0 0 1 24 32Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>house-shaped-pendulum-clock-stretch-vrect-l</title>
+  <path id="case" d="M8 44L11 44L11 15L24 4L37 15L37 44L40 44"/>
+  <path id="base" d="M11 44L37 44"/>
+  <path id="hands" d="M24 13L24 20L29 20"/>
+  <path id="pendulum-stem" d="M24 29L24 32"/>
+  <path id="bob" d="M24 32A3 3 0 0 1 24 38A3 3 0 0 1 24 32Z"/>
+</svg>
+</div><small>48 px</small></div><div class="preview"><a href="svg/house-shaped-pendulum-clock-after.svg">After path repair</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>house-shaped-pendulum-clock-stretch-vrect-l</title>
+  <path id="case" d="M8 44L11 44L11 15L24 4L37 15L37 44L40 44"/>
+  <path id="base" d="M11 44L37 44"/>
+  <path id="hands" d="M24 15L24 20L29 20"/>
+  <path id="pendulum-stem" d="M24 29L24 30"/>
+  <path id="bob" d="M24 30A3 3 0 0 1 24 36A3 3 0 0 1 24 30Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>house-shaped-pendulum-clock-stretch-vrect-l</title>
+  <path id="case" d="M8 44L11 44L11 15L24 4L37 15L37 44L40 44"/>
+  <path id="base" d="M11 44L37 44"/>
+  <path id="hands" d="M24 15L24 20L29 20"/>
+  <path id="pendulum-stem" d="M24 29L24 30"/>
+  <path id="bob" d="M24 30A3 3 0 0 1 24 36A3 3 0 0 1 24 30Z"/>
+</svg>
+</div><small>48 px</small></div></div><details><summary>Findings (5)</summary><ul><li>mic [base]: base and bob are 8 apart on centerlines nearest (24, 44)&lt;-&gt;(24, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship</li><li>bob: {&#x27;dx&#x27;: 0, &#x27;dy&#x27;: -2}</li><li>hands: {&#x27;dx&#x27;: 0, &#x27;dy&#x27;: 1}</li><li>hands: {&#x27;sy&#x27;: 0.7142857142857143}</li><li>Path repair: 370 candidates checked; visual review required.</li></ul></details></article><article data-status="pass" data-repaired="true" data-name="necklace-with-three-beads"><div class="card-head"><span class="badge pass">PASS</span><span>SQUARE</span></div><h2>necklace-with-three-beads</h2><div class="pair"><div class="preview"><a href="svg/necklace-with-three-beads-before.svg">Stretched candidate</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>necklace-with-three-beads-stretch-square</title>
+  <path id="left-string" d="M13 6A7 7 0 0 0 6 13L6 14A5 11 0 0 0 11 25"/>
+  <path id="left-bead" d="M11 25A2 2 0 0 1 11 30A2 2 0 0 1 11 25Z"/>
+  <path id="right-string" d="M35 6A7 7 0 0 1 42 13L42 14A5 11 0 0 1 37 25"/>
+  <path id="right-bead" d="M37 25A2 2 0 0 1 37 30A2 2 0 0 1 37 25Z"/>
+  <path id="main-bead" d="M24 29A7 7 0 0 1 24 42A7 7 0 0 1 24 29Z"/>
+  <path id="thread-left" d="M13 27L24 29"/>
+  <path id="thread-right" d="M24 29L35 27"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>necklace-with-three-beads-stretch-square</title>
+  <path id="left-string" d="M13 6A7 7 0 0 0 6 13L6 14A5 11 0 0 0 11 25"/>
+  <path id="left-bead" d="M11 25A2 2 0 0 1 11 30A2 2 0 0 1 11 25Z"/>
+  <path id="right-string" d="M35 6A7 7 0 0 1 42 13L42 14A5 11 0 0 1 37 25"/>
+  <path id="right-bead" d="M37 25A2 2 0 0 1 37 30A2 2 0 0 1 37 25Z"/>
+  <path id="main-bead" d="M24 29A7 7 0 0 1 24 42A7 7 0 0 1 24 29Z"/>
+  <path id="thread-left" d="M13 27L24 29"/>
+  <path id="thread-right" d="M24 29L35 27"/>
+</svg>
+</div><small>48 px</small></div><div class="preview"><a href="svg/necklace-with-three-beads-after.svg">After path repair</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>necklace-with-three-beads-stretch-square</title>
+  <path id="left-string" d="M13 6A7 7 0 0 0 6 13L6 14A5 11 0 0 0 11 23"/>
+  <path id="left-bead" d="M11 23A4 4 0 0 1 11 32A4 4 0 0 1 11 23Z"/>
+  <path id="right-string" d="M35 6A7 7 0 0 1 42 13L42 14A5 11 0 0 1 37 23"/>
+  <path id="right-bead" d="M37 23A4 4 0 0 1 37 32A4 4 0 0 1 37 23Z"/>
+  <path id="main-bead" d="M24 29A7 7 0 0 1 24 42A7 7 0 0 1 24 29Z"/>
+  <path id="thread-left" d="M13 27L24 29"/>
+  <path id="thread-right" d="M24 29L35 27"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>necklace-with-three-beads-stretch-square</title>
+  <path id="left-string" d="M13 6A7 7 0 0 0 6 13L6 14A5 11 0 0 0 11 23"/>
+  <path id="left-bead" d="M11 23A4 4 0 0 1 11 32A4 4 0 0 1 11 23Z"/>
+  <path id="right-string" d="M35 6A7 7 0 0 1 42 13L42 14A5 11 0 0 1 37 23"/>
+  <path id="right-bead" d="M37 23A4 4 0 0 1 37 32A4 4 0 0 1 37 23Z"/>
+  <path id="main-bead" d="M24 29A7 7 0 0 1 24 42A7 7 0 0 1 24 29Z"/>
+  <path id="thread-left" d="M13 27L24 29"/>
+  <path id="thread-right" d="M24 29L35 27"/>
+</svg>
+</div><small>48 px</small></div></div><details><summary>Findings (3)</summary><ul><li>left-bead: {&#x27;sx&#x27;: 1.8, &#x27;sy&#x27;: 1.8}</li><li>right-bead: {&#x27;sx&#x27;: 1.8, &#x27;sy&#x27;: 1.8}</li><li>Path repair: 265 candidates checked; visual review required.</li></ul></details></article><article hidden data-status="fail" data-repaired="false" data-name="peacock-feather"><div class="card-head"><span class="badge fail">FAIL</span><span>VRECT_L</span></div><h2>peacock-feather</h2><div class="pair"><div class="preview"><a href="svg/peacock-feather-before.svg">Stretched candidate</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>peacock-feather-stretch-vrect-l</title>
+  <path id="vane" d="M40 4A28 25 0 0 0 12 29L12 37A28 25 0 0 0 40 11L40 4Z"/>
+  <path id="quill" d="M12 37L8 44"/>
+  <path id="eye" d="M22 20A3 3 0 0 1 28 20A3 3 0 0 1 22 20Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>peacock-feather-stretch-vrect-l</title>
+  <path id="vane" d="M40 4A28 25 0 0 0 12 29L12 37A28 25 0 0 0 40 11L40 4Z"/>
+  <path id="quill" d="M12 37L8 44"/>
+  <path id="eye" d="M22 20A3 3 0 0 1 28 20A3 3 0 0 1 22 20Z"/>
+</svg>
+</div><small>48 px</small></div><div class="preview"><a href="svg/peacock-feather-after.svg">After path repair</a><div class="large"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>peacock-feather-stretch-vrect-l</title>
+  <path id="vane" d="M40 4A28 25 0 0 0 12 29L12 37A28 26 0 0 0 40 11L40 4Z"/>
+  <path id="quill" d="M12 37L8 44"/>
+  <path id="eye" d="M23 20A3 3 0 0 1 29 20A3 3 0 0 1 23 20Z"/>
+</svg>
+</div><div class="native"><svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+  <title>peacock-feather-stretch-vrect-l</title>
+  <path id="vane" d="M40 4A28 25 0 0 0 12 29L12 37A28 26 0 0 0 40 11L40 4Z"/>
+  <path id="quill" d="M12 37L8 44"/>
+  <path id="eye" d="M23 20A3 3 0 0 1 29 20A3 3 0 0 1 23 20Z"/>
+</svg>
+</div><small>48 px</small></div></div><details><summary>Findings (4)</summary><ul><li>mic [vane]: vane and eye are 7.26952 apart on centerlines nearest (18.4558, 13.0326)&lt;-&gt;(23.7771, 17.9853); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship</li><li>vane-right: {&#x27;radii&#x27;: (28, 26)}</li><li>eye: {&#x27;dx&#x27;: 1, &#x27;dy&#x27;: 0}</li><li>Path repair: 298 candidates checked; visual review required.</li></ul></details></article></main><script>
+    const cards=[...document.querySelectorAll('article')], filter=document.querySelector('#filter'), search=document.querySelector('#search');
+    function update(){let n=0;for(const card of cards){const show=(filter.value==='all'||card.dataset.status===filter.value||(filter.value==='repaired'&&card.dataset.repaired==='true'))&&card.dataset.name.includes(search.value.trim().toLowerCase());card.hidden=!show;if(show)n++;}document.querySelector('#count').textContent=n+' icons shown';}
+    filter.addEventListener('change',update);search.addEventListener('input',update);
+    document.querySelector('#theme').addEventListener('click',()=>{const dark=document.body.classList.toggle('dark');document.querySelector('#theme').textContent=dark?'Light theme':'Dark theme';});update();
+    </script></body></html>

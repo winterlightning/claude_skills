@@ -1,4 +1,7 @@
-"""Three Domed Pavilions on a Wall. Rebuilt from the supplied silhouette."""
+"""SQUARE (6,6)-(42,42) centerlines. Preserve three domed pavilions, central finial, wall band and vertical divisions. Merge pavilion bases into one skyline; omit side finials and extra horizontal bands. Mirrored about x=24.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,26 +20,26 @@ class Landmark(Solo48):
     keywords = ('fort', 'palace', 'dome', 'pavilion', 'wall', 'landmark', 'india', 'architecture', 'heritage')
 
     def build(self):
-        self.add_polyline('wall', (2, 46), (2, 32), (10, 32), (18, 32), (30, 32), (38, 32), (46, 32), (46, 46), closed=False)
-        self.add_polyline('legs', (18, 32), (18, 46), closed=False)
-        self.add_polyline('leg-right', (30, 32), (30, 46), closed=False)
-        self.relate("connect", "wall", "legs")
-        self.relate("connect", "wall", "leg-right")
-        self.add_arc("left-dome", (2,26), (14,26), radius_x=6)
-        self.add_line("left-support-1", (14, 26), (14, 32))
-        self.add_line("left-support-2", (14, 32), (2, 32))
-        self.add_line("left-support-3", (2, 32), (2, 26))
-        self.add_contour("left-pavilion", "left-dome", "left-support-1", "left-support-2", "left-support-3", closed=True)
-        self.add_arc("right-dome", (34,26), (46,26), radius_x=6)
-        self.add_line("right-support-1", (46, 26), (46, 32))
-        self.add_line("right-support-2", (46, 32), (34, 32))
-        self.add_line("right-support-3", (34, 32), (34, 26))
-        self.add_contour("right-pavilion", "right-dome", "right-support-1", "right-support-2", "right-support-3", closed=True)
-        self.relate("connect", "wall", "left-pavilion")
-        self.relate("connect", "wall", "right-pavilion")
-        self.add_polyline('center', (18, 32), (18, 22), (24, 14), (30, 22), (30, 32), closed=False)
-        self.relate("connect", "wall", "center")
-        self.add_polyline('cross-stem', (24, 2), (24, 6), (24, 14), closed=False)
-        self.add_polyline('cross-bar', (20, 6), (24, 6), (28, 6), closed=False)
-        self.relate("connect", "cross-stem", "cross-bar")
-        self.relate("connect", "cross-stem", 'center')
+        self.add_line('left-wall-1',(6,42),(6,30))
+        self.add_line('left-wall-2',(6,30),(6,28))
+        self.add_arc('left-dome',(6,28),(16,28),radius_x=5,radius_y=7)
+        self.add_line('left-neck',(16,28),(16,30))
+        self.add_line('center-left',(16,30),(18,24))
+        self.add_arc('center-dome-left',(18,24),(24,16),radius_x=8,radius_y=8)
+        self.add_arc('center-dome-right',(24,16),(30,24),radius_x=8,radius_y=8)
+        self.add_line('center-right',(30,24),(32,30))
+        self.add_line('right-neck',(32,30),(32,28))
+        self.add_arc('right-dome',(32,28),(42,28),radius_x=5,radius_y=7)
+        self.add_line('right-wall-1',(42,28),(42,30))
+        self.add_line('right-wall-2',(42,30),(42,42))
+        self.add_contour('skyline','left-wall-1','left-wall-2','left-dome','left-neck','center-left','center-dome-left','center-dome-right','center-right','right-neck','right-dome','right-wall-1','right-wall-2')
+        self.add_polyline('cross-stem',(24,6),(24,9),(24,16))
+        self.add_polyline('cross-bar',(20,9),(24,9),(28,9))
+        self.relate('connect','cross-stem','cross-bar')
+        self.relate('connect','cross-stem','skyline')
+        self.add_polyline('wall-band',(6,30),(16,30),(32,30),(42,30))
+        self.relate('connect','wall-band','skyline')
+        for x in (16,32):
+            self.add_line(f'wall-division-{x}',(x,30),(x,42))
+            self.relate('connect',f'wall-division-{x}','wall-band')
+            self.relate('connect',f'wall-division-{x}','skyline')

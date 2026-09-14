@@ -17,15 +17,12 @@ class Landmark(Solo48):
     keywords = ('gate', 'gateway', 'monument', 'brandenburg', 'berlin', 'landmark', 'arch', 'columns', 'architecture')
 
     def build(self):
-        # Centerline extremes: (2,2)-(46,46).
-        self.add_polyline("outline", (2,18), (14,18), (34,18), (46,18), (46,46), (36,46), (36,28), (12,28), (12,46), (2,46), closed=True)
-        self.add_polyline("attic", (14,18), (14,10), (24,10), (34,10), (34,18))
+        # SQUARE centerline extremes (6,6)-(42,42).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        self.add_polyline("outline", (6,22), (16,22), (32,22), (42,22), (42,42), (34,42), (34,30), (14,30), (14,42), (6,42), closed=True)
+        self.add_polyline("attic", (16,22), (16,14), (24,14), (32,14), (32,22))
         self.relate("connect", "attic", "outline")
-        self.add_polyline("mast", (24,2), (24,5), (24,10))
-        self.add_polyline("cross", (19,5), (24,5), (29,5))
+        self.add_polyline("mast", (24,6), (24,8), (24,14))
+        self.add_polyline("cross", (20,8), (24,8), (28,8))
         self.relate("connect", "mast", "cross")
         self.relate("connect", "mast", "attic")
-        self.add_line("lintel-left", (2,28), (12,28))
-        self.add_line("lintel-right", (36,28), (46,28))
-        self.relate("connect", "lintel-left", "outline")
-        self.relate("connect", "lintel-right", "outline")

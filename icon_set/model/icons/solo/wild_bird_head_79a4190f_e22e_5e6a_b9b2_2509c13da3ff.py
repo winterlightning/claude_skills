@@ -1,4 +1,4 @@
-"""Hooked-beak bird head in right profile; extremes (5,2)-(43,46). Smooth crown and heavy beak; circular eye retained, deliberately asymmetric."""
+"""Hooked-beak bird head in right profile; extremes (6,6)-(42,42). Smooth crown and heavy beak; circular eye retained, deliberately asymmetric."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,14 +17,14 @@ class HookedBeakBirdHead(Solo48):
     keywords = ('bird', 'head', 'beak', 'hooked', 'parrot', 'falcon', 'profile', 'raptor')
 
     def build(self) -> None:
-        self.add_line('neck-back', (5, 46), (5, 24))
-        self.add_arc('crown-left', (5, 24), (27, 2), radius_x=22, radius_y=22, sweep=True)
-        self.add_arc('crown-right', (27, 2), (37, 12), radius_x=10, radius_y=10, sweep=True)
+        self.add_line('neck-back', (6, 42), (6, 24))
+        self.add_arc('crown-left', (6, 24), (27, 6), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('crown-right', (27, 6), (37, 12), radius_x=10, radius_y=10, sweep=True)
         self.add_arc('face', (37, 12), (29, 29), radius_x=20, radius_y=20, sweep=True)
-        self.add_line('neck-front', (29, 29), (29, 46))
+        self.add_line('neck-front', (29, 29), (29, 42))
         self.add_contour('head', 'neck-back', 'crown-left', 'crown-right', 'face', 'neck-front', closed=False)
-        self.add_arc('beak-upper', (37, 12), (43, 29), radius_x=6, radius_y=17, sweep=True)
-        self.add_line('beak-lower', (43, 29), (29, 29))
+        self.add_arc('beak-upper', (37, 12), (42, 29), radius_x=6, radius_y=17, sweep=True)
+        self.add_line('beak-lower', (42, 29), (29, 29))
         self.add_contour('beak', 'beak-upper', 'beak-lower', closed=False)
         self.relate("connect", 'beak', 'head')
         self.add_arc('eye-top', (21, 14), (27, 14), radius_x=3, radius_y=3, sweep=True)

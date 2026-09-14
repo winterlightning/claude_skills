@@ -1,0 +1,240 @@
+{
+  "icon_id": "diaper-change-v3-stretch-square",
+  "name": "diaper-change-v3-stretch-square",
+  "aliases": [],
+  "category": "people/babies",
+  "keywords": [
+    "diaper",
+    "change",
+    "infant",
+    "nursery"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "adult-head-top",
+      "start": [
+        22,
+        10
+      ],
+      "end": [
+        30,
+        10
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "adult-head-bottom",
+      "start": [
+        30,
+        10
+      ],
+      "end": [
+        22,
+        10
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "adult-back-1",
+      "start": [
+        18,
+        19
+      ],
+      "end": [
+        6,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "adult-back-2",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        6,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "adult-arm-1",
+      "start": [
+        18,
+        19
+      ],
+      "end": [
+        22,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "baby-head-top",
+      "start": [
+        37,
+        31
+      ],
+      "end": [
+        42,
+        31
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "baby-head-bottom",
+      "start": [
+        42,
+        31
+      ],
+      "end": [
+        37,
+        31
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "baby-body-1",
+      "start": [
+        22,
+        32
+      ],
+      "end": [
+        24,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "baby-body-2",
+      "start": [
+        24,
+        34
+      ],
+      "end": [
+        28,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "baby-body-3",
+      "start": [
+        28,
+        34
+      ],
+      "end": [
+        28,
+        31
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "surface",
+      "start": [
+        22,
+        42
+      ],
+      "end": [
+        42,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "adult-head",
+      "members": [
+        "adult-head-top",
+        "adult-head-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "adult-back",
+      "members": [
+        "adult-back-1",
+        "adult-back-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "adult-arm",
+      "members": [
+        "adult-arm-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "baby-head",
+      "members": [
+        "baby-head-top",
+        "baby-head-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "baby-body",
+      "members": [
+        "baby-body-1",
+        "baby-body-2",
+        "baby-body-3"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "adult-back",
+        "adult-arm"
+      ]
+    }
+  ],
+  "variant_of": "diaper-change-v3",
+  "variant_label": "Stretch to SQUARE"
+}

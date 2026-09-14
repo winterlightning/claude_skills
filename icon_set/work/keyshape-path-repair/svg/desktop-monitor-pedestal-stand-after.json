@@ -1,0 +1,296 @@
+{
+  "icon_id": "desktop-monitor-pedestal-stand-stretch-hrect-l",
+  "name": "desktop-monitor-pedestal-stand-stretch-hrect-l",
+  "aliases": [
+    "desktop-display"
+  ],
+  "category": "objects/device",
+  "keywords": [
+    "computer",
+    "screen",
+    "device",
+    "lucide-monitor"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "top",
+      "start": [
+        8,
+        8
+      ],
+      "end": [
+        40,
+        8
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-right",
+      "start": [
+        40,
+        8
+      ],
+      "end": [
+        44,
+        11
+      ],
+      "radius_x": 4,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right-1",
+      "start": [
+        44,
+        11
+      ],
+      "end": [
+        44,
+        25
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-2",
+      "start": [
+        44,
+        25
+      ],
+      "end": [
+        44,
+        28
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottom-right",
+      "start": [
+        44,
+        28
+      ],
+      "end": [
+        40,
+        32
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom-1",
+      "start": [
+        40,
+        32
+      ],
+      "end": [
+        29,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom-2",
+      "start": [
+        29,
+        32
+      ],
+      "end": [
+        19,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom-3",
+      "start": [
+        19,
+        32
+      ],
+      "end": [
+        8,
+        32
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottom-left",
+      "start": [
+        8,
+        32
+      ],
+      "end": [
+        4,
+        28
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left-1",
+      "start": [
+        4,
+        28
+      ],
+      "end": [
+        4,
+        25
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-2",
+      "start": [
+        4,
+        25
+      ],
+      "end": [
+        4,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-left",
+      "start": [
+        4,
+        11
+      ],
+      "end": [
+        8,
+        8
+      ],
+      "radius_x": 4,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "chin",
+      "start": [
+        4,
+        25
+      ],
+      "end": [
+        44,
+        25
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "pedestal-1",
+      "start": [
+        19,
+        32
+      ],
+      "end": [
+        16,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "pedestal-2",
+      "start": [
+        16,
+        40
+      ],
+      "end": [
+        32,
+        40
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "pedestal-3",
+      "start": [
+        32,
+        40
+      ],
+      "end": [
+        29,
+        32
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "screen",
+      "members": [
+        "top",
+        "top-right",
+        "right-1",
+        "right-2",
+        "bottom-right",
+        "bottom-1",
+        "bottom-2",
+        "bottom-3",
+        "bottom-left",
+        "left-1",
+        "left-2",
+        "top-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "pedestal",
+      "members": [
+        "pedestal-1",
+        "pedestal-2",
+        "pedestal-3"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "screen",
+        "chin"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "screen",
+        "pedestal"
+      ]
+    }
+  ],
+  "variant_of": "desktop-monitor-pedestal-stand",
+  "variant_label": "Stretch to HRECT_L"
+}

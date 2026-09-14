@@ -1,0 +1,168 @@
+{
+  "icon_id": "peacock-feather-stretch-vrect-l",
+  "name": "peacock-feather-stretch-vrect-l",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "peacock",
+    "feather"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "vane-left",
+      "start": [
+        40,
+        4
+      ],
+      "end": [
+        12,
+        29
+      ],
+      "radius_x": 28,
+      "radius_y": 25,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "vane-base",
+      "start": [
+        12,
+        29
+      ],
+      "end": [
+        12,
+        37
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "vane-right",
+      "start": [
+        12,
+        37
+      ],
+      "end": [
+        40,
+        11
+      ],
+      "radius_x": 28,
+      "radius_y": 26,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "vane-tip",
+      "start": [
+        40,
+        11
+      ],
+      "end": [
+        40,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "quill",
+      "start": [
+        12,
+        37
+      ],
+      "end": [
+        8,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "eye-top",
+      "start": [
+        23,
+        20
+      ],
+      "end": [
+        29,
+        20
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "eye-bottom",
+      "start": [
+        29,
+        20
+      ],
+      "end": [
+        23,
+        20
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "vane",
+      "members": [
+        "vane-left",
+        "vane-base",
+        "vane-right",
+        "vane-tip"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "eye",
+      "members": [
+        "eye-top",
+        "eye-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "vane",
+        "quill"
+      ]
+    }
+  ],
+  "variant_of": "peacock-feather",
+  "variant_label": "Stretch to VRECT_L"
+}

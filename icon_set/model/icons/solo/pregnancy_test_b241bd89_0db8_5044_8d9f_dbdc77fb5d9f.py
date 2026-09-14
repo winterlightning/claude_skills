@@ -1,4 +1,4 @@
-"""Diagonal test stick. SQUARE extremes (2,2)-(46,46). Lucide pipette informs diagonal shaft and rounded handle. Capsule window retains one result bar."""
+"""Diagonal test stick. SQUARE extremes (6,6)-(42,42). Lucide pipette informs diagonal shaft and rounded handle. Capsule window retains one result bar."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,17 +16,17 @@ class PregnancyTest(Solo48):
     keywords = ('pregnancy', 'test', 'stick', 'result', 'fertility', 'maternity', 'medical', 'expecting')
 
     def build(self) -> None:
-        self.add_arc('handle-top', (30,4), (46,12), radius_x=10)
-        self.add_arc('handle-right', (46,12), (42,20), radius_x=10)
+        self.add_arc('handle-top', (30,6), (42,12), radius_x=10)
+        self.add_arc('handle-right', (42,12), (42,20), radius_x=10)
         self.add_line('shoulder-right-1', (42,20), (38,26))
         self.add_line('shoulder-right-2', (38,26), (37,30))
         self.add_line('shoulder-right-3', (37,30), (29,40))
-        self.add_arc('body-bottom', (29,40), (17,46), radius_x=15)
-        self.add_arc('body-left', (17,46), (2,31), radius_x=15)
-        self.add_arc('body-upper', (2,31), (8,19), radius_x=15)
+        self.add_arc('body-bottom', (29,40), (17,42), radius_x=15)
+        self.add_arc('body-left', (17,42), (6,31), radius_x=15)
+        self.add_arc('body-upper', (6,31), (8,19), radius_x=15)
         self.add_line('shoulder-left-1', (8,19), (20,10))
         self.add_line('shoulder-left-2', (20,10), (25,9))
-        self.add_line('shoulder-left-3', (25,9), (30,4))
+        self.add_line('shoulder-left-3', (25,9), (30,6))
         self.add_contour('outline', 'handle-top', 'handle-right', 'shoulder-right-1', 'shoulder-right-2', 'shoulder-right-3', 'body-bottom', 'body-left', 'body-upper', 'shoulder-left-1', 'shoulder-left-2', 'shoulder-left-3', closed=True)
         self.add_arc('window-top', (19,19), (27,25), radius_x=5)
         self.add_line('window-right-a', (27,25), (23,30))

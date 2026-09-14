@@ -1,0 +1,291 @@
+{
+  "icon_id": "storefront-open-facade",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "awning:subpath-1",
+        "elementId": "awning",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 16 L 10 6 L 38 6 L 42 16 A 6 6 0 0 1 30 16 A 6 6 0 0 1 18 16 A 6 6 0 0 1 6 16 Z",
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          22.0
+        ],
+        "segmentCount": 388,
+        "approximationError": 0.00045250989170644515,
+        "hasCurves": true
+      },
+      {
+        "id": "wall:subpath-1",
+        "elementId": "wall",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 16 L 6 42 L 24 42 L 42 42 L 42 16",
+        "bounds": [
+          6.0,
+          16.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "awning:subpath-1",
+          "wall:subpath-1"
+        ],
+        "contourIds": [
+          "awning:subpath-1",
+          "wall:subpath-1"
+        ],
+        "elementIds": [
+          "awning",
+          "wall"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "awning:subpath-1",
+          "wall:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          6.0,
+          16.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "awning:subpath-1",
+          "wall:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "awning:subpath-1",
+            "wall:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            6.0,
+            16.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 13,
+      "flattenedSegments": 392,
+      "adaptiveNodes": 765,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          12.7344
+        ],
+        "bbox_viewbox": [
+          6.5,
+          6.5,
+          35.0,
+          15.0
+        ],
+        "bbox_ship_px": [
+          35.0,
+          15.0
+        ],
+        "bbox_design_u": [
+          35.0,
+          15.0
+        ],
+        "area_ship_px2": 437.4258,
+        "equivalent_diameter_ship_px": 23.5997,
+        "equivalent_diameter_design_u": 23.5997,
+        "inscribed_diameter_ship_px": 12.4841,
+        "inscribed_diameter_design_u": 12.4841,
+        "inscribed_radius_ship_px": 6.2421,
+        "inscribed_radius_design_u": 6.2421,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.7421,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.4842
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.9219,
+          31.4844
+        ],
+        "bbox_viewbox": [
+          6.5,
+          18.5312,
+          35.0,
+          22.9688
+        ],
+        "bbox_ship_px": [
+          35.0,
+          22.9688
+        ],
+        "bbox_design_u": [
+          35.0,
+          22.9688
+        ],
+        "area_ship_px2": 701.4404,
+        "equivalent_diameter_ship_px": 29.8848,
+        "equivalent_diameter_design_u": 29.8848,
+        "inscribed_diameter_ship_px": 20.0625,
+        "inscribed_diameter_design_u": 20.0625,
+        "inscribed_radius_ship_px": 10.0312,
+        "inscribed_radius_design_u": 10.0312,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 8.5312,
+        "equivalent_diameter_at_authored_stroke_design_u": 17.0624
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/storefront-open-facade/icon.svg",
+    "metrics": "solo/storefront-open-facade/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "37c618498b54e44ecb7b01f6dd9ebc8845294090f49cf28ceab65927935258e4",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

@@ -16,14 +16,14 @@ class HydroelectricDam(Solo48):
     keywords = ('dam', 'hydroelectric', 'water', 'reservoir', 'spillway', 'power', 'energy', 'infrastructure')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
-        self.add_polyline('left-pier', (2, 33), (5, 5), (13, 5), (13, 13), (10, 33))
-        self.add_polyline('right-pier', (36, 33), (39, 13), (39, 5), (46, 5), (46, 33))
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        self.add_polyline('left-pier', (6, 33), (6, 6), (13, 6), (13, 13), (10, 33))
+        self.add_polyline('right-pier', (36, 33), (39, 13), (39, 6), (42, 6), (42, 33))
         self.add_line('crest', (13, 13), (39, 13))
         self.relate('connect', 'crest', 'left-pier')
         self.relate('connect', 'crest', 'right-pier')
         self.add_line('flow-left', (22, 22), (20, 31))
         self.add_line('flow-right', (30, 22), (28, 31))
-        self.add_arc('wave-left', (2, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
-        self.add_arc('wave-right', (24, 40), (46, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('wave-left', (6, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('wave-right', (24, 40), (42, 40), radius_x=11, radius_y=3, sweep=False)
         self.add_contour('water', 'wave-left', 'wave-right')

@@ -1,0 +1,329 @@
+{
+  "icon_id": "crab-stretch-square",
+  "name": "crab-stretch-square",
+  "aliases": [],
+  "category": "animals/marine",
+  "keywords": [
+    "crab",
+    "claws",
+    "shellfish",
+    "sea",
+    "beach",
+    "seafood",
+    "cancer",
+    "marine"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "back",
+      "start": [
+        14,
+        26
+      ],
+      "end": [
+        34,
+        26
+      ],
+      "radius_x": 10,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "belly",
+      "start": [
+        34,
+        26
+      ],
+      "end": [
+        14,
+        26
+      ],
+      "radius_x": 10,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-claw",
+      "start": [
+        9,
+        6
+      ],
+      "end": [
+        14,
+        17
+      ],
+      "radius_x": 5,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left-pincer",
+      "start": [
+        14,
+        17
+      ],
+      "end": [
+        18,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-arm",
+      "start": [
+        14,
+        26
+      ],
+      "end": [
+        14,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-leg-1",
+      "start": [
+        15,
+        29
+      ],
+      "end": [
+        6,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-leg-2",
+      "start": [
+        6,
+        32
+      ],
+      "end": [
+        6,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-foot",
+      "start": [
+        19,
+        36
+      ],
+      "end": [
+        13,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-claw",
+      "start": [
+        39,
+        6
+      ],
+      "end": [
+        34,
+        17
+      ],
+      "radius_x": 5,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "right-pincer",
+      "start": [
+        34,
+        17
+      ],
+      "end": [
+        30,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-arm",
+      "start": [
+        34,
+        26
+      ],
+      "end": [
+        34,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-leg-1",
+      "start": [
+        33,
+        29
+      ],
+      "end": [
+        42,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-leg-2",
+      "start": [
+        42,
+        32
+      ],
+      "end": [
+        42,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-foot",
+      "start": [
+        29,
+        36
+      ],
+      "end": [
+        35,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "body",
+      "members": [
+        "back",
+        "belly"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "left-claw-shape",
+      "members": [
+        "left-claw",
+        "left-pincer"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-leg",
+      "members": [
+        "left-leg-1",
+        "left-leg-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-claw-shape",
+      "members": [
+        "right-claw",
+        "right-pincer"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-leg",
+      "members": [
+        "right-leg-1",
+        "right-leg-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "left-arm",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-arm",
+        "left-claw-shape"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-leg",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-foot",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-arm",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-arm",
+        "right-claw-shape"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-leg",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-foot",
+        "body"
+      ]
+    }
+  ],
+  "variant_of": "crab",
+  "variant_label": "Stretch to SQUARE"
+}

@@ -18,8 +18,8 @@ class RoundBudVase(Solo48):
 
     def build(self) -> None:
         self.add_polyline('mouth',(16,30),(24,30),(32,30))
-        self.add_arc('vase-right',(32,30),(24,46),radius_x=10,radius_y=10)
-        self.add_arc('vase-left',(24,46),(16,30),radius_x=10,radius_y=10)
+        self.add_arc('vase-right',(32,30),(24,42),radius_x=10,radius_y=10)
+        self.add_arc('vase-left',(24,42),(16,30),radius_x=10,radius_y=10)
         self.add_contour('vase-body','vase-right','vase-left')
         self.relate('connect','mouth','vase-body')
         for name,x,y in [('left',8,12),('top',22,5),('right',40,9),('side',40,23)]:

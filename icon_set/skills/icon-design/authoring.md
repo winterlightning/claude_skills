@@ -4,6 +4,10 @@ The practical drawing guide. It deliberately does not repeat profile numbers or
 validation commands — those are in the contracts and in
 [validation.md](validation.md).
 
+Before placing individual points, follow [symbol-construction.md](symbol-construction.md)
+to identify the symbol hierarchy and encode shared shape, repeat, symmetry and
+connection parameters. Apply the techniques below to that structure.
+
 ## Default aesthetic: Lucide geometry, smoothness, appropriate balance
 
 Use the local Lucide bundle as the first construction reference when designing
@@ -102,8 +106,8 @@ Two tools for this:
 
 ## Spacing
 
-Distinct parts need the profile's minimum ink clearance: 2 / 2 / 2 units for
-SUB32 / SOLO48 / CONTAINER64, which is 6 / 6 / 6 between equal-stroke
+Distinct parts need the profile's minimum ink clearance: 2 / 4 / 2 units for
+SUB32 / SOLO48 / CONTAINER64, which is 6 / 8 / 6 between equal-stroke
 centerlines.
 
 - **Straight parts may sit exactly on the minimum.** The measurement is exact.

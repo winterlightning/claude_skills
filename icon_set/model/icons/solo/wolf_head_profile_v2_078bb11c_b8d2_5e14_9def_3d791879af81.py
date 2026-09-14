@@ -18,6 +18,6 @@ class WolfHeadProfileVariant2(Solo48):
     keywords = ('wolf', 'head', 'profile', 'ears', 'snout', 'canine', 'dog', 'wild')
 
     def build(self) -> None:
-        # SQUARE centerline extremes (2,2)-(46,46). Directional profile.
-        self.add_polyline('outline', (2,40), (12,23), (17,17), (18,2), (28,15), (33,20), (46,24), (43,31), (32,32), (24,39), (24,46))
+        # SQUARE centerline extremes (6,6)-(42,42). Directional profile.
+        self.add_polyline('outline', (6,40), (12,23), (17,17), (18,6), (28,15), (33,20), (42,24), (42,31), (32,32), (24,39), (24,42))
         self.add_dot('eye', (24,24))

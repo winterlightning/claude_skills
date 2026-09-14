@@ -1,0 +1,255 @@
+{
+  "icon_id": "hydroelectric-dam-stretch-hrect-l",
+  "name": "hydroelectric-dam-stretch-hrect-l",
+  "aliases": [],
+  "category": "objects/landmarks",
+  "keywords": [
+    "dam",
+    "hydroelectric",
+    "water",
+    "reservoir",
+    "spillway",
+    "power",
+    "energy",
+    "infrastructure"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left-pier-1",
+      "start": [
+        4,
+        31
+      ],
+      "end": [
+        7,
+        9
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-pier-2",
+      "start": [
+        7,
+        9
+      ],
+      "end": [
+        14,
+        9
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-pier-3",
+      "start": [
+        14,
+        9
+      ],
+      "end": [
+        14,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-pier-4",
+      "start": [
+        14,
+        14
+      ],
+      "end": [
+        11,
+        31
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-pier-1",
+      "start": [
+        35,
+        32
+      ],
+      "end": [
+        36,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-pier-2",
+      "start": [
+        36,
+        14
+      ],
+      "end": [
+        36,
+        8
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-pier-3",
+      "start": [
+        36,
+        8
+      ],
+      "end": [
+        44,
+        8
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-pier-4",
+      "start": [
+        44,
+        8
+      ],
+      "end": [
+        44,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "crest",
+      "start": [
+        14,
+        14
+      ],
+      "end": [
+        36,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "flow-left",
+      "start": [
+        22,
+        22
+      ],
+      "end": [
+        20,
+        30
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "flow-right",
+      "start": [
+        31,
+        19
+      ],
+      "end": [
+        30,
+        27
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wave-left",
+      "start": [
+        8,
+        37
+      ],
+      "end": [
+        24,
+        37
+      ],
+      "radius_x": 8,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "wave-right",
+      "start": [
+        24,
+        37
+      ],
+      "end": [
+        40,
+        37
+      ],
+      "radius_x": 8,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "left-pier",
+      "members": [
+        "left-pier-1",
+        "left-pier-2",
+        "left-pier-3",
+        "left-pier-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-pier",
+      "members": [
+        "right-pier-1",
+        "right-pier-2",
+        "right-pier-3",
+        "right-pier-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "water",
+      "members": [
+        "wave-left",
+        "wave-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "crest",
+        "left-pier"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "crest",
+        "right-pier"
+      ]
+    }
+  ],
+  "variant_of": "hydroelectric-dam",
+  "variant_label": "Stretch to HRECT_L"
+}

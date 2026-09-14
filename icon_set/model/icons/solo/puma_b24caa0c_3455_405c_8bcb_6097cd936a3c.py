@@ -17,14 +17,14 @@ class ProwlingPuma(Solo48):
     keywords = ('puma', 'cougar', 'mountain lion', 'prowl', 'big cat', 'feline', 'stalk', 'wildlife')
 
     def build(self) -> None:
-        self.add_line('outline-1', (2, 20), (5, 17))
-        self.add_line('outline-2', (5, 17), (8, 8))
+        self.add_line('outline-1', (6, 20), (6, 17))
+        self.add_line('outline-2', (6, 17), (8, 8))
         self.add_line('outline-3', (8, 8), (13, 13))
         self.add_line('outline-4', (13, 13), (30, 13))
         self.add_arc('outline-5', (30, 13), (40, 19), radius_x=14, radius_y=14, sweep=True)
-        self.add_line('outline-6', (40, 19), (46, 25))
+        self.add_line('outline-6', (40, 19), (42, 25))
         self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', closed=False)
-        self.add_arc('underside-1', (2, 20), (8, 24), radius_x=6, radius_y=4, sweep=False)
+        self.add_arc('underside-1', (6, 20), (8, 24), radius_x=6, radius_y=4, sweep=False)
         self.add_line('underside-2', (8, 24), (13, 24))
         self.add_line('underside-3', (13, 24), (8, 33))
         self.add_arc('underside-4', (8, 33), (11, 40), radius_x=4, radius_y=5, sweep=False)

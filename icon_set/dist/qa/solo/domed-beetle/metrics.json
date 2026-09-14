@@ -3,12 +3,16 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 44.0193) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.0, 0.0193], tolerance 0.0)",
+    "mic [right-midleg]: parallel straight edges right-midleg-2 and side-r are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [case]: parallel straight edges side-l and left-midleg-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "head:subpath-1",
@@ -31,15 +35,15 @@
         "elementId": "case",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 16 A 12 12 0 0 1 36 28 L 36 34 A 12 12 0 0 1 24 46 A 12 12 0 0 1 12 34 L 12 28 A 12 12 0 0 1 24 16 Z",
+        "pathData": "M 24 16 A 12 12 0 0 1 36 28 L 36 34 A 12 12 0 0 1 24 42 A 12 12 0 0 1 12 34 L 12 28 A 12 12 0 0 1 24 16 Z",
         "bounds": [
           12.0,
           16.0,
           36.0,
-          46.0
+          42.01916815520957
         ],
         "segmentCount": 259,
-        "approximationError": 0.0009035892710890777,
+        "approximationError": 0.0009035892706379157,
         "hasCurves": true
       },
       {
@@ -47,12 +51,12 @@
         "elementId": "seam",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 16 L 24 46",
+        "pathData": "M 24 16 L 24 42",
         "bounds": [
           24.0,
           16.0,
           24.0,
-          46.0
+          42.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -63,10 +67,10 @@
         "elementId": "left-antenna",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 16 L 12 8 L 12 2",
+        "pathData": "M 16 16 L 12 8 L 12 6",
         "bounds": [
           12.0,
-          2.0,
+          6.0,
           16.0,
           16.0
         ],
@@ -79,9 +83,9 @@
         "elementId": "left-foreleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 28 L 4 20 L 4 14",
+        "pathData": "M 12 28 L 6 20 L 6 14",
         "bounds": [
-          4.0,
+          6.0,
           14.0,
           12.0,
           28.0
@@ -95,9 +99,9 @@
         "elementId": "left-midleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 28 L 2 28 L 2 34",
+        "pathData": "M 12 28 L 6 28 L 6 34",
         "bounds": [
-          2.0,
+          6.0,
           28.0,
           12.0,
           34.0
@@ -111,12 +115,12 @@
         "elementId": "left-rearleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 34 L 6 40 L 6 46",
+        "pathData": "M 12 34 L 6 40 L 6 42",
         "bounds": [
           6.0,
           34.0,
           12.0,
-          46.0
+          42.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -127,10 +131,10 @@
         "elementId": "right-antenna",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 16 L 36 8 L 36 2",
+        "pathData": "M 32 16 L 36 8 L 36 6",
         "bounds": [
           32.0,
-          2.0,
+          6.0,
           36.0,
           16.0
         ],
@@ -143,11 +147,11 @@
         "elementId": "right-foreleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 28 L 44 20 L 44 14",
+        "pathData": "M 36 28 L 42 20 L 42 14",
         "bounds": [
           36.0,
           14.0,
-          44.0,
+          42.0,
           28.0
         ],
         "segmentCount": 2,
@@ -159,11 +163,11 @@
         "elementId": "right-midleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 28 L 46 28 L 46 34",
+        "pathData": "M 36 28 L 42 28 L 42 34",
         "bounds": [
           36.0,
           28.0,
-          46.0,
+          42.0,
           34.0
         ],
         "segmentCount": 2,
@@ -175,12 +179,12 @@
         "elementId": "right-rearleg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 34 L 42 40 L 42 46",
+        "pathData": "M 36 34 L 42 40 L 42 42",
         "bounds": [
           36.0,
           34.0,
           42.0,
-          46.0
+          42.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -230,10 +234,10 @@
           "right-rearleg"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.01916815520957
         ]
       }
     ],
@@ -1011,8 +1015,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -1029,7 +1033,7 @@
       "flattenedSegments": 406,
       "adaptiveNodes": 763,
       "distanceTests": 0,
-      "connectionTests": 2
+      "connectionTests": 4
     },
     "raw_status": "pass",
     "canvas": 48
@@ -1082,19 +1086,19 @@
           12.5,
           16.5,
           11.0,
-          29.0
+          25.0312
         ],
         "bbox_ship_px": [
           11.0,
-          29.0
+          25.0312
         ],
         "bbox_design_u": [
           11.0,
-          29.0
+          25.0312
         ],
-        "area_ship_px2": 262.2568,
-        "equivalent_diameter_ship_px": 18.2734,
-        "equivalent_diameter_design_u": 18.2734,
+        "area_ship_px2": 224.499,
+        "equivalent_diameter_ship_px": 16.9068,
+        "equivalent_diameter_design_u": 16.9068,
         "inscribed_diameter_ship_px": 11.0,
         "inscribed_diameter_design_u": 11.0,
         "inscribed_radius_ship_px": 5.5,
@@ -1114,19 +1118,19 @@
           24.5,
           16.5,
           11.0,
-          29.0
+          25.0312
         ],
         "bbox_ship_px": [
           11.0,
-          29.0
+          25.0312
         ],
         "bbox_design_u": [
           11.0,
-          29.0
+          25.0312
         ],
-        "area_ship_px2": 262.2539,
-        "equivalent_diameter_ship_px": 18.2733,
-        "equivalent_diameter_design_u": 18.2733,
+        "area_ship_px2": 224.4971,
+        "equivalent_diameter_ship_px": 16.9068,
+        "equivalent_diameter_design_u": 16.9068,
         "inscribed_diameter_ship_px": 11.0,
         "inscribed_diameter_design_u": 11.0,
         "inscribed_radius_ship_px": 5.5,
@@ -1160,14 +1164,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "f6404a2db314f4252bfd7dee7d743a6385b046d6e8c2895db603e503aad72bf8",
+  "svg_sha256": "7612d4eb119d4d99c6aa7a015d8a6b4f17f8d0437878f13038c5ea3759f2e127",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -1197,13 +1201,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

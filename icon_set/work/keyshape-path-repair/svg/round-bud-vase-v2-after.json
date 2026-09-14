@@ -1,0 +1,346 @@
+{
+  "icon_id": "round-bud-vase-v2-stretch-vrect-l",
+  "name": "round-bud-vase-v2-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/decoration",
+  "keywords": [
+    "vase",
+    "buds",
+    "flowers",
+    "stems",
+    "bouquet",
+    "plant",
+    "decor"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "mouth-1",
+      "start": [
+        19,
+        29
+      ],
+      "end": [
+        24,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "mouth-2",
+      "start": [
+        24,
+        29
+      ],
+      "end": [
+        29,
+        29
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "vase-right",
+      "start": [
+        29,
+        29
+      ],
+      "end": [
+        24,
+        44
+      ],
+      "radius_x": 8,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "vase-left",
+      "start": [
+        24,
+        44
+      ],
+      "end": [
+        19,
+        29
+      ],
+      "radius_x": 8,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-bud-a",
+      "start": [
+        11,
+        16
+      ],
+      "end": [
+        11,
+        10
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-bud-b",
+      "start": [
+        11,
+        10
+      ],
+      "end": [
+        11,
+        16
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left-stem",
+      "start": [
+        11,
+        16
+      ],
+      "end": [
+        24,
+        29
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-bud-a",
+      "start": [
+        22,
+        9
+      ],
+      "end": [
+        22,
+        4
+      ],
+      "radius_x": 3,
+      "radius_y": 1,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-bud-b",
+      "start": [
+        22,
+        4
+      ],
+      "end": [
+        22,
+        9
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "top-stem",
+      "start": [
+        22,
+        9
+      ],
+      "end": [
+        24,
+        29
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-bud-a",
+      "start": [
+        36,
+        15
+      ],
+      "end": [
+        36,
+        6
+      ],
+      "radius_x": 7,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-bud-b",
+      "start": [
+        36,
+        6
+      ],
+      "end": [
+        36,
+        15
+      ],
+      "radius_x": 7,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right-stem",
+      "start": [
+        36,
+        15
+      ],
+      "end": [
+        24,
+        29
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "mouth",
+      "members": [
+        "mouth-1",
+        "mouth-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "vase-body",
+      "members": [
+        "vase-right",
+        "vase-left"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-bud",
+      "members": [
+        "left-bud-a",
+        "left-bud-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "top-bud",
+      "members": [
+        "top-bud-a",
+        "top-bud-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "right-bud",
+      "members": [
+        "right-bud-a",
+        "right-bud-b"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "mouth",
+        "vase-body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-stem",
+        "left-bud"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-stem",
+        "mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "top-stem",
+        "top-bud"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "top-stem",
+        "mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-stem",
+        "right-bud"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-stem",
+        "mouth"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-stem",
+        "top-stem"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-stem",
+        "right-stem"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "top-stem",
+        "right-stem"
+      ]
+    }
+  ],
+  "variant_of": "round-bud-vase-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

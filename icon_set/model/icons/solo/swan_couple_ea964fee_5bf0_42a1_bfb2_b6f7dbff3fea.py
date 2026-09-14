@@ -1,4 +1,4 @@
-"""Two mirrored swans make a heart between their necks. Bounds (2,8)-(46,40). Lucide bird informs open body contours. Beaks and eyes omitted to preserve the central opening."""
+"""Two mirrored swans make a heart between their necks. Bounds (6,8)-(42,40). Lucide bird informs open body contours. Beaks and eyes omitted to preserve the central opening."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -20,11 +20,11 @@ class SwanCoupleHeart(Solo48):
         for side in (-1,1):
             p=lambda x,y:(24+side*x,y)
             tag='left' if side<0 else 'right'
-            self.add_arc(tag+'-head-inner',p(3,14),p(9,8),radius_x=6,sweep=(side>0))
+            self.add_arc(tag+'-head-inner',p(6,14),p(9,8),radius_x=6,sweep=(side>0))
             self.add_arc(tag+'-head-outer',p(9,8),p(15,14),radius_x=6,sweep=(side>0))
             self.add_arc(tag+'-neck',p(15,14),p(8,27),radius_x=17,sweep=(side>0))
-            self.add_arc(tag+'-breast',p(8,27),p(0,34),radius_x=12,sweep=(side>0))
-            self.add_arc(tag+'-body-inner',p(0,34),p(9,40),radius_x=9,radius_y=6,sweep=(side<0))
+            self.add_arc(tag+'-breast',p(8,27),p(6,34),radius_x=12,sweep=(side>0))
+            self.add_arc(tag+'-body-inner',p(6,34),p(9,40),radius_x=9,radius_y=6,sweep=(side<0))
             self.add_line(tag+'-body-base',p(9,40),p(12,40))
             self.add_arc(tag+'-body-outer',p(12,40),p(22,30),radius_x=10,sweep=(side<0))
             self.add_line(tag+'-tail',p(22,30),p(22,26))

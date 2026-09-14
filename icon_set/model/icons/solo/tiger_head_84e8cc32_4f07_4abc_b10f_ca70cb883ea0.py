@@ -18,15 +18,15 @@ class SabreToothHead(Solo48):
 
     def build(self) -> None:
         # Visible keyshape extremes: (0, 0, 48, 48).
-        self.add_line("skull", (2,20), (32,7))
+        self.add_line("skull", (6,20), (32,7))
         self.add_arc("ear", (32,7), (42,7), radius_x=5)
-        self.add_arc("cheek", (46,20), (36,38), radius_x=10, radius_y=18)
+        self.add_arc("cheek", (42,20), (36,38), radius_x=10, radius_y=18)
         self.add_arc("jaw", (36,38), (16,36), radius_x=20, sweep=False)
-        self.add_line("lower-jaw", (16,36), (20,46))
-        self.add_arc("fang-outer", (20,46), (10,30), radius_x=20)
+        self.add_line("lower-jaw", (16,36), (20,42))
+        self.add_arc("fang-outer", (20,42), (10,30), radius_x=20)
         self.add_line("muzzle", (10,30), (6,32))
-        self.add_arc("nose", (6,32), (2,28), radius_x=4)
-        self.add_line("nose-front", (2,28), (2,20))
+        self.add_arc("nose", (6,32), (6,28), radius_x=4)
+        self.add_line("nose-front", (6,28), (6,20))
         self.add_contour("head", "cheek", "jaw", "lower-jaw", "fang-outer", "muzzle", "nose", "nose-front", "skull", "ear")
         self.add_arc("upper-jaw", (10,30), (26,26), radius_x=24)
         self.relate("connect", "head", "upper-jaw")

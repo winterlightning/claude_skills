@@ -1,0 +1,162 @@
+{
+  "icon_id": "monocle-with-cord-stretch-square",
+  "name": "monocle-with-cord-stretch-square",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "monocle",
+    "glasses",
+    "lens",
+    "eyeglass",
+    "cord",
+    "vintage",
+    "eyewear",
+    "accessory"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "lens-right",
+      "start": [
+        17,
+        6
+      ],
+      "end": [
+        29,
+        20
+      ],
+      "radius_x": 12,
+      "radius_y": 12,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-lower",
+      "start": [
+        29,
+        20
+      ],
+      "end": [
+        17,
+        29
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-left",
+      "start": [
+        17,
+        29
+      ],
+      "end": [
+        17,
+        6
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "cord-down",
+      "start": [
+        29,
+        20
+      ],
+      "end": [
+        29,
+        38
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "cord-bottom",
+      "start": [
+        29,
+        38
+      ],
+      "end": [
+        42,
+        38
+      ],
+      "radius_x": 7,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "cord-up",
+      "start": [
+        42,
+        38
+      ],
+      "end": [
+        42,
+        25
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "lens",
+      "members": [
+        "lens-right",
+        "lens-lower",
+        "lens-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "cord",
+      "members": [
+        "cord-down",
+        "cord-bottom",
+        "cord-up"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "lens",
+        "cord"
+      ]
+    }
+  ],
+  "variant_of": "monocle-with-cord",
+  "variant_label": "Stretch to SQUARE"
+}

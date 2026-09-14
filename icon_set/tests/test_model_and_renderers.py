@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import unittest
 from pathlib import Path
 from tempfile import TemporaryDirectory
@@ -13,8 +14,10 @@ from icon_set.model.keyshapes import Keyshape
 from icon_set.model.position import PlacedIcon, Position
 from icon_set.model.primitives import (
     Arc,
+    Contour,
     Line,
     Point,
+    Relationship,
     primitive_from_dict,
     primitive_to_dict,
     translate,
@@ -157,6 +160,51 @@ class CombinedIconTests(unittest.TestCase):
         combined = CombinedIcon("x", "SIDE_COMBINE", Keyshape.SQUARE)
         self.assertIs(combined.profile, Profile.CONTAINER64)
         self.assertEqual(combined.family, "container")
+
+
+class JsonGraphExportTests(unittest.TestCase):
+    def test_exported_geometry_can_reproduce_the_svg(self) -> None:
+        icon = Heart()
+        icon.add_anchor("cœur", (16, 16))
+        icon.relate("connect", "lobe-left-inner", "lobe-left-outer")
+        before = icon.to_svg()
+        with TemporaryDirectory() as directory:
+            destination = Path(directory) / "nested" / "heart.json"
+            self.assertEqual(icon.export_json_graph(str(destination)), destination)
+            document = destination.read_text(encoding="utf-8")
+            record = json.loads(document)
+            self.assertIn("cœur", document)
+            self.assertEqual(icon.export_json_graph(destination).read_text(encoding="utf-8"), document)
+
+        restored = Icon(
+            record["icon_id"], Profile[record["profile"]],
+            semantic_role=record["semantic_role"], keyshape=Keyshape[record["keyshape"]],
+            primitives=[primitive_from_dict(p) for p in record["primitives"]],
+            contours=[Contour(c["contour_id"], tuple(c["members"]), c["closed"])
+                      for c in record["contours"]],
+            relationships=[Relationship(r["kind"], tuple(r["members"]))
+                           for r in record["relationships"]],
+        )
+        for name, point in record["anchors"].items():
+            restored.add_anchor(name, tuple(point))
+        self.assertEqual(restored.draw(), icon.draw())
+        self.assertEqual(restored.to_svg(), before)
+        self.assertEqual(icon.to_svg(), before)
+
+    def test_composition_preserves_child_placement_and_resolved_geometry(self) -> None:
+        child = Heart()
+        icon = CombinedIcon(
+            "placed-heart", "CONTAINER_COMBINE", Keyshape.SQUARE,
+            icons=[child], positions=[Position(16, 16)],
+        )
+        with TemporaryDirectory() as directory:
+            record = json.loads(icon.export_json_graph(Path(directory) / "graph.json").read_text())
+        self.assertEqual(record["children"][0]["icon_id"], child.icon_id)
+        self.assertEqual(record["children"][0]["position"], [16, 16])
+        primitive = record["primitives"][0]
+        self.assertEqual(primitive["element_id"], "0:heart:lobe-left-inner")
+        self.assertEqual(primitive["start"], [child.primitives[0].start.x + 16,
+                                              child.primitives[0].start.y + 16])
 
 
 class RendererTests(unittest.TestCase):

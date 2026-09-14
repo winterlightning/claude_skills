@@ -17,11 +17,11 @@ class BabyGirlFace(Solo48):
     keywords = ('baby', 'girl', 'face', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
+        # Centerline extremes: (6,6)-(42,42).
         self.add_arc('temple-right', (36, 14), (40, 24), radius_x=14, radius_y=14, sweep=True, large_arc=False)
         self.add_arc('ear-right', (40, 24), (40, 32), radius_x=6, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('chin-right', (40, 32), (24, 46), radius_x=16, radius_y=14, sweep=True, large_arc=False)
-        self.add_arc('chin-left', (24, 46), (8, 32), radius_x=16, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('chin-right', (40, 32), (24, 42), radius_x=16, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('chin-left', (24, 42), (8, 32), radius_x=16, radius_y=14, sweep=True, large_arc=False)
         self.add_arc('ear-left', (8, 32), (8, 24), radius_x=6, radius_y=4, sweep=True, large_arc=False)
         self.add_arc('temple-left', (8, 24), (12, 14), radius_x=14, radius_y=14, sweep=True, large_arc=False)
         self.add_contour('face', 'temple-right', 'ear-right', 'chin-right', 'chin-left', 'ear-left', 'temple-left', closed=False)
@@ -31,12 +31,12 @@ class BabyGirlFace(Solo48):
         self.add_arc('knot-top', (21, 8), (27, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
         self.add_arc('knot-bottom', (27, 8), (21, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
         self.add_contour('knot', 'knot-top', 'knot-bottom', closed=True)
-        self.add_line('bow-left-top', (21, 8), (12, 2))
-        self.add_arc('bow-left-end', (12, 2), (12, 14), radius_x=6, radius_y=6, sweep=False, large_arc=False)
+        self.add_line('bow-left-top', (21, 8), (12, 6))
+        self.add_arc('bow-left-end', (12, 6), (12, 14), radius_x=6, radius_y=6, sweep=False, large_arc=False)
         self.add_line('bow-left-bottom', (12, 14), (21, 8))
         self.add_contour('bow-left', 'bow-left-top', 'bow-left-end', 'bow-left-bottom', closed=True)
-        self.add_line('bow-right-top', (27, 8), (36, 2))
-        self.add_arc('bow-right-end', (36, 2), (36, 14), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_line('bow-right-top', (27, 8), (36, 6))
+        self.add_arc('bow-right-end', (36, 6), (36, 14), radius_x=6, radius_y=6, sweep=True, large_arc=False)
         self.add_line('bow-right-bottom', (36, 14), (27, 8))
         self.add_contour('bow-right', 'bow-right-top', 'bow-right-end', 'bow-right-bottom', closed=True)
         self.relate("connect", 'knot', 'bow-left')

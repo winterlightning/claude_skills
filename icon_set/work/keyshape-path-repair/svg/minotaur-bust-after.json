@@ -1,0 +1,351 @@
+{
+  "icon_id": "minotaur-bust-stretch-square",
+  "name": "minotaur-bust-stretch-square",
+  "aliases": [],
+  "category": "objects/culture",
+  "keywords": [
+    "minotaur",
+    "bull",
+    "mythology",
+    "greek",
+    "horns",
+    "beast",
+    "labyrinth",
+    "legend"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "brow",
+      "start": [
+        13,
+        13
+      ],
+      "end": [
+        35,
+        13
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cheek-right",
+      "start": [
+        35,
+        13
+      ],
+      "end": [
+        34,
+        28
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "jaw-right",
+      "start": [
+        34,
+        28
+      ],
+      "end": [
+        26,
+        35
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "chin",
+      "start": [
+        26,
+        35
+      ],
+      "end": [
+        22,
+        35
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "jaw-left",
+      "start": [
+        22,
+        35
+      ],
+      "end": [
+        14,
+        28
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "cheek-left",
+      "start": [
+        14,
+        28
+      ],
+      "end": [
+        13,
+        13
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "horn-left",
+      "start": [
+        13,
+        13
+      ],
+      "end": [
+        9,
+        6
+      ],
+      "radius_x": 7,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "horn-right",
+      "start": [
+        35,
+        13
+      ],
+      "end": [
+        39,
+        6
+      ],
+      "radius_x": 7,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "ear-left-1",
+      "start": [
+        13,
+        13
+      ],
+      "end": [
+        8,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ear-right-1",
+      "start": [
+        35,
+        13
+      ],
+      "end": [
+        40,
+        21
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-left",
+      "start": [
+        6,
+        42
+      ],
+      "end": [
+        14,
+        36
+      ],
+      "radius_x": 8,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "neck-left",
+      "start": [
+        14,
+        36
+      ],
+      "end": [
+        22,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "neck-right",
+      "start": [
+        26,
+        35
+      ],
+      "end": [
+        34,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-right",
+      "start": [
+        34,
+        36
+      ],
+      "end": [
+        42,
+        42
+      ],
+      "radius_x": 8,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "muzzle",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        26,
+        26
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "head",
+      "members": [
+        "brow",
+        "cheek-right",
+        "jaw-right",
+        "chin",
+        "jaw-left",
+        "cheek-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "ear-left",
+      "members": [
+        "ear-left-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "ear-right",
+      "members": [
+        "ear-right-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "bust-left",
+      "members": [
+        "shoulder-left",
+        "neck-left"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "bust-right",
+      "members": [
+        "neck-right",
+        "shoulder-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "horn-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "horn-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "ear-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "ear-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "bust-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "bust-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "horn-left",
+        "ear-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "horn-right",
+        "ear-right"
+      ]
+    }
+  ],
+  "variant_of": "minotaur-bust",
+  "variant_label": "Stretch to SQUARE"
+}

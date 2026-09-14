@@ -17,10 +17,10 @@ class ShantyHouseCluster(Solo48):
     keywords = ('shanty', 'slum', 'village', 'houses', 'informal', 'settlement', 'shelter', 'housing')
 
     def build(self) -> None:
-        # Centerline extremes (5,2)-(43,46).
-        self.add_polyline("front-left", (5,46), (5,29), (14,23), (24,29), (24,46))
-        self.add_polyline("front-right", (24,29), (24,22), (34,16), (37,18), (43,22), (43,46))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_polyline("front-left", (6,42), (6,29), (14,23), (24,29), (24,42))
+        self.add_polyline("front-right", (24,29), (24,22), (34,16), (37,18), (42,22), (42,42))
         self.relate("connect", "front-left", "front-right")
-        self.add_polyline("rear", (14,23), (14,10), (26,2), (37,9), (37,18))
+        self.add_polyline("rear", (14,23), (14,10), (26,6), (37,9), (37,18))
         self.relate("connect", "rear", "front-left")
         self.relate("connect", "rear", "front-right")

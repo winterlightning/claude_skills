@@ -1,4 +1,4 @@
-"""White House pediment, flag and broad wings. Centerline extremes (2,5)-(46,43). Lucide landmark informs portico rhythm. Window ticks omitted."""
+'White House with pediment, broad wings and right-facing flag. HRECT_XL centerlines (6,8)-(42,40) emphasizes breadth. Lucide landmark informs pediment and columns; window ticks and internal portico divisions omitted; arched doorway retained.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,19 +16,13 @@ class WhiteHouse(Solo48):
     keywords = ('white house', 'washington', 'usa', 'president', 'government', 'mansion', 'landmark', 'flag')
 
     def build(self) -> None:
-        self.add_polyline('flag', (24, 13), (34, 13), (34, 5), (24, 5), (24, 13), (24, 20), closed=False)
-        self.add_polyline('pediment', (12, 28), (24, 20), (36, 28), closed=True)
-        self.add_polyline('facade', (12, 28), (12, 43), (20, 43), (28, 43), (36, 43), (36, 28), closed=False)
-        self.add_polyline('left-wing', (12, 28), (2, 28), (2, 43), (12, 43), closed=False)
-        self.add_polyline('right-wing', (36, 28), (46, 28), (46, 43), (36, 43), closed=False)
-        self.add_line('door-left', (20, 43), (20, 39))
-        self.add_arc('door-arch', (20, 39), (28, 39), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('door-right', (28, 39), (28, 43))
-        self.add_contour('door', 'door-left', 'door-arch', 'door-right', closed=False)
-        self.relate("connect", 'flag', 'pediment')
-        self.relate("connect", 'pediment', 'facade')
-        self.relate("connect", 'pediment', 'left-wing')
-        self.relate("connect", 'pediment', 'right-wing')
-        self.relate("connect", 'facade', 'left-wing')
-        self.relate("connect", 'facade', 'right-wing')
-        self.relate("connect", 'facade', 'door')
+        axis, left, right, bottom = 24, 4, 44, 40
+        self.add_polyline('flag',(axis,16),(34,16),(34,8),(axis,8),(axis,16),(axis,23))
+        self.add_polyline('pediment',(14,30),(axis,23),(34,30))
+        self.add_polyline('facade',(14,30),(left,30),(left,bottom),(20,bottom),(28,bottom),(right,bottom),(right,30),(34,30))
+        self.add_line('door-left',(20,bottom),(20,36))
+        self.add_arc('door-arch',(20,36),(28,36),radius_x=4)
+        self.add_line('door-right',(28,36),(28,bottom))
+        self.add_contour('door','door-left','door-arch','door-right')
+        for a,b in [('flag','pediment'),('pediment','facade'),('door','facade')]:
+            self.relate('connect',a,b)

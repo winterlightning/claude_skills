@@ -1,4 +1,4 @@
-"""Baby bottle with teat shoulders extended to both body sidewalls. VRECT_M (11,2)-(37,46). Mirrored elliptical shoulders preserve the nipple and rounded body; no detail omitted. No additional useful Lucide match."""
+"""Baby bottle with teat shoulders extended to both body sidewalls. VRECT_M (11,6)-(37,42). Mirrored elliptical shoulders preserve the nipple and rounded body; no detail omitted. No additional useful Lucide match."""
 # Variant of baby-bottle; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,9 +19,9 @@ class BabyBottleVariant2(Solo48):
 
     def build(self) -> None:
         self.add_line('body-1', (11, 18), (11, 39))
-        self.add_arc('body-2', (11, 39), (18, 46), radius_x=7, radius_y=7, sweep=False)
-        self.add_line('body-3', (18, 46), (30, 46))
-        self.add_arc('body-4', (30, 46), (37, 39), radius_x=7, radius_y=7, sweep=False)
+        self.add_arc('body-2', (11, 39), (18, 42), radius_x=7, radius_y=7, sweep=False)
+        self.add_line('body-3', (18, 42), (30, 42))
+        self.add_arc('body-4', (30, 42), (37, 39), radius_x=7, radius_y=7, sweep=False)
         self.add_line('body-5', (37, 39), (37, 18))
         self.add_line('body-6', (37, 18), (11, 18))
         self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', closed=True)

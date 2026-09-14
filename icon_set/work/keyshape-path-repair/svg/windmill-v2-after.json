@@ -1,0 +1,247 @@
+{
+  "icon_id": "windmill-v2-stretch-vrect-l",
+  "name": "windmill-v2-stretch-vrect-l",
+  "aliases": [],
+  "category": "places/landmarks",
+  "keywords": [
+    "windmill",
+    "netherlands",
+    "dutch",
+    "mill",
+    "sails",
+    "landmark",
+    "countryside",
+    "energy"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "sail-down-1",
+      "start": [
+        8,
+        4
+      ],
+      "end": [
+        24,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "sail-down-2",
+      "start": [
+        24,
+        17
+      ],
+      "end": [
+        40,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "sail-up-1",
+      "start": [
+        8,
+        29
+      ],
+      "end": [
+        24,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "sail-up-2",
+      "start": [
+        24,
+        17
+      ],
+      "end": [
+        40,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-1",
+      "start": [
+        14,
+        32
+      ],
+      "end": [
+        8,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-2",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        19,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "door-left",
+      "start": [
+        19,
+        44
+      ],
+      "end": [
+        19,
+        39
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "door-arch",
+      "start": [
+        19,
+        39
+      ],
+      "end": [
+        29,
+        39
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "door-right",
+      "start": [
+        29,
+        39
+      ],
+      "end": [
+        29,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-right-1",
+      "start": [
+        29,
+        44
+      ],
+      "end": [
+        40,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-right-2",
+      "start": [
+        40,
+        44
+      ],
+      "end": [
+        34,
+        32
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "sail-down",
+      "members": [
+        "sail-down-1",
+        "sail-down-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "sail-up",
+      "members": [
+        "sail-up-1",
+        "sail-up-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "body",
+      "members": [
+        "body-1",
+        "body-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "body-right",
+      "members": [
+        "body-right-1",
+        "body-right-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "door",
+      "members": [
+        "door-left",
+        "door-arch",
+        "door-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "sail-down",
+        "sail-up"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "door"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body-right",
+        "door"
+      ]
+    }
+  ],
+  "variant_of": "windmill-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink reaches only radius 20.0000 about (24, 24); CIRCLE requires at least 21.5 so the artwork touches its envelope"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 2 A 22 22 0 0 1 24 46 A 22 22 0 0 1 24 2 Z",
+        "pathData": "M 24 6 A 22 22 0 0 1 24 42 A 22 22 0 0 1 24 6 Z",
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          14.649110640673513,
+          6.0,
+          33.35088935932649,
+          42.0
         ],
-        "segmentCount": 513,
-        "approximationError": 0.00041676768696644083,
+        "segmentCount": 257,
+        "approximationError": 0.0006164853746027146,
         "hasCurves": true
       },
       {
@@ -31,15 +33,15 @@
         "elementId": "hair",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 2 A 7 7 0 0 1 24 16",
+        "pathData": "M 24 6 A 7 7 0 0 1 24 16",
         "bounds": [
           24.0,
-          2.0,
-          31.0,
+          6.0,
+          26.101020514433642,
           16.0
         ],
-        "segmentCount": 128,
-        "approximationError": 0.0005279282063845133,
+        "segmentCount": 64,
+        "approximationError": 0.0005408799342256941,
         "hasCurves": true
       }
     ],
@@ -59,10 +61,10 @@
           "hair"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          14.649110640673513,
+          6.0,
+          33.35088935932649,
+          42.0
         ]
       }
     ],
@@ -76,7 +78,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          2.0
+          6.0
         ]
       }
     ],
@@ -96,14 +98,14 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            2.0
+            6.0
           ]
         }
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -117,8 +119,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 6,
-      "flattenedSegments": 641,
-      "adaptiveNodes": 1277,
+      "flattenedSegments": 321,
+      "adaptiveNodes": 637,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -134,34 +136,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.2031,
-          30.9219
+          23.9844,
+          25.2969
         ],
         "bbox_viewbox": [
-          2.5,
-          2.5,
-          43.0,
-          43.0
+          15.1562,
+          6.6562,
+          17.6875,
+          34.7188
         ],
         "bbox_ship_px": [
-          43.0,
-          43.0
+          17.6875,
+          34.7188
         ],
         "bbox_design_u": [
-          43.0,
-          43.0
+          17.6875,
+          34.7188
         ],
-        "area_ship_px2": 1432.8525,
-        "equivalent_diameter_ship_px": 42.7126,
-        "equivalent_diameter_design_u": 42.7126,
-        "inscribed_diameter_ship_px": 29.1373,
-        "inscribed_diameter_design_u": 29.1373,
-        "inscribed_radius_ship_px": 14.5687,
-        "inscribed_radius_design_u": 14.5687,
+        "area_ship_px2": 421.2402,
+        "equivalent_diameter_ship_px": 23.159,
+        "equivalent_diameter_design_u": 23.159,
+        "inscribed_diameter_ship_px": 17.625,
+        "inscribed_diameter_design_u": 17.625,
+        "inscribed_radius_ship_px": 8.8125,
+        "inscribed_radius_design_u": 8.8125,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 13.0687,
-        "equivalent_diameter_at_authored_stroke_design_u": 26.1374
+        "equivalent_radius_at_authored_stroke_design_u": 7.3125,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.625
       }
     ],
     "pinches": [],
@@ -187,14 +189,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "16cc7f18c82e1efb0d48c27c73e5f12a0f76c7f174097507c5faac0127fc9aa0",
+  "svg_sha256": "e1db59ffee25bf4fe61adb1025b886fe7097a52b191215d0e31e71ac52d96f4e",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -224,13 +226,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

@@ -1,0 +1,221 @@
+{
+  "icon_id": "three-bead-drop-earring-stretch-vrect-l",
+  "name": "three-bead-drop-earring-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "earring",
+    "bead",
+    "drop",
+    "pearl",
+    "jewellery",
+    "jewelry",
+    "circle",
+    "accessory"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "stud-right",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        24,
+        9
+      ],
+      "radius_x": 5,
+      "radius_y": 1,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "stud-left",
+      "start": [
+        24,
+        9
+      ],
+      "end": [
+        24,
+        4
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "main-right",
+      "start": [
+        24,
+        15
+      ],
+      "end": [
+        24,
+        33
+      ],
+      "radius_x": 16,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "main-left",
+      "start": [
+        24,
+        33
+      ],
+      "end": [
+        24,
+        15
+      ],
+      "radius_x": 16,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "drop-right",
+      "start": [
+        24,
+        39
+      ],
+      "end": [
+        24,
+        44
+      ],
+      "radius_x": 5,
+      "radius_y": 1,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "drop-left",
+      "start": [
+        24,
+        44
+      ],
+      "end": [
+        24,
+        39
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-link",
+      "start": [
+        24,
+        9
+      ],
+      "end": [
+        24,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-link",
+      "start": [
+        24,
+        33
+      ],
+      "end": [
+        24,
+        39
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "stud",
+      "members": [
+        "stud-right",
+        "stud-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "main",
+      "members": [
+        "main-right",
+        "main-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "drop",
+      "members": [
+        "drop-right",
+        "drop-left"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "stud",
+        "upper-link"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "main",
+        "upper-link"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "main",
+        "lower-link"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "drop",
+        "lower-link"
+      ]
+    }
+  ],
+  "variant_of": "three-bead-drop-earring",
+  "variant_label": "Stretch to VRECT_L"
+}

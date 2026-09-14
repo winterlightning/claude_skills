@@ -1,0 +1,277 @@
+{
+  "icon_id": "analogue-wristwatch-stretch-vrect-l",
+  "name": "analogue-wristwatch-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "watch",
+    "wristwatch",
+    "time",
+    "clock",
+    "analogue",
+    "dial",
+    "strap",
+    "accessory"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "face-a",
+      "start": [
+        24,
+        8
+      ],
+      "end": [
+        24,
+        38
+      ],
+      "radius_x": 16,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-b",
+      "start": [
+        24,
+        38
+      ],
+      "end": [
+        24,
+        8
+      ],
+      "radius_x": 16,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-strap-1",
+      "start": [
+        24,
+        8
+      ],
+      "end": [
+        13,
+        9
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-strap-2",
+      "start": [
+        13,
+        9
+      ],
+      "end": [
+        13,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-strap-3",
+      "start": [
+        13,
+        4
+      ],
+      "end": [
+        35,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-strap-4",
+      "start": [
+        35,
+        4
+      ],
+      "end": [
+        35,
+        9
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "upper-strap-5",
+      "start": [
+        35,
+        9
+      ],
+      "end": [
+        24,
+        8
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-strap-1",
+      "start": [
+        24,
+        38
+      ],
+      "end": [
+        16,
+        39
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-strap-2",
+      "start": [
+        16,
+        39
+      ],
+      "end": [
+        16,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-strap-3",
+      "start": [
+        16,
+        44
+      ],
+      "end": [
+        32,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-strap-4",
+      "start": [
+        32,
+        44
+      ],
+      "end": [
+        32,
+        39
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "lower-strap-5",
+      "start": [
+        32,
+        39
+      ],
+      "end": [
+        24,
+        38
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "hands-1",
+      "start": [
+        18,
+        20
+      ],
+      "end": [
+        24,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "hands-2",
+      "start": [
+        24,
+        24
+      ],
+      "end": [
+        30,
+        19
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "face",
+      "members": [
+        "face-a",
+        "face-b"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "upper-strap",
+      "members": [
+        "upper-strap-1",
+        "upper-strap-2",
+        "upper-strap-3",
+        "upper-strap-4",
+        "upper-strap-5"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "lower-strap",
+      "members": [
+        "lower-strap-1",
+        "lower-strap-2",
+        "lower-strap-3",
+        "lower-strap-4",
+        "lower-strap-5"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "hands",
+      "members": [
+        "hands-1",
+        "hands-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "upper-strap",
+        "face"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "lower-strap",
+        "face"
+      ]
+    }
+  ],
+  "variant_of": "analogue-wristwatch",
+  "variant_label": "Stretch to VRECT_L"
+}

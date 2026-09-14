@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class Landmark(Solo48):
     icon_id = 'chateau-frontenac'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "places/landmarks"
@@ -17,12 +17,14 @@ class Landmark(Solo48):
     keywords = ('chateau', 'frontenac', 'quebec', 'canada', 'hotel', 'castle', 'landmark', 'architecture', 'turret')
 
     def build(self):
-        # Centerline extremes: (2,5)-(46,43); intentionally stepped massing.
-        self.add_polyline("outline", (2,43), (2,29), (7,19), (12,29), (16,29), (16,15), (21,5), (33,5), (38,15), (38,25), (41,25), (46,33), (46,43), (32,43), (20,43), (12,43), closed=True)
-        self.add_line("main-eave", (16,15), (38,15))
+        # HRECT_L centerline extremes (6,8)-(42,40).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        # Deliberate asymmetry: rear hipped block, front turrets, lower right wing.
+        self.add_polyline("outline", (6,40), (6,26), (10,16), (16,26), (16,16), (21,8), (31,8), (36,16), (36,26), (38,26), (42,32), (42,40), (32,40), (20,40), (16,40), closed=True)
+        self.add_line("main-eave", (16,16), (36,16))
         self.relate("connect", "main-eave", "outline")
-        self.add_polyline("gable", (20,43), (20,29), (26,21), (32,29), (32,33), (32,43))
-        self.relate("connect", "gable", "outline")
-        self.add_line("wing-eave", (32,33), (46,33))
-        self.relate("connect", "wing-eave", "gable")
+        self.add_polyline("front-turret", (20,40), (20,32), (26,24), (32,32), (32,40))
+        self.relate("connect", "front-turret", "outline")
+        self.add_line("wing-eave", (32,32), (42,32))
+        self.relate("connect", "wing-eave", "front-turret")
         self.relate("connect", "wing-eave", "outline")

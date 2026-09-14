@@ -17,19 +17,19 @@ class EiffelTower(Solo48):
     keywords = ('eiffel tower', 'paris', 'france', 'tower', 'landmark', 'monument', 'travel', 'architecture')
 
     def build(self) -> None:
-        # Centerline extremes: (5,2)-(43,46); shared axis x=24.
-        self.add_arc('left-foot', (5,46), (13,32), radius_x=65, sweep=False)
+        # Centerline extremes: (6,6)-(42,42); shared axis x=24.
+        self.add_arc('left-foot', (6,42), (13,32), radius_x=65, sweep=False)
         self.add_arc('left-middle', (13,32), (18,21), radius_x=65, sweep=False)
         self.add_arc('left-neck', (18,21), (20,10), radius_x=65, sweep=False)
         self.add_arc('crown', (20,10), (28,10), radius_x=4, sweep=True)
         self.add_arc('right-neck', (28,10), (30,21), radius_x=65, sweep=False)
         self.add_arc('right-middle', (30,21), (35,32), radius_x=65, sweep=False)
-        self.add_arc('right-foot', (35,32), (43,46), radius_x=65, sweep=False)
+        self.add_arc('right-foot', (35,32), (42,42), radius_x=65, sweep=False)
         self.add_contour('tower','left-foot','left-middle','left-neck','crown','right-neck','right-middle','right-foot')
-        self.add_line('spire',(24,2),(24,6))
+        self.add_line('spire',(24,6),(24,6))
         self.relate('connect','spire','tower')
         self.add_polyline('upper-deck',(16,21),(18,21),(30,21),(32,21))
         self.relate('connect','upper-deck','tower')
         self.add_polyline('lower-deck',(10,32),(13,32),(35,32),(38,32))
         self.relate('connect','lower-deck','tower')
-        self.add_arc('base-arch',(17,46),(31,46),radius_x=7,sweep=True)
+        self.add_arc('base-arch',(17,42),(31,42),radius_x=7,sweep=True)

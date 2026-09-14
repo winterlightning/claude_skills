@@ -17,19 +17,19 @@ class BabyFigure(Solo48):
     keywords = ('baby', 'figure', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (5,2)-(43,46).
+        # Centerline extremes: (6,6)-(42,42).
         self.add_arc('head-top', (18, 8), (30, 8), radius_x=6, radius_y=6, sweep=True, large_arc=False)
         self.add_arc('head-bottom', (30, 8), (18, 8), radius_x=6, radius_y=6, sweep=True, large_arc=False)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
         self.add_line('shoulders', (17, 22), (31, 22))
-        self.add_polyline('arm-left', (17, 22), (5, 33), (10, 37), (16, 31))
-        self.add_polyline('arm-right', (31, 22), (43, 33), (38, 37), (32, 31))
+        self.add_polyline('arm-left', (17, 22), (6, 33), (10, 37), (16, 31))
+        self.add_polyline('arm-right', (31, 22), (42, 33), (38, 37), (32, 31))
         self.add_line('waist-left', (16, 31), (16, 37))
         self.add_line('waist-right', (32, 31), (32, 37))
         self.add_line('diaper-band', (16, 37), (32, 37))
         self.add_arc('diaper', (16, 37), (32, 37), radius_x=8, radius_y=7, sweep=False, large_arc=False)
-        self.add_polyline('leg-left', (16, 37), (11, 42), (16, 46))
-        self.add_polyline('leg-right', (32, 37), (37, 42), (32, 46))
+        self.add_polyline('leg-left', (16, 37), (11, 42), (16, 42))
+        self.add_polyline('leg-right', (32, 37), (37, 42), (32, 42))
         self.relate("connect", 'shoulders', 'arm-left')
         self.relate("connect", 'shoulders', 'arm-right')
         self.relate("connect", 'arm-left', 'waist-left')

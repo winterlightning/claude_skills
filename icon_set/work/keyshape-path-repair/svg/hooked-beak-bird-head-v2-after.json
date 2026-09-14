@@ -1,0 +1,187 @@
+{
+  "icon_id": "hooked-beak-bird-head-v2-stretch-vrect-l",
+  "name": "hooked-beak-bird-head-v2-stretch-vrect-l",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "bird",
+    "head",
+    "beak",
+    "hooked",
+    "parrot",
+    "falcon",
+    "profile",
+    "raptor"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "neck-back",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        8,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "crown-left",
+      "start": [
+        8,
+        24
+      ],
+      "end": [
+        27,
+        4
+      ],
+      "radius_x": 19,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "crown-right",
+      "start": [
+        27,
+        4
+      ],
+      "end": [
+        35,
+        13
+      ],
+      "radius_x": 8,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face",
+      "start": [
+        35,
+        13
+      ],
+      "end": [
+        28,
+        29
+      ],
+      "radius_x": 17,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "neck-front",
+      "start": [
+        28,
+        29
+      ],
+      "end": [
+        28,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "beak-upper",
+      "start": [
+        35,
+        13
+      ],
+      "end": [
+        40,
+        29
+      ],
+      "radius_x": 5,
+      "radius_y": 16,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-lower",
+      "start": [
+        40,
+        29
+      ],
+      "end": [
+        28,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye",
+      "start": [
+        24,
+        15
+      ],
+      "end": [
+        24,
+        15
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "head",
+      "members": [
+        "neck-back",
+        "crown-left",
+        "crown-right",
+        "face",
+        "neck-front"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "beak",
+      "members": [
+        "beak-upper",
+        "beak-lower"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "beak",
+        "head"
+      ]
+    }
+  ],
+  "variant_of": "hooked-beak-bird-head-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

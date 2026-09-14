@@ -1,0 +1,274 @@
+{
+  "icon_id": "usb-cable-connector-stretch-vrect-l",
+  "name": "usb-cable-connector-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "usb",
+    "cable",
+    "connector",
+    "plug",
+    "cord",
+    "charging",
+    "port",
+    "computer"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "tip-1",
+      "start": [
+        19,
+        17
+      ],
+      "end": [
+        19,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tip-2",
+      "start": [
+        19,
+        4
+      ],
+      "end": [
+        36,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tip-3",
+      "start": [
+        36,
+        4
+      ],
+      "end": [
+        36,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tip-mark",
+      "start": [
+        28,
+        10
+      ],
+      "end": [
+        28,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-top",
+      "start": [
+        15,
+        17
+      ],
+      "end": [
+        19,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-top-mid",
+      "start": [
+        19,
+        17
+      ],
+      "end": [
+        36,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-shoulder",
+      "start": [
+        36,
+        17
+      ],
+      "end": [
+        40,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "body-top-r",
+      "start": [
+        40,
+        17
+      ],
+      "end": [
+        40,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "body-round-r",
+      "start": [
+        40,
+        25
+      ],
+      "end": [
+        28,
+        34
+      ],
+      "radius_x": 12,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "body-round-l",
+      "start": [
+        28,
+        34
+      ],
+      "end": [
+        15,
+        25
+      ],
+      "radius_x": 12,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "body-left",
+      "start": [
+        15,
+        25
+      ],
+      "end": [
+        15,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "cable-top",
+      "start": [
+        28,
+        34
+      ],
+      "end": [
+        28,
+        35
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "cable-bend",
+      "start": [
+        28,
+        35
+      ],
+      "end": [
+        15,
+        44
+      ],
+      "radius_x": 13,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "cable-end",
+      "start": [
+        15,
+        44
+      ],
+      "end": [
+        8,
+        44
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "tip",
+      "members": [
+        "tip-1",
+        "tip-2",
+        "tip-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "body",
+      "members": [
+        "body-top",
+        "body-top-mid",
+        "body-shoulder",
+        "body-top-r",
+        "body-round-r",
+        "body-round-l",
+        "body-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "cable",
+      "members": [
+        "cable-top",
+        "cable-bend",
+        "cable-end"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "tip",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "body",
+        "cable"
+      ]
+    }
+  ],
+  "variant_of": "usb-cable-connector",
+  "variant_label": "Stretch to VRECT_L"
+}

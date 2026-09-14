@@ -1,4 +1,4 @@
-"""Cloud inside a round display globe on a low pedestal. VRECT_XL (5,2)-(43,46). Lucide cloud informs a flat base and broad lobes. Pedestal corner detail simplified."""
+"""Cloud inside a round display globe on a low pedestal. VRECT_XL (6,6)-(42,42). Lucide cloud informs a flat base and broad lobes. Pedestal corner detail simplified."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,16 +17,16 @@ class CloudDisplayGlobe(Solo48):
     keywords = ('globe', 'cloud', 'sphere', 'pedestal', 'display', 'ornament', 'decor')
 
     def build(self) -> None:
-        self.add_arc('globe-l', (12, 36), (5, 21), radius_x=7, radius_y=15, sweep=True, large_arc=False)
-        self.add_arc('globe-t', (5, 21), (43, 21), radius_x=19, radius_y=19, sweep=True, large_arc=False)
-        self.add_arc('globe-r', (43, 21), (36, 36), radius_x=7, radius_y=15, sweep=True, large_arc=False)
+        self.add_arc('globe-l', (12, 36), (6, 21), radius_x=7, radius_y=15, sweep=True, large_arc=False)
+        self.add_arc('globe-t', (6, 21), (42, 21), radius_x=19, radius_y=19, sweep=True, large_arc=False)
+        self.add_arc('globe-r', (42, 21), (36, 36), radius_x=7, radius_y=15, sweep=True, large_arc=False)
         self.add_contour('globe', 'globe-l', 'globe-t', 'globe-r', closed=False)
         self.add_line('base-t', (12, 36), (36, 36))
         self.add_arc('base-tr', (36, 36), (40, 40), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_line('base-r', (40, 40), (40, 42))
-        self.add_arc('base-br', (40, 42), (36, 46), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('base-b', (36, 46), (12, 46))
-        self.add_arc('base-bl', (12, 46), (8, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('base-br', (40, 42), (36, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('base-b', (36, 42), (12, 42))
+        self.add_arc('base-bl', (12, 42), (8, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_line('base-l', (8, 42), (8, 40))
         self.add_arc('base-tl', (8, 40), (12, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_contour('base', 'base-t', 'base-tr', 'base-r', 'base-br', 'base-b', 'base-bl', 'base-l', 'base-tl', closed=True)

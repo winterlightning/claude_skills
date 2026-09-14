@@ -18,10 +18,10 @@ class BabyWalker(Solo48):
 
     def build(self) -> None:
         # Centerline keyshape: HRECT_L; Baby walker with tray, hanging seat and wide floor base; tray thickness simplified to one line.
-        self.add_polyline('tray', (2, 8), (8, 8), (18, 8), (34, 8), (46, 8), closed=False)
-        self.add_polyline('frame', (8, 8), (8, 40), (2, 40), closed=False)
+        self.add_polyline('tray', (6, 8), (8, 8), (18, 8), (34, 8), (42, 8), closed=False)
+        self.add_polyline('frame', (8, 8), (8, 40), (6, 40), closed=False)
         self.relate("connect", 'frame', 'tray')
-        self.add_polyline('base', (8, 40), (38, 40), (46, 40), closed=False)
+        self.add_polyline('base', (8, 40), (38, 40), (42, 40), closed=False)
         self.relate("connect", 'frame', 'base')
         self.add_line('front-leg', (38, 28), (38, 40))
         self.relate("connect", 'front-leg', 'base')

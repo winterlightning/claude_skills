@@ -19,8 +19,8 @@ class BabyHeadVariant3(Solo48):
 
     def build(self) -> None:
         # Circle centered (24,24), centerline radius 22. Ears and shoulders removed.
-        self.add_arc('head-right', (24,2), (24,46), radius_x=22)
-        self.add_arc('head-left', (24,46), (24,2), radius_x=22)
+        self.add_arc('head-right', (24,6), (24,42), radius_x=22)
+        self.add_arc('head-left', (24,42), (24,6), radius_x=22)
         self.add_contour('head', 'head-right', 'head-left', closed=True)
-        self.add_arc('hair', (24,2), (24,16), radius_x=7)
+        self.add_arc('hair', (24,6), (24,16), radius_x=7)
         self.relate('connect', 'head', 'hair')

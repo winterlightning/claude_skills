@@ -17,12 +17,14 @@ class Landmark(Solo48):
     keywords = ('castle', 'tower', 'turret', 'fortress', 'battlement', 'flag', 'pennant', 'medieval')
 
     def build(self):
-        # Centerline extremes: (2,2)-(46,46); flag above a flared keep.
-        self.add_polyline("outline", (2,46), (6,29), (6,20), (14,20), (14,27), (22,27), (22,20), (30,20), (30,27), (38,27), (38,20), (46,20), (46,29), (42,46), (30,46), (18,46), closed=True)
-        self.add_polyline("flag", (22,20), (22,10), (22,2), (38,2), (34,6), (38,10), (22,10))
+        # SQUARE centerline extremes (6,6)-(42,42).
+        # Building owns silhouette and attached architecture; repeat pairs share axes.
+        # Pennant is physically attached; two merlons leave space above the arch.
+        self.add_polyline("outline", (6,42), (10,28), (6,24), (6,18), (14,18), (14,24), (24,24), (34,24), (34,18), (42,18), (42,24), (38,28), (42,42), (30,42), (18,42), closed=True)
+        self.add_polyline("flag", (24,24), (24,14), (24,6), (36,6), (36,14), (24,14))
         self.relate("connect", "flag", "outline")
-        self.add_line("door-left", (18, 46), (18, 39))
-        self.add_arc("door-top", (18, 39), (30, 39), radius_x=6)
-        self.add_line("door-right", (30, 39), (30, 46))
+        self.add_line("door-left", (18,42), (18,38))
+        self.add_arc("door-top", (18,38), (30,38), radius_x=6)
+        self.add_line("door-right", (30,38), (30,42))
         self.add_contour("door", "door-left", "door-top", "door-right")
         self.relate("connect", "door", "outline")

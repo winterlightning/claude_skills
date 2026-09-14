@@ -1,4 +1,4 @@
-"""Beetle with six distinct legs and a wing seam inside an open, inward-curving shell. SOLO48 SQUARE; extremes (2,2)-(46,46)."""
+"""Beetle with six distinct legs and a wing seam inside an open, inward-curving shell. SOLO48 SQUARE; extremes (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -18,10 +18,10 @@ class BeetleInCoiledShell(Solo48):
 
     def build(self) -> None:
         # Open spiral wraps a larger beetle with six legs and a clear wing seam.
-        self.add_arc('shell-crown', (24,2), (46,24), radius_x=22)
-        self.add_arc('shell-base', (46,24), (24,46), radius_x=22)
-        self.add_arc('shell-left', (24,46), (2,24), radius_x=22)
-        self.add_arc('shell-curl', (2,24), (14,12), radius_x=12)
+        self.add_arc('shell-crown', (24,6), (42,24), radius_x=22)
+        self.add_arc('shell-base', (42,24), (24,42), radius_x=22)
+        self.add_arc('shell-left', (24,42), (6,24), radius_x=22)
+        self.add_arc('shell-curl', (6,24), (14,12), radius_x=12)
         self.add_contour('shell', 'shell-crown', 'shell-base', 'shell-left', 'shell-curl')
         self.add_arc('head-a', (24,18),(27,21),radius_x=3)
         self.add_arc('head-b', (27,21),(24,24),radius_x=3)

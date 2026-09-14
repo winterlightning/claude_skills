@@ -1,0 +1,314 @@
+{
+  "icon_id": "stacking-ring-toy-v2-stretch-vrect-l",
+  "name": "stacking-ring-toy-v2-stretch-vrect-l",
+  "aliases": [],
+  "category": "people/babies",
+  "keywords": [
+    "stacking",
+    "ring",
+    "toy",
+    "infant",
+    "nursery"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "peg-top",
+      "start": [
+        20,
+        9
+      ],
+      "end": [
+        28,
+        9
+      ],
+      "radius_x": 4,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "peg-right",
+      "start": [
+        28,
+        9
+      ],
+      "end": [
+        28,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "peg-left",
+      "start": [
+        20,
+        11
+      ],
+      "end": [
+        20,
+        9
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "top-top",
+      "start": [
+        19,
+        11
+      ],
+      "end": [
+        29,
+        11
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-right",
+      "start": [
+        29,
+        11
+      ],
+      "end": [
+        29,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "top-bottom",
+      "start": [
+        29,
+        22
+      ],
+      "end": [
+        19,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "top-left",
+      "start": [
+        19,
+        22
+      ],
+      "end": [
+        19,
+        11
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "middle-top",
+      "start": [
+        16,
+        22
+      ],
+      "end": [
+        32,
+        22
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "middle-right",
+      "start": [
+        32,
+        22
+      ],
+      "end": [
+        32,
+        33
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "middle-bottom",
+      "start": [
+        32,
+        33
+      ],
+      "end": [
+        16,
+        33
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "middle-left",
+      "start": [
+        16,
+        33
+      ],
+      "end": [
+        16,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom-top",
+      "start": [
+        13,
+        33
+      ],
+      "end": [
+        35,
+        33
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottom-right",
+      "start": [
+        35,
+        33
+      ],
+      "end": [
+        35,
+        44
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom-bottom",
+      "start": [
+        35,
+        44
+      ],
+      "end": [
+        13,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bottom-left",
+      "start": [
+        13,
+        44
+      ],
+      "end": [
+        13,
+        33
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "peg",
+      "members": [
+        "peg-left",
+        "peg-top",
+        "peg-right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "top",
+      "members": [
+        "top-top",
+        "top-right",
+        "top-bottom",
+        "top-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "middle",
+      "members": [
+        "middle-top",
+        "middle-right",
+        "middle-bottom",
+        "middle-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "bottom",
+      "members": [
+        "bottom-top",
+        "bottom-right",
+        "bottom-bottom",
+        "bottom-left"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "peg",
+        "top"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "top",
+        "middle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "middle",
+        "bottom"
+      ]
+    }
+  ],
+  "variant_of": "stacking-ring-toy-v2",
+  "variant_label": "Stretch to VRECT_L"
+}

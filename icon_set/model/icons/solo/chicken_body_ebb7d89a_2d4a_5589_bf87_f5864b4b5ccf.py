@@ -17,16 +17,16 @@ class CrestedBird(Solo48):
     keywords = ('chicken', 'hen', 'bird', 'crest', 'beak', 'perch', 'farm', 'poultry')
 
     def build(self) -> None:
-        # SQUARE visible (0,0)-(48,48); centerlines (2,2)-(46,46).
-        self.add_line('tail', (2,22), (8,22))
+        # SQUARE visible (6,6)-(42,42); centerlines (6,6)-(42,42).
+        self.add_line('tail', (6,22), (8,22))
         self.add_arc('tail-turn', (8,22), (12,26), radius_x=4)
         self.add_line('tail-root', (12,26), (12,28))
         self.add_contour('tail-shape', 'tail', 'tail-turn', 'tail-root')
         self.add_arc('belly-left', (12,28), (26,40), radius_x=14, radius_y=12, sweep=False)
         self.add_arc('belly-right', (26,40), (40,28), radius_x=14, radius_y=12, sweep=False)
         self.add_line('breast', (40,28), (40,23))
-        self.add_line('bill-bottom', (40,23), (46,23))
-        self.add_line('bill-top', (46,23), (40,17))
+        self.add_line('bill-bottom', (40,23), (42,23))
+        self.add_line('bill-top', (42,23), (40,17))
         self.add_arc('head-right', (40,17), (31,8), radius_x=9, sweep=False)
         self.add_arc('head-left', (31,8), (22,17), radius_x=9, sweep=False)
         self.add_line('back', (22,17), (22,22))
@@ -34,7 +34,7 @@ class CrestedBird(Solo48):
         self.add_line('back-bottom', (16,28), (12,28))
         self.add_contour('body', 'belly-left', 'belly-right', 'breast', 'bill-bottom', 'bill-top', 'head-right', 'head-left', 'back', 'back-turn', 'back-bottom', closed=True)
         self.relate('connect', 'tail-shape', 'body')
-        self.add_arc('crest', (31,8), (25,2), radius_x=6, sweep=False)
+        self.add_arc('crest', (31,8), (25,6), radius_x=6, sweep=False)
         self.relate('connect', 'crest', 'body')
-        self.add_line('leg', (26,40), (26,46))
+        self.add_line('leg', (26,40), (26,42))
         self.relate('connect', 'leg', 'body')

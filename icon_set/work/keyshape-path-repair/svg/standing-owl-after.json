@@ -1,0 +1,259 @@
+{
+  "icon_id": "standing-owl-stretch-vrect-l",
+  "name": "standing-owl-stretch-vrect-l",
+  "aliases": [],
+  "category": "animals/birds",
+  "keywords": [
+    "owl",
+    "standing",
+    "wise",
+    "bird",
+    "night",
+    "feathers",
+    "nocturnal",
+    "perch"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "tuft-left",
+      "start": [
+        8,
+        4
+      ],
+      "end": [
+        18,
+        9
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "crown",
+      "start": [
+        18,
+        9
+      ],
+      "end": [
+        40,
+        20
+      ],
+      "radius_x": 14,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "back",
+      "start": [
+        40,
+        20
+      ],
+      "end": [
+        26,
+        39
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "tail",
+      "start": [
+        26,
+        39
+      ],
+      "end": [
+        8,
+        39
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "breast",
+      "start": [
+        8,
+        39
+      ],
+      "end": [
+        15,
+        19
+      ],
+      "radius_x": 40,
+      "radius_y": 36,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "forehead",
+      "start": [
+        15,
+        19
+      ],
+      "end": [
+        8,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "tuft-right",
+      "start": [
+        18,
+        9
+      ],
+      "end": [
+        39,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-left",
+      "start": [
+        23,
+        17
+      ],
+      "end": [
+        23,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-right",
+      "start": [
+        31,
+        17
+      ],
+      "end": [
+        31,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-1",
+      "start": [
+        23,
+        25
+      ],
+      "end": [
+        26,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-2",
+      "start": [
+        26,
+        28
+      ],
+      "end": [
+        29,
+        25
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg",
+      "start": [
+        26,
+        39
+      ],
+      "end": [
+        29,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "foot",
+      "start": [
+        29,
+        44
+      ],
+      "end": [
+        35,
+        44
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "owl",
+      "members": [
+        "tuft-left",
+        "crown",
+        "back",
+        "tail",
+        "breast",
+        "forehead"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "beak",
+      "members": [
+        "beak-1",
+        "beak-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "perch",
+      "members": [
+        "leg",
+        "foot"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "owl",
+        "tuft-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "owl",
+        "perch"
+      ]
+    }
+  ],
+  "variant_of": "standing-owl",
+  "variant_label": "Stretch to VRECT_L"
+}

@@ -1,0 +1,298 @@
+{
+  "icon_id": "fossil-tablet-stretch-square",
+  "name": "fossil-tablet-stretch-square",
+  "aliases": [],
+  "category": "nature/animals",
+  "keywords": [
+    "fossil",
+    "dinosaur",
+    "skeleton",
+    "pterosaur",
+    "stone",
+    "tablet",
+    "archaeology",
+    "prehistoric"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "top",
+      "start": [
+        13,
+        6
+      ],
+      "end": [
+        35,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "tr",
+      "start": [
+        35,
+        6
+      ],
+      "end": [
+        42,
+        13
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right",
+      "start": [
+        42,
+        13
+      ],
+      "end": [
+        42,
+        35
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "br",
+      "start": [
+        42,
+        35
+      ],
+      "end": [
+        35,
+        42
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bottom",
+      "start": [
+        35,
+        42
+      ],
+      "end": [
+        13,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bl",
+      "start": [
+        13,
+        42
+      ],
+      "end": [
+        6,
+        35
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left",
+      "start": [
+        6,
+        35
+      ],
+      "end": [
+        6,
+        13
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "tl",
+      "start": [
+        6,
+        13
+      ],
+      "end": [
+        13,
+        6
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "spine-1",
+      "start": [
+        24,
+        13
+      ],
+      "end": [
+        21,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "spine-2",
+      "start": [
+        21,
+        20
+      ],
+      "end": [
+        26,
+        27
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "spine-3",
+      "start": [
+        26,
+        27
+      ],
+      "end": [
+        24,
+        35
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-wing-1",
+      "start": [
+        21,
+        20
+      ],
+      "end": [
+        13,
+        22
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-wing-2",
+      "start": [
+        13,
+        22
+      ],
+      "end": [
+        13,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-wing-1",
+      "start": [
+        21,
+        20
+      ],
+      "end": [
+        32,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-wing-2",
+      "start": [
+        32,
+        17
+      ],
+      "end": [
+        35,
+        24
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "stone",
+      "members": [
+        "top",
+        "tr",
+        "right",
+        "br",
+        "bottom",
+        "bl",
+        "left",
+        "tl"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "spine",
+      "members": [
+        "spine-1",
+        "spine-2",
+        "spine-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-wing",
+      "members": [
+        "left-wing-1",
+        "left-wing-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-wing",
+      "members": [
+        "right-wing-1",
+        "right-wing-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "spine",
+        "left-wing"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "spine",
+        "right-wing"
+      ]
+    }
+  ],
+  "variant_of": "fossil-tablet",
+  "variant_label": "Stretch to SQUARE"
+}

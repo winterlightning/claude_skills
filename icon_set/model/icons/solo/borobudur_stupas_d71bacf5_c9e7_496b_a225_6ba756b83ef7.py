@@ -1,4 +1,4 @@
-"""Dominant stupa above three smaller spired stupas. Fine stepped collars and plinth outlines omitted."""
+'One dominant stupa above three small matching stupas. Tier bands and enclosed bases omitted to preserve the four-monument arrangement.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,19 +16,14 @@ class BorobudurStupas(Solo48):
     keywords = ('borobudur', 'indonesia', 'stupa', 'temple', 'buddhist', 'landmark', 'monument', 'heritage')
 
     def build(self) -> None:
-        # Centerline extremes (2, 2, 46, 46).
-        self.add_line("spire", (24,2), (24,8))
-        self.add_arc("dome-left", (15,20), (24,8), radius_x=9, radius_y=12)
-        self.add_arc("dome-right", (24,8), (33,20), radius_x=9, radius_y=12)
-        self.add_contour("dome", "dome-left", "dome-right")
-        self.add_line("terrace", (15,20), (33,20))
-        self.relate("connect", "dome", "terrace")
+        # SQUARE centerline extremes (6,6)-(42,42); centered repeated foreground.
+        self.add_line("spire", (24,6), (24,12))
+        self.add_arc("dome-left", (16,20), (24,12), radius_x=8)
+        self.add_arc("dome-right", (24,12), (32,20), radius_x=8)
+        self.add_line("terrace", (32,20), (16,20))
+        self.add_contour("dome", "dome-left", "dome-right", "terrace", closed=True)
         self.relate("connect", "spire", "dome")
-        for x in (7,24,41):
-            self.add_line(f"left-{x}", (x-5,46), (x-5,40))
-            self.add_arc(f"cap-left-{x}", (x-5,40), (x,35), radius_x=5)
-            self.add_arc(f"cap-right-{x}", (x,35), (x+5,40), radius_x=5)
-            self.add_line(f"right-{x}", (x+5,40), (x+5,46))
-            self.add_contour(f"small-{x}", f"left-{x}", f"cap-left-{x}", f"cap-right-{x}", f"right-{x}")
-            self.add_line(f"finial-{x}", (x,30), (x,35))
+        for x in (9,24,39):
+            self.add_polyline(f"small-{x}", (x-3,42), (x,33), (x+3,42))
+            self.add_line(f"finial-{x}", (x,29), (x,33))
             self.relate("connect", f"small-{x}", f"finial-{x}")

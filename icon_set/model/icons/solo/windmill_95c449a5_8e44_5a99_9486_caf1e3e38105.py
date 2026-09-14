@@ -17,15 +17,15 @@ class Windmill(Solo48):
     keywords = ('windmill', 'netherlands', 'dutch', 'mill', 'sails', 'landmark', 'countryside', 'energy')
 
     def build(self) -> None:
-        # Centerline extremes (5,2)-(43,46).
-        self.add_polyline("sail-down", (5,2), (24,16), (43,30))
-        self.add_polyline("sail-up", (5,30), (24,16), (43,2))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_polyline("sail-down", (6,6), (24,16), (42,30))
+        self.add_polyline("sail-up", (6,30), (24,16), (42,6))
         self.relate("connect", "sail-down", "sail-up")
-        self.add_polyline("body", (15,33), (8,46), (18,46))
-        self.add_line("door-left", (18,46), (18,40))
+        self.add_polyline("body", (15,33), (8,42), (18,42))
+        self.add_line("door-left", (18,42), (18,40))
         self.add_arc("door-arch", (18,40), (30,40), radius_x=6)
-        self.add_line("door-right", (30,40), (30,46))
-        self.add_polyline("body-right", (30,46), (40,46), (33,33))
+        self.add_line("door-right", (30,40), (30,42))
+        self.add_polyline("body-right", (30,42), (40,42), (33,33))
         self.add_contour("door", "door-left", "door-arch", "door-right")
         self.relate("connect", "body", "door")
         self.relate("connect", "body-right", "door")

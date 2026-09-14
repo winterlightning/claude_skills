@@ -17,12 +17,12 @@ class WateredPlanter(Solo48):
 
     def build(self) -> None:
         # SQUARE: exact SOLO48 extremes; geometry authored on the integer grid.
-        self.add_line('potrim', (2, 34), (46, 34))
-        self.add_arc('potarc', (46, 34), (2, 34), radius_x=22, radius_y=12, sweep=True)
+        self.add_line('potrim', (6, 34), (42, 34))
+        self.add_arc('potarc', (42, 34), (6, 34), radius_x=22, radius_y=12, sweep=True)
         self.add_contour('pot', 'potrim', 'potarc', closed=True)
         self.add_polyline('foliage', (6, 34), (6, 22), (16, 26), (16, 18), (24, 26), (32, 18), (32, 26), (42, 22), (42, 34), closed=False)
         self.relate('connect', 'foliage', 'pot')
-        self.add_arc('drop-a', (24, 2), (28, 10), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('drop-a', (24, 6), (28, 10), radius_x=6, radius_y=6, sweep=True)
         self.add_arc('drop-b', (28, 10), (20, 10), radius_x=4, radius_y=4, sweep=True)
-        self.add_arc('drop-c', (20, 10), (24, 2), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('drop-c', (20, 10), (24, 6), radius_x=6, radius_y=6, sweep=True)
         self.add_contour('drop', 'drop-a', 'drop-b', 'drop-c', closed=True)

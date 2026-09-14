@@ -1,4 +1,4 @@
-"""Nautilus with an open spiral and hooked tentacle. Bounds (2,2)-(46,46). Lucide snail: progressively shrinking arcs; omit the second small hook."""
+"""Nautilus with an open spiral and hooked tentacle. Bounds (6,6)-(42,42). Lucide snail: progressively shrinking arcs; omit the second small hook."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,11 +17,11 @@ class NautilusShell(Solo48):
     keywords = ('nautilus', 'shell', 'spiral', 'sea', 'marine', 'cephalopod', 'coil', 'ocean')
 
     def build(self) -> None:
-        self.add_arc('tentacle-hook', (2,40), (12,40), radius_x=5, radius_y=6, sweep=False)
+        self.add_arc('tentacle-hook', (6,40), (12,40), radius_x=5, radius_y=6, sweep=False)
         self.add_line('tentacle', (12,40), (12,19))
-        self.add_arc('shell-top-left', (12,19), (29,2), radius_x=17, sweep=True)
-        self.add_arc('shell-top-right', (29,2), (46,19), radius_x=17, sweep=True)
-        self.add_arc('shell-bottom-right', (46,19), (29,36), radius_x=17, sweep=True)
+        self.add_arc('shell-top-left', (12,19), (29,6), radius_x=17, sweep=True)
+        self.add_arc('shell-top-right', (29,6), (42,19), radius_x=17, sweep=True)
+        self.add_arc('shell-bottom-right', (42,19), (29,36), radius_x=17, sweep=True)
         self.add_arc('coil-entry', (29,36), (20,27), radius_x=9, sweep=True)
         self.add_line('coil-left', (20,27), (20,19))
         self.add_arc('coil-top-left', (20,19), (29,10), radius_x=9, sweep=True)

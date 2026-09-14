@@ -17,8 +17,8 @@ class HouseShapedPendulumClock(Solo48):
     keywords = ('clock', 'pendulum', 'retro', 'time', 'mantel', 'house', 'case')
 
     def build(self) -> None:
-        self.add_polyline('case',(5,46),(8,46),(8,14),(24,2),(40,14),(40,46),(43,46))
-        self.add_line('base',(8,46),(40,46))
+        self.add_polyline('case',(6,42),(8,42),(8,14),(24,6),(40,14),(40,42),(42,42))
+        self.add_line('base',(8,42),(40,42))
         self.relate('connect','case','base')
         self.add_polyline('hands',(24,12),(24,20),(30,20))
         self.add_line('pendulum-stem',(24,30),(24,33))

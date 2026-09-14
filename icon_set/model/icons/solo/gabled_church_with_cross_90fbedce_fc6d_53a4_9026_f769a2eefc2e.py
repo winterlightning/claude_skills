@@ -1,4 +1,7 @@
-"""Gabled Church with Cross. Rebuilt from the supplied silhouette."""
+"""VRECT_XL (8,6)-(40,42) centerlines. Preserve attached cross, tall gabled nave, lower wings and arched entrance. Omit facade seams. Mirrored about x=24.
+Lucide church and castle inform clear roof/wall structure and simple arch construction.
+Re-authored on the active SOLO48 contract from the supplied landmark render.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,13 +20,13 @@ class Landmark(Solo48):
     keywords = ('church', 'chapel', 'cross', 'religion', 'worship', 'gable', 'building', 'christian')
 
     def build(self):
-        self.add_polyline('outline', (5, 46), (5, 32), (13, 27), (13, 22), (24, 14), (35, 22), (35, 27), (43, 32), (43, 46), (28, 46), (20, 46), closed=True)
-        self.add_polyline('cross-stem', (24, 2), (24, 6), (24, 14), closed=False)
-        self.add_polyline('cross-bar', (20, 6), (24, 6), (28, 6), closed=False)
-        self.relate("connect", "cross-stem", "cross-bar")
-        self.relate("connect", "cross-stem", 'outline')
-        self.add_line("door-left", (20, 46), (20, 35))
-        self.add_arc("door-arch", (20, 35), (28, 35), radius_x=4)
-        self.add_line("door-right", (28, 35), (28, 46))
-        self.add_contour("door", "door-left", "door-arch", "door-right")
-        self.relate("connect", "door", "outline")
+        self.add_polyline('outline',(8,42),(8,32),(14,28),(14,24),(24,16),(34,24),(34,28),(40,32),(40,42),(28,42),(20,42),closed=True)
+        self.add_polyline('cross-stem',(24,6),(24,8),(24,16))
+        self.add_polyline('cross-bar',(20,8),(24,8),(28,8))
+        self.relate('connect','cross-stem','cross-bar')
+        self.relate('connect','cross-stem','outline')
+        self.add_line('door-left',(20,42),(20,36))
+        self.add_arc('door-arch',(20,36),(28,36),radius_x=4)
+        self.add_line('door-right',(28,36),(28,42))
+        self.add_contour('door','door-left','door-arch','door-right')
+        self.relate('connect','door','outline')

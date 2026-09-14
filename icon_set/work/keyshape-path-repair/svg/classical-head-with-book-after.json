@@ -1,0 +1,303 @@
+{
+  "icon_id": "classical-head-with-book-stretch-square",
+  "name": "classical-head-with-book-stretch-square",
+  "aliases": [],
+  "category": "objects/culture",
+  "keywords": [
+    "mythology",
+    "greek",
+    "classical",
+    "book",
+    "reading",
+    "philosophy",
+    "study",
+    "literature"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "crown",
+      "start": [
+        11,
+        13
+      ],
+      "end": [
+        31,
+        13
+      ],
+      "radius_x": 10,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "back-head",
+      "start": [
+        31,
+        13
+      ],
+      "end": [
+        27,
+        21
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "face-1",
+      "start": [
+        11,
+        13
+      ],
+      "end": [
+        6,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "face-2",
+      "start": [
+        6,
+        21
+      ],
+      "end": [
+        11,
+        21
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "face-3",
+      "start": [
+        11,
+        21
+      ],
+      "end": [
+        11,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "face-4",
+      "start": [
+        11,
+        26
+      ],
+      "end": [
+        16,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "face-5",
+      "start": [
+        16,
+        26
+      ],
+      "end": [
+        16,
+        29
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "neck",
+      "start": [
+        16,
+        29
+      ],
+      "end": [
+        11,
+        34
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder",
+      "start": [
+        11,
+        34
+      ],
+      "end": [
+        6,
+        42
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "book-1",
+      "start": [
+        22,
+        26
+      ],
+      "end": [
+        32,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "book-2",
+      "start": [
+        32,
+        29
+      ],
+      "end": [
+        42,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "book-3",
+      "start": [
+        42,
+        26
+      ],
+      "end": [
+        42,
+        39
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "book-4",
+      "start": [
+        42,
+        39
+      ],
+      "end": [
+        32,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "book-5",
+      "start": [
+        32,
+        42
+      ],
+      "end": [
+        22,
+        39
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "book-6",
+      "start": [
+        22,
+        39
+      ],
+      "end": [
+        22,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "spine",
+      "start": [
+        32,
+        29
+      ],
+      "end": [
+        32,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "front",
+      "members": [
+        "face-1",
+        "face-2",
+        "face-3",
+        "face-4",
+        "face-5",
+        "neck",
+        "shoulder"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "book",
+      "members": [
+        "book-1",
+        "book-2",
+        "book-3",
+        "book-4",
+        "book-5",
+        "book-6"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "crown",
+        "front"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "crown",
+        "back-head"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "book",
+        "spine"
+      ]
+    }
+  ],
+  "variant_of": "classical-head-with-book",
+  "variant_label": "Stretch to SQUARE"
+}

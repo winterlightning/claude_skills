@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 3, 44, 44) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 3.0, 2.0, 2.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "face",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 10 19 A 14 14 0 0 1 38 19 A 14 24 0 0 1 24 43 A 14 24 0 0 1 10 19 Z",
+        "pathData": "M 10 19 A 14 14 0 0 1 38 19 A 14 24 0 0 1 24 42 A 14 24 0 0 1 10 19 Z",
         "bounds": [
           10.0,
           5.0,
           38.0,
-          43.0
+          42.0
         ],
         "segmentCount": 513,
-        "approximationError": 0.00045179463596336475,
+        "approximationError": 0.0004286239663368176,
         "hasCurves": true
       },
       {
@@ -31,9 +33,9 @@
         "elementId": "ear-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 10 19 L 2 29 L 5 31",
+        "pathData": "M 10 19 L 6 29 L 6 31",
         "bounds": [
-          2.0,
+          6.0,
           19.0,
           10.0,
           31.0
@@ -47,11 +49,11 @@
         "elementId": "ear-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 38 19 L 46 29 L 43 31",
+        "pathData": "M 38 19 L 42 29 L 42 31",
         "bounds": [
           38.0,
           19.0,
-          46.0,
+          42.0,
           31.0
         ],
         "segmentCount": 2,
@@ -79,12 +81,12 @@
         "elementId": "chin-mark",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 36 L 24 43",
+        "pathData": "M 24 36 L 24 42",
         "bounds": [
           24.0,
           36.0,
           24.0,
-          43.0
+          42.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -116,10 +118,10 @@
           "chin-mark"
         ],
         "bounds": [
-          2.0,
+          6.0,
           5.0,
-          46.0,
-          43.0
+          42.0,
+          42.0
         ]
       }
     ],
@@ -155,7 +157,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          43.0
+          42.0
         ]
       },
       {
@@ -233,7 +235,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            43.0
+            42.0
           ]
         }
       },
@@ -303,8 +305,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -342,19 +344,19 @@
           10.5,
           5.5,
           27.0,
-          36.9688
+          35.9688
         ],
         "bbox_ship_px": [
           27.0,
-          36.9688
+          35.9688
         ],
         "bbox_design_u": [
           27.0,
-          36.9688
+          35.9688
         ],
-        "area_ship_px2": 761.6289,
-        "equivalent_diameter_ship_px": 31.1406,
-        "equivalent_diameter_design_u": 31.1406,
+        "area_ship_px2": 736.1621,
+        "equivalent_diameter_ship_px": 30.6155,
+        "equivalent_diameter_design_u": 30.6155,
         "inscribed_diameter_ship_px": 25.9509,
         "inscribed_diameter_design_u": 25.9509,
         "inscribed_radius_ship_px": 12.9754,
@@ -388,14 +390,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1c98a1d27c615215125429fd78d6fe900929874ca834e93311a83d518014ce2f",
+  "svg_sha256": "bb490f84c64eebfaefcbc443d7cb977f21606ed7864f30f596a2e77d12b24fee",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -425,13 +427,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

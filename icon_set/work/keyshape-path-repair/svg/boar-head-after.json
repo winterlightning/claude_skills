@@ -1,0 +1,316 @@
+{
+  "icon_id": "boar-head-stretch-square",
+  "name": "boar-head-stretch-square",
+  "aliases": [],
+  "category": "objects/animals",
+  "keywords": [
+    "boar",
+    "pig",
+    "head",
+    "ears",
+    "silhouette",
+    "face",
+    "wild",
+    "animal"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "ears-and-crown-1",
+      "start": [
+        13,
+        19
+      ],
+      "end": [
+        6,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ears-and-crown-2",
+      "start": [
+        6,
+        6
+      ],
+      "end": [
+        17,
+        13
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ears-and-crown-3",
+      "start": [
+        17,
+        13
+      ],
+      "end": [
+        31,
+        13
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ears-and-crown-4",
+      "start": [
+        31,
+        13
+      ],
+      "end": [
+        42,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "ears-and-crown-5",
+      "start": [
+        42,
+        6
+      ],
+      "end": [
+        35,
+        19
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-cheek-top",
+      "start": [
+        35,
+        19
+      ],
+      "end": [
+        42,
+        26
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-cheek-bottom",
+      "start": [
+        42,
+        26
+      ],
+      "end": [
+        37,
+        34
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-cheek-bottom",
+      "start": [
+        11,
+        34
+      ],
+      "end": [
+        6,
+        26
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-cheek-top",
+      "start": [
+        6,
+        26
+      ],
+      "end": [
+        13,
+        19
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "snout-top",
+      "start": [
+        11,
+        34
+      ],
+      "end": [
+        37,
+        34
+      ],
+      "radius_x": 13,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "snout-bottom",
+      "start": [
+        37,
+        34
+      ],
+      "end": [
+        11,
+        34
+      ],
+      "radius_x": 11,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-left",
+      "start": [
+        20,
+        19
+      ],
+      "end": [
+        20,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-right",
+      "start": [
+        28,
+        19
+      ],
+      "end": [
+        28,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "nostril-left",
+      "start": [
+        22,
+        34
+      ],
+      "end": [
+        22,
+        34
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "nostril-right",
+      "start": [
+        26,
+        34
+      ],
+      "end": [
+        26,
+        34
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "ears-and-crown",
+      "members": [
+        "ears-and-crown-1",
+        "ears-and-crown-2",
+        "ears-and-crown-3",
+        "ears-and-crown-4",
+        "ears-and-crown-5"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-cheek",
+      "members": [
+        "right-cheek-top",
+        "right-cheek-bottom"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-cheek",
+      "members": [
+        "left-cheek-bottom",
+        "left-cheek-top"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "snout",
+      "members": [
+        "snout-top",
+        "snout-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "ears-and-crown",
+        "left-cheek"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "ears-and-crown",
+        "right-cheek"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "snout",
+        "left-cheek"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "snout",
+        "right-cheek"
+      ]
+    }
+  ],
+  "variant_of": "boar-head",
+  "variant_label": "Stretch to SQUARE"
+}

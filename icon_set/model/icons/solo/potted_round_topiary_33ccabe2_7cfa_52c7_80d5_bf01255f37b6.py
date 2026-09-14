@@ -17,13 +17,13 @@ class PottedRoundTopiary(Solo48):
     keywords = ('plant', 'decoration', 'foliage', 'indoor')
 
     def build(self) -> None:
-        # VRECT_M extremes (11,2)-(37,46).
-        self.add_arc("crown-top-left", (11,15), (24,2), radius_x=13)
-        self.add_arc("crown-top-right", (24,2), (37,15), radius_x=13)
+        # VRECT_M extremes (11,6)-(37,42).
+        self.add_arc("crown-top-left", (11,15), (24,6), radius_x=13)
+        self.add_arc("crown-top-right", (24,6), (37,15), radius_x=13)
         self.add_arc("crown-bottom-right", (37,15), (24,28), radius_x=13)
         self.add_arc("crown-bottom-left", (24,28), (11,15), radius_x=13)
         self.add_contour("crown", "crown-top-left", "crown-top-right", "crown-bottom-right", "crown-bottom-left", closed=True)
         self.add_line("trunk", (24,28), (24,36))
-        self.add_polyline("pot", (13,36), (24,36), (35,36), (32,46), (16,46), closed=True)
+        self.add_polyline("pot", (13,36), (24,36), (35,36), (32,42), (16,42), closed=True)
         self.relate("connect", "crown", "trunk")
         self.relate("connect", "trunk", "pot")

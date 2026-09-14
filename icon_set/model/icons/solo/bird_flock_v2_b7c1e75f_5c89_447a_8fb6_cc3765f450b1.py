@@ -1,4 +1,4 @@
-"""Five flying birds, each exactly two joined curved wings. HRECT_XL (2,5)-(46,43). Removed miniature heads, bellies and angular wing segments. Lucide bird informed reduction, but no useful exact flock match."""
+"""Five flying birds, each exactly two joined curved wings. HRECT_XL (6,6)-(42,42). Removed miniature heads, bellies and angular wing segments. Lucide bird informed reduction, but no useful exact flock match."""
 # Variant of bird-flock; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,8 +18,8 @@ class BirdFlockVariant2(Solo48):
     keywords = ('birds', 'flock', 'flying', 'group', 'five', 'migration', 'sky', 'flight')
 
     def build(self) -> None:
-        # Five birds, each two quarter-ellipse wing curves; extremes (2,5)-(46,43).
-        for i, (x, y) in enumerate(((2,5),(28,5),(15,21),(2,37),(28,37))):
+        # Five birds, each two quarter-ellipse wing curves; extremes (6,6)-(42,42).
+        for i, (x, y) in enumerate(((6,6),(28,6),(15,21),(6,37),(28,37))):
             self.add_arc(f'left-{i}', (x,y), (x+9,y+6), radius_x=9, radius_y=6)
             self.add_arc(f'right-{i}', (x+9,y+6), (x+18,y), radius_x=9, radius_y=6)
             self.add_contour(f'bird-{i}', f'left-{i}', f'right-{i}')

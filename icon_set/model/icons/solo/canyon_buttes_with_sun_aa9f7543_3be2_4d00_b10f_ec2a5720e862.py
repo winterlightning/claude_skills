@@ -16,9 +16,9 @@ class CanyonButtesWithSun(Solo48):
     keywords = ('canyon', 'butte', 'mesa', 'rock', 'desert', 'usa', 'landscape', 'nature', 'sun')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
-        self.add_polyline('buttes', (2, 43), (7, 17), (17, 17), (22, 43), (29, 43), (33, 28), (41, 28), (46, 43))
-        self.add_line('ground', (2, 43), (46, 43))
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        self.add_polyline('buttes', (6, 42), (7, 17), (17, 17), (22, 42), (29, 42), (33, 28), (41, 28), (42, 42))
+        self.add_line('ground', (6, 42), (42, 42))
         self.relate('connect', 'buttes', 'ground')
         self.add_arc('sun-top', (28, 10), (38, 10), radius_x=5, sweep=True)
         self.add_arc('sun-bottom', (38, 10), (28, 10), radius_x=5, sweep=True)

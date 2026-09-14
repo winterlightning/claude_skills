@@ -17,13 +17,13 @@ class CrackedHouseWithChimney(Solo48):
     keywords = ('house', 'home', 'damage', 'crack', 'poverty', 'housing', 'shelter', 'chimney', 'repair')
 
     def build(self) -> None:
-        # Centerline extremes (2,2)-(46,46).
-        self.add_polyline("roof", (2,22), (13,12), (24,2), (32,10), (42,20), (46,24))
-        self.add_polyline("chimney", (32,10), (32,2), (42,2), (42,20))
+        # Centerline extremes (6,6)-(42,42).
+        self.add_polyline("roof", (6,22), (13,12), (24,6), (32,10), (42,20), (42,24))
+        self.add_polyline("chimney", (32,10), (32,6), (42,6), (42,20))
         self.relate("connect", "roof", "chimney")
-        self.add_polyline("walls", (2,22), (2,46), (12,46), (26,46), (46,46), (46,24))
+        self.add_polyline("walls", (6,22), (6,42), (12,42), (26,42), (42,42), (42,24))
         self.relate("connect", "roof", "walls")
-        self.add_polyline("door", (12,46), (12,32), (26,32), (26,46))
+        self.add_polyline("door", (12,42), (12,32), (26,32), (26,42))
         self.relate("connect", "door", "walls")
         self.add_polyline("crack", (13,12), (18,19), (25,19), (29,25))
         self.relate("connect", "crack", "roof")

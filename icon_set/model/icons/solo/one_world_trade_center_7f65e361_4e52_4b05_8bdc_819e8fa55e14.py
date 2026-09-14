@@ -17,9 +17,9 @@ class OneWorldTradeCenter(Solo48):
     keywords = ('one world trade center', 'new york', 'skyscraper', 'tower', 'freedom tower', 'landmark', 'building', 'usa')
 
     def build(self) -> None:
-        # Centerline extremes: (11,2)-(37,46).
-        self.add_polyline('shaft',(11,46),(15,12),(24,12),(33,12),(37,46),(23,46),(11,46),closed=True)
-        self.add_line('spire',(24,2),(24,12))
-        self.add_line('facet',(33,12),(23,46))
+        # Centerline extremes: (11,6)-(37,42).
+        self.add_polyline('shaft',(11,42),(15,12),(24,12),(33,12),(37,42),(23,42),(11,42),closed=True)
+        self.add_line('spire',(24,6),(24,12))
+        self.add_line('facet',(33,12),(23,42))
         self.relate('connect','shaft','spire')
         self.relate('connect','shaft','facet')

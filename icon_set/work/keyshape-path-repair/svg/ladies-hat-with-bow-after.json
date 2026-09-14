@@ -1,0 +1,277 @@
+{
+  "icon_id": "ladies-hat-with-bow-stretch-hrect-l",
+  "name": "ladies-hat-with-bow-stretch-hrect-l",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "ladies",
+    "hat",
+    "with",
+    "bow"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "HRECT_L",
+  "keyshape_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "crown",
+      "start": [
+        9,
+        26
+      ],
+      "end": [
+        35,
+        26
+      ],
+      "radius_x": 13,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "brim-left",
+      "start": [
+        9,
+        26
+      ],
+      "end": [
+        4,
+        34
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "brim-lower-left",
+      "start": [
+        4,
+        34
+      ],
+      "end": [
+        24,
+        40
+      ],
+      "radius_x": 20,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "brim-lower-right",
+      "start": [
+        24,
+        40
+      ],
+      "end": [
+        44,
+        34
+      ],
+      "radius_x": 20,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "brim-right",
+      "start": [
+        44,
+        34
+      ],
+      "end": [
+        39,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "band",
+      "start": [
+        9,
+        26
+      ],
+      "end": [
+        23,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-left-1",
+      "start": [
+        32,
+        26
+      ],
+      "end": [
+        23,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-left-2",
+      "start": [
+        23,
+        20
+      ],
+      "end": [
+        23,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-left-3",
+      "start": [
+        23,
+        26
+      ],
+      "end": [
+        23,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-left-4",
+      "start": [
+        23,
+        32
+      ],
+      "end": [
+        32,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-right-1",
+      "start": [
+        32,
+        26
+      ],
+      "end": [
+        43,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-right-2",
+      "start": [
+        43,
+        20
+      ],
+      "end": [
+        43,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "bow-right-3",
+      "start": [
+        43,
+        32
+      ],
+      "end": [
+        32,
+        26
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "brim",
+      "members": [
+        "brim-left",
+        "brim-lower-left",
+        "brim-lower-right",
+        "brim-right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "bow-left",
+      "members": [
+        "bow-left-1",
+        "bow-left-2",
+        "bow-left-3",
+        "bow-left-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "bow-right",
+      "members": [
+        "bow-right-1",
+        "bow-right-2",
+        "bow-right-3"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "crown",
+        "brim"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "crown",
+        "band"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "brim",
+        "band"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bow-left",
+        "bow-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "band",
+        "bow-left"
+      ]
+    }
+  ],
+  "variant_of": "ladies-hat-with-bow",
+  "variant_label": "Stretch to HRECT_L"
+}

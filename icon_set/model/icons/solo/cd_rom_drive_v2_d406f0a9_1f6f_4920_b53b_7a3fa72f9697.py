@@ -19,11 +19,11 @@ class CdRomDriveVariant2(Solo48):
     keywords = ('cd', 'rom', 'drive')
 
     def build(self) -> None:
-        self.add_line('housing-0', (2, 30), (2, 22))
-        self.add_line('housing-1', (2, 22), (8, 2))
-        self.add_line('housing-2', (8, 2), (40, 2))
-        self.add_line('housing-3', (40, 2), (46, 22))
-        self.add_line('housing-4', (46, 22), (46, 30))
+        self.add_line('housing-0', (6, 30), (6, 22))
+        self.add_line('housing-1', (6, 22), (8, 6))
+        self.add_line('housing-2', (8, 6), (40, 6))
+        self.add_line('housing-3', (40, 6), (42, 22))
+        self.add_line('housing-4', (42, 22), (42, 30))
         self.add_contour('housing', 'housing-0', 'housing-1', 'housing-2', 'housing-3', 'housing-4', closed=False)
         self.add_line('slot', (12, 22), (36, 22))
         self.add_arc('disc-bottom', (36, 22), (12, 22), radius_x=15, large_arc=True, sweep=True)

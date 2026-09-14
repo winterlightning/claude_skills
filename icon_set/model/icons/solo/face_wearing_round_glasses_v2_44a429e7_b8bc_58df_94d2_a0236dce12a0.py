@@ -18,10 +18,10 @@ class FaceWearingRoundGlassesVariant2(Solo48):
     keywords = ('face', 'glasses', 'spectacles', 'smile', 'avatar', 'person', 'eyewear', 'portrait')
 
     def build(self) -> None:
-        self.add_arc('face-0', (46, 24), (24, 46), radius_x=22, radius_y=22, sweep=True)
-        self.add_arc('face-1', (24, 46), (2, 24), radius_x=22, radius_y=22, sweep=True)
-        self.add_arc('face-2', (2, 24), (24, 2), radius_x=22, radius_y=22, sweep=True)
-        self.add_arc('face-3', (24, 2), (46, 24), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('face-0', (42, 24), (24, 42), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('face-1', (24, 42), (6, 24), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('face-2', (6, 24), (24, 6), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('face-3', (24, 6), (42, 24), radius_x=22, radius_y=22, sweep=True)
         self.add_contour('face', 'face-0', 'face-1', 'face-2', 'face-3', closed=True)
         for name, cx in [('left',15),('right',33)]:
             self.add_arc(f'lens-{name}-top',(cx-6,22),(cx+6,22),radius_x=6)

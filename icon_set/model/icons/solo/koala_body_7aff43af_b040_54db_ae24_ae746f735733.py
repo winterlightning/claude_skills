@@ -17,23 +17,23 @@ class SittingKoala(Solo48):
     keywords = ('koala', 'sitting', 'marsupial', 'australia', 'ears', 'animal', 'bear', 'zoo')
 
     def build(self) -> None:
-        # VRECT_XL ink bounds (3, 0)-(45, 48). One continuous outer path.
-        self.add_arc('crown-a', (15, 8), (23, 2), radius_x=8, radius_y=6)
-        self.add_arc('crown-b', (23, 2), (31, 8), radius_x=8, radius_y=6)
-        self.add_arc('right-ear-a', (31, 8), (43, 10), radius_x=7, radius_y=8)
-        self.add_arc('right-ear-b', (43, 10), (35, 20), radius_x=8, radius_y=10)
+        # VRECT_XL ink bounds (6, 6)-(42, 42). One continuous outer path.
+        self.add_arc('crown-a', (15, 8), (23, 6), radius_x=8, radius_y=6)
+        self.add_arc('crown-b', (23, 6), (31, 8), radius_x=8, radius_y=6)
+        self.add_arc('right-ear-a', (31, 8), (42, 10), radius_x=7, radius_y=8)
+        self.add_arc('right-ear-b', (42, 10), (35, 20), radius_x=8, radius_y=10)
         self.add_arc('cheek', (35, 20), (29, 26), radius_x=8)
-        self.add_line('foreleg-top', (29, 26), (43, 28))
-        self.add_arc('arm', (43, 28), (34, 34), radius_x=9, radius_y=6)
+        self.add_line('foreleg-top', (29, 26), (42, 28))
+        self.add_arc('arm', (42, 28), (34, 34), radius_x=9, radius_y=6)
         self.add_line('foreleg', (34, 34), (32, 40))
         self.add_line('toe', (32, 40), (37, 38))
-        self.add_arc('foot', (37, 38), (32, 46), radius_x=6, radius_y=8)
-        self.add_line('base', (32, 46), (20, 46))
-        self.add_arc('haunch', (20, 46), (9, 37), radius_x=11, radius_y=9)
+        self.add_arc('foot', (37, 38), (32, 42), radius_x=6, radius_y=8)
+        self.add_line('base', (32, 42), (20, 42))
+        self.add_arc('haunch', (20, 42), (9, 37), radius_x=11, radius_y=9)
         self.add_arc('back', (9, 37), (14, 26), radius_x=15)
         self.add_line('neck', (14, 26), (13, 20))
-        self.add_arc('left-ear-b', (13, 20), (5, 10), radius_x=8, radius_y=10)
-        self.add_arc('left-ear-a', (5, 10), (15, 8), radius_x=6, radius_y=8)
+        self.add_arc('left-ear-b', (13, 20), (6, 10), radius_x=8, radius_y=10)
+        self.add_arc('left-ear-a', (6, 10), (15, 8), radius_x=6, radius_y=8)
         self.add_contour(
             'outline', 'crown-a', 'crown-b', 'right-ear-a', 'right-ear-b',
             'cheek', 'foreleg-top', 'arm', 'foreleg', 'toe', 'foot', 'base',

@@ -1,4 +1,4 @@
-"""Paw with four detached toe pads and scalloped main pad; centerline extremes (2,2)-(46,46). Lucide paw-print informs round toe contours; oval toes simplified to circles for native-size clarity."""
+"""Paw with four detached toe pads and scalloped main pad; centerline extremes (6,6)-(42,42). Lucide paw-print informs round toe contours; oval toes simplified to circles for native-size clarity."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,9 +17,9 @@ class PawPrintSmallOuterToes(Solo48):
     keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
 
     def build(self) -> None:
-        # Paw with four detached toe pads and scalloped main pad; centerline extremes (2,2)-(46,46). Lucide paw-print informs round toe contours; oval toes simplified to circles for native-size clarity.
-        self.add_arc('outer-left-top', (2, 22), (8, 22), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('outer-left-bottom', (8, 22), (2, 22), radius_x=3, radius_y=3, sweep=True)
+        # Paw with four detached toe pads and scalloped main pad; centerline extremes (6,6)-(42,42). Lucide paw-print informs round toe contours; oval toes simplified to circles for native-size clarity.
+        self.add_arc('outer-left-top', (6, 22), (8, 22), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('outer-left-bottom', (8, 22), (6, 22), radius_x=3, radius_y=3, sweep=True)
         self.add_contour('outer-left', 'outer-left-top', 'outer-left-bottom', closed=True)
         self.add_arc('inner-left-top', (10, 7), (20, 7), radius_x=5, radius_y=5, sweep=True)
         self.add_arc('inner-left-bottom', (20, 7), (10, 7), radius_x=5, radius_y=5, sweep=True)
@@ -27,14 +27,14 @@ class PawPrintSmallOuterToes(Solo48):
         self.add_arc('inner-right-top', (28, 7), (38, 7), radius_x=5, radius_y=5, sweep=True)
         self.add_arc('inner-right-bottom', (38, 7), (28, 7), radius_x=5, radius_y=5, sweep=True)
         self.add_contour('inner-right', 'inner-right-top', 'inner-right-bottom', closed=True)
-        self.add_arc('outer-right-top', (40, 22), (46, 22), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('outer-right-bottom', (46, 22), (40, 22), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('outer-right-top', (40, 22), (42, 22), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('outer-right-bottom', (42, 22), (40, 22), radius_x=3, radius_y=3, sweep=True)
         self.add_contour('outer-right', 'outer-right-top', 'outer-right-bottom', closed=True)
         self.add_arc('pad-crown', (16, 31), (32, 31), radius_x=8, radius_y=7, sweep=True)
         self.add_line('pad-right-slope', (32, 31), (37, 36))
-        self.add_arc('pad-right-lobe', (37, 36), (30, 46), radius_x=7, radius_y=10, sweep=True)
-        self.add_arc('pad-notch-right', (30, 46), (24, 43), radius_x=8, radius_y=8, sweep=False)
-        self.add_arc('pad-notch-left', (24, 43), (18, 46), radius_x=8, radius_y=8, sweep=False)
-        self.add_arc('pad-left-lobe', (18, 46), (11, 36), radius_x=7, radius_y=10, sweep=True)
+        self.add_arc('pad-right-lobe', (37, 36), (30, 42), radius_x=7, radius_y=10, sweep=True)
+        self.add_arc('pad-notch-right', (30, 42), (24, 42), radius_x=8, radius_y=8, sweep=False)
+        self.add_arc('pad-notch-left', (24, 42), (18, 42), radius_x=8, radius_y=8, sweep=False)
+        self.add_arc('pad-left-lobe', (18, 42), (11, 36), radius_x=7, radius_y=10, sweep=True)
         self.add_line('pad-left-slope', (11, 36), (16, 31))
         self.add_contour('pad', 'pad-crown', 'pad-right-slope', 'pad-right-lobe', 'pad-notch-right', 'pad-notch-left', 'pad-left-lobe', 'pad-left-slope', closed=True)

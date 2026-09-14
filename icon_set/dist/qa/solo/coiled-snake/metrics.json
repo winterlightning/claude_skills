@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 44.1626) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [2.0, 2.0, 2.0, 1.8374], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "snake",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 38 A 19 19 0 0 1 5 21 A 19 19 0 0 1 24 2 A 19 19 0 0 1 43 21 L 43 29 L 40 40 A 6 6 0 0 1 34 46 A 6 6 0 0 1 28 40 L 26 29 A 8 8 0 0 1 30 23 A 8 11 0 0 0 24 12 A 11 11 0 0 0 13 23 A 11 11 0 0 0 24 34 A 8 8 0 0 1 18 38 Z",
+        "pathData": "M 18 38 A 19 19 0 0 1 6 21 A 19 19 0 0 1 24 6 A 19 19 0 0 1 42 21 L 42 29 L 40 40 A 6 6 0 0 1 34 42 A 6 6 0 0 1 28 40 L 26 29 A 8 8 0 0 1 30 23 A 8 11 0 0 0 24 12 A 11 11 0 0 0 13 23 A 11 11 0 0 0 24 34 A 8 8 0 0 1 18 38 Z",
         "bounds": [
-          5.0,
-          2.0,
-          43.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.16237489380884
         ],
-        "segmentCount": 708,
-        "approximationError": 0.0008538906597711376,
+        "segmentCount": 644,
+        "approximationError": 0.0009028110673494657,
         "hasCurves": true
       }
     ],
@@ -40,10 +42,10 @@
           "snake"
         ],
         "bounds": [
-          5.0,
-          2.0,
-          43.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.16237489380884
         ]
       }
     ],
@@ -51,8 +53,8 @@
     "connectedPairs": [],
     "excludedPairs": [],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -66,8 +68,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 15,
-      "flattenedSegments": 708,
-      "adaptiveNodes": 1398,
+      "flattenedSegments": 644,
+      "adaptiveNodes": 1270,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -83,34 +85,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          34.3281,
-          29.9531
+          34.0156,
+          29.7969
         ],
         "bbox_viewbox": [
-          5.5,
-          2.5,
-          37.0,
-          43.0
+          6.5,
+          6.5,
+          35.0,
+          35.1562
         ],
         "bbox_ship_px": [
-          37.0,
-          43.0
+          35.0,
+          35.1562
         ],
         "bbox_design_u": [
-          37.0,
-          43.0
+          35.0,
+          35.1562
         ],
-        "area_ship_px2": 831.9873,
-        "equivalent_diameter_ship_px": 32.5472,
-        "equivalent_diameter_design_u": 32.5472,
-        "inscribed_diameter_ship_px": 15.2789,
-        "inscribed_diameter_design_u": 15.2789,
-        "inscribed_radius_ship_px": 7.6394,
-        "inscribed_radius_design_u": 7.6394,
+        "area_ship_px2": 608.9658,
+        "equivalent_diameter_ship_px": 27.8453,
+        "equivalent_diameter_design_u": 27.8453,
+        "inscribed_diameter_ship_px": 14.6733,
+        "inscribed_diameter_design_u": 14.6733,
+        "inscribed_radius_ship_px": 7.3366,
+        "inscribed_radius_design_u": 7.3366,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 6.1394,
-        "equivalent_diameter_at_authored_stroke_design_u": 12.2788
+        "equivalent_radius_at_authored_stroke_design_u": 5.8366,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.6732
       }
     ],
     "pinches": [],
@@ -136,14 +138,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "eeacf8d000be83b9e46ff6e3bdf72ac2315e835dbc599cb7fd0262f67d2dbea7",
+  "svg_sha256": "393e3c46c758a7aa041694ad66dea1def11b55cc6f57112b492d5a5fd9b36eaa",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -173,13 +175,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "review",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,
@@ -196,17 +211,59 @@
           "snake-12"
         ],
         "status": "review",
-        "sustained_length": 8.2437,
-        "centerline_distance": 5.1954,
-        "ink_gap": 1.1954,
+        "sustained_length": 18.5565,
+        "centerline_distance": 5.1598,
+        "ink_gap": 1.1598,
         "nearest_points": [
           [
-            17.410594649452108,
-            37.793618767233404
+            17.42876784274416,
+            37.762802423181924
           ],
           [
-            19.505974547542742,
-            33.03954657858091
+            19.509818538819857,
+            33.04124083599453
+          ]
+        ]
+      },
+      {
+        "contour": "snake",
+        "elements": [
+          "snake-2",
+          "snake-11"
+        ],
+        "status": "review",
+        "sustained_length": 23.9977,
+        "centerline_distance": 5.9269,
+        "ink_gap": 1.9269,
+        "nearest_points": [
+          [
+            19.44013211571756,
+            6.699008033181826
+          ],
+          [
+            21.073594698766573,
+            12.396408532345614
+          ]
+        ]
+      },
+      {
+        "contour": "snake",
+        "elements": [
+          "snake-3",
+          "snake-10"
+        ],
+        "status": "review",
+        "sustained_length": 5.9994,
+        "centerline_distance": 6.4027,
+        "ink_gap": 2.4027,
+        "nearest_points": [
+          [
+            27.101375009202393,
+            6.3509625456026875
+          ],
+          [
+            24.518079903039197,
+            12.209416080709147
           ]
         ]
       }

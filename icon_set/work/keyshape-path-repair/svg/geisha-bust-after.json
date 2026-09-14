@@ -1,0 +1,300 @@
+{
+  "icon_id": "geisha-bust-stretch-vrect-l",
+  "name": "geisha-bust-stretch-vrect-l",
+  "aliases": [],
+  "category": "culture/objects",
+  "keywords": [
+    "geisha",
+    "japanese",
+    "kimono",
+    "hairpin",
+    "traditional",
+    "woman",
+    "culture",
+    "asian"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "bun",
+      "start": [
+        17,
+        13
+      ],
+      "end": [
+        31,
+        13
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "pin-left-1",
+      "start": [
+        8,
+        4
+      ],
+      "end": [
+        17,
+        13
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "pin-right-1",
+      "start": [
+        31,
+        13
+      ],
+      "end": [
+        40,
+        4
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "hair-top",
+      "start": [
+        17,
+        13
+      ],
+      "end": [
+        31,
+        13
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "hair-right",
+      "start": [
+        31,
+        13
+      ],
+      "end": [
+        34,
+        20
+      ],
+      "radius_x": 12,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "chin",
+      "start": [
+        34,
+        20
+      ],
+      "end": [
+        14,
+        20
+      ],
+      "radius_x": 10,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "hair-left",
+      "start": [
+        14,
+        20
+      ],
+      "end": [
+        17,
+        13
+      ],
+      "radius_x": 12,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-left",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        16,
+        36
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "collar-1",
+      "start": [
+        16,
+        36
+      ],
+      "end": [
+        24,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "collar-2",
+      "start": [
+        24,
+        44
+      ],
+      "end": [
+        32,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder-right",
+      "start": [
+        32,
+        36
+      ],
+      "end": [
+        40,
+        44
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "hem-right",
+      "start": [
+        40,
+        44
+      ],
+      "end": [
+        24,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "hem-left",
+      "start": [
+        24,
+        44
+      ],
+      "end": [
+        8,
+        44
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "pin-left",
+      "members": [
+        "pin-left-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "pin-right",
+      "members": [
+        "pin-right-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "head",
+      "members": [
+        "hair-top",
+        "hair-right",
+        "chin",
+        "hair-left"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "garment",
+      "members": [
+        "shoulder-left",
+        "collar-1",
+        "collar-2",
+        "shoulder-right",
+        "hem-right",
+        "hem-left"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "bun",
+        "pin-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bun",
+        "pin-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "bun"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "pin-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "head",
+        "pin-right"
+      ]
+    }
+  ],
+  "variant_of": "geisha-bust",
+  "variant_label": "Stretch to VRECT_L"
+}

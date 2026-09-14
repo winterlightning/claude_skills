@@ -1,4 +1,4 @@
-"""Tiered Capitol dome and finial. Centerline extremes (2,2)-(46,46). Lucide landmark: shared axis and sparse facade. Lantern ornament reduced to mast."""
+'Capitol dome above a broad base. SQUARE centerlines (6,6)-(42,42). Shared axis, paired dome quarters; Lucide landmark informs sparse facade. Cupola ornament reduced to finial.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,13 +16,13 @@ class CapitolDomeBuilding(Solo48):
     keywords = ('capitol', 'washington', 'government', 'dome', 'congress', 'landmark', 'building', 'civic')
 
     def build(self) -> None:
-        self.add_polyline('base', (2, 46), (2, 34), (12, 34), (36, 34), (46, 34), (46, 46), (2, 46), closed=False)
-        self.add_polyline('drum', (12, 34), (12, 24), (36, 24), (36, 34), closed=False)
-        self.add_arc('dome-left', (12, 24), (24, 10), radius_x=12, radius_y=14, sweep=True)
-        self.add_arc('dome-right', (24, 10), (36, 24), radius_x=12, radius_y=14, sweep=True)
-        self.add_contour('dome', 'dome-left', 'dome-right', closed=False)
-        self.add_line('finial', (24, 2), (24, 10))
-        self.add_line('window', (24, 34), (24, 24))
-        self.relate("connect", 'base', 'drum')
-        self.relate("connect", 'drum', 'dome')
-        self.relate("connect", 'dome', 'finial')
+        axis, left, right, bottom = 24, 6, 42, 42
+        self.add_polyline('base', (left,bottom),(left,32),(14,32),(axis,32),(34,32),(right,32),(right,bottom),closed=True)
+        self.add_polyline('drum',(14,32),(14,22),(axis,22),(34,22),(34,32))
+        self.add_arc('dome-left',(14,22),(axis,12),radius_x=10)
+        self.add_arc('dome-right',(axis,12),(34,22),radius_x=10)
+        self.add_contour('dome','dome-left','dome-right')
+        self.add_line('finial',(axis,6),(axis,12))
+        self.add_line('drum-divider',(axis,22),(axis,32))
+        for a,b in [('base','drum'),('drum','dome'),('dome','finial'),('drum','drum-divider'),('base','drum-divider')]:
+            self.relate('connect',a,b)

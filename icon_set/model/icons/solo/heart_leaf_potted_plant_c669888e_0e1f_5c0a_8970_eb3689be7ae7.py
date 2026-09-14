@@ -1,4 +1,4 @@
-"""Three heart leaves in a tapered pot. SQUARE (2,2)-(46,46) accommodates spreading foliage. Lucide heart informs paired lobes. Leaf veins omitted."""
+"""Three heart leaves in a tapered pot. SQUARE (6,6)-(42,42) accommodates spreading foliage. Lucide heart informs paired lobes. Leaf veins omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,8 +17,8 @@ class HeartLeafPottedPlant(Solo48):
     keywords = ('plant', 'heart', 'leaves', 'pot', 'stems', 'foliage', 'decor')
 
     def build(self) -> None:
-        self.add_arc('left-a', (10, 18), (2, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_line('left-b', (2, 18), (10, 28))
+        self.add_arc('left-a', (10, 18), (6, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+        self.add_line('left-b', (6, 18), (10, 28))
         self.add_line('left-c', (10, 28), (18, 18))
         self.add_arc('left-d', (18, 18), (10, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
         self.add_contour('left', 'left-a', 'left-b', 'left-c', 'left-d', closed=True)
@@ -33,17 +33,17 @@ class HeartLeafPottedPlant(Solo48):
         self.relate('connect', 'centre', 'centre-stem')
         self.add_arc('right-a', (38, 18), (30, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
         self.add_line('right-b', (30, 18), (38, 28))
-        self.add_line('right-c', (38, 28), (46, 18))
-        self.add_arc('right-d', (46, 18), (38, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+        self.add_line('right-c', (38, 28), (42, 18))
+        self.add_arc('right-d', (42, 18), (38, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
         self.add_contour('right', 'right-a', 'right-b', 'right-c', 'right-d', closed=True)
         self.add_line('right-stem', (38, 28), (38, 34))
         self.relate('connect', 'right', 'right-stem')
         self.add_line('pot-top', (7, 34), (41, 34))
-        self.add_line('pot-r', (41, 34), (39, 43))
-        self.add_arc('pot-br', (39, 43), (36, 46), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('pot-b', (36, 46), (12, 46))
-        self.add_arc('pot-bl', (12, 46), (9, 43), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('pot-l', (9, 43), (7, 34))
+        self.add_line('pot-r', (41, 34), (39, 42))
+        self.add_arc('pot-br', (39, 42), (36, 42), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('pot-b', (36, 42), (12, 42))
+        self.add_arc('pot-bl', (12, 42), (9, 42), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('pot-l', (9, 42), (7, 34))
         self.add_contour('pot', 'pot-top', 'pot-r', 'pot-br', 'pot-b', 'pot-bl', 'pot-l', closed=True)
         self.relate('connect', 'left-stem', 'pot')
         self.relate('connect', 'centre-stem', 'pot')

@@ -18,14 +18,14 @@ class TropicalIslandWithPalmTreeVariant2(Solo48):
     keywords = ('island', 'palm', 'tree', 'beach', 'tropical', 'vacation', 'holiday', 'sea', 'sand', 'water')
 
     def build(self) -> None:
-        # SQUARE centerline extremes (2,2)-(46,46).
-        self.add_arc('upper-left', (24,14), (2,14), radius_x=11, radius_y=12, sweep=False)
-        self.add_arc('upper-right', (24,14), (46,14), radius_x=11, radius_y=12)
+        # SQUARE centerline extremes (6,6)-(42,42).
+        self.add_arc('upper-left', (24,14), (6,14), radius_x=11, radius_y=12, sweep=False)
+        self.add_arc('upper-right', (24,14), (42,14), radius_x=11, radius_y=12)
         self.add_arc('lower-left', (24,14), (8,28), radius_x=16, radius_y=14, sweep=False)
         self.add_arc('lower-right', (24,14), (40,28), radius_x=16, radius_y=14)
         self.add_arc('trunk', (24,14), (28,34), radius_x=30, sweep=False)
-        self.add_arc('island-left', (2,46), (28,34), radius_x=26, radius_y=12)
-        self.add_arc('island-right', (28,34), (46,46), radius_x=18, radius_y=12)
+        self.add_arc('island-left', (6,42), (28,34), radius_x=26, radius_y=12)
+        self.add_arc('island-right', (28,34), (42,42), radius_x=18, radius_y=12)
         self.add_contour('island', 'island-left', 'island-right')
         fronds=['upper-left','upper-right','lower-left','lower-right']
         for i,a in enumerate(fronds):

@@ -1,0 +1,301 @@
+{
+  "icon_id": "standing-deer-stretch-square",
+  "name": "standing-deer-stretch-square",
+  "aliases": [],
+  "category": "animals",
+  "keywords": [
+    "deer",
+    "stag",
+    "doe",
+    "standing",
+    "antlers",
+    "wildlife",
+    "forest",
+    "animal"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "back",
+      "start": [
+        14,
+        24
+      ],
+      "end": [
+        27,
+        24
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "shoulder",
+      "start": [
+        27,
+        24
+      ],
+      "end": [
+        32,
+        20
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "neck-back",
+      "start": [
+        32,
+        20
+      ],
+      "end": [
+        32,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "head-1",
+      "start": [
+        32,
+        15
+      ],
+      "end": [
+        37,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "head-2",
+      "start": [
+        37,
+        15
+      ],
+      "end": [
+        42,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "head-3",
+      "start": [
+        42,
+        20
+      ],
+      "end": [
+        40,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "head-4",
+      "start": [
+        40,
+        24
+      ],
+      "end": [
+        35,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "neck-front",
+      "start": [
+        35,
+        24
+      ],
+      "end": [
+        35,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "chest",
+      "start": [
+        35,
+        26
+      ],
+      "end": [
+        26,
+        34
+      ],
+      "radius_x": 10,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "belly",
+      "start": [
+        26,
+        34
+      ],
+      "end": [
+        14,
+        34
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "rump",
+      "start": [
+        14,
+        34
+      ],
+      "end": [
+        14,
+        24
+      ],
+      "radius_x": 8,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-back",
+      "start": [
+        14,
+        34
+      ],
+      "end": [
+        14,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-front",
+      "start": [
+        26,
+        34
+      ],
+      "end": [
+        26,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "antler-left",
+      "start": [
+        32,
+        15
+      ],
+      "end": [
+        24,
+        6
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "antler-right",
+      "start": [
+        32,
+        15
+      ],
+      "end": [
+        40,
+        6
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "body",
+      "members": [
+        "back",
+        "shoulder",
+        "neck-back",
+        "head-1",
+        "head-2",
+        "head-3",
+        "head-4",
+        "neck-front",
+        "chest",
+        "belly",
+        "rump"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "leg-back",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "leg-front",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "antler-left",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "antler-right",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "antler-left",
+        "antler-right"
+      ]
+    }
+  ],
+  "variant_of": "standing-deer",
+  "variant_label": "Stretch to SQUARE"
+}

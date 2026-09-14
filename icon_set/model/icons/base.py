@@ -7,6 +7,7 @@ sibling, never a scaled copy.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 from typing import Iterable, Literal, TYPE_CHECKING
 
@@ -25,6 +26,7 @@ from ..primitives import (
 from ..profiles import GRID, LINE_CAP, LINE_JOIN, STROKE_WIDTH, Profile
 
 if TYPE_CHECKING:  # pragma: no cover - typing only
+    from ..fitting import FitResult
     from ...validation.report import ValidationReport
 
 ExportFormat = Literal["svg", "png"]
@@ -178,6 +180,20 @@ class Icon:
 
     # -- artifacts ---------------------------------------------------------
 
+    def fit_to_keyshape(self, keyshape: Keyshape, *, force_stretch: bool = False) -> "FitResult":
+        """Return a new SOLO48 fitting candidate and its full QA report.
+
+        Scales centerlines, keeps stroke width fixed, and snaps to
+        the integer grid. Exact fitting and visual quality are not guaranteed;
+        remaining problems are reported for manual adjustment. Never mutates
+        this icon or registers/publishes the candidate. With force_stretch,
+        rectangular targets use independent x/y scales, including arc radii.
+        Circle targets retain radial proportional fitting.
+        """
+        from ..fitting import fit_to_keyshape
+
+        return fit_to_keyshape(self, keyshape, force_stretch=force_stretch)
+
     def to_svg(self) -> str:
         from ...renderers.svg import render_svg
 
@@ -202,6 +218,21 @@ class Icon:
             from ...renderers.png import render_png
 
             path.write_bytes(render_png(self))
+        return path
+
+    def export_json_graph(self, destination: str | Path) -> Path:
+        """Write the construction graph as UTF-8 JSON and return its path.
+
+        Uses the existing icon record format: ordered primitives, contours,
+        anchors, relationships, and metadata (profile, keyshape, and style).
+        Compositions include resolved geometry and child placement metadata.
+        Parent directories are created as needed; no rendering or validation
+        is performed, so an in-progress drawing can also be exported.
+        """
+        document = json.dumps(self.to_record(), indent=2, ensure_ascii=False, allow_nan=False)
+        path = Path(destination)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(document + "\n", encoding="utf-8")
         return path
 
     def validate_icon(self) -> "ValidationReport":

@@ -1,5 +1,5 @@
 # Variant of selene-astrological-symbol; parent file remains unchanged.
-"""A true right semicircle over a cross. VRECT_L centerline bounds (8,2)-(40,46). The crossbar supplies the left extreme. No useful local Lucide subject match; circular arcs replace flattened lunar tips."""
+"""A true right semicircle over a cross. VRECT_L centerline bounds (8,6)-(40,42). The crossbar supplies the left extreme. No useful local Lucide subject match; circular arcs replace flattened lunar tips."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8d70aef7-a4a5-57c7-8ae8-a7af8092a967'
@@ -18,11 +18,11 @@ class SeleneAstrologicalSymbolVariant2(Solo48):
     keywords = ('selene', 'astrology', 'moon', 'symbol', 'horoscope', 'glyph', 'lunar', 'goddess')
 
     def build(self) -> None:
-        # VRECT_L extremes (8,2)-(40,46); a true right semicircle.
-        self.add_arc('moon-top', (24,2), (40,18), radius_x=16)
+        # VRECT_L extremes (8,6)-(40,42); a true right semicircle.
+        self.add_arc('moon-top', (24,6), (40,18), radius_x=16)
         self.add_arc('moon-bottom', (40,18), (24,34), radius_x=16)
         self.add_contour('moon', 'moon-top', 'moon-bottom')
-        self.add_polyline('stem', (24,34), (24,40), (24,46))
+        self.add_polyline('stem', (24,34), (24,40), (24,42))
         self.add_polyline('crossbar', (8,40), (24,40), (40,40))
         self.relate('connect', 'moon', 'stem')
         self.relate('connect', 'stem', 'crossbar')

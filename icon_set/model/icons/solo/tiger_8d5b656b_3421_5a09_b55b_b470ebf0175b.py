@@ -18,13 +18,13 @@ class BearMuzzleFace(Solo48):
 
     def build(self) -> None:
         # Visible keyshape extremes: (0, 0, 48, 48).
-        self.add_arc("ear-left", (2,10), (18,10), radius_x=8)
+        self.add_arc("ear-left", (6,10), (18,10), radius_x=8)
         self.add_arc("forehead", (18,10), (30,10), radius_x=20)
-        self.add_arc("ear-right", (30,10), (46,10), radius_x=8)
-        self.add_line("cheek-right", (46,10), (46,26))
-        self.add_arc("chin-right", (46,26), (24,46), radius_x=22, radius_y=20)
-        self.add_arc("chin-left", (24,46), (2,26), radius_x=22, radius_y=20)
-        self.add_line("cheek-left", (2,26), (2,10))
+        self.add_arc("ear-right", (30,10), (42,10), radius_x=8)
+        self.add_line("cheek-right", (42,10), (42,26))
+        self.add_arc("chin-right", (42,26), (24,42), radius_x=22, radius_y=20)
+        self.add_arc("chin-left", (24,42), (6,26), radius_x=22, radius_y=20)
+        self.add_line("cheek-left", (6,26), (6,10))
         self.add_contour("head", "ear-left", "forehead", "ear-right", "cheek-right", "chin-right", "chin-left", "cheek-left")
         self.add_dot("eye-left", (15,20))
         self.add_dot("eye-right", (33,20))

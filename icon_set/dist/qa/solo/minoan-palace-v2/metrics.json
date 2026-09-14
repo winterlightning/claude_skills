@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 45) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 2.0, 2.0, 3.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,11 +17,11 @@
         "elementId": "roof",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 13 L 24 5 L 46 13",
+        "pathData": "M 6 13 L 24 6 L 42 13",
         "bounds": [
-          2.0,
-          5.0,
-          46.0,
+          6.0,
+          6.0,
+          42.0,
           13.0
         ],
         "segmentCount": 2,
@@ -31,11 +33,11 @@
         "elementId": "hall",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 13 L 2 29 L 12 29 L 20 29 L 28 29 L 36 29 L 46 29 L 46 13",
+        "pathData": "M 6 13 L 6 29 L 12 29 L 20 29 L 28 29 L 36 29 L 42 29 L 42 13",
         "bounds": [
-          2.0,
+          6.0,
           13.0,
-          46.0,
+          42.0,
           29.0
         ],
         "segmentCount": 7,
@@ -47,12 +49,12 @@
         "elementId": "base",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 43 L 12 43 L 20 43 L 28 43 L 36 43 L 46 43",
+        "pathData": "M 6 42 L 12 42 L 20 42 L 28 42 L 36 42 L 42 42",
         "bounds": [
-          2.0,
-          43.0,
-          46.0,
-          43.0
+          6.0,
+          42.0,
+          42.0,
+          42.0
         ],
         "segmentCount": 5,
         "approximationError": 0.0,
@@ -154,9 +156,9 @@
           "column-36"
         ],
         "bounds": [
-          2.0,
-          5.0,
-          46.0,
+          6.0,
+          6.0,
+          42.0,
           43.0
         ]
       }
@@ -170,7 +172,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          2.0,
+          6.0,
           13.0
         ]
       },
@@ -223,10 +225,10 @@
           "base:subpath-1",
           "column-12:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           12.0,
-          43.0
+          42.0
         ]
       },
       {
@@ -234,10 +236,10 @@
           "base:subpath-1",
           "column-20:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           20.0,
-          43.0
+          42.0
         ]
       },
       {
@@ -245,10 +247,10 @@
           "base:subpath-1",
           "column-28:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           28.0,
-          43.0
+          42.0
         ]
       },
       {
@@ -256,10 +258,10 @@
           "base:subpath-1",
           "column-36:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           36.0,
-          43.0
+          42.0
         ]
       }
     ],
@@ -278,7 +280,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            2.0,
+            6.0,
             13.0
           ]
         }
@@ -425,10 +427,10 @@
             "base:subpath-1",
             "column-12:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             12.0,
-            43.0
+            42.0
           ]
         }
       },
@@ -444,10 +446,10 @@
             "base:subpath-1",
             "column-20:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             20.0,
-            43.0
+            42.0
           ]
         }
       },
@@ -463,10 +465,10 @@
             "base:subpath-1",
             "column-28:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             28.0,
-            43.0
+            42.0
           ]
         }
       },
@@ -482,10 +484,10 @@
             "base:subpath-1",
             "column-36:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             36.0,
-            43.0
+            42.0
           ]
         }
       },
@@ -545,8 +547,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -563,7 +565,7 @@
       "flattenedSegments": 18,
       "adaptiveNodes": 0,
       "distanceTests": 0,
-      "connectionTests": 0
+      "connectionTests": 4
     },
     "raw_status": "pass",
     "canvas": 48
@@ -577,34 +579,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9531,
-          17.4531
+          24.0156,
+          17.9844
         ],
         "bbox_viewbox": [
-          2.5,
-          5.5312,
-          43.0,
-          22.9688
+          6.5,
+          6.5312,
+          35.0,
+          21.9688
         ],
         "bbox_ship_px": [
-          43.0,
-          22.9688
+          35.0,
+          21.9688
         ],
         "bbox_design_u": [
-          43.0,
-          22.9688
+          35.0,
+          21.9688
         ],
-        "area_ship_px2": 819.5068,
-        "equivalent_diameter_ship_px": 32.3021,
-        "equivalent_diameter_design_u": 32.3021,
-        "inscribed_diameter_ship_px": 22.125,
-        "inscribed_diameter_design_u": 22.125,
-        "inscribed_radius_ship_px": 11.0625,
-        "inscribed_radius_design_u": 11.0625,
+        "area_ship_px2": 649.6279,
+        "equivalent_diameter_ship_px": 28.7599,
+        "equivalent_diameter_design_u": 28.7599,
+        "inscribed_diameter_ship_px": 21.0625,
+        "inscribed_diameter_design_u": 21.0625,
+        "inscribed_radius_ship_px": 10.5312,
+        "inscribed_radius_design_u": 10.5312,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 9.5625,
-        "equivalent_diameter_at_authored_stroke_design_u": 19.125
+        "equivalent_radius_at_authored_stroke_design_u": 9.0312,
+        "equivalent_diameter_at_authored_stroke_design_u": 18.0624
       },
       {
         "hole": 2,
@@ -616,19 +618,19 @@
           12.5,
           29.5,
           7.0,
-          13.0
+          12.0
         ],
         "bbox_ship_px": [
           7.0,
-          13.0
+          12.0
         ],
         "bbox_design_u": [
           7.0,
-          13.0
+          12.0
         ],
-        "area_ship_px2": 91.0,
-        "equivalent_diameter_ship_px": 10.7641,
-        "equivalent_diameter_design_u": 10.7641,
+        "area_ship_px2": 84.0,
+        "equivalent_diameter_ship_px": 10.3418,
+        "equivalent_diameter_design_u": 10.3418,
         "inscribed_diameter_ship_px": 7.0,
         "inscribed_diameter_design_u": 7.0,
         "inscribed_radius_ship_px": 3.5,
@@ -648,19 +650,19 @@
           20.5,
           29.5,
           7.0,
-          13.0
+          12.0
         ],
         "bbox_ship_px": [
           7.0,
-          13.0
+          12.0
         ],
         "bbox_design_u": [
           7.0,
-          13.0
+          12.0
         ],
-        "area_ship_px2": 91.0,
-        "equivalent_diameter_ship_px": 10.7641,
-        "equivalent_diameter_design_u": 10.7641,
+        "area_ship_px2": 84.0,
+        "equivalent_diameter_ship_px": 10.3418,
+        "equivalent_diameter_design_u": 10.3418,
         "inscribed_diameter_ship_px": 7.0,
         "inscribed_diameter_design_u": 7.0,
         "inscribed_radius_ship_px": 3.5,
@@ -680,19 +682,19 @@
           28.5,
           29.5,
           7.0,
-          13.0
+          12.0
         ],
         "bbox_ship_px": [
           7.0,
-          13.0
+          12.0
         ],
         "bbox_design_u": [
           7.0,
-          13.0
+          12.0
         ],
-        "area_ship_px2": 91.0,
-        "equivalent_diameter_ship_px": 10.7641,
-        "equivalent_diameter_design_u": 10.7641,
+        "area_ship_px2": 84.0,
+        "equivalent_diameter_ship_px": 10.3418,
+        "equivalent_diameter_design_u": 10.3418,
         "inscribed_diameter_ship_px": 7.0,
         "inscribed_diameter_design_u": 7.0,
         "inscribed_radius_ship_px": 3.5,
@@ -726,14 +728,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b660d5ba9790651250ff8be72a76a097986ef76b7b0ded2112326085088478cd",
+  "svg_sha256": "d42ebb3c614ceb226afde7a211906434b8fb916cd12f8d24c7804a5e30754c27",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -763,13 +765,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

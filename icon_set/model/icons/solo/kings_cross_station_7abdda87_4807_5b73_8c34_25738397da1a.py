@@ -17,13 +17,13 @@ class KingsCrossStation(Solo48):
     keywords = ('kings cross', 'london', 'station', 'railway', 'clock', 'arch', 'landmark', 'travel')
 
     def build(self) -> None:
-        # Centerline extremes: (5,2)-(43,46).
-        self.add_line('wall-left',(5,46),(5,21))
-        self.add_arc('roof',(5,21),(43,21),radius_x=19,sweep=True)
-        self.add_line('wall-right',(43,21),(43,46))
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_line('wall-left',(6,42),(6,21))
+        self.add_arc('roof',(6,21),(42,21),radius_x=19,sweep=True)
+        self.add_line('wall-right',(42,21),(42,42))
         self.add_contour('facade','wall-left','roof','wall-right')
         self.add_arc('clock-a',(24,11),(24,29),radius_x=9,sweep=True)
         self.add_arc('clock-b',(24,29),(24,11),radius_x=9,sweep=True)
         self.add_contour('clock','clock-a','clock-b',closed=True)
         self.add_polyline('hands',(24,18),(24,21),(26,21))
-        self.add_arc('entrance',(15,46),(33,46),radius_x=9,sweep=True)
+        self.add_arc('entrance',(15,42),(33,42),radius_x=9,sweep=True)

@@ -18,9 +18,9 @@ class GrandCanyonWithRiverVariant2(Solo48):
     keywords = ('grand canyon', 'canyon', 'usa', 'arizona', 'river', 'cliff', 'landscape', 'nature', 'landmark')
 
     def build(self) -> None:
-        # SQUARE centerline extremes (2,2)-(46,46); asymmetric mesas frame the river.
-        self.add_polyline('left-cliff',(2,2),(13,2),(16,13),(11,13),(8,29),(2,33))
-        self.add_polyline('right-cliff',(46,7),(35,7),(32,19),(37,19),(40,34),(46,38))
+        # SQUARE centerline extremes (6,6)-(42,42); asymmetric mesas frame the river.
+        self.add_polyline('left-cliff',(6,6),(13,6),(16,13),(11,13),(8,29),(6,33))
+        self.add_polyline('right-cliff',(42,7),(35,7),(32,19),(37,19),(40,34),(42,38))
         self.add_arc('river-upper',(25,18),(17,32),radius_x=8,radius_y=14,sweep=False)
-        self.add_arc('river-lower',(17,32),(9,46),radius_x=8,radius_y=14,sweep=True)
+        self.add_arc('river-lower',(17,32),(9,42),radius_x=8,radius_y=14,sweep=True)
         self.add_contour('river','river-upper','river-lower')

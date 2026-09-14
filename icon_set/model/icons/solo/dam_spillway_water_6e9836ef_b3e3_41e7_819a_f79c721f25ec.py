@@ -16,11 +16,11 @@ class DamSpillwayWater(Solo48):
     keywords = ('dam', 'spillway', 'water', 'hydro', 'energy', 'flow', 'waterfall', 'renewable', 'power')
 
     def build(self) -> None:
-        # HRECT_XL centerline extremes (2,5)-(46,43).
+        # HRECT_XL centerline extremes (6,6)-(42,42).
         for i, x in enumerate((5, 16, 27, 38)):
             self.add_line(f'fall-{i}', (x, 5), (x, 25))
             self.add_arc(f'foot-{i}', (x, 25), (x+5, 30), radius_x=5, sweep=False)
             self.add_contour(f'stream-{i}', f'fall-{i}', f'foot-{i}')
-        self.add_arc('water-left', (2, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
-        self.add_arc('water-right', (24, 40), (46, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-left', (6, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-right', (24, 40), (42, 40), radius_x=11, radius_y=3, sweep=False)
         self.add_contour('water', 'water-left', 'water-right')

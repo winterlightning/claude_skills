@@ -18,8 +18,8 @@ class Platypus(Solo48):
 
     def build(self):
         self.add_arc('tail-1', (18, 20), (16, 14), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('tail-2', (16, 14), (29, 2), radius_x=16, radius_y=12, sweep=True)
-        self.add_arc('tail-3', (29, 2), (36, 9), radius_x=7, radius_y=7, sweep=True)
+        self.add_arc('tail-2', (16, 14), (29, 6), radius_x=16, radius_y=12, sweep=True)
+        self.add_arc('tail-3', (29, 6), (36, 9), radius_x=7, radius_y=7, sweep=True)
         self.add_line('tail-4', (36, 9), (27, 16))
         self.add_line('tail-5', (27, 16), (27, 20))
         self.add_contour('tail', 'tail-1', 'tail-2', 'tail-3', 'tail-4', 'tail-5', closed=False)
@@ -32,9 +32,9 @@ class Platypus(Solo48):
         self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', closed=True)
         self.relate("connect", 'tail', 'body')
         self.add_line('bill-1', (18, 38), (28, 38))
-        self.add_arc('bill-2', (28, 38), (28, 46), radius_x=5, radius_y=4, sweep=True)
-        self.add_line('bill-3', (28, 46), (18, 46))
-        self.add_arc('bill-4', (18, 46), (18, 38), radius_x=5, radius_y=4, sweep=True)
+        self.add_arc('bill-2', (28, 38), (28, 42), radius_x=5, radius_y=4, sweep=True)
+        self.add_line('bill-3', (28, 42), (18, 42))
+        self.add_arc('bill-4', (18, 42), (18, 38), radius_x=5, radius_y=4, sweep=True)
         self.add_contour('bill', 'bill-1', 'bill-2', 'bill-3', 'bill-4', closed=True)
         self.relate("connect", 'bill', 'body')
         self.add_line('left-foreleg', (12, 29), (8, 24))

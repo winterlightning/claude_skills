@@ -1,4 +1,4 @@
-"""Exposed light bulb on a bent pipe and flat foot. VRECT_L (8,2)-(40,46). Lucide lightbulb informs broad rounded glass with a narrow socket. Filament loop reduced to a single upright mark; bent support preserves asymmetry."""
+"""Exposed light bulb on a bent pipe and flat foot. VRECT_L (8,6)-(40,42). Lucide lightbulb informs broad rounded glass with a narrow socket. Filament loop reduced to a single upright mark; bent support preserves asymmetry."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -28,9 +28,9 @@ class PipeMountedLightBulb(Solo48):
         self.add_line('pipe-top', (28, 32), (28, 35))
         self.add_arc('pipe-bend-r', (28, 35), (23, 40), radius_x=5, radius_y=5, sweep=True, large_arc=False)
         self.add_line('pipe-run', (23, 40), (17, 40))
-        self.add_arc('pipe-bend-l', (17, 40), (12, 45), radius_x=5, radius_y=5, sweep=False, large_arc=False)
-        self.add_line('pipe-end', (12, 45), (12, 46))
+        self.add_arc('pipe-bend-l', (17, 40), (12, 42), radius_x=5, radius_y=5, sweep=False, large_arc=False)
+        self.add_line('pipe-end', (12, 42), (12, 42))
         self.add_contour('pipe', 'pipe-top', 'pipe-bend-r', 'pipe-run', 'pipe-bend-l', 'pipe-end', closed=False)
         self.relate('connect', 'pipe', 'bulb')
-        self.add_line('foot', (8, 46), (20, 46))
+        self.add_line('foot', (8, 42), (20, 42))
         self.relate('connect', 'pipe', 'foot')

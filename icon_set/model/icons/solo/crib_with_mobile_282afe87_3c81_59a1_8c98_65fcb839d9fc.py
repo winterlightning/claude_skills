@@ -18,12 +18,12 @@ class CribWithMobile(Solo48):
 
     def build(self) -> None:
         # Centerline keyshape: SQUARE; Crib with three suspended toys; Lucide bed informs rails and upright joins. Teardrops reduced to round beads.
-        self.add_polyline('left-post', (2, 23), (2, 28), (2, 40), (2, 46), closed=False)
-        self.add_polyline('right-post', (46, 23), (46, 28), (46, 40), (46, 46), closed=False)
-        self.add_polyline('top-rail', (2, 28), (13, 28), (24, 28), (35, 28), (46, 28), closed=False)
+        self.add_polyline('left-post', (6, 23), (6, 28), (6, 40), (6, 42), closed=False)
+        self.add_polyline('right-post', (42, 23), (42, 28), (42, 40), (42, 42), closed=False)
+        self.add_polyline('top-rail', (6, 28), (13, 28), (24, 28), (35, 28), (42, 28), closed=False)
         self.relate("connect", 'top-rail', 'left-post')
         self.relate("connect", 'top-rail', 'right-post')
-        self.add_polyline('bottom-rail', (2, 40), (13, 40), (24, 40), (35, 40), (46, 40), closed=False)
+        self.add_polyline('bottom-rail', (6, 40), (13, 40), (24, 40), (35, 40), (42, 40), closed=False)
         self.relate("connect", 'bottom-rail', 'left-post')
         self.relate("connect", 'bottom-rail', 'right-post')
         self.add_line('slat-13', (13, 28), (13, 40))
@@ -36,7 +36,7 @@ class CribWithMobile(Solo48):
         self.relate("connect", 'slat-35', 'top-rail')
         self.relate("connect", 'slat-35', 'bottom-rail')
         self.add_polyline('mobile-bar', (10, 8), (24, 8), (38, 8), closed=False)
-        self.add_line('hanger', (24, 2), (24, 8))
+        self.add_line('hanger', (24, 6), (24, 8))
         self.relate("connect", 'hanger', 'mobile-bar')
         self.add_line('toy-10-thread', (10, 8), (10, 15))
         self.add_arc('toy-10-a', (10, 15), (10, 21), radius_x=3, radius_y=3, sweep=True)

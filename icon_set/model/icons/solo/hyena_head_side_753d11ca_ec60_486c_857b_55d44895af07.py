@@ -1,4 +1,4 @@
-"""Hyena profile; centerline extremes (2,8)-(46,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing."""
+"""Hyena profile; centerline extremes (6,8)-(42,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,12 +17,12 @@ class HyenaHeadProfile(Solo48):
     keywords = ('hyena', 'head', 'profile', 'side', 'snout', 'ear', 'animal', 'wildlife')
 
     def build(self) -> None:
-        # Hyena profile; centerline extremes (2,8)-(46,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing.
+        # Hyena profile; centerline extremes (6,8)-(42,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing.
         self.add_arc('forehead', (25, 18), (35, 25), radius_x=13, radius_y=13, sweep=True)
-        self.add_line('snout', (35, 25), (46, 29))
-        self.add_arc('nose', (46, 29), (39, 36), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('snout', (35, 25), (42, 29))
+        self.add_arc('nose', (42, 29), (39, 36), radius_x=7, radius_y=7, sweep=True)
         self.add_arc('neck', (22, 34), (10, 40), radius_x=18, radius_y=18, sweep=False)
-        self.add_line('mane-1', (2, 16), (10, 16))
+        self.add_line('mane-1', (6, 16), (10, 16))
         self.add_line('mane-2', (10, 16), (6, 8))
         self.add_line('mane-3', (6, 8), (19, 13))
         self.add_line('mane-4', (19, 13), (23, 8))

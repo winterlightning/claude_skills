@@ -18,9 +18,9 @@ class ChickenFace(Solo48):
 
     def build(self) -> None:
         # Visible bounds: (6, 0, 42, 48); centerline inset 2.
-        self.add_line('left', (8, 46), (8, 27))
+        self.add_line('left', (8, 42), (8, 27))
         self.add_arc('arch', (8, 27), (40, 27), radius_x=16, radius_y=16, sweep=True)
-        self.add_line('right', (40, 27), (40, 46))
+        self.add_line('right', (40, 27), (40, 42))
         self.add_contour('face', 'left', 'arch', 'right', closed=False)
         self.add_arc('comb-left', (24, 11), (19, 6), radius_x=5, radius_y=5, sweep=True)
         self.add_arc('comb-top', (19, 6), (29, 6), radius_x=5, radius_y=4, sweep=True)
@@ -29,4 +29,4 @@ class ChickenFace(Solo48):
         self.relate("connect", 'comb', 'face')
         self.add_dot('eye-left', (16, 26))
         self.add_dot('eye-right', (32, 26))
-        self.add_polyline('beak', (24, 33), (29, 38), (24, 43), (19, 38), (24, 33))
+        self.add_polyline('beak', (24, 33), (29, 38), (24, 42), (19, 38), (24, 33))

@@ -18,11 +18,11 @@ class BabyHeadVariant2(Solo48):
     keywords = ('baby', 'head', 'infant', 'nursery')
 
     def build(self) -> None:
-        # SQUARE extremes (2,2)-(46,46): plain circular head and a single curl.
-        self.add_arc('head-left', (24,2), (24,46), radius_x=22, sweep=False)
-        self.add_arc('head-right', (24,46), (24,2), radius_x=22, sweep=False)
+        # SQUARE extremes (6,6)-(42,42): plain circular head and a single curl.
+        self.add_arc('head-left', (24,6), (24,42), radius_x=22, sweep=False)
+        self.add_arc('head-right', (24,42), (24,6), radius_x=22, sweep=False)
         self.add_contour('head', 'head-left', 'head-right', closed=True)
-        self.add_arc('curl-down', (24,2), (32,10), radius_x=8)
+        self.add_arc('curl-down', (24,6), (32,10), radius_x=8)
         self.add_arc('curl-in', (32,10), (26,16), radius_x=6)
         self.add_contour('curl', 'curl-down', 'curl-in')
         self.relate('connect', 'head', 'curl')

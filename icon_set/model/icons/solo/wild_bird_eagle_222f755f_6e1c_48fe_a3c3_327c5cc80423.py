@@ -1,4 +1,4 @@
-"""Right-facing perched bird; extremes (8,2)-(40,46). Lucide bird informs head arc, hanging wing and attached straight legs."""
+"""Right-facing perched bird; extremes (8,6)-(40,42). Lucide bird informs head arc, hanging wing and attached straight legs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,8 +17,8 @@ class PerchedBird(Solo48):
     keywords = ('bird', 'perched', 'standing', 'beak', 'wing', 'legs', 'wildlife', 'simple')
 
     def build(self) -> None:
-        self.add_arc('crown', (18, 12), (28, 2), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('forehead', (28, 2), (38, 12), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('crown', (18, 12), (28, 6), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('forehead', (28, 6), (38, 12), radius_x=10, radius_y=10, sweep=True)
         self.add_line('beak-upper', (38, 12), (40, 18))
         self.add_line('beak-lower', (40, 18), (32, 16))
         self.add_arc('breast', (32, 16), (32, 34), radius_x=16, radius_y=16, sweep=True)
@@ -32,7 +32,7 @@ class PerchedBird(Solo48):
         self.add_arc('wing-tip', (8, 38), (18, 19), radius_x=10, radius_y=22, sweep=False)
         self.add_contour('wing', 'wing-top', 'wing-edge', 'wing-tip', closed=True)
         self.relate("connect", 'wing', 'body')
-        self.add_line('left-leg', (24, 38), (24, 46))
-        self.add_line('right-leg', (32, 34), (32, 46))
+        self.add_line('left-leg', (24, 38), (24, 42))
+        self.add_line('right-leg', (32, 34), (32, 42))
         self.relate("connect", 'left-leg', 'body')
         self.relate("connect", 'right-leg', 'body')

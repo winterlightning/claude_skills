@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 44) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 2.0, 2.0, 2.0], tolerance 0.0)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -31,10 +33,10 @@
         "elementId": "leg--1-0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 14 L 8 5 L 2 13",
+        "pathData": "M 16 14 L 8 6 L 6 13",
         "bounds": [
-          2.0,
-          5.0,
+          6.0,
+          6.0,
           16.0,
           14.0
         ],
@@ -47,9 +49,9 @@
         "elementId": "leg--1-1",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 14 20 L 6 21 L 2 28",
+        "pathData": "M 14 20 L 6 21 L 6 28",
         "bounds": [
-          2.0,
+          6.0,
           20.0,
           14.0,
           28.0
@@ -63,9 +65,9 @@
         "elementId": "leg--1-2",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 26 L 8 31 L 5 39",
+        "pathData": "M 16 26 L 8 31 L 6 39",
         "bounds": [
-          5.0,
+          6.0,
           26.0,
           16.0,
           39.0
@@ -79,12 +81,12 @@
         "elementId": "leg--1-3",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 30 L 18 36 L 16 43",
+        "pathData": "M 24 30 L 18 36 L 16 42",
         "bounds": [
           16.0,
           30.0,
           24.0,
-          43.0
+          42.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -95,11 +97,11 @@
         "elementId": "leg-1-0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 14 L 40 5 L 46 13",
+        "pathData": "M 32 14 L 40 6 L 42 13",
         "bounds": [
           32.0,
-          5.0,
-          46.0,
+          6.0,
+          42.0,
           14.0
         ],
         "segmentCount": 2,
@@ -111,11 +113,11 @@
         "elementId": "leg-1-1",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 20 L 42 21 L 46 28",
+        "pathData": "M 34 20 L 42 21 L 42 28",
         "bounds": [
           34.0,
           20.0,
-          46.0,
+          42.0,
           28.0
         ],
         "segmentCount": 2,
@@ -127,11 +129,11 @@
         "elementId": "leg-1-2",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 26 L 40 31 L 43 39",
+        "pathData": "M 32 26 L 40 31 L 42 39",
         "bounds": [
           32.0,
           26.0,
-          43.0,
+          42.0,
           39.0
         ],
         "segmentCount": 2,
@@ -143,12 +145,12 @@
         "elementId": "leg-1-3",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 30 L 30 36 L 32 43",
+        "pathData": "M 24 30 L 30 36 L 32 42",
         "bounds": [
           24.0,
           30.0,
           32.0,
-          43.0
+          42.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -192,10 +194,10 @@
           "leg-1-3"
         ],
         "bounds": [
-          2.0,
-          5.0,
-          46.0,
-          43.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -718,8 +720,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -767,7 +769,7 @@
           19.0,
           19.0
         ],
-        "area_ship_px2": 283.5293,
+        "area_ship_px2": 283.5283,
         "equivalent_diameter_ship_px": 19.0,
         "equivalent_diameter_design_u": 19.0,
         "inscribed_diameter_ship_px": 18.6613,
@@ -803,14 +805,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "4241da10f4368f7985b4e059a7d8c5e1e6b7d9f4e47ceeab40635e42aed46054",
+  "svg_sha256": "b96c096d451e6320ade3ae9544ffb6184b396fb9807c7f9be90566948510e2d2",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -840,13 +842,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

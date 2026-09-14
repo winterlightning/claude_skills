@@ -1,0 +1,545 @@
+{
+  "icon_id": "crossed-wrench-and-screwdriver",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "upper-jaw:subpath-1",
+        "elementId": "upper-jaw",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 6 L 6 18 L 18 18 L 18 6",
+        "bounds": [
+          6.0,
+          6.0,
+          18.0,
+          18.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "wrench-shaft:subpath-1",
+        "elementId": "wrench-shaft",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 18 18 L 30 30",
+        "bounds": [
+          18.0,
+          18.0,
+          30.0,
+          30.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "lower-jaw:subpath-1",
+        "elementId": "lower-jaw",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 30 42 L 30 30 L 42 30",
+        "bounds": [
+          30.0,
+          30.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "grip:subpath-1",
+        "elementId": "grip",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 34 L 14 26 L 22 34 L 14 42 L 6 34 Z",
+        "bounds": [
+          6.0,
+          26.0,
+          22.0,
+          42.0
+        ],
+        "segmentCount": 5,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "driver-shaft:subpath-1",
+        "elementId": "driver-shaft",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 18 30 L 42 6",
+        "bounds": [
+          18.0,
+          6.0,
+          42.0,
+          30.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "tip:subpath-1",
+        "elementId": "tip",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 34 6 L 42 6 L 42 14",
+        "bounds": [
+          34.0,
+          6.0,
+          42.0,
+          14.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "upper-jaw:subpath-1",
+          "wrench-shaft:subpath-1",
+          "lower-jaw:subpath-1",
+          "grip:subpath-1",
+          "driver-shaft:subpath-1",
+          "tip:subpath-1"
+        ],
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "wrench-shaft:subpath-1",
+          "lower-jaw:subpath-1",
+          "grip:subpath-1",
+          "driver-shaft:subpath-1",
+          "tip:subpath-1"
+        ],
+        "elementIds": [
+          "upper-jaw",
+          "wrench-shaft",
+          "lower-jaw",
+          "grip",
+          "driver-shaft",
+          "tip"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "wrench-shaft:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          18.0,
+          18.0
+        ]
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "lower-jaw:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          30.0,
+          30.0
+        ]
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          24.0,
+          24.0
+        ]
+      },
+      {
+        "contourIds": [
+          "grip:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          18.0,
+          30.0
+        ]
+      },
+      {
+        "contourIds": [
+          "driver-shaft:subpath-1",
+          "tip:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          42.0,
+          6.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "wrench-shaft:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "upper-jaw:subpath-1",
+            "wrench-shaft:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            18.0,
+            18.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "lower-jaw:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "grip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "upper-jaw:subpath-1",
+          "tip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "lower-jaw:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "wrench-shaft:subpath-1",
+            "lower-jaw:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            30.0,
+            30.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "grip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "wrench-shaft:subpath-1",
+            "driver-shaft:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            24.0,
+            24.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "wrench-shaft:subpath-1",
+          "tip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "lower-jaw:subpath-1",
+          "grip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "lower-jaw:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "lower-jaw:subpath-1",
+          "tip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "grip:subpath-1",
+          "driver-shaft:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "grip:subpath-1",
+            "driver-shaft:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            18.0,
+            30.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "grip:subpath-1",
+          "tip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "driver-shaft:subpath-1",
+          "tip:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "driver-shaft:subpath-1",
+            "tip:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            42.0,
+            6.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 20,
+      "flattenedSegments": 14,
+      "adaptiveNodes": 0,
+      "distanceTests": 0,
+      "connectionTests": 7
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          13.9844,
+          33.9844
+        ],
+        "bbox_viewbox": [
+          6.7188,
+          26.7188,
+          14.5625,
+          14.5625
+        ],
+        "bbox_ship_px": [
+          14.5625,
+          14.5625
+        ],
+        "bbox_design_u": [
+          14.5625,
+          14.5625
+        ],
+        "area_ship_px2": 106.4883,
+        "equivalent_diameter_ship_px": 11.6441,
+        "equivalent_diameter_design_u": 11.6441,
+        "inscribed_diameter_ship_px": 10.1998,
+        "inscribed_diameter_design_u": 10.1998,
+        "inscribed_radius_ship_px": 5.0999,
+        "inscribed_radius_design_u": 5.0999,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 3.5999,
+        "equivalent_diameter_at_authored_stroke_design_u": 7.1998
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/crossed-wrench-and-screwdriver/icon.svg",
+    "metrics": "solo/crossed-wrench-and-screwdriver/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "6e1ab1345fd15dce2cbdc1f2bc86ea90dca9659e663a957617dbcaa6b35b4fb5",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

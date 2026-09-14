@@ -1,0 +1,327 @@
+{
+  "icon_id": "winged-insect-stretch-square",
+  "name": "winged-insect-stretch-square",
+  "aliases": [],
+  "category": "objects/animals",
+  "keywords": [
+    "winged",
+    "insect"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "thorax-1",
+      "start": [
+        18,
+        15
+      ],
+      "end": [
+        18,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "thorax-2",
+      "start": [
+        18,
+        23
+      ],
+      "end": [
+        30,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "thorax-3",
+      "start": [
+        30,
+        23
+      ],
+      "end": [
+        30,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "thorax-4",
+      "start": [
+        30,
+        15
+      ],
+      "end": [
+        18,
+        15
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "antenna-left-1",
+      "start": [
+        18,
+        15
+      ],
+      "end": [
+        15,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "antenna-right-1",
+      "start": [
+        30,
+        15
+      ],
+      "end": [
+        33,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wing-left-outer",
+      "start": [
+        18,
+        23
+      ],
+      "end": [
+        6,
+        35
+      ],
+      "radius_x": 41,
+      "radius_y": 41,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "wing-left-tip",
+      "start": [
+        6,
+        35
+      ],
+      "end": [
+        17,
+        36
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "wing-left-inner",
+      "start": [
+        17,
+        36
+      ],
+      "end": [
+        18,
+        23
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "wing-right-outer",
+      "start": [
+        30,
+        23
+      ],
+      "end": [
+        42,
+        35
+      ],
+      "radius_x": 41,
+      "radius_y": 41,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "wing-right-tip",
+      "start": [
+        42,
+        35
+      ],
+      "end": [
+        31,
+        36
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "wing-right-inner",
+      "start": [
+        31,
+        36
+      ],
+      "end": [
+        30,
+        23
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "abdomen-left",
+      "start": [
+        18,
+        29
+      ],
+      "end": [
+        24,
+        42
+      ],
+      "radius_x": 18,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "abdomen-right",
+      "start": [
+        24,
+        42
+      ],
+      "end": [
+        30,
+        29
+      ],
+      "radius_x": 18,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "thorax",
+      "members": [
+        "thorax-1",
+        "thorax-2",
+        "thorax-3",
+        "thorax-4"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "antenna-left",
+      "members": [
+        "antenna-left-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "antenna-right",
+      "members": [
+        "antenna-right-1"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-wing",
+      "members": [
+        "wing-left-outer",
+        "wing-left-tip",
+        "wing-left-inner"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-wing",
+      "members": [
+        "wing-right-outer",
+        "wing-right-tip",
+        "wing-right-inner"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "abdomen",
+      "members": [
+        "abdomen-left",
+        "abdomen-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "thorax",
+        "antenna-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "thorax",
+        "antenna-right"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "thorax",
+        "left-wing"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "thorax",
+        "right-wing"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-wing",
+        "abdomen"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-wing",
+        "abdomen"
+      ]
+    }
+  ],
+  "variant_of": "winged-insect",
+  "variant_label": "Stretch to SQUARE"
+}

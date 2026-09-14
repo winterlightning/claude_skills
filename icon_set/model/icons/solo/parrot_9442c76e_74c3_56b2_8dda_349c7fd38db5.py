@@ -17,19 +17,19 @@ class Cockatoo(Solo48):
     keywords = ('cockatoo',)
 
     def build(self) -> None:
-        # VRECT_XL centerline extremes: (5,2)-(43,46).
-        self.add_arc('back',(5,46),(12,24),radius_x=40)
+        # VRECT_XL centerline extremes: (6,6)-(42,42).
+        self.add_arc('back',(6,42),(12,24),radius_x=40)
         self.add_arc('nape',(12,24),(12,16),radius_x=12)
-        self.add_arc('crest-back',(12,16),(5,2),radius_x=20,sweep=False)
-        self.add_arc('crest-bridge',(5,2),(16,2),radius_x=8,radius_y=6,sweep=False)
-        self.add_line('crest-front',(16,2),(24,10))
+        self.add_arc('crest-back',(12,16),(6,6),radius_x=20,sweep=False)
+        self.add_arc('crest-bridge',(6,6),(16,6),radius_x=8,radius_y=6,sweep=False)
+        self.add_line('crest-front',(16,6),(24,10))
         self.add_arc('head',(24,10),(35,20),radius_x=11,radius_y=10)
-        self.add_arc('beak-top',(35,20),(43,28),radius_x=8)
-        self.add_arc('beak-tip',(43,28),(38,34),radius_x=8)
+        self.add_arc('beak-top',(35,20),(42,28),radius_x=8)
+        self.add_arc('beak-tip',(42,28),(38,34),radius_x=8)
         self.add_line('hook',(38,34),(35,28))
         self.add_arc('throat',(35,28),(32,36),radius_x=12)
         self.add_arc('belly',(32,36),(16,42),radius_x=16,radius_y=6)
-        self.add_line('tail',(16,42),(5,46))
+        self.add_line('tail',(16,42),(6,42))
         self.add_contour('outline','back','nape','crest-back','crest-bridge','crest-front','head','beak-top','beak-tip','hook','throat','belly','tail',closed=True)
         self.add_dot('eye',(24,20))
         self.add_arc('wing',(23,29),(16,42),radius_x=16)

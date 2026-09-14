@@ -1,0 +1,264 @@
+{
+  "icon_id": "tabletop-three-arm-candelabra-stretch-vrect-l",
+  "name": "tabletop-three-arm-candelabra-stretch-vrect-l",
+  "aliases": [],
+  "category": "objects/decoration",
+  "keywords": [
+    "candelabra",
+    "candles",
+    "flames",
+    "table",
+    "holder",
+    "decor",
+    "lighting"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left-flame",
+      "start": [
+        12,
+        8
+      ],
+      "end": [
+        12,
+        10
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "left-candle",
+      "start": [
+        12,
+        18
+      ],
+      "end": [
+        12,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "centre-flame",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        24,
+        7
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "centre-candle",
+      "start": [
+        24,
+        15
+      ],
+      "end": [
+        24,
+        39
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-flame",
+      "start": [
+        36,
+        9
+      ],
+      "end": [
+        36,
+        11
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-candle",
+      "start": [
+        36,
+        19
+      ],
+      "end": [
+        36,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "arm-left",
+      "start": [
+        12,
+        24
+      ],
+      "end": [
+        24,
+        24
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "arm-right",
+      "start": [
+        24,
+        24
+      ],
+      "end": [
+        36,
+        25
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "foot",
+      "start": [
+        18,
+        37
+      ],
+      "end": [
+        30,
+        37
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "table",
+      "start": [
+        8,
+        37
+      ],
+      "end": [
+        40,
+        37
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-left",
+      "start": [
+        11,
+        37
+      ],
+      "end": [
+        11,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "leg-right",
+      "start": [
+        37,
+        37
+      ],
+      "end": [
+        37,
+        44
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "arms",
+      "members": [
+        "arm-left",
+        "arm-right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "arms",
+        "left-candle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "arms",
+        "centre-candle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "arms",
+        "right-candle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "foot",
+        "centre-candle"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "foot",
+        "table"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "centre-candle",
+        "table"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "table",
+        "leg-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "table",
+        "leg-right"
+      ]
+    }
+  ],
+  "variant_of": "tabletop-three-arm-candelabra",
+  "variant_label": "Stretch to VRECT_L"
+}

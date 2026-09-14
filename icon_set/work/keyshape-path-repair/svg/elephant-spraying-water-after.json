@@ -1,0 +1,296 @@
+{
+  "icon_id": "elephant-spraying-water-stretch-square",
+  "name": "elephant-spraying-water-stretch-square",
+  "aliases": [],
+  "category": "objects/animals",
+  "keywords": [
+    "elephant",
+    "spraying",
+    "water"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "trunk-outer",
+      "start": [
+        16,
+        15
+      ],
+      "end": [
+        6,
+        27
+      ],
+      "radius_x": 10,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "cheek",
+      "start": [
+        6,
+        27
+      ],
+      "end": [
+        14,
+        37
+      ],
+      "radius_x": 8,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "neck",
+      "start": [
+        14,
+        37
+      ],
+      "end": [
+        19,
+        42
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "trunk-tip",
+      "start": [
+        16,
+        15
+      ],
+      "end": [
+        17,
+        20
+      ],
+      "radius_x": 2,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "trunk-inside",
+      "start": [
+        17,
+        20
+      ],
+      "end": [
+        13,
+        27
+      ],
+      "radius_x": 7,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "trunk-fold",
+      "start": [
+        13,
+        27
+      ],
+      "end": [
+        17,
+        29
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "brow",
+      "start": [
+        17,
+        29
+      ],
+      "end": [
+        25,
+        27
+      ],
+      "radius_x": 7,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "ear-top",
+      "start": [
+        25,
+        27
+      ],
+      "end": [
+        35,
+        32
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "ear-bottom",
+      "start": [
+        35,
+        32
+      ],
+      "end": [
+        26,
+        40
+      ],
+      "radius_x": 9,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "back",
+      "start": [
+        35,
+        32
+      ],
+      "end": [
+        42,
+        38
+      ],
+      "radius_x": 7,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "rump",
+      "start": [
+        42,
+        38
+      ],
+      "end": [
+        42,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "water-left",
+      "start": [
+        23,
+        6
+      ],
+      "end": [
+        21,
+        8
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "water-right",
+      "start": [
+        32,
+        10
+      ],
+      "end": [
+        35,
+        13
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "outside",
+      "members": [
+        "trunk-outer",
+        "cheek",
+        "neck"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "raised",
+      "members": [
+        "trunk-tip",
+        "trunk-inside",
+        "trunk-fold",
+        "brow",
+        "ear-top"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "body",
+      "members": [
+        "back",
+        "rump"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "outside",
+        "raised"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "raised",
+        "ear-bottom"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "raised",
+        "body"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "ear-bottom",
+        "body"
+      ]
+    }
+  ],
+  "variant_of": "elephant-spraying-water",
+  "variant_label": "Stretch to SQUARE"
+}

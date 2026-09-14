@@ -17,15 +17,15 @@ class Igloo(Solo48):
     keywords = ('igloo', 'snow', 'arctic', 'shelter', 'dome', 'winter', 'eskimo', 'ice')
 
     def build(self) -> None:
-        # Centerline extremes (2,8)-(46,40).
-        self.add_line("wall-left", (2,40), (2,26))
-        self.add_arc("shoulder-left", (2,26), (20,8), radius_x=18)
+        # Centerline extremes (6,8)-(42,40).
+        self.add_line("wall-left", (6,40), (6,26))
+        self.add_arc("shoulder-left", (6,26), (20,8), radius_x=18)
         self.add_line("crown", (20,8), (28,8))
-        self.add_arc("shoulder-right", (28,8), (46,26), radius_x=18)
-        self.add_polyline("right-foot", (46,26), (46,40), (31,40), (31,31))
+        self.add_arc("shoulder-right", (28,8), (42,26), radius_x=18)
+        self.add_polyline("right-foot", (42,26), (42,40), (31,40), (31,31))
         self.add_arc("entrance", (31,31), (17,31), radius_x=7, sweep=False)
-        self.add_polyline("left-foot", (17,31), (17,40), (2,40))
-        self.add_line("block-course", (2,26), (10,26))
+        self.add_polyline("left-foot", (17,31), (17,40), (6,40))
+        self.add_line("block-course", (6,26), (10,26))
         self.relate("connect", "wall-left", "shoulder-left")
         self.relate("connect", "shoulder-left", "crown")
         self.relate("connect", "crown", "shoulder-right")

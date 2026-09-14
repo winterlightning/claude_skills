@@ -1,4 +1,4 @@
-"""Connected mantis head: arched antennae join the brow, and hooked forelegs join the eyes. Mirrored on x=24; SQUARE extremes (2,2)-(46,46)."""
+"""Connected mantis head: arched antennae join the brow, and hooked forelegs join the eyes. Mirrored on x=24; SQUARE extremes (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,7 +17,7 @@ class PrayingMantisHead(Solo48):
     keywords = ('mantis', 'praying mantis', 'insect', 'head', 'claws', 'antennae', 'bug', 'predator')
 
     def build(self) -> None:
-        # Mantis head and forelegs; centerline extremes (2,2)-(46,46). Mirrored eyes and hooked forelegs, with long swept antennae; fine mouthparts omitted.
+        # Mantis head and forelegs; centerline extremes (6,6)-(42,42). Mirrored eyes and hooked forelegs, with long swept antennae; fine mouthparts omitted.
         self.add_arc('eye-left-0', (11, 15), (14, 18), radius_x=3, radius_y=3, sweep=True)
         self.add_arc('eye-left-1', (14, 18), (11, 21), radius_x=3, radius_y=3, sweep=True)
         self.add_arc('eye-left-2', (11, 21), (8, 18), radius_x=3, radius_y=3, sweep=True)
@@ -37,21 +37,21 @@ class PrayingMantisHead(Solo48):
         self.add_polyline('face', (11, 21), (24, 29), (37, 21), closed=False)
         self.relate("connect", 'face', 'eye-left')
         self.relate("connect", 'face', 'eye-right')
-        self.add_arc('antenna-left', (20, 8), (2, 8), radius_x=9, radius_y=6, sweep=False)
-        self.add_arc('claw-upper-left', (11, 21), (2, 33), radius_x=9, radius_y=12, sweep=False)
-        self.add_arc('claw-lower-left', (2, 33), (7, 46), radius_x=5, radius_y=13, sweep=False)
+        self.add_arc('antenna-left', (20, 8), (6, 8), radius_x=9, radius_y=6, sweep=False)
+        self.add_arc('claw-upper-left', (11, 21), (6, 33), radius_x=9, radius_y=12, sweep=False)
+        self.add_arc('claw-lower-left', (6, 33), (7, 42), radius_x=5, radius_y=13, sweep=False)
         self.add_contour('claw-left', 'claw-upper-left', 'claw-lower-left')
         self.relate('connect', 'claw-left', 'eye-left')
         self.relate('connect', 'claw-left', 'face')
-        self.add_line('claw-tip-left', (7, 46), (15, 34))
+        self.add_line('claw-tip-left', (7, 42), (15, 34))
         self.relate("connect", 'claw-left', 'claw-tip-left')
-        self.add_arc('antenna-right', (28, 8), (46, 8), radius_x=9, radius_y=6, sweep=True)
-        self.add_arc('claw-upper-right', (37, 21), (46, 33), radius_x=9, radius_y=12, sweep=True)
-        self.add_arc('claw-lower-right', (46, 33), (41, 46), radius_x=5, radius_y=13, sweep=True)
+        self.add_arc('antenna-right', (28, 8), (42, 8), radius_x=9, radius_y=6, sweep=True)
+        self.add_arc('claw-upper-right', (37, 21), (42, 33), radius_x=9, radius_y=12, sweep=True)
+        self.add_arc('claw-lower-right', (42, 33), (41, 42), radius_x=5, radius_y=13, sweep=True)
         self.add_contour('claw-right', 'claw-upper-right', 'claw-lower-right')
         self.relate('connect', 'claw-right', 'eye-right')
         self.relate('connect', 'claw-right', 'face')
-        self.add_line('claw-tip-right', (41, 46), (33, 34))
+        self.add_line('claw-tip-right', (41, 42), (33, 34))
         self.relate("connect", 'claw-right', 'claw-tip-right')
         self.add_line('antenna-stem-left', (20, 15), (20, 8))
         self.relate('connect', 'antenna-stem-left', 'brow')

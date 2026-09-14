@@ -1,4 +1,4 @@
-"""One balloon above an uneven pagoda skyline. Second balloon and extra temples omitted; asymmetry preserves the scattered landscape."""
+'Balloon over two unequal temple spires; second balloon and distant temples omitted. Asymmetry retains the scattered landscape.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,10 +16,10 @@ class BaganTemplePlain(Solo48):
     keywords = ('bagan', 'myanmar', 'temple', 'pagoda', 'stupa', 'balloon', 'landmark', 'travel', 'skyline')
 
     def build(self) -> None:
-        # Centerline extremes (2, 2, 46, 46).
-        self.add_arc("balloon-top", (2,9), (16,9), radius_x=7)
-        self.add_arc("balloon-bottom", (16,9), (9,20), radius_x=7, radius_y=11)
-        self.add_arc("balloon-return", (9,20), (2,9), radius_x=7, radius_y=11)
-        self.add_contour("balloon", "balloon-top", "balloon-bottom", "balloon-return", closed=True)
-        self.add_polyline("temple-left", (2,46), (2,39), (10,29), (18,39), (18,46))
-        self.add_polyline("temple-middle", (28,46), (28,33), (37,18), (46,33), (46,46))
+        # SQUARE centerline extremes (6,6)-(42,42).
+        self.add_arc("balloon-top", (6,12), (18,12), radius_x=6)
+        self.add_arc("balloon-right", (18,12), (12,20), radius_x=6, radius_y=8)
+        self.add_arc("balloon-left", (12,20), (6,12), radius_x=6, radius_y=8)
+        self.add_contour("balloon", "balloon-top", "balloon-right", "balloon-left", closed=True)
+        self.add_polyline("small-temple", (6,42), (6,37), (12,30), (18,37), (18,42))
+        self.add_polyline("large-temple", (28,42), (28,32), (35,19), (42,32), (42,42))

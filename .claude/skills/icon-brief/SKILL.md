@@ -1,6 +1,6 @@
 ---
 name: icon-brief
-description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that /icon-sub, /icon-solo or /icon-container can be run against. Detect container/side combinations and save separate component briefs with source copies for later authoring. The requested family applies to standalone icons; split components use their individual families. Hand-authored; edit this file directly.
+description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that /icon-sub, /icon-solo or /icon-container can be run against. Detect side combinations and copy flagged or uncertain references into a human-review folder; distinguish modifiers from natural multi-object subjects. Save container component briefs for later authoring. The requested family applies to standalone icons; split components use their individual families. Hand-authored; edit this file directly.
 argument-hint: <svg folder or file> <sub|solo|container> [--out <dir>]
 ---
 
@@ -19,31 +19,83 @@ it. Combined references use the separate component-family routing below. See [Fa
 
 Before writing a standalone brief, visually classify the reference using
 `icon_set/skills/icon-design/reference-triage.md`. Do this within `icon-brief`;
-do not defer detection until authoring. Save a split handoff for either kind of
-combination as described below. `icon-making` handles those components later.
+do not defer detection until authoring. Hold side combinations and uncertain
+cases for human review; save split handoffs for clear container combinations
+as described below. This brief-only review hold takes precedence over the
+shared triage guide's immediate splitting step.
 When invoked by `/icon-making`, its chosen family is an explicit input.
 
 ## Detect combinations and save them for later
 
 After opening each reference render, classify it as **standalone**,
-**container combination**, or **side combination**. Two parts must have
-independent icon meanings: a lid, handle, facial feature, or structural button
-alone does not make a combination. Never classify from the filename alone.
+**container combination**, **side combination**, or **uncertain**. Read the
+side-combination decision criteria and examples in
+`icon_set/skills/icon-design/reference-triage.md`. Never classify from the
+filename, number of objects, SVG groups, or position alone.
 
 - Container combination: a separate glyph inside an enclosure. Write two briefs:
   the empty/standalone enclosure in `container/`, and its isolated content in `sub/`.
-- Side combination: a main subject with a separate adjacent action/state glyph.
-  Write the main subject in `solo/` (or `container/` if it is an enclosure), and
-  the modifier in `sub/`. Do not mislabel a solo subject as container merely to
-  fit a folder name.
+- Side combination: a main subject with a separate adjacent or overlapping
+  action/state modifier. Mark and copy the complete reference for human review
+  using the procedure below. Do not split or queue components yet.
+- Uncertain: the render does not clearly establish whether the second element
+  is a modifier or part of the subject. Save it for human review with the
+  competing interpretations; do not force a combination label.
 - Standalone: continue the ordinary five-field brief in the requested family.
+  A coherent subject may contain two or more objects.
 
-For a combination, do not produce one normal authoring brief for the whole
+### Hold side combinations for human review
+
+Save every side combination and uncertain reference under
+`work/combination-review/side/<source-stem>-<digest>/` or
+`work/combination-review/uncertain/<source-stem>-<digest>/`, respectively.
+If the user supplies an output directory, put `combination-review/` there.
+Use a digest of the full source path and source bytes to distinguish references
+with the same filename and different revisions. Retain the full filename and
+UUID inside the folder. Copy the original SVG (or supplied PNG) byte for byte;
+do not move, crop, redraw, or modify the source. Include the inspected preview
+when available and a `review.json` like this:
+
+```json
+{
+  "reference_path": "pictographic-primitives/category/source_UUID.svg",
+  "classification": "side_combination",
+  "review_status": "pending_human_review",
+  "requested_family": "solo",
+  "main_subject": "Cloud",
+  "modifier": "Check mark",
+  "modifier_position": "bottom-left, overlapping the cloud outline",
+  "reason": "The cloud is independently recognizable; the detached check acts as a status badge rather than a physical part of the cloud.",
+  "uncertainty": null
+}
+```
+
+For an uncertain case use `classification: "uncertain"`, describe both plausible
+readings in `uncertainty`, and use `null` for any component or position you cannot
+identify. The reason must cite visible evidence, including why the smaller
+object acts as a modifier rather than belonging to a natural scene. Record each
+reference's classification and review-folder path (when flagged) in the run's
+`triage.json` beside its preview index; keep these review fields out of the
+standalone five-field brief.
+
+Verify the copy's bytes match the source. Reuse an identical review bundle;
+never overwrite human edits. Keep held references out of the standalone manifest
+and authoring handoff, and do not queue them in Pending briefs. Continue briefing
+the clear standalone references. Human review can later confirm a side split
+(main subject in `solo/` or `container/`, modifier in `sub/`) or return a reference
+to standalone briefing. Do not turn a solo subject into a container to fit a
+folder name.
+
+### Save clear container splits (or human-confirmed side splits)
+
+For these combinations, do not produce one normal authoring brief for the whole
 reference. Write a split JSON handoff with `reference_path`, `combination_type`
 (`container` or `side`), a visual `reason`, and exactly two `components`. Each
 component has `name`, `family`, and `description`; include `icon_id` and `tags`
 when known. Descriptions say what to generate and which other component to
-exclude. Preserve the complete supplied source path and UUID.
+exclude. Preserve the complete supplied source path and UUID. If the reference
+cannot be unambiguously separated into two components, hold it as uncertain
+instead of inventing a two-part split.
 
 ```json
 {
@@ -92,8 +144,8 @@ If queueing fails after saving files, report the saved paths and the queue error
 rather than claiming the items appeared in the app.
 
 Check that each saved source copy matches the original and both briefs name
-their family and excluded component. Report standalone and split counts and the
-saved folders. Do not generate either component during a brief-only task.
+their family and excluded component. Report standalone, container-split, side-review, and uncertain-review counts
+and the saved folders. Do not generate either component during a brief-only task.
 
 Per standalone icon you produce exactly five fields:
 
@@ -149,8 +201,9 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    describe from. Also open the `@<native>` copy: not to decide what to cut, but
    so your description does not lean on detail that is not actually there.
 
-3. **Split combined references first** using the procedure above. Keep them out
-   of the standalone authoring handoff. Then **write the standalone manifest** at `<svg folder>/manifest.json` — a JSON array, one
+3. **Triage before writing briefs.** Save side/uncertain review bundles and
+   split clear container combinations using the procedure above. Keep all of
+   these references out of the standalone authoring handoff. Then **write the standalone manifest** at `<svg folder>/manifest.json` — a JSON array, one
    object per file, `file` matching the SVG filename exactly (including spaces
    and parentheses):
 
@@ -180,7 +233,15 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    An existing manifest with other keys (`categories`, `id`, …) keeps them; add
    the five fields alongside rather than rewriting the file.
 
-4. **Regenerate** against it:
+4. **Regenerate only standalone references** against it. The renderer scans
+   every SVG in a supplied folder; omitting entries from the manifest does not
+   exclude those files. For a mixed batch, run this command once per standalone
+   source file with the shared manifest and output directory. Keep the first-pass
+   preview index as a triage aid, but move any placeholder briefs for held/split
+   references out of the deliverable `briefs/` folder into their review/handoff
+   bundles. Do not overwrite existing human edits.
+
+   For a folder containing only standalone references:
 
    ```
    python3 icon_set/scripts/prepare_references.py <folder-or-file> \
@@ -202,11 +263,13 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    grep -h "^- native"  work/<name>/briefs/*.md | sed 's/:.*//' | sort | uniq -c
    ```
 
-   One family, one native size, and the count equal to the number of files.
+   One family, one native size, and the count equal to the number of standalone references.
 
-5. **Report** the count, the output paths, and any reference you think is wrong
+5. **Report** the standalone, container-split, side-review, and uncertain-review
+   counts, the output paths, and any reference you think is wrong
    for the requested family — briefed as asked, flagged for the requester.
-   Hand over the first command to run: `/icon-<family> <icon_id> — <one
+   Name the held references and their visual reasons, and link their review
+   folders. Hand over the first standalone command to run (if any): `/icon-<family> <icon_id> — <one
    sentence>`.
 
 ## Naming
@@ -232,7 +295,8 @@ If it is taken by the same concept in another family, propose the suffixed form
 
 **For standalone references, the requester names the family and it stays fixed
 across that standalone run. Combination detection is the explicit exception:
-save separate component briefs in their correct families as described above.**
+hold side/uncertain references for review and save confirmed component briefs
+in their correct families as described above.**
 
 - `sub` (SUB32) — 32×32. A small glyph, mark, operator, arrow, chevron, state
   or modifier.
@@ -280,7 +344,18 @@ Do not write: what the icon *means* or when to use it; marketing lines
 ("signifies a fresh start"); path counts, coordinates, viewBox numbers or
 stroke widths from the source.
 
-## The reference is regenerated, not traced
+## Adapt the reference or generate a new icon
+
+Include this guidance in every brief's authoring handoff, outside the subject
+description and without adding a sixth brief field:
+
+> You can try modifying a copy of the SVG reference to fit the icon design rules,
+> or generate a new icon that matches the icon name. Either approach must follow
+> the requested family's design rules and preserve the named subject's identity.
+
+For a split component brief, this choice applies only to the named component;
+continue to exclude the other component. Keep the original reference unchanged.
+The authoring skill chooses the approach and produces the required deliverables.
 
 Assume every incoming reference is **too thin and too complex for the canvas it
 is headed to**. These SVGs are drawn at illustration scale: hairline strokes,
@@ -288,14 +363,14 @@ nested detail, ornament that resolves only when the thing is 320px wide. The
 authored icon lands on the requested family's grid — 32, 48 or 64 — with the
 profile's stroke weight. Detail that fine does not shrink; it turns into mud.
 
-So the authored icon is a **simpler reconstruction of the subject, not a copy of
-the reference**. It is redrawn from the meaning: fewer parts, heavier strokes,
-larger gaps, rebuilt on the profile's geometry. What must not change is what the
+Whether adapting the SVG or drawing anew, bring the result into the profile:
+fewer parts where needed, the required stroke weight, adequate gaps, and
+geometry fitted to the grid. What must not change is what the
 thing *is* — the silhouette a person recognizes it by, the parts that make it
 that subject and not a neighbouring one, the stance and orientation that carry
 its sense. Simplify the drawing; never simplify away the meaning.
 
-Your job in the brief is to make that regeneration safe. Name the subject
+Your job in the brief is to make either approach safe. Name the subject
 precisely and describe it so the identity is unmistakable, and the author can
 cut freely without cutting the wrong thing. Note in the description when the
 reference itself is hard to read — dense hatching, stacked parts, an ambiguous

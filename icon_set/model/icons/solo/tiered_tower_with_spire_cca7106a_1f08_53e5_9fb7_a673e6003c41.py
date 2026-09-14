@@ -17,13 +17,13 @@ class TieredTowerWithSpire(Solo48):
     keywords = ('tower', 'castle', 'keep', 'spire', 'tiers', 'building', 'medieval', 'landmark')
 
     def build(self) -> None:
-        # Centerline extremes: (8,2)-(40,46); mirrored around x=24.
-        self.add_polyline('roof',(12,14),(24,2),(36,14),(30,14),(18,14),(12,14),closed=True)
+        # Centerline extremes: (8,6)-(40,42); mirrored around x=24.
+        self.add_polyline('roof',(12,14),(24,6),(36,14),(30,14),(18,14),(12,14),closed=True)
         self.add_polyline('upper-tier',(18,14),(18,24),(30,24),(30,14))
         self.relate('connect','upper-tier','roof')
         self.add_polyline('middle-tier',(12,34),(12,24),(18,24),(30,24),(36,24),(36,34))
         self.relate('connect','upper-tier','middle-tier')
-        self.add_polyline('lower-left',(18,46),(8,46),(8,34),(12,34),(36,34),(40,34),(40,46),(30,46))
+        self.add_polyline('lower-left',(18,42),(8,42),(8,34),(12,34),(36,34),(40,34),(40,42),(30,42))
         self.relate('connect','middle-tier','lower-left')
-        self.add_arc('door',(18,46),(30,46),radius_x=6,sweep=True)
+        self.add_arc('door',(18,42),(30,42),radius_x=6,sweep=True)
         self.relate('connect','door','lower-left')

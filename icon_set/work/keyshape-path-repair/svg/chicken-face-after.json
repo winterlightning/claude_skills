@@ -1,0 +1,244 @@
+{
+  "icon_id": "chicken-face-stretch-vrect-l",
+  "name": "chicken-face-stretch-vrect-l",
+  "aliases": [],
+  "category": "animals",
+  "keywords": [
+    "chicken",
+    "hen",
+    "face",
+    "head",
+    "comb",
+    "beak",
+    "farm",
+    "poultry"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    6,
+    2,
+    42,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left",
+      "start": [
+        8,
+        44
+      ],
+      "end": [
+        8,
+        27
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "arch",
+      "start": [
+        8,
+        27
+      ],
+      "end": [
+        40,
+        27
+      ],
+      "radius_x": 16,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right",
+      "start": [
+        40,
+        27
+      ],
+      "end": [
+        40,
+        44
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "comb-left",
+      "start": [
+        24,
+        12
+      ],
+      "end": [
+        19,
+        8
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "comb-top",
+      "start": [
+        19,
+        8
+      ],
+      "end": [
+        29,
+        8
+      ],
+      "radius_x": 5,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "comb-right",
+      "start": [
+        29,
+        8
+      ],
+      "end": [
+        24,
+        12
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-left",
+      "start": [
+        17,
+        26
+      ],
+      "end": [
+        17,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "eye-right",
+      "start": [
+        31,
+        26
+      ],
+      "end": [
+        31,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-1",
+      "start": [
+        24,
+        32
+      ],
+      "end": [
+        29,
+        37
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-2",
+      "start": [
+        29,
+        37
+      ],
+      "end": [
+        24,
+        41
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-3",
+      "start": [
+        24,
+        41
+      ],
+      "end": [
+        19,
+        37
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "beak-4",
+      "start": [
+        19,
+        37
+      ],
+      "end": [
+        24,
+        32
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "face",
+      "members": [
+        "left",
+        "arch",
+        "right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "comb",
+      "members": [
+        "comb-left",
+        "comb-top",
+        "comb-right"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "beak",
+      "members": [
+        "beak-1",
+        "beak-2",
+        "beak-3",
+        "beak-4"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "comb",
+        "face"
+      ]
+    }
+  ],
+  "variant_of": "chicken-face",
+  "variant_label": "Stretch to VRECT_L"
+}

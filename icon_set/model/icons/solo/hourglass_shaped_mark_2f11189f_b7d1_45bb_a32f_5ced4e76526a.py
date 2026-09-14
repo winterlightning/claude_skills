@@ -17,6 +17,6 @@ class HourglassShapedMark(Solo48):
 
     def build(self) -> None:
         # VRECT_L: exact SOLO48 extremes; geometry authored on the integer grid.
-        self.add_polyline('upper', (24, 24), (8, 2), (40, 2), (24, 24), closed=True)
-        self.add_polyline('lower', (24, 24), (40, 46), (8, 46), (24, 24), closed=True)
+        self.add_polyline('upper', (24, 24), (8, 6), (40, 6), (24, 24), closed=True)
+        self.add_polyline('lower', (24, 24), (40, 42), (8, 42), (24, 24), closed=True)
         self.relate('connect', 'upper', 'lower')

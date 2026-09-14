@@ -1,0 +1,293 @@
+{
+  "icon_id": "garage",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
+  ],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "building:subpath-1",
+        "elementId": "building",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 40 L 6 15 L 24 8 L 42 15 L 42 40 L 34 40 L 34 32 L 34 24 L 14 24 L 14 32 L 14 40 L 6 40",
+        "bounds": [
+          6.0,
+          8.0,
+          42.0,
+          40.0
+        ],
+        "segmentCount": 11,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "door-slat:subpath-1",
+        "elementId": "door-slat",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 14 32 L 34 32",
+        "bounds": [
+          14.0,
+          32.0,
+          34.0,
+          32.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "building:subpath-1",
+          "door-slat:subpath-1"
+        ],
+        "contourIds": [
+          "building:subpath-1",
+          "door-slat:subpath-1"
+        ],
+        "elementIds": [
+          "building",
+          "door-slat"
+        ],
+        "bounds": [
+          6.0,
+          8.0,
+          42.0,
+          40.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "door-slat:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          32.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "door-slat:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "building:subpath-1",
+            "door-slat:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            32.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 14,
+      "flattenedSegments": 12,
+      "adaptiveNodes": 0,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          16.3281
+        ],
+        "bbox_viewbox": [
+          6.5,
+          8.5312,
+          35.0,
+          30.9688
+        ],
+        "bbox_ship_px": [
+          35.0,
+          30.9688
+        ],
+        "bbox_design_u": [
+          35.0,
+          30.9688
+        ],
+        "area_ship_px2": 628.7305,
+        "equivalent_diameter_ship_px": 28.2935,
+        "equivalent_diameter_design_u": 28.2935,
+        "inscribed_diameter_ship_px": 14.3423,
+        "inscribed_diameter_design_u": 14.3423,
+        "inscribed_radius_ship_px": 7.1712,
+        "inscribed_radius_design_u": 7.1712,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 5.6712,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.3424
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.9844,
+          27.9844
+        ],
+        "bbox_viewbox": [
+          14.5,
+          24.5,
+          19.0,
+          7.0
+        ],
+        "bbox_ship_px": [
+          19.0,
+          7.0
+        ],
+        "bbox_design_u": [
+          19.0,
+          7.0
+        ],
+        "area_ship_px2": 133.0,
+        "equivalent_diameter_ship_px": 13.0131,
+        "equivalent_diameter_design_u": 13.0131,
+        "inscribed_diameter_ship_px": 7.0,
+        "inscribed_diameter_design_u": 7.0,
+        "inscribed_radius_ship_px": 3.5,
+        "inscribed_radius_design_u": 3.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/garage/icon.svg",
+    "metrics": "solo/garage/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "b9f04ea831ffbcfd74ef13345e33cdea84acae1c54e726bb639a8f7f954f0603",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

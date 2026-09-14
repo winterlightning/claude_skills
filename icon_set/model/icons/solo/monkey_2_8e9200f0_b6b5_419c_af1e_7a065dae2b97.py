@@ -18,8 +18,8 @@ class MonkeyFace(Solo48):
 
     def build(self) -> None:
         # HRECT_XL: authored to its exact SOLO48 centerline bounds.
-        self.add_arc('skull-left', (8, 21), (24, 5), radius_x=16, radius_y=16, sweep=True)
-        self.add_arc('skull-right', (24, 5), (40, 21), radius_x=16, radius_y=16, sweep=True)
+        self.add_arc('skull-left', (8, 21), (24, 6), radius_x=16, radius_y=16, sweep=True)
+        self.add_arc('skull-right', (24, 6), (40, 21), radius_x=16, radius_y=16, sweep=True)
         self.add_line('wall-right', (40, 21), (40, 33))
         self.add_line('cheek-right', (40, 33), (40, 35))
         self.add_line('wall-left', (8, 33), (8, 21))
@@ -29,8 +29,8 @@ class MonkeyFace(Solo48):
         self.add_arc('ear-right', (40, 21), (40, 33), radius_x=6, radius_y=6, sweep=True)
         self.relate("connect", 'skull', 'ear-left')
         self.relate("connect", 'skull', 'ear-right')
-        self.add_arc('chin-right', (40, 35), (24, 43), radius_x=16, radius_y=8, sweep=True)
-        self.add_arc('chin-left', (24, 43), (8, 35), radius_x=16, radius_y=8, sweep=True)
+        self.add_arc('chin-right', (40, 35), (24, 42), radius_x=16, radius_y=8, sweep=True)
+        self.add_arc('chin-left', (24, 42), (8, 35), radius_x=16, radius_y=8, sweep=True)
         self.add_contour('chin', 'chin-right', 'chin-left', closed=False)
         self.relate("connect", 'chin', 'skull')
         self.add_arc('panel-left-top', (15, 23), (22, 16), radius_x=7, radius_y=7, sweep=True)

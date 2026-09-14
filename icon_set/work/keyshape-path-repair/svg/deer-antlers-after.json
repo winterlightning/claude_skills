@@ -1,0 +1,311 @@
+{
+  "icon_id": "deer-antlers-stretch-square",
+  "name": "deer-antlers-stretch-square",
+  "aliases": [],
+  "category": "animals",
+  "keywords": [
+    "antlers",
+    "deer",
+    "horns",
+    "stag",
+    "hunting",
+    "wildlife",
+    "rack",
+    "nature"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "left-base",
+      "start": [
+        18,
+        42
+      ],
+      "end": [
+        18,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-beam-low",
+      "start": [
+        18,
+        36
+      ],
+      "end": [
+        12,
+        24
+      ],
+      "radius_x": 12,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-beam-high",
+      "start": [
+        12,
+        24
+      ],
+      "end": [
+        9,
+        13
+      ],
+      "radius_x": 15,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "left-tip",
+      "start": [
+        9,
+        13
+      ],
+      "end": [
+        9,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-upper-tine",
+      "start": [
+        9,
+        13
+      ],
+      "end": [
+        6,
+        10
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-middle-tine",
+      "start": [
+        12,
+        24
+      ],
+      "end": [
+        6,
+        21
+      ],
+      "radius_x": 8,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "left-lower-tine",
+      "start": [
+        18,
+        36
+      ],
+      "end": [
+        13,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "right-base",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        27,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-beam-low",
+      "start": [
+        27,
+        36
+      ],
+      "end": [
+        34,
+        24
+      ],
+      "radius_x": 15,
+      "radius_y": 15,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-beam-high",
+      "start": [
+        34,
+        24
+      ],
+      "end": [
+        38,
+        13
+      ],
+      "radius_x": 18,
+      "radius_y": 18,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "right-tip",
+      "start": [
+        38,
+        13
+      ],
+      "end": [
+        38,
+        6
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-upper-tine",
+      "start": [
+        38,
+        13
+      ],
+      "end": [
+        42,
+        10
+      ],
+      "radius_x": 5,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-middle-tine",
+      "start": [
+        34,
+        24
+      ],
+      "end": [
+        42,
+        21
+      ],
+      "radius_x": 8,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "right-lower-tine",
+      "start": [
+        27,
+        36
+      ],
+      "end": [
+        35,
+        32
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "left-beam",
+      "members": [
+        "left-base",
+        "left-beam-low",
+        "left-beam-high",
+        "left-tip"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-beam",
+      "members": [
+        "right-base",
+        "right-beam-low",
+        "right-beam-high",
+        "right-tip"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "left-upper-tine",
+        "left-beam"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-middle-tine",
+        "left-beam"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "left-lower-tine",
+        "left-beam"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-upper-tine",
+        "right-beam"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-middle-tine",
+        "right-beam"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "right-lower-tine",
+        "right-beam"
+      ]
+    }
+  ],
+  "variant_of": "deer-antlers",
+  "variant_label": "Stretch to SQUARE"
+}

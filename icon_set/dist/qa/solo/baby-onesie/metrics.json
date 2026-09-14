@@ -15,12 +15,12 @@
         "elementId": "suit",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 2 L 8 5 L 2 16 L 10 20 L 12 16 L 12 32 A 8 8 0 0 1 20 40 L 20 46 L 28 46 L 28 40 A 8 8 0 0 1 36 32 L 36 16 L 38 20 L 46 16 L 40 5 L 32 2 A 8 8 0 0 1 16 2 Z",
+        "pathData": "M 16 6 L 8 6 L 6 16 L 10 20 L 12 16 L 12 32 A 8 8 0 0 1 20 40 L 20 42 L 28 42 L 28 40 A 8 8 0 0 1 36 32 L 36 16 L 38 20 L 42 16 L 40 6 L 32 6 A 8 8 0 0 1 16 6 Z",
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ],
         "segmentCount": 270,
         "approximationError": 0.0006033465215182361,
@@ -40,10 +40,10 @@
           "suit"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -51,8 +51,8 @@
     "connectedPairs": [],
     "excludedPairs": [],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -84,33 +84,33 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          21.9844
+          25.1094
         ],
         "bbox_viewbox": [
-          2.6875,
-          2.7188,
-          42.625,
-          42.7812
+          6.5312,
+          6.5,
+          34.9375,
+          35.0
         ],
         "bbox_ship_px": [
-          42.625,
-          42.7812
+          34.9375,
+          35.0
         ],
         "bbox_design_u": [
-          42.625,
-          42.7812
+          34.9375,
+          35.0
         ],
-        "area_ship_px2": 868.6992,
-        "equivalent_diameter_ship_px": 33.2575,
-        "equivalent_diameter_design_u": 33.2575,
-        "inscribed_diameter_ship_px": 23.0,
-        "inscribed_diameter_design_u": 23.0,
-        "inscribed_radius_ship_px": 11.5,
-        "inscribed_radius_design_u": 11.5,
+        "area_ship_px2": 680.8955,
+        "equivalent_diameter_ship_px": 29.4439,
+        "equivalent_diameter_design_u": 29.4439,
+        "inscribed_diameter_ship_px": 21.2031,
+        "inscribed_diameter_design_u": 21.2031,
+        "inscribed_radius_ship_px": 10.6016,
+        "inscribed_radius_design_u": 10.6016,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 10.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 20.0
+        "equivalent_radius_at_authored_stroke_design_u": 9.1016,
+        "equivalent_diameter_at_authored_stroke_design_u": 18.2032
       }
     ],
     "pinches": [],
@@ -136,14 +136,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "44acad8e69a1594ed79f81cf809ef7427643e06c26d60c46b9f981f51014530c",
+  "svg_sha256": "611d00bb00d788d5565771252adca34b7b77e77ba19d95746d3883335e1dc700",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -173,13 +173,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

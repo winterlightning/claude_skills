@@ -14,13 +14,13 @@ class BabyBib(Solo48):
     aliases = ()
     keywords = ('bib', 'baby', 'feeding', 'infant', 'mealtime', 'childcare', 'bear', 'apron')
 
-    # Designed to centerline extremes (2, 2)–(46, 46).
+    # Designed to centerline extremes (6, 6)–(42, 42).
     def build(self) -> None:
-        self.add_arc('bib-1', (16, 2), (2, 24), radius_x=14, radius_y=22, sweep=False)
-        self.add_arc('bib-2', (2, 24), (24, 46), radius_x=22, radius_y=22, sweep=False)
-        self.add_arc('bib-3', (24, 46), (46, 24), radius_x=22, radius_y=22, sweep=False)
-        self.add_arc('bib-4', (46, 24), (32, 2), radius_x=14, radius_y=22, sweep=False)
-        self.add_arc('bib-5', (32, 2), (35, 12), radius_x=6, radius_y=7, sweep=True)
+        self.add_arc('bib-1', (16, 6), (6, 24), radius_x=14, radius_y=22, sweep=False)
+        self.add_arc('bib-2', (6, 24), (24, 42), radius_x=22, radius_y=22, sweep=False)
+        self.add_arc('bib-3', (24, 42), (42, 24), radius_x=22, radius_y=22, sweep=False)
+        self.add_arc('bib-4', (42, 24), (32, 6), radius_x=14, radius_y=22, sweep=False)
+        self.add_arc('bib-5', (32, 6), (35, 12), radius_x=6, radius_y=7, sweep=True)
         self.add_arc('bib-6', (35, 12), (13, 12), radius_x=11, radius_y=9, sweep=True)
-        self.add_arc('bib-7', (13, 12), (16, 2), radius_x=6, radius_y=7, sweep=True)
+        self.add_arc('bib-7', (13, 12), (16, 6), radius_x=6, radius_y=7, sweep=True)
         self.add_contour('bib', 'bib-1', 'bib-2', 'bib-3', 'bib-4', 'bib-5', 'bib-6', 'bib-7', closed=True)

@@ -17,13 +17,13 @@ class StarLabelledBottle(Solo48):
     keywords = ('bottle', 'star', 'cap', 'container', 'label', 'decor', 'vessel')
 
     def build(self) -> None:
-        self.add_polyline('neck',(16,12),(16,2),(32,2),(32,12))
+        self.add_polyline('neck',(16,12),(16,6),(32,6),(32,12))
         self.add_line('cap-bottom',(16,8),(32,8))
         self.add_arc('shoulder-right',(32,12),(40,20),radius_x=8)
         self.add_line('body-right',(40,20),(40,40))
-        self.add_arc('base-right',(40,40),(34,46),radius_x=6)
-        self.add_line('base',(34,46),(14,46))
-        self.add_arc('base-left',(14,46),(8,40),radius_x=6)
+        self.add_arc('base-right',(40,40),(34,42),radius_x=6)
+        self.add_line('base',(34,42),(14,42))
+        self.add_arc('base-left',(14,42),(8,40),radius_x=6)
         self.add_line('body-left',(8,40),(8,20))
         self.add_arc('shoulder-left',(8,20),(16,12),radius_x=8)
         self.add_contour('body','shoulder-right','body-right','base-right','base','base-left','body-left','shoulder-left')

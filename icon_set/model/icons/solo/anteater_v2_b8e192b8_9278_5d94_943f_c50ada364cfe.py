@@ -1,4 +1,4 @@
-"""Side-view anteater with long pointed snout, two visible legs and bushy tail. HRECT_L (2,8)-(46,40). Removed anonymous dome silhouette and overlapping detail. No useful exact Lucide match; intentional profile asymmetry."""
+"""Side-view anteater with long pointed snout, two visible legs and bushy tail. HRECT_L (6,8)-(42,40). Removed anonymous dome silhouette and overlapping detail. No useful exact Lucide match; intentional profile asymmetry."""
 # Variant of anteater; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,11 +19,11 @@ class AnteaterVariant2(Solo48):
 
     def build(self) -> None:
         # Side profile: tapered muzzle on left, long bushy tail on right.
-        # Centerline extremes (2,8)-(46,40).
-        self.add_line('snout-top',(2,29),(16,15))
+        # Centerline extremes (6,8)-(42,40).
+        self.add_line('snout-top',(6,29),(16,15))
         self.add_arc('back',(16,15),(36,15),radius_x=10,radius_y=7)
-        self.add_arc('tail-top',(36,15),(46,37),radius_x=10,radius_y=22)
-        self.add_arc('tail-bottom',(46,37),(33,28),radius_x=13,radius_y=9)
+        self.add_arc('tail-top',(36,15),(42,37),radius_x=10,radius_y=22)
+        self.add_arc('tail-bottom',(42,37),(33,28),radius_x=13,radius_y=9)
         self.add_line('hind-leg-1', (33, 28), (33, 40))
         self.add_line('hind-leg-2', (33, 40), (26, 40))
         self.add_line('hind-leg-3', (26, 40), (26, 29))
@@ -31,5 +31,5 @@ class AnteaterVariant2(Solo48):
         self.add_line('front-leg-1', (20, 29), (17, 40))
         self.add_line('front-leg-2', (17, 40), (10, 40))
         self.add_line('front-leg-3', (10, 40), (13, 25))
-        self.add_line('snout-bottom',(13,25),(2,29))
+        self.add_line('snout-bottom',(13,25),(6,29))
         self.add_contour('outline','snout-top','back','tail-top','tail-bottom','hind-leg-1','hind-leg-2','hind-leg-3','belly','front-leg-1','front-leg-2','front-leg-3','snout-bottom',closed=True)

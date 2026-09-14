@@ -1,0 +1,280 @@
+{
+  "icon_id": "computer-memory-module-stretch-square",
+  "name": "computer-memory-module-stretch-square",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "ram",
+    "memory",
+    "module",
+    "dimm",
+    "chip",
+    "hardware",
+    "computer",
+    "storage"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "board-1",
+      "start": [
+        6,
+        29
+      ],
+      "end": [
+        29,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "board-2",
+      "start": [
+        29,
+        6
+      ],
+      "end": [
+        42,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "board-3",
+      "start": [
+        42,
+        19
+      ],
+      "end": [
+        19,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "board-4",
+      "start": [
+        19,
+        42
+      ],
+      "end": [
+        6,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-lower-1",
+      "start": [
+        18,
+        28
+      ],
+      "end": [
+        20,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-lower-2",
+      "start": [
+        20,
+        29
+      ],
+      "end": [
+        18,
+        30
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-lower-3",
+      "start": [
+        18,
+        30
+      ],
+      "end": [
+        17,
+        29
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-lower-4",
+      "start": [
+        17,
+        29
+      ],
+      "end": [
+        18,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-upper-1",
+      "start": [
+        29,
+        17
+      ],
+      "end": [
+        30,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-upper-2",
+      "start": [
+        30,
+        18
+      ],
+      "end": [
+        29,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-upper-3",
+      "start": [
+        29,
+        20
+      ],
+      "end": [
+        28,
+        18
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "chip-upper-4",
+      "start": [
+        28,
+        18
+      ],
+      "end": [
+        29,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "contact-0",
+      "start": [
+        25,
+        36
+      ],
+      "end": [
+        26,
+        38
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "contact-1",
+      "start": [
+        30,
+        31
+      ],
+      "end": [
+        31,
+        33
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "contact-2",
+      "start": [
+        35,
+        26
+      ],
+      "end": [
+        36,
+        28
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "board",
+      "members": [
+        "board-1",
+        "board-2",
+        "board-3",
+        "board-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "chip-lower",
+      "members": [
+        "chip-lower-1",
+        "chip-lower-2",
+        "chip-lower-3",
+        "chip-lower-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "chip-upper",
+      "members": [
+        "chip-upper-1",
+        "chip-upper-2",
+        "chip-upper-3",
+        "chip-upper-4"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "board",
+        "contact-0"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "board",
+        "contact-1"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "board",
+        "contact-2"
+      ]
+    }
+  ],
+  "variant_of": "computer-memory-module",
+  "variant_label": "Stretch to SQUARE"
+}

@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink reaches only radius 20.7163 about (24, 24); CIRCLE requires at least 21.5 so the artwork touches its envelope"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "rim",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 10 A 10 14 0 0 0 2 24 A 22 22 0 0 0 24 46 A 22 22 0 0 0 46 24 A 22 22 0 0 0 24 2",
+        "pathData": "M 12 10 A 10 14 0 0 0 6 24 A 22 22 0 0 0 24 42 A 22 22 0 0 0 42 24 A 22 22 0 0 0 24 6",
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          5.966397791494771,
+          6.0,
+          42.0,
+          42.0
         ],
-        "segmentCount": 512,
-        "approximationError": 0.00041414508270685817,
+        "segmentCount": 448,
+        "approximationError": 0.0006623132357907987,
         "hasCurves": true
       },
       {
@@ -31,10 +33,10 @@
         "elementId": "crack",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 2 L 16 18 L 29 18 L 18 34",
+        "pathData": "M 24 6 L 16 18 L 29 18 L 18 34",
         "bounds": [
           16.0,
-          2.0,
+          6.0,
           29.0,
           34.0
         ],
@@ -59,10 +61,10 @@
           "crack"
         ],
         "bounds": [
-          2.0,
-          2.0,
-          46.0,
-          46.0
+          5.966397791494771,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -76,7 +78,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          2.0
+          6.0
         ]
       }
     ],
@@ -96,14 +98,14 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            2.0
+            6.0
           ]
         }
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -117,8 +119,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 9,
-      "flattenedSegments": 515,
-      "adaptiveNodes": 1020,
+      "flattenedSegments": 451,
+      "adaptiveNodes": 892,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -154,14 +156,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "7336fd50ff48bf0f86908316b5d8a841eca7ceaa81d572ca68aa18fe41244ca3",
+  "svg_sha256": "618e9239a1e345e9083bc21d0cbacc0c22f349964e1f998ff3c73d2e58be762e",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -191,13 +193,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,

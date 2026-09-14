@@ -1,4 +1,4 @@
-"""Seahorse with blunt snout, S body and hooked tail; original orientation retained. Centerline (11,2)-(37,46)."""
+"""Seahorse with blunt snout, S body and hooked tail; original orientation retained. Centerline (11,6)-(37,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -18,13 +18,13 @@ class Seahorse(Solo48):
 
     def build(self) -> None:
         self.add_arc('outline-1', (15, 37), (11, 41), radius_x=5, radius_y=5, sweep=False)
-        self.add_arc('outline-2', (11, 41), (20, 46), radius_x=9, radius_y=5, sweep=False)
-        self.add_arc('outline-3', (20, 46), (31, 35), radius_x=11, radius_y=11, sweep=False)
+        self.add_arc('outline-2', (11, 41), (20, 42), radius_x=9, radius_y=5, sweep=False)
+        self.add_arc('outline-3', (20, 42), (31, 35), radius_x=11, radius_y=11, sweep=False)
         self.add_line('outline-4', (31, 35), (31, 19))
-        self.add_arc('outline-5', (31, 19), (37, 5), radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('outline-6', (37, 5), (30, 2), radius_x=7, radius_y=3, sweep=False)
-        self.add_arc('outline-7', (30, 2), (24, 5), radius_x=6, radius_y=3, sweep=False)
-        self.add_arc('outline-8', (24, 5), (11, 10), radius_x=15, radius_y=10, sweep=True)
+        self.add_arc('outline-5', (31, 19), (37, 6), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('outline-6', (37, 6), (30, 6), radius_x=7, radius_y=3, sweep=False)
+        self.add_arc('outline-7', (30, 6), (24, 6), radius_x=6, radius_y=3, sweep=False)
+        self.add_arc('outline-8', (24, 6), (11, 10), radius_x=15, radius_y=10, sweep=True)
         self.add_line('outline-9', (11, 10), (11, 16))
         self.add_line('outline-10', (11, 16), (20, 16))
         self.add_arc('outline-11', (20, 16), (23, 20), radius_x=4, radius_y=4, sweep=True)

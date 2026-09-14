@@ -1,0 +1,302 @@
+{
+  "icon_id": "witches-cauldron-stretch-square",
+  "name": "witches-cauldron-stretch-square",
+  "aliases": [],
+  "category": "objects/culture",
+  "keywords": [
+    "cauldron",
+    "witch",
+    "pot",
+    "potion",
+    "brew",
+    "magic",
+    "halloween",
+    "spell"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "SQUARE",
+  "keyshape_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "rim-1",
+      "start": [
+        6,
+        23
+      ],
+      "end": [
+        10,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "rim-2",
+      "start": [
+        10,
+        23
+      ],
+      "end": [
+        38,
+        23
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "rim-3",
+      "start": [
+        38,
+        23
+      ],
+      "end": [
+        42,
+        23
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "bowl-right",
+      "start": [
+        38,
+        23
+      ],
+      "end": [
+        34,
+        37
+      ],
+      "radius_x": 15,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "bowl-base",
+      "start": [
+        34,
+        37
+      ],
+      "end": [
+        14,
+        37
+      ],
+      "radius_x": 18,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "bowl-left",
+      "start": [
+        14,
+        37
+      ],
+      "end": [
+        10,
+        23
+      ],
+      "radius_x": 15,
+      "radius_y": 13,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "foot-left",
+      "start": [
+        14,
+        37
+      ],
+      "end": [
+        10,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "foot-right",
+      "start": [
+        34,
+        37
+      ],
+      "end": [
+        38,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-steam-top",
+      "start": [
+        17,
+        6
+      ],
+      "end": [
+        15,
+        8
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "left-steam-bottom",
+      "start": [
+        15,
+        8
+      ],
+      "end": [
+        12,
+        11
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "left-steam-stem",
+      "start": [
+        12,
+        11
+      ],
+      "end": [
+        12,
+        14
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-steam-top",
+      "start": [
+        30,
+        6
+      ],
+      "end": [
+        27,
+        8
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "right-steam-bottom",
+      "start": [
+        27,
+        8
+      ],
+      "end": [
+        25,
+        11
+      ],
+      "radius_x": 2,
+      "radius_y": 2,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "right-steam-stem",
+      "start": [
+        25,
+        11
+      ],
+      "end": [
+        25,
+        14
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "rim",
+      "members": [
+        "rim-1",
+        "rim-2",
+        "rim-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "bowl",
+      "members": [
+        "bowl-right",
+        "bowl-base",
+        "bowl-left"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "left-steam",
+      "members": [
+        "left-steam-top",
+        "left-steam-bottom",
+        "left-steam-stem"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "right-steam",
+      "members": [
+        "right-steam-top",
+        "right-steam-bottom",
+        "right-steam-stem"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "rim",
+        "bowl"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bowl",
+        "foot-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bowl",
+        "foot-right"
+      ]
+    }
+  ],
+  "variant_of": "witches-cauldron",
+  "variant_label": "Stretch to SQUARE"
+}

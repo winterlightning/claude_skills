@@ -1,0 +1,253 @@
+{
+  "icon_id": "compact-disc-with-partition-segment-fit-circle",
+  "name": "compact-disc-with-partition-segment-fit-circle",
+  "aliases": [],
+  "category": "objects/device",
+  "keywords": [
+    "cd",
+    "disc",
+    "partition",
+    "segment",
+    "storage",
+    "disk",
+    "sector",
+    "media"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    2,
+    2,
+    46,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "rim-0",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        43,
+        25
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "rim-1",
+      "start": [
+        43,
+        25
+      ],
+      "end": [
+        25,
+        43
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "rim-2",
+      "start": [
+        25,
+        43
+      ],
+      "end": [
+        4,
+        24
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "rim-3",
+      "start": [
+        4,
+        24
+      ],
+      "end": [
+        24,
+        4
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "hub-0",
+      "start": [
+        24,
+        21
+      ],
+      "end": [
+        27,
+        24
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "hub-1",
+      "start": [
+        27,
+        24
+      ],
+      "end": [
+        24,
+        27
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "hub-2",
+      "start": [
+        24,
+        27
+      ],
+      "end": [
+        21,
+        24
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "hub-3",
+      "start": [
+        21,
+        24
+      ],
+      "end": [
+        24,
+        21
+      ],
+      "radius_x": 3,
+      "radius_y": 3,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "sector-right",
+      "start": [
+        43,
+        25
+      ],
+      "end": [
+        35,
+        25
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "sector-turn",
+      "start": [
+        35,
+        25
+      ],
+      "end": [
+        25,
+        35
+      ],
+      "radius_x": 10,
+      "radius_y": 10,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "sector-bottom",
+      "start": [
+        25,
+        35
+      ],
+      "end": [
+        25,
+        43
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "rim",
+      "members": [
+        "rim-0",
+        "rim-1",
+        "rim-2",
+        "rim-3"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "hub",
+      "members": [
+        "hub-0",
+        "hub-1",
+        "hub-2",
+        "hub-3"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "sector",
+      "members": [
+        "sector-right",
+        "sector-turn",
+        "sector-bottom"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "rim",
+        "sector"
+      ]
+    }
+  ],
+  "variant_of": "compact-disc-with-partition-segment",
+  "variant_label": "Fit to CIRCLE"
+}

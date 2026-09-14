@@ -1,4 +1,4 @@
-"""Eye-free insect head with long paired antennae and two hooked legs. Centerline extremes (5,2)-(43,46). Mirrored quarter ellipses follow Lucide bug geometry; eyes omitted as in the source."""
+"""Eye-free insect head with long paired antennae and two hooked legs. Centerline extremes (6,6)-(42,42). Mirrored quarter ellipses follow Lucide bug geometry; eyes omitted as in the source."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -24,11 +24,11 @@ class BugHeadWithAntennae(Solo48):
         self.add_arc('cheek-l', (18, 38), (12, 24), radius_x=10, radius_y=15, sweep=True)
         self.add_arc('temple-l', (12, 24), (18, 18), radius_x=6, radius_y=6, sweep=True)
         self.add_contour('head', 'forehead', 'temple-r', 'cheek-r', 'chin', 'cheek-l', 'temple-l', closed=True)
-        self.add_arc('antenna-l', (18, 18), (5, 2), radius_x=18, radius_y=20, sweep=True)
+        self.add_arc('antenna-l', (18, 18), (6, 6), radius_x=18, radius_y=20, sweep=True)
         self.relate("connect", 'head', 'antenna-l')
-        self.add_arc('leg-l', (18, 38), (13, 46), radius_x=10, radius_y=10, sweep=False)
+        self.add_arc('leg-l', (18, 38), (13, 42), radius_x=10, radius_y=10, sweep=False)
         self.relate("connect", 'head', 'leg-l')
-        self.add_arc('antenna-r', (30, 18), (43, 2), radius_x=18, radius_y=20, sweep=False)
+        self.add_arc('antenna-r', (30, 18), (42, 6), radius_x=18, radius_y=20, sweep=False)
         self.relate("connect", 'head', 'antenna-r')
-        self.add_arc('leg-r', (30, 38), (35, 46), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('leg-r', (30, 38), (35, 42), radius_x=10, radius_y=10, sweep=True)
         self.relate("connect", 'head', 'leg-r')

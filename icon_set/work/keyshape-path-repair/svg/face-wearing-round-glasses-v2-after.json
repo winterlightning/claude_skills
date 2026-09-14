@@ -1,0 +1,245 @@
+{
+  "icon_id": "face-wearing-round-glasses-v2-fit-circle",
+  "name": "face-wearing-round-glasses-v2-fit-circle",
+  "aliases": [],
+  "category": "objects/accessories",
+  "keywords": [
+    "face",
+    "glasses",
+    "spectacles",
+    "smile",
+    "avatar",
+    "person",
+    "eyewear",
+    "portrait"
+  ],
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "SOLO",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    2,
+    2,
+    46,
+    46
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "face-0",
+      "start": [
+        44,
+        24
+      ],
+      "end": [
+        24,
+        44
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-1",
+      "start": [
+        24,
+        44
+      ],
+      "end": [
+        4,
+        24
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-2",
+      "start": [
+        4,
+        24
+      ],
+      "end": [
+        24,
+        4
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "face-3",
+      "start": [
+        24,
+        4
+      ],
+      "end": [
+        44,
+        24
+      ],
+      "radius_x": 20,
+      "radius_y": 20,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-left-top",
+      "start": [
+        10,
+        22
+      ],
+      "end": [
+        19,
+        20
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-left-bottom",
+      "start": [
+        19,
+        20
+      ],
+      "end": [
+        10,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-right-top",
+      "start": [
+        29,
+        20
+      ],
+      "end": [
+        38,
+        22
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "lens-right-bottom",
+      "start": [
+        38,
+        22
+      ],
+      "end": [
+        29,
+        20
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "bridge",
+      "start": [
+        19,
+        20
+      ],
+      "end": [
+        29,
+        20
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "smile",
+      "start": [
+        19,
+        34
+      ],
+      "end": [
+        29,
+        34
+      ],
+      "radius_x": 9,
+      "radius_y": 9,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "face",
+      "members": [
+        "face-0",
+        "face-1",
+        "face-2",
+        "face-3"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "lens-left",
+      "members": [
+        "lens-left-top",
+        "lens-left-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "lens-right",
+      "members": [
+        "lens-right-top",
+        "lens-right-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "center": [
+      24,
+      24
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "bridge",
+        "lens-left"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "bridge",
+        "lens-right"
+      ]
+    }
+  ],
+  "variant_of": "face-wearing-round-glasses-v2",
+  "variant_label": "Fit to CIRCLE"
+}

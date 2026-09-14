@@ -3,27 +3,31 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "canvas/keyshape bounds: visible ink (0, 0, 44.0193, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [4.0, 4.0, 0.0193, 0.0], tolerance 0.0)",
+    "mic [mouse]: parallel straight edges belly and tail-run are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [tail]: parallel straight edges tail-run and tail-end are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "mouse:subpath-1",
         "elementId": "mouse",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 12 A 12 12 0 0 0 8 24 A 10 10 0 0 0 18 34 L 32 34 L 34 24 A 12 8 0 0 0 46 16 L 36 12 A 6 10 0 1 0 24 12",
+        "pathData": "M 20 12 A 12 12 0 0 0 8 24 A 10 10 0 0 0 18 34 L 32 34 L 34 24 A 12 8 0 0 0 42 16 L 36 12 A 6 10 0 1 0 24 12",
         "bounds": [
           8.0,
           2.0,
-          46.0,
+          42.01916815520957,
           34.0
         ],
         "segmentCount": 323,
-        "approximationError": 0.0009035892715438088,
+        "approximationError": 0.0009035892706343304,
         "hasCurves": true
       },
       {
@@ -31,15 +35,15 @@
         "elementId": "tail",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 24 A 6 8 0 0 0 8 40 L 26 40 A 3 3 0 0 1 26 46 L 16 46",
+        "pathData": "M 8 24 A 6 8 0 0 0 8 40 L 26 40 A 3 3 0 0 1 26 42 L 16 42",
         "bounds": [
           2.0,
           24.0,
-          29.0,
-          46.0
+          26.17157287525381,
+          42.0
         ],
-        "segmentCount": 194,
-        "approximationError": 0.000903946898897414,
+        "segmentCount": 146,
+        "approximationError": 0.0006766940928778069,
         "hasCurves": true
       }
     ],
@@ -61,8 +65,8 @@
         "bounds": [
           2.0,
           2.0,
-          46.0,
-          46.0
+          42.01916815520957,
+          42.0
         ]
       }
     ],
@@ -102,8 +106,8 @@
       }
     ],
     "errors": [],
-    "requiredCenterline": 6.0,
-    "requiredInkClearance": 2.0,
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
     "strokeWidth": 4,
     "tolerance": 0.001,
     "measurement": {
@@ -117,8 +121,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 13,
-      "flattenedSegments": 517,
-      "adaptiveNodes": 1018,
+      "flattenedSegments": 469,
+      "adaptiveNodes": 922,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -154,14 +158,14 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "e2c52508de430c665f502354cfeccc95f771ed3efee45ec4fdfec963336c1031",
+  "svg_sha256": "ad50a129527e9358d989823e6725984a8f598ba11c78852f1bda2c52e6eb30d0",
   "rules": {
     "profile": {
       "canvas_size": 48,
       "family": "solo",
       "interior_guide_inset": 6,
-      "mic": 2,
-      "equal_stroke_centerline_min": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
       "keyshape_scale_numerator": 3,
       "keyshape_scale_denominator": 2,
       "semantic_use": "primary noun or standalone subject"
@@ -191,13 +195,26 @@
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "48f02eaef9ee1e869af7ff25dc4968e1ac8f611037b0b361d6b6acc9629ca751",
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
-    "required_ink_gap": 2.0,
+    "required_ink_gap": 4.0,
     "rules": {
       "version": 1,
       "sample_step": 0.25,
@@ -206,8 +223,30 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [],
+    "findings": [
+      {
+        "contour": "tail",
+        "elements": [
+          "tail-run",
+          "tail-end"
+        ],
+        "status": "review",
+        "sustained_length": 9.0,
+        "centerline_distance": 2.0,
+        "ink_gap": -2.0,
+        "nearest_points": [
+          [
+            16.625,
+            40.0
+          ],
+          [
+            16.625,
+            42.0
+          ]
+        ]
+      }
+    ],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

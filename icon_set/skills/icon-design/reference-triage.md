@@ -13,7 +13,41 @@ each component is made by `icon-making` and passed to its authoring skill.
 
 Do not split intrinsic features of one object (a teapot handle, a lid, a face,
 a screen's structural controls) into separate icons. Geometry alone is not
-proof of combination; both subjects must be independently meaningful.
+proof of combination; both subjects must be independently meaningful. Even
+independent meanings are insufficient for a side split: there must be a
+main-subject-plus-modifier relationship, rather than a natural multi-object
+subject or scene.
+
+## Side-combination decision
+
+Inspect the full render and ask whether all of these are supported:
+
+- The main subject remains recognizable with the candidate modifier removed.
+- The second element reads as a separate, reusable action/state glyph (such as
+  a check, plus, cross, warning mark, lock, or action arrow) applied to that
+  subject, rather than a physical part, held object, companion, or scene detail.
+- Its placement supports a badge/modifier reading: commonly a smaller mark at
+  bottom-left, but also bottom-right, either upper corner, beside, above, or
+  below the main subject. It may overlap the outline or sit in a cleared gap.
+
+Size, location, overlap, and the removal test are supporting evidence, not proof
+by themselves. A small object in a corner is not automatically a modifier;
+likewise, a badge need not have a circular border or be at bottom-left.
+
+Examples to distinguish by their visible relationship:
+
+| Reference | Reading |
+|---|---|
+| Cloud with a separate corner check; person with an adjacent plus badge | Side combination: subject plus status/action modifier |
+| Cup and saucer; mortar and pestle; person holding a tool | Standalone subject: the objects belong together physically or functionally |
+| Two people; a cluster of fruit; sun behind a cloud | Standalone group or scene, absent a separate modifier |
+| Teapot handle; face; a clock's hands | Intrinsic parts, not separate modifiers |
+| Padlock attached to a door hasp vs. floating lock badge over a folder | Physical object relationship vs. side modifier; inspect attachment and composition |
+
+If either interpretation remains plausible after inspecting the individual
+render, mark the reference uncertain and record both readings. Do not force a
+split. During `icon-brief`, follow its human-review hold procedure for side
+combinations and uncertain cases before any component queueing.
 
 Use the review app's Reject action for a built icon. Before generation, write
 a component JSON handoff and run `icon_set/scripts/queue_brief.py` as described

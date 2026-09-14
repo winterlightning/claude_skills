@@ -17,7 +17,7 @@ class LeapingAntelope(Solo48):
     keywords = ('antelope', 'deer', 'leap', 'jump', 'running', 'gazelle', 'wildlife', 'motion')
 
     def build(self) -> None:
-        # Centerline extremes: (2,2)-(46,46).
-        self.add_polyline("silhouette",(2,46),(6,34),(12,30),(12,23),(30,14),(34,8),(40,8),(46,14),(38,16),(38,24),(44,22),(44,34),(38,30),(38,24),(18,36),(10,40),(6,46),(2,46))
-        self.add_polyline("horn",(34,8),(28,2),(38,2))
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_polyline("silhouette",(6,42),(6,34),(12,30),(12,23),(30,14),(34,8),(40,8),(42,14),(38,16),(38,24),(42,22),(42,34),(38,30),(38,24),(18,36),(10,40),(6,42),(6,42))
+        self.add_polyline("horn",(34,8),(28,6),(38,6))
         self.relate("connect","silhouette","horn")

@@ -18,9 +18,9 @@ class SittingBabyVariant2(Solo48):
     keywords = ('sitting', 'baby', 'infant', 'nursery')
 
     def build(self):
-        # SQUARE: (2,2)-(46,46); front-facing, mirrored around x=24.
-        self.add_arc('head-right', (24,2), (24,24), radius_x=11)
-        self.add_arc('head-left', (24,24), (24,2), radius_x=11)
+        # SQUARE: (6,6)-(42,42); front-facing, mirrored around x=24.
+        self.add_arc('head-right', (24,6), (24,24), radius_x=11)
+        self.add_arc('head-left', (24,24), (24,6), radius_x=11)
         self.add_contour('head', 'head-right', 'head-left', closed=True)
         self.add_dot('eye-left', (20,12))
         self.add_dot('eye-right', (28,12))
@@ -33,10 +33,10 @@ class SittingBabyVariant2(Solo48):
         self.relate('connect', 'head', 'left-arm')
         self.relate('connect', 'head', 'right-arm')
         self.relate('connect', 'left-arm', 'right-arm')
-        self.add_arc('leg-left', (10,36), (10,46), radius_x=8, radius_y=5, sweep=False)
-        self.add_line('seat-left', (10,46), (18,46))
-        self.add_arc('leg-right', (38,46), (38,36), radius_x=8, radius_y=5, sweep=False)
-        self.add_line('seat-right', (30,46), (38,46))
+        self.add_arc('leg-left', (10,36), (10,42), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('seat-left', (10,42), (18,42))
+        self.add_arc('leg-right', (38,42), (38,36), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('seat-right', (30,42), (38,42))
         self.add_contour('left-leg', 'leg-left', 'seat-left')
         self.add_contour('right-leg', 'seat-right', 'leg-right')
         self.relate('connect', 'left-arm', 'left-leg')
