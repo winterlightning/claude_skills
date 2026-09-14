@@ -31,6 +31,6 @@ class CameraScanningShoppingBasket(Solo48):
         self.add_arc('scan-wave', (34, 8), (42, 16), radius_x=8)
         # Basket owns its mirrored handle and taper dimensions.
         axis=32; half=10; top=30; bottom=42
-        self.add_polyline('basket', (axis-half,top), (axis+half,top), (axis+half-2,bottom), (axis-half+2,bottom), closed=True)
+        self.add_polyline('basket', (axis-half,top), (axis-7,top), (axis+7,top), (axis+half,top), (axis+half-2,bottom), (axis-half+2,bottom), closed=True)
         self.add_polyline('handle', (axis-7,top), (axis,22), (axis+7,top))
         self.relate('connect','basket','handle')

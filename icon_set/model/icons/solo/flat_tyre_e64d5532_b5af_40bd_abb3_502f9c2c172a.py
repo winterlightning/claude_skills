@@ -20,7 +20,7 @@ class FlatTyre(Solo48):
         points = ((42,24),(42,30),(38,36),(40,42),(8,42),(10,36),(6,30),(6,24))
         for i,(a,b) in enumerate(zip(points,points[1:]),1):
             self.add_line(f'flat-base-{i}',a,b)
-        self.add_contour('tyre','tyre-crown',*[f'flat-base-{i}' for i in range(6,8)],closed=True)
+        self.add_contour('tyre','tyre-crown',*[f'flat-base-{i}' for i in range(1, 8)],closed=True)
         self.add_arc('rim-a',(24,16),(24,32),radius_x=8)
         self.add_arc('rim-b',(24,32),(24,16),radius_x=8)
         self.add_contour('rim','rim-a','rim-b',closed=True)

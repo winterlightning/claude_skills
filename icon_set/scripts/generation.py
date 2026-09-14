@@ -117,8 +117,9 @@ class GenerationManager:
             if code:
                 raise ValueError(f'Agent/build exited with code {code}. See the job log.')
 
-    def build(self, workspace, family, log, dist=None):
-        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--no-png','--no-report','--dist',str(dist or workspace/'icon_set/dist')],workspace,log)
+    def build(self, workspace, family, log, dist=None, icon=None):
+        # Only the candidate's module is checked; the rest of the family keeps its last build.
+        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--icon',str(workspace/icon),'--no-png','--no-report','--dist',str(dist or workspace/'icon_set/dist')],workspace,log)
 
     def run(self, row):
         folder=self.folder(row['id']); workspace=folder/'workspace'; log=folder/'run.log'
@@ -144,7 +145,7 @@ class GenerationManager:
             new_python=[str(p.relative_to(workspace)) for p in workspace.rglob('*.py') if str(p.relative_to(workspace)) not in baseline]
             if sorted(new_python) != [relative]:
                 raise ValueError('Expected exactly one new Python module.')
-            self.build(workspace,family,log)
+            self.build(workspace,family,log,icon=relative)
             icons=json.loads((workspace/'icon_set/dist/gallery/icons.json').read_text())['icons']
             matches=[icon for icon in icons if icon.get('python_source',{}).get('path')==relative]
             if len(matches)!=1 or matches[0]['icon_id']!=candidate['icon_id']:
@@ -185,7 +186,7 @@ class GenerationManager:
             # Exclusive creation prevents overwriting another accepted candidate.
             with target.open('xb') as output:
                 created=True; output.write(candidate.read_bytes())
-            self.build(self.root,row['candidate']['family'],folder/'run.log',self.dist)
+            self.build(self.root,row['candidate']['family'],folder/'run.log',self.dist,icon=row['path'])
             row.update(status='accepted')
             shutil.rmtree(folder/'workspace',ignore_errors=True)
         except Exception as error:

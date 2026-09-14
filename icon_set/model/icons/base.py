@@ -14,6 +14,7 @@ from typing import Iterable, Literal, TYPE_CHECKING
 from ..keyshapes import FreeKeyshapeSpec, Keyshape
 from ..primitives import (
     Arc,
+    Bezier,
     Contour,
     Line,
     Point,
@@ -110,6 +111,26 @@ class Icon:
             element_id, Point(*start), Point(*end), radius_x,
             radius_x if radius_y is None else radius_y,
             large_arc, sweep,
+        ))
+        return self
+
+    def add_bezier(
+        self,
+        element_id: str,
+        start: tuple[int, int],
+        *segments: tuple[tuple[float, float], tuple[float, float], tuple[float, float]],
+    ) -> "Icon":
+        """Author a smooth run of cubics from ``start``.
+
+        Each segment is ``(control1, control2, knot)``. Nodes where the curve
+        meets other geometry stay integer; smooth controls may be fractional.
+        """
+        if not segments:
+            raise ValueError(f"{element_id}: a bezier needs at least one segment")
+        last = segments[-1][2]
+        self.primitives.append(Bezier(
+            element_id, Point(*start), Point(int(last[0]), int(last[1])),
+            tuple((tuple(c1), tuple(c2), tuple(p3)) for c1, c2, p3 in segments),
         ))
         return self
 

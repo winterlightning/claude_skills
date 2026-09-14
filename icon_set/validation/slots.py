@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import math
 
-from ..model.primitives import Arc, Line, Point, Primitive
+from ..model.primitives import Arc, Bezier, Line, Point, Primitive
 from ..model.profiles import ENVELOPE_RADIUS
 from .envelope import arc_geometry
 
@@ -89,6 +89,8 @@ def distance_to_rect(primitive: Primitive, rect: Rect) -> float:
         return _segment_to_rect(primitive.start, primitive.end, rect)
     if isinstance(primitive, Arc):
         return _arc_to_rect(primitive, rect)
+    if isinstance(primitive, Bezier):
+        return min(point_to_rect(x, y, rect) for x, y in primitive.sample(180))
     raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
 
 

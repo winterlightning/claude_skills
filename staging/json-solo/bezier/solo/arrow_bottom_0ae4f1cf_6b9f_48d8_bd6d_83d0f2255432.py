@@ -1,0 +1,26 @@
+"""Arrow bottom (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '0ae4f1cf-6b9f-48d8-bd6d-83d0f2255432'
+SOURCE_PATH = 'icons-json/symbol/arrow bottom_0ae4f1cf-6b9f-48d8-bd6d-83d0f2255432.json'
+AUTHOR = 'json_to_solo'
+
+class ArrowBottom0ae4f1cf(Solo48):
+    icon_id = 'arrow-bottom-0ae4f1cf'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'symbol'
+    aliases = ()
+    keywords = ('arrow', 'bottom', 'symbol')
+
+    def build(self):
+        self.add_line('sym-e0', (24, 40), (24, 40))
+        self.add_bezier('sym-e1', (24, 40), ((23.591, 39.761), (23.394, 38.63), (23, 38)))
+        self.add_line('sym-e2', (23, 38), (4, 8))
+        self.add_bezier('sym-e3', (24, 40), ((24.409, 39.761), (24.606, 38.63), (25, 38)))
+        self.add_line('sym-e4', (25, 38), (44, 8))
+        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2')
+        self.add_contour('sym-c1', 'sym-e3', 'sym-e4')
+        self.relate('connect', 'sym-c0', 'sym-c1')

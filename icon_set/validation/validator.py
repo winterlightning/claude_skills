@@ -14,7 +14,7 @@ from typing import TYPE_CHECKING
 
 from ..model import contracts
 from ..model.keyshapes import Keyshape
-from ..model.primitives import Arc, Line
+from ..model.primitives import Arc, Bezier, Line
 from ..model.profiles import (
     CANVAS_OVERFLOW_TOLERANCE,
     CIRCLE_TOUCH_TOLERANCE,
@@ -237,7 +237,7 @@ class IconValidator:
                             f"{label} must be a positive integer, got {value!r}",
                             primitive.element_id,
                         ))
-            elif not isinstance(primitive, Line):
+            elif not isinstance(primitive, (Line, Bezier)):
                 errors.append(Finding(
                     check,
                     f"unsupported primitive type {type(primitive).__name__}",

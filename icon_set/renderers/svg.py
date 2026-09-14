@@ -11,7 +11,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 from xml.sax.saxutils import escape, quoteattr
 
-from ..model.primitives import Arc, Line, Primitive, ResolvedDrawing
+from ..model.primitives import Arc, Bezier, Line, Primitive, ResolvedDrawing
 from ..model.profiles import FILL, LINE_CAP, LINE_JOIN, STROKE, STROKE_WIDTH
 
 if TYPE_CHECKING:  # pragma: no cover - typing only
@@ -43,6 +43,13 @@ def _segment(primitive: Primitive) -> str:
             f"A{_number(primitive.radius_x)} {_number(primitive.radius_y)} 0 "
             f"{int(primitive.large_arc)} {int(primitive.sweep)} "
             f"{_number(primitive.end.x)} {_number(primitive.end.y)}"
+        )
+    if isinstance(primitive, Bezier):
+        return "".join(
+            f"C{_number(round(c1[0], 3))} {_number(round(c1[1], 3))} "
+            f"{_number(round(c2[0], 3))} {_number(round(c2[1], 3))} "
+            f"{_number(round(p3[0], 3))} {_number(round(p3[1], 3))}"
+            for c1, c2, p3 in primitive.segments
         )
     raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
 

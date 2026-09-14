@@ -3,12 +3,11 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "error",
+  "status": "fail",
   "errors": [
-    "canvas/keyshape bounds: cannot measure the painted envelope: coil-bottom-end: coincident endpoints draw nothing",
+    "canvas/keyshape bounds: visible ink (3.4641, 3.98075, 44.5359, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.5359, 0.0193, 0.5359, 0.0], tolerance 0.0)",
     "mic [outline]: parallel straight edges coil-top-left and coil-bottom are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "mic [outline]: parallel straight edges coil-top-right and coil-bottom are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "DegenerateArcError: coil-bottom-end: coincident endpoints draw nothing"
+    "mic [outline]: parallel straight edges coil-top-right and coil-bottom are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)"
   ],
   "warnings": [
     "mic [outline]: outline and eye-left are 8 apart on centerlines nearest (18, 6)<->(18, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
@@ -23,7 +22,7 @@
         "elementId": "outline",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 6 L 30 6 A 12 12 0 0 1 42 14 A 14 14 0 0 1 36 25 A 14 14 0 0 0 30 36 L 30 38 L 42 38 A 4 4 0 0 1 42 42 A 4 4 0 0 1 42 42 L 6 42 A 4 4 0 0 1 6 42 A 4 4 0 0 1 6 38 L 18 38 L 18 36 A 14 14 0 0 0 12 25 A 14 14 0 0 1 6 14 A 12 12 0 0 1 18 6",
+        "pathData": "M 18 6 L 30 6 A 12 12 0 0 1 42 14 A 14 14 0 0 1 36 25 A 14 14 0 0 0 30 36 L 30 38 L 42 38 A 4 4 0 0 1 42 42 L 6 42 A 4 4 0 0 1 6 38 L 18 38 L 18 36 A 14 14 0 0 0 12 25 A 14 14 0 0 1 6 14 A 12 12 0 0 1 18 6",
         "bounds": [
           5.4641016151377535,
           5.980831844790433,
@@ -361,7 +360,7 @@
     "minimumInkClearance": 4.0,
     "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
     "stats": {
-      "commands": 21,
+      "commands": 19,
       "flattenedSegments": 456,
       "adaptiveNodes": 888,
       "distanceTests": 21,
@@ -371,7 +370,52 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "error"
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          22.4844
+        ],
+        "bbox_viewbox": [
+          5.9688,
+          6.4688,
+          36.0625,
+          35.0312
+        ],
+        "bbox_ship_px": [
+          36.0625,
+          35.0312
+        ],
+        "bbox_design_u": [
+          36.0625,
+          35.0312
+        ],
+        "area_ship_px2": 853.8477,
+        "equivalent_diameter_ship_px": 32.972,
+        "equivalent_diameter_design_u": 32.972,
+        "inscribed_diameter_ship_px": 19.7479,
+        "inscribed_diameter_design_u": 19.7479,
+        "inscribed_radius_ship_px": 9.874,
+        "inscribed_radius_design_u": 9.874,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 8.374,
+        "equivalent_diameter_at_authored_stroke_design_u": 16.748
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/hooded-cobra/icon.svg",
@@ -387,7 +431,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1f113c964a1f51288e3114b0feb91a947b4634fa8b1ef0667924e161e0b999ec",
+  "svg_sha256": "59e2f45ec6cb537f3fe90c553c1b49dac206560be1d87df6c4dd5aff87e00096",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -439,5 +483,64 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888"
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "review",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [
+      {
+        "contour": "outline",
+        "elements": [
+          "coil-top-right",
+          "coil-bottom"
+        ],
+        "status": "review",
+        "sustained_length": 11.0,
+        "centerline_distance": 4.0,
+        "ink_gap": 0.0,
+        "nearest_points": [
+          [
+            30.625,
+            38.0
+          ],
+          [
+            30.625,
+            42.0
+          ]
+        ]
+      },
+      {
+        "contour": "outline",
+        "elements": [
+          "coil-bottom",
+          "coil-top-left"
+        ],
+        "status": "review",
+        "sustained_length": 11.0,
+        "centerline_distance": 4.0,
+        "ink_gap": 0.0,
+        "nearest_points": [
+          [
+            17.375,
+            42.0
+          ],
+          [
+            17.375,
+            38.0
+          ]
+        ]
+      }
+    ],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": true
 }

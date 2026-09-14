@@ -33,7 +33,7 @@ class ToySteamLocomotive(Solo48):
         self.add_line('front-floor-6', (9, 36), (6, 36))
         self.add_line('front-floor-7', (6, 36), (6, 20))
         self.add_line('front-floor-8', (6, 20), (6, 6))
-        self.add_contour('body','cab-roof-boiler-1','cab-roof-boiler-2','cab-roof-boiler-3','boiler-nose',*[f'front-floor-{i}' for i in range(6,9)],closed=True)
+        self.add_contour('body','cab-roof-boiler-1','cab-roof-boiler-2','cab-roof-boiler-3','boiler-nose',*[f'front-floor-{i}' for i in range(1, 9)],closed=True)
         self.add_line('window-base',(6,20),(20,20))
         self.add_line('roof-overhang',(20,6),(24,6))
         self.relate('connect','window-base','body')

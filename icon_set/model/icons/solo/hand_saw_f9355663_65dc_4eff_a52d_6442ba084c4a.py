@@ -26,6 +26,6 @@ class HandSaw(Solo48):
         self.add_arc('handle-end',(40,32),(40,38),radius_x=2,radius_y=3)
         lower=[(40,38),(36,42),(27,37),(31,33),(24,28),(20,32),(18,30),(18,24),(12,24),(12,18),(6,18),(6,12)]
         for i,(a,b) in enumerate(zip(lower,lower[1:]),1):self.add_line('lower-'+str(i),a,b)
-        self.add_contour('outline',*['upper-'+str(i) for i in range(6,6)],'handle-end',*['lower-'+str(i) for i in range(6,12)],closed=True)
+        self.add_contour('outline',*['upper-'+str(i) for i in range(1, 4)],'handle-end',*['lower-'+str(i) for i in range(1, 12)],closed=True)
         self.add_polyline('blade-divider',(30,22),(24,28),(20,32))
         self.relate('connect','outline','blade-divider')

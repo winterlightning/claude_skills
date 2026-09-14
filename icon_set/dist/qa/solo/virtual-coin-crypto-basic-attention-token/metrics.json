@@ -1,0 +1,351 @@
+{
+  "icon_id": "virtual-coin-crypto-basic-attention-token",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "fail",
+  "errors": [
+    "mic [c0]: c0 and e3 are 6.96132 apart on centerlines nearest (13, 31)<->(7.14167, 34.7603); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "warnings": [],
+  "spacing": {
+    "ok": false,
+    "status": "fail",
+    "contours": [
+      {
+        "id": "c0:subpath-1",
+        "elementId": "c0",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 35 31 L 13 31 L 24 12 L 35 31 Z",
+        "bounds": [
+          13.0,
+          12.0,
+          35.0,
+          31.0
+        ],
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "e3:subpath-1",
+        "elementId": "e3",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 4 24 A 20 20 0 0 1 44 24 A 20 20 0 0 1 4 24 Z",
+        "bounds": [
+          4.0,
+          4.0,
+          44.0,
+          44.0
+        ],
+        "segmentCount": 513,
+        "approximationError": 0.0003788797154657007,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "c0:subpath-1"
+        ],
+        "contourIds": [
+          "c0:subpath-1"
+        ],
+        "elementIds": [
+          "c0"
+        ],
+        "bounds": [
+          13.0,
+          12.0,
+          35.0,
+          31.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "e3:subpath-1"
+        ],
+        "contourIds": [
+          "e3:subpath-1"
+        ],
+        "elementIds": [
+          "e3"
+        ],
+        "bounds": [
+          4.0,
+          4.0,
+          44.0,
+          44.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "c0:subpath-1",
+          "e3:subpath-1"
+        ],
+        "centerlineDistance": 6.9613184447368885,
+        "inkClearance": 2.9613184447368885,
+        "signedInkClearance": 2.9613184447368885,
+        "lowerBound": 6.960939565021421,
+        "upperBound": 6.961697324452355,
+        "inkClearanceLowerBound": 2.9609395650214214,
+        "inkClearanceUpperBound": 2.961697324452355,
+        "approximationError": 0.0003788797154671286,
+        "nearestPoints": [
+          [
+            13.0,
+            31.0
+          ],
+          [
+            7.141667813308363,
+            34.76030563643526
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "fail",
+        "reason": "At least one disconnected contour pair is provably closer than the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "c0:subpath-1"
+          ],
+          [
+            "e3:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "c0:subpath-1",
+              "e3:subpath-1"
+            ],
+            "centerlineDistance": 6.9613184447368885,
+            "inkClearance": 2.9613184447368885,
+            "signedInkClearance": 2.9613184447368885,
+            "lowerBound": 6.960939565021421,
+            "upperBound": 6.961697324452355,
+            "inkClearanceLowerBound": 2.9609395650214214,
+            "inkClearanceUpperBound": 2.961697324452355,
+            "approximationError": 0.0003788797154657007,
+            "nearestPoints": [
+              [
+                13.0,
+                31.0
+              ],
+              [
+                7.141667813308363,
+                34.76030563643526
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "fail",
+            "reason": "Even the conservative distance upper bound is below the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [],
+    "excludedPairs": [],
+    "errors": [
+      "component-1 / component-2: At least one disconnected contour pair is provably closer than the required minimum."
+    ],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 6.9613184447368885,
+    "minimumInkClearance": 2.9613184447368885,
+    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "stats": {
+      "commands": 9,
+      "flattenedSegments": 517,
+      "adaptiveNodes": 1022,
+      "distanceTests": 200,
+      "connectionTests": 0
+    },
+    "raw_status": "fail",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          13.0156,
+          17.0156
+        ],
+        "bbox_viewbox": [
+          4.5,
+          4.5,
+          39.0,
+          39.0
+        ],
+        "bbox_ship_px": [
+          39.0,
+          39.0
+        ],
+        "bbox_design_u": [
+          39.0,
+          39.0
+        ],
+        "area_ship_px2": 951.8779,
+        "equivalent_diameter_ship_px": 34.8133,
+        "equivalent_diameter_design_u": 34.8133,
+        "inscribed_diameter_ship_px": 12.8072,
+        "inscribed_diameter_design_u": 12.8072,
+        "inscribed_radius_ship_px": 6.4036,
+        "inscribed_radius_design_u": 6.4036,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.9036,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.8072
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          23.9844,
+          24.7344
+        ],
+        "bbox_viewbox": [
+          13.875,
+          13.0312,
+          20.25,
+          17.4688
+        ],
+        "bbox_ship_px": [
+          20.25,
+          17.4688
+        ],
+        "bbox_design_u": [
+          20.25,
+          17.4688
+        ],
+        "area_ship_px2": 177.3301,
+        "equivalent_diameter_ship_px": 15.0261,
+        "equivalent_diameter_design_u": 15.0261,
+        "inscribed_diameter_ship_px": 11.5625,
+        "inscribed_diameter_design_u": 11.5625,
+        "inscribed_radius_ship_px": 5.7812,
+        "inscribed_radius_design_u": 5.7812,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.2812,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.5624
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/virtual-coin-crypto-basic-attention-token/icon.svg",
+    "metrics": "solo/virtual-coin-crypto-basic-attention-token/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "474a6d783e89c1abc671d7658e892e9c4454dcaf7f79cc15a81101e51c58f3cb",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

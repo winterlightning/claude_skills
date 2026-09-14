@@ -1,0 +1,22 @@
+"""Flame (products), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '59aa3cfd-2acc-46bd-93c4-3b4a7c6f64b1'
+SOURCE_PATH = 'icons-json/products/flame_59aa3cfd-2acc-46bd-93c4-3b4a7c6f64b1.json'
+AUTHOR = 'json_to_solo'
+
+class Flame(Solo48):
+    icon_id = 'flame'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'products'
+    aliases = ()
+    keywords = ('flame', 'products')
+
+    def build(self):
+        self.add_line('e0', (23, 4), (23, 7))
+        self.add_line('e1', (29, 9), (23, 4))
+        self.add_bezier('e2', (23, 7), ((23, 8.491), (22.51, 9.5), (21.92, 10.864)), ((20.76, 13.536), (18.96, 15.727), (16.76, 17.755)), ((12.45, 21.718), (8.02, 24.109), (8.02, 30.427)), ((8.02, 30.645), (8, 30.873), (8, 31.091)), ((8, 31.092), (8, 31.093), (8, 31.094)), ((8, 31.166), (8.01, 31.237), (8.01, 31.309)), ((8.01, 32.373), (8.32, 33.491), (8.69, 34.491)), ((10.77, 40.245), (17.45, 43.982), (23.99, 43.982)), ((24.197, 43.982), (24.403, 44), (24.61, 44)), ((24.613, 44), (24.617, 44), (24.62, 44)), ((24.7, 43.991), (24.78, 43.991), (24.87, 43.982)), ((26.05, 43.982), (27.32, 43.682), (28.45, 43.382)), ((33.98, 41.9), (38.03, 37.991), (39.42, 32.936)), ((39.7, 31.918), (39.98, 30.864), (39.98, 29.809)), ((39.98, 29.518), (40, 29.236), (40, 28.945)), ((40, 28.939), (40, 28.932), (40, 28.926)), ((40, 28.514), (39.99, 28.103), (39.99, 27.691)), ((39.99, 21.764), (35.71, 15.5), (31.61, 11.109)), ((30.78, 10.227), (29.98, 9.745), (29, 9)))
+        self.add_contour('c0', 'e0', 'e2', 'e1', closed=True)

@@ -21,6 +21,6 @@ class WingedTotemPole(Solo48):
         points = [(37,19), (37,23), (42,23), (42,26), (31,30), (31,42), (17,42), (17,30), (6,26), (6,23), (11,23), (11,19)]
         for n,(a,b) in enumerate(zip(points,points[1:]),1):
             self.add_line(f"right-wing-{n}", a, b)
-        self.add_contour("outline", "head", *[f"right-wing-{n}" for n in range(6,12)], closed=True)
+        self.add_contour("outline", "head", *[f"right-wing-{n}" for n in range(1, 12)], closed=True)
         for side,x in (("left",20),("right",28)):
             self.add_dot("eye-"+side, (x,20))

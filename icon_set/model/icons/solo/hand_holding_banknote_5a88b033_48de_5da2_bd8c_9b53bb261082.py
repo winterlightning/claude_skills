@@ -1,4 +1,4 @@
-"""A left-entering hand grips an upright banknote. SQUARE centerline extremes (6,6)-(42,42). Lucide hand-coins informs a single open palm contour and credit-card the rounded note. Omit cuff and finger creases; retain circular denomination. Deliberate asymmetry preserves the grasp direction."""
+"""A left-entering hand grips an upright banknote. SQUARE centerline extremes (6,6)-(42,42). Lucide hand-coins informs a single open palm contour and credit-card the rounded note. Omit cuff and finger creases; retain the six-unit circular denomination. Deliberate asymmetry preserves the grasp direction."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._payments_batch01 import rounded_rect, circle, dollar

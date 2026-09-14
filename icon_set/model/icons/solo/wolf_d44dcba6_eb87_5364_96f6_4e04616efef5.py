@@ -22,7 +22,7 @@ class WolfFace(Solo48):
             self.add_line(f'upper-head-{j}', a, b)
         self.add_arc('chin', (30,42), (18,42), radius_x=10, radius_y=10, sweep=True)
         self.add_line('left-jaw', (18,42), (6,28))
-        self.add_contour('head', *[f'upper-head-{i}' for i in range(6,9)], 'chin', 'left-jaw', closed=True)
+        self.add_contour('head', *[f'upper-head-{i}' for i in range(1, 9)], 'chin', 'left-jaw', closed=True)
         self.add_arc('nose-top', (21,32), (27,32), radius_x=3, sweep=True)
         self.add_arc('nose-bottom', (27,32), (21,32), radius_x=3, sweep=True)
         self.add_contour('nose', 'nose-top', 'nose-bottom', closed=True)

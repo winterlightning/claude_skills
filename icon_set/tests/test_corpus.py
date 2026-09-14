@@ -17,6 +17,14 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DIST = PACKAGE_ROOT / "dist"
 
 
+def failed_ids(family: str) -> set[str]:
+    """Icons the last build sent to dist/failed instead of the release folder."""
+    path = DIST / "failed" / dist_dir(family).name / "manifest.json"
+    if not path.is_file():
+        return set()
+    return {record["icon_id"] for record in json.loads(path.read_text())["icons"]}
+
+
 def dist_dir(family: str) -> Path:
     return PACKAGE_ROOT / contracts.families()[family]["dist"]
 
@@ -148,10 +156,11 @@ class DistTests(unittest.TestCase):
             with self.subTest(family=family):
                 self.assertEqual(manifest["family"], family)
                 self.assertEqual(manifest["profile"], Profile.for_family(family).name)
-                self.assertEqual(
-                    [record["icon_id"] for record in manifest["icons"]],
-                    [icon.icon_id for icon in icons_in(family)],
-                )
+                # Every registered icon is either shipped or listed in the failed build, never both.
+                failed = failed_ids(family)
+                shipped = [record["icon_id"] for record in manifest["icons"]]
+                self.assertFalse(set(shipped) & failed)
+                self.assertEqual(sorted(set(shipped) | failed), sorted(icon.icon_id for icon in icons_in(family)))
                 self.assertEqual({r["profile"] for r in manifest["icons"]}, {manifest["profile"]})
                 self.assertEqual({r["family"] for r in manifest["icons"]}, {family})
 
@@ -161,7 +170,8 @@ class DistTests(unittest.TestCase):
             for path in dist_dir(family).glob("*.svg"):
                 self.assertNotIn(path.stem, seen, f"{path.stem} in {family} and {seen.get(path.stem)}")
                 seen[path.stem] = family
-        self.assertEqual(sorted(seen), sorted(icon_ids()))
+        failed = set().union(*(failed_ids(family) for family in contracts.families()))
+        self.assertEqual(sorted(set(seen) | failed), sorted(icon_ids()))
 
     def test_no_legacy_mixed_folder_remains(self) -> None:
         self.assertFalse((DIST / "primitives").exists(), "dist/primitives mixed two profiles")
@@ -169,6 +179,8 @@ class DistTests(unittest.TestCase):
     def test_exported_svg_matches_the_model(self) -> None:
         for icon in all_icons():
             path = dist_dir(icon.family) / f"{icon.icon_id}.svg"
+            if icon.icon_id in failed_ids(icon.family):
+                continue  # not shipped; the failed build and test_every_icon_validates report it
             with self.subTest(icon=icon.icon_id):
                 self.assertTrue(path.is_file(), f"missing {path}")
                 self.assertEqual(path.read_text(), render_svg(icon))

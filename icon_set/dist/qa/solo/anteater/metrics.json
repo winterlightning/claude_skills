@@ -3,10 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "error",
+  "status": "fail",
   "errors": [
-    "canvas/keyshape bounds: cannot measure the painted envelope: snout-tip: coincident endpoints draw nothing",
-    "DegenerateArcError: snout-tip: coincident endpoints draw nothing"
+    "canvas/keyshape bounds: visible ink (4, 19.9242, 44, 39) does not match the HRECT_M envelope (2, 6, 46, 42) (deltas [2.0, 13.9242, 2.0, 3.0], tolerance 0.0)"
   ],
   "warnings": [],
   "spacing": {
@@ -18,7 +17,7 @@
         "elementId": "silhouette",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 30 A 22 19 0 0 1 42 30 L 42 37 L 38 37 L 36 29 A 13 10 0 0 0 26 24 L 24 37 L 17 37 L 15 24 A 9 9 0 0 0 6 33 A 2 2 0 0 1 6 33 L 6 30 Z",
+        "pathData": "M 6 30 A 22 19 0 0 1 42 30 L 42 37 L 38 37 L 36 29 A 13 10 0 0 0 26 24 L 24 37 L 17 37 L 15 24 A 9 9 0 0 0 6 33 L 6 30 Z",
         "bounds": [
           6.0,
           21.92423191694531,
@@ -68,7 +67,7 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 13,
+      "commands": 12,
       "flattenedSegments": 264,
       "adaptiveNodes": 509,
       "distanceTests": 0,
@@ -78,7 +77,52 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "error"
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          20.4844,
+          27.1719
+        ],
+        "bbox_viewbox": [
+          15.5,
+          22.4375,
+          26.0,
+          14.0625
+        ],
+        "bbox_ship_px": [
+          26.0,
+          14.0625
+        ],
+        "bbox_design_u": [
+          26.0,
+          14.0625
+        ],
+        "area_ship_px2": 164.7002,
+        "equivalent_diameter_ship_px": 14.4811,
+        "equivalent_diameter_design_u": 14.4811,
+        "inscribed_diameter_ship_px": 8.999,
+        "inscribed_diameter_design_u": 8.999,
+        "inscribed_radius_ship_px": 4.4995,
+        "inscribed_radius_design_u": 4.4995,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.9995,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.999
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/anteater/icon.svg",
@@ -94,7 +138,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "281d8e6d34278e3b76c037cb9b7521b67d1f70f9d1360a4357b31060773add60",
+  "svg_sha256": "42860485d2119cd652039599128980fe609c2ff22c08a816fd10493bf27825f0",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -146,5 +190,85 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888"
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "review",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [
+      {
+        "contour": "silhouette",
+        "elements": [
+          "back",
+          "belly"
+        ],
+        "status": "review",
+        "sustained_length": 12.6694,
+        "centerline_distance": 1.9881,
+        "ink_gap": -2.0119,
+        "nearest_points": [
+          [
+            26.737157601583128,
+            22.07216759768145
+          ],
+          [
+            26.51144745398309,
+            24.047423768375054
+          ]
+        ]
+      },
+      {
+        "contour": "silhouette",
+        "elements": [
+          "back",
+          "snout-inner"
+        ],
+        "status": "review",
+        "sustained_length": 10.4165,
+        "centerline_distance": 0.0066,
+        "ink_gap": -3.9934,
+        "nearest_points": [
+          [
+            7.032025893639877,
+            28.830890716413027
+          ],
+          [
+            7.027224045788026,
+            28.826336618934164
+          ]
+        ]
+      },
+      {
+        "contour": "silhouette",
+        "elements": [
+          "rear",
+          "hind-foot-2"
+        ],
+        "status": "review",
+        "sustained_length": 6.2471,
+        "centerline_distance": 4.1515,
+        "ink_gap": 0.1515,
+        "nearest_points": [
+          [
+            42.0,
+            36.39393939393939
+          ],
+          [
+            37.848484848484844,
+            36.39393939393939
+          ]
+        ]
+      }
+    ],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": true
 }

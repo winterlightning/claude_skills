@@ -19,14 +19,14 @@ class FloppyDiskVariant2(Solo48):
 
     def build(self) -> None:
         self.add_line('disk-t', (6, 6), (42, 6))
-        self.add_arc('disk-ne', (42, 6), (42, 6), radius_x=3, radius_y=3, sweep=True)
+
         self.add_line('disk-r', (42, 6), (42, 42))
-        self.add_arc('disk-se', (42, 42), (42, 42), radius_x=3, radius_y=3, sweep=True)
+
         self.add_line('disk-b', (42, 42), (6, 42))
-        self.add_arc('disk-sw', (6, 42), (6, 42), radius_x=3, radius_y=3, sweep=True)
+
         self.add_line('disk-l', (6, 42), (6, 6))
-        self.add_arc('disk-nw', (6, 6), (6, 6), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('disk', 'disk-t', 'disk-ne', 'disk-r', 'disk-se', 'disk-b', 'disk-sw', 'disk-l', 'disk-nw', closed=True)
+
+        self.add_contour('disk', 'disk-t',  'disk-r',  'disk-b',  'disk-l',  closed=True)
         self.add_polyline('shutter', (11, 6), (11, 14), (37, 14), (37, 6), closed=False)
         self.relate('connect', 'disk', 'shutter')
         self.add_polyline('label', (11, 42), (11, 38), (37, 38), (37, 42), closed=False)

@@ -26,7 +26,7 @@ class GenerationTests(unittest.TestCase):
         (cwd/'icon_set/model/icons/sub/new_mark.py').write_text('# candidate')
         (cwd/'candidate.json').write_text(json.dumps(dict(path='icon_set/model/icons/sub/new_mark.py',family='sub',icon_id='new-mark')))
 
-    def build(self,workspace,family,log,dist=None):
+    def build(self,workspace,family,log,dist=None,icon=None):
         gallery=workspace/'icon_set/dist/gallery';gallery.mkdir(parents=True,exist_ok=True)
         (gallery/'icons.json').write_text(json.dumps({'icons':[{'icon_id':'new-mark','key':'sub/new-mark','family':'sub','preview_url':'../sub32/new-mark.svg','python_source':{'path':'icon_set/model/icons/sub/new_mark.py'}}]}))
         svg=workspace/'icon_set/dist/sub32/new-mark.svg';svg.parent.mkdir(exist_ok=True);svg.write_text('<svg/>')

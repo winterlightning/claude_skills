@@ -26,4 +26,4 @@ class DinosaurFootprint(Solo48):
         self.add_line("toes-6",(42,10),(37,32))
         self.add_arc("heel-right",(37,32),(24,42),radius_x=13,radius_y=14)
         self.add_arc("heel-left",(24,42),(11,32),radius_x=13,radius_y=14)
-        self.add_contour("track",*["toes-"+str(i) for i in range(6,7)],"heel-right","heel-left",closed=True)
+        self.add_contour("track",*["toes-"+str(i) for i in range(1, 7)],"heel-right","heel-left",closed=True)

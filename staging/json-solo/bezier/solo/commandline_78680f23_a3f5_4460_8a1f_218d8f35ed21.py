@@ -1,0 +1,32 @@
+"""Commandline (programing), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '78680f23-a3f5-4460-8a1f-218d8f35ed21'
+SOURCE_PATH = 'icons-json/programing/commandline_78680f23-a3f5-4460-8a1f-218d8f35ed21.json'
+AUTHOR = 'json_to_solo'
+
+class CommandlinePrograming(Solo48):
+    icon_id = 'commandline-programing'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'programing'
+    aliases = ()
+    keywords = ('commandline', 'programing')
+
+    def build(self):
+        self.add_line('e0', (12, 17), (18, 24))
+        self.add_line('e1', (18, 24), (12, 30))
+        self.add_line('e2', (22, 31), (29, 31))
+        self.add_line('e3', (42, 40), (6, 40))
+        self.add_line('e4', (4, 38), (4, 11))
+        self.add_line('e5', (6, 8), (42, 8))
+        self.add_line('e6', (44, 10), (44, 38))
+        self.add_bezier('e7', (6, 40), ((4.764, 39.38), (4.545, 39.32), (4, 38)))
+        self.add_bezier('e8', (4, 11), ((4, 10.93), (4, 10.85), (4, 10.78)), ((4, 9.47), (5.127, 8.64), (6, 8)))
+        self.add_bezier('e9', (42, 8), ((42.045, 8.01), (42.264, 8.01), (42.309, 8.02)), ((42.991, 8.02), (43.982, 9.14), (43.982, 9.89)), ((43.991, 9.93), (43.991, 9.96), (44, 10)))
+        self.add_bezier('e10', (44, 38), ((43.664, 38.82), (43.036, 40), (42, 40)))
+        self.add_contour('c0', 'e0', 'e1')
+        self.add_contour('c1', 'e2')
+        self.add_contour('c2', 'e3', 'e7', 'e4', 'e8', 'e5', 'e9', 'e6', 'e10', closed=True)

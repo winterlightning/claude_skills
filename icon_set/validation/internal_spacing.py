@@ -7,7 +7,7 @@ contours are excluded. Circle diameter remains the hole check's responsibility.
 import html
 import math
 
-from ..model.primitives import Line
+from ..model.primitives import Bezier, Line
 from ..model.profiles import STROKE_WIDTH
 from .envelope import arc_geometry
 from .circle_exceptions import circle_candidates
@@ -25,6 +25,11 @@ def _samples(primitive):
         a, b = np.array(primitive.start.as_tuple()), np.array(primitive.end.as_tuple())
         length = float(np.linalg.norm(b-a))
         points = np.linspace(a, b, max(2, math.ceil(length/step)+1))
+    elif isinstance(primitive, Bezier):
+        rough = primitive.sample(16)
+        length = sum(math.dist(p, q) for p, q in zip(rough, rough[1:]))
+        per = max(2, math.ceil(length/step/len(primitive.segments)))
+        points = np.array(primitive.sample(per))
     else:
         arc = arc_geometry(primitive)
         count = max(2, math.ceil(abs(arc.delta_angle)*max(arc.radius_x, arc.radius_y)/step)+1)

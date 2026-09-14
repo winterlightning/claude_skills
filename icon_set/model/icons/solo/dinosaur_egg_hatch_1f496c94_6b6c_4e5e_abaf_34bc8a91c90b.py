@@ -23,7 +23,7 @@ class HatchingDinosaurEgg(Solo48):
         self.add_line("crack-2",(14,34),(24,26))
         self.add_line("crack-3",(24,26),(33,34))
         self.add_line("crack-4",(33,34),(42,28))
-        self.add_contour("shell","shell-bottom",*["crack-"+str(i) for i in range(6,6)],closed=True)
+        self.add_contour("shell","shell-bottom",*["crack-"+str(i) for i in range(1, 5)],closed=True)
         self.add_line("neck",(33,34),(33,12))
         self.add_arc("skull",(33,12),(23,6),radius_x=10,sweep=False)
         self.add_arc("forehead",(23,6),(13,10),radius_x=10,radius_y=8,sweep=False)

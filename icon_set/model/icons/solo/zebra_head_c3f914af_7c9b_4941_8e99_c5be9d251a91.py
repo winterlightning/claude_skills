@@ -27,7 +27,7 @@ class HorseHead(Solo48):
         self.add_line('neck-mid', (29,40), (24,34))
         self.add_line('neck-2', (24,34), (10,36))
         self.add_arc('muzzle', (10,36), (6,28), radius_x=8, sweep=True)
-        self.add_contour('outline', *[f'forehead-{i}' for i in range(6,6)], 'poll', 'poll-back', 'mane-back', 'neck-1', 'neck-mid', 'neck-2', 'muzzle', closed=True)
+        self.add_contour('outline', *[f'forehead-{i}' for i in range(1, 6)], 'poll', 'poll-back', 'mane-back', 'neck-1', 'neck-mid', 'neck-2', 'muzzle', closed=True)
         self.add_arc('mane-inner', (38,12), (29,40), radius_x=60, radius_y=60, sweep=True)
         self.relate('connect', 'mane-inner', 'outline')
         self.add_dot('eye', (25,21))

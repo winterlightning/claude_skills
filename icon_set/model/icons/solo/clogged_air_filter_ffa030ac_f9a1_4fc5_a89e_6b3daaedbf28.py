@@ -29,4 +29,4 @@ class CloggedAirFilter(Solo48):
             self.add_contour(f'flow-{i}',*[f'flow-{i}-{s}' for s in ('a1','a2','b','c','d','e1','e2')])
         for y in (20,28):
             self.add_line(f'blockage-{y}',(18,y),(30,y))
-            for i in (6,6): self.relate('connect',f'blockage-{y}',f'flow-{i}')
+            for i in (1,2): self.relate('connect',f'blockage-{y}',f'flow-{i}')

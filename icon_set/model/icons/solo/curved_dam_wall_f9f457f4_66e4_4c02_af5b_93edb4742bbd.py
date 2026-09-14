@@ -22,6 +22,6 @@ class CurvedDamWall(Solo48):
             self.add_line(f'wall-{j}', a, b)
         self.add_arc('water-right', (42, 40), (24, 40), radius_x=11, radius_y=3, sweep=True)
         self.add_arc('water-left', (24, 40), (6, 40), radius_x=11, radius_y=3, sweep=True)
-        self.add_contour('outline', *[f'wall-{i}' for i in range(6,10)], 'water-right', 'water-left', closed=True)
+        self.add_contour('outline', *[f'wall-{i}' for i in range(1, 10)], 'water-right', 'water-left', closed=True)
         self.add_line('flow-left', (19, 23), (17, 31))
         self.add_line('flow-right', (31, 23), (29, 31))

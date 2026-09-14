@@ -7,7 +7,7 @@ second signal arc and redundant currency bars. Preserve the directional grasp.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-from ._payments_batch01 import contactless_candidate
+from ._payments_batch01 import draw_contactless
 
 SOURCE_ICON_ID = '0e7d1824-dd4b-48ba-a306-d66d52b3976b'
 SOURCE_PATH = 'pictographic-primitives/payments/contactless payment yuan_0e7d1824-dd4b-48ba-a306-d66d52b3976b.svg'
@@ -23,4 +23,4 @@ class ContactlessCardPaymentYuan(Solo48):
     keywords = ('contactless','payment','card','hand','nfc','yuan')
 
     def build(self):
-        contactless_candidate(self, 'yuan', 'upright')
+        draw_contactless(self, 'yuan')

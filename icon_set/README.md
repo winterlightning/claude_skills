@@ -472,8 +472,13 @@ and an advisory can coexist; JSON and manifests keep these separate.
 Every successful build also creates `dist/gallery/index.html` and `icons.json`.
 The gallery shows all currently exported families, including unchanged families
 when building with `--family`. It is generated even with `--no-report`. Icons
-that fail validation are skipped and listed; every passing icon still appears in
-the gallery. A family where no icon exports keeps its previous release.
+that fail validation are never shipped, but they still render: the build writes
+their SVGs and findings to `dist/failed/<family><canvas>/`, and the gallery's
+**Failed build** tab shows them grouped by the rule they break (keyshape bounds,
+spacing, holes, broken geometry) with the violation drawn over each icon. The
+same page is `dist/gallery/failures.html`; `python3 icon_set/scripts/failure_report.py`
+regenerates it without a build. A family where no icon exports keeps its
+previous release.
 
 Search by name or keyword, filter by family/category, and click an icon to see
 its enlarged preview, canvas, stroke, keyshape, SVG source, full metadata, and

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ..model.primitives import Arc, Line, Primitive
+from ..model.primitives import Arc, Bezier, Line, Primitive
 
 
 @dataclass
@@ -34,6 +34,13 @@ def commands_for_path(primitives: list[Primitive], closed: bool = False) -> list
                 float(primitive.radius_x), float(primitive.radius_y), 0.0,
                 int(primitive.large_arc), int(primitive.sweep),
             )))
+        elif isinstance(primitive, Bezier):
+            for c1, c2, p3 in primitive.segments:
+                commands.append(Command("C", [
+                    (float(c1[0]), float(c1[1])),
+                    (float(c2[0]), float(c2[1])),
+                    (float(p3[0]), float(p3[1])),
+                ]))
         else:  # pragma: no cover - guarded by the type union
             raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
     if closed:

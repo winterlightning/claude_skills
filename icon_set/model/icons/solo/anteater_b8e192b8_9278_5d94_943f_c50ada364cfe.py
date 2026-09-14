@@ -27,6 +27,6 @@ class Anteater(Solo48):
         self.add_line('fore-foot-2', (24, 37), (17, 37))
         self.add_line('fore-foot-3', (17, 37), (15, 24))
         self.add_arc('snout-inner', (15, 24), (6, 33), radius_x=9, radius_y=9, sweep=False)
-        self.add_arc('snout-tip', (6, 33), (6, 33), radius_x=2, radius_y=2, sweep=True)
+
         self.add_line('snout-front', (6, 33), (6, 30))
-        self.add_contour('silhouette', 'back', 'rear', 'hind-foot-1', 'hind-foot-2', 'belly', 'fore-foot-1', 'fore-foot-2', 'fore-foot-3', 'snout-inner', 'snout-tip', 'snout-front', closed=True)
+        self.add_contour('silhouette', 'back', 'rear', 'hind-foot-1', 'hind-foot-2', 'belly', 'fore-foot-1', 'fore-foot-2', 'fore-foot-3', 'snout-inner',  'snout-front', closed=True)

@@ -24,8 +24,14 @@
   ],
   "additionalProperties": false,
   "properties": {
-    "variant_of": {"type": "string", "minLength": 1},
-    "variant_label": {"type": "string", "minLength": 1},
+    "variant_of": {
+      "type": "string",
+      "minLength": 1
+    },
+    "variant_label": {
+      "type": "string",
+      "minLength": 1
+    },
     "icon_id": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
@@ -386,6 +392,50 @@
             },
             "sweep": {
               "type": "boolean"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "kind",
+            "element_id",
+            "start",
+            "end",
+            "segments"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "bezier"
+            },
+            "element_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "start": {
+              "$ref": "#/$defs/point"
+            },
+            "end": {
+              "$ref": "#/$defs/point"
+            },
+            "segments": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "array",
+                "minItems": 3,
+                "maxItems": 3,
+                "items": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  },
+                  "minItems": 2,
+                  "maxItems": 2
+                }
+              },
+              "description": "Cubic segments as [control1, control2, knot]; the last knot equals end."
             }
           }
         }

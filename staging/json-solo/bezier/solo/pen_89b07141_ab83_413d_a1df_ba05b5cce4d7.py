@@ -1,0 +1,33 @@
+"""Pen (design), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '89b07141-ab83-413d-a1df-ba05b5cce4d7'
+SOURCE_PATH = 'icons-json/design/pen_89b07141-ab83-413d-a1df-ba05b5cce4d7.json'
+AUTHOR = 'json_to_solo'
+
+class Pen(Solo48):
+    icon_id = 'pen'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'design'
+    aliases = ()
+    keywords = ('pen', 'design')
+
+    def build(self):
+        self.add_bezier('sym-e0', (40, 8), ((40.416, 8.416), (40.763, 8.592), (41, 9)))
+        self.add_bezier('sym-e1', (41, 9), ((41.425, 9.728), (42, 10.174), (42, 11)))
+        self.add_bezier('sym-e2', (42, 11), ((42, 11.352), (42, 11.648), (42, 12)))
+        self.add_bezier('sym-e3', (42, 12), ((42, 13.366), (40.957, 15.075), (40, 16)))
+        self.add_line('sym-e4', (40, 16), (18, 37))
+        self.add_bezier('sym-e5', (18, 37), ((17.149, 37.818), (16.105, 38.566), (15, 39)))
+        self.add_bezier('sym-e6', (15, 39), ((12.177, 40.105), (8.864, 41.002), (6, 42)))
+        self.add_bezier('sym-e7', (6, 42), ((6.998, 39.136), (7.895, 35.823), (9, 33)))
+        self.add_bezier('sym-e8', (9, 33), ((9.434, 31.895), (10.182, 30.851), (11, 30)))
+        self.add_line('sym-e9', (11, 30), (32, 8))
+        self.add_bezier('sym-e10', (32, 8), ((32.925, 7.043), (34.634, 6), (36, 6)))
+        self.add_bezier('sym-e11', (36, 6), ((36.352, 6), (36.648, 6), (37, 6)))
+        self.add_bezier('sym-e12', (37, 6), ((37.826, 6), (38.272, 6.575), (39, 7)))
+        self.add_bezier('sym-e13', (39, 7), ((39.408, 7.237), (39.584, 7.584), (40, 8)))
+        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', closed=True)

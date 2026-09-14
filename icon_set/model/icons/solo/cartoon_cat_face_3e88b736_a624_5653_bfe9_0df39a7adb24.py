@@ -27,7 +27,7 @@ class CartoonCatFace(Solo48):
                 self.add_line(f'{name}-{i}',a,b)
         poly('ears',(6,24),(10,18),(10,6),(19,14),(29,14),(38,6),(38,18),(42,24))
         arc('jaw',(42,24),(6,24),18,18)
-        self.add_contour('head',*[f'ears-{i}' for i in range(6,8)],'jaw',closed=True)
+        self.add_contour('head',*[f'ears-{i}' for i in range(1, 8)],'jaw',closed=True)
         for x in (17,31):
             self.add_dot(f'eye-{x}',(x,23))
         arc('smile',(20,32),(28,32),5,2,sweep=False)

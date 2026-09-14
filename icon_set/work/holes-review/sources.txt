@@ -1,0 +1,2633 @@
+
+### 1 cologne-cathedral-v2
+# Variant of cologne-cathedral; parent file remains unchanged.
+"""Cologne Cathedral. Rebuilt from the supplied silhouette."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '07f608bf-07ea-53df-b369-c2c46c926459'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-01/cologne cathedral_07f608bf-07ea-53df-b369-c2c46c926459.svg'
+AUTHOR = 'gpt-6'
+
+class LandmarkVariant2(Solo48):
+    icon_id = 'cologne-cathedral-v2'
+    variant_of = 'cologne-cathedral'
+    variant_label = 'Line door'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'places/landmarks'
+    aliases = ()
+    keywords = ('cologne', 'cathedral', 'germany', 'church', 'spire', 'gothic', 'landmark', 'religion')
+
+    def build(self):
+        self.add_polyline('outline', (6, 42), (6, 23), (9, 14), (16, 23), (16, 31), (27, 23), (36, 31), (36, 35), (42, 39), (42, 42), (32, 42), (28, 42), (24, 42), closed=True)
+        self.add_polyline('cross-stem', (9, 6), (9, 6), (9, 14), closed=False)
+        self.add_polyline('cross-bar', (6, 6), (9, 6), (13, 6), closed=False)
+        self.relate('connect', 'cross-stem', 'cross-bar')
+        self.relate('connect', 'cross-stem', 'outline')
+        self.add_polyline('tower', (6, 23), (16, 23), (16, 42), closed=False)
+        self.relate('connect', 'tower', 'outline')
+        self.add_line('door', (28, 42), (28, 38))
+        self.relate('connect', 'door', 'outline')
+
+HOLES: [[6.6875, 15.0625, 8.2812, 7.4375]]
+
+### 2 cologne-cathedral-v3
+# Variant of cologne-cathedral; parent file remains unchanged.
+"""Cologne Cathedral with a single vertical doorway mark. SQUARE preserves the landmark silhouette; rectangular doorway removed per feedback."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '07f608bf-07ea-53df-b369-c2c46c926459'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-01/cologne cathedral_07f608bf-07ea-53df-b369-c2c46c926459.svg'
+AUTHOR = 'gpt-6'
+
+class LandmarkVariant3(Solo48):
+    icon_id = 'cologne-cathedral-v3'
+    variant_of = 'cologne-cathedral'
+    variant_label = 'Single line doorway'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'places/landmarks'
+    aliases = ()
+    keywords = ('cologne', 'cathedral', 'germany', 'church', 'spire', 'gothic', 'landmark', 'religion')
+
+    def build(self):
+        self.add_polyline('outline', (6, 42), (6, 23), (9, 14), (16, 23), (16, 31), (27, 23), (36, 31), (36, 35), (42, 39), (42, 42), (28, 42), closed=True)
+        self.add_polyline('cross-stem', (9, 6), (9, 6), (9, 14), closed=False)
+        self.add_polyline('cross-bar', (6, 6), (9, 6), (13, 6), closed=False)
+        self.relate('connect', 'cross-stem', 'cross-bar')
+        self.relate('connect', 'cross-stem', 'outline')
+        self.add_polyline('tower', (6, 23), (16, 23), (16, 42), closed=False)
+        self.relate('connect', 'tower', 'outline')
+        self.add_line('door', (28, 42), (28, 38))
+        self.relate('connect', 'door', 'outline')
+
+HOLES: [[6.6875, 15.0625, 8.2812, 7.4375]]
+
+### 3 sea-turtle
+"""A sea turtle from above with an oval shell and four sweeping flippers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '1adaf0a7-6662-4745-959f-fe860dd47485'
+SOURCE_PATH = 'pictographic-primitives/animals/turtle_1adaf0a7-6662-4745-959f-fe860dd47485.svg'
+AUTHOR = 'gpt-6'
+
+
+class SeaTurtle(Solo48):
+    icon_id = 'sea-turtle'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ()
+    keywords = ('turtle', 'tortoise', 'sea turtle', 'shell', 'flippers', 'marine', 'ocean', 'reptile')
+
+    def build(self) -> None:
+        # Visible keyshape extremes: (0, 0, 48, 48).
+        self.add_arc("shell-top-right",(24,14),(34,20),radius_x=10,radius_y=6)
+        self.add_line("shell-right-upper",(34,20),(34,26))
+        self.add_line("shell-right-lower",(34,26),(34,32))
+        self.add_arc("shell-bottom-right",(34,32),(24,40),radius_x=10,radius_y=8)
+        self.add_arc("shell-bottom-left",(24,40),(14,32),radius_x=10,radius_y=8)
+        self.add_line("shell-left-lower",(14,32),(14,26))
+        self.add_line("shell-left-upper",(14,26),(14,20))
+        self.add_arc("shell-top-left",(14,20),(24,14),radius_x=10,radius_y=6)
+        self.add_contour("shell","shell-top-right","shell-right-upper","shell-right-lower","shell-bottom-right","shell-bottom-left","shell-left-lower","shell-left-upper","shell-top-left",closed=True)
+        self.add_line("shell-seam",(24,14),(24,40))
+        self.relate("connect","shell","shell-seam")
+        self.add_arc("head-left",(24,14),(24,6),radius_x=6)
+        self.add_arc("head-right",(24,6),(24,14),radius_x=6)
+        self.add_contour("head","head-left","head-right",closed=True)
+        self.relate("connect","head","shell")
+        self.relate("connect","head","shell-seam")
+        for side,flip in (("left",False),("right",True)):
+            def p(x,y): return (48-x,y) if flip else (x,y)
+            self.add_arc(side+"-front-upper",p(14,20),p(6,28),radius_x=14,sweep=flip)
+            self.add_arc(side+"-front-lower",p(6,28),p(14,26),radius_x=14,sweep=flip)
+            self.add_contour(side+"-front",side+"-front-upper",side+"-front-lower")
+            self.relate("connect",side+"-front","shell")
+            self.add_arc(side+"-rear",p(14,32),p(12,42),radius_x=12,sweep=flip)
+            self.relate("connect",side+"-rear","shell")
+
+HOLES: [[22.9688, 6.8125, 2.0625, 6.375], [6.75, 20.75, 6.75, 6.7812], [34.5, 20.75, 6.75, 6.7812]]
+
+### 4 ba-letters-underlined
+"""Ba Letters Underlined. Retains the identifying silhouette and visible features.
+
+HRECT_L visible extremes (2, 6, 46, 42); centerlines (4, 8, 44, 40).
+Lucide type, inspected earlier: coherent monoline lettering.
+Repeated features share dimensions; deliberate asymmetry preserves the
+letter order, handles and chart heights. Authored directly on SOLO48.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'a29d1bb4-f540-4abf-8aa9-a7c5843a6984'
+SOURCE_PATH = 'pictographic-primitives/symbol/ba (text u)_a29d1bb4-f540-4abf-8aa9-a7c5843a6984.svg'
+AUTHOR = 'gpt-6'
+
+
+class BaLettersUnderlined(Solo48):
+    icon_id = 'ba-letters-underlined'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "symbols/standalone"
+    aliases = ()
+    keywords = ('ba', 'letters', 'text', 'underline', 'language', 'typography', 'abbreviation')
+
+    def build(self) -> None:
+        self.add_line('b-top', (6, 8), (12, 8))
+        self.add_arc('b-upper', (12, 8), (12, 18), radius_x=8, radius_y=5, sweep=True)
+        self.add_arc('b-lower', (12, 18), (12, 30), radius_x=10, radius_y=6, sweep=True)
+        self.add_line('b-back-1', (12, 30), (6, 30))
+        self.add_line('b-back-2', (6, 30), (6, 18))
+        self.add_line('b-back-3', (6, 18), (6, 8))
+        self.add_contour('b', 'b-top', 'b-upper', 'b-lower', 'b-back-1', 'b-back-2', 'b-back-3', closed=True)
+        self.add_line('b-bar', (6, 18), (12, 18))
+        self.relate("connect", 'b', 'b-bar')
+        self.add_arc('a-bowl-right', (38, 18), (38, 30), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('a-bowl-left', (38, 30), (38, 18), radius_x=6, radius_y=6, sweep=True)
+        self.add_contour('a-bowl', 'a-bowl-right', 'a-bowl-left', closed=True)
+        self.add_polyline('a-stem', (42, 18), (42, 24), (42, 30))
+        self.relate("connect", 'a-bowl', 'a-stem')
+        self.add_line('underline', (6, 40), (42, 40))
+
+HOLES: [[42.5, 20.875, 1.0, 6.25]]
+
+### 5 baby-head-v2
+# Variant of baby-head; parent file remains unchanged.
+"""A blank baby portrait with curled hair, ear bumps and broad shoulders; Lucide baby informs the continuous face contour."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '454b702c-a035-5fa0-a3ec-ac065587fca8'
+SOURCE_PATH = 'pictographic-primitives/babies/baby_454b702c-a035-5fa0-a3ec-ac065587fca8.svg'
+AUTHOR = 'gpt-6'
+
+class BabyHeadVariant2(Solo48):
+    icon_id = 'baby-head-v2'
+    variant_of = 'baby-head'
+    variant_label = 'Simplify'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'people/babies'
+    aliases = ()
+    keywords = ('baby', 'head', 'infant', 'nursery')
+
+    def build(self) -> None:
+        # SQUARE extremes (6,6)-(42,42): plain circular head and a single curl.
+        self.add_arc('head-left', (24,6), (24,42), radius_x=22, sweep=False)
+        self.add_arc('head-right', (24,42), (24,6), radius_x=22, sweep=False)
+        self.add_contour('head', 'head-left', 'head-right', closed=True)
+        self.add_arc('curl-down', (24,6), (32,10), radius_x=8)
+        self.add_arc('curl-in', (32,10), (26,16), radius_x=6)
+        self.add_contour('curl', 'curl-down', 'curl-in')
+        self.relate('connect', 'head', 'curl')
+
+HOLES: [[25.4375, 6.4375, 6.0625, 6.25]]
+
+### 6 bobble-hat-with-seams-v2
+# Variant of bobble-hat-with-seams; parent file remains unchanged.
+"""A bobble hat with a deep cuff and two short crown seams."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '145bee6b-f64f-518f-a631-9a382415349d'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-01/beanie winter_145bee6b-f64f-518f-a631-9a382415349d.svg'
+AUTHOR = 'gpt-6'
+
+class BobbleHatWithSeamsVariant2(Solo48):
+    icon_id = 'bobble-hat-with-seams-v2'
+    variant_of = 'bobble-hat-with-seams'
+    variant_label = 'remove two lines inside'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
+    aliases = ()
+    keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cap', 'clothing')
+
+    def build(self) -> None:
+        self.add_line('cuff0', (8, 34), (40, 34))
+        self.add_arc('cuff1', (40, 34), (42, 37), radius_x=3, radius_y=3, sweep=True)
+        self.add_line('cuff2', (42, 37), (42, 42))
+        self.add_arc('cuff3', (42, 42), (40, 42), radius_x=3, radius_y=3, sweep=True)
+        self.add_line('cuff4', (40, 42), (8, 42))
+        self.add_arc('cuff5', (8, 42), (6, 42), radius_x=3, radius_y=3, sweep=True)
+        self.add_line('cuff6', (6, 42), (6, 37))
+        self.add_arc('cuff7', (6, 37), (8, 34), radius_x=3, radius_y=3, sweep=True)
+        self.add_contour('cuff', 'cuff0', 'cuff1', 'cuff2', 'cuff3', 'cuff4', 'cuff5', 'cuff6', 'cuff7', closed=True)
+        self.add_line('crown-l', (8, 34), (8, 30))
+        self.add_arc('crown-a', (8, 30), (24, 14), radius_x=16, radius_y=16, sweep=True)
+        self.add_arc('crown-b', (24, 14), (40, 30), radius_x=16, radius_y=16, sweep=True)
+        self.add_line('crown-r', (40, 30), (40, 34))
+        self.add_contour('crown', 'crown-l', 'crown-a', 'crown-b', 'crown-r', closed=False)
+        self.relate('connect', 'crown', 'cuff')
+        self.add_arc('bobble-a', (24, 6), (24, 14), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('bobble-b', (24, 14), (24, 6), radius_x=6, radius_y=6, sweep=True)
+        self.add_contour('bobble', 'bobble-a', 'bobble-b', closed=True)
+        self.relate('connect', 'bobble', 'crown')
+
+HOLES: [[22.9688, 6.8125, 2.0625, 6.375]]
+
+### 7 bridge-pose
+'A reclining figure raises the hips into a curved bridge with the head low on the right. A bent supporting leg drops underneath while another long limb extends diagonally toward the upper left.\nConstruction: Bounds (6,8)-(42,40). Raised diagonal leg, bent support and low head right preserve the one-legged bridge; remove doubled body contour.\nLucide person-standing: separate circular head, shared shoulder and hip nodes; accessibility: bent limb runs. Pose direction follows the supplied reference.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'ed6cb660-23da-5c6d-9d87-7413118cab56'
+SOURCE_PATH = 'pictographic-primitives/sports/yoga bridge pose_ed6cb660-23da-5c6d-9d87-7413118cab56.svg'
+AUTHOR = 'gpt-6'
+
+class BridgePose(Solo48):
+    icon_id = 'bridge-pose'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/sports"
+    aliases = ()
+    keywords = ('bridge', 'pose', 'yoga', 'exercise')
+
+    def build(self):
+        self.add_arc('head-top', (38, 30), (42, 30), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('head-bottom', (42, 30), (38, 30), radius_x=3, radius_y=3, sweep=True)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+        self.add_polyline('raised-leg', (6, 8), (18, 19), (29, 29), closed=False)
+        self.add_polyline('support-leg', (18, 19), (12, 26), (12, 40), closed=False)
+        self.relate("connect", 'raised-leg', 'support-leg')
+        self.add_polyline('back', (29, 29), (31, 37), (24, 40), closed=False)
+        self.relate("connect", 'raised-leg', 'back')
+
+HOLES: [[38.9062, 29.75, 2.1875, 0.5]]
+
+### 8 circular-steampunk-ornament
+"""Circular mechanical ornament with offset ring, spokes and a loose wavy trace. CIRCLE radius 22 around (24,24). No useful exact Lucide match; continuous circular arcs guide construction. Deliberately asymmetric interior; tiny stray mark omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b930fde9-bd19-41b6-bfa5-0da26c21f3c9'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-04/steampunk decoration_b930fde9-bd19-41b6-bfa5-0da26c21f3c9.svg'
+AUTHOR = 'gpt-6'
+
+
+class CircularSteampunkOrnament(Solo48):
+    icon_id = 'circular-steampunk-ornament'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
+    aliases = ()
+    keywords = ('disc', 'steampunk', 'ornament', 'circle', 'ring', 'spokes', 'abstract')
+
+    def build(self) -> None:
+        self.add_arc('disc-a', (6, 24), (42, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('disc-b', (42, 24), (6, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_contour('disc', 'disc-a', 'disc-b', closed=True)
+        self.add_arc('hub-a', (22, 21), (30, 21), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('hub-b', (30, 21), (22, 21), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('hub', 'hub-a', 'hub-b', closed=True)
+        self.add_line('spoke-ne', (30, 21), (42, 24))
+        self.relate('connect', 'spoke-ne', 'hub')
+        self.relate('connect', 'spoke-ne', 'disc')
+        self.add_line('spoke-top', (26, 17), (24, 6))
+        self.relate('connect', 'spoke-top', 'hub')
+        self.relate('connect', 'spoke-top', 'disc')
+        self.add_line('spoke-se', (30, 21), (35, 30))
+        self.relate('connect', 'spoke-se', 'hub')
+        self.add_arc('wave-a', (12, 15), (12, 25), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_arc('wave-b', (12, 25), (18, 37), radius_x=8, radius_y=8, sweep=False, large_arc=False)
+        self.add_arc('wave-c', (18, 37), (27, 38), radius_x=7, radius_y=7, sweep=True, large_arc=False)
+        self.add_contour('wave', 'wave-a', 'wave-b', 'wave-c', closed=False)
+
+HOLES: [[26.1875, 15.25, 14.5312, 7.9062], [6.625, 18.1562, 6.625, 9.875]]
+
+### 9 compact-disc-with-partition-segment-v2
+# Variant of compact-disc-with-partition-segment; parent file remains unchanged.
+"""A compact disc with a solid hub dot and lower-right sector boundary. CIRCLE preserves the radial envelope. Lucide disc-3 informs concentric construction; the sector is deliberately asymmetric."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '4e49d815-dbf2-5bb7-b3a8-7650a2bd21ef'
+SOURCE_PATH = 'pictographic-primitives/computers/batch-04/cd partition_4e49d815-dbf2-5bb7-b3a8-7650a2bd21ef.svg'
+AUTHOR = 'gpt-6'
+
+class CompactDiscWithPartitionSegmentVariant2(Solo48):
+    icon_id = 'compact-disc-with-partition-segment-v2'
+    variant_of = 'compact-disc-with-partition-segment'
+    variant_label = 'Solid disc hub'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
+    aliases = ()
+    keywords = ('cd', 'disc', 'partition', 'segment', 'storage', 'disk', 'sector', 'media')
+
+    def build(self) -> None:
+        self.add_arc('rim-0', (24, 6), (42, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('rim-1', (42, 24), (24, 42), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('rim-2', (24, 42), (6, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('rim-3', (6, 24), (24, 6), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_contour('rim', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
+        self.add_line('sector-right', (42, 24), (36, 24))
+        self.add_arc('sector-turn', (36, 24), (24, 36), radius_x=12, radius_y=12, sweep=True, large_arc=False)
+        self.add_line('sector-bottom', (24, 36), (24, 42))
+        self.add_contour('sector', 'sector-right', 'sector-turn', 'sector-bottom', closed=False)
+        self.relate('connect', 'rim', 'sector')
+        self.add_dot('hub', (24, 24))
+
+HOLES: [[24.5, 24.5, 16.9062, 16.9062]]
+
+### 10 crow-pose
+'A compact figure balances forward with a long arm extending down beneath the shoulder. The round head projects left while bent knees tuck toward the body at the upper right.\nConstruction: Bounds (6,8)-(42,40). Compact tucked knee above a supporting arm, head projecting left. Remove parallel limb outlines.\nLucide person-standing: separate circular head, shared shoulder and hip nodes; accessibility: bent limb runs. Pose direction follows the supplied reference.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '9a2b64ee-6a30-5094-9ab6-83d78d52dace'
+SOURCE_PATH = 'pictographic-primitives/sports/yoga crow pose_9a2b64ee-6a30-5094-9ab6-83d78d52dace.svg'
+AUTHOR = 'gpt-6'
+
+class CrowPose(Solo48):
+    icon_id = 'crow-pose'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/sports"
+    aliases = ()
+    keywords = ('crow', 'pose', 'yoga', 'exercise')
+
+    def build(self):
+        self.add_arc('head-top', (6, 23), (10, 23), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('head-bottom', (10, 23), (6, 23), radius_x=3, radius_y=3, sweep=True)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+        self.add_line('support', (20,40), (20,22))
+        self.add_arc('back', (20,22), (34,8), radius_x=14)
+        self.add_contour('body', 'support', 'back')
+        self.add_arc('knee', (34, 8), (42, 16), radius_x=8)
+        self.add_line('knee-drop', (42,16), (42,20))
+        self.relate('connect', 'knee', 'knee-drop')
+        self.add_polyline('shin', (42, 20), (35, 26), (42, 32), closed=False)
+        self.relate("connect", 'body', 'knee')
+        self.relate("connect", 'knee-drop', 'shin')
+
+HOLES: [[6.9062, 22.75, 2.1875, 0.5]]
+
+### 11 deer-antlers
+"""Mirrored deer antlers with three outward tines on each curved beam. No useful local Lucide antler match; paired radii maintain balance."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b5326f6d-1b19-4c78-9523-76f9c76077ed'
+SOURCE_PATH = 'pictographic-primitives/animals/deer antlers_b5326f6d-1b19-4c78-9523-76f9c76077ed.svg'
+AUTHOR = 'gpt-6'
+
+
+class DeerAntlers(Solo48):
+    icon_id = 'deer-antlers'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('antlers', 'deer', 'horns', 'stag', 'hunting', 'wildlife', 'rack', 'nature')
+
+    def build(self) -> None:
+        # Visible bounds: (0, 0, 48, 48); centerline inset 2.
+        self.add_line('left-base', (20, 42), (20, 39))
+        self.add_arc('left-beam-low', (20, 39), (12, 24), radius_x=18, radius_y=18, sweep=False)
+        self.add_arc('left-beam-high', (12, 24), (7, 10), radius_x=22, radius_y=22, sweep=False)
+        self.add_line('left-tip', (7, 10), (7, 6))
+        self.add_contour('left-beam', 'left-base', 'left-beam-low', 'left-beam-high', 'left-tip', closed=False)
+        self.add_arc('left-upper-tine', (7, 10), (6, 7), radius_x=5, radius_y=3, sweep=True)
+        self.relate("connect", 'left-upper-tine', 'left-beam')
+        self.add_arc('left-middle-tine', (12, 24), (6, 20), radius_x=10, radius_y=4, sweep=True)
+        self.relate("connect", 'left-middle-tine', 'left-beam')
+        self.add_line('left-lower-tine', (20, 39), (11, 34))
+        self.relate("connect", 'left-lower-tine', 'left-beam')
+        self.add_line('right-base', (28, 42), (28, 39))
+        self.add_arc('right-beam-low', (28, 39), (36, 24), radius_x=18, radius_y=18, sweep=True)
+        self.add_arc('right-beam-high', (36, 24), (41, 10), radius_x=22, radius_y=22, sweep=True)
+        self.add_line('right-tip', (41, 10), (41, 6))
+        self.add_contour('right-beam', 'right-base', 'right-beam-low', 'right-beam-high', 'right-tip', closed=False)
+        self.add_arc('right-upper-tine', (41, 10), (42, 7), radius_x=5, radius_y=3, sweep=False)
+        self.relate("connect", 'right-upper-tine', 'right-beam')
+        self.add_arc('right-middle-tine', (36, 24), (42, 20), radius_x=10, radius_y=4, sweep=False)
+        self.relate("connect", 'right-middle-tine', 'right-beam')
+        self.add_line('right-lower-tine', (28, 39), (37, 34))
+        self.relate("connect", 'right-lower-tine', 'right-beam')
+
+HOLES: [[6.2188, 7.125, 0.2812, 1.6875], [41.5, 7.125, 0.2812, 1.6875]]
+
+### 12 downward-stretch
+'A figure forms a high inverted V with the hips lifted and limbs sloping down to either side. A short curved head outline sits above the low extended forearms on the left.\nConstruction: Bounds (6,8)-(42,40). Inverted V with low left forearms and lowered head; preserve original direction, remove doubled contour.\nLucide person-standing: separate circular head, shared shoulder and hip nodes; accessibility: bent limb runs. Pose direction follows the supplied reference.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'f3dea441-ee35-4695-9882-6fd0119f58d3'
+SOURCE_PATH = 'pictographic-primitives/sports/yoga down stretch_f3dea441-ee35-4695-9882-6fd0119f58d3.svg'
+AUTHOR = 'gpt-6'
+
+class DownwardStretch(Solo48):
+    icon_id = 'downward-stretch'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/sports"
+    aliases = ()
+    keywords = ('downward', 'stretch', 'yoga', 'exercise')
+
+    def build(self):
+        self.add_arc('head-top', (6, 26), (11, 26), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('head-bottom', (11, 26), (6, 26), radius_x=3, radius_y=3, sweep=True)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+        self.add_polyline('body', (6, 40), (14, 40), (30, 8), (42, 40), closed=False)
+
+HOLES: [[6.6562, 25.1562, 3.6875, 1.6875]]
+
+### 13 dragonfly
+"""dragonfly: reconstructed at native SOLO48 size."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '12edf723-8a13-4cc8-b4a8-b00184931821'
+SOURCE_PATH = 'pictographic-primitives/animals/dragonfly_12edf723-8a13-4cc8-b4a8-b00184931821.svg'
+AUTHOR = 'gpt-6'
+
+
+class Dragonfly(Solo48):
+    icon_id = 'dragonfly'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('dragonfly', 'insect', 'wings', 'symmetry', 'damselfly', 'bug', 'nature', 'pond')
+
+    def build(self):
+        self.add_arc('head-1', (24, 6), (24, 12), radius_x=5, radius_y=5, sweep=True)
+        self.add_arc('head-2', (24, 12), (24, 6), radius_x=5, radius_y=5, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_line('body', (24, 12), (24, 42))
+        self.relate("connect", 'head', 'body')
+        self.add_arc('wings-left-1', (24, 22), (12, 16), radius_x=14, radius_y=9, sweep=False)
+        self.add_arc('wings-left-2', (12, 16), (6, 22), radius_x=10, radius_y=6, sweep=False)
+        self.add_arc('wings-left-3', (6, 22), (10, 27), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('wings-left-4', (10, 27), (6, 33))
+        self.add_arc('wings-left-5', (6, 33), (11, 39), radius_x=6, radius_y=6, sweep=False)
+        self.add_line('wings-left-6', (11, 39), (17, 39))
+        self.add_arc('wings-left-7', (17, 39), (24, 30), radius_x=7, radius_y=9, sweep=False)
+        self.add_line('wings-left-8', (24, 30), (24, 22))
+        self.add_contour('wings-left', 'wings-left-1', 'wings-left-2', 'wings-left-3', 'wings-left-4', 'wings-left-5', 'wings-left-6', 'wings-left-7', 'wings-left-8', closed=True)
+        self.add_line('division-left', (10, 27), (24, 22))
+        self.relate("connect", 'division-left', 'wings-left')
+        self.relate("connect", 'body', 'division-left')
+        self.relate("connect", 'body', 'wings-left')
+        self.add_arc('wings-right-1', (24, 22), (36, 16), radius_x=14, radius_y=9, sweep=True)
+        self.add_arc('wings-right-2', (36, 16), (42, 22), radius_x=10, radius_y=6, sweep=True)
+        self.add_arc('wings-right-3', (42, 22), (38, 27), radius_x=8, radius_y=5, sweep=True)
+        self.add_line('wings-right-4', (38, 27), (42, 33))
+        self.add_arc('wings-right-5', (42, 33), (37, 39), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('wings-right-6', (37, 39), (31, 39))
+        self.add_arc('wings-right-7', (31, 39), (24, 30), radius_x=7, radius_y=9, sweep=True)
+        self.add_line('wings-right-8', (24, 30), (24, 22))
+        self.add_contour('wings-right', 'wings-right-1', 'wings-right-2', 'wings-right-3', 'wings-right-4', 'wings-right-5', 'wings-right-6', 'wings-right-7', 'wings-right-8', closed=True)
+        self.add_line('division-right', (38, 27), (24, 22))
+        self.relate("connect", 'division-right', 'wings-right')
+        self.relate("connect", 'body', 'division-right')
+        self.relate("connect", 'body', 'wings-right')
+        self.relate("connect", 'wings-left', 'wings-right')
+        self.relate("connect", 'division-left', 'division-right')
+
+HOLES: [[23.5, 6.9688, 1.0, 4.0625]]
+
+### 14 error-404-xxx-label
+"""404 Error Label. Preserves the reference characters; reconstructs their stroke geometry.
+
+Keyshape HRECT_L: visible extremes (2, 6, 46, 42); centerline extremes (4, 8, 44, 40).
+Lucide percent informs diagonal/counter separation; Lucide type informs
+coherent monoline letter strokes. Digits and word order retain intentional
+asymmetry. All coordinates are authored directly for the live SOLO48 keyshape.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b54c402a-66b3-456f-ae3a-44c3e23e8c4c'
+SOURCE_PATH = 'pictographic-primitives/symbol/404 XXX_b54c402a-66b3-456f-ae3a-44c3e23e8c4c.svg'
+AUTHOR = 'gpt-6'
+
+
+class Error404XxxLabel(Solo48):
+    icon_id = 'error-404-xxx-label'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "symbols/labels"
+    aliases = ()
+    keywords = ('404', 'error', 'not-found', 'xxx', 'web', 'page', 'label', 'text')
+
+    def build(self) -> None:
+        self.add_polyline('four-left-arm', (8, 8), (6, 16), (10, 16))
+        self.add_polyline('four-left-stem', (10, 8), (10, 16), (10, 20))
+        self.relate("connect", 'four-left-arm', 'four-left-stem')
+        self.add_arc('zero-top', (19, 12), (27, 12), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('zero-right', (27, 12), (27, 16))
+        self.add_arc('zero-bottom', (27, 16), (19, 16), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('zero-left', (19, 16), (19, 12))
+        self.add_contour('zero', 'zero-top', 'zero-right', 'zero-bottom', 'zero-left', closed=True)
+        self.add_polyline('four-right-arm', (42, 8), (36, 16), (42, 16))
+        self.add_polyline('four-right-stem', (42, 8), (42, 16), (42, 20))
+        self.relate("connect", 'four-right-arm', 'four-right-stem')
+        self.add_polyline('cross-0-down', (6, 29), (8, 34), (12, 40))
+        self.add_polyline('cross-0-up', (6, 40), (8, 34), (12, 29))
+        self.relate("connect", 'cross-0-down', 'cross-0-up')
+        self.add_polyline('cross-1-down', (20, 29), (24, 34), (28, 40))
+        self.add_polyline('cross-1-up', (20, 40), (24, 34), (28, 29))
+        self.relate("connect", 'cross-1-down', 'cross-1-up')
+        self.add_polyline('cross-2-down', (36, 29), (40, 34), (42, 40))
+        self.add_polyline('cross-2-up', (36, 40), (40, 34), (42, 29))
+        self.relate("connect", 'cross-2-down', 'cross-2-up')
+
+HOLES: [[37.0, 9.5312, 4.5, 5.9688]]
+
+### 15 five-leaf-hanging-vine
+"""Five alternating pointed leaves on a hanging stem. Lucide sprout informs two-arc leaves; short side stalks are absorbed into the stem attachments. Unequal heights and rightward terminal leaf are intentional."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '73751da6-c4f7-4cdd-9167-eaaf2012de13'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-03/hanging plant_73751da6-c4f7-4cdd-9167-eaaf2012de13.svg'
+AUTHOR = 'gpt-6'
+
+
+class FiveLeafHangingVine(Solo48):
+    icon_id = 'five-leaf-hanging-vine'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/plants"
+    aliases = ()
+    keywords = ('plant', 'decoration', 'foliage', 'indoor')
+
+    def build(self) -> None:
+        # VRECT_L extremes (8,6)-(40,42). Staggered leaves retain the hanging rhythm.
+        self.add_polyline("stem", (24,6), (24,12), (24,16), (24,28), (24,34))
+        self.add_arc("upper-left-a", (8, 6), (24, 16), radius_x=16, radius_y=12)
+        self.add_arc("upper-left-b", (24, 16), (8, 6), radius_x=16, radius_y=12)
+        self.add_contour("upper-left", "upper-left-a", "upper-left-b", closed=True)
+        self.add_arc("upper-right-a", (24, 12), (40, 6), radius_x=16, radius_y=10)
+        self.add_arc("upper-right-b", (40, 6), (24, 12), radius_x=16, radius_y=10)
+        self.add_contour("upper-right", "upper-right-a", "upper-right-b", closed=True)
+        self.add_arc("lower-left-a", (8, 22), (24, 34), radius_x=16, radius_y=12)
+        self.add_arc("lower-left-b", (24, 34), (8, 22), radius_x=16, radius_y=12)
+        self.add_contour("lower-left", "lower-left-a", "lower-left-b", closed=True)
+        self.add_arc("lower-right-a", (24, 28), (40, 16), radius_x=16, radius_y=12)
+        self.add_arc("lower-right-b", (40, 16), (24, 28), radius_x=16, radius_y=12)
+        self.add_contour("lower-right", "lower-right-a", "lower-right-b", closed=True)
+        self.add_arc("terminal-a", (24, 34), (36, 42), radius_x=12, radius_y=12)
+        self.add_arc("terminal-b", (36, 42), (24, 34), radius_x=12, radius_y=12)
+        self.add_contour("terminal", "terminal-a", "terminal-b", closed=True)
+        for name in ("upper-left", "upper-right", "lower-left", "lower-right", "terminal"):
+            self.relate("connect", name, "stem")
+        self.relate("connect", "lower-left", "terminal")
+
+HOLES: [[25.0, 6.4688, 14.0, 5.0625], [24.75, 34.4688, 10.5, 7.0625]]
+
+### 16 flooded-house-interior
+"""A tall house outline has a peaked roof and a rounded lower edge. Two continuous wavy waterlines cross its lower interior from wall to wall, showing water filling the building.
+
+Retained roof and two water levels, omitted tiny scallops; bilateral symmetry.
+Construction reference: Lucide house: coherent pitched outline; repeated wave arcs.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '3e9e5afc-aca3-54a0-852a-2c588819cc61'
+SOURCE_PATH = 'pictographic-primitives/weather/flood house indoor_3e9e5afc-aca3-54a0-852a-2c588819cc61.svg'
+AUTHOR = 'gpt-6'
+
+class FloodedHouseInterior(Solo48):
+    icon_id = 'flooded-house-interior'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/weather"
+    aliases = ()
+    keywords = ('flood', 'house', 'water', 'indoor', 'disaster', 'inundation')
+
+    def build(self) -> None:
+        # Live VRECT_XL visible bounds: (6, 2, 42, 46).
+        self.add_polyline('house', (8, 42), (8, 18), (24, 6), (40, 18), (40, 42), closed=True)
+        self.add_arc('water-0-0', (8, 25), (24, 25), radius_x=8, radius_y=2, sweep=False, large_arc=False)
+        self.add_arc('water-0-1', (24, 25), (40, 25), radius_x=8, radius_y=2, sweep=False, large_arc=False)
+        self.add_contour('water-0', 'water-0-0', 'water-0-1', closed=False)
+        self.relate("connect", 'house', 'water-0')
+        self.add_arc('water-1-0', (8, 36), (24, 36), radius_x=8, radius_y=2, sweep=False, large_arc=False)
+        self.add_arc('water-1-1', (24, 36), (40, 36), radius_x=8, radius_y=2, sweep=False, large_arc=False)
+        self.add_contour('water-1', 'water-1-0', 'water-1-1', closed=False)
+        self.relate("connect", 'house', 'water-1')
+
+HOLES: [[8.5, 36.9688, 31.0, 4.5312]]
+
+### 17 hanging-flower-pair
+"""Unequal hanging stems carry a leaf and a downward-facing flower; tiny lower petal omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '76e15d0e-0c43-40b6-ba38-ae2903117c14'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-02/hanging flowers_76e15d0e-0c43-40b6-ba38-ae2903117c14.svg'
+AUTHOR = 'gpt-6'
+
+class HangingFlowerPair(Solo48):
+    icon_id = 'hanging-flower-pair'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
+    aliases = ()
+    keywords = ('flower', 'hanging', 'petals', 'stem', 'leaf', 'botanical', 'decor')
+
+    def build(self) -> None:
+        # VRECT_XL: exact SOLO48 extremes; geometry authored on the integer grid.
+        self.add_line('left-stem', (16, 6), (16, 28))
+        self.add_arc('leaf-a', (16, 28), (6, 39), radius_x=11, radius_y=11, sweep=True)
+        self.add_arc('leaf-b', (6, 39), (16, 28), radius_x=11, radius_y=11, sweep=True)
+        self.add_contour('leaf', 'leaf-a', 'leaf-b', closed=True)
+        self.relate('connect', 'left-stem', 'leaf')
+        self.add_arc('tail-a', (16, 28), (19, 31), radius_x=3, radius_y=3, sweep=True)
+        self.add_line('tail-b', (19, 31), (19, 42))
+        self.add_contour('tail', 'tail-a', 'tail-b')
+        self.relate('connect', 'tail', 'leaf')
+        self.relate('connect', 'tail', 'left-stem')
+        self.add_line('right-stem', (35, 8), (35, 24))
+        self.add_arc('flower-a', (27, 32), (35, 24), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('flower-b', (35, 24), (42, 32), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('flower-c', (42, 32), (35, 32), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('flower-d', (35, 32), (27, 32), radius_x=4, radius_y=4, sweep=True)
+        self.add_contour('flower', 'flower-a', 'flower-b', 'flower-c', 'flower-d', closed=True)
+        self.relate('connect', 'flower', 'right-stem')
+
+HOLES: [[6.5, 28.5625, 9.0, 9.875]]
+
+### 18 leaning-tower-of-pisa
+"""The Leaning Tower of Pisa with sloping floor bands; the doorway and upper mast are omitted for clear spacing."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '9a3f8c8c-6f0b-50d0-bd62-91718e949e17'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-02/pisa tower_9a3f8c8c-6f0b-50d0-bd62-91718e949e17.svg'
+AUTHOR = 'gpt-6'
+
+
+class LeaningTowerOfPisa(Solo48):
+    icon_id = 'leaning-tower-of-pisa'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "places/landmarks"
+    aliases = ()
+    keywords = ('pisa', 'tower', 'italy', 'leaning', 'landmark', 'campanile', 'travel', 'architecture')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42); tower leans right.
+        self.add_polyline('shaft',(11,42),(13,36),(15,26),(17,16),(19,6),(35,6),(33,20),(31,30),(29,40),(28,42),(11,42),closed=True)
+        self.add_line('upper-floor',(17,16),(33,20))
+        self.add_line('middle-floor',(15,26),(31,30))
+        self.add_line('lower-floor',(13,36),(29,40))
+        for part in ('upper-floor','middle-floor','lower-floor'):
+            self.relate('connect',part,'shaft')
+        self.add_polyline('ground',(6,42),(11,42),(28,42),(42,42))
+        self.relate('connect','ground','shaft')
+
+HOLES: [[11.6875, 36.5938, 16.5625, 4.9062]]
+
+### 19 low-plank-pose
+'A low figure holds the body nearly straight on a shallow diagonal, with the head at the right. A bent arm supports the shoulder while the long legs extend back to the left.\nConstruction: Bounds (6,8)-(42,40). Shallow body diagonal with bent supporting forearm; right-facing head. Remove second outline of the legs.\nLucide person-standing: separate circular head, shared shoulder and hip nodes; accessibility: bent limb runs. Pose direction follows the supplied reference.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '9439df77-0cdb-5ac3-878e-3030ec5b7a19'
+SOURCE_PATH = 'pictographic-primitives/sports/yoga low plank pose_9439df77-0cdb-5ac3-878e-3030ec5b7a19.svg'
+AUTHOR = 'gpt-6'
+
+class LowPlankPose(Solo48):
+    icon_id = 'low-plank-pose'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/sports"
+    aliases = ()
+    keywords = ('low', 'plank', 'pose', 'yoga', 'exercise')
+
+    def build(self):
+        self.add_arc('head-top', (38, 11), (42, 11), radius_x=3, radius_y=3, sweep=True)
+        self.add_arc('head-bottom', (42, 11), (38, 11), radius_x=3, radius_y=3, sweep=True)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+        self.add_polyline('body', (6, 40), (29, 17), (29, 31), closed=False)
+        self.add_polyline('forearm', (29, 31), (24, 40), closed=False)
+        self.relate("connect", 'body', 'forearm')
+
+HOLES: [[38.9062, 10.75, 2.1875, 0.5]]
+
+### 20 moon-rain-cloud
+"""A crescent moon rises behind the upper-right side of an open-bottom cloud. Three parallel diagonal rain strokes fall toward the lower left beneath the foreground cloud.
+
+Reduced secondary lobes and rain count; preserved rightward crescent behind a lower-left cloud.
+Construction reference: Lucide moon and cloud: coherent overlapping silhouettes.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '93e91edf-3294-4be6-b0ea-84ff55057f87'
+SOURCE_PATH = 'pictographic-primitives/weather/weather night rain_93e91edf-3294-4be6-b0ea-84ff55057f87.svg'
+AUTHOR = 'gpt-6'
+
+class MoonRainCloud(Solo48):
+    icon_id = 'moon-rain-cloud'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/weather"
+    aliases = ()
+    keywords = ('moon', 'rain', 'cloud', 'night', 'shower', 'weather')
+
+    def build(self) -> None:
+        # Live HRECT_XL visible bounds: (2, 6, 46, 42).
+        self.add_arc('cloud-dome', (16, 30), (28, 22), radius_x=12, radius_y=8, sweep=True, large_arc=True)
+        self.add_arc('cloud-right-upper', (28, 22), (36, 26), radius_x=8, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('cloud-right-lower', (36, 26), (28, 30), radius_x=8, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('cloud-base', (28, 30), (16, 30))
+        self.add_contour('cloud', 'cloud-dome', 'cloud-right-upper', 'cloud-right-lower', 'cloud-base', closed=True)
+        self.add_arc('moon-outer', (28, 22), (42, 8), radius_x=16, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('moon-inner', (42, 8), (42, 30), radius_x=8, radius_y=11, sweep=False, large_arc=False)
+        self.add_line('moon-tip', (42, 30), (36, 26))
+        self.add_contour('moon', 'moon-outer', 'moon-inner', 'moon-tip', closed=False)
+        self.relate("connect", 'moon', 'cloud')
+        self.add_line('rain-left', (16, 39), (15, 40))
+        self.add_line('rain-right', (29, 39), (28, 40))
+
+HOLES: [[28.5, 10.0, 8.1875, 12.75], [38.5625, 28.3125, 0.0312, 0.0312], [38.6562, 28.375, 0.0625, 0.0625], [38.75, 28.4375, 0.0625, 0.0625], [38.8438, 28.5, 0.0625, 0.0625], [38.9375, 28.5625, 0.0312, 0.0312]]
+
+### 21 necklace-with-three-beads-v2
+# Variant of necklace-with-three-beads; parent file remains unchanged.
+'Necklace variant with the two small side beads removed and the cord reconnected to the central bead. SQUARE preserves the open curling cord. No useful Lucide subject match.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'bd456324-64d7-46c8-a153-b39382cfb4fa'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-01/diy jewelry_bd456324-64d7-46c8-a153-b39382cfb4fa.svg'
+AUTHOR = 'gpt-6'
+
+class NecklaceWithThreeBeadsVariant2(Solo48):
+    icon_id = 'necklace-with-three-beads-v2'
+    variant_of = 'necklace-with-three-beads'
+    variant_label = 'Single central bead'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
+    aliases = ()
+    keywords = ('necklace', 'bead', 'beaded', 'jewellery', 'jewelry', 'diy', 'craft', 'cord', 'accessory')
+
+    def build(self) -> None:
+        self.add_arc('left-curl', (10, 6), (6, 10), radius_x=8, radius_y=8, sweep=False)
+        self.add_line('left-run', (6, 10), (6, 12))
+        self.add_arc('left-cord', (6, 12), (8, 25), radius_x=6, radius_y=13, sweep=False)
+        self.add_contour('left-string', 'left-curl', 'left-run', 'left-cord', closed=False)
+        self.add_arc('right-curl', (38, 6), (42, 10), radius_x=8, radius_y=8, sweep=True)
+        self.add_line('right-run', (42, 10), (42, 12))
+        self.add_arc('right-cord', (42, 12), (40, 25), radius_x=6, radius_y=13, sweep=True)
+        self.add_contour('right-string', 'right-curl', 'right-run', 'right-cord', closed=False)
+        self.add_arc('main-bead-a', (24, 30), (24, 42), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('main-bead-b', (24, 42), (24, 30), radius_x=8, radius_y=8, sweep=True)
+        self.add_contour('main-bead', 'main-bead-a', 'main-bead-b', closed=True)
+        self.add_line('thread-left', (8, 25), (24, 30))
+        self.add_line('thread-right', (24, 30), (40, 25))
+        self.relate('connect', 'thread-left', 'main-bead')
+        self.relate('connect', 'thread-right', 'main-bead')
+        self.relate('connect', 'thread-left', 'thread-right')
+        self.relate('connect','thread-left','left-string')
+        self.relate('connect','thread-right','right-string')
+
+HOLES: [[21.7812, 30.6875, 4.4375, 10.625]]
+
+### 22 paw-print-v2
+# Variant of paw-print; parent file remains unchanged.
+'Paw print with enlarged circular toes and rounded mirrored central pad. Lucide paw-print informs coherent round lobes.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '3a1bcec0-4f4d-5256-8275-cc56ec3fa7d1'
+SOURCE_PATH = 'pictographic-primitives/animals/animal print paw_3a1bcec0-4f4d-5256-8275-cc56ec3fa7d1.svg'
+AUTHOR = 'gpt-6'
+
+class PawPrintVariant2(Solo48):
+    icon_id = 'paw-print-v2'
+    variant_of = 'paw-print'
+    variant_label = 'Larger circular toes and smooth pad'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
+    aliases = ()
+    keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
+
+    def build(self) -> None:
+        # SQUARE centerline extremes (6,6)-(42,42). Mirrored toe pairs.
+        self.add_arc('outer-left-top', (6,23), (12,23), radius_x=5, radius_y=5)
+        self.add_arc('outer-left-bottom', (12,23), (6,23), radius_x=5, radius_y=5)
+        self.add_contour('outer-left', 'outer-left-top','outer-left-bottom', closed=True)
+        self.add_arc('inner-left-top', (10,7), (20,7), radius_x=5, radius_y=5)
+        self.add_arc('inner-left-bottom', (20,7), (10,7), radius_x=5, radius_y=5)
+        self.add_contour('inner-left', 'inner-left-top','inner-left-bottom', closed=True)
+        self.add_arc('inner-right-top', (28,7), (38,7), radius_x=5, radius_y=5)
+        self.add_arc('inner-right-bottom', (38,7), (28,7), radius_x=5, radius_y=5)
+        self.add_contour('inner-right', 'inner-right-top','inner-right-bottom', closed=True)
+        self.add_arc('outer-right-top', (36,23), (42,23), radius_x=5, radius_y=5)
+        self.add_arc('outer-right-bottom', (42,23), (36,23), radius_x=5, radius_y=5)
+        self.add_contour('outer-right', 'outer-right-top','outer-right-bottom', closed=True)
+        self.add_arc('pad-crown', (15,37), (33,37), radius_x=9, radius_y=11)
+        self.add_arc('pad-right-lobe', (33,37), (28,42), radius_x=5, radius_y=9)
+        self.add_arc('pad-notch-right', (28,42), (24,42), radius_x=6, sweep=False)
+        self.add_arc('pad-notch-left', (24,42), (20,42), radius_x=6, sweep=False)
+        self.add_arc('pad-left-lobe', (20,42), (15,37), radius_x=5, radius_y=9)
+        self.add_contour('pad', 'pad-crown','pad-right-lobe','pad-notch-right','pad-notch-left','pad-left-lobe', closed=True)
+
+HOLES: [[6.9688, 22.5, 4.0625, 1.0], [36.9688, 22.5, 4.0625, 1.0]]
+
+### 23 person-with-bindle
+"""A person strides right with a tied bundle carried on a shoulder stick. Lucide person-standing informs the stride. The knot and fingers are reduced; the bundle and carrying pole remain distinct physical parts."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'cabc5985-10ec-4ff6-97df-f2868406a44f'
+SOURCE_PATH = 'pictographic-primitives/users/user homeless poverty 1_cabc5985-10ec-4ff6-97df-f2868406a44f.svg'
+AUTHOR = 'gpt-6'
+
+
+class PersonWithBindle(Solo48):
+    icon_id = 'person-with-bindle'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "people/users"
+    aliases = ()
+    keywords = ('homeless', 'bindle', 'walking', 'traveller', 'person', 'bundle', 'poverty', 'wanderer')
+
+    def circle(self,name,cx,cy,r):
+        pts=[(cx,cy-r),(cx+r,cy),(cx,cy+r),(cx-r,cy),(cx,cy-r)]
+        ids=[]
+        for i,(a,b) in enumerate(zip(pts,pts[1:])):
+            eid=name+'-'+str(i);self.add_arc(eid,a,b,radius_x=r);ids.append(eid)
+        self.add_contour(name,*ids,closed=True)
+
+
+    def build(self) -> None:
+        # Portrait centerline extremes (8,6)-(40,42); forward-leaning walking posture.
+        self.circle('head',34,10,6)
+        self.add_line('bundle-left',(13,6),(8,16))
+        self.add_arc('bundle-bottom',(8,16),(18,16),radius_x=5,sweep=False)
+        self.add_line('bundle-right',(18,16),(13,6))
+        self.add_contour('bundle','bundle-left','bundle-bottom','bundle-right',closed=True)
+        self.add_line('pole',(13,6),(26,26))
+        self.relate('connect','bundle','pole')
+        self.add_line('torso',(26,26),(24,34))
+        self.add_polyline('arm',(26,26),(33,31),(39,27))
+        self.add_polyline('legs',(16,42),(24,34),(32,37),(40,42))
+        self.relate('connect','pole','torso')
+        self.relate('connect','pole','arm')
+        self.relate('connect','torso','arm')
+        self.relate('connect','torso','legs')
+
+HOLES: [[17.4688, 13.8125, 0.0312, 0.0312]]
+
+### 24 rainbow-between-clouds
+"""Three nested semicircular rainbow bands bridge the gap between two clouds at the lower corners. The clouds face inward with rounded lobes and level lower edges.
+
+Two rainbow bands meet clouds with separate crowns, side lobes, and flat bases; third rainbow band omitted.
+Construction reference: Lucide cloud: clean small lobes; concentric rainbow arcs with shared center.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '41049662-f336-4650-9604-e8d4818347cc'
+SOURCE_PATH = 'pictographic-primitives/weather/weather clouds rainbow_41049662-f336-4650-9604-e8d4818347cc.svg'
+AUTHOR = 'gpt-6'
+
+class RainbowBetweenClouds(Solo48):
+    icon_id = 'rainbow-between-clouds'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/weather"
+    aliases = ()
+    keywords = ('rainbow', 'cloud', 'sky', 'weather', 'arc', 'sunlight')
+
+    def build(self) -> None:
+        # Live HRECT_XL visible bounds: (2, 6, 46, 42).
+        self.add_arc('rainbow-outer', (6, 34), (42, 34), radius_x=20, radius_y=26, sweep=True, large_arc=False)
+        self.add_arc('rainbow-inner', (16, 34), (32, 34), radius_x=8, radius_y=16, sweep=True, large_arc=False)
+        self.add_arc('left-crown-left', (6, 34), (10, 28), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_arc('left-crown-right', (10, 28), (16, 34), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_arc('left-lobe', (16, 34), (16, 40), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('left-base', (16, 40), (7, 40))
+        self.add_arc('left-corner', (7, 40), (6, 37), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('left-side', (6, 37), (6, 34))
+        self.add_contour('left', 'left-crown-left', 'left-crown-right', 'left-lobe', 'left-base', 'left-corner', 'left-side', closed=True)
+        self.relate("connect", 'left', 'rainbow-outer')
+        self.relate("connect", 'left', 'rainbow-inner')
+        self.add_arc('right-crown-left', (42, 34), (38, 28), radius_x=6, radius_y=6, sweep=False, large_arc=False)
+        self.add_arc('right-crown-right', (38, 28), (32, 34), radius_x=6, radius_y=6, sweep=False, large_arc=False)
+        self.add_arc('right-lobe', (32, 34), (32, 40), radius_x=3, radius_y=3, sweep=False, large_arc=False)
+        self.add_line('right-base', (32, 40), (41, 40))
+        self.add_arc('right-corner', (41, 40), (42, 37), radius_x=3, radius_y=3, sweep=False, large_arc=False)
+        self.add_line('right-side', (42, 37), (42, 34))
+        self.add_contour('right', 'right-crown-left', 'right-crown-right', 'right-lobe', 'right-base', 'right-corner', 'right-side', closed=True)
+        self.relate("connect", 'right', 'rainbow-outer')
+        self.relate("connect", 'right', 'rainbow-inner')
+
+HOLES: [[22.3438, 18.5, 3.3125, 0.4062], [10.0625, 20.7188, 8.8438, 10.0625], [29.0938, 20.7188, 8.8125, 10.0625]]
+
+### 25 shock-absorber
+"""shock-absorber: reconstructed on SOLO48 from its reference."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '01782115-840f-4608-80a2-63dafd53ad81'
+SOURCE_PATH = 'pictographic-primitives/transportation/suspension dampers_01782115-840f-4608-80a2-63dafd53ad81.svg'
+AUTHOR = 'gpt-6'
+
+
+class ShockAbsorber(Solo48):
+    icon_id = 'shock-absorber'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "transportation"
+    aliases = ()
+    keywords = ('shock absorber', 'suspension', 'damper', 'car', 'strut', 'mechanic', 'automotive', 'repair')
+
+    def build(self) -> None:
+
+        # Cylinder owns top mount and central piston; lower eye is circular.
+        self.add_polyline('body',(8,12),(18,12),(30,12),(40,12),(40,28),(24,28),(8,28),closed=True)
+        self.add_arc('mount',(18,12),(30,12),radius_x=6,radius_y=8)
+        self.add_line('piston',(24,28),(24,36))
+        self.add_arc('eye-right',(24,36),(24,42),radius_x=4)
+        self.add_arc('eye-left',(24,42),(24,36),radius_x=4)
+        self.add_contour('eye','eye-right','eye-left',closed=True)
+        # Declare only real junctions with exactly matching endpoints.
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
+                    self.relate('connect',a.element_id,b.element_id)
+
+HOLES: [[23.1562, 36.7188, 1.6875, 4.5625]]
+
+### 26 singing-bird
+"""singing-bird: source silhouette re-authored on SOLO48.
+
+Lucide bird informs coherent body arcs and sparse detail.
+Keyshape VRECT_XL; extremes obtained from the SOLO48 contract.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '100799e2-7de7-58f9-a91a-cf91475c62fe'
+SOURCE_PATH = 'pictographic-primitives/animals/wild bird sing_100799e2-7de7-58f9-a91a-cf91475c62fe.svg'
+AUTHOR = 'gpt-6'
+
+
+class SingingBird(Solo48):
+    icon_id = 'singing-bird'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/birds"
+    aliases = ()
+    keywords = ('bird', 'singing', 'beak', 'open', 'song', 'chirp', 'head', 'wildlife')
+
+    def build(self) -> None:
+        self.add_arc('head-top', (6, 27), (18, 14), radius_x=13, radius_y=13, sweep=True)
+        self.add_arc('forehead', (18, 14), (30, 22), radius_x=12, radius_y=8, sweep=True)
+        self.add_line('upper-beak', (30, 22), (42, 15))
+        self.add_line('mouth-top', (42, 15), (31, 30))
+        self.add_line('mouth-bottom', (31, 30), (42, 33))
+        self.add_line('lower-beak', (42, 33), (29, 39))
+        self.add_line('breast', (29, 39), (30, 42))
+        self.add_contour('front', 'head-top', 'forehead', 'upper-beak', 'mouth-top', 'mouth-bottom', 'lower-beak', 'breast', closed=False)
+        self.add_arc('nape', (6, 27), (8, 39), radius_x=26, radius_y=26, sweep=False)
+        self.add_line('neck-back', (8, 39), (6, 42))
+        self.add_contour('back', 'nape', 'neck-back', closed=False)
+        self.relate("connect", 'front', 'back')
+        self.add_line('beak-crown', (18, 14), (23, 6))
+        self.add_line('beak-rise', (23, 6), (30, 22))
+        self.add_contour('crown', 'beak-crown', 'beak-rise', closed=False)
+        self.relate("connect", 'front', 'crown')
+        self.add_dot('eye', (17, 26))
+
+HOLES: [[18.9062, 7.0938, 7.875, 8.8438]]
+
+### 27 snail-shell-spiral
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'ac736fb4-930d-5099-ae75-efdc2b2a7f88'
+SOURCE_PATH = 'pictographic-primitives/animals/snail shell_ac736fb4-930d-5099-ae75-efdc2b2a7f88.svg'
+AUTHOR = 'gpt-6'
+
+
+class SnailShellSpiral(Solo48):
+    icon_id = 'snail-shell-spiral'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ()
+    keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl')
+
+    def build(self) -> None:
+        # Open spiral with tangent semicircles; extremes (6,6)-(42,42).
+        self.add_arc('outer-upper', (6, 28), (42, 28), radius_x=22, radius_y=26, sweep=True)
+        self.add_arc('outer-lower', (42, 28), (10, 28), radius_x=18, radius_y=18, sweep=True)
+        self.add_arc('middle-upper', (10, 28), (34, 28), radius_x=12, radius_y=12, sweep=True)
+        self.add_arc('inner-lower', (34, 28), (22, 28), radius_x=6, radius_y=6, sweep=True)
+        self.add_contour('spiral', 'outer-upper', 'outer-lower', 'middle-upper', 'inner-lower', closed=False)
+
+HOLES: [[16.25, 16.5, 6.0938, 1.5625], [16.1875, 18.0625, 0.0312, 0.0312]]
+
+### 28 snow-capped-mountain-with-sun
+"""A snow-capped cone with concave flanks and a sun at upper left."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '99f40798-d32b-4978-8d5c-7e9dc3adf2dd'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-07/volcano_99f40798-d32b-4978-8d5c-7e9dc3adf2dd.svg'
+AUTHOR = 'gpt-6'
+
+class SnowCappedMountainWithSun(Solo48):
+    icon_id = 'snow-capped-mountain-with-sun'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/landmarks'
+    aliases = ()
+    keywords = ('mountain', 'volcano', 'fuji', 'peak', 'snow', 'sun', 'landscape', 'nature', 'landmark')
+
+    def build(self) -> None:
+        # HRECT_XL centerline extremes (6,6)-(42,42).
+        self.add_arc('left-lower', (6, 42), (14, 27), radius_x=55, sweep=False)
+        self.add_arc('left-upper', (14, 27), (18, 17), radius_x=55, sweep=False)
+        self.add_line('summit', (18, 17), (30, 17))
+        self.add_arc('right-upper', (30, 17), (34, 27), radius_x=55, sweep=False)
+        self.add_arc('right-lower', (34, 27), (42, 42), radius_x=55, sweep=False)
+        self.add_contour('mountain', 'left-lower', 'left-upper', 'summit', 'right-upper', 'right-lower')
+        self.add_polyline('snowline', (14, 27), (20, 31), (25, 26), (31, 31))
+        self.relate('connect', 'snowline', 'mountain')
+        self.add_arc('sun-top', (6, 10), (12, 10), radius_x=5, sweep=True)
+        self.add_arc('sun-bottom', (12, 10), (6, 10), radius_x=5, sweep=True)
+        self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
+
+HOLES: [[6.9688, 9.5, 4.0625, 1.0]]
+
+### 29 soldier-behind-sandbags
+"""Soldier Behind Sandbags. Helmeted head above two sandbags with a leftward rifle; supporting arm removed.
+Keyshape HRECT_XL: chosen for the subject's overall proportions; authored directly on SOLO48.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '8b44e93a-d821-47ef-ba9f-726236b08971'
+SOURCE_PATH = 'pictographic-primitives/war/sand bag soldier_8b44e93a-d821-47ef-ba9f-726236b08971.svg'
+AUTHOR = 'gpt-6'
+
+class SoldierBehindSandbags(Solo48):
+    icon_id = 'soldier-behind-sandbags'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/war'
+    aliases = ()
+    keywords = ('soldier', 'sandbag', 'rifle', 'helmet', 'barricade', 'military')
+
+    def build(self):
+
+        def L(n,a,b): self.add_line(n,a,b)
+        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
+        def C(n,x,y,r):
+            A(n+'a',(x-r,y),(x+r,y),r)
+            A(n+'b',(x+r,y),(x-r,y),r)
+            self.add_contour(n,n+'a',n+'b',closed=True)
+        def J(a,b): self.relate('connect',a,b)
+        def R(n,x,y,w,h,r=4):
+            L(n+'t',(x+r,y),(x+w-r,y))
+            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
+            L(n+'r',(x+w,y+r),(x+w,y+h-r))
+            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
+            L(n+'b',(x+w-r,y+h),(x+r,y+h))
+            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
+            L(n+'l',(x,y+h-r),(x,y+r))
+            A(n+'tl',(x,y+r),(x+r,y),r)
+            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+
+        A('helmet',(30,15),(42,15),7)
+        L('brim',(30,15),(42,15));J('helmet','brim')
+        A('face',(30,15),(42,15),7,s=False);J('face','brim');J('face','helmet')
+        L('rifle',(6,15),(30,15));J('rifle','helmet');J('rifle','brim');J('rifle','face')
+        R('bag-left',4,31,15,9,4);R('bag-right',29,31,15,9,4)
+
+HOLES: [[30.9688, 12.0938, 10.0625, 2.4062], [30.9688, 15.5, 10.0625, 2.4062]]
+
+### 30 spiral-shell
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '2edb1386-cc42-5319-ac47-13902a62e1ed'
+SOURCE_PATH = 'pictographic-primitives/animals/shell_2edb1386-cc42-5319-ac47-13902a62e1ed.svg'
+AUTHOR = 'gpt-6'
+
+
+class SpiralShell(Solo48):
+    icon_id = 'spiral-shell'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/marine"
+    aliases = ()
+    keywords = ('shell', 'spiral', 'snail', 'nautilus', 'sea', 'beach', 'coil', 'marine')
+
+    def build(self) -> None:
+        self.add_arc('outer-lower', (42, 24), (6, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('outer-upper', (6, 24), (38, 24), radius_x=18, radius_y=22, sweep=True, large_arc=False)
+        self.add_arc('middle-lower', (38, 24), (12, 24), radius_x=13, radius_y=13, sweep=True, large_arc=False)
+        self.add_arc('middle-upper', (12, 24), (28, 24), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_arc('inner', (28, 24), (22, 24), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_contour('whorl', 'outer-lower', 'outer-upper', 'middle-lower', 'middle-upper', 'inner', closed=False)
+
+HOLES: [[15.5938, 30.6562, 19.9688, 5.8438]]
+
+### 31 three-bead-drop-earring-v2
+# Variant of three-bead-drop-earring; parent file remains unchanged.
+"""Three-bead drop earring with larger circular end beads and an oval central bead to preserve spacing. VRECT_S retains the vertical stack."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '591f9997-10dd-5172-97f4-64f26187164d'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-04/earring_591f9997-10dd-5172-97f4-64f26187164d.svg'
+AUTHOR = 'gpt-6'
+
+class ThreeBeadDropEarringVariant2(Solo48):
+    icon_id = 'three-bead-drop-earring-v2'
+    variant_of = 'three-bead-drop-earring'
+    variant_label = 'Larger end beads'
+    keyshape = Keyshape.VRECT_S
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
+    aliases = ()
+    keywords = ('earring', 'bead', 'drop', 'pearl', 'jewellery', 'jewelry', 'circle', 'accessory')
+
+    def build(self) -> None:
+        self.add_arc('stud-right', (24, 6), (24, 10), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('stud-left', (24, 10), (24, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('stud', 'stud-right', 'stud-left', closed=True)
+        self.add_arc('main-right', (24, 17), (24, 31), radius_x=10, radius_y=7, sweep=True, large_arc=False)
+        self.add_arc('main-left', (24, 31), (24, 17), radius_x=10, radius_y=7, sweep=True, large_arc=False)
+        self.add_contour('main', 'main-right', 'main-left', closed=True)
+        self.add_arc('drop-right', (24, 38), (24, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('drop-left', (24, 42), (24, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('drop', 'drop-right', 'drop-left', closed=True)
+        self.add_line('upper-link', (24, 10), (24, 17))
+        self.add_line('lower-link', (24, 31), (24, 38))
+        self.relate('connect', 'stud', 'upper-link')
+        self.relate('connect', 'main', 'upper-link')
+        self.relate('connect', 'main', 'lower-link')
+        self.relate('connect', 'drop', 'lower-link')
+
+HOLES: [[23.9688, 7.625, 0.0625, 0.75], [23.9688, 39.625, 0.0625, 0.75]]
+
+### 32 trophy-on-ladder
+"""A handled trophy cup stands directly atop a tall ladder. The cup's narrow stem meets the converging ladder rails, with horizontal rungs descending between the splayed legs.
+Lucide trophy cup and handle construction. Cup stem meets the splayed ladder with two rung levels. Symmetric about x=24; extra rungs omitted for spacing.
+VRECT_L: centerline extremes (8,6)-(40,42); freshly authored on SOLO48.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c94996c6-9294-44f8-8bfb-75491f582005'
+SOURCE_PATH = 'pictographic-primitives/work/workflow coaching ladder trophy_c94996c6-9294-44f8-8bfb-75491f582005.svg'
+AUTHOR = 'gpt-6'
+
+
+class TrophyOnLadder(Solo48):
+    icon_id = 'trophy-on-ladder'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/work"
+    aliases = ()
+    keywords = ('trophy', 'ladder', 'cup', 'achievement', 'climbing', 'award')
+
+    def build(self) -> None:
+        self.add_line('stem', (24, 24), (24, 20))
+        self.add_arc('cup-left', (24, 20), (16, 12), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_line('cup-wall-left', (16, 12), (16, 6))
+        self.add_line('cup-rim', (16, 6), (32, 6))
+        self.add_line('cup-wall-right', (32, 6), (32, 12))
+        self.add_arc('cup-right', (32, 12), (24, 20), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_contour('cup', 'stem', 'cup-left', 'cup-wall-left', 'cup-rim', 'cup-wall-right', 'cup-right', closed=False)
+        self.add_line('handle-left-top', (16, 6), (8, 6))
+        self.add_arc('handle-left', (8, 6), (16, 12), radius_x=8, radius_y=8, sweep=False, large_arc=False)
+        self.add_contour('left-handle', 'handle-left-top', 'handle-left', closed=False)
+        self.relate("connect", 'left-handle', 'cup')
+        self.add_line('handle-right-top', (32, 6), (40, 6))
+        self.add_arc('handle-right', (40, 6), (32, 12), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_contour('right-handle', 'handle-right-top', 'handle-right', closed=False)
+        self.relate("connect", 'right-handle', 'cup')
+        self.add_polyline('ladder', (16, 42), (18, 34), (20, 24), (24, 24), (28, 24), (30, 34), (32, 42), closed=False)
+        self.relate("connect", 'ladder', 'cup')
+        self.add_line('rung', (18, 34), (30, 34))
+        self.relate("connect", 'rung', 'ladder')
+
+HOLES: [[8.6875, 6.5, 6.8125, 5.0], [32.5, 6.5, 6.8125, 5.0]]
+
+### 33 tuk-tuk-side-view
+"""tuk-tuk-side-view: reconstructed on SOLO48 from the supplied reference."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '7e4ee830-b8bf-4393-b039-d51e7de41929'
+SOURCE_PATH = 'pictographic-primitives/transportation/tuk tuk_7e4ee830-b8bf-4393-b039-d51e7de41929.svg'
+AUTHOR = 'gpt-6'
+
+
+class TukTukSideView(Solo48):
+    icon_id = 'tuk-tuk-side-view'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "transportation"
+    aliases = ()
+    keywords = ('tuk tuk', 'auto rickshaw', 'rickshaw', 'three wheeler', 'taxi', 'asia', 'vehicle', 'side view')
+
+    def build(self) -> None:
+
+        # Open passenger cabin, seat rail and unequal wheels; front frame leans right.
+        self.add_polyline('roof',(6,8),(6,8),(22,8),(28,8))
+        self.add_polyline('rear-post',(6,8),(6,24),(6,36))
+        self.add_polyline('front-post',(22,8),(22,24),(22,36))
+        self.add_line('seat',(6,24),(22,24))
+        self.add_polyline('floor',(14,36),(22,36),(32,34))
+        self.add_polyline('front-frame',(28,8),(34,18),(38,28),(38,34))
+        self.add_line('handlebar',(34,18),(40,18))
+        self.add_arc('rear-top',(6,36),(14,36),radius_x=4)
+        self.add_arc('rear-bottom',(14,36),(6,36),radius_x=4)
+        self.add_contour('rear-wheel','rear-top','rear-bottom',closed=True)
+        self.add_arc('front-tr',(38,28),(42,34),radius_x=6)
+        self.add_arc('front-bottom',(42,34),(32,34),radius_x=6)
+        self.add_arc('front-tl',(32,34),(38,28),radius_x=6)
+        self.add_contour('front-wheel','front-tr','front-bottom','front-tl',closed=True)
+        # Declare only genuine shared-endpoint contacts.
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
+                    self.relate('connect',a.element_id,b.element_id)
+
+HOLES: [[32.5, 28.5312, 9.0, 7.6562]]
+
+### 34 unequal-balance-scale
+"""A balance scale stands on a central upright and low foot, with its crossbeam sloping down to the right. Two hanging bowls have triangular suspension lines, and the right bowl hangs lower.
+Lucide scale suspension triangles and curved bowls. Right pan sits lower; shared pan dimensions preserve equal construction with an unequal beam angle.
+HRECT_L: centerline extremes (6,8)-(42,40); independently authored on SOLO48.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '7907631c-3281-549d-b35c-0d2b56c92394'
+SOURCE_PATH = 'pictographic-primitives/work/legal scale unequal_7907631c-3281-549d-b35c-0d2b56c92394.svg'
+AUTHOR = 'gpt-6'
+
+
+class UnequalBalanceScale(Solo48):
+    icon_id = 'unequal-balance-scale'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/work"
+    aliases = ()
+    keywords = ('scale', 'balance', 'unequal', 'justice', 'weighing', 'legal')
+
+    def build(self) -> None:
+        self.add_polyline('upright', (24, 8), (24, 13), (24, 40), closed=False)
+        self.add_polyline('foot', (16, 40), (24, 40), (32, 40), closed=False)
+        self.relate("connect", 'upright', 'foot')
+        self.add_polyline('beam', (10, 10), (24, 13), (38, 16), closed=False)
+        self.relate("connect", 'beam', 'upright')
+        self.add_polyline('left-suspension', (6, 24), (10, 10), (16, 24), closed=False)
+        self.add_arc('left-pan', (16, 24), (6, 24), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.relate("connect", 'left-suspension', 'left-pan')
+        self.relate("connect", 'left-suspension', 'beam')
+        self.add_line('left-rim', (6, 24), (16, 24))
+        self.relate("connect", 'left-rim', 'left-pan')
+        self.relate("connect", 'left-rim', 'left-suspension')
+        self.add_polyline('right-suspension', (32, 30), (38, 16), (42, 30), closed=False)
+        self.add_arc('right-pan', (42, 30), (32, 30), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.relate("connect", 'right-suspension', 'right-pan')
+        self.relate("connect", 'right-suspension', 'beam')
+        self.add_line('right-rim', (32, 30), (42, 30))
+        self.relate("connect", 'right-rim', 'right-pan')
+        self.relate("connect", 'right-rim', 'right-suspension')
+
+HOLES: [[7.0625, 24.5, 7.875, 1.6875], [33.0625, 30.5, 7.875, 1.6875]]
+
+### 35 user-with-gear
+"""An integrated user silhouette has a plain left half and toothed right half. Lucide cog and settings inform the mechanical outline. Small inner gear arcs are omitted; the central dividing axis and teeth preserve the hybrid identity."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c401ded5-d2e5-41aa-afc2-b65bf262fa9e'
+SOURCE_PATH = 'pictographic-primitives/users/settings user_c401ded5-d2e5-41aa-afc2-b65bf262fa9e.svg'
+AUTHOR = 'gpt-6'
+
+
+class UserWithGear(Solo48):
+    icon_id = 'user-with-gear'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "people/users"
+    aliases = ()
+    keywords = ('user', 'settings', 'gear', 'account', 'configuration', 'preferences', 'profile', 'admin')
+
+
+    def build(self) -> None:
+        # Portrait centerline extremes (8,6)-(40,42); left organic, right mechanical.
+        self.add_arc('head-left',(24,24),(24,6),radius_x=10)
+        self.add_polyline('head-teeth',(24,6),(32,6),(32,8),(36,10),(40,10),(40,18),(36,18),(32,20),(32,24),(24,24))
+        self.relate('connect','head-left','head-teeth')
+        self.add_polyline('axis',(24,6),(24,24),(24,33),(24,42))
+        self.relate('connect','head-left','axis')
+        self.relate('connect','head-teeth','axis')
+        self.add_arc('body-left',(8,42),(24,33),radius_x=16,radius_y=11)
+        self.add_line('base',(8,42),(24,42))
+        self.relate('connect','body-left','base')
+        self.relate('connect','body-left','axis')
+        self.relate('connect','base','axis')
+        self.add_polyline('body-teeth',(24,33),(31,33),(34,33),(38,37),(35,40),(40,40),(40,42))
+        self.relate('connect','body-teeth','axis')
+        self.relate('connect','body-teeth','body-left')
+
+HOLES: [[18.8438, 6.8438, 4.6562, 16.3125]]
+
+### 36 visibility-distance
+"""A left-pointing outlined triangle sits beside a horizontal trail of three separated dashes. The numeral 100 appears beneath the trail, aligned under its right-hand portion.
+
+Placed the 100 legend across the lower row and reduced the trail to one dash; retained the numeric meaning.
+Construction reference: No useful exact local match; geometric triangle and single-line digits.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c9a32a88-1037-4cb5-8b11-265935d5449f'
+SOURCE_PATH = 'pictographic-primitives/weather/visibility_c9a32a88-1037-4cb5-8b11-265935d5449f.svg'
+AUTHOR = 'gpt-6'
+
+class VisibilityDistance(Solo48):
+    icon_id = 'visibility-distance'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/weather"
+    aliases = ()
+    keywords = ('visibility', 'distance', 'marker', 'measurement', 'sight', 'weather')
+
+    def build(self) -> None:
+        # Live HRECT_XL visible bounds: (2, 6, 46, 42).
+        self.add_polyline('marker', (6, 20), (18, 8), (18, 24), closed=True)
+        self.add_line('trail', (28, 14), (42, 14))
+        self.add_line('one', (6, 32), (6, 40))
+        self.add_arc('zero-left-top', (16, 36), (24, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('zero-left-bottom', (24, 36), (16, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('zero-left', 'zero-left-top', 'zero-left-bottom', closed=True)
+        self.add_arc('zero-right-top', (36, 36), (42, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('zero-right-bottom', (42, 36), (36, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('zero-right', 'zero-right-top', 'zero-right-bottom', closed=True)
+
+HOLES: [[36.7188, 35.1562, 4.5625, 1.6875]]
+
+### 37 analogue-wristwatch-v2
+# Variant of analogue-wristwatch; parent file remains unchanged.
+"""An analogue wristwatch with taller open straps and a circular face. VRECT_M provides strap clearance; Lucide watch informs the shared strap and dial axis."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '6f3e245f-ff22-445c-9c0b-9969d193eb11'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-01/watch_6f3e245f-ff22-445c-9c0b-9969d193eb11.svg'
+AUTHOR = 'gpt-6'
+
+class AnalogueWristwatchVariant2(Solo48):
+    icon_id = 'analogue-wristwatch-v2'
+    variant_of = 'analogue-wristwatch'
+    variant_label = 'Roomier watch straps'
+    keyshape = Keyshape.VRECT_M
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
+    aliases = ()
+    keywords = ('watch', 'wristwatch', 'time', 'clock', 'analogue', 'dial', 'strap', 'accessory')
+
+    def build(self) -> None:
+        # VRECT_M centerline extremes (11,6)-(37,42).
+        self.add_arc('face-top', (19,12), (29,12), radius_x=13)
+        self.add_arc('face-right', (29,12), (29,36), radius_x=13)
+        self.add_arc('face-bottom', (29,36), (19,36), radius_x=13)
+        self.add_arc('face-left', (19,36), (19,12), radius_x=13)
+        self.add_contour('face', 'face-top', 'face-right', 'face-bottom', 'face-left', closed=True)
+        self.add_polyline('upper-strap', (19,12), (19,6), (29,6), (29,12))
+        self.add_polyline('lower-strap', (19,36), (19,42), (29,42), (29,36))
+        self.relate('connect','upper-strap','face')
+        self.relate('connect','lower-strap','face')
+        self.add_polyline('hands',(20,21),(24,24),(28,20))
+
+HOLES: [[19.5, 6.5, 9.0, 4.7812], [19.5, 36.7188, 9.0, 4.7812]]
+
+### 38 crawling-baby
+"""A left-facing baby on hands and knees; deliberate side-view asymmetry preserves the crawling pose."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '1d74887d-18df-5bd5-97d7-55b28bd0ed99'
+SOURCE_PATH = 'pictographic-primitives/babies/crawling kid_1d74887d-18df-5bd5-97d7-55b28bd0ed99.svg'
+AUTHOR = 'gpt-6'
+
+
+class CrawlingBaby(Solo48):
+    icon_id = 'crawling-baby'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "people/babies"
+    aliases = ()
+    keywords = ('crawling', 'baby', 'infant', 'nursery')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_arc('head-top', (6, 10), (18, 10), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_arc('head-bottom', (18, 10), (6, 10), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+        self.add_line('back', (19, 24), (33, 24))
+        self.add_arc('hip', (33, 24), (41, 32), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_line('thigh', (41, 32), (39, 40))
+        self.add_line('foot-top', (39, 40), (42, 40))
+        self.add_arc('foot-end', (42, 40), (42, 42), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('sole', (42, 42), (33, 42))
+        self.add_arc('knee', (33, 42), (29, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('thigh-inner', (29, 42), (29, 34))
+        self.add_line('belly', (29, 34), (19, 34))
+        self.add_line('arm-inner', (19, 34), (12, 42))
+        self.add_arc('hand', (12, 42), (6, 38), radius_x=5, radius_y=5, sweep=True, large_arc=False)
+        self.add_line('arm-outer', (6, 38), (13, 27))
+        self.add_arc('shoulder', (13, 27), (19, 24), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+        self.add_contour('body', 'back', 'hip', 'thigh', 'foot-top', 'foot-end', 'sole', 'knee', 'thigh-inner', 'belly', 'arm-inner', 'hand', 'arm-outer', 'shoulder', closed=True)
+
+HOLES: [[6.6875, 7.7812, 10.625, 4.4375]]
+
+### 39 curled-raccoon
+"""Curled silhouette, muzzle and two stripes in a broad tail. No useful local raccoon match; circular construction re-authored from the supplied image. Four stripes reduced to two."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'dcf6e72c-8224-5fad-bb7d-737e07df48dd'
+SOURCE_PATH = 'pictographic-primitives/animals/raccoon_dcf6e72c-8224-5fad-bb7d-737e07df48dd.svg'
+AUTHOR = 'gpt-6'
+
+
+class CurledRaccoon(Solo48):
+    icon_id = 'curled-raccoon'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ()
+    keywords = ('raccoon', 'curled', 'tail', 'stripes', 'mask', 'animal', 'wildlife', 'nocturnal')
+
+    def build(self) -> None:
+        self.add_line('outline-1', (6, 13), (9, 12))
+        self.add_arc('outline-2', (9, 12), (24, 6), radius_x=20, radius_y=16, sweep=True)
+        self.add_arc('outline-3', (24, 6), (42, 24), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('outline-4', (42, 24), (24, 42), radius_x=22, radius_y=22, sweep=True)
+        self.add_arc('outline-5', (24, 42), (12, 42), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('outline-6', (12, 42), (6, 27), radius_x=20, radius_y=18, sweep=True)
+        self.add_line('outline-7', (6, 27), (8, 27))
+        self.add_line('outline-8', (8, 27), (16, 30))
+        self.add_line('outline-9', (16, 30), (24, 36))
+        self.add_arc('outline-10', (24, 36), (36, 24), radius_x=12, radius_y=12, sweep=False)
+        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', 'outline-9', 'outline-10', closed=False)
+        self.add_line('face-1', (6, 13), (6, 16))
+        self.add_arc('face-2', (6, 16), (11, 21), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('face-3', (11, 21), (20, 21))
+        self.add_arc('face-4', (20, 21), (26, 27), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('face-5', (26, 27), (26, 28))
+        self.add_contour('face', 'face-1', 'face-2', 'face-3', 'face-4', 'face-5', closed=False)
+        self.add_line('ear-1', (24, 6), (24, 10))
+        self.add_line('ear-2', (24, 10), (31, 9))
+        self.add_contour('ear', 'ear-1', 'ear-2', closed=False)
+        self.add_line('stripe-one-1', (12, 42), (16, 30))
+        self.add_contour('stripe-one', 'stripe-one-1', closed=False)
+        self.add_line('stripe-two-1', (24, 42), (24, 36))
+        self.add_contour('stripe-two', 'stripe-two-1', closed=False)
+        self.add_dot('eye', (17, 12))
+        self.relate("connect", 'outline', 'face')
+        self.relate("connect", 'outline', 'ear')
+        self.relate("connect", 'outline', 'stripe-one')
+        self.relate("connect", 'outline', 'stripe-two')
+
+HOLES: [[24.5, 6.5938, 5.6875, 2.8125]]
+
+### 40 pelican-on-water
+"""Bill pouch, bent neck, folded wing and water. Lucide bird informs the head and coherent bird contour. Eye omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'a64f3ff4-3dac-4e77-9941-a21f45a74c31'
+SOURCE_PATH = 'pictographic-primitives/animals/pelican_a64f3ff4-3dac-4e77-9941-a21f45a74c31.svg'
+AUTHOR = 'gpt-6'
+
+
+class PelicanOnWater(Solo48):
+    icon_id = 'pelican-on-water'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ('pelican',)
+    keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
+
+    def build(self) -> None:
+        self.add_line('outline-1', (6, 14), (18, 8))
+        self.add_arc('outline-2', (18, 8), (26, 6), radius_x=8, radius_y=6, sweep=True)
+        self.add_arc('outline-3', (26, 6), (34, 10), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('outline-4', (34, 10), (30, 22), radius_x=18, radius_y=18, sweep=True)
+        self.add_line('outline-5', (30, 22), (25, 28))
+        self.add_arc('outline-6', (25, 28), (42, 23), radius_x=12, radius_y=9, sweep=False)
+        self.add_arc('outline-7', (42, 23), (33, 36), radius_x=13, radius_y=13, sweep=True)
+        self.add_line('outline-8', (33, 36), (24, 36))
+        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', closed=False)
+        self.add_line('pouch-1', (6, 14), (20, 14))
+        self.add_arc('pouch-2', (20, 14), (6, 14), radius_x=9, radius_y=11, sweep=True)
+        self.add_contour('pouch', 'pouch-1', 'pouch-2', closed=False)
+        self.add_line('neck-1', (20, 14), (15, 28))
+        self.add_arc('neck-2', (15, 28), (17, 35), radius_x=10, radius_y=10, sweep=False)
+        self.add_contour('neck', 'neck-1', 'neck-2', closed=False)
+        self.add_arc('water-1', (6, 42), (24, 42), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-2', (24, 42), (42, 42), radius_x=11, radius_y=3, sweep=False)
+        self.add_contour('water', 'water-1', 'water-2', closed=False)
+        self.relate("connect", 'outline', 'pouch')
+        self.relate("connect", 'pouch', 'neck')
+
+HOLES: [[7.0, 14.5, 12.0, 3.0938]]
+
+### 41 pelican-on-water-v2
+# Variant of pelican-on-water; parent file remains unchanged.
+'A pelican floating on water with the short underline beneath its folded wing removed. SQUARE extremes (6,6)-(42,42) preserve the bill, neck and water. Lucide bird informs the sparse curved profile. Left-facing asymmetry is intentional.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'a64f3ff4-3dac-4e77-9941-a21f45a74c31'
+SOURCE_PATH = 'pictographic-primitives/animals/pelican_a64f3ff4-3dac-4e77-9941-a21f45a74c31.svg'
+AUTHOR = 'gpt-6'
+
+class PelicanOnWaterVariant2(Solo48):
+    icon_id = 'pelican-on-water-v2'
+    variant_of = 'pelican-on-water'
+    variant_label = 'Remove underline beneath wing'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
+    aliases = ('pelican',)
+    keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
+
+    def build(self) -> None:
+        self.add_line('outline-1', (6, 14), (18, 8))
+        self.add_arc('outline-2', (18, 8), (26, 6), radius_x=8, radius_y=6, sweep=True)
+        self.add_arc('outline-3', (26, 6), (34, 10), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('outline-4', (34, 10), (30, 22), radius_x=18, radius_y=18, sweep=True)
+        self.add_line('outline-5', (30, 22), (25, 28))
+        self.add_arc('outline-6', (25, 28), (42, 23), radius_x=12, radius_y=9, sweep=False)
+        self.add_arc('outline-7', (42, 23), (33, 36), radius_x=13, radius_y=13, sweep=True)
+        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', closed=False)
+        self.add_line('pouch-1', (6, 14), (20, 14))
+        self.add_arc('pouch-2', (20, 14), (6, 14), radius_x=9, radius_y=11, sweep=True)
+        self.add_contour('pouch', 'pouch-1', 'pouch-2', closed=False)
+        self.add_line('neck-1', (20, 14), (15, 28))
+        self.add_arc('neck-2', (15, 28), (17, 35), radius_x=10, radius_y=10, sweep=False)
+        self.add_contour('neck', 'neck-1', 'neck-2', closed=False)
+        self.add_arc('water-1', (6, 42), (24, 42), radius_x=11, radius_y=3, sweep=False)
+        self.add_arc('water-2', (24, 42), (42, 42), radius_x=11, radius_y=3, sweep=False)
+        self.add_contour('water', 'water-1', 'water-2', closed=False)
+        self.relate("connect", 'outline', 'pouch')
+        self.relate("connect", 'pouch', 'neck')
+
+HOLES: [[7.0, 14.5, 12.0, 3.0938]]
+
+### 42 potted-branching-leaf-plant
+"""Five pointed oval leaves on a branching stem, with a shared lower-left branch and rounded pot. Lucide sprout informs the leaf arcs; asymmetrical lower-left cluster follows the source."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '53cfd912-2296-5a4a-a135-4701ab649e23'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-03/indoor plant_53cfd912-2296-5a4a-a135-4701ab649e23.svg'
+AUTHOR = 'gpt-6'
+
+
+class PottedBranchingLeafPlant(Solo48):
+    icon_id = 'potted-branching-leaf-plant'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/plants"
+    aliases = ()
+    keywords = ('plant', 'decoration', 'foliage', 'indoor')
+
+    def build(self) -> None:
+        # VRECT_XL extremes (6,6)-(42,42). Five leaves on staggered branches.
+        self.add_polyline("stem", (24,13), (24,22), (24,33))
+        self.add_arc("top-left-a", (11, 6), (22, 13), radius_x=11, radius_y=11)
+        self.add_arc("top-left-b", (22, 13), (11, 6), radius_x=11, radius_y=11)
+        self.add_contour("top-left", "top-left-a", "top-left-b", closed=True)
+        self.add_arc("top-right-a", (26, 13), (37, 6), radius_x=11, radius_y=11)
+        self.add_arc("top-right-b", (37, 6), (26, 13), radius_x=11, radius_y=11)
+        self.add_contour("top-right", "top-right-a", "top-right-b", closed=True)
+        self.add_arc("middle-left-a", (6, 15), (16, 26), radius_x=11, radius_y=11)
+        self.add_arc("middle-left-b", (16, 26), (6, 15), radius_x=11, radius_y=11)
+        self.add_contour("middle-left", "middle-left-a", "middle-left-b", closed=True)
+        self.add_arc("middle-right-a", (32, 26), (42, 15), radius_x=11, radius_y=11)
+        self.add_arc("middle-right-b", (42, 15), (32, 26), radius_x=11, radius_y=11)
+        self.add_contour("middle-right", "middle-right-a", "middle-right-b", closed=True)
+        self.add_arc("lower-left-a", (6, 37), (16, 26), radius_x=11, radius_y=11)
+        self.add_arc("lower-left-b", (16, 26), (6, 37), radius_x=11, radius_y=11)
+        self.add_contour("lower-left", "lower-left-a", "lower-left-b", closed=True)
+        self.add_polyline("top-branches", (22,13), (24,13), (26,13))
+        self.add_polyline("lower-branches", (16,26), (24,33), (32,26))
+        self.relate("connect", "stem", "top-branches")
+        self.relate("connect", "stem", "lower-branches")
+        self.relate("connect", "top-left", "top-branches")
+        self.relate("connect", "top-right", "top-branches")
+        self.relate("connect", "middle-left", "lower-branches")
+        self.relate("connect", "middle-right", "lower-branches")
+        self.relate("connect", "lower-left", "lower-branches")
+        self.relate("connect", "middle-left", "lower-left")
+        self.add_polyline("mouth", (17,39), (24,39), (31,39))
+        self.add_line("pot-right", (31,39), (31,41))
+        self.add_arc("pot-round-right", (31,41), (26,42), radius_x=5)
+        self.add_line("pot-bottom", (26,42), (22,42))
+        self.add_arc("pot-round-left", (22,42), (17,41), radius_x=5)
+        self.add_line("pot-left", (17,41), (17,39))
+        self.add_contour("pot", "pot-right", "pot-round-right", "pot-bottom", "pot-round-left", "pot-left")
+        self.add_line("base-stem", (24,33), (24,39))
+        self.relate("connect", "base-stem", "stem")
+        self.relate("connect", "base-stem", "lower-branches")
+        self.relate("connect", "base-stem", "mouth")
+        self.relate("connect", "pot", "mouth")
+
+HOLES: [[11.75, 6.4688, 9.5, 6.0625], [26.75, 6.4688, 9.5, 6.0625], [6.5, 15.5625, 9.0, 9.875], [32.5, 15.5625, 9.0, 9.875], [6.5, 26.5625, 9.0, 9.875], [17.5, 39.5, 13.0, 2.2812]]
+
+### 43 sea-lion
+"""sea-lion: HRECT_XL ink (6,6)-(42,42). Left-facing raised head, sweeping back and splayed flippers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '7188aa8a-305f-404d-bfe3-07ee8f265206'
+SOURCE_PATH = 'pictographic-primitives/animals/seal body_7188aa8a-305f-404d-bfe3-07ee8f265206.svg'
+AUTHOR = 'gpt-6'
+
+
+class SeaLion(Solo48):
+    icon_id = 'sea-lion'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/marine"
+    aliases = ()
+    keywords = ('sea lion', 'seal', 'flippers', 'marine', 'animal', 'ocean', 'zoo', 'whiskers')
+
+    def build(self) -> None:
+        self.add_arc('body-1', (12, 6), (22, 15), radius_x=10, radius_y=10, sweep=True)
+        self.add_line('body-2', (22, 15), (22, 19))
+        self.add_line('body-3', (22, 19), (28, 19))
+        self.add_arc('body-4', (28, 19), (42, 37), radius_x=18, radius_y=18, sweep=True)
+        self.add_line('body-5', (42, 37), (42, 39))
+        self.add_arc('body-6', (42, 39), (38, 42), radius_x=8, radius_y=4, sweep=False)
+        self.add_line('body-7', (38, 42), (41, 35))
+        self.add_line('body-8', (41, 35), (36, 30))
+        self.add_arc('body-9', (36, 30), (25, 34), radius_x=20, radius_y=12, sweep=True)
+        self.add_line('body-10', (25, 34), (30, 42))
+        self.add_arc('body-11', (30, 42), (17, 37), radius_x=13, radius_y=6, sweep=True)
+        self.add_line('body-12', (17, 37), (9, 40))
+        self.add_line('body-13', (9, 40), (6, 38))
+        self.add_arc('body-14', (6, 38), (10, 30), radius_x=12, radius_y=12, sweep=False)
+        self.add_arc('body-15', (10, 30), (6, 19), radius_x=18, radius_y=18, sweep=True)
+        self.add_arc('body-16', (6, 19), (6, 14), radius_x=3, radius_y=5, sweep=True)
+        self.add_arc('body-17', (6, 14), (6, 9), radius_x=4, radius_y=5, sweep=True)
+        self.add_arc('body-18', (6, 9), (12, 6), radius_x=7, radius_y=7, sweep=True)
+        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', 'body-11', 'body-12', 'body-13', 'body-14', 'body-15', 'body-16', 'body-17', 'body-18', closed=True)
+        self.add_line('flipper-1', (17, 29), (17, 37))
+        self.add_contour('flipper', 'flipper-1', closed=False)
+        self.add_dot('eye', (12, 15))
+        self.relate("connect", 'body', 'flipper')
+
+HOLES: [[39.6562, 35.25, 1.8438, 4.1562]]
+
+### 44 seal-balancing-ball
+"""seal-balancing-ball: SQUARE ink (6,6)-(42,42). Raised head below plain ball; eye omitted for clearance."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '51d0c88f-615f-440d-bdfa-7172f9404ea7'
+SOURCE_PATH = 'pictographic-primitives/animals/seal ball_51d0c88f-615f-440d-bdfa-7172f9404ea7.svg'
+AUTHOR = 'gpt-6'
+
+
+class SealBalancingBall(Solo48):
+    icon_id = 'seal-balancing-ball'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/marine"
+    aliases = ()
+    keywords = ('seal', 'ball', 'balance', 'circus', 'sea lion', 'trick', 'show', 'marine')
+
+    def build(self) -> None:
+        self.add_arc('ball-1', (12, 6), (12, 18), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('ball-2', (12, 18), (12, 6), radius_x=8, radius_y=8, sweep=True)
+        self.add_contour('ball', 'ball-1', 'ball-2', closed=True)
+        self.add_arc('body-1', (12, 18), (22, 28), radius_x=10, radius_y=10, sweep=True)
+        self.add_line('body-2', (22, 28), (22, 34))
+        self.add_arc('body-3', (22, 34), (36, 40), radius_x=24, radius_y=18, sweep=True)
+        self.add_line('body-4', (36, 40), (40, 40))
+        self.add_arc('body-5', (40, 40), (42, 42), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('body-6', (42, 42), (20, 42))
+        self.add_line('body-7', (20, 42), (12, 42))
+        self.add_arc('body-8', (12, 42), (6, 36), radius_x=10, radius_y=10, sweep=True)
+        self.add_line('body-9', (6, 36), (6, 28))
+        self.add_arc('body-10', (6, 28), (12, 18), radius_x=10, radius_y=10, sweep=True)
+        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', closed=True)
+        self.add_arc('flipper-1', (15, 39), (20, 42), radius_x=12, radius_y=12, sweep=False)
+        self.add_contour('flipper', 'flipper-1', closed=False)
+        self.relate("connect", 'body', 'flipper')
+        self.relate("connect", 'body', 'ball')
+
+HOLES: [[9.7812, 6.6875, 4.4375, 10.625]]
+
+### 45 sheep-jumping-fence
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'a56ae08a-d50a-56ef-a0b7-9f3c918fa436'
+SOURCE_PATH = 'pictographic-primitives/animals/sleep helper_a56ae08a-d50a-56ef-a0b7-9f3c918fa436.svg'
+AUTHOR = 'gpt-6'
+
+
+class SheepJumpingFence(Solo48):
+    icon_id = 'sheep-jumping-fence'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ()
+    keywords = ('sheep', 'fence', 'jump', 'sleep', 'counting', 'insomnia', 'bedtime', 'rest')
+
+    def build(self) -> None:
+        # Airborne fleece above a two-post fence; extremes (6,6)-(42,42).
+        self.add_arc('wool-top', (16, 8), (28, 8), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('wool-shoulder', (28, 8), (40, 14), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('wool-rump', (40, 14), (34, 26), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('wool-base', (34, 26), (22, 26), radius_x=6, radius_y=5, sweep=True)
+        self.add_arc('wool-left', (22, 26), (14, 20), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('wool-neck', (14, 20), (16, 8))
+        self.add_contour('fleece', 'wool-top', 'wool-shoulder', 'wool-rump', 'wool-base', 'wool-left', 'wool-neck', closed=True)
+        self.add_line('head-top', (16, 8), (8, 8))
+        self.add_arc('muzzle', (8, 8), (8, 20), radius_x=6, radius_y=6, sweep=False)
+        self.add_line('jaw', (8, 20), (14, 20))
+        self.add_contour('head', 'head-top', 'muzzle', 'jaw', closed=False)
+        self.add_line('front-hoof', (14, 20), (8, 27))
+        self.add_line('rear-hoof', (34, 26), (40, 31))
+        self.add_line('post-l', (18, 36), (18, 42))
+        self.add_line('post-r', (32, 38), (32, 42))
+        self.add_line('rail', (18, 38), (32, 41))
+        self.add_line('ground-l', (6, 42), (18, 42))
+        self.add_line('ground-mid', (18, 42), (32, 42))
+        self.add_line('ground-r', (32, 42), (42, 42))
+        self.relate("connect", 'fleece', 'head')
+        self.relate("connect", 'fleece', 'front-hoof')
+        self.relate("connect", 'fleece', 'rear-hoof')
+        self.relate("connect", 'head', 'front-hoof')
+        self.relate("connect", 'post-l', 'ground-l')
+        self.relate("connect", 'post-l', 'ground-mid')
+        self.relate("connect", 'post-r', 'ground-mid')
+        self.relate("connect", 'post-r', 'ground-r')
+        self.relate("connect", 'ground-l', 'ground-mid')
+        self.relate("connect", 'ground-mid', 'ground-r')
+
+HOLES: [[18.5, 38.625, 13.0, 2.875]]
+
+### 46 stepped-office-block-with-flag
+"""A stepped embassy office block with a rectangular rooftop flag; window ticks omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '3c101274-9d7e-5fd8-9939-907b34ebbabe'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-02/embassy building_3c101274-9d7e-5fd8-9939-907b34ebbabe.svg'
+AUTHOR = 'gpt-6'
+
+
+class SteppedOfficeBlockWithFlag(Solo48):
+    icon_id = 'stepped-office-block-with-flag'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "places/landmarks"
+    aliases = ()
+    keywords = ('embassy', 'office', 'building', 'government', 'flag', 'civic', 'tower', 'architecture')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_polyline('building',(6,42),(6,30),(15,30),(15,20),(35,20),(35,42),(6,42))
+        self.add_line('foreground-edge',(15,30),(23,30))
+        self.add_line('foreground-wall',(23,30),(23,42))
+        self.relate('connect','building','foreground-edge')
+        self.relate('connect','foreground-edge','foreground-wall')
+        self.relate('connect','building','foreground-wall')
+        self.add_polyline('flag',(23,20),(23,6),(37,6),(37,10),(23,10))
+        self.relate('connect','flag','building')
+        self.add_line('ground-right',(35,42),(42,42))
+        self.relate('connect','ground-right','building')
+
+HOLES: [[23.5, 6.5, 13.0, 3.0]]
+
+### 47 turreted-chateau-hotel-v2
+# Variant of turreted-chateau-hotel; parent file remains unchanged.
+"""Turreted chateau with consistent roof rises, aligned wing eaves and a simple central gable. HRECT_XL retains deliberate asymmetric architectural massing. Lucide castle informs clear roof and wall hierarchy."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'd4c1285a-03ff-4854-95de-453b55fedb44'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-03/chateau frontenac canada_d4c1285a-03ff-4854-95de-453b55fedb44.svg'
+AUTHOR = 'gpt-6'
+
+class LandmarkVariant2(Solo48):
+    icon_id = 'turreted-chateau-hotel-v2'
+    variant_of = 'turreted-chateau-hotel'
+    variant_label = 'Consistent roof geometry'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'places/landmarks'
+    aliases = ()
+    keywords = ('chateau', 'hotel', 'castle', 'turret', 'quebec', 'canada', 'landmark', 'architecture', 'building')
+
+    def build(self):
+        # HRECT_XL: centerline extremes (6,6)-(42,42).
+        self.add_polyline('outline', (6,42), (6,27), (8,17), (14,27), (16,27), (16,15), (22,6), (32,6), (38,15), (38,27), (40,27), (42,37), (42,42), (34,42), (20,42), (14,42), closed=True)
+        self.add_line('main-eave', (16,15), (38,15))
+        self.relate('connect', 'main-eave', 'outline')
+        self.add_polyline('gable', (20,42), (20,33), (27,23), (34,33), (34,42))
+        self.relate('connect', 'gable', 'outline')
+        self.add_polyline('turret-eave', (6,27), (14,27), (14,42))
+        self.relate('connect', 'turret-eave', 'outline')
+
+HOLES: [[6.625, 18.375, 6.4688, 8.125]]
+
+### 48 watered-planter
+"""A water droplet above leafy foliage in a shallow bowl; leaf veins omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '10782152-f13b-462f-8c54-0579748cb38a'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-02/hanging plant 1_10782152-f13b-462f-8c54-0579748cb38a.svg'
+AUTHOR = 'gpt-6'
+
+class WateredPlanter(Solo48):
+    icon_id = 'watered-planter'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
+    aliases = ()
+    keywords = ('planter', 'water', 'droplet', 'leaves', 'plant', 'bowl', 'gardening')
+
+    def build(self) -> None:
+        # SQUARE: exact SOLO48 extremes; geometry authored on the integer grid.
+        self.add_line('potrim', (6, 34), (42, 34))
+        self.add_arc('potarc', (42, 34), (6, 34), radius_x=22, radius_y=12, sweep=True)
+        self.add_contour('pot', 'potrim', 'potarc', closed=True)
+        self.add_polyline('foliage', (6, 34), (6, 22), (16, 26), (16, 18), (24, 26), (32, 18), (32, 26), (42, 22), (42, 34), closed=False)
+        self.relate('connect', 'foliage', 'pot')
+        self.add_arc('drop-a', (24, 6), (28, 10), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('drop-b', (28, 10), (20, 10), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('drop-c', (20, 10), (24, 6), radius_x=6, radius_y=6, sweep=True)
+        self.add_contour('drop', 'drop-a', 'drop-b', 'drop-c', closed=True)
+
+HOLES: [[7.5938, 34.5, 32.8125, 4.0938]]
+
+### 49 birds-in-nest
+"""birds-in-nest: source silhouette re-authored on SOLO48.
+
+Lucide bird informs coherent body arcs and sparse detail.
+Keyshape HRECT_L; extremes obtained from the SOLO48 contract.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '86f74b9e-984f-4e95-959a-f8f27b3d1de8'
+SOURCE_PATH = 'pictographic-primitives/animals/wild bird nest_86f74b9e-984f-4e95-959a-f8f27b3d1de8.svg'
+AUTHOR = 'gpt-6'
+
+
+class BirdsInNest(Solo48):
+    icon_id = 'birds-in-nest'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals/birds"
+    aliases = ()
+    keywords = ('nest', 'birds', 'chicks', 'baby', 'hatchling', 'nurture', 'home', 'family')
+
+    def build(self) -> None:
+        self.add_arc('bowl', (42, 27), (6, 27), radius_x=22, radius_y=13, sweep=True)
+        self.add_line('rim-a', (6, 27), (6, 27))
+        self.add_line('rim-b', (6, 27), (20, 27))
+        self.add_line('rim-c', (20, 27), (28, 27))
+        self.add_line('rim-d', (28, 27), (42, 27))
+        self.add_line('rim-e', (42, 27), (42, 27))
+        self.add_contour('nest', 'rim-a', 'rim-b', 'rim-c', 'rim-d', 'rim-e', 'bowl', closed=True)
+        self.add_line('chick-left-a', (6, 27), (6, 15))
+        self.add_arc('chick-left-head', (6, 15), (20, 15), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('chick-left-b', (20, 15), (20, 27))
+        self.add_contour('chick-left', 'chick-left-a', 'chick-left-head', 'chick-left-b', closed=False)
+        self.add_line('chick-right-a', (28, 27), (28, 15))
+        self.add_arc('chick-right-head', (28, 15), (42, 15), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('chick-right-b', (42, 15), (42, 27))
+        self.add_contour('chick-right', 'chick-right-a', 'chick-right-head', 'chick-right-b', closed=False)
+        self.relate("connect", 'chick-left', 'nest')
+        self.relate("connect", 'chick-right', 'nest')
+        self.add_line('beak-left', (6, 15), (6, 17))
+        self.add_line('beak-right', (42, 15), (42, 17))
+        self.relate("connect", 'chick-left', 'beak-left')
+        self.relate("connect", 'chick-right', 'beak-right')
+        self.add_dot('eye-left', (13, 15))
+        self.add_dot('eye-right', (35, 15))
+
+HOLES: [[7.5, 27.5, 33.0, 4.5312]]
+
+### 50 capped-glue-stick
+"""Capped glue stick with label and twist base. VRECT_M (11,6)-(37,42) preserves tall tube proportions. Simple tangent circular corners; no useful exact Lucide match. Fine base grooves omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '6640054a-f461-4b24-bad8-f2a7fd52f7fb'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-04/paper glue_6640054a-f461-4b24-bad8-f2a7fd52f7fb.svg'
+AUTHOR = 'gpt-6'
+
+
+class CappedGlueStick(Solo48):
+    icon_id = 'capped-glue-stick'
+    keyshape = Keyshape.VRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
+    aliases = ()
+    keywords = ('glue', 'stick', 'adhesive', 'paper', 'craft', 'stationery', 'cap')
+
+    def build(self) -> None:
+        self.add_line('top', (15, 6), (33, 6))
+        self.add_arc('tr', (33, 6), (37, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('right', (37, 6), (37, 42))
+        self.add_arc('br', (37, 42), (33, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('bottom', (33, 42), (15, 42))
+        self.add_arc('bl', (15, 42), (11, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('left', (11, 42), (11, 6))
+        self.add_arc('tl', (11, 6), (15, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('body', 'top', 'tr', 'right', 'br', 'bottom', 'bl', 'left', 'tl', closed=True)
+        self.add_line('cap', (11, 13), (37, 13))
+        self.relate('connect', 'cap', 'body')
+        self.add_line('base', (11, 38), (37, 38))
+        self.relate('connect', 'base', 'body')
+        self.add_polyline('label', (20, 21), (28, 21), (28, 30), (20, 30), closed=True)
+
+HOLES: [[11.5, 38.5, 25.0, 3.5312]]
+
+### 51 castle-tower-with-pennant-v2
+"""Castle tower: vertical right wall and square base corner. SQUARE (6,6)-(42,42). Lucide castle informs rectilinear masonry. Original left batter and pennant retain asymmetry."""
+# Variant of castle-tower-with-pennant; parent file remains unchanged.
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '033da33f-ea2d-58ce-a57c-5cffb7818dd9'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-03/historical building castle_033da33f-ea2d-58ce-a57c-5cffb7818dd9.svg'
+AUTHOR = 'gpt-6'
+
+class LandmarkVariant2(Solo48):
+    icon_id = 'castle-tower-with-pennant-v2'
+    variant_of = 'castle-tower-with-pennant'
+    variant_label = 'Geometric tower base'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'places/landmarks'
+    aliases = ()
+    keywords = ('castle', 'tower', 'turret', 'fortress', 'battlement', 'flag', 'pennant', 'medieval')
+
+    def build(self):
+        self.add_polyline('outline', (6, 42), (6, 29), (6, 20), (14, 20), (14, 27), (22, 27), (22, 20), (30, 20), (30, 27), (38, 27), (38, 20), (42, 20), (42, 29), (42, 42), (30, 42), (18, 42), closed=True)
+        self.add_polyline('flag', (22, 20), (22, 10), (22, 6), (38, 6), (34, 6), (38, 10), (22, 10))
+        self.relate('connect', 'flag', 'outline')
+        self.add_line('door-left', (18, 42), (18, 39))
+        self.add_arc('door-top', (18, 39), (30, 39), radius_x=6)
+        self.add_line('door-right', (30, 39), (30, 42))
+        self.add_contour('door', 'door-left', 'door-top', 'door-right')
+        self.relate('connect', 'door', 'outline')
+
+HOLES: [[22.5, 6.5, 14.2812, 3.0]]
+
+### 52 grand-canyon-with-river
+"""A winding river separates stepped canyon walls; fine strata omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '021a0b5f-bd2d-4f08-b36b-7afe509eb0fc'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-07/grand canyon usa 1_021a0b5f-bd2d-4f08-b36b-7afe509eb0fc.svg'
+AUTHOR = 'gpt-6'
+
+class GrandCanyonWithRiver(Solo48):
+    icon_id = 'grand-canyon-with-river'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/landmarks'
+    aliases = ()
+    keywords = ('grand canyon', 'canyon', 'usa', 'arizona', 'river', 'cliff', 'landscape', 'nature', 'landmark')
+
+    def build(self) -> None:
+        # SQUARE centerline extremes (6,6)-(42,42).
+        self.add_polyline('left-cliff', (6, 42), (6, 20), (10, 20), (14, 30))
+        self.add_polyline('ridge', (6, 12), (12, 6), (22, 6), (28, 12))
+        self.add_polyline('right-cliff', (42, 42), (42, 22), (38, 22), (36, 32))
+        self.add_arc('river-upper', (30, 24), (20, 36), radius_x=16, sweep=False)
+        self.add_arc('river-lower', (20, 36), (28, 42), radius_x=14, sweep=False)
+        self.add_contour('river', 'river-upper', 'river-lower')
+        self.add_arc('sun-top', (35, 7), (42, 7), radius_x=5, sweep=True)
+        self.add_arc('sun-bottom', (42, 7), (35, 7), radius_x=5, sweep=True)
+        self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
+
+HOLES: [[35.7812, 6.0625, 5.4375, 1.875]]
+
+### 53 leaping-antelope
+"""An antelope stretching diagonally into a leap."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '79daad3e-b421-490c-80f2-e08549dfba1b'
+SOURCE_PATH = 'pictographic-primitives/animals/deer jump_79daad3e-b421-490c-80f2-e08549dfba1b.svg'
+AUTHOR = 'gpt-6'
+
+
+class LeapingAntelope(Solo48):
+    icon_id = 'leaping-antelope'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "nature/animals"
+    aliases = ()
+    keywords = ('antelope', 'deer', 'leap', 'jump', 'running', 'gazelle', 'wildlife', 'motion')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_polyline("silhouette",(6,42),(6,34),(12,30),(12,23),(30,14),(34,8),(40,8),(42,14),(38,16),(38,24),(42,22),(42,34),(38,30),(38,24),(18,36),(10,40),(6,42),(6,42))
+        self.add_polyline("horn",(34,8),(28,6),(38,6))
+        self.relate("connect","silhouette","horn")
+
+HOLES: [[38.5, 22.8125, 3.0, 9.9688]]
+
+### 54 mosquito
+"""mosquito: reconstructed at native SOLO48 size."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '0145bda3-5e60-4e2f-b201-09ab64a9f332'
+SOURCE_PATH = 'pictographic-primitives/animals/dragonfly_0145bda3-5e60-4e2f-b201-09ab64a9f332.svg'
+AUTHOR = 'gpt-6'
+
+
+class Mosquito(Solo48):
+    icon_id = 'mosquito'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('mosquito', 'insect', 'bug', 'wings', 'pest', 'bite', 'fly', 'antennae')
+
+    def build(self):
+        self.add_arc('head-1', (24, 11), (24, 21), radius_x=5, radius_y=5, sweep=True)
+        self.add_arc('head-2', (24, 21), (24, 11), radius_x=5, radius_y=5, sweep=True)
+        self.add_contour('head', 'head-1', 'head-2', closed=True)
+        self.add_line('proboscis', (24, 6), (24, 11))
+        self.relate("connect", 'proboscis', 'head')
+        self.add_line('abdomen', (24, 21), (24, 42))
+        self.relate("connect", 'head', 'abdomen')
+        self.add_arc('leg-left', (13, 10), (6, 6), radius_x=13, radius_y=13, sweep=True)
+        self.add_line('wing-left-1', (24, 21), (6, 31))
+        self.add_arc('wing-left-2', (6, 31), (8, 38), radius_x=6, radius_y=7, sweep=False)
+        self.add_line('wing-left-3', (8, 38), (24, 21))
+        self.add_contour('wing-left', 'wing-left-1', 'wing-left-2', 'wing-left-3', closed=True)
+        self.relate("connect", 'wing-left', 'head')
+        self.relate("connect", 'wing-left', 'abdomen')
+        self.add_arc('leg-right', (35, 10), (42, 6), radius_x=13, radius_y=13, sweep=False)
+        self.add_line('wing-right-1', (24, 21), (42, 31))
+        self.add_arc('wing-right-2', (42, 31), (40, 38), radius_x=6, radius_y=7, sweep=True)
+        self.add_line('wing-right-3', (40, 38), (24, 21))
+        self.add_contour('wing-right', 'wing-right-1', 'wing-right-2', 'wing-right-3', closed=True)
+        self.relate("connect", 'wing-right', 'head')
+        self.relate("connect", 'wing-right', 'abdomen')
+        self.relate("connect", 'wing-left', 'wing-right')
+
+HOLES: [[6.3438, 23.0312, 15.0312, 14.2188], [26.625, 23.0312, 15.0312, 14.2188]]
+
+### 55 painted-wall-mural-panel-v2
+# Variant of painted-wall-mural-panel; parent file remains unchanged.
+"""Wider capped Berlin wall with a rectangular mural. Centerline extremes (6,6)-(42,42)."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'c05f1690-f04d-460c-a834-2bdbd5877990'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-04/east side gallery berlin wall_c05f1690-f04d-460c-a834-2bdbd5877990.svg'
+AUTHOR = 'gpt-6'
+
+class PaintedWallMuralPanelVariant2(Solo48):
+    icon_id = 'painted-wall-mural-panel-v2'
+    variant_of = 'painted-wall-mural-panel'
+    variant_label = 'Wider wall with rectangular mural'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/landmarks'
+    aliases = ()
+    keywords = ('berlin wall', 'east side gallery', 'mural', 'graffiti', 'wall', 'art', 'landmark', 'panel', 'face')
+
+    def build(self) -> None:
+        self.add_polyline('cap', (6, 6), (42, 6), (42, 9), (41, 9), (7, 9), (6, 9), closed=True)
+        self.add_polyline('panel', (7, 9), (7, 42), (41, 42), (41, 9), closed=False)
+        self.add_polyline('mural', (18, 20), (30, 20), (30, 38), (18, 38), closed=True)
+        self.relate('connect', 'cap', 'panel')
+
+HOLES: [[6.5, 6.5, 35.0, 2.0]]
+
+### 56 paw-print-small-outer-toes-v2
+# Variant of paw-print-small-outer-toes; parent file remains unchanged.
+'Paw print with enlarged oval toes and rounded mirrored central pad. Lucide paw-print informs coherent round lobes.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '193cadb3-56bf-56a6-8cdf-a6db99d7d95e'
+SOURCE_PATH = 'pictographic-primitives/animals/animal print_193cadb3-56bf-56a6-8cdf-a6db99d7d95e.svg'
+AUTHOR = 'gpt-6'
+
+class PawPrintSmallOuterToesVariant2(Solo48):
+    icon_id = 'paw-print-small-outer-toes-v2'
+    variant_of = 'paw-print-small-outer-toes'
+    variant_label = 'Larger oval toes and smooth pad'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
+    aliases = ()
+    keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
+
+    def build(self) -> None:
+        # SQUARE centerline extremes (6,6)-(42,42). Mirrored toe pairs.
+        self.add_arc('outer-left-top', (6,25), (12,25), radius_x=5, radius_y=6)
+        self.add_arc('outer-left-bottom', (12,25), (6,25), radius_x=5, radius_y=6)
+        self.add_contour('outer-left', 'outer-left-top','outer-left-bottom', closed=True)
+        self.add_arc('inner-left-top', (10,8), (20,8), radius_x=5, radius_y=6)
+        self.add_arc('inner-left-bottom', (20,8), (10,8), radius_x=5, radius_y=6)
+        self.add_contour('inner-left', 'inner-left-top','inner-left-bottom', closed=True)
+        self.add_arc('inner-right-top', (28,8), (38,8), radius_x=5, radius_y=6)
+        self.add_arc('inner-right-bottom', (38,8), (28,8), radius_x=5, radius_y=6)
+        self.add_contour('inner-right', 'inner-right-top','inner-right-bottom', closed=True)
+        self.add_arc('outer-right-top', (36,25), (42,25), radius_x=5, radius_y=6)
+        self.add_arc('outer-right-bottom', (42,25), (36,25), radius_x=5, radius_y=6)
+        self.add_contour('outer-right', 'outer-right-top','outer-right-bottom', closed=True)
+        self.add_arc('pad-crown', (15,38), (33,38), radius_x=9, radius_y=11)
+        self.add_arc('pad-right-lobe', (33,38), (28,42), radius_x=5, radius_y=8)
+        self.add_arc('pad-notch-right', (28,42), (24,42), radius_x=6, sweep=False)
+        self.add_arc('pad-notch-left', (24,42), (20,42), radius_x=6, sweep=False)
+        self.add_arc('pad-left-lobe', (20,42), (15,38), radius_x=5, radius_y=8)
+        self.add_contour('pad', 'pad-crown','pad-right-lobe','pad-notch-right','pad-notch-left','pad-left-lobe', closed=True)
+
+HOLES: [[6.8438, 24.3125, 4.3125, 1.375], [36.8438, 24.3125, 4.3125, 1.375]]
+
+### 57 platypus
+"""platypus: reconstructed at native SOLO48 size."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'd9e4bd26-488d-456c-8a81-23be0e9dd789'
+SOURCE_PATH = 'pictographic-primitives/animals/duck bill platypus_d9e4bd26-488d-456c-8a81-23be0e9dd789.svg'
+AUTHOR = 'gpt-6'
+
+
+class Platypus(Solo48):
+    icon_id = 'platypus'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('platypus', 'duckbill', 'australia', 'mammal', 'monotreme', 'animal', 'wildlife', 'aquatic')
+
+    def build(self):
+        self.add_arc('tail-1', (18, 20), (16, 14), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('tail-2', (16, 14), (29, 6), radius_x=16, radius_y=12, sweep=True)
+        self.add_arc('tail-3', (29, 6), (36, 9), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('tail-4', (36, 9), (27, 16))
+        self.add_line('tail-5', (27, 16), (27, 20))
+        self.add_contour('tail', 'tail-1', 'tail-2', 'tail-3', 'tail-4', 'tail-5', closed=False)
+        self.add_arc('body-1', (18, 20), (12, 29), radius_x=6, radius_y=9, sweep=False)
+        self.add_arc('body-2', (12, 29), (18, 38), radius_x=6, radius_y=9, sweep=False)
+        self.add_line('body-3', (18, 38), (28, 38))
+        self.add_arc('body-4', (28, 38), (34, 29), radius_x=6, radius_y=9, sweep=False)
+        self.add_arc('body-5', (34, 29), (27, 20), radius_x=7, radius_y=9, sweep=False)
+        self.add_line('body-6', (27, 20), (18, 20))
+        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', closed=True)
+        self.relate("connect", 'tail', 'body')
+        self.add_line('bill-1', (18, 38), (28, 38))
+        self.add_arc('bill-2', (28, 38), (28, 42), radius_x=5, radius_y=4, sweep=True)
+        self.add_line('bill-3', (28, 42), (18, 42))
+        self.add_arc('bill-4', (18, 42), (18, 38), radius_x=5, radius_y=4, sweep=True)
+        self.add_contour('bill', 'bill-1', 'bill-2', 'bill-3', 'bill-4', closed=True)
+        self.relate("connect", 'bill', 'body')
+        self.add_line('left-foreleg', (12, 29), (8, 24))
+        self.relate("connect", 'left-foreleg', 'body')
+        self.add_line('right-foreleg', (34, 29), (40, 24))
+        self.relate("connect", 'right-foreleg', 'body')
+        self.add_line('left-hindleg', (18, 38), (8, 38))
+        self.relate("connect", 'left-hindleg', 'body')
+        self.relate("connect", 'left-hindleg', 'bill')
+        self.add_line('right-hindleg', (28, 38), (40, 38))
+        self.relate("connect", 'right-hindleg', 'body')
+        self.relate("connect", 'right-hindleg', 'bill')
+
+HOLES: [[17.8438, 38.5, 10.3125, 3.0]]
+
+### 58 stacking-ring-toy
+"""A bear crown on four widening rounded rings. Shared tier boundaries avoid doubled strokes; facial decoration is omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '11f12d81-7f9c-589f-99c1-4d862f93acd8'
+SOURCE_PATH = 'pictographic-primitives/babies/toy_11f12d81-7f9c-589f-99c1-4d862f93acd8.svg'
+AUTHOR = 'gpt-6'
+
+
+class StackingRingToy(Solo48):
+    icon_id = 'stacking-ring-toy'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "people/babies"
+    aliases = ()
+    keywords = ('stacking', 'ring', 'toy', 'infant', 'nursery')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_arc('ear-left', (16, 6), (22, 6), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('crown', (22, 6), (26, 6))
+        self.add_arc('ear-right', (26, 6), (32, 6), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('cheek-right', (32, 6), (32, 8))
+        self.add_arc('jaw-right', (32, 8), (26, 14), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_line('chin', (26, 14), (22, 14))
+        self.add_arc('jaw-left', (22, 14), (16, 8), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_line('cheek-left', (16, 8), (16, 6))
+        self.add_contour('bear', 'ear-left', 'crown', 'ear-right', 'cheek-right', 'jaw-right', 'chin', 'jaw-left', 'cheek-left', closed=True)
+        self.add_line('ring-one-top', (16, 14), (32, 14))
+        self.add_arc('ring-one-right', (32, 14), (32, 22), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('ring-one-bottom', (32, 22), (16, 22))
+        self.add_arc('ring-one-left', (16, 22), (16, 14), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('ring-one', 'ring-one-top', 'ring-one-right', 'ring-one-bottom', 'ring-one-left', closed=True)
+        self.add_line('ring-two-top', (14, 22), (34, 22))
+        self.add_arc('ring-two-right', (34, 22), (34, 30), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('ring-two-bottom', (34, 30), (14, 30))
+        self.add_arc('ring-two-left', (14, 30), (14, 22), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('ring-two', 'ring-two-top', 'ring-two-right', 'ring-two-bottom', 'ring-two-left', closed=True)
+        self.add_line('ring-three-top', (12, 30), (36, 30))
+        self.add_arc('ring-three-right', (36, 30), (36, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('ring-three-bottom', (36, 38), (12, 38))
+        self.add_arc('ring-three-left', (12, 38), (12, 30), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('ring-three', 'ring-three-top', 'ring-three-right', 'ring-three-bottom', 'ring-three-left', closed=True)
+        self.add_line('ring-four-top', (9, 38), (39, 38))
+        self.add_arc('ring-four-right', (39, 38), (39, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('ring-four-bottom', (39, 42), (9, 42))
+        self.add_arc('ring-four-left', (9, 42), (9, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_contour('ring-four', 'ring-four-top', 'ring-four-right', 'ring-four-bottom', 'ring-four-left', closed=True)
+        self.relate("connect", 'bear', 'ring-one')
+        self.relate("connect", 'ring-one', 'ring-two')
+        self.relate("connect", 'ring-two', 'ring-three')
+        self.relate("connect", 'ring-three', 'ring-four')
+
+HOLES: [[8.9688, 38.5, 30.0625, 3.0]]
+
+### 59 star-labelled-bottle
+"""A capped decorative bottle carrying a five-pointed star on its broad body."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'e0f7f6c1-f633-5b90-9f71-aac0f4ec1dce'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-01/decoration bottle_e0f7f6c1-f633-5b90-9f71-aac0f4ec1dce.svg'
+AUTHOR = 'gpt-6'
+
+
+class StarLabelledBottle(Solo48):
+    icon_id = 'star-labelled-bottle'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/decoration"
+    aliases = ()
+    keywords = ('bottle', 'star', 'cap', 'container', 'label', 'decor', 'vessel')
+
+    def build(self) -> None:
+        self.add_polyline('neck',(16,12),(16,6),(32,6),(32,12))
+        self.add_line('cap-bottom',(16,8),(32,8))
+        self.add_arc('shoulder-right',(32,12),(40,20),radius_x=8)
+        self.add_line('body-right',(40,20),(40,40))
+        self.add_arc('base-right',(40,40),(34,42),radius_x=6)
+        self.add_line('base',(34,42),(14,42))
+        self.add_arc('base-left',(14,42),(8,40),radius_x=6)
+        self.add_line('body-left',(8,40),(8,20))
+        self.add_arc('shoulder-left',(8,20),(16,12),radius_x=8)
+        self.add_contour('body','shoulder-right','body-right','base-right','base','base-left','body-left','shoulder-left')
+        self.relate('connect','neck','body')
+        self.relate('connect','neck','cap-bottom')
+        self.add_polyline('star',(24,21),(27,27),(33,28),(29,33),(30,39),(24,36),(18,39),(19,33),(15,28),(21,27),closed=True)
+
+HOLES: [[16.5, 6.5, 15.0, 1.0]]
+
+### 60 star-labelled-bottle-v2
+# Variant of star-labelled-bottle; parent file remains unchanged.
+"""Star-labelled decorative bottle with a deeper cap opening. VRECT_L preserves the bottle proportions and intrinsic label."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'e0f7f6c1-f633-5b90-9f71-aac0f4ec1dce'
+SOURCE_PATH = 'pictographic-primitives/decoration/batch-01/decoration bottle_e0f7f6c1-f633-5b90-9f71-aac0f4ec1dce.svg'
+AUTHOR = 'gpt-6'
+
+class StarLabelledBottleVariant2(Solo48):
+    icon_id = 'star-labelled-bottle-v2'
+    variant_of = 'star-labelled-bottle'
+    variant_label = 'Deeper bottle cap'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/decoration'
+    aliases = ()
+    keywords = ('bottle', 'star', 'cap', 'container', 'label', 'decor', 'vessel')
+
+    def build(self) -> None:
+        self.add_polyline('neck', (16, 12), (16, 11), (16, 6), (32, 6), (32, 11), (32, 12))
+        self.add_line('cap-bottom', (16, 11), (32, 11))
+        self.add_arc('shoulder-right', (32, 12), (40, 20), radius_x=8)
+        self.add_line('body-right', (40, 20), (40, 40))
+        self.add_arc('base-right', (40, 40), (34, 42), radius_x=6)
+        self.add_line('base', (34, 42), (14, 42))
+        self.add_arc('base-left', (14, 42), (8, 40), radius_x=6)
+        self.add_line('body-left', (8, 40), (8, 20))
+        self.add_arc('shoulder-left', (8, 20), (16, 12), radius_x=8)
+        self.add_contour('body', 'shoulder-right', 'body-right', 'base-right', 'base', 'base-left', 'body-left', 'shoulder-left')
+        self.relate('connect', 'neck', 'body')
+        self.relate('connect', 'neck', 'cap-bottom')
+        self.add_polyline('star', (24, 21), (27, 27), (33, 28), (29, 33), (30, 39), (24, 36), (18, 39), (19, 33), (15, 28), (21, 27), closed=True)
+
+HOLES: [[16.5, 6.5, 15.0, 4.0]]
+
+### 61 baby-girl-face
+"""A smiling baby face with a centre knot between two bow loops. Lucide baby informs ear bumps and sparse facial detail."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b757585d-6958-5c74-bcbb-9584b15f37df'
+SOURCE_PATH = 'pictographic-primitives/babies/baby girl_b757585d-6958-5c74-bcbb-9584b15f37df.svg'
+AUTHOR = 'gpt-6'
+
+
+class BabyGirlFace(Solo48):
+    icon_id = 'baby-girl-face'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "people/babies"
+    aliases = ()
+    keywords = ('baby', 'girl', 'face', 'infant', 'nursery')
+
+    def build(self) -> None:
+        # Centerline extremes: (6,6)-(42,42).
+        self.add_arc('temple-right', (36, 14), (40, 24), radius_x=14, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('ear-right', (40, 24), (40, 32), radius_x=6, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('chin-right', (40, 32), (24, 42), radius_x=16, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('chin-left', (24, 42), (8, 32), radius_x=16, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('ear-left', (8, 32), (8, 24), radius_x=6, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('temple-left', (8, 24), (12, 14), radius_x=14, radius_y=14, sweep=True, large_arc=False)
+        self.add_contour('face', 'temple-right', 'ear-right', 'chin-right', 'chin-left', 'ear-left', 'temple-left', closed=False)
+        self.add_arc('eye-left', (14, 26), (20, 26), radius_x=4, radius_y=2, sweep=False, large_arc=False)
+        self.add_arc('eye-right', (28, 26), (34, 26), radius_x=4, radius_y=2, sweep=False, large_arc=False)
+        self.add_arc('smile', (20, 36), (28, 36), radius_x=6, radius_y=3, sweep=False, large_arc=False)
+        self.add_arc('knot-top', (21, 8), (27, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_arc('knot-bottom', (27, 8), (21, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_contour('knot', 'knot-top', 'knot-bottom', closed=True)
+        self.add_line('bow-left-top', (21, 8), (12, 6))
+        self.add_arc('bow-left-end', (12, 6), (12, 14), radius_x=6, radius_y=6, sweep=False, large_arc=False)
+        self.add_line('bow-left-bottom', (12, 14), (21, 8))
+        self.add_contour('bow-left', 'bow-left-top', 'bow-left-end', 'bow-left-bottom', closed=True)
+        self.add_line('bow-right-top', (27, 8), (36, 6))
+        self.add_arc('bow-right-end', (36, 6), (36, 14), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_line('bow-right-bottom', (36, 14), (27, 8))
+        self.add_contour('bow-right', 'bow-right-top', 'bow-right-end', 'bow-right-bottom', closed=True)
+        self.relate("connect", 'knot', 'bow-left')
+        self.relate("connect", 'knot', 'bow-right')
+        self.relate("connect", 'face', 'bow-left')
+        self.relate("connect", 'face', 'bow-right')
+
+HOLES: [[10.9688, 6.5625, 8.75, 6.75], [28.2812, 6.5625, 8.75, 6.75]]
+
+### 62 bell-shaped-stupa-v2
+# Variant of bell-shaped-stupa; parent file remains unchanged.
+"""Bell dome, needle finial and broad plinth. Lucide bell informs the coherent dome; stepped bands reduced to one base."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'b5808a21-bbc2-446a-bbcd-10a59aa224ac'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-05/wat phra kaew_b5808a21-bbc2-446a-bbcd-10a59aa224ac.svg'
+AUTHOR = 'gpt-6'
+
+class BellShapedStupaVariant2(Solo48):
+    icon_id = 'bell-shaped-stupa-v2'
+    variant_of = 'bell-shaped-stupa'
+    variant_label = 'Not like the concept name'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/landmarks'
+    aliases = ()
+    keywords = ('wat phra kaew', 'stupa', 'chedi', 'thailand', 'temple', 'buddhist', 'landmark', 'religion')
+
+    def build(self) -> None:
+        # VRECT_XL extremes (6,6)-(42,42): tapered spire, bell and joined plinth.
+        self.add_polyline('spire', (17,16), (24,6), (31,16), closed=True)
+        self.add_line('dome-top', (17,16), (31,16))
+        self.add_arc('dome-right', (31,16), (39,38), radius_x=8, radius_y=22)
+        self.add_line('dome-base', (39,38), (9,38))
+        self.add_arc('dome-left', (9,38), (17,16), radius_x=8, radius_y=22)
+        self.add_contour('dome', 'dome-top', 'dome-right', 'dome-base', 'dome-left', closed=True)
+        self.relate('connect', 'spire', 'dome')
+        self.add_polyline('plinth', (9,38), (6,38), (6,42), (42,42), (42,38), (39,38))
+        self.relate('connect', 'plinth', 'dome')
+
+HOLES: [[6.5, 38.5, 35.0, 3.0]]
+
+### 63 painted-wall-mural-panel
+"""Capped Berlin wall with right-facing painted head. Centerline extremes (6,6)-(42,42). Deliberate profile asymmetry; tiny mouth notch omitted."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c05f1690-f04d-460c-a834-2bdbd5877990'
+SOURCE_PATH = 'pictographic-primitives/landmarks/batch-04/east side gallery berlin wall_c05f1690-f04d-460c-a834-2bdbd5877990.svg'
+AUTHOR = 'gpt-6'
+
+class PaintedWallMuralPanel(Solo48):
+    icon_id = 'painted-wall-mural-panel'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/landmarks"
+    aliases = ()
+    keywords = ('berlin wall', 'east side gallery', 'mural', 'graffiti', 'wall', 'art', 'landmark', 'panel', 'face')
+
+    def build(self) -> None:
+        self.add_polyline('cap', (6, 6), (42, 6), (42, 9), (38, 9), (10, 9), (6, 9), closed=True)
+        self.add_polyline('panel', (10, 9), (10, 42), (38, 42), (38, 9), closed=False)
+        self.add_arc('head', (18, 26), (30, 22), radius_x=8, radius_y=7, sweep=True)
+        self.add_polyline('face', (30, 22), (32, 28), (26, 31), (26, 38), (18, 38), (18, 26), closed=False)
+        self.relate("connect", 'cap', 'panel')
+        self.relate("connect", 'head', 'face')
+
+HOLES: [[6.5, 6.5, 35.0, 2.0]]
+
+### 64 jellyfish-group
+"""Three jellyfish arranged in a staggered group. Centerline extremes (6,6)-(42,42). No useful Lucide jellyfish match. Each bell keeps three tentacles. Angles reduced to keep the group readable."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'c9bdc48d-a72f-41ce-9b7a-6a465d1111ed'
+SOURCE_PATH = 'pictographic-primitives/animals/jellyfish group_c9bdc48d-a72f-41ce-9b7a-6a465d1111ed.svg'
+AUTHOR = 'gpt-6'
+
+
+class JellyfishGroup(Solo48):
+    icon_id = 'jellyfish-group'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('jellyfish', 'group', 'three', 'swarm', 'sea', 'ocean', 'marine', 'bloom')
+
+    def build(self) -> None:
+        self.add_arc('bell-0-dome', (6, 8), (24, 8), radius_x=11, radius_y=6, sweep=True)
+        self.add_line('bell-0-rim-r', (24, 8), (20, 8))
+        self.add_line('bell-0-rim-mr', (20, 8), (13, 8))
+        self.add_line('bell-0-rim-ml', (13, 8), (6, 8))
+        self.add_line('bell-0-rim-l', (6, 8), (6, 8))
+        self.add_contour('bell-0', 'bell-0-dome', 'bell-0-rim-r', 'bell-0-rim-mr', 'bell-0-rim-ml', 'bell-0-rim-l', closed=True)
+        self.add_line('tentacle-0-0', (6, 8), (6, 17))
+        self.relate("connect", 'bell-0', 'tentacle-0-0')
+        self.add_line('tentacle-0-1', (13, 8), (11, 17))
+        self.relate("connect", 'bell-0', 'tentacle-0-1')
+        self.add_line('tentacle-0-2', (20, 8), (18, 17))
+        self.relate("connect", 'bell-0', 'tentacle-0-2')
+        self.add_arc('bell-1-dome', (24, 23), (42, 23), radius_x=11, radius_y=6, sweep=True)
+        self.add_line('bell-1-rim-r', (42, 23), (42, 23))
+        self.add_line('bell-1-rim-mr', (42, 23), (35, 23))
+        self.add_line('bell-1-rim-ml', (35, 23), (28, 23))
+        self.add_line('bell-1-rim-l', (28, 23), (24, 23))
+        self.add_contour('bell-1', 'bell-1-dome', 'bell-1-rim-r', 'bell-1-rim-mr', 'bell-1-rim-ml', 'bell-1-rim-l', closed=True)
+        self.add_line('tentacle-1-0', (28, 23), (28, 29))
+        self.relate("connect", 'bell-1', 'tentacle-1-0')
+        self.add_line('tentacle-1-1', (35, 23), (35, 29))
+        self.relate("connect", 'bell-1', 'tentacle-1-1')
+        self.add_line('tentacle-1-2', (42, 23), (42, 29))
+        self.relate("connect", 'bell-1', 'tentacle-1-2')
+        self.add_arc('bell-2-dome', (6, 37), (24, 37), radius_x=11, radius_y=6, sweep=True)
+        self.add_line('bell-2-rim-r', (24, 37), (20, 37))
+        self.add_line('bell-2-rim-mr', (20, 37), (13, 37))
+        self.add_line('bell-2-rim-ml', (13, 37), (6, 37))
+        self.add_line('bell-2-rim-l', (6, 37), (6, 37))
+        self.add_contour('bell-2', 'bell-2-dome', 'bell-2-rim-r', 'bell-2-rim-mr', 'bell-2-rim-ml', 'bell-2-rim-l', closed=True)
+        self.add_line('tentacle-2-0', (6, 37), (6, 42))
+        self.relate("connect", 'bell-2', 'tentacle-2-0')
+        self.add_line('tentacle-2-1', (13, 37), (11, 42))
+        self.relate("connect", 'bell-2', 'tentacle-2-1')
+        self.add_line('tentacle-2-2', (20, 37), (18, 42))
+        self.relate("connect", 'bell-2', 'tentacle-2-2')
+
+HOLES: [[7.7812, 5.9375, 14.4375, 1.5625], [25.7812, 20.9375, 14.4375, 1.5625], [7.7812, 34.9375, 14.4375, 1.5625]]
+
+### 65 scorpion
+"""Top-view scorpion with open pincers and a curled stinging tail. Centerline extremes (6,6)-(42,42). Lucide bug informs paired appendages. Tail remains left-curled; segmentation and one leg pair omitted for clear gaps."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '447f79a2-697e-4660-a5cc-b4e957e71821'
+SOURCE_PATH = 'pictographic-primitives/animals/insect scorpion_447f79a2-697e-4660-a5cc-b4e957e71821.svg'
+AUTHOR = 'gpt-6'
+
+
+class Scorpion(Solo48):
+    icon_id = 'scorpion'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "animals"
+    aliases = ()
+    keywords = ('scorpion', 'sting', 'claws', 'arachnid', 'tail', 'desert', 'venom', 'zodiac')
+
+    def build(self) -> None:
+        self.add_line('body-top', (22, 18), (26, 18))
+        self.add_arc('body-tr', (26, 18), (30, 22), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('body-r1', (30, 22), (30, 28))
+        self.add_line('body-r2', (30, 28), (30, 32))
+        self.add_arc('body-br', (30, 32), (24, 36), radius_x=6, radius_y=4, sweep=True)
+        self.add_arc('body-bl', (24, 36), (18, 32), radius_x=6, radius_y=4, sweep=True)
+        self.add_line('body-l2', (18, 32), (18, 28))
+        self.add_line('body-l1', (18, 28), (18, 22))
+        self.add_arc('body-tl', (18, 22), (22, 18), radius_x=4, radius_y=4, sweep=True)
+        self.add_contour('body', 'body-top', 'body-tr', 'body-r1', 'body-r2', 'body-br', 'body-bl', 'body-l2', 'body-l1', 'body-tl', closed=True)
+        self.add_arc('claw-l-outer', (6, 6), (8, 14), radius_x=6, radius_y=12, sweep=False)
+        self.add_arc('claw-l-inner', (8, 14), (14, 6), radius_x=6, radius_y=12, sweep=False)
+        self.add_line('jaw-l-inner', (14, 6), (8, 7))
+        self.add_line('jaw-l-outer', (8, 7), (6, 6))
+        self.add_contour('claw-l', 'claw-l-outer', 'claw-l-inner', 'jaw-l-inner', 'jaw-l-outer', closed=True)
+        self.add_polyline('arm-l', (8, 14), (8, 18), (18, 22))
+        self.relate("connect", 'arm-l', 'claw-l')
+        self.relate("connect", 'body', 'arm-l')
+        self.add_polyline('leg-l-0', (18, 22), (8, 24), (6, 24))
+        self.relate("connect", 'body', 'leg-l-0')
+        self.add_polyline('leg-l-1', (18, 28), (8, 30), (6, 30))
+        self.relate("connect", 'body', 'leg-l-1')
+        self.add_arc('claw-r-outer', (42, 6), (40, 14), radius_x=6, radius_y=12, sweep=True)
+        self.add_arc('claw-r-inner', (40, 14), (34, 6), radius_x=6, radius_y=12, sweep=True)
+        self.add_line('jaw-r-inner', (34, 6), (40, 7))
+        self.add_line('jaw-r-outer', (40, 7), (42, 6))
+        self.add_contour('claw-r', 'claw-r-outer', 'claw-r-inner', 'jaw-r-inner', 'jaw-r-outer', closed=True)
+        self.add_polyline('arm-r', (40, 14), (40, 18), (30, 22))
+        self.relate("connect", 'arm-r', 'claw-r')
+        self.relate("connect", 'body', 'arm-r')
+        self.add_polyline('leg-r-0', (30, 22), (40, 24), (42, 24))
+        self.relate("connect", 'body', 'leg-r-0')
+        self.add_polyline('leg-r-1', (30, 28), (40, 30), (42, 30))
+        self.relate("connect", 'body', 'leg-r-1')
+        self.add_arc('tail-r', (24, 36), (14, 42), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('tail-l', (14, 42), (6, 38), radius_x=8, radius_y=8, sweep=True)
+        self.add_contour('tail', 'tail-r', 'tail-l', closed=False)
+        self.relate("connect", 'body', 'tail')
+
+HOLES: [[6.5625, 6.625, 6.8125, 6.9062], [34.625, 6.625, 6.8125, 6.9062]]

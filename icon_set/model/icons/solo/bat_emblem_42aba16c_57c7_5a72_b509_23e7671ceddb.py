@@ -31,4 +31,4 @@ class BatEmblem(Solo48):
         poly('tail',(28,31),(24,40),(20,31))
         arc('left-scallop',(20,31),(10,35),8,sweep=False)
         arc('left-lower',(10,35),(6,26),10)
-        self.add_contour('bat',*[f'crown-{i}' for i in range(6,11)],'right-lower','right-scallop','tail-1','tail-2','left-scallop','left-lower',closed=True)
+        self.add_contour('bat',*[f'crown-{i}' for i in range(1, 11)],'right-lower','right-scallop','tail-1','tail-2','left-scallop','left-lower',closed=True)

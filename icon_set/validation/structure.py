@@ -11,7 +11,7 @@ from pathlib import Path
 import re
 
 from ..model.keyshapes import FreeKeyshapeSpec
-from ..model.primitives import Arc, Line, Point, Contour, Relationship, ResolvedDrawing
+from ..model.primitives import Arc, Bezier, Line, Point, Contour, Relationship, ResolvedDrawing
 
 
 @lru_cache(maxsize=1)
@@ -64,13 +64,26 @@ def check_structure(icon, drawing) -> list[str]:
 
     ids = set()
     for primitive in drawing.primitives:
-        if not isinstance(primitive, (Line, Arc)):
+        if not isinstance(primitive, (Line, Arc, Bezier)):
             errors.append(f'unsupported primitive type {type(primitive).__name__}')
             continue
         if identifier(primitive.element_id, 'element_id'):
             ids.add(primitive.element_id)
         point(primitive.start, f'{primitive.element_id}.start')
         point(primitive.end, f'{primitive.element_id}.end')
+        if isinstance(primitive, Bezier):
+            if not primitive.segments:
+                errors.append(f'{primitive.element_id}.segments must be non-empty')
+            for segment in primitive.segments:
+                for control in segment:
+                    if len(control) != 2 or not all(
+                        isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+                        for v in control
+                    ):
+                        errors.append(f'{primitive.element_id}.segments must hold finite 2D points')
+                        break
+            if primitive.segments and tuple(primitive.segments[-1][2]) != primitive.end.as_tuple():
+                errors.append(f'{primitive.element_id}: last knot must equal end')
         if isinstance(primitive, Arc):
             for field in ('radius_x', 'radius_y'):
                 value = getattr(primitive, field)

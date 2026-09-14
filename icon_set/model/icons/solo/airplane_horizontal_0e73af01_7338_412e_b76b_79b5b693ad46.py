@@ -26,4 +26,4 @@ class AirplaneHorizontal(Solo48):
         for label, points in [('upper',upper),('lower',lower)]:
             for i, (a,b) in enumerate(zip(points,points[1:]),1): self.add_line(label+'-'+str(i),a,b)
         self.add_arc('nose', (38,18), (38,30), radius_x=6)
-        self.add_contour('airframe', *['upper-'+str(i) for i in range(6,7)], 'nose', *['lower-'+str(i) for i in range(6,9)], closed=True)
+        self.add_contour('airframe', *['upper-'+str(i) for i in range(1, 7)], 'nose', *['lower-'+str(i) for i in range(1, 9)], closed=True)

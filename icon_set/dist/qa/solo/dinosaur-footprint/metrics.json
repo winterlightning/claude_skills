@@ -3,23 +3,208 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "error",
+  "status": "fail",
   "errors": [
-    "style/grid: closed contour 'track' does not return to its start: ends at (11, 32), started at (42, 10)",
-    "ValueError: closed contour 'track' does not return to its start: ends at (11, 32), started at (42, 10)"
+    "canvas/keyshape bounds: visible ink (4, 4, 44, 44.012) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [2.0, 2.0, 2.0, 1.988], tolerance 0.0)"
   ],
   "warnings": [],
   "spacing": {
-    "status": "error"
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "track:subpath-1",
+        "elementId": "track",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 11 32 L 6 10 L 17 22 L 24 6 L 31 22 L 42 10 L 37 32 A 13 14 0 0 1 24 42 A 13 14 0 0 1 11 32 Z",
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.01201998725614
+        ],
+        "segmentCount": 135,
+        "approximationError": 0.0007482530051203196,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "track:subpath-1"
+        ],
+        "contourIds": [
+          "track:subpath-1"
+        ],
+        "elementIds": [
+          "track"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.01201998725614
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [],
+    "excludedPairs": [],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 10,
+      "flattenedSegments": 135,
+      "adaptiveNodes": 254,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
   },
   "negative_space": {
-    "status": "error"
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          30.7969
+        ],
+        "bbox_viewbox": [
+          6.9062,
+          7.2812,
+          34.1875,
+          34.2188
+        ],
+        "bbox_ship_px": [
+          34.1875,
+          34.2188
+        ],
+        "bbox_design_u": [
+          34.1875,
+          34.2188
+        ],
+        "area_ship_px2": 616.707,
+        "equivalent_diameter_ship_px": 28.0217,
+        "equivalent_diameter_design_u": 28.0217,
+        "inscribed_diameter_ship_px": 21.4375,
+        "inscribed_diameter_design_u": 21.4375,
+        "inscribed_radius_ship_px": 10.7188,
+        "inscribed_radius_design_u": 10.7188,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 9.2188,
+        "equivalent_diameter_at_authored_stroke_design_u": 18.4376
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
   },
   "artifacts": {
+    "svg": "solo/dinosaur-footprint/icon.svg",
     "metrics": "solo/dinosaur-footprint/metrics.json"
   },
   "checks_run": [
     "schema/profile",
-    "style/grid"
-  ]
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "c08e1f0bead98a176847f937c2855d38b14f37683b407519f93409cb6fd07173",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
 }

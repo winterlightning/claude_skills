@@ -1,0 +1,87 @@
+"""Data lake (programing), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '8b2de994-23b5-46e7-a39d-85b82b3b13cf'
+SOURCE_PATH = 'icons-json/programing/data lake_8b2de994-23b5-46e7-a39d-85b82b3b13cf.json'
+AUTHOR = 'json_to_solo'
+
+class DataLakePrograming(Solo48):
+    icon_id = 'data-lake-programing'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'programing'
+    aliases = ()
+    keywords = ('data', 'lake', 'programing')
+
+    def build(self):
+        self.add_bezier('sym-e0', (40, 32), ((37.48, 33.473), (35.02, 35), (32, 34)))
+        self.add_bezier('sym-e1', (32, 34), ((31.13, 33.709), (30.68, 32.564), (30, 32)))
+        self.add_bezier('sym-e2', (30, 32), ((29.86, 31.882), (29.06, 31.991), (29, 32)))
+        self.add_bezier('sym-e3', (29, 32), ((28.72, 32.209), (29.28, 31.791), (29, 32)))
+        self.add_bezier('sym-e4', (29, 32), ((28.27, 32.536), (26.9, 33.745), (26, 34)))
+        self.add_bezier('sym-e5', (26, 34), ((25.313, 34.197), (24.716, 34), (24, 34)))
+        self.add_bezier('sym-e6', (24, 34), ((23.284, 34), (22.687, 34.197), (22, 34)))
+        self.add_bezier('sym-e7', (22, 34), ((21.1, 33.745), (19.73, 32.536), (19, 32)))
+        self.add_bezier('sym-e8', (19, 32), ((18.72, 31.791), (19.28, 32.209), (19, 32)))
+        self.add_bezier('sym-e9', (19, 32), ((18.94, 31.991), (18.14, 31.882), (18, 32)))
+        self.add_bezier('sym-e10', (18, 32), ((17.32, 32.564), (16.87, 33.709), (16, 34)))
+        self.add_bezier('sym-e11', (16, 34), ((12.98, 35), (10.52, 33.473), (8, 32)))
+        self.add_line('sym-e12', (8, 32), (8, 39))
+        self.add_bezier('sym-e13', (8, 39), ((8, 39.036), (8, 38.964), (8, 39)))
+        self.add_bezier('sym-e14', (8, 39), ((8, 40.227), (9.93, 41.545), (11, 42)))
+        self.add_bezier('sym-e15', (11, 42), ((14.53, 43.509), (19.11, 44), (23, 44)))
+        self.add_bezier('sym-e16', (23, 44), ((23.17, 44), (22.83, 44), (23, 44)))
+        self.add_bezier('sym-e17', (23, 44), ((23.191, 44), (23.811, 44), (24, 44)))
+        self.add_bezier('sym-e18', (24, 44), ((24.189, 44), (24.809, 44), (25, 44)))
+        self.add_bezier('sym-e19', (25, 44), ((25.17, 44), (24.83, 44), (25, 44)))
+        self.add_bezier('sym-e20', (25, 44), ((28.89, 44), (33.47, 43.509), (37, 42)))
+        self.add_bezier('sym-e21', (37, 42), ((38.07, 41.545), (40, 40.227), (40, 39)))
+        self.add_bezier('sym-e22', (40, 39), ((40, 38.964), (40, 39.036), (40, 39)))
+        self.add_line('sym-e23', (40, 39), (40, 32))
+        self.add_line('sym-e24', (40, 32), (40, 22))
+        self.add_bezier('sym-e25', (40, 22), ((37.4, 23.582), (35.19, 24.991), (32, 24)))
+        self.add_bezier('sym-e26', (32, 24), ((31.27, 23.773), (30.6, 23.427), (30, 23)))
+        self.add_bezier('sym-e27', (30, 23), ((29.73, 22.8), (29.27, 22.2), (29, 22)))
+        self.add_bezier('sym-e28', (29, 22), ((28.83, 22), (28.34, 22.818), (28, 23)))
+        self.add_bezier('sym-e29', (28, 23), ((26.861, 23.63), (25.326, 24), (24, 24)))
+        self.add_bezier('sym-e30', (24, 24), ((22.674, 24), (21.139, 23.63), (20, 23)))
+        self.add_bezier('sym-e31', (20, 23), ((19.66, 22.818), (19.17, 22), (19, 22)))
+        self.add_bezier('sym-e32', (19, 22), ((18.73, 22.2), (18.27, 22.8), (18, 23)))
+        self.add_bezier('sym-e33', (18, 23), ((17.4, 23.427), (16.73, 23.773), (16, 24)))
+        self.add_bezier('sym-e34', (16, 24), ((12.81, 24.991), (10.6, 23.582), (8, 22)))
+        self.add_line('sym-e35', (8, 22), (8, 32))
+        self.add_line('sym-e36', (40, 22), (40, 11))
+        self.add_bezier('sym-e37', (40, 11), ((38.93, 11.827), (38.22, 12.4), (37, 13)))
+        self.add_bezier('sym-e38', (37, 13), ((33.707, 14.615), (28.711, 16), (24, 16)))
+        self.add_bezier('sym-e39', (24, 16), ((19.289, 16), (14.293, 14.615), (11, 13)))
+        self.add_bezier('sym-e40', (11, 13), ((9.78, 12.4), (9.07, 11.827), (8, 11)))
+        self.add_line('sym-e41', (8, 11), (8, 22))
+        self.add_line('sym-e42', (40, 11), (40, 9))
+        self.add_bezier('sym-e43', (40, 9), ((39.74, 8.409), (39.49, 8.491), (39, 8)))
+        self.add_bezier('sym-e44', (39, 8), ((36.16, 5.173), (29.12, 4), (25, 4)))
+        self.add_bezier('sym-e45', (25, 4), ((24.82, 4), (24.18, 4), (24, 4)))
+        self.add_bezier('sym-e46', (24, 4), ((23.87, 4), (24.13, 4), (24, 4)))
+        self.add_bezier('sym-e47', (24, 4), ((23.87, 4), (24.13, 4), (24, 4)))
+        self.add_bezier('sym-e48', (24, 4), ((23.82, 4), (23.18, 4), (23, 4)))
+        self.add_bezier('sym-e49', (23, 4), ((18.88, 4), (11.84, 5.173), (9, 8)))
+        self.add_bezier('sym-e50', (9, 8), ((8.51, 8.491), (8.26, 8.409), (8, 9)))
+        self.add_line('sym-e51', (8, 9), (8, 11))
+        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e23', 'sym-e24', 'sym-e25', 'sym-e26', 'sym-e27', 'sym-e28', 'sym-e29', 'sym-e30', 'sym-e31', 'sym-e32', 'sym-e33', 'sym-e34', 'sym-e35')
+        self.add_contour('sym-c1', 'sym-e36', 'sym-e37', 'sym-e38', 'sym-e39', 'sym-e40', 'sym-e41')
+        self.add_contour('sym-c2', 'sym-e42', 'sym-e43', 'sym-e44', 'sym-e45', 'sym-e46', 'sym-e47', 'sym-e48', 'sym-e49', 'sym-e50', 'sym-e51')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')
+        self.relate('connect', 'sym-c1', 'sym-c2')

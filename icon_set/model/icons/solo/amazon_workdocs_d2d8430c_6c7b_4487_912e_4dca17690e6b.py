@@ -1,0 +1,44 @@
+"""Amazon workdocs (_uncategorized_03), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'd2d8430c-6c7b-4487-912e-4dca17690e6b'
+SOURCE_PATH = 'icons-json/_uncategorized_03/amazon workdocs_d2d8430c-6c7b-4487-912e-4dca17690e6b.json'
+AUTHOR = 'json_to_solo'
+
+class AmazonWorkdocs(Solo48):
+    icon_id = 'amazon-workdocs'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = '_uncategorized_03'
+    aliases = ()
+    keywords = ('amazon', 'workdocs', '_uncategorized_03')
+
+    def build(self):
+        self.add_line('e0', (25, 31), (25, 42))
+        self.add_line('e1', (27, 6), (42, 21))
+        self.add_line('e2', (27, 6), (27, 21))
+        self.add_line('e3', (27, 21), (42, 21))
+        self.add_line('e4', (27, 6), (8, 6))
+        self.add_line('e5', (6, 8), (6, 40))
+        self.add_line('e6', (8, 42), (25, 42))
+        self.add_line('e7', (42, 21), (42, 40))
+        self.add_line('e8', (40, 42), (25, 42))
+        self.add_arc('e9', (8, 6), (6, 8), radius_x=2, sweep=False)
+        self.add_arc('e10', (6, 40), (8, 42), radius_x=2, sweep=False)
+        self.add_arc('e11', (42, 40), (40, 42), radius_x=2)
+        self.add_contour('c0', 'e0')
+        self.add_contour('c1', 'e1')
+        self.add_contour('c2', 'e2', 'e3')
+        self.add_contour('c3', 'e4', 'e9', 'e5', 'e10', 'e6')
+        self.add_contour('c4', 'e7', 'e11', 'e8')
+        self.relate('connect', 'c0', 'c3')
+        self.relate('connect', 'c0', 'c4')
+        self.relate('connect', 'c3', 'c4')
+        self.relate('connect', 'c1', 'c2')
+        self.relate('connect', 'c1', 'c3')
+        self.relate('connect', 'c2', 'c3')
+        self.relate('connect', 'c1', 'c2')
+        self.relate('connect', 'c1', 'c4')
+        self.relate('connect', 'c2', 'c4')

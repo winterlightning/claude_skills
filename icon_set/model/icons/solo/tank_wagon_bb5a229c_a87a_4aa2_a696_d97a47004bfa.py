@@ -30,7 +30,7 @@ class TankWagon(Solo48):
         self.add_line('tank-bottom',(33,34),(15,34))
         self.add_arc('tank-lower-left',(15,34),(6,23),radius_x=11)
         self.add_arc('tank-upper-left',(6,23),(15,12),radius_x=11)
-        self.add_contour('tank',*[f'tank-top-{i}' for i in range(6,6)],'tank-right','tank-bottom','tank-lower-left','tank-upper-left',closed=True)
+        self.add_contour('tank',*[f'tank-top-{i}' for i in range(1, 6)],'tank-right','tank-bottom','tank-lower-left','tank-upper-left',closed=True)
         self.add_polyline('ladder-post',(15,12),(15,23),(15,34))
         self.add_line('ladder-rung',(6,23),(15,23))
         self.relate('connect','ladder-post','tank')

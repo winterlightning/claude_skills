@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Validate every registered icon, then export SVG, PNG and a manifest per family.
 
-Validate-then-export: nothing reaches ``dist/`` that has not passed the full
-chain. A failing icon is skipped -- listed with the element id and coordinates
-that caused it -- while every passing icon is still published to its family
-folder and the gallery. The exit code is 1 when anything was skipped. A family
-where no icon exported keeps its previous release. Output is byte-stable, so a
-clean rebuild produces an identical tree.
+Validate-then-export: nothing reaches a release folder that has not passed the
+full chain. A failing icon still renders -- its SVG and its findings go to
+``dist/failed/<family><canvas>/`` and the gallery's Failed build tab, grouped
+by the rule it breaks -- while every passing icon is published to its family
+folder. The exit code is 1 when anything failed. A family where no icon
+exported keeps its previous release. Output is byte-stable, so a clean rebuild
+produces an identical tree.
 
 Builds are incremental by default: an icon is validated and exported only when
 it is new or its source file (or an icon class it inherits) changed since its
@@ -15,12 +16,13 @@ last output; unchanged icons, passing or failing, reuse that last result. Use
 
 Each family ships to its own folder, named by the contract -- ``dist/sub32/``,
 ``dist/solo48/``, ``dist/container64/`` -- with its own ``manifest.json``. The
-folders never mix: a family's manifest lists one profile, and the build skips
-an icon whose profile is not its family's before it writes anything.
+folders never mix: a family's manifest lists one profile, and an icon whose
+profile is not its family's is sent to the failed build.
 
     python3 icon_set/scripts/build.py                # all families, changed icons only
     python3 icon_set/scripts/build.py --all          # re-check every icon
     python3 icon_set/scripts/build.py --family solo  # one family only
+    python3 icon_set/scripts/build.py --icon icon_set/model/icons/solo/anteater.py  # one icon only
 """
 
 from __future__ import annotations
@@ -30,6 +32,7 @@ import hashlib
 import inspect
 import json
 import os
+import re
 import shutil
 import time
 from contextlib import ExitStack
@@ -43,7 +46,7 @@ if str(REPO_ROOT) not in sys.path:
 
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
-from icon_set.model.icons.registry import icons_in  # noqa: E402
+from icon_set.model.icons.registry import factories, icons_in, families as registry_families  # noqa: E402
 from icon_set.model.profiles import Profile  # noqa: E402
 from icon_set.renderers.png import render_png  # noqa: E402
 from icon_set.validation.library_qa import inspect_icon, artifact_key, save_evidence  # noqa: E402
@@ -99,6 +102,7 @@ class _Previous:
     def __init__(self, dist: Path, qa_dir: Path | None, *, debug: bool):
         self.qa_source = None
         self.qa_dir = qa_dir
+        self.debug = debug
         results = dist / 'qa' / 'results.json'
         if qa_dir is not None and results.is_file():
             try:
@@ -119,7 +123,12 @@ class _Previous:
             if metrics.stat().st_mtime < mtime:
                 return None
             row = json.loads(metrics.read_text(encoding='utf-8'))
-            shutil.copytree(folder, self.qa_dir / key, dirs_exist_ok=True)
+            if self.debug:
+                shutil.copytree(folder, self.qa_dir / key, dirs_exist_ok=True)
+            else:
+                # Without --debug the new snapshot must not inherit old debug images.
+                row['artifacts'] = {name: path for name, path in (row.get('artifacts') or {}).items()
+                                    if name in ('svg', 'metrics')}
             svg = folder / 'icon.svg'
             if svg.is_file():
                 row['_svg'] = svg.read_text(encoding='utf-8')
@@ -132,79 +141,183 @@ class _Previous:
         return row
 
 
-def _reusable_record(record: dict | None, svg: Path, png: Path | None, mtime: float | None) -> bool:
-    """A manifest record still describes the files on disk, and both postdate the source."""
-    if record is None or mtime is None:
+def _source_path(icon) -> str | None:
+    try:
+        path = Path(inspect.getsourcefile(type(icon)) or '').resolve()
+    except TypeError:
+        return None
+    return path.relative_to(REPO_ROOT).as_posix() if path.is_file() and path.is_relative_to(REPO_ROOT) else None
+
+
+def _failed_record(icon, family: str, qa: dict, messages: list[str], mtime: float | None) -> dict:
+    """What the Failed build tab needs to show an icon and mark what it violates."""
+    pairs = [{"a": pair["nearestPoints"][0], "b": pair["nearestPoints"][1],
+              "distance": round(pair["centerlineDistance"], 3)}
+             for pair in qa.get('spacing', {}).get('pairs', [])
+             if pair.get('status') == 'fail' and pair.get('nearestPoints') and pair.get('centerlineDistance', 0) > 0]
+    holes = [hole["bbox_viewbox"] for hole in qa.get('negative_space', {}).get('holes', [])
+             if hole.get('status') == 'fail' and hole.get('bbox_viewbox')]
+    return {
+        "icon_id": str(icon.icon_id), "family": family,
+        "profile": getattr(icon.profile, 'name', str(icon.profile)),
+        "canvas_size": (qa.get('rules') or {}).get('profile', {}).get('canvas_size')
+                       or Profile.for_family(family).spec.canvas_size,
+        "status": qa.get('status', 'error'), "errors": list(messages), "warnings": list(qa.get('warnings') or []),
+        "svg": None, "svg_sha256": None, "source_path": _source_path(icon), "source_mtime": mtime,
+        "spacing_pairs": pairs, "holes": holes,
+    }
+
+
+def _drawing_sha(icon) -> str | None:
+    """Hash of the SVG the model draws now; cheap next to validation, and it sees edits
+    made outside the icon's own file (a shared base, a keyshape) that mtimes miss."""
+    try:
+        return hashlib.sha256(icon.to_svg().encode('utf-8')).hexdigest()
+    except Exception:  # a broken model is reported by validation, not here
+        return None
+
+
+def _reusable_record(record: dict | None, svg: Path, png: Path | None, mtime: float | None,
+                     drawing: str | None) -> bool:
+    """A manifest record still describes the files on disk and the current drawing."""
+    if record is None or mtime is None or drawing is None or record.get('svg_sha256') != drawing:
         return False
     try:
         if svg.stat().st_mtime < mtime or (png is not None and png.stat().st_mtime < mtime):
             return False
-        return hashlib.sha256(svg.read_bytes()).hexdigest() == record.get('svg_sha256')
+        return hashlib.sha256(svg.read_bytes()).hexdigest() == drawing
     except OSError:
         return False
+
+
+_SAFE_ID = re.compile(r'[a-z][a-z0-9]*(?:-[a-z0-9]+)*')
+
+
+def _manifest_icons(path: Path) -> dict[str, dict]:
+    try:
+        return {record['icon_id']: record for record in json.loads(path.read_text(encoding='utf-8'))['icons']}
+    except (OSError, ValueError, KeyError, TypeError):
+        return {}
 
 
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
+    only: set[str] | None = None,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
     With ``previous`` (an incremental build), an icon whose source is older than
     its last output reuses that output -- and its last QA row -- instead of being
-    validated and rendered again.
+    validated and rendered again. With ``only`` (icon ids), just those icons are
+    validated; the failed count covers them alone.
     """
     profile = Profile.for_family(family)
     folder = family_dist_name(family)
     target_dir = dist / folder
     preview_dir = png_dir / folder if (write_png and png_dir is not None) else None
 
-    icons = list(icons_in(family))
     failures: list[tuple[str, list[str]]] = []
     records: list[dict] = []
-    old_records = {}
-    if previous is not None and (target_dir / 'manifest.json').is_file():
-        try:
-            old_records = {record['icon_id']: record for record in
-                           json.loads((target_dir / 'manifest.json').read_text(encoding='utf-8'))['icons']}
-        except (OSError, ValueError, KeyError, TypeError):
-            old_records = {}
+    failed_records: list[dict] = []
+    # Failed icons still get an SVG, kept apart from the release folder so a
+    # consumer of dist/<family> never ships one.
+    failed_dir = dist / 'failed' / folder
+    failed_dir.mkdir(parents=True, exist_ok=True)
+    old_records = _manifest_icons(target_dir / 'manifest.json') if previous is not None or only else {}
+    old_failed = _manifest_icons(published_dist / 'failed' / folder / 'manifest.json') if previous is not None or only else {}
     reused = 0
+
+    if only is None:
+        icons = list(icons_in(family))
+    else:
+        # A targeted build checks only the selected icons. Every other icon keeps
+        # its last published result as-is -- not re-rendered, not re-checked --
+        # and one that never built stays out.
+        base = registry_families()[family]
+        members = {icon_id: factory for icon_id, factory in factories().items() if issubclass(factory, base)}
+        icons = [factory() for icon_id, factory in members.items() if icon_id in only]
+        for icon_id, factory in members.items():
+            if icon_id in only:
+                continue
+            key = f"{factory.family}/{icon_id}"
+            old_qa = previous.qa_row(key, 0.0) if previous is not None and qa_dir is not None else None
+            if icon_id in old_records:
+                records.append(old_records[icon_id])
+            elif icon_id in old_failed:
+                stale = dict(old_failed[icon_id])
+                try:
+                    if stale.get('svg'):
+                        (failed_dir / stale['svg']).write_bytes(
+                            (published_dist / 'failed' / folder / stale['svg']).read_bytes())
+                except OSError:
+                    stale['svg'] = None
+                failed_records.append(stale)
+            else:
+                continue
+            if old_qa is not None:
+                qa_rows.append(old_qa)
+            reused += 1
+
+    def fail(icon, qa, messages, mtime, document=None):
+        failures.append((icon.icon_id, messages))
+        entry = _failed_record(icon, family, qa, messages, mtime)
+        document = document if document is not None else qa.get('_svg')
+        if document and _SAFE_ID.fullmatch(str(icon.icon_id)):
+            (failed_dir / f"{icon.icon_id}.svg").write_text(document, encoding='utf-8')
+            entry["svg"] = f"{icon.icon_id}.svg"
+            entry["svg_sha256"] = hashlib.sha256(document.encode('utf-8')).hexdigest()
+        failed_records.append(entry)
 
     for icon in icons:
         key = artifact_key(icon)
+        mtime = _source_mtime(icon) if previous is not None else None
         if icon.profile is not profile or icon.family != family:
             qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
             qa['_key'] = key
             qa_rows.append(qa)
-            failures.append((icon.icon_id, [
+            fail(icon, qa, [
                 f"family {family!r} ships {profile.name} only; this icon is "
                 f"{icon.family!r} on {getattr(icon.profile, 'name', icon.profile)!r}"
-            ]))
+            ], mtime)
             continue
-        if previous is not None:
-            mtime = _source_mtime(icon)
+        if previous is not None and only is None:
+            drawing = _drawing_sha(icon)
             record = old_records.get(icon.icon_id)
             old_qa = previous.qa_row(key, mtime) if qa_dir is not None else None
             png = preview_dir / f"{icon.icon_id}.png" if preview_dir is not None else None
-            if _reusable_record(record, target_dir / f"{icon.icon_id}.svg", png, mtime) and \
+            if _reusable_record(record, target_dir / f"{icon.icon_id}.svg", png, mtime, drawing) and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] == 'pass')):
                 records.append(record)
                 if old_qa is not None:
                     qa_rows.append(old_qa)
                 reused += 1
                 continue
-            if record is None and old_qa is not None and old_qa['status'] != 'pass':
+            stale = old_failed.get(icon.icon_id)
+            if record is None and stale is not None and mtime is not None and \
+                    (stale.get('source_mtime') or 0) >= mtime and stale.get('svg_sha256') == drawing and \
+                    (qa_dir is None or (old_qa is not None and old_qa['status'] != 'pass')):
                 # Unchanged since it last failed: the result would be the same.
-                qa_rows.append(old_qa)
-                failures.append((icon.icon_id, old_qa.get('errors') or old_qa.get('warnings') or []))
-                reused += 1
-                continue
+                document = None
+                if stale.get('svg'):
+                    try:
+                        document = (published_dist / 'failed' / folder / stale['svg']).read_text(encoding='utf-8')
+                    except OSError:
+                        document = None
+                if stale.get('svg') is None or document is not None:
+                    if old_qa is not None:
+                        qa_rows.append(old_qa)
+                    failures.append((icon.icon_id, stale.get('errors') or stale.get('warnings') or []))
+                    if document is not None:
+                        (failed_dir / stale['svg']).write_text(document, encoding='utf-8')
+                    failed_records.append(stale)
+                    reused += 1
+                    continue
         qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
         qa['_key'] = key
         qa_rows.append(qa)
         if qa['status'] != 'pass':
-            failures.append((icon.icon_id, qa['errors'] or qa['warnings']))
+            fail(icon, qa, qa['errors'] or qa['warnings'], mtime)
             continue
         try:
             document = qa['_svg']
@@ -235,13 +348,25 @@ def _stage_family(
         except (OSError, ValueError, TypeError, RuntimeError) as error:
             qa['status'] = 'error'
             qa['errors'].append(f'export: {type(error).__name__}: {error}')
-            failures.append((icon.icon_id, qa['errors']))
+            fail(icon, qa, qa['errors'], mtime)
 
-    if previous is not None:
-        print(f"[{family}] {len(icons) - reused} of {len(icons)} icons checked; "
-              f"{reused} unchanged since the last build reused")
+    if only is not None:
+        # Carried-over records went in first; restore canonical order so output stays byte-stable.
+        order = {icon_id: index for index, icon_id in enumerate(factories())}
+        records.sort(key=lambda record: order.get(record["icon_id"], len(order)))
+    failed_records.sort(key=lambda entry: entry["icon_id"])
+    (failed_dir / 'manifest.json').write_text(json.dumps({
+        "manifest_version": MANIFEST_VERSION, "family": family, "profile": profile.name,
+        "canvas_size": profile.spec.canvas_size, "count": len(failed_records), "icons": failed_records,
+    }, indent=2) + "\n", encoding="utf-8")
+
+    checked = len(icons) if only is not None else len(icons) - reused
+    if previous is not None or only is not None:
+        print(f"[{family}] {checked} of {checked + reused} icons checked; "
+              f"{reused} {'others' if only is not None else 'unchanged since the last build'} reused")
     if failures:
-        print(f"SKIPPED [{family}]: {len(failures)} of {len(icons)} icons did not validate\n")
+        print(f"FAILED BUILD [{family}]: {len(failures)} of {checked} checked icons did not validate "
+              f"-> {published_dist / 'failed' / folder}\n")
         for icon_id, messages in failures:
             print(f"  {icon_id}")
             for message in messages:
@@ -307,7 +432,7 @@ def _sweep_stale_stages(root: Path) -> None:
             pass
 
 
-def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False):
+def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -337,7 +462,7 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
             counts.append(_stage_family(
                 family, stages[dist], stages.get(png_dir),
                 write_png=write_png, published_dist=dist,
-                qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous,
+                qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous, only=only,
             ))
         if qa_dir is not None:
             # A filtered build still shows the complete current library. Only
@@ -347,7 +472,9 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
                 if icon.family in families:
                     continue
                 key = artifact_key(icon)
-                row = previous.qa_row(key, _source_mtime(icon), selected=False) if previous else None
+                # A targeted build keeps other icons' last rows rather than re-checking them.
+                mtime = 0.0 if only is not None else _source_mtime(icon)
+                row = previous.qa_row(key, mtime, selected=False) if previous else None
                 if row is None:
                     row = inspect_icon(icon, debug_dir=qa_dir / key if debug else None, selected=False)
                     row['_key'] = key
@@ -360,6 +487,10 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
         published = [family for family, (count, bad) in zip(families, counts) if count or not bad]
         replacements = [(stage / family_dist_name(family), root / family_dist_name(family))
                         for root, stage in stages.items() for family in published]
+        # The failed-build list always reflects this run, even when a family kept its release.
+        (dist / 'failed').mkdir(exist_ok=True)
+        replacements += [(stages[dist] / 'failed' / family_dist_name(family), dist / 'failed' / family_dist_name(family))
+                         for family in families]
         gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()])
         replacements.append((gallery, dist / 'gallery'))
         _publish(replacements)
@@ -369,12 +500,13 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
         if family not in published:
             print(f"[{family}] no icon exported; previous release kept -> {dist / family_dist_name(family)}")
             continue
-        skipped = f", skipped {bad} failing" if bad else ""
-        print(f"[{family}] validated and exported {count} {name} icons{skipped} "
-              f"-> {dist / family_dist_name(family)}")
+        failed_note = f"; {bad} failed -> {dist / 'failed' / family_dist_name(family)}" if bad else ""
+        print(f"[{family}] validated and exported {count} {name} icons "
+              f"-> {dist / family_dist_name(family)}{failed_note}")
     failed = sum(bad for _, bad in counts)
     if failed:
-        print(f"\n{failed} icon(s) skipped; see the SKIPPED lists above.")
+        print(f"\n{failed} icon(s) failed validation; their SVGs and errors are in {dist / 'failed'} "
+              f"and the gallery's Failed build tab.")
     return sum(count for count, _ in counts), failed
 
 
@@ -382,7 +514,7 @@ def build_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool,
     debug: bool = False, report: bool = True, rebuild_all: bool = False,
 ) -> tuple[int, int]:
-    """Publish one family's passing icons; failing icons are skipped and counted."""
+    """Publish one family's passing icons; failing icons go to dist/failed and are counted."""
     return _build_selected([family], dist, png_dir, write_png=write_png, debug=debug, report=report,
                            rebuild_all=rebuild_all)
 
@@ -390,7 +522,7 @@ def build_family(
 def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
-    rebuild_all: bool = False,
+    rebuild_all: bool = False, sources: list[Path] | None = None,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -399,8 +531,24 @@ def build(
             print(f"error: unknown family {unknown}; known: {families}", file=sys.stderr)
             return 2
         families = [name for name in families if name in only]
+    selected = None
+    if sources:
+        wanted = {Path(source).resolve() for source in sources}
+        by_path = {}
+        for icon_id, factory in factories().items():
+            filename = inspect.getsourcefile(factory)
+            if filename and Path(filename).resolve() in wanted:
+                by_path.setdefault(Path(filename).resolve(), []).append((icon_id, factory.family))
+        missing = sorted(str(path) for path in wanted - set(by_path))
+        if missing:
+            print(f"error: no registered icon is defined in {missing}", file=sys.stderr)
+            return 2
+        selected = {icon_id for rows in by_path.values() for icon_id, _ in rows}
+        icon_families = {family for rows in by_path.values() for _, family in rows}
+        # Without --family, build just the families the selected icons belong to.
+        families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
-                                rebuild_all=rebuild_all)
+                                rebuild_all=rebuild_all, only=selected)
     return 1 if failed else 0
 
 
@@ -424,9 +572,12 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--all', dest='rebuild_all', action='store_true',
                         help='re-validate and re-export every icon; by default only icons that are new '
                              'or whose source changed since the last build are checked')
+    parser.add_argument('--icon', dest='sources', action='append', type=Path, metavar='PYTHON_FILE',
+                        help='check only the icons defined in this file (repeatable); every other icon '
+                             'keeps its last built result unchecked, and the exit code covers these alone')
     args = parser.parse_args(argv)
     return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
-                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all)
+                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources)
 
 
 if __name__ == "__main__":

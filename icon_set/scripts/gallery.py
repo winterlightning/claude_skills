@@ -112,6 +112,23 @@ def stage_laboratory(target: Path) -> None:
         json.dumps(data, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
 
 
+def stage_failures(staged: Path, published: Path, folders: list[str], target: Path, *, passed: int) -> None:
+    """The Failed build tab: failed icons of the focus families, rendered and grouped by rule."""
+    from icon_set.scripts.failure_report import FOCUS_FAMILIES, collect, write_report
+    manifests = []
+    for folder in folders:
+        manifest = staged / 'failed' / folder / 'manifest.json'
+        if not manifest.exists():
+            manifest = published / 'failed' / folder / 'manifest.json'
+        if manifest.exists():
+            manifests.append((manifest, '../failed/' + quote(folder, safe='') + '/'))
+    data = collect(manifests, families=FOCUS_FAMILIES)
+    data['total'] = passed + data['failed']
+    write_report(data, target / 'failures.html')
+    (target / 'failures.json').write_text(json.dumps({'failed': data['failed'], 'total': data['total']}) + '\n',
+                                          encoding='utf-8')
+
+
 def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     target = staged / 'gallery'
     target.mkdir()
@@ -142,6 +159,9 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
                 record['variant_root'] = ancestor.icon_id
             records.append(record)
     records.sort(key=lambda item: (item['family'], item['icon_id']))
+    from icon_set.scripts.failure_report import FOCUS_FAMILIES
+    stage_failures(staged, published, folders, target,
+                   passed=sum(record['family'] in FOCUS_FAMILIES for record in records))
     (target / 'icons.json').write_text(json.dumps({'icons': records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')

@@ -1,0 +1,406 @@
+--- a/icon_set/model/primitives.py
++++ b/icon_set/model/primitives.py
+@@ -46,10 +46,76 @@
+     sweep: bool = True
+ 
+ 
+-Primitive = Line | Arc
++ControlPoint = tuple[float, float]
++CubicSegment = tuple[ControlPoint, ControlPoint, ControlPoint]
+ 
+ 
+ @dataclass(frozen=True)
++class Bezier:
++    """A chain of cubic segments between two integer nodes.
++
++    ``start`` and ``end`` are authored nodes on grid 1. ``segments`` holds each
++    cubic as ``(control1, control2, knot)``; controls and interior knots may be
++    fractional, and the last knot must equal ``end``.
++    """
++
++    element_id: str
++    start: Point
++    end: Point
++    segments: tuple[CubicSegment, ...]
++
++    def cubics(self) -> list[tuple[ControlPoint, ControlPoint, ControlPoint, ControlPoint]]:
++        """Each segment as four explicit points ``(p0, c1, c2, p3)``."""
++        result = []
++        p0 = (float(self.start.x), float(self.start.y))
++        for c1, c2, p3 in self.segments:
++            result.append((p0, tuple(c1), tuple(c2), tuple(p3)))
++            p0 = tuple(p3)
++        return result
++
++    def sample(self, per_segment: int = 48) -> list[ControlPoint]:
++        """Points along the centerline, both ends included."""
++        points = [(float(self.start.x), float(self.start.y))]
++        for p0, c1, c2, p3 in self.cubics():
++            for index in range(1, per_segment + 1):
++                points.append(cubic_point(p0, c1, c2, p3, index / per_segment))
++        return points
++
++    def extrema(self) -> list[ControlPoint]:
++        """Interior knots plus every axis extremum, solved exactly per segment."""
++        found = [tuple(p3) for _, _, p3 in self.segments[:-1]]
++        for p0, c1, c2, p3 in self.cubics():
++            for axis in (0, 1):
++                a = -p0[axis] + 3 * c1[axis] - 3 * c2[axis] + p3[axis]
++                b = 2 * (p0[axis] - 2 * c1[axis] + c2[axis])
++                c = c1[axis] - p0[axis]
++                roots = []
++                if abs(a) < 1e-12:
++                    if abs(b) > 1e-12:
++                        roots.append(-c / b)
++                else:
++                    disc = b * b - 4 * a * c
++                    if disc >= 0:
++                        root = disc ** 0.5
++                        roots.extend(((-b + root) / (2 * a), (-b - root) / (2 * a)))
++                for t in roots:
++                    if 0.0 < t < 1.0:
++                        found.append(cubic_point(p0, c1, c2, p3, t))
++        return found
++
++
++def cubic_point(p0, c1, c2, p3, t: float) -> ControlPoint:
++    u = 1.0 - t
++    return (
++        u * u * u * p0[0] + 3 * u * u * t * c1[0] + 3 * u * t * t * c2[0] + t * t * t * p3[0],
++        u * u * u * p0[1] + 3 * u * u * t * c1[1] + 3 * u * t * t * c2[1] + t * t * t * p3[1],
++    )
++
++
++Primitive = Line | Arc | Bezier
++
++
++@dataclass(frozen=True)
+ class Relationship:
+     kind: RelationshipKind
+     members: tuple[str, ...]
+@@ -95,6 +161,12 @@
+     resolved_id = primitive.element_id if element_id is None else element_id
+     if isinstance(primitive, Line):
+         return Line(resolved_id, move(primitive.start), move(primitive.end))
++    if isinstance(primitive, Bezier):
++        shift = lambda p: (p[0] + position.x, p[1] + position.y)  # noqa: E731
++        return Bezier(
++            resolved_id, move(primitive.start), move(primitive.end),
++            tuple((shift(c1), shift(c2), shift(p3)) for c1, c2, p3 in primitive.segments),
++        )
+     return Arc(
+         resolved_id,
+         move(primitive.start), move(primitive.end),
+@@ -112,6 +184,14 @@
+             "start": list(primitive.start.as_tuple()),
+             "end": list(primitive.end.as_tuple()),
+         }
++    if isinstance(primitive, Bezier):
++        return {
++            "kind": "bezier",
++            "element_id": primitive.element_id,
++            "start": list(primitive.start.as_tuple()),
++            "end": list(primitive.end.as_tuple()),
++            "segments": [[list(c1), list(c2), list(p3)] for c1, c2, p3 in primitive.segments],
++        }
+     return {
+         "kind": "arc",
+         "element_id": primitive.element_id,
+@@ -137,4 +217,9 @@
+             data["radius_x"], data["radius_y"],
+             bool(data.get("large_arc", False)), bool(data.get("sweep", True)),
+         )
++    if kind == "bezier":
++        return Bezier(
++            data["element_id"], start, end,
++            tuple((tuple(c1), tuple(c2), tuple(p3)) for c1, c2, p3 in data["segments"]),
++        )
+     raise ValueError(f"unknown primitive kind: {kind!r}")
+--- a/icon_set/model/icons/base.py
++++ b/icon_set/model/icons/base.py
+@@ -14,6 +14,7 @@
+ from ..keyshapes import FreeKeyshapeSpec, Keyshape
+ from ..primitives import (
+     Arc,
++    Bezier,
+     Contour,
+     Line,
+     Point,
+@@ -113,6 +114,26 @@
+         ))
+         return self
+ 
++    def add_bezier(
++        self,
++        element_id: str,
++        start: tuple[int, int],
++        *segments: tuple[tuple[float, float], tuple[float, float], tuple[float, float]],
++    ) -> "Icon":
++        """Author a smooth run of cubics from ``start``.
++
++        Each segment is ``(control1, control2, knot)``. Nodes where the curve
++        meets other geometry stay integer; smooth controls may be fractional.
++        """
++        if not segments:
++            raise ValueError(f"{element_id}: a bezier needs at least one segment")
++        last = segments[-1][2]
++        self.primitives.append(Bezier(
++            element_id, Point(*start), Point(int(last[0]), int(last[1])),
++            tuple((tuple(c1), tuple(c2), tuple(p3)) for c1, c2, p3 in segments),
++        ))
++        return self
++
+     def add_dot(self, element_id: str, at: tuple[int, int]) -> "Icon":
+         """A zero-length line: one round cap, painted as a stroke-wide point."""
+         return self.add_line(element_id, at, at)
+--- a/icon_set/renderers/svg.py
++++ b/icon_set/renderers/svg.py
+@@ -11,7 +11,7 @@
+ from typing import TYPE_CHECKING
+ from xml.sax.saxutils import escape, quoteattr
+ 
+-from ..model.primitives import Arc, Line, Primitive, ResolvedDrawing
++from ..model.primitives import Arc, Bezier, Line, Primitive, ResolvedDrawing
+ from ..model.profiles import FILL, LINE_CAP, LINE_JOIN, STROKE, STROKE_WIDTH
+ 
+ if TYPE_CHECKING:  # pragma: no cover - typing only
+@@ -44,6 +44,13 @@
+             f"{int(primitive.large_arc)} {int(primitive.sweep)} "
+             f"{_number(primitive.end.x)} {_number(primitive.end.y)}"
+         )
++    if isinstance(primitive, Bezier):
++        return "".join(
++            f"C{_number(round(c1[0], 3))} {_number(round(c1[1], 3))} "
++            f"{_number(round(c2[0], 3))} {_number(round(c2[1], 3))} "
++            f"{_number(round(p3[0], 3))} {_number(round(p3[1], 3))}"
++            for c1, c2, p3 in primitive.segments
++        )
+     raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
+ 
+ 
+--- a/icon_set/validation/path_commands.py
++++ b/icon_set/validation/path_commands.py
+@@ -9,7 +9,7 @@
+ 
+ from dataclasses import dataclass
+ 
+-from ..model.primitives import Arc, Line, Primitive
++from ..model.primitives import Arc, Bezier, Line, Primitive
+ 
+ 
+ @dataclass
+@@ -34,6 +34,13 @@
+                 float(primitive.radius_x), float(primitive.radius_y), 0.0,
+                 int(primitive.large_arc), int(primitive.sweep),
+             )))
++        elif isinstance(primitive, Bezier):
++            for c1, c2, p3 in primitive.segments:
++                commands.append(Command("C", [
++                    (float(c1[0]), float(c1[1])),
++                    (float(c2[0]), float(c2[1])),
++                    (float(p3[0]), float(p3[1])),
++                ]))
+         else:  # pragma: no cover - guarded by the type union
+             raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
+     if closed:
+--- a/icon_set/validation/structure.py
++++ b/icon_set/validation/structure.py
+@@ -11,7 +11,7 @@
+ import re
+ 
+ from ..model.keyshapes import FreeKeyshapeSpec
+-from ..model.primitives import Arc, Line, Point, Contour, Relationship, ResolvedDrawing
++from ..model.primitives import Arc, Bezier, Line, Point, Contour, Relationship, ResolvedDrawing
+ 
+ 
+ @lru_cache(maxsize=1)
+@@ -64,13 +64,26 @@
+ 
+     ids = set()
+     for primitive in drawing.primitives:
+-        if not isinstance(primitive, (Line, Arc)):
++        if not isinstance(primitive, (Line, Arc, Bezier)):
+             errors.append(f'unsupported primitive type {type(primitive).__name__}')
+             continue
+         if identifier(primitive.element_id, 'element_id'):
+             ids.add(primitive.element_id)
+         point(primitive.start, f'{primitive.element_id}.start')
+         point(primitive.end, f'{primitive.element_id}.end')
++        if isinstance(primitive, Bezier):
++            if not primitive.segments:
++                errors.append(f'{primitive.element_id}.segments must be non-empty')
++            for segment in primitive.segments:
++                for control in segment:
++                    if len(control) != 2 or not all(
++                        isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
++                        for v in control
++                    ):
++                        errors.append(f'{primitive.element_id}.segments must hold finite 2D points')
++                        break
++            if primitive.segments and tuple(primitive.segments[-1][2]) != primitive.end.as_tuple():
++                errors.append(f'{primitive.element_id}: last knot must equal end')
+         if isinstance(primitive, Arc):
+             for field in ('radius_x', 'radius_y'):
+                 value = getattr(primitive, field)
+--- a/icon_set/validation/validator.py
++++ b/icon_set/validation/validator.py
+@@ -14,7 +14,7 @@
+ 
+ from ..model import contracts
+ from ..model.keyshapes import Keyshape
+-from ..model.primitives import Arc, Line
++from ..model.primitives import Arc, Bezier, Line
+ from ..model.profiles import (
+     CANVAS_OVERFLOW_TOLERANCE,
+     CIRCLE_TOUCH_TOLERANCE,
+@@ -237,7 +237,7 @@
+                             f"{label} must be a positive integer, got {value!r}",
+                             primitive.element_id,
+                         ))
+-            elif not isinstance(primitive, Line):
++            elif not isinstance(primitive, (Line, Bezier)):
+                 errors.append(Finding(
+                     check,
+                     f"unsupported primitive type {type(primitive).__name__}",
+--- a/icon_set/validation/envelope.py
++++ b/icon_set/validation/envelope.py
+@@ -21,7 +21,7 @@
+ import math
+ from dataclasses import dataclass
+ 
+-from ..model.primitives import Arc, Line, Primitive
++from ..model.primitives import Arc, Bezier, Line, Primitive
+ from ..model.profiles import ENVELOPE_RADIUS
+ 
+ Bounds = tuple[float, float, float, float]
+@@ -103,6 +103,8 @@
+     ]
+     if isinstance(primitive, Line):
+         return points
++    if isinstance(primitive, Bezier):
++        return points + primitive.extrema()
+     geometry = arc_geometry(primitive)
+     # An axis-aligned ellipse reaches its x extrema at 0 and pi, its y extrema
+     # at pi/2 and 3pi/2. Include only those the sweep actually crosses.
+@@ -140,6 +142,8 @@
+     )
+     if isinstance(primitive, Line):
+         return best
++    if isinstance(primitive, Bezier):
++        return max(best, max(math.hypot(x - cx, y - cy) for x, y in primitive.sample(96)))
+     geometry = arc_geometry(primitive)
+     if abs(geometry.radius_x - geometry.radius_y) < 1e-12:
+         # Circular arc: the farthest point from `center` lies on the ray from
+--- a/icon_set/validation/slots.py
++++ b/icon_set/validation/slots.py
+@@ -17,7 +17,7 @@
+ 
+ import math
+ 
+-from ..model.primitives import Arc, Line, Point, Primitive
++from ..model.primitives import Arc, Bezier, Line, Point, Primitive
+ from ..model.profiles import ENVELOPE_RADIUS
+ from .envelope import arc_geometry
+ 
+@@ -89,6 +89,8 @@
+         return _segment_to_rect(primitive.start, primitive.end, rect)
+     if isinstance(primitive, Arc):
+         return _arc_to_rect(primitive, rect)
++    if isinstance(primitive, Bezier):
++        return min(point_to_rect(x, y, rect) for x, y in primitive.sample(180))
+     raise TypeError(f"unsupported primitive: {type(primitive).__name__}")
+ 
+ 
+--- a/icon_set/validation/internal_spacing.py
++++ b/icon_set/validation/internal_spacing.py
+@@ -7,7 +7,7 @@
+ import html
+ import math
+ 
+-from ..model.primitives import Line
++from ..model.primitives import Bezier, Line
+ from ..model.profiles import STROKE_WIDTH
+ from .envelope import arc_geometry
+ from .circle_exceptions import circle_candidates
+@@ -25,6 +25,11 @@
+         a, b = np.array(primitive.start.as_tuple()), np.array(primitive.end.as_tuple())
+         length = float(np.linalg.norm(b-a))
+         points = np.linspace(a, b, max(2, math.ceil(length/step)+1))
++    elif isinstance(primitive, Bezier):
++        rough = primitive.sample(16)
++        length = sum(math.dist(p, q) for p, q in zip(rough, rough[1:]))
++        per = max(2, math.ceil(length/step/len(primitive.segments)))
++        points = np.array(primitive.sample(per))
+     else:
+         arc = arc_geometry(primitive)
+         count = max(2, math.ceil(abs(arc.delta_angle)*max(arc.radius_x, arc.radius_y)/step)+1)
+--- a/icon_set/schemas/icon-record.schema.json
++++ b/icon_set/schemas/icon-record.schema.json
+@@ -24,8 +24,14 @@
+   ],
+   "additionalProperties": false,
+   "properties": {
+-    "variant_of": {"type": "string", "minLength": 1},
+-    "variant_label": {"type": "string", "minLength": 1},
++    "variant_of": {
++      "type": "string",
++      "minLength": 1
++    },
++    "variant_label": {
++      "type": "string",
++      "minLength": 1
++    },
+     "icon_id": {
+       "type": "string",
+       "pattern": "^[a-z][a-z0-9]*(-[a-z0-9]+)*$"
+@@ -386,6 +392,50 @@
+             },
+             "sweep": {
+               "type": "boolean"
++            }
++          }
++        },
++        {
++          "type": "object",
++          "required": [
++            "kind",
++            "element_id",
++            "start",
++            "end",
++            "segments"
++          ],
++          "additionalProperties": false,
++          "properties": {
++            "kind": {
++              "const": "bezier"
++            },
++            "element_id": {
++              "type": "string",
++              "minLength": 1
++            },
++            "start": {
++              "$ref": "#/$defs/point"
++            },
++            "end": {
++              "$ref": "#/$defs/point"
++            },
++            "segments": {
++              "type": "array",
++              "minItems": 1,
++              "items": {
++                "type": "array",
++                "minItems": 3,
++                "maxItems": 3,
++                "items": {
++                  "type": "array",
++                  "items": {
++                    "type": "number"
++                  },
++                  "minItems": 2,
++                  "maxItems": 2
++                }
++              },
++              "description": "Cubic segments as [control1, control2, knot]; the last knot equals end."
+             }
+           }
+         }

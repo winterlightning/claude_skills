@@ -32,7 +32,7 @@ class SunWithEightRays(Solo48):
     def build(self):
         # Radial sun; shared center and paired rays; Lucide sun informs detached rays.
         self.circle('disc',24,24,7)
-        for dx,dy in [(6,6),(6,6),(0,-1),(-1,0)]:
+        for dx,dy in [(0,1),(1,0),(0,-1),(-1,0)]:
             self.add_line(f'axial-{dx}-{dy}',(24+dx*16,24+dy*16),(24+dx*20,24+dy*20))
-        for dx,dy in [(6,6),(1,-1),(-1,1),(-1,-1)]:
+        for dx,dy in [(1,1),(1,-1),(-1,1),(-1,-1)]:
             self.add_line(f'diagonal-{dx}-{dy}',(24+dx*12,24+dy*12),(24+dx*14,24+dy*14))

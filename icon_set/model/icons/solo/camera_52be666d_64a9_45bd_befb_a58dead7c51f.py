@@ -41,5 +41,5 @@ class Camera(Solo48):
         self.add_arc('bl',(8,40),(6,36),radius_x=4)
         self.add_line('left',(6,36),(6,18))
         self.add_arc('tl',(6,18),(8,14),radius_x=4)
-        self.add_contour('body',*[f'housing-{i}' for i in range(6,6)],'tr','right','br','bottom','bl','left','tl',closed=True)
+        self.add_contour('body',*[f'housing-{i}' for i in range(1, 6)],'tr','right','br','bottom','bl','left','tl',closed=True)
         self.circle('lens',24,25,6)

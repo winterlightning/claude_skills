@@ -33,4 +33,4 @@ class Brontosaurus(Solo48):
         self.add_line("tail-8",(16,34),(16,42))
         self.add_line("tail-9",(16,42),(8,42))
         self.add_line("tail-10",(8,42),(8,12))
-        self.add_contour("dinosaur","head","crown","nape","neck","back",*["tail-"+str(i) for i in range(6,11)],closed=True)
+        self.add_contour("dinosaur","head","crown","nape","neck","back",*["tail-"+str(i) for i in range(1, 11)],closed=True)

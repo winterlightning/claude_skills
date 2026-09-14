@@ -3,15 +3,14 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "error",
+  "status": "fail",
   "errors": [
-    "canvas/keyshape bounds: cannot measure the painted envelope: disk-ne: coincident endpoints draw nothing",
     "mic [disk]: parallel straight edges disk-r and label-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
     "mic [disk]: parallel straight edges disk-r and shutter-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
     "mic [label]: parallel straight edges label-1 and disk-l are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
     "mic [shutter]: parallel straight edges shutter-1 and disk-l are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)",
     "mic [label]: parallel straight edges label-2 and disk-b are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "DegenerateArcError: disk-se: coincident endpoints draw nothing"
+    "holes/pinches: 1 undersized holes; 0 pinches"
   ],
   "warnings": [],
   "spacing": {
@@ -23,7 +22,7 @@
         "elementId": "disk",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 6 L 42 6 A 3 3 0 0 1 42 6 L 42 42 A 3 3 0 0 1 42 42 L 6 42 A 3 3 0 0 1 6 42 L 6 6 A 3 3 0 0 1 6 6 Z",
+        "pathData": "M 6 6 L 42 6 L 42 42 L 6 42 L 6 6 Z",
         "bounds": [
           6.0,
           6.0,
@@ -349,7 +348,7 @@
     "minimumInkClearance": 8.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 20,
+      "commands": 16,
       "flattenedSegments": 12,
       "adaptiveNodes": 0,
       "distanceTests": 7,
@@ -359,7 +358,116 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "error"
+    "status": "fail",
+    "hole_count": 3,
+    "failed_hole_count": 1,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          15.2656,
+          23.2656
+        ],
+        "bbox_viewbox": [
+          6.5,
+          6.5,
+          35.0,
+          35.0
+        ],
+        "bbox_ship_px": [
+          35.0,
+          35.0
+        ],
+        "bbox_design_u": [
+          35.0,
+          35.0
+        ],
+        "area_ship_px2": 900.4141,
+        "equivalent_diameter_ship_px": 33.8592,
+        "equivalent_diameter_design_u": 33.8592,
+        "inscribed_diameter_ship_px": 17.5337,
+        "inscribed_diameter_design_u": 17.5337,
+        "inscribed_radius_ship_px": 8.7669,
+        "inscribed_radius_design_u": 8.7669,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 7.2669,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.5338
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          14.9844,
+          9.9844
+        ],
+        "bbox_viewbox": [
+          11.5,
+          6.5,
+          25.0,
+          7.0
+        ],
+        "bbox_ship_px": [
+          25.0,
+          7.0
+        ],
+        "bbox_design_u": [
+          25.0,
+          7.0
+        ],
+        "area_ship_px2": 175.0,
+        "equivalent_diameter_ship_px": 14.9271,
+        "equivalent_diameter_design_u": 14.9271,
+        "inscribed_diameter_ship_px": 7.0,
+        "inscribed_diameter_design_u": 7.0,
+        "inscribed_radius_ship_px": 3.5,
+        "inscribed_radius_design_u": 3.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.0
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          12.9844,
+          39.9844
+        ],
+        "bbox_viewbox": [
+          11.5,
+          38.5,
+          25.0,
+          3.0
+        ],
+        "bbox_ship_px": [
+          25.0,
+          3.0
+        ],
+        "bbox_design_u": [
+          25.0,
+          3.0
+        ],
+        "area_ship_px2": 75.0,
+        "equivalent_diameter_ship_px": 9.7721,
+        "equivalent_diameter_design_u": 9.7721,
+        "inscribed_diameter_ship_px": 3.0,
+        "inscribed_diameter_design_u": 3.0,
+        "inscribed_radius_ship_px": 1.5,
+        "inscribed_radius_design_u": 1.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "fail",
+        "equivalent_radius_at_authored_stroke_design_u": 0.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 0.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/floppy-disk-v2/icon.svg",
@@ -375,7 +483,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "54d5b1131635b1a7dd03f42384ef5c894c3c0b68f0456ddbbe5a9359c0279381",
+  "svg_sha256": "6180ff8e61d6d55a6683505cc0204534eb8a11c29338e65b1f3b49ced733ea3c",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -427,5 +535,21 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888"
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
 }

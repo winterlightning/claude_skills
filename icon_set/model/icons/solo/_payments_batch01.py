@@ -71,39 +71,25 @@ def compact_currency(icon, kind, x, y):
         icon.relate('connect','currency-stem','currency-bar')
 
 
-def contactless_candidate(icon, kind, layout='diagonal'):
-    # A single wave preserves contactless identity while freeing the card corner.
-    if layout == 'diagonal':
-        icon.add_arc('signal-outer',(6,14),(14,6),radius_x=8)
-    else:
-        icon.add_arc('signal-outer',(34,6),(42,14),radius_x=8)
-    if layout == 'diagonal':
-        # Intentional diagonal card/hand direction, matching the source pose.
-        icon.add_polyline('card',(36,30),(40,26),(24,10),(10,24),(26,40),(32,34))
-        icon.add_line('thumb-upper',(36,30),(32,27))
-        icon.add_arc('thumb-round',(32,27),(26,35),radius_x=5,sweep=False)
-        icon.add_line('thumb-lower-1',(26,35),(34,41))
-        icon.add_line('thumb-lower-2',(34,41),(42,42))
-        icon.add_contour('thumb','thumb-upper','thumb-round','thumb-lower-1','thumb-lower-2')
-        icon.relate('connect','card','thumb')
-        compact_currency(icon,kind,25,24)
-    else:
-        # Open upper-right corner reserves a contactless signal, while
-        # the currency is left of the grasp instead of underneath the thumb.
-        icon.add_line('card-right',(38,24),(38,27))
-        icon.add_line('card-top-2',(25,6),(10,6))
-        icon.add_arc('card-tl',(10,6),(6,10),radius_x=4,sweep=False)
-        icon.add_line('card-left',(6,10),(6,34))
-        icon.add_arc('card-bl',(6,34),(10,38),radius_x=4,sweep=False)
-        icon.add_line('card-bottom',(10,38),(35,38))
-        icon.add_contour('card','card-top-2','card-tl','card-left','card-bl','card-bottom')
-        icon.add_line('thumb-upper',(42,30),(38,27))
-        icon.add_arc('thumb-round',(38,27),(32,35),radius_x=5,sweep=False)
-        icon.add_line('thumb-lower-1',(32,35),(35,38))
-        icon.add_line('thumb-lower-2',(35,38),(39,42))
-        icon.add_line('wrist',(39,42),(42,42))
-        icon.add_contour('thumb','thumb-upper','thumb-round','thumb-lower-1','thumb-lower-2','wrist')
-        icon.relate('connect','card','thumb')
-        icon.relate('connect','card-right','thumb')
-        cx,cy = (19,22) if kind=='dollar' else ((20,21) if kind=='yuan' else (19,21))
-        compact_currency(icon,kind,cx,cy)
+def draw_contactless(icon, kind):
+    """An open-corner card, one contactless wave, and an attached right thumb."""
+    icon.add_arc('signal-outer',(34,6),(42,14),radius_x=8)
+    # Open upper-right corner reserves a contactless signal, while
+    # the currency is left of the grasp instead of underneath the thumb.
+    icon.add_line('card-right',(38,24),(38,27))
+    icon.add_line('card-top-2',(25,6),(10,6))
+    icon.add_arc('card-tl',(10,6),(6,10),radius_x=4,sweep=False)
+    icon.add_line('card-left',(6,10),(6,34))
+    icon.add_arc('card-bl',(6,34),(10,38),radius_x=4,sweep=False)
+    icon.add_line('card-bottom',(10,38),(35,38))
+    icon.add_contour('card','card-top-2','card-tl','card-left','card-bl','card-bottom')
+    icon.add_line('thumb-upper',(42,30),(38,27))
+    icon.add_arc('thumb-round',(38,27),(32,35),radius_x=5,sweep=False)
+    icon.add_line('thumb-lower-1',(32,35),(35,38))
+    icon.add_line('thumb-lower-2',(35,38),(39,42))
+    icon.add_line('wrist',(39,42),(42,42))
+    icon.add_contour('thumb','thumb-upper','thumb-round','thumb-lower-1','thumb-lower-2','wrist')
+    icon.relate('connect','card','thumb')
+    icon.relate('connect','card-right','thumb')
+    cx,cy = (19,22) if kind=='dollar' else ((20,21) if kind=='yuan' else (19,21))
+    compact_currency(icon,kind,cx,cy)

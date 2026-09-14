@@ -110,8 +110,9 @@ class BuildIntegrityTests(unittest.TestCase):
                 for p in self.root.rglob('*') if p.is_file()}
 
     def family_snapshot(self):
-        # The gallery is regenerated from whatever did publish, so compare families only.
-        return {key: value for key, value in self.snapshot().items() if '/gallery/' not in key}
+        # The gallery and the failed build are regenerated every run, so compare release families only.
+        return {key: value for key, value in self.snapshot().items()
+                if '/gallery/' not in key and '/failed/' not in key}
 
     def test_invalid_icon_is_skipped_and_valid_icons_publish(self):
         good, bad = create('square'), create('plus')
@@ -124,6 +125,14 @@ class BuildIntegrityTests(unittest.TestCase):
         self.assertFalse((self.dist / 'sub32/stale.svg').exists())
         gallery = json.loads((self.dist / 'gallery/icons.json').read_text())
         self.assertIn('sub/square', [record['key'] for record in gallery['icons']])
+        # The failed icon still renders, outside the release folder, with the rule it broke.
+        failed = json.loads((self.dist / 'failed/sub32/manifest.json').read_text())
+        self.assertEqual([record['icon_id'] for record in failed['icons']], ['plus'])
+        self.assertTrue(any('stroke width' in error for error in failed['icons'][0]['errors']))
+        self.assertTrue((self.dist / 'failed/sub32/plus.svg').read_text().startswith('<svg'))
+        # The Failed build tab lists only the focus families (solo); sub stays in dist/failed.
+        self.assertEqual(json.loads((self.dist / 'gallery/failures.json').read_text()), {'failed': 0, 'total': 0})
+        self.assertNotIn('"id":"plus"', (self.dist / 'gallery/failures.html').read_text())
 
     def test_incremental_build_reuses_unchanged_icons_and_all_rechecks(self):
         import os

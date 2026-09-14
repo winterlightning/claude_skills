@@ -25,5 +25,5 @@ class FuelPumpWithDisplay(Solo48):
         self.add_arc('hose-loop',(36,34),(42,34),radius_x=4,sweep=False)
         self.add_line('hose-end-1',(42,34),(42,14))
         self.add_line('hose-end-2',(42,14),(38,8))
-        self.add_contour('hose',*[f'hose-start-{i}' for i in (6,6)],'hose-loop',*[f'hose-end-{i}' for i in (6,6)])
+        self.add_contour('hose',*[f'hose-start-{i}' for i in (1,2)],'hose-loop',*[f'hose-end-{i}' for i in (1,2)])
         self.relate('connect','pump','hose')

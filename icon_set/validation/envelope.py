@@ -21,7 +21,7 @@ from __future__ import annotations
 import math
 from dataclasses import dataclass
 
-from ..model.primitives import Arc, Line, Primitive
+from ..model.primitives import Arc, Bezier, Line, Primitive
 from ..model.profiles import ENVELOPE_RADIUS
 
 Bounds = tuple[float, float, float, float]
@@ -103,6 +103,8 @@ def centerline_points(primitive: Primitive) -> list[tuple[float, float]]:
     ]
     if isinstance(primitive, Line):
         return points
+    if isinstance(primitive, Bezier):
+        return points + primitive.extrema()
     geometry = arc_geometry(primitive)
     # An axis-aligned ellipse reaches its x extrema at 0 and pi, its y extrema
     # at pi/2 and 3pi/2. Include only those the sweep actually crosses.
@@ -140,6 +142,8 @@ def _radial_extent(primitive: Primitive, center: tuple[float, float]) -> float:
     )
     if isinstance(primitive, Line):
         return best
+    if isinstance(primitive, Bezier):
+        return max(best, max(math.hypot(x - cx, y - cy) for x, y in primitive.sample(96)))
     geometry = arc_geometry(primitive)
     if abs(geometry.radius_x - geometry.radius_y) < 1e-12:
         # Circular arc: the farthest point from `center` lies on the ray from
