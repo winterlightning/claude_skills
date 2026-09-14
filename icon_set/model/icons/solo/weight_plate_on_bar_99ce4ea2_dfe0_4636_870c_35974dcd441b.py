@@ -64,8 +64,8 @@ class WeightPlateOnBar(Solo48):
         self.add_contour('plate','face-upper','face-lower','back-lower','back-upper',closed=True)
         self.add_arc('depth-edge',(28,40),(28,8),radius_x=8,radius_y=16)
         for part in ['face-upper','face-lower','back-lower','back-upper']:self.relate('connect','depth-edge',part)
-        self.add_line('left-bar',(6,24),(11,24))
+        self.add_line('left-bar',(4,24),(11,24))
         for part in ['back-lower','back-upper']:self.relate('connect','left-bar',part)
-        self.add_polyline('right-bar',(29,24),(36,24),(42,24))
+        self.add_polyline('right-bar',(29,24),(36,24),(44,24))
         for part in ['face-upper','face-lower']:
             for bar in ['right-bar-1','right-bar-2']:self.relate('connect',bar,part)

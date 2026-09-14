@@ -41,5 +41,5 @@ class ArtilleryGunOutriggers(Solo48):
         P('breech',(13,23),(12,17),(21,11),(29,17),(26,22));J('breech','wheel')
         L('barrel',(25,14),(38,8));J('barrel','breech')
         L('muzzle',(35,8),(41,14));J('muzzle','barrel')
-        L('left-leg',(12,36),(6,40));J('left-leg','wheel')
-        P('right-leg',(28,36),(36,36),(42,40));J('right-leg','wheel')
+        L('left-leg',(12,36),(4,40));J('left-leg','wheel')
+        P('right-leg',(28,36),(36,36),(44,40));J('right-leg','wheel')

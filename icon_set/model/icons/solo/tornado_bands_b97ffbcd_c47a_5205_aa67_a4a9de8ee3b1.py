@@ -21,7 +21,7 @@ class TornadoBands(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_line('band-0', (6, 8), (42, 8))
+        self.add_line('band-0', (4, 8), (44, 8))
         self.add_line('band-1', (8, 16), (40, 16))
         self.add_line('band-2', (14, 24), (38, 24))
         self.add_line('band-3', (19, 32), (33, 32))

@@ -22,7 +22,7 @@ class ConvertibleRollBar(Solo48):
             self.add_arc(f'wheel-{i}-a',(x-6,34),(x+6,34),radius_x=6)
             self.add_arc(f'wheel-{i}-b',(x+6,34),(x-6,34),radius_x=6)
             self.add_contour(f'wheel-{i}',f'wheel-{i}-a',f'wheel-{i}-b',closed=True)
-        self.add_polyline('body',(8,34),(6,34),(6,26),(18,26),(34,26),(40,26),(42,30),(42,34),(40,34))
+        self.add_polyline('body',(8,34),(4,34),(4,26),(18,26),(34,26),(40,26),(44,30),(44,34),(40,34))
         self.add_line('sill',(20,34),(28,34))
         for w in ('wheel-0','wheel-1'):
             self.relate('connect','body',w)

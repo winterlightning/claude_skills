@@ -21,13 +21,13 @@ class DroughtLandscape(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_arc('sun-top', (6, 15), (18, 15), radius_x=7, radius_y=7, sweep=True, large_arc=False)
-        self.add_arc('sun-bottom', (18, 15), (6, 15), radius_x=7, radius_y=7, sweep=True, large_arc=False)
+        self.add_arc('sun-top', (4, 15), (18, 15), radius_x=7, radius_y=7, sweep=True, large_arc=False)
+        self.add_arc('sun-bottom', (18, 15), (4, 15), radius_x=7, radius_y=7, sweep=True, large_arc=False)
         self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
-        self.add_polyline('ground', (6, 40), (15, 31), (33, 31), (42, 40), closed=True)
+        self.add_polyline('ground', (4, 40), (15, 31), (33, 31), (44, 40), closed=True)
         self.add_line('ground-crack', (27, 31), (21, 40))
         self.relate("connect", 'ground', 'ground-crack')
         self.add_line('tree', (35, 8), (35, 31))
-        self.add_polyline('branches', (29, 17), (35, 23), (42, 15), closed=False)
+        self.add_polyline('branches', (29, 17), (35, 23), (44, 15), closed=False)
         self.relate("connect", 'tree', 'branches')
         self.relate("connect", 'tree', 'ground')

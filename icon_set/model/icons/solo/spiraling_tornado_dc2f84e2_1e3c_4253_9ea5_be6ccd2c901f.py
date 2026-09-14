@@ -21,8 +21,8 @@ class SpiralingTornado(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_arc('outer', (24, 8), (6, 18), radius_x=20, radius_y=10, sweep=False, large_arc=False)
-        self.add_arc('lower', (6, 18), (42, 18), radius_x=20, radius_y=10, sweep=False, large_arc=False)
-        self.add_arc('inner', (42, 18), (26, 18), radius_x=9, radius_y=3, sweep=False, large_arc=False)
+        self.add_arc('outer', (24, 8), (4, 18), radius_x=20, radius_y=10, sweep=False, large_arc=False)
+        self.add_arc('lower', (4, 18), (44, 18), radius_x=20, radius_y=10, sweep=False, large_arc=False)
+        self.add_arc('inner', (44, 18), (26, 18), radius_x=9, radius_y=3, sweep=False, large_arc=False)
         self.add_contour('spiral', 'outer', 'lower', 'inner', closed=False)
         self.add_arc('tail', (18, 37), (34, 37), radius_x=8, radius_y=3, sweep=False, large_arc=False)

@@ -1,7 +1,7 @@
 """Two walking figures face right in staggered mid-stride.
 
 Construction: person-standing: circular heads and coherent limb strokes, reposed in matched walking poses.
-Reduction: Outlined limbs reduced to stick strokes. The figures repeat at a22-unit offset; stride asymmetry is intentional.
+Reduction: Outlined limbs reduced to stick strokes. The figures repeat at a 22-unit offset; stride asymmetry is intentional.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -22,7 +22,7 @@ class TwoPeopleWalkingTogether(Solo48):
 
     def build(self) -> None:
         # SQUARE extremes (6,6)-(42,42); a shared walking figure definition repeats twice.
-        for n,offset in enumerate((6,22)):
+        for n,offset in enumerate((0,22)):
          x=14+offset
          self.add_arc(f'head-{n}-a',(x,6),(x,12),radius_x=3)
          self.add_arc(f'head-{n}-b',(x,12),(x,6),radius_x=3)

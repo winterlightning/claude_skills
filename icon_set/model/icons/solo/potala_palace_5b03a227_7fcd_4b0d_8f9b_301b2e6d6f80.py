@@ -20,10 +20,10 @@ class Landmark(Solo48):
         # HRECT_L centerline extremes (6,8)-(42,40).
         # Building owns silhouette and attached architecture; repeat pairs share axes.
         # Asymmetric terraced hillside; shared roof and wall junctions.
-        self.add_polyline("outline", (6,30), (7,16), (14,16), (16,8), (28,8), (30,16), (34,16), (36,24), (40,24), (42,24), (42,36))
+        self.add_polyline("outline", (4,30), (7,16), (14,16), (16,8), (28,8), (30,16), (34,16), (36,24), (40,24), (44,24), (44,36))
         self.add_line("central-roof", (14,16), (30,16))
         self.relate("connect", "central-roof", "outline")
-        self.add_polyline("terraces", (6,30), (14,30), (16,36), (24,36), (24,40), (34,40))
+        self.add_polyline("terraces", (4,30), (14,30), (16,36), (24,36), (24,40), (34,40))
         self.relate("connect", "terraces", "outline")
         self.add_line("central-wall", (36,24), (34,34))
         self.relate("connect", "central-wall", "outline")

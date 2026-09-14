@@ -23,9 +23,9 @@ class HdrText(Solo48):
     keywords = ('hdr', 'high-dynamic-range', 'photo', 'video', 'display', 'camera', 'text')
 
     def build(self) -> None:
-        self.add_polyline('h-left', (6, 8), (6, 24), (6, 40))
+        self.add_polyline('h-left', (4, 8), (4, 24), (4, 40))
         self.add_polyline('h-right', (12, 8), (12, 24), (12, 40))
-        self.add_line('h-bar', (6, 24), (12, 24))
+        self.add_line('h-bar', (4, 24), (12, 24))
         self.relate("connect", 'h-left', 'h-bar')
         self.relate("connect", 'h-right', 'h-bar')
         self.add_arc('d-curve', (21, 8), (21, 40), radius_x=6, radius_y=16, sweep=True)

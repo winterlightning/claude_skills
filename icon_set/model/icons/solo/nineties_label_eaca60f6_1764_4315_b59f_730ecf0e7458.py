@@ -23,13 +23,13 @@ class NinetiesLabel(Solo48):
     keywords = ('90s', 'nineties', 'decade', 'retro', 'era', 'vintage', 'label', 'text')
 
     def build(self) -> None:
-        self.add_arc('nine-head-top', (6, 12), (12, 12), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('nine-head-top', (4, 12), (12, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('nine-head-right', (12, 12), (12, 20))
-        self.add_arc('nine-head-bottom', (12, 20), (6, 20), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('nine-head-left', (6, 20), (6, 12))
+        self.add_arc('nine-head-bottom', (12, 20), (4, 20), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('nine-head-left', (4, 20), (4, 12))
         self.add_contour('nine-head', 'nine-head-top', 'nine-head-right', 'nine-head-bottom', 'nine-head-left', closed=True)
         self.add_line('nine-stem', (12, 16), (12, 36))
-        self.add_arc('nine-tail', (12, 36), (6, 36), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('nine-tail', (12, 36), (4, 36), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('nine-descender', 'nine-stem', 'nine-tail')
         self.relate("connect", 'nine-head', 'nine-descender')
         self.add_arc('zero-top', (21, 12), (29, 12), radius_x=4, radius_y=4, sweep=True)

@@ -21,13 +21,13 @@ class TramWithPantograph(Solo48):
             self.add_arc(name+'-left',(x,y+r),(x,y-r),radius_x=r)
             self.add_contour(name,name+'-right',name+'-left',closed=True)
         # HRECT_L (6,8)-(42,40). Symmetric diamond pickup over a broad tram.
-        self.add_polyline('body',(6,24),(14,24),(24,24),(34,24),(42,24),(42,32),(34,32),(14,32),(6,32),closed=True)
-        self.add_polyline('roof-bar',(6,24),(6,24),(24,24),(42,24),(42,24))
+        self.add_polyline('body',(4,24),(14,24),(24,24),(34,24),(44,24),(44,32),(34,32),(14,32),(4,32),closed=True)
+        self.add_polyline('roof-bar',(4,24),(4,24),(24,24),(44,24),(44,24))
         self.add_polyline('pantograph',(24,8),(32,16),(24,24),(16,16),closed=True)
         self.relate('connect','roof-bar','body')
         self.relate('connect','pantograph','roof-bar')
         self.relate('connect','pantograph','body')
-        self.add_polyline('rail',(6,40),(14,40),(34,40),(42,40))
+        self.add_polyline('rail',(4,40),(14,40),(34,40),(44,40))
         for name,x in [('left',14),('right',32)]:
             self.add_line(name+'-end-panel',(x,24),(x,32))
             self.relate('connect',name+'-end-panel','body')

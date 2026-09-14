@@ -23,4 +23,4 @@ class ChevronDownHollow(Solo48):
     keywords = ('chevron', 'down', 'arrow', 'expand', 'hollow', 'dropdown', 'direction', 'button')
 
     def build(self) -> None:
-        self.add_polyline('chevron', (6, 8), (24, 28), (42, 8), (42, 20), (24, 40), (6, 20), closed=True)
+        self.add_polyline('chevron', (4, 8), (24, 28), (44, 8), (44, 20), (24, 40), (4, 20), closed=True)

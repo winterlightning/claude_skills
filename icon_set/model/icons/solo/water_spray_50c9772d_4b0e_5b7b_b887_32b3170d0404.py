@@ -25,6 +25,6 @@ class WaterSpray(Solo48):
         self.add_line('drop-top-2', (24, 8), (32, 19))
         self.add_arc('drop-bottom', (32, 19), (16, 19), radius_x=8, radius_y=8, sweep=True, large_arc=False)
         self.add_contour('drop', 'drop-top-1', 'drop-top-2', 'drop-bottom', closed=True)
-        self.add_line('spray-left', (10, 31), (6, 40))
+        self.add_line('spray-left', (10, 31), (4, 40))
         self.add_line('spray-middle', (24, 36), (24, 40))
-        self.add_line('spray-right', (38, 31), (42, 40))
+        self.add_line('spray-right', (38, 31), (44, 40))

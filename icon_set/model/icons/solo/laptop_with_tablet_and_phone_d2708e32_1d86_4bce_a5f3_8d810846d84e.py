@@ -18,8 +18,8 @@ class LaptopWithTabletAndPhone(Solo48):
     def build(self):
         self.box('tablet',13,8,26,29,r=2)
         self.box('phone',35,8,44,29,r=2)
-        self.add_polyline('laptop',(6,37),(6,20))
-        self.add_polyline('base',(6,37),(7,40),(41,40),(42,37))
+        self.add_polyline('laptop',(4,37),(4,20))
+        self.add_polyline('base',(4,37),(7,40),(41,40),(42,37))
         self.relate('connect','laptop','base')
 
     def box(self, name, x0, y0, x1, y1, r=3):

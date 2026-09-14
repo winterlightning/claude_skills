@@ -24,7 +24,7 @@ class FamilyGroup(Solo48):
 
     def build(self) -> None:
         # Landscape extremes (6,8)-(42,40); mirrored side figures.
-        axis_x, side_offset, side_radius = 24, 16, 3
+        axis_x, side_offset, side_radius = 24, 17, 3
         self.circle('head-center',axis_x,13,5)
         for side, direction in (('left', -1), ('right', 1)):
             self.circle('head-'+side,axis_x + direction*side_offset,22,side_radius)
@@ -32,9 +32,9 @@ class FamilyGroup(Solo48):
         self.add_line('center-left',(16,40),(16,36))
         self.add_line('center-right',(32,36),(32,40))
         self.add_contour('center-body','center-left','center-shoulders','center-right')
-        self.add_arc('left-shoulder',(6,38),(8,34),radius_x=4)
-        self.add_line('left-side',(6,40),(6,38))
+        self.add_arc('left-shoulder',(5,38),(7,34),radius_x=4)
+        self.add_line('left-side',(5,40),(5,38))
         self.add_contour('left-body','left-side','left-shoulder')
-        self.add_arc('right-shoulder',(40,34),(42,38),radius_x=4)
-        self.add_line('right-side',(42,38),(42,40))
+        self.add_arc('right-shoulder',(41,34),(43,38),radius_x=4)
+        self.add_line('right-side',(43,38),(43,40))
         self.add_contour('right-body','right-shoulder','right-side')

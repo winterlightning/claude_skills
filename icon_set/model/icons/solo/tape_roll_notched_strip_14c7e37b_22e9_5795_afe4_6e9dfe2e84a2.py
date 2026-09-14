@@ -24,5 +24,5 @@ class TapeRollNotchedStrip(Solo48):
 
         circle('roll',28,24,16)
         circle('core',28,24,7)
-        self.add_polyline('strip',(12,24),(6,24),(9,32),(6,40),(28,40))
+        self.add_polyline('strip',(12,24),(4,24),(9,32),(4,40),(28,40))
         self.relate('connect','strip','roll')

@@ -23,8 +23,8 @@ class AiLetters(Solo48):
     keywords = ('ai', 'letters', 'artificial-intelligence', 'illustrator', 'text', 'typography', 'abbreviation')
 
     def build(self) -> None:
-        self.add_polyline('a-arch', (6, 40), (10, 24), (16, 8), (22, 24), (28, 40))
+        self.add_polyline('a-arch', (4, 40), (10, 24), (16, 8), (22, 24), (28, 40))
         self.add_line('a-bar', (10, 24), (22, 24))
         self.relate("connect", 'a-arch', 'a-bar')
-        self.add_dot('i-dot', (42, 12))
-        self.add_line('i-stem', (42, 22), (42, 40))
+        self.add_dot('i-dot', (44, 12))
+        self.add_line('i-stem', (44, 22), (44, 40))

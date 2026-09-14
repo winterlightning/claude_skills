@@ -37,6 +37,6 @@ class BarbedWireKnot(Solo48):
             A(n+'tl',(x,y+r),(x+r,y),r)
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
-        L('wire',(6,24),(42,24))
+        L('wire',(4,24),(44,24))
         P('barb-left',(10,8),(24,24),(10,40));J('barb-left','wire')
         P('barb-right',(38,8),(24,24),(38,40));J('barb-right','wire');J('barb-left','barb-right')

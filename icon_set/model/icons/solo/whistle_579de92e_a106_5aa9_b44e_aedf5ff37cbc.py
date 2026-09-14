@@ -20,10 +20,10 @@ class Whistle(Solo48):
     keywords = ('whistle', 'coach', 'sport', 'sound', 'referee', 'signal')
 
     def build(self) -> None:
-        self.add_line('mouth-top', (6, 8), (28, 8))
+        self.add_line('mouth-top', (4, 8), (28, 8))
         self.add_arc('body-right', (28, 8), (28, 40), radius_x=16, radius_y=16, sweep=True, large_arc=False)
         self.add_arc('body-bottom', (28, 40), (12, 24), radius_x=16, radius_y=16, sweep=True, large_arc=False)
-        self.add_polyline('mouth', (12, 24), (12, 20), (6, 16), (6, 8), closed=False)
+        self.add_polyline('mouth', (12, 24), (12, 20), (4, 16), (4, 8), closed=False)
         self.relate("connect", 'mouth-top', 'body-right')
         self.relate("connect", 'body-right', 'body-bottom')
         self.relate("connect", 'body-bottom', 'mouth')

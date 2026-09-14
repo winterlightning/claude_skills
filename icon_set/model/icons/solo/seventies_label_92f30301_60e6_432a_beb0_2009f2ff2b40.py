@@ -23,7 +23,7 @@ class SeventiesLabel(Solo48):
     keywords = ('70s', 'seventies', 'decade', 'retro', 'era', 'vintage', 'label', 'text')
 
     def build(self) -> None:
-        self.add_polyline('seven', (6, 8), (12, 8), (6, 40))
+        self.add_polyline('seven', (4, 8), (12, 8), (4, 40))
         self.add_arc('zero-top', (21, 12), (29, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('zero-right', (29, 12), (29, 36))
         self.add_arc('zero-bottom', (29, 36), (21, 36), radius_x=4, radius_y=4, sweep=True)

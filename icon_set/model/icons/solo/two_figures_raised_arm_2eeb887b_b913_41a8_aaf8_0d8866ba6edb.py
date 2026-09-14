@@ -29,14 +29,14 @@ class TwoFiguresRaisedArm(Solo48):
         for name,cx in (('left',17),('right',37)):
             self.circle(name+'-head',cx,13,4)
         self.add_line('left-torso',(17,27),(17,33))
-        self.add_polyline('raised-arm',(17,27),(6,22),(6,8))
+        self.add_polyline('raised-arm',(17,27),(4,22),(4,8))
         self.add_line('left-low-arm',(17,27),(22,34))
         self.add_polyline('left-legs',(11,40),(17,33),(23,40))
         for part in ('raised-arm','left-low-arm','left-legs'):
             self.relate('connect','left-torso',part)
         self.relate('connect','raised-arm','left-low-arm')
         self.add_line('right-torso',(37,26),(37,33))
-        self.add_polyline('right-arms',(34,34),(30,31),(37,26),(42,31),(40,34))
-        self.add_polyline('right-legs',(31,40),(37,33),(42,40))
+        self.add_polyline('right-arms',(34,34),(30,31),(37,26),(44,31),(40,34))
+        self.add_polyline('right-legs',(31,40),(37,33),(44,40))
         self.relate('connect','right-torso','right-arms')
         self.relate('connect','right-torso','right-legs')

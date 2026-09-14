@@ -24,5 +24,5 @@ class AdaptiveHeadlight(Solo48):
         for i in range(3):
             y=12+i*12
             self.add_line(f'beam-{i}',(4,y+4),(17,y-2))
-        self.add_line('adaptive-tick',(41,22),(42,8))
+        self.add_line('adaptive-tick',(41,22),(44,8))
         self.relate('connect','adaptive-tick','lamp')

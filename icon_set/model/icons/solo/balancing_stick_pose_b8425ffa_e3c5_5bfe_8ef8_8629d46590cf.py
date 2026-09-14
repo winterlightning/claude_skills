@@ -19,6 +19,6 @@ class BalancingStickPose(Solo48):
         self.add_arc('head-top', (9, 22), (15, 22), radius_x=3, radius_y=3, sweep=True)
         self.add_arc('head-bottom', (15, 22), (9, 22), radius_x=3, radius_y=3, sweep=True)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_polyline('balance', (6, 8), (28, 12), (42, 8), closed=False)
+        self.add_polyline('balance', (4, 8), (28, 12), (44, 8), closed=False)
         self.add_line('support', (28, 12), (28, 40))
         self.relate("connect", 'balance', 'support')

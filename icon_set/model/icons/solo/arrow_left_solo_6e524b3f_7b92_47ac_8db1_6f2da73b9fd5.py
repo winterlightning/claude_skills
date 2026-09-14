@@ -21,6 +21,6 @@ class ArrowLeftSolo(Solo48):
 
     def build(self) -> None:
 
-        self.add_polyline('head',(20,8),(6,24),(20,40))
-        self.add_line('shaft',(6,24),(42,24))
+        self.add_polyline('head',(20,8),(4,24),(20,40))
+        self.add_line('shaft',(4,24),(44,24))
         self.relate('connect','head','shaft')

@@ -17,9 +17,9 @@ class PPlusBTextSign(Solo48):
 
     def build(self) -> None:
         # HRECT_L centerline bounds (6,8)-(42,40). Letter bowls share rx=8, ry=8.
-        self.add_line('p-stem', (6,40), (6,24))
-        self.add_line('p-upright', (6,24), (6,8))
-        self.add_arc('p-bowl', (6,8), (6,24), radius_x=8)
+        self.add_line('p-stem', (4,40), (4,24))
+        self.add_line('p-upright', (4,24), (4,8))
+        self.add_arc('p-bowl', (4,8), (4,24), radius_x=8)
         self.add_contour('p-loop', 'p-upright', 'p-bowl', closed=True)
         self.relate('connect', 'p-stem', 'p-loop')
         self.add_line('plus-left', (21,24), (24,24))

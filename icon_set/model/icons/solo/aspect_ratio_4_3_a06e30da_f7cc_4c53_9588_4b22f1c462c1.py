@@ -23,7 +23,7 @@ class AspectRatio43(Solo48):
     keywords = ('aspect-ratio', '4:3', 'ratio', 'screen', 'format', 'video', 'display', 'text')
 
     def build(self) -> None:
-        self.add_polyline('four-arm', (12, 8), (6, 29), (14, 29))
+        self.add_polyline('four-arm', (12, 8), (4, 29), (14, 29))
         self.add_polyline('four-stem', (14, 8), (14, 29), (14, 40))
         self.relate("connect", 'four-arm', 'four-stem')
         self.add_dot('colon-top', (24, 17))

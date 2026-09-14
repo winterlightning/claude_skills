@@ -29,7 +29,7 @@ class CordlessPowerDrill(Solo48):
             self.add_contour(n,*[n+str(j) for j in range(8)],closed=True)
 
         box('motor',4,8,26,14,4)
-        self.add_line('bit',(30,15),(42,15))
+        self.add_line('bit',(30,15),(44,15))
         self.relate('connect','bit','motor')
         self.add_polyline('grip',(14,22),(10,32),(22,32),(26,22))
         self.relate('connect','grip','motor')

@@ -21,12 +21,12 @@ class BirdsInNest(Solo48):
 
     def build(self) -> None:
         """Opening repair: Deepened the nest bowl, retaining both chicks and their eyes."""
-        self.add_arc('bowl', (42, 27), (6, 27), sweep=True, radius_x=18, radius_y=13)
-        self.add_line('rim-a', (6, 27), (6, 27))
+        self.add_arc('bowl', (44, 27), (4, 27), sweep=True, radius_x=20, radius_y=13)
+        self.add_line('rim-a', (4, 27), (6, 27))
         self.add_line('rim-b', (6, 27), (20, 27))
         self.add_line('rim-c', (20, 27), (28, 27))
         self.add_line('rim-d', (28, 27), (42, 27))
-        self.add_line('rim-e', (42, 27), (42, 27))
+        self.add_line('rim-e', (42, 27), (44, 27))
         self.add_contour('nest', 'rim-a', 'rim-b', 'rim-c', 'rim-d', 'rim-e', 'bowl', closed=True)
         self.add_line('chick-left-a', (6, 27), (6, 15))
         self.add_arc('chick-left-head', (6, 15), (20, 15), radius_x=7, radius_y=7, sweep=True)

@@ -23,11 +23,11 @@ class SevenDaysLabel(Solo48):
     keywords = ('7-days', 'days', 'seven', 'week', 'duration', 'trial', 'label', 'text')
 
     def build(self) -> None:
-        self.add_polyline('seven', (6, 8), (22, 8), (6, 40))
-        self.add_arc('day-bowl-top', (32, 22), (42, 22), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('day-bowl-right', (42, 22), (42, 34))
-        self.add_arc('day-bowl-bottom', (42, 34), (32, 34), radius_x=6, radius_y=6, sweep=True)
+        self.add_polyline('seven', (4, 8), (22, 8), (4, 40))
+        self.add_arc('day-bowl-top', (32, 22), (44, 22), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('day-bowl-right', (44, 22), (44, 34))
+        self.add_arc('day-bowl-bottom', (44, 34), (32, 34), radius_x=6, radius_y=6, sweep=True)
         self.add_line('day-bowl-left', (32, 34), (32, 22))
         self.add_contour('day-bowl', 'day-bowl-top', 'day-bowl-right', 'day-bowl-bottom', 'day-bowl-left', closed=True)
-        self.add_line('day-ascender', (42, 8), (42, 22))
+        self.add_line('day-ascender', (44, 8), (44, 22))
         self.relate("connect", 'day-bowl', 'day-ascender')

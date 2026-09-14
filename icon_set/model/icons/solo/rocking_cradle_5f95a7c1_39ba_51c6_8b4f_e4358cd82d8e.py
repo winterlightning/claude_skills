@@ -18,9 +18,9 @@ class RockingCradle(Solo48):
 
     def build(self) -> None:
         # Centerline keyshape: HRECT_L; Symmetric bowl cradle on a shallow rocker; Lucide rocking-chair informs the open rocker. Two feet reduced to a central support.
-        self.add_polyline('rim', (6, 8), (6, 15), (42, 15), (42, 8), closed=False)
-        self.add_arc('bowl-left', (6, 15), (24, 33), radius_x=19, radius_y=18, sweep=False)
-        self.add_arc('bowl-right', (24, 33), (42, 15), radius_x=19, radius_y=18, sweep=False)
+        self.add_polyline('rim', (4, 8), (4, 15), (44, 15), (44, 8), closed=False)
+        self.add_arc('bowl-left', (4, 15), (24, 33), radius_x=20, radius_y=18, sweep=False)
+        self.add_arc('bowl-right', (24, 33), (44, 15), radius_x=20, radius_y=18, sweep=False)
         self.add_contour('bowl', 'bowl-left', 'bowl-right', closed=False)
         self.relate("connect", 'rim', 'bowl')
         self.add_line('stand', (24, 33), (24, 40))

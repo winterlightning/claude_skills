@@ -31,5 +31,5 @@ class SkipForwardSolo(Solo48):
 
     def build(self):
         # Right triangle and outlined terminal bar, horizontally directional; Lucide skip-forward spacing.
-        self.add_polyline('play',(6,8),(28,24),(6,40),closed=True)
-        self.add_polyline('bar',(36,8),(42,8),(42,40),(36,40),closed=True)
+        self.add_polyline('play',(4,8),(28,24),(4,40),closed=True)
+        self.add_polyline('bar',(36,8),(44,8),(44,40),(36,40),closed=True)

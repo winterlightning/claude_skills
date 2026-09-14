@@ -18,17 +18,17 @@ class SeaplaneOnWater(Solo48):
 
     def build(self) -> None:
         # HRECT_L (6,8)-(42,40). One fuselage, cockpit dome, propeller, float and water.
-        self.add_polyline('body',(6,12),(10,12),(14,16),(18,16),(34,16),(42,16),(40,24),(32,24),(18,24),(12,24),(6,20),closed=True)
+        self.add_polyline('body',(4,12),(10,12),(14,16),(18,16),(34,16),(44,16),(40,24),(32,24),(18,24),(12,24),(4,20),closed=True)
         self.add_arc('cockpit',(18,16),(34,16),radius_x=8,radius_y=8)
         self.relate('connect','body','cockpit')
-        self.add_polyline('propeller',(42,12),(42,16),(42,24))
+        self.add_polyline('propeller',(44,12),(44,16),(44,24))
         self.relate('connect','propeller','body')
         self.add_polyline('float',(12,32),(18,32),(32,32),(40,32),(34,40),(16,40),closed=True)
         for name,x in [('left',18),('right',32)]:
             self.add_line(name+'-strut',(x,24),(x,32))
             self.relate('connect',name+'-strut','body')
             self.relate('connect',name+'-strut','float')
-        self.add_arc('water-left',(6,40),(16,40),radius_x=6,radius_y=2)
-        self.add_arc('water-right',(34,40),(42,40),radius_x=5,radius_y=2)
+        self.add_arc('water-left',(4,40),(16,40),radius_x=6,radius_y=2)
+        self.add_arc('water-right',(34,40),(44,40),radius_x=5,radius_y=2)
         self.relate('connect','water-left','float')
         self.relate('connect','water-right','float')

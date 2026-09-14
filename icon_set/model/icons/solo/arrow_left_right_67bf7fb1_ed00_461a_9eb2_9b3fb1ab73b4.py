@@ -23,8 +23,8 @@ class ArrowLeftRight(Solo48):
     keywords = ('arrows', 'left', 'right', 'horizontal', 'bidirectional', 'width', 'exchange', 'direction')
 
     def build(self) -> None:
-        self.add_line('shaft', (6, 24), (42, 24))
-        self.add_polyline('left-head', (20, 8), (6, 24), (20, 40))
-        self.add_polyline('right-head', (28, 8), (42, 24), (28, 40))
+        self.add_line('shaft', (4, 24), (44, 24))
+        self.add_polyline('left-head', (20, 8), (4, 24), (20, 40))
+        self.add_polyline('right-head', (28, 8), (44, 24), (28, 40))
         self.relate("connect", 'shaft', 'left-head')
         self.relate("connect", 'shaft', 'right-head')

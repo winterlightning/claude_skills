@@ -16,8 +16,8 @@ class KPlusRTextSign(Solo48):
 
     def build(self) -> None:
         # Current contract centerline extremes: (6,8)-(42,40).
-        self.add_polyline('k-stem',(6,8),(6,24),(6,40))
-        self.add_polyline('k-arms',(11,8),(6,24),(11,40))
+        self.add_polyline('k-stem',(4,8),(4,24),(4,40))
+        self.add_polyline('k-arms',(11,8),(4,24),(11,40))
         self.relate('connect','k-stem','k-arms')
         self.add_polyline('plus-horizontal',(20,24),(24,24),(28,24))
         self.add_polyline('plus-vertical',(24,20),(24,24),(24,28))

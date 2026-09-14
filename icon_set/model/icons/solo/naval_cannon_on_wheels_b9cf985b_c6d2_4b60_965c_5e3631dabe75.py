@@ -37,9 +37,9 @@ class NavalCannonOnWheels(Solo48):
             A(n+'tl',(x,y+r),(x+r,y),r)
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
-        P('barrel',(10,25),(7,18),(40,8),(42,17),(28,23))
+        P('barrel',(10,25),(7,18),(40,8),(44,17),(28,23))
         P('carriage',(10,25),(10,31),(40,31),(40,23),(28,23));J('carriage','barrel')
         C('left-wheel',14,37,3);C('right-wheel',38,37,3)
         L('axle-left',(14,31),(14,34));J('axle-left','left-wheel');J('axle-left','carriage')
         L('axle-right',(38,31),(38,34));J('axle-right','right-wheel');J('axle-right','carriage')
-        L('fuse',(7,18),(6,12));J('fuse','barrel')
+        L('fuse',(7,18),(4,12));J('fuse','barrel')

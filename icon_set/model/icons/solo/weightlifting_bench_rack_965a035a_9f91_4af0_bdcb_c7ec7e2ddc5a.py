@@ -16,9 +16,9 @@ class WeightliftingBenchRack(Solo48):
     keywords = ('weightlifting', 'bench', 'rack', 'sport')
 
     def build(self):
-        self.add_polyline('bar', (6, 8), (6, 20), (14, 20), (34, 20), (42, 20), (42, 8), closed=False)
-        self.add_line('left-weight', (6, 20), (6, 28))
-        self.add_line('right-weight', (42, 20), (42, 28))
+        self.add_polyline('bar', (4, 8), (4, 20), (14, 20), (34, 20), (44, 20), (44, 8), closed=False)
+        self.add_line('left-weight', (4, 20), (4, 28))
+        self.add_line('right-weight', (44, 20), (44, 28))
         self.relate("connect", 'bar', 'left-weight')
         self.relate("connect", 'bar', 'right-weight')
         self.add_line('rack-left', (14, 20), (14, 40))

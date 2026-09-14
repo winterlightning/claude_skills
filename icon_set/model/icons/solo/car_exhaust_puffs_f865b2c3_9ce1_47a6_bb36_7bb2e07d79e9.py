@@ -24,8 +24,8 @@ class CarExhaustPuffs(Solo48):
         self.add_arc('puff-a',(8,25),(8,31),radius_x=3)
         self.add_arc('puff-b',(8,31),(8,25),radius_x=3)
         self.add_contour('puff','puff-a','puff-b',closed=True)
-        self.add_polyline('car',(20,28),(24,18),(40,18),(42,28),(42,38),(40,38),(24,38),(20,38),closed=True)
-        self.add_line('windscreen-base',(20,28),(42,28))
+        self.add_polyline('car',(20,28),(24,18),(40,18),(44,28),(44,38),(40,38),(24,38),(20,38),closed=True)
+        self.add_line('windscreen-base',(20,28),(44,28))
         self.relate('connect','windscreen-base','car')
         for x in (24,40):
             self.add_line(f'wheel-{x}',(x,38),(x,40))

@@ -22,9 +22,9 @@ class DustStorm(Solo48):
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
         self.add_arc('upper-curl', (9, 8), (9, 18), radius_x=5, radius_y=5, sweep=False, large_arc=False)
-        self.add_line('upper-run', (9, 18), (42, 18))
+        self.add_line('upper-run', (9, 18), (44, 18))
         self.add_contour('upper', 'upper-curl', 'upper-run', closed=False)
-        self.add_line('middle', (6, 27), (42, 27))
+        self.add_line('middle', (6, 27), (44, 27))
         self.add_arc('lower-curl', (24, 40), (24, 36), radius_x=2, radius_y=2, sweep=True, large_arc=False)
-        self.add_line('lower-run', (24, 36), (42, 36))
+        self.add_line('lower-run', (24, 36), (44, 36))
         self.add_contour('lower', 'lower-curl', 'lower-run', closed=False)

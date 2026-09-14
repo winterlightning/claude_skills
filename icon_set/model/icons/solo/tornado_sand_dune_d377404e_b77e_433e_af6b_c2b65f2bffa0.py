@@ -21,9 +21,9 @@ class TornadoSandDune(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_line('funnel-0', (6, 8), (42, 8))
+        self.add_line('funnel-0', (4, 8), (44, 8))
         self.add_line('funnel-1', (12, 16), (38, 16))
         self.add_line('funnel-2', (20, 24), (32, 24))
-        self.add_arc('dune-left', (6, 40), (15, 34), radius_x=24, radius_y=12, sweep=True, large_arc=False)
-        self.add_arc('dune-right', (15, 34), (42, 40), radius_x=38, radius_y=13, sweep=True, large_arc=False)
+        self.add_arc('dune-left', (4, 40), (15, 34), radius_x=24, radius_y=12, sweep=True, large_arc=False)
+        self.add_arc('dune-right', (15, 34), (44, 40), radius_x=38, radius_y=13, sweep=True, large_arc=False)
         self.add_contour('dune', 'dune-left', 'dune-right', closed=False)

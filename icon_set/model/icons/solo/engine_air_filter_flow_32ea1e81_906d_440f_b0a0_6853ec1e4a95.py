@@ -29,6 +29,6 @@ class EngineAirFilterFlow(Solo48):
         for i in range(3):
             y=14+i*10
             self.add_line(f'inlet-{i}',(4,y),(6,y))
-        self.add_line('outlet',(40,24),(42,24))
-        self.add_polyline('outlet-head',(40,20),(42,24),(40,28))
+        self.add_line('outlet',(40,24),(44,24))
+        self.add_polyline('outlet-head',(40,20),(44,24),(40,28))
         self.relate('connect','outlet','outlet-head')

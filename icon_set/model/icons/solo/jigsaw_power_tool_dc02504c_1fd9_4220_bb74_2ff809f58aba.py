@@ -32,7 +32,7 @@ class JigsawPowerTool(Solo48):
         self.add_line('slot',(18,18),(26,18))
         self.add_line('blade',(16,32),(16,40))
         self.relate('connect','blade','body')
-        self.add_line('shoe',(6,40),(32,40))
+        self.add_line('shoe',(4,40),(32,40))
         self.relate('connect','shoe','blade')
         self.add_line('cord-start',(36,24),(39,24))
         self.add_arc('cord-turn',(39,24),(39,34),radius_x=5)

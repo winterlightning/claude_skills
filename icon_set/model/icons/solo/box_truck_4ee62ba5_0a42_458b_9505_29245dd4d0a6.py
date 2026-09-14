@@ -19,8 +19,8 @@ class BoxTruck(Solo48):
     def build(self) -> None:
 
         # Cargo and cab share a bulkhead; wheel circles interrupt the chassis.
-        self.add_polyline('cargo',(8,36),(6,36),(6,8),(26,8),(26,16),(26,36),(16,36))
-        self.add_polyline('cab',(26,16),(34,16),(42,28),(42,36),(40,36))
+        self.add_polyline('cargo',(8,36),(4,36),(4,8),(26,8),(26,16),(26,36),(16,36))
+        self.add_polyline('cab',(26,16),(34,16),(44,28),(44,36),(40,36))
         self.add_line('chassis',(26,36),(32,36))
         for side,cx in [('rear',12),('front',36)]:
             self.add_arc(side+'-top',(cx-4,36),(cx+4,36),radius_x=4)

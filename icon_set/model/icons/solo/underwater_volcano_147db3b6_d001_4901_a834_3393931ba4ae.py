@@ -21,11 +21,11 @@ class UnderwaterVolcano(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_arc('surface-0', (6, 8), (14, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
+        self.add_arc('surface-0', (4, 8), (14, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
         self.add_arc('surface-1', (14, 8), (24, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
         self.add_arc('surface-2', (24, 8), (34, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
-        self.add_arc('surface-3', (34, 8), (42, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
+        self.add_arc('surface-3', (34, 8), (44, 8), radius_x=5, radius_y=3, sweep=False, large_arc=False)
         self.add_contour('surface', 'surface-0', 'surface-1', 'surface-2', 'surface-3', closed=False)
-        self.add_polyline('mountain', (6, 40), (16, 29), (32, 29), (42, 40), closed=False)
+        self.add_polyline('mountain', (4, 40), (16, 29), (32, 29), (44, 40), closed=False)
         self.add_line('bubble-left', (19, 20), (19, 20))
         self.add_line('bubble-right', (29, 20), (29, 20))

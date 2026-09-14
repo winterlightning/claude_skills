@@ -27,7 +27,7 @@ class ArcadeStick(Solo48):
                 self.add_line(f'{name}-{i}',a,b)
         circle('ball',16,14,6)
         self.add_line('shaft',(16,20),(16,30))
-        self.add_polyline('base',(16,30),(42,30),(42,40),(6,40),(6,30),(16,30),closed=True)
+        self.add_polyline('base',(16,30),(44,30),(44,40),(4,40),(4,30),(16,30),closed=True)
         self.relate('connect','shaft','ball')
         self.relate('connect','shaft','base')
         self.add_line('button',(34,30),(34,24))

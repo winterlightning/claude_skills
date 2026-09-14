@@ -40,7 +40,7 @@ class ProtestersBehindBanner(Solo48):
         for n,x in [('left',9),('middle',24),('right',39)]:
             C(n+'-head',x,11,3)
             L(n+'-neck',(x,14),(x,22));J(n+'-neck',n+'-head')
-        P('banner',(6,22),(42,22),(42,34),(6,34),closed=True)
+        P('banner',(4,22),(44,22),(44,34),(4,34),closed=True)
         for n,x in [('left',9),('middle',24),('right',39)]:
             J(n+'-neck','banner')
             L(n+'-legs',(x,34),(x,40));J(n+'-legs','banner')

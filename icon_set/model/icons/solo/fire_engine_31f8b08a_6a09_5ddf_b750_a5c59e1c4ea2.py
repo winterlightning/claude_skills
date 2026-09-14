@@ -20,12 +20,12 @@ class FireEngine(Solo48):
             self.add_arc(f'wheel-{i}-a',(x-4,36),(x+4,36),radius_x=4)
             self.add_arc(f'wheel-{i}-b',(x+4,36),(x-4,36),radius_x=4)
             self.add_contour(f'wheel-{i}',f'wheel-{i}-a',f'wheel-{i}-b',closed=True)
-        self.add_polyline('body',(6,36),(6,36),(6,20),(12,20),(20,20),(28,20),(28,16),(36,16),(42,26),(42,36),(42,36))
+        self.add_polyline('body',(4,36),(4,36),(4,20),(12,20),(20,20),(28,20),(28,16),(36,16),(44,26),(44,36),(44,36))
         self.add_line('sill',(14,36),(34,36))
         for i in range(2):
             self.relate('connect','body',f'wheel-{i}')
             self.relate('connect','sill',f'wheel-{i}')
-        self.add_polyline('ladder-rail',(6,8),(12,8),(20,8),(28,8))
+        self.add_polyline('ladder-rail',(4,8),(12,8),(20,8),(28,8))
         for x in (12,20):
             self.add_line(f'ladder-rung-{x}',(x,8),(x,20))
             self.relate('connect',f'ladder-rung-{x}','ladder-rail')

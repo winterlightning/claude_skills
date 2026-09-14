@@ -19,4 +19,4 @@ class DownwardFacingDogPose(Solo48):
         self.add_arc('head-top', (21, 37), (27, 37), radius_x=3, radius_y=3, sweep=True)
         self.add_arc('head-bottom', (27, 37), (21, 37), radius_x=3, radius_y=3, sweep=True)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_polyline('body', (6, 40), (14, 8), (42, 40), closed=False)
+        self.add_polyline('body', (4, 40), (14, 8), (44, 40), closed=False)

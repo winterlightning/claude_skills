@@ -21,13 +21,13 @@ class EarthquakeBetweenTrees(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_polyline('left-tree', (12, 8), (6, 21), (20, 21), closed=True)
+        self.add_polyline('left-tree', (12, 8), (4, 21), (20, 21), closed=True)
         self.add_line('left-trunk', (12, 21), (12, 29))
         self.relate("connect", 'left-tree', 'left-trunk')
-        self.add_polyline('right-tree', (36, 8), (28, 21), (42, 21), closed=True)
+        self.add_polyline('right-tree', (36, 8), (28, 21), (44, 21), closed=True)
         self.add_line('right-trunk', (36, 21), (36, 29))
         self.relate("connect", 'right-tree', 'right-trunk')
-        self.add_polyline('ground-left', (6, 40), (6, 29), (23, 29), (19, 34), (26, 40), closed=False)
-        self.add_polyline('ground-right', (42, 40), (42, 29), (33, 29), closed=False)
+        self.add_polyline('ground-left', (4, 40), (4, 29), (23, 29), (19, 34), (26, 40), closed=False)
+        self.add_polyline('ground-right', (44, 40), (44, 29), (33, 29), closed=False)
         self.relate("connect", 'left-trunk', 'ground-left')
         self.relate("connect", 'right-trunk', 'ground-right')

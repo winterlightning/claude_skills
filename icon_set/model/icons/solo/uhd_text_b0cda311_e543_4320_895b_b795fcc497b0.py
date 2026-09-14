@@ -23,8 +23,8 @@ class UhdText(Solo48):
     keywords = ('uhd', '4k', 'ultra-hd', 'resolution', 'video', 'display', 'screen', 'text')
 
     def build(self) -> None:
-        self.add_line('u-left', (6, 8), (6, 36))
-        self.add_arc('u-bottom', (6, 36), (12, 36), radius_x=4, radius_y=4, sweep=False)
+        self.add_line('u-left', (4, 8), (4, 36))
+        self.add_arc('u-bottom', (4, 36), (12, 36), radius_x=4, radius_y=4, sweep=False)
         self.add_line('u-right', (12, 36), (12, 8))
         self.add_contour('u', 'u-left', 'u-bottom', 'u-right')
         self.add_polyline('h-left', (21, 8), (21, 24), (21, 40))

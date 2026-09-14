@@ -16,7 +16,7 @@ class CarHorn(Solo48):
 
     def build(self) -> None:
         # Current contract centerline extremes: (6,8)-(42,40).
-        self.add_polyline('bell',(6,16),(18,24),(6,32),closed=True)
+        self.add_polyline('bell',(4,16),(18,24),(4,32),closed=True)
         self.add_polyline('tube',(18,24),(28,24),(40,24),(42,24))
         self.relate('connect','bell','tube')
         self.add_line('loop-left',(28,24),(28,34))

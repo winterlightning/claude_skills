@@ -17,7 +17,7 @@ class MotorCruiser(Solo48):
 
     def build(self) -> None:
         # HRECT_L: current contract centerline extremes (6, 8)-(42, 40).
-        self.add_polyline('hull',(6,28),(12,28),(30,28),(36,24),(42,24),(40,34),(34,40),(10,40),closed=True)
+        self.add_polyline('hull',(4,28),(12,28),(30,28),(36,24),(44,24),(40,34),(34,40),(10,40),closed=True)
         self.add_polyline('cabin',(12,28),(16,18),(20,18),(28,18),(32,18),(36,24))
         self.add_polyline('flybridge',(20,18),(20,8),(28,8),(28,18))
         self.relate('connect','hull','cabin')

@@ -23,10 +23,10 @@ class BarGraphRising(Solo48):
     keywords = ('bar-graph', 'growth', 'chart', 'statistics', 'increase', 'analytics', 'signal', 'bars')
 
     def build(self) -> None:
-        self.add_polyline('baseline', (6, 40), (12, 40), (20, 40), (28, 40), (36, 40), (42, 40))
-        self.add_polyline('bar-0', (6, 40), (6, 28), (12, 28), (12, 40))
+        self.add_polyline('baseline', (4, 40), (12, 40), (20, 40), (28, 40), (36, 40), (44, 40))
+        self.add_polyline('bar-0', (4, 40), (4, 28), (12, 28), (12, 40))
         self.relate("connect", 'baseline', 'bar-0')
         self.add_polyline('bar-1', (20, 40), (20, 18), (28, 18), (28, 40))
         self.relate("connect", 'baseline', 'bar-1')
-        self.add_polyline('bar-2', (36, 40), (36, 8), (42, 8), (42, 40))
+        self.add_polyline('bar-2', (36, 40), (36, 8), (44, 8), (44, 40))
         self.relate("connect", 'baseline', 'bar-2')

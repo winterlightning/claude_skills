@@ -22,4 +22,4 @@ class OccupantDeployedAirbag(Solo48):
         self.add_arc('head-a',(36,8),(36,14),radius_x=3)
         self.add_arc('head-b',(36,14),(36,8),radius_x=3)
         self.add_contour('head','head-a','head-b',closed=True)
-        self.add_polyline('seated-body',(42,22),(30,40),(16,34),(12,40))
+        self.add_polyline('seated-body',(44,22),(30,40),(16,34),(12,40))

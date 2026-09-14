@@ -21,8 +21,8 @@ class SeismicWaveform(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_line('pulse-0', (6, 20), (6, 28))
+        self.add_line('pulse-0', (4, 20), (4, 28))
         self.add_line('pulse-1', (14, 12), (14, 36))
         self.add_line('pulse-2', (24, 8), (24, 40))
         self.add_line('pulse-3', (34, 16), (34, 32))
-        self.add_polyline('tail', (42, 21), (42, 28), (42, 28), closed=False)
+        self.add_polyline('tail', (44, 21), (44, 28), (44, 28), closed=False)

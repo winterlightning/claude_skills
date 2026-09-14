@@ -22,7 +22,7 @@ class Sunset(Solo48):
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
         self.add_arc('sun', (12, 40), (36, 40), radius_x=12, radius_y=12, sweep=True, large_arc=False)
-        self.add_line('horizon', (6, 40), (42, 40))
+        self.add_line('horizon', (4, 40), (44, 40))
         self.relate("connect", 'sun', 'horizon')
         self.add_line('ray-top', (24, 8), (24, 15))
         self.add_line('ray-left', (7, 19), (11, 23))

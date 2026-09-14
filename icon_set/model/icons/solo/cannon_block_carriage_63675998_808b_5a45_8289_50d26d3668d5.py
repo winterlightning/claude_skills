@@ -38,5 +38,5 @@ class CannonBlockCarriage(Solo48):
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
         C('wheel',24,30,10);self.add_dot('hub',(24,30))
-        P('barrel',(16,24),(10,18),(42,8),(42,18),(32,24));J('barrel','wheel')
-        P('carriage',(14,30),(6,34),(6,40),(24,40));J('carriage','wheel')
+        P('barrel',(16,24),(10,18),(44,8),(44,18),(32,24));J('barrel','wheel')
+        P('carriage',(14,30),(4,34),(4,40),(24,40));J('carriage','wheel')

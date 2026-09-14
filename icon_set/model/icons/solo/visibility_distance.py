@@ -21,9 +21,9 @@ class VisibilityDistance(Solo48):
 
     def build(self) -> None:
         """Opening repair: Widened the right zero into a true circle, keeping the 100 legend legible."""
-        self.add_polyline('marker', (6, 20), (18, 8), (18, 24), closed=True)
-        self.add_line('trail', (28, 14), (42, 14))
-        self.add_line('one', (6, 32), (6, 40))
+        self.add_polyline('marker', (4, 20), (18, 8), (18, 24), closed=True)
+        self.add_line('trail', (28, 14), (44, 14))
+        self.add_line('one', (4, 32), (4, 40))
         self.add_arc('zero-left-top', (16, 36), (24, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_arc('zero-left-bottom', (24, 36), (16, 36), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_contour('zero-left', 'zero-left-top', 'zero-left-bottom', closed=True)

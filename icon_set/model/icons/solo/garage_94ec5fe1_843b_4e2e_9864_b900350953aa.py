@@ -17,6 +17,6 @@ class Garage(Solo48):
     keywords = ('garage', 'warehouse', 'building', 'parking', 'car', 'storage', 'depot', 'door')
 
     def build(self) -> None:
-        self.add_polyline('building', (6,40),(6,15),(24,8),(42,15),(42,40),(34,40),(34,32),(34,24),(14,24),(14,32),(14,40),(6,40))
+        self.add_polyline('building', (4,40),(4,15),(24,8),(44,15),(44,40),(34,40),(34,32),(34,24),(14,24),(14,32),(14,40),(4,40))
         self.add_line('door-slat', (14,32),(34,32))
         self.relate('connect', 'building','door-slat')

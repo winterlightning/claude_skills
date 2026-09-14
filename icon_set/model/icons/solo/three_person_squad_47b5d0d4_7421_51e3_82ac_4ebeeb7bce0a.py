@@ -37,6 +37,6 @@ class ThreePersonSquad(Solo48):
             A(n+'tl',(x,y+r),(x+r,y),r)
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
-        C('middle-head',24,11,3);C('left-head',8,14,3);C('right-head',40,14,3)
+        C('middle-head',24,11,3);C('left-head',7,14,3);C('right-head',41,14,3)
         R('middle-body',18,24,12,16,4)
-        P('left-body',(9,26),(6,26),(6,36),(9,36));P('right-body',(39,26),(42,26),(42,36),(39,36))
+        P('left-body',(8,26),(5,26),(5,36),(8,36));P('right-body',(40,26),(43,26),(43,36),(40,36))

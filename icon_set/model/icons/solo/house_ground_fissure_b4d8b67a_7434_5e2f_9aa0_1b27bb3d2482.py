@@ -21,7 +21,7 @@ class HouseGroundFissure(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_polyline('house', (6, 25), (6, 17), (16, 8), (26, 17), (26, 25), closed=True)
-        self.add_polyline('bank-left', (6, 40), (6, 25), (26, 25), (22, 32), (28, 35), (22, 40), closed=False)
+        self.add_polyline('house', (4, 25), (4, 17), (16, 8), (26, 17), (26, 25), closed=True)
+        self.add_polyline('bank-left', (4, 40), (4, 25), (26, 25), (22, 32), (28, 35), (22, 40), closed=False)
         self.relate("connect", 'house', 'bank-left')
-        self.add_polyline('bank-right', (42, 40), (42, 25), (36, 25), closed=False)
+        self.add_polyline('bank-right', (44, 40), (44, 25), (36, 25), closed=False)

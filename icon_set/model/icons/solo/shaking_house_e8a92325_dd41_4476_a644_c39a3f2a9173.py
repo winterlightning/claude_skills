@@ -22,5 +22,5 @@ class ShakingHouse(Solo48):
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
         self.add_polyline('house', (14, 40), (14, 21), (24, 8), (34, 21), (34, 40), closed=True)
-        self.add_polyline('tremor-left', (6, 13), (6, 21), (6, 29), closed=False)
-        self.add_polyline('tremor-right', (42, 13), (42, 21), (42, 29), closed=False)
+        self.add_polyline('tremor-left', (4, 13), (4, 21), (4, 29), closed=False)
+        self.add_polyline('tremor-right', (44, 13), (44, 21), (44, 29), closed=False)

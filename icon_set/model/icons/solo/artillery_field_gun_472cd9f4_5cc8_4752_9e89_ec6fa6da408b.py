@@ -38,5 +38,5 @@ class ArtilleryFieldGun(Solo48):
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
         C('wheel',22,30,10)
-        P('barrel',(14,24),(10,20),(42,8),(42,14),(30,24));J('barrel','wheel')
-        L('trail',(14,36),(6,40));J('trail','wheel')
+        P('barrel',(14,24),(10,20),(44,8),(44,14),(30,24));J('barrel','wheel')
+        L('trail',(14,36),(4,40));J('trail','wheel')

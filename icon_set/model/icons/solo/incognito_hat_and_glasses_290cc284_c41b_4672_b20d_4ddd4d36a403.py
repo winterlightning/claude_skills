@@ -18,7 +18,7 @@ class IncognitoHatAndGlasses(Solo48):
     def build(self):
         axis=24
         self.add_polyline('crown',(9,17),(13,8),(2*axis-13,8),(2*axis-9,17))
-        self.add_polyline('brim',(6,17),(9,17),(39,17),(42,17))
+        self.add_polyline('brim',(4,17),(9,17),(39,17),(44,17))
         self.relate('connect','crown','brim')
         for side,cx in [('left',13),('right',2*axis-13)]:
             self.ring(side,cx,33,7)

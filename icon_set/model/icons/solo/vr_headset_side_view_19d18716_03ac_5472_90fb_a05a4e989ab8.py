@@ -34,4 +34,4 @@ class VrHeadsetSideView(Solo48):
             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
         box('visor',24,20,44,40,6)
         arc('head-strap',(8,26),(24,26),8,18);connect('head-strap','visor')
-        poly('rear-strap',(24,26),(8,26),(6,32),(6,40),(10,34),(24,34));connect('rear-strap','visor');connect('rear-strap','head-strap')
+        poly('rear-strap',(24,26),(8,26),(4,32),(4,40),(10,34),(24,34));connect('rear-strap','visor');connect('rear-strap','head-strap')

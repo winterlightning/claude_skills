@@ -1,19 +1,18 @@
-"""A capsule mouse isolates its right button beside two click arcs.
+"""Double-click mouse with tangent capsule ends, informed by Lucide mouse.
 
-Keyshape VRECT_XL: visible extremes (3, 0, 45, 48).
-Lucide mouse: tangent capsule sides and equal end radii. Source right-button division and click count retained. Asymmetry reserves space for right-side feedback."""
-
+The right version mirrors the left; the offset reserves room for both click arcs.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '35453f6e-cd21-46fc-9fb9-1211c1c34319'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/right double click mouse_35453f6e-cd21-46fc-9fb9-1211c1c34319.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 
 class RightDoubleClickMouse(Solo48):
     icon_id = 'right-double-click-mouse'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/device"
@@ -21,17 +20,33 @@ class RightDoubleClickMouse(Solo48):
     keywords = ('mouse', 'double click', 'right click', 'cursor', 'pointer', 'input', 'peripheral', 'computer')
 
     def build(self) -> None:
-        self.add_arc('body-ne', (17, 16), (29, 28), radius_x=12, sweep=True)
-        self.add_line('body-r', (29, 28), (29, 34))
-        self.add_arc('body-se', (29, 34), (17, 46), radius_x=12, sweep=True)
-        self.add_arc('body-sw', (17, 46), (5, 34), radius_x=12, sweep=True)
-        self.add_line('body-l', (5, 34), (5, 28))
-        self.add_arc('body-nw', (5, 28), (17, 16), radius_x=12, sweep=True)
-        self.add_contour('body', 'body-ne', 'body-r', 'body-se', 'body-sw', 'body-l', 'body-nw', closed=True)
-        self.add_line('button-v', (17, 16), (17, 24))
-        self.add_arc('button-round', (17, 24), (21, 28), radius_x=4, sweep=False)
-        self.add_line('button-h', (21, 28), (29, 28))
-        self.add_contour('button', 'button-v', 'button-round', 'button-h', closed=False)
-        self.relate("connect", 'body', 'button')
-        self.add_arc('click-inner', (17, 9), (36, 28), radius_x=19, sweep=True)
-        self.add_arc('click-outer', (17, 2), (43, 28), radius_x=26, sweep=True)
+        # Plan: an elliptical capsule and attached button, with two nested
+        # click arcs. Shared centres and 9-unit radius steps preserve clearance.
+        # VRECT_L ink extremes: (6, 2)-(42, 46).
+        cx, shoulder_y, lower_y = 33, 32, 34
+        rx, ry, click_step = 7, 10, 9
+        mirror = True
+
+        def point(x, y):
+            return (48 - x if mirror else x, y)
+
+        def arc(name, start, end, radius_x, radius_y, sweep=True):
+            self.add_arc(name, point(*start), point(*end),
+                         radius_x=radius_x, radius_y=radius_y,
+                         sweep=not sweep if mirror else sweep)
+
+        arc('upper-right', (cx, shoulder_y - ry), (cx + rx, shoulder_y), rx, ry)
+        self.add_line('right', point(cx + rx, shoulder_y), point(cx + rx, lower_y))
+        arc('lower', (cx + rx, lower_y), (cx - rx, lower_y), rx, ry)
+        self.add_line('left', point(cx - rx, lower_y), point(cx - rx, shoulder_y))
+        arc('upper-left', (cx - rx, shoulder_y), (cx, shoulder_y - ry), rx, ry)
+        self.add_contour('body', 'upper-right', 'right', 'lower', 'left', 'upper-left', closed=True)
+        turn = 4
+        self.add_line('button-v', point(cx, shoulder_y - ry), point(cx, shoulder_y - turn))
+        arc('button-turn', (cx, shoulder_y - turn), (cx - turn, shoulder_y), turn, turn)
+        self.add_line('button-h', point(cx - turn, shoulder_y), point(cx - rx, shoulder_y))
+        self.add_contour('button', 'button-v', 'button-turn', 'button-h', closed=False)
+        self.relate('connect', 'body', 'button')
+        for index, name in enumerate(('click', 'second-click'), start=1):
+            click_rx, click_ry = rx + index * click_step, ry + index * click_step
+            arc(name, (cx - click_rx, shoulder_y), (cx, shoulder_y - click_ry), click_rx, click_ry)

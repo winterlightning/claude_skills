@@ -23,8 +23,8 @@ class ArrowLeftCurved(Solo48):
     keywords = ('arrow', 'left', 'curved', 'back', 'return', 'undo', 'reply', 'direction')
 
     def build(self) -> None:
-        self.add_polyline('head', (18, 8), (6, 22), (18, 36))
-        self.add_line('shaft', (6, 22), (26, 22))
-        self.add_arc('bend', (26, 22), (42, 40), radius_x=18, radius_y=18, sweep=True)
+        self.add_polyline('head', (18, 8), (4, 22), (18, 36))
+        self.add_line('shaft', (4, 22), (26, 22))
+        self.add_arc('bend', (26, 22), (44, 40), radius_x=18, radius_y=18, sweep=True)
         self.add_contour('body', 'shaft', 'bend')
         self.relate("connect", 'head', 'body')

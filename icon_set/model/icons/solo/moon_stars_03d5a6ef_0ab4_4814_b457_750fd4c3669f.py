@@ -24,5 +24,5 @@ class MoonStars(Solo48):
         self.add_arc('moon-outer', (24, 8), (24, 40), radius_x=20, radius_y=16, sweep=False, large_arc=False)
         self.add_arc('moon-inner', (24, 40), (24, 8), radius_x=10, radius_y=16, sweep=True, large_arc=False)
         self.add_contour('moon', 'moon-outer', 'moon-inner', closed=True)
-        self.add_polyline('star', (36, 8), (39, 15), (42, 18), (39, 21), (36, 28), (33, 21), (28, 18), (33, 15), closed=True)
-        self.add_line('small-star', (42, 37), (42, 37))
+        self.add_polyline('star', (36, 8), (39, 15), (44, 18), (39, 21), (36, 28), (33, 21), (28, 18), (33, 15), closed=True)
+        self.add_line('small-star', (44, 37), (44, 37))

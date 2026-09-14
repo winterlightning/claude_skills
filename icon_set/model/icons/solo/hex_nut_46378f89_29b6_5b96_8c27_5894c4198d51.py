@@ -22,5 +22,5 @@ class HexNut(Solo48):
             self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
             self.add_contour(n,n+'-a',n+'-b',closed=True)
 
-        self.add_polyline('hexagon',(6,24),(14,8),(34,8),(42,24),(34,40),(14,40),closed=True)
+        self.add_polyline('hexagon',(4,24),(14,8),(34,8),(44,24),(34,40),(14,40),closed=True)
         circle('bore',24,24,7)

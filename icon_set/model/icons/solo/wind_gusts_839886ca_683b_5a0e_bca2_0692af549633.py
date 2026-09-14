@@ -21,10 +21,10 @@ class WindGusts(Solo48):
 
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_line('upper-run', (6, 18), (23, 18))
+        self.add_line('upper-run', (4, 18), (23, 18))
         self.add_arc('upper-curl', (23, 18), (23, 8), radius_x=5, radius_y=5, sweep=False, large_arc=False)
         self.add_contour('upper', 'upper-run', 'upper-curl', closed=False)
-        self.add_line('middle-run', (6, 27), (39, 27))
+        self.add_line('middle-run', (4, 27), (39, 27))
         self.add_arc('middle-curl', (39, 27), (39, 17), radius_x=5, radius_y=5, sweep=False, large_arc=False)
         self.add_contour('middle', 'middle-run', 'middle-curl', closed=False)
         self.add_line('lower-run', (14, 36), (25, 36))

@@ -19,7 +19,7 @@ class CargoShipFacingRight(Solo48):
     def build(self) -> None:
 
         # Hull owns a stepped cargo stack; all deck attachments are explicit nodes.
-        self.add_polyline('hull',(6,26),(8,26),(22,26),(34,26),(42,26),(36,40),(10,40),(6,26))
+        self.add_polyline('hull',(4,26),(8,26),(22,26),(34,26),(44,26),(36,40),(10,40),(4,26))
         self.add_polyline('cargo',(8,26),(8,8),(22,8),(22,18),(34,18),(34,26))
         self.relate('connect','cargo-1','hull-1')
         self.relate('connect','cargo-1','hull-2')

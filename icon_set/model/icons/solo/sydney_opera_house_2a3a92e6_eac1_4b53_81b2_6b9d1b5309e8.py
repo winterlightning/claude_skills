@@ -17,15 +17,15 @@ class SydneyOperaHouse(Solo48):
 
     def build(self) -> None:
         # HRECT_L centerline extremes (6,8)-(42,40).
-        self.add_polyline('podium', (6, 32), (42, 32), (42, 40), (6, 40), closed=True)
+        self.add_polyline('podium', (4, 32), (44, 32), (44, 40), (4, 40), closed=True)
         self.add_line('main-leading', (20, 32), (16, 8))
         self.add_arc('main-back', (16, 8), (30, 32), radius_x=25, sweep=True)
         self.add_contour('main-shell', 'main-leading', 'main-back')
-        self.add_line('left-leading', (8, 32), (6, 18))
-        self.add_arc('left-back', (6, 18), (18, 20), radius_x=23, sweep=True)
+        self.add_line('left-leading', (8, 32), (4, 18))
+        self.add_arc('left-back', (4, 18), (18, 20), radius_x=23, sweep=True)
         self.add_contour('left-shell', 'left-leading', 'left-back')
-        self.add_arc('right-back', (30, 32), (42, 19), radius_x=22, sweep=True)
-        self.add_line('right-leading', (42, 19), (40, 32))
+        self.add_arc('right-back', (30, 32), (44, 19), radius_x=22, sweep=True)
+        self.add_line('right-leading', (44, 19), (40, 32))
         self.add_contour('right-shell', 'right-back', 'right-leading')
         self.relate('connect', 'podium', 'main-shell')
         self.relate('connect', 'podium', 'left-shell')

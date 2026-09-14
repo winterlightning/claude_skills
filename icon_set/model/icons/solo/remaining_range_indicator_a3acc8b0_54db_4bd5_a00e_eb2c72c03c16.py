@@ -17,9 +17,9 @@ class RemainingRangeIndicator(Solo48):
     def build(self) -> None:
         # Current contract centerline extremes: (6,8)-(42,40).
         # Can, directional distance shaft, and its terminal bar form a functional range diagram.
-        self.add_polyline('can',(30,28),(30,16),(34,16),(34,8),(42,8),(42,16),(42,16),(42,40),(30,40),closed=True)
+        self.add_polyline('can',(30,28),(30,16),(34,16),(34,8),(44,8),(44,16),(44,16),(44,40),(30,40),closed=True)
         self.add_line('distance',(30,28),(14,28))
         self.relate('connect','distance','can')
         self.add_polyline('arrowhead',(20,22),(14,28),(20,34))
         self.relate('connect','distance','arrowhead')
-        self.add_line('end-bar',(6,20),(6,36))
+        self.add_line('end-bar',(4,20),(4,36))

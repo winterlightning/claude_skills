@@ -21,7 +21,7 @@ class QuotationMarks(Solo48):
 
     def build(self) -> None:
 
-        for i, left in enumerate((6,30)):
+        for i, left in enumerate((4,30)):
             p = 'quote-'+str(i)
             self.add_arc(p+'-loop-upper', (left,33), (left+14,33), radius_x=7)
             self.add_arc(p+'-loop-lower', (left+14,33), (left,33), radius_x=7)

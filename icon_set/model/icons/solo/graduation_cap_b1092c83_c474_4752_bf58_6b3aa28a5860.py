@@ -17,6 +17,6 @@ class GraduationCap(Solo48):
     keywords = ('graduation', 'cap', 'mortarboard', 'education', 'school', 'degree', 'student', 'university')
 
     def build(self) -> None:
-        self.add_polyline('board',(6,18),(24,8),(42,18),(34,23),(24,28),(14,23),(6,18),closed=True)
+        self.add_polyline('board',(4,18),(24,8),(44,18),(34,23),(24,28),(14,23),(4,18),closed=True)
         self.add_polyline('skull-cap',(14,23),(14,35),(24,40),(34,35),(34,23))
         self.relate('connect','board','skull-cap')

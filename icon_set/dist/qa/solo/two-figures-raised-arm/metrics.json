@@ -3,15 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
-    "mic [left-head]: left-head and raised-arm are 7 apart on centerlines nearest (13, 13)<->(6, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
-    "ok": false,
-    "status": "fail",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "left-head:subpath-1",
@@ -66,9 +63,9 @@
         "elementId": "raised-arm",
         "subpathIndex": 1,
         "componentId": "component-3",
-        "pathData": "M 17 27 L 6 22 L 6 8",
+        "pathData": "M 17 27 L 4 22 L 4 8",
         "bounds": [
-          6.0,
+          4.0,
           8.0,
           17.0,
           27.0
@@ -130,11 +127,11 @@
         "elementId": "right-arms",
         "subpathIndex": 1,
         "componentId": "component-4",
-        "pathData": "M 34 34 L 30 31 L 37 26 L 42 31 L 40 34",
+        "pathData": "M 34 34 L 30 31 L 37 26 L 44 31 L 40 34",
         "bounds": [
           30.0,
           26.0,
-          42.0,
+          44.0,
           34.0
         ],
         "segmentCount": 4,
@@ -146,11 +143,11 @@
         "elementId": "right-legs",
         "subpathIndex": 1,
         "componentId": "component-4",
-        "pathData": "M 31 40 L 37 33 L 42 40",
+        "pathData": "M 31 40 L 37 33 L 44 40",
         "bounds": [
           31.0,
           33.0,
-          42.0,
+          44.0,
           40.0
         ],
         "segmentCount": 2,
@@ -216,7 +213,7 @@
           "left-legs"
         ],
         "bounds": [
-          6.0,
+          4.0,
           8.0,
           23.0,
           40.0
@@ -242,7 +239,7 @@
         "bounds": [
           30.0,
           26.0,
-          42.0,
+          44.0,
           40.0
         ]
       }
@@ -325,28 +322,28 @@
           "left-head:subpath-1",
           "raised-arm:subpath-1"
         ],
-        "centerlineDistance": 7.0,
-        "inkClearance": 3.0,
-        "signedInkClearance": 3.0,
-        "lowerBound": 6.999698803576151,
-        "upperBound": 7.000301196423849,
-        "inkClearanceLowerBound": 2.999698803576151,
-        "inkClearanceUpperBound": 3.000301196423849,
-        "approximationError": 0.0003011964238490705,
+        "centerlineDistance": 9.0,
+        "inkClearance": 5.0,
+        "signedInkClearance": 5.0,
+        "lowerBound": 8.99969880357615,
+        "upperBound": 9.00030119642385,
+        "inkClearanceLowerBound": 4.99969880357615,
+        "inkClearanceUpperBound": 5.00030119642385,
+        "approximationError": 0.0003011964238499587,
         "nearestPoints": [
           [
             13.0,
             13.0
           ],
           [
-            6.0,
+            4.0,
             13.0
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "fail",
-        "reason": "At least one disconnected contour pair is provably closer than the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -398,13 +395,13 @@
               "left-head:subpath-1",
               "raised-arm:subpath-1"
             ],
-            "centerlineDistance": 7.0,
-            "inkClearance": 3.0,
-            "signedInkClearance": 3.0,
-            "lowerBound": 6.999698803576151,
-            "upperBound": 7.000301196423849,
-            "inkClearanceLowerBound": 2.999698803576151,
-            "inkClearanceUpperBound": 3.000301196423849,
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.99969880357615,
+            "upperBound": 9.00030119642385,
+            "inkClearanceLowerBound": 4.99969880357615,
+            "inkClearanceUpperBound": 5.00030119642385,
             "approximationError": 0.0003011964238479526,
             "nearestPoints": [
               [
@@ -412,14 +409,14 @@
                 13.0
               ],
               [
-                6.0,
+                4.0,
                 13.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "fail",
-            "reason": "Even the conservative distance upper bound is below the minimum.",
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -1516,9 +1513,7 @@
         "directConnection": null
       }
     ],
-    "errors": [
-      "component-1 / component-3: At least one disconnected contour pair is provably closer than the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -1529,17 +1524,17 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 7.0,
-    "minimumInkClearance": 3.0,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 32,
       "flattenedSegments": 527,
       "adaptiveNodes": 1016,
-      "distanceTests": 866,
+      "distanceTests": 908,
       "connectionTests": 4
     },
-    "raw_status": "fail",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
@@ -1636,7 +1631,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "d7bb7a645f52dc8b331d0b9bc9e1c9630e7a8c06be450268c8e5dd2ae8c9167c",
+  "svg_sha256": "1724e72e5b9eef0d078fa8727e4c0093c3b9140e98a928c3ab5c24ce6bf920d8",
   "rules": {
     "profile": {
       "canvas_size": 48,

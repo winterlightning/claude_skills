@@ -23,6 +23,6 @@ class Sunrise(Solo48):
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
         self.add_arc('sun', (12, 32), (36, 32), radius_x=12, radius_y=12, sweep=True, large_arc=False)
         self.add_line('ray-top', (24, 8), (24, 11))
-        self.add_line('horizon', (6, 32), (42, 32))
+        self.add_line('horizon', (4, 32), (44, 32))
         self.relate("connect", 'sun', 'horizon')
         self.add_line('reflection', (16, 40), (32, 40))

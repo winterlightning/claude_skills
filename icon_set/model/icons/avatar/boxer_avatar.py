@@ -32,9 +32,10 @@ class BoxerAvatar(Avatar48):
         self.add_line('side-right',(36,14),(34,20))
         self.add_arc('jaw',(34,20),(14,20),radius_x=10,radius_y=4)
         self.add_line('side-left',(14,20),(12,14))
-        self.add_contour('head','crown','side-right','jaw','side-left',closed=True)
+        self.add_contour('head','side-left','crown','side-right')
+        self.relate('connect','head','jaw')
         for side, sign in [('left',-1),('right',1)]:
-            self.add_bezier('guard-'+side,(cx+sign*10,7),((cx+sign*8,12),(cx+sign*6,15),(cx,16)))
+            self.add_bezier('guard-'+side,(cx+sign*12,14),((cx+sign*8,14),(cx+sign*6,18),(cx,18)))
             self.relate('connect','head','guard-'+side)
         self.relate('connect','guard-left','guard-right')
 

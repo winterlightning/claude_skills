@@ -18,7 +18,7 @@ class CribMobile(Solo48):
 
     def build(self) -> None:
         # Centerline keyshape: HRECT_L; Nursery mobile with unequal threads, circle, crescent and triangle.
-        self.add_polyline('bar', (6, 8), (9, 8), (25, 8), (39, 8), (42, 8), closed=False)
+        self.add_polyline('bar', (6, 8), (9, 8), (25, 8), (39, 8), (44, 8), closed=False)
         self.add_line('left-thread', (9, 8), (9, 20))
         self.add_arc('ball-a', (9, 20), (9, 30), radius_x=5, radius_y=5, sweep=True)
         self.add_arc('ball-b', (9, 30), (9, 20), radius_x=5, radius_y=5, sweep=True)
@@ -32,6 +32,6 @@ class CribMobile(Solo48):
         self.relate("connect", 'middle-thread', 'bar')
         self.relate("connect", 'middle-thread', 'moon')
         self.add_line('right-thread', (39, 8), (39, 21))
-        self.add_polyline('triangle', (39, 21), (42, 33), (32, 33), closed=True)
+        self.add_polyline('triangle', (39, 21), (44, 33), (32, 33), closed=True)
         self.relate("connect", 'right-thread', 'bar')
         self.relate("connect", 'right-thread', 'triangle')

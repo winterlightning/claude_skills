@@ -23,11 +23,11 @@ class Percent0(Solo48):
     keywords = ('zero', 'percent', '0%', 'percentage', 'number', 'discount', 'rate', 'none')
 
     def build(self) -> None:
-        self.add_arc('zero-top', (6, 14), (16, 14), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('zero-top', (4, 14), (16, 14), radius_x=6, radius_y=6, sweep=True)
         self.add_line('zero-right', (16, 14), (16, 34))
-        self.add_arc('zero-bottom', (16, 34), (6, 34), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('zero-left', (6, 34), (6, 14))
+        self.add_arc('zero-bottom', (16, 34), (4, 34), radius_x=6, radius_y=6, sweep=True)
+        self.add_line('zero-left', (4, 34), (4, 14))
         self.add_contour('zero', 'zero-top', 'zero-right', 'zero-bottom', 'zero-left', closed=True)
-        self.add_line('percent-slash', (26, 40), (42, 8))
+        self.add_line('percent-slash', (26, 40), (44, 8))
         self.add_dot('percent-upper-dot', (26, 8))
-        self.add_dot('percent-lower-dot', (42, 40))
+        self.add_dot('percent-lower-dot', (44, 40))

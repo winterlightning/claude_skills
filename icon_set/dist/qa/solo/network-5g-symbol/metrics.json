@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,9 +15,9 @@
         "elementId": "five",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 8 L 6 8 L 6 24 L 12 24 A 8 8 0 0 1 12 40 L 6 40",
+        "pathData": "M 18 8 L 4 8 L 4 24 L 12 24 A 8 8 0 0 1 12 40 L 4 40",
         "bounds": [
-          6.0,
+          4.0,
           8.0,
           20.0,
           40.0
@@ -33,15 +31,15 @@
         "elementId": "g",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 42 15 A 7 7 0 0 0 30 15 L 30 33 A 7 7 0 0 0 42 33 L 42 25 L 38 25",
+        "pathData": "M 44 15 A 7 7 0 0 0 30 15 L 30 33 A 7 7 0 0 0 44 33 L 44 25 L 38 25",
         "bounds": [
           30.0,
-          11.605551275463988,
-          42.0,
-          36.39444872453601
+          8.0,
+          44.0,
+          40.0
         ],
-        "segmentCount": 131,
-        "approximationError": 0.0009059971337236031,
+        "segmentCount": 259,
+        "approximationError": 0.0005279282068392702,
         "hasCurves": true
       }
     ],
@@ -58,7 +56,7 @@
           "five"
         ],
         "bounds": [
-          6.0,
+          4.0,
           8.0,
           20.0,
           40.0
@@ -77,9 +75,9 @@
         ],
         "bounds": [
           30.0,
-          11.605551275463988,
-          42.0,
-          36.39444872453601
+          8.0,
+          44.0,
+          40.0
         ]
       }
     ],
@@ -92,11 +90,11 @@
         "centerlineDistance": 10.0,
         "inkClearance": 6.0,
         "signedInkClearance": 6.0,
-        "lowerBound": 9.998490656344302,
-        "upperBound": 10.001509343655698,
-        "inkClearanceLowerBound": 5.998490656344302,
-        "inkClearanceUpperBound": 6.001509343655698,
-        "approximationError": 0.0015093436556981032,
+        "lowerBound": 10.0,
+        "upperBound": 10.001131274728813,
+        "inkClearanceLowerBound": 6.0,
+        "inkClearanceUpperBound": 6.001131274728813,
+        "approximationError": 0.0011312747288130254,
         "nearestPoints": [
           [
             20.0,
@@ -133,11 +131,11 @@
             "centerlineDistance": 10.0,
             "inkClearance": 6.0,
             "signedInkClearance": 6.0,
-            "lowerBound": 9.998490656344302,
-            "upperBound": 10.001509343655698,
-            "inkClearanceLowerBound": 5.998490656344302,
-            "inkClearanceUpperBound": 6.001509343655698,
-            "approximationError": 0.0015093436556956876,
+            "lowerBound": 10.0,
+            "upperBound": 10.001131274728813,
+            "inkClearanceLowerBound": 6.0,
+            "inkClearanceUpperBound": 6.001131274728813,
+            "approximationError": 0.0011312747288113546,
             "nearestPoints": [
               [
                 20.0,
@@ -151,7 +149,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -175,8 +173,8 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 12,
-      "flattenedSegments": 263,
-      "adaptiveNodes": 509,
+      "flattenedSegments": 391,
+      "adaptiveNodes": 765,
       "distanceTests": 7,
       "connectionTests": 0
     },
@@ -212,7 +210,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b1e2bbc0fec00b7fdd9918cd623fad385d64743d2d15f53c24890915e262f40e",
+  "svg_sha256": "fb8de0aa70339d410470d122ef36c4939e48f2d877b1a7e304cb206ecb75a199",
   "rules": {
     "profile": {
       "canvas_size": 48,

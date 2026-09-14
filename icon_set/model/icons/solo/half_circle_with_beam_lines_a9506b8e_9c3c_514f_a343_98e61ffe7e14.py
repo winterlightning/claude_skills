@@ -34,4 +34,4 @@ class HalfCircleWithBeamLines(Solo48):
             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
         arc('lens',(20,8),(20,40),16,sweep=False)
         line('edge',(20,40),(20,8));contour('half-disc','lens','edge',closed=True)
-        for i,(y,end) in enumerate([(8,35),(18,42),(28,40),(40,34)]):line(f'beam-{i}',(29,y),(end,y))
+        for i,(y,end) in enumerate([(8,35),(18,44),(28,40),(40,34)]):line(f'beam-{i}',(29,y),(end,y))

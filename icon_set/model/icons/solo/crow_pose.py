@@ -19,15 +19,15 @@ class CrowPose(Solo48):
 
     def build(self):
         """Opening repair: Replaced the flattened head lens with a genuine circular head; retained the pose."""
-        self.add_arc('head-top', (5, 23), (11, 23), sweep=True, radius_x=3, radius_y=3)
-        self.add_arc('head-bottom', (11, 23), (5, 23), sweep=True, radius_x=3, radius_y=3)
+        self.add_arc('head-top', (4, 23), (10, 23), sweep=True, radius_x=3, radius_y=3)
+        self.add_arc('head-bottom', (10, 23), (4, 23), sweep=True, radius_x=3, radius_y=3)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_line('support', (20, 40), (20, 22))
-        self.add_arc('back', (20, 22), (34, 8), radius_x=14)
+        self.add_line('support', (18, 40), (18, 22))
+        self.add_arc('back', (18, 22), (32, 8), radius_x=14)
         self.add_contour('body', 'support', 'back')
-        self.add_arc('knee', (34, 8), (42, 16), radius_x=8)
-        self.add_line('knee-drop', (42, 16), (42, 20))
+        self.add_arc('knee', (32, 8), (44, 16), radius_x=12, radius_y=8)
+        self.add_line('knee-drop', (44, 16), (44, 20))
         self.relate('connect', 'knee', 'knee-drop')
-        self.add_polyline('shin', (42, 20), (35, 26), (42, 32), closed=False)
+        self.add_polyline('shin', (44, 20), (37, 26), (44, 32), closed=False)
         self.relate('connect', 'body', 'knee')
         self.relate('connect', 'knee-drop', 'shin')

@@ -23,10 +23,10 @@ class ArLettersUnderlined(Solo48):
     keywords = ('ar', 'letters', 'text', 'underline', 'language', 'arabic', 'typography', 'abbreviation')
 
     def build(self) -> None:
-        self.add_polyline('a-arch', (6, 32), (6, 24), (10, 8), (14, 8), (18, 24), (20, 32))
-        self.add_line('a-bar', (6, 24), (18, 24))
+        self.add_polyline('a-arch', (4, 32), (4, 24), (10, 8), (14, 8), (18, 24), (20, 32))
+        self.add_line('a-bar', (4, 24), (18, 24))
         self.relate("connect", 'a-arch', 'a-bar')
-        self.add_line('underline', (6, 40), (42, 40))
+        self.add_line('underline', (4, 40), (44, 40))
         self.add_polyline('r-stem', (32, 32), (32, 24), (32, 18))
-        self.add_arc('r-arch', (32, 24), (42, 24), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('r-arch', (32, 24), (44, 24), radius_x=6, radius_y=6, sweep=True)
         self.relate("connect", 'r-stem', 'r-arch')

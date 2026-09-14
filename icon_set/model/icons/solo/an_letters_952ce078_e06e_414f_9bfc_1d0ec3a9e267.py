@@ -23,11 +23,11 @@ class AnLetters(Solo48):
     keywords = ('an', 'letters', 'text', 'typography', 'abbreviation', 'language', 'alphabet')
 
     def build(self) -> None:
-        self.add_polyline('a-arch', (6, 40), (9, 24), (14, 8), (19, 24), (24, 40))
+        self.add_polyline('a-arch', (4, 40), (9, 24), (14, 8), (19, 24), (24, 40))
         self.add_line('a-bar', (9, 24), (19, 24))
         self.relate("connect", 'a-arch', 'a-bar')
         self.add_polyline('n-left', (34, 40), (34, 25), (34, 20))
-        self.add_arc('n-arch', (34, 25), (42, 25), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('n-right', (42, 25), (42, 40))
+        self.add_arc('n-arch', (34, 25), (44, 25), radius_x=5, radius_y=5, sweep=True)
+        self.add_line('n-right', (44, 25), (44, 40))
         self.add_contour('n-shoulder', 'n-arch', 'n-right')
         self.relate("connect", 'n-left', 'n-shoulder')

@@ -17,7 +17,7 @@ class FreightWagon(Solo48):
     def build(self) -> None:
         # Current contract centerline extremes: (6,8)-(42,40).
         self.add_polyline('container',(8,32),(8,8),(16,8),(24,8),(32,8),(40,8),(40,32))
-        self.add_polyline('chassis',(6,32),(8,32),(10,32),(16,32),(24,32),(32,32),(38,32),(40,32),(42,32))
+        self.add_polyline('chassis',(4,32),(8,32),(10,32),(16,32),(24,32),(32,32),(38,32),(40,32),(44,32))
         self.relate('connect','container','chassis')
         for x in (16,24,32):
             self.add_line(f'slat-{x}',(x,8),(x,32))

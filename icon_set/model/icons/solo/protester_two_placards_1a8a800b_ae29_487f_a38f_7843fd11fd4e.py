@@ -37,8 +37,8 @@ class ProtesterTwoPlacards(Solo48):
             A(n+'tl',(x,y+r),(x+r,y),r)
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
-        P('left-sign',(6,8),(16,8),(16,20),(6,20),closed=True)
-        P('right-sign',(32,8),(42,8),(42,20),(32,20),closed=True)
+        P('left-sign',(4,8),(16,8),(16,20),(4,20),closed=True)
+        P('right-sign',(32,8),(44,8),(44,20),(32,20),closed=True)
         C('head',24,28,3)
         P('arms',(10,20),(10,32),(16,36),(16,40));J('arms','left-sign')
         P('right-arm',(38,20),(38,32),(32,36),(32,40));J('right-arm','right-sign')

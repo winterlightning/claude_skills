@@ -16,12 +16,12 @@ class VolleyballCourtNet(Solo48):
     keywords = ('volleyball', 'court', 'net', 'sport')
 
     def build(self):
-        self.add_polyline('left-post', (6, 8), (6, 16), (6, 28), (6, 40), closed=False)
-        self.add_polyline('right-post', (42, 8), (42, 16), (42, 28), (42, 40), closed=False)
-        self.add_polyline('top', (6, 16), (17, 16), (31, 16), (42, 16), closed=False)
+        self.add_polyline('left-post', (4, 8), (4, 16), (4, 28), (4, 40), closed=False)
+        self.add_polyline('right-post', (44, 8), (44, 16), (44, 28), (44, 40), closed=False)
+        self.add_polyline('top', (4, 16), (17, 16), (31, 16), (44, 16), closed=False)
         self.relate("connect", 'top', 'left-post')
         self.relate("connect", 'top', 'right-post')
-        self.add_polyline('bottom', (6, 28), (17, 28), (31, 28), (42, 28), closed=False)
+        self.add_polyline('bottom', (4, 28), (17, 28), (31, 28), (44, 28), closed=False)
         self.relate("connect", 'bottom', 'left-post')
         self.relate("connect", 'bottom', 'right-post')
         self.add_line('mesh-17', (17, 16), (17, 28))

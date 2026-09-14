@@ -37,7 +37,7 @@ if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 PREVIEW = 320
-FAMILY_NATIVE = {"sub": 32, "solo": 48, "container": 64, "avatar": 64}
+FAMILY_NATIVE = {"sub": 32, "solo": 48, "container": 64, "avatar": 48}
 SHEET_COLUMNS = 6
 SHEET_CELL = 190
 SHEET_PER_PAGE = 36

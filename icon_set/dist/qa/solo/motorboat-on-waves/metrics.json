@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,11 +15,11 @@
         "elementId": "hull",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 19 L 12 19 L 32 19 L 42 19 L 36 28 L 8 28 L 6 19",
+        "pathData": "M 4 19 L 12 19 L 32 19 L 44 19 L 36 28 L 8 28 L 4 19",
         "bounds": [
-          6.0,
+          4.0,
           19.0,
-          42.0,
+          44.0,
           28.0
         ],
         "segmentCount": 6,
@@ -49,15 +47,15 @@
         "elementId": "wave",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 6 39 A 5 1 0 0 0 14 39 A 5 1 0 0 1 24 39 A 5 1 0 0 0 34 39 A 5 1 0 0 1 42 39",
+        "pathData": "M 4 39 A 5 1 0 0 0 14 39 A 5 1 0 0 1 24 39 A 5 1 0 0 0 34 39 A 5 1 0 0 1 44 39",
         "bounds": [
-          6.0,
+          4.0,
           38.0,
-          42.0,
+          44.0,
           40.0
         ],
-        "segmentCount": 384,
-        "approximationError": 0.0005248269218919401,
+        "segmentCount": 512,
+        "approximationError": 0.00037709158021161245,
         "hasCurves": true
       }
     ],
@@ -77,9 +75,9 @@
           "cabin"
         ],
         "bounds": [
-          6.0,
+          4.0,
           8.0,
-          42.0,
+          44.0,
           28.0
         ]
       },
@@ -95,9 +93,9 @@
           "wave"
         ],
         "bounds": [
-          6.0,
+          4.0,
           38.0,
-          42.0,
+          44.0,
           40.0
         ]
       }
@@ -111,11 +109,11 @@
         "centerlineDistance": 10.0,
         "inkClearance": 6.0,
         "signedInkClearance": 6.0,
-        "lowerBound": 9.999475173078107,
-        "upperBound": 10.000524826921893,
-        "inkClearanceLowerBound": 5.999475173078107,
-        "inkClearanceUpperBound": 6.000524826921893,
-        "approximationError": 0.0005248269218931512,
+        "lowerBound": 10.0,
+        "upperBound": 10.000377091580214,
+        "inkClearanceLowerBound": 6.0,
+        "inkClearanceUpperBound": 6.000377091580214,
+        "approximationError": 0.0003770915802139285,
         "nearestPoints": [
           [
             19.0,
@@ -153,11 +151,11 @@
             "centerlineDistance": 10.0,
             "inkClearance": 6.0,
             "signedInkClearance": 6.0,
-            "lowerBound": 9.999475173078107,
-            "upperBound": 10.000524826921893,
-            "inkClearanceLowerBound": 5.999475173078107,
-            "inkClearanceUpperBound": 6.000524826921893,
-            "approximationError": 0.0005248269218919401,
+            "lowerBound": 10.0,
+            "upperBound": 10.000377091580214,
+            "inkClearanceLowerBound": 6.0,
+            "inkClearanceUpperBound": 6.000377091580214,
+            "approximationError": 0.00037709158021161245,
             "nearestPoints": [
               [
                 19.0,
@@ -171,7 +169,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -182,25 +180,25 @@
             "centerlineDistance": 19.60032285638286,
             "inkClearance": 15.60032285638286,
             "signedInkClearance": 15.60032285638286,
-            "lowerBound": 19.59979802946096,
-            "upperBound": 19.600847683304757,
-            "inkClearanceLowerBound": 15.59979802946096,
-            "inkClearanceUpperBound": 15.600847683304757,
-            "approximationError": 0.0005248269218919401,
+            "lowerBound": 19.59994576480264,
+            "upperBound": 19.600699947963076,
+            "inkClearanceLowerBound": 15.59994576480264,
+            "inkClearanceUpperBound": 15.600699947963076,
+            "approximationError": 0.00037709158021161245,
             "nearestPoints": [
               [
-                12.0,
+                32.0,
                 19.0
               ],
               [
-                15.580285566841912,
-                38.270552958706396
+                35.58028556684164,
+                38.270552958706446
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -256,9 +254,9 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 16,
-      "flattenedSegments": 393,
-      "adaptiveNodes": 764,
-      "distanceTests": 127,
+      "flattenedSegments": 521,
+      "adaptiveNodes": 1020,
+      "distanceTests": 151,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -305,26 +303,26 @@
       {
         "hole": 2,
         "center_viewbox": [
-          11.5781,
+          10.9844,
           23.4844
         ],
         "bbox_viewbox": [
-          6.625,
+          4.7812,
           19.5,
-          34.4375,
+          38.0938,
           8.0
         ],
         "bbox_ship_px": [
-          34.4375,
+          38.0938,
           8.0
         ],
         "bbox_design_u": [
-          34.4375,
+          38.0938,
           8.0
         ],
-        "area_ship_px2": 247.0557,
-        "equivalent_diameter_ship_px": 17.7359,
-        "equivalent_diameter_design_u": 17.7359,
+        "area_ship_px2": 262.25,
+        "equivalent_diameter_ship_px": 18.2731,
+        "equivalent_diameter_design_u": 18.2731,
         "inscribed_diameter_ship_px": 8.0,
         "inscribed_diameter_design_u": 8.0,
         "inscribed_radius_ship_px": 4.0,
@@ -358,7 +356,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "ea05a490fe63db83389c38a542c31befef647df1b9c16a2e64510f9c4afe2030",
+  "svg_sha256": "b8aa0b61c2f7e719cfe361eed4c86d350cecfef524e21c72a7c79f0d82cbbc94",
   "rules": {
     "profile": {
       "canvas_size": 48,

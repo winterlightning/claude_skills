@@ -22,5 +22,5 @@ class SunFog(Solo48):
     def build(self) -> None:
         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
         self.add_arc('sun', (10, 22), (38, 22), radius_x=14, radius_y=14, sweep=True, large_arc=False)
-        self.add_line('horizon', (6, 32), (42, 32))
+        self.add_line('horizon', (4, 32), (44, 32))
         self.add_line('reflection', (16, 40), (32, 40))

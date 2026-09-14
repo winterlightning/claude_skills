@@ -26,6 +26,6 @@ class MoonCloud(Solo48):
         self.add_arc('front-right', (28, 30), (28, 40), radius_x=8, radius_y=5, sweep=True, large_arc=False)
         self.add_line('front-base', (28, 40), (12, 40))
         self.add_contour('front', 'front-left', 'front-crown', 'front-right', 'front-base', closed=True)
-        self.add_arc('moon-outer', (42, 8), (42, 24), radius_x=12, radius_y=8, sweep=False, large_arc=False)
-        self.add_arc('moon-inner', (42, 24), (42, 8), radius_x=3, radius_y=8, sweep=True, large_arc=False)
+        self.add_arc('moon-outer', (44, 8), (44, 24), radius_x=12, radius_y=8, sweep=False, large_arc=False)
+        self.add_arc('moon-inner', (44, 24), (44, 8), radius_x=3, radius_y=8, sweep=True, large_arc=False)
         self.add_contour('moon', 'moon-outer', 'moon-inner', closed=True)

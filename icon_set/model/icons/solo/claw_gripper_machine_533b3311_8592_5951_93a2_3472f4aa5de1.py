@@ -16,7 +16,7 @@ class ClawGripperMachine(Solo48):
     keywords = ('claw', 'gripper', 'crane', 'machine', 'grab', 'robotic', 'clamp', 'industrial')
 
     def build(self) -> None:
-        self.add_line('rail',(6,8),(42,8))
+        self.add_line('rail',(4,8),(44,8))
         self.add_line('stem',(24,8),(24,18))
         self.relate('connect','stem','rail')
         self.add_arc('left',(24,18),(12,30),radius_x=12,sweep=False)

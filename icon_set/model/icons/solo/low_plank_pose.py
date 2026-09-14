@@ -19,9 +19,9 @@ class LowPlankPose(Solo48):
 
     def build(self):
         """Opening repair: Replaced the flattened head lens with a genuine circular head; retained the pose."""
-        self.add_arc('head-top', (37, 11), (43, 11), sweep=True, radius_x=3, radius_y=3)
-        self.add_arc('head-bottom', (43, 11), (37, 11), sweep=True, radius_x=3, radius_y=3)
+        self.add_arc('head-top', (38, 11), (44, 11), sweep=True, radius_x=3, radius_y=3)
+        self.add_arc('head-bottom', (44, 11), (38, 11), sweep=True, radius_x=3, radius_y=3)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_polyline('body', (6, 40), (29, 17), (29, 31), closed=False)
-        self.add_polyline('forearm', (29, 31), (24, 40), closed=False)
+        self.add_polyline('body', (4, 40), (30, 17), (30, 31), closed=False)
+        self.add_polyline('forearm', (30, 31), (25, 40), closed=False)
         self.relate('connect', 'body', 'forearm')

@@ -23,7 +23,7 @@ class Number45(Solo48):
     keywords = ('45', 'number', 'forty-five', 'numeral', 'digits', 'count', 'text')
 
     def build(self) -> None:
-        self.add_polyline('four-arm', (18, 8), (6, 29), (20, 29))
+        self.add_polyline('four-arm', (18, 8), (4, 29), (20, 29))
         self.add_polyline('four-stem', (20, 8), (20, 29), (20, 40))
         self.relate("connect", 'four-arm', 'four-stem')
         self.add_line('five-cap-1', (42, 8), (30, 8))

@@ -61,7 +61,7 @@ Write the subject as one short sentence. Then keep only:
 3. nothing that disappears at native size.
 
 "Native size" is the family's canvas with a 4-pixel stroke: 32 pixels for
-`sub`, 48 for `solo`, 64 for `container`. At 32 that is eight stroke widths
+`sub`, 48 for `solo` and `avatar`, 64 for `container`. At 32 that is eight stroke widths
 across the whole icon and a third level of detail does not survive; at 48 it is
 twelve, which buys one more feature and no more; at 64 it is sixteen, and all
 sixteen are yours — a container reserves nothing, so interior furniture is not

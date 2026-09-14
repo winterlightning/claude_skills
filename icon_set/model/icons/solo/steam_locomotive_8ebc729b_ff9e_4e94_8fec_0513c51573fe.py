@@ -21,8 +21,8 @@ class SteamLocomotive(Solo48):
             self.add_arc(name+'-left',(x,y+r),(x,y-r),radius_x=r)
             self.add_contour(name,name+'-right',name+'-left',closed=True)
         # HRECT_L (6,8)-(42,40). Asymmetric cab, boiler, funnel and unequal wheels.
-        self.add_polyline('engine',(6,28),(6,8),(20,8),(20,18),(30,18),(36,18),(36,28),(36,32),(34,32))
-        self.add_polyline('cab-floor',(6,28),(16,28),(20,28),(20,18))
+        self.add_polyline('engine',(4,28),(4,8),(20,8),(20,18),(30,18),(36,18),(36,28),(36,32),(34,32))
+        self.add_polyline('cab-floor',(4,28),(16,28),(20,28),(20,18))
         self.relate('connect','engine','cab-floor')
         self.add_line('chimney',(30,18),(30,8))
         self.add_polyline('chimney-rim',(26,8),(30,8),(34,8))
@@ -32,7 +32,7 @@ class SteamLocomotive(Solo48):
         wheel('front-wheel',34,36,4)
         self.relate('connect','rear-wheel','cab-floor')
         self.relate('connect','front-wheel','engine')
-        self.add_polyline('rail',(6,40),(16,40),(34,40),(42,40))
+        self.add_polyline('rail',(4,40),(16,40),(34,40),(44,40))
         self.relate('connect','rail','rear-wheel')
         self.relate('connect','rail','front-wheel')
 

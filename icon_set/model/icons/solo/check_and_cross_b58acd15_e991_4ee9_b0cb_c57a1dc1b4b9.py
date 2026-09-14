@@ -23,7 +23,7 @@ class CheckAndCross(Solo48):
     keywords = ('check', 'cross', 'yes', 'no', 'approve', 'reject', 'true', 'false')
 
     def build(self) -> None:
-        self.add_polyline('check', (6, 26), (12, 34), (20, 8))
-        self.add_polyline('cross-down', (28, 8), (36, 24), (42, 40))
-        self.add_polyline('cross-up', (28, 40), (36, 24), (42, 8))
+        self.add_polyline('check', (4, 26), (12, 34), (20, 8))
+        self.add_polyline('cross-down', (28, 8), (36, 24), (44, 40))
+        self.add_polyline('cross-up', (28, 40), (36, 24), (44, 8))
         self.relate("connect", 'cross-down', 'cross-up')

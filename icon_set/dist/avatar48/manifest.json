@@ -1,0 +1,5042 @@
+{
+  "manifest_version": 2,
+  "family": "avatar",
+  "profile": "AVATAR48",
+  "canvas_size": 48,
+  "count": 16,
+  "icons": [
+    {
+      "icon_id": "arabian-man-avatar",
+      "name": "arabian-man-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "arabian",
+        "man",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "cap",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-1",
+          "start": [
+            8,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-2",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-3",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            40,
+            12
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "drape-left",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            8,
+            24
+          ],
+          "segments": [
+            [
+              [
+                12,
+                18
+              ],
+              [
+                11,
+                21
+              ],
+              [
+                8,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "drape-right",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            40,
+            24
+          ],
+          "segments": [
+            [
+              [
+                36,
+                18
+              ],
+              [
+                37,
+                21
+              ],
+              [
+                40,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "cap",
+            "face"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "brim",
+          "members": [
+            "brim-1",
+            "brim-2",
+            "brim-3"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "brim"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "drape-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "brim",
+            "drape-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "drape-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "brim",
+            "drape-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/arabian-man-avatar.svg",
+      "svg_sha256": "8e1c843fbb60a9636ef404ec9aecfff9e8cf729c0bb598212ea1b53e8e193a85",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "bartender-avatar",
+      "name": "bartender-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "bartainder",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "crown-left",
+          "start": [
+            10,
+            6
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 14,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            38,
+            6
+          ],
+          "radius_x": 14,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-right",
+          "start": [
+            38,
+            6
+          ],
+          "end": [
+            34,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-left",
+          "start": [
+            14,
+            14
+          ],
+          "end": [
+            10,
+            6
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "hat",
+          "members": [
+            "crown-left",
+            "crown-right",
+            "cap-right",
+            "brim",
+            "cap-left"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "hat",
+            "face"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/bartender-avatar.svg",
+      "svg_sha256": "85c74489e7a0b783f654e4325749e6435c18a4ee4693fe03dc00b4eeb6aa2029",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "boxer-avatar",
+      "name": "boxer-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "boxer",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "crown",
+          "start": [
+            12,
+            14
+          ],
+          "end": [
+            36,
+            14
+          ],
+          "radius_x": 12,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "side-right",
+          "start": [
+            36,
+            14
+          ],
+          "end": [
+            34,
+            20
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "jaw",
+          "start": [
+            34,
+            20
+          ],
+          "end": [
+            14,
+            20
+          ],
+          "radius_x": 10,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "side-left",
+          "start": [
+            14,
+            20
+          ],
+          "end": [
+            12,
+            14
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "guard-left",
+          "start": [
+            12,
+            14
+          ],
+          "end": [
+            24,
+            18
+          ],
+          "segments": [
+            [
+              [
+                16,
+                14
+              ],
+              [
+                18,
+                18
+              ],
+              [
+                24,
+                18
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "guard-right",
+          "start": [
+            36,
+            14
+          ],
+          "end": [
+            24,
+            18
+          ],
+          "segments": [
+            [
+              [
+                32,
+                14
+              ],
+              [
+                30,
+                18
+              ],
+              [
+                24,
+                18
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "side-left",
+            "crown",
+            "side-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "jaw"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "guard-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "guard-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "guard-left",
+            "guard-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/boxer-avatar.svg",
+      "svg_sha256": "91228af9487219bafe8447ebe06b7df8feba9edd3d1e4b5d3b0da79a3353655b",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "fire-fighter-woman-avatar",
+      "name": "fire-fighter-woman-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "fire",
+        "fighter",
+        "woman",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "helmet-left",
+          "start": [
+            8,
+            14
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 16,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "helmet-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            40,
+            14
+          ],
+          "radius_x": 16,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-1",
+          "start": [
+            8,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-2",
+          "start": [
+            14,
+            14
+          ],
+          "end": [
+            34,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-3",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            40,
+            14
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-left",
+          "start": [
+            14,
+            14
+          ],
+          "end": [
+            9,
+            24
+          ],
+          "segments": [
+            [
+              [
+                14,
+                18
+              ],
+              [
+                11,
+                22
+              ],
+              [
+                9,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-right",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            39,
+            24
+          ],
+          "segments": [
+            [
+              [
+                34,
+                18
+              ],
+              [
+                37,
+                22
+              ],
+              [
+                39,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "helmet",
+          "members": [
+            "helmet-left",
+            "helmet-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "brim",
+          "members": [
+            "brim-1",
+            "brim-2",
+            "brim-3"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "helmet",
+            "brim"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "brim"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "brim"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "brim"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/fire-fighter-woman-avatar.svg",
+      "svg_sha256": "060b6df951da22061f9d0307fa10aa9bb29680c8bd617aa4528330935d469050",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "jockey-man-avatar",
+      "name": "jockey-man-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "jockey",
+        "man",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "helmet-left",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "helmet-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "brim",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "helmet-left",
+            "helmet-right",
+            "face"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "brim"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/jockey-man-avatar.svg",
+      "svg_sha256": "e0f07ed8f86238ac7d15aeb3c79f07f1c8bdc2eecebd3714d982364b0dd8240d",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "judo-athlete-man-avatar",
+      "name": "judo-athlete-man-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "judo",
+        "athlete",
+        "man",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "crown",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "jaw",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "fringe",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "segments": [
+            [
+              [
+                20,
+                14
+              ],
+              [
+                24,
+                10
+              ],
+              [
+                27,
+                7
+              ]
+            ],
+            [
+              [
+                29,
+                10
+              ],
+              [
+                32,
+                12
+              ],
+              [
+                34,
+                12
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "crown",
+            "jaw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "fringe"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/judo-athlete-man-avatar.svg",
+      "svg_sha256": "a7b1c75766b5f08dc01c7fda0d60dab237d74337f08c591154980aada580a00e",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "judo-athlete-woman-avatar",
+      "name": "judo-athlete-woman-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "judo",
+        "athlete",
+        "woman",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "hair-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            8,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-left",
+          "start": [
+            8,
+            12
+          ],
+          "end": [
+            8,
+            22
+          ],
+          "segments": [
+            [
+              [
+                8,
+                16
+              ],
+              [
+                12,
+                19
+              ],
+              [
+                8,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hair-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            40,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-right",
+          "start": [
+            40,
+            12
+          ],
+          "end": [
+            40,
+            22
+          ],
+          "segments": [
+            [
+              [
+                40,
+                16
+              ],
+              [
+                36,
+                19
+              ],
+              [
+                40,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            33,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            33,
+            12
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outer-left",
+          "members": [
+            "hair-left",
+            "tip-left"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "outer-right",
+          "members": [
+            "hair-right",
+            "tip-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-right",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "outer-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "fringe-left",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/judo-athlete-woman-avatar.svg",
+      "svg_sha256": "a1259ed7e765919a35133f76d44fb948b398385aa68dc5b971c6c22a56d3e335",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "korean-woman-avatar",
+      "name": "korean-woman-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "korean",
+        "woman",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "hair-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            8,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-left",
+          "start": [
+            8,
+            12
+          ],
+          "end": [
+            8,
+            22
+          ],
+          "segments": [
+            [
+              [
+                8,
+                16
+              ],
+              [
+                12,
+                19
+              ],
+              [
+                8,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hair-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            40,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-right",
+          "start": [
+            40,
+            12
+          ],
+          "end": [
+            40,
+            22
+          ],
+          "segments": [
+            [
+              [
+                40,
+                16
+              ],
+              [
+                36,
+                19
+              ],
+              [
+                40,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            33,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            33,
+            12
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outer-left",
+          "members": [
+            "hair-left",
+            "tip-left"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "outer-right",
+          "members": [
+            "hair-right",
+            "tip-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-right",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "outer-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "fringe-left",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/korean-woman-avatar.svg",
+      "svg_sha256": "a134b5bacaecb19a250f92f8142cd74eeafaa3e7410f344d9a5f4b8d023e1c01",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "muslim-man-outfit-avatar",
+      "name": "muslim-man-outfit-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "muslim",
+        "man",
+        "outfit",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "cap",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-1",
+          "start": [
+            8,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-2",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "brim-3",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            40,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "drape-left",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            8,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "drape-right",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            40,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "cap",
+            "face"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "brim",
+          "members": [
+            "brim-1",
+            "brim-2",
+            "brim-3"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "brim"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "drape-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "brim",
+            "drape-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "drape-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "brim",
+            "drape-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/muslim-man-outfit-avatar.svg",
+      "svg_sha256": "b576c889bdf183854ee77006843f3e9fecdd44c94b1f9b2d182974717aec3a9e",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "pajamas-woman-avatar",
+      "name": "pajamas-woman-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "pajamas",
+        "woman",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "wrap-left",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "wrap-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "jaw",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "twist",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "segments": [
+            [
+              [
+                34,
+                7
+              ],
+              [
+                26,
+                12
+              ],
+              [
+                14,
+                12
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "wrap-left",
+            "wrap-right",
+            "jaw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "twist"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/pajamas-woman-avatar.svg",
+      "svg_sha256": "0640d58360a7feb848280404fd27bd13e0b62dde998a46ea777ccff42e5d1059",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "police-woman-1-avatar",
+      "name": "police-woman-1-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "police",
+        "woman",
+        "1",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "cap-1",
+          "start": [
+            8,
+            10
+          ],
+          "end": [
+            24,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-2",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            40,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-3",
+          "start": [
+            40,
+            10
+          ],
+          "end": [
+            34,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-4",
+          "start": [
+            34,
+            18
+          ],
+          "end": [
+            14,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cap-5",
+          "start": [
+            14,
+            18
+          ],
+          "end": [
+            8,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band",
+          "start": [
+            8,
+            10
+          ],
+          "end": [
+            40,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            18
+          ],
+          "end": [
+            14,
+            18
+          ],
+          "radius_x": 10,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-left",
+          "start": [
+            14,
+            18
+          ],
+          "end": [
+            8,
+            26
+          ],
+          "segments": [
+            [
+              [
+                14,
+                22
+              ],
+              [
+                11,
+                24
+              ],
+              [
+                8,
+                26
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-right",
+          "start": [
+            34,
+            18
+          ],
+          "end": [
+            40,
+            26
+          ],
+          "segments": [
+            [
+              [
+                34,
+                22
+              ],
+              [
+                37,
+                24
+              ],
+              [
+                40,
+                26
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            44
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            44
+          ],
+          "end": [
+            18,
+            34
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            34
+          ],
+          "end": [
+            30,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            34
+          ],
+          "end": [
+            40,
+            44
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            44
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cap",
+          "members": [
+            "cap-1",
+            "cap-2",
+            "cap-3",
+            "cap-4",
+            "cap-5"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "cap",
+            "band"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "cap",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "cap"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "cap"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "face"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/police-woman-1-avatar.svg",
+      "svg_sha256": "446ae1e0ad304fad0facee3c21ac2079584c6d0b1008a5b7b38454b055901ffa",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "ship-crew-navy-1-avatar",
+      "name": "ship-crew-navy-1-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "ship",
+        "crew",
+        "navy",
+        "1",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "crown",
+          "start": [
+            16,
+            10
+          ],
+          "end": [
+            32,
+            10
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "band-1",
+          "start": [
+            16,
+            10
+          ],
+          "end": [
+            10,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-2",
+          "start": [
+            10,
+            10
+          ],
+          "end": [
+            14,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-3",
+          "start": [
+            14,
+            18
+          ],
+          "end": [
+            34,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-4",
+          "start": [
+            34,
+            18
+          ],
+          "end": [
+            38,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-5",
+          "start": [
+            38,
+            10
+          ],
+          "end": [
+            32,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-6",
+          "start": [
+            32,
+            10
+          ],
+          "end": [
+            16,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            18
+          ],
+          "end": [
+            14,
+            18
+          ],
+          "radius_x": 10,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            44
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            44
+          ],
+          "end": [
+            18,
+            34
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            34
+          ],
+          "end": [
+            30,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            34
+          ],
+          "end": [
+            40,
+            44
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            44
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "band",
+          "members": [
+            "band-1",
+            "band-2",
+            "band-3",
+            "band-4",
+            "band-5",
+            "band-6"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "crown",
+            "band"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "band"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/ship-crew-navy-1-avatar.svg",
+      "svg_sha256": "d567bca489e06cc7ff860e65e9941c1313e0675834b83f1c08d7bad1e80405a0",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "user-avatar",
+      "name": "user-avatar",
+      "aliases": [
+        "account-avatar"
+      ],
+      "category": "people/avatars",
+      "keywords": [
+        "user",
+        "person",
+        "avatar",
+        "profile",
+        "account"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "head-0",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            32,
+            10
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-1",
+          "start": [
+            32,
+            10
+          ],
+          "end": [
+            24,
+            18
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-2",
+          "start": [
+            24,
+            18
+          ],
+          "end": [
+            16,
+            10
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-3",
+          "start": [
+            16,
+            10
+          ],
+          "end": [
+            24,
+            2
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "left-side",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            38
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "left-shoulder",
+          "start": [
+            8,
+            38
+          ],
+          "end": [
+            20,
+            26
+          ],
+          "radius_x": 12,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "shoulder-top",
+          "start": [
+            20,
+            26
+          ],
+          "end": [
+            28,
+            26
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "right-shoulder",
+          "start": [
+            28,
+            26
+          ],
+          "end": [
+            40,
+            38
+          ],
+          "radius_x": 12,
+          "radius_y": 12,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "right-side",
+          "start": [
+            40,
+            38
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "head-0",
+            "head-1",
+            "head-2",
+            "head-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "left-side",
+            "left-shoulder",
+            "shoulder-top",
+            "right-shoulder",
+            "right-side"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [],
+      "svg_path": "dist/avatar48/user-avatar.svg",
+      "svg_sha256": "97ba1a25043159a869bf16cd3b0de1b1fa0f269126537f2a4ecd0e1bb4b5965d",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "woman-air-hostess-1-avatar",
+      "name": "woman-air-hostess-1-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "woman",
+        "air",
+        "hostess",
+        "1",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "hat-1",
+          "start": [
+            14,
+            14
+          ],
+          "end": [
+            18,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "hat-2",
+          "start": [
+            18,
+            2
+          ],
+          "end": [
+            30,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "hat-3",
+          "start": [
+            30,
+            2
+          ],
+          "end": [
+            34,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "hat-4",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            14,
+            14
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-left",
+          "start": [
+            14,
+            14
+          ],
+          "end": [
+            8,
+            24
+          ],
+          "segments": [
+            [
+              [
+                8,
+                16
+              ],
+              [
+                8,
+                20
+              ],
+              [
+                8,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "hair-right",
+          "start": [
+            34,
+            14
+          ],
+          "end": [
+            40,
+            24
+          ],
+          "segments": [
+            [
+              [
+                40,
+                16
+              ],
+              [
+                40,
+                20
+              ],
+              [
+                40,
+                24
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            18,
+            32
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            32
+          ],
+          "end": [
+            30,
+            32
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            32
+          ],
+          "end": [
+            40,
+            42
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            42
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "hat",
+          "members": [
+            "hat-1",
+            "hat-2",
+            "hat-3",
+            "hat-4"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "hat",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "hat"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-left",
+            "face"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "hat"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hair-right",
+            "face"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/woman-air-hostess-1-avatar.svg",
+      "svg_sha256": "64d74be36e25f7e09e696f26c9dbde13f7156cf80a782f3a3d908c72e6a63917",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "woman-store-clerk-3-avatar",
+      "name": "woman-store-clerk-3-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "woman",
+        "store",
+        "clerk",
+        "3",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "crown",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "jaw",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            14,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "fringe",
+          "start": [
+            14,
+            12
+          ],
+          "end": [
+            34,
+            12
+          ],
+          "segments": [
+            [
+              [
+                20,
+                12
+              ],
+              [
+                25,
+                9
+              ],
+              [
+                27,
+                6
+              ]
+            ],
+            [
+              [
+                29,
+                10
+              ],
+              [
+                32,
+                12
+              ],
+              [
+                34,
+                12
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "ponytail",
+          "start": [
+            34,
+            12
+          ],
+          "end": [
+            39,
+            22
+          ],
+          "segments": [
+            [
+              [
+                40,
+                12
+              ],
+              [
+                34,
+                18
+              ],
+              [
+                39,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "crown",
+            "jaw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "fringe"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "head",
+            "ponytail"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "fringe",
+            "ponytail"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/woman-store-clerk-3-avatar.svg",
+      "svg_sha256": "bf2956870c7082a83508c8cf4e64282c869c3c43d335b05d30402ff890a4e40c",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "woman-store-clerk-avatar",
+      "name": "woman-store-clerk-avatar",
+      "aliases": [],
+      "category": "people/avatars",
+      "keywords": [
+        "avatar",
+        "woman",
+        "store",
+        "clerk",
+        "bust",
+        "body",
+        "portrait"
+      ],
+      "family": "avatar",
+      "profile": "AVATAR48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        6,
+        0,
+        42,
+        48
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "hair-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            8,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-left",
+          "start": [
+            8,
+            12
+          ],
+          "end": [
+            8,
+            22
+          ],
+          "segments": [
+            [
+              [
+                8,
+                16
+              ],
+              [
+                12,
+                19
+              ],
+              [
+                8,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-left",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hair-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            40,
+            12
+          ],
+          "radius_x": 16,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "tip-right",
+          "start": [
+            40,
+            12
+          ],
+          "end": [
+            40,
+            22
+          ],
+          "segments": [
+            [
+              [
+                40,
+                16
+              ],
+              [
+                36,
+                19
+              ],
+              [
+                40,
+                22
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "fringe-right",
+          "start": [
+            24,
+            2
+          ],
+          "end": [
+            33,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "face",
+          "start": [
+            33,
+            12
+          ],
+          "end": [
+            15,
+            12
+          ],
+          "radius_x": 9,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            8,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-left",
+          "start": [
+            8,
+            40
+          ],
+          "end": [
+            18,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-top",
+          "start": [
+            18,
+            30
+          ],
+          "end": [
+            30,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-shoulder-right",
+          "start": [
+            30,
+            30
+          ],
+          "end": [
+            40,
+            40
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            40,
+            40
+          ],
+          "end": [
+            40,
+            46
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outer-left",
+          "members": [
+            "hair-left",
+            "tip-left"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "outer-right",
+          "members": [
+            "hair-right",
+            "tip-right"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-left",
+            "body-shoulder-left",
+            "body-top",
+            "body-shoulder-right",
+            "body-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-right",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "outer-left",
+            "outer-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "fringe-left",
+            "fringe-right"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "face",
+            "fringe-right"
+          ]
+        }
+      ],
+      "svg_path": "dist/avatar48/woman-store-clerk-avatar.svg",
+      "svg_sha256": "c352013368e7ba071752d81aaa78d682e42527ec7de282e63fb67bdc90ec334f",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "0069d58911ea6b693e60143e9e91fe5c8c41cd7b27209b8cce3858e490f2b47e",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    }
+  ]
+}

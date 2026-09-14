@@ -16,8 +16,8 @@ class FwdTextLabel(Solo48):
 
     def build(self) -> None:
         # Current contract centerline extremes: (6,8)-(42,40).
-        self.add_polyline('f',(6,40),(6,24),(6,8),(11,8))
-        self.add_line('f-crossbar',(6,24),(11,24))
+        self.add_polyline('f',(4,40),(4,24),(4,8),(11,8))
+        self.add_line('f-crossbar',(4,24),(11,24))
         self.relate('connect','f','f-crossbar')
         self.add_polyline('w',(20,8),(22,40),(24,24),(26,40),(28,8))
         self.add_line('d-stem',(37,8),(37,40))

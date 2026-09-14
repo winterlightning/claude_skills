@@ -18,8 +18,8 @@ class Handshake(Solo48):
 
     def build(self) -> None:
         self.add_polyline('hands',(10,14),(18,8),(28,8),(38,14),(38,28),(34,30),(28,38),(22,40),(10,28),(10,14),closed=True)
-        self.add_polyline('cuff-left',(6,12),(10,12),(10,14),(10,28),(10,32),(6,32))
-        self.add_polyline('cuff-right',(42,12),(38,12),(38,14),(38,28),(38,32),(42,32))
+        self.add_polyline('cuff-left',(4,12),(10,12),(10,14),(10,28),(10,32),(4,32))
+        self.add_polyline('cuff-right',(44,12),(38,12),(38,14),(38,28),(38,32),(44,32))
         self.relate('connect','hands','cuff-left')
         self.relate('connect','hands','cuff-right')
         self.add_line('thumb-top',(28,8),(18,18))
