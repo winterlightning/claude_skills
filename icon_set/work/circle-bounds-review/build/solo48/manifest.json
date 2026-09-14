@@ -1,0 +1,1681 @@
+{
+  "manifest_version": 2,
+  "family": "solo",
+  "profile": "SOLO48",
+  "canvas_size": 48,
+  "count": 6,
+  "icons": [
+    {
+      "icon_id": "compact-disc-v2",
+      "name": "compact-disc-v2",
+      "aliases": [],
+      "category": "objects/device",
+      "keywords": [
+        "compact",
+        "disc"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "rim-0",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-1",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-3",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-0",
+          "start": [
+            24,
+            18
+          ],
+          "end": [
+            30,
+            24
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-1",
+          "start": [
+            30,
+            24
+          ],
+          "end": [
+            24,
+            30
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-2",
+          "start": [
+            24,
+            30
+          ],
+          "end": [
+            18,
+            24
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-3",
+          "start": [
+            18,
+            24
+          ],
+          "end": [
+            24,
+            18
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rim",
+          "members": [
+            "rim-0",
+            "rim-1",
+            "rim-2",
+            "rim-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "hub",
+          "members": [
+            "hub-0",
+            "hub-1",
+            "hub-2",
+            "hub-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [],
+      "variant_of": "compact-disc",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/compact-disc-v2.svg",
+      "svg_sha256": "b22d5e2005c2f34357ea16539195d7f6428f4987f669257a77b85e6771acfc82",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "compact-disc-with-partition-segment-v4",
+      "name": "compact-disc-with-partition-segment-v4",
+      "aliases": [],
+      "category": "objects/device",
+      "keywords": [
+        "cd",
+        "disc",
+        "partition",
+        "segment",
+        "storage",
+        "disk",
+        "sector",
+        "media"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "rim-0",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-1",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-3",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-0",
+          "start": [
+            24,
+            20
+          ],
+          "end": [
+            28,
+            24
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-1",
+          "start": [
+            28,
+            24
+          ],
+          "end": [
+            24,
+            28
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-2",
+          "start": [
+            24,
+            28
+          ],
+          "end": [
+            20,
+            24
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-3",
+          "start": [
+            20,
+            24
+          ],
+          "end": [
+            24,
+            20
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "sector-right",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            37,
+            24
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "sector-turn",
+          "start": [
+            37,
+            24
+          ],
+          "end": [
+            24,
+            37
+          ],
+          "radius_x": 13,
+          "radius_y": 13,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "sector-bottom",
+          "start": [
+            24,
+            37
+          ],
+          "end": [
+            24,
+            44
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rim",
+          "members": [
+            "rim-0",
+            "rim-1",
+            "rim-2",
+            "rim-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "hub",
+          "members": [
+            "hub-0",
+            "hub-1",
+            "hub-2",
+            "hub-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "sector",
+          "members": [
+            "sector-right",
+            "sector-turn",
+            "sector-bottom"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "rim",
+            "sector"
+          ]
+        }
+      ],
+      "variant_of": "compact-disc-with-partition-segment",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/compact-disc-with-partition-segment-v4.svg",
+      "svg_sha256": "a0c4dc1be8bc0d1355c4c9e17842e822d67bffb2f5ca9e554abcda7f62f78f7f",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "compact-disc-with-sheen-arcs-v3",
+      "name": "compact-disc-with-sheen-arcs-v3",
+      "aliases": [],
+      "category": "objects/device",
+      "keywords": [
+        "cd",
+        "disc",
+        "dvd",
+        "media",
+        "storage",
+        "music",
+        "shine",
+        "disk"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "rim-0",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-1",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-3",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-0",
+          "start": [
+            24,
+            21
+          ],
+          "end": [
+            27,
+            24
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-1",
+          "start": [
+            27,
+            24
+          ],
+          "end": [
+            24,
+            27
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-2",
+          "start": [
+            24,
+            27
+          ],
+          "end": [
+            21,
+            24
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-3",
+          "start": [
+            21,
+            24
+          ],
+          "end": [
+            24,
+            21
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "sheen-upper",
+          "start": [
+            25,
+            13
+          ],
+          "end": [
+            35,
+            23
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "sheen-lower",
+          "start": [
+            23,
+            35
+          ],
+          "end": [
+            13,
+            25
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rim",
+          "members": [
+            "rim-0",
+            "rim-1",
+            "rim-2",
+            "rim-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "hub",
+          "members": [
+            "hub-0",
+            "hub-1",
+            "hub-2",
+            "hub-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [],
+      "variant_of": "compact-disc-with-sheen-arcs",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/compact-disc-with-sheen-arcs-v3.svg",
+      "svg_sha256": "1c88af4ccd730ee692c4676b1beecfc56d6c2cc82d0e823c28912d3a4044b1a2",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 1,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "cracked-compact-disc-v3",
+      "name": "cracked-compact-disc-v3",
+      "aliases": [],
+      "category": "objects/device",
+      "keywords": [
+        "cd",
+        "disc",
+        "broken",
+        "cracked",
+        "damaged",
+        "media",
+        "storage",
+        "error",
+        "disk"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "rim-0",
+          "start": [
+            12,
+            8
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-1",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-3",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "crack-1",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            16,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "crack-2",
+          "start": [
+            16,
+            18
+          ],
+          "end": [
+            29,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "crack-3",
+          "start": [
+            29,
+            18
+          ],
+          "end": [
+            18,
+            34
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rim",
+          "members": [
+            "rim-0",
+            "rim-1",
+            "rim-2",
+            "rim-3"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "crack",
+          "members": [
+            "crack-1",
+            "crack-2",
+            "crack-3"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "rim",
+            "crack"
+          ]
+        }
+      ],
+      "variant_of": "cracked-compact-disc",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/cracked-compact-disc-v3.svg",
+      "svg_sha256": "bf0305adb865190215b18d6f79ea5b9bb1d9fc351cc97a7d2006356ad8a5c42c",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 0,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "disk-platter-with-drive-slots-v3",
+      "name": "disk-platter-with-drive-slots-v3",
+      "aliases": [],
+      "category": "objects/device",
+      "keywords": [
+        "disk",
+        "platter",
+        "floppy",
+        "hub",
+        "storage",
+        "media",
+        "spindle",
+        "drive"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "rim-0",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-1",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "rim-3",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-0",
+          "start": [
+            24,
+            21
+          ],
+          "end": [
+            27,
+            24
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-1",
+          "start": [
+            27,
+            24
+          ],
+          "end": [
+            24,
+            27
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-2",
+          "start": [
+            24,
+            27
+          ],
+          "end": [
+            21,
+            24
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "hub-3",
+          "start": [
+            21,
+            24
+          ],
+          "end": [
+            24,
+            21
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "slot-top",
+          "start": [
+            22,
+            13
+          ],
+          "end": [
+            26,
+            13
+          ],
+          "radius_x": 3,
+          "radius_y": 3,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "slot-left",
+          "start": [
+            14,
+            29
+          ],
+          "end": [
+            15,
+            31
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "slot-right",
+          "start": [
+            34,
+            29
+          ],
+          "end": [
+            33,
+            31
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "rim",
+          "members": [
+            "rim-0",
+            "rim-1",
+            "rim-2",
+            "rim-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "hub",
+          "members": [
+            "hub-0",
+            "hub-1",
+            "hub-2",
+            "hub-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [],
+      "variant_of": "disk-platter-with-drive-slots",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/disk-platter-with-drive-slots-v3.svg",
+      "svg_sha256": "924400f0a4c90313d68ea6a212ef5f1cb2444ab1e7dbb8ef13a281a61afe3d46",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 1,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "face-wearing-round-glasses-v3",
+      "name": "face-wearing-round-glasses-v3",
+      "aliases": [],
+      "category": "objects/accessories",
+      "keywords": [
+        "face",
+        "glasses",
+        "spectacles",
+        "smile",
+        "avatar",
+        "person",
+        "eyewear",
+        "portrait"
+      ],
+      "family": "solo",
+      "profile": "SOLO48",
+      "canvas_size": 48,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        2,
+        2,
+        46,
+        46
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "face-0",
+          "start": [
+            24,
+            4
+          ],
+          "end": [
+            44,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face-1",
+          "start": [
+            44,
+            24
+          ],
+          "end": [
+            24,
+            44
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face-2",
+          "start": [
+            24,
+            44
+          ],
+          "end": [
+            4,
+            24
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "face-3",
+          "start": [
+            4,
+            24
+          ],
+          "end": [
+            24,
+            4
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-left-0",
+          "start": [
+            17,
+            17
+          ],
+          "end": [
+            21,
+            21
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-left-1",
+          "start": [
+            21,
+            21
+          ],
+          "end": [
+            17,
+            25
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-left-2",
+          "start": [
+            17,
+            25
+          ],
+          "end": [
+            13,
+            21
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-left-3",
+          "start": [
+            13,
+            21
+          ],
+          "end": [
+            17,
+            17
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-right-0",
+          "start": [
+            31,
+            17
+          ],
+          "end": [
+            35,
+            21
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-right-1",
+          "start": [
+            35,
+            21
+          ],
+          "end": [
+            31,
+            25
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-right-2",
+          "start": [
+            31,
+            25
+          ],
+          "end": [
+            27,
+            21
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lens-right-3",
+          "start": [
+            27,
+            21
+          ],
+          "end": [
+            31,
+            17
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "bridge",
+          "start": [
+            21,
+            21
+          ],
+          "end": [
+            27,
+            21
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "smile",
+          "start": [
+            18,
+            33
+          ],
+          "end": [
+            30,
+            33
+          ],
+          "radius_x": 8,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": false
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "face",
+          "members": [
+            "face-0",
+            "face-1",
+            "face-2",
+            "face-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "lens-left",
+          "members": [
+            "lens-left-0",
+            "lens-left-1",
+            "lens-left-2",
+            "lens-left-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "lens-right",
+          "members": [
+            "lens-right-0",
+            "lens-right-1",
+            "lens-right-2",
+            "lens-right-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          24,
+          24
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "bridge",
+            "lens-left"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "bridge",
+            "lens-right"
+          ]
+        }
+      ],
+      "variant_of": "face-wearing-round-glasses",
+      "variant_label": "Exact circle envelope and clear internal spacing",
+      "svg_path": "work/circle-bounds-review/build/solo48/face-wearing-round-glasses-v3.svg",
+      "svg_sha256": "1f7d61beb04c16195cba2653e42f2ba76402324e532ed7c39ef0f46a81547fed",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "holes/pinches"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 0.0,
+          "measuring_stroke_width": 1.0,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 4.0,
+          "rules": {
+            "version": 1,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false
+          },
+          "findings": [],
+          "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    }
+  ]
+}

@@ -84,6 +84,43 @@ def init_database(path: Path) -> None:
         connection.execute('''INSERT OR IGNORE INTO reviews(icon, svg_sha256, status, updated_at)
             SELECT icon, svg_sha256, 'pending', MAX(created_at)
             FROM feedback GROUP BY icon, svg_sha256''')
+        # Who did what: an actor on each current record (NULL for rows saved before
+        # logins were required), plus an append-only log of every action.
+        for table, column in (('feedback', 'author'), ('feedback', 'edited_by'), ('feedback', 'edited_at'),
+                              ('reviews', 'updated_by'), ('icon_flags', 'updated_by')):
+            if column not in {row[1] for row in connection.execute(f'PRAGMA table_info({table})')}:
+                connection.execute(f'ALTER TABLE {table} ADD COLUMN {column} TEXT')
+        connection.execute('''CREATE TABLE IF NOT EXISTS activity_log (
+            id INTEGER PRIMARY KEY, username TEXT NOT NULL, action TEXT NOT NULL, icon TEXT,
+            details TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL)''')
+        connection.execute('CREATE INDEX IF NOT EXISTS activity_log_user ON activity_log(username, id)')
+        connection.execute('CREATE INDEX IF NOT EXISTS activity_log_icon ON activity_log(icon, id)')
+
+
+def utc_now():
+    return datetime.now(timezone.utc).isoformat()
+
+
+def record_activity(connection, username, action, icon=None, **details):
+    """Append one action to the log; call inside the transaction that makes the change."""
+    connection.execute('INSERT INTO activity_log(username, action, icon, details, created_at) VALUES (?, ?, ?, ?, ?)',
+                       (username, action, icon, json.dumps(details, ensure_ascii=False), utc_now()))
+
+
+def review_detail(connection, key, sha):
+    """Who set the icon's current review state, following the same precedence as /api/reviews."""
+    split = connection.execute('SELECT created_by, created_at FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1',
+                               (key, sha)).fetchone()
+    if split:
+        return {'status': 'rejected', 'updated_by': split[0], 'updated_at': split[1]}
+    rejected = connection.execute("SELECT updated_by, updated_at FROM reviews WHERE icon=? AND status='rejected' "
+                                  'ORDER BY updated_at DESC LIMIT 1', (key,)).fetchone()
+    if rejected:
+        return {'status': 'rejected', 'updated_by': rejected[0], 'updated_at': rejected[1]}
+    row = connection.execute('SELECT status, updated_by, updated_at FROM reviews WHERE icon=? AND svg_sha256=?',
+                             (key, sha)).fetchone()
+    return {'status': row[0], 'updated_by': row[1], 'updated_at': row[2]} if row else \
+        {'status': 'ready', 'updated_by': None, 'updated_at': None}
 
 
 def feedback_row(row):
@@ -150,12 +187,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
             connection.execute('DELETE FROM admin_sessions WHERE expires<=?', (time.time(),))
             if old:
-                connection.execute('DELETE FROM admin_sessions WHERE token=?',
-                                   (hashlib.sha256(old.value.encode()).hexdigest(),))
+                digest = hashlib.sha256(old.value.encode()).hexdigest()
+                ended = connection.execute('SELECT username FROM admin_sessions WHERE token=?', (digest,)).fetchone()
+                connection.execute('DELETE FROM admin_sessions WHERE token=?', (digest,))
+                if ended and route.endswith('/logout'):
+                    record_activity(connection, ended[0], 'logout')
             token = secrets.token_urlsafe(32) if route.endswith('/login') else ''
             if token:
                 connection.execute('INSERT INTO admin_sessions VALUES (?,?,?)',
                                    (hashlib.sha256(token.encode()).hexdigest(), username, time.time()+SESSION_TTL))
+                record_activity(connection, username, 'login')
         content = json.dumps({'user': username if token else None}).encode()
         self.send_response(200)
         self.send_header('Set-Cookie', f'pictographic_session={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age={SESSION_TTL if token else 0}')
@@ -216,8 +257,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if key not in self.catalog():
                     return self.json_response({'error': 'Unknown icon'}, 404)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    row = connection.execute('SELECT flag FROM icon_flags WHERE icon=?', (key,)).fetchone()
-                return self.json_response({'flag': row[0] if row else ''})
+                    row = connection.execute('SELECT flag, updated_by, updated_at FROM icon_flags WHERE icon=?', (key,)).fetchone()
+                return self.json_response({'flag': row[0], 'updated_by': row[1], 'updated_at': row[2]} if row
+                                          else {'flag': '', 'updated_by': None, 'updated_at': None})
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Could not load icon flag.'}, 503)
         if parsed.path == '/api/pending-briefs/download':
@@ -247,7 +289,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     connection.row_factory = sqlite3.Row
                     rows = connection.execute(
-                        'SELECT id, icon, feedback, svg_sha256, created_at, reference_images FROM feedback ORDER BY id DESC'
+                        'SELECT id, icon, feedback, svg_sha256, created_at, reference_images, author, edited_by, edited_at FROM feedback ORDER BY id DESC'
                     ).fetchall()
                 return self.json_response([feedback_row(row) for row in rows])
             except sqlite3.Error:
@@ -279,6 +321,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response(statuses)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
+        if parsed.path == '/api/review-detail':
+            key = parse_qs(parsed.query).get('icon', [''])[0]
+            try:
+                catalog = self.catalog()
+                if key not in catalog:
+                    return self.json_response({'error': 'Unknown icon'}, 404)
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    return self.json_response(review_detail(connection, key, catalog[key]['svg_sha256']))
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Review details are temporarily unavailable'}, 503)
         if parsed.path == '/api/feedback':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
@@ -287,7 +339,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     connection.row_factory = sqlite3.Row
                     rows = connection.execute(
-                        'SELECT id, feedback, svg_sha256, created_at, reference_images FROM feedback WHERE icon=? ORDER BY id DESC LIMIT 100',
+                        'SELECT id, feedback, svg_sha256, created_at, reference_images, author, edited_by, edited_at FROM feedback WHERE icon=? ORDER BY id DESC LIMIT 100',
                         (key,),
                     ).fetchall()
                 return self.json_response([feedback_row(row) for row in rows])
@@ -323,10 +375,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         route = urlsplit(self.path).path
         if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images'):
             return self.json_response({'error': 'Not found'}, 404)
-        if route.startswith('/api/generation') and not self.current_user():
-            return self.json_response({'error': 'Log in as an admin to generate icons.'}, 401)
-        if route == '/api/reference-images' and not self.current_user():
-            return self.json_response({'error': 'Log in as an admin to attach reference images.'}, 401)
+        # Every change is attributed to a logged-in user; only logging in is anonymous.
+        user = None
+        if route not in ('/api/auth/login', '/api/auth/logout'):
+            user = self.current_user()
+            if not user:
+                return self.json_response({'error': 'Log in to make changes.'}, 401)
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
                        urlsplit(origin).netloc != self.headers.get('Host')):
@@ -345,11 +399,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if not isinstance(data, dict):
                 raise ValueError()
             if route == '/api/reference-images':
-                return self.upload_reference(data)
+                return self.upload_reference(data, user)
             if route in ('/api/auth/login', '/api/auth/logout'):
                 return self.auth_action(route, data)
             if route in ('/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
-                return self.brief_action(route, data)
+                return self.brief_action(route, data, user)
             if route in ('/api/generation', '/api/generation/accept', '/api/generation/discard'):
                 try:
                     if route == '/api/generation' and data.get('mode') == 'fix':
@@ -359,16 +413,23 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                                 if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
                                     return self.json_response({'error': 'Restore this rejected icon before regenerating it.'}, 409)
                     manager = self.server.generation
-                    result = manager.start(data, self.catalog()) if route == '/api/generation' else manager.decide(data.get('id'), route.endswith('/accept'))
+                    if route == '/api/generation':
+                        result = manager.start(data, self.catalog(), user)
+                        action, details = result['mode'], {'job': result['id'], 'name': result['name']}
+                    else:
+                        result = manager.decide(data.get('id'), route.endswith('/accept'), user)
+                        action, details = 'generation_' + route.rsplit('/', 1)[1], {'job': result['id'], 'name': result['name']}
+                    with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                        record_activity(connection, user, action, (result.get('source') or {}).get('key'), **details)
                     return self.json_response(result, 202)
                 except (OSError, ValueError) as error:
                     return self.json_response({'error': str(error)}, 400)
                 except sqlite3.Error:
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icon-flag':
-                return self.save_icon_flag(data)
+                return self.save_icon_flag(data, user)
             if route == '/api/feedback/edit':
-                return self.edit_feedback(data)
+                return self.edit_feedback(data, user)
             key, feedback = data.get('icon'), data.get('feedback')
             status = data.get('status')
             if not isinstance(key, str):
@@ -406,21 +467,25 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         return self.json_response({'error': 'Restore this rejected icon before changing its review status.'}, 409)
                 now = datetime.now(timezone.utc).isoformat()
                 if route == '/api/feedback':
-                    connection.execute(
-                        'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images) VALUES (?, ?, ?, ?, ?)',
-                        (key, feedback.strip(), icon['svg_sha256'], now, json.dumps(references)),
-                    )
+                    feedback_id = connection.execute(
+                        'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images, author) VALUES (?, ?, ?, ?, ?, ?)',
+                        (key, feedback.strip(), icon['svg_sha256'], now, json.dumps(references), user),
+                    ).lastrowid
+                    record_activity(connection, user, 'feedback', key, feedback_id=feedback_id, status=status,
+                                    reference_images=[ref['id'] for ref in references])
+                else:
+                    record_activity(connection, user, 'review', key, status=status, svg_sha256=icon['svg_sha256'])
                 connection.execute(
-                    '''INSERT INTO reviews(icon, svg_sha256, status, updated_at) VALUES (?, ?, ?, ?)
+                    '''INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)
                        ON CONFLICT(icon, svg_sha256) DO UPDATE SET
-                       status=excluded.status, updated_at=excluded.updated_at''',
-                    (key, icon['svg_sha256'], status, now),
+                       status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
+                    (key, icon['svg_sha256'], status, now, user),
                 )
             return self.json_response({'saved': True, 'status': status}, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
 
-    def upload_reference(self, data):
+    def upload_reference(self, data, user):
         encoded = data.get('data')
         try:
             if not isinstance(encoded, str):
@@ -429,13 +494,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 content = base64.b64decode(encoded, validate=True)
             except (binascii.Error, ValueError):
                 raise ValueError('Could not read the uploaded file.')
-            return self.json_response(self.server.references.save(data.get('name'), content), 201)
+            meta = self.server.references.save(data.get('name'), content)
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                record_activity(connection, user, 'reference_upload', image=meta['id'], name=meta['name'])
+            return self.json_response(meta, 201)
         except ValueError as error:
             return self.json_response({'error': str(error)}, 400)
-        except OSError:
+        except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
 
-    def save_icon_flag(self, data):
+    def save_icon_flag(self, data, user):
         key, flag = data.get('icon'), data.get('flag')
         if not isinstance(key, str) or flag not in ('', 'container_combination', 'combination', 'other', 'exception'):
             return self.json_response({'error': 'Choose a valid icon flag.'}, 400)
@@ -443,17 +511,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if key not in self.catalog():
                 return self.json_response({'error': 'Unknown icon'}, 404)
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                now = utc_now()
                 if flag:
-                    connection.execute('INSERT INTO icon_flags(icon,flag,updated_at) VALUES (?,?,?) '
-                        'ON CONFLICT(icon) DO UPDATE SET flag=excluded.flag,updated_at=excluded.updated_at',
-                        (key, flag, datetime.now(timezone.utc).isoformat()))
+                    connection.execute('INSERT INTO icon_flags(icon,flag,updated_at,updated_by) VALUES (?,?,?,?) '
+                        'ON CONFLICT(icon) DO UPDATE SET flag=excluded.flag,updated_at=excluded.updated_at,updated_by=excluded.updated_by',
+                        (key, flag, now, user))
                 else:
                     connection.execute('DELETE FROM icon_flags WHERE icon=?', (key,))
-            return self.json_response({'flag': flag})
+                record_activity(connection, user, 'flag' if flag else 'unflag', key, flag=flag)
+            return self.json_response({'flag': flag, 'updated_by': user if flag else None, 'updated_at': now if flag else None})
         except (OSError, ValueError, sqlite3.Error):
             return self.json_response({'error': 'Could not save icon flag. Please retry.'}, 503)
 
-    def edit_feedback(self, data):
+    def edit_feedback(self, data, user):
         feedback_id, feedback, previous = data.get('id'), data.get('feedback'), data.get('previous_feedback')
         if (type(feedback_id) is not int or not isinstance(feedback, str)
                 or not 1 <= len(feedback.strip()) <= 10000 or not isinstance(previous, str)):
@@ -461,17 +531,20 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         try:
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                 # Compare and update together to avoid silently overwriting another editor.
+                now = utc_now()
                 updated = connection.execute(
-                    'UPDATE feedback SET feedback=? WHERE id=? AND feedback=?',
-                    (feedback.strip(), feedback_id, previous))
+                    'UPDATE feedback SET feedback=?, edited_by=?, edited_at=? WHERE id=? AND feedback=?',
+                    (feedback.strip(), user, now, feedback_id, previous))
                 if not updated.rowcount:
                     exists = connection.execute('SELECT 1 FROM feedback WHERE id=?', (feedback_id,)).fetchone()
                     return self.json_response({'error': 'Feedback changed. Refresh before editing again.' if exists else 'Feedback not found.'}, 409 if exists else 404)
-            return self.json_response({'saved': True, 'feedback': feedback.strip()})
+                icon = connection.execute('SELECT icon FROM feedback WHERE id=?', (feedback_id,)).fetchone()[0]
+                record_activity(connection, user, 'feedback_edit', icon, feedback_id=feedback_id, previous_feedback=previous)
+            return self.json_response({'saved': True, 'feedback': feedback.strip(), 'edited_by': user, 'edited_at': now})
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback. Please retry.'}, 503)
 
-    def brief_action(self, route, data):
+    def brief_action(self, route, data, user):
         try:
             catalog = self.catalog()
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
@@ -486,7 +559,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         raise ValueError('Choose a built standalone icon in this component family, not the rejected combination.')
                     if self.is_rejected(connection, key, icon['svg_sha256']):
                         raise ValueError('A rejected icon cannot fulfill a component brief.')
-                    connection.execute("UPDATE pending_briefs SET status='generated',generated_icon=? WHERE id=?", (key,brief_id))
+                    connection.execute("UPDATE pending_briefs SET status='generated',generated_icon=?,completed_by=?,completed_at=? WHERE id=?",
+                                       (key, user, utc_now(), brief_id))
+                    record_activity(connection, user, 'brief_complete', brief[1], brief_id=brief_id, generated_icon=key)
                     return self.json_response({'saved': True})
                 key = data.get('icon')
                 if not isinstance(key, str) or key not in catalog:
@@ -494,16 +569,24 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 icon = catalog[key]
                 if data.get('svg_sha256') != icon['svg_sha256']:
                     return self.json_response({'error': 'Icon changed. Refresh before rejecting or restoring.'}, 409)
+                now = utc_now()
                 if route == '/api/reject-combination/restore':
-                    connection.execute('UPDATE split_requests SET active=0 WHERE icon=? AND svg_sha256=?', (key,icon['svg_sha256']))
-                    connection.execute("UPDATE reviews SET status='ready' WHERE icon=? AND status='rejected'", (key,))
+                    connection.execute('UPDATE split_requests SET active=0, restored_by=?, restored_at=? WHERE icon=? AND svg_sha256=? AND active=1',
+                                       (user, now, key, icon['svg_sha256']))
+                    connection.execute("UPDATE reviews SET status='ready', updated_by=?, updated_at=? WHERE icon=? AND status='rejected'", (user, now, key))
                     # Explicit restore returns the icon to review, never silently approves it.
-                    connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at) VALUES (?,?,'ready',?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='ready',updated_at=excluded.updated_at", (key,icon['svg_sha256'],datetime.now(timezone.utc).isoformat()))
+                    connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,'ready',?,?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='ready',updated_at=excluded.updated_at,updated_by=excluded.updated_by", (key,icon['svg_sha256'],now,user))
+                    record_activity(connection, user, 'restore', key, svg_sha256=icon['svg_sha256'])
                     return self.json_response({'saved': True, 'status': 'ready'})
                 validate_split(data)
                 sources = icon.get('original_sources', [])
                 reference = sources[0]['source_path'] if sources else ''
-                split_id = enqueue_split(connection,key,icon['svg_sha256'],reference,data)
+                already = connection.execute('SELECT 1 FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1',
+                                             (key, icon['svg_sha256'])).fetchone()
+                split_id = enqueue_split(connection,key,icon['svg_sha256'],reference,data,user)
+                if not already:  # a repeated click changes nothing, so it records nothing
+                    record_activity(connection, user, 'reject_combination', key, split_id=split_id,
+                                    combination_type=data.get('combination_type'))
                 return self.json_response({'saved': True, 'status': 'rejected', 'split_id': split_id}, 201)
         except (ValueError, TypeError) as error:
             return self.json_response({'error': str(error)}, 400)

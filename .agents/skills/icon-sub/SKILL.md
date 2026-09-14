@@ -22,7 +22,7 @@ family and read from `icon_set/model/contracts$icon-profile.v1.json`:
 | Ships to | `icon_set/dist/sub32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `arrow-down`, `arrow-down-left`, `arrow-down-right`, `arrow-left`, `arrow-right`, `arrow-up` and 48 more |
+| Existing icons to imitate | `arrow-down`, `arrow-down-left`, `arrow-down-right`, `arrow-left`, `arrow-right`, `arrow-up` |
 
 A **sub** icon is read small and hosted by others. Its whole canvas is the container's content region, so anything valid here can be placed in one. Verbs, states and modifiers declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `circle`, `star`) declares `MAIN` with `semantic_kind = "noun"` and is still a sub icon -- the role describes the subject, the family decides the canvas.
 
@@ -42,6 +42,11 @@ meaning, recognizability, and natural shape. These are optional design choices,
 not requirements: skip mirroring or forced balance when they would distort the
 subject. A palm tree, for example, may retain uneven fronds and a leaning trunk;
 mirror only the parts where it helps the drawing read clearly.
+
+For any human subject or human part in a scene, first read
+`icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
+`icon_set/references/human_ref/`. These own human proportions and construction;
+detached heads require exactly 4 units of visible head-to-body clearance.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -168,7 +173,7 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 - Eight stroke widths across the canvas. Keep the smallest recognizable silhouette and one identifying feature; a third level of detail does not survive at 32 pixels.
 - The stroke-defined glyphs (`minus`, `bar`, `dot`, `exclamation`, `ellipsis`, `dots-vertical`) use `FREE` with an approved record. A new 4-unit-axis glyph needs its own record in `icon_set/model/contracts/exceptions.v1.json` with `status: "proposed"`; see `icon_set/skills/icon-design/keyshape-fitting.md`.
-- Straight parts may sit exactly on the 7-unit centerline minimum. Curved parts need a unit of margin or the engine returns `review`.
+- Curved parts need margin unless the distance engine certifies exact axis separation. Preserve the exact human head-to-body gap from `icon_set/skills/icon-design/human-reference.md`.
 - After it validates, prove it composes: `python3 icon_set/scripts/compose.py --host container-circle --sub <icon_id>`.
 
 7. **Build and look.**
@@ -210,3 +215,5 @@ preserve the parent and edit a new file from `create_variant.py`.
   balanced negative space, and symmetry wherever the subject supports it.
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
+- For human figures, name the shared human reference and verify its proportions
+  and exact 4-unit detached head-to-body ink gap in the emitted geometry.

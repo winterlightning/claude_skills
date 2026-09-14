@@ -13,7 +13,9 @@ class FeedbackEditTests(unittest.TestCase):
         data={'id':before['id'],'previous_feedback':'Original','feedback':' Updated request '}
         self.assertEqual(self.request('POST','/api/feedback/edit',data)[0],200)
         after=json.loads(self.request('GET','/api/feedback-feed')[1])
-        self.assertEqual(after,[dict(before,feedback='Updated request')])
+        self.assertEqual(before['author'],'jakes')
+        self.assertEqual(after,[dict(before,feedback='Updated request',edited_by='jakes',edited_at=after[0]['edited_at'])])
+        self.assertIsNotNone(after[0]['edited_at'])
         self.assertEqual(json.loads(self.request('GET','/api/feedback?icon=sub/square')[1])[0]['feedback'],'Updated request')
         self.assertEqual(json.loads(self.request('GET','/api/reviews')[1])['sub/square'],'approve')
         self.assertEqual(self.request('POST','/api/feedback/edit',data)[0],409)

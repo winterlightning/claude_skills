@@ -1,5 +1,5 @@
-# Bounds-only review variant; parent preserved.
-"""Keep the SQUARE centerline box (6,6)-(42,42). Body-14 is an exact rx=16, ry=15 quarter ellipse; it meets the tail at y=42 without overshoot. Original swept profile retained."""
+# Complete geometry repair; parent preserved.
+'Hammer bar widened to 8 units; broad curved body and angular swept tail have room between opposing edges. Nonessential gill removed. Exact SQUARE bounds; Lucide fish informs a reduced continuous silhouette.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bdd1577c-6f14-5bee-a41f-fac2b80017a7'
@@ -17,27 +17,19 @@ class HammerheadSharkVariant6(Solo48):
     aliases = ()
     keywords = ('hammerhead', 'shark', 'head', 'fins', 'sea', 'ocean', 'fish', 'predator')
 
-    def build(self) -> None:
-        self.add_line('body-1', (6, 6), (35, 6))
-        self.add_line('body-2', (35, 6), (35, 10))
-        self.add_line('body-3', (35, 10), (27, 10))
-        self.add_line('body-4', (27, 10), (27, 20))
-        self.add_line('body-5', (27, 20), (35, 26))
-        self.add_line('body-6', (35, 26), (27, 26))
-        self.add_line('body-7', (27, 26), (27, 29))
-        self.add_arc('body-8', (27, 29), (36, 38), radius_x=9, radius_y=9, sweep=False)
-        self.add_line('body-9', (36, 38), (36, 34))
-        self.add_line('body-10', (36, 34), (42, 26))
-        self.add_line('tail-notch-top', (42, 26), (42, 36))
-        self.add_line('body-11', (42, 36), (42, 42))
-        self.add_line('body-12', (42, 42), (34, 42))
-        self.add_line('body-13', (34, 42), (29, 42))
-        self.add_arc('body-14', (29, 42), (13, 27), radius_x=16, radius_y=15, sweep=True)
-        self.add_line('body-15', (13, 27), (6, 27))
-        self.add_line('body-16', (6, 27), (13, 19))
-        self.add_line('body-17', (13, 19), (13, 10))
-        self.add_line('body-18', (13, 10), (6, 10))
-        self.add_line('body-19', (6, 10), (6, 6))
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', 'tail-notch-top', 'body-11', 'body-12', 'body-13', 'body-14', 'body-15', 'body-16', 'body-17', 'body-18', 'body-19', closed=True)
-        self.add_line('gill-1', (20, 18), (20, 23))
-        self.add_contour('gill', 'gill-1', closed=False)
+    def build(self):
+        # Broad 8-unit hammer bar, 12-unit body, one swept tail.
+        # Lucide fish informs the reduced continuous silhouette. Gill mark omitted
+        # to preserve body clearance; swept profile and fin points are intentional.
+        points = [(6,6),(34,6),(34,14),(26,14),(26,18),(34,24),(26,26)]
+        for i,(a,b) in enumerate(zip(points,points[1:]),1):
+            self.add_line(f'head-{i}',a,b)
+        self.add_arc('inner-body',(26,26),(34,32),radius_x=8,radius_y=6,sweep=False)
+        self.add_line('tail-upper',(34,32),(42,22))
+        self.add_line('tail-end',(42,22),(42,42))
+        self.add_line('tail-bottom',(42,42),(30,42))
+        self.add_arc('outer-body',(30,42),(14,26),radius_x=16,sweep=True)
+        points = [(14,26),(6,26),(14,18),(14,14),(6,14),(6,6)]
+        for i,(a,b) in enumerate(zip(points,points[1:]),1):
+            self.add_line(f'left-{i}',a,b)
+        self.add_contour('body',*[f'head-{i}' for i in range(1,7)],'inner-body','tail-upper','tail-end','tail-bottom','outer-body',*[f'left-{i}' for i in range(1,6)],closed=True)

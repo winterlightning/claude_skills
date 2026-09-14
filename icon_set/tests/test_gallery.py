@@ -78,13 +78,23 @@ class ServerTests(unittest.TestCase):
         thread.start()
         self.addCleanup(self.server.server_close)
         self.addCleanup(self.server.shutdown)
+        # Every change needs a login; tests act as one reviewer unless they ask not to.
+        self.cookie = None
+        status, _ = self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'}, anonymous=True)
+        self.assertEqual(status, 200)
 
-    def request(self, method, path, data=None, headers=None):
+    def request(self, method, path, data=None, headers=None, anonymous=False):
         connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        headers = dict(headers or {'Content-Type': 'application/json'})
+        if self.cookie and not anonymous:
+            headers['Cookie'] = self.cookie
         try:
             connection.request(method, path, body=json.dumps(data) if data is not None else None,
-                               headers=headers or {'Content-Type': 'application/json'})
+                               headers=headers)
             response = connection.getresponse()
+            cookie = response.getheader('Set-Cookie')
+            if cookie and path == '/api/auth/login' and response.status == 200:
+                self.cookie = cookie.split(';', 1)[0]
             return response.status, response.read()
         finally:
             connection.close()

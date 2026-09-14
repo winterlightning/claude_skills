@@ -1,5 +1,5 @@
-# Bounds-only review variant; parent preserved.
-"""Move every authored point down by 2 units together. Keep dimensions, arcs, shared endpoints and spacing unchanged. VRECT_L centerline box (8,4)-(40,44), ink (6,2)-(42,46)."""
+# Complete geometry repair; parent preserved.
+'Paired eyes moved inward by one unit. Diamond beak reduced to an open V so no cramped internal counter remains. VRECT_L bounds retained; symmetry about x=24 preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7443f092-4834-4d07-9b5b-1b7914777905'
@@ -27,6 +27,6 @@ class ChickenFaceVariant3(Solo48):
         self.add_arc('comb-right', (29, 8), (24, 13), radius_x=5, radius_y=5, sweep=True)
         self.add_contour('comb', 'comb-left', 'comb-top', 'comb-right', closed=True)
         self.relate('connect', 'comb', 'face')
-        self.add_dot('eye-left', (16, 28))
-        self.add_dot('eye-right', (32, 28))
-        self.add_polyline('beak', (24, 35), (29, 40), (24, 44), (19, 40), (24, 35))
+        self.add_dot('eye-left', (17, 28))
+        self.add_dot('eye-right', (31, 28))
+        self.add_polyline('beak', (19, 38), (24, 44), (29, 38))

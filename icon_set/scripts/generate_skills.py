@@ -58,9 +58,8 @@ def _keyshape_table(profile: Profile) -> str:
 
 def _examples(family: str, limit: int = 6) -> str:
     ids = [icon.icon_id for icon in icons_in(family)]
-    shown = ", ".join(f"`{i}`" for i in ids[:limit])
-    more = f" and {len(ids) - limit} more" if len(ids) > limit else ""
-    return f"{shown}{more}"
+    # Keep instructions stable while new icons are generated in the workspace.
+    return ", ".join(f"`{i}`" for i in ids[:limit])
 
 
 def _content_region() -> tuple[int, int, int, int]:
@@ -104,8 +103,9 @@ FAMILY_TEXT = {
             "`dots-vertical`) use `FREE` with an approved record. A new 4-unit-axis glyph "
             "needs its own record in `icon_set/model/contracts/exceptions.v1.json` with "
             "`status: \"proposed\"`; see `{shared}/keyshape-fitting.md`.",
-            "Straight parts may sit exactly on the 7-unit centerline minimum. Curved parts "
-            "need a unit of margin or the engine returns `review`.",
+            "Curved parts need margin unless the distance engine certifies exact "
+            "axis separation. Preserve the exact human head-to-body gap from "
+            "`{shared}/human-reference.md`.",
             "After it validates, prove it composes: "
             "`python3 icon_set/scripts/compose.py --host container-circle --sub <icon_id>`.",
         ],
@@ -197,8 +197,8 @@ FAMILY_TEXT = {
             "Design the subject, then measure what it holds -- not the other way "
             "round. Ink anywhere in `{slot}` is legal; it costs hosting for children "
             "whose own ink reaches that far, and `mic` reports exactly which.",
-            "A gap that sits exactly on the minimum is only certifiable when both "
-            "sides are straight. Where a straight run has to hold a minimum gap, "
+            "A gap at the minimum needs exact straight distance or certified "
+            "axis separation of enclosing geometry. Where a straight run has to hold a minimum gap, "
             "emit it as its own path rather than inside a contour that also carries "
             "corner arcs -- but only where the parts genuinely still share endpoints, "
             "because splitting a corner into two paths that do not touch invents "
@@ -284,6 +284,11 @@ meaning, recognizability, and natural shape. These are optional design choices,
 not requirements: skip mirroring or forced balance when they would distort the
 subject. A palm tree, for example, may retain uneven fronds and a leaning trunk;
 mirror only the parts where it helps the drawing read clearly.
+
+For any human subject or human part in a scene, first read
+`{SHARED}/human-reference.md` and inspect the relevant files in
+`icon_set/references/human_ref/`. These own human proportions and construction;
+detached heads require exactly 4 units of visible head-to-body clearance.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -438,6 +443,8 @@ preserve the parent and edit a new file from `create_variant.py`.
   balanced negative space, and symmetry wherever the subject supports it.
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
+- For human figures, name the shared human reference and verify its proportions
+  and exact 4-unit detached head-to-body ink gap in the emitted geometry.
 """
 
 

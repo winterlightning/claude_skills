@@ -16,6 +16,13 @@ are in `.agents/skills/` and portable copies in `skills/`.
 
 ## Inspect and classify before authoring
 
+For any human subject or human part within a scene, carry
+`icon_set/skills/icon-design/human-reference.md` into the family handoff.
+Inspect `icon_set/references/human_ref/user.svg` for busts and
+`icon_set/references/human_ref/full_body_ref.png` for full-body figures.
+These are the shared human style references, including the exact 4-unit
+visible gap between a detached head and its own body.
+
 Render and visually inspect a supplied SVG, or view a supplied PNG. Names and
 SVG markup alone are not evidence of the subject. The existing
 `icon_set/scripts/prepare_references.py` produces reference renders. For a text

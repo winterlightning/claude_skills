@@ -33,6 +33,10 @@ three families, the keyshape table, and the two frozen tolerance decisions.
 
 ## Visual priorities
 
+For any human figure, first follow [human-reference.md](human-reference.md).
+The shared bust and full-body references own human proportions and construction,
+with exactly 4 units of visible clearance between a detached head and its body.
+
 The default aesthetic is **Lucide-style geometry: clean construction, smooth
 curves, and appropriate balance**. Inspect a relevant local Lucide original and its
 atomic-debug geometry when a useful match exists; carry over the construction

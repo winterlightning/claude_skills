@@ -8,8 +8,10 @@ import sqlite3
 import shutil
 import subprocess
 import unittest
+from types import SimpleNamespace
 
 from icon_set.scripts.deploy import GalleryHandler, init_database
+from icon_set.scripts.reference_images import ReferenceStore
 from icon_set.scripts.gallery import stage_gallery
 from icon_set.tests import test_gallery
 
@@ -30,6 +32,8 @@ class RejectedFeedbackTests(unittest.TestCase):
         # Exercise the actual HTTP route handlers without requiring a listening socket.
         handler = GalleryHandler.__new__(GalleryHandler)
         handler.root, handler.database = self.dist, self.database
+        handler.server = SimpleNamespace(references=ReferenceStore(self.root / 'reference-images'))
+        handler.current_user = lambda: 'jakes'  # every change is made by a logged-in reviewer
         handler.path = path
         body = json.dumps(data).encode() if data is not None else b''
         handler.rfile = BytesIO(body)
@@ -80,7 +84,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         init_database(self.database)
         init_database(self.database)
         with sqlite3.connect(self.database) as connection:
-            self.assertEqual(connection.execute('SELECT * FROM reviews').fetchone(),
+            self.assertEqual(connection.execute('SELECT icon, svg_sha256, status, updated_at FROM reviews').fetchone(),
                              ('sub/square', 'abc', 'approve', 'original-date'))
         self.assertEqual(self.request('POST', '/api/reviews',
                                     {'icon': 'sub/square', 'svg_sha256': 'abc', 'status': 'rejected'})[0], 201)

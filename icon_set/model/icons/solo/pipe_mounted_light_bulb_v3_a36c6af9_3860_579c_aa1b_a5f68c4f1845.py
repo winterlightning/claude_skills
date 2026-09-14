@@ -1,5 +1,5 @@
-# Bounds-only review variant; parent preserved.
-"""Move every authored point down by 2 units together. Keep dimensions, arcs, shared endpoints and spacing unchanged. VRECT_L centerline box (8,4)-(40,44), ink (6,2)-(42,46)."""
+# Complete geometry repair; parent preserved.
+'Filament shortened and doubled pipe/foot runs replaced by one tangent radius-8 support bend. Lucide lightbulb informs simple glass and filament. VRECT_L bounds retained; bent support remains asymmetric.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a36c6af9-3860-579c-aa1b-a5f68c4f1845'
@@ -21,17 +21,15 @@ class PipeMountedLightBulbVariant3(Solo48):
         self.add_arc('dome', (16, 16), (40, 16), radius_x=12, radius_y=12, sweep=True, large_arc=False)
         self.add_arc('shoulder-r', (40, 16), (34, 28), radius_x=15, radius_y=15, sweep=True, large_arc=False)
         self.add_line('socket-r', (34, 28), (34, 34))
-        self.add_line('socket-base', (34, 34), (22, 34))
+        self.add_line('socket-base-r', (34, 34), (28, 34))
+        self.add_line('socket-base-l', (28, 34), (22, 34))
         self.add_line('socket-l', (22, 34), (22, 28))
         self.add_arc('shoulder-l', (22, 28), (16, 16), radius_x=15, radius_y=15, sweep=True, large_arc=False)
-        self.add_contour('bulb', 'dome', 'shoulder-r', 'socket-r', 'socket-base', 'socket-l', 'shoulder-l', closed=True)
-        self.add_line('filament', (28, 15), (28, 24))
-        self.add_line('pipe-top', (28, 34), (28, 37))
-        self.add_arc('pipe-bend-r', (28, 37), (23, 42), radius_x=5, radius_y=5, sweep=True, large_arc=False)
-        self.add_line('pipe-run', (23, 42), (17, 42))
-        self.add_arc('pipe-bend-l', (17, 42), (12, 44), radius_x=5, radius_y=5, sweep=False, large_arc=False)
-        self.add_line('pipe-end', (12, 44), (12, 44))
-        self.add_contour('pipe', 'pipe-top', 'pipe-bend-r', 'pipe-run', 'pipe-bend-l', 'pipe-end', closed=False)
-        self.relate('connect', 'pipe', 'bulb')
-        self.add_line('foot', (8, 44), (20, 44))
-        self.relate('connect', 'pipe', 'foot')
+        self.add_contour('bulb', 'dome', 'shoulder-r', 'socket-r', 'socket-base-r', 'socket-base-l', 'socket-l', 'shoulder-l', closed=True)
+        self.add_line('filament', (28, 15), (28, 20))
+        # One tangent support bend ending in the flat foot; no doubled run.
+        self.add_line('pipe-top', (28, 34), (28, 36))
+        self.add_arc('pipe-bend', (28, 36), (20, 44), radius_x=8)
+        self.add_line('foot', (20, 44), (8, 44))
+        self.add_contour('support', 'pipe-top', 'pipe-bend', 'foot')
+        self.relate('connect', 'support', 'bulb')

@@ -1,5 +1,5 @@
-# Bounds-only review variant; parent preserved.
-"""Move every authored point down by 2 units together. Keep dimensions, arcs, shared endpoints and spacing unchanged. VRECT_L centerline box (8,4)-(40,44), ink (6,2)-(42,46)."""
+# Complete geometry repair; parent preserved.
+'Widened neck to 8-unit centerline separation; exact quarter-ellipse throat. VRECT_L bounds retained. Lucide bird informs the sparse silhouette; asymmetric pose retained.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0fcbdb00-a505-4fa6-95a8-0fa24ac7895a'
@@ -20,9 +20,9 @@ class VultureVariant3(Solo48):
     def build(self) -> None:
         self.add_arc('head', (26, 11), (40, 11), radius_x=7, radius_y=7, sweep=True)
         self.add_line('beak', (40, 11), (40, 17))
-        self.add_line('chin', (40, 17), (32, 17))
-        self.add_line('neck', (32, 17), (32, 23))
-        self.add_arc('throat', (32, 23), (25, 30), radius_x=7, radius_y=7, sweep=True)
+        self.add_line('chin', (40, 17), (34, 17))
+        self.add_line('neck', (34, 17), (34, 23))
+        self.add_arc('throat', (34, 23), (25, 30), radius_x=9, radius_y=7, sweep=True)
         self.add_arc('shoulder', (25, 30), (18, 18), radius_x=10, radius_y=10, sweep=False)
         self.add_arc('wing-back', (18, 18), (8, 42), radius_x=40, radius_y=40, sweep=False)
         self.add_line('wing-tip', (8, 42), (23, 36))

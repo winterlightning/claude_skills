@@ -43,6 +43,7 @@ class ReferenceStoreTests(unittest.TestCase):
 
 class ReferenceServerTests(unittest.TestCase):
     setUp = test_gallery.ServerTests.setUp
+    request = test_gallery.ServerTests.request
 
     def call(self, method, path, data=None, cookie=None):
         connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
@@ -57,9 +58,7 @@ class ReferenceServerTests(unittest.TestCase):
             connection.close()
 
     def login(self):
-        status, _, response = self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
-        self.assertEqual(status, 200)
-        return response.getheader('Set-Cookie').split(';', 1)[0]
+        return self.cookie  # setUp logged in
 
     def upload(self, name, data, cookie):
         return self.call('POST', '/api/reference-images', {'name': name, 'data': base64.b64encode(data).decode()}, cookie)
@@ -81,9 +80,9 @@ class ReferenceServerTests(unittest.TestCase):
         self.assertFalse(any(self.dist.rglob(png['id'] + '*')), 'References are never stored under dist')
 
         feedback = {'icon': 'sub/square', 'feedback': 'Match this', 'svg_sha256': 'abc'}
-        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, reference_images=['f' * 64]))[0], 400)
-        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, reference_images=[png['id'], svg['id']]))[0], 201)
-        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, feedback='No images'))[0], 201)
+        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, reference_images=['f' * 64]), cookie)[0], 400)
+        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, reference_images=[png['id'], svg['id']]), cookie)[0], 201)
+        self.assertEqual(self.call('POST', '/api/feedback', dict(feedback, feedback='No images'), cookie)[0], 201)
         rows = json.loads(self.call('GET', '/api/feedback?icon=sub/square')[1])
         self.assertEqual([row['reference_images'] for row in rows], [[], [png, svg]])
         feed = json.loads(self.call('GET', '/api/feedback-feed')[1])

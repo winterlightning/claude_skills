@@ -21,7 +21,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `abdominal-muscles`, `abdominal-torso`, `academic-graduation-cap`, `account-profile-card`, `acro-yoga-folded-balance` and 2633 more |
+| Existing icons to imitate | `a`, `a-frame-church`, `a-text`, `a-typeface`, `a-with-lines`, `a3` |
 
 A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on a short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
@@ -41,6 +41,11 @@ meaning, recognizability, and natural shape. These are optional design choices,
 not requirements: skip mirroring or forced balance when they would distort the
 subject. A palm tree, for example, may retain uneven fronds and a leaning trunk;
 mirror only the parts where it helps the drawing read clearly.
+
+For any human subject or human part in a scene, first read
+`icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
+`icon_set/references/human_ref/`. These own human proportions and construction;
+detached heads require exactly 4 units of visible head-to-body clearance.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -206,3 +211,5 @@ preserve the parent and edit a new file from `create_variant.py`.
   balanced negative space, and symmetry wherever the subject supports it.
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
+- For human figures, name the shared human reference and verify its proportions
+  and exact 4-unit detached head-to-body ink gap in the emitted geometry.

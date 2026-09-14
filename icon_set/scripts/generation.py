@@ -1,5 +1,6 @@
 """Isolated Codex candidates; explicit acceptance is the only library write."""
 from pathlib import Path
+from datetime import datetime, timezone
 import hashlib
 import json
 import os
@@ -69,7 +70,7 @@ class GenerationManager:
         with self.lock:
             return [json.loads(p.read_text()) for p in sorted(self.storage.glob('*/job.json'), key=lambda p:p.stat().st_mtime, reverse=True)]
 
-    def start(self, data, catalog):
+    def start(self, data, catalog, user=None):
         mode, name, prompt, family = (data.get(k, '') for k in ('mode', 'name', 'prompt', 'family'))
         model = data.get('model', '')
         if mode not in ('generate', 'fix') or family not in ('auto', *FAMILIES):
@@ -98,7 +99,8 @@ class GenerationManager:
                 raise ValueError('An agent or build is already running. Wait for it to finish.')
             if not shutil.which(os.environ.get('CODEX_BIN','codex')):
                 raise ValueError('Install Codex CLI on this server and sign in before generating.')
-            row = dict(id=uuid.uuid4().hex, mode=mode, name=name.strip(), prompt=prompt.strip(), family=family, model=model, source=source, reference_images=references, status='running')
+            row = dict(id=uuid.uuid4().hex, mode=mode, name=name.strip(), prompt=prompt.strip(), family=family, model=model, source=source, reference_images=references, status='running',
+                       created_by=user, created_at=datetime.now(timezone.utc).isoformat())
             self.write(row)
             self.busy=True
             threading.Thread(target=self.run, args=(row,), daemon=True).start()
@@ -200,7 +202,7 @@ class GenerationManager:
             with self.lock:
                 self.write(row); self.busy=False
 
-    def decide(self, job_id, accept):
+    def decide(self, job_id, accept, user=None):
         with self.lock:
             row=self.read(job_id)
             if row['status'] not in ('candidate','failed') or (accept and row['status']!='candidate'):
@@ -208,10 +210,10 @@ class GenerationManager:
             if not accept:
                 shutil.rmtree(self.folder(job_id)/'workspace',ignore_errors=True)
                 (self.folder(job_id)/'preview.svg').unlink(missing_ok=True)
-                row.update(status='discarded'); self.write(row); return row
+                row.update(status='discarded', decided_by=user, decided_at=datetime.now(timezone.utc).isoformat()); self.write(row); return row
             if self.busy:
                 raise ValueError('Wait for the current agent/build to finish.')
-            self.busy=True;row.update(status='accepting');self.write(row)
+            self.busy=True;row.update(status='accepting', decided_by=user, decided_at=datetime.now(timezone.utc).isoformat());self.write(row)
             threading.Thread(target=self.accept,args=(row,),daemon=True).start()
             return row
 

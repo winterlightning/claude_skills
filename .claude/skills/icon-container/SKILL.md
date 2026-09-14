@@ -21,7 +21,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
-| Existing icons to imitate | `aiming-reticle`, `award-ribbon-container`, `browser-window`, `captive-bead-ring`, `circular-speech-bubble`, `clipboard` and 159 more |
+| Existing icons to imitate | `aiming-reticle`, `award-ribbon-container`, `browser-window`, `captive-bead-ring`, `circular-speech-bubble`, `clipboard` |
 
 A **container** stands alone as a noun and is the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
 
@@ -41,6 +41,11 @@ meaning, recognizability, and natural shape. These are optional design choices,
 not requirements: skip mirroring or forced balance when they would distort the
 subject. A palm tree, for example, may retain uneven fronds and a leaning trunk;
 mirror only the parts where it helps the drawing read clearly.
+
+For any human subject or human part in a scene, first read
+`icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
+`icon_set/references/human_ref/`. These own human proportions and construction;
+detached heads require exactly 4 units of visible head-to-body clearance.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -166,7 +171,7 @@ preserve the parent and edit a new file from `create_variant.py`.
 6. **Family-specific checks.**
 
 - Design the subject, then measure what it holds -- not the other way round. Ink anywhere in `(16,16)-(48,48)` is legal; it costs hosting for children whose own ink reaches that far, and `mic` reports exactly which.
-- A gap that sits exactly on the minimum is only certifiable when both sides are straight. Where a straight run has to hold a minimum gap, emit it as its own path rather than inside a contour that also carries corner arcs -- but only where the parts genuinely still share endpoints, because splitting a corner into two paths that do not touch invents crowding that is not there. See `browser-window`.
+- A gap at the minimum needs exact straight distance or certified axis separation of enclosing geometry. Where a straight run has to hold a minimum gap, emit it as its own path rather than inside a contour that also carries corner arcs -- but only where the parts genuinely still share endpoints, because splitting a corner into two paths that do not touch invents crowding that is not there. See `browser-window`.
 - Attached details (a clip, a tab, a handle) share endpoints with the outline and are declared with `relate("connect", ...)`. See `clipboard`.
 - After it validates, measure what it hosts: run `python3 icon_set/scripts/compose.py --host <icon_id> --sub plus`, then `--sub heart` and `--sub check`. Record the answer in the docstring. Hosting nothing is a legitimate outcome for a container with a full interior; it is never a reason to empty the drawing out.
 
@@ -209,3 +214,5 @@ preserve the parent and edit a new file from `create_variant.py`.
   balanced negative space, and symmetry wherever the subject supports it.
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
+- For human figures, name the shared human reference and verify its proportions
+  and exact 4-unit detached head-to-body ink gap in the emitted geometry.

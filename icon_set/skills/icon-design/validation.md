@@ -35,7 +35,11 @@ the result within its numerical bounds — usually a curve sitting exactly on th
 minimum. It appears as a **warning**, and the corpus test asserts that no
 shipped icon produces one.
 
-Treat a warning as a failure. Give the geometry real margin.
+Treat a warning as a failure. Give the geometry real margin unless a design
+rule requires an exact gap, as in [human-reference.md](human-reference.md).
+The distance engine can certify exact axis separation using rational enclosing
+bounds for unrotated cardinal quarter/half ellipses and Bézier control hulls.
+Unsupported curves retain the conservative check; no threshold is relaxed.
 
 ## Small-circle hole exception
 

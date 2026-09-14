@@ -118,6 +118,9 @@ usually the thing that decides which details to drop.
 
 ## Lucide references
 
+For human subjects, [human-reference.md](human-reference.md) takes priority:
+inspect the shared bust or full-body reference before using Lucide construction.
+
 Use these as the default construction reference in **both** modes, while
 preserving the subject established by the user brief and any supplied references. The local bundle
 at `icon_set/references/lucide/` is a **construction** reference: how contours

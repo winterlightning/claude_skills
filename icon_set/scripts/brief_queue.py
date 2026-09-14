@@ -14,6 +14,13 @@ def init_brief_queue(connection):
         position INTEGER NOT NULL, name TEXT NOT NULL, family TEXT NOT NULL,
         description TEXT NOT NULL, status TEXT NOT NULL DEFAULT 'pending',
         generated_icon TEXT, UNIQUE(split_id, position))''')
+    # Who rejected, restored and completed; NULL for rows saved before logins were required.
+    for table, columns in (('split_requests', ('created_by', 'restored_by', 'restored_at')),
+                           ('pending_briefs', ('completed_by', 'completed_at'))):
+        existing = {row[1] for row in connection.execute(f'PRAGMA table_info({table})')}
+        for column in columns:
+            if column not in existing:
+                connection.execute(f'ALTER TABLE {table} ADD COLUMN {column} TEXT')
 
 
 def validate_split(data):
@@ -42,7 +49,7 @@ def validate_split(data):
     return kind, parts, reason.strip()
 
 
-def enqueue_split(connection, icon, sha, reference_path, data):
+def enqueue_split(connection, icon, sha, reference_path, data, user=None):
     kind, parts, reason = validate_split(data)
     existing = connection.execute('SELECT id, active FROM split_requests WHERE icon=? AND svg_sha256=?', (icon, sha)).fetchone()
     if existing and existing[1]:
@@ -50,10 +57,10 @@ def enqueue_split(connection, icon, sha, reference_path, data):
     now = datetime.now(timezone.utc).isoformat()
     if existing:
         split_id = existing[0]
-        connection.execute('UPDATE split_requests SET active=1, combination_type=?, reason=?, reference_path=?, created_at=? WHERE id=?', (kind, reason, reference_path, now, split_id))
+        connection.execute('UPDATE split_requests SET active=1, combination_type=?, reason=?, reference_path=?, created_at=?, created_by=?, restored_by=NULL, restored_at=NULL WHERE id=?', (kind, reason, reference_path, now, user, split_id))
         connection.execute('DELETE FROM pending_briefs WHERE split_id=?', (split_id,))
     else:
-        split_id = connection.execute('INSERT INTO split_requests(icon,svg_sha256,combination_type,reason,reference_path,created_at) VALUES (?,?,?,?,?,?)', (icon, sha, kind, reason, reference_path, now)).lastrowid
+        split_id = connection.execute('INSERT INTO split_requests(icon,svg_sha256,combination_type,reason,reference_path,created_at,created_by) VALUES (?,?,?,?,?,?,?)', (icon, sha, kind, reason, reference_path, now, user)).lastrowid
     for index, part in enumerate(parts, 1):
         connection.execute('INSERT INTO pending_briefs(split_id,position,name,family,description) VALUES (?,?,?,?,?)', (split_id,index,part['name'].strip(),part['family'],part['description'].strip()))
     return split_id
@@ -61,7 +68,8 @@ def enqueue_split(connection, icon, sha, reference_path, data):
 
 def list_briefs(connection):
     cursor = connection.execute('''SELECT b.id,b.split_id,b.position,b.name,b.family,b.description,
-        b.status,b.generated_icon,s.icon,s.svg_sha256,s.combination_type,s.reason,s.reference_path,s.created_at
+        b.status,b.generated_icon,s.icon,s.svg_sha256,s.combination_type,s.reason,s.reference_path,s.created_at,
+        s.created_by,b.completed_by,b.completed_at
         FROM pending_briefs b JOIN split_requests s ON s.id=b.split_id WHERE s.active=1
         ORDER BY s.id DESC,b.position''')
     return [dict(zip([d[0] for d in cursor.description], row)) for row in cursor.fetchall()]

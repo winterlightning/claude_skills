@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Conservative distances between disconnected centerline components.
 
-Vendored from the previous system (``deprecated/core/stroke_distance.py``) with
-one change: it now consumes :class:`icon_set.validation.path_commands.Command`
-instead of the deprecated ``icon_geometry`` module. The numerics are unchanged
-and deliberately not rewritten.
+Vendored from the previous system (``deprecated/core/stroke_distance.py``),
+adapted to :class:`icon_set.validation.path_commands.Command`. The adaptive
+distance algorithm is retained; rational enclosing bounds additionally certify
+exact axis separation for supported cardinal arcs and Bézier control hulls.
 
 It consumes normalized command lists built by
 :func:`icon_set.validation.path_commands.commands_for_path`; it
@@ -581,12 +581,68 @@ def _connection(first: _Contour, second: _Contour, budget: _Budget) -> dict | No
     return None
 
 
+def _exact_axis_bounds(contour: _Contour) -> tuple[Fraction, Fraction, Fraction, Fraction] | None:
+    """Conservative rational bounds for control hulls and cardinal SVG arcs.
+
+    Only unrotated, uncorrected half/quarter ellipses are recognized. Their
+    full ellipse is a safe enclosure, even when the arc uses only a quadrant.
+    Unsupported curves retain the existing adaptive distance check.
+    """
+    points = []
+    cursor = origin = None
+    for command in contour.commands:
+        coords = [tuple(Fraction(v) for v in point) for point in command.points]
+        if command.type == "M":
+            cursor = origin = coords[0]
+            points.append(cursor)
+        elif command.type in ("L", "Q", "C"):
+            points.extend(coords)  # Bézier curves stay within their control hull.
+            cursor = coords[-1]
+        elif command.type == "Z":
+            cursor = origin
+        elif command.type == "A":
+            rx, ry, rotation, large, sweep = command.arc
+            if rotation != 0 or not rx or not ry or cursor is None:
+                return None
+            rx, ry = Fraction(rx), Fraction(ry)
+            end = coords[0]
+            dx, dy = end[0] - cursor[0], end[1] - cursor[1]
+            if (abs(dx) == 2 * rx and dy == 0) or (dx == 0 and abs(dy) == 2 * ry):
+                cx, cy = (cursor[0] + end[0]) / 2, (cursor[1] + end[1]) / 2
+            elif not large and abs(dx) == rx and abs(dy) == ry:
+                candidates = ((cursor[0], end[1]), (end[0], cursor[1]))
+                cx, cy = next((x, y) for x, y in candidates
+                              if ((_cross((cursor[0]-x, cursor[1]-y),
+                                          (end[0]-x, end[1]-y)) > 0) == bool(sweep)))
+            else:
+                return None
+            points.extend(((cx-rx, cy-ry), (cx+rx, cy+ry)))
+            cursor = end
+        else:
+            return None
+    if not points:
+        return None
+    return (min(p[0] for p in points), min(p[1] for p in points),
+            max(p[0] for p in points), max(p[1] for p in points))
+
+
+def _axis_separation(first: _Contour, second: _Contour) -> float:
+    a, b = _exact_axis_bounds(first), _exact_axis_bounds(second)
+    if a is None or b is None:
+        return 0.0
+    exact = max(Fraction(0), b[0]-a[2], a[0]-b[2], b[1]-a[3], a[1]-b[3])
+    lower = float(exact)
+    return math.nextafter(lower, -math.inf) if Fraction(lower) > exact else lower
+
+
 def _pair(first: _Contour, second: _Contour, minimum: float, stroke: float, budget: _Budget) -> dict:
     squared, point_a, point_b = _nearest(first, second, budget)
     distance, lower, upper = _sqrt_interval(squared)
     error = first.error + second.error
     lower = max(0.0, math.nextafter(lower - error, -math.inf)) if error else lower
     upper = math.nextafter(upper + error, math.inf) if error else upper
+    axis_lower = _axis_separation(first, second) if error else 0.0
+    lower = max(lower, axis_lower)
     ambiguous_contact = bool(first.has_curves or second.has_curves) and lower == 0
     if ambiguous_contact:
         status = "review"
@@ -595,7 +651,9 @@ def _pair(first: _Contour, second: _Contour, minimum: float, stroke: float, budg
         status = "pass" if squared >= Fraction(minimum) ** 2 else "fail"
         reason = "Exact straight-segment spacing meets the minimum." if status == "pass" else "Exact straight-segment spacing is below the minimum."
     elif lower >= minimum:
-        status, reason = "pass", "The conservative distance lower bound meets the minimum."
+        status = "pass"
+        reason = ("Exact axis separation of enclosing geometry meets the minimum."
+                  if axis_lower >= minimum else "The conservative distance lower bound meets the minimum.")
     elif upper < minimum:
         status, reason = "fail", "Even the conservative distance upper bound is below the minimum."
     else:

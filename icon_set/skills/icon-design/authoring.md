@@ -10,7 +10,11 @@ connection parameters. Apply the techniques below to that structure.
 
 ## Default aesthetic: Lucide geometry, smoothness, appropriate balance
 
-Use the local Lucide bundle as the first construction reference when designing
+For human subjects, first follow [human-reference.md](human-reference.md): the
+shared human references own their proportions and exact 4-unit detached
+head-to-body ink gap. Use Lucide as supporting construction guidance.
+
+Otherwise use the local Lucide bundle as the first construction reference when designing
 or repairing an icon. Inspect the original silhouette and the relevant
 atomic-debug geometry: identify its main primitives, repeated radii, symmetry
 axes and curve junctions. An exact subject match is useful but not required;
@@ -111,7 +115,9 @@ SUB32 / SOLO48 / CONTAINER64, which is 6 / 8 / 6 between equal-stroke
 centerlines.
 
 - **Straight parts may sit exactly on the minimum.** The measurement is exact.
-- **Curved parts need real margin.** The spacing engine bounds a curve's
+- **Curved parts usually need real margin.** Exact axis separation can certify
+  the minimum for cardinal quarter/half ellipses and control-hull bounds,
+  including the reference human's 4-unit head-to-body gap. Otherwise the engine bounds a curve's
   flattening error, so a curve exactly on the threshold cannot be certified and
   comes back `review`, which is not a pass. `target` was first drawn with radii
   14 and 7 — exactly 7 apart — and measured 6.99987. Radius 6 is correct. The
