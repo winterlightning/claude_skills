@@ -1,7 +1,6 @@
 """Distance/hole diagnostics, optional evidence, and release gating."""
 from contextlib import redirect_stdout
 import io
-import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
@@ -92,7 +91,7 @@ class EvidenceBuildTests(unittest.TestCase):
                     self.assertEqual((output / 'sub/square/spacing.png').exists(), debug)
                     self.assertEqual((output / 'results.json').exists(), debug or report)
                     if debug or report:
-                        result = json.loads((output / 'results.json').read_text())
+                        result = qa.load_results(output)
                         row = result['icons'][0]
                         svg = (output / row['artifacts']['svg']).read_bytes()
                         self.assertEqual(qa._hash(svg), row['svg_sha256'])
@@ -110,7 +109,7 @@ class EvidenceBuildTests(unittest.TestCase):
         with patch.object(builder, 'icons_in', return_value=[small_hole_icon()]):
             self.assertEqual(self.build(True, True), 1)
         self.assertEqual((self.root / 'dist/sub32/square.svg').read_bytes(), before)
-        result = json.loads((self.root / 'dist/qa/results.json').read_text())
+        result = qa.load_results(self.root / 'dist/qa')
         self.assertEqual(result['icons'][0]['status'], 'fail')
         self.assertTrue((self.root / 'dist/qa/sub/square/holes.png').exists())
         self.assertTrue((self.root / 'dist/qa/index.html').exists())
@@ -124,7 +123,7 @@ class EvidenceBuildTests(unittest.TestCase):
     def test_filtered_build_report_includes_other_families(self):
         with patch('icon_set.model.icons.registry.all_icons', return_value=[create('square'), create('smartwatch')]):
             self.assertEqual(self.build(False, True), 0)
-        rows = json.loads((self.root / 'dist/qa/results.json').read_text())['icons']
+        rows = qa.load_results(self.root / 'dist/qa')['icons']
         self.assertEqual(len(rows), 2)
         self.assertFalse(rows[1]['selected_for_build'])
         self.assertFalse((self.root / 'dist/solo48').exists())
@@ -141,7 +140,7 @@ class EvidenceBuildTests(unittest.TestCase):
             code = builder.build(self.root / 'dist', self.root / 'png', write_png=True,
                                  only=['sub'], debug=False, report=True)
         self.assertEqual(code, 1)
-        rows = json.loads((self.root / 'dist/qa/results.json').read_text())['icons']
+        rows = qa.load_results(self.root / 'dist/qa')['icons']
         self.assertEqual(len(rows), 2)
         self.assertTrue(all(row['status'] == 'error' for row in rows))
         self.assertTrue(all('preview unavailable' in row['errors'][-1] for row in rows))

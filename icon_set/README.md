@@ -245,8 +245,10 @@ from icon_set.scripts.build import build
 build(debug=True, report=True)
 ```
 
-The default report is `dist/qa/index.html`, with library-wide `results.json` and
-one `<family>/<icon>/metrics.json` per icon. `debug=True` adds `spacing.svg`,
+The default report is `dist/qa/index.html`, whose cards load from `report/NNN.js`
+shards. Library-wide `results.json` holds the summary and lists its
+`results/NNN.json` shards (500 icons each; `library_qa.load_results` reassembles
+them), plus one `<family>/<icon>/metrics.json` per icon. `debug=True` adds `spacing.svg`,
 `spacing.png`, and `holes.png`. The report supports search and family/status
 filters, shows clean previews, distances, authored and measuring diameters,
 findings, and SVG/rule hashes. Even a `--family` build reports the entire current

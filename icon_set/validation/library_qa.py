@@ -24,6 +24,8 @@ from .stroke_distance import analyze_paths
 from .validator import _declared_connections, _pair_elements
 
 PALETTE = ('#2563eb', '#9333ea', '#087f5b', '#c2410c', '#be185d', '#0e7490')
+# Icons per results/report shard; keeps every tracked file well under GitHub's 50 MB warning.
+SHARD_SIZE = 500
 
 
 def _hash(value: bytes) -> str:
@@ -199,6 +201,19 @@ def public_row(row):
     return {k: v for k, v in row.items() if not k.startswith('_')}
 
 
+def _shards(items: list) -> list[list]:
+    return [items[start:start + SHARD_SIZE] for start in range(0, len(items), SHARD_SIZE)]
+
+
+def load_results(directory: Path) -> dict:
+    """Reassemble a sharded QA snapshot into one aggregate with every icon row."""
+    aggregate = json.loads((directory / 'results.json').read_text(encoding='utf-8'))
+    icons = []
+    for part in aggregate.pop('parts'):
+        icons += json.loads((directory / part).read_text(encoding='utf-8'))['icons']
+    return {**aggregate, 'icons': icons}
+
+
 def save_evidence(rows: list[dict], directory: Path, *, debug: bool, report: bool) -> None:
     """Write a fresh QA snapshot, including complete failed/error rows."""
     directory.mkdir(parents=True, exist_ok=True)
@@ -224,13 +239,25 @@ def save_evidence(rows: list[dict], directory: Path, *, debug: bool, report: boo
                  'debug': debug, 'report': report, 'count': len(rows),
                  'counts': {status: sum(r['status'] == status for r in rows) for status in ('pass', 'fail', 'review', 'error')},
                  'advisory_review_count': sum(r.get('needs_review', False) for r in rows),
-                 'icons': [public_row(r) for r in rows]}
+                 'shard_size': SHARD_SIZE, 'parts': []}
+    (directory / 'results').mkdir()
+    for number, shard in enumerate(_shards(rows), 1):
+        part = f'results/{number:03}.json'
+        document = {'schema_version': 1, 'part': number, 'icons': [public_row(r) for r in shard]}
+        (directory / part).write_text(json.dumps(document, indent=2, allow_nan=False) + '\n', encoding='utf-8')
+        aggregate['parts'].append(part)
     (directory / 'results.json').write_text(json.dumps(aggregate, indent=2, allow_nan=False) + '\n', encoding='utf-8')
     if report:
-        (directory / 'index.html').write_text(html_report(rows, aggregate), encoding='utf-8')
+        (directory / 'report').mkdir()
+        page, shards = html_report(rows, aggregate)
+        for number, cards in enumerate(shards, 1):
+            script = "document.querySelector('main').insertAdjacentHTML('beforeend'," + json.dumps(cards) + ');\n'
+            (directory / f'report/{number:03}.js').write_text(script, encoding='utf-8')
+        (directory / 'index.html').write_text(page, encoding='utf-8')
 
 
-def html_report(rows, aggregate) -> str:
+def html_report(rows, aggregate) -> tuple[str, list[str]]:
+    """Return the report page and its card shards, loaded as report/NNN.js scripts."""
     cards = []
     for row in sorted(rows, key=lambda r: (r['status'] == 'pass', not r.get('needs_review', False), r['family'], r['icon_id'])):
         esc = html.escape
@@ -274,8 +301,8 @@ def html_report(rows, aggregate) -> str:
 </style><header><div class="eyebrow">Pictographic · Quality assurance</div><h1>Icon library validation</h1>
 <p class="intro">Current source drawings, including failures. This is a validation snapshot, not proof of a published release. Spacing measures disconnected centerline components; declared contacts and child ownership exemptions are recorded. Hole diameters are raster measurements translated back to the authored stroke. Numeric checks do not replace visual review.</p>
 <div class="summary">''' + ''.join(f'<div><strong>{value}</strong>{label}</div>' for label, value in [('Icons', len(rows)), ('Advisory reviews', aggregate['advisory_review_count'])] + list(counts.items())) + '''</div>
-<div class="toolbar"><input id="search" type="search" placeholder="Find an icon…" aria-label="Find an icon"><select id="family" aria-label="Family"><option value="">All families</option><option>sub</option><option>solo</option><option>container</option></select><select id="status" aria-label="Status"><option value="">All statuses</option><option value="needs-review">Needs review (advisory)</option><option>pass</option><option>fail</option><option>review</option><option>error</option></select><a href="results.json">All measurements</a></div></header><main>''' + ''.join(cards) + '''</main><script>
+<div class="toolbar"><input id="search" type="search" placeholder="Find an icon…" aria-label="Find an icon"><select id="family" aria-label="Family"><option value="">All families</option><option>sub</option><option>solo</option><option>container</option></select><select id="status" aria-label="Status"><option value="">All statuses</option><option value="needs-review">Needs review (advisory)</option><option>pass</option><option>fail</option><option>review</option><option>error</option></select><a href="results.json">All measurements</a></div></header><main></main>''' + ''.join(f'<script src="report/{number:03}.js"></script>' for number in range(1, len(_shards(cards)) + 1)) + '''<script>
 const search=document.querySelector('#search'),family=document.querySelector('#family'),status=document.querySelector('#status');
 function filter(){for(const card of document.querySelectorAll('article'))card.hidden=!(card.querySelector('h2').textContent.toLowerCase().includes(search.value.toLowerCase())&&(!family.value||card.dataset.family===family.value)&&(!status.value||card.dataset.status===status.value));}
 for(const control of [search,family,status])control.addEventListener('input',filter);
-</script></html>'''
+</script></html>''', [''.join(shard) for shard in _shards(cards)]
