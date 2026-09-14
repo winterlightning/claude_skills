@@ -1,22 +1,20 @@
-"""Round twin-bell alarm clock with two hands and splayed feet; bell supports and hub omitted."""
+"""Twin-bell alarm clock with bells moved inward and slightly reduced for clearance. VRECT_L matches the narrower silhouette; Lucide alarm-clock informs mirrored placement."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '98b1d263-4f9a-58b5-896b-b1337e997d62'
 SOURCE_PATH = 'pictographic-primitives/decoration/batch-02/decoration clock retro_98b1d263-4f9a-58b5-896b-b1337e997d62.svg'
 AUTHOR = 'gpt-6'
 
 class TwinBellAlarmClock(Solo48):
     icon_id = 'twin-bell-alarm-clock'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/decoration"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/decoration'
     aliases = ()
     keywords = ('clock', 'alarm', 'bells', 'time', 'retro', 'round', 'feet')
 
     def build(self) -> None:
-        # SQUARE: exact SOLO48 extremes; geometry authored on the integer grid.
         self.add_arc('face-0', (24, 13), (39, 28), radius_x=15, radius_y=15, sweep=True)
         self.add_arc('face-1', (39, 28), (33, 40), radius_x=15, radius_y=15, sweep=True)
         self.add_arc('face-2', (33, 40), (24, 42), radius_x=15, radius_y=15, sweep=True)
@@ -29,5 +27,5 @@ class TwinBellAlarmClock(Solo48):
         self.add_line('right-foot', (33, 40), (36, 42))
         self.relate('connect', 'left-foot', 'face')
         self.relate('connect', 'right-foot', 'face')
-        self.add_arc('bell-left', (6, 8), (14, 8), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('bell-right', (34, 8), (42, 8), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('bell-left', (8, 7), (18, 7), radius_x=5, radius_y=5, sweep=True)
+        self.add_arc('bell-right', (30, 7), (40, 7), radius_x=5, radius_y=5, sweep=True)

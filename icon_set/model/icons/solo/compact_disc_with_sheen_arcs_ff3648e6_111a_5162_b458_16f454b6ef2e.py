@@ -1,36 +1,28 @@
-"""A compact disc with a central hole and two opposing reflection arcs.
-
-Lucide disc-3 informs opposing reflections and a concentric hub. Circular
-arcs replace the reference reflections; all identifying features remain.
-"""
-
+'Lucide disc-3 informs paired reflection arcs. Radius-two hub and radius-eleven sheen preserve nine-unit radial gaps. CIRCLE visible radius 22; SOLO48 stroke 4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ff3648e6-111a-5162-b458-16f454b6ef2e'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/cd_ff3648e6-111a-5162-b458-16f454b6ef2e.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class CompactDiscWithSheenArcs(Solo48):
     icon_id = 'compact-disc-with-sheen-arcs'
     keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('cd', 'disc', 'dvd', 'media', 'storage', 'music', 'shine', 'disk')
 
     def build(self) -> None:
-        self.add_arc('rim-0', (24, 2), (46, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-1', (46, 24), (24, 46), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-2', (24, 46), (2, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-3', (2, 24), (24, 2), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_contour('rim', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
-        self.add_arc('hub-0', (24, 20), (28, 24), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('hub-1', (28, 24), (24, 28), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('hub-2', (24, 28), (20, 24), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('hub-3', (20, 24), (24, 20), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('hub', 'hub-0', 'hub-1', 'hub-2', 'hub-3', closed=True)
-        self.add_arc('sheen-upper', (24, 10), (38, 24), radius_x=14, radius_y=14, sweep=True, large_arc=False)
-        self.add_arc('sheen-lower', (24, 38), (10, 24), radius_x=14, radius_y=14, sweep=True, large_arc=False)
+        # CIRCLE envelope: center (24,24), centerline radius 20, visible radius 22.
+        # Shared cardinal nodes keep concentric geometry and attachments exact.
+        def circle(name, cx, cy, radius):
+            points = [(cx + radius, cy), (cx, cy + radius), (cx - radius, cy), (cx, cy - radius)]
+            for i in range(4):
+                self.add_arc(f'{name}-{i}', points[i], points[(i + 1) % 4], radius_x=radius)
+            self.add_contour(name, *[f'{name}-{i}' for i in range(4)], closed=True)
+        circle('rim', 24, 24, 20)
+        circle('hub', 24, 24, 2)
+        self.add_arc('sheen-upper', (24, 13), (35, 24), radius_x=11)
+        self.add_arc('sheen-lower', (24, 35), (13, 24), radius_x=11)

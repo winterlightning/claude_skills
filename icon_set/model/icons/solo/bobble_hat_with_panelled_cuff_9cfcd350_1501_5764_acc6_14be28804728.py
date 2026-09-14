@@ -1,46 +1,62 @@
-"""Bobble hat with three cuff panels. VRECT_XL extremes (5,2)-(43,46). Mirrored crown and cuff; pompom meets the crown at its apex. No exact useful Lucide match."""
+'Bobble hat with panelled cuff.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9cfcd350-1501-5764-acc6-14be28804728'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-03/beanie winter_9cfcd350-1501-5764-acc6-14be28804728.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class BobbleHatWithPanelledCuff(Solo48):
     icon_id = 'bobble-hat-with-panelled-cuff'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/accessories"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
     aliases = ()
     keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cuff', 'clothing')
 
     def build(self) -> None:
-        self.add_line('cuff-0-attach-0', (8, 32), (18, 32))
-        self.add_line('cuff-0-attach-1', (18, 32), (30, 32))
-        self.add_line('cuff-0-attach-2', (30, 32), (40, 32))
-        self.add_arc('cuff-1', (40, 32), (43, 35), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('cuff-2', (43, 35), (43, 43))
-        self.add_arc('cuff-3', (43, 43), (40, 46), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('cuff-4-attach-0', (40, 46), (30, 46))
-        self.add_line('cuff-4-attach-1', (30, 46), (18, 46))
-        self.add_line('cuff-4-attach-2', (18, 46), (8, 46))
-        self.add_arc('cuff-5', (8, 46), (5, 43), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('cuff-6', (5, 43), (5, 35))
-        self.add_arc('cuff-7', (5, 35), (8, 32), radius_x=3, radius_y=3, sweep=True)
+        # Shared nodes are reused by every touching member.
+        p_11_31 = (11, 31)
+        p_19_31 = (19, 31)
+        p_29_31 = (29, 31)
+        p_37_31 = (37, 31)
+        p_40_34 = (40, 34)
+        p_40_41 = (40, 41)
+        p_37_44 = (37, 44)
+        p_29_44 = (29, 44)
+        p_19_44 = (19, 44)
+        p_11_44 = (11, 44)
+        p_8_41 = (8, 41)
+        p_8_34 = (8, 34)
+        p_24_13 = (24, 13)
+        p_24_4 = (24, 4)
+        p_28_9 = (28, 9)
+        p_20_9 = (20, 9)
+        self.add_line('cuff-0-attach-0', p_11_31, p_19_31)
+        self.add_line('cuff-0-attach-1', p_19_31, p_29_31)
+        self.add_line('cuff-0-attach-2', p_29_31, p_37_31)
+        self.add_arc('cuff-1', p_37_31, p_40_34, radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('cuff-2', p_40_34, p_40_41)
+        self.add_arc('cuff-3', p_40_41, p_37_44, radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('cuff-4-attach-0', p_37_44, p_29_44)
+        self.add_line('cuff-4-attach-1', p_29_44, p_19_44)
+        self.add_line('cuff-4-attach-2', p_19_44, p_11_44)
+        self.add_arc('cuff-5', p_11_44, p_8_41, radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_line('cuff-6', p_8_41, p_8_34)
+        self.add_arc('cuff-7', p_8_34, p_11_31, radius_x=3, radius_y=3, sweep=True, large_arc=False)
+        self.add_arc('crown-left', p_11_31, p_24_13, radius_x=13, radius_y=18, sweep=True, large_arc=False)
+        self.add_arc('crown-right', p_24_13, p_37_31, radius_x=13, radius_y=18, sweep=True, large_arc=False)
+        self.add_arc('bobble-0', p_24_4, p_28_9, radius_x=4, radius_y=5, sweep=True, large_arc=False)
+        self.add_arc('bobble-1', p_28_9, p_24_13, radius_x=4, radius_y=5, sweep=True, large_arc=False)
+        self.add_arc('bobble-2', p_24_13, p_20_9, radius_x=4, radius_y=5, sweep=True, large_arc=False)
+        self.add_arc('bobble-3', p_20_9, p_24_4, radius_x=4, radius_y=5, sweep=True, large_arc=False)
+        self.add_line('panel-left', p_19_31, p_19_44)
+        self.add_line('panel-right', p_29_31, p_29_44)
         self.add_contour('cuff', 'cuff-0-attach-0', 'cuff-0-attach-1', 'cuff-0-attach-2', 'cuff-1', 'cuff-2', 'cuff-3', 'cuff-4-attach-0', 'cuff-4-attach-1', 'cuff-4-attach-2', 'cuff-5', 'cuff-6', 'cuff-7', closed=True)
-        self.add_arc('crown-left', (8, 32), (24, 12), radius_x=16, radius_y=20, sweep=True)
-        self.add_arc('crown-right', (24, 12), (40, 32), radius_x=16, radius_y=20, sweep=True)
         self.add_contour('crown', 'crown-left', 'crown-right', closed=False)
-        self.add_arc('bobble-0', (24, 2), (29, 7), radius_x=5, radius_y=5, sweep=True)
-        self.add_arc('bobble-1', (29, 7), (24, 12), radius_x=5, radius_y=5, sweep=True)
-        self.add_arc('bobble-2', (24, 12), (19, 7), radius_x=5, radius_y=5, sweep=True)
-        self.add_arc('bobble-3', (19, 7), (24, 2), radius_x=5, radius_y=5, sweep=True)
         self.add_contour('bobble', 'bobble-0', 'bobble-1', 'bobble-2', 'bobble-3', closed=True)
-        self.relate("connect", 'bobble', 'crown')
-        self.relate("connect", 'cuff', 'crown')
-        self.add_line('panel-left', (18, 32), (18, 46))
-        self.add_line('panel-right', (30, 32), (30, 46))
-        self.relate("connect", 'cuff', 'panel-left')
-        self.relate("connect", 'cuff', 'panel-right')
+        self.relate('connect', 'bobble', 'crown')
+        self.relate('connect', 'cuff', 'crown')
+        self.relate('connect', 'cuff', 'panel-left')
+        self.relate('connect', 'cuff', 'panel-right')

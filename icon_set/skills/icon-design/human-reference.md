@@ -23,7 +23,13 @@ scale a finished icon between families or copy fractional reference coordinates.
 
 ## Head-to-body gap
 
-For a detached user/person head, require **exactly 4 units of visible ink
+For `avatar`, read `profiles.AVATAR48.head_body_ink_gap` in
+`icon_set/model/contracts/icon-profile.v1.json`; the avatar base exports
+`HEAD_BODY_INK_GAP` and derives `HEAD_BODY_CENTERLINE_GAP` by adding the stroke.
+It currently matches the shared 4-unit gap below, but can be changed separately.
+Use `/icon-avatar` for a standalone 48x48 head-and-body avatar.
+
+For a detached user/person head in other families, require **exactly 4 units of visible ink
 clearance** to its own body/shoulders, measured between the nearest painted
 edges. With stroke 4 this is **8 units between centerlines**, not 4. For a
 frontal bust, derive `body_top = head_cy + head_radius + stroke_width + 4`.

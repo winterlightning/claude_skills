@@ -1,67 +1,51 @@
-"""Beer mug with a scalloped foam head on SOLO48.
-
-Reconstructed from ``(pictoicon) - Beer Mug with Foam.svg``.  The two narrow
-glass-facet strokes from the source are omitted at native size; the identifying
-body, handle, foam cap, separator, and flat base remain.
-"""
-
-from __future__ import annotations
-
+'Beer mug with foam.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-AUTHOR = 'astra-chatgpt'
-
+SOURCE_ICON_ID = None
+SOURCE_PATH = 'icon_set/model/icons/solo/beer_mug_with_foam.py'
+AUTHOR = 'gpt-6'
 
 class BeerMugWithFoam(Solo48):
-    """A straight-sided beer stein with foam and a right-hand handle."""
-
-    icon_id = "beer-mug-with-foam"
-    keyshape = Keyshape.VRECT_XL
-    category = "objects/drink"
-    aliases = ("beer-mug", "beer-stein", "stein")
-    keywords = ("beer", "mug", "stein", "drink", "pub", "bar", "alcohol", "foam")
+    icon_id = 'beer-mug-with-foam'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/drink'
+    aliases = ('beer-mug', 'beer-stein', 'stein')
+    keywords = ('beer', 'mug', 'stein', 'drink', 'pub', 'bar', 'alcohol', 'foam')
 
     def build(self) -> None:
-        # The foam is the top of the mug's outer contour.  A small left rise,
-        # broad central lobe, and right fall preserve the scalloped read with
-        # only the detail that survives at 48 pixels.  The central semicircle
-        # reaches VRECT_XL's top centreline at y=2.
-        self.add_arc("foam-left", (5, 15), (10, 9), radius_x=6, sweep=False)
-        self.add_arc("foam-centre", (10, 9), (24, 9), radius_x=7)
-        self.add_arc("foam-right", (24, 9), (34, 15), radius_x=6)
-
-        # Split the right wall at both handle attachments so every attachment
-        # is a shared endpoint that the validator can prove.
-        self.add_line("wall-right-upper", (34, 15), (34, 24))
-        self.add_line("wall-right-handle", (34, 24), (34, 40))
-        self.add_arc("corner-se", (34, 40), (28, 46), radius_x=6)
-        self.add_line("base", (28, 46), (11, 46))
-        self.add_arc("corner-sw", (11, 46), (5, 40), radius_x=6)
-        self.add_line("wall-left", (5, 40), (5, 15))
-        self.add_contour(
-            "mug-outline",
-            "foam-left", "foam-centre", "foam-right",
-            "wall-right-upper", "wall-right-handle",
-            "corner-se", "base", "corner-sw", "wall-left",
-            closed=True,
-        )
-
-        # The shared foam/body baseline reads as the horizontal separator.
-        self.add_line("foam-separator", (5, 15), (34, 15))
-
-        # An open rounded-rectangle handle uses the mug wall as its left side.
-        # Its rightmost centreline reaches x=43, completing VRECT_XL.
-        self.add_line("handle-top", (34, 24), (39, 24))
-        self.add_arc("handle-corner-ne", (39, 24), (43, 28), radius_x=4)
-        self.add_line("handle-right", (43, 28), (43, 36))
-        self.add_arc("handle-corner-se", (43, 36), (39, 40), radius_x=4)
-        self.add_line("handle-bottom", (39, 40), (34, 40))
-        self.add_contour(
-            "handle",
-            "handle-top", "handle-corner-ne", "handle-right",
-            "handle-corner-se", "handle-bottom",
-        )
-
-        self.relate("connect", "mug-outline", "foam-separator")
-        self.relate("connect", "mug-outline", "handle")
+        # Shared nodes are reused by every touching member.
+        p_8_16 = (8, 16)
+        p_12_10 = (12, 10)
+        p_24_10 = (24, 10)
+        p_32_16 = (32, 16)
+        p_32_24 = (32, 24)
+        p_32_39 = (32, 39)
+        p_27_44 = (27, 44)
+        p_13_44 = (13, 44)
+        p_8_39 = (8, 39)
+        p_37_24 = (37, 24)
+        p_40_28 = (40, 28)
+        p_40_35 = (40, 35)
+        p_37_39 = (37, 39)
+        self.add_arc('foam-left', p_8_16, p_12_10, radius_x=5, radius_y=5, sweep=False, large_arc=False)
+        self.add_arc('foam-centre', p_12_10, p_24_10, radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_arc('foam-right', p_24_10, p_32_16, radius_x=5, radius_y=5, sweep=True, large_arc=False)
+        self.add_line('wall-right-upper', p_32_16, p_32_24)
+        self.add_line('wall-right-handle', p_32_24, p_32_39)
+        self.add_arc('corner-se', p_32_39, p_27_44, radius_x=5, radius_y=5, sweep=True, large_arc=False)
+        self.add_line('base', p_27_44, p_13_44)
+        self.add_arc('corner-sw', p_13_44, p_8_39, radius_x=5, radius_y=5, sweep=True, large_arc=False)
+        self.add_line('wall-left', p_8_39, p_8_16)
+        self.add_line('foam-separator', p_8_16, p_32_16)
+        self.add_line('handle-top', p_32_24, p_37_24)
+        self.add_arc('handle-corner-ne', p_37_24, p_40_28, radius_x=3, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('handle-right', p_40_28, p_40_35)
+        self.add_arc('handle-corner-se', p_40_35, p_37_39, radius_x=3, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('handle-bottom', p_37_39, p_32_39)
+        self.add_contour('mug-outline', 'foam-left', 'foam-centre', 'foam-right', 'wall-right-upper', 'wall-right-handle', 'corner-se', 'base', 'corner-sw', 'wall-left', closed=True)
+        self.add_contour('handle', 'handle-top', 'handle-corner-ne', 'handle-right', 'handle-corner-se', 'handle-bottom', closed=False)
+        self.relate('connect', 'mug-outline', 'foam-separator')
+        self.relate('connect', 'mug-outline', 'handle')

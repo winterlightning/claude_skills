@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (6, 4, 42, 44) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,14 +15,14 @@
         "elementId": "airframe",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 6 L 29 12 L 29 18 L 40 30 L 40 34 L 29 30 L 29 36 L 32 40 L 32 42 L 24 40 L 16 42 L 16 40 L 19 36 L 19 30 L 8 34 L 8 30 L 19 18 L 19 12 L 24 6 Z",
+        "pathData": "M 24 4 L 29 12 L 29 18 L 40 28 L 40 38 L 29 30 L 29 36 L 32 44 L 24 40 L 16 44 L 19 36 L 19 30 L 8 38 L 8 28 L 19 18 L 19 12 L 24 4 Z",
         "bounds": [
           8.0,
-          6.0,
+          4.0,
           40.0,
-          42.0
+          44.0
         ],
-        "segmentCount": 19,
+        "segmentCount": 17,
         "approximationError": 0.0,
         "hasCurves": false
       }
@@ -43,9 +41,9 @@
         ],
         "bounds": [
           8.0,
-          6.0,
+          4.0,
           40.0,
-          42.0
+          44.0
         ]
       }
     ],
@@ -67,8 +65,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 20,
-      "flattenedSegments": 19,
+      "commands": 18,
+      "flattenedSegments": 17,
       "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
@@ -86,33 +84,33 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          24.0781
+          24.0469
         ],
         "bbox_viewbox": [
           8.5,
-          6.8125,
+          4.9688,
           31.0,
-          34.5312
+          38.0
         ],
         "bbox_ship_px": [
           31.0,
-          34.5312
+          38.0
         ],
         "bbox_design_u": [
           31.0,
-          34.5312
+          38.0
         ],
-        "area_ship_px2": 448.2725,
-        "equivalent_diameter_ship_px": 23.8905,
-        "equivalent_diameter_design_u": 23.8905,
-        "inscribed_diameter_ship_px": 14.4374,
-        "inscribed_diameter_design_u": 14.4374,
-        "inscribed_radius_ship_px": 7.2187,
-        "inscribed_radius_design_u": 7.2187,
+        "area_ship_px2": 518.5566,
+        "equivalent_diameter_ship_px": 25.6953,
+        "equivalent_diameter_design_u": 25.6953,
+        "inscribed_diameter_ship_px": 14.5074,
+        "inscribed_diameter_design_u": 14.5074,
+        "inscribed_radius_ship_px": 7.2537,
+        "inscribed_radius_design_u": 7.2537,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 5.7187,
-        "equivalent_diameter_at_authored_stroke_design_u": 11.4374
+        "equivalent_radius_at_authored_stroke_design_u": 5.7537,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.5074
       }
     ],
     "pinches": [],
@@ -138,7 +136,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "30fd106de77a41ace5528d68514d8c44fe3c25e515ff7d122e09e2d674362cc9",
+  "svg_sha256": "723082fb295507eb42b85930be1382db9d15a4c6284168b8991126e317b0635b",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -192,7 +190,7 @@
   },
   "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -203,51 +201,8 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [
-      {
-        "contour": "airframe",
-        "elements": [
-          "airframe-3",
-          "airframe-5"
-        ],
-        "status": "review",
-        "sustained_length": 8.6327,
-        "centerline_distance": 4.044,
-        "ink_gap": 0.044,
-        "nearest_points": [
-          [
-            39.58333333333333,
-            29.545454545454547
-          ],
-          [
-            38.201338199513415,
-            33.34594116345943
-          ]
-        ]
-      },
-      {
-        "contour": "airframe",
-        "elements": [
-          "airframe-14",
-          "airframe-16"
-        ],
-        "status": "review",
-        "sustained_length": 8.6327,
-        "centerline_distance": 4.044,
-        "ink_gap": 0.044,
-        "nearest_points": [
-          [
-            9.7986618004866,
-            33.34594116345942
-          ],
-          [
-            8.416666666666668,
-            29.545454545454547
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

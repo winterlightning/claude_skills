@@ -3,16 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (6, 2, 42, 44) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)"
-  ],
-  "warnings": [
-    "mic [head]: head and shoulders are 8 apart on centerlines nearest (24, 20)<->(24, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
   "spacing": {
-    "ok": false,
-    "status": "review",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "head:subpath-1",
@@ -35,15 +31,15 @@
         "elementId": "shoulders",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 8 42 A 16 14 0 0 1 40 42",
+        "pathData": "M 8 44 A 16 16 0 0 1 40 44",
         "bounds": [
           8.0,
           28.0,
           40.0,
-          42.0
+          44.0
         ],
         "segmentCount": 256,
-        "approximationError": 0.00030310377304534306,
+        "approximationError": 0.0003031037729225207,
         "hasCurves": true
       }
     ],
@@ -81,7 +77,7 @@
           8.0,
           28.0,
           40.0,
-          42.0
+          44.0
         ]
       }
     ],
@@ -94,11 +90,11 @@
         "centerlineDistance": 8.0,
         "inkClearance": 4.0,
         "signedInkClearance": 4.0,
-        "lowerBound": 7.999093549705434,
-        "upperBound": 8.000906450294568,
-        "inkClearanceLowerBound": 3.9990935497054343,
-        "inkClearanceUpperBound": 4.000906450294568,
-        "approximationError": 0.0009064502945683728,
+        "lowerBound": 8.0,
+        "upperBound": 8.000906450294446,
+        "inkClearanceLowerBound": 4.0,
+        "inkClearanceUpperBound": 4.000906450294446,
+        "approximationError": 0.0009064502944458042,
         "nearestPoints": [
           [
             24.0,
@@ -111,8 +107,8 @@
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "review",
-        "reason": "The conservative curve distance interval crosses the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -135,11 +131,11 @@
             "centerlineDistance": 8.0,
             "inkClearance": 4.0,
             "signedInkClearance": 4.0,
-            "lowerBound": 7.999093549705434,
-            "upperBound": 8.000906450294568,
-            "inkClearanceLowerBound": 3.9990935497054343,
-            "inkClearanceUpperBound": 4.000906450294568,
-            "approximationError": 0.0009064502945644892,
+            "lowerBound": 8.0,
+            "upperBound": 8.000906450294446,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000906450294446,
+            "approximationError": 0.0009064502944416667,
             "nearestPoints": [
               [
                 24.0,
@@ -152,8 +148,8 @@
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -161,9 +157,7 @@
     ],
     "connectedPairs": [],
     "excludedPairs": [],
-    "errors": [
-      "component-1 / component-2: The conservative curve distance interval crosses the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -176,7 +170,7 @@
     },
     "minimumCenterlineDistance": 8.0,
     "minimumInkClearance": 4.0,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 6,
       "flattenedSegments": 513,
@@ -184,7 +178,7 @@
       "distanceTests": 11,
       "connectionTests": 0
     },
-    "raw_status": "review",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
@@ -249,7 +243,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "a75c0ba9c9de3c39d5798e4387e1c1a4a38fe34bd25b5a8f753062866b3d4ff4",
+  "svg_sha256": "0af158940a7bd65b1b1224bedb0d25ef99a39ec1348319df423e5f068dd27ecc",
   "rules": {
     "profile": {
       "canvas_size": 48,

@@ -9,32 +9,16 @@ AUTHOR = 'gpt-6'
 
 class MilitaryDroneOverhead(Solo48):
     icon_id = 'military-drone-overhead'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/war'
     aliases = ()
     keywords = ('drone', 'aircraft', 'military', 'wing', 'propeller', 'overhead')
 
-    def build(self):
-
-        def L(n,a,b): self.add_line(n,a,b)
-        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def C(n,x,y,r):
-            A(n+'a',(x-r,y),(x+r,y),r)
-            A(n+'b',(x+r,y),(x-r,y),r)
-            self.add_contour(n,n+'a',n+'b',closed=True)
-        def J(a,b): self.relate('connect',a,b)
-        def R(n,x,y,w,h,r=4):
-            L(n+'t',(x+r,y),(x+w-r,y))
-            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
-            L(n+'r',(x+w,y+r),(x+w,y+h-r))
-            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
-            L(n+'b',(x+w-r,y+h),(x+r,y+h))
-            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
-            L(n+'l',(x,y+h-r),(x,y+r))
-            A(n+'tl',(x,y+r),(x+r,y),r)
-            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-
-        P('airframe',(24,6),(28,10),(28,18),(40,22),(40,28),(28,27),(28,36),(34,40),(24,42),(14,40),(20,36),(20,27),(8,28),(8,22),(20,18),(20,10),closed=True)
+    def build(self) -> None:
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        # Mirror the wing and tail geometry; nine-unit wing tips keep the thin wing slots open.
+        right = [(24, 4), (28, 10), (28, 18), (40, 22), (40, 31), (28, 27), (28, 36), (34, 40), (24, 44)]
+        left = [(48 - x, y) for x, y in reversed(right[1:-1])]
+        self.add_polyline('airframe', *right + left, closed=True)

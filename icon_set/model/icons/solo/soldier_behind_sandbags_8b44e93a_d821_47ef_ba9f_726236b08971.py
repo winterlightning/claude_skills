@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class SoldierBehindSandbags(Solo48):
     icon_id = 'soldier-behind-sandbags'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/war'
@@ -17,6 +17,7 @@ class SoldierBehindSandbags(Solo48):
     keywords = ('soldier', 'sandbag', 'rifle', 'helmet', 'barricade', 'military')
 
     def build(self):
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
         """Opening repair: Removed the thin central brim divider and made the helmeted head rounder; kept the rifle and both bags."""
 
         def L(n, a, b):
@@ -46,7 +47,7 @@ class SoldierBehindSandbags(Solo48):
             L(n + 'l', (x, y + h - r), (x, y + r))
             A(n + 'tl', (x, y + r), (x + r, y), r)
             self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
-        A('helmet', (30, 15), (42, 15), 6)
+        A('helmet', (30, 15), (42, 15), 6, 7)
         A('face', (30, 15), (42, 15), 6, s=False)
         J('face', 'helmet')
         L('rifle', (6, 15), (30, 15))

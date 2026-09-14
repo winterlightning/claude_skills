@@ -3,46 +3,26 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 6, 44, 42) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)",
-    "mic [stock]: parallel straight edges stock-4 and underside-3 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "mic [stock]: parallel straight edges stock-3 and underside-2 are 5.24951 apart on centerlines (ink gap 1.24951); requires at least 8 centerline / 4 ink (overlap-fallback)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
         "id": "stock:subpath-1",
         "elementId": "stock",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 40 L 6 29 L 16 27 L 21 21 L 29 21",
+        "pathData": "M 4 40 L 4 28 L 12 24 L 18 18 L 28 18 L 28 28 L 22 28 L 16 34 L 4 40",
         "bounds": [
-          6.0,
-          21.0,
-          29.0,
+          4.0,
+          18.0,
+          28.0,
           40.0
         ],
-        "segmentCount": 4,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "underside:subpath-1",
-        "elementId": "underside",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 6 40 L 17 34 L 22 28 L 29 28 L 29 21",
-        "bounds": [
-          6.0,
-          21.0,
-          29.0,
-          40.0
-        ],
-        "segmentCount": 4,
+        "segmentCount": 8,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -51,12 +31,12 @@
         "elementId": "barrel",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 29 21 L 42 13",
+        "pathData": "M 28 18 L 44 13",
         "bounds": [
-          29.0,
+          28.0,
           13.0,
-          42.0,
-          21.0
+          44.0,
+          18.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -67,11 +47,11 @@
         "elementId": "sight",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 42 13 L 42 8",
+        "pathData": "M 44 13 L 44 8",
         "bounds": [
-          42.0,
+          44.0,
           8.0,
-          42.0,
+          44.0,
           13.0
         ],
         "segmentCount": 1,
@@ -84,26 +64,23 @@
         "id": "component-1",
         "memberIds": [
           "stock:subpath-1",
-          "underside:subpath-1",
           "barrel:subpath-1",
           "sight:subpath-1"
         ],
         "contourIds": [
           "stock:subpath-1",
-          "underside:subpath-1",
           "barrel:subpath-1",
           "sight:subpath-1"
         ],
         "elementIds": [
           "stock",
-          "underside",
           "barrel",
           "sight"
         ],
         "bounds": [
-          6.0,
+          4.0,
           8.0,
-          42.0,
+          44.0,
           40.0
         ]
       }
@@ -113,34 +90,12 @@
       {
         "contourIds": [
           "stock:subpath-1",
-          "underside:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          6.0,
-          40.0
-        ]
-      },
-      {
-        "contourIds": [
-          "stock:subpath-1",
           "barrel:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          29.0,
-          21.0
-        ]
-      },
-      {
-        "contourIds": [
-          "underside:subpath-1",
-          "barrel:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          29.0,
-          21.0
+          28.0,
+          18.0
         ]
       },
       {
@@ -150,7 +105,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          42.0,
+          44.0,
           13.0
         ]
       }
@@ -159,25 +114,6 @@
       {
         "contourIds": [
           "stock:subpath-1",
-          "underside:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "stock:subpath-1",
-            "underside:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            6.0,
-            40.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "stock:subpath-1",
           "barrel:subpath-1"
         ],
         "componentId": "component-1",
@@ -189,42 +125,14 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            29.0,
-            21.0
+            28.0,
+            18.0
           ]
         }
       },
       {
         "contourIds": [
           "stock:subpath-1",
-          "sight:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "underside:subpath-1",
-          "barrel:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "underside:subpath-1",
-            "barrel:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            29.0,
-            21.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "underside:subpath-1",
           "sight:subpath-1"
         ],
         "componentId": "component-1",
@@ -245,7 +153,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            42.0,
+            44.0,
             13.0
           ]
         }
@@ -266,7 +174,7 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 14,
+      "commands": 13,
       "flattenedSegments": 10,
       "adaptiveNodes": 0,
       "distanceTests": 0,
@@ -284,34 +192,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          10.4219,
-          32.5156
+          12.9531,
+          29.5156
         ],
         "bbox_viewbox": [
-          6.5,
-          21.5,
-          22.0,
-          17.6562
+          4.5,
+          18.5,
+          23.0,
+          20.6875
         ],
         "bbox_ship_px": [
-          22.0,
-          17.6562
+          23.0,
+          20.6875
         ],
         "bbox_design_u": [
-          22.0,
-          17.6562
+          23.0,
+          20.6875
         ],
-        "area_ship_px2": 155.4365,
-        "equivalent_diameter_ship_px": 14.068,
-        "equivalent_diameter_design_u": 14.068,
-        "inscribed_diameter_ship_px": 7.7772,
-        "inscribed_diameter_design_u": 7.7772,
-        "inscribed_radius_ship_px": 3.8886,
-        "inscribed_radius_design_u": 3.8886,
+        "area_ship_px2": 246.3789,
+        "equivalent_diameter_ship_px": 17.7116,
+        "equivalent_diameter_design_u": 17.7116,
+        "inscribed_diameter_ship_px": 9.5616,
+        "inscribed_diameter_design_u": 9.5616,
+        "inscribed_radius_ship_px": 4.7808,
+        "inscribed_radius_design_u": 4.7808,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.3886,
-        "equivalent_diameter_at_authored_stroke_design_u": 4.7772
+        "equivalent_radius_at_authored_stroke_design_u": 3.2808,
+        "equivalent_diameter_at_authored_stroke_design_u": 6.5616
       }
     ],
     "pinches": [],
@@ -337,7 +245,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "4246257975a3053079d948af00bf382898b8220d46ca3989acd28f27de71a673",
+  "svg_sha256": "b54bbb88e9f8ac69226b8325a6e1c2cb1f179f2118046c6cd471d7c6162bb27e",
   "rules": {
     "profile": {
       "canvas_size": 48,

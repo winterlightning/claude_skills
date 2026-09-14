@@ -1,6 +1,6 @@
 ---
 name: icon-making
-description: Inspect a Pictographic icon request or reference, decide solo/sub/container routing, and run the appropriate icon skill. Use as the entry point for making icons, applying review feedback, or processing Pending briefs. Detect container and side combinations and split them into standalone component briefs rather than authoring a combined primitive. Hand-authored; edit this file directly.
+description: Inspect a Pictographic icon request or reference, decide solo/sub/container/avatar routing, and run the appropriate icon skill. Use as the entry point for making icons, applying review feedback, or processing Pending briefs. Detect container and side combinations and split them into standalone component briefs rather than authoring a combined primitive. Hand-authored; edit this file directly.
 argument-hint: <request or reference path> [family] [pending brief or review feedback]
 ---
 
@@ -9,7 +9,7 @@ argument-hint: <request or reference path> [family] [pending brief or review fee
 Request: $ARGUMENTS
 
 Run from the repository containing `icon_set/`. This skill selects and invokes
-one of `/icon-solo`, `/icon-sub`, `/icon-container`, or `/icon-brief`; it does not
+one of `/icon-solo`, `/icon-sub`, `/icon-container`, `/icon-avatar`, or `/icon-brief`; it does not
 replace their geometry and validation instructions. Inspect the corresponding
 skill file before authoring. Their sources are in `.claude/skills/`; Codex copies
 are in `.agents/skills/` and portable copies in `skills/`.
@@ -33,6 +33,7 @@ Otherwise this router is authorized to decide it:
 
 | Intended subject | Route |
 |---|---|
+| A standalone avatar or profile bust combining a head and its own body | `/icon-avatar` (48×48) |
 | One independently recognizable noun/object, tool, person, animal, or scene reduced to a single subject | `/icon-solo` (48×48) |
 | Small operator, arrow, state, modifier, or simple glyph intended to accompany another icon | `/icon-sub` (32×32) |
 | A standalone enclosure, frame, screen, card, window, or speech bubble | `/icon-container` (64×64) |
@@ -58,7 +59,8 @@ individual authoring skill. Two disallowed primitive candidates are:
   its composition slots are not frozen in the current contract.
 
 A handle, lid, screen button, clothing detail, or natural body part is not a
-second icon just because it is a separate shape. Reject only when both parts
+second icon just because it is a separate shape. In particular, an avatar head
+and its own body remain one subject and route to `/icon-avatar`. Reject only when both parts
 have independent icon meanings. An empty container is a valid primitive.
 
 Name and describe exactly two standalone components. Preserve the full

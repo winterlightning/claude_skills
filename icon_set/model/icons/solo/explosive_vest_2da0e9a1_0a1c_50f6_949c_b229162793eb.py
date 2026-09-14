@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class ExplosiveVest(Solo48):
     icon_id = 'explosive-vest'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/war'
@@ -17,28 +17,42 @@ class ExplosiveVest(Solo48):
     keywords = ('vest', 'explosive', 'bomb', 'belt', 'military', 'garment')
 
     def build(self):
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
 
-        def L(n,a,b): self.add_line(n,a,b)
-        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def C(n,x,y,r):
-            A(n+'a',(x-r,y),(x+r,y),r)
-            A(n+'b',(x+r,y),(x-r,y),r)
-            self.add_contour(n,n+'a',n+'b',closed=True)
-        def J(a,b): self.relate('connect',a,b)
-        def R(n,x,y,w,h,r=4):
-            L(n+'t',(x+r,y),(x+w-r,y))
-            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
-            L(n+'r',(x+w,y+r),(x+w,y+h-r))
-            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
-            L(n+'b',(x+w-r,y+h),(x+r,y+h))
-            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
-            L(n+'l',(x,y+h-r),(x,y+r))
-            A(n+'tl',(x,y+r),(x+r,y),r)
-            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+        def L(n, a, b):
+            self.add_line(n, a, b)
 
-        P('vest',(8,42),(8,20),(12,16),(12,6),(20,6),(20,14),(28,14),(28,6),(36,6),(36,16),(40,20),(40,42),(8,42))
-        C('bomb',24,32,6)
-        L('fuse',(24,26),(24,22));J('fuse','bomb')
-        L('belt-left',(8,32),(18,32));L('belt-right',(30,32),(40,32))
-        J('belt-left','vest');J('belt-left','bomb');J('belt-right','vest');J('belt-right','bomb')
+        def P(n, *p, closed=False):
+            self.add_polyline(n, *p, closed=closed)
+
+        def A(n, a, b, r, ry=None, s=True):
+            self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+        def C(n, x, y, r):
+            A(n + 'a', (x - r, y), (x + r, y), r)
+            A(n + 'b', (x + r, y), (x - r, y), r)
+            self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+        def J(a, b):
+            self.relate('connect', a, b)
+
+        def R(n, x, y, w, h, r=4):
+            L(n + 't', (x + r, y), (x + w - r, y))
+            A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+            L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+            A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+            L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+            A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+            L(n + 'l', (x, y + h - r), (x, y + r))
+            A(n + 'tl', (x, y + r), (x + r, y), r)
+            self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+        P('vest', (8, 44), (8, 20), (12, 16), (12, 4), (20, 4), (20, 14), (28, 14), (28, 4), (36, 4), (36, 16), (40, 20), (40, 44), (8, 44))
+        C('bomb', 24, 32, 6)
+        L('fuse', (24, 26), (24, 22))
+        J('fuse', 'bomb')
+        L('belt-left', (8, 32), (18, 32))
+        L('belt-right', (30, 32), (40, 32))
+        J('belt-left', 'vest')
+        J('belt-left', 'bomb')
+        J('belt-right', 'vest')
+        J('belt-right', 'bomb')

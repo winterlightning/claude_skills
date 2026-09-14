@@ -1,37 +1,23 @@
+'Skunk: independent spacing revision.\n\nRebalanced geometry for eight-unit straight spacing and clear curved openings.\nNative solo family, HRECT_XL keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
+# Variant of skunk; parent file remains unchanged.
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c747f16a-3172-497d-9495-75b5f73d5aba'
 SOURCE_PATH = 'pictographic-primitives/animals/skunk_c747f16a-3172-497d-9495-75b5f73d5aba.svg'
 AUTHOR = 'gpt-6'
 
-
 class Skunk(Solo48):
     icon_id = 'skunk'
     keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "nature/animals"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
     aliases = ()
     keywords = ('skunk', 'tail', 'bushy', 'stripe', 'animal', 'wildlife', 'spray', 'nocturnal')
 
-    def build(self) -> None:
-        # Wide raised tail and low right-facing body; extremes (6,6)-(42,42).
-        self.add_arc('tail-top', (6, 18), (26, 18), radius_x=12, radius_y=13, sweep=True)
-        self.add_arc('tail-turn', (26, 18), (20, 29), radius_x=13, radius_y=13, sweep=True)
-        self.add_line('back', (20, 29), (31, 29))
-        self.add_line('face-1', (31, 29), (34, 23))
-        self.add_line('face-2', (34, 23), (39, 26))
-        self.add_line('face-3', (39, 26), (42, 30))
-        self.add_line('face-4', (42, 30), (41, 35))
-        self.add_line('face-5', (41, 35), (36, 35))
-        self.add_line('foreleg-1', (36, 35), (36, 42))
-        self.add_line('foreleg-2', (36, 42), (30, 42))
-        self.add_line('foreleg-3', (30, 42), (30, 36))
-        self.add_line('belly', (30, 36), (19, 36))
-        self.add_line('hindleg-1', (19, 36), (19, 42))
-        self.add_line('hindleg-2', (19, 42), (11, 42))
-        self.add_line('hindleg-3', (11, 42), (11, 31))
-        self.add_arc('tail-inner', (11, 31), (16, 19), radius_x=17, radius_y=17, sweep=True)
-        self.add_arc('stripe-crest', (16, 19), (6, 18), radius_x=7, radius_y=8, sweep=False)
-        self.add_contour('silhouette', 'tail-top', 'tail-turn', 'back', 'face-1', 'face-2', 'face-3', 'face-4', 'face-5', 'foreleg-1', 'foreleg-2', 'foreleg-3', 'belly', 'hindleg-1', 'hindleg-2', 'hindleg-3', 'tail-inner', 'stripe-crest', closed=True)
+    def build(self):
+        self.add_arc('tail-top',(4, 18),(24, 18),radius_x=10,radius_y=10,sweep=True)
+        self.add_arc('tail-turn',(24, 18),(20, 24),radius_x=10,radius_y=10,sweep=True)
+        self.add_polyline('body',(20, 24),(32, 24),(36, 16),(44, 24),(44, 32),(40, 32),(40, 40),(32, 40),(32, 32),(20, 32),(20, 40),(12, 40),(12, 30),(12, 24),(4, 18),closed=False)
+        self.contours = [c for c in self.contours if c.contour_id != 'body']
+        self.add_contour('outline','tail-top','tail-turn','body-1','body-2','body-3','body-4','body-5','body-6','body-7','body-8','body-9','body-10','body-11','body-12','body-13','body-14',closed=True)

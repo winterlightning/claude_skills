@@ -3,15 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (6, 2, 42, 44) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
-    "mic [outer-hand]: parallel straight edges outer-hand-1 and thumb-tip, thumb-tip-a are 4.94975 apart on centerlines (ink gap 0.949747); requires at least 8 centerline / 4 ink (midpoint-normal)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
         "id": "signal:subpath-1",
@@ -50,12 +47,12 @@
         "elementId": "grip",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 32 34 L 28 30 L 26 28 A 5 5 0 0 0 20 34 L 24 39 L 26 42",
+        "pathData": "M 32 34 L 28 30 L 26 28 A 5 5 0 0 0 20 34 L 24 39 L 26 44",
         "bounds": [
           19.87092363051414,
           27.870923630514138,
           32.0,
-          42.0
+          44.0
         ],
         "segmentCount": 68,
         "approximationError": 0.0006265681004371778,
@@ -66,14 +63,14 @@
         "elementId": "outer-hand",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 28 23 L 36 31 L 36 38 L 40 42",
+        "pathData": "M 28 23 L 40 29 L 40 44",
         "bounds": [
           28.0,
           23.0,
           40.0,
-          42.0
+          44.0
         ],
-        "segmentCount": 3,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       }
@@ -118,7 +115,7 @@
           8.0,
           17.0,
           40.0,
-          42.0
+          44.0
         ]
       }
     ],
@@ -250,7 +247,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -344,11 +341,11 @@
     "minimumInkClearance": 5.369317292723846,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 300,
+      "commands": 20,
+      "flattenedSegments": 299,
       "adaptiveNodes": 571,
       "distanceTests": 79,
-      "connectionTests": 2
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
@@ -382,7 +379,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1b7daae083cfade3c38c3ac3cd0e4051f0fbfde179881c58cf422faeb38efbef",
+  "svg_sha256": "6c55251df602d15a6b105c15d97293175797918f0ba254647e05cf12b77cf1b1",
   "rules": {
     "profile": {
       "canvas_size": 48,

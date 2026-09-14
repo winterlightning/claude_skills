@@ -5,26 +5,28 @@
   "selected_for_build": true,
   "status": "fail",
   "errors": [
-    "canvas/keyshape bounds: visible ink (3.99994, 3.83735, 44.0001, 44.5359) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [2.0001, 1.8374, 2.0001, 1.4641], tolerance 0.0)"
+    "canvas/keyshape bounds: visible ink (3.992, 3.4641, 44.008, 44.5359) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.008, 0.5359, 0.008, 0.5359], tolerance 0.0)",
+    "mic [cactus]: parallel straight edges right-rise and right-inner-rise are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [cactus]: parallel straight edges left-inner-rise and left-rise are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)"
   ],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "cactus:subpath-1",
         "elementId": "cactus",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 30 L 18 21 A 13 13 0 0 1 6 8 A 3 3 0 0 1 11 8 A 7 7 0 0 0 18 15 L 18 8 A 6 6 0 0 1 24 6 A 6 6 0 0 1 30 8 L 30 18 A 7 7 0 0 0 37 11 A 3 3 0 0 1 42 11 A 13 13 0 0 1 30 24 L 30 30",
+        "pathData": "M 18 30 L 18 25 A 16 16 0 0 1 6 9 L 6 6 A 4 4 0 0 1 10 6 L 10 9 A 8 8 0 0 0 18 17 L 18 8 A 6 6 0 0 1 24 6 A 6 6 0 0 1 30 8 L 30 19 A 8 8 0 0 0 38 11 L 38 8 A 4 4 0 0 1 42 8 L 42 11 A 16 16 0 0 1 30 27 L 30 30",
         "bounds": [
-          6.0,
-          5.837625106191162,
-          42.0,
+          5.992884268424508,
+          5.4641016151377535,
+          42.007115731575496,
           30.0
         ],
-        "segmentCount": 452,
+        "segmentCount": 392,
         "approximationError": 0.0009028110668947184,
         "hasCurves": true
       },
@@ -80,9 +82,9 @@
           "pot"
         ],
         "bounds": [
-          6.0,
-          5.837625106191162,
-          42.0,
+          5.992884268424508,
+          5.4641016151377535,
+          42.007115731575496,
           42.53589838486224
         ]
       }
@@ -176,9 +178,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 22,
-      "flattenedSegments": 521,
-      "adaptiveNodes": 1014,
+      "commands": 26,
+      "flattenedSegments": 461,
+      "adaptiveNodes": 886,
       "distanceTests": 0,
       "connectionTests": 1
     },
@@ -194,34 +196,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.6719,
-          17.9844
+          23.5469,
+          20.9844
         ],
         "bbox_viewbox": [
           6.5,
-          6.3438,
+          5.9688,
           35.0,
-          23.1562
+          23.5312
         ],
         "bbox_ship_px": [
           35.0,
-          23.1562
+          23.5312
         ],
         "bbox_design_u": [
           35.0,
-          23.1562
+          23.5312
         ],
-        "area_ship_px2": 392.4834,
-        "equivalent_diameter_ship_px": 22.3545,
-        "equivalent_diameter_design_u": 22.3545,
-        "inscribed_diameter_ship_px": 11.6468,
-        "inscribed_diameter_design_u": 11.6468,
-        "inscribed_radius_ship_px": 5.8234,
-        "inscribed_radius_design_u": 5.8234,
+        "area_ship_px2": 427.8623,
+        "equivalent_diameter_ship_px": 23.3403,
+        "equivalent_diameter_design_u": 23.3403,
+        "inscribed_diameter_ship_px": 12.6538,
+        "inscribed_diameter_design_u": 12.6538,
+        "inscribed_radius_ship_px": 6.3269,
+        "inscribed_radius_design_u": 6.3269,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 4.3234,
-        "equivalent_diameter_at_authored_stroke_design_u": 8.6468
+        "equivalent_radius_at_authored_stroke_design_u": 4.8269,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.6538
       },
       {
         "hole": 2,
@@ -279,7 +281,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "6243aa79fea16dbed41293605bb328a6b02b71fc05da8f8e829eb859a7d24609",
+  "svg_sha256": "3d9402450c225e3548f294c2e969ee159d6faf35eaa1a6a811736d511423d70f",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -348,42 +350,84 @@
       {
         "contour": "cactus",
         "elements": [
-          "left-arm-outer",
-          "left-arm-inner"
+          "left-outer",
+          "left-inner"
         ],
         "status": "review",
-        "sustained_length": 17.462,
-        "centerline_distance": 5.0078,
-        "ink_gap": 1.0078,
+        "sustained_length": 19.6174,
+        "centerline_distance": 4.0356,
+        "ink_gap": 0.0356,
         "nearest_points": [
           [
-            6.0457124236982915,
-            9.121267329096206
+            5.996597123248859,
+            9.869008380009959
           ],
           [
-            11.033544225427168,
-            8.674918617975372
+            10.020271993395868,
+            9.558572374711277
           ]
         ]
       },
       {
         "contour": "cactus",
         "elements": [
-          "right-arm-inner",
-          "right-arm-outer"
+          "left-rise",
+          "left-inner-rise"
         ],
         "status": "review",
-        "sustained_length": 17.462,
-        "centerline_distance": 5.0078,
-        "ink_gap": 1.0078,
+        "sustained_length": 2.0,
+        "centerline_distance": 4.0,
+        "ink_gap": 0.0,
         "nearest_points": [
           [
-            36.96645577457283,
-            11.674918617975372
+            6.0,
+            8.375
           ],
           [
-            41.95428757630171,
-            12.12126732909621
+            10.0,
+            8.375
+          ]
+        ]
+      },
+      {
+        "contour": "cactus",
+        "elements": [
+          "right-inner",
+          "right-outer"
+        ],
+        "status": "review",
+        "sustained_length": 19.6174,
+        "centerline_distance": 4.0356,
+        "ink_gap": 0.0356,
+        "nearest_points": [
+          [
+            37.979728006604134,
+            11.558572374711234
+          ],
+          [
+            42.00340287675114,
+            11.869008380009946
+          ]
+        ]
+      },
+      {
+        "contour": "cactus",
+        "elements": [
+          "right-inner-rise",
+          "right-rise"
+        ],
+        "status": "review",
+        "sustained_length": 2.0,
+        "centerline_distance": 4.0,
+        "ink_gap": 0.0,
+        "nearest_points": [
+          [
+            38.0,
+            10.375
+          ],
+          [
+            42.0,
+            10.375
           ]
         ]
       }

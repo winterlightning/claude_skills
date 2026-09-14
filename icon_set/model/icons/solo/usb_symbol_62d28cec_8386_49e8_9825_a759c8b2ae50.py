@@ -1,18 +1,14 @@
-"""The USB trident stands alone with arrow, circle and square terminals.
+"""Inset the arrow and root circle without changing branch terminals.
 
-VRECT_L visible bounds (6, 0)-(42, 48), centerlines (8, 2)-(40, 46).
-Lucide usb informs the branching shaft and distinct terminal shapes. Rebuilt
-upright on SOLO48 from the supplied reference, with its open arrowhead.
-The different branch terminals preserve the symbol's intentional asymmetry.
+Keyshape VRECT_L: visible bounds (6, 2, 42, 46).
+Reference: usb: branching shaft and distinct terminals; intentional asymmetry.
 """
-
+# Independent repair of usb-symbol; parent preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '62d28cec-8386-49e8-9825-a759c8b2ae50'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/usb port_62d28cec-8386-49e8-9825-a759c8b2ae50.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class UsbSymbol(Solo48):
     icon_id = 'usb-symbol'
@@ -23,18 +19,18 @@ class UsbSymbol(Solo48):
     aliases = ('usb-trident',)
     keywords = ('usb', 'port', 'symbol', 'connector', 'trident', 'data', 'plug', 'computer')
 
+    # Symbol plan: retain the subject and shared attachment stations;
+    # fit the current keyshape by adjusting the owning cap, base or repeat.
     def build(self) -> None:
-        self.add_polyline('shaft', (24, 2), (24, 28), (24, 36))
-        self.add_polyline('arrowhead', (18, 8), (24, 2), (30, 8))
+        self.add_polyline('shaft', (24, 4), (24, 28), (24, 34))
+        self.add_polyline('arrowhead', (18, 8), (24, 4), (30, 8))
         self.relate('connect', 'shaft', 'arrowhead')
-
-        self.add_arc('root-ne', (24, 36), (29, 41), radius_x=5)
-        self.add_arc('root-se', (29, 41), (24, 46), radius_x=5)
-        self.add_arc('root-sw', (24, 46), (19, 41), radius_x=5)
-        self.add_arc('root-nw', (19, 41), (24, 36), radius_x=5)
+        self.add_arc('root-ne', (24, 34), (29, 39), radius_x=5)
+        self.add_arc('root-se', (29, 39), (24, 44), radius_x=5)
+        self.add_arc('root-sw', (24, 44), (19, 39), radius_x=5)
+        self.add_arc('root-nw', (19, 39), (24, 34), radius_x=5)
         self.add_contour('root', 'root-ne', 'root-se', 'root-sw', 'root-nw', closed=True)
         self.relate('connect', 'shaft', 'root')
-
         self.add_arc('circle-ne', (12, 14), (16, 18), radius_x=4)
         self.add_arc('circle-se', (16, 18), (12, 22), radius_x=4)
         self.add_arc('circle-sw', (12, 22), (8, 18), radius_x=4)

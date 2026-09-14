@@ -1,0 +1,757 @@
+{
+  "record": {
+    "icon_id": "open-umbrella-with-ribs-stretch-square",
+    "name": "open-umbrella-with-ribs-stretch-square",
+    "aliases": [],
+    "category": "objects/accessories",
+    "keywords": [
+      "umbrella",
+      "rain",
+      "parasol",
+      "weather",
+      "canopy",
+      "rib",
+      "handle",
+      "shelter"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "SQUARE",
+    "keyshape_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "canopy-l",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "radius_x": 18,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "canopy-r",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          42,
+          24
+        ],
+        "radius_x": 18,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "scallop-r",
+        "start": [
+          42,
+          24
+        ],
+        "end": [
+          32,
+          24
+        ],
+        "radius_x": 5,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "scallop-mid-r",
+        "start": [
+          32,
+          24
+        ],
+        "end": [
+          24,
+          22
+        ],
+        "radius_x": 8,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "scallop-mid-l",
+        "start": [
+          24,
+          22
+        ],
+        "end": [
+          16,
+          24
+        ],
+        "radius_x": 8,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "scallop-l",
+        "start": [
+          16,
+          24
+        ],
+        "end": [
+          6,
+          24
+        ],
+        "radius_x": 5,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "rib-l",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          16,
+          24
+        ],
+        "radius_x": 8,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "rib-r",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          32,
+          24
+        ],
+        "radius_x": 8,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "shaft",
+        "start": [
+          24,
+          22
+        ],
+        "end": [
+          24,
+          37
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "hook",
+        "start": [
+          24,
+          37
+        ],
+        "end": [
+          34,
+          37
+        ],
+        "radius_x": 5,
+        "radius_y": 5,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "hook-tip",
+        "start": [
+          34,
+          37
+        ],
+        "end": [
+          34,
+          34
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "canopy",
+        "members": [
+          "canopy-l",
+          "canopy-r",
+          "scallop-r",
+          "scallop-mid-r",
+          "scallop-mid-l",
+          "scallop-l"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "handle",
+        "members": [
+          "shaft",
+          "hook",
+          "hook-tip"
+        ],
+        "closed": false
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "rib-l",
+          "canopy"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "rib-r",
+          "canopy"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "rib-l",
+          "rib-r"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "handle",
+          "canopy"
+        ]
+      }
+    ],
+    "variant_of": "open-umbrella-with-ribs",
+    "variant_label": "Stretch to SQUARE"
+  },
+  "report": {
+    "source_icon_id": "open-umbrella-with-ribs",
+    "target_keyshape": "SQUARE",
+    "source_centerline_bounds": [
+      2.0,
+      2.0,
+      46.0,
+      46.0
+    ],
+    "target_visible_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "mode": "stretch",
+    "scale": 0.8181818181818182,
+    "scale_x": 0.8181818181818182,
+    "scale_y": 0.8181818181818182,
+    "stroke_width": 4,
+    "requires_visual_review": true,
+    "notes": [],
+    "validation": {
+      "icon_id": "open-umbrella-with-ribs-stretch-square",
+      "family": "solo",
+      "profile": "SOLO48",
+      "selected_for_build": true,
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "spacing": {
+        "ok": true,
+        "status": "pass",
+        "contours": [
+          {
+            "id": "canopy:subpath-1",
+            "elementId": "canopy",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 6 24 A 18 18 0 0 1 24 6 A 18 18 0 0 1 42 24 A 5 2 0 0 0 32 24 A 8 2 0 0 0 24 22 A 8 2 0 0 0 16 24 A 5 2 0 0 0 6 24 Z",
+            "bounds": [
+              6.0,
+              6.0,
+              42.0,
+              24.0
+            ],
+            "segmentCount": 641,
+            "approximationError": 0.0006023928486053781,
+            "hasCurves": true
+          },
+          {
+            "id": "rib-l:subpath-1",
+            "elementId": "rib-l",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 24 6 A 8 18 0 0 0 16 24",
+            "bounds": [
+              16.0,
+              6.0,
+              24.0,
+              24.0
+            ],
+            "segmentCount": 128,
+            "approximationError": 0.0003388459774119181,
+            "hasCurves": true
+          },
+          {
+            "id": "rib-r:subpath-1",
+            "elementId": "rib-r",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 24 6 A 8 18 0 0 1 32 24",
+            "bounds": [
+              24.0,
+              6.0,
+              32.0,
+              24.0
+            ],
+            "segmentCount": 128,
+            "approximationError": 0.00033884597740835315,
+            "hasCurves": true
+          },
+          {
+            "id": "handle:subpath-1",
+            "elementId": "handle",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 24 22 L 24 37 A 5 5 0 0 0 34 37 L 34 34",
+            "bounds": [
+              24.0,
+              22.0,
+              34.0,
+              42.0
+            ],
+            "segmentCount": 130,
+            "approximationError": 0.00037709157657362004,
+            "hasCurves": true
+          }
+        ],
+        "components": [
+          {
+            "id": "component-1",
+            "memberIds": [
+              "canopy:subpath-1",
+              "rib-l:subpath-1",
+              "rib-r:subpath-1",
+              "handle:subpath-1"
+            ],
+            "contourIds": [
+              "canopy:subpath-1",
+              "rib-l:subpath-1",
+              "rib-r:subpath-1",
+              "handle:subpath-1"
+            ],
+            "elementIds": [
+              "canopy",
+              "rib-l",
+              "rib-r",
+              "handle"
+            ],
+            "bounds": [
+              6.0,
+              6.0,
+              42.0,
+              42.0
+            ]
+          }
+        ],
+        "pairs": [],
+        "connectedPairs": [
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "rib-l:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              16.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "rib-r:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              24.0,
+              6.0
+            ]
+          },
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "handle:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              24.0,
+              22.0
+            ]
+          },
+          {
+            "contourIds": [
+              "rib-l:subpath-1",
+              "rib-r:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              24.0,
+              6.0
+            ]
+          }
+        ],
+        "excludedPairs": [
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "rib-l:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "canopy:subpath-1",
+                "rib-l:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                16.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "rib-r:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "canopy:subpath-1",
+                "rib-r:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                24.0,
+                6.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "canopy:subpath-1",
+              "handle:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "canopy:subpath-1",
+                "handle:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                24.0,
+                22.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "rib-l:subpath-1",
+              "rib-r:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "rib-l:subpath-1",
+                "rib-r:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                24.0,
+                6.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "rib-l:subpath-1",
+              "handle:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "rib-r:subpath-1",
+              "handle:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          }
+        ],
+        "errors": [],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "strokeWidth": 4,
+        "tolerance": 0.001,
+        "measurement": {
+          "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+          "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+          "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+          "scope": "disconnected centerline components, not spacing inside a connected component"
+        },
+        "minimumCenterlineDistance": null,
+        "minimumInkClearance": null,
+        "reason": "No disconnected centerline components to compare.",
+        "stats": {
+          "commands": 16,
+          "flattenedSegments": 1027,
+          "adaptiveNodes": 2039,
+          "distanceTests": 0,
+          "connectionTests": 0
+        },
+        "raw_status": "pass",
+        "canvas": 48
+      },
+      "negative_space": {
+        "status": "pass",
+        "hole_count": 3,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "holes": [
+          {
+            "hole": 1,
+            "center_viewbox": [
+              23.9844,
+              15.3281
+            ],
+            "bbox_viewbox": [
+              16.5312,
+              6.5,
+              14.9375,
+              16.1875
+            ],
+            "bbox_ship_px": [
+              14.9375,
+              16.1875
+            ],
+            "bbox_design_u": [
+              14.9375,
+              16.1875
+            ],
+            "area_ship_px2": 173.0908,
+            "equivalent_diameter_ship_px": 14.8454,
+            "equivalent_diameter_design_u": 14.8454,
+            "inscribed_diameter_ship_px": 12.3453,
+            "inscribed_diameter_design_u": 12.3453,
+            "inscribed_radius_ship_px": 6.1726,
+            "inscribed_radius_design_u": 6.1726,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 4.6726,
+            "equivalent_diameter_at_authored_stroke_design_u": 9.3452
+          },
+          {
+            "hole": 2,
+            "center_viewbox": [
+              12.1094,
+              17.5469
+            ],
+            "bbox_viewbox": [
+              6.5625,
+              6.7812,
+              14.25,
+              15.75
+            ],
+            "bbox_ship_px": [
+              14.25,
+              15.75
+            ],
+            "bbox_design_u": [
+              14.25,
+              15.75
+            ],
+            "area_ship_px2": 98.9766,
+            "equivalent_diameter_ship_px": 11.2259,
+            "equivalent_diameter_design_u": 11.2259,
+            "inscribed_diameter_ship_px": 7.8265,
+            "inscribed_diameter_design_u": 7.8265,
+            "inscribed_radius_ship_px": 3.9132,
+            "inscribed_radius_design_u": 3.9132,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 2.4132,
+            "equivalent_diameter_at_authored_stroke_design_u": 4.8264
+          },
+          {
+            "hole": 3,
+            "center_viewbox": [
+              35.8906,
+              17.5469
+            ],
+            "bbox_viewbox": [
+              27.1875,
+              6.7812,
+              14.25,
+              15.75
+            ],
+            "bbox_ship_px": [
+              14.25,
+              15.75
+            ],
+            "bbox_design_u": [
+              14.25,
+              15.75
+            ],
+            "area_ship_px2": 98.9805,
+            "equivalent_diameter_ship_px": 11.2261,
+            "equivalent_diameter_design_u": 11.2261,
+            "inscribed_diameter_ship_px": 7.8265,
+            "inscribed_diameter_design_u": 7.8265,
+            "inscribed_radius_ship_px": 3.9132,
+            "inscribed_radius_design_u": 3.9132,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 2.4132,
+            "equivalent_diameter_at_authored_stroke_design_u": 4.8264
+          }
+        ],
+        "pinches": [],
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 0.0,
+        "measuring_stroke_width": 1.0,
+        "samples_per_unit": 32
+      },
+      "artifacts": {},
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility"
+      ],
+      "svg_sha256": "db9b9693f9943ea847fbfbd59b26a345f58229222ad10a2fe0f16a923dda01a6",
+      "rules": {
+        "profile": {
+          "canvas_size": 48,
+          "family": "solo",
+          "interior_guide_inset": 6,
+          "mic": 4,
+          "equal_stroke_centerline_min": 8,
+          "keyshape_scale_numerator": 3,
+          "keyshape_scale_denominator": 2,
+          "semantic_use": "primary noun or standalone subject"
+        },
+        "stroke_width": 4,
+        "negative_space": {
+          "schema_version": 1,
+          "source": "claude_skills/core/icon_profiles.json validationDefaults",
+          "minimum_enclosed_radius": 1.0,
+          "minimum_solid_fill_depth": 1.0,
+          "measurement_stroke_width": 1.0,
+          "samples_per_unit": 32,
+          "circle_hole_exception": {
+            "id": "small-circle-hole",
+            "centerline_diameters": [
+              4,
+              6
+            ],
+            "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+          },
+          "measurement_revision": "8-connected-background-v2"
+        },
+        "internal_spacing": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "internal_parallel_straight": {
+          "version": 2,
+          "profiles": "all",
+          "blocking": true,
+          "required_centerline_distance": 8,
+          "required_ink_clearance": 4,
+          "parallelism": "exact",
+          "scope": "whole drawing",
+          "measurement": "midpoint normals, nearest each side, with overlap fallback",
+          "merge": "touching collinear pieces in same path",
+          "relationship_exemption": false,
+          "collinear_overlaps": "separate diagnostic"
+        }
+      },
+      "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+      "internal_spacing": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "findings": [],
+        "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+      },
+      "needs_review": false
+    }
+  }
+}

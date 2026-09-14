@@ -1,0 +1,444 @@
+{
+  "record": {
+    "icon_id": "monocle-with-cord-stretch-square",
+    "name": "monocle-with-cord-stretch-square",
+    "aliases": [],
+    "category": "objects/accessories",
+    "keywords": [
+      "monocle",
+      "glasses",
+      "lens",
+      "eyeglass",
+      "cord",
+      "vintage",
+      "eyewear",
+      "accessory"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "SQUARE",
+    "keyshape_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "lens-tr",
+        "start": [
+          18,
+          6
+        ],
+        "end": [
+          30,
+          18
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "sweep": true,
+        "large_arc": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "lens-br",
+        "start": [
+          30,
+          18
+        ],
+        "end": [
+          18,
+          30
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "sweep": true,
+        "large_arc": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "lens-left",
+        "start": [
+          18,
+          30
+        ],
+        "end": [
+          18,
+          6
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "sweep": true,
+        "large_arc": false
+      },
+      {
+        "kind": "line",
+        "element_id": "cord-down",
+        "start": [
+          30,
+          18
+        ],
+        "end": [
+          30,
+          35
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "cord-bottom",
+        "start": [
+          30,
+          35
+        ],
+        "end": [
+          42,
+          35
+        ],
+        "radius_x": 6,
+        "radius_y": 7,
+        "sweep": false,
+        "large_arc": false
+      },
+      {
+        "kind": "line",
+        "element_id": "cord-up",
+        "start": [
+          42,
+          35
+        ],
+        "end": [
+          42,
+          22
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "lens",
+        "members": [
+          "lens-tr",
+          "lens-br",
+          "lens-left"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "cord",
+        "members": [
+          "cord-down",
+          "cord-bottom",
+          "cord-up"
+        ],
+        "closed": false
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "cord",
+          "lens"
+        ]
+      }
+    ],
+    "variant_of": "monocle-with-cord",
+    "variant_label": "Stretch to SQUARE"
+  },
+  "report": {
+    "source_icon_id": "monocle-with-cord",
+    "target_keyshape": "SQUARE",
+    "source_centerline_bounds": [
+      2.0,
+      2.0,
+      46.0,
+      46.0
+    ],
+    "target_visible_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "mode": "stretch",
+    "scale": 0.8181818181818182,
+    "scale_x": 0.8181818181818182,
+    "scale_y": 0.8181818181818182,
+    "stroke_width": 4,
+    "requires_visual_review": true,
+    "notes": [],
+    "validation": {
+      "icon_id": "monocle-with-cord",
+      "family": "solo",
+      "profile": "SOLO48",
+      "selected_for_build": true,
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "spacing": {
+        "ok": true,
+        "status": "pass",
+        "contours": [
+          {
+            "id": "lens:subpath-1",
+            "elementId": "lens",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 18 6 A 12 12 0 0 1 30 18 A 12 12 0 0 1 18 30 A 12 12 0 0 1 18 6 Z",
+            "bounds": [
+              6.0,
+              6.0,
+              30.0,
+              30.0
+            ],
+            "segmentCount": 257,
+            "approximationError": 0.0009050197820522336,
+            "hasCurves": true
+          },
+          {
+            "id": "cord:subpath-1",
+            "elementId": "cord",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 30 18 L 30 35 A 6 7 0 0 0 42 35 L 42 22",
+            "bounds": [
+              30.0,
+              18.0,
+              42.0,
+              42.0
+            ],
+            "segmentCount": 130,
+            "approximationError": 0.0005279282069908526,
+            "hasCurves": true
+          }
+        ],
+        "components": [
+          {
+            "id": "component-1",
+            "memberIds": [
+              "lens:subpath-1",
+              "cord:subpath-1"
+            ],
+            "contourIds": [
+              "lens:subpath-1",
+              "cord:subpath-1"
+            ],
+            "elementIds": [
+              "lens",
+              "cord"
+            ],
+            "bounds": [
+              6.0,
+              6.0,
+              42.0,
+              42.0
+            ]
+          }
+        ],
+        "pairs": [],
+        "connectedPairs": [
+          {
+            "contourIds": [
+              "lens:subpath-1",
+              "cord:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              30.0,
+              18.0
+            ]
+          }
+        ],
+        "excludedPairs": [
+          {
+            "contourIds": [
+              "lens:subpath-1",
+              "cord:subpath-1"
+            ],
+            "componentId": "component-1",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "lens:subpath-1",
+                "cord:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                30.0,
+                18.0
+              ]
+            }
+          }
+        ],
+        "errors": [],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "strokeWidth": 4,
+        "tolerance": 0.001,
+        "measurement": {
+          "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+          "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+          "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+          "scope": "disconnected centerline components, not spacing inside a connected component"
+        },
+        "minimumCenterlineDistance": null,
+        "minimumInkClearance": null,
+        "reason": "No disconnected centerline components to compare.",
+        "stats": {
+          "commands": 9,
+          "flattenedSegments": 387,
+          "adaptiveNodes": 764,
+          "distanceTests": 0,
+          "connectionTests": 0
+        },
+        "raw_status": "pass",
+        "canvas": 48
+      },
+      "negative_space": {
+        "status": "pass",
+        "hole_count": 1,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "holes": [
+          {
+            "hole": 1,
+            "center_viewbox": [
+              17.9844,
+              17.9844
+            ],
+            "bbox_viewbox": [
+              6.5,
+              6.5,
+              23.0,
+              23.0
+            ],
+            "bbox_ship_px": [
+              23.0,
+              23.0
+            ],
+            "bbox_design_u": [
+              23.0,
+              23.0
+            ],
+            "area_ship_px2": 415.5107,
+            "equivalent_diameter_ship_px": 23.001,
+            "equivalent_diameter_design_u": 23.001,
+            "inscribed_diameter_ship_px": 22.5807,
+            "inscribed_diameter_design_u": 22.5807,
+            "inscribed_radius_ship_px": 11.2904,
+            "inscribed_radius_design_u": 11.2904,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 9.7904,
+            "equivalent_diameter_at_authored_stroke_design_u": 19.5808
+          }
+        ],
+        "pinches": [],
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 0.0,
+        "measuring_stroke_width": 1.0,
+        "samples_per_unit": 32
+      },
+      "artifacts": {},
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility"
+      ],
+      "svg_sha256": "c92b7df535ba9026c312415ff4b36f396fe72ca08bbae78f72d156119f647065",
+      "rules": {
+        "profile": {
+          "canvas_size": 48,
+          "family": "solo",
+          "interior_guide_inset": 6,
+          "mic": 4,
+          "equal_stroke_centerline_min": 8,
+          "keyshape_scale_numerator": 3,
+          "keyshape_scale_denominator": 2,
+          "semantic_use": "primary noun or standalone subject"
+        },
+        "stroke_width": 4,
+        "negative_space": {
+          "schema_version": 1,
+          "source": "claude_skills/core/icon_profiles.json validationDefaults",
+          "minimum_enclosed_radius": 1.0,
+          "minimum_solid_fill_depth": 1.0,
+          "measurement_stroke_width": 1.0,
+          "samples_per_unit": 32,
+          "circle_hole_exception": {
+            "id": "small-circle-hole",
+            "centerline_diameters": [
+              4,
+              6
+            ],
+            "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+          },
+          "measurement_revision": "8-connected-background-v2"
+        },
+        "internal_spacing": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "internal_parallel_straight": {
+          "version": 2,
+          "profiles": "all",
+          "blocking": true,
+          "required_centerline_distance": 8,
+          "required_ink_clearance": 4,
+          "parallelism": "exact",
+          "scope": "whole drawing",
+          "measurement": "midpoint normals, nearest each side, with overlap fallback",
+          "merge": "touching collinear pieces in same path",
+          "relationship_exemption": false,
+          "collinear_overlaps": "separate diagnostic"
+        }
+      },
+      "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+      "internal_spacing": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "findings": [],
+        "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+      },
+      "needs_review": false
+    }
+  },
+  "manual_note": "Rebuilt a true circular lens and a tangent U-shaped cord reaching the square bottom edge."
+}

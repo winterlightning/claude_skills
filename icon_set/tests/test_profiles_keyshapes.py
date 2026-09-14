@@ -22,6 +22,7 @@ class ProfileSpecTests(unittest.TestCase):
             Profile.SUB32: (32, 4, 2, 6),
             Profile.SOLO48: (48, 6, 4, 8),
             Profile.CONTAINER64: (64, 8, 2, 6),
+            Profile.AVATAR48: (48, 6, 4, 8),
         }
         for profile, (canvas, inset, mic, spacing) in expected.items():
             spec = profile.spec
@@ -47,7 +48,7 @@ class ProfileSpecTests(unittest.TestCase):
 
     def test_family_binding_is_one_to_one(self) -> None:
         families = contracts.families()
-        self.assertEqual(set(families), {"sub", "solo", "container"})
+        self.assertEqual(set(families), {"sub", "solo", "container", "avatar"})
         self.assertEqual({Profile.for_family(f) for f in families}, set(Profile))
         for family in families:
             self.assertEqual(Profile.for_family(family).family, family)
@@ -64,7 +65,7 @@ class KeyshapeResolutionTests(unittest.TestCase):
     def test_ten_base_definitions(self) -> None:
         self.assertEqual(len(STANDARD), 10)
 
-    def test_thirty_resolutions_match_the_contract(self) -> None:
+    def test_all_profile_resolutions_match_the_contract(self) -> None:
         table = contracts.keyshapes()["resolved"]
         count = 0
         for profile in Profile:
@@ -74,7 +75,7 @@ class KeyshapeResolutionTests(unittest.TestCase):
                 self.assertEqual([size.width, size.height], [row["width"], row["height"]])
                 self.assertEqual(list(shape.bounds_for(profile)), row["visible_bounds"])
                 count += 1
-        self.assertEqual(count, 30)
+        self.assertEqual(count, len(Profile) * len(STANDARD))
 
     def test_solo48_independent_visible_envelopes(self) -> None:
         expected = {Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40)}

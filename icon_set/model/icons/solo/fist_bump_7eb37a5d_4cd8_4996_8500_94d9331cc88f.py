@@ -1,53 +1,53 @@
-"""Two mirrored closed fists extend horizontally toward each other and meet at the center. Curled thumb lines turn inward below the contact point, with three short impact rays above.
-Lucide hand rounded knuckles. Two mirrored fists meet at the center with inward thumb marks; three impact dots replace short rays. Finger creases omitted.
-SQUARE: centerline extremes (6,6)-(42,42); freshly authored on SOLO48.
+"""Two outlined hands with distinct upper thumbs, cuffs and touching knuckles. One impact dot. Shared contact edge is drawn once; bilateral symmetry.
+SQUARE centerline extremes (6,6)-(42,42); stroke 4 on SOLO48.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7eb37a5d-4cd8-4996-8500-94d9331cc88f'
 SOURCE_PATH = 'pictographic-primitives/work/workflow teamwork fistbump_7eb37a5d-4cd8-4996-8500-94d9331cc88f.svg'
 AUTHOR = 'gpt-6'
 
-
 class FistBump(Solo48):
     icon_id = 'fist-bump'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/work"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/work'
     aliases = ()
     keywords = ('fist', 'bump', 'hands', 'greeting', 'teamwork', 'contact')
 
     def build(self) -> None:
-        self.add_line('left-top', (6, 20), (18, 20))
-        self.add_arc('left-knuckle-top', (18, 20), (24, 26), radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('left-upper', 'left-top', 'left-knuckle-top', closed=False)
-        self.add_arc('left-knuckle-bottom', (24, 32), (18, 38), radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_polyline('left-wrist', (18, 38), (14, 42), (6, 42), closed=False)
-        self.relate("connect", 'left-knuckle-bottom', 'left-wrist')
-        self.add_line('left-thumb', (14, 32), (24, 32))
-        self.relate("connect", 'left-thumb', 'left-knuckle-bottom')
-        self.add_line('right-top', (42, 20), (30, 20))
-        self.add_arc('right-knuckle-top', (30, 20), (24, 26), radius_x=6, radius_y=6, sweep=False, large_arc=False)
-        self.add_contour('right-upper', 'right-top', 'right-knuckle-top', closed=False)
-        self.add_arc('right-knuckle-bottom', (24, 32), (30, 38), radius_x=6, radius_y=6, sweep=False, large_arc=False)
-        self.add_polyline('right-wrist', (30, 38), (34, 42), (42, 42), closed=False)
-        self.relate("connect", 'right-knuckle-bottom', 'right-wrist')
-        self.add_line('right-thumb', (34, 32), (24, 32))
-        self.relate("connect", 'right-thumb', 'right-knuckle-bottom')
-        self.add_line('contact', (24, 26), (24, 32))
-        self.relate("connect", 'contact', 'left-upper')
-        self.relate("connect", 'contact', 'left-knuckle-bottom')
-        self.relate("connect", 'contact', 'left-thumb')
-        self.relate("connect", 'contact', 'right-upper')
-        self.relate("connect", 'contact', 'right-knuckle-bottom')
-        self.relate("connect", 'contact', 'right-thumb')
-        self.relate("connect", 'left-upper', 'right-upper')
-        self.relate("connect", 'left-knuckle-bottom', 'right-knuckle-bottom')
-        self.relate("connect", 'left-thumb', 'right-thumb')
-        self.relate("connect", 'left-thumb', 'right-knuckle-bottom')
-        self.relate("connect", 'right-thumb', 'left-knuckle-bottom')
-        self.add_dot('ray-top', (24, 6))
-        self.add_dot('ray-left', (14, 10))
-        self.add_dot('ray-right', (34, 10))
+        self.add_polyline('left-wrist-top', (6, 24), (12, 24), (12, 20), closed=False)
+        self.add_arc('left-thumb', (12, 20), (20, 20), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('left-thumb-side', (20, 20), (20, 24))
+        self.add_arc('left-top-knuckle', (20, 24), (24, 28), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('left-lower-knuckle', (24, 36), (20, 40), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_polyline('left-wrist-bottom', (20, 40), (14, 40), (10, 42), (6, 42), closed=False)
+        self.relate("connect", 'left-wrist-top', 'left-thumb')
+        self.relate("connect", 'left-thumb', 'left-thumb-side')
+        self.relate("connect", 'left-thumb-side', 'left-top-knuckle')
+        self.relate("connect", 'left-lower-knuckle', 'left-wrist-bottom')
+        self.add_line('left-cuff', (6, 42), (6, 24))
+        self.relate("connect", 'left-cuff', 'left-wrist-top')
+        self.relate("connect", 'left-cuff', 'left-wrist-bottom')
+        self.add_polyline('right-wrist-top', (42, 24), (36, 24), (36, 20), closed=False)
+        self.add_arc('right-thumb', (36, 20), (28, 20), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+        self.add_line('right-thumb-side', (28, 20), (28, 24))
+        self.add_arc('right-top-knuckle', (28, 24), (24, 28), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+        self.add_arc('right-lower-knuckle', (24, 36), (28, 40), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+        self.add_polyline('right-wrist-bottom', (28, 40), (34, 40), (38, 42), (42, 42), closed=False)
+        self.relate("connect", 'right-wrist-top', 'right-thumb')
+        self.relate("connect", 'right-thumb', 'right-thumb-side')
+        self.relate("connect", 'right-thumb-side', 'right-top-knuckle')
+        self.relate("connect", 'right-lower-knuckle', 'right-wrist-bottom')
+        self.add_line('right-cuff', (42, 42), (42, 24))
+        self.relate("connect", 'right-cuff', 'right-wrist-top')
+        self.relate("connect", 'right-cuff', 'right-wrist-bottom')
+        self.add_line('knuckle-contact', (24, 28), (24, 36))
+        self.relate("connect", 'knuckle-contact', 'left-top-knuckle')
+        self.relate("connect", 'knuckle-contact', 'left-lower-knuckle')
+        self.relate("connect", 'knuckle-contact', 'right-top-knuckle')
+        self.relate("connect", 'knuckle-contact', 'right-lower-knuckle')
+        self.relate("connect", 'left-top-knuckle', 'right-top-knuckle')
+        self.relate("connect", 'left-lower-knuckle', 'right-lower-knuckle')
+        self.add_dot('impact', (24, 6))

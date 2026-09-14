@@ -3,75 +3,40 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (6, 0, 42, 44) does not match the VRECT_L envelope (6, 2, 42, 46) (deltas [0.0, 2.0, 0.0, 2.0], tolerance 0.0)",
-    "mic [head-neck]: parallel straight edges neck and nape are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
-        "id": "head-neck:subpath-1",
-        "elementId": "head-neck",
+        "id": "silhouette:subpath-1",
+        "elementId": "silhouette",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 26 9 A 7 7 0 0 1 40 9 L 40 15 L 32 15 L 32 21 A 7 7 0 0 1 25 28",
-        "bounds": [
-          25.0,
-          2.0,
-          40.0,
-          28.0
-        ],
-        "segmentCount": 195,
-        "approximationError": 0.0005279282068410656,
-        "hasCurves": true
-      },
-      {
-        "id": "wing:subpath-1",
-        "elementId": "wing",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 25 28 A 10 10 0 0 0 18 16 A 40 40 0 0 0 8 40 L 23 34 A 10 10 0 0 0 25 28 Z",
+        "pathData": "M 26 11 A 7 7 0 0 1 40 11 L 40 17 L 34 17 L 34 23 A 9 7 0 0 1 25 30 A 10 10 0 0 1 23 36 L 8 42 A 40 40 0 0 1 18 18 L 26 19 L 26 11 Z",
         "bounds": [
           8.0,
-          16.0,
-          25.28619276892261,
-          40.0
+          4.0,
+          40.0,
+          42.0
         ],
-        "segmentCount": 162,
-        "approximationError": 0.0007198023675239069,
+        "segmentCount": 295,
+        "approximationError": 0.0006776919532193503,
         "hasCurves": true
-      },
-      {
-        "id": "neck-head:subpath-1",
-        "elementId": "neck-head",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 26 9 L 26 17",
-        "bounds": [
-          26.0,
-          9.0,
-          26.0,
-          17.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
       },
       {
         "id": "leg:subpath-1",
         "elementId": "leg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 23 34 L 26 42 L 34 42",
+        "pathData": "M 23 36 L 26 44 L 34 44",
         "bounds": [
           23.0,
+          36.0,
           34.0,
-          34.0,
-          42.0
+          44.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -82,28 +47,22 @@
       {
         "id": "component-1",
         "memberIds": [
-          "head-neck:subpath-1",
-          "wing:subpath-1",
-          "neck-head:subpath-1",
+          "silhouette:subpath-1",
           "leg:subpath-1"
         ],
         "contourIds": [
-          "head-neck:subpath-1",
-          "wing:subpath-1",
-          "neck-head:subpath-1",
+          "silhouette:subpath-1",
           "leg:subpath-1"
         ],
         "elementIds": [
-          "head-neck",
-          "wing",
-          "neck-head",
+          "silhouette",
           "leg"
         ],
         "bounds": [
           8.0,
-          2.0,
+          4.0,
           40.0,
-          42.0
+          44.0
         ]
       }
     ],
@@ -111,122 +70,35 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "head-neck:subpath-1",
-          "wing:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          25.0,
-          28.0
-        ]
-      },
-      {
-        "contourIds": [
-          "head-neck:subpath-1",
-          "neck-head:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          26.0,
-          9.0
-        ]
-      },
-      {
-        "contourIds": [
-          "wing:subpath-1",
+          "silhouette:subpath-1",
           "leg:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           23.0,
-          34.0
+          36.0
         ]
       }
     ],
     "excludedPairs": [
       {
         "contourIds": [
-          "head-neck:subpath-1",
-          "wing:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "head-neck:subpath-1",
-            "wing:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            25.0,
-            28.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "head-neck:subpath-1",
-          "neck-head:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "head-neck:subpath-1",
-            "neck-head:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            26.0,
-            9.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "head-neck:subpath-1",
-          "leg:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "wing:subpath-1",
-          "neck-head:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "wing:subpath-1",
+          "silhouette:subpath-1",
           "leg:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "wing:subpath-1",
+            "silhouette:subpath-1",
             "leg:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             23.0,
-            34.0
+            36.0
           ]
         }
-      },
-      {
-        "contourIds": [
-          "neck-head:subpath-1",
-          "leg:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
       }
     ],
     "errors": [],
@@ -244,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 17,
-      "flattenedSegments": 360,
-      "adaptiveNodes": 699,
+      "commands": 15,
+      "flattenedSegments": 297,
+      "adaptiveNodes": 572,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -263,25 +135,25 @@
         "hole": 1,
         "center_viewbox": [
           18.1094,
-          28.3594
+          30.3594
         ],
         "bbox_viewbox": [
           8.5625,
-          16.5625,
-          16.2188,
-          22.6562
+          4.5,
+          30.9375,
+          36.7188
         ],
         "bbox_ship_px": [
-          16.2188,
-          22.6562
+          30.9375,
+          36.7188
         ],
         "bbox_design_u": [
-          16.2188,
-          22.6562
+          30.9375,
+          36.7188
         ],
-        "area_ship_px2": 218.6016,
-        "equivalent_diameter_ship_px": 16.6833,
-        "equivalent_diameter_design_u": 16.6833,
+        "area_ship_px2": 466.6318,
+        "equivalent_diameter_ship_px": 24.3749,
+        "equivalent_diameter_design_u": 24.3749,
         "inscribed_diameter_ship_px": 12.7695,
         "inscribed_diameter_design_u": 12.7695,
         "inscribed_radius_ship_px": 6.3847,
@@ -315,7 +187,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "88366f5497958ed2d50aaaa201e03b874a370fce7b09e11dab0711c7c99a997c",
+  "svg_sha256": "ceff551e1f041a7c3f59379926ba9e27642009abac3d2049d7306d102a3ba99e",
   "rules": {
     "profile": {
       "canvas_size": 48,

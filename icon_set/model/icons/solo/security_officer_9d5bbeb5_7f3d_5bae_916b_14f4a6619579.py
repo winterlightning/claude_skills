@@ -5,40 +5,39 @@ Reduction: Removed sleeve seam and reduced the bent arm to a single gesture stro
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9d5bbeb5-7f3d-5bae-916b-14f4a6619579'
 SOURCE_PATH = 'pictographic-primitives/travel/security officer_9d5bbeb5-7f3d-5bae-916b-14f4a6619579.svg'
 AUTHOR = 'gpt-6'
 
-
 class SecurityOfficer(Solo48):
     icon_id = 'security-officer'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/travel"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/travel'
     aliases = ()
     keywords = ('security', 'officer', 'guard', 'police', 'checkpoint', 'airport', 'uniform', 'person')
 
     def build(self) -> None:
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
         runs = {}
+
         def run(name, *points):
-         ids = []
-         for n,(a,b) in enumerate(zip(points,points[1:])):
-          part = f'{name}-{n}'
-          self.add_line(part,a,b)
-          ids.append(part)
-         runs[name] = ids
-        # VRECT_L centerline bounds (8,6)-(40,42); face radius7 and shoulder radius6.
-        self.add_polyline('cap',(20,6),(36,6),(34,14),(20,14),closed=True)
-        self.add_arc('face',(34,14),(20,14),radius_x=7)
-        self.relate('connect','cap','face')
-        self.add_line('brim',(16,14),(20,14))
-        self.relate('connect','cap','brim')
-        self.relate('connect','face','brim')
-        run('torso-top',(20,42),(20,30),(24,30),(28,36),(32,30),(34,30))
-        self.add_arc('shoulder',(34,30),(40,36),radius_x=6)
-        run('torso-right',(40,36),(40,42),(20,42))
-        self.add_contour('torso',*runs['torso-top'],'shoulder',*runs['torso-right'],closed=True)
-        self.add_line('arm',(20,30),(8,42))
-        self.relate('connect','arm','torso')
+            ids = []
+            for n, (a, b) in enumerate(zip(points, points[1:])):
+                part = f'{name}-{n}'
+                self.add_line(part, a, b)
+                ids.append(part)
+            runs[name] = ids
+        self.add_polyline('cap', (20, 4), (36, 4), (34, 14), (20, 14), closed=True)
+        self.add_arc('face', (34, 14), (20, 14), radius_x=7)
+        self.relate('connect', 'cap', 'face')
+        self.add_line('brim', (16, 14), (20, 14))
+        self.relate('connect', 'cap', 'brim')
+        self.relate('connect', 'face', 'brim')
+        run('torso-top', (20, 44), (20, 29), (34, 29))
+        self.add_arc('shoulder', (34, 29), (40, 35), radius_x=6)
+        run('torso-right', (40, 35), (40, 44), (20, 44))
+        self.add_contour('torso', *runs['torso-top'], 'shoulder', *runs['torso-right'], closed=True)
+        self.add_line('arm', (20, 29), (8, 44))
+        self.relate('connect', 'arm', 'torso')

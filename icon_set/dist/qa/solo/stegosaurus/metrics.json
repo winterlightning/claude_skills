@@ -3,186 +3,53 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 6, 44.5359, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 1.4641, 0.0], tolerance 0.0)",
-    "mic [legs-belly]: parallel straight edges legs-belly-8 and legs-belly-6 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
-        "id": "upper:subpath-1",
-        "elementId": "upper",
+        "id": "body:subpath-1",
+        "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 33 L 10 27 L 12 16 L 18 21 L 20 8 L 26 18 L 32 11 L 34 24 L 39 23",
+        "pathData": "M 4 32 L 8 26 L 10 16 L 18 22 L 20 8 L 28 20 L 34 12 L 36 24 L 40 24 A 4 4 0 0 1 44 28 L 44 32 L 36 32 L 36 40 L 28 40 L 28 32 L 18 32 L 16 40 L 8 40 L 8 32 L 4 32 Z",
         "bounds": [
-          6.0,
+          4.0,
           8.0,
-          39.0,
-          33.0
-        ],
-        "segmentCount": 8,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "head:subpath-1",
-        "elementId": "head",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 39 23 A 7 7 0 0 1 42 30 A 4 4 0 0 1 42 34 L 36 34",
-        "bounds": [
-          36.0,
-          23.0,
-          42.53589838486224,
-          34.0
-        ],
-        "segmentCount": 97,
-        "approximationError": 0.0005354603091447282,
-        "hasCurves": true
-      },
-      {
-        "id": "legs-belly:subpath-1",
-        "elementId": "legs-belly",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 36 34 L 36 40 L 29 40 L 27 33 L 19 33 L 17 40 L 10 40 L 11 33 L 6 33",
-        "bounds": [
-          6.0,
-          33.0,
-          36.0,
+          44.0,
           40.0
         ],
-        "segmentCount": 8,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 83,
+        "approximationError": 0.00030119642430268364,
+        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "upper:subpath-1",
-          "head:subpath-1",
-          "legs-belly:subpath-1"
+          "body:subpath-1"
         ],
         "contourIds": [
-          "upper:subpath-1",
-          "head:subpath-1",
-          "legs-belly:subpath-1"
+          "body:subpath-1"
         ],
         "elementIds": [
-          "upper",
-          "head",
-          "legs-belly"
+          "body"
         ],
         "bounds": [
-          6.0,
+          4.0,
           8.0,
-          42.53589838486224,
+          44.0,
           40.0
         ]
       }
     ],
     "pairs": [],
-    "connectedPairs": [
-      {
-        "contourIds": [
-          "upper:subpath-1",
-          "head:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          39.0,
-          23.0
-        ]
-      },
-      {
-        "contourIds": [
-          "upper:subpath-1",
-          "legs-belly:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          6.0,
-          33.0
-        ]
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "legs-belly:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          36.0,
-          34.0
-        ]
-      }
-    ],
-    "excludedPairs": [
-      {
-        "contourIds": [
-          "upper:subpath-1",
-          "head:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "upper:subpath-1",
-            "head:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            39.0,
-            23.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "upper:subpath-1",
-          "legs-belly:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "upper:subpath-1",
-            "legs-belly:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            6.0,
-            33.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "legs-belly:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "head:subpath-1",
-            "legs-belly:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            36.0,
-            34.0
-          ]
-        }
-      }
-    ],
+    "connectedPairs": [],
+    "excludedPairs": [],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -198,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 22,
-      "flattenedSegments": 113,
-      "adaptiveNodes": 190,
+      "commands": 21,
+      "flattenedSegments": 83,
+      "adaptiveNodes": 127,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -216,34 +83,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          24.3281,
-          25.3594
+          23.8906,
+          25.3281
         ],
         "bbox_viewbox": [
-          6.9375,
-          9.4688,
-          35.0938,
-          30.0312
+          4.9375,
+          9.4062,
+          38.5625,
+          30.0938
         ],
         "bbox_ship_px": [
-          35.0938,
-          30.0312
+          38.5625,
+          30.0938
         ],
         "bbox_design_u": [
-          35.0938,
-          30.0312
+          38.5625,
+          30.0938
         ],
-        "area_ship_px2": 536.0635,
-        "equivalent_diameter_ship_px": 26.1254,
-        "equivalent_diameter_design_u": 26.1254,
-        "inscribed_diameter_ship_px": 14.3125,
-        "inscribed_diameter_design_u": 14.3125,
-        "inscribed_radius_ship_px": 7.1562,
-        "inscribed_radius_design_u": 7.1562,
+        "area_ship_px2": 557.1875,
+        "equivalent_diameter_ship_px": 26.6352,
+        "equivalent_diameter_design_u": 26.6352,
+        "inscribed_diameter_ship_px": 12.375,
+        "inscribed_diameter_design_u": 12.375,
+        "inscribed_radius_ship_px": 6.1875,
+        "inscribed_radius_design_u": 6.1875,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 5.6562,
-        "equivalent_diameter_at_authored_stroke_design_u": 11.3124
+        "equivalent_radius_at_authored_stroke_design_u": 4.6875,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.375
       }
     ],
     "pinches": [],
@@ -269,7 +136,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "cfa97def2afc34dd440cf9f98e23936fa9042d0b0a6d85afddcbfea8fa6c3a30",
+  "svg_sha256": "3924e403d223fd7041f696c76c3ad515991dcfa2b59aa3395fd456802de3db31",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -323,7 +190,7 @@
   },
   "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -334,93 +201,8 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [
-      {
-        "contour": "upper",
-        "elements": [
-          "upper-2",
-          "upper-4"
-        ],
-        "status": "review",
-        "sustained_length": 2.9814,
-        "centerline_distance": 6.7074,
-        "ink_gap": 2.7074,
-        "nearest_points": [
-          [
-            11.88888888888889,
-            16.61111111111111
-          ],
-          [
-            18.518304431599233,
-            17.63102119460498
-          ]
-        ]
-      },
-      {
-        "contour": "upper",
-        "elements": [
-          "upper-5",
-          "upper-7"
-        ],
-        "status": "review",
-        "sustained_length": 2.2331,
-        "centerline_distance": 7.2292,
-        "ink_gap": 3.2292,
-        "nearest_points": [
-          [
-            25.680851063829785,
-            17.46808510638298
-          ],
-          [
-            32.825974664862876,
-            16.36883532160869
-          ]
-        ]
-      },
-      {
-        "contour": "legs-belly",
-        "elements": [
-          "legs-belly-1",
-          "legs-belly-3"
-        ],
-        "status": "review",
-        "sustained_length": 3.1547,
-        "centerline_distance": 7.1667,
-        "ink_gap": 3.1667,
-        "nearest_points": [
-          [
-            36.0,
-            39.416666666666664
-          ],
-          [
-            28.833333333333336,
-            39.416666666666664
-          ]
-        ]
-      },
-      {
-        "contour": "legs-belly",
-        "elements": [
-          "legs-belly-5",
-          "legs-belly-7"
-        ],
-        "status": "review",
-        "sustained_length": 5.0961,
-        "centerline_distance": 7.0121,
-        "ink_gap": 3.0121,
-        "nearest_points": [
-          [
-            17.166666666666664,
-            39.416666666666664
-          ],
-          [
-            10.224999999999998,
-            38.42500000000002
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

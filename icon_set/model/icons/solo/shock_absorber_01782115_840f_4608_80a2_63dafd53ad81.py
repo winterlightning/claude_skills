@@ -15,12 +15,13 @@ class ShockAbsorber(Solo48):
     keywords = ('shock absorber', 'suspension', 'damper', 'car', 'strut', 'mechanic', 'automotive', 'repair')
 
     def build(self) -> None:
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
         """Opening repair: Made the lower mounting eye circular instead of a thin lens."""
         self.add_polyline('body', (8, 12), (18, 12), (30, 12), (40, 12), (40, 28), (24, 28), (8, 28), closed=True)
         self.add_arc('mount', (18, 12), (30, 12), radius_x=6, radius_y=8)
         self.add_line('piston', (24, 28), (24, 36))
-        self.add_arc('eye-right', (24, 36), (24, 42), radius_x=3, radius_y=3)
-        self.add_arc('eye-left', (24, 42), (24, 36), radius_x=3, radius_y=3)
+        self.add_arc('eye-right', (24, 36), (24, 44), radius_x=3, radius_y=3)
+        self.add_arc('eye-left', (24, 44), (24, 36), radius_x=3, radius_y=3)
         self.add_contour('eye', 'eye-right', 'eye-left', closed=True)
         for i, a in enumerate(self.primitives):
             for b in self.primitives[i + 1:]:

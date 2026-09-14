@@ -7,21 +7,21 @@ AUTHOR = 'gpt-6'
 
 class FuelFilterDrip(Solo48):
     icon_id = 'fuel-filter-drip'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/transportation"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/transportation'
     aliases = ()
     keywords = ('fuel filter', 'filter', 'fuel', 'drip', 'warning', 'diesel', 'dashboard', 'car')
 
     def build(self) -> None:
-        # Current contract centerline extremes: (8,6)-(40,42).
-        self.add_polyline('flange',(8,6),(12,6),(36,6),(40,6))
-        self.add_polyline('bowl',(12,6),(12,14),(12,18),(24,24),(36,18),(36,14),(36,6))
-        self.relate('connect','flange','bowl')
-        self.add_line('liquid',(12,14),(36,14))
-        self.relate('connect','liquid','bowl')
-        self.add_line('drop-right',(24,33),(28,40))
-        self.add_arc('drop-base',(28,40),(20,40),radius_x=4)
-        self.add_line('drop-left',(20,40),(24,33))
-        self.add_contour('drop','drop-right','drop-base','drop-left',closed=True)
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        self.add_polyline('flange', (8, 4), (12, 4), (36, 4), (40, 4))
+        self.add_polyline('bowl', (12, 4), (12, 14), (12, 18), (24, 24), (36, 18), (36, 14), (36, 4))
+        self.relate('connect', 'flange', 'bowl')
+        self.add_line('liquid', (12, 14), (36, 14))
+        self.relate('connect', 'liquid', 'bowl')
+        self.add_line('drop-right', (24, 33), (28, 40))
+        self.add_arc('drop-base', (28, 40), (20, 40), radius_x=4)
+        self.add_line('drop-left', (20, 40), (24, 33))
+        self.add_contour('drop', 'drop-right', 'drop-base', 'drop-left', closed=True)

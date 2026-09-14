@@ -20,6 +20,7 @@ Claude icon-brief is also adapted for Codex; edit its Claude source to update it
 from __future__ import annotations
 
 import argparse
+import re
 import sys
 from pathlib import Path
 
@@ -216,6 +217,20 @@ FAMILY_TEXT = {
             "`/icon-solo`. If it is the thing that goes *inside*, use `/icon-sub`."
         ),
     },
+    "avatar": {
+        "trigger": "Use for a standalone user avatar, profile bust, or head-and-body portrait drawn at 48. A head and its own body form one natural subject.",
+        "default_role": "MAIN",
+        "default_kind": "noun",
+        "default_category": "people/avatars",
+        "job": "An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.",
+        "specifics": [
+            "Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `profiles.AVATAR48.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly {avatar_gap} units of visible ink clearance, or {avatar_centerline_gap} between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.",
+            "Head and body are natural parts of one avatar: do not split them into Pending component briefs. A separate badge, enclosure, or state modifier still follows the shared combination triage.",
+            "Use the 48-unit keyshape table above and re-author the reference on the integer grid. The supplied user.svg uses the same 48x48 canvas; use its construction while fitting the chosen keyshape. Keep round caps, tangent shoulder curves, and coherent head/body proportions.",
+            "Verify the exact gap in emitted geometry; a generic MIC pass proves only minimum clearance. Record head/body parameters and the measured gap. Do not introduce a neck or false connect relationship to bypass spacing.",
+        ],
+        "not_this": "For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For an enclosure, use `/icon-container`; for a hosted glyph, use `/icon-sub`.",
+    },
 }
 
 
@@ -229,7 +244,10 @@ def render(family: str) -> str:
     base = row["base_class"]
     region = _content_region()
     region_text = f"({region[0]},{region[1]})-({region[2]},{region[3]})"
-    fmt = {"shared": SHARED, "slot": region_text}
+    avatar_gap = contracts.icon_profile()["profiles"]["AVATAR48"]["head_body_ink_gap"]
+    human_gap = avatar_gap if family == "avatar" else 4
+    fmt = {"shared": SHARED, "slot": region_text,
+           "avatar_gap": avatar_gap, "avatar_centerline_gap": avatar_gap + 4}
     others = [f for f in contracts.families() if f != family]
     other_lines = "\n".join(
         f"- `/icon-{other}` — {other} family, "
@@ -244,7 +262,7 @@ def render(family: str) -> str:
 
     return f"""---
 name: icon-{family}
-description: Author a {family}-family icon for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Author {"an" if family == "avatar" else "a"} {family}-family icon for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 ---
 
@@ -269,7 +287,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 {text['job'].format(**fmt)}
 
-**Wrong family? Stop.** {text['not_this']} A {family} icon cannot be authored on
+**Wrong family? Stop.** {text['not_this']} {"An" if family == "avatar" else "A"} {family} icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `{base}` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.
@@ -288,7 +306,7 @@ mirror only the parts where it helps the drawing read clearly.
 For any human subject or human part in a scene, first read
 `{SHARED}/human-reference.md` and inspect the relevant files in
 `icon_set/references/human_ref/`. These own human proportions and construction;
-detached heads require exactly 4 units of visible head-to-body clearance.
+detached heads require exactly {human_gap} units of visible head-to-body clearance.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -444,7 +462,7 @@ preserve the parent and edit a new file from `create_variant.py`.
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
 - For human figures, name the shared human reference and verify its proportions
-  and exact 4-unit detached head-to-body ink gap in the emitted geometry.
+  and exact {human_gap}-unit detached head-to-body ink gap in the emitted geometry.
 """
 
 
@@ -456,7 +474,7 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     )
     # `skills/icon-design` is a real path, not a skill invocation.
     content = content.replace("skills/icon-design", "\0")
-    content = content.replace("/icon-", "$icon-")
+    content = re.sub(r"(?<![\w./-])/icon-", "$icon-", content)
     content = content.replace("\0", "skills/icon-design")
     content = content.replace(
         "Hand-authored; edit this file directly.",
@@ -470,7 +488,7 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
         "Resolve repository paths and run commands from the `claude_skills` directory "
         "containing `icon_set/` (three levels above this skill folder). "
         "In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, "
-        "`$icon-solo`, or `$icon-container`; in ChatGPT, select the skill with `@`. "
+        "`$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. "
         "Treat slash-style handoffs in generated briefs as references to the "
         "corresponding skill.",
     )

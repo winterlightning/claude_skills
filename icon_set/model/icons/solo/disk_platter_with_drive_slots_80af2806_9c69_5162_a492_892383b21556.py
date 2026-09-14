@@ -1,37 +1,29 @@
-"""A magnetic disk platter with a hub and three radial drive slots.
-
-Lucide disc informs concentric circles. The three tapered outlined slots
-reduce to short radial strokes so their threefold arrangement stays legible.
-"""
-
+'Disc platter with three short slots and a radius-two hub. Tangential slots retain visible lengths and safe radial clearance; Lucide disc informs the circles. CIRCLE visible radius 22; SOLO48 stroke 4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '80af2806-9c69-5162-a492-892383b21556'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/floppy disk_80af2806-9c69-5162-a492-892383b21556.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class DiskPlatterWithDriveSlots(Solo48):
     icon_id = 'disk-platter-with-drive-slots'
     keyshape = Keyshape.CIRCLE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('disk', 'platter', 'floppy', 'hub', 'storage', 'media', 'spindle', 'drive')
 
     def build(self) -> None:
-        self.add_arc('rim-0', (24, 2), (46, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-1', (46, 24), (24, 46), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-2', (24, 46), (2, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-3', (2, 24), (24, 2), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_contour('rim', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
-        self.add_arc('hub-0', (24, 21), (27, 24), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('hub-1', (27, 24), (24, 27), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('hub-2', (24, 27), (21, 24), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('hub-3', (21, 24), (24, 21), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_contour('hub', 'hub-0', 'hub-1', 'hub-2', 'hub-3', closed=True)
-        self.add_line('slot-top', (24, 10), (24, 13))
-        self.add_line('slot-left', (12, 31), (15, 29))
-        self.add_line('slot-right', (33, 29), (36, 31))
+        # CIRCLE envelope: center (24,24), centerline radius 20, visible radius 22.
+        # Shared cardinal nodes keep concentric geometry and attachments exact.
+        def circle(name, cx, cy, radius):
+            points = [(cx + radius, cy), (cx, cy + radius), (cx - radius, cy), (cx, cy - radius)]
+            for i in range(4):
+                self.add_arc(f'{name}-{i}', points[i], points[(i + 1) % 4], radius_x=radius)
+            self.add_contour(name, *[f'{name}-{i}' for i in range(4)], closed=True)
+        circle('rim', 24, 24, 20)
+        circle('hub', 24, 24, 2)
+        self.add_line('slot-top', (23, 13), (25, 13))
+        for side in (-1, 1):
+            self.add_line('slot-left' if side < 0 else 'slot-right', (24 + side * 10, 28), (24 + side * 9, 30))

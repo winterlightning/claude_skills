@@ -1,37 +1,37 @@
-"""A corded capsule mouse with a horizontal button seam and central divider.
+"""Broadened the capsule with matched elliptical caps, inset the ends and retained the cable and two buttons.
 
-VRECT_M extremes (11,2)-(37,46) fit a tall capsule plus cord. Lucide mouse
-informs tangent capsule arcs; source button split and cable remain.
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide mouse: tangent capsule ends and shared button attachments.
 """
-
+# Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'af38802b-7208-5060-b370-9b6f0871299d'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-04/mouse_af38802b-7208-5060-b370-9b6f0871299d.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class CordedComputerMouse(Solo48):
     icon_id = 'corded-computer-mouse'
-    keyshape = Keyshape.VRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('mouse', 'corded', 'wired', 'cable', 'click', 'input', 'peripheral', 'computer')
 
     def build(self) -> None:
-        self.add_arc('body-ne', (24, 10), (37, 23), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_line('body-right', (37, 23), (37, 33))
-        self.add_arc('body-se', (37, 33), (24, 46), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_arc('body-sw', (24, 46), (11, 33), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_line('body-left', (11, 33), (11, 23))
-        self.add_arc('body-nw', (11, 23), (24, 10), radius_x=13, radius_y=13, sweep=True, large_arc=False)
-        self.add_contour('body', 'body-ne', 'body-right', 'body-se', 'body-sw', 'body-left', 'body-nw', closed=True)
-        self.add_line('cord', (24, 2), (24, 10))
-        self.relate('connect', 'body', 'cord')
-        self.add_polyline('buttons', (11, 23), (24, 23), (37, 23), closed=False)
-        self.relate('connect', 'body', 'buttons')
-        self.add_line('divider', (24, 16), (24, 23))
-        self.relate('connect', 'buttons', 'divider')
+        # VRECT_L (8,4)-(40,44). Shared capsule axis and elliptical cap radii;
+        # button seam and cable meet the same cap endpoints.
+        x, left, right, upper, lower, rx, ry = 24, 8, 40, 24, 32, 16, 12
+        self.add_arc('ne',(x,12),(right,upper),radius_x=rx,radius_y=ry)
+        self.add_line('right',(right,upper),(right,lower))
+        self.add_arc('se',(right,lower),(x,44),radius_x=rx,radius_y=ry)
+        self.add_arc('sw',(x,44),(left,lower),radius_x=rx,radius_y=ry)
+        self.add_line('left',(left,lower),(left,upper))
+        self.add_arc('nw',(left,upper),(x,12),radius_x=rx,radius_y=ry)
+        self.add_contour('body','ne','right','se','sw','left','nw',closed=True)
+        self.add_line('cord',(x,4),(x,12))
+        self.add_polyline('buttons',(left,upper),(x,upper),(right,upper))
+        self.add_line('divider',(x,12),(x,upper))
+        for part in ('cord','buttons','divider'):self.relate('connect','body',part)
+        self.relate('connect','buttons','divider')

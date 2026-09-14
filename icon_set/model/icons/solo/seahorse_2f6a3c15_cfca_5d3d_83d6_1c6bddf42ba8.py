@@ -1,38 +1,29 @@
-"""Seahorse with blunt snout, S body and hooked tail; original orientation retained. Centerline (11,6)-(37,42)."""
+'Seahorse: independent spacing revision.\n\nDeepen snout and fin; open inner tail return to preserve clearance around the curl.\nNative solo family, VRECT_M keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2f6a3c15-cfca-5d3d-83d6-1c6bddf42ba8'
 SOURCE_PATH = 'pictographic-primitives/animals/seahorse_2f6a3c15-cfca-5d3d-83d6-1c6bddf42ba8.svg'
 AUTHOR = 'gpt-6'
 
-
 class Seahorse(Solo48):
     icon_id = 'seahorse'
     keyshape = Keyshape.VRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "nature/animals"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
     aliases = ()
     keywords = ('seahorse', 'sea', 'ocean', 'marine', 'fish', 'curl', 'tail', 'aquarium')
 
-    def build(self) -> None:
-        self.add_arc('outline-1', (15, 37), (11, 41), radius_x=5, radius_y=5, sweep=False)
-        self.add_arc('outline-2', (11, 41), (20, 42), radius_x=9, radius_y=5, sweep=False)
-        self.add_arc('outline-3', (20, 42), (31, 35), radius_x=11, radius_y=11, sweep=False)
-        self.add_line('outline-4', (31, 35), (31, 19))
-        self.add_arc('outline-5', (31, 19), (37, 6), radius_x=20, radius_y=20, sweep=True)
-        self.add_arc('outline-6', (37, 6), (30, 6), radius_x=7, radius_y=3, sweep=False)
-        self.add_arc('outline-7', (30, 6), (24, 6), radius_x=6, radius_y=3, sweep=False)
-        self.add_arc('outline-8', (24, 6), (11, 10), radius_x=15, radius_y=10, sweep=True)
-        self.add_line('outline-9', (11, 10), (11, 16))
-        self.add_line('outline-10', (11, 16), (20, 16))
-        self.add_arc('outline-11', (20, 16), (23, 20), radius_x=4, radius_y=4, sweep=True)
-        self.add_arc('outline-12', (23, 20), (20, 30), radius_x=20, radius_y=20, sweep=False)
-        self.add_arc('outline-13', (20, 30), (23, 37), radius_x=12, radius_y=12, sweep=False)
-        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', 'outline-9', 'outline-10', 'outline-11', 'outline-12', 'outline-13', closed=False)
-        self.add_line('fin-1', (31, 22), (37, 20))
-        self.add_line('fin-2', (37, 20), (37, 30))
-        self.add_line('fin-3', (37, 30), (31, 28))
-        self.add_contour('fin', 'fin-1', 'fin-2', 'fin-3', closed=False)
-        self.relate("connect", 'outline', 'fin')
+    def build(self):
+        self.add_polyline('tail-start',(14, 36),(8, 40),(20, 44),closed=False)
+        self.add_arc('tail-turn',(20, 44),(32, 32),radius_x=12,radius_y=12,sweep=False)
+        self.add_line('back',(32, 32),(32, 20))
+        self.add_arc('head-back',(32, 20),(40, 4),radius_x=20,radius_y=20,sweep=True)
+        self.add_polyline('head',(40, 4),(24, 4),(8, 10),(8, 18),(20, 18),closed=False)
+        self.add_arc('throat',(20, 18),(24, 22),radius_x=4,radius_y=4,sweep=True)
+        self.add_arc('belly',(24, 22),(22, 32),radius_x=20,radius_y=20,sweep=False)
+        self.contours = [c for c in self.contours if c.contour_id != 'tail-start']
+        self.contours = [c for c in self.contours if c.contour_id != 'head']
+        self.add_contour('outline','tail-start-1','tail-start-2','tail-turn','back','head-back','head-1','head-2','head-3','head-4','throat','belly',closed=False)
+        self.add_polyline('fin',(32, 22),(40, 20),(40, 32),(32, 28),closed=False)
+        self.relate('connect','outline','fin')

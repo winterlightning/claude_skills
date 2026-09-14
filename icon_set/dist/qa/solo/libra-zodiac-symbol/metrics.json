@@ -3,31 +3,27 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (0, 6, 48, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [2.0, 0.0, 2.0, 0.0], tolerance 0.0)"
-  ],
-  "warnings": [
-    "mic [crown]: crown and baseline are 8 apart on centerlines nearest (2, 32)<->(2, 40); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
   "spacing": {
-    "ok": false,
-    "status": "review",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "crown:subpath-1",
         "elementId": "crown",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 32 L 12 32 A 15 15 0 1 1 36 32 L 46 32",
+        "pathData": "M 4 26 L 12 26 A 13 13 0 1 1 36 26 L 44 26",
         "bounds": [
-          2.0,
+          4.0,
           8.0,
-          46.0,
-          32.0
+          44.0,
+          26.0
         ],
         "segmentCount": 258,
-        "approximationError": 0.000561116768424751,
+        "approximationError": 0.00038319352878305883,
         "hasCurves": true
       },
       {
@@ -35,11 +31,11 @@
         "elementId": "baseline",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 2 40 L 46 40",
+        "pathData": "M 4 40 L 44 40",
         "bounds": [
-          2.0,
+          4.0,
           40.0,
-          46.0,
+          44.0,
           40.0
         ],
         "segmentCount": 1,
@@ -60,10 +56,10 @@
           "crown"
         ],
         "bounds": [
-          2.0,
+          4.0,
           8.0,
-          46.0,
-          32.0
+          44.0,
+          26.0
         ]
       },
       {
@@ -78,9 +74,9 @@
           "baseline"
         ],
         "bounds": [
-          2.0,
+          4.0,
           40.0,
-          46.0,
+          44.0,
           40.0
         ]
       }
@@ -91,28 +87,28 @@
           "crown:subpath-1",
           "baseline:subpath-1"
         ],
-        "centerlineDistance": 8.0,
-        "inkClearance": 4.0,
-        "signedInkClearance": 4.0,
-        "lowerBound": 7.999438883231575,
-        "upperBound": 8.000561116768427,
-        "inkClearanceLowerBound": 3.9994388832315746,
-        "inkClearanceUpperBound": 4.000561116768427,
-        "approximationError": 0.0005611167684271834,
+        "centerlineDistance": 14.0,
+        "inkClearance": 10.0,
+        "signedInkClearance": 10.0,
+        "lowerBound": 13.999616806471215,
+        "upperBound": 14.000383193528785,
+        "inkClearanceLowerBound": 9.999616806471215,
+        "inkClearanceUpperBound": 10.000383193528785,
+        "approximationError": 0.0003831935287852417,
         "nearestPoints": [
           [
-            2.0,
-            32.0
+            4.0,
+            26.0
           ],
           [
-            2.0,
+            4.0,
             40.0
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "review",
-        "reason": "The conservative curve distance interval crosses the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -132,28 +128,28 @@
               "crown:subpath-1",
               "baseline:subpath-1"
             ],
-            "centerlineDistance": 8.0,
-            "inkClearance": 4.0,
-            "signedInkClearance": 4.0,
-            "lowerBound": 7.999438883231575,
-            "upperBound": 8.000561116768427,
-            "inkClearanceLowerBound": 3.9994388832315746,
-            "inkClearanceUpperBound": 4.000561116768427,
-            "approximationError": 0.000561116768424751,
+            "centerlineDistance": 14.0,
+            "inkClearance": 10.0,
+            "signedInkClearance": 10.0,
+            "lowerBound": 13.999616806471215,
+            "upperBound": 14.000383193528785,
+            "inkClearanceLowerBound": 9.999616806471215,
+            "inkClearanceUpperBound": 10.000383193528785,
+            "approximationError": 0.00038319352878305883,
             "nearestPoints": [
               [
-                2.0,
-                32.0
+                4.0,
+                26.0
               ],
               [
-                2.0,
+                4.0,
                 40.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -161,9 +157,7 @@
     ],
     "connectedPairs": [],
     "excludedPairs": [],
-    "errors": [
-      "component-1 / component-2: The conservative curve distance interval crosses the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -174,9 +168,9 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 8.0,
-    "minimumInkClearance": 4.0,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": 14.0,
+    "minimumInkClearance": 10.0,
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 6,
       "flattenedSegments": 259,
@@ -184,7 +178,7 @@
       "distanceTests": 4,
       "connectionTests": 0
     },
-    "raw_status": "review",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
@@ -216,7 +210,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b5cbb1aa7638c4c7db232cb58848704409a488892665529a7bd32b697798afba",
+  "svg_sha256": "ecf422fb059d2fc972e63f9880ccb3f69f0e36b3cd6bd9f4e82b4cee015bb231",
   "rules": {
     "profile": {
       "canvas_size": 48,

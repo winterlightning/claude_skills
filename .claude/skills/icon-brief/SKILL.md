@@ -1,7 +1,7 @@
 ---
 name: icon-brief
-description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that /icon-sub, /icon-solo or /icon-container can be run against. Detect side combinations and copy flagged or uncertain references into a human-review folder; distinguish modifiers from natural multi-object subjects. Save container component briefs for later authoring. The requested family applies to standalone icons; split components use their individual families. Hand-authored; edit this file directly.
-argument-hint: <svg folder or file> <sub|solo|container> [--out <dir>]
+description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that /icon-sub, /icon-solo, /icon-avatar or /icon-container can be run against. Detect side combinations and copy flagged or uncertain references into a human-review folder; distinguish modifiers from natural multi-object subjects. Save container component briefs for later authoring. The requested family applies to standalone icons; split components use their individual families. Hand-authored; edit this file directly.
+argument-hint: <svg folder or file> <sub|solo|container|avatar> [--out <dir>]
 ---
 
 # /icon-brief — reference SVGs in, authoring briefs out
@@ -14,7 +14,7 @@ survives at native size, what the keyshape is, and where every coordinate goes.
 Keep that line and the briefs stay useful for years.
 
 **The family comes with the request, not from you.** The requester names the
-icon type — `sub`, `solo` or `container` — and standalone briefs carry
+icon type — `sub`, `solo`, `container` or `avatar` — and standalone briefs carry
 it. Combined references use the separate component-family routing below. See [Family](#family) before writing anything.
 
 Before writing a standalone brief, visually classify the reference using
@@ -192,7 +192,7 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    This writes `png/<stem>.png` (320px), `png/<stem>@<native>.png`, a contact
    sheet per 36 icons, `index.html`, `index.md`, and a placeholder brief each.
 
-   Pass `--native` for the requested family — 32 sub, 48 solo, 64 container. It
+   Pass `--native` for the requested family — 32 sub, 48 solo/avatar, 64 container. It
    defaults to **64**, so omitting it on a solo run previews every icon at the
    wrong size and you describe detail the real canvas will not hold.
 
@@ -285,7 +285,7 @@ same concept already exists in another family. Follow an existing prefix family
 Check the id is free before proposing it:
 
 ```
-python3 -c "import sys; sys.path.insert(0,'.'); from icon_set.model.icons.registry import icons_in; print(sorted(i.icon_id for f in ('sub','solo','container') for i in icons_in(f)))"
+python3 -c "import sys; sys.path.insert(0,'.'); from icon_set.model.icons.registry import icons_in; print(sorted(i.icon_id for f in ('sub','solo','container','avatar') for i in icons_in(f)))"
 ```
 
 If it is taken by the same concept in another family, propose the suffixed form

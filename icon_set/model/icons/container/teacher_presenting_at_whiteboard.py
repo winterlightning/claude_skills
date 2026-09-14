@@ -1,22 +1,14 @@
-"""A teacher stands at the left of an open-sided presentation board.
-
-Keyshape SQUARE: (0, 0, 64, 64); chosen for the reference silhouette.
-Construction reference: Lucide presentation: quarter-circle board corners. Original and atomic-debug inspected.
-The teacher keeps head, torso, arms and paired legs. The board is intentionally offset right and open behind the figure.
-Hosting measured with compose.py: plus does not pass, heart does not pass, check passes.
-"""
+'Teacher presenting at whiteboard: independent spacing revision.\n\nRemove narrow leg split and arm seams; open the two legs and add a clear presenting arm.\nNative container family, SQUARE keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class TeacherPresentingAtWhiteboard(Container64):
     icon_id = 'teacher-presenting-at-whiteboard'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "containers"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'containers'
     aliases = ()
     keywords = ('teacher', 'presenting', 'at', 'whiteboard')
 
@@ -35,13 +27,11 @@ class TeacherPresentingAtWhiteboard(Container64):
         self.add_line('torso-bottom', (28, 46), (2, 46))
         self.add_line('torso-left', (2, 46), (2, 40))
         self.add_contour('torso', 'shoulders', 'torso-right', 'torso-bottom', 'torso-left', closed=True)
-        self.add_polyline('legs', (7, 46), (9, 62), (21, 62), (23, 46), closed=False)
-        self.relate("connect", 'legs', 'torso')
-        self.add_line('leg-split', (15, 54), (15, 62))
-        self.relate("connect", 'leg-split', 'legs')
-        self.add_line('arm-left', (7, 38), (7, 46))
-        self.add_line('arm-right', (23, 38), (23, 46))
-        self.relate("connect", 'arm-left', 'torso')
-        self.relate("connect", 'arm-left', 'legs')
-        self.relate("connect", 'arm-right', 'torso')
-        self.relate("connect", 'arm-right', 'legs')
+        self.add_line('leg-left', (7, 46), (7, 62))
+        self.add_line('leg-right', (23, 46), (23, 62))
+        self.add_line('presenting-arm', (28, 40), (38, 30))
+        self.relate('connect', 'torso', 'leg-left')
+        self.relate('connect', 'torso', 'leg-right')
+        self.relate('connect', 'torso', 'presenting-arm')
+SOURCE_ICON_ID = None
+SOURCE_PATH = None

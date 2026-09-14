@@ -110,22 +110,6 @@ class TriangleLeft(Sub32):
         self.add_polyline("outline", (30, 2), (2, 16), (30, 30), closed=True)
 
 
-class Hexagon(Sub32):
-    icon_id = "hexagon"
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "primitives/shape"
-    keywords = ("cell", "badge", "honeycomb")
-
-    def build(self) -> None:
-        self.add_polyline(
-            "outline",
-            (11, 2), (21, 2), (30, 16), (21, 30), (11, 30), (2, 16),
-            closed=True,
-        )
-
-
 class Octagon(Sub32):
     icon_id = "octagon"
     keyshape = Keyshape.SQUARE

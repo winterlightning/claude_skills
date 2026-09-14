@@ -1,43 +1,32 @@
-"""Skull ornament with circular sockets and projecting forehead band. SQUARE (6,6)-(42,42). Lucide skull informs round cranium and compact jaw. Radial eye ticks omitted and scalloped teeth reduced to two divisions; left band preserves mechanical asymmetry."""
+'Steampunk skull ornament: independent spacing revision.\n\nKeep forehead band and skull jaw; filled eyes/nose replace cramped rings, wedge and tooth marks.\nNative solo family, SQUARE keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7093c60f-90aa-4fbd-a0bd-c8d029fbef92'
 SOURCE_PATH = 'pictographic-primitives/decoration/batch-04/steampunk decoration dia de los muertos_7093c60f-90aa-4fbd-a0bd-c8d029fbef92.svg'
 AUTHOR = 'gpt-6'
 
-
 class SteampunkSkullOrnament(Solo48):
     icon_id = 'steampunk-skull-ornament'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/decoration"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/decoration'
     aliases = ()
     keywords = ('skull', 'steampunk', 'ornament', 'teeth', 'eyes', 'dia de los muertos', 'decor')
 
-    def build(self) -> None:
-        self.add_line('top', (18, 6), (34, 6))
-        self.add_arc('tr', (34, 6), (42, 14), radius_x=12, radius_y=12, sweep=True, large_arc=False)
-        self.add_line('r', (42, 14), (42, 29))
-        self.add_arc('cheek-r', (42, 29), (38, 37), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_line('jaw-1', (38, 37), (38, 42))
-        self.add_line('jaw-2', (38, 42), (16, 42))
-        self.add_line('jaw-3', (16, 42), (16, 37))
-        self.add_arc('cheek-l', (16, 37), (8, 29), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_line('l', (8, 29), (8, 12))
-        self.add_arc('tl', (8, 12), (18, 6), radius_x=10, radius_y=10, sweep=True, large_arc=False)
-        self.add_contour('outline', 'top', 'tr', 'r', 'cheek-r', 'jaw-1', 'jaw-2', 'jaw-3', 'cheek-l', 'l', 'tl', closed=True)
-        self.add_polyline('band', (6, 8), (6, 14), (42, 14), closed=False)
-        self.relate('connect', 'band', 'outline')
-        self.add_arc('eye-left-a', (15, 25), (21, 25), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('eye-left-b', (21, 25), (15, 25), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_contour('eye-left', 'eye-left-a', 'eye-left-b', closed=True)
-        self.add_arc('eye-right-a', (33, 25), (39, 25), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('eye-right-b', (39, 25), (33, 25), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_contour('eye-right', 'eye-right-a', 'eye-right-b', closed=True)
-        self.add_polyline('nose', (24, 36), (27, 32), (30, 36), closed=False)
-        self.add_line('tooth-left', (23, 42), (23, 42))
-        self.add_line('tooth-right', (31, 42), (31, 42))
-        self.relate('connect', 'tooth-left', 'outline')
-        self.relate('connect', 'tooth-right', 'outline')
+    def build(self):
+        self.add_line('top',(14, 6),(34, 6))
+        self.add_arc('tr',(34, 6),(42, 14),radius_x=8,radius_y=8,sweep=True)
+        self.add_line('right',(42, 14),(42, 28))
+        self.add_arc('cheek-right',(42, 28),(34, 36),radius_x=8,radius_y=8,sweep=True)
+        self.add_polyline('jaw',(34, 36),(34, 42),(14, 42),(14, 36),closed=False)
+        self.add_arc('cheek-left',(14, 36),(6, 28),radius_x=8,radius_y=8,sweep=True)
+        self.add_line('left',(6, 28),(6, 14))
+        self.add_arc('tl',(6, 14),(14, 6),radius_x=8,radius_y=8,sweep=True)
+        self.contours = [c for c in self.contours if c.contour_id != 'jaw']
+        self.add_contour('skull','top','tr','right','cheek-right','jaw-1','jaw-2','jaw-3','cheek-left','left','tl',closed=True)
+        self.add_line('band',(6, 14),(42, 14))
+        self.relate('connect','skull','band')
+        self.add_dot('eye-left',(16, 25))
+        self.add_dot('eye-right',(32, 25))
+        self.add_dot('nose',(24, 33))

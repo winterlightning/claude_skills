@@ -55,15 +55,15 @@ class SmartwatchTraceTests(unittest.TestCase):
         """Straps share endpoints with the case, as they do in the source."""
         ids = {p.element_id for p in self.icon.primitives}
         starts = {(p.start.x, p.start.y) for p in self.icon.primitives}
-        for attach in ((8, 9), (23, 9), (8, 39), (23, 39)):
+        for attach in ((11, 14), (23, 14), (11, 34), (23, 34)):
             with self.subTest(attachment=attach):
                 self.assertIn(attach, starts)
         self.assertIn("case-top", ids)
 
     def test_the_strap_tips_converge_on_a_shared_point(self) -> None:
         ends = [(p.end.x, p.end.y) for p in self.icon.primitives]
-        self.assertGreaterEqual(ends.count((31, 2)), 2)
-        self.assertGreaterEqual(ends.count((31, 46)), 2)
+        self.assertGreaterEqual(ends.count((30, 6)), 2)
+        self.assertGreaterEqual(ends.count((30, 42)), 2)
 
 
 if __name__ == "__main__":  # pragma: no cover

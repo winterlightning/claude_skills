@@ -4,14 +4,69 @@ from tempfile import TemporaryDirectory
 from pathlib import Path
 
 from icon_set.model.icons.registry import create
+from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
 from icon_set.validation.internal_spacing import analyze_internal_spacing
 from icon_set.validation.library_qa import inspect_icon, save_evidence
+
+
+# Retired library drawings, pinned here because the assertions below name their
+# element ids and coordinates. Classes outside model/icons are never registered.
+class DressFixture(Solo48):
+    icon_id = 'dress'
+    keyshape = Keyshape.VRECT_L
+
+    def build(self) -> None:
+        for name, start, end in (
+                ('strap-left-top', (13, 2), (19, 2)), ('strap-left-inner', (19, 2), (19, 8))):
+            self.add_line(name, start, end)
+        self.add_arc('neckline', (19, 8), (29, 8), radius_x=5, sweep=False)
+        for name, start, end in (
+                ('strap-right-inner', (29, 8), (29, 2)), ('strap-right-top', (29, 2), (35, 2)),
+                ('strap-right-outer', (35, 2), (35, 12)), ('bodice-right-upper', (35, 12), (34, 17)),
+                ('bodice-right-lower', (34, 17), (31, 22)), ('skirt-right-upper', (31, 22), (36, 31)),
+                ('skirt-right-lower', (36, 31), (40, 44))):
+            self.add_line(name, start, end)
+        self.add_arc('hem', (40, 44), (8, 44), radius_x=16, radius_y=2)
+        for name, start, end in (
+                ('skirt-left-lower', (8, 44), (12, 31)), ('skirt-left-upper', (12, 31), (17, 22)),
+                ('bodice-left-lower', (17, 22), (14, 17)), ('bodice-left-upper', (14, 17), (13, 12)),
+                ('strap-left-outer', (13, 12), (13, 2))):
+            self.add_line(name, start, end)
+        self.add_contour('outline', 'strap-left-top', 'strap-left-inner', 'neckline', 'strap-right-inner',
+                         'strap-right-top', 'strap-right-outer', 'bodice-right-upper', 'bodice-right-lower',
+                         'skirt-right-upper', 'skirt-right-lower', 'hem', 'skirt-left-lower', 'skirt-left-upper',
+                         'bodice-left-lower', 'bodice-left-upper', 'strap-left-outer', closed=True)
+        self.add_line('waist-seam', (17, 22), (31, 22))
+        self.relate('connect', 'outline', 'waist-seam')
+
+
+class WrenchFixture(Solo48):
+    icon_id = 'open-end-maintenance-wrench'
+    keyshape = Keyshape.SQUARE
+
+    def build(self) -> None:
+        self.add_line('jaw-upper-inner', (40, 2), (33, 10))
+        self.add_arc('jaw-recess', (33, 10), (38, 18), radius_x=8, sweep=False)
+        self.add_line('jaw-lower-inner', (38, 18), (46, 10))
+        self.add_line('jaw-lower-tip', (46, 10), (46, 18))
+        self.add_arc('head-lower-belly', (46, 18), (36, 24), radius_x=7)
+        self.add_arc('head-lower-fillet', (36, 24), (30, 25), radius_x=5, sweep=False)
+        self.add_line('shaft-lower', (30, 25), (9, 46))
+        self.add_arc('butt', (9, 46), (2, 39), radius_x=7)
+        self.add_line('shaft-upper', (2, 39), (25, 16))
+        self.add_arc('head-upper-fillet', (25, 16), (26, 11), radius_x=5, sweep=False)
+        self.add_arc('head-upper-belly', (26, 11), (33, 2), radius_x=8, radius_y=7)
+        self.add_line('jaw-upper-tip', (33, 2), (40, 2))
+        self.add_contour('wrench-outline', 'jaw-upper-inner', 'jaw-recess', 'jaw-lower-inner', 'jaw-lower-tip',
+                         'head-lower-belly', 'head-lower-fillet', 'shaft-lower', 'butt', 'shaft-upper',
+                         'head-upper-fillet', 'head-upper-belly', 'jaw-upper-tip', closed=True)
 
 
 def cramped_dress():
     from dataclasses import replace
     from icon_set.model.primitives import Point, Arc
-    icon = create('dress')
+    icon = DressFixture()
     points = {(19,2):(17,2),(19,8):(17,8),(29,2):(31,2),(29,8):(31,8)}
     icon.primitives = [replace(p, start=Point(*points.get(p.start.as_tuple(),p.start.as_tuple())),
                               end=Point(*points.get(p.end.as_tuple(),p.end.as_tuple())),
@@ -23,7 +78,7 @@ def cramped_dress():
 def cramped_wrench():
     from dataclasses import replace
     from icon_set.model.primitives import Point
-    icon = create('open-end-maintenance-wrench')
+    icon = WrenchFixture()
     points = {(40,2):(38,2),(33,10):(30,10)}
     icon.primitives = [replace(p, start=Point(*points.get(p.start.as_tuple(),p.start.as_tuple())),
                               end=Point(*points.get(p.end.as_tuple(),p.end.as_tuple()))) for p in icon.primitives]

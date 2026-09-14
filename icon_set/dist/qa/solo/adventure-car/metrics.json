@@ -7,9 +7,7 @@
   "errors": [
     "mic [c1]: parallel straight edges e3, e14 and e5 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)"
   ],
-  "warnings": [
-    "mic [e10]: e10 and e11 are 8 apart on centerlines nearest (29, 34)<->(21, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": false,
     "status": "fail",
@@ -580,7 +578,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -609,7 +607,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ],
@@ -962,9 +960,9 @@
         "centerlineDistance": 8.0,
         "inkClearance": 4.0,
         "signedInkClearance": 4.0,
-        "lowerBound": 7.999094980216222,
+        "lowerBound": 8.0,
         "upperBound": 8.000905019783778,
-        "inkClearanceLowerBound": 3.9990949802162223,
+        "inkClearanceLowerBound": 4.0,
         "inkClearanceUpperBound": 4.000905019783778,
         "approximationError": 0.0009050197837776608,
         "nearestPoints": [
@@ -979,8 +977,8 @@
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "review",
-        "reason": "The conservative curve distance interval crosses the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-3",
@@ -1003,9 +1001,9 @@
             "centerlineDistance": 8.0,
             "inkClearance": 4.0,
             "signedInkClearance": 4.0,
-            "lowerBound": 7.999094980216222,
+            "lowerBound": 8.0,
             "upperBound": 8.000905019783778,
-            "inkClearanceLowerBound": 3.9990949802162223,
+            "inkClearanceLowerBound": 4.0,
             "inkClearanceUpperBound": 4.000905019783778,
             "approximationError": 0.0009050197837767208,
             "nearestPoints": [
@@ -1020,8 +1018,8 @@
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -1230,8 +1228,7 @@
       "component-1 / component-3: At least one disconnected contour pair is provably closer than the required minimum.",
       "component-1 / component-4: At least one disconnected contour pair is provably closer than the required minimum.",
       "component-2 / component-3: At least one disconnected contour pair is provably closer than the required minimum.",
-      "component-2 / component-4: At least one disconnected contour pair is provably closer than the required minimum.",
-      "component-3 / component-4: The conservative curve distance interval crosses the required minimum."
+      "component-2 / component-4: At least one disconnected contour pair is provably closer than the required minimum."
     ],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,

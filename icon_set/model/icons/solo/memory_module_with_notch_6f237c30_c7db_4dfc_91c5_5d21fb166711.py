@@ -1,27 +1,54 @@
-"""Diagonal notched RAM board; square extremes (2,2)-(46,46). Lucide memory-stick informs minimal chips. Middle circuit bracket omitted for clearance."""
+'Memory module with notch.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The HRECT_L visible envelope is (2, 6, 46, 42).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6f237c30-c7db-4dfc-91c5-5d21fb166711'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-05/computer ram_6f237c30-c7db-4dfc-91c5-5d21fb166711.svg'
-AUTHOR = 'astra-chatgpt'
+AUTHOR = 'gpt-6'
 
 class MemoryModuleWithNotch(Solo48):
     icon_id = 'memory-module-with-notch'
-    keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('ram', 'memory', 'module', 'dimm', 'chip', 'hardware', 'computer', 'upgrade')
 
     def build(self) -> None:
-        self.add_line('board-start', (2, 32), (14, 20))
-        self.add_arc('notch', (14, 20), (20, 14), radius_x=5, radius_y=5, sweep=False)
-        self.add_line('board-rest-1', (20, 14), (32, 2))
-        self.add_line('board-rest-2', (32, 2), (46, 16))
-        self.add_line('board-rest-3', (46, 16), (16, 46))
-        self.add_line('board-rest-4', (16, 46), (2, 32))
-        self.add_contour('board', 'board-start', 'notch', 'board-rest-1', 'board-rest-2', 'board-rest-3', 'board-rest-4', closed=True)
-        self.add_polyline('chip-low', (11, 32), (16, 27), (21, 32), (16, 37), closed=True)
-        self.add_polyline('chip-high', (27, 16), (32, 11), (37, 16), (32, 21), closed=True)
+        # Shared nodes are reused by every touching member.
+        p_4_8 = (4, 8)
+        p_44_8 = (44, 8)
+        p_44_40 = (44, 40)
+        p_28_40 = (28, 40)
+        p_28_36 = (28, 36)
+        p_20_36 = (20, 36)
+        p_20_40 = (20, 40)
+        p_4_40 = (4, 40)
+        p_12_16 = (12, 16)
+        p_20_16 = (20, 16)
+        p_20_24 = (20, 24)
+        p_12_24 = (12, 24)
+        p_28_16 = (28, 16)
+        p_36_16 = (36, 16)
+        p_36_24 = (36, 24)
+        p_28_24 = (28, 24)
+        self.add_line('board-0', p_4_8, p_44_8)
+        self.add_line('board-1', p_44_8, p_44_40)
+        self.add_line('board-2', p_44_40, p_28_40)
+        self.add_line('board-3', p_28_40, p_28_36)
+        self.add_line('board-4', p_28_36, p_20_36)
+        self.add_line('board-5', p_20_36, p_20_40)
+        self.add_line('board-6', p_20_40, p_4_40)
+        self.add_line('board-7', p_4_40, p_4_8)
+        self.add_line('chip-0-0', p_12_16, p_20_16)
+        self.add_line('chip-0-1', p_20_16, p_20_24)
+        self.add_line('chip-0-2', p_20_24, p_12_24)
+        self.add_line('chip-0-3', p_12_24, p_12_16)
+        self.add_line('chip-1-0', p_28_16, p_36_16)
+        self.add_line('chip-1-1', p_36_16, p_36_24)
+        self.add_line('chip-1-2', p_36_24, p_28_24)
+        self.add_line('chip-1-3', p_28_24, p_28_16)
+        self.add_contour('board', 'board-0', 'board-1', 'board-2', 'board-3', 'board-4', 'board-5', 'board-6', 'board-7', closed=True)
+        self.add_contour('chip-0', 'chip-0-0', 'chip-0-1', 'chip-0-2', 'chip-0-3', closed=True)
+        self.add_contour('chip-1', 'chip-1-0', 'chip-1-1', 'chip-1-2', 'chip-1-3', closed=True)

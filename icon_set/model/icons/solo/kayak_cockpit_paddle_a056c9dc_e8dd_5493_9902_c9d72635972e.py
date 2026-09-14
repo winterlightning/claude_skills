@@ -7,30 +7,29 @@ AUTHOR = 'gpt-6'
 
 class KayakCockpitPaddle(Solo48):
     icon_id = 'kayak-cockpit-paddle'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/transportation"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/transportation'
     aliases = ()
     keywords = ('kayak', 'paddle', 'cockpit', 'canoe', 'boat', 'water sports', 'paddling', 'outdoor')
 
     def build(self) -> None:
-        # Current contract centerline extremes: (8,6)-(40,42).
-        # Two elliptical sides meet at pointed tips; the paddle crosses exact shared hull nodes.
-        self.add_arc('hull-right-top',(24,6),(31,9),radius_x=35,radius_y=25)
-        self.add_arc('hull-right-middle',(31,9),(38,24),radius_x=35,radius_y=25)
-        self.add_arc('hull-right-bottom',(38,24),(24,42),radius_x=35,radius_y=25)
-        self.add_arc('hull-left-bottom',(24,42),(10,24),radius_x=35,radius_y=25)
-        self.add_arc('hull-left-top',(10,24),(24,6),radius_x=35,radius_y=25)
-        self.add_contour('hull','hull-right-top','hull-right-middle','hull-right-bottom','hull-left-bottom','hull-left-top',closed=True)
-        self.add_line('paddle-shaft',(10,24),(31,9))
-        self.relate('connect','paddle-shaft','hull')
-        self.add_polyline('blade-left',(10,24),(8,28),(8,32))
-        self.add_polyline('blade-right',(31,9),(36,6),(40,6))
-        self.relate('connect','paddle-shaft','blade-left')
-        self.relate('connect','paddle-shaft','blade-right')
-        self.relate('connect','hull','blade-left')
-        self.relate('connect','hull','blade-right')
-        self.add_arc('cockpit-a',(24,26),(24,32),radius_x=3)
-        self.add_arc('cockpit-b',(24,32),(24,26),radius_x=3)
-        self.add_contour('cockpit','cockpit-a','cockpit-b',closed=True)
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        self.add_arc('hull-right-top', (24, 4), (31, 9), radius_x=35, radius_y=25)
+        self.add_arc('hull-right-middle', (31, 9), (38, 24), radius_x=35, radius_y=25)
+        self.add_arc('hull-right-bottom', (38, 24), (24, 44), radius_x=35, radius_y=25)
+        self.add_arc('hull-left-bottom', (24, 44), (10, 24), radius_x=35, radius_y=25)
+        self.add_arc('hull-left-top', (10, 24), (24, 4), radius_x=35, radius_y=25)
+        self.add_contour('hull', 'hull-right-top', 'hull-right-middle', 'hull-right-bottom', 'hull-left-bottom', 'hull-left-top', closed=True)
+        self.add_line('paddle-shaft', (10, 24), (31, 9))
+        self.relate('connect', 'paddle-shaft', 'hull')
+        self.add_polyline('blade-left', (10, 24), (8, 28), (8, 32))
+        self.add_polyline('blade-right', (31, 9), (36, 4), (40, 4))
+        self.relate('connect', 'paddle-shaft', 'blade-left')
+        self.relate('connect', 'paddle-shaft', 'blade-right')
+        self.relate('connect', 'hull', 'blade-left')
+        self.relate('connect', 'hull', 'blade-right')
+        self.add_arc('cockpit-a', (24, 26), (24, 32), radius_x=3)
+        self.add_arc('cockpit-b', (24, 32), (24, 26), radius_x=3)
+        self.add_contour('cockpit', 'cockpit-a', 'cockpit-b', closed=True)

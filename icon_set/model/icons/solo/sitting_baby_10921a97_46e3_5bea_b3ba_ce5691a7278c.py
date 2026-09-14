@@ -1,48 +1,41 @@
-"""A seated infant with a large head, rounded arms, diaper and wide oval feet. Symmetry and shared limb junctions keep the front-facing pose clear."""
+"""Seated infant with a large round head, two eyes, simple arms and open seated legs. SQUARE preserves generous proportions; Lucide baby informs the minimal face. Closed foot loops and extra diaper curves omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '10921a97-46e3-5bea-b3ba-ce5691a7278c'
 SOURCE_PATH = 'pictographic-primitives/babies/baby care body_10921a97-46e3-5bea-b3ba-ce5691a7278c.svg'
 AUTHOR = 'gpt-6'
 
-
 class SittingBaby(Solo48):
     icon_id = 'sitting-baby'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "people/babies"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'people/babies'
     aliases = ()
     keywords = ('sitting', 'baby', 'infant', 'nursery')
 
-    def build(self) -> None:
-        # Centerline extremes: (6,6)-(42,42).
-        self.add_arc('head-top', (13, 13), (35, 13), radius_x=11, radius_y=11, sweep=True, large_arc=False)
-        self.add_arc('head-bottom', (35, 13), (13, 13), radius_x=11, radius_y=11, sweep=True, large_arc=False)
-        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_arc('arm-left', (24, 24), (6, 34), radius_x=22, radius_y=10, sweep=False, large_arc=False)
-        self.add_arc('hand-left', (6, 34), (6, 40), radius_x=2, radius_y=6, sweep=False, large_arc=False)
-        self.add_contour('left-arm', 'arm-left', 'hand-left', closed=False)
-        self.add_arc('hand-right', (42, 40), (42, 34), radius_x=2, radius_y=6, sweep=False, large_arc=False)
-        self.add_arc('arm-right', (42, 34), (24, 24), radius_x=22, radius_y=10, sweep=False, large_arc=False)
-        self.add_contour('right-arm', 'hand-right', 'arm-right', closed=False)
-        self.add_arc('foot-left-upper', (6, 40), (12, 34), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('foot-left-outer', (12, 34), (20, 40), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('foot-left-lower', (20, 40), (6, 40), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('foot-left', 'foot-left-upper', 'foot-left-outer', 'foot-left-lower', closed=True)
-        self.add_arc('foot-right-upper', (28, 40), (36, 34), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('foot-right-outer', (36, 34), (42, 40), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('foot-right-lower', (42, 40), (28, 40), radius_x=8, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('foot-right', 'foot-right-upper', 'foot-right-outer', 'foot-right-lower', closed=True)
-        self.add_line('diaper-band', (12, 34), (36, 34))
-        self.add_arc('diaper-bottom', (20, 40), (28, 40), radius_x=6, radius_y=4, sweep=False, large_arc=False)
-        self.relate("connect", 'head', 'left-arm')
-        self.relate("connect", 'head', 'right-arm')
-        self.relate("connect", 'left-arm', 'right-arm')
-        self.relate("connect", 'left-arm', 'foot-left')
-        self.relate("connect", 'right-arm', 'foot-right')
-        self.relate("connect", 'foot-left', 'diaper-bottom')
-        self.relate("connect", 'foot-right', 'diaper-bottom')
-        self.relate("connect", 'foot-left', 'diaper-band')
-        self.relate("connect", 'foot-right', 'diaper-band')
+    def build(self):
+        # SQUARE: (6,6)-(42,42); front-facing, mirrored around x=24.
+        self.add_arc('head-right', (24,6), (24,24), radius_x=11)
+        self.add_arc('head-left', (24,24), (24,6), radius_x=11)
+        self.add_contour('head', 'head-right', 'head-left', closed=True)
+        self.add_dot('eye-left', (20,12))
+        self.add_dot('eye-right', (28,12))
+        self.add_arc('shoulder-left', (24,24), (10,32), radius_x=14, radius_y=8, sweep=False)
+        self.add_line('arm-left', (10,32), (10,36))
+        self.add_arc('shoulder-right', (38,32), (24,24), radius_x=14, radius_y=8, sweep=False)
+        self.add_line('arm-right', (38,36), (38,32))
+        self.add_contour('left-arm', 'shoulder-left', 'arm-left')
+        self.add_contour('right-arm', 'arm-right', 'shoulder-right')
+        self.relate('connect', 'head', 'left-arm')
+        self.relate('connect', 'head', 'right-arm')
+        self.relate('connect', 'left-arm', 'right-arm')
+        self.add_arc('leg-left', (10,36), (10,42), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('seat-left', (10,42), (18,42))
+        self.add_arc('leg-right', (38,42), (38,36), radius_x=8, radius_y=5, sweep=False)
+        self.add_line('seat-right', (30,42), (38,42))
+        self.add_contour('left-leg', 'leg-left', 'seat-left')
+        self.add_contour('right-leg', 'seat-right', 'leg-right')
+        self.relate('connect', 'left-arm', 'left-leg')
+        self.relate('connect', 'right-arm', 'right-leg')
+        self.add_line('diaper', (18,36), (30,36))

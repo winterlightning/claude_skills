@@ -1,0 +1,1833 @@
+{
+  "record": {
+    "icon_id": "baby-figure-v2-stretch-vrect-l",
+    "name": "baby-figure-v2-stretch-vrect-l",
+    "aliases": [],
+    "category": "people/babies",
+    "keywords": [
+      "baby",
+      "figure",
+      "infant",
+      "nursery"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "VRECT_L",
+    "keyshape_bounds": [
+      6,
+      2,
+      42,
+      46
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "head-top",
+        "start": [
+          18,
+          10
+        ],
+        "end": [
+          30,
+          10
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-bottom",
+        "start": [
+          30,
+          10
+        ],
+        "end": [
+          18,
+          10
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulders",
+        "start": [
+          18,
+          24
+        ],
+        "end": [
+          30,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "arm-left",
+        "start": [
+          18,
+          24
+        ],
+        "end": [
+          8,
+          34
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "arm-right",
+        "start": [
+          30,
+          24
+        ],
+        "end": [
+          40,
+          34
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "waist-left",
+        "start": [
+          18,
+          24
+        ],
+        "end": [
+          17,
+          37
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "waist-right",
+        "start": [
+          30,
+          24
+        ],
+        "end": [
+          31,
+          37
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "diaper-band",
+        "start": [
+          17,
+          37
+        ],
+        "end": [
+          31,
+          37
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "diaper",
+        "start": [
+          17,
+          37
+        ],
+        "end": [
+          31,
+          37
+        ],
+        "radius_x": 7,
+        "radius_y": 7,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left-1",
+        "start": [
+          17,
+          37
+        ],
+        "end": [
+          12,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left-2",
+        "start": [
+          12,
+          42
+        ],
+        "end": [
+          17,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right-1",
+        "start": [
+          31,
+          37
+        ],
+        "end": [
+          36,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right-2",
+        "start": [
+          36,
+          42
+        ],
+        "end": [
+          31,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "head",
+        "members": [
+          "head-top",
+          "head-bottom"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "leg-left",
+        "members": [
+          "leg-left-1",
+          "leg-left-2"
+        ],
+        "closed": false
+      },
+      {
+        "contour_id": "leg-right",
+        "members": [
+          "leg-right-1",
+          "leg-right-2"
+        ],
+        "closed": false
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "shoulders",
+          "waist-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "shoulders",
+          "waist-right"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "shoulders",
+          "arm-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "shoulders",
+          "arm-right"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "arm-left",
+          "waist-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "arm-right",
+          "waist-right"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "waist-left",
+          "diaper-band"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "waist-right",
+          "diaper-band"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "diaper-band",
+          "diaper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "waist-left",
+          "diaper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "waist-right",
+          "diaper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-left",
+          "waist-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-left",
+          "diaper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-left",
+          "diaper-band"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-right",
+          "waist-right"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-right",
+          "diaper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-right",
+          "diaper-band"
+        ]
+      }
+    ],
+    "variant_of": "baby-figure-v2",
+    "variant_label": "Stretch to VRECT_L"
+  },
+  "report": {
+    "source_icon_id": "baby-figure-v2",
+    "target_keyshape": "VRECT_L",
+    "source_centerline_bounds": [
+      6.0,
+      2.0,
+      42.0,
+      44.0
+    ],
+    "target_visible_bounds": [
+      6,
+      2,
+      42,
+      46
+    ],
+    "mode": "stretch",
+    "scale": null,
+    "scale_x": 0.8888888888888888,
+    "scale_y": 0.9523809523809523,
+    "stroke_width": 4,
+    "requires_visual_review": true,
+    "notes": [],
+    "validation": {
+      "icon_id": "baby-figure-v2",
+      "family": "solo",
+      "profile": "SOLO48",
+      "selected_for_build": true,
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "spacing": {
+        "ok": true,
+        "status": "pass",
+        "contours": [
+          {
+            "id": "head:subpath-1",
+            "elementId": "head",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 18 10 A 6 6 0 0 1 30 10 A 6 6 0 0 1 18 10 Z",
+            "bounds": [
+              18.0,
+              4.0,
+              30.0,
+              16.0
+            ],
+            "segmentCount": 257,
+            "approximationError": 0.00045250989125349047,
+            "hasCurves": true
+          },
+          {
+            "id": "shoulders:subpath-1",
+            "elementId": "shoulders",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 18 24 L 30 24",
+            "bounds": [
+              18.0,
+              24.0,
+              30.0,
+              24.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "arm-left:subpath-1",
+            "elementId": "arm-left",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 18 24 L 8 34",
+            "bounds": [
+              8.0,
+              24.0,
+              18.0,
+              34.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "arm-right:subpath-1",
+            "elementId": "arm-right",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 30 24 L 40 34",
+            "bounds": [
+              30.0,
+              24.0,
+              40.0,
+              34.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "waist-left:subpath-1",
+            "elementId": "waist-left",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 18 24 L 17 37",
+            "bounds": [
+              17.0,
+              24.0,
+              18.0,
+              37.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "waist-right:subpath-1",
+            "elementId": "waist-right",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 30 24 L 31 37",
+            "bounds": [
+              30.0,
+              24.0,
+              31.0,
+              37.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "diaper-band:subpath-1",
+            "elementId": "diaper-band",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 17 37 L 31 37",
+            "bounds": [
+              17.0,
+              37.0,
+              31.0,
+              37.0
+            ],
+            "segmentCount": 1,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "diaper:subpath-1",
+            "elementId": "diaper",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 17 37 A 7 7 0 0 0 31 37",
+            "bounds": [
+              17.0,
+              37.0,
+              31.0,
+              44.0
+            ],
+            "segmentCount": 128,
+            "approximationError": 0.0005279282068392702,
+            "hasCurves": true
+          },
+          {
+            "id": "leg-left:subpath-1",
+            "elementId": "leg-left",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 17 37 L 12 42 L 17 42",
+            "bounds": [
+              12.0,
+              37.0,
+              17.0,
+              42.0
+            ],
+            "segmentCount": 2,
+            "approximationError": 0.0,
+            "hasCurves": false
+          },
+          {
+            "id": "leg-right:subpath-1",
+            "elementId": "leg-right",
+            "subpathIndex": 1,
+            "componentId": "component-2",
+            "pathData": "M 31 37 L 36 42 L 31 42",
+            "bounds": [
+              31.0,
+              37.0,
+              36.0,
+              42.0
+            ],
+            "segmentCount": 2,
+            "approximationError": 0.0,
+            "hasCurves": false
+          }
+        ],
+        "components": [
+          {
+            "id": "component-1",
+            "memberIds": [
+              "head:subpath-1"
+            ],
+            "contourIds": [
+              "head:subpath-1"
+            ],
+            "elementIds": [
+              "head"
+            ],
+            "bounds": [
+              18.0,
+              4.0,
+              30.0,
+              16.0
+            ]
+          },
+          {
+            "id": "component-2",
+            "memberIds": [
+              "shoulders:subpath-1",
+              "arm-left:subpath-1",
+              "arm-right:subpath-1",
+              "waist-left:subpath-1",
+              "waist-right:subpath-1",
+              "diaper-band:subpath-1",
+              "diaper:subpath-1",
+              "leg-left:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "contourIds": [
+              "shoulders:subpath-1",
+              "arm-left:subpath-1",
+              "arm-right:subpath-1",
+              "waist-left:subpath-1",
+              "waist-right:subpath-1",
+              "diaper-band:subpath-1",
+              "diaper:subpath-1",
+              "leg-left:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "elementIds": [
+              "shoulders",
+              "arm-left",
+              "arm-right",
+              "waist-left",
+              "waist-right",
+              "diaper-band",
+              "diaper",
+              "leg-left",
+              "leg-right"
+            ],
+            "bounds": [
+              8.0,
+              24.0,
+              40.0,
+              44.0
+            ]
+          }
+        ],
+        "pairs": [
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "shoulders:subpath-1"
+            ],
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000452509891256,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000452509891256,
+            "approximationError": 0.0004525098912555592,
+            "nearestPoints": [
+              [
+                24.0,
+                16.0
+              ],
+              [
+                24.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Every contour pair between these components meets the required minimum.",
+            "ambiguousContact": false,
+            "componentIds": [
+              "component-1",
+              "component-2"
+            ],
+            "memberIds": [
+              [
+                "head:subpath-1"
+              ],
+              [
+                "shoulders:subpath-1",
+                "arm-left:subpath-1",
+                "arm-right:subpath-1",
+                "waist-left:subpath-1",
+                "waist-right:subpath-1",
+                "diaper-band:subpath-1",
+                "diaper:subpath-1",
+                "leg-left:subpath-1",
+                "leg-right:subpath-1"
+              ]
+            ],
+            "contourPairs": [
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "shoulders:subpath-1"
+                ],
+                "centerlineDistance": 8.0,
+                "inkClearance": 4.0,
+                "signedInkClearance": 4.0,
+                "lowerBound": 8.0,
+                "upperBound": 8.000452509891256,
+                "inkClearanceLowerBound": 4.0,
+                "inkClearanceUpperBound": 4.000452509891256,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    24.0,
+                    16.0
+                  ],
+                  [
+                    24.0,
+                    24.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "arm-left:subpath-1"
+                ],
+                "centerlineDistance": 9.23199795299223,
+                "inkClearance": 5.231997952992231,
+                "signedInkClearance": 5.231997952992231,
+                "lowerBound": 9.231545443100973,
+                "upperBound": 9.232450462883486,
+                "inkClearanceLowerBound": 5.231545443100973,
+                "inkClearanceUpperBound": 5.232450462883486,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    21.63733370733874,
+                    15.514742802630545
+                  ],
+                  [
+                    18.0,
+                    24.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "arm-right:subpath-1"
+                ],
+                "centerlineDistance": 9.23199795299223,
+                "inkClearance": 5.231997952992231,
+                "signedInkClearance": 5.231997952992231,
+                "lowerBound": 9.231545443100973,
+                "upperBound": 9.232450462883486,
+                "inkClearanceLowerBound": 5.231545443100973,
+                "inkClearanceUpperBound": 5.232450462883486,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    26.36266629266126,
+                    15.514742802630545
+                  ],
+                  [
+                    30.0,
+                    24.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "waist-left:subpath-1"
+                ],
+                "centerlineDistance": 9.23199795299223,
+                "inkClearance": 5.231997952992231,
+                "signedInkClearance": 5.231997952992231,
+                "lowerBound": 9.231545443100973,
+                "upperBound": 9.232450462883486,
+                "inkClearanceLowerBound": 5.231545443100973,
+                "inkClearanceUpperBound": 5.232450462883486,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    21.63733370733874,
+                    15.514742802630545
+                  ],
+                  [
+                    18.0,
+                    24.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "waist-right:subpath-1"
+                ],
+                "centerlineDistance": 9.23199795299223,
+                "inkClearance": 5.231997952992231,
+                "signedInkClearance": 5.231997952992231,
+                "lowerBound": 9.231545443100973,
+                "upperBound": 9.232450462883486,
+                "inkClearanceLowerBound": 5.231545443100973,
+                "inkClearanceUpperBound": 5.232450462883486,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    26.36266629266126,
+                    15.514742802630545
+                  ],
+                  [
+                    30.0,
+                    24.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "diaper-band:subpath-1"
+                ],
+                "centerlineDistance": 21.0,
+                "inkClearance": 17.0,
+                "signedInkClearance": 17.0,
+                "lowerBound": 21.0,
+                "upperBound": 21.000452509891257,
+                "inkClearanceLowerBound": 17.0,
+                "inkClearanceUpperBound": 17.000452509891257,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    24.0,
+                    16.0
+                  ],
+                  [
+                    24.0,
+                    37.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "diaper:subpath-1"
+                ],
+                "centerlineDistance": 21.892910698513653,
+                "inkClearance": 17.892910698513653,
+                "signedInkClearance": 17.892910698513653,
+                "lowerBound": 21.891930260415556,
+                "upperBound": 21.893891136611753,
+                "inkClearanceLowerBound": 17.891930260415556,
+                "inkClearanceUpperBound": 17.893891136611753,
+                "approximationError": 0.0009804380980927606,
+                "nearestPoints": [
+                  [
+                    22.542118920580418,
+                    15.820187519167263
+                  ],
+                  [
+                    17.0,
+                    37.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "leg-left:subpath-1"
+                ],
+                "centerlineDistance": 21.892910698513653,
+                "inkClearance": 17.892910698513653,
+                "signedInkClearance": 17.892910698513653,
+                "lowerBound": 21.892458188622395,
+                "upperBound": 21.893363208404914,
+                "inkClearanceLowerBound": 17.892458188622395,
+                "inkClearanceUpperBound": 17.893363208404914,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    22.542118920580418,
+                    15.820187519167263
+                  ],
+                  [
+                    17.0,
+                    37.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              },
+              {
+                "closestContours": [
+                  "head:subpath-1",
+                  "leg-right:subpath-1"
+                ],
+                "centerlineDistance": 21.892910698513653,
+                "inkClearance": 17.892910698513653,
+                "signedInkClearance": 17.892910698513653,
+                "lowerBound": 21.892458188622395,
+                "upperBound": 21.893363208404914,
+                "inkClearanceLowerBound": 17.892458188622395,
+                "inkClearanceUpperBound": 17.893363208404914,
+                "approximationError": 0.00045250989125349047,
+                "nearestPoints": [
+                  [
+                    25.457881079419582,
+                    15.820187519167263
+                  ],
+                  [
+                    31.0,
+                    37.0
+                  ]
+                ],
+                "requiredCenterline": 8.0,
+                "requiredInkClearance": 4.0,
+                "status": "pass",
+                "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+                "ambiguousContact": false
+              }
+            ]
+          }
+        ],
+        "connectedPairs": [
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "arm-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              18.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "arm-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              30.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "waist-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              18.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              30.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "waist-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              18.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              30.0,
+              24.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              31.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              31.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              31.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              31.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "diaper:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              17.0,
+              37.0
+            ]
+          },
+          {
+            "contourIds": [
+              "diaper:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "reason": "shared original drawn-command endpoint",
+            "point": [
+              31.0,
+              37.0
+            ]
+          }
+        ],
+        "excludedPairs": [
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "arm-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "shoulders:subpath-1",
+                "arm-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                18.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "arm-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "shoulders:subpath-1",
+                "arm-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                30.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "waist-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "shoulders:subpath-1",
+                "waist-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                18.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "shoulders:subpath-1",
+                "waist-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                30.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "shoulders:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "arm-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "waist-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "arm-left:subpath-1",
+                "waist-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                18.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-left:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "waist-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "arm-right:subpath-1",
+                "waist-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                30.0,
+                24.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "arm-right:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "waist-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-left:subpath-1",
+                "diaper-band:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-left:subpath-1",
+                "diaper:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-left:subpath-1",
+                "leg-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "waist-left:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "diaper-band:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-right:subpath-1",
+                "diaper-band:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                31.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-right:subpath-1",
+                "diaper:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                31.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          },
+          {
+            "contourIds": [
+              "waist-right:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "waist-right:subpath-1",
+                "leg-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                31.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "diaper:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "diaper-band:subpath-1",
+                "diaper:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "diaper-band:subpath-1",
+                "leg-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "diaper-band:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "diaper-band:subpath-1",
+                "leg-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                31.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "diaper:subpath-1",
+              "leg-left:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "diaper:subpath-1",
+                "leg-left:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                17.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "diaper:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": {
+              "contourIds": [
+                "diaper:subpath-1",
+                "leg-right:subpath-1"
+              ],
+              "reason": "shared original drawn-command endpoint",
+              "point": [
+                31.0,
+                37.0
+              ]
+            }
+          },
+          {
+            "contourIds": [
+              "leg-left:subpath-1",
+              "leg-right:subpath-1"
+            ],
+            "componentId": "component-2",
+            "reason": "same proved connected centerline component",
+            "directConnection": null
+          }
+        ],
+        "errors": [],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "strokeWidth": 4,
+        "tolerance": 0.001,
+        "measurement": {
+          "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+          "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+          "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+          "scope": "disconnected centerline components, not spacing inside a connected component"
+        },
+        "minimumCenterlineDistance": 8.0,
+        "minimumInkClearance": 4.0,
+        "reason": "All disconnected components meet the required spacing.",
+        "stats": {
+          "commands": 24,
+          "flattenedSegments": 395,
+          "adaptiveNodes": 765,
+          "distanceTests": 84,
+          "connectionTests": 0
+        },
+        "raw_status": "pass",
+        "canvas": 48
+      },
+      "negative_space": {
+        "status": "pass",
+        "hole_count": 3,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "holes": [
+          {
+            "hole": 1,
+            "center_viewbox": [
+              23.9844,
+              9.9844
+            ],
+            "bbox_viewbox": [
+              18.5,
+              4.5,
+              11.0,
+              11.0
+            ],
+            "bbox_ship_px": [
+              11.0,
+              11.0
+            ],
+            "bbox_design_u": [
+              11.0,
+              11.0
+            ],
+            "area_ship_px2": 95.0342,
+            "equivalent_diameter_ship_px": 11.0001,
+            "equivalent_diameter_design_u": 11.0001,
+            "inscribed_diameter_ship_px": 10.7974,
+            "inscribed_diameter_design_u": 10.7974,
+            "inscribed_radius_ship_px": 5.3987,
+            "inscribed_radius_design_u": 5.3987,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 3.8987,
+            "equivalent_diameter_at_authored_stroke_design_u": 7.7974
+          },
+          {
+            "hole": 2,
+            "center_viewbox": [
+              23.9844,
+              30.4844
+            ],
+            "bbox_viewbox": [
+              17.5312,
+              24.5,
+              12.9375,
+              12.0
+            ],
+            "bbox_ship_px": [
+              12.9375,
+              12.0
+            ],
+            "bbox_design_u": [
+              12.9375,
+              12.0
+            ],
+            "area_ship_px2": 143.9707,
+            "equivalent_diameter_ship_px": 13.5392,
+            "equivalent_diameter_design_u": 13.5392,
+            "inscribed_diameter_ship_px": 12.0,
+            "inscribed_diameter_design_u": 12.0,
+            "inscribed_radius_ship_px": 6.0,
+            "inscribed_radius_design_u": 6.0,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 4.5,
+            "equivalent_diameter_at_authored_stroke_design_u": 9.0
+          },
+          {
+            "hole": 3,
+            "center_viewbox": [
+              23.4531,
+              40.4844
+            ],
+            "bbox_viewbox": [
+              17.5312,
+              37.5,
+              12.9375,
+              6.0
+            ],
+            "bbox_ship_px": [
+              12.9375,
+              6.0
+            ],
+            "bbox_design_u": [
+              12.9375,
+              6.0
+            ],
+            "area_ship_px2": 59.874,
+            "equivalent_diameter_ship_px": 8.7312,
+            "equivalent_diameter_design_u": 8.7312,
+            "inscribed_diameter_ship_px": 6.0,
+            "inscribed_diameter_design_u": 6.0,
+            "inscribed_radius_ship_px": 3.0,
+            "inscribed_radius_design_u": 3.0,
+            "minimum_radius_design_u": 2.5,
+            "status": "pass",
+            "equivalent_radius_at_authored_stroke_design_u": 1.5,
+            "equivalent_diameter_at_authored_stroke_design_u": 3.0
+          }
+        ],
+        "pinches": [],
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 0.0,
+        "measuring_stroke_width": 1.0,
+        "samples_per_unit": 32
+      },
+      "artifacts": {},
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility"
+      ],
+      "svg_sha256": "7744769fbe240794621c3c13bcb9e645b43037c76d1e9b30e6a2d83a646ef168",
+      "rules": {
+        "profile": {
+          "canvas_size": 48,
+          "family": "solo",
+          "interior_guide_inset": 6,
+          "mic": 4,
+          "equal_stroke_centerline_min": 8,
+          "keyshape_scale_numerator": 3,
+          "keyshape_scale_denominator": 2,
+          "semantic_use": "primary noun or standalone subject"
+        },
+        "stroke_width": 4,
+        "negative_space": {
+          "schema_version": 1,
+          "source": "claude_skills/core/icon_profiles.json validationDefaults",
+          "minimum_enclosed_radius": 1.0,
+          "minimum_solid_fill_depth": 1.0,
+          "measurement_stroke_width": 1.0,
+          "samples_per_unit": 32,
+          "circle_hole_exception": {
+            "id": "small-circle-hole",
+            "centerline_diameters": [
+              4,
+              6
+            ],
+            "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+          },
+          "measurement_revision": "8-connected-background-v2"
+        },
+        "internal_spacing": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "internal_parallel_straight": {
+          "version": 2,
+          "profiles": "all",
+          "blocking": true,
+          "required_centerline_distance": 8,
+          "required_ink_clearance": 4,
+          "parallelism": "exact",
+          "scope": "whole drawing",
+          "measurement": "midpoint normals, nearest each side, with overlap fallback",
+          "merge": "touching collinear pieces in same path",
+          "relationship_exemption": false,
+          "collinear_overlaps": "separate diagnostic"
+        }
+      },
+      "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+      "internal_spacing": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "findings": [],
+        "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+      },
+      "needs_review": false
+    }
+  },
+  "manual_note": "Circular six-unit infant head and shoulder station24 give exactly four units of visible clearance; kept stick arms and diaper."
+}

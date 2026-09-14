@@ -3,29 +3,27 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 19.9242, 44, 39) does not match the HRECT_M envelope (2, 6, 46, 42) (deltas [2.0, 13.9242, 2.0, 3.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
     "contours": [
       {
-        "id": "silhouette:subpath-1",
-        "elementId": "silhouette",
+        "id": "animal:subpath-1",
+        "elementId": "animal",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 30 A 22 19 0 0 1 42 30 L 42 37 L 38 37 L 36 29 A 13 10 0 0 0 26 24 L 24 37 L 17 37 L 15 24 A 9 9 0 0 0 6 33 L 6 30 Z",
+        "pathData": "M 18 20 A 9 12 0 0 1 36 20 L 44 32 L 34 30 L 34 40 L 26 40 L 26 30 L 18 30 L 18 40 L 10 40 L 12 26 L 4 30 L 4 24 L 18 20 Z",
         "bounds": [
-          6.0,
-          21.92423191694531,
-          42.0,
-          37.0
+          4.0,
+          8.0,
+          44.0,
+          40.0
         ],
-        "segmentCount": 264,
-        "approximationError": 0.000677691953544182,
+        "segmentCount": 141,
+        "approximationError": 0.000905019782203816,
         "hasCurves": true
       }
     ],
@@ -33,19 +31,19 @@
       {
         "id": "component-1",
         "memberIds": [
-          "silhouette:subpath-1"
+          "animal:subpath-1"
         ],
         "contourIds": [
-          "silhouette:subpath-1"
+          "animal:subpath-1"
         ],
         "elementIds": [
-          "silhouette"
+          "animal"
         ],
         "bounds": [
-          6.0,
-          21.92423191694531,
-          42.0,
-          37.0
+          4.0,
+          8.0,
+          44.0,
+          40.0
         ]
       }
     ],
@@ -67,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 12,
-      "flattenedSegments": 264,
-      "adaptiveNodes": 509,
+      "commands": 15,
+      "flattenedSegments": 141,
+      "adaptiveNodes": 255,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -85,34 +83,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          20.4844,
-          27.1719
+          27.0156,
+          21.0156
         ],
         "bbox_viewbox": [
-          15.5,
-          22.4375,
-          26.0,
-          14.0625
+          4.5,
+          8.5,
+          38.4062,
+          31.0
         ],
         "bbox_ship_px": [
-          26.0,
-          14.0625
+          38.4062,
+          31.0
         ],
         "bbox_design_u": [
-          26.0,
-          14.0625
+          38.4062,
+          31.0
         ],
-        "area_ship_px2": 164.7002,
-        "equivalent_diameter_ship_px": 14.4811,
-        "equivalent_diameter_design_u": 14.4811,
-        "inscribed_diameter_ship_px": 8.999,
-        "inscribed_diameter_design_u": 8.999,
-        "inscribed_radius_ship_px": 4.4995,
-        "inscribed_radius_design_u": 4.4995,
+        "area_ship_px2": 565.3252,
+        "equivalent_diameter_ship_px": 26.829,
+        "equivalent_diameter_design_u": 26.829,
+        "inscribed_diameter_ship_px": 17.3569,
+        "inscribed_diameter_design_u": 17.3569,
+        "inscribed_radius_ship_px": 8.6784,
+        "inscribed_radius_design_u": 8.6784,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.9995,
-        "equivalent_diameter_at_authored_stroke_design_u": 5.999
+        "equivalent_radius_at_authored_stroke_design_u": 7.1784,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.3568
       }
     ],
     "pinches": [],
@@ -138,7 +136,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "42860485d2119cd652039599128980fe609c2ff22c08a816fd10493bf27825f0",
+  "svg_sha256": "6271bcf95d8f7d57ab2fa4e1fd94b3f02c72bae2bd420689ce2498b42adf4b91",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -205,65 +203,65 @@
     },
     "findings": [
       {
-        "contour": "silhouette",
+        "contour": "animal",
         "elements": [
-          "back",
-          "belly"
+          "fore-inner",
+          "fore-front"
         ],
         "status": "review",
-        "sustained_length": 12.6694,
-        "centerline_distance": 1.9881,
-        "ink_gap": -2.0119,
+        "sustained_length": 9.18,
+        "centerline_distance": 6.6491,
+        "ink_gap": 2.6491,
         "nearest_points": [
           [
-            26.737157601583128,
-            22.07216759768145
+            18.0,
+            30.54385964912281
           ],
           [
-            26.51144745398309,
-            24.047423768375054
+            11.350877192982455,
+            30.54385964912281
           ]
         ]
       },
       {
-        "contour": "silhouette",
+        "contour": "animal",
         "elements": [
-          "back",
-          "snout-inner"
+          "fore-front",
+          "snout-tip"
         ],
         "status": "review",
-        "sustained_length": 10.4165,
-        "centerline_distance": 0.0066,
-        "ink_gap": -3.9934,
+        "sustained_length": 4.0,
+        "centerline_distance": 7.4423,
+        "ink_gap": 3.4423,
         "nearest_points": [
           [
-            7.032025893639877,
-            28.830890716413027
+            11.367500000000003,
+            30.427499999999977
           ],
           [
-            7.027224045788026,
-            28.826336618934164
+            4.0,
+            29.375
           ]
         ]
       },
       {
-        "contour": "silhouette",
+        "contour": "animal",
         "elements": [
-          "rear",
-          "hind-foot-2"
+          "snout-lower",
+          "snout-top"
         ],
         "status": "review",
-        "sustained_length": 6.2471,
-        "centerline_distance": 4.1515,
-        "ink_gap": 0.1515,
+        "sustained_length": 6.2113,
+        "centerline_distance": 4.2353,
+        "ink_gap": 0.2353,
         "nearest_points": [
           [
-            42.0,
-            36.39393939393939
+            11.444444444444445,
+            26.27777777777778
           ],
           [
-            37.848484848484844,
-            36.39393939393939
+            10.28092243186582,
+            22.205450733752624
           ]
         ]
       }

@@ -3,14 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "mic [fork]: parallel straight edges fork-3 and frame-2 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (overlap-fallback)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
         "id": "rear-wheel:subpath-1",
@@ -49,20 +47,20 @@
         "elementId": "frame",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 21 L 20 10 L 30 10 L 25 21 L 12 21 L 12 21 Z",
+        "pathData": "M 12 21 L 24 12 L 30 21 L 12 21",
         "bounds": [
           12.0,
-          10.0,
+          12.0,
           30.0,
           21.0
         ],
-        "segmentCount": 6,
+        "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "rear-strut:subpath-1",
-        "elementId": "rear-strut",
+        "id": "strut:subpath-1",
+        "elementId": "strut",
         "subpathIndex": 1,
         "componentId": "component-1",
         "pathData": "M 12 21 L 12 30",
@@ -81,9 +79,9 @@
         "elementId": "fork",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 30 L 30 10 L 28 6 L 38 6",
+        "pathData": "M 36 30 L 30 21 L 32 6 L 38 6",
         "bounds": [
-          28.0,
+          30.0,
           6.0,
           38.0,
           30.0
@@ -93,8 +91,8 @@
         "hasCurves": false
       },
       {
-        "id": "bar-curl:subpath-1",
-        "elementId": "bar-curl",
+        "id": "handlebar:subpath-1",
+        "elementId": "handlebar",
         "subpathIndex": 1,
         "componentId": "component-1",
         "pathData": "M 38 6 A 4 4 0 0 1 38 14",
@@ -113,12 +111,12 @@
         "elementId": "seat-post",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 10 L 16 6",
+        "pathData": "M 24 12 L 20 6",
         "bounds": [
-          16.0,
-          6.0,
           20.0,
-          10.0
+          6.0,
+          24.0,
+          12.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -129,11 +127,11 @@
         "elementId": "saddle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 6 L 16 6 L 20 6",
+        "pathData": "M 16 6 L 20 6 L 24 6",
         "bounds": [
-          12.0,
+          16.0,
           6.0,
-          20.0,
+          24.0,
           6.0
         ],
         "segmentCount": 2,
@@ -148,9 +146,9 @@
           "rear-wheel:subpath-1",
           "front-wheel:subpath-1",
           "frame:subpath-1",
-          "rear-strut:subpath-1",
+          "strut:subpath-1",
           "fork:subpath-1",
-          "bar-curl:subpath-1",
+          "handlebar:subpath-1",
           "seat-post:subpath-1",
           "saddle:subpath-1"
         ],
@@ -158,9 +156,9 @@
           "rear-wheel:subpath-1",
           "front-wheel:subpath-1",
           "frame:subpath-1",
-          "rear-strut:subpath-1",
+          "strut:subpath-1",
           "fork:subpath-1",
-          "bar-curl:subpath-1",
+          "handlebar:subpath-1",
           "seat-post:subpath-1",
           "saddle:subpath-1"
         ],
@@ -168,9 +166,9 @@
           "rear-wheel",
           "front-wheel",
           "frame",
-          "rear-strut",
+          "strut",
           "fork",
-          "bar-curl",
+          "handlebar",
           "seat-post",
           "saddle"
         ],
@@ -187,7 +185,7 @@
       {
         "contourIds": [
           "rear-wheel:subpath-1",
-          "rear-strut:subpath-1"
+          "strut:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -209,7 +207,7 @@
       {
         "contourIds": [
           "frame:subpath-1",
-          "rear-strut:subpath-1"
+          "strut:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -225,7 +223,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           30.0,
-          10.0
+          21.0
         ]
       },
       {
@@ -235,14 +233,14 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          20.0,
-          10.0
+          24.0,
+          12.0
         ]
       },
       {
         "contourIds": [
           "fork:subpath-1",
-          "bar-curl:subpath-1"
+          "handlebar:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -257,7 +255,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          16.0,
+          20.0,
           6.0
         ]
       }
@@ -284,14 +282,14 @@
       {
         "contourIds": [
           "rear-wheel:subpath-1",
-          "rear-strut:subpath-1"
+          "strut:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "rear-wheel:subpath-1",
-            "rear-strut:subpath-1"
+            "strut:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -312,7 +310,7 @@
       {
         "contourIds": [
           "rear-wheel:subpath-1",
-          "bar-curl:subpath-1"
+          "handlebar:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -348,7 +346,7 @@
       {
         "contourIds": [
           "front-wheel:subpath-1",
-          "rear-strut:subpath-1"
+          "strut:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -376,7 +374,7 @@
       {
         "contourIds": [
           "front-wheel:subpath-1",
-          "bar-curl:subpath-1"
+          "handlebar:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -403,14 +401,14 @@
       {
         "contourIds": [
           "frame:subpath-1",
-          "rear-strut:subpath-1"
+          "strut:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "frame:subpath-1",
-            "rear-strut:subpath-1"
+            "strut:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -434,14 +432,14 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             30.0,
-            10.0
+            21.0
           ]
         }
       },
       {
         "contourIds": [
           "frame:subpath-1",
-          "bar-curl:subpath-1"
+          "handlebar:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -461,8 +459,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            20.0,
-            10.0
+            24.0,
+            12.0
           ]
         }
       },
@@ -477,7 +475,7 @@
       },
       {
         "contourIds": [
-          "rear-strut:subpath-1",
+          "strut:subpath-1",
           "fork:subpath-1"
         ],
         "componentId": "component-1",
@@ -486,8 +484,8 @@
       },
       {
         "contourIds": [
-          "rear-strut:subpath-1",
-          "bar-curl:subpath-1"
+          "strut:subpath-1",
+          "handlebar:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -495,7 +493,7 @@
       },
       {
         "contourIds": [
-          "rear-strut:subpath-1",
+          "strut:subpath-1",
           "seat-post:subpath-1"
         ],
         "componentId": "component-1",
@@ -504,7 +502,7 @@
       },
       {
         "contourIds": [
-          "rear-strut:subpath-1",
+          "strut:subpath-1",
           "saddle:subpath-1"
         ],
         "componentId": "component-1",
@@ -514,14 +512,14 @@
       {
         "contourIds": [
           "fork:subpath-1",
-          "bar-curl:subpath-1"
+          "handlebar:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "fork:subpath-1",
-            "bar-curl:subpath-1"
+            "handlebar:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -550,7 +548,7 @@
       },
       {
         "contourIds": [
-          "bar-curl:subpath-1",
+          "handlebar:subpath-1",
           "seat-post:subpath-1"
         ],
         "componentId": "component-1",
@@ -559,7 +557,7 @@
       },
       {
         "contourIds": [
-          "bar-curl:subpath-1",
+          "handlebar:subpath-1",
           "saddle:subpath-1"
         ],
         "componentId": "component-1",
@@ -580,7 +578,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            16.0,
+            20.0,
             6.0
           ]
         }
@@ -601,8 +599,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 28,
-      "flattenedSegments": 655,
+      "commands": 25,
+      "flattenedSegments": 652,
       "adaptiveNodes": 1275,
       "distanceTests": 0,
       "connectionTests": 0
@@ -619,34 +617,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          21.7344,
-          16.0469
+          23.0469,
+          17.3281
         ],
         "bbox_viewbox": [
-          13.0,
-          10.5,
-          16.2188,
-          10.0
+          13.5312,
+          12.7188,
+          15.5312,
+          7.7812
         ],
         "bbox_ship_px": [
-          16.2188,
-          10.0
+          15.5312,
+          7.7812
         ],
         "bbox_design_u": [
-          16.2188,
-          10.0
+          15.5312,
+          7.7812
         ],
-        "area_ship_px2": 103.3096,
-        "equivalent_diameter_ship_px": 11.469,
-        "equivalent_diameter_design_u": 11.469,
-        "inscribed_diameter_ship_px": 8.8886,
-        "inscribed_diameter_design_u": 8.8886,
-        "inscribed_radius_ship_px": 4.4443,
-        "inscribed_radius_design_u": 4.4443,
+        "area_ship_px2": 60.5479,
+        "equivalent_diameter_ship_px": 8.7802,
+        "equivalent_diameter_design_u": 8.7802,
+        "inscribed_diameter_ship_px": 6.375,
+        "inscribed_diameter_design_u": 6.375,
+        "inscribed_radius_ship_px": 3.1875,
+        "inscribed_radius_design_u": 3.1875,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.9443,
-        "equivalent_diameter_at_authored_stroke_design_u": 5.8886
+        "equivalent_radius_at_authored_stroke_design_u": 1.6875,
+        "equivalent_diameter_at_authored_stroke_design_u": 3.375
       },
       {
         "hole": 2,
@@ -736,7 +734,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "6fa12ec002dc53f77914a14970505901c325dac1aa48272a44ee0eef751e8ce1",
+  "svg_sha256": "5a523e3721c6f0125330e6d163836610a8eb6d927411c7da58425191950fe137",
   "rules": {
     "profile": {
       "canvas_size": 48,

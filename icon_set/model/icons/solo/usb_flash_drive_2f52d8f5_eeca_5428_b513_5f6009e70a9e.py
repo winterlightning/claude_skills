@@ -1,36 +1,36 @@
-"""An upright USB flash drive has a two-contact metal plug and rounded body.
+"""Broadened the plug and body, retaining two contacts with eight-unit spacing and rounded lower corners.
 
-Keyshape VRECT_M: visible extremes (9, 0, 39, 48).
-Tall keyshape preserves memory-stick silhouette. Lucide cable: stepped connector; memory-stick: sparse repeated contact marks. Pins reduced to round dots."""
-
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide cable: stepped plug and simple grip outline.
+"""
+# Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2f52d8f5-eeca-5428-b513-5f6009e70a9e'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/flash drive_2f52d8f5-eeca-5428-b513-5f6009e70a9e.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class UsbFlashDrive(Solo48):
     icon_id = 'usb-flash-drive'
-    keyshape = Keyshape.VRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('usb', 'flash drive', 'memory stick', 'thumb drive', 'storage', 'portable', 'data', 'hardware')
 
     def build(self) -> None:
-        self.add_line('body-top1', (17, 18), (31, 18))
-        self.add_arc('body-ne', (31, 18), (37, 24), radius_x=6, sweep=True)
-        self.add_line('body-right', (37, 24), (37, 40))
-        self.add_arc('body-se', (37, 40), (31, 46), radius_x=6, sweep=True)
-        self.add_line('body-bottom0', (31, 46), (17, 46))
-        self.add_arc('body-sw', (17, 46), (11, 40), radius_x=6, sweep=True)
-        self.add_line('body-left', (11, 40), (11, 24))
-        self.add_arc('body-nw', (11, 24), (17, 18), radius_x=6, sweep=True)
-        self.add_contour('body', 'body-top1', 'body-ne', 'body-right', 'body-se', 'body-bottom0', 'body-sw', 'body-left', 'body-nw', closed=True)
-        self.add_polyline('plug', (17, 18), (15, 18), (15, 2), (33, 2), (33, 18), (31, 18), closed=False)
-        self.relate("connect", 'body', 'plug')
-        self.add_dot('pin-left', (21, 10))
-        self.add_dot('pin-right', (27, 10))
+        # VRECT_L (8,4)-(40,44). Shared axis and six-unit lower corners.
+        # A 24-unit plug holds two equal contacts eight units apart.
+        self.add_polyline('plug',(12,20),(12,4),(36,4),(36,20))
+        self.add_polyline('top',(8,20),(12,20),(36,20),(40,20))
+        self.add_line('right',(40,20),(40,38))
+        self.add_arc('se',(40,38),(34,44),radius_x=6)
+        self.add_line('bottom',(34,44),(14,44))
+        self.add_arc('sw',(14,44),(8,38),radius_x=6)
+        self.add_line('left',(8,38),(8,20))
+        self.contours.clear()
+        self.add_contour('plug','plug-1','plug-2','plug-3')
+        self.add_contour('body','top-1','top-2','top-3','right','se','bottom','sw','left',closed=True)
+        self.relate('connect','body','plug')
+        for side,x in [('left',20),('right',28)]:self.add_dot('pin-'+side,(x,12))

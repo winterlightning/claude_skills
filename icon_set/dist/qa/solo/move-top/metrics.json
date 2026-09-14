@@ -3,14 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "mic [sym-c0]: sym-c0 and sym-c2 are 8 apart on centerlines nearest (24, 24)<->(24, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "warnings": [],
   "spacing": {
-    "ok": false,
-    "status": "review",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "sym-c0:subpath-1",
@@ -111,9 +109,9 @@
         "centerlineDistance": 8.0,
         "inkClearance": 4.0,
         "signedInkClearance": 4.0,
-        "lowerBound": 7.9990964107289555,
+        "lowerBound": 8.0,
         "upperBound": 8.000903589271045,
-        "inkClearanceLowerBound": 3.9990964107289555,
+        "inkClearanceLowerBound": 4.0,
         "inkClearanceUpperBound": 4.000903589271045,
         "approximationError": 0.0009035892710453908,
         "nearestPoints": [
@@ -128,8 +126,8 @@
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "review",
-        "reason": "The conservative curve distance interval crosses the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -153,9 +151,9 @@
             "centerlineDistance": 8.0,
             "inkClearance": 4.0,
             "signedInkClearance": 4.0,
-            "lowerBound": 7.9990964107289555,
+            "lowerBound": 8.0,
             "upperBound": 8.000903589271045,
-            "inkClearanceLowerBound": 3.9990964107289555,
+            "inkClearanceLowerBound": 4.0,
             "inkClearanceUpperBound": 4.000903589271045,
             "approximationError": 0.0009035892710438591,
             "nearestPoints": [
@@ -170,8 +168,8 @@
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -182,9 +180,9 @@
             "centerlineDistance": 21.0,
             "inkClearance": 17.0,
             "signedInkClearance": 17.0,
-            "lowerBound": 20.999096410728953,
+            "lowerBound": 21.0,
             "upperBound": 21.000903589271047,
-            "inkClearanceLowerBound": 16.999096410728953,
+            "inkClearanceLowerBound": 17.0,
             "inkClearanceUpperBound": 17.000903589271047,
             "approximationError": 0.0009035892710438591,
             "nearestPoints": [
@@ -200,7 +198,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -240,9 +238,7 @@
         }
       }
     ],
-    "errors": [
-      "component-1 / component-2: The conservative curve distance interval crosses the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -255,7 +251,7 @@
     },
     "minimumCenterlineDistance": 8.0,
     "minimumInkClearance": 4.0,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 19,
       "flattenedSegments": 140,
@@ -263,7 +259,7 @@
       "distanceTests": 8,
       "connectionTests": 0
     },
-    "raw_status": "review",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {

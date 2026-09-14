@@ -1,31 +1,28 @@
-"""A Dutch windmill with four diagonal sails, tapered base and arched door. Broad sail outlines reduce to four clear spokes."""
+"""Windmill with more open space between its outer supports and doorway. VRECT_XL retains the four sails and tall base."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '95c449a5-8e44-5a99-9486-caf1e3e38105'
 SOURCE_PATH = 'pictographic-primitives/landmarks/batch-06/netherlands windmill_95c449a5-8e44-5a99-9486-caf1e3e38105.svg'
 AUTHOR = 'gpt-6'
 
-
 class Windmill(Solo48):
     icon_id = 'windmill'
     keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "places/landmarks"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'places/landmarks'
     aliases = ()
     keywords = ('windmill', 'netherlands', 'dutch', 'mill', 'sails', 'landmark', 'countryside', 'energy')
 
     def build(self) -> None:
-        # Centerline extremes (6,6)-(42,42).
-        self.add_polyline("sail-down", (6,6), (24,16), (42,30))
-        self.add_polyline("sail-up", (6,30), (24,16), (42,6))
-        self.relate("connect", "sail-down", "sail-up")
-        self.add_polyline("body", (15,33), (8,42), (18,42))
-        self.add_line("door-left", (18,42), (18,40))
-        self.add_arc("door-arch", (18,40), (30,40), radius_x=6)
-        self.add_line("door-right", (30,40), (30,42))
-        self.add_polyline("body-right", (30,42), (40,42), (33,33))
-        self.add_contour("door", "door-left", "door-arch", "door-right")
-        self.relate("connect", "body", "door")
-        self.relate("connect", "body-right", "door")
+        self.add_polyline('sail-down', (6, 6), (24, 16), (42, 30))
+        self.add_polyline('sail-up', (6, 30), (24, 16), (42, 6))
+        self.relate('connect', 'sail-down', 'sail-up')
+        self.add_polyline('body', (12, 33), (6, 42), (18, 42))
+        self.add_line('door-left', (18, 42), (18, 40))
+        self.add_arc('door-arch', (18, 40), (30, 40), radius_x=6)
+        self.add_line('door-right', (30, 40), (30, 42))
+        self.add_polyline('body-right', (30, 42), (42, 42), (36, 33))
+        self.add_contour('door', 'door-left', 'door-arch', 'door-right')
+        self.relate('connect', 'body', 'door')
+        self.relate('connect', 'body-right', 'door')

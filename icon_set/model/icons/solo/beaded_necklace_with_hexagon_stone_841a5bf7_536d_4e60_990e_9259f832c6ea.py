@@ -1,55 +1,51 @@
-"""A beaded necklace with a large hexagonal pendant. SQUARE extremes (2,2)-(46,46). Lucide gem informs a clean faceted outline; internal facets omitted. Symmetric round beads and exposed links replace densely packed elongated beads."""
+'Beaded necklace with hexagon stone.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The SQUARE visible envelope is (4, 4, 44, 44).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '841a5bf7-536d-4e60-990e-9259f832c6ea'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-05/necklace stone_841a5bf7-536d-4e60-990e-9259f832c6ea.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class BeadedNecklaceWithHexagonStone(Solo48):
     icon_id = 'beaded-necklace-with-hexagon-stone'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/accessories"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
     aliases = ()
     keywords = ('necklace', 'bead', 'stone', 'hexagon', 'gem', 'jewellery', 'jewelry', 'pendant', 'accessory')
 
     def build(self) -> None:
-        self.add_arc('left-upper-0', (8, 5), (5, 8), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-upper-1', (5, 8), (2, 5), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-upper-2', (2, 5), (5, 2), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-upper-3', (5, 2), (8, 5), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('left-upper', 'left-upper-0', 'left-upper-1', 'left-upper-2', 'left-upper-3', closed=True)
-        self.add_arc('right-upper-0', (46, 5), (43, 8), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-upper-1', (43, 8), (40, 5), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-upper-2', (40, 5), (43, 2), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-upper-3', (43, 2), (46, 5), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('right-upper', 'right-upper-0', 'right-upper-1', 'right-upper-2', 'right-upper-3', closed=True)
-        self.add_arc('left-low-0', (16, 15), (13, 18), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-low-1', (13, 18), (10, 15), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-low-2', (10, 15), (13, 12), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('left-low-3', (13, 12), (16, 15), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('left-low', 'left-low-0', 'left-low-1', 'left-low-2', 'left-low-3', closed=True)
-        self.add_arc('right-low-0', (38, 15), (35, 18), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-low-1', (35, 18), (32, 15), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-low-2', (32, 15), (35, 12), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('right-low-3', (35, 12), (38, 15), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('right-low', 'right-low-0', 'right-low-1', 'right-low-2', 'right-low-3', closed=True)
-        self.add_line('link', (24, 21), (24, 28))
-        self.add_polyline('stone', (24, 28), (34, 33), (34, 41), (24, 46), (14, 41), (14, 33), closed=True)
-        self.relate("connect", 'link', 'stone')
-        self.add_line('wire-left-upper', (5, 8), (10, 15))
-        self.add_line('wire-right-upper', (43, 8), (38, 15))
-        self.add_line('wire-left-low', (16, 15), (24, 21))
-        self.add_line('wire-right-low', (32, 15), (24, 21))
-        self.relate('connect', 'wire-left-upper', 'left-upper')
-        self.relate('connect', 'wire-left-upper', 'left-low')
-        self.relate('connect', 'wire-right-upper', 'right-upper')
-        self.relate('connect', 'wire-right-upper', 'right-low')
-        self.relate('connect', 'wire-left-low', 'left-low')
-        self.relate('connect', 'wire-right-low', 'right-low')
-        self.relate('connect', 'wire-left-low', 'wire-right-low')
-        self.relate('connect', 'wire-left-low', 'link')
-        self.relate('connect', 'wire-right-low', 'link')
+        # Shared nodes are reused by every touching member.
+        p_6_10 = (6, 10)
+        p_14_10 = (14, 10)
+        p_34_10 = (34, 10)
+        p_42_10 = (42, 10)
+        p_10_14 = (10, 14)
+        p_24_26 = (24, 26)
+        p_38_14 = (38, 14)
+        p_33_32 = (33, 32)
+        p_33_36 = (33, 36)
+        p_24_42 = (24, 42)
+        p_15_36 = (15, 36)
+        p_15_32 = (15, 32)
+        self.add_arc('bead-left-top', p_6_10, p_14_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('bead-left-bottom', p_14_10, p_6_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('bead-right-top', p_34_10, p_42_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('bead-right-bottom', p_42_10, p_34_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('wire-left', p_10_14, p_24_26)
+        self.add_line('wire-right', p_38_14, p_24_26)
+        self.add_line('stone-0', p_24_26, p_33_32)
+        self.add_line('stone-1', p_33_32, p_33_36)
+        self.add_line('stone-2', p_33_36, p_24_42)
+        self.add_line('stone-3', p_24_42, p_15_36)
+        self.add_line('stone-4', p_15_36, p_15_32)
+        self.add_line('stone-5', p_15_32, p_24_26)
+        self.add_contour('bead-left', 'bead-left-top', 'bead-left-bottom', closed=True)
+        self.add_contour('bead-right', 'bead-right-top', 'bead-right-bottom', closed=True)
+        self.add_contour('stone', 'stone-0', 'stone-1', 'stone-2', 'stone-3', 'stone-4', 'stone-5', closed=True)
+        self.relate('connect', 'bead-left', 'wire-left')
+        self.relate('connect', 'bead-right', 'wire-right')
+        self.relate('connect', 'wire-left', 'wire-right')
+        self.relate('connect', 'wire-left', 'stone')
+        self.relate('connect', 'wire-right', 'stone')

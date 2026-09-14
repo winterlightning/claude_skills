@@ -15,14 +15,14 @@
         "elementId": "table",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 22 L 42 22 L 42 30 L 6 30 L 6 22 Z",
+        "pathData": "M 6 22 L 12 22 L 36 22 L 42 22 L 42 30 L 38 30 L 10 30 L 6 30 L 6 22 Z",
         "bounds": [
           6.0,
           22.0,
           42.0,
           30.0
         ],
-        "segmentCount": 5,
+        "segmentCount": 9,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -31,30 +31,30 @@
         "elementId": "blade",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 22 L 12 14 L 18 14 L 16 8 L 24 12 L 26 6 L 32 12 L 36 10 L 34 22",
+        "pathData": "M 12 22 A 12 16 0 0 1 36 22",
         "bounds": [
           12.0,
           6.0,
           36.0,
           22.0
         ],
-        "segmentCount": 8,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 256,
+        "approximationError": 0.0003031037726158031,
+        "hasCurves": true
       },
       {
         "id": "left-leg:subpath-1",
         "elementId": "left-leg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 10 30 L 10 42",
+        "pathData": "M 10 30 L 10 38 L 10 42",
         "bounds": [
           10.0,
           30.0,
           10.0,
           42.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -63,14 +63,14 @@
         "elementId": "right-leg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 38 30 L 38 42",
+        "pathData": "M 38 30 L 38 38 L 38 42",
         "bounds": [
           38.0,
           30.0,
           38.0,
           42.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -130,7 +130,7 @@
           "table:subpath-1",
           "blade:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
           12.0,
           22.0
@@ -141,7 +141,7 @@
           "table:subpath-1",
           "left-leg:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
           10.0,
           30.0
@@ -152,7 +152,7 @@
           "table:subpath-1",
           "right-leg:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
           38.0,
           30.0
@@ -163,7 +163,7 @@
           "left-leg:subpath-1",
           "brace:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
           10.0,
           38.0
@@ -174,7 +174,7 @@
           "right-leg:subpath-1",
           "brace:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
           38.0,
           38.0
@@ -194,7 +194,7 @@
             "table:subpath-1",
             "blade:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
             12.0,
             22.0
@@ -213,7 +213,7 @@
             "table:subpath-1",
             "left-leg:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
             10.0,
             30.0
@@ -232,7 +232,7 @@
             "table:subpath-1",
             "right-leg:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
             38.0,
             30.0
@@ -296,7 +296,7 @@
             "left-leg:subpath-1",
             "brace:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
             10.0,
             38.0
@@ -315,7 +315,7 @@
             "right-leg:subpath-1",
             "brace:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
             38.0,
             38.0
@@ -338,11 +338,11 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 16,
-      "adaptiveNodes": 0,
+      "commands": 20,
+      "flattenedSegments": 270,
+      "adaptiveNodes": 511,
       "distanceTests": 0,
-      "connectionTests": 5
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -356,34 +356,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          27.9844,
-          16.2344
+          23.9844,
+          14.0156
         ],
         "bbox_viewbox": [
           12.5,
-          6.9375,
-          22.8438,
-          14.5625
+          6.5,
+          23.0,
+          15.0
         ],
         "bbox_ship_px": [
-          22.8438,
-          14.5625
+          23.0,
+          15.0
         ],
         "bbox_design_u": [
-          22.8438,
-          14.5625
+          23.0,
+          15.0
         ],
-        "area_ship_px2": 218.2549,
-        "equivalent_diameter_ship_px": 16.6701,
-        "equivalent_diameter_design_u": 16.6701,
-        "inscribed_diameter_ship_px": 10.5619,
-        "inscribed_diameter_design_u": 10.5619,
-        "inscribed_radius_ship_px": 5.2809,
-        "inscribed_radius_design_u": 5.2809,
+        "area_ship_px2": 268.4121,
+        "equivalent_diameter_ship_px": 18.4866,
+        "equivalent_diameter_design_u": 18.4866,
+        "inscribed_diameter_ship_px": 14.9664,
+        "inscribed_diameter_design_u": 14.9664,
+        "inscribed_radius_ship_px": 7.4832,
+        "inscribed_radius_design_u": 7.4832,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 3.7809,
-        "equivalent_diameter_at_authored_stroke_design_u": 7.5618
+        "equivalent_radius_at_authored_stroke_design_u": 5.9832,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.9664
       },
       {
         "hole": 2,
@@ -473,7 +473,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b2e2cf3c476b9dba471b1caad7497838ec1810e1a81a7272260a594ce422a852",
+  "svg_sha256": "b37c1f8dd5894b939420919b50cf7daf8784ba84fcb6e720e4e60947b5e8466f",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -527,7 +527,7 @@
   },
   "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -538,30 +538,8 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [
-      {
-        "contour": "blade",
-        "elements": [
-          "blade-2",
-          "blade-4"
-        ],
-        "status": "review",
-        "sustained_length": 4.0,
-        "centerline_distance": 4.7516,
-        "ink_gap": 0.7516,
-        "nearest_points": [
-          [
-            17.375,
-            14.0
-          ],
-          [
-            19.5,
-            9.75
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

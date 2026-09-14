@@ -1,39 +1,41 @@
-"""A USB plug has a rounded grip and cable curling left.
+"""Broadened the grip and opened the USB tip for a centered mark with margin above and below.
 
-Keyshape VRECT_M: visible extremes (9, 0, 39, 48).
-Lucide cable: rounded plug and tangent cord bend. Source leftward cable retained; decorative grip stripe omitted to keep the short body open."""
-
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide cable: stepped connector and tangent cable bend.
+"""
+# Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2ea382ae-7cf3-5969-808e-113864724cc1'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-06/usb cable_2ea382ae-7cf3-5969-808e-113864724cc1.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class UsbCableConnector(Solo48):
     icon_id = 'usb-cable-connector'
-    keyshape = Keyshape.VRECT_M
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('usb', 'cable', 'connector', 'plug', 'cord', 'charging', 'port', 'computer')
 
     def build(self) -> None:
-        self.add_polyline('tip', (20, 16), (20, 2), (34, 2), (34, 16), closed=False)
-        self.add_line('tip-mark', (27, 8), (27, 9))
-        self.add_line('body-top', (17, 16), (20, 16))
-        self.add_line('body-top-mid', (20, 16), (34, 16))
-        self.add_line('body-shoulder', (34, 16), (37, 16))
-        self.add_line('body-top-r', (37, 16), (37, 25))
-        self.add_arc('body-round-r', (37, 25), (27, 35), radius_x=10, sweep=True)
-        self.add_arc('body-round-l', (27, 35), (17, 25), radius_x=10, sweep=True)
-        self.add_line('body-left', (17, 25), (17, 16))
-        self.add_contour('body', 'body-top', 'body-top-mid', 'body-shoulder', 'body-top-r', 'body-round-r', 'body-round-l', 'body-left', closed=True)
-        self.relate("connect", 'tip', 'body')
-        self.add_line('cable-top', (27, 35), (27, 36))
-        self.add_arc('cable-bend', (27, 36), (17, 46), radius_x=10, sweep=True)
-        self.add_line('cable-end', (17, 46), (11, 46))
-        self.add_contour('cable', 'cable-top', 'cable-bend', 'cable-end', closed=False)
-        self.relate("connect", 'body', 'cable')
+        # VRECT_L (8,4)-(40,44). Broad rounded grip and stepped USB tip;
+        # one shared cable attachment joins a tangent quarter-circle bend.
+        cx=28
+        self.add_polyline('tip',(18,22),(18,4),(38,4),(38,22))
+        self.add_polyline('top',(16,22),(18,22),(38,22),(40,22))
+        self.add_line('right',(40,22),(40,24))
+        self.add_arc('se',(40,24),(cx,36),radius_x=12)
+        self.add_arc('sw',(cx,36),(16,24),radius_x=12)
+        self.add_line('left',(16,24),(16,22))
+        # Flatten the top polyline into the surrounding contour.
+        self.contours.clear()
+        self.add_contour('tip','tip-1','tip-2','tip-3')
+        self.add_contour('body','top-1','top-2','top-3','right','se','sw','left',closed=True)
+        self.add_dot('tip-mark',(cx,13))
+        self.add_arc('cable-bend',(cx,36),(20,44),radius_x=8)
+        self.add_line('cable-end',(20,44),(8,44))
+        self.add_contour('cable','cable-bend','cable-end')
+        self.relate('connect','tip','body')
+        self.relate('connect','body','cable')

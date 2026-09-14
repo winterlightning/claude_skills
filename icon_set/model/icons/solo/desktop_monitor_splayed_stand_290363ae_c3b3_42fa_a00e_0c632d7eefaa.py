@@ -1,49 +1,58 @@
-"""A desktop monitor on two splayed legs and a horizontal foot.
-
-HRECT_XL: centerline extremes (2,5)-(46,43).
-Lucide monitor: concentric arcs / matched tangent corners and shared-axis geometry.
-Source duplicates are retained in SOURCE_REFERENCES.
-"""
-
+'Desktop monitor splayed stand.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The HRECT_L visible envelope is (2, 6, 46, 42).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '290363ae-c3b3-42fa-a00e-0c632d7eefaa'
 SOURCE_PATH = 'pictographic-primitives/computers/batch-03/desktop computer_290363ae-c3b3-42fa-a00e-0c632d7eefaa.svg'
-AUTHOR = 'astra-chatgpt'
-SOURCE_REFERENCES = (('290363ae-c3b3-42fa-a00e-0c632d7eefaa', 'pictographic-primitives/computers/batch-03/desktop computer_290363ae-c3b3-42fa-a00e-0c632d7eefaa.svg'), ('608b1519-3106-4016-b167-9a2fdd08b76b', 'pictographic-primitives/computers/batch-03/desktop computer_608b1519-3106-4016-b167-9a2fdd08b76b.svg'))
-
+AUTHOR = 'gpt-6'
 
 class DesktopMonitorSplayedStand(Solo48):
     icon_id = 'desktop-monitor-splayed-stand'
-    keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/device"
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/device'
     aliases = ()
     keywords = ('desktop', 'monitor', 'splayed', 'stand')
 
     def build(self) -> None:
-        self.add_line('top', (7, 5), (41, 5))
-        self.add_arc('ne', (41, 5), (46, 10), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('right-upper', (46, 10), (46, 25))
-        self.add_line('right-lower', (46, 25), (46, 29))
-        self.add_arc('se', (46, 29), (41, 34), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('bottom-right', (41, 34), (29, 34))
-        self.add_line('bottom-mid', (29, 34), (19, 34))
-        self.add_line('bottom-left', (19, 34), (7, 34))
-        self.add_arc('sw', (7, 34), (2, 29), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('left-lower', (2, 29), (2, 25))
-        self.add_line('left-upper', (2, 25), (2, 10))
-        self.add_arc('nw', (2, 10), (7, 5), radius_x=5, radius_y=5, sweep=True)
+        # Shared nodes are reused by every touching member.
+        p_9_8 = (9, 8)
+        p_39_8 = (39, 8)
+        p_44_12 = (44, 12)
+        p_44_25 = (44, 25)
+        p_44_28 = (44, 28)
+        p_39_32 = (39, 32)
+        p_29_32 = (29, 32)
+        p_19_32 = (19, 32)
+        p_9_32 = (9, 32)
+        p_4_28 = (4, 28)
+        p_4_25 = (4, 25)
+        p_4_12 = (4, 12)
+        p_18_40 = (18, 40)
+        p_30_40 = (30, 40)
+        p_14_40 = (14, 40)
+        p_34_40 = (34, 40)
+        self.add_line('top', p_9_8, p_39_8)
+        self.add_arc('ne', p_39_8, p_44_12, radius_x=5, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('right-upper', p_44_12, p_44_25)
+        self.add_line('right-lower', p_44_25, p_44_28)
+        self.add_arc('se', p_44_28, p_39_32, radius_x=5, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('bottom-right', p_39_32, p_29_32)
+        self.add_line('bottom-mid', p_29_32, p_19_32)
+        self.add_line('bottom-left', p_19_32, p_9_32)
+        self.add_arc('sw', p_9_32, p_4_28, radius_x=5, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('left-lower', p_4_28, p_4_25)
+        self.add_line('left-upper', p_4_25, p_4_12)
+        self.add_arc('nw', p_4_12, p_9_8, radius_x=5, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('leg-left', p_19_32, p_18_40)
+        self.add_line('leg-right', p_29_32, p_30_40)
+        self.add_line('foot-left', p_14_40, p_18_40)
+        self.add_line('foot-mid', p_18_40, p_30_40)
+        self.add_line('foot-right', p_30_40, p_34_40)
         self.add_contour('screen', 'top', 'ne', 'right-upper', 'right-lower', 'se', 'bottom-right', 'bottom-mid', 'bottom-left', 'sw', 'left-lower', 'left-upper', 'nw', closed=True)
-        self.add_line('leg-left', (19, 34), (17, 43))
-        self.add_line('leg-right', (29, 34), (31, 43))
-        self.add_line('foot-left', (13, 43), (17, 43))
-        self.add_line('foot-mid', (17, 43), (31, 43))
-        self.add_line('foot-right', (31, 43), (35, 43))
         self.add_contour('foot', 'foot-left', 'foot-mid', 'foot-right', closed=False)
-        self.relate("connect", 'screen', 'leg-left')
-        self.relate("connect", 'leg-left', 'foot')
-        self.relate("connect", 'screen', 'leg-right')
-        self.relate("connect", 'leg-right', 'foot')
+        self.relate('connect', 'screen', 'leg-left')
+        self.relate('connect', 'leg-left', 'foot')
+        self.relate('connect', 'screen', 'leg-right')
+        self.relate('connect', 'leg-right', 'foot')

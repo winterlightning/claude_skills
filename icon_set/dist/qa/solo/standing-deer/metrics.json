@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (0, 4, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [4.0, 0.0, 0.0, 0.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,9 +15,9 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 24 L 28 24 A 6 6 0 0 0 34 18 L 34 12 L 40 12 L 42 18 L 42 24 L 38 24 L 38 26 A 12 12 0 0 1 26 38 L 12 38 A 10 7 0 0 1 12 24 Z",
+        "pathData": "M 12 24 L 28 24 A 4 6 0 0 0 32 18 L 32 12 L 40 12 L 42 18 L 42 24 L 38 24 L 38 26 A 12 12 0 0 1 26 38 L 12 38 A 6 7 0 0 1 12 24 Z",
         "bounds": [
-          2.0,
+          6.0,
           12.0,
           42.0,
           38.0
@@ -65,15 +63,15 @@
         "elementId": "antler-left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 12 A 10 10 0 0 1 24 6",
+        "pathData": "M 32 12 A 10 10 0 0 1 24 6",
         "bounds": [
           24.0,
           6.0,
-          34.0,
-          12.03360220850523
+          32.0,
+          12.0
         ],
         "segmentCount": 64,
-        "approximationError": 0.0004730808831651252,
+        "approximationError": 0.00033466269358906287,
         "hasCurves": true
       },
       {
@@ -81,15 +79,15 @@
         "elementId": "antler-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 12 A 10 10 0 0 0 42 6",
+        "pathData": "M 32 12 A 10 10 0 0 0 42 6",
         "bounds": [
-          34.0,
+          32.0,
           6.0,
           42.0,
-          12.0
+          12.03360220850523
         ],
         "segmentCount": 64,
-        "approximationError": 0.00033466269358906287,
+        "approximationError": 0.000473080883163338,
         "hasCurves": true
       }
     ],
@@ -118,7 +116,7 @@
           "antler-right"
         ],
         "bounds": [
-          2.0,
+          6.0,
           6.0,
           42.0,
           42.0
@@ -156,7 +154,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          34.0,
+          32.0,
           12.0
         ]
       },
@@ -167,7 +165,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          34.0,
+          32.0,
           12.0
         ]
       },
@@ -178,7 +176,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          34.0,
+          32.0,
           12.0
         ]
       }
@@ -236,7 +234,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            34.0,
+            32.0,
             12.0
           ]
         }
@@ -255,7 +253,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            34.0,
+            32.0,
             12.0
           ]
         }
@@ -319,7 +317,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            34.0,
+            32.0,
             12.0
           ]
         }
@@ -358,26 +356,26 @@
       {
         "hole": 1,
         "center_viewbox": [
-          11.5156,
+          13.0469,
           30.9844
         ],
         "bbox_viewbox": [
-          2.5,
+          6.5,
           12.5,
-          39.0,
+          35.0,
           25.0
         ],
         "bbox_ship_px": [
-          39.0,
+          35.0,
           25.0
         ],
         "bbox_design_u": [
-          39.0,
+          35.0,
           25.0
         ],
-        "area_ship_px2": 483.9453,
-        "equivalent_diameter_ship_px": 24.8229,
-        "equivalent_diameter_design_u": 24.8229,
+        "area_ship_px2": 464.3574,
+        "equivalent_diameter_ship_px": 24.3154,
+        "equivalent_diameter_design_u": 24.3154,
         "inscribed_diameter_ship_px": 13.0,
         "inscribed_diameter_design_u": 13.0,
         "inscribed_radius_ship_px": 6.5,
@@ -411,7 +409,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "c8c0ac5906e360c043e8b2cda890dabb6b3c1b5b364110e66752f9289f7b210b",
+  "svg_sha256": "83b6667f35a07fcc9a1b4328443b4c7b3f46bee6df3b8771bed626aac469d076",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -465,7 +463,7 @@
   },
   "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -476,30 +474,8 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [
-      {
-        "contour": "body",
-        "elements": [
-          "neck-back",
-          "head-2"
-        ],
-        "status": "review",
-        "sustained_length": 5.3515,
-        "centerline_distance": 6.1923,
-        "ink_gap": 2.1923,
-        "nearest_points": [
-          [
-            34.0,
-            12.576923076923077
-          ],
-          [
-            40.19230769230769,
-            12.576923076923077
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

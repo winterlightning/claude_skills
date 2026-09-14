@@ -1,0 +1,285 @@
+{
+  "record": {
+    "icon_id": "aries-zodiac-symbol-stretch-square",
+    "name": "aries-zodiac-symbol-stretch-square",
+    "aliases": [],
+    "category": "culture",
+    "keywords": [
+      "aries",
+      "zodiac",
+      "astrology",
+      "ram",
+      "horns",
+      "horoscope",
+      "star sign",
+      "symbol"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "SQUARE",
+    "keyshape_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "horn-left",
+        "start": [
+          6,
+          6
+        ],
+        "end": [
+          24,
+          42
+        ],
+        "radius_x": 18,
+        "radius_y": 36,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "horn-right",
+        "start": [
+          24,
+          42
+        ],
+        "end": [
+          42,
+          6
+        ],
+        "radius_x": 18,
+        "radius_y": 36,
+        "large_arc": false,
+        "sweep": true
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "horns",
+        "members": [
+          "horn-left",
+          "horn-right"
+        ],
+        "closed": false
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [],
+    "variant_of": "aries-zodiac-symbol",
+    "variant_label": "Stretch to SQUARE"
+  },
+  "report": {
+    "source_icon_id": "aries-zodiac-symbol",
+    "target_keyshape": "SQUARE",
+    "source_centerline_bounds": [
+      1.999999999999996,
+      2.0,
+      46.0,
+      46.00000000000001
+    ],
+    "target_visible_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "mode": "stretch",
+    "scale": 0.818181818181818,
+    "scale_x": 0.818181818181818,
+    "scale_y": 0.818181818181818,
+    "stroke_width": 4,
+    "requires_visual_review": true,
+    "notes": [],
+    "validation": {
+      "icon_id": "aries-zodiac-symbol-stretch-square",
+      "family": "solo",
+      "profile": "SOLO48",
+      "selected_for_build": true,
+      "status": "pass",
+      "errors": [],
+      "warnings": [],
+      "spacing": {
+        "ok": true,
+        "status": "pass",
+        "contours": [
+          {
+            "id": "horns:subpath-1",
+            "elementId": "horns",
+            "subpathIndex": 1,
+            "componentId": "component-1",
+            "pathData": "M 6 6 A 18 36 0 0 1 24 42 A 18 36 0 0 1 42 6",
+            "bounds": [
+              6.0,
+              6.0,
+              42.0,
+              42.0
+            ],
+            "segmentCount": 256,
+            "approximationError": 0.0006776919545964625,
+            "hasCurves": true
+          }
+        ],
+        "components": [
+          {
+            "id": "component-1",
+            "memberIds": [
+              "horns:subpath-1"
+            ],
+            "contourIds": [
+              "horns:subpath-1"
+            ],
+            "elementIds": [
+              "horns"
+            ],
+            "bounds": [
+              6.0,
+              6.0,
+              42.0,
+              42.0
+            ]
+          }
+        ],
+        "pairs": [],
+        "connectedPairs": [],
+        "excludedPairs": [],
+        "errors": [],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "strokeWidth": 4,
+        "tolerance": 0.001,
+        "measurement": {
+          "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+          "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+          "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+          "scope": "disconnected centerline components, not spacing inside a connected component"
+        },
+        "minimumCenterlineDistance": null,
+        "minimumInkClearance": null,
+        "reason": "No disconnected centerline components to compare.",
+        "stats": {
+          "commands": 3,
+          "flattenedSegments": 256,
+          "adaptiveNodes": 510,
+          "distanceTests": 0,
+          "connectionTests": 0
+        },
+        "raw_status": "pass",
+        "canvas": 48
+      },
+      "negative_space": {
+        "status": "pass",
+        "hole_count": 0,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "holes": [],
+        "pinches": [],
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 0.0,
+        "measuring_stroke_width": 1.0,
+        "samples_per_unit": 32
+      },
+      "artifacts": {},
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility"
+      ],
+      "svg_sha256": "a66d074d56a3fcadb3972dd56d9a72d6d604414263faec4f9c2734ddde558d53",
+      "rules": {
+        "profile": {
+          "canvas_size": 48,
+          "family": "solo",
+          "interior_guide_inset": 6,
+          "mic": 4,
+          "equal_stroke_centerline_min": 8,
+          "keyshape_scale_numerator": 3,
+          "keyshape_scale_denominator": 2,
+          "semantic_use": "primary noun or standalone subject"
+        },
+        "stroke_width": 4,
+        "negative_space": {
+          "schema_version": 1,
+          "source": "claude_skills/core/icon_profiles.json validationDefaults",
+          "minimum_enclosed_radius": 1.0,
+          "minimum_solid_fill_depth": 1.0,
+          "measurement_stroke_width": 1.0,
+          "samples_per_unit": 32,
+          "circle_hole_exception": {
+            "id": "small-circle-hole",
+            "centerline_diameters": [
+              4,
+              6
+            ],
+            "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+          },
+          "measurement_revision": "8-connected-background-v2"
+        },
+        "internal_spacing": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "internal_parallel_straight": {
+          "version": 2,
+          "profiles": "all",
+          "blocking": true,
+          "required_centerline_distance": 8,
+          "required_ink_clearance": 4,
+          "parallelism": "exact",
+          "scope": "whole drawing",
+          "measurement": "midpoint normals, nearest each side, with overlap fallback",
+          "merge": "touching collinear pieces in same path",
+          "relationship_exemption": false,
+          "collinear_overlaps": "separate diagnostic"
+        }
+      },
+      "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+      "internal_spacing": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 1,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false
+        },
+        "findings": [],
+        "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+      },
+      "needs_review": false
+    }
+  }
+}

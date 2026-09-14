@@ -1,82 +1,64 @@
-"""Parent cube distributed through a hierarchy to three child nodes."""
-
-from __future__ import annotations
-
+'Organizational hierarchy cube.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The SQUARE visible envelope is (4, 4, 44, 44).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-AUTHOR = 'astra-chatgpt'
-
+SOURCE_ICON_ID = None
+SOURCE_PATH = 'icon_set/model/icons/solo/organizational_hierarchy_cube.py'
+AUTHOR = 'gpt-6'
 
 class OrganizationalHierarchyCube(Solo48):
-    """An isometric cube feeding an even row of three circular children."""
-
-    icon_id = "organizational-hierarchy-cube"
+    icon_id = 'organizational-hierarchy-cube'
     keyshape = Keyshape.SQUARE
-    category = "objects/organization"
-    aliases = ("hierarchy-cube", "organization-chart", "org-chart")
-    keywords = (
-        "hierarchy", "organization", "structure", "node", "tree",
-        "distribute", "cube", "network",
-    )
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/organization'
+    aliases = ('hierarchy-cube', 'organization-chart', 'org-chart')
+    keywords = ('hierarchy', 'organization', 'structure', 'node', 'tree', 'distribute', 'cube', 'network')
 
     def build(self) -> None:
-        # The cube reaches the square keyshape at y=2. Its six-sided outline
-        # and three-way centre join retain the reference's isometric read.
-        self.add_polyline(
-            "cube-outline",
-            (24, 2), (34, 8), (34, 19), (24, 25), (14, 19), (14, 8),
-            closed=True,
-        )
-        self.add_line("cube-y-left", (14, 8), (24, 14))
-        self.add_line("cube-y-right", (34, 8), (24, 14))
-        self.add_line("cube-y-down", (24, 14), (24, 25))
-
-        # A straight stem and bus distribute to exactly three equal children.
-        # Every junction shares an authored endpoint, including the top of
-        # each child circle, so the drawing is one connected hierarchy.
-        self.add_line("parent-stem", (24, 25), (24, 31))
-        self.add_line("bus-left", (5, 31), (24, 31))
-        self.add_line("bus-right", (24, 31), (43, 31))
-        # The outer children carry three of the four extremes: their circles
-        # reach x 2 and x 46 on the sides and y 46 at the foot, so the bus ends
-        # sit inside them rather than defining the width.
-        for name, x in (("left", 5), ("centre", 24), ("right", 43)):
-            self.add_line(f"child-{name}-stem", (x, 31), (x, 40))
-            self.add_arc(
-                f"child-{name}-circle-right", (x, 40), (x, 46), radius_x=3,
-            )
-            self.add_arc(
-                f"child-{name}-circle-left", (x, 46), (x, 40), radius_x=3,
-            )
-            self.add_contour(
-                f"child-{name}-circle",
-                f"child-{name}-circle-right", f"child-{name}-circle-left",
-                closed=True,
-            )
-
-        # Record each genuine inter-path contact narrowly. The geometry uses
-        # exact shared endpoints throughout; these relations preserve that
-        # topology in the serialized model instead of relying on inference.
-        for first, second in (
-            ("cube-outline", "cube-y-left"),
-            ("cube-outline", "cube-y-right"),
-            ("cube-outline", "cube-y-down"),
-            ("cube-outline", "parent-stem"),
-            ("cube-y-left", "cube-y-right"),
-            ("cube-y-left", "cube-y-down"),
-            ("cube-y-right", "cube-y-down"),
-            ("cube-y-down", "parent-stem"),
-            ("parent-stem", "bus-left"),
-            ("parent-stem", "bus-right"),
-            ("parent-stem", "child-centre-stem"),
-            ("bus-left", "bus-right"),
-            ("bus-left", "child-left-stem"),
-            ("bus-left", "child-centre-stem"),
-            ("bus-right", "child-centre-stem"),
-            ("bus-right", "child-right-stem"),
-            ("child-left-stem", "child-left-circle"),
-            ("child-centre-stem", "child-centre-circle"),
-            ("child-right-stem", "child-right-circle"),
-        ):
-            self.relate("connect", first, second)
+        # Shared nodes are reused by every touching member.
+        p_24_6 = (24, 6)
+        p_34_11 = (34, 11)
+        p_34_21 = (34, 21)
+        p_24_26 = (24, 26)
+        p_14_21 = (14, 21)
+        p_14_11 = (14, 11)
+        p_24_16 = (24, 16)
+        p_24_30 = (24, 30)
+        p_6_30 = (6, 30)
+        p_42_30 = (42, 30)
+        p_6_42 = (6, 42)
+        p_24_42 = (24, 42)
+        p_42_42 = (42, 42)
+        self.add_line('cube-outline-1', p_24_6, p_34_11)
+        self.add_line('cube-outline-2', p_34_11, p_34_21)
+        self.add_line('cube-outline-3', p_34_21, p_24_26)
+        self.add_line('cube-outline-4', p_24_26, p_14_21)
+        self.add_line('cube-outline-5', p_14_21, p_14_11)
+        self.add_line('cube-outline-6', p_14_11, p_24_6)
+        self.add_line('cube-y-left', p_14_11, p_24_16)
+        self.add_line('cube-y-right', p_34_11, p_24_16)
+        self.add_line('cube-y-down', p_24_16, p_24_26)
+        self.add_line('parent-stem', p_24_26, p_24_30)
+        self.add_line('bus-left', p_6_30, p_24_30)
+        self.add_line('bus-right', p_24_30, p_42_30)
+        self.add_line('child-left-stem', p_6_30, p_6_42)
+        self.add_line('child-centre-stem', p_24_30, p_24_42)
+        self.add_line('child-right-stem', p_42_30, p_42_42)
+        self.add_contour('cube-outline', 'cube-outline-1', 'cube-outline-2', 'cube-outline-3', 'cube-outline-4', 'cube-outline-5', 'cube-outline-6', closed=True)
+        self.relate('connect', 'cube-outline', 'cube-y-left')
+        self.relate('connect', 'cube-outline', 'cube-y-right')
+        self.relate('connect', 'cube-outline', 'cube-y-down')
+        self.relate('connect', 'cube-outline', 'parent-stem')
+        self.relate('connect', 'cube-y-left', 'cube-y-right')
+        self.relate('connect', 'cube-y-left', 'cube-y-down')
+        self.relate('connect', 'cube-y-right', 'cube-y-down')
+        self.relate('connect', 'cube-y-down', 'parent-stem')
+        self.relate('connect', 'parent-stem', 'bus-left')
+        self.relate('connect', 'parent-stem', 'bus-right')
+        self.relate('connect', 'parent-stem', 'child-centre-stem')
+        self.relate('connect', 'bus-left', 'bus-right')
+        self.relate('connect', 'bus-left', 'child-left-stem')
+        self.relate('connect', 'bus-left', 'child-centre-stem')
+        self.relate('connect', 'bus-right', 'child-centre-stem')
+        self.relate('connect', 'bus-right', 'child-right-stem')

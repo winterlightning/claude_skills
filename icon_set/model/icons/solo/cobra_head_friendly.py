@@ -1,46 +1,42 @@
-"""A front-facing cobra head with a broad rounded hood and dot eyes."""
-
+'Cobra head friendly.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = None
-SOURCE_PATH = None
-AUTHOR = "gpt-6"
-
+SOURCE_PATH = 'icon_set/model/icons/solo/cobra_head_friendly.py'
+AUTHOR = 'gpt-6'
 
 class CobraHeadFriendly(Solo48):
-    icon_id = "cobra-head-friendly"
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "animals"
-    aliases = ("cobra-head",)
-    keywords = ("cobra", "snake", "reptile", "hood", "head", "friendly")
+    icon_id = 'cobra-head-friendly'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'animals'
+    aliases = ('cobra-head',)
+    keywords = ('cobra', 'snake', 'reptile', 'hood', 'head', 'friendly')
 
     def build(self) -> None:
-        # VRECT_XL centerline extremes: (5, 2)–(43, 46).
-        # Mirrored elliptical quadrants share horizontal/vertical tangents.
-        self.add_arc("hood-upper-right", (24, 2), (43, 19),
-                     radius_x=19, radius_y=17)
-        self.add_arc("hood-lower-right", (43, 19), (33, 37),
-                     radius_x=10, radius_y=18)
-        self.add_arc("neck-turn-right", (33, 37), (30, 43),
-                     radius_x=3, radius_y=6, sweep=False)
-        self.add_line("neck-right", (30, 43), (30, 46))
-        self.add_line("neck-base", (30, 46), (18, 46))
-        self.add_line("neck-left", (18, 46), (18, 43))
-        self.add_arc("neck-turn-left", (18, 43), (15, 37),
-                     radius_x=3, radius_y=6, sweep=False)
-        self.add_arc("hood-lower-left", (15, 37), (5, 19),
-                     radius_x=10, radius_y=18)
-        self.add_arc("hood-upper-left", (5, 19), (24, 2),
-                     radius_x=19, radius_y=17)
-        self.add_contour("hood", "hood-upper-right", "hood-lower-right",
-                         "neck-turn-right", "neck-right", "neck-base", "neck-left",
-                         "neck-turn-left", "hood-lower-left", "hood-upper-left", closed=True)
-        self.add_line("face-left", (14, 13), (14, 23))
-        self.add_arc("chin", (14, 23), (34, 23), radius_x=10, sweep=False)
-        self.add_line("face-right", (34, 23), (34, 13))
-        self.add_contour("face", "face-left", "chin", "face-right")
-        self.add_dot("eye-left", (21, 20))
-        self.add_dot("eye-right", (27, 20))
+        # Shared nodes are reused by every touching member.
+        p_24_4 = (24, 4)
+        p_40_19 = (40, 19)
+        p_32_36 = (32, 36)
+        p_29_41 = (29, 41)
+        p_29_44 = (29, 44)
+        p_19_44 = (19, 44)
+        p_19_41 = (19, 41)
+        p_16_36 = (16, 36)
+        p_8_19 = (8, 19)
+        p_19_20 = (19, 20)
+        p_29_20 = (29, 20)
+        self.add_arc('hood-upper-right', p_24_4, p_40_19, radius_x=16, radius_y=15, sweep=True, large_arc=False)
+        self.add_arc('hood-lower-right', p_40_19, p_32_36, radius_x=8, radius_y=17, sweep=True, large_arc=False)
+        self.add_arc('neck-turn-right', p_32_36, p_29_41, radius_x=3, radius_y=5, sweep=False, large_arc=False)
+        self.add_line('neck-right', p_29_41, p_29_44)
+        self.add_line('neck-base', p_29_44, p_19_44)
+        self.add_line('neck-left', p_19_44, p_19_41)
+        self.add_arc('neck-turn-left', p_19_41, p_16_36, radius_x=3, radius_y=5, sweep=False, large_arc=False)
+        self.add_arc('hood-lower-left', p_16_36, p_8_19, radius_x=8, radius_y=17, sweep=True, large_arc=False)
+        self.add_arc('hood-upper-left', p_8_19, p_24_4, radius_x=16, radius_y=15, sweep=True, large_arc=False)
+        self.add_line('eye-left', p_19_20, p_19_20)
+        self.add_line('eye-right', p_29_20, p_29_20)
+        self.add_contour('hood', 'hood-upper-right', 'hood-lower-right', 'neck-turn-right', 'neck-right', 'neck-base', 'neck-left', 'neck-turn-left', 'hood-lower-left', 'hood-upper-left', closed=True)

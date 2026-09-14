@@ -24,6 +24,7 @@ class PersonWithBindle(Solo48):
         self.add_contour(name, *ids, closed=True)
 
     def build(self) -> None:
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
         """Opening repair: Joined the carrying pole at the bundle’s lower-right node, eliminating a tiny crossing pocket."""
         self.circle('head', 34, 10, 6)
         self.add_line('bundle-left', (13, 6), (8, 16))
@@ -32,10 +33,10 @@ class PersonWithBindle(Solo48):
         self.add_contour('bundle', 'bundle-left', 'bundle-bottom', 'bundle-right', closed=True)
         self.add_line('pole', (18, 16), (26, 26))
         self.relate('connect', 'bundle', 'pole')
-        self.add_line('torso', (26, 26), (24, 34))
-        self.add_polyline('arm', (26, 26), (33, 31), (39, 27))
-        self.add_polyline('legs', (16, 42), (24, 34), (32, 37), (40, 42))
+        self.add_polyline('torso', (26, 26), (34, 24), (24, 34))
+        self.add_polyline('arm', (34, 24), (33, 31), (39, 27))
+        self.add_polyline('legs', (16, 44), (24, 34), (32, 37), (40, 44))
         self.relate('connect', 'pole', 'torso')
-        self.relate('connect', 'pole', 'arm')
+        
         self.relate('connect', 'torso', 'arm')
         self.relate('connect', 'torso', 'legs')

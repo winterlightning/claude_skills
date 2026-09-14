@@ -1,6 +1,4 @@
-"""Pickup with Mounted Gun. Truck, large wheels and bed-mounted gun retained; cab window omitted.
-Keyshape HRECT_XL: chosen for the subject's overall proportions; authored directly on SOLO48.
-"""
+'Pickup with mounted gun: independent spacing revision.\n\nSeparate receiver and cab, move barrel above roof, preserve mounted-gun pickup.\nNative solo family, HRECT_XL keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e3b136d0-7476-497f-837e-8e3e75f2ae8f'
@@ -17,29 +15,21 @@ class PickupWithMountedGun(Solo48):
     keywords = ('pickup', 'truck', 'gun', 'mounted', 'military', 'vehicle')
 
     def build(self):
-
-        def L(n,a,b): self.add_line(n,a,b)
-        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def C(n,x,y,r):
-            A(n+'a',(x-r,y),(x+r,y),r)
-            A(n+'b',(x+r,y),(x-r,y),r)
-            self.add_contour(n,n+'a',n+'b',closed=True)
-        def J(a,b): self.relate('connect',a,b)
-        def R(n,x,y,w,h,r=4):
-            L(n+'t',(x+r,y),(x+w-r,y))
-            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
-            L(n+'r',(x+w,y+r),(x+w,y+h-r))
-            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
-            L(n+'b',(x+w-r,y+h),(x+r,y+h))
-            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
-            L(n+'l',(x,y+h-r),(x,y+r))
-            A(n+'tl',(x,y+r),(x+r,y),r)
-            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-
-        C('rear-wheel',12,34,6);C('front-wheel',36,34,6)
-        P('body',(6,34),(6,34),(6,24),(23,24),(23,18),(32,18),(39,24),(42,24),(42,34),(42,34));J('body','rear-wheel');J('body','front-wheel')
-        L('underbody',(18,34),(30,34));J('underbody','rear-wheel');J('underbody','front-wheel')
-        P('gun',(8,8),(21,8),(21,16),(8,16),closed=True)
-        L('mount',(14,16),(14,24));J('mount','gun');J('mount','body')
-        L('barrel',(21,12),(40,12));J('barrel','gun')
+        self.add_arc('rear-wheela',(6, 34),(18, 34),radius_x=6,radius_y=6)
+        self.add_arc('rear-wheelb',(18, 34),(6, 34),radius_x=6,radius_y=6)
+        self.add_contour('rear-wheel','rear-wheela','rear-wheelb',closed=True)
+        self.add_arc('front-wheela',(30, 34),(42, 34),radius_x=6,radius_y=6)
+        self.add_arc('front-wheelb',(42, 34),(30, 34),radius_x=6,radius_y=6)
+        self.add_contour('front-wheel','front-wheela','front-wheelb',closed=True)
+        self.add_polyline('body',(6, 34),(4, 34),(4, 24),(14, 24),(30, 24),(30, 16),(36, 16),(44, 24),(44, 34),(42, 34),closed=False)
+        self.add_line('chassis',(18, 34),(30, 34))
+        self.add_polyline('gun',(8, 8),(20, 8),(20, 16),(14, 16),(8, 16),closed=True)
+        self.add_line('mount',(14, 16),(14, 24))
+        self.add_line('barrel',(20, 8),(44, 8))
+        self.relate('connect','body','rear-wheel')
+        self.relate('connect','body','front-wheel')
+        self.relate('connect','chassis','rear-wheel')
+        self.relate('connect','chassis','front-wheel')
+        self.relate('connect','gun','mount')
+        self.relate('connect','body','mount')
+        self.relate('connect','gun','barrel')

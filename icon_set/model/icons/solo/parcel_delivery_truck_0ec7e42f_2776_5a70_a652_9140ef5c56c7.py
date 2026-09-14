@@ -1,37 +1,34 @@
-"""parcel-delivery-truck: reconstructed on SOLO48 from the supplied transportation reference."""
+'Parcel delivery truck: independent spacing revision.\n\nUse the cargo box as the parcel; omit cramped tape and deepen cab bands.\nNative solo family, HRECT_L keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: Original subject render; no exact Lucide match selected.\n'
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0ec7e42f-2776-5a70-a652-9140ef5c56c7'
 SOURCE_PATH = 'pictographic-primitives/transportation/truck_0ec7e42f-2776-5a70-a652-9140ef5c56c7.svg'
 AUTHOR = 'gpt-6'
 
-
 class ParcelDeliveryTruck(Solo48):
     icon_id = 'parcel-delivery-truck'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "transportation"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'transportation'
     aliases = ()
     keywords = ('delivery truck', 'parcel', 'package', 'shipping', 'courier', 'logistics', 'truck', 'box')
 
-    def build(self) -> None:
-
-        # Cargo and cab share a bulkhead; wheel circles interrupt the chassis.
-        self.add_polyline('cargo',(8,36),(6,36),(6,8),(12,8),(20,8),(26,8),(26,16),(26,24),(26,36),(16,36))
-        self.add_polyline('cab',(26,16),(34,16),(40,24),(42,28),(42,36),(40,36))
-        self.add_line('chassis',(26,36),(32,36))
-        for side,cx in [('rear',12),('front',36)]:
-            self.add_arc(side+'-top',(cx-4,36),(cx+4,36),radius_x=4)
-            self.add_arc(side+'-bottom',(cx+4,36),(cx-4,36),radius_x=4)
-            self.add_contour(side+'-wheel',side+'-top',side+'-bottom',closed=True)
-
-        # The cargo box itself is the parcel; tape is intrinsic packaging detail.
-        self.add_polyline('tape',(12,8),(12,18),(16,15),(20,18),(20,8))
-        self.add_line('windscreen',(26,24),(40,24))
-        # Record only actual shared-endpoint contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
-                    self.relate('connect',a.element_id,b.element_id)
+    def build(self):
+        self.add_polyline('cargo',(8, 36),(4, 36),(4, 8),(24, 8),(24, 16),(24, 24),(24, 36),(16, 36),closed=False)
+        self.add_polyline('cab',(24, 16),(34, 16),(42, 24),(44, 26),(44, 36),(40, 36),closed=False)
+        self.add_line('chassis',(24, 36),(32, 36))
+        self.add_line('windscreen',(24, 24),(42, 24))
+        self.add_arc('rear-wheela',(8, 36),(16, 36),radius_x=4,radius_y=4)
+        self.add_arc('rear-wheelb',(16, 36),(8, 36),radius_x=4,radius_y=4)
+        self.add_contour('rear-wheel','rear-wheela','rear-wheelb',closed=True)
+        self.add_arc('front-wheela',(32, 36),(40, 36),radius_x=4,radius_y=4)
+        self.add_arc('front-wheelb',(40, 36),(32, 36),radius_x=4,radius_y=4)
+        self.add_contour('front-wheel','front-wheela','front-wheelb',closed=True)
+        self.relate('connect','cargo','cab')
+        self.relate('connect','cargo','chassis')
+        self.relate('connect','cargo','windscreen')
+        self.relate('connect','cab','windscreen')
+        self.relate('connect','cargo','rear-wheel')
+        self.relate('connect','cab','front-wheel')
+        self.relate('connect','chassis','front-wheel')

@@ -5,38 +5,37 @@ Reduction: Reduced enclosed boards to directional strokes and replaced continent
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4fee1482-35b4-4084-bf71-6f139c6fb799'
 SOURCE_PATH = 'pictographic-primitives/travel/travel crossroad direction board_4fee1482-35b4-4084-bf71-6f139c6fb799.svg'
 AUTHOR = 'gpt-6'
 
-
 class SignpostOnGlobe(Solo48):
     icon_id = 'signpost-on-globe'
     keyshape = Keyshape.VRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/travel"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/travel'
     aliases = ()
     keywords = ('signpost', 'direction', 'globe', 'crossroad', 'travel', 'world', 'wayfinding', 'destination')
 
     def build(self) -> None:
-        # VRECT_L centerline bounds (8,6)-(40,42); globe rx16, ry12 and meridians rx6.
-        self.add_polyline('post',(24,8),(24,20),(24,32))
-        self.add_polyline('right-shaft',(18,8),(24,8),(38,8))
-        self.add_polyline('right-head',(32,6),(38,8),(32,12))
-        self.add_polyline('left-shaft',(10,20),(24,20),(30,20))
-        self.add_polyline('left-head',(16,16),(10,20),(16,24))
-        self.relate('connect','right-shaft','right-head')
-        self.relate('connect','left-shaft','left-head')
-        self.relate('connect','post','right-shaft')
-        self.relate('connect','post','left-shaft')
-        self.add_arc('globe-left',(8,42),(24,32),radius_x=16,radius_y=12)
-        self.add_arc('globe-right',(24,32),(40,42),radius_x=16,radius_y=12)
-        self.add_contour('globe','globe-left','globe-right')
-        self.add_arc('meridian-left',(24,32),(18,42),radius_x=6,radius_y=12,sweep=False)
-        self.add_arc('meridian-right',(24,32),(30,42),radius_x=6,radius_y=12)
-        for part in ('globe','meridian-left','meridian-right'):self.relate('connect','post',part)
-        self.relate('connect','globe','meridian-left')
-        self.relate('connect','globe','meridian-right')
-        self.relate('connect','meridian-left','meridian-right')
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        self.add_polyline('post', (24, 8), (24, 20), (24, 32))
+        self.add_polyline('right-shaft', (18, 8), (24, 8), (38, 8))
+        self.add_polyline('right-head', (32, 4), (38, 8), (32, 12))
+        self.add_polyline('left-shaft', (10, 20), (24, 20), (30, 20))
+        self.add_polyline('left-head', (16, 16), (10, 20), (16, 24))
+        self.relate('connect', 'right-shaft', 'right-head')
+        self.relate('connect', 'left-shaft', 'left-head')
+        self.relate('connect', 'post', 'right-shaft')
+        self.relate('connect', 'post', 'left-shaft')
+        self.add_arc('globe-left', (8, 44), (24, 32), radius_x=16, radius_y=12)
+        self.add_arc('globe-right', (24, 32), (40, 44), radius_x=16, radius_y=12)
+        self.add_contour('globe', 'globe-left', 'globe-right')
+        self.add_arc('meridian-left', (24, 32), (18, 44), radius_x=6, radius_y=12, sweep=False)
+        self.add_arc('meridian-right', (24, 32), (30, 44), radius_x=6, radius_y=12)
+        for part in ('globe', 'meridian-left', 'meridian-right'):
+            self.relate('connect', 'post', part)
+        self.relate('connect', 'globe', 'meridian-left')
+        self.relate('connect', 'globe', 'meridian-right')
+        self.relate('connect', 'meridian-left', 'meridian-right')

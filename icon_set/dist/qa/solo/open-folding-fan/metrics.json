@@ -3,13 +3,11 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (0, 3, 48, 45) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 3.0, 2.0, 3.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
-    "ok": false,
+    "ok": true,
     "status": "pass",
     "contours": [
       {
@@ -17,15 +15,15 @@
         "elementId": "leaf",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 2 20 A 22 15 0 0 1 24 5 A 22 15 0 0 1 46 20 L 24 37 L 2 20 Z",
+        "pathData": "M 4 21 A 20 13 0 0 1 24 8 A 20 13 0 0 1 44 21 L 24 35 L 4 21 Z",
         "bounds": [
-          2.0,
-          5.0,
-          46.0,
-          37.0
+          4.0,
+          8.0,
+          44.0,
+          35.0
         ],
         "segmentCount": 259,
-        "approximationError": 0.0004141450829190736,
+        "approximationError": 0.000376495530020035,
         "hasCurves": true
       },
       {
@@ -33,12 +31,12 @@
         "elementId": "rib",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 5 L 24 37",
+        "pathData": "M 24 8 L 24 35",
         "bounds": [
           24.0,
-          5.0,
+          8.0,
           24.0,
-          37.0
+          35.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -48,17 +46,17 @@
         "id": "pivot:subpath-1",
         "elementId": "pivot",
         "subpathIndex": 1,
-        "componentId": "component-2",
-        "pathData": "M 21 40 A 3 3 0 0 1 27 40 A 3 3 0 0 1 21 40 Z",
+        "componentId": "component-1",
+        "pathData": "M 24 35 L 24 40",
         "bounds": [
-          21.0,
-          37.0,
-          27.0,
-          43.0
+          24.0,
+          35.0,
+          24.0,
+          40.0
         ],
-        "segmentCount": 129,
-        "approximationError": 0.0009039468988974386,
-        "hasCurves": true
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
@@ -66,147 +64,28 @@
         "id": "component-1",
         "memberIds": [
           "leaf:subpath-1",
-          "rib:subpath-1"
+          "rib:subpath-1",
+          "pivot:subpath-1"
         ],
         "contourIds": [
           "leaf:subpath-1",
-          "rib:subpath-1"
+          "rib:subpath-1",
+          "pivot:subpath-1"
         ],
         "elementIds": [
           "leaf",
-          "rib"
-        ],
-        "bounds": [
-          2.0,
-          5.0,
-          46.0,
-          37.0
-        ]
-      },
-      {
-        "id": "component-2",
-        "memberIds": [
-          "pivot:subpath-1"
-        ],
-        "contourIds": [
-          "pivot:subpath-1"
-        ],
-        "elementIds": [
+          "rib",
           "pivot"
         ],
         "bounds": [
-          21.0,
-          37.0,
-          27.0,
-          43.0
+          4.0,
+          8.0,
+          44.0,
+          40.0
         ]
       }
     ],
-    "pairs": [
-      {
-        "closestContours": [
-          "leaf:subpath-1",
-          "pivot:subpath-1"
-        ],
-        "centerlineDistance": 0.0,
-        "inkClearance": 0.0,
-        "signedInkClearance": -4.0,
-        "lowerBound": 0.0,
-        "upperBound": 0.0009039468988974387,
-        "inkClearanceLowerBound": 0.0,
-        "inkClearanceUpperBound": 0.0,
-        "approximationError": 0.0013180919818165122,
-        "nearestPoints": [
-          [
-            24.0,
-            37.0
-          ],
-          [
-            24.0,
-            37.0
-          ]
-        ],
-        "requiredCenterline": 8.0,
-        "requiredInkClearance": 4.0,
-        "status": "review",
-        "reason": "A possible curved connection between these components is not proved; do not silently merge or approve them.",
-        "ambiguousContact": true,
-        "componentIds": [
-          "component-1",
-          "component-2"
-        ],
-        "memberIds": [
-          [
-            "leaf:subpath-1",
-            "rib:subpath-1"
-          ],
-          [
-            "pivot:subpath-1"
-          ]
-        ],
-        "contourPairs": [
-          {
-            "closestContours": [
-              "leaf:subpath-1",
-              "pivot:subpath-1"
-            ],
-            "centerlineDistance": 0.0,
-            "inkClearance": 0.0,
-            "signedInkClearance": -4.0,
-            "lowerBound": 0.0,
-            "upperBound": 0.0013180919818165124,
-            "inkClearanceLowerBound": 0.0,
-            "inkClearanceUpperBound": 0.0,
-            "approximationError": 0.0013180919818165122,
-            "nearestPoints": [
-              [
-                24.0,
-                37.0
-              ],
-              [
-                24.0,
-                37.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "Possible curve-interior contact is not a proved centerline connection; inspect/redesign before accepting.",
-            "ambiguousContact": true
-          },
-          {
-            "closestContours": [
-              "rib:subpath-1",
-              "pivot:subpath-1"
-            ],
-            "centerlineDistance": 0.0,
-            "inkClearance": 0.0,
-            "signedInkClearance": -4.0,
-            "lowerBound": 0.0,
-            "upperBound": 0.0009039468988974387,
-            "inkClearanceLowerBound": 0.0,
-            "inkClearanceUpperBound": 0.0,
-            "approximationError": 0.0009039468988974386,
-            "nearestPoints": [
-              [
-                24.0,
-                37.0
-              ],
-              [
-                24.0,
-                37.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "review",
-            "reason": "Possible curve-interior contact is not a proved centerline connection; inspect/redesign before accepting.",
-            "ambiguousContact": true
-          }
-        ],
-        "exemption": "declared connect relationship"
-      }
-    ],
+    "pairs": [],
     "connectedPairs": [
       {
         "contourIds": [
@@ -216,7 +95,29 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          5.0
+          8.0
+        ]
+      },
+      {
+        "contourIds": [
+          "leaf:subpath-1",
+          "pivot:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          35.0
+        ]
+      },
+      {
+        "contourIds": [
+          "rib:subpath-1",
+          "pivot:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          35.0
         ]
       }
     ],
@@ -236,14 +137,50 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            5.0
+            8.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "leaf:subpath-1",
+          "pivot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "leaf:subpath-1",
+            "pivot:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            35.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "rib:subpath-1",
+          "pivot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rib:subpath-1",
+            "pivot:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            35.0
           ]
         }
       }
     ],
-    "errors": [
-      "component-1 / component-2: A possible curved connection between these components is not proved; do not silently merge or approve them."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -254,135 +191,92 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 0.0,
-    "minimumInkClearance": 0.0,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 12,
-      "flattenedSegments": 389,
-      "adaptiveNodes": 764,
-      "distanceTests": 16,
+      "commands": 10,
+      "flattenedSegments": 261,
+      "adaptiveNodes": 510,
+      "distanceTests": 0,
       "connectionTests": 0
     },
-    "raw_status": "review",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
-    "hole_count": 3,
+    "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          14.3281,
-          17.2656
+          15.4844,
+          18.5469
         ],
         "bbox_viewbox": [
-          2.5,
-          5.5,
-          21.0,
-          30.4688
+          4.5,
+          8.5,
+          19.0,
+          25.5312
         ],
         "bbox_ship_px": [
-          21.0,
-          30.4688
+          19.0,
+          25.5312
         ],
         "bbox_design_u": [
-          21.0,
-          30.4688
+          19.0,
+          25.5312
         ],
-        "area_ship_px2": 402.6846,
-        "equivalent_diameter_ship_px": 22.6432,
-        "equivalent_diameter_design_u": 22.6432,
-        "inscribed_diameter_ship_px": 18.3492,
-        "inscribed_diameter_design_u": 18.3492,
-        "inscribed_radius_ship_px": 9.1746,
-        "inscribed_radius_design_u": 9.1746,
+        "area_ship_px2": 306.4189,
+        "equivalent_diameter_ship_px": 19.7521,
+        "equivalent_diameter_design_u": 19.7521,
+        "inscribed_diameter_ship_px": 16.0625,
+        "inscribed_diameter_design_u": 16.0625,
+        "inscribed_radius_ship_px": 8.0312,
+        "inscribed_radius_design_u": 8.0312,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 7.6746,
-        "equivalent_diameter_at_authored_stroke_design_u": 15.3492
+        "equivalent_radius_at_authored_stroke_design_u": 6.5312,
+        "equivalent_diameter_at_authored_stroke_design_u": 13.0624
       },
       {
         "hole": 2,
         "center_viewbox": [
-          33.6719,
-          17.2656
+          32.5156,
+          18.5469
         ],
         "bbox_viewbox": [
           24.5,
-          5.5,
-          21.0,
-          30.4688
+          8.5,
+          19.0,
+          25.5312
         ],
         "bbox_ship_px": [
-          21.0,
-          30.4688
+          19.0,
+          25.5312
         ],
         "bbox_design_u": [
-          21.0,
-          30.4688
+          19.0,
+          25.5312
         ],
-        "area_ship_px2": 402.7344,
-        "equivalent_diameter_ship_px": 22.6446,
-        "equivalent_diameter_design_u": 22.6446,
-        "inscribed_diameter_ship_px": 18.3492,
-        "inscribed_diameter_design_u": 18.3492,
-        "inscribed_radius_ship_px": 9.1746,
-        "inscribed_radius_design_u": 9.1746,
+        "area_ship_px2": 306.4717,
+        "equivalent_diameter_ship_px": 19.7538,
+        "equivalent_diameter_design_u": 19.7538,
+        "inscribed_diameter_ship_px": 16.0625,
+        "inscribed_diameter_design_u": 16.0625,
+        "inscribed_radius_ship_px": 8.0312,
+        "inscribed_radius_design_u": 8.0312,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 7.6746,
-        "equivalent_diameter_at_authored_stroke_design_u": 15.3492
-      },
-      {
-        "hole": 3,
-        "center_viewbox": [
-          23.9844,
-          39.9844
-        ],
-        "bbox_viewbox": [
-          21.5,
-          37.5,
-          5.0,
-          5.0
-        ],
-        "bbox_ship_px": [
-          5.0,
-          5.0
-        ],
-        "bbox_design_u": [
-          5.0,
-          5.0
-        ],
-        "area_ship_px2": 19.6367,
-        "equivalent_diameter_ship_px": 5.0002,
-        "equivalent_diameter_design_u": 5.0002,
-        "inscribed_diameter_ship_px": 4.8932,
-        "inscribed_diameter_design_u": 4.8932,
-        "inscribed_radius_ship_px": 2.4466,
-        "inscribed_radius_design_u": 2.4466,
-        "minimum_radius_design_u": 2.5,
-        "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 0.9466,
-        "equivalent_diameter_at_authored_stroke_design_u": 1.8932,
-        "measured_status": "fail",
-        "exception": {
-          "rule": "small-circle-hole",
-          "element_id": "pivot",
-          "center": [
-            24.0,
-            40.0
-          ],
-          "centerline_diameter": 6.0,
-          "reason": "User-approved 4x4 or 6x6 circular contour"
-        }
+        "equivalent_radius_at_authored_stroke_design_u": 6.5312,
+        "equivalent_diameter_at_authored_stroke_design_u": 13.0624
       }
     ],
     "pinches": [],
-    "exception_count": 1,
+    "exception_count": 0,
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
@@ -404,7 +298,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "2f1d18c31f0a87a57b3e19feb240bc9171f60cd42847021d61e7e42801cb45a3",
+  "svg_sha256": "1377762de75e0061344d92f9a0e1e1c1f457a142a9f9ba65ffad3832cccee494",
   "rules": {
     "profile": {
       "canvas_size": 48,

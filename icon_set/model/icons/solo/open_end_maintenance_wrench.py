@@ -1,62 +1,41 @@
-"""Diagonal open-end maintenance wrench on SOLO48.
-
-Reconstructed from ``(pictoicon) - Open End Maintenance Wrench.svg`` as one
-closed silhouette.  The source's jaw fillets and handle taper are reduced to a
-round inner jaw and two parallel shaft edges, preserving the native-size read.
-"""
-
-from __future__ import annotations
-
+'Open end maintenance wrench.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-AUTHOR = 'astra-chatgpt'
-
+SOURCE_ICON_ID = None
+SOURCE_PATH = 'icon_set/model/icons/solo/open_end_maintenance_wrench.py'
+AUTHOR = 'gpt-6'
 
 class OpenEndMaintenanceWrench(Solo48):
-    """A constant-width wrench rising from lower-left to upper-right."""
-
-    icon_id = "open-end-maintenance-wrench"
-    keyshape = Keyshape.SQUARE
-    category = "objects/tool"
-    aliases = ("open-end-wrench", "wrench", "spanner")
-    keywords = ("wrench", "spanner", "tool", "maintenance", "repair", "settings", "fix")
+    icon_id = 'open-end-maintenance-wrench'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/tool'
+    aliases = ('open-end-wrench', 'wrench', 'spanner')
+    keywords = ('wrench', 'spanner', 'tool', 'maintenance', 'repair', 'settings', 'fix')
 
     def build(self) -> None:
-        # Start at the upper jaw tip and travel around the jaw recess, head,
-        # parallel-sided shaft, angled butt, and back around the head.  The two
-        # jaw tips stay unbridged while the outline itself remains closed.
-        # Each head side is a belly arc plus a small fillet arc so the head
-        # meets the shaft tangentially: a kink mid-contour is what makes an
-        # otherwise-correct icon read wrong.  The upper belly is elliptical
-        # (rx 7, ry 6) so its crest lands exactly on the tip endpoint instead
-        # of overshooting the keyshape.
-        # Widen the upper jaw band: the former inner corner at (30,10)
-        # crowded the outer head. Move it to (33,10), with a longer upper tip,
-        # so the opposing curves retain visible white space under stroke 4.
-        self.add_line("jaw-upper-inner", (40, 2), (33, 10))
-        self.add_arc("jaw-recess", (33, 10), (38, 18), radius_x=8, sweep=False)
-        self.add_line("jaw-lower-inner", (38, 18), (46, 10))
-        self.add_line("jaw-lower-tip", (46, 10), (46, 18))
-        self.add_arc("head-lower-belly", (46, 18), (36, 24), radius_x=7)
-        self.add_arc("head-lower-fillet", (36, 24), (30, 25), radius_x=5, sweep=False)
-        self.add_line("shaft-lower", (30, 25), (9, 46))
-        # Rounded butt: an r6 arc reads as a full handle end instead of a
-        # pointed corner.  Tighter radii would overshoot the keyshape, so the
-        # corners stay on the bounds and the arc gives what roundness fits.
-        self.add_arc("butt", (9, 46), (2, 39), radius_x=7)
-        self.add_line("shaft-upper", (2, 39), (25, 16))
-        self.add_arc("head-upper-fillet", (25, 16), (26, 11), radius_x=5, sweep=False)
-        self.add_arc(
-            "head-upper-belly", (26, 11), (33, 2),
-            radius_x=8, radius_y=7,
-        )
-        self.add_line("jaw-upper-tip", (33, 2), (40, 2))
-        self.add_contour(
-            "wrench-outline",
-            "jaw-upper-inner", "jaw-recess", "jaw-lower-inner",
-            "jaw-lower-tip", "head-lower-belly", "head-lower-fillet",
-            "shaft-lower", "butt", "shaft-upper",
-            "head-upper-fillet", "head-upper-belly", "jaw-upper-tip",
-            closed=True,
-        )
+        # Shared nodes are reused by every touching member.
+        p_8_4 = (8, 4)
+        p_8_16 = (8, 16)
+        p_24_32 = (24, 32)
+        p_40_16 = (40, 16)
+        p_40_4 = (40, 4)
+        p_31_4 = (31, 4)
+        p_31_16 = (31, 16)
+        p_17_16 = (17, 16)
+        p_17_4 = (17, 4)
+        p_24_44 = (24, 44)
+        self.add_line('outer-left', p_8_4, p_8_16)
+        self.add_arc('outer-bottom-left', p_8_16, p_24_32, radius_x=16, radius_y=16, sweep=False, large_arc=False)
+        self.add_arc('outer-bottom-right', p_24_32, p_40_16, radius_x=16, radius_y=16, sweep=False, large_arc=False)
+        self.add_line('outer-right', p_40_16, p_40_4)
+        self.add_line('right-tip', p_40_4, p_31_4)
+        self.add_line('inner-right', p_31_4, p_31_16)
+        self.add_arc('jaw-recess', p_31_16, p_17_16, radius_x=7, radius_y=7, sweep=True, large_arc=False)
+        self.add_line('inner-left', p_17_16, p_17_4)
+        self.add_line('left-tip', p_17_4, p_8_4)
+        self.add_line('handle', p_24_32, p_24_44)
+        self.add_contour('jaw', 'outer-left', 'outer-bottom-left', 'outer-bottom-right', 'outer-right', 'right-tip', 'inner-right', 'jaw-recess', 'inner-left', 'left-tip', closed=True)
+        self.relate('connect', 'jaw', 'handle')

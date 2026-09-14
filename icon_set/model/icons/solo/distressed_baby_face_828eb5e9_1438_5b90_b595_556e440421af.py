@@ -1,4 +1,4 @@
-"""A distressed infant face with crossed eyes, frown and three crown rays. Shoulders are omitted to preserve readable expression."""
+'Distressed baby face.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The SQUARE visible envelope is (4, 4, 44, 44).\nThe parent remains available for comparison.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -6,30 +6,30 @@ SOURCE_ICON_ID = '828eb5e9-1438-5b90-b595-556e440421af'
 SOURCE_PATH = 'pictographic-primitives/babies/colic baby_828eb5e9-1438-5b90-b595-556e440421af.svg'
 AUTHOR = 'gpt-6'
 
-
 class DistressedBabyFace(Solo48):
     icon_id = 'distressed-baby-face'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "people/babies"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'people/babies'
     aliases = ()
     keywords = ('distressed', 'baby', 'face', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (6,6)-(42,42).
-        self.add_arc('crown', (8, 25), (40, 25), radius_x=16, radius_y=13, sweep=True, large_arc=False)
-        self.add_arc('ear-right', (40, 25), (40, 33), radius_x=6, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('jaw', (40, 33), (8, 33), radius_x=16, radius_y=13, sweep=True, large_arc=False)
-        self.add_arc('ear-left', (8, 33), (8, 25), radius_x=6, radius_y=4, sweep=True, large_arc=False)
+        # Shared nodes are reused by every touching member.
+        p_10_20 = (10, 20)
+        p_38_20 = (38, 20)
+        p_38_28 = (38, 28)
+        p_10_28 = (10, 28)
+        p_19_21 = (19, 21)
+        p_29_21 = (29, 21)
+        p_20_32 = (20, 32)
+        p_28_32 = (28, 32)
+        self.add_arc('crown', p_10_20, p_38_20, radius_x=14, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('ear-right', p_38_20, p_38_28, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('jaw', p_38_28, p_10_28, radius_x=14, radius_y=14, sweep=True, large_arc=False)
+        self.add_arc('ear-left', p_10_28, p_10_20, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('eye-left', p_19_21, p_19_21)
+        self.add_line('eye-right', p_29_21, p_29_21)
+        self.add_arc('frown', p_20_32, p_28_32, radius_x=4, radius_y=3, sweep=True, large_arc=False)
         self.add_contour('face', 'crown', 'ear-right', 'jaw', 'ear-left', closed=True)
-        self.add_line('eye-left-down', (15, 25), (19, 29))
-        self.add_line('eye-left-up', (15, 29), (19, 25))
-        self.relate("connect", 'eye-left-down', 'eye-left-up')
-        self.add_line('eye-right-down', (29, 25), (33, 29))
-        self.add_line('eye-right-up', (29, 29), (33, 25))
-        self.relate("connect", 'eye-right-down', 'eye-right-up')
-        self.add_arc('frown', (20, 38), (28, 38), radius_x=5, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('ray-middle', (24, 6), (24, 6))
-        self.add_line('ray-left', (10, 6), (12, 7))
-        self.add_line('ray-right', (38, 6), (36, 7))

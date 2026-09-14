@@ -7,16 +7,16 @@ AUTHOR = 'gpt-6'
 
 class FighterJet(Solo48):
     icon_id = 'fighter-jet'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/transportation"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/transportation'
     aliases = ()
     keywords = ('fighter jet', 'military plane', 'jet', 'aircraft', 'air force', 'aviation', 'airplane', 'top view')
 
     def build(self) -> None:
-        # Current contract centerline extremes: (8,6)-(40,42).
-        # A mirrored outline owns the swept wings, pointed nose and smaller tailplanes.
-        right=[(24,6),(29,12),(29,18),(40,30),(40,34),(29,30),(29,36),(32,40),(32,42),(24,40)]
-        left=[(48-x,y) for x,y in reversed(right[1:-1])]
-        self.add_polyline('airframe',*(right+left),closed=True)
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        # Mirror the airframe about x=24; broad wings and one broad tail replace pinched fin slivers.
+        right = [(24, 4), (29, 12), (29, 18), (40, 28), (40, 38), (29, 30), (29, 36), (32, 44), (24, 40)]
+        left = [(48 - x, y) for x, y in reversed(right[1:-1])]
+        self.add_polyline('airframe', *right + left, closed=True)

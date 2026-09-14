@@ -3,16 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (6, 2, 42, 44) does not match the VRECT_XL envelope (6, 2, 42, 46) (deltas [0.0, 0.0, 0.0, 2.0], tolerance 0.0)",
-    "mic [base]: parallel straight edges base-1 and base-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "mic [walls]: parallel straight edges walls-2 and base-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
-    "status": "fail",
+    "status": "pass",
     "contours": [
       {
         "id": "arch:subpath-1",
@@ -51,12 +47,12 @@
         "elementId": "base",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 36 L 40 36 L 40 42 L 8 42 L 8 36 Z",
+        "pathData": "M 8 36 L 40 36 L 40 44 L 8 44 L 8 36 Z",
         "bounds": [
           8.0,
           36.0,
           40.0,
-          42.0
+          44.0
         ],
         "segmentCount": 5,
         "approximationError": 0.0,
@@ -85,7 +81,7 @@
           8.0,
           4.0,
           40.0,
-          42.0
+          44.0
         ]
       }
     ],
@@ -228,34 +224,34 @@
       {
         "hole": 2,
         "center_viewbox": [
-          10.9844,
-          38.9844
+          11.9844,
+          39.9844
         ],
         "bbox_viewbox": [
           8.5,
           36.5,
           31.0,
-          5.0
+          7.0
         ],
         "bbox_ship_px": [
           31.0,
-          5.0
+          7.0
         ],
         "bbox_design_u": [
           31.0,
-          5.0
+          7.0
         ],
-        "area_ship_px2": 155.0,
-        "equivalent_diameter_ship_px": 14.0482,
-        "equivalent_diameter_design_u": 14.0482,
-        "inscribed_diameter_ship_px": 5.0,
-        "inscribed_diameter_design_u": 5.0,
-        "inscribed_radius_ship_px": 2.5,
-        "inscribed_radius_design_u": 2.5,
+        "area_ship_px2": 217.0,
+        "equivalent_diameter_ship_px": 16.6221,
+        "equivalent_diameter_design_u": 16.6221,
+        "inscribed_diameter_ship_px": 7.0,
+        "inscribed_diameter_design_u": 7.0,
+        "inscribed_radius_ship_px": 3.5,
+        "inscribed_radius_design_u": 3.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 1.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 2.0
+        "equivalent_radius_at_authored_stroke_design_u": 2.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.0
       }
     ],
     "pinches": [],
@@ -281,7 +277,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "56b127e9088ae3886143e924301818590225228a10b44640c423261454be6fbf",
+  "svg_sha256": "c2e63a14d47e0b1e10cacde48564d26bf0da0e81c7a4baf6a0ab10611639140c",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -335,7 +331,7 @@
   },
   "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -346,30 +342,8 @@
       "maximum_parallel_angle_degrees": 30,
       "blocking": false
     },
-    "findings": [
-      {
-        "contour": "base",
-        "elements": [
-          "base-1",
-          "base-3"
-        ],
-        "status": "review",
-        "sustained_length": 31.0,
-        "centerline_distance": 6.0,
-        "ink_gap": 2.0,
-        "nearest_points": [
-          [
-            8.625,
-            36.0
-          ],
-          [
-            8.625,
-            42.0
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

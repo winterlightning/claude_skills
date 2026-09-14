@@ -1,40 +1,49 @@
-"""A geisha with a high bun, paired hairpins and wrapped kimono. VRECT_XL extremes (5,2)-(43,46). Lucide user informs rounded shoulders; omit facial marks and secondary hair strands."""
-
+'Geisha bust.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.\nHuman construction: icon_set/references/human_ref/full_body_ref.png and\nicon_set/references/human_ref/user.svg. Circular head radius 9,\nwith exactly 8 units of centerline head-to-body separation (4 visible units).'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8294bb7e-b135-54c0-9464-4ea256245719'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/geisha_8294bb7e-b135-54c0-9464-4ea256245719.svg'
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class GeishaBust(Solo48):
     icon_id = 'geisha-bust'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "culture/objects"
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'culture/objects'
     aliases = ()
     keywords = ('geisha', 'japanese', 'kimono', 'hairpin', 'traditional', 'woman', 'culture', 'asian')
 
     def build(self) -> None:
-        self.add_arc('bun',(16,10),(32,10),radius_x=8)
-        self.add_polyline('pin-left',(5,2),(16,10))
-        self.add_polyline('pin-right',(32,10),(43,2))
-        self.relate('connect','bun','pin-left')
-        self.relate('connect','bun','pin-right')
-        self.add_line('hair-top',(16,10),(32,10))
-        self.add_arc('hair-right',(32,10),(36,20),radius_x=14)
-        self.add_arc('chin',(36,20),(12,20),radius_x=12,radius_y=12)
-        self.add_arc('hair-left',(12,20),(16,10),radius_x=14)
-        self.add_contour('head','hair-top','hair-right','chin','hair-left',closed=True)
-        self.relate('connect','head','bun')
-        self.relate('connect','head','pin-left')
-        self.relate('connect','head','pin-right')
-        self.add_arc('shoulder-left',(5,46),(14,37),radius_x=9)
-        self.add_line('collar-1',(14,37),(24,46))
-        self.add_line('collar-2',(24,46),(34,37))
-        self.add_arc('shoulder-right',(34,37),(43,46),radius_x=9)
-        self.add_line('hem-right',(43,46),(24,46))
-        self.add_line('hem-left',(24,46),(5,46))
-        self.add_contour('garment','shoulder-left','collar-1','collar-2','shoulder-right','hem-right','hem-left',closed=True)
+        # Shared nodes are reused by every touching member.
+        p_15_21 = (15, 21)
+        p_24_12 = (24, 12)
+        p_33_21 = (33, 21)
+        p_20_8 = (20, 8)
+        p_28_8 = (28, 8)
+        p_8_4 = (8, 4)
+        p_40_4 = (40, 4)
+        p_8_44 = (8, 44)
+        p_14_38 = (14, 38)
+        p_34_38 = (34, 38)
+        p_40_44 = (40, 44)
+        self.add_arc('head-tl', p_15_21, p_24_12, radius_x=9, radius_y=9, sweep=True, large_arc=False)
+        self.add_arc('head-tr', p_24_12, p_33_21, radius_x=9, radius_y=9, sweep=True, large_arc=False)
+        self.add_arc('head-bottom', p_33_21, p_15_21, radius_x=9, radius_y=9, sweep=True, large_arc=False)
+        self.add_arc('bun-top', p_20_8, p_28_8, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('bun-bottom', p_28_8, p_20_8, radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_line('pin-left', p_8_4, p_24_12)
+        self.add_line('pin-right', p_40_4, p_24_12)
+        self.add_arc('shoulder-left', p_8_44, p_14_38, radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_line('shoulders', p_14_38, p_34_38)
+        self.add_arc('shoulder-right', p_34_38, p_40_44, radius_x=6, radius_y=6, sweep=True, large_arc=False)
+        self.add_contour('head', 'head-tl', 'head-tr', 'head-bottom', closed=True)
+        self.add_contour('bun', 'bun-top', 'bun-bottom', closed=True)
+        self.add_contour('garment', 'shoulder-left', 'shoulders', 'shoulder-right', closed=False)
+        self.relate('connect', 'head', 'bun')
+        self.relate('connect', 'head', 'pin-left')
+        self.relate('connect', 'head', 'pin-right')
+        self.relate('connect', 'bun', 'pin-left')
+        self.relate('connect', 'bun', 'pin-right')
+        self.relate('connect', 'pin-left', 'pin-right')

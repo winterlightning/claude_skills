@@ -15,21 +15,24 @@ class AngryBird(Solo48):
     keywords = ('bird', 'angry', 'angry birds', 'mobile game', 'character', 'cartoon', 'video game', 'game')
 
     def build(self):
-        # VRECT_L: centerline extremes (8, 4, 40, 44); current SOLO48 contract.
+        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+
         def circle(name, x, y, r):
-            self.add_arc(name+'-a',(x,y-r),(x,y+r),radius_x=r)
-            self.add_arc(name+'-b',(x,y+r),(x,y-r),radius_x=r)
-            self.add_contour(name,name+'-a',name+'-b',closed=True)
-        def arc(name,a,b,r,ry=None,sweep=True):
-            self.add_arc(name,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
-        def poly(name,*pts):
-            for i,(a,b) in enumerate(zip(pts,pts[1:]),1):
-                self.add_line(f'{name}-{i}',a,b)
-        arc('body-left',(24,12),(8,28),16,sweep=False)
-        arc('body-bottom',(8,28),(40,28),16,sweep=False)
-        arc('body-right',(40,28),(24,12),16,sweep=False)
-        self.add_contour('body','body-left','body-bottom','body-right',closed=True)
-        self.add_polyline('tuft',(24,12),(20,6),(29,6))
-        self.relate('connect','tuft','body')
-        self.add_polyline('brows',(19,23),(24,25),(29,23))
-        self.add_polyline('beak',(21,33),(24,35),(27,33))
+            self.add_arc(name + '-a', (x, y - r), (x, y + r), radius_x=r)
+            self.add_arc(name + '-b', (x, y + r), (x, y - r), radius_x=r)
+            self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+        def arc(name, a, b, r, ry=None, sweep=True):
+            self.add_arc(name, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
+
+        def poly(name, *pts):
+            for i, (a, b) in enumerate(zip(pts, pts[1:]), 1):
+                self.add_line(f'{name}-{i}', a, b)
+        arc('body-left', (24, 12), (8, 28), 16, sweep=False)
+        arc('body-bottom', (8, 28), (40, 28), 16, sweep=False)
+        arc('body-right', (40, 28), (24, 12), 16, sweep=False)
+        self.add_contour('body', 'body-left', 'body-bottom', 'body-right', closed=True)
+        self.add_polyline('tuft', (24, 12), (20, 4), (29, 4))
+        self.relate('connect', 'tuft', 'body')
+        self.add_polyline('brows', (19, 23), (24, 25), (29, 23))
+        self.add_polyline('beak', (21, 33), (24, 35), (27, 33))

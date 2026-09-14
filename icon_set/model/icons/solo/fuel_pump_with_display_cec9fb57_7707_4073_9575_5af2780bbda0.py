@@ -8,22 +8,22 @@ AUTHOR = 'gpt-6'
 class FuelPumpWithDisplay(Solo48):
     icon_id = 'fuel-pump-with-display'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/transportation"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/transportation'
     aliases = ()
     keywords = ('fuel pump', 'gas pump', 'petrol', 'gas station', 'refuel', 'nozzle', 'diesel', 'car')
 
-    def build(self) -> None:
-        # Current contract centerline extremes: (6,8)-(42,40).
-        self.add_polyline('pump',(6,40),(6,20),(6,8),(28,8),(28,20),(28,24),(28,40),closed=True)
-        self.add_line('display-divider',(6,20),(28,20))
-        self.relate('connect','pump','display-divider')
-        self.add_dot('button',(16,30))
-        self.add_line('hose-start-1',(28,24),(36,24))
-        self.add_line('hose-start-2',(36,24),(36,34))
-        self.add_arc('hose-loop',(36,34),(42,34),radius_x=4,sweep=False)
-        self.add_line('hose-end-1',(42,34),(42,14))
-        self.add_line('hose-end-2',(42,14),(38,8))
-        self.add_contour('hose',*[f'hose-start-{i}' for i in (1,2)],'hose-loop',*[f'hose-end-{i}' for i in (1,2)])
-        self.relate('connect','pump','hose')
+    def build(self):
+        # Lucide fuel: upright pump and a separate return hose. Hose walls 10 units apart; loop is a tangent semicircle.
+        self.add_polyline('pump', (4, 40), (4, 20), (4, 8), (26, 8), (26, 20), (26, 24), (26, 40), closed=True)
+        self.add_line('display', (4, 20), (26, 20))
+        self.relate("connect", 'pump', 'display')
+        self.add_dot('button', (15, 30))
+        self.add_line('hose-start', (26, 24), (34, 24))
+        self.add_line('hose-drop', (34, 24), (34, 35))
+        self.add_arc('hose-turn', (34, 35), (44, 35), radius_x=5, radius_y=5, sweep=False)
+        self.add_line('nozzle-1', (44, 35), (44, 16))
+        self.add_line('nozzle-2', (44, 16), (38, 8))
+        self.add_contour('hose', 'hose-start', 'hose-drop', 'hose-turn', 'nozzle-1', 'nozzle-2', closed=False)
+        self.relate("connect", 'pump', 'hose')
