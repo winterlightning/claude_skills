@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-judo-athlete-man.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -50,3 +50,6 @@ class JudoAthleteManAvatar(Solo48):
         self.relate('connect', 'body-top-right', 'body-right')
         self.add_polyline('body-wrap', (18,top), (30,44))
         self.relate('connect', 'body-wrap', 'body-top')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

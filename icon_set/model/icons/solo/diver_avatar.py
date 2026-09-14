@@ -1,9 +1,8 @@
 """Diver wearing a broad diving mask with wetsuit zipper.
 
-Plan: separate head/hair or headwear symbol, exact detached gap, curved torso
+Plan: separate head/hair or headwear symbol, painted head/body contact, curved torso
 with wetsuit zipper. SOLO48 VRECT_L visible ink (6,2)-(42,46);
-centerline extremes (8,4)-(40,44). Head bottom 28, body top 36;
-nearest painted head/body gap is 4 on the shared x24 shoulder plateau.
+centerline extremes (8,4)-(40,44). Head and body ink touch on the shoulder plateau.
 Primary source supplies the hair/headwear silhouette; fine facial marks,
 hat stitching and microdetails are omitted to preserve openings at 48.
 Human reference: icon_set/references/human_ref/user.svg for proportions,
@@ -58,3 +57,6 @@ class DiverAvatar(Solo48):
         self.add_line('body-fastening',(24,top),(24,44))
         self.relate('connect','body-fastening','body-top')
         self.relate('connect','body-fastening','body-top-right')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

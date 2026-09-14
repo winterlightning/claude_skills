@@ -1,10 +1,10 @@
-"""Pin (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Location pin above ground: smooth symmetric teardrop and a clear five-unit ink gap.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd10f1e5a-a22b-515b-9731-8a58e4e155be'
 SOURCE_PATH = 'icons-json/interface-essential/pin_d10f1e5a-a22b-515b-9731-8a58e4e155be.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class PinD10f1e5a(Solo48):
     icon_id = 'pin-d10f1e5a'
@@ -15,24 +15,10 @@ class PinD10f1e5a(Solo48):
     aliases = ()
     keywords = ('pin', 'interface-essential')
 
-    def build(self):
-        self.add_line('sym-e0', (9, 42), (14, 42))
-        self.add_line('sym-e1', (14, 42), (24, 44))
-        self.add_line('sym-e2', (24, 44), (34, 42))
-        self.add_line('sym-e3', (34, 42), (39, 42))
-        self.add_line('sym-e4', (24, 39), (19, 33))
-        self.add_line('sym-e5', (19, 33), (12, 25))
-        self.add_arc('sym-e6', (12, 25), (8, 17), radius_x=14)
-        self.add_line('sym-e7', (8, 17), (8, 16))
-        self.add_arc('sym-e9-1', (8, 16), (12, 8), radius_x=11)
-        self.add_arc('sym-e9-2', (12, 8), (23, 4), radius_x=18)
-        self.add_arc('sym-e10', (23, 4), (24, 4), radius_x=70, sweep=False)
-        self.add_line('sym-e13', (24, 4), (25, 4))
-        self.add_arc('sym-e14-1', (25, 4), (36, 8), radius_x=18)
-        self.add_arc('sym-e14-2', (36, 8), (40, 16), radius_x=11)
-        self.add_arc('sym-e16', (40, 16), (40, 17), radius_x=23, sweep=False)
-        self.add_arc('sym-e17', (40, 17), (36, 25), radius_x=14)
-        self.add_line('sym-e18', (36, 25), (29, 33))
-        self.add_line('sym-e19', (29, 33), (24, 39))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3')
-        self.add_contour('sym-c1', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e9-1', 'sym-e9-2', 'sym-e10', 'sym-e13', 'sym-e14-1', 'sym-e14-2', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', closed=True)
+    def build(self) -> None:
+        # The shortened lower point reserves a real gap above the separate ground line.
+        self.add_arc('dome',(8,20),(40,20),radius_x=16)
+        self.add_bezier('right',(40,20),((40,27),(30,32),(24,35)))
+        self.add_bezier('left',(24,35),((18,32),(8,27),(8,20)))
+        self.add_contour('pin','dome','right','left',closed=True)
+        self.add_line('ground',(9,44),(39,44))

@@ -1,10 +1,10 @@
-"""Move bottom (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Move down: tangent rounded box above a centred arrow with a clear 5-unit ink gap.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4906f759-f24c-530d-b8f7-4d1d8a6989b8'
 SOURCE_PATH = 'icons-json/arrows/move bottom_4906f759-f24c-530d-b8f7-4d1d8a6989b8.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class MoveBottom(Solo48):
     icon_id = 'move-bottom'
@@ -15,25 +15,19 @@ class MoveBottom(Solo48):
     aliases = ()
     keywords = ('move', 'bottom', 'arrows')
 
-    def build(self):
-        self.add_line('sym-e0', (24, 44), (24, 24))
-        self.add_line('sym-e1', (32, 37), (24, 44))
-        self.add_line('sym-e2', (24, 44), (16, 37))
-        self.add_line('sym-e3', (40, 7), (40, 12))
-        self.add_arc('sym-e4', (40, 12), (40, 13), radius_x=21, sweep=False)
-        self.add_arc('sym-e5', (40, 13), (37, 16), radius_x=3)
-        self.add_line('sym-e6', (37, 16), (24, 16))
-        self.add_line('sym-e7', (24, 16), (11, 16))
-        self.add_arc('sym-e8', (11, 16), (8, 13), radius_x=3)
-        self.add_line('sym-e9', (8, 13), (8, 12))
-        self.add_line('sym-e10', (8, 12), (8, 7))
-        self.add_arc('sym-e11', (8, 7), (11, 4), radius_x=3)
-        self.add_line('sym-e12', (11, 4), (24, 4))
-        self.add_line('sym-e13', (24, 4), (37, 4))
-        self.add_arc('sym-e14', (37, 4), (40, 7), radius_x=3)
-        self.add_contour('sym-c0', 'sym-e0')
-        self.add_contour('sym-c1', 'sym-e1', 'sym-e2')
-        self.add_contour('sym-c2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', closed=True)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+    def build(self) -> None:
+        # A shared corner radius keeps all four turns tangent to their walls.
+        left, top, right, bottom, radius = 8, 4, 40, 16, 3
+        self.add_line('box-top', (left+radius,top), (right-radius,top))
+        self.add_arc('box-tr', (right-radius,top), (right,top+radius), radius_x=radius)
+        self.add_line('box-right', (right,top+radius), (right,bottom-radius))
+        self.add_arc('box-br', (right,bottom-radius), (right-radius,bottom), radius_x=radius)
+        self.add_line('box-bottom', (right-radius,bottom), (left+radius,bottom))
+        self.add_arc('box-bl', (left+radius,bottom), (left,bottom-radius), radius_x=radius)
+        self.add_line('box-left', (left,bottom-radius), (left,top+radius))
+        self.add_arc('box-tl', (left,top+radius), (left+radius,top), radius_x=radius)
+        self.add_contour('box', *('box-'+part for part in ('top','tr','right','br','bottom','bl','left','tl')), closed=True)
+
+        self.add_line('shaft',(24,25),(24,44))
+        self.add_polyline('head',(16,36),(24,44),(32,36))
+        self.relate('connect','head','shaft')

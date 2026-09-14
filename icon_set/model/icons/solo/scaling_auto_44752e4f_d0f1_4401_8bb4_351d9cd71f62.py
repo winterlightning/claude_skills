@@ -1,10 +1,10 @@
-"""Scaling auto (programing), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Automatic scaling: four equal outward arrows attach to the central rounded box at real cardinal points.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '44752e4f-d0f1-4401-8bb4-351d9cd71f62'
 SOURCE_PATH = 'icons-json/programing/scaling auto_44752e4f-d0f1-4401-8bb4-351d9cd71f62.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ScalingAuto(Solo48):
     icon_id = 'scaling-auto'
@@ -15,49 +15,21 @@ class ScalingAuto(Solo48):
     aliases = ()
     keywords = ('scaling', 'auto', 'programing')
 
-    def build(self):
-        self.add_line('e0', (20, 10), (24, 6))
-        self.add_line('e1', (24, 16), (24, 6))
-        self.add_line('e2', (28, 10), (24, 6))
-        self.add_line('e3', (10, 20), (6, 24))
-        self.add_line('e4', (10, 28), (6, 24))
-        self.add_line('e5', (15, 24), (6, 24))
-        self.add_line('e6', (38, 20), (42, 24))
-        self.add_line('e7', (33, 24), (42, 24))
-        self.add_line('e8', (38, 28), (42, 24))
-        self.add_line('e9', (24, 32), (24, 42))
-        self.add_line('e10', (20, 38), (24, 42))
-        self.add_line('e11', (28, 39), (24, 42))
-        self.add_line('e12', (17, 20), (17, 28))
-        self.add_line('e13', (20, 30), (28, 30))
-        self.add_line('e14', (31, 28), (31, 20))
-        self.add_line('e15', (28, 18), (19, 18))
-        self.add_line('e16', (17, 28), (20, 30))
-        self.add_line('e17', (28, 30), (31, 28))
-        self.add_line('e18', (31, 20), (28, 18))
-        self.add_line('e19', (19, 18), (17, 20))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('c6', 'e6')
-        self.add_contour('c7', 'e7')
-        self.add_contour('c8', 'e8')
-        self.add_contour('c9', 'e9')
-        self.add_contour('c10', 'e10')
-        self.add_contour('c11', 'e11')
-        self.add_contour('c12', 'e12', 'e16', 'e13', 'e17', 'e14', 'e18', 'e15', 'e19', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c6', 'c8')
-        self.relate('connect', 'c7', 'c8')
-        self.relate('connect', 'c10', 'c11')
-        self.relate('connect', 'c10', 'c9')
-        self.relate('connect', 'c11', 'c9')
+    def build(self) -> None:
+        # A shared corner radius keeps all four turns tangent to their walls.
+        left, top, right, bottom, radius = 17, 17, 31, 31, 3
+        self.add_line('box-top', (left+radius,top), (right-radius,top))
+        self.add_arc('box-tr', (right-radius,top), (right,top+radius), radius_x=radius)
+        self.add_line('box-right', (right,top+radius), (right,bottom-radius))
+        self.add_arc('box-br', (right,bottom-radius), (right-radius,bottom), radius_x=radius)
+        self.add_line('box-bottom', (right-radius,bottom), (left+radius,bottom))
+        self.add_arc('box-bl', (left+radius,bottom), (left,bottom-radius), radius_x=radius)
+        self.add_line('box-left', (left,bottom-radius), (left,top+radius))
+        self.add_arc('box-tl', (left,top+radius), (left+radius,top), radius_x=radius)
+        self.add_contour('box', *('box-'+part for part in ('top','tr','right','br','bottom','bl','left','tl')), closed=True)
+
+        for i,(dx,dy) in enumerate(((0,-1),(1,0),(0,1),(-1,0))):
+            def p(a,b):return (24+dx*a-dy*b,24+dy*a+dx*b)
+            self.add_line(f'shaft-{i}',p(7,0),p(18,0))
+            self.add_polyline(f'head-{i}',p(14,-4),p(18,0),p(14,4))
+            self.relate('connect','box',f'shaft-{i}');self.relate('connect',f'head-{i}',f'shaft-{i}')

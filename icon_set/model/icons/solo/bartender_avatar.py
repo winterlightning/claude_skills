@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to bartainder.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 26; shoulder top 34; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -53,3 +53,6 @@ class BartenderAvatar(Solo48):
         self.add_polyline('body-apron', (18,top), (18,44), (30,44), (30,top))
         self.relate('connect', 'body-apron', 'body-top')
         self.relate('connect', 'body-apron', 'body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

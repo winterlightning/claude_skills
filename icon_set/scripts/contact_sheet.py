@@ -126,7 +126,7 @@ def main(argv: list[str] | None = None) -> int:
         "--out", type=Path,
         default=REPO_ROOT / "icon_set" / "assets" / "previews-svg" / "contact-sheet.svg",
     )
-    parser.add_argument("--category", help="filter to an exact category, such as people/avatars")
+    parser.add_argument("--category", help="filter to an exact category, such as avatars")
     parser.add_argument("--png", type=Path, default=None)
     args = parser.parse_args(argv)
 

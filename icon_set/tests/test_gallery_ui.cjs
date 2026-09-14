@@ -41,6 +41,45 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const authors = page('gallery');
+  authors.run(`icons=[
+    {key:'solo/base',family:'solo',icon_id:'base',name:'Base',author:'json_to_solo'},
+    {key:'solo/base-v2',family:'solo',icon_id:'base-v2',name:'Revision',author:'gpt-6',variant_of:'base',variant_root:'base'},
+    {key:'solo/unknown',family:'solo',icon_id:'unknown',name:'Unknown'}
+  ];section='json';setIconView('versions');`);
+  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base', 'Version expansion stays within the author tab');
+  authors.run("section='ai';");
+  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'Unknown authors are not classified as AI');
+  authors.run("icons[0].author='gpt-6';section='json';");
+  assert.equal(authors.run('filteredIcons().length'), 0, 'Updating model author removes the icon from the converter backlog');
+  authors.run("failedIcons=[{key:'solo/failed',family:'solo',icon_id:'failed',name:'Failed',author:'json_to_solo',build_failed:true}];reviews['solo/failed']='rejected';");
+  assert.equal(authors.run('filteredIcons().length'), 1, 'Author tabs include failed and rejected icons by default');
+  authors.run("reviewFilter='approve';");
+  assert.equal(authors.run('filteredIcons().length'), 0, 'Converter tab applies its selected Approved filter');
+  authors.run("reviewFilter='rejected';");
+  assert.equal(authors.run('filteredIcons().length'), 1, 'Converter tab can filter rejected failed icons');
+  authors.run("reviewFilter='';");
+  assert.equal(authors.run('selectable(failedIcons[0])'), false, 'Failed builds cannot be bulk approved');
+  authors.run("section='icons';setIconView('generated');");
+  assert.equal(authors.run('filteredIcons().some(i=>i.build_failed)'), false, 'Failed icons stay out of the exported library');
+  authors.run("loadReviews=()=>{};section='icons';reviewFilter='approve';showSection('json');");
+  assert.equal(authors.run('reviewFilter'), '', 'Entering converter tab does not inherit Approved from Icons');
+  assert.equal(authors.document.getElementById('reviewTabs').hidden, false);
+  authors.run("reviewFilter='rejected';showSection('icons');");
+  assert.equal(authors.run('reviewFilter'), 'approve', 'Icons keeps its own review filter');
+  authors.run("showSection('json');");
+  assert.equal(authors.run('reviewFilter'), 'rejected', 'Converter tab remembers its own review filter');
+  const selection = page('gallery');
+  selection.run(`icons=Array.from({length:53},(_,n)=>({key:'solo/icon-'+n,family:'solo',icon_id:'icon-'+n,name:'Icon '+n}));reviewsLoaded=true;setIconView('generated');pageSize=48;render();$('selectAll').checked=true;$('selectAll').onchange();`);
+  assert.equal(selection.run('selectedKeys.size'), 48, 'Select all is limited to the visible page');
+  selection.run('changePage(2);');
+  assert.equal(selection.run('selectedKeys.size'), 0, 'Changing pages clears selection');
+  selection.run("$('selectAll').checked=true;$('selectAll').onchange();");
+  assert.equal(selection.run('selectedKeys.size'), 5, 'Last page selects only its remaining icons');
+  selection.run("selectedKeys.add('solo/icon-0');updateSelection();");
+  assert.equal(selection.run("selectedKeys.has('solo/icon-0')"), false, 'Off-page icons cannot remain selected');
+  selection.run("$('pageSize').value='24';$('pageSize').onchange();");
+  assert.equal(selection.run('selectedKeys.size'), 0, 'Changing page size clears selection');
   const gallery = page('gallery');
   gallery.run(`icons=[
     {key:'solo/test',family:'solo',icon_id:'test',name:'Test',preview_url:'v1.svg'},
@@ -63,6 +102,7 @@ async function main() {
   gallery.run("reviewFilter='';reviews['solo/test']='re-generated';reviewFilter='re-generated';render();");
   assert.equal(gallery.run('filteredIcons().length'), 3, 'Status match brings active siblings into comparison');
   gallery.run("reviewFilter='';pageSize=1;page=1;render();");
+  assert.equal(gallery.run('currentPageIcons().length'), 3, 'Version groups select exactly the versions rendered on the page');
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 3, 'Pagination keeps versions together');
   gallery.run("page=2;render();");
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 1);

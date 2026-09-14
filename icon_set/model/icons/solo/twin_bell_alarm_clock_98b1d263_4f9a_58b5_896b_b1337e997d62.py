@@ -1,4 +1,4 @@
-"""Twin-bell alarm clock with bells moved inward and slightly reduced for clearance. VRECT_L matches the narrower silhouette; Lucide alarm-clock informs mirrored placement."""
+'Alarm clock: round dial with compact hands, two equal bell curves and attached feet; keep the bells clearly separated.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '98b1d263-4f9a-58b5-896b-b1337e997d62'
@@ -15,17 +15,12 @@ class TwinBellAlarmClock(Solo48):
     keywords = ('clock', 'alarm', 'bells', 'time', 'retro', 'round', 'feet')
 
     def build(self) -> None:
-        self.add_arc('face-0', (24, 13), (39, 28), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('face-1', (39, 28), (33, 40), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('face-2', (33, 40), (24, 42), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('face-3', (24, 42), (15, 40), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('face-4', (15, 40), (9, 28), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('face-5', (9, 28), (24, 13), radius_x=15, radius_y=15, sweep=True)
-        self.add_contour('face', 'face-0', 'face-1', 'face-2', 'face-3', 'face-4', 'face-5', closed=True)
-        self.add_polyline('hands', (24, 21), (24, 28), (18, 32), closed=False)
-        self.add_line('left-foot', (15, 40), (12, 42))
-        self.add_line('right-foot', (33, 40), (36, 42))
-        self.relate('connect', 'left-foot', 'face')
-        self.relate('connect', 'right-foot', 'face')
-        self.add_arc('bell-left', (8, 7), (18, 7), radius_x=5, radius_y=5, sweep=True)
-        self.add_arc('bell-right', (30, 7), (40, 7), radius_x=5, radius_y=5, sweep=True)
+        self.add_arc('clock-top', (11,29), (37,29), radius_x=13, radius_y=13)
+        self.add_arc('clock-bottom', (37,29), (11,29), radius_x=13, radius_y=13)
+        self.add_contour('clock', 'clock-top', 'clock-bottom', closed=True)
+
+        self.add_polyline('hands',(24,25),(24,29),(21,31))
+        self.add_arc('bell-left',(8,8),(18,8),radius_x=5,radius_y=4)
+        self.add_arc('bell-right',(30,8),(40,8),radius_x=5,radius_y=4)
+        self.add_line('foot-left',(19,41),(16,44));self.add_line('foot-right',(29,41),(32,44))
+        self.relate('connect','foot-left','clock');self.relate('connect','foot-right','clock')

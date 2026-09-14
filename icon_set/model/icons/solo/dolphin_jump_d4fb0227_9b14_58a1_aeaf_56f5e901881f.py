@@ -1,4 +1,4 @@
-"""Dolphin leaping left through an interrupted vertical hoop. Centerlines (6,6)-(42,42). Lucide fish informs body/fin contour; eye omitted for clearance."""
+'Dolphin through a hoop: preserve the curved swimming body and fins, trimming the visible hoop segments to open the separating gaps.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,21 +17,12 @@ class DolphinThroughHoop(Solo48):
     keywords = ('dolphin', 'hoop', 'jump', 'circus', 'trick', 'marine', 'show', 'sea')
 
     def build(self) -> None:
-        self.add_arc('head',(6,27),(16,17),radius_x=13)
-        self.add_polyline('dorsal',(16,17),(23,11),(23,18))
-        self.add_arc('back',(23,18),(37,25),radius_x=30)
-        self.add_polyline('fluke',(37,25),(42,23),(42,30),(42,37),(35,31))
-        self.add_arc('belly',(35,31),(24,28),radius_x=26,sweep=False)
-        self.add_polyline('flipper',(24,28),(26,35),(17,29),(6,33),(6,27))
-        self.relate('connect','head','dorsal')
-        self.relate('connect','dorsal','back')
-        self.relate('connect','back','fluke')
-        self.relate('connect','fluke','belly')
-        self.relate('connect','belly','flipper')
-        self.relate('connect','flipper','head')
-        self.add_arc('hoop-top-left',(16,9),(24,6),radius_x=8,radius_y=7)
-        self.add_arc('hoop-top-right',(24,6),(34,14),radius_x=10,radius_y=12)
-        self.add_contour('hoop-top','hoop-top-left','hoop-top-right')
-        self.add_arc('hoop-bottom-right',(34,38),(24,42),radius_x=10,radius_y=8)
-        self.add_arc('hoop-bottom-left',(24,42),(16,38),radius_x=8,radius_y=8)
-        self.add_contour('hoop-bottom','hoop-bottom-right','hoop-bottom-left')
+        self.add_bezier('head',(6,26),((7,22),(11,19),(16,18)))
+        self.add_polyline('dorsal',(16,18),(23,15),(23,20))
+        self.add_bezier('back',(23,20),((29,20),(34,21),(37,23)))
+        self.add_polyline('tail',(37,23),(42,20),(42,32),(35,29))
+        self.add_bezier('belly',(35,29),((31,28),(27,29),(24,30)))
+        self.add_polyline('flipper',(24,30),(24,33),(17,29),(6,33),(6,26))
+        for a,b in (('head','dorsal'),('dorsal','back'),('back','tail'),('tail','belly'),('belly','flipper'),('flipper','head')):self.relate('connect',a,b)
+        self.add_bezier('hoop-top',(16,9),((18,7),(21,6),(24,6)),((28,6),(31,7),(34,10)))
+        self.add_bezier('hoop-bottom',(32,40),((30,42),(27,42),(24,42)),((21,42),(18,42),(16,40)))

@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-korean-woman.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-korean-woman.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-korean-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 24
+HEAD_BOTTOM = 23
 
 class KoreanWomanAvatar(Solo48):
     icon_id = 'korean-woman-avatar'
@@ -36,7 +36,7 @@ class KoreanWomanAvatar(Solo48):
             self.relate('connect', 'outer-' + side, 'fringe-' + side)
         self.relate('connect', 'outer-left', 'outer-right')
         self.relate('connect', 'fringe-left', 'fringe-right')
-        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=10)
+        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=9)
         for side in ['left', 'right']:
             self.relate('connect', 'face', 'fringe-' + side)
 
@@ -59,3 +59,6 @@ class KoreanWomanAvatar(Solo48):
         self.relate('connect', 'body-collar', 'body-top-right')
         self.add_line('body-tie', (24,42), (22,44))
         self.relate('connect', 'body-collar', 'body-tie')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

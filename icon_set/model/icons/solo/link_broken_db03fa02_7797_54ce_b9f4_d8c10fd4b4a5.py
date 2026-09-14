@@ -1,10 +1,10 @@
-"""Link broken (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Broken link: preserve two separated curved chain halves with two clear fracture rays; omit the crowded middle ray.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'db03fa02-7797-54ce-b9f4-d8c10fd4b4a5'
 SOURCE_PATH = 'icons-json/interface-essential/link broken_db03fa02-7797-54ce-b9f4-d8c10fd4b4a5.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class LinkBroken(Solo48):
     icon_id = 'link-broken'
@@ -15,23 +15,8 @@ class LinkBroken(Solo48):
     aliases = ()
     keywords = ('link', 'broken', 'interface-essential')
 
-    def build(self):
-        self.add_line('e0', (20, 4), (20, 9))
-        self.add_line('e1', (22, 17), (28, 9))
-        self.add_line('e2', (38, 20), (29, 31))
-        self.add_line('e3', (11, 9), (15, 11))
-        self.add_line('e4', (8, 18), (12, 18))
-        self.add_line('e5', (16, 23), (10, 31))
-        self.add_line('e6', (21, 41), (26, 36))
-        self.add_arc('e7-1', (28, 9), (40, 15), radius_x=8)
-        self.add_arc('e7-2', (40, 15), (38, 20), radius_x=9)
-        self.add_arc('e8-1', (10, 31), (8, 36), radius_x=9, sweep=False)
-        self.add_line('e8-2', (8, 36), (9, 40))
-        self.add_arc('e8-3', (9, 40), (15, 44), radius_x=7, sweep=False)
-        self.add_line('e8-4', (15, 44), (17, 44))
-        self.add_line('e8-5', (17, 44), (21, 41))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e7-1', 'e7-2', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5', 'e8-1', 'e8-2', 'e8-3', 'e8-4', 'e8-5', 'e6')
+    def build(self) -> None:
+        self.add_bezier('upper-link',(24,18),((27,14),(29,8),(33,8)),((37,8),(40,11),(40,15)),((40,19),(35,23),(31,27)))
+        self.add_bezier('lower-link',(16,26),((12,30),(8,34),(8,38)),((8,42),(11,44),(15,44)),((19,44),(23,39),(25,36)))
+        self.add_line('spark-top',(16,4),(16,10))
+        self.add_line('spark-left',(8,17),(12,17))

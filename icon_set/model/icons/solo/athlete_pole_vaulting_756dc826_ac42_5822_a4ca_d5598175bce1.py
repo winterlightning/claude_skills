@@ -1,8 +1,4 @@
-"""A pole vaulter curls beside a strongly bent pole.
-
-Kept the bent pole, raised hand contact and curled legs; omitted doubled body outlines.
-Lucide person-standing informs spare limbs; source fixes the pose and bent-pole relationship.
-"""
+'Pole vaulter: preserve the bent pole and curled action pose, with a round head and exact four-unit head-to-body clearance.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -41,11 +37,14 @@ class AthletePoleVaulting(Solo48):
         self.add_arc(name+'-bottom',(x+rx,y),(x-rx,y),radius_x=rx,radius_y=ry)
         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
-    def build(self):
-        # A pole vaulter curls beside a strongly bent pole.
-        self.add_arc('pole-upper',(10,6),(28,12),radius_x=30,radius_y=40)
-        self.add_arc('pole-lower',(28,12),(40,42),radius_x=30,radius_y=40)
-        self.add_contour('pole','pole-upper','pole-lower')
-        self.circle('head',11,16,3)
-        self.skeleton([('body',[(22,24),(14,28),(22,35)]),('arms',[(22,24),(28,12)]),('back-leg',[(22,35),(18,42)]),('front-leg',[(22,35),(28,32),(29,39)])])
-        for part in ['pole-upper','pole-lower']:self.relate('connect','arms-0',part)
+    def build(self) -> None:
+        self.add_arc('head-top', (8,12), (16,12), radius_x=4, radius_y=4)
+        self.add_arc('head-bottom', (16,12), (8,12), radius_x=4, radius_y=4)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+
+        # full_body_ref.png: head bottom y=16 and shoulders y=24 give an exact 4-unit ink gap.
+        self.add_bezier('pole',(24,4),((26,4),(28,6),(30,10)),((37,18),(40,34),(40,44)))
+        self.add_polyline('body',(10,24),(16,24),(24,28),(18,33))
+        self.add_polyline('arms',(16,24),(24,24),(30,10));self.relate('connect','arms','body');self.relate('connect','arms','pole')
+        self.add_line('back-leg',(18,33),(14,44));self.relate('connect','back-leg','body')
+        self.add_polyline('front-leg',(18,33),(28,32),(32,39));self.relate('connect','front-leg','body');self.relate('connect','front-leg','back-leg')

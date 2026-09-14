@@ -185,7 +185,7 @@ class RejectedFeedbackTests(unittest.TestCase):
 class RejectedGalleryTests(unittest.TestCase):
     def test_rejection_filters_and_brief_downloads(self):
         template = (Path(__file__).resolve().parents[1] / 'scripts/templates/gallery.html').read_text()
-        functions = ['iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector',
+        functions = ['authorSection', 'matchesAuthor', 'iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector',
                      'discardMode', 'selectable']
         code = '\n'.join(next(line for line in template.splitlines() if line.startswith('function ' + name + '('))
                          for name in functions)

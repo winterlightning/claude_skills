@@ -1,4 +1,4 @@
-"""Seated infant with a large round head, two eyes, simple arms and open seated legs. SQUARE preserves generous proportions; Lucide baby informs the minimal face. Closed foot loops and extra diaper curves omitted."""
+'Sitting baby: round head, broad smooth shoulders and rounded seated legs from the shared human reference; omit facial details too small for this scale.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '10921a97-46e3-5bea-b3ba-ce5691a7278c'
@@ -14,28 +14,21 @@ class SittingBaby(Solo48):
     aliases = ()
     keywords = ('sitting', 'baby', 'infant', 'nursery')
 
-    def build(self):
-        # SQUARE: (6,6)-(42,42); front-facing, mirrored around x=24.
-        self.add_arc('head-right', (24,6), (24,24), radius_x=11)
-        self.add_arc('head-left', (24,24), (24,6), radius_x=11)
-        self.add_contour('head', 'head-right', 'head-left', closed=True)
-        self.add_dot('eye-left', (20,12))
-        self.add_dot('eye-right', (28,12))
-        self.add_arc('shoulder-left', (24,24), (10,32), radius_x=14, radius_y=8, sweep=False)
-        self.add_line('arm-left', (10,32), (10,36))
-        self.add_arc('shoulder-right', (38,32), (24,24), radius_x=14, radius_y=8, sweep=False)
-        self.add_line('arm-right', (38,36), (38,32))
-        self.add_contour('left-arm', 'shoulder-left', 'arm-left')
-        self.add_contour('right-arm', 'arm-right', 'shoulder-right')
-        self.relate('connect', 'head', 'left-arm')
-        self.relate('connect', 'head', 'right-arm')
-        self.relate('connect', 'left-arm', 'right-arm')
-        self.add_arc('leg-left', (10,36), (10,42), radius_x=8, radius_y=5, sweep=False)
-        self.add_line('seat-left', (10,42), (18,42))
-        self.add_arc('leg-right', (38,42), (38,36), radius_x=8, radius_y=5, sweep=False)
-        self.add_line('seat-right', (30,42), (38,42))
-        self.add_contour('left-leg', 'leg-left', 'seat-left')
-        self.add_contour('right-leg', 'seat-right', 'leg-right')
-        self.relate('connect', 'left-arm', 'left-leg')
-        self.relate('connect', 'right-arm', 'right-leg')
-        self.add_line('diaper', (18,36), (30,36))
+    def build(self) -> None:
+        self.add_arc('head-top', (18,12), (30,12), radius_x=6, radius_y=6)
+        self.add_arc('head-bottom', (30,12), (18,12), radius_x=6, radius_y=6)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+
+        # Shared full_body_ref.png: round head bottom18, shoulders top26 => exactly4 units of ink.
+        # Round seated legs and broad arms preserve the baby's sitting pose.
+        self.add_bezier('shoulder-left',(12,34),((12,29),(18,26),(24,26)))
+        self.add_bezier('shoulder-right',(24,26),((30,26),(36,29),(36,34)))
+        self.add_bezier('leg-right',(36,34),((40,34),(42,36),(42,38)),((42,41),(39,42),(36,42)))
+        self.add_line('seat-right',(36,42),(30,42))
+        self.add_bezier('leg-left',(12,34),((8,34),(6,36),(6,38)),((6,41),(9,42),(12,42)))
+        self.add_line('seat-left',(12,42),(18,42))
+        self.relate('connect','seat-left','leg-left')
+        self.relate('connect','leg-left','shoulder-left')
+        self.relate('connect','shoulder-left','shoulder-right')
+        self.relate('connect','shoulder-right','leg-right')
+        self.relate('connect','leg-right','seat-right')

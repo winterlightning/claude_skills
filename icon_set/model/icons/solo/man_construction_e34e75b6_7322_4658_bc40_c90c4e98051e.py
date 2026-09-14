@@ -1,14 +1,23 @@
-"""Man construction (avatars), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""Man Construction: work vest centre fastening, with reference curved shoulders.
+
+Plan: head/headwear and curved body on SOLO48 VRECT_L, ink (6,2)-(42,46).
+Circular face and shoulder ink meet with zero visible gap.
+Human reference: icon_set/references/human_ref/user.svg; supporting Lucide
+original/user-round.svg and atomic-debug/user-round.svg supply cardinal arcs.
+Preserve original head identity; omit tiny facial marks and hat trim at 48.
+Paired shoulders use shared radii; source hair asymmetry remains intentional.
+"""
 from ...keyshapes import Keyshape
-from ._base import Solo48
+from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'e34e75b6-7322-4658-bc40-c90c4e98051e'
 SOURCE_PATH = 'icons-json/avatars/man construction_e34e75b6-7322-4658-bc40-c90c4e98051e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
+HEAD_BOTTOM = 26
 
 class ManConstruction(Solo48):
     icon_id = 'man-construction'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
@@ -16,44 +25,31 @@ class ManConstruction(Solo48):
     keywords = ('man', 'construction', 'avatars')
 
     def build(self):
-        self.add_line('sym-e0', (26, 23), (22, 23))
-        self.add_line('sym-e1', (22, 23), (17, 9))
-        self.add_arc('sym-e2', (17, 9), (14, 12), radius_x=31)
-        self.add_arc('sym-e3', (14, 12), (9, 23), radius_x=17, sweep=False)
-        self.add_line('sym-e4', (9, 23), (6, 23))
-        self.add_line('sym-e5', (42, 23), (39, 23))
-        self.add_arc('sym-e6', (39, 23), (34, 12), radius_x=17, sweep=False)
-        self.add_arc('sym-e7', (34, 12), (31, 9), radius_x=31)
-        self.add_line('sym-e8', (31, 9), (26, 23))
-        self.add_line('sym-e9', (26, 23), (39, 23))
-        self.add_line('sym-e10', (39, 23), (39, 28))
-        self.add_line('sym-e11', (39, 28), (38, 32))
-        self.add_arc('sym-e12', (38, 32), (24, 42), radius_x=15)
-        self.add_arc('sym-e17', (24, 42), (10, 32), radius_x=15)
-        self.add_arc('sym-e18', (10, 32), (9, 28), radius_x=12)
-        self.add_line('sym-e19', (9, 28), (9, 23))
-        self.add_line('sym-e20', (9, 23), (22, 23))
-        self.add_line('sym-e21', (31, 9), (31, 8))
-        self.add_arc('sym-e22', (31, 8), (29, 7), radius_x=4, sweep=False)
-        self.add_arc('sym-e23', (29, 7), (25, 6), radius_x=22)
-        self.add_line('sym-e24', (25, 6), (24, 6))
-        self.add_line('sym-e29', (24, 6), (23, 6))
-        self.add_arc('sym-e30', (23, 6), (19, 7), radius_x=22)
-        self.add_line('sym-e31', (19, 7), (17, 8))
-        self.add_line('sym-e32', (17, 8), (17, 9))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c1', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20')
-        self.add_contour('sym-c2', 'sym-e21', 'sym-e22', 'sym-e23', 'sym-e24', 'sym-e29', 'sym-e30', 'sym-e31', 'sym-e32')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        self.add_arc('helmet-left',(12,16),(24,4),radius_x=12)
+        self.add_arc('helmet-right',(24,4),(36,16),radius_x=12)
+        self.add_contour('helmet','helmet-left','helmet-right')
+        self.add_polyline('brim',(8,16),(12,16),(24,16),(36,16),(40,16))
+        self.relate('connect','helmet','brim')
+        self.add_line('helmet-ridge',(24,4),(24,16))
+        self.relate('connect','helmet-ridge','helmet')
+        self.relate('connect','helmet-ridge','brim')
+        self.add_arc('face',(34,16),(14,16),radius_x=10)
+        self.relate('connect','face','brim')
+        top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
+        self.add_line('body-left-side',(8,44),(8,42))
+        self.add_arc('body-left-shoulder',(8,42),(18,top),radius_x=10,radius_y=42-top)
+        self.add_contour('body-left','body-left-side','body-left-shoulder')
+        self.add_line('body-top',(18,top),(24,top))
+        self.add_line('body-top-right',(24,top),(30,top))
+        self.add_arc('body-right-shoulder',(30,top),(40,42),radius_x=10,radius_y=42-top)
+        self.add_line('body-right-side',(40,42),(40,44))
+        self.add_contour('body-right','body-right-shoulder','body-right-side')
+        self.relate('connect','body-left','body-top')
+        self.relate('connect','body-top','body-top-right')
+        self.relate('connect','body-top-right','body-right')
+        self.add_line('body-fastening',(24,top),(24,44))
+        self.relate('connect','body-fastening','body-top')
+        self.relate('connect','body-fastening','body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

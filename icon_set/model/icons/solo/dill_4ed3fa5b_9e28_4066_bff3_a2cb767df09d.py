@@ -1,37 +1,28 @@
-"""Dill (food), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Dill sprig: preserve the natural lean and asymmetric curved branches with clear branch spacing.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4ed3fa5b-9e28-4066-bff3-a2cb767df09d'
 SOURCE_PATH = 'icons-json/food/dill_4ed3fa5b-9e28-4066-bff3-a2cb767df09d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Dill(Solo48):
     icon_id = 'dill'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
     keywords = ('dill', 'food')
 
-    def build(self):
-        self.add_line('e0', (31, 34), (29, 35))
-        self.add_line('e1', (29, 35), (23, 36))
-        self.add_arc('e2', (31, 4), (24, 44), radius_x=50, sweep=False)
-        self.add_arc('e3', (19, 9), (25, 15), radius_x=10, sweep=False)
-        self.add_arc('e4', (8, 17), (23, 30), radius_x=18, sweep=False)
-        self.add_arc('e5', (12, 35), (23, 41), radius_x=10, sweep=False)
-        self.add_arc('e6', (40, 26), (31, 34), radius_x=14)
-        self.add_arc('e7', (36, 9), (28, 10), radius_x=15)
-        self.add_contour('c0', 'e2')
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e6', 'e0', 'e1')
-        self.add_contour('c5', 'e7')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c3', 'c0')
-        self.relate('connect', 'c4', 'c0')
-        self.relate('connect', 'c5', 'c0')
+    def build(self) -> None:
+        self.add_bezier('stem',(24,42),((23,40),(23,38),(24,36)),((24,35),(24,34),(24,33)),((23,30),(23,26),(24,23)),((25,20),(25,17),(26,14)),((27,10),(28,8),(29,6)))
+        self.add_bezier('left-low',(24,36),((14,38),(9,34),(8,29)))
+        self.add_bezier('right-low',(24,33),((34,34),(39,30),(42,25)))
+        self.add_bezier('left-high',(24,23),((15,24),(9,20),(6,14)))
+        self.add_bezier('right-high',(26,14),((33,15),(36,13),(38,10)))
+        # Explicit shared endpoints define the same leaning organic stem.
+        self.relate('connect','stem','left-low')
+        self.relate('connect','stem','right-low')
+        self.relate('connect','stem','left-high')
+        self.relate('connect','stem','right-high')

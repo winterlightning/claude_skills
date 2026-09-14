@@ -1,5 +1,4 @@
-# Review candidate; original preserved.
-"""Star-labelled decorative bottle with a deeper cap opening. VRECT_L preserves the bottle proportions and intrinsic label."""
+'Star bottle: taller label area and smaller central star with clear margins, preserving the neck and rounded body.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e0f7f6c1-f633-5b90-9f71-aac0f4ec1dce'
@@ -13,20 +12,23 @@ class StarLabelledBottle(Solo48):
     semantic_kind = 'noun'
     category = 'objects/decoration'
     aliases = ()
-    keywords = ('bottle', 'star', 'cap', 'container', 'label', 'decor', 'vessel')
 
     def build(self) -> None:
-        """Opening repair: Deepened the cap band, moving both shoulder junctions together and retaining the star label."""
-        self.add_polyline('neck', (16, 14), (16, 6), (32, 6), (32, 14))
-        self.add_line('cap-bottom', (16, 14), (32, 14))
-        self.add_arc('shoulder-right', (32, 14), (40, 22), radius_x=8)
-        self.add_line('body-right', (40, 22), (40, 40))
-        self.add_arc('base-right', (40, 40), (34, 42), radius_x=6)
-        self.add_line('base', (34, 42), (14, 42))
-        self.add_arc('base-left', (14, 42), (8, 40), radius_x=6)
-        self.add_line('body-left', (8, 40), (8, 22))
-        self.add_arc('shoulder-left', (8, 22), (16, 14), radius_x=8)
-        self.add_contour('body', 'shoulder-right', 'body-right', 'base-right', 'base', 'base-left', 'body-left', 'shoulder-left')
-        self.relate('connect', 'neck', 'body')
-        self.relate('connect', 'neck', 'cap-bottom')
-        self.add_polyline('star', (24, 21), (27, 27), (33, 28), (29, 33), (30, 39), (24, 36), (18, 39), (19, 33), (15, 28), (21, 27), closed=True)
+        # A shared corner radius keeps all four turns tangent to their walls.
+        left, top, right, bottom, radius = 8, 15, 40, 44, 4
+        self.add_line('body-top', (left+radius,top), (right-radius,top))
+        self.add_arc('body-tr', (right-radius,top), (right,top+radius), radius_x=radius)
+        self.add_line('body-right', (right,top+radius), (right,bottom-radius))
+        self.add_arc('body-br', (right,bottom-radius), (right-radius,bottom), radius_x=radius)
+        self.add_line('body-bottom', (right-radius,bottom), (left+radius,bottom))
+        self.add_arc('body-bl', (left+radius,bottom), (left,bottom-radius), radius_x=radius)
+        self.add_line('body-left', (left,bottom-radius), (left,top+radius))
+        self.add_arc('body-tl', (left,top+radius), (left+radius,top), radius_x=radius)
+        self.add_contour('body', *('body-'+part for part in ('top','tr','right','br','bottom','bl','left','tl')), closed=True)
+
+        self.add_polyline('neck',(16,15),(16,4),(32,4),(32,15));self.relate('connect','neck','body')
+        tips = ((24,24),(30,28),(28,35),(20,35),(18,28))
+        for i, tip in enumerate(tips):
+            self.add_line(f'star-{i}',(24,30),tip)
+            for j in range(i):
+                self.relate('connect',f'star-{i}',f'star-{j}')

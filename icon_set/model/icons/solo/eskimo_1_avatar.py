@@ -1,9 +1,8 @@
 """Person wearing a winter hood with ear flaps with parka with a broad rounded collar.
 
-Plan: separate head/hair or headwear symbol, exact detached gap, curved torso
+Plan: separate head/hair or headwear symbol, painted head/body contact, curved torso
 with parka with a broad rounded collar. SOLO48 VRECT_L visible ink (6,2)-(42,46);
-centerline extremes (8,4)-(40,44). Head bottom 26, body top 34;
-nearest painted head/body gap is 4 on the shared x24 shoulder plateau.
+centerline extremes (8,4)-(40,44). Head and body ink touch on the shoulder plateau.
 Primary source supplies the hair/headwear silhouette; fine facial marks,
 hat stitching and microdetails are omitted to preserve openings at 48.
 Human reference: icon_set/references/human_ref/user.svg for proportions,
@@ -60,3 +59,6 @@ class Eskimo1Avatar(Solo48):
         self.add_arc('body-neckline',(18,top),(30,top),radius_x=6,radius_y=6,sweep=False)
         self.relate('connect','body-neckline','body-top')
         self.relate('connect','body-neckline','body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

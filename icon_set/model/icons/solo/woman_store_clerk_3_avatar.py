@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-woman-store-clerk-3.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -56,3 +56,6 @@ class WomanStoreClerk3Avatar(Solo48):
         self.relate('connect', 'body-lapels', 'body-top-right')
         self.add_line('body-opening', (24,40), (24,44))
         self.relate('connect', 'body-lapels', 'body-opening')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

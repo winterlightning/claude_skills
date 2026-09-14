@@ -1,10 +1,10 @@
-"""Very happy (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'very-happy: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '882fdc6f-fb69-486c-9abe-a9e651b9caf0'
 SOURCE_PATH = 'icons-json/smileys/very happy_882fdc6f-fb69-486c-9abe-a9e651b9caf0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class VeryHappy(Solo48):
     icon_id = 'very-happy'
@@ -15,15 +15,12 @@ class VeryHappy(Solo48):
     aliases = ()
     keywords = ('very', 'happy', 'smileys')
 
-    def build(self):
-        self.add_line('e0', (17, 28), (31, 28))
-        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e2', (10, 19), (19, 19), radius_x=5)
-        self.add_arc('e3', (29, 19), (38, 19), radius_x=5)
-        self.add_arc('e4-1', (31, 28), (23, 36), radius_x=7)
-        self.add_arc('e4-2', (23, 36), (17, 28), radius_x=7)
-        self.add_contour('c0', 'e2')
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e0', 'e4-1', 'e4-2', closed=True)
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_arc('eye-left',(15,18),(19,18),radius_x=2,radius_y=2)
+        self.add_arc('eye-right',(29,18),(33,18),radius_x=2,radius_y=2)
+        self.add_line('mouth-top',(17,27),(31,27))
+        self.add_arc('mouth-bottom',(31,27),(17,27),radius_x=7,radius_y=7)
+        self.add_contour('mouth','mouth-top','mouth-bottom',closed=True)

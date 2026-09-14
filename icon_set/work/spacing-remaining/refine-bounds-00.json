@@ -1,0 +1,6784 @@
+[
+  {
+    "id": "toucan",
+    "initial_score": 7.59846,
+    "score": 1.3469499999999996,
+    "report": "status: invalid\n  ERROR  mic [outline]: outline and eye are 7.65305 apart on centerlines nearest (8.03283, 16.8333)<->(15, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.82,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.82,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          2
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -1,
+          1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "head",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          20,
+          6
+        ],
+        "radius_x": 18,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "bill-top",
+        "start": [
+          20,
+          6
+        ],
+        "end": [
+          42,
+          18
+        ],
+        "radius_x": 26,
+        "radius_y": 16,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "bill-bottom",
+        "start": [
+          42,
+          18
+        ],
+        "end": [
+          23,
+          18
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "throat",
+        "start": [
+          23,
+          18
+        ],
+        "end": [
+          25,
+          29
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          25,
+          29
+        ],
+        "end": [
+          14,
+          40
+        ],
+        "radius_x": 11,
+        "radius_y": 11,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "tail",
+        "start": [
+          14,
+          40
+        ],
+        "end": [
+          6,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "back-low",
+        "start": [
+          6,
+          42
+        ],
+        "end": [
+          6,
+          40
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "back-high",
+        "start": [
+          6,
+          40
+        ],
+        "end": [
+          6,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "bill-root",
+        "start": [
+          20,
+          6
+        ],
+        "end": [
+          23,
+          18
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          15,
+          20
+        ],
+        "end": [
+          15,
+          20
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing",
+        "start": [
+          14,
+          28
+        ],
+        "end": [
+          6,
+          40
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "foot",
+        "start": [
+          14,
+          40
+        ],
+        "end": [
+          17,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "head",
+          "bill-top",
+          "bill-bottom",
+          "throat",
+          "belly",
+          "tail",
+          "back-low",
+          "back-high"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "bill-root"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "wing"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "foot"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "butterfly-in-heart",
+    "initial_score": 3.42026,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "wing-left",
+          "wing-lower-left",
+          "wing-lower-right",
+          "wing-right",
+          "wing-upper-left",
+          "wing-upper-right"
+        ],
+        "operation": [
+          0.82,
+          24,
+          23,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "wing-left",
+          "wing-lower-left",
+          "wing-lower-right",
+          "wing-right",
+          "wing-upper-left",
+          "wing-upper-right"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          -1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "heart-left-top",
+        "start": [
+          24,
+          9
+        ],
+        "end": [
+          13,
+          6
+        ],
+        "segments": [
+          [
+            [
+              21.5837553,
+              6.70714356
+            ],
+            [
+              17.27548816,
+              6
+            ],
+            [
+              13,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "heart-left",
+        "start": [
+          13,
+          6
+        ],
+        "end": [
+          6,
+          15
+        ],
+        "radius_x": 11,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "bezier",
+        "element_id": "heart-left-low",
+        "start": [
+          6,
+          15
+        ],
+        "end": [
+          8,
+          31
+        ],
+        "segments": [
+          [
+            [
+              6,
+              20.40784472
+            ],
+            [
+              6,
+              26.03394414
+            ],
+            [
+              8,
+              31
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "heart-tip-left",
+        "start": [
+          8,
+          31
+        ],
+        "end": [
+          24,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "heart-tip-right",
+        "start": [
+          24,
+          42
+        ],
+        "end": [
+          40,
+          31
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "heart-right-low",
+        "start": [
+          40,
+          31
+        ],
+        "end": [
+          42,
+          15
+        ],
+        "segments": [
+          [
+            [
+              42,
+              26.03394414
+            ],
+            [
+              42,
+              20.40784472
+            ],
+            [
+              42,
+              15
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "heart-right",
+        "start": [
+          42,
+          15
+        ],
+        "end": [
+          35,
+          6
+        ],
+        "radius_x": 11,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "bezier",
+        "element_id": "heart-right-top",
+        "start": [
+          35,
+          6
+        ],
+        "end": [
+          24,
+          9
+        ],
+        "segments": [
+          [
+            [
+              30.72451184,
+              6
+            ],
+            [
+              26.4162447,
+              6.70714356
+            ],
+            [
+              24,
+              9
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-upper-left",
+        "start": [
+          24,
+          22
+        ],
+        "end": [
+          15,
+          17
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-left",
+        "start": [
+          15,
+          17
+        ],
+        "end": [
+          17,
+          25
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-lower-left",
+        "start": [
+          17,
+          25
+        ],
+        "end": [
+          24,
+          27
+        ],
+        "radius_x": 4,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-lower-right",
+        "start": [
+          24,
+          27
+        ],
+        "end": [
+          31,
+          25
+        ],
+        "radius_x": 4,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-right",
+        "start": [
+          31,
+          25
+        ],
+        "end": [
+          33,
+          17
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-upper-right",
+        "start": [
+          33,
+          17
+        ],
+        "end": [
+          24,
+          22
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      }
+    ],
+    "contours": [
+      {
+        "id": "heart",
+        "members": [
+          "heart-left-top",
+          "heart-left",
+          "heart-left-low",
+          "heart-tip-left",
+          "heart-tip-right",
+          "heart-right-low",
+          "heart-right",
+          "heart-right-top"
+        ],
+        "closed": true
+      },
+      {
+        "id": "butterfly",
+        "members": [
+          "wing-upper-left",
+          "wing-left",
+          "wing-lower-left",
+          "wing-lower-right",
+          "wing-right",
+          "wing-upper-right"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "cobra-head",
+    "initial_score": 4.72643,
+    "score": 2.0087900000000003,
+    "report": "status: invalid\n  ERROR  mic [outline]: outline and eye are 6.99121 apart on centerlines nearest (23.5313, 6.02452)<->(24, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.88,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "neck-back",
+        "start": [
+          16,
+          42
+        ],
+        "end": [
+          16,
+          38
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "hood-bottom",
+        "start": [
+          16,
+          38
+        ],
+        "end": [
+          6,
+          23
+        ],
+        "segments": [
+          [
+            [
+              10.31845929,
+              37.29281541
+            ],
+            [
+              6,
+              30.77969724
+            ],
+            [
+              6,
+              23
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "hood-top",
+        "start": [
+          6,
+          23
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "radius_x": 19,
+        "radius_y": 21,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "crown",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          42,
+          12
+        ],
+        "segments": [
+          [
+            [
+              31.76661258,
+              6
+            ],
+            [
+              38.89554512,
+              8.25097078
+            ],
+            [
+              42,
+              12
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "snout",
+        "start": [
+          42,
+          12
+        ],
+        "end": [
+          35,
+          20
+        ],
+        "segments": [
+          [
+            [
+              42,
+              16.0555004
+            ],
+            [
+              39.02383141,
+              19.49317149
+            ],
+            [
+              35,
+              20
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "jaw",
+        "start": [
+          35,
+          20
+        ],
+        "end": [
+          29,
+          20
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "throat",
+        "start": [
+          29,
+          20
+        ],
+        "end": [
+          23,
+          26
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "neck-front",
+        "start": [
+          23,
+          26
+        ],
+        "end": [
+          29,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "base",
+        "start": [
+          29,
+          42
+        ],
+        "end": [
+          16,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          24,
+          13
+        ],
+        "end": [
+          24,
+          13
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "neck-back",
+          "hood-bottom",
+          "hood-top",
+          "crown",
+          "snout",
+          "jaw",
+          "throat",
+          "neck-front",
+          "base"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "coiled-snake",
+    "initial_score": 2.82845,
+    "score": 1.3079299999999998,
+    "report": "status: invalid\n  ERROR  mic [snake]: snake and eye are 7.69207 apart on centerlines nearest (41.568, 31.376)<->(34, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -1,
+          -1
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          -2
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "snake-1",
+        "start": [
+          18,
+          38
+        ],
+        "end": [
+          6,
+          21
+        ],
+        "radius_x": 19,
+        "radius_y": 19,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-2",
+        "start": [
+          6,
+          21
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "radius_x": 19,
+        "radius_y": 19,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-3",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          42,
+          21
+        ],
+        "radius_x": 19,
+        "radius_y": 19,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "snake-4",
+        "start": [
+          42,
+          21
+        ],
+        "end": [
+          42,
+          29
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "snake-5",
+        "start": [
+          42,
+          29
+        ],
+        "end": [
+          40,
+          40
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "snake-6",
+        "start": [
+          40,
+          40
+        ],
+        "end": [
+          34,
+          42
+        ],
+        "segments": [
+          [
+            [
+              38.5422399,
+              41.75220913
+            ],
+            [
+              36.21753356,
+              42
+            ],
+            [
+              34,
+              42
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "snake-7",
+        "start": [
+          34,
+          42
+        ],
+        "end": [
+          28,
+          40
+        ],
+        "segments": [
+          [
+            [
+              31.78246644,
+              42
+            ],
+            [
+              29.4577601,
+              41.75220913
+            ],
+            [
+              28,
+              40
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "snake-8",
+        "start": [
+          28,
+          40
+        ],
+        "end": [
+          26,
+          29
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-9",
+        "start": [
+          26,
+          29
+        ],
+        "end": [
+          30,
+          23
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-10",
+        "start": [
+          30,
+          23
+        ],
+        "end": [
+          24,
+          12
+        ],
+        "radius_x": 8,
+        "radius_y": 11,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-11",
+        "start": [
+          24,
+          12
+        ],
+        "end": [
+          13,
+          23
+        ],
+        "radius_x": 11,
+        "radius_y": 11,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-12",
+        "start": [
+          13,
+          23
+        ],
+        "end": [
+          24,
+          34
+        ],
+        "radius_x": 11,
+        "radius_y": 11,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "snake-13",
+        "start": [
+          24,
+          34
+        ],
+        "end": [
+          18,
+          38
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          34,
+          30
+        ],
+        "end": [
+          34,
+          30
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "snake",
+        "members": [
+          "snake-1",
+          "snake-2",
+          "snake-3",
+          "snake-4",
+          "snake-5",
+          "snake-6",
+          "snake-7",
+          "snake-8",
+          "snake-9",
+          "snake-10",
+          "snake-11",
+          "snake-12",
+          "snake-13"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "crab",
+    "initial_score": 9.05572,
+    "score": 9.05572,
+    "report": "status: invalid\n  ERROR  mic [left-leg]: left-leg and left-foot are 4.47214 apart on centerlines nearest (6, 40)<->(10, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [right-leg]: right-leg and right-foot are 4.47214 apart on centerlines nearest (42, 40)<->(38, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "back",
+        "start": [
+          12,
+          27
+        ],
+        "end": [
+          36,
+          27
+        ],
+        "radius_x": 12,
+        "radius_y": 7,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          36,
+          27
+        ],
+        "end": [
+          12,
+          27
+        ],
+        "radius_x": 12,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "left-claw",
+        "start": [
+          6,
+          6
+        ],
+        "end": [
+          12,
+          16
+        ],
+        "radius_x": 6,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "left-pincer",
+        "start": [
+          12,
+          16
+        ],
+        "end": [
+          18,
+          6
+        ],
+        "radius_x": 6,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "left-arm",
+        "start": [
+          12,
+          27
+        ],
+        "end": [
+          12,
+          16
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "left-leg-1",
+        "start": [
+          13,
+          33
+        ],
+        "end": [
+          6,
+          36
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "left-leg-2",
+        "start": [
+          6,
+          36
+        ],
+        "end": [
+          6,
+          40
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "left-foot",
+        "start": [
+          18,
+          39
+        ],
+        "end": [
+          10,
+          42
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "right-claw",
+        "start": [
+          42,
+          6
+        ],
+        "end": [
+          36,
+          16
+        ],
+        "radius_x": 6,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "right-pincer",
+        "start": [
+          36,
+          16
+        ],
+        "end": [
+          30,
+          6
+        ],
+        "radius_x": 6,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "right-arm",
+        "start": [
+          36,
+          27
+        ],
+        "end": [
+          36,
+          16
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "right-leg-1",
+        "start": [
+          35,
+          33
+        ],
+        "end": [
+          42,
+          36
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "right-leg-2",
+        "start": [
+          42,
+          36
+        ],
+        "end": [
+          42,
+          40
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "right-foot",
+        "start": [
+          30,
+          39
+        ],
+        "end": [
+          38,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "body",
+        "members": [
+          "back",
+          "belly"
+        ],
+        "closed": true
+      },
+      {
+        "id": "left-claw-shape",
+        "members": [
+          "left-claw",
+          "left-pincer"
+        ],
+        "closed": false
+      },
+      {
+        "id": "left-leg",
+        "members": [
+          "left-leg-1",
+          "left-leg-2"
+        ],
+        "closed": false
+      },
+      {
+        "id": "right-claw-shape",
+        "members": [
+          "right-claw",
+          "right-pincer"
+        ],
+        "closed": false
+      },
+      {
+        "id": "right-leg",
+        "members": [
+          "right-leg-1",
+          "right-leg-2"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "left-arm",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "left-arm",
+          "left-claw-shape"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "left-leg",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "left-foot",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "right-arm",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "right-arm",
+          "right-claw-shape"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "right-leg",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "right-foot",
+          "body"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "curled-rat",
+    "initial_score": 5.281219999999999,
+    "score": 2.22142,
+    "report": "status: invalid\n  ERROR  mic [head]: head and eye are 6.77858 apart on centerlines nearest (22.5884, 6.23393)<->(23, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.82,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "ear-top",
+        "start": [
+          12,
+          8
+        ],
+        "end": [
+          6,
+          14
+        ],
+        "radius_x": 7,
+        "radius_y": 7,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "bezier",
+        "element_id": "ear-bottom",
+        "start": [
+          6,
+          14
+        ],
+        "end": [
+          10,
+          22
+        ],
+        "segments": [
+          [
+            [
+              6,
+              17.2325716
+            ],
+            [
+              7.16125546,
+              20.39737339
+            ],
+            [
+              10,
+              22
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "neck",
+        "start": [
+          10,
+          22
+        ],
+        "end": [
+          10,
+          26
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "body-left",
+        "start": [
+          10,
+          26
+        ],
+        "end": [
+          30,
+          42
+        ],
+        "segments": [
+          [
+            [
+              11.92947252,
+              35.46246434
+            ],
+            [
+              20.34478473,
+              42
+            ],
+            [
+              30,
+              42
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "body-right",
+        "start": [
+          30,
+          42
+        ],
+        "end": [
+          42,
+          25
+        ],
+        "radius_x": 16,
+        "radius_y": 21,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "bezier",
+        "element_id": "tail-rise",
+        "start": [
+          42,
+          25
+        ],
+        "end": [
+          40,
+          10
+        ],
+        "segments": [
+          [
+            [
+              42,
+              19.4561661
+            ],
+            [
+              41.75220913,
+              13.64440026
+            ],
+            [
+              40,
+              10
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "brow",
+        "start": [
+          12,
+          8
+        ],
+        "end": [
+          32,
+          6
+        ],
+        "segments": [
+          [
+            [
+              16.85920035,
+              6.24779087
+            ],
+            [
+              24.60822146,
+              6
+            ],
+            [
+              32,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "nose",
+        "start": [
+          32,
+          6
+        ],
+        "end": [
+          32,
+          10
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "face",
+        "start": [
+          32,
+          10
+        ],
+        "end": [
+          22,
+          20
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "chest",
+        "start": [
+          22,
+          20
+        ],
+        "end": [
+          29,
+          32
+        ],
+        "radius_x": 20,
+        "radius_y": 20,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          23,
+          13
+        ],
+        "end": [
+          23,
+          13
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "haunch",
+        "start": [
+          29,
+          32
+        ],
+        "end": [
+          38,
+          28
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": true
+      }
+    ],
+    "contours": [
+      {
+        "id": "body",
+        "members": [
+          "ear-top",
+          "ear-bottom",
+          "neck",
+          "body-left",
+          "body-right",
+          "tail-rise"
+        ],
+        "closed": false
+      },
+      {
+        "id": "head",
+        "members": [
+          "brow",
+          "nose",
+          "face",
+          "chest"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "head",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "head",
+          "haunch"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "eagle-head-profile",
+    "initial_score": 1.4694900000000004,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "brow"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "crown-left",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "radius_x": 22,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "crown-right",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          37,
+          9
+        ],
+        "segments": [
+          [
+            [
+              28.56344039,
+              6
+            ],
+            [
+              33.31019002,
+              6.154836
+            ],
+            [
+              37,
+              9
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "beak-top",
+        "start": [
+          37,
+          9
+        ],
+        "end": [
+          42,
+          22
+        ],
+        "segments": [
+          [
+            [
+              40.38747008,
+              11.39251246
+            ],
+            [
+              42,
+              16.58158672
+            ],
+            [
+              42,
+              22
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "throat",
+        "start": [
+          39,
+          23
+        ],
+        "end": [
+          33,
+          32
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "beak-hook-1",
+        "start": [
+          42,
+          22
+        ],
+        "end": [
+          42,
+          28
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "beak-hook-2",
+        "start": [
+          42,
+          28
+        ],
+        "end": [
+          39,
+          23
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-1",
+        "start": [
+          33,
+          32
+        ],
+        "end": [
+          38,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-2",
+        "start": [
+          38,
+          42
+        ],
+        "end": [
+          24,
+          36
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-3",
+        "start": [
+          24,
+          36
+        ],
+        "end": [
+          23,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-4",
+        "start": [
+          23,
+          42
+        ],
+        "end": [
+          14,
+          34
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-5",
+        "start": [
+          14,
+          34
+        ],
+        "end": [
+          6,
+          40
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-6",
+        "start": [
+          6,
+          40
+        ],
+        "end": [
+          8,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "feathers-7",
+        "start": [
+          8,
+          24
+        ],
+        "end": [
+          6,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "brow",
+        "start": [
+          23,
+          15
+        ],
+        "end": [
+          31,
+          17
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "crown-left",
+          "crown-right",
+          "beak-top",
+          "beak-hook-1",
+          "beak-hook-2",
+          "throat",
+          "feathers-1",
+          "feathers-2",
+          "feathers-3",
+          "feathers-4",
+          "feathers-5",
+          "feathers-6",
+          "feathers-7"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "elastic-compute-cloud-1",
+    "initial_score": 6.0,
+    "score": 2.7798999999999996,
+    "report": "status: invalid\n  ERROR  mic [c0]: c0 and c1 are 7.2201 apart on centerlines nearest (14.716, 32.5329)<->(10, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [c0]: c0 and c2 are 8 apart on centerlines nearest (16, 15)<->(24, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "e0",
+          "e8",
+          "e9"
+        ],
+        "operation": [
+          0.82,
+          17,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "e0",
+          "e8",
+          "e9"
+        ],
+        "operation": [
+          0.82,
+          17,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "e0",
+          "e8",
+          "e9"
+        ],
+        "operation": [
+          0.82,
+          17,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "e0",
+          "e8",
+          "e9"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "e0",
+        "start": [
+          14,
+          31
+        ],
+        "end": [
+          14,
+          17
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e1",
+        "start": [
+          10,
+          38
+        ],
+        "end": [
+          8,
+          37
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e2",
+        "start": [
+          6,
+          35
+        ],
+        "end": [
+          6,
+          13
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e3",
+        "start": [
+          8,
+          11
+        ],
+        "end": [
+          10,
+          10
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e4",
+        "start": [
+          41,
+          35
+        ],
+        "end": [
+          27,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e5",
+        "start": [
+          24,
+          40
+        ],
+        "end": [
+          24,
+          8
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e6",
+        "start": [
+          26,
+          6
+        ],
+        "end": [
+          41,
+          13
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e7",
+        "start": [
+          42,
+          14
+        ],
+        "end": [
+          42,
+          34
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "e8",
+        "start": [
+          16,
+          33
+        ],
+        "end": [
+          14,
+          31
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e9",
+        "start": [
+          14,
+          17
+        ],
+        "end": [
+          16,
+          15
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e10",
+        "start": [
+          8,
+          37
+        ],
+        "end": [
+          6,
+          35
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e11",
+        "start": [
+          6,
+          13
+        ],
+        "end": [
+          8,
+          11
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e12-1",
+        "start": [
+          27,
+          42
+        ],
+        "end": [
+          25,
+          42
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "e12-2",
+        "start": [
+          25,
+          42
+        ],
+        "end": [
+          24,
+          40
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "e13",
+        "start": [
+          24,
+          8
+        ],
+        "end": [
+          26,
+          6
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e14",
+        "start": [
+          41,
+          13
+        ],
+        "end": [
+          42,
+          14
+        ],
+        "radius_x": 2,
+        "radius_y": 2,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e15",
+        "start": [
+          42,
+          34
+        ],
+        "end": [
+          41,
+          35
+        ],
+        "radius_x": 1,
+        "radius_y": 1,
+        "large_arc": false,
+        "sweep": true
+      }
+    ],
+    "contours": [
+      {
+        "id": "c0",
+        "members": [
+          "e8",
+          "e0",
+          "e9"
+        ],
+        "closed": false
+      },
+      {
+        "id": "c1",
+        "members": [
+          "e1",
+          "e10",
+          "e2",
+          "e11",
+          "e3"
+        ],
+        "closed": false
+      },
+      {
+        "id": "c2",
+        "members": [
+          "e4",
+          "e12-1",
+          "e12-2",
+          "e5",
+          "e13",
+          "e6",
+          "e14",
+          "e7",
+          "e15"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "elastic-compute-cloud-instances",
+    "initial_score": 10.0,
+    "score": 10.0,
+    "report": "status: invalid\n  ERROR  mic [c0]: c0 and c1 are 4 apart on centerlines nearest (26, 10)<->(26, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [c1]: c1 and c2 are 4 apart on centerlines nearest (18, 33)<->(22, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "e0",
+        "start": [
+          6,
+          22
+        ],
+        "end": [
+          6,
+          9
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e1",
+        "start": [
+          9,
+          6
+        ],
+        "end": [
+          22,
+          6
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e2",
+        "start": [
+          14,
+          30
+        ],
+        "end": [
+          14,
+          17
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e3",
+        "start": [
+          17,
+          14
+        ],
+        "end": [
+          30,
+          14
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e4",
+        "start": [
+          39,
+          22
+        ],
+        "end": [
+          26,
+          22
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e5",
+        "start": [
+          22,
+          25
+        ],
+        "end": [
+          22,
+          39
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e6",
+        "start": [
+          26,
+          42
+        ],
+        "end": [
+          39,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "e7",
+        "start": [
+          42,
+          39
+        ],
+        "end": [
+          42,
+          25
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "e8",
+        "start": [
+          10,
+          26
+        ],
+        "end": [
+          6,
+          22
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e9",
+        "start": [
+          6,
+          9
+        ],
+        "end": [
+          9,
+          6
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e10",
+        "start": [
+          22,
+          6
+        ],
+        "end": [
+          26,
+          10
+        ],
+        "radius_x": 5,
+        "radius_y": 5,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e11",
+        "start": [
+          18,
+          33
+        ],
+        "end": [
+          14,
+          30
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "e12",
+        "start": [
+          14,
+          17
+        ],
+        "end": [
+          17,
+          14
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "e13",
+        "start": [
+          30,
+          14
+        ],
+        "end": [
+          33,
+          18
+        ],
+        "radius_x": 5,
+        "radius_y": 5,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "e14",
+        "start": [
+          26,
+          22
+        ],
+        "end": [
+          22,
+          25
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "e15",
+        "start": [
+          22,
+          39
+        ],
+        "end": [
+          26,
+          42
+        ],
+        "radius_x": 5,
+        "radius_y": 5,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "e16",
+        "start": [
+          39,
+          42
+        ],
+        "end": [
+          42,
+          39
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "e17",
+        "start": [
+          42,
+          25
+        ],
+        "end": [
+          39,
+          22
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": false
+      }
+    ],
+    "contours": [
+      {
+        "id": "c0",
+        "members": [
+          "e8",
+          "e0",
+          "e9",
+          "e1",
+          "e10"
+        ],
+        "closed": false
+      },
+      {
+        "id": "c1",
+        "members": [
+          "e11",
+          "e2",
+          "e12",
+          "e3",
+          "e13"
+        ],
+        "closed": false
+      },
+      {
+        "id": "c2",
+        "members": [
+          "e4",
+          "e14",
+          "e5",
+          "e15",
+          "e6",
+          "e16",
+          "e7",
+          "e17"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "grizzly-head-profile",
+    "initial_score": 1.7889,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -1,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "head-1",
+        "start": [
+          6,
+          17
+        ],
+        "end": [
+          10,
+          13
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "head-2",
+        "start": [
+          10,
+          13
+        ],
+        "end": [
+          8,
+          9
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "head-3",
+        "start": [
+          8,
+          9
+        ],
+        "end": [
+          12,
+          6
+        ],
+        "segments": [
+          [
+            [
+              8.46706416,
+              7.18720021
+            ],
+            [
+              10.12893424,
+              6
+            ],
+            [
+              12,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "head-4",
+        "start": [
+          12,
+          6
+        ],
+        "end": [
+          18,
+          11
+        ],
+        "segments": [
+          [
+            [
+              14.95947971,
+              6
+            ],
+            [
+              17.50699408,
+              8.08158004
+            ],
+            [
+              18,
+              11
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "head-5",
+        "start": [
+          18,
+          11
+        ],
+        "end": [
+          23,
+          11
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-6",
+        "start": [
+          23,
+          11
+        ],
+        "end": [
+          35,
+          17
+        ],
+        "radius_x": 13,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "head-7",
+        "start": [
+          35,
+          17
+        ],
+        "end": [
+          42,
+          22
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "head-8",
+        "start": [
+          42,
+          22
+        ],
+        "end": [
+          42,
+          28
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-9",
+        "start": [
+          42,
+          28
+        ],
+        "end": [
+          37,
+          30
+        ],
+        "radius_x": 7,
+        "radius_y": 7,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "head-10",
+        "start": [
+          37,
+          30
+        ],
+        "end": [
+          31,
+          30
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-11",
+        "start": [
+          31,
+          30
+        ],
+        "end": [
+          28,
+          33
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-12",
+        "start": [
+          28,
+          33
+        ],
+        "end": [
+          31,
+          36
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "head-13",
+        "start": [
+          31,
+          36
+        ],
+        "end": [
+          40,
+          38
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "head-14",
+        "start": [
+          40,
+          38
+        ],
+        "end": [
+          32,
+          42
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-15",
+        "start": [
+          32,
+          42
+        ],
+        "end": [
+          23,
+          40
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "head-16",
+        "start": [
+          23,
+          40
+        ],
+        "end": [
+          15,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          28,
+          21
+        ],
+        "end": [
+          28,
+          21
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "neck-top",
+        "start": [
+          6,
+          17
+        ],
+        "end": [
+          6,
+          29
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "neck-1",
+        "start": [
+          6,
+          29
+        ],
+        "end": [
+          15,
+          42
+        ],
+        "radius_x": 18,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": false
+      }
+    ],
+    "contours": [
+      {
+        "id": "head",
+        "members": [
+          "head-1",
+          "head-2",
+          "head-3",
+          "head-4",
+          "head-5",
+          "head-6",
+          "head-7",
+          "head-8",
+          "head-9",
+          "head-10",
+          "head-11",
+          "head-12",
+          "head-13",
+          "head-14",
+          "head-15",
+          "head-16"
+        ],
+        "closed": false
+      },
+      {
+        "id": "neck",
+        "members": [
+          "neck-top",
+          "neck-1"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "neck",
+          "head"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hooked-beak-bird-head",
+    "initial_score": 1.4555800000000003,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "neck-back",
+        "start": [
+          6,
+          42
+        ],
+        "end": [
+          6,
+          24
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "crown-left",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          27,
+          6
+        ],
+        "radius_x": 22,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "crown-right",
+        "start": [
+          27,
+          6
+        ],
+        "end": [
+          37,
+          12
+        ],
+        "segments": [
+          [
+            [
+              31.27520963,
+              6
+            ],
+            [
+              35.29858844,
+              8.06218191
+            ],
+            [
+              37,
+              12
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "face",
+        "start": [
+          37,
+          12
+        ],
+        "end": [
+          29,
+          29
+        ],
+        "radius_x": 20,
+        "radius_y": 20,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "neck-front",
+        "start": [
+          29,
+          29
+        ],
+        "end": [
+          29,
+          42
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "beak-upper",
+        "start": [
+          37,
+          12
+        ],
+        "end": [
+          42,
+          29
+        ],
+        "segments": [
+          [
+            [
+              39.91841996,
+              13.39685011
+            ],
+            [
+              42,
+              20.61480748
+            ],
+            [
+              42,
+              29
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "beak-lower",
+        "start": [
+          42,
+          29
+        ],
+        "end": [
+          29,
+          29
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          24,
+          15
+        ],
+        "end": [
+          24,
+          15
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "head",
+        "members": [
+          "neck-back",
+          "crown-left",
+          "crown-right",
+          "face",
+          "neck-front"
+        ],
+        "closed": false
+      },
+      {
+        "id": "beak",
+        "members": [
+          "beak-upper",
+          "beak-lower"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "beak",
+          "head"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "howling-wolf-with-sound",
+    "initial_score": 5.00012,
+    "score": 5.00012,
+    "report": "status: invalid\n  ERROR  mic [sound-inner]: sound-inner and sound-outer are 3.99988 apart on centerlines nearest (37.999, 20.8551)<->(41.9987, 20.8258); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "ruff",
+        "start": [
+          6,
+          42
+        ],
+        "end": [
+          10,
+          31
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "jaw",
+        "start": [
+          10,
+          31
+        ],
+        "end": [
+          6,
+          30
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "face",
+        "start": [
+          6,
+          30
+        ],
+        "end": [
+          16,
+          15
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "muzzle-1",
+        "start": [
+          16,
+          15
+        ],
+        "end": [
+          23,
+          11
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "muzzle-2",
+        "start": [
+          23,
+          11
+        ],
+        "end": [
+          25,
+          23
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "muzzle-3",
+        "start": [
+          25,
+          23
+        ],
+        "end": [
+          29,
+          20
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "neck",
+        "start": [
+          29,
+          20
+        ],
+        "end": [
+          25,
+          32
+        ],
+        "radius_x": 17,
+        "radius_y": 17,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "chest",
+        "start": [
+          25,
+          32
+        ],
+        "end": [
+          29,
+          42
+        ],
+        "radius_x": 16,
+        "radius_y": 16,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "sound-inner",
+        "start": [
+          34,
+          13
+        ],
+        "end": [
+          38,
+          21
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "sound-outer",
+        "start": [
+          34,
+          6
+        ],
+        "end": [
+          42,
+          21
+        ],
+        "segments": [
+          [
+            [
+              39.15470054,
+              9.21195379
+            ],
+            [
+              42,
+              14.92992149
+            ],
+            [
+              42,
+              21
+            ]
+          ]
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "ruff",
+          "jaw",
+          "face",
+          "muzzle-1",
+          "muzzle-2",
+          "muzzle-3",
+          "neck",
+          "chest"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "meerkat",
+    "initial_score": 5.165179999999999,
+    "score": 2.8221,
+    "report": "status: invalid\n  ERROR  mic [outline]: outline and eye are 6.1779 apart on centerlines nearest (32.0204, 17.6907)<->(28, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.88,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          0,
+          1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "tail-tip",
+        "start": [
+          6,
+          42
+        ],
+        "end": [
+          16,
+          39
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "haunch",
+        "start": [
+          16,
+          39
+        ],
+        "end": [
+          19,
+          29
+        ],
+        "radius_x": 13,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "back",
+        "start": [
+          19,
+          29
+        ],
+        "end": [
+          21,
+          13
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "ear",
+        "start": [
+          21,
+          13
+        ],
+        "end": [
+          21,
+          7
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "crown",
+        "start": [
+          21,
+          7
+        ],
+        "end": [
+          29,
+          6
+        ],
+        "segments": [
+          [
+            [
+              23.1739279,
+              6
+            ],
+            [
+              26.24131142,
+              6
+            ],
+            [
+              29,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "snout-top",
+        "start": [
+          29,
+          6
+        ],
+        "end": [
+          42,
+          7
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "nose",
+        "start": [
+          42,
+          7
+        ],
+        "end": [
+          40,
+          14
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "jaw",
+        "start": [
+          40,
+          14
+        ],
+        "end": [
+          33,
+          17
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "throat",
+        "start": [
+          33,
+          17
+        ],
+        "end": [
+          30,
+          23
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "chest",
+        "start": [
+          30,
+          23
+        ],
+        "end": [
+          34,
+          33
+        ],
+        "radius_x": 14,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "belly",
+        "start": [
+          34,
+          33
+        ],
+        "end": [
+          31,
+          39
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "ankle",
+        "start": [
+          31,
+          39
+        ],
+        "end": [
+          36,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "foot",
+        "start": [
+          36,
+          42
+        ],
+        "end": [
+          25,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "tail-base",
+        "start": [
+          25,
+          42
+        ],
+        "end": [
+          6,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "forepaw-1",
+        "start": [
+          30,
+          23
+        ],
+        "end": [
+          26,
+          28
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          28,
+          13
+        ],
+        "end": [
+          28,
+          13
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "tail-tip",
+          "haunch",
+          "back",
+          "ear",
+          "crown",
+          "snout-top",
+          "nose",
+          "jaw",
+          "throat",
+          "chest",
+          "belly",
+          "ankle",
+          "foot",
+          "tail-base"
+        ],
+        "closed": true
+      },
+      {
+        "id": "forepaw",
+        "members": [
+          "forepaw-1"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "forepaw",
+          "outline"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "orca-head",
+    "initial_score": 3.05201,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "patch-bottom",
+          "patch-top"
+        ],
+        "operation": [
+          0.88,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "patch-bottom",
+          "patch-top"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "forehead",
+        "start": [
+          6,
+          23
+        ],
+        "end": [
+          18,
+          12
+        ],
+        "segments": [
+          [
+            [
+              6,
+              17.85456916
+            ],
+            [
+              10.74880085,
+              13.28442643
+            ],
+            [
+              18,
+              12
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "back",
+        "start": [
+          18,
+          12
+        ],
+        "end": [
+          30,
+          15
+        ],
+        "radius_x": 24,
+        "radius_y": 24,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "dorsal-front",
+        "start": [
+          30,
+          15
+        ],
+        "end": [
+          42,
+          6
+        ],
+        "radius_x": 20,
+        "radius_y": 20,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "dorsal-back",
+        "start": [
+          42,
+          6
+        ],
+        "end": [
+          41,
+          24
+        ],
+        "radius_x": 22,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "rear",
+        "start": [
+          41,
+          24
+        ],
+        "end": [
+          42,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "fin-bottom",
+        "start": [
+          42,
+          42
+        ],
+        "end": [
+          30,
+          37
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "jaw",
+        "start": [
+          30,
+          37
+        ],
+        "end": [
+          6,
+          23
+        ],
+        "radius_x": 36,
+        "radius_y": 36,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "patch-top",
+        "start": [
+          19,
+          24
+        ],
+        "end": [
+          24,
+          24
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "patch-bottom",
+        "start": [
+          24,
+          24
+        ],
+        "end": [
+          19,
+          24
+        ],
+        "radius_x": 3,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "pectoral",
+        "start": [
+          30,
+          37
+        ],
+        "end": [
+          32,
+          28
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "forehead",
+          "back",
+          "dorsal-front",
+          "dorsal-back",
+          "rear",
+          "fin-bottom",
+          "jaw"
+        ],
+        "closed": true
+      },
+      {
+        "id": "patch",
+        "members": [
+          "patch-top",
+          "patch-bottom"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "pectoral"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "peacock-with-spread-tail",
+    "initial_score": 5.21935,
+    "score": 4.83645,
+    "report": "status: invalid\n  ERROR  mic [fan]: fan and bird are 4.16355 apart on centerlines nearest (19.9776, 7.08444)<->(21.4304, 10.9863); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "beak",
+          "belly",
+          "belly-left",
+          "body-left",
+          "body-right",
+          "head",
+          "leg-left",
+          "leg-right",
+          "throat"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          1,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "fan-left",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "radius_x": 22,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "fan-right",
+        "start": [
+          24,
+          6
+        ],
+        "end": [
+          42,
+          24
+        ],
+        "radius_x": 22,
+        "radius_y": 22,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "fan-lower-right",
+        "start": [
+          42,
+          24
+        ],
+        "end": [
+          42,
+          38
+        ],
+        "segments": [
+          [
+            [
+              42,
+              28.60135786
+            ],
+            [
+              42,
+              33.39864214
+            ],
+            [
+              42,
+              38
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "fan-right-base",
+        "start": [
+          42,
+          38
+        ],
+        "end": [
+          39,
+          38
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "fan-lower-left",
+        "start": [
+          6,
+          24
+        ],
+        "end": [
+          6,
+          38
+        ],
+        "segments": [
+          [
+            [
+              6,
+              28.60135786
+            ],
+            [
+              6,
+              33.39864214
+            ],
+            [
+              6,
+              38
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "fan-left-base",
+        "start": [
+          6,
+          38
+        ],
+        "end": [
+          9,
+          38
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head",
+        "start": [
+          21,
+          22
+        ],
+        "end": [
+          29,
+          14
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": true,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "beak",
+        "start": [
+          29,
+          14
+        ],
+        "end": [
+          34,
+          20
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "throat",
+        "start": [
+          34,
+          20
+        ],
+        "end": [
+          28,
+          22
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "body-right",
+        "start": [
+          28,
+          22
+        ],
+        "end": [
+          32,
+          33
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          32,
+          33
+        ],
+        "end": [
+          25,
+          41
+        ],
+        "radius_x": 7,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly-left",
+        "start": [
+          25,
+          41
+        ],
+        "end": [
+          18,
+          33
+        ],
+        "radius_x": 7,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "body-left",
+        "start": [
+          18,
+          33
+        ],
+        "end": [
+          21,
+          22
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left",
+        "start": [
+          25,
+          41
+        ],
+        "end": [
+          19,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right",
+        "start": [
+          25,
+          41
+        ],
+        "end": [
+          31,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "fan",
+        "members": [
+          "fan-left",
+          "fan-right",
+          "fan-lower-right",
+          "fan-right-base"
+        ],
+        "closed": false
+      },
+      {
+        "id": "fan-left-side",
+        "members": [
+          "fan-lower-left",
+          "fan-left-base"
+        ],
+        "closed": false
+      },
+      {
+        "id": "bird",
+        "members": [
+          "head",
+          "beak",
+          "throat",
+          "body-right",
+          "belly",
+          "belly-left",
+          "body-left"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "fan",
+          "fan-left-side"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "bird",
+          "leg-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "bird",
+          "leg-right"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-left",
+          "leg-right"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "perched-songbird",
+    "initial_score": 4.24292,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          0.88,
+          26,
+          26,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          1,
+          -1
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "head-left",
+        "start": [
+          24,
+          14
+        ],
+        "end": [
+          34,
+          6
+        ],
+        "segments": [
+          [
+            [
+              25.47719402,
+              8.95896372
+            ],
+            [
+              29.55412824,
+              6
+            ],
+            [
+              34,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-right",
+        "start": [
+          34,
+          6
+        ],
+        "end": [
+          42,
+          14
+        ],
+        "radius_x": 10,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "beak-1",
+        "start": [
+          42,
+          14
+        ],
+        "end": [
+          42,
+          18
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "beak-2",
+        "start": [
+          42,
+          18
+        ],
+        "end": [
+          40,
+          22
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "breast-neck",
+        "start": [
+          40,
+          22
+        ],
+        "end": [
+          40,
+          24
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "breast",
+        "start": [
+          40,
+          24
+        ],
+        "end": [
+          26,
+          38
+        ],
+        "radius_x": 14,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "belly",
+        "start": [
+          26,
+          38
+        ],
+        "end": [
+          18,
+          38
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "tail-1",
+        "start": [
+          18,
+          38
+        ],
+        "end": [
+          6,
+          34
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "tail-2",
+        "start": [
+          6,
+          34
+        ],
+        "end": [
+          24,
+          14
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing",
+        "start": [
+          32,
+          21
+        ],
+        "end": [
+          22,
+          29
+        ],
+        "radius_x": 9,
+        "radius_y": 9,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left-1",
+        "start": [
+          18,
+          38
+        ],
+        "end": [
+          18,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left-2",
+        "start": [
+          18,
+          42
+        ],
+        "end": [
+          14,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right-1",
+        "start": [
+          26,
+          38
+        ],
+        "end": [
+          30,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right-2",
+        "start": [
+          30,
+          42
+        ],
+        "end": [
+          34,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "head-left",
+          "head-right",
+          "beak-1",
+          "beak-2",
+          "breast-neck",
+          "breast",
+          "belly",
+          "tail-1",
+          "tail-2"
+        ],
+        "closed": true
+      },
+      {
+        "id": "leg-left",
+        "members": [
+          "leg-left-1",
+          "leg-left-2"
+        ],
+        "closed": false
+      },
+      {
+        "id": "leg-right",
+        "members": [
+          "leg-right-1",
+          "leg-right-2"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "leg-left"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "outline",
+          "leg-right"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "pregnancy-test",
+    "initial_score": 6.2039100000000005,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "result",
+          "window-bottom",
+          "window-left-a",
+          "window-left-b",
+          "window-right-a",
+          "window-right-b",
+          "window-top"
+        ],
+        "operation": [
+          0.94,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "result",
+          "window-bottom",
+          "window-left-a",
+          "window-left-b",
+          "window-right-a",
+          "window-right-b",
+          "window-top"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "result",
+          "window-bottom",
+          "window-left-a",
+          "window-left-b",
+          "window-right-a",
+          "window-right-b",
+          "window-top"
+        ],
+        "operation": [
+          0.88,
+          22,
+          26,
+          0,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "handle-top",
+        "start": [
+          30,
+          6
+        ],
+        "end": [
+          42,
+          12
+        ],
+        "segments": [
+          [
+            [
+              34.94725664,
+              6
+            ],
+            [
+              40.13410646,
+              7.21534935
+            ],
+            [
+              42,
+              12
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "handle-right",
+        "start": [
+          42,
+          12
+        ],
+        "end": [
+          42,
+          20
+        ],
+        "segments": [
+          [
+            [
+              42,
+              14.55050463
+            ],
+            [
+              42,
+              17.44949537
+            ],
+            [
+              42,
+              20
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-right-1",
+        "start": [
+          42,
+          20
+        ],
+        "end": [
+          38,
+          26
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-right-2",
+        "start": [
+          38,
+          26
+        ],
+        "end": [
+          37,
+          30
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-right-3",
+        "start": [
+          37,
+          30
+        ],
+        "end": [
+          29,
+          40
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "body-bottom",
+        "start": [
+          29,
+          40
+        ],
+        "end": [
+          17,
+          42
+        ],
+        "segments": [
+          [
+            [
+              25.46201701,
+              42
+            ],
+            [
+              21.10294156,
+              42
+            ],
+            [
+              17,
+              42
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "body-left",
+        "start": [
+          17,
+          42
+        ],
+        "end": [
+          6,
+          31
+        ],
+        "radius_x": 15,
+        "radius_y": 15,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "body-upper",
+        "start": [
+          6,
+          31
+        ],
+        "end": [
+          8,
+          19
+        ],
+        "segments": [
+          [
+            [
+              6,
+              26.89705844
+            ],
+            [
+              6,
+              22.53798299
+            ],
+            [
+              8,
+              19
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-left-1",
+        "start": [
+          8,
+          19
+        ],
+        "end": [
+          20,
+          10
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-left-2",
+        "start": [
+          20,
+          10
+        ],
+        "end": [
+          25,
+          9
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "shoulder-left-3",
+        "start": [
+          25,
+          9
+        ],
+        "end": [
+          30,
+          6
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "window-top",
+        "start": [
+          21,
+          20
+        ],
+        "end": [
+          28,
+          25
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "window-right-a",
+        "start": [
+          28,
+          25
+        ],
+        "end": [
+          25,
+          30
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "window-right-b",
+        "start": [
+          25,
+          30
+        ],
+        "end": [
+          21,
+          33
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "window-bottom",
+        "start": [
+          21,
+          33
+        ],
+        "end": [
+          15,
+          29
+        ],
+        "radius_x": 4,
+        "radius_y": 4,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "window-left-a",
+        "start": [
+          15,
+          29
+        ],
+        "end": [
+          18,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "window-left-b",
+        "start": [
+          18,
+          24
+        ],
+        "end": [
+          21,
+          20
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "result",
+        "start": [
+          18,
+          24
+        ],
+        "end": [
+          25,
+          30
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "handle-top",
+          "handle-right",
+          "shoulder-right-1",
+          "shoulder-right-2",
+          "shoulder-right-3",
+          "body-bottom",
+          "body-left",
+          "body-upper",
+          "shoulder-left-1",
+          "shoulder-left-2",
+          "shoulder-left-3"
+        ],
+        "closed": true
+      },
+      {
+        "id": "window",
+        "members": [
+          "window-top",
+          "window-right-a",
+          "window-right-b",
+          "window-bottom",
+          "window-left-a",
+          "window-left-b"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "result",
+          "window"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "rhino-head",
+    "initial_score": 2.2360300000000004,
+    "score": 2.2360300000000004,
+    "report": "status: invalid\n  ERROR  mic [jaw]: jaw and eye are 6.76397 apart on centerlines nearest (22.0108, 36.4649)<->(24, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "upper-1",
+        "start": [
+          6,
+          6
+        ],
+        "end": [
+          14,
+          9
+        ],
+        "radius_x": 20,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "upper-2",
+        "start": [
+          14,
+          9
+        ],
+        "end": [
+          18,
+          6
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "upper-3",
+        "start": [
+          18,
+          6
+        ],
+        "end": [
+          20,
+          20
+        ],
+        "radius_x": 8,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "upper-4",
+        "start": [
+          20,
+          20
+        ],
+        "end": [
+          29,
+          25
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "upper-5",
+        "start": [
+          29,
+          25
+        ],
+        "end": [
+          36,
+          14
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "upper-6",
+        "start": [
+          36,
+          14
+        ],
+        "end": [
+          38,
+          30
+        ],
+        "radius_x": 12,
+        "radius_y": 14,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "upper-7",
+        "start": [
+          38,
+          30
+        ],
+        "end": [
+          40,
+          31
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "upper-8",
+        "start": [
+          40,
+          31
+        ],
+        "end": [
+          42,
+          37
+        ],
+        "segments": [
+          [
+            [
+              41.75220913,
+              32.4577601
+            ],
+            [
+              42,
+              34.78246644
+            ],
+            [
+              42,
+              37
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "jaw-1",
+        "start": [
+          42,
+          37
+        ],
+        "end": [
+          40,
+          42
+        ],
+        "segments": [
+          [
+            [
+              42,
+              38.88904265
+            ],
+            [
+              41.4191706,
+              40.7429131
+            ],
+            [
+              40,
+              42
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "jaw-2",
+        "start": [
+          40,
+          42
+        ],
+        "end": [
+          14,
+          34
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "jaw-3",
+        "start": [
+          14,
+          34
+        ],
+        "end": [
+          6,
+          26
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          24,
+          30
+        ],
+        "end": [
+          24,
+          30
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "upper",
+        "members": [
+          "upper-1",
+          "upper-2",
+          "upper-3",
+          "upper-4",
+          "upper-5",
+          "upper-6",
+          "upper-7",
+          "upper-8"
+        ],
+        "closed": false
+      },
+      {
+        "id": "jaw",
+        "members": [
+          "jaw-1",
+          "jaw-2",
+          "jaw-3"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "upper",
+          "jaw"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sitting-koala",
+    "initial_score": 3.0146499999999996,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "nose-left",
+          "nose-right"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -1,
+          1
+        ]
+      },
+      {
+        "members": [
+          "nose-left",
+          "nose-right"
+        ],
+        "operation": [
+          0.82,
+          23,
+          17,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "nose-left",
+          "nose-right"
+        ],
+        "operation": [
+          0.94,
+          24,
+          24,
+          0,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "crown-a",
+        "start": [
+          15,
+          8
+        ],
+        "end": [
+          23,
+          6
+        ],
+        "segments": [
+          [
+            [
+              16.94368014,
+              6.24779087
+            ],
+            [
+              20.04328859,
+              6
+            ],
+            [
+              23,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "crown-b",
+        "start": [
+          23,
+          6
+        ],
+        "end": [
+          31,
+          8
+        ],
+        "segments": [
+          [
+            [
+              25.95671141,
+              6
+            ],
+            [
+              29.05631986,
+              6.24779087
+            ],
+            [
+              31,
+              8
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "right-ear-a",
+        "start": [
+          31,
+          8
+        ],
+        "end": [
+          42,
+          10
+        ],
+        "segments": [
+          [
+            [
+              32.58064574,
+              6.27540249
+            ],
+            [
+              34.77534041,
+              6
+            ],
+            [
+              36.93351202,
+              6
+            ]
+          ],
+          [
+            [
+              39.09168363,
+              6.27818603
+            ],
+            [
+              40.96568239,
+              7.79995461
+            ],
+            [
+              42,
+              10
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "right-ear-b",
+        "start": [
+          42,
+          10
+        ],
+        "end": [
+          35,
+          20
+        ],
+        "segments": [
+          [
+            [
+              42,
+              15.06937551
+            ],
+            [
+              39.02383141,
+              19.36646437
+            ],
+            [
+              35,
+              20
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "cheek",
+        "start": [
+          35,
+          20
+        ],
+        "end": [
+          29,
+          26
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "foreleg-top",
+        "start": [
+          29,
+          26
+        ],
+        "end": [
+          42,
+          28
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "arm",
+        "start": [
+          42,
+          28
+        ],
+        "end": [
+          34,
+          34
+        ],
+        "segments": [
+          [
+            [
+              42,
+              31.06990792
+            ],
+            [
+              38.57644606,
+              33.6589514
+            ],
+            [
+              34,
+              34
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "foreleg",
+        "start": [
+          34,
+          34
+        ],
+        "end": [
+          32,
+          40
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "toe",
+        "start": [
+          32,
+          40
+        ],
+        "end": [
+          37,
+          38
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "foot",
+        "start": [
+          37,
+          38
+        ],
+        "end": [
+          32,
+          42
+        ],
+        "radius_x": 6,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "base",
+        "start": [
+          32,
+          42
+        ],
+        "end": [
+          20,
+          42
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "haunch",
+        "start": [
+          20,
+          42
+        ],
+        "end": [
+          9,
+          37
+        ],
+        "segments": [
+          [
+            [
+              15.41518876,
+              42
+            ],
+            [
+              11.02443362,
+              40.38747008
+            ],
+            [
+              9,
+              37
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "back",
+        "start": [
+          9,
+          37
+        ],
+        "end": [
+          14,
+          26
+        ],
+        "radius_x": 15,
+        "radius_y": 15,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "neck",
+        "start": [
+          14,
+          26
+        ],
+        "end": [
+          13,
+          20
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "left-ear-b",
+        "start": [
+          13,
+          20
+        ],
+        "end": [
+          6,
+          10
+        ],
+        "segments": [
+          [
+            [
+              8.97616859,
+              19.36646437
+            ],
+            [
+              6,
+              15.06937551
+            ],
+            [
+              6,
+              10
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "left-ear-a",
+        "start": [
+          6,
+          10
+        ],
+        "end": [
+          15,
+          8
+        ],
+        "radius_x": 6,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "knee",
+        "start": [
+          32,
+          40
+        ],
+        "end": [
+          23,
+          36
+        ],
+        "radius_x": 9,
+        "radius_y": 5,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "arc",
+        "element_id": "nose-right",
+        "start": [
+          23,
+          15
+        ],
+        "end": [
+          23,
+          20
+        ],
+        "radius_x": 2,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "nose-left",
+        "start": [
+          23,
+          20
+        ],
+        "end": [
+          23,
+          15
+        ],
+        "radius_x": 2,
+        "radius_y": 3,
+        "large_arc": false,
+        "sweep": true
+      }
+    ],
+    "contours": [
+      {
+        "id": "outline",
+        "members": [
+          "crown-a",
+          "crown-b",
+          "right-ear-a",
+          "right-ear-b",
+          "cheek",
+          "foreleg-top",
+          "arm",
+          "foreleg",
+          "toe",
+          "foot",
+          "base",
+          "haunch",
+          "back",
+          "neck",
+          "left-ear-b",
+          "left-ear-a"
+        ],
+        "closed": true
+      },
+      {
+        "id": "nose",
+        "members": [
+          "nose-right",
+          "nose-left"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "knee",
+          "outline"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sliding-penguin",
+    "initial_score": 4.79423,
+    "score": 3.00533,
+    "report": "status: invalid\n  ERROR  mic [body]: body and slope are 6.99467 apart on centerlines nearest (18.4944, 29.6112)<->(16.977, 36.4393); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [body]: body and eye are 8 apart on centerlines nearest (42, 19)<->(34, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "flipper"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -1,
+          -1
+        ]
+      },
+      {
+        "members": [
+          "flipper"
+        ],
+        "operation": [
+          0.82,
+          16,
+          18,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "flipper"
+        ],
+        "operation": [
+          0.94,
+          24,
+          24,
+          0,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "arc",
+        "element_id": "rump",
+        "start": [
+          6,
+          14
+        ],
+        "end": [
+          14,
+          6
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "back",
+        "start": [
+          14,
+          6
+        ],
+        "end": [
+          26,
+          18
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "head-front",
+        "start": [
+          26,
+          18
+        ],
+        "end": [
+          42,
+          18
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "bill-top",
+        "start": [
+          42,
+          18
+        ],
+        "end": [
+          42,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "bill-bottom",
+        "start": [
+          42,
+          24
+        ],
+        "end": [
+          38,
+          28
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly-front",
+        "start": [
+          38,
+          28
+        ],
+        "end": [
+          22,
+          30
+        ],
+        "radius_x": 20,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly-back",
+        "start": [
+          22,
+          30
+        ],
+        "end": [
+          6,
+          14
+        ],
+        "radius_x": 16,
+        "radius_y": 16,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "foot-upper",
+        "start": [
+          14,
+          6
+        ],
+        "end": [
+          6,
+          6
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "foot-lower",
+        "start": [
+          6,
+          14
+        ],
+        "end": [
+          6,
+          8
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          34,
+          19
+        ],
+        "end": [
+          34,
+          19
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "flipper",
+        "start": [
+          15,
+          16
+        ],
+        "end": [
+          18,
+          20
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "slope",
+        "start": [
+          6,
+          34
+        ],
+        "end": [
+          42,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "body",
+        "members": [
+          "rump",
+          "back",
+          "head-front",
+          "bill-top",
+          "bill-bottom",
+          "belly-front",
+          "belly-back"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "body",
+          "foot-upper"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "body",
+          "foot-lower"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "whale-with-spout",
+    "initial_score": 4.07505,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.88,
+          24,
+          24,
+          0,
+          0
+        ]
+      },
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          2,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "back",
+        "start": [
+          6,
+          31
+        ],
+        "end": [
+          16,
+          19
+        ],
+        "segments": [
+          [
+            [
+              6,
+              25.50920143
+            ],
+            [
+              9.85418684,
+              20.56542937
+            ],
+            [
+              16,
+              19
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "saddle",
+        "start": [
+          16,
+          19
+        ],
+        "end": [
+          35,
+          24
+        ],
+        "radius_x": 18,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "tail-neck",
+        "start": [
+          35,
+          24
+        ],
+        "end": [
+          36,
+          16
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "tail-left",
+        "start": [
+          36,
+          16
+        ],
+        "end": [
+          34,
+          6
+        ],
+        "radius_x": 12,
+        "radius_y": 12,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "fluke-1",
+        "start": [
+          34,
+          6
+        ],
+        "end": [
+          40,
+          11
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "fluke-2",
+        "start": [
+          40,
+          11
+        ],
+        "end": [
+          42,
+          6
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "tail-right",
+        "start": [
+          42,
+          6
+        ],
+        "end": [
+          42,
+          19
+        ],
+        "segments": [
+          [
+            [
+              42,
+              10.28124692
+            ],
+            [
+              42,
+              14.71875308
+            ],
+            [
+              42,
+              19
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "rump",
+        "start": [
+          42,
+          19
+        ],
+        "end": [
+          25,
+          42
+        ],
+        "radius_x": 27,
+        "radius_y": 27,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          25,
+          42
+        ],
+        "end": [
+          6,
+          31
+        ],
+        "radius_x": 23,
+        "radius_y": 15,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          15,
+          29
+        ],
+        "end": [
+          15,
+          29
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "spray-left",
+        "start": [
+          8,
+          6
+        ],
+        "end": [
+          16,
+          10
+        ],
+        "segments": [
+          [
+            [
+              11.2325716,
+              6
+            ],
+            [
+              14.39737339,
+              7.16125546
+            ],
+            [
+              16,
+              10
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "spray-right",
+        "start": [
+          16,
+          10
+        ],
+        "end": [
+          24,
+          6
+        ],
+        "segments": [
+          [
+            [
+              17.60262661,
+              7.16125546
+            ],
+            [
+              20.7674284,
+              6
+            ],
+            [
+              24,
+              6
+            ]
+          ]
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "whale",
+        "members": [
+          "back",
+          "saddle",
+          "tail-neck",
+          "tail-left",
+          "fluke-1",
+          "fluke-2",
+          "tail-right",
+          "rump",
+          "belly"
+        ],
+        "closed": true
+      },
+      {
+        "id": "spout",
+        "members": [
+          "spray-left",
+          "spray-right"
+        ],
+        "closed": false
+      }
+    ],
+    "relationships": []
+  },
+  {
+    "id": "wild-bird",
+    "initial_score": 3.98623,
+    "score": 0,
+    "report": "status: valid",
+    "steps": [
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      },
+      {
+        "members": [
+          "wing"
+        ],
+        "operation": [
+          1,
+          0,
+          0,
+          -2,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "crown",
+        "start": [
+          8,
+          12
+        ],
+        "end": [
+          20,
+          6
+        ],
+        "segments": [
+          [
+            [
+              10.04169387,
+              8.06218191
+            ],
+            [
+              14.86974844,
+              6
+            ],
+            [
+              20,
+              6
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "nape",
+        "start": [
+          20,
+          6
+        ],
+        "end": [
+          30,
+          8
+        ],
+        "segments": [
+          [
+            [
+              23.46489918,
+              6
+            ],
+            [
+              27.12983974,
+              6
+            ],
+            [
+              30,
+              8
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "back",
+        "start": [
+          30,
+          8
+        ],
+        "end": [
+          42,
+          38
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "tail",
+        "start": [
+          42,
+          38
+        ],
+        "end": [
+          35,
+          36
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          35,
+          36
+        ],
+        "end": [
+          24,
+          38
+        ],
+        "radius_x": 20,
+        "radius_y": 16,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly-left",
+        "start": [
+          24,
+          38
+        ],
+        "end": [
+          12,
+          29
+        ],
+        "radius_x": 16,
+        "radius_y": 16,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "arc",
+        "element_id": "chest",
+        "start": [
+          12,
+          29
+        ],
+        "end": [
+          8,
+          12
+        ],
+        "radius_x": 24,
+        "radius_y": 24,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "beak",
+        "start": [
+          8,
+          12
+        ],
+        "end": [
+          6,
+          12
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing",
+        "start": [
+          18,
+          16
+        ],
+        "end": [
+          29,
+          29
+        ],
+        "radius_x": 11,
+        "radius_y": 13,
+        "large_arc": false,
+        "sweep": false
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-left",
+        "start": [
+          24,
+          38
+        ],
+        "end": [
+          21,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "leg-right",
+        "start": [
+          35,
+          36
+        ],
+        "end": [
+          32,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "body",
+        "members": [
+          "crown",
+          "nape",
+          "back",
+          "tail",
+          "belly",
+          "belly-left",
+          "chest"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "beak",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-left",
+          "body"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "leg-right",
+          "body"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "winged-lion",
+    "initial_score": 6.0,
+    "score": 3.0,
+    "report": "status: invalid\n  ERROR  mic [silhouette]: silhouette and eye are 6 apart on centerlines nearest (6, 22)<->(12, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "steps": [
+      {
+        "members": [
+          "eye"
+        ],
+        "operation": [
+          0.82,
+          24,
+          24,
+          0,
+          0
+        ]
+      }
+    ],
+    "primitives": [
+      {
+        "kind": "bezier",
+        "element_id": "crown",
+        "start": [
+          6,
+          19
+        ],
+        "end": [
+          8,
+          13
+        ],
+        "segments": [
+          [
+            [
+              6,
+              16.78246644
+            ],
+            [
+              6.24779087,
+              14.4577601
+            ],
+            [
+              8,
+              13
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "ear",
+        "start": [
+          8,
+          13
+        ],
+        "end": [
+          12,
+          8
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "mane",
+        "start": [
+          12,
+          8
+        ],
+        "end": [
+          19,
+          18
+        ],
+        "radius_x": 10,
+        "radius_y": 10,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "neck",
+        "start": [
+          19,
+          18
+        ],
+        "end": [
+          19,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "wing-rise",
+        "start": [
+          19,
+          24
+        ],
+        "end": [
+          26,
+          10
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "wing-top",
+        "start": [
+          26,
+          10
+        ],
+        "end": [
+          42,
+          6
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "wing-tip",
+        "start": [
+          42,
+          6
+        ],
+        "end": [
+          37,
+          27
+        ],
+        "radius_x": 9,
+        "radius_y": 25,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "rump",
+        "start": [
+          37,
+          27
+        ],
+        "end": [
+          42,
+          34
+        ],
+        "segments": [
+          [
+            [
+              40.07290658,
+              27.91316713
+            ],
+            [
+              42,
+              30.79703417
+            ],
+            [
+              42,
+              34
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "hock",
+        "start": [
+          42,
+          34
+        ],
+        "end": [
+          42,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "hindfoot",
+        "start": [
+          42,
+          42
+        ],
+        "end": [
+          37,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "hindleg",
+        "start": [
+          37,
+          42
+        ],
+        "end": [
+          34,
+          34
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "belly",
+        "start": [
+          34,
+          34
+        ],
+        "end": [
+          22,
+          34
+        ],
+        "radius_x": 18,
+        "radius_y": 18,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "foreleg",
+        "start": [
+          22,
+          34
+        ],
+        "end": [
+          18,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "forefoot",
+        "start": [
+          18,
+          42
+        ],
+        "end": [
+          9,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "fore-shin",
+        "start": [
+          9,
+          42
+        ],
+        "end": [
+          12,
+          36
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "chest",
+        "start": [
+          12,
+          36
+        ],
+        "end": [
+          9,
+          30
+        ],
+        "radius_x": 7,
+        "radius_y": 7,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "bezier",
+        "element_id": "muzzle",
+        "start": [
+          9,
+          30
+        ],
+        "end": [
+          6,
+          25
+        ],
+        "segments": [
+          [
+            [
+              6.70714356,
+              28.90170696
+            ],
+            [
+              6,
+              26.94340371
+            ],
+            [
+              6,
+              25
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "nose",
+        "start": [
+          6,
+          25
+        ],
+        "end": [
+          6,
+          19
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "wing-base",
+        "start": [
+          37,
+          27
+        ],
+        "end": [
+          27,
+          27
+        ]
+      },
+      {
+        "kind": "bezier",
+        "element_id": "tail",
+        "start": [
+          42,
+          34
+        ],
+        "end": [
+          42,
+          25
+        ],
+        "segments": [
+          [
+            [
+              42,
+              31.21539031
+            ],
+            [
+              42,
+              27.78460969
+            ],
+            [
+              42,
+              25
+            ]
+          ]
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "eye",
+        "start": [
+          12,
+          22
+        ],
+        "end": [
+          12,
+          22
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "id": "silhouette",
+        "members": [
+          "crown",
+          "ear",
+          "mane",
+          "neck",
+          "wing-rise",
+          "wing-top",
+          "wing-tip",
+          "rump",
+          "hock",
+          "hindfoot",
+          "hindleg",
+          "belly",
+          "foreleg",
+          "forefoot",
+          "fore-shin",
+          "chest",
+          "muzzle",
+          "nose"
+        ],
+        "closed": true
+      }
+    ],
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "wing-base",
+          "silhouette"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "tail",
+          "silhouette"
+        ]
+      }
+    ]
+  }
+]

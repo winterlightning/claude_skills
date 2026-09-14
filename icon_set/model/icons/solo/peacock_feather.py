@@ -15,11 +15,8 @@ class PeacockFeather(Solo48):
     keywords = ('peacock', 'feather')
 
     def build(self) -> None:
-        self.add_arc('vane-left', (40, 6), (12, 30), radius_x=28, radius_y=28, sweep=False, large_arc=False)
-        self.add_line('vane-base', (12, 30), (12, 38))
-        self.add_arc('vane-right', (12, 38), (40, 10), radius_x=28, radius_y=28, sweep=False, large_arc=False)
-        self.add_line('vane-tip', (40, 10), (40, 6))
-        self.add_contour('vane', 'vane-left', 'vane-base', 'vane-right', 'vane-tip', closed=True)
-        self.add_line('quill', (12, 38), (8, 42))
-        self.relate('connect', 'vane', 'quill')
-        self.add_dot('eye', (25, 20))
+        self.add_bezier('left',(40,4),((22,4),(12,19),(12,38)))
+        self.add_bezier('right',(12,38),((30,38),(40,23),(40,4)))
+        self.add_contour('vane','left','right',closed=True)
+        self.add_line('quill',(12,38),(8,44));self.relate('connect','quill','vane')
+        self.add_dot('eye',(26,21))

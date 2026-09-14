@@ -1,4 +1,4 @@
-"""An upright prehistoric egg with two zigzag bands."""
+'Dinosaur egg: retain two chevron markings inside a smooth upright egg with generous margins.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class DinosaurEgg(Solo48):
     icon_id = 'dinosaur-egg'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/animals"
@@ -17,10 +17,8 @@ class DinosaurEgg(Solo48):
     keywords = ('egg', 'dinosaur', 'zigzag', 'pattern', 'prehistoric', 'shell', 'oval', 'decorated')
 
     def build(self) -> None:
-        # Centerline extremes: (6,6)-(42,42).
-        self.add_arc("upper-left",(6,28),(24,6),radius_x=19,radius_y=26)
-        self.add_arc("upper-right",(24,6),(42,28),radius_x=19,radius_y=26)
-        self.add_arc("bottom",(42,28),(6,28),radius_x=19,radius_y=18)
-        self.add_contour("shell","upper-left","upper-right","bottom",closed=True)
-        self.add_polyline("upper-band",(17,16),(24,20),(31,16))
-        self.add_polyline("lower-band",(14,32),(24,36),(34,32))
+        self.add_bezier('left',(24,4),((15,4),(8,20),(8,31)),((8,39),(15,44),(24,44)))
+        self.add_bezier('right',(24,44),((33,44),(40,39),(40,31)),((40,20),(33,4),(24,4)))
+        self.add_contour('shell','left','right',closed=True)
+        self.add_polyline('upper-band',(20,19),(24,21),(28,19))
+        self.add_polyline('lower-band',(17,32),(24,35),(31,32))

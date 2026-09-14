@@ -1,10 +1,10 @@
-"""Blessed (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'blessed: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4669a42f-119e-5431-9305-4e31305f43c1'
 SOURCE_PATH = 'icons-json/smileys/blessed_4669a42f-119e-5431-9305-4e31305f43c1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Blessed(Solo48):
     icon_id = 'blessed'
@@ -15,15 +15,10 @@ class Blessed(Solo48):
     aliases = ()
     keywords = ('blessed', 'smileys')
 
-    def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1-1', (12, 22), (15, 19), radius_x=5)
-        self.add_arc('e1-2', (15, 19), (20, 21), radius_x=3)
-        self.add_arc('e2-1', (28, 22), (31, 19), radius_x=4)
-        self.add_arc('e2-2', (31, 19), (36, 22), radius_x=5)
-        self.add_arc('e3', (15, 29), (34, 29), radius_x=10, sweep=False)
-        self.add_contour('c0', 'e1-1', 'e1-2')
-        self.add_contour('c1', 'e2-1', 'e2-2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_arc('eye-left',(15,18),(19,18),radius_x=2,radius_y=2)
+        self.add_arc('eye-right',(29,18),(33,18),radius_x=2,radius_y=2)
+        self.add_arc('mouth',(17,28),(31,28),radius_x=7,radius_y=5,sweep=False)

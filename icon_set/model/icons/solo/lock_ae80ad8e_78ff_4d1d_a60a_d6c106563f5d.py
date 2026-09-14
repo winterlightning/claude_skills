@@ -18,8 +18,6 @@ class LockAe80ad8e(Solo48):
     def build(self) -> None:
         # Symbol plan: preserve the subject, contour topology and curve types.
         # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_arc('sym-e0', (22, 32), (26, 32), radius_x=2, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('sym-e1', (26, 32), (22, 32), radius_x=2, radius_y=3, large_arc=False, sweep=True)
         self.add_arc('sym-e3', (24, 4), (14, 15), radius_x=11, radius_y=11, large_arc=False, sweep=False)
         self.add_line('sym-e4', (14, 15), (14, 20))
         self.add_line('sym-e5', (14, 20), (12, 20))
@@ -38,7 +36,7 @@ class LockAe80ad8e(Solo48):
         self.add_arc('sym-e24', (34, 15), (24, 4), radius_x=11, radius_y=11, large_arc=False, sweep=False)
         self.add_line('sym-e26', (14, 20), (24, 20))
         self.add_line('sym-e27', (24, 20), (34, 20))
-        self.add_contour('sym-c0', *('sym-e0', 'sym-e1'), closed=True)
         self.add_contour('sym-c1', *('sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e10', 'sym-e11', 'sym-e13', 'sym-e14', 'sym-e16', 'sym-e17', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e23', 'sym-e24'), closed=True)
         self.add_contour('sym-c2', *('sym-e26', 'sym-e27'), closed=False)
         self.relate('connect', *('sym-c1', 'sym-c2'))
+        self.add_line('keyhole',(24,30),(24,34))

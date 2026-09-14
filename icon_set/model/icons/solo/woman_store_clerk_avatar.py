@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-woman-store-clerk.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-woman-store-clerk.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-woman-store-clerk'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 24
+HEAD_BOTTOM = 23
 
 class WomanStoreClerkAvatar(Solo48):
     icon_id = 'woman-store-clerk-avatar'
@@ -36,7 +36,7 @@ class WomanStoreClerkAvatar(Solo48):
             self.relate('connect', 'outer-' + side, 'fringe-' + side)
         self.relate('connect', 'outer-left', 'outer-right')
         self.relate('connect', 'fringe-left', 'fringe-right')
-        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=10)
+        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=9)
         for side in ['left', 'right']:
             self.relate('connect', 'face', 'fringe-' + side)
 
@@ -58,3 +58,6 @@ class WomanStoreClerkAvatar(Solo48):
         self.add_line('body-apron-right', (30,top), (30,44))
         self.relate('connect', 'body-apron-left', 'body-top')
         self.relate('connect', 'body-apron-right', 'body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

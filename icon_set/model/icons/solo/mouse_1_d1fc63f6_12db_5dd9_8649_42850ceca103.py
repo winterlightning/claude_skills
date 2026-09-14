@@ -1,4 +1,4 @@
-"""Low crouching mouse with a round haunch, circular ear, eye, short pointed muzzle and exposed curling tail. Lucide rat informs the rodent silhouette; proportions are redrawn for recognition."""
+'Crouching mouse: retain the large round ear, low body and curled tail; broaden the muzzle for a clear eye.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,20 +17,15 @@ class CrouchingMouse(Solo48):
     keywords = ('crouching', 'mouse')
 
     def build(self) -> None:
-        # HRECT_L centerline extremes: (6,8)-(42,40).
-        self.add_arc('back',(10,28),(25,15),radius_x=15,radius_y=13)
-        self.add_arc('ear-top',(25,15),(39,15),radius_x=7)
-        self.add_arc('ear-side',(39,15),(37,21),radius_x=7)
-        self.add_line('snout',(37,21),(42,30))
-        self.add_arc('muzzle',(42,30),(39,35),radius_x=7,radius_y=5)
-        self.add_line('belly',(39,35),(18,35))
-        self.add_arc('rump',(18,35),(10,28),radius_x=8,radius_y=7)
-        self.add_contour('body','back','ear-top','ear-side','snout','muzzle','belly','rump',closed=True)
-        self.add_arc('ear-fold',(25,15),(32,22),radius_x=7,sweep=False)
-        self.relate('connect','body','ear-fold')
-        self.add_dot('eye',(35,28))
-        self.add_arc('tail-left',(10,28),(6,34),radius_x=8,radius_y=6,sweep=False)
-        self.add_arc('tail-bottom',(6,34),(10,40),radius_x=8,radius_y=6,sweep=False)
-        self.add_line('tail-tip',(10,40),(14,40))
-        self.add_contour('tail','tail-left','tail-bottom','tail-tip')
-        self.relate('connect','body','tail')
+        self.add_arc('ear-top', (25,14), (37,14), radius_x=6, radius_y=6)
+        self.add_arc('ear-bottom', (37,14), (25,14), radius_x=6, radius_y=6)
+        self.add_contour('ear', 'ear-top', 'ear-bottom', closed=True)
+
+        self.add_polyline('head',(37,14),(37,19),(44,32))
+        self.add_bezier('chin',(44,32),((44,36),(41,38),(37,38)))
+        self.add_line('belly',(37,38),(14,38))
+        self.add_bezier('back',(14,38),((7,38),(6,33),(9,27)),((12,20),(18,16),(25,14)))
+        self.relate('connect','ear','head');self.relate('connect','ear','back');self.relate('connect','head','chin');self.relate('connect','chin','belly');self.relate('connect','belly','back')
+        self.add_bezier('tail',(9,27),((5,29),(4,32),(4,35)),((4,38),(7,40),(11,40)))
+        self.relate('connect','tail','back')
+        self.add_dot('eye',(32,28))

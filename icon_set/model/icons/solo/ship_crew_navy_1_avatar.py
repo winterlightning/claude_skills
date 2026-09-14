@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-ship-crew-navy-1.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 28; shoulder top 36; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-ship-crew-navy-1.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-ship-crew-navy-1'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 28
+HEAD_BOTTOM = 30
 
 class ShipCrewNavy1Avatar(Solo48):
     icon_id = 'ship-crew-navy-1-avatar'
@@ -30,7 +30,7 @@ class ShipCrewNavy1Avatar(Solo48):
         self.add_arc('crown', (16, 12), (32, 12), radius_x=8)
         self.add_polyline('band', (16, 12), (10, 12), (14, 20), (34, 20), (38, 12), (32, 12), (16, 12))
         self.relate('connect', 'crown', 'band')
-        self.add_arc('face', (34, 20), (14, 20), radius_x=10, radius_y=8)
+        self.add_arc('face', (34, 20), (14, 20), radius_x=10, radius_y=10)
         self.relate('connect', 'face', 'band')
 
         # Broad curved shoulders follow human_ref/user.svg; clothing carries identity.
@@ -50,3 +50,6 @@ class ShipCrewNavy1Avatar(Solo48):
         self.add_arc('body-sailor-collar',(16,top),(32,top),radius_x=8,radius_y=6,sweep=False)
         self.relate('connect', 'body-sailor-collar', 'body-top')
         self.relate('connect', 'body-sailor-collar', 'body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

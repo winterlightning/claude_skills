@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class CrestedPenguin(Solo48):
     icon_id = 'crested-penguin'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
@@ -15,22 +15,13 @@ class CrestedPenguin(Solo48):
     keywords = ('penguin', 'crest', 'bird', 'antarctic', 'flippers', 'rockhopper', 'standing', 'cold')
 
     def build(self) -> None:
-        # VRECT_XL (6,6)-(42,42), mirrored about x=24.
-        self.add_arc('head-left', (14,12), (24,6), radius_x=10)
-        self.add_arc('head-right', (24,6), (34,12), radius_x=10)
-        self.add_line('side-right', (34,12), (36,34))
-        self.add_arc('belly-right', (36,34), (24,42), radius_x=12)
-        self.add_arc('belly-left', (24,42), (12,34), radius_x=12)
-        self.add_line('side-left', (12,34), (14,12))
-        self.add_contour('body','head-left','head-right','side-right','belly-right','belly-left','side-left',closed=True)
-        self.add_arc('flipper-left', (14,12), (6,34), radius_x=9, radius_y=22, sweep=False)
-        self.add_arc('flipper-right', (34,12), (42,34), radius_x=9, radius_y=22)
-        self.add_line('crest-left', (14,12), (6,7))
-        self.add_line('crest-right', (34,12), (42,7))
-        for part in ('flipper-left','flipper-right','crest-left','crest-right'):
-            self.relate('connect','body',part)
-        self.relate('connect','flipper-left','crest-left')
-        self.relate('connect','flipper-right','crest-right')
-        self.add_dot('eye-left',(21,15))
-        self.add_dot('eye-right',(27,15))
-        self.add_polyline('beak',(21,24),(24,27),(27,24))
+        self.add_bezier('crown',(14,12),((16,8),(20,6),(24,6)),((28,6),(32,8),(34,12)))
+        self.add_bezier('right',(34,12),((37,18),(37,28),(36,34)),((35,39),(29,42),(24,42)))
+        self.add_bezier('left',(24,42),((19,42),(13,39),(12,34)),((11,28),(11,18),(14,12)))
+        self.add_contour('body','crown','right','left',closed=True)
+        self.add_bezier('flipper-left',(14,12),((8,17),(6,26),(6,34)))
+        self.add_bezier('flipper-right',(34,12),((40,17),(42,26),(42,34)))
+        self.add_line('crest-left',(14,12),(6,7));self.add_line('crest-right',(34,12),(42,7))
+        for a,b in (('flipper-left','body'),('flipper-right','body'),('crest-left','body'),('crest-right','body'),('crest-left','flipper-left'),('crest-right','flipper-right')):self.relate('connect',a,b)
+        self.add_dot('eye-left',(20,21));self.add_dot('eye-right',(28,21))
+        self.add_polyline('beak',(21,30),(24,33),(27,30))

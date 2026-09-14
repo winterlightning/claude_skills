@@ -1,4 +1,4 @@
-"""A rounded bear face with two ears and a broad round muzzle."""
+'Bear face: retain round ears, clear eyes and an oval muzzle; omit the cramped dot inside the muzzle.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,18 +17,15 @@ class BearMuzzleFace(Solo48):
     keywords = ('bear', 'face', 'head', 'muzzle', 'nose', 'animal', 'cute', 'wildlife')
 
     def build(self) -> None:
-        # Visible keyshape extremes: (0, 0, 48, 48).
-        self.add_arc("ear-left", (6,10), (18,10), radius_x=8)
-        self.add_arc("forehead", (18,10), (30,10), radius_x=20)
-        self.add_arc("ear-right", (30,10), (42,10), radius_x=8)
-        self.add_line("cheek-right", (42,10), (42,26))
-        self.add_arc("chin-right", (42,26), (24,42), radius_x=22, radius_y=20)
-        self.add_arc("chin-left", (24,42), (6,26), radius_x=22, radius_y=20)
-        self.add_line("cheek-left", (6,26), (6,10))
-        self.add_contour("head", "ear-left", "forehead", "ear-right", "cheek-right", "chin-right", "chin-left", "cheek-left")
-        self.add_dot("eye-left", (15,20))
-        self.add_dot("eye-right", (33,20))
-        self.add_arc("muzzle-bottom", (14,31), (34,31), radius_x=10, radius_y=7, sweep=False)
-        self.add_arc("muzzle-top", (34,31), (14,31), radius_x=10, radius_y=7, sweep=False)
-        self.add_contour("muzzle", "muzzle-bottom", "muzzle-top", closed=True)
-        self.add_dot("nose", (24,31))
+        self.add_bezier('top-left',(6,12),((6,8),(8,6),(11,6)),((14,6),(16,8),(18,10)))
+        self.add_bezier('crown',(18,10),((21,9),(27,9),(30,10)))
+        self.add_bezier('top-right',(30,10),((32,8),(34,6),(37,6)),((40,6),(42,8),(42,12)))
+        self.add_line('right',(42,12),(42,26))
+        self.add_bezier('chin',(42,26),((42,36),(33,42),(24,42)),((15,42),(6,36),(6,26)))
+        self.add_line('left',(6,26),(6,12))
+        self.add_contour('head','top-left','crown','top-right','right','chin','left',closed=True)
+        self.add_dot('eye-left',(16,19));self.add_dot('eye-right',(32,19))
+
+        self.add_arc('muzzle-top', (18,29), (30,29), radius_x=6, radius_y=4)
+        self.add_arc('muzzle-bottom', (30,29), (18,29), radius_x=6, radius_y=4)
+        self.add_contour('muzzle', 'muzzle-top', 'muzzle-bottom', closed=True)

@@ -1,10 +1,10 @@
-"""Tired face (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'tired-face: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a8112462-62f6-570b-bc97-3c13f730433f'
 SOURCE_PATH = 'icons-json/smileys/tired face_a8112462-62f6-570b-bc97-3c13f730433f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TiredFace(Solo48):
     icon_id = 'tired-face'
@@ -15,18 +15,10 @@ class TiredFace(Solo48):
     aliases = ()
     keywords = ('tired', 'face', 'smileys')
 
-    def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1', (29, 16), (37, 20), radius_x=8, sweep=False)
-        self.add_arc('e2', (11, 20), (18, 16), radius_x=7, sweep=False)
-        self.add_arc('e3-1', (29, 24), (32, 27), radius_x=4, sweep=False)
-        self.add_line('e3-2', (32, 27), (35, 25))
-        self.add_arc('e4', (13, 25), (19, 24), radius_x=4, sweep=False)
-        self.add_arc('e5', (18, 35), (29, 35), radius_x=7)
-        self.add_contour('c0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3-1', 'e3-2')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_arc('eye-left',(15,17),(19,17),radius_x=2,radius_y=2,sweep=False)
+        self.add_arc('eye-right',(29,17),(33,17),radius_x=2,radius_y=2,sweep=False)
+        self.add_arc('mouth',(17,32),(31,32),radius_x=7,radius_y=4)

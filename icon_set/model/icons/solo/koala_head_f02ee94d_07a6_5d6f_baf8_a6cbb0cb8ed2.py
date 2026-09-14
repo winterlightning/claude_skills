@@ -1,4 +1,4 @@
-"""Koala face with round separated ears. Upright oval nose and eye-free expression retained. Lucide cat informs bilateral silhouette; ear pairs mirror around x=24."""
+'Koala head: mirrored round ears and a compact oval nose with clear face margins.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,21 +17,13 @@ class KoalaFace(Solo48):
     keywords = ('koala', 'face', 'head', 'ears', 'nose', 'marsupial', 'australia', 'cute')
 
     def build(self) -> None:
-        # Exact visible extremes: (0, 6, 48, 42); centerline inset 2.
-        self.add_arc('crown', (16, 14), (32, 14), radius_x=16, radius_y=10, sweep=True, large_arc=False)
-        self.add_arc('ear-right-inner', (32, 14), (39, 8), radius_x=7, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('ear-right-top', (39, 8), (42, 16), radius_x=7, radius_y=8, sweep=True, large_arc=False)
-        self.add_arc('ear-right-bottom', (42, 16), (38, 24), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_arc('jaw-right', (38, 24), (24, 40), radius_x=14, radius_y=16, sweep=True, large_arc=False)
-        self.add_arc('jaw-left', (24, 40), (10, 24), radius_x=14, radius_y=16, sweep=True, large_arc=False)
-        self.add_arc('ear-left-bottom', (10, 24), (6, 16), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_arc('ear-left-top', (6, 16), (9, 8), radius_x=7, radius_y=8, sweep=True, large_arc=False)
-        self.add_arc('ear-left-inner', (9, 8), (16, 14), radius_x=7, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('outline', 'crown', 'ear-right-inner', 'ear-right-top', 'ear-right-bottom', 'jaw-right', 'jaw-left', 'ear-left-bottom', 'ear-left-top', 'ear-left-inner', closed=True)
-        self.add_arc('ear-seam-left', (16, 14), (10, 24), radius_x=14, radius_y=14, sweep=False, large_arc=False)
-        self.add_arc('ear-seam-right', (38, 24), (32, 14), radius_x=14, radius_y=14, sweep=False, large_arc=False)
-        self.relate("connect", 'ear-seam-left', 'outline')
-        self.relate("connect", 'ear-seam-right', 'outline')
-        self.add_arc('nose-right', (24, 21), (24, 33), radius_x=4, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('nose-left', (24, 33), (24, 21), radius_x=4, radius_y=6, sweep=True, large_arc=False)
-        self.add_contour('nose', 'nose-right', 'nose-left', closed=True)
+        # Reflected ear lobes and a broad central face preserve koala proportions.
+        self.add_bezier('left-ear',(16,14),((16,10),(14,8),(10,8)),((6,8),(4,11),(4,16)),((4,21),(6,24),(10,24)))
+        self.add_bezier('chin',(10,24),((10,34),(15,40),(24,40)),((33,40),(38,34),(38,24)))
+        self.add_bezier('right-ear',(38,24),((42,24),(44,21),(44,16)),((44,11),(42,8),(38,8)),((34,8),(32,10),(32,14)))
+        self.add_bezier('crown',(32,14),((28,11),(20,11),(16,14)))
+        self.add_contour('face','left-ear','chin','right-ear','crown',closed=True)
+
+        self.add_arc('nose-top', (21,27), (27,27), radius_x=3, radius_y=4)
+        self.add_arc('nose-bottom', (27,27), (21,27), radius_x=3, radius_y=4)
+        self.add_contour('nose', 'nose-top', 'nose-bottom', closed=True)

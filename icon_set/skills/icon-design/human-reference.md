@@ -23,11 +23,14 @@ scale a finished icon between families or copy fractional reference coordinates.
 
 ## Head-to-body gap
 
-For the avatar skill within `solo`, read `authoring.avatar.head_body_ink_gap` in
-`icon_set/model/contracts/icon-profile.v1.json`; the solo base exports
-`HEAD_BODY_INK_GAP` and derives `HEAD_BODY_CENTERLINE_GAP` by adding the stroke.
-It currently matches the shared 4-unit gap below, but can be changed separately.
-Use `/icon-avatar` for a standalone 48x48 head-and-body avatar.
+For the avatar skill within `solo`, the current rule is **head ink touching body
+ink, with zero visible gap**. Read `authoring.avatar.head_body_ink_gap` in the
+profile contract and the derived constants in the solo base. Tangent contact
+between two 4-unit strokes has 4 units between centerlines. Declare a scoped
+`connect` for the actually touching paths; other MIC and hole checks remain.
+Face/jaw outlines use circular arcs with equal radii, never oval or flattened
+face geometry. Hair/headwear can retain their identifying outlines. The avatar
+rule supersedes the detached layout in user.svg and the generic rule below.
 
 For a detached user/person head in other families, require **exactly 4 units of visible ink
 clearance** to its own body/shoulders, measured between the nearest painted
@@ -53,5 +56,5 @@ Record the human reference paths and the shared head/body parameters in the
 module. Confirm the actual emitted head-to-body gap (not just a named constant),
 then compare the result with the selected reference at native size in both
 themes. Check head shape, relative head size, shoulder/limb construction, and
-the compact 4-unit gap. A generic MIC pass only proves a minimum; it does not
+the avatar contact (or detached 4-unit gap for other human subjects). A generic MIC pass only proves a minimum; it does not
 enforce this exact human spacing rule or visual consistency.

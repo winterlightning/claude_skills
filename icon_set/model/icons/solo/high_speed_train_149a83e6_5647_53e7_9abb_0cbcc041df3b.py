@@ -1,4 +1,4 @@
-"""High-Speed Train, re-authored from its reference on SOLO48."""
+'High-speed train: preserve the aerodynamic rounded nose and a clear window above the separate rail.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '149a83e6-5647-53e7-9abb-0cbcc041df3b'
@@ -15,12 +15,9 @@ class HighSpeedTrain(Solo48):
     keywords = ('high speed train', 'bullet train', 'shinkansen', 'train', 'railway', 'rail', 'fast', 'transport')
 
     def build(self) -> None:
-        # Current contract centerline extremes: (6,8)-(42,40).
-        self.add_line('roof',(6,8),(24,8))
-        self.add_arc('nose-upper',(24,8),(42,26),radius_x=20,radius_y=18)
-        self.add_arc('nose-lower',(42,26),(40,30),radius_x=4)
-        self.add_line('lower-body-1',(40,30),(6,30))
-        self.add_line('lower-body-2',(6,30),(6,8))
-        self.add_contour('body','roof','nose-upper','nose-lower','lower-body-1','lower-body-2')
-        self.add_line('window',(13,18),(23,18))
-        self.add_line('rail',(6,40),(42,40))
+        self.add_line('roof',(4,8),(24,8))
+        self.add_bezier('nose',(24,8),((35,8),(44,18),(44,26)),((44,29),(42,30),(40,30)))
+        self.add_polyline('base',(40,30),(4,30),(4,8))
+        self.relate('connect','roof','nose');self.relate('connect','nose','base');self.relate('connect','base','roof')
+        self.add_line('window',(13,19),(23,19))
+        self.add_line('rail',(4,40),(44,40))

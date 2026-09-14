@@ -1,8 +1,4 @@
-"""standing-owl: source silhouette re-authored on SOLO48.
-
-Lucide bird informs coherent body arcs and sparse detail.
-Keyshape VRECT_L; extremes obtained from the SOLO48 contract.
-"""
+'Standing owl: retain pointed head tufts, a rounded upright side and a compact beak below clear eye dots.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -13,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class StandingOwl(Solo48):
     icon_id = 'standing-owl'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals/birds"
@@ -21,19 +17,11 @@ class StandingOwl(Solo48):
     keywords = ('owl', 'standing', 'wise', 'bird', 'night', 'feathers', 'nocturnal', 'perch')
 
     def build(self) -> None:
-        self.add_line('tuft-left', (8, 6), (19, 7))
-        self.add_arc('crown', (19, 7), (40, 20), radius_x=15, radius_y=15, sweep=True)
-        self.add_arc('back', (40, 20), (26, 40), radius_x=20, radius_y=22, sweep=True)
-        self.add_line('tail', (26, 40), (8, 40))
-        self.add_arc('breast', (8, 40), (15, 19), radius_x=40, radius_y=40, sweep=True)
-        self.add_line('forehead', (15, 19), (8, 6))
-        self.add_contour('owl', 'tuft-left', 'crown', 'back', 'tail', 'breast', 'forehead', closed=True)
-        self.add_line('tuft-right', (19, 7), (40, 6))
-        self.relate("connect", 'owl', 'tuft-right')
-        self.add_dot('eye-left', (22, 16))
-        self.add_dot('eye-right', (31, 16))
-        self.add_polyline('beak', (23, 24), (26, 27), (29, 24))
-        self.add_line('leg', (26, 40), (29, 42))
-        self.add_line('foot', (29, 42), (35, 42))
-        self.add_contour('perch', 'leg', 'foot', closed=False)
-        self.relate("connect", 'owl', 'perch')
+        self.add_polyline('tufts',(6,6),(17,10),(25,8),(34,10),(42,6),(38,20))
+        self.add_bezier('side',(38,20),((43,25),(41,34),(33,38)),((29,40),(27,42),(24,42)))
+        self.add_line('base',(24,42),(6,42))
+        self.add_bezier('back',(6,42),((6,31),(9,24),(11,20)))
+        self.add_line('left-tuft',(11,20),(6,6))
+        for a,b in (('tufts','side'),('side','base'),('base','back'),('back','left-tuft'),('left-tuft','tufts')):self.relate('connect',a,b)
+        self.add_dot('eye-left',(20,20));self.add_dot('eye-right',(29,20))
+        self.add_polyline('beak',(23,28),(26,31),(28,28))

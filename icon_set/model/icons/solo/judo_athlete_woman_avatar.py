@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-judo-athlete-woman.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-judo-athlete-woman.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-judo-athlete-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 24
+HEAD_BOTTOM = 23
 
 class JudoAthleteWomanAvatar(Solo48):
     icon_id = 'judo-athlete-woman-avatar'
@@ -36,7 +36,7 @@ class JudoAthleteWomanAvatar(Solo48):
             self.relate('connect', 'outer-' + side, 'fringe-' + side)
         self.relate('connect', 'outer-left', 'outer-right')
         self.relate('connect', 'fringe-left', 'fringe-right')
-        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=10)
+        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=9)
         for side in ['left', 'right']:
             self.relate('connect', 'face', 'fringe-' + side)
 
@@ -58,3 +58,6 @@ class JudoAthleteWomanAvatar(Solo48):
         self.relate('connect', 'body-wrap', 'body-top-right')
         self.add_line('body-belt-end', (24,38), (28,44))
         self.relate('connect', 'body-wrap', 'body-belt-end')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

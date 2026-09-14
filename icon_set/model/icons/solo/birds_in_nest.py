@@ -1,9 +1,4 @@
-# Review candidate; original preserved.
-"""birds-in-nest: source silhouette re-authored on SOLO48.
-
-Lucide bird informs coherent body arcs and sparse detail.
-Keyshape HRECT_L; extremes obtained from the SOLO48 contract.
-"""
+'Two nestlings: equal rounded heads remain attached to the broad nest; omit undersized eyes that cannot clear the head outlines.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '86f74b9e-984f-4e95-959a-f8f27b3d1de8'
@@ -20,27 +15,13 @@ class BirdsInNest(Solo48):
     keywords = ('nest', 'birds', 'chicks', 'baby', 'hatchling', 'nurture', 'home', 'family')
 
     def build(self) -> None:
-        """Opening repair: Deepened the nest bowl, retaining both chicks and their eyes."""
-        self.add_arc('bowl', (44, 27), (4, 27), sweep=True, radius_x=20, radius_y=13)
-        self.add_line('rim-a', (4, 27), (6, 27))
-        self.add_line('rim-b', (6, 27), (20, 27))
-        self.add_line('rim-c', (20, 27), (28, 27))
-        self.add_line('rim-d', (28, 27), (42, 27))
-        self.add_line('rim-e', (42, 27), (44, 27))
-        self.add_contour('nest', 'rim-a', 'rim-b', 'rim-c', 'rim-d', 'rim-e', 'bowl', closed=True)
-        self.add_line('chick-left-a', (6, 27), (6, 15))
-        self.add_arc('chick-left-head', (6, 15), (20, 15), radius_x=7, radius_y=7, sweep=True)
-        self.add_line('chick-left-b', (20, 15), (20, 27))
-        self.add_contour('chick-left', 'chick-left-a', 'chick-left-head', 'chick-left-b', closed=False)
-        self.add_line('chick-right-a', (28, 27), (28, 15))
-        self.add_arc('chick-right-head', (28, 15), (42, 15), radius_x=7, radius_y=7, sweep=True)
-        self.add_line('chick-right-b', (42, 15), (42, 27))
-        self.add_contour('chick-right', 'chick-right-a', 'chick-right-head', 'chick-right-b', closed=False)
-        self.relate('connect', 'chick-left', 'nest')
-        self.relate('connect', 'chick-right', 'nest')
-        self.add_line('beak-left', (6, 15), (6, 17))
-        self.add_line('beak-right', (42, 15), (42, 17))
-        self.relate('connect', 'chick-left', 'beak-left')
-        self.relate('connect', 'chick-right', 'beak-right')
-        self.add_dot('eye-left', (13, 15))
-        self.add_dot('eye-right', (35, 15))
+        # Two chicks share the nest rim; tiny eyes are omitted because their heads cannot contain MIC4 detail.
+        self.add_arc('bowl',(44,27),(4,27),radius_x=20,radius_y=13)
+        self.add_polyline('rim',(4,27),(6,27),(20,27),(28,27),(42,27),(44,27))
+        self.relate('connect','bowl','rim')
+        for name,l,r in (('left',6,20),('right',28,42)):
+            self.add_line(name+'-side-a',(l,27),(l,15))
+            self.add_arc(name+'-head',(l,15),(r,15),radius_x=7)
+            self.add_line(name+'-side-b',(r,15),(r,27))
+            self.add_contour(name,name+'-side-a',name+'-head',name+'-side-b')
+            self.relate('connect',name,'rim')

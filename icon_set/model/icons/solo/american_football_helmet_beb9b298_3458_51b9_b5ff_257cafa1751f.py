@@ -1,8 +1,4 @@
-"""A side-view football helmet has a rounded shell, ear opening and projecting face guard.
-
-Kept shell, ear opening and an open face-guard contour with real attachment points.
-Source shell and guard; quarter-circle construction, with no useful exact Lucide match.
-"""
+'Football helmet: smooth protective dome and attached face guard, with a clear ear opening.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -41,20 +37,10 @@ class AmericanFootballHelmet(Solo48):
         self.add_arc(name+'-bottom',(x+rx,y),(x-rx,y),radius_x=rx,radius_y=ry)
         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
-    def build(self):
-        # A side-view football helmet has a rounded shell, ear opening and projecting face guard.
-        self.add_arc('shell-dome',(6,26),(40,26),radius_x=18)
-        self.add_line('brow',(40,26),(28,26))
-        self.add_line('jaw-upper',(28,26),(28,30))
-        self.add_line('jaw-lower',(28,30),(28,34))
-        self.add_arc('chin',(28,34),(22,40),radius_x=6)
-        self.add_line('base',(22,40),(8,40))
-        self.add_arc('back-corner',(8,40),(6,36),radius_x=4)
-        self.add_line('back',(6,36),(6,26))
-        self.add_contour('shell','shell-dome','brow','jaw-upper','jaw-lower','chin','base','back-corner','back',closed=True)
-        self.circle('ear',16,28,3)
-        self.add_polyline('guard',(40,26),(42,26),(42,40),(38,40))
-        self.add_arc('guard-return',(38,40),(28,30),radius_x=10)
-        self.relate('connect','guard-3','guard-return')
-        for part in ['brow','shell-dome']:self.relate('connect','guard-1',part)
-        for part in ['jaw-upper','jaw-lower']:self.relate('connect','guard-return',part)
+    def build(self) -> None:
+        self.add_bezier('shell-top',(4,30),((4,17),(15,8),(25,8)),((34,8),(40,15),(44,24)))
+        self.add_polyline('mask',(44,24),(44,40),(36,40),(28,33),(28,24),(44,24))
+        self.add_bezier('shell-bottom',(28,33),((28,38),(23,40),(17,40)),((10,40),(4,40),(4,36)))
+        self.add_line('rear',(4,36),(4,30))
+        self.relate('connect','shell-top','mask');self.relate('connect','mask','shell-bottom');self.relate('connect','shell-bottom','rear');self.relate('connect','rear','shell-top')
+        self.add_dot('ear',(16,27))

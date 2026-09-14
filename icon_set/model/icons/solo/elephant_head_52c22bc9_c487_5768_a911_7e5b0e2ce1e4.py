@@ -1,4 +1,4 @@
-"""Connected elephant head profile with a broad ear, visible eye, lower jaw and curled trunk."""
+'Elephant profile: coherent round crown, hanging ear and upturned trunk; preserve the curve character while opening the eye area.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class MinimalElephantHead(Solo48):
     icon_id = 'minimal-elephant-head'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/animals"
@@ -17,17 +17,13 @@ class MinimalElephantHead(Solo48):
     keywords = ('minimal', 'elephant', 'head')
 
     def build(self) -> None:
-        # SQUARE ink bounds (0, 0, 48, 48), centerline extremes 2 and 46.
-        self.add_arc('crown', (6, 16), (38, 16), radius_x=18, radius_y=14, sweep=True)
-        self.add_line('forehead', (38, 16), (38, 32))
-        self.add_arc('trunk-tip-inner', (38, 32), (42, 32), radius_x=4, sweep=False)
-        self.add_line('trunk-tip', (42, 32), (42, 38))
-        self.add_arc('trunk-outer', (42, 38), (30, 38), radius_x=8, sweep=True)
-        self.add_line('trunk-inner', (30, 38), (30, 30))
-        self.add_line('jaw', (30, 30), (12, 32))
-        self.add_arc('ear-outline', (12, 32), (6, 16), radius_x=10, radius_y=16, sweep=True)
-        self.add_contour('silhouette', 'crown', 'forehead', 'trunk-tip-inner', 'trunk-tip', 'trunk-outer', 'trunk-inner', 'jaw', 'ear-outline', closed=True)
-        self.add_line('ear-fold', (18, 11), (18, 18))
-        self.add_arc('ear-round', (18, 18), (12, 24), radius_x=6, sweep=True)
-        self.add_contour('ear-detail', 'ear-fold', 'ear-round')
-        self.add_dot('eye', (28, 17))
+        self.add_bezier('crown',(4,16),((6,10),(12,8),(18,8)),((27,8),(34,9),(36,16)))
+        self.add_polyline('trunk-top',(36,16),(36,31),(44,31),(44,36))
+        self.add_bezier('trunk-tip',(44,36),((44,39),(40,40),(36,40)),((31,40),(28,38),(28,34)))
+        self.add_line('throat',(28,34),(28,30))
+        self.add_bezier('body',(28,30),((22,30),(17,32),(12,32)),((7,32),(4,23),(4,16)))
+        for a,b in (('crown','trunk-top'),('trunk-top','trunk-tip'),('trunk-tip','throat'),('throat','body'),('body','crown')):self.relate('connect',a,b)
+        self.add_line('ear-stem',(18,8),(18,16))
+        self.add_bezier('ear',(18,16),((18,20),(16,21),(13,21)))
+        self.relate('connect','ear-stem','crown');self.relate('connect','ear-stem','ear')
+        self.add_dot('eye',(27,19))

@@ -1,10 +1,10 @@
-"""Nauseous (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'nauseous-smileys: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f47f109d-1851-59a2-8a3e-21b61c7a1b0a'
 SOURCE_PATH = 'icons-json/smileys/nauseous_f47f109d-1851-59a2-8a3e-21b61c7a1b0a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class NauseousSmileys(Solo48):
     icon_id = 'nauseous-smileys'
@@ -15,17 +15,10 @@ class NauseousSmileys(Solo48):
     aliases = ()
     keywords = ('nauseous', 'smileys')
 
-    def build(self):
-        self.add_line('e0', (35, 15), (28, 19))
-        self.add_line('e1', (28, 19), (35, 24))
-        self.add_line('e2', (14, 15), (20, 19))
-        self.add_line('e3', (20, 19), (14, 24))
-        self.add_arc('e4-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e4-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e5-1', (14, 33), (24, 33), radius_x=6)
-        self.add_line('e5-2', (24, 33), (29, 30))
-        self.add_line('e5-3', (29, 30), (34, 33))
-        self.add_contour('c0', 'e5-1', 'e5-2', 'e5-3')
-        self.add_contour('c1', 'e0', 'e1')
-        self.add_contour('c2', 'e2', 'e3')
-        self.add_contour('e4', 'e4-top', 'e4-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_polyline('eye-left',(16,16),(20,18),(16,20))
+        self.add_polyline('eye-right',(32,16),(28,18),(32,20))
+        self.add_bezier('mouth',(15,31),((17,27),(19,35),(21,31)),((23,27),(25,35),(27,31)),((29,27),(31,35),(33,31)))

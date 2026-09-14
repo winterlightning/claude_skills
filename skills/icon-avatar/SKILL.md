@@ -24,7 +24,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
 | Existing icons to imitate | `user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar` |
 
-This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.
+This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` for the circular head, rounded shoulders, and open bottom. The current avatar rule supersedes its detached layout: head ink touches body ink, with no visible gap.
 
 **Wrong family? Stop.** For an isolated head or a full-body action scene intended at 48, use `$icon-solo`. For an enclosure, use `$icon-container`; for a hosted glyph, use `$icon-sub`. An avatar icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
@@ -46,7 +46,7 @@ mirror only the parts where it helps the drawing read clearly.
 For any human subject or human part in a scene, first read
 `icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
 `icon_set/references/human_ref/`. These own human proportions and construction;
-detached heads require exactly 4 units of visible head-to-body clearance.
+avatar heads touch the body with zero visible gap and use circular face arcs.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -184,13 +184,13 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 6. **Family-specific checks.**
 
 - Avatar is a specialized authoring skill within the solo family, using SOLO48 and its four exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
-- Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly 4 units of visible ink clearance, or 8 between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
+- Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Head ink must touch body ink: 0 visible gap, or 4 centerline separation for tangent stroke contact with stroke 4. Declare a scoped `connect` only for the actually touching head/body paths; keep the normal MIC for other separate parts. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
 - Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.
 - For a set of avatars, plan one recognizable body cue per subject before drawing: an apron, wrap collar, coat fastening, scarf, or natural arm pose. Compare neighboring avatars at native size, especially those sharing similar heads. Do not reuse an identical generic torso for every named subject or invent arbitrary costume details just to make it different; retain the simple bust for a generic user.
-- Budget head, exact gap, and torso together inside the inset keyshape. Keep hair/headwear within the same whole-avatar envelope. Leave enough torso height for broad readable clothing openings; simplify details instead of crowding collars, widening the gap, or replacing curved shoulders with angular clothing outlines.
+- Budget the round head, touching shoulder junction, and torso together inside the inset keyshape. Keep hair/headwear within the same whole-avatar envelope. Leave enough torso height for broad readable clothing openings; simplify details instead of crowding collars, widening the gap, or replacing curved shoulders with angular clothing outlines.
 - Head and body are natural parts of one avatar: do not split them into Pending component briefs. A separate badge, enclosure, or state modifier still follows the shared combination triage.
 - Use the 48-unit keyshape table above and re-author the reference on the integer grid. The supplied user.svg uses the same 48x48 canvas; use its construction while fitting the chosen keyshape. Keep round caps, tangent shoulder curves, and coherent head/body proportions.
-- Verify the exact gap in emitted geometry; a generic MIC pass proves only minimum clearance. Record head/body parameters and the measured gap. Do not introduce a neck or false connect relationship to bypass spacing.
+- Verify painted head/body contact in emitted geometry and record the measured zero gap. Face and jaw outlines must use circular arcs with equal radius_x and radius_y, or a full circle; do not stretch or flatten the face into an oval. Hair and headwear may retain subject-specific outlines. Never add false connect relationships or disable holes/pinches to obtain a pass.
 
 7. **Build and look.**
 
@@ -241,4 +241,4 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 - State which Lucide construction informed the drawing, or that no useful match
   was found; explain any deliberate asymmetry.
 - For human figures, name the shared human reference and verify its proportions
-  and exact 4-unit detached head-to-body ink gap in the emitted geometry.
+  and zero-gap head/body contact and circular face arcs in the emitted geometry.

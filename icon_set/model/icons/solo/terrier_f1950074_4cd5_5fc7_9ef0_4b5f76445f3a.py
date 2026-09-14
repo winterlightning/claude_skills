@@ -17,8 +17,8 @@ class Terrier(Solo48):
 
     def build(self):
         self.add_line('e0', (24, 44), (24, 35))
-        self.add_line('e1', (20, 26), (20, 21))
-        self.add_line('e2', (28, 26), (28, 21))
+        self.add_line('e1', (20, 22), (20, 22))
+        self.add_line('e2', (28, 22), (28, 22))
         self.add_line('e3', (18, 13), (9, 4))
         self.add_line('e4', (39, 4), (30, 13))
         self.add_arc('e5', (30, 13), (18, 13), radius_x=27, sweep=False)

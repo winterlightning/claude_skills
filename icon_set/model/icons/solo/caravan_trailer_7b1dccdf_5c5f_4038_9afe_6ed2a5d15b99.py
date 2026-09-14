@@ -1,4 +1,4 @@
-"""caravan-trailer: reconstructed on SOLO48 from the supplied transportation reference."""
+'Caravan: tangent rounded front, clear window margins and a round attached wheel; extend the tow bar to the horizontal envelope.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,22 +17,14 @@ class CaravanTrailer(Solo48):
     keywords = ('caravan', 'trailer', 'camper', 'rv', 'travel', 'camping', 'tow', 'holiday')
 
     def build(self) -> None:
+        self.add_line('roof',(4,8),(24,8))
+        self.add_arc('front',(24,8),(34,18),radius_x=10)
+        self.add_polyline('lower',(34,18),(34,32),(18,32),(4,32),(4,8))
+        self.relate('connect','roof','front');self.relate('connect','front','lower');self.relate('connect','roof','lower')
+        self.add_line('window',(13,20),(23,20))
+        self.add_line('tow',(34,32),(44,32));self.relate('connect','tow','lower')
 
-        # Rounded shell, single window and a wheel meeting the lower edge.
-        self.add_line('roof',(8,8),(24,8))
-        self.add_arc('front-curve',(24,8),(34,18),radius_x=10)
-        self.add_polyline('front',(34,18),(34,32),(18,32))
-        self.add_polyline('rear',(18,32),(6,32),(6,12))
-        self.add_arc('rear-curve',(6,12),(8,8),radius_x=4)
-        self.add_contour('shell','roof','front-curve','front-1','front-2','rear-1','rear-2','rear-curve',closed=True)
-        self.contours=[c for c in self.contours if c.contour_id not in ('front','rear')]
-        self.add_line('window',(13,20),(24,20))
-        self.add_line('tow-bar',(34,32),(42,32))
-        self.add_arc('wheel-right',(18,32),(18,40),radius_x=4)
-        self.add_arc('wheel-left',(18,40),(18,32),radius_x=4)
-        self.add_contour('wheel','wheel-right','wheel-left',closed=True)
-        # Record only actual shared-endpoint contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
-                    self.relate('connect',a.element_id,b.element_id)
+        self.add_arc('wheel-top', (14,36), (22,36), radius_x=4, radius_y=4)
+        self.add_arc('wheel-bottom', (22,36), (14,36), radius_x=4, radius_y=4)
+        self.add_contour('wheel', 'wheel-top', 'wheel-bottom', closed=True)
+        self.relate('connect','wheel','lower')

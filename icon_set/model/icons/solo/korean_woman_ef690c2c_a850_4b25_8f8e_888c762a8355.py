@@ -1,14 +1,23 @@
-"""Korean woman (avatars), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Korean Woman: asymmetric wrap jacket, with reference curved shoulders.
+
+Plan: head/headwear and curved body on SOLO48 VRECT_L, ink (6,2)-(42,46).
+Circular face and shoulder ink meet with zero visible gap.
+Human reference: icon_set/references/human_ref/user.svg; supporting Lucide
+original/user-round.svg and atomic-debug/user-round.svg supply cardinal arcs.
+Preserve original head identity; omit tiny facial marks and hat trim at 48.
+Paired shoulders use shared radii; source hair asymmetry remains intentional.
+"""
 from ...keyshapes import Keyshape
-from ._base import Solo48
+from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'ef690c2c-a850-4b25-8f8e-888c762a8355'
 SOURCE_PATH = 'icons-json/avatars/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
+HEAD_BOTTOM = 24
 
 class KoreanWoman(Solo48):
     icon_id = 'korean-woman'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'avatars'
@@ -16,49 +25,35 @@ class KoreanWoman(Solo48):
     keywords = ('korean', 'woman', 'avatars')
 
     def build(self):
-        self.add_line('e0', (20, 12), (20, 8))
-        self.add_arc('e1-1', (36, 28), (44, 34), radius_x=7)
-        self.add_arc('e1-2', (44, 34), (41, 39), radius_x=6)
-        self.add_line('e1-3', (41, 39), (37, 40))
-        self.add_arc('e1-4', (37, 40), (31, 36), radius_x=7)
-        self.add_arc('e2', (36, 28), (31, 36), radius_x=16)
-        self.add_arc('e3', (36, 28), (36, 22), radius_x=23)
-        self.add_arc('e4', (20, 12), (36, 22), radius_x=15, sweep=False)
-        self.add_arc('e5', (20, 12), (4, 22), radius_x=16)
-        self.add_arc('e6-1', (36, 22), (32, 13), radius_x=12, sweep=False)
-        self.add_arc('e6-2', (32, 13), (21, 8), radius_x=17, sweep=False)
-        self.add_arc('e6-3', (21, 8), (20, 8), radius_x=31)
-        self.add_arc('e7-1', (20, 8), (4, 21), radius_x=17, sweep=False)
-        self.add_line('e7-2', (4, 21), (4, 22))
-        self.add_arc('e8-1', (31, 36), (20, 40), radius_x=18)
-        self.add_line('e8-2', (20, 40), (14, 39))
-        self.add_arc('e8-3', (14, 39), (6, 32), radius_x=17)
-        self.add_arc('e8-4', (6, 32), (4, 25), radius_x=15)
-        self.add_line('e8-5', (4, 25), (4, 22))
-        self.add_contour('c0', 'e1-1', 'e1-2', 'e1-3', 'e1-4')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('c5', 'e0')
-        self.add_contour('c6', 'e6-1', 'e6-2', 'e6-3')
-        self.add_contour('c7', 'e7-1', 'e7-2')
-        self.add_contour('c8', 'e8-1', 'e8-2', 'e8-3', 'e8-4', 'e8-5')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c8')
-        self.relate('connect', 'c1', 'c8')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c7')
-        self.relate('connect', 'c4', 'c8')
-        self.relate('connect', 'c7', 'c8')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c6', 'c7')
+        self.add_arc('crown',(12,14),(32,14),radius_x=10)
+        self.add_arc('jaw',(32,14),(12,14),radius_x=10)
+        self.add_contour('head','crown','jaw',closed=True)
+        self.add_bezier('fringe',(12,14),((18,16),(22,12),(25,9)),((27,12),(30,14),(32,14)))
+        self.relate('connect','head','fringe')
+        self.add_arc('bun-top',(32,14),(40,14),radius_x=4)
+        self.add_arc('bun-bottom',(40,14),(32,14),radius_x=4)
+        self.add_contour('side-bun','bun-top','bun-bottom',closed=True)
+        self.relate('connect','head','side-bun')
+        self.relate('connect','fringe','side-bun')
+        # Broad curved shoulders follow human_ref/user.svg; clothing carries identity.
+        # Body plan: wide flowing sleeves and a short crossed jacket tie.
+        top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
+        self.add_line('body-left-side',(8,44),(8,42))
+        self.add_arc('body-left-shoulder',(8,42),(16,top),radius_x=8,radius_y=42-top)
+        self.add_contour('body-left','body-left-side','body-left-shoulder')
+        self.add_line('body-top', (16,top), (24, top))
+        self.add_line('body-top-right', (24, top), (32,top))
+        self.add_arc('body-right-shoulder',(32,top),(40,42),radius_x=8,radius_y=42-top)
+        self.add_line('body-right-side',(40,42),(40,44))
+        self.add_contour('body-right','body-right-shoulder','body-right-side')
+        self.relate('connect', 'body-left', 'body-top')
+        self.relate('connect', 'body-top', 'body-top-right')
+        self.relate('connect', 'body-top-right', 'body-right')
+        self.add_polyline('body-collar', (16,top), (24,42), (32,top))
+        self.relate('connect', 'body-collar', 'body-top')
+        self.relate('connect', 'body-collar', 'body-top-right')
+        self.add_line('body-tie', (24,42), (22,44))
+        self.relate('connect', 'body-collar', 'body-tie')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '3fdd5840-1a58-4cbe-bcb5-810d21e3c2dd'
 SOURCE_PATH = 'icons-json/interface-essential/cog_3fdd5840-1a58-4cbe-bcb5-810d21e3c2dd.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CogInterfaceEssential(Solo48):
     icon_id = 'cog-interface-essential'
@@ -38,8 +38,8 @@ class CogInterfaceEssential(Solo48):
         self.add_line('e19', (15, 13), (10, 12))
         self.add_line('e20', (10, 12), (6, 17))
         self.add_line('e21', (6, 17), (10, 22))
-        self.add_arc('e22-top', (18, 24), (30, 24), radius_x=6)
-        self.add_arc('e22-bottom', (30, 24), (18, 24), radius_x=6)
+        self.add_arc('e22-top', (20, 24), (28, 24), radius_x=4)
+        self.add_arc('e22-bottom', (28, 24), (20, 24), radius_x=4)
         self.add_line('e23-1', (10, 22), (10, 26))
         self.add_line('e23-2', (10, 26), (6, 31))
         self.add_contour('c0', 'e23-1', 'e23-2', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15', 'e16', 'e17', 'e18', 'e19', 'e20', 'e21', closed=True)

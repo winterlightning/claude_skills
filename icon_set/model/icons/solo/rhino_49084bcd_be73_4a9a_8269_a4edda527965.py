@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class RhinoHead(Solo48):
     icon_id = 'rhino-head'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/animals"
@@ -24,11 +24,10 @@ class RhinoHead(Solo48):
         self.add_line('upper-5', (29, 25), (36, 14))
         self.add_arc('upper-6', (36, 14), (38, 30), radius_x=12, radius_y=14, sweep=True)
         self.add_line('upper-7', (38, 30), (40, 31))
-        self.add_arc('upper-8', (40, 31), (42, 37), radius_x=6, radius_y=6, sweep=True)
+        self.add_bezier('upper-8', (40, 31), *(((41.75220913, 32.4577601), (42, 34.78246644), (42, 37)),))
         self.add_contour('upper', 'upper-1', 'upper-2', 'upper-3', 'upper-4', 'upper-5', 'upper-6', 'upper-7', 'upper-8', closed=False)
-        self.add_arc('jaw-1', (42, 37), (40, 42), radius_x=6, radius_y=6, sweep=True)
+        self.add_bezier('jaw-1', (42, 37), *(((42, 38.88904265), (41.4191706, 40.7429131), (40, 42)),))
         self.add_line('jaw-2', (40, 42), (14, 34))
         self.add_arc('jaw-3', (14, 34), (6, 26), radius_x=12, radius_y=12, sweep=True)
         self.add_contour('jaw', 'jaw-1', 'jaw-2', 'jaw-3', closed=False)
         self.relate("connect", 'upper', 'jaw')
-        self.add_dot('eye', (24, 30))

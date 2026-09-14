@@ -1,10 +1,10 @@
-"""Shout (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'shout: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0170253f-5b18-54db-9549-084ab4e62b33'
 SOURCE_PATH = 'icons-json/smileys/shout_0170253f-5b18-54db-9549-084ab4e62b33.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Shout(Solo48):
     icon_id = 'shout'
@@ -15,18 +15,13 @@ class Shout(Solo48):
     aliases = ()
     keywords = ('shout', 'smileys')
 
-    def build(self):
-        self.add_arc('sym-e0', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('sym-e1', (44, 24), (4, 24), radius_x=20)
-        self.add_line('sym-e2', (17, 15), (17, 22))
-        self.add_line('sym-e3', (17, 36), (24, 36))
-        self.add_line('sym-e4', (24, 36), (31, 36))
-        self.add_arc('sym-e5', (31, 36), (31, 31), radius_x=10, sweep=False)
-        self.add_arc('sym-e6', (31, 31), (24, 26), radius_x=8, sweep=False)
-        self.add_arc('sym-e7', (24, 26), (17, 31), radius_x=8, sweep=False)
-        self.add_arc('sym-e8', (17, 31), (17, 36), radius_x=10, sweep=False)
-        self.add_line('sym-e9', (31, 15), (31, 22))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2')
-        self.add_contour('sym-c2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', closed=True)
-        self.add_contour('sym-c3', 'sym-e9')
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_line('eye-left',(18,16),(18,19))
+        self.add_line('eye-right',(30,16),(30,19))
+
+        self.add_arc('mouth-top', (20,30), (28,30), radius_x=4, radius_y=4)
+        self.add_arc('mouth-bottom', (28,30), (20,30), radius_x=4, radius_y=4)
+        self.add_contour('mouth', 'mouth-top', 'mouth-bottom', closed=True)

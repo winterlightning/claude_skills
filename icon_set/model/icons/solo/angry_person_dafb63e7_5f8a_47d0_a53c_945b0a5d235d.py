@@ -1,10 +1,4 @@
-"""Angry Person. Retains all identifying parts, reconstructed on the integer grid.
-
-VRECT_L visible extremes (6, 2, 42, 46); centerlines (8, 4, 40, 44).
-Lucide user-round: head/shoulder hierarchy; supplied source provides the frown and slanted brows.
-Mirrored subjects use paired coordinates; directional parts preserve their
-intentional asymmetry. Geometry is authored directly on SOLO48.
-"""
+'Angry portrait: preserve the existing attached bust construction, with a round head, inward brows and a compact frown.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -23,18 +17,13 @@ class AngryPerson(Solo48):
     keywords = ('angry', 'person', 'face', 'mad', 'emotion', 'frown', 'user', 'upset')
 
     def build(self) -> None:
-        self.add_line('head-top', (16, 6), (32, 6))
-        self.add_arc('head-ne', (32, 6), (40, 12), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('head-right', (40, 12), (40, 22))
-        self.add_arc('head-se', (40, 22), (24, 36), radius_x=16, radius_y=14, sweep=True)
-        self.add_arc('head-sw', (24, 36), (8, 22), radius_x=16, radius_y=14, sweep=True)
-        self.add_line('head-left', (8, 22), (8, 12))
-        self.add_arc('head-nw', (8, 12), (16, 6), radius_x=8, radius_y=8, sweep=True)
-        self.add_contour('head', 'head-top', 'head-ne', 'head-right', 'head-se', 'head-sw', 'head-left', 'head-nw', closed=True)
-        self.add_line('brow-left', (17, 13), (20, 15))
-        self.add_line('brow-right', (28, 15), (31, 13))
-        self.add_arc('frown', (20, 26), (28, 26), radius_x=4, radius_y=2, sweep=True)
-        self.add_arc('shoulder-left', (8, 42), (24, 36), radius_x=16, radius_y=8, sweep=True)
-        self.add_arc('shoulder-right', (24, 36), (40, 42), radius_x=16, radius_y=8, sweep=True)
-        self.add_contour('shoulders', 'shoulder-left', 'shoulder-right')
-        self.relate("connect", 'head', 'shoulders')
+        self.add_arc('head-top', (8,20), (40,20), radius_x=16, radius_y=16)
+        self.add_arc('head-bottom', (40,20), (8,20), radius_x=16, radius_y=16)
+        self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+
+        # Preserve the original continuous head-to-shoulder junction at (24,36).
+        # The rounded human head and broad shoulders follow the shared human vocabulary.
+        self.add_bezier('shoulders',(8,44),((12,38),(18,36),(24,36)),((30,36),(36,38),(40,44)))
+        self.relate('connect','head','shoulders')
+        self.add_line('brow-left',(18,15),(20,17));self.add_line('brow-right',(28,17),(30,15))
+        self.add_arc('frown',(21,26),(27,26),radius_x=3,radius_y=1)

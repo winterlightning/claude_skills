@@ -151,6 +151,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
             record['python_source'] = authoring.get(record['icon_id'])
             factory = registered.get(record['icon_id'])
             if factory is not None:
+                record['author'] = getattr(sys.modules[factory.__module__], 'AUTHOR', '')
                 record['variant_of'] = getattr(factory, 'variant_of', None)
                 record['variant_label'] = getattr(factory, 'variant_label', '')
                 ancestor = factory
@@ -158,11 +159,43 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
                     ancestor = registered[ancestor.variant_of]
                 record['variant_root'] = ancestor.icon_id
             records.append(record)
+    failed_records = []
+    exported_keys = {record['key'] for record in records}
+    for folder in folders:
+        manifest = staged / 'failed' / folder / 'manifest.json'
+        if not manifest.exists():
+            manifest = published / 'failed' / folder / 'manifest.json'
+        if not manifest.exists():
+            continue
+        for failure in json.loads(manifest.read_text(encoding='utf-8'))['icons']:
+            icon_id = failure['icon_id']
+            factory = registered.get(icon_id)
+            if factory is None:
+                continue
+            key = factory.family + '/' + icon_id
+            if key in exported_keys:
+                continue
+            failed_records.append({
+                **failure, 'key': key, 'name': icon_id, 'build_failed': True,
+                'author': getattr(sys.modules[factory.__module__], 'AUTHOR', ''),
+                'category': getattr(factory, 'category', ''),
+                'keywords': getattr(factory, 'keywords', ()),
+                'preview_url': '../failed/' + quote(folder, safe='') + '/' + quote(failure.get('svg') or icon_id + '.svg', safe=''),
+                'original_sources': copy_originals(sources.get(icon_id, []), target),
+                'python_source': authoring.get(icon_id),
+            })
+    failed_records.sort(key=lambda item: (item['family'], item['icon_id']))
     records.sort(key=lambda item: (item['family'], item['icon_id']))
+    author_counts = {}
+    for factory in registered.values():
+        author = getattr(sys.modules[factory.__module__], 'AUTHOR', '')
+        if author:
+            author_counts[author] = author_counts.get(author, 0) + 1
+    (target / 'authors.json').write_text(json.dumps(author_counts, sort_keys=True) + '\n', encoding='utf-8')
     from icon_set.scripts.failure_report import FOCUS_FAMILIES
     stage_failures(staged, published, folders, target,
                    passed=sum(record['family'] in FOCUS_FAMILIES for record in records))
-    (target / 'icons.json').write_text(json.dumps({'icons': records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')

@@ -1,4 +1,4 @@
-"""Open locket with intrinsic head-and-shoulders portrait, omitting the separate bail. HRECT_L fits the simplified two-half silhouette. Lucide user-round informs the round head and curved shoulders; overlap is deliberately asymmetric."""
+'Open portrait locket: preserve its overlapping oval covers and a small round-headed bust with exact four-unit head-to-shoulder clearance.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '57afb5e4-7b86-4ac6-adf1-571db810e527'
@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class OpenLocketWithPortrait(Solo48):
     icon_id = 'open-locket-with-portrait'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/accessories'
@@ -15,18 +15,16 @@ class OpenLocketWithPortrait(Solo48):
     keywords = ('open', 'locket', 'with', 'portrait')
 
     def build(self) -> None:
-        self.add_arc('front-ne', (31, 10), (42, 25), radius_x=15)
-        self.add_arc('front-se', (42, 25), (31, 40), radius_x=15)
-        self.add_arc('front-sw-tip', (31, 40), (22, 37), radius_x=15)
-        self.add_arc('front-sw', (22, 37), (16, 25), radius_x=15)
-        self.add_arc('front-nw', (16, 25), (22, 13), radius_x=15)
-        self.add_arc('front-nw-tip', (22, 13), (31, 10), radius_x=15)
-        self.add_contour('front', 'front-ne', 'front-se', 'front-sw-tip', 'front-sw', 'front-nw', 'front-nw-tip', closed=True)
-        self.add_arc('back-top', (22, 13), (12, 8), radius_x=10, radius_y=5, sweep=False)
-        self.add_arc('back-upper', (12, 8), (6, 24), radius_x=10, radius_y=16, sweep=False)
-        self.add_arc('back-lower', (6, 24), (12, 40), radius_x=10, radius_y=16, sweep=False)
-        self.add_arc('back-bottom', (12, 40), (22, 37), radius_x=10, radius_y=3, sweep=False)
-        self.add_contour('back', 'back-top', 'back-upper', 'back-lower', 'back-bottom')
-        self.relate('connect', 'front', 'back')
-        self.add_dot('portrait-head', (31, 19))
-        self.add_arc('portrait-shoulders', (25, 31), (37, 31), radius_x=6, radius_y=5)
+        self.add_arc('front-top', (14,24), (42,24), radius_x=14, radius_y=18)
+        self.add_arc('front-bottom', (42,24), (14,24), radius_x=14, radius_y=18)
+        self.add_contour('front', 'front-top', 'front-bottom', closed=True)
+
+        self.add_bezier('back',(28,6),((14,6),(6,12),(6,24)),((6,36),(14,42),(28,42)))
+        self.relate('connect','front','back')
+        # Shared user reference: round head bottom21, shoulder top29 gives exact4-unit ink gap.
+
+        self.add_arc('portrait-head-top', (25,18), (31,18), radius_x=3, radius_y=3)
+        self.add_arc('portrait-head-bottom', (31,18), (25,18), radius_x=3, radius_y=3)
+        self.add_contour('portrait-head', 'portrait-head-top', 'portrait-head-bottom', closed=True)
+
+        self.add_arc('portrait-shoulders',(24,31),(32,31),radius_x=4,radius_y=2)

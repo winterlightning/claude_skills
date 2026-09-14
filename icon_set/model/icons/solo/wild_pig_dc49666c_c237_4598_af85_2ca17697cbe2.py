@@ -1,4 +1,4 @@
-"""Front-facing boar with pointed ears, eyes and broad nostril-bearing snout. Revised for recognition using Lucide dog cheek construction."""
+'Boar: preserve pointed ears and the broad oval snout, with four clear facial dots and real cheek attachments.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,22 +17,13 @@ class BoarHead(Solo48):
     keywords = ('boar', 'pig', 'head', 'ears', 'silhouette', 'face', 'wild', 'animal')
 
     def build(self) -> None:
-        # SQUARE centerline extremes (6,6)-(42,42).
-        self.add_polyline('ears-and-crown', (10,18), (6,6), (16,10), (32,10), (42,6), (38,18))
-        self.add_arc('right-cheek-top', (38,18), (42,26), radius_x=8)
-        self.add_arc('right-cheek-bottom', (42,26), (36,36), radius_x=10)
-        self.add_contour('right-cheek', 'right-cheek-top', 'right-cheek-bottom')
-        self.add_arc('left-cheek-bottom', (12,36), (6,26), radius_x=10)
-        self.add_arc('left-cheek-top', (6,26), (10,18), radius_x=8)
-        self.add_contour('left-cheek', 'left-cheek-bottom', 'left-cheek-top')
-        self.add_arc('snout-top', (12,36), (36,36), radius_x=12, radius_y=10)
-        self.add_arc('snout-bottom', (36,36), (12,36), radius_x=12, radius_y=10)
-        self.add_contour('snout', 'snout-top', 'snout-bottom', closed=True)
-        self.add_dot('eye-left', (17,18))
-        self.add_dot('eye-right', (31,18))
-        self.add_dot('nostril-left', (21,36))
-        self.add_dot('nostril-right', (27,36))
-        self.relate('connect', 'ears-and-crown', 'left-cheek')
-        self.relate('connect', 'ears-and-crown', 'right-cheek')
-        self.relate('connect', 'snout', 'left-cheek')
-        self.relate('connect', 'snout', 'right-cheek')
+        self.add_polyline('crown',(6,24),(6,6),(16,9),(32,9),(42,6),(42,24))
+        self.add_bezier('right-cheek',(42,24),((42,28),(40,31),(37,33)))
+        self.add_bezier('left-cheek',(11,33),((8,31),(6,28),(6,24)))
+        self.relate('connect','crown','left-cheek');self.relate('connect','crown','right-cheek')
+        self.add_arc('snout-top',(11,33),(37,33),radius_x=13,radius_y=9)
+        self.add_arc('snout-bottom',(37,33),(11,33),radius_x=13,radius_y=9)
+        self.add_contour('snout','snout-top','snout-bottom',closed=True)
+        self.relate('connect','snout','left-cheek');self.relate('connect','snout','right-cheek')
+        self.add_dot('eye-left',(15,17));self.add_dot('eye-right',(33,17))
+        self.add_dot('nostril-left',(20,33));self.add_dot('nostril-right',(28,33))

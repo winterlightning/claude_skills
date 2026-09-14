@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-muslim-man-outfit.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 26; shoulder top 34; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-muslim-man-outfit.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-muslim-man-outfit'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 26
+HEAD_BOTTOM = 24
 
 class MuslimManOutfitAvatar(Solo48):
     icon_id = 'muslim-man-outfit-avatar'
@@ -29,7 +29,7 @@ class MuslimManOutfitAvatar(Solo48):
         cx = 24
         brim = 14
         self.add_arc('cap', (14, brim), (34, brim), radius_x=10)
-        self.add_arc('face', (34, brim), (14, brim), radius_x=10, radius_y=12)
+        self.add_arc('face', (34, brim), (14, brim), radius_x=10, radius_y=10)
         self.add_contour('head', 'cap', 'face', closed=True)
         self.add_polyline('brim', (8, brim), (14, brim), (34, brim), (40, brim))
         self.relate('connect', 'head', 'brim')
@@ -52,3 +52,6 @@ class MuslimManOutfitAvatar(Solo48):
         self.relate('connect', 'body-left', 'body-top')
         self.relate('connect', 'body-top', 'body-top-right')
         self.relate('connect', 'body-top-right', 'body-right')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

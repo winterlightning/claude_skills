@@ -3,14 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "mic [c1]: c1 and c3 are 7.48777 apart on centerlines nearest (26, 26)<->(18.5581, 25.1727); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
-    "ok": false,
-    "status": "fail",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "c0:subpath-1",
@@ -33,11 +31,11 @@
         "elementId": "c1",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 26 26 L 41 26",
+        "pathData": "M 27 26 L 42 26",
         "bounds": [
+          27.0,
           26.0,
-          26.0,
-          41.0,
+          42.0,
           26.0
         ],
         "segmentCount": 1,
@@ -108,9 +106,9 @@
           "c1"
         ],
         "bounds": [
+          27.0,
           26.0,
-          26.0,
-          41.0,
+          42.0,
           26.0
         ]
       },
@@ -167,11 +165,11 @@
         "approximationError": 0.0,
         "nearestPoints": [
           [
-            26.0,
+            27.0,
             13.0
           ],
           [
-            26.0,
+            27.0,
             26.0
           ]
         ],
@@ -208,11 +206,11 @@
             "approximationError": 0.0,
             "nearestPoints": [
               [
-                26.0,
+                27.0,
                 13.0
               ],
               [
-                26.0,
+                27.0,
                 26.0
               ]
             ],
@@ -383,11 +381,11 @@
         "approximationError": 0.0,
         "nearestPoints": [
           [
-            26.0,
+            27.0,
             26.0
           ],
           [
-            26.0,
+            27.0,
             38.0
           ]
         ],
@@ -424,11 +422,11 @@
             "approximationError": 0.0,
             "nearestPoints": [
               [
-                26.0,
+                27.0,
                 26.0
               ],
               [
-                26.0,
+                27.0,
                 38.0
               ]
             ],
@@ -445,28 +443,28 @@
           "c1:subpath-1",
           "c3:subpath-1"
         ],
-        "centerlineDistance": 7.487770937150867,
-        "inkClearance": 3.4877709371508674,
-        "signedInkClearance": 3.4877709371508674,
-        "lowerBound": 7.4868320299859485,
-        "upperBound": 7.488709844315785,
-        "inkClearanceLowerBound": 3.4868320299859485,
-        "inkClearanceUpperBound": 3.4887098443157853,
-        "approximationError": 0.0009389071649188452,
+        "centerlineDistance": 8.482144598482652,
+        "inkClearance": 4.482144598482652,
+        "signedInkClearance": 4.482144598482652,
+        "lowerBound": 8.481205691317731,
+        "upperBound": 8.48308350564757,
+        "inkClearanceLowerBound": 4.481205691317731,
+        "inkClearanceUpperBound": 4.483083505647571,
+        "approximationError": 0.0009389071649206215,
         "nearestPoints": [
           [
-            26.0,
+            27.0,
             26.0
           ],
           [
-            18.55806984851847,
-            25.17272179545735
+            18.56014463597844,
+            25.154057671017163
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "fail",
-        "reason": "At least one disconnected contour pair is provably closer than the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-2",
@@ -486,28 +484,28 @@
               "c1:subpath-1",
               "c3:subpath-1"
             ],
-            "centerlineDistance": 7.487770937150867,
-            "inkClearance": 3.4877709371508674,
-            "signedInkClearance": 3.4877709371508674,
-            "lowerBound": 7.4868320299859485,
-            "upperBound": 7.488709844315785,
-            "inkClearanceLowerBound": 3.4868320299859485,
-            "inkClearanceUpperBound": 3.4887098443157853,
+            "centerlineDistance": 8.482144598482652,
+            "inkClearance": 4.482144598482652,
+            "signedInkClearance": 4.482144598482652,
+            "lowerBound": 8.481205691317731,
+            "upperBound": 8.48308350564757,
+            "inkClearanceLowerBound": 4.481205691317731,
+            "inkClearanceUpperBound": 4.483083505647571,
             "approximationError": 0.0009389071649173113,
             "nearestPoints": [
               [
-                26.0,
+                27.0,
                 26.0
               ],
               [
-                18.55806984851847,
-                25.17272179545735
+                18.56014463597844,
+                25.154057671017163
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "fail",
-            "reason": "Even the conservative distance upper bound is below the minimum.",
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -587,9 +585,7 @@
     ],
     "connectedPairs": [],
     "excludedPairs": [],
-    "errors": [
-      "component-2 / component-4: At least one disconnected contour pair is provably closer than the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -600,9 +596,9 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 7.487770937150867,
-    "minimumInkClearance": 3.4877709371508674,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": 8.482144598482652,
+    "minimumInkClearance": 4.482144598482652,
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 17,
       "flattenedSegments": 184,
@@ -610,11 +606,45 @@
       "distanceTests": 19,
       "connectionTests": 0
     },
-    "raw_status": "fail",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          10.8906,
+          24.4531
+        ],
+        "bbox_viewbox": [
+          6.0,
+          11.5,
+          10.5938,
+          25.6562
+        ],
+        "bbox_ship_px": [
+          10.5938,
+          25.6562
+        ],
+        "bbox_design_u": [
+          10.5938,
+          25.6562
+        ],
+        "area_ship_px2": 150.7236,
+        "equivalent_diameter_ship_px": 13.8531,
+        "equivalent_diameter_design_u": 13.8531,
+        "inscribed_diameter_ship_px": 9.8125,
+        "inscribed_diameter_design_u": 9.8125,
+        "inscribed_radius_ship_px": 4.9062,
+        "inscribed_radius_design_u": 4.9062,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -675,7 +705,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "c64d7be8f9481c1e6ac51a89765fbcc8662f0331c6d3ba1bf416ce624b06ee83",
+  "svg_sha256": "cbad8c558d05da2170f40db0709ff107a3ba087a8991280564ec77fc0d7eaea0",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -703,7 +733,7 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
       "version": 1,
@@ -727,7 +757,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-fire-fighter-woman.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 26; shoulder top 34; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -60,3 +60,6 @@ class FireFighterWomanAvatar(Solo48):
         self.relate('connect', 'body-fastening', 'body-top')
         self.relate('connect', 'body-fastening', 'body-top-right')
         self.relate('connect', 'body-fastening', 'body-band')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

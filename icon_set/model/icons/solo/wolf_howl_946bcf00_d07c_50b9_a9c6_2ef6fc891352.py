@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class HowlingWolfWithSound(Solo48):
     icon_id = 'howling-wolf-with-sound'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/animals"
@@ -26,5 +26,4 @@ class HowlingWolfWithSound(Solo48):
         self.add_arc('neck', (29, 20), (25, 32), radius_x=17, radius_y=17, sweep=True)
         self.add_arc('chest', (25, 32), (29, 42), radius_x=16, radius_y=16, sweep=False)
         self.add_contour('outline', 'ruff', 'jaw', 'face', 'muzzle-1', 'muzzle-2', 'muzzle-3', 'neck', 'chest', closed=False)
-        self.add_arc('sound-inner', (34, 13), (38, 21), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('sound-outer', (34, 6), (42, 21), radius_x=17, radius_y=17, sweep=True)
+        self.add_bezier('sound-outer', (34, 6), *(((39.15470054, 9.21195379), (42, 14.92992149), (42, 21)),))

@@ -1,4 +1,4 @@
-"""King's Cross: round-headed station facade, clock with hands and arched entrance; ledges and mullion omitted."""
+'Kings Cross station: retain the arched facade, centred circular clock and broad entrance; omit illegible clock hands to keep the small clock clear.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class KingsCrossStation(Solo48):
     icon_id = 'kings-cross-station'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "places/landmarks"
@@ -17,13 +17,13 @@ class KingsCrossStation(Solo48):
     keywords = ('kings cross', 'london', 'station', 'railway', 'clock', 'arch', 'landmark', 'travel')
 
     def build(self) -> None:
-        # Centerline extremes: (6,6)-(42,42).
-        self.add_line('wall-left',(6,42),(6,21))
-        self.add_arc('roof',(6,21),(42,21),radius_x=19,sweep=True)
-        self.add_line('wall-right',(42,21),(42,42))
+        self.add_line('wall-left',(6,42),(6,24))
+        self.add_bezier('roof',(6,24),((6,14),(15,6),(24,6)),((33,6),(42,14),(42,24)))
+        self.add_line('wall-right',(42,24),(42,42))
         self.add_contour('facade','wall-left','roof','wall-right')
-        self.add_arc('clock-a',(24,11),(24,29),radius_x=9,sweep=True)
-        self.add_arc('clock-b',(24,29),(24,11),radius_x=9,sweep=True)
-        self.add_contour('clock','clock-a','clock-b',closed=True)
-        self.add_polyline('hands',(24,18),(24,21),(26,21))
-        self.add_arc('entrance',(15,42),(33,42),radius_x=9,sweep=True)
+
+        self.add_arc('clock-top', (19,20), (29,20), radius_x=5, radius_y=5)
+        self.add_arc('clock-bottom', (29,20), (19,20), radius_x=5, radius_y=5)
+        self.add_contour('clock', 'clock-top', 'clock-bottom', closed=True)
+
+        self.add_arc('entrance',(15,42),(33,42),radius_x=9,radius_y=8)

@@ -1,4 +1,4 @@
-"""Left-facing upright penguin with a domed head and curved flipper. Lucide bird informs head and wing arcs. Ground line omitted."""
+'Standing penguin: rounded upright head, relaxed belly and clear folded flipper; preserve beak and tail.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,16 +17,13 @@ class StandingPenguin(Solo48):
     keywords = ('penguin', 'standing', 'bird', 'antarctic', 'flipper', 'beak', 'ice', 'simple')
 
     def build(self) -> None:
-        self.add_line('outline-1', (8, 18), (12, 14))
-        self.add_arc('outline-2', (12, 14), (24, 6), radius_x=12, radius_y=12, sweep=True)
-        self.add_arc('outline-3', (24, 6), (36, 16), radius_x=12, radius_y=14, sweep=True)
-        self.add_line('outline-4', (36, 16), (36, 38))
-        self.add_arc('outline-5', (36, 38), (40, 42), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('outline-6', (40, 42), (22, 42))
-        self.add_arc('outline-7', (22, 42), (16, 38), radius_x=16, radius_y=16, sweep=True)
-        self.add_arc('outline-8', (16, 38), (18, 18), radius_x=24, radius_y=20, sweep=True)
-        self.add_line('outline-9', (18, 18), (8, 18))
-        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', 'outline-9', closed=True)
-        self.add_arc('flipper-1', (24, 24), (28, 34), radius_x=12, radius_y=12, sweep=False)
-        self.add_contour('flipper', 'flipper-1', closed=False)
-        self.add_dot('eye', (24, 12))
+        self.add_bezier('crown',(12,16),((15,9),(19,4),(24,4)),((31,4),(36,10),(36,17)))
+        self.add_line('back',(36,17),(36,38))
+        self.add_bezier('tail',(36,38),((36,41),(38,44),(40,44)))
+        self.add_line('base',(40,44),(22,44))
+        self.add_bezier('belly',(22,44),((12,41),(13,26),(18,20)))
+        self.add_line('beak-1',(18,20),(8,20))
+        self.add_line('beak-2',(8,20),(12,16))
+        self.add_contour('outline','crown','back','tail','base','belly','beak-1','beak-2',closed=True)
+        self.add_dot('eye',(24,14))
+        self.add_bezier('flipper',(25,26),((24,30),(25,33),(27,35)))

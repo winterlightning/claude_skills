@@ -1,10 +1,10 @@
-"""Navigation arrows left (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Double navigation: two equal open chevrons replace crowded enclosed triangles, preserving direction and repetition.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '95c89a0b-d364-561f-90c4-c2c3495cc953'
 SOURCE_PATH = 'icons-json/interface-essential/navigation arrows left_95c89a0b-d364-561f-90c4-c2c3495cc953.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class NavigationArrowsLeft95c89a0b(Solo48):
     icon_id = 'navigation-arrows-left-95c89a0b'
@@ -15,13 +15,8 @@ class NavigationArrowsLeft95c89a0b(Solo48):
     aliases = ()
     keywords = ('navigation', 'arrows', 'left', 'interface-essential')
 
-    def build(self):
-        self.add_line('e0', (27, 36), (27, 42))
-        self.add_line('e1', (27, 42), (6, 24))
-        self.add_line('e2', (6, 24), (27, 6))
-        self.add_line('e3', (27, 6), (27, 11))
-        self.add_line('e4', (42, 6), (21, 24))
-        self.add_line('e5', (21, 24), (42, 42))
-        self.add_line('e6', (42, 42), (42, 6))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3')
-        self.add_contour('c1', 'e4', 'e5', 'e6', closed=True)
+    def build(self) -> None:
+        def p(x,y): return (48-y,x)
+        # Equal open chevrons keep the double-navigation symbol readable at 48.
+        self.add_polyline('first',p(6,6),p(24,20),p(42,6))
+        self.add_polyline('second',p(6,28),p(24,42),p(42,28))

@@ -1,4 +1,4 @@
-"""Avatar output keeps the reference's detached head and exact requested spacing."""
+"""Avatar output keeps the touching head/body and circular face construction."""
 import unittest
 from icon_set.model.icons.registry import create, icons_in
 from icon_set.model.icons.solo._base import HEAD_BODY_INK_GAP, HEAD_BODY_CENTERLINE_GAP
@@ -14,7 +14,8 @@ class AvatarTests(unittest.TestCase):
         head = [p for p in icon.primitives if p.element_id.startswith('head-')]
         body = [p for p in icon.primitives if not p.element_id.startswith('head-')]
         self.assertEqual(centerline_bounds(body)[1] - centerline_bounds(head)[3], HEAD_BODY_CENTERLINE_GAP)
-        self.assertEqual(visible_bounds(body)[1] - visible_bounds(head)[3], HEAD_BODY_INK_GAP)
+        self.assertEqual(HEAD_BODY_INK_GAP, 0)
+        self.assertEqual(visible_bounds(body)[1] - visible_bounds(head)[3], 0)
         # The head's bottom is on the flat shoulder span, so this vertical
         # separation is the nearest gap, not merely a bounding-box estimate.
         shoulder = next(p for p in body if p.element_id == 'shoulder-top')
@@ -27,7 +28,7 @@ class AvatarTests(unittest.TestCase):
         self.assertEqual(len(svg.paths), 2)
         self.assertNotIn('content-top-left', icon.anchors)
 
-    def test_all_avatars_export_at_48_with_exact_head_body_gap(self):
+    def test_all_avatars_export_at_48_with_touching_circular_faces(self):
         for icon in icons_in('solo'):
             if icon.category != 'avatars':
                 continue
@@ -44,7 +45,14 @@ class AvatarTests(unittest.TestCase):
                 else:
                     head = [p for p in icon.primitives if not p.element_id.startswith('body-')]
                 body = [p for p in icon.primitives if p not in head]
-                self.assertEqual(visible_bounds(body)[1] - visible_bounds(head)[3], 4)
+                from icon_set.model.primitives import Arc
+                face = [p for p in head if p.element_id in ('face', 'jaw', 'head-bottom')
+                        or (icon.icon_id == 'user-avatar' and p.element_id.startswith('head-'))]
+                self.assertTrue(face, icon.icon_id)
+                for arc in face:
+                    self.assertIsInstance(arc, Arc)
+                    self.assertEqual(arc.radius_x, arc.radius_y, arc.element_id)
+                self.assertEqual(visible_bounds(body)[1] - visible_bounds(face)[3], 0)
                 # Every lowest head point includes a jaw/circle extremum on x24,
                 # directly above the flat shoulder plateau at its minimum y.
                 shoulder_id = 'shoulder-top' if icon.icon_id == 'user-avatar' else 'body-top'

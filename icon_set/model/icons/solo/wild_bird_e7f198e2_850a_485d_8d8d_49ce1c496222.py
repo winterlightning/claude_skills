@@ -1,4 +1,4 @@
-"""Kiwi with a round wingless body, long bill and two feet. Lucide bird: coherent round body and sparse marks."""
+'Kiwi: round low body, small head and long curved bill; preserve its asymmetric outline with a clear eye.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,22 +17,12 @@ class KiwiBird(Solo48):
     keywords = ('kiwi', 'bird', 'beak', 'new zealand', 'flightless', 'round', 'long beak', 'wildlife')
 
     def build(self) -> None:
-        self.add_arc('back', (6, 25), (15, 12), radius_x=13, radius_y=13, sweep=True)
-        self.add_arc('shoulder', (15, 12), (23, 8), radius_x=10, radius_y=10, sweep=False)
-        self.add_arc('head', (23, 8), (32, 17), radius_x=9, radius_y=9, sweep=True)
-        self.add_arc('throat', (32, 17), (26, 26), radius_x=9, radius_y=9, sweep=False)
-        self.add_arc('belly-front', (26, 26), (20, 34), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('belly', (20, 34), (11, 34))
-        self.add_arc('rump', (11, 34), (6, 25), radius_x=9, radius_y=9, sweep=True)
-        self.add_contour('outline', 'back', 'shoulder', 'head', 'throat', 'belly-front', 'belly', 'rump', closed=True)
-        self.add_arc('beak', (32, 17), (42, 29), radius_x=24, radius_y=24, sweep=True)
-        self.relate("connect", 'outline', 'beak')
-        self.add_line('left-leg-1', (11, 34), (10, 40))
-        self.add_line('left-leg-2', (10, 40), (6, 40))
-        self.add_contour('left-leg', 'left-leg-1', 'left-leg-2', closed=False)
-        self.add_line('right-leg-1', (20, 34), (24, 40))
-        self.add_line('right-leg-2', (24, 40), (28, 40))
-        self.add_contour('right-leg', 'right-leg-1', 'right-leg-2', closed=False)
-        self.relate("connect", 'outline', 'left-leg')
-        self.relate("connect", 'outline', 'right-leg')
-        self.add_dot('eye', (21, 18))
+        self.add_bezier('back',(4,25),((4,16),(10,12),(18,12)),((22,12),(24,8),(24,8)))
+        self.add_bezier('head',(24,8),((30,8),(33,12),(31,17)))
+        self.add_bezier('neck',(31,17),((25,20),(27,27),(22,31)),((21,32),(21,32),(20,32)),((18,34),(15,35),(12,34)),((7,34),(4,30),(4,25)))
+        self.add_contour('bird','back','head','neck',closed=True)
+        self.add_bezier('beak',(31,17),((37,20),(41,25),(44,30)));self.relate('connect','beak','bird')
+        self.add_polyline('leg-left',(12,34),(10,40),(6,40))
+        self.add_polyline('leg-right',(20,32),(22,40),(27,40))
+        self.relate('connect','leg-left','bird');self.relate('connect','leg-right','bird')
+        self.add_dot('eye',(18,22))

@@ -1,10 +1,10 @@
-"""Diagram arrow dash left (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Dashed directional arrow: remove a redundant tiny dash, preserving the dashed shaft and full balanced arrowhead.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '30d15cef-d6d9-5f0c-854a-890cd1e3c75e'
 SOURCE_PATH = 'icons-json/arrows/diagram arrow dash left_30d15cef-d6d9-5f0c-854a-890cd1e3c75e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DiagramArrowDashLeft(Solo48):
     icon_id = 'diagram-arrow-dash-left'
@@ -15,14 +15,9 @@ class DiagramArrowDashLeft(Solo48):
     aliases = ()
     keywords = ('diagram', 'arrow', 'dash', 'left', 'arrows')
 
-    def build(self):
-        self.add_line('e0', (32, 24), (39, 24))
-        self.add_line('e1', (15, 8), (4, 24))
-        self.add_line('e2', (15, 40), (4, 24))
-        self.add_line('e3', (4, 24), (28, 24))
-        self.add_arc('e4', (43, 24), (44, 24), radius_x=51, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.relate('connect', 'c1', 'c2')
+    def build(self) -> None:
+        def p(x,y): return (48-y,x)
+        self.add_line('dash',p(24,4),p(24,10))
+        self.add_line('shaft',p(24,18),p(24,44))
+        self.add_polyline('head',p(8,30),p(24,44),p(40,30))
+        self.relate('connect','head','shaft')

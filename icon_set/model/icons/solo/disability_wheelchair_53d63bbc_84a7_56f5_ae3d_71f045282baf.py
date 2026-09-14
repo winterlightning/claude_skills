@@ -21,8 +21,8 @@ class DisabilityWheelchair(Solo48):
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
 
         # Shared human reference: full_body_ref.png. Head bottom=12, body starts=20: exact 4u ink gap.
-        # The seated body meets the wheel at its actual (26,28) circular point.
-        self.add_polyline('body',(16,20),(18,28),(26,28),(32,28),(36,42),(40,42))
+        # The seated body meets the wheel at its actual (18,24) top tangent.
+        self.add_polyline('body',(16,20),(18,24),(32,24),(36,42),(40,42))
         self.add_arc('wheel-top',(18,24),(26,28),radius_x=10)
         self.add_arc('wheel-right',(26,28),(18,44),radius_x=10)
         self.add_arc('wheel-lower-left',(18,44),(8,34),radius_x=10)

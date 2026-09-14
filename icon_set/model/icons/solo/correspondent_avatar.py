@@ -1,9 +1,8 @@
 """Plain-headed correspondent with jacket with a broad shirt opening.
 
-Plan: separate head/hair or headwear symbol, exact detached gap, curved torso
+Plan: separate head/hair or headwear symbol, painted head/body contact, curved torso
 with jacket with a broad shirt opening. SOLO48 VRECT_L visible ink (6,2)-(42,46);
-centerline extremes (8,4)-(40,44). Head bottom 22, body top 30;
-nearest painted head/body gap is 4 on the shared x24 shoulder plateau.
+centerline extremes (8,4)-(40,44). Head and body ink touch on the shoulder plateau.
 Primary source supplies the hair/headwear silhouette; fine facial marks,
 hat stitching and microdetails are omitted to preserve openings at 48.
 Human reference: icon_set/references/human_ref/user.svg for proportions,
@@ -55,3 +54,6 @@ class CorrespondentAvatar(Solo48):
         self.add_polyline('body-collar',(16,top),(24,38),(32,top))
         self.relate('connect','body-collar','body-top')
         self.relate('connect','body-collar','body-top-right')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

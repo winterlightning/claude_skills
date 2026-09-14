@@ -1,4 +1,4 @@
-"""Hyena profile; centerline extremes (6,8)-(42,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing."""
+'Hyena profile: preserve the angular ears, lowered muzzle and shaggy open neck; move the eye into the broad cheek.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,18 +17,11 @@ class HyenaHeadProfile(Solo48):
     keywords = ('hyena', 'head', 'profile', 'side', 'snout', 'ear', 'animal', 'wildlife')
 
     def build(self) -> None:
-        # Hyena profile; centerline extremes (6,8)-(42,40). Broad muzzle and ear retained; loose mane reduced. Deliberately right-facing.
-        self.add_arc('forehead', (25, 18), (35, 25), radius_x=13, radius_y=13, sweep=True)
-        self.add_line('snout', (35, 25), (42, 29))
-        self.add_arc('nose', (42, 29), (39, 36), radius_x=7, radius_y=7, sweep=True)
-        self.add_arc('neck', (22, 34), (10, 40), radius_x=18, radius_y=18, sweep=False)
-        self.add_line('mane-1', (6, 16), (10, 16))
-        self.add_line('mane-2', (10, 16), (6, 8))
-        self.add_line('mane-3', (6, 8), (19, 13))
-        self.add_line('mane-4', (19, 13), (23, 8))
-        self.add_line('mane-5', (23, 8), (25, 18))
-        self.add_line('mouth-1', (39, 36), (30, 31))
-        self.add_line('mouth-2', (30, 31), (33, 40))
-        self.add_line('mouth-3', (33, 40), (22, 34))
-        self.add_contour('profile', 'mane-1', 'mane-2', 'mane-3', 'mane-4', 'mane-5', 'forehead', 'snout', 'nose', 'mouth-1', 'mouth-2', 'mouth-3', 'neck', closed=False)
-        self.add_dot('eye', (27, 25))
+        self.add_polyline('ears',(4,16),(8,16),(4,8),(19,13),(23,8),(25,17))
+        self.add_bezier('forehead',(25,17),((30,18),(33,22),(35,25)))
+        self.add_line('snout-top',(35,25),(44,29))
+        self.add_bezier('nose',(44,29),((44,32),(43,34),(40,36)))
+        self.add_polyline('jaw',(40,36),(30,31),(33,40),(22,34))
+        self.add_bezier('neck',(22,34),((17,33),(13,36),(10,40)))
+        for a,b in (('ears','forehead'),('forehead','snout-top'),('snout-top','nose'),('nose','jaw'),('jaw','neck')):self.relate('connect',a,b)
+        self.add_dot('eye',(21,24))

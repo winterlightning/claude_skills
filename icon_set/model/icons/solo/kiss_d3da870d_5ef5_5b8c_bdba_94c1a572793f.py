@@ -1,10 +1,10 @@
-"""Kiss (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'kiss-smileys: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd3da870d-5ef5-5b8c-bdba-94c1a572793f'
 SOURCE_PATH = 'icons-json/smileys/kiss_d3da870d-5ef5-5b8c-bdba-94c1a572793f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class KissSmileys(Solo48):
     icon_id = 'kiss-smileys'
@@ -15,22 +15,10 @@ class KissSmileys(Solo48):
     aliases = ()
     keywords = ('kiss', 'smileys')
 
-    def build(self):
-        self.add_line('e0', (12, 19), (19, 19))
-        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e2-1', (27, 32), (28, 28), radius_x=3, sweep=False)
-        self.add_arc('e2-2', (28, 28), (24, 27), radius_x=6, sweep=False)
-        self.add_arc('e3-1', (27, 32), (28, 36), radius_x=3)
-        self.add_line('e3-2', (28, 36), (24, 38))
-        self.add_arc('e4', (27, 32), (25, 32), radius_x=27, sweep=False)
-        self.add_arc('e5', (28, 20), (36, 20), radius_x=6)
-        self.add_contour('c0', 'e2-1', 'e2-2')
-        self.add_contour('c1', 'e3-1', 'e3-2')
-        self.add_contour('c2', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e0')
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_line('eye-left',(15,18),(21,18))
+        self.add_arc('eye-right',(29,18),(33,18),radius_x=2,radius_y=2)
+        self.add_bezier('mouth',(22,27),((28,27),(28,30),(23,30)),((28,30),(28,33),(22,33)))

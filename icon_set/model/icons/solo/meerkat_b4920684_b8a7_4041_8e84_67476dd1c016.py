@@ -1,4 +1,4 @@
-"""Alert meerkat with an upright torso, pointed snout, tucked forepaw, grounded hind foot and long tail. A complete animal silhouette replaces the floating wavy stroke. No useful Lucide meerkat match; right-facing asymmetry."""
+'Meerkat: preserve its alert upright posture while opening the head enough for a clear eye.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class Meerkat(Solo48):
     icon_id = 'meerkat'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/animals"
@@ -17,23 +17,14 @@ class Meerkat(Solo48):
     keywords = ('meerkat', 'animal')
 
     def build(self) -> None:
-        # VRECT_XL: authored to its exact SOLO48 centerline bounds.
-        self.add_line('tail-tip', (6, 42), (16, 39))
-        self.add_arc('haunch', (16, 39), (19, 29), radius_x=13, radius_y=13, sweep=False)
-        self.add_line('back', (19, 29), (21, 13))
-        self.add_arc('ear', (21, 13), (21, 7), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('crown', (21, 7), (29, 6), radius_x=8, radius_y=5, sweep=True)
-        self.add_line('snout-top', (29, 6), (42, 7))
-        self.add_line('nose', (42, 7), (40, 14))
-        self.add_line('jaw', (40, 14), (33, 17))
-        self.add_arc('throat', (33, 17), (30, 23), radius_x=6, radius_y=6, sweep=False)
-        self.add_arc('chest', (30, 23), (34, 33), radius_x=14, radius_y=14, sweep=True)
-        self.add_line('belly', (34, 33), (31, 39))
-        self.add_line('ankle', (31, 39), (36, 42))
-        self.add_line('foot', (36, 42), (25, 42))
-        self.add_line('tail-base', (25, 42), (6, 42))
-        self.add_contour('outline', 'tail-tip', 'haunch', 'back', 'ear', 'crown', 'snout-top', 'nose', 'jaw', 'throat', 'chest', 'belly', 'ankle', 'foot', 'tail-base', closed=True)
-        self.add_line('forepaw-1', (30, 23), (26, 28))
-        self.add_contour('forepaw', 'forepaw-1', closed=False)
-        self.relate("connect", 'forepaw', 'outline')
-        self.add_dot('eye', (31, 10))
+        self.add_bezier('back',(6,42),((16,40),(19,39),(19,31)))
+        self.add_line('neck-back',(19,31),(21,12))
+        self.add_bezier('crown',(21,12),((20,7),(23,6),(28,6)))
+        self.add_line('face-1',(28,6),(42,6))
+        self.add_line('face-2',(42,6),(40,22))
+        self.add_line('face-3',(40,22),(32,24))
+        self.add_bezier('chest',(32,24),((28,27),(31,30),(33,33)),((35,37),(32,40),(31,42)))
+        self.add_line('base',(31,42),(6,42))
+        self.add_contour('outline','back','neck-back','crown','face-1','face-2','face-3','chest','base',closed=True)
+        self.add_dot('eye',(31,15))
+        self.add_line('paw',(32,24),(26,29));self.relate('connect','paw','outline')

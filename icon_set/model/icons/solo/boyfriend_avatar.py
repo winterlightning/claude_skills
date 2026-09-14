@@ -1,9 +1,8 @@
 """Young man with side-parted hair with soft open-neck casual shirt.
 
-Plan: separate head/hair or headwear symbol, exact detached gap, curved torso
+Plan: separate head/hair or headwear symbol, painted head/body contact, curved torso
 with soft open-neck casual shirt. SOLO48 VRECT_L visible ink (6,2)-(42,46);
-centerline extremes (8,4)-(40,44). Head bottom 24, body top 32;
-nearest painted head/body gap is 4 on the shared x24 shoulder plateau.
+centerline extremes (8,4)-(40,44). Head and body ink touch on the shoulder plateau.
 Primary source supplies the hair/headwear silhouette; fine facial marks,
 hat stitching and microdetails are omitted to preserve openings at 48.
 Human reference: icon_set/references/human_ref/user.svg for proportions,
@@ -57,3 +56,6 @@ class BoyfriendAvatar(Solo48):
         self.add_line('body-opening',(24,top),(24,top+6))
         self.relate('connect','body-opening','body-top')
         self.relate('connect','body-opening','body-top-right')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

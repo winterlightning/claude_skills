@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-jockey-man.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 24; shoulder top 32; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -52,3 +52,6 @@ class JockeyManAvatar(Solo48):
         self.add_line('body-seam', (24,top), (24,44))
         self.relate('connect', 'body-seam', 'body-top')
         self.relate('connect', 'body-seam', 'body-top-right')
+
+        self.relate('connect','head','body-top')
+        self.relate('connect','head','body-top-right')

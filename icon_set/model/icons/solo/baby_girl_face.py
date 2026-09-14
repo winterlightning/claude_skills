@@ -1,5 +1,4 @@
-# Review candidate; original preserved.
-"""A smiling baby face with a centre knot between two bow loops. Lucide baby informs ear bumps and sparse facial detail."""
+'Baby face with bow: preserve the rounded cheeks, sleepy smile and paired bow loops; use shared centre and temple junctions with clear internal spacing.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b757585d-6958-5c74-bcbb-9584b15f37df'
@@ -16,29 +15,18 @@ class BabyGirlFace(Solo48):
     keywords = ('baby', 'girl', 'face', 'infant', 'nursery')
 
     def build(self) -> None:
-        """Opening repair: Enlarged the mirrored bow loops and moved their temple attachments together; retained the smiling face."""
-        self.add_arc('temple-right', (38, 16), (40, 24), sweep=True, large_arc=False, radius_x=14, radius_y=14)
-        self.add_arc('ear-right', (40, 24), (40, 32), radius_x=6, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('chin-right', (40, 32), (24, 42), radius_x=16, radius_y=14, sweep=True, large_arc=False)
-        self.add_arc('chin-left', (24, 42), (8, 32), radius_x=16, radius_y=14, sweep=True, large_arc=False)
-        self.add_arc('ear-left', (8, 32), (8, 24), radius_x=6, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('temple-left', (8, 24), (10, 16), sweep=True, large_arc=False, radius_x=14, radius_y=14)
-        self.add_contour('face', 'temple-right', 'ear-right', 'chin-right', 'chin-left', 'ear-left', 'temple-left', closed=False)
-        self.add_arc('eye-left', (14, 26), (20, 26), radius_x=4, radius_y=2, sweep=False, large_arc=False)
-        self.add_arc('eye-right', (28, 26), (34, 26), radius_x=4, radius_y=2, sweep=False, large_arc=False)
-        self.add_arc('smile', (20, 36), (28, 36), radius_x=6, radius_y=3, sweep=False, large_arc=False)
-        self.add_arc('knot-top', (21, 8), (27, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_arc('knot-bottom', (27, 8), (21, 8), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_contour('knot', 'knot-top', 'knot-bottom', closed=True)
-        self.add_line('bow-left-top', (21, 8), (10, 4))
-        self.add_arc('bow-left-end', (10, 4), (10, 16), large_arc=False, radius_x=4, radius_y=6, sweep=False)
-        self.add_line('bow-left-bottom', (10, 16), (21, 8))
-        self.add_contour('bow-left', 'bow-left-top', 'bow-left-end', 'bow-left-bottom', closed=True)
-        self.add_line('bow-right-top', (27, 8), (38, 4))
-        self.add_arc('bow-right-end', (38, 4), (38, 16), large_arc=False, radius_x=4, radius_y=6, sweep=True)
-        self.add_line('bow-right-bottom', (38, 16), (27, 8))
-        self.add_contour('bow-right', 'bow-right-top', 'bow-right-end', 'bow-right-bottom', closed=True)
-        self.relate('connect', 'knot', 'bow-left')
-        self.relate('connect', 'knot', 'bow-right')
-        self.relate('connect', 'face', 'bow-left')
-        self.relate('connect', 'face', 'bow-right')
+        # Rounded baby cheeks and ears; paired bow loops share the centre rather than crossing loosely.
+        self.add_bezier('temple-left',(10,20),((9,21),(8,23),(8,24)))
+        self.add_bezier('ear-left',(8,24),((6,24),(6,25),(6,27)),((6,29),(6,30),(8,30)))
+        self.add_bezier('chin',(8,30),((10,38),(16,42),(24,42)),((32,42),(38,38),(40,30)))
+        self.add_bezier('ear-right',(40,30),((42,30),(42,29),(42,27)),((42,25),(42,24),(40,24)))
+        self.add_bezier('temple-right',(40,24),((40,23),(39,21),(38,20)))
+        self.add_contour('face','temple-left','ear-left','chin','ear-right','temple-right')
+        self.add_polyline('bow-left',(24,13),(10,6),(10,20),closed=True)
+        self.add_polyline('bow-right',(24,13),(38,6),(38,20),closed=True)
+        self.relate('connect','bow-left','bow-right');self.relate('connect','bow-left','face');self.relate('connect','bow-right','face')
+        self.add_dot('eye-left',(17,26))
+        self.add_dot('eye-right',(31,26))
+        self.add_arc('smile',(21,33),(27,33),radius_x=4,radius_y=2,sweep=False)
+        self.add_dot('knot',(24,13))
+        self.relate('connect','knot','bow-left');self.relate('connect','knot','bow-right')

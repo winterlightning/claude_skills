@@ -34,3 +34,5 @@ class UserAvatar(Solo48):
         self.add_arc("right-shoulder", (28,top), (40,top+shoulder_radius), radius_x=shoulder_radius)
         self.add_line("right-side", (40,top+shoulder_radius), (40,44))
         self.add_contour("body", "left-side", "left-shoulder", "shoulder-top", "right-shoulder", "right-side")
+
+        self.relate("connect", "head", "body")

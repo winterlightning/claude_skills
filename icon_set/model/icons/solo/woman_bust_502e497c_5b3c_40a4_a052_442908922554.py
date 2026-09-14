@@ -21,14 +21,14 @@ class WomanBust(Solo48):
         # Landscape centerline extremes (6,8)-(42,40), shared vertical axis x=24.
         self.add_line('shoulder-left',(6,40),(18,30))
         self.add_line('neck-left',(18,30),(18,28))
-        self.add_arc('jaw-left',(18,28),(14,20),radius_x=10)
+        self.add_arc('jaw-left',(18,28),(15,21),radius_x=10)
         if closed:
-            self.add_arc('fringe-left',(14,20),(26,18),radius_x=20)
-            self.add_line('fringe-right',(26,18),(34,20))
+            self.add_arc('fringe-left',(15,21),(26,18),radius_x=20)
+            self.add_line('fringe-right',(26,18),(33,21))
         else:
-            self.add_line('fringe-left',(14,20),(24,17))
-            self.add_line('fringe-right',(24,17),(34,20))
-        self.add_arc('jaw-right',(34,20),(30,28),radius_x=10)
+            self.add_line('fringe-left',(15,21),(24,17))
+            self.add_line('fringe-right',(24,17),(33,21))
+        self.add_arc('jaw-right',(33,21),(30,28),radius_x=10)
         self.add_line('neck-right',(30,28),(30,30))
         self.add_line('shoulder-right',(30,30),(42,40))
         members=['shoulder-left','neck-left','jaw-left','fringe-left','fringe-right','jaw-right','neck-right','shoulder-right']

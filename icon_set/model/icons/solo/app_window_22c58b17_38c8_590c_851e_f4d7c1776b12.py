@@ -1,10 +1,10 @@
-"""App window (apps), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Application window: enlarge the toolbar band to accommodate three evenly spaced app dots with clear margins.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '22c58b17-38c8-590c-851e-f4d7c1776b12'
 SOURCE_PATH = 'icons-json/apps/app window_22c58b17-38c8-590c-851e-f4d7c1776b12.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AppWindowApps(Solo48):
     icon_id = 'app-window-apps'
@@ -15,27 +15,18 @@ class AppWindowApps(Solo48):
     aliases = ()
     keywords = ('app', 'window', 'apps')
 
-    def build(self):
-        self.add_line('e0', (42, 16), (6, 16))
-        self.add_line('e1', (9, 42), (39, 42))
-        self.add_line('e2', (42, 36), (42, 10))
-        self.add_line('e3', (37, 6), (10, 6))
-        self.add_line('e4', (6, 11), (6, 38))
-        self.add_arc('e5', (11, 11), (12, 11), radius_x=11, sweep=False)
-        self.add_arc('e6', (21, 11), (22, 11), radius_x=26, sweep=False)
-        self.add_arc('e7', (16, 11), (17, 11), radius_x=18)
-        self.add_arc('e8', (6, 38), (9, 42), radius_x=5, sweep=False)
-        self.add_arc('e9-1', (39, 42), (41, 41), radius_x=3, sweep=False)
-        self.add_line('e9-2', (41, 41), (42, 38))
-        self.add_arc('e9-3', (42, 38), (42, 36), radius_x=38)
-        self.add_line('e10-1', (42, 10), (41, 7))
-        self.add_line('e10-2', (41, 7), (37, 6))
-        self.add_arc('e11-1', (10, 6), (6, 10), radius_x=4, sweep=False)
-        self.add_line('e11-2', (6, 10), (6, 11))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e5')
-        self.add_contour('c2', 'e6')
-        self.add_contour('c3', 'e7')
-        self.add_contour('c4', 'e8', 'e1', 'e9-1', 'e9-2', 'e9-3', 'e2', 'e10-1', 'e10-2', 'e3', 'e11-1', 'e11-2', 'e4', closed=True)
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c4')
+    def build(self) -> None:
+        # A shared corner radius keeps all four turns tangent to their walls.
+        left, top, right, bottom, radius = 6, 6, 42, 42, 4
+        self.add_line('frame-top', (left+radius,top), (right-radius,top))
+        self.add_arc('frame-tr', (right-radius,top), (right,top+radius), radius_x=radius)
+        self.add_line('frame-right', (right,top+radius), (right,bottom-radius))
+        self.add_arc('frame-br', (right,bottom-radius), (right-radius,bottom), radius_x=radius)
+        self.add_line('frame-bottom', (right-radius,bottom), (left+radius,bottom))
+        self.add_arc('frame-bl', (left+radius,bottom), (left,bottom-radius), radius_x=radius)
+        self.add_line('frame-left', (left,bottom-radius), (left,top+radius))
+        self.add_arc('frame-tl', (left,top+radius), (left+radius,top), radius_x=radius)
+        self.add_contour('frame', *('frame-'+part for part in ('top','tr','right','br','bottom','bl','left','tl')), closed=True)
+
+        self.add_line('toolbar',(6,24),(42,24));self.relate('connect','toolbar','frame')
+        for i,x in enumerate((15,24,33)):self.add_dot(f'app-{i}',(x,15))

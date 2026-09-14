@@ -1,4 +1,4 @@
-"""Left-facing round baby chick, crown tuft and folded wing. Lucide bird informs circular body and attached legs; asymmetry retains the raised tail."""
+'Baby chick: preserve the raised tail and folded wing with smooth coherent silhouette curves and a wider internal gap.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,21 +17,14 @@ class BabyChick(Solo48):
     keywords = ('chick', 'chicken', 'bird', 'baby', 'hatch', 'farm', 'easter', 'poultry')
 
     def build(self) -> None:
-        # SQUARE centerline extremes recorded in batch-02-review.md.
-        self.add_arc('crown', (8, 18), (26, 6), radius_x=18, radius_y=16, sweep=True)
-        self.add_arc('back', (26, 6), (34, 18), radius_x=10, radius_y=12, sweep=True)
-        self.add_arc('tail-dip', (34, 18), (42, 22), radius_x=8, radius_y=8, sweep=False)
-        self.add_line('tail-tip', (42, 22), (42, 26))
-        self.add_arc('body-right', (42, 26), (30, 42), radius_x=16, radius_y=16, sweep=True)
-        self.add_line('belly', (30, 42), (24, 42))
-        self.add_arc('body-left', (24, 42), (8, 26), radius_x=16, radius_y=16, sweep=True)
-        self.add_line('beak-1', (8, 26), (6, 22))
-        self.add_line('beak-2', (6, 22), (8, 18))
-        self.add_contour('outline', 'crown', 'back', 'tail-dip', 'tail-tip', 'body-right', 'belly', 'body-left', 'beak-1', 'beak-2', closed=True)
-        self.add_line('tuft', (26, 6), (22, 6))
-        self.relate("connect", 'tuft', 'outline')
-        self.add_arc('wing', (23, 23), (33, 31), radius_x=8, radius_y=8, sweep=False)
-        self.add_line('leg-left', (24, 42), (20, 42))
-        self.add_line('leg-right', (30, 42), (34, 42))
-        self.relate("connect", 'outline', 'leg-left')
-        self.relate("connect", 'outline', 'leg-right')
+        self.add_bezier('crown',(8,18),((10,10),(18,6),(26,6)))
+        self.add_bezier('back',(26,6),((32,6),(34,12),(34,18)))
+        self.add_bezier('tail',(34,18),((34,22),(38,22),(42,22)))
+        self.add_line('tail-tip',(42,22),(42,26))
+        self.add_bezier('right',(42,26),((42,36),(37,42),(30,42)))
+        self.add_line('belly',(30,42),(24,42))
+        self.add_arc('left',(24,42),(8,26),radius_x=16)
+        self.add_line('beak-1',(8,26),(6,22))
+        self.add_line('beak-2',(6,22),(8,18))
+        self.add_contour('outline','crown','back','tail','tail-tip','right','belly','left','beak-1','beak-2',closed=True)
+        self.add_bezier('wing',(23,22),((23,28),(27,30),(31,30)))

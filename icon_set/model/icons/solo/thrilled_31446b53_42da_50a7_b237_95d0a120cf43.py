@@ -1,10 +1,10 @@
-"""Thrilled (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'thrilled: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '31446b53-42da-50a7-b237-95d0a120cf43'
 SOURCE_PATH = 'icons-json/smileys/thrilled_31446b53-42da-50a7-b237-95d0a120cf43.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Thrilled(Solo48):
     icon_id = 'thrilled'
@@ -15,22 +15,10 @@ class Thrilled(Solo48):
     aliases = ()
     keywords = ('thrilled', 'smileys')
 
-    def build(self):
-        self.add_arc('sym-e0', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('sym-e1', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('sym-e2', (13, 26), (14, 28), radius_x=8, sweep=False)
-        self.add_arc('sym-e3', (14, 28), (17, 31), radius_x=10, sweep=False)
-        self.add_arc('sym-e4', (17, 31), (24, 34), radius_x=13, sweep=False)
-        self.add_arc('sym-e5', (24, 34), (31, 31), radius_x=12, sweep=False)
-        self.add_arc('sym-e6', (31, 31), (34, 28), radius_x=10, sweep=False)
-        self.add_arc('sym-e7', (34, 28), (35, 26), radius_x=8, sweep=False)
-        self.add_arc('sym-e8', (13, 19), (14, 18), radius_x=4)
-        self.add_arc('sym-e9', (14, 18), (21, 18), radius_x=4)
-        self.add_line('sym-e10', (21, 18), (21, 19))
-        self.add_line('sym-e11', (35, 19), (34, 18))
-        self.add_arc('sym-e12', (34, 18), (27, 18), radius_x=4, sweep=False)
-        self.add_arc('sym-e13', (27, 18), (27, 19), radius_x=6, sweep=False)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7')
-        self.add_contour('sym-c2', 'sym-e8', 'sym-e9', 'sym-e10')
-        self.add_contour('sym-c3', 'sym-e11', 'sym-e12', 'sym-e13')
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_arc('eye-left',(15,18),(19,18),radius_x=2,radius_y=2)
+        self.add_arc('eye-right',(29,18),(33,18),radius_x=2,radius_y=2)
+        self.add_arc('mouth',(17,28),(31,28),radius_x=7,radius_y=5,sweep=False)

@@ -1,9 +1,8 @@
 """Woman with a flared bob with rounded evening neckline.
 
-Plan: separate head/hair or headwear symbol, exact detached gap, curved torso
+Plan: separate head/hair or headwear symbol, painted head/body contact, curved torso
 with rounded evening neckline. SOLO48 VRECT_L visible ink (6,2)-(42,46);
-centerline extremes (8,4)-(40,44). Head bottom 24, body top 32;
-nearest painted head/body gap is 4 on the shared x24 shoulder plateau.
+centerline extremes (8,4)-(40,44). Head and body ink touch on the shoulder plateau.
 Primary source supplies the hair/headwear silhouette; fine facial marks,
 hat stitching and microdetails are omitted to preserve openings at 48.
 Human reference: icon_set/references/human_ref/user.svg for proportions,
@@ -20,7 +19,7 @@ SOURCE_PATH = 'work/head-solo/batch-02/references/casino-player-woman.svg'
 SOURCE_HEAD_ICON_ID = 'casino-player-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 24
+HEAD_BOTTOM = 23
 
 
 class CasinoPlayerWomanAvatar(Solo48):
@@ -43,7 +42,7 @@ class CasinoPlayerWomanAvatar(Solo48):
             self.relate('connect','outer-'+side,'fringe-'+side)
         self.relate('connect','outer-left','outer-right')
         self.relate('connect','fringe-left','fringe-right')
-        self.add_arc('face',(33,14),(15,14),radius_x=9,radius_y=10)
+        self.add_arc('face',(33,14),(15,14),radius_x=9,radius_y=9)
         for side in ['left','right']:
             self.relate('connect','face','fringe-'+side)
 
@@ -63,3 +62,6 @@ class CasinoPlayerWomanAvatar(Solo48):
         self.add_arc('body-neckline',(18,top),(30,top),radius_x=6,radius_y=6,sweep=False)
         self.relate('connect','body-neckline','body-top')
         self.relate('connect','body-neckline','body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

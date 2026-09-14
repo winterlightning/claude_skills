@@ -20,7 +20,7 @@ class DeepfakeFaceArtificialIntelligence(Solo48):
         self.add_line('e1', (24, 21), (24, 4))
         self.add_line('e2', (40, 26), (40, 12))
         self.add_line('e3', (8, 19), (8, 29))
-        self.add_arc('e4', (17, 30), (31, 30), radius_x=7, radius_y=5, sweep=False)
+        self.add_arc('e4', (18, 30), (30, 30), radius_x=6, radius_y=5, sweep=False)
         self.add_arc('e5-1', (40, 12), (36, 6), radius_x=11, sweep=False)
         self.add_arc('e5-2', (36, 6), (31, 4), radius_x=10, sweep=False)
         self.add_line('e5-3', (31, 4), (24, 4))

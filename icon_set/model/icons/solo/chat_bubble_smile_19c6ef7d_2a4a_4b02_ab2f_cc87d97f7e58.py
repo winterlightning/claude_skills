@@ -1,4 +1,4 @@
-"""A smiling oval chat bubble. HRECT_L centerline extremes (6,8)-(42,40). Lucide message-circle-heart informs the coherent oval and integrated tail; the source face is intrinsic rather than a separate hosted symbol. Retain vertical eyes and a broad curved smile, with deliberate left tail asymmetry."""
+'Smiling chat bubble: smooth rounded bubble and tail with centrally balanced eyes and smile.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,13 +17,10 @@ class ChatBubbleSmile(Solo48):
     keywords = ('chat', 'smile', 'bubble', 'happy', 'emoji', 'message', 'feedback', 'friendly')
 
     def build(self) -> None:
-        self.add_arc('top',(6,23),(42,23),radius_x=20,radius_y=15)
-        self.add_arc('lower-right',(42,23),(24,38),radius_x=20,radius_y=15)
-        self.add_arc('lower-left',(24,38),(12,35),radius_x=20,radius_y=15)
-        self.add_line('tail-low',(12,35),(6,40))
-        self.add_line('tail-high',(6,40),(8,32))
-        self.add_arc('left',(8,32),(6,23),radius_x=20,radius_y=15)
-        self.add_contour('face','top','lower-right','lower-left','tail-low','tail-high','left',closed=True)
-        self.add_line('eye-left',(18,18),(18,19))
-        self.add_line('eye-right',(30,18),(30,19))
-        self.add_arc('smile',(17,28),(31,28),radius_x=10,radius_y=4,sweep=False)
+        self.add_bezier('upper',(4,23),((4,14),(13,8),(24,8)),((35,8),(44,14),(44,23)))
+        self.add_bezier('lower',(44,23),((44,33),(34,40),(24,40)),((19,40),(16,39),(13,36)))
+        self.add_polyline('tail',(13,36),(4,40),(7,31))
+        self.add_bezier('side',(7,31),((5,29),(4,26),(4,23)))
+        self.relate('connect','upper','lower');self.relate('connect','lower','tail');self.relate('connect','tail','side');self.relate('connect','side','upper')
+        self.add_dot('eye-left',(18,18));self.add_dot('eye-right',(30,18))
+        self.add_arc('smile',(18,28),(30,28),radius_x=6,radius_y=3,sweep=False)

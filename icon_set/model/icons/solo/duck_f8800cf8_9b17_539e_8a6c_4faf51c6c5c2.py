@@ -1,4 +1,4 @@
-"""toy-duck: reconstructed at native SOLO48 size."""
+'Toy duck: preserve the raised tail and round head; lower the eye and lift the curved wing for clearance.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,19 +16,14 @@ class ToyDuck(Solo48):
     aliases = ()
     keywords = ('duck', 'rubber duck', 'toy', 'bath', 'bird', 'debug', 'yellow', 'play')
 
-    def build(self):
-        self.add_line('silhouette-1', (13, 22), (6, 20))
-        self.add_line('silhouette-2', (6, 20), (6, 16))
-        self.add_line('silhouette-3', (6, 16), (11, 12))
-        self.add_arc('silhouette-4', (11, 12), (21, 6), radius_x=10, radius_y=10, sweep=True)
-        self.add_arc('silhouette-5', (21, 6), (31, 12), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('silhouette-6', (31, 12), (28, 26))
-        self.add_arc('silhouette-7', (28, 26), (42, 22), radius_x=20, radius_y=20, sweep=False)
-        self.add_arc('silhouette-8', (42, 22), (32, 42), radius_x=14, radius_y=24, sweep=True)
-        self.add_line('silhouette-9', (32, 42), (16, 42))
-        self.add_arc('silhouette-10', (16, 42), (8, 38), radius_x=8, radius_y=8, sweep=True)
-        self.add_arc('silhouette-11', (8, 38), (13, 22), radius_x=17, radius_y=17, sweep=True)
-        self.add_contour('silhouette', 'silhouette-1', 'silhouette-2', 'silhouette-3', 'silhouette-4', 'silhouette-5', 'silhouette-6', 'silhouette-7', 'silhouette-8', 'silhouette-9', 'silhouette-10', 'silhouette-11', closed=True)
-        self.add_arc('wing-1', (21, 34), (35, 37), radius_x=14, radius_y=3, sweep=False)
-        self.add_contour('wing', 'wing-1', closed=False)
-        self.add_dot('eye', (21, 11))
+    def build(self) -> None:
+        self.add_polyline('beak',(13,23),(6,20),(6,17),(12,14))
+        self.add_bezier('head',(12,14),((13,9),(17,6),(22,6)),((28,6),(31,11),(31,15)))
+        self.add_line('neck',(31,15),(28,26))
+        self.add_bezier('tail',(28,26),((34,27),(39,25),(42,22)))
+        self.add_bezier('back',(42,22),((42,32),(38,42),(32,42)))
+        self.add_line('base',(32,42),(16,42))
+        self.add_bezier('belly',(16,42),((7,42),(6,33),(13,23)))
+        self.relate('connect','beak','head');self.relate('connect','head','neck');self.relate('connect','neck','tail');self.relate('connect','tail','back');self.relate('connect','back','base');self.relate('connect','base','belly');self.relate('connect','belly','beak')
+        self.add_dot('eye',(22,16))
+        self.add_bezier('wing',(18,32),((20,34),(22,34),(24,33)))

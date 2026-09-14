@@ -1,0 +1,1537 @@
+--- before/account_profile_card_a2029a15_66fa_482d_a28c_001d915dd91d.py
++++ icon_set/model/icons/solo/account_profile_card_a2029a15_66fa_482d_a28c_001d915dd91d.py
+@@ -23,12 +23,16 @@
+     keywords = ('account', 'profile', 'user', 'person', 'details', 'card', 'identity', 'page')
+ 
+     def build(self) -> None:
+-        self.add_arc('head-right', (14, 8), (14, 24), radius_x=8, radius_y=8, sweep=True)
+-        self.add_arc('head-left', (14, 24), (14, 8), radius_x=8, radius_y=8, sweep=True)
++        # Shared human_ref/user.svg construction: circular head, broad shoulders,
++        # and exactly 4 units of visible head/body clearance (8 centerline).
++        # HRECT_L centerline extremes: (4,8)-(44,40).
++        cx, head_cy, head_radius = 14, 14, 6
++        body_top = head_cy + head_radius + 8
++        self.add_arc('head-right', (cx, 8), (cx, 20), radius_x=head_radius)
++        self.add_arc('head-left', (cx, 20), (cx, 8), radius_x=head_radius)
+         self.add_contour('head', 'head-right', 'head-left', closed=True)
+-        self.add_arc('shoulder-left', (6, 40), (14, 24), radius_x=10, radius_y=16, sweep=True)
+-        self.add_arc('shoulder-right', (14, 24), (24, 40), radius_x=10, radius_y=16, sweep=True)
++        self.add_arc('shoulder-left', (4, 40), (cx, body_top), radius_x=10, radius_y=12)
++        self.add_arc('shoulder-right', (cx, body_top), (24, 40), radius_x=10, radius_y=12)
+         self.add_contour('shoulders', 'shoulder-left', 'shoulder-right')
+-        self.relate("connect", 'head', 'shoulders')
+-        self.add_polyline('detail-box', (34, 10), (42, 10), (42, 22), (34, 22), closed=True)
+-        self.add_line('detail-line', (34, 34), (42, 34))
++        self.add_polyline('detail-box', (34, 10), (44, 10), (44, 22), (34, 22), closed=True)
++        self.add_line('detail-line', (34, 34), (44, 34))
+--- before/afternoon_sun_3b91179d_54d6_411e_a6dd_c91c93c5edd3.py
++++ icon_set/model/icons/solo/afternoon_sun_3b91179d_54d6_411e_a6dd_c91c93c5edd3.py
+@@ -12,7 +12,7 @@
+ 
+ class AfternoonSun(Solo48):
+     icon_id = 'afternoon-sun'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.HRECT_L
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "objects/weather"
+@@ -20,10 +20,12 @@
+     keywords = ('afternoon', 'sun', 'daylight', 'horizon', 'sky', 'weather')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
+-        self.add_arc('sun-top', (6, 16), (20, 16), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+-        self.add_arc('sun-bottom', (20, 16), (6, 16), radius_x=8, radius_y=8, sweep=True, large_arc=False)
++        self.add_arc('sun-top', (4, 16), (20, 16), radius_x=8, radius_y=8, sweep=True, large_arc=False)
++        self.add_arc('sun-bottom', (20, 16), (4, 16), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+         self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
+-        self.add_arc('day-arc', (30, 22), (42, 40), radius_x=16, radius_y=18, sweep=True, large_arc=False)
+-        self.add_line('horizon', (6, 40), (42, 40))
++        self.add_arc('day-arc', (30, 22), (44, 40), radius_x=14, radius_y=18, sweep=True, large_arc=False)
++        self.add_line('horizon', (4, 40), (44, 40))
+         self.relate("connect", 'day-arc', 'horizon')
+--- before/airship_over_cloud_9cc2c05a_f5ae_4e0a_b1bc_501ccac6cbbd.py
++++ icon_set/model/icons/solo/airship_over_cloud_9cc2c05a_f5ae_4e0a_b1bc_501ccac6cbbd.py
+@@ -15,13 +15,15 @@
+     keywords = ('airship', 'blimp', 'zeppelin', 'dirigible', 'cloud', 'sky', 'flight', 'aviation')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Current contract centerline extremes: (6,8)-(42,40).
+         self.add_line('envelope-top',(10,8),(38,8))
+         self.add_arc('envelope-right',(38,8),(38,20),radius_x=6)
+         self.add_line('envelope-bottom-1',(38,20),(24,20))
+         self.add_line('envelope-bottom-2',(24,20),(10,20))
+-        self.add_arc('envelope-left-bottom',(10,20),(6,14),radius_x=6)
+-        self.add_arc('envelope-left-top',(6,14),(10,8),radius_x=6)
++        self.add_arc('envelope-left-bottom',(10,20),(4, 14),radius_x=6)
++        self.add_arc('envelope-left-top',(4, 14),(10,8),radius_x=6)
+         self.add_contour('envelope','envelope-top','envelope-right','envelope-bottom-1','envelope-bottom-2','envelope-left-bottom','envelope-left-top',closed=True)
+         self.add_line('gondola',(24,20),(24,23))
+         self.relate('connect','gondola','envelope')
+@@ -30,5 +32,5 @@
+         self.add_arc('cloud-right',(26,34),(32,40),radius_x=6)
+         self.add_line('cloud-bottom',(32,40),(12,40))
+         self.add_contour('cloud','cloud-left','cloud-crown','cloud-right','cloud-bottom',closed=True)
+-        self.add_polyline('tail-fin',(6,8),(6,14),(6,20))
++        self.add_polyline('tail-fin',(4, 8),(4, 14),(4, 20))
+         self.relate('connect','tail-fin','envelope')
+--- before/arched_six_pane_window_1a20a2e7_7d30_5978_b723_78cb6bd19f9d.py
++++ icon_set/model/icons/solo/arched_six_pane_window_1a20a2e7_7d30_5978_b723_78cb6bd19f9d.py
+@@ -9,7 +9,7 @@
+ 
+ class ArchedSixPaneWindow(Solo48):
+     icon_id = 'arched-six-pane-window'
+-    keyshape = Keyshape.VRECT_XL
++    keyshape = Keyshape.SQUARE
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "objects/decoration"
+@@ -17,8 +17,10 @@
+     keywords = ('window', 'arch', 'panes', 'frame', 'architecture', 'interior', 'glazing')
+ 
+     def build(self) -> None:
+-        self.add_arc('arch-left', (8,18), (24,6), radius_x=16)
+-        self.add_arc('arch-right', (24,6), (40,18), radius_x=16)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('arch-left', (8,18), (24,6), radius_x=16, radius_y=12)
++        self.add_arc('arch-right', (24,6), (40,18), radius_x=16, radius_y=12)
+         self.add_polyline('right-wall', (40,18),(40,32),(40,42))
+         self.add_polyline('sill', (42,42),(40,42),(24,42),(8,42),(6,42))
+         self.add_polyline('left-wall', (8,42),(8,32),(8,18))
+--- before/arrow_turn_right_90bda1dc_4ea8_4d9e_aace_a5784e398b7c.py
++++ icon_set/model/icons/solo/arrow_turn_right_90bda1dc_4ea8_4d9e_aace_a5784e398b7c.py
+@@ -23,9 +23,11 @@
+     keywords = ('arrow', 'turn', 'right', 'redirect', 'forward', 'curve', 'direction', 'share')
+ 
+     def build(self) -> None:
+-        self.add_polyline('head', (32, 8), (42, 20), (32, 32))
+-        self.add_line('shaft', (42, 20), (16, 20))
+-        self.add_arc('bend', (16, 20), (6, 32), radius_x=12, radius_y=12, sweep=False)
+-        self.add_line('tail', (6, 32), (12, 40))
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_polyline('head', (32, 8), (44, 20), (32, 32))
++        self.add_line('shaft', (44, 20), (16, 20))
++        self.add_arc('bend', (16, 20), (4, 32), radius_x=12, radius_y=12, sweep=False)
++        self.add_line('tail', (4, 32), (12, 40))
+         self.add_contour('body', 'shaft', 'bend', 'tail')
+         self.relate("connect", 'head', 'body')
+--- before/auto_text_label_f89489d3_928e_4d8e_8a13_9ff760315c90.py
++++ icon_set/model/icons/solo/auto_text_label_f89489d3_928e_4d8e_8a13_9ff760315c90.py
+@@ -16,20 +16,22 @@
+     keywords = ('auto', 'automatic', 'gear', 'transmission', 'car', 'dashboard', 'text', 'label')
+ 
+     def build(self) -> None:
+-        self.add_polyline('a-outline',(6,20),(6,17),(12,8),(18,17),(20,20))
+-        self.add_line('a-bar',(6,17),(18,17))
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_polyline('a-outline',(4, 20),(4, 17),(12,8),(18,17),(20,20))
++        self.add_line('a-bar',(4, 17),(18,17))
+         self.relate('connect','a-outline','a-bar')
+         self.add_line('u-left',(30,8),(30,13))
+-        self.add_arc('u-bottom',(30,13),(42,13),radius_x=7,sweep=False)
+-        self.add_line('u-right',(42,13),(42,8))
++        self.add_arc('u-bottom',(30,13),(44, 13),radius_x=7,sweep=False)
++        self.add_line('u-right',(44, 13),(44, 8))
+         self.add_contour('u','u-left','u-bottom','u-right')
+-        self.add_polyline('t-bar',(6,29),(12,29),(20,29))
++        self.add_polyline('t-bar',(4, 29),(12,29),(20,29))
+         self.add_line('t-stem',(12,29),(12,40))
+         self.relate('connect','t-bar','t-stem')
+         self.add_line('o-top',(33,29),(41,29))
+-        self.add_arc('o-tr',(41,29),(42,32),radius_x=3)
+-        self.add_line('o-right',(42,32),(42,37))
+-        self.add_arc('o-br',(42,37),(41,40),radius_x=3)
++        self.add_arc('o-tr',(41,29),(44, 32),radius_x=3)
++        self.add_line('o-right',(44, 32),(44, 37))
++        self.add_arc('o-br',(44, 37),(41,40),radius_x=3)
+         self.add_line('o-bottom',(41,40),(33,40))
+         self.add_arc('o-bl',(33,40),(30,37),radius_x=3)
+         self.add_line('o-left',(30,37),(30,32))
+--- before/baby_bottle_017fdfd5_cc7b_55c1_97bd_dfe302867ff9.py
++++ icon_set/model/icons/solo/baby_bottle_017fdfd5_cc7b_55c1_97bd_dfe302867ff9.py
+@@ -8,7 +8,7 @@
+ 
+ class BabyBottle(Solo48):
+     icon_id = 'baby-bottle'
+-    keyshape = Keyshape.VRECT_M
++    keyshape = Keyshape.VRECT_L
+     semantic_role = 'MAIN'
+     semantic_kind = 'noun'
+     category = 'objects/baby-care'
+@@ -16,19 +16,21 @@
+     keywords = ('bottle', 'baby', 'milk', 'feeding', 'teat', 'infant', 'formula', 'nursing')
+ 
+     def build(self) -> None:
+-        self.add_line('body-1', (11, 18), (11, 39))
+-        self.add_arc('body-2', (11, 39), (18, 42), radius_x=7, radius_y=7, sweep=False)
+-        self.add_line('body-3', (18, 42), (30, 42))
+-        self.add_arc('body-4', (30, 42), (37, 39), radius_x=7, radius_y=7, sweep=False)
+-        self.add_line('body-5', (37, 39), (37, 18))
+-        self.add_line('body-6', (37, 18), (11, 18))
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_line('body-1', (8, 18), (8, 37))
++        self.add_arc('body-2', (8, 37), (18, 44), radius_x=10, radius_y=7, sweep=False)
++        self.add_line('body-3', (18, 44), (30, 44))
++        self.add_arc('body-4', (30, 44), (40, 37), radius_x=10, radius_y=7, sweep=False)
++        self.add_line('body-5', (40, 37), (40, 18))
++        self.add_line('body-6', (40, 18), (8, 18))
+         self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', closed=True)
+-        self.add_line('teat-1', (11, 18), (11, 12))
+-        self.add_arc('teat-2', (11, 12), (20, 8), radius_x=9, radius_y=4, sweep=True)
+-        self.add_line('teat-3', (20, 8), (20, 6))
+-        self.add_arc('teat-4', (20, 6), (28, 6), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('teat-5', (28, 6), (28, 8))
+-        self.add_arc('teat-6', (28, 8), (37, 12), radius_x=9, radius_y=4, sweep=True)
+-        self.add_line('teat-7', (37, 12), (37, 18))
++        self.add_line('teat-1', (8, 18), (8, 12))
++        self.add_arc('teat-2', (8, 12), (20, 8), radius_x=12, radius_y=4, sweep=True)
++        self.add_line('teat-3', (20, 8), (20, 8))
++        self.add_arc('teat-4', (20, 8), (28, 8), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('teat-5', (28, 8), (28, 8))
++        self.add_arc('teat-6', (28, 8), (40, 12), radius_x=12, radius_y=4, sweep=True)
++        self.add_line('teat-7', (40, 12), (40, 18))
+         self.add_contour('teat', 'teat-1', 'teat-2', 'teat-3', 'teat-4', 'teat-5', 'teat-6', 'teat-7', closed=False)
+         self.relate('connect', 'body', 'teat')
+--- before/baby_bottle_with_handles_46fff59c_84bf_4526_bd9b_33201133c81c.py
++++ icon_set/model/icons/solo/baby_bottle_with_handles_46fff59c_84bf_4526_bd9b_33201133c81c.py
+@@ -14,23 +14,32 @@
+     keywords = ('bottle', 'handles', 'baby', 'milk', 'feeding', 'sippy', 'teat', 'infant')
+ 
+     def build(self) -> None:
+-        self.add_arc('bottle-1', (6, 34), (14, 42), radius_x=12, radius_y=12, sweep=False)
+-        self.add_arc('bottle-2', (14, 42), (22, 42), radius_x=10, radius_y=10, sweep=False)
+-        self.add_line('bottle-3', (22, 42), (38, 26))
+-        self.add_line('bottle-4', (38, 26), (22, 10))
+-        self.add_line('bottle-5', (22, 10), (6, 26))
+-        self.add_arc('bottle-6', (6, 26), (6, 34), radius_x=10, radius_y=10, sweep=False)
+-        self.add_contour('bottle', 'bottle-1', 'bottle-2', 'bottle-3', 'bottle-4', 'bottle-5', 'bottle-6', closed=True)
+-        self.add_line('teat-1', (22, 10), (34, 6))
+-        self.add_arc('teat-2', (34, 6), (40, 6), radius_x=6, radius_y=4, sweep=True)
+-        self.add_arc('teat-3', (40, 6), (42, 8), radius_x=6, radius_y=6, sweep=True)
+-        self.add_arc('teat-4', (42, 8), (42, 14), radius_x=4, radius_y=6, sweep=True)
+-        self.add_line('teat-5', (42, 14), (38, 26))
+-        self.add_contour('teat', 'teat-1', 'teat-2', 'teat-3', 'teat-4', 'teat-5', closed=False)
+-        self.add_arc('handle-left-1', (8, 24), (20, 12), radius_x=9, radius_y=9, large_arc=True, sweep=True)
+-        self.add_contour('handle-left', 'handle-left-1', closed=False)
+-        self.add_arc('handle-right-1', (36, 28), (24, 40), radius_x=9, radius_y=9, large_arc=True, sweep=True)
+-        self.add_contour('handle-right', 'handle-right-1', closed=False)
+-        self.relate('connect', 'bottle', 'teat')
+-        self.relate('connect', 'bottle', 'handle-left')
+-        self.relate('connect', 'bottle', 'handle-right')
++        # Diagonal feeding bottle with two physical handles. Each handle owns
++        # its cardinal lobes; its endpoints share the bottle's diagonal seams.
++        # SQUARE centerline extrema: (6,6)-(42,42).
++        def contour(name, start, pieces, closed=False):
++            members = []
++            point = start
++            for index, (end, radii) in enumerate(pieces):
++                member = f'{name}-{index}'
++                if radii:
++                    rx, ry, sweep = radii
++                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
++                else:
++                    self.add_line(member, point, end)
++                members.append(member)
++                point = end
++            self.add_contour(name, *members, closed=closed)
++        contour('bottle', (6, 28), [
++            ((6, 34), None), ((14, 42), (8, 8, False)),
++            ((24, 42), None), ((26, 40), None), ((40, 26), None),
++            ((24, 10), None), ((10, 24), None),
++            ((6, 28), None)], True)
++        contour('teat', (24, 10), [
++            ((34, 6), None), ((38, 6), None), ((42, 10), (4, 4, True)),
++            ((42, 14), None), ((40, 26), None)])
++        # Radius-10 circles use exact 6-8-10 attachment vectors.
++        self.add_arc('handle-left', (10, 24), (24, 10), radius_x=10, large_arc=True)
++        self.add_arc('handle-right', (40, 26), (26, 40), radius_x=10)
++        for part in ('teat', 'handle-left', 'handle-right'):
++            self.relate('connect', 'bottle', part)
+--- before/baby_potty_5b4d2b50_1b9c_4414_9e32_19d3aa7a41d9.py
++++ icon_set/model/icons/solo/baby_potty_5b4d2b50_1b9c_4414_9e32_19d3aa7a41d9.py
+@@ -7,7 +7,7 @@
+ 
+ class BabyPotty(Solo48):
+     icon_id = 'baby-potty'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.SQUARE
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "objects/baby-care"
+@@ -16,11 +16,13 @@
+ 
+     # Designed to centerline extremes (6, 6)–(42, 42).
+     def build(self) -> None:
+-        self.add_arc('tub-1', (6, 22), (21, 6), radius_x=17, radius_y=17, sweep=True)
+-        self.add_arc('tub-2', (21, 6), (36, 12), radius_x=20, radius_y=20, sweep=True)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('tub-1', (6, 22), (21, 6), radius_x=15, radius_y=16, sweep=True)
++        self.add_arc('tub-2', (21, 6), (36, 12), radius_x=15, radius_y=6, sweep=True)
+         self.add_line('tub-3', (36, 12), (42, 18))
+         self.add_line('tub-4', (42, 18), (42, 34))
+-        self.add_arc('tub-5', (42, 34), (6, 34), radius_x=22, radius_y=9, sweep=True)
++        self.add_arc('tub-5', (42, 34), (6, 34), radius_x=18, radius_y=8, sweep=True)
+         self.add_line('tub-6', (6, 34), (6, 22))
+         self.add_contour('tub', 'tub-1', 'tub-2', 'tub-3', 'tub-4', 'tub-5', 'tub-6', closed=True)
+         self.add_arc('rim-1', (6, 22), (36, 22), radius_x=16, radius_y=6, sweep=True)
+--- before/baby_pram_416f7dcc_429d_5dce_9524_9e881dd4a7b9.py
++++ icon_set/model/icons/solo/baby_pram_416f7dcc_429d_5dce_9524_9e881dd4a7b9.py
+@@ -17,21 +17,23 @@
+     keywords = ('baby', 'pram', 'baby', 'nursery', 'toy')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Centerline keyshape: SQUARE; Side-facing baby carriage with quarter-round hood and round wheels. Lucide bed informs body corners. Small axle omitted; paired supports attach the wheels to the body.
+-        self.add_arc('hood', (6, 20), (20, 6), radius_x=18, radius_y=18, sweep=True)
++        self.add_arc('hood', (6, 20), (20, 6), radius_x=14, radius_y=14, sweep=True)
+         self.add_line('hood-back', (20, 6), (20, 20))
+         self.add_contour('hood-shell', 'hood', 'hood-back', closed=False)
+         self.add_line('rim', (6, 20), (36, 20))
+         self.relate("connect", 'hood-shell', 'rim')
+         self.add_line('body-left', (6, 20), (6, 24))
+-        self.add_arc('body-bottom-left', (6, 24), (12, 34), radius_x=10, radius_y=10, sweep=False)
++        self.add_arc('body-bottom-left', (6, 24), (12, 34), radius_x=6, radius_y=10, sweep=False)
+         self.add_line('body-bottom', (12, 34), (26, 34))
+         self.add_arc('body-bottom-right', (26, 34), (36, 24), radius_x=10, radius_y=10, sweep=False)
+         self.add_line('body-right', (36, 24), (36, 20))
+         self.add_contour('body', 'body-left', 'body-bottom-left', 'body-bottom', 'body-bottom-right', 'body-right', closed=False)
+         self.relate("connect", 'body', 'rim')
+         self.relate("connect", 'body', 'hood-shell')
+-        self.add_arc('handle-curve', (36, 20), (42, 10), radius_x=8, radius_y=10, sweep=True)
++        self.add_arc('handle-curve', (36, 20), (42, 10), radius_x=6, radius_y=10, sweep=True)
+         self.add_line('handle-tip', (42, 10), (42, 10))
+         self.add_contour('handle', 'handle-curve', 'handle-tip', closed=False)
+         self.relate("connect", 'handle', 'rim')
+--- before/baby_stroller_c79a60a5_713f_5427_9b01_106b222559b1.py
++++ icon_set/model/icons/solo/baby_stroller_c79a60a5_713f_5427_9b01_106b222559b1.py
+@@ -17,21 +17,23 @@
+     keywords = ('baby', 'stroller', 'baby', 'nursery', 'toy')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Centerline keyshape: SQUARE; Side-facing baby carriage with quarter-round hood and round wheels. Lucide bed informs body corners. Small axle omitted; paired supports attach the wheels to the body.
+-        self.add_arc('hood', (42, 20), (28, 6), radius_x=18, radius_y=18, sweep=False)
++        self.add_arc('hood', (42, 20), (28, 6), radius_x=14, radius_y=14, sweep=False)
+         self.add_line('hood-back', (28, 6), (28, 20))
+         self.add_contour('hood-shell', 'hood', 'hood-back', closed=False)
+         self.add_line('rim', (42, 20), (12, 20))
+         self.relate("connect", 'hood-shell', 'rim')
+         self.add_line('body-left', (42, 20), (42, 24))
+-        self.add_arc('body-bottom-left', (42, 24), (36, 34), radius_x=10, radius_y=10, sweep=True)
++        self.add_arc('body-bottom-left', (42, 24), (36, 34), radius_x=6, radius_y=10, sweep=True)
+         self.add_line('body-bottom', (36, 34), (22, 34))
+         self.add_arc('body-bottom-right', (22, 34), (12, 24), radius_x=10, radius_y=10, sweep=True)
+         self.add_line('body-right', (12, 24), (12, 20))
+         self.add_contour('body', 'body-left', 'body-bottom-left', 'body-bottom', 'body-bottom-right', 'body-right', closed=False)
+         self.relate("connect", 'body', 'rim')
+         self.relate("connect", 'body', 'hood-shell')
+-        self.add_arc('handle-curve', (12, 20), (6, 10), radius_x=8, radius_y=10, sweep=False)
++        self.add_arc('handle-curve', (12, 20), (6, 10), radius_x=6, radius_y=10, sweep=False)
+         self.add_line('handle-tip', (6, 10), (6, 10))
+         self.add_contour('handle', 'handle-curve', 'handle-tip', closed=False)
+         self.relate("connect", 'handle', 'rim')
+--- before/banknote_coin_mark_76664091_6ef6_44a2_8c4c_a2b2e41d7461.py
++++ icon_set/model/icons/solo/banknote_coin_mark_76664091_6ef6_44a2_8c4c_a2b2e41d7461.py
+@@ -23,14 +23,16 @@
+     keywords = ('banknote', 'cash', 'money', 'bill', 'payment', 'currency', 'finance', 'note')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('bill-top-1', (8, 8), (40, 8))
+-        self.add_arc('bill-ne', (40, 8), (42, 12), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('bill-right', (42, 12), (42, 36))
+-        self.add_arc('bill-se', (42, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('bill-ne', (40, 8), (44, 12), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('bill-right', (44, 12), (44, 36))
++        self.add_arc('bill-se', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('bill-bottom-1', (40, 40), (8, 40))
+-        self.add_arc('bill-sw', (8, 40), (6, 36), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('bill-left', (6, 36), (6, 12))
+-        self.add_arc('bill-nw', (6, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('bill-sw', (8, 40), (4, 36), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('bill-left', (4, 36), (4, 12))
++        self.add_arc('bill-nw', (4, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
+         self.add_contour('bill', 'bill-top-1', 'bill-ne', 'bill-right', 'bill-se', 'bill-bottom-1', 'bill-sw', 'bill-left', 'bill-nw', closed=True)
+         self.add_arc('coin-right', (24, 17), (24, 31), radius_x=7, radius_y=7, sweep=True)
+         self.add_arc('coin-left', (24, 31), (24, 17), radius_x=7, radius_y=7, sweep=True)
+--- before/bat_d82ffd85_eb28_548b_b938_7a80b6c3090b.py
++++ icon_set/model/icons/solo/bat_d82ffd85_eb28_548b_b938_7a80b6c3090b.py
+@@ -17,17 +17,19 @@
+     keywords = ('bat', 'wings', 'flying', 'halloween', 'night', 'animal', 'nocturnal', 'vampire')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Bat with paired ears and scalloped wings; centerline extremes (6,8)-(42,40). Mirrored silhouette; tiny wing notches omitted. No useful Lucide match.
+         self.add_line('ears-1', (18, 19), (17, 8))
+         self.add_line('ears-2', (17, 8), (24, 12))
+         self.add_line('ears-3', (24, 12), (31, 8))
+         self.add_line('ears-4', (31, 8), (30, 19))
+         self.add_arc('right-shoulder', (30, 19), (38, 11), radius_x=8, radius_y=8, sweep=False)
+-        self.add_arc('right-wing', (38, 11), (42, 33), radius_x=8, radius_y=22, sweep=True)
+-        self.add_arc('right-scallop', (42, 33), (34, 33), radius_x=8, radius_y=6, sweep=False)
++        self.add_arc('right-wing', (38, 11), (44, 33), radius_x=6, radius_y=22, sweep=True)
++        self.add_arc('right-scallop', (44, 33), (34, 33), radius_x=8, radius_y=6, sweep=False)
+         self.add_arc('right-base', (34, 33), (24, 40), radius_x=10, radius_y=7, sweep=False)
+         self.add_arc('left-base', (24, 40), (14, 33), radius_x=10, radius_y=7, sweep=False)
+-        self.add_arc('left-scallop', (14, 33), (6, 33), radius_x=8, radius_y=6, sweep=False)
+-        self.add_arc('left-wing', (6, 33), (10, 11), radius_x=8, radius_y=22, sweep=True)
++        self.add_arc('left-scallop', (14, 33), (4, 33), radius_x=8, radius_y=6, sweep=False)
++        self.add_arc('left-wing', (4, 33), (10, 11), radius_x=6, radius_y=22, sweep=True)
+         self.add_arc('left-shoulder', (10, 11), (18, 19), radius_x=8, radius_y=8, sweep=False)
+         self.add_contour('bat-outline', 'ears-1', 'ears-2', 'ears-3', 'ears-4', 'right-shoulder', 'right-wing', 'right-scallop', 'right-base', 'left-base', 'left-scallop', 'left-wing', 'left-shoulder', closed=True)
+--- before/bear_head_acd3fbf8_bb16_4b4b_abd7_72c416824207.py
++++ icon_set/model/icons/solo/bear_head_acd3fbf8_bb16_4b4b_abd7_72c416824207.py
+@@ -9,7 +9,7 @@
+ 
+ class BearFace(Solo48):
+     icon_id = 'bear-face'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.SQUARE
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "nature/animals"
+@@ -17,22 +17,24 @@
+     keywords = ('bear', 'face', 'head', 'cute', 'animal', 'teddy', 'wildlife', 'round')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Bear face, round ears and two eyes; centerline extremes (6,6)-(42,42). Mirrored arcs with a broad rounded chin; no muzzle in source. No useful Lucide match.
+         self.add_line('forehead', (16, 11), (32, 11))
+         self.add_arc('right-temple', (32, 11), (40, 19), radius_x=8, radius_y=8, sweep=True)
+         self.add_line('right-cheek', (40, 19), (40, 27))
+-        self.add_arc('chin', (40, 27), (8, 27), radius_x=16, radius_y=16, sweep=True)
++        self.add_arc('chin', (40, 27), (8, 27), radius_x=16, radius_y=15, sweep=True)
+         self.add_line('left-cheek', (8, 27), (8, 19))
+         self.add_arc('left-temple', (8, 19), (16, 11), radius_x=8, radius_y=8, sweep=True)
+         self.add_contour('face', 'forehead', 'right-temple', 'right-cheek', 'chin', 'left-cheek', 'left-temple', closed=True)
+-        self.add_arc('left-ear-lower', (8, 19), (6, 13), radius_x=6, radius_y=6, sweep=True)
+-        self.add_arc('left-ear-top', (6, 13), (10, 6), radius_x=8, radius_y=8, sweep=True)
+-        self.add_arc('left-ear-inner', (10, 6), (16, 11), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('left-ear-lower', (8, 19), (6, 13), radius_x=2, radius_y=6, sweep=True)
++        self.add_arc('left-ear-top', (6, 13), (10, 6), radius_x=4, radius_y=7, sweep=True)
++        self.add_arc('left-ear-inner', (10, 6), (16, 11), radius_x=6, radius_y=5, sweep=True)
+         self.add_contour('left-ear', 'left-ear-lower', 'left-ear-top', 'left-ear-inner', closed=False)
+         self.relate("connect", 'left-ear', 'face')
+-        self.add_arc('right-ear-inner', (32, 11), (38, 6), radius_x=6, radius_y=6, sweep=True)
+-        self.add_arc('right-ear-top', (38, 6), (42, 13), radius_x=8, radius_y=8, sweep=True)
+-        self.add_arc('right-ear-lower', (42, 13), (40, 19), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('right-ear-inner', (32, 11), (38, 6), radius_x=6, radius_y=5, sweep=True)
++        self.add_arc('right-ear-top', (38, 6), (42, 13), radius_x=4, radius_y=7, sweep=True)
++        self.add_arc('right-ear-lower', (42, 13), (40, 19), radius_x=2, radius_y=6, sweep=True)
+         self.add_contour('right-ear', 'right-ear-inner', 'right-ear-top', 'right-ear-lower', closed=False)
+         self.relate("connect", 'right-ear', 'face')
+         self.add_line('left-eye', (17, 24), (17, 26))
+--- before/bee_7d5e1d4e_10c9_57b0_ba27_2edf8237c542.py
++++ icon_set/model/icons/solo/bee_7d5e1d4e_10c9_57b0_ba27_2edf8237c542.py
+@@ -17,6 +17,8 @@
+     keywords = ('bee', 'honeybee', 'insect', 'wings', 'stripes', 'honey', 'bug', 'symmetry')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # SQUARE centerline extremes recorded in batch-02-review.md.
+         self.add_arc('crown-left', (16, 18), (24, 10), radius_x=8, radius_y=8, sweep=True)
+         self.add_arc('crown-right', (24, 10), (32, 18), radius_x=8, radius_y=8, sweep=True)
+@@ -31,8 +33,8 @@
+         self.relate("connect", 'body', 'stripe-32')
+         self.add_line('stinger', (24, 42), (24, 42))
+         self.relate("connect", 'body', 'stinger')
+-        self.add_arc('left-wing-upper', (16, 18), (6, 26), radius_x=14, radius_y=8, sweep=False)
+-        self.add_arc('left-wing-lower', (6, 26), (16, 34), radius_x=14, radius_y=8, sweep=False)
++        self.add_arc('left-wing-upper', (16, 18), (6, 26), radius_x=10, radius_y=8, sweep=False)
++        self.add_arc('left-wing-lower', (6, 26), (16, 34), radius_x=10, radius_y=8, sweep=False)
+         self.add_contour('left-wing', 'left-wing-upper', 'left-wing-lower', closed=False)
+         self.relate("connect", 'body', 'left-wing')
+         self.add_line('left-antenna-stem', (16, 18), (16, 8))
+@@ -40,8 +42,8 @@
+         self.add_contour('left-antenna', 'left-antenna-stem', 'left-antenna-curl', closed=False)
+         self.relate("connect", 'body', 'left-antenna')
+         self.relate("connect", 'left-wing', 'left-antenna')
+-        self.add_arc('right-wing-upper', (32, 18), (42, 26), radius_x=14, radius_y=8, sweep=True)
+-        self.add_arc('right-wing-lower', (42, 26), (32, 34), radius_x=14, radius_y=8, sweep=True)
++        self.add_arc('right-wing-upper', (32, 18), (42, 26), radius_x=10, radius_y=8, sweep=True)
++        self.add_arc('right-wing-lower', (42, 26), (32, 34), radius_x=10, radius_y=8, sweep=True)
+         self.add_contour('right-wing', 'right-wing-upper', 'right-wing-lower', closed=False)
+         self.relate("connect", 'body', 'right-wing')
+         self.add_line('right-antenna-stem', (32, 18), (32, 8))
+--- before/bendable_phone_d5e38ad3_3442_57ac_9e2b_af7bbe8cc090.py
++++ icon_set/model/icons/solo/bendable_phone_d5e38ad3_3442_57ac_9e2b_af7bbe8cc090.py
+@@ -15,6 +15,8 @@
+     keywords = ('phone', 'bendable', 'flexible', 'smartphone', 'mobile', 'device', 'foldable')
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         def line(n,a,b): self.add_line(n,a,b)
+         def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
+         def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+@@ -30,13 +32,13 @@
+             line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
+             line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
+             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+-        line('top',(22,6),(36,6))
+-        arc('tr',(36,6),(40,8),4)
++        line('top',(22, 4),(36, 4))
++        arc('tr',(36, 4),(40,8),4)
+         arc('bend-right',(40,8),(32,40),68,sweep=False)
+-        arc('br',(32,40),(28,42),4)
+-        line('bottom',(28,42),(12,42))
+-        arc('bl',(12,42),(8,40),4)
++        arc('br',(32,40),(28, 44),4)
++        line('bottom',(28, 44),(12, 44))
++        arc('bl',(12, 44),(8,40),4)
+         arc('bend-left',(8,40),(18,8),60)
+-        arc('tl',(18,8),(22,6),4)
++        arc('tl',(18,8),(22, 4),4)
+         contour('body','top','tr','bend-right','br','bottom','bl','bend-left','tl',closed=True)
+         line('slot',(18,34),(23,34))
+--- before/bottle_with_burning_wick_e4244e59_74e6_5710_ad04_81650dfcfc48.py
++++ icon_set/model/icons/solo/bottle_with_burning_wick_e4244e59_74e6_5710_ad04_81650dfcfc48.py
+@@ -9,7 +9,7 @@
+ 
+ class BottleWithBurningWick(Solo48):
+     icon_id = 'bottle-with-burning-wick'
+-    keyshape = Keyshape.VRECT_XL
++    keyshape = Keyshape.VRECT_L
+     semantic_role = 'MAIN'
+     semantic_kind = 'noun'
+     category = 'objects/war'
+@@ -17,6 +17,8 @@
+     keywords = ('bottle', 'wick', 'fire', 'incendiary', 'glass', 'flame')
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+ 
+         def L(n,a,b): self.add_line(n,a,b)
+         def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+@@ -37,6 +39,6 @@
+             A(n+'tl',(x,y+r),(x+r,y),r)
+             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+ 
+-        P('bottle',(8,42),(8,30),(16,22),(16,14),(26,14),(26,22),(32,30),(32,42),(8,42))
+-        A('wick-rise',(21,14),(29,6),8,10)
+-        P('flame',(29,6),(34,10),(40,10));J('wick-rise','bottle');J('wick-rise','flame')
++        P('bottle',(8, 44),(8,30),(16,22),(16,14),(26,14),(26,22),(32,30),(32, 44),(8, 44))
++        A('wick-rise',(21,14),(29, 4),8,10)
++        P('flame',(29, 4),(34,10),(40,10));J('wick-rise','bottle');J('wick-rise','flame')
+--- before/briefcase_plain_6b850201_571a_4a5c_bee3_706213011447.py
++++ icon_set/model/icons/solo/briefcase_plain_6b850201_571a_4a5c_bee3_706213011447.py
+@@ -23,16 +23,18 @@
+     keywords = ('briefcase', 'case', 'bag', 'work', 'business', 'job', 'portfolio', 'luggage')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('case-top-1', (8, 18), (16, 18))
+         self.add_line('case-top-2', (16, 18), (32, 18))
+         self.add_line('case-top-3', (32, 18), (40, 18))
+-        self.add_arc('case-ne', (40, 18), (42, 22), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('case-right', (42, 22), (42, 36))
+-        self.add_arc('case-se', (42, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('case-ne', (40, 18), (44, 22), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('case-right', (44, 22), (44, 36))
++        self.add_arc('case-se', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('case-bottom-1', (40, 40), (8, 40))
+-        self.add_arc('case-sw', (8, 40), (6, 36), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('case-left', (6, 36), (6, 22))
+-        self.add_arc('case-nw', (6, 22), (8, 18), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('case-sw', (8, 40), (4, 36), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('case-left', (4, 36), (4, 22))
++        self.add_arc('case-nw', (4, 22), (8, 18), radius_x=4, radius_y=4, sweep=True)
+         self.add_contour('case', 'case-top-1', 'case-top-2', 'case-top-3', 'case-ne', 'case-right', 'case-se', 'case-bottom-1', 'case-sw', 'case-left', 'case-nw', closed=True)
+         self.add_line('handle-left', (16, 18), (16, 12))
+         self.add_arc('handle-nw', (16, 12), (20, 8), radius_x=4, radius_y=4, sweep=True)
+--- before/bus_front_6be3bbdd_720f_407c_af2d_59983752017d.py
++++ icon_set/model/icons/solo/bus_front_6be3bbdd_720f_407c_af2d_59983752017d.py
+@@ -17,8 +17,10 @@
+     keywords = ('bus', 'front', 'public transport', 'coach', 'vehicle', 'transit', 'commute', 'head-on')
+ 
+     def build(self) -> None:
+-        self.add_line('body-top-0',(12, 6),(36, 6))
+-        self.add_arc('body-top-corner',(36, 6),(40, 8),radius_x=4)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_line('body-top-0',(12, 4),(36, 4))
++        self.add_arc('body-top-corner',(36, 4),(40, 8),radius_x=4)
+         self.add_line('body-right-0',(40, 8),(40, 18))
+         self.add_line('body-right-1',(40, 18),(40, 34))
+         self.add_arc('body-right-corner',(40, 34),(36, 38),radius_x=4)
+@@ -28,7 +30,7 @@
+         self.add_arc('body-bottom-corner',(12, 38),(8, 34),radius_x=4)
+         self.add_line('body-left-0',(8, 34),(8, 18))
+         self.add_line('body-left-1',(8, 18),(8, 8))
+-        self.add_arc('body-left-corner',(8, 8),(12, 6),radius_x=4)
++        self.add_arc('body-left-corner',(8, 8),(12, 4),radius_x=4)
+         self.add_contour('body','body-top-0','body-top-corner','body-right-0','body-right-1','body-right-corner','body-bottom-0','body-bottom-1','body-bottom-2','body-bottom-corner','body-left-0','body-left-1','body-left-corner',closed=True)
+ 
+         self.add_line('windscreen',(8,18),(40,18))
+--- before/butterfly_6513dce9_94c3_521f_bfe4_c6dbfe9da85e.py
++++ icon_set/model/icons/solo/butterfly_6513dce9_94c3_521f_bfe4_c6dbfe9da85e.py
+@@ -17,21 +17,23 @@
+     keywords = ('butterfly', 'insect', 'wings', 'antennae', 'nature', 'spring', 'moth', 'symmetry')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # SQUARE centerline extremes recorded in batch-02-review.md.
+         self.add_arc('left-upper-in', (24, 22), (12, 10), radius_x=12, radius_y=12, sweep=False)
+-        self.add_arc('left-upper-out', (12, 10), (6, 20), radius_x=10, radius_y=10, sweep=False)
+-        self.add_arc('left-shoulder', (6, 20), (12, 30), radius_x=10, radius_y=10, sweep=False)
+-        self.add_arc('left-lower-out', (12, 30), (6, 38), radius_x=8, radius_y=8, sweep=False)
+-        self.add_arc('left-lower-base', (6, 38), (14, 42), radius_x=8, radius_y=8, sweep=False)
+-        self.add_arc('left-lower-in', (14, 42), (24, 36), radius_x=10, radius_y=10, sweep=False)
++        self.add_arc('left-upper-out', (12, 10), (6, 20), radius_x=6, radius_y=10, sweep=False)
++        self.add_arc('left-shoulder', (6, 20), (12, 30), radius_x=6, radius_y=10, sweep=False)
++        self.add_arc('left-lower-out', (12, 30), (6, 38), radius_x=6, radius_y=8, sweep=False)
++        self.add_arc('left-lower-base', (6, 38), (14, 42), radius_x=8, radius_y=4, sweep=False)
++        self.add_arc('left-lower-in', (14, 42), (24, 36), radius_x=10, radius_y=6, sweep=False)
+         self.add_contour('left-wing', 'left-upper-in', 'left-upper-out', 'left-shoulder', 'left-lower-out', 'left-lower-base', 'left-lower-in', closed=False)
+         self.add_arc('left-antenna', (24, 22), (12, 6), radius_x=20, radius_y=20, sweep=False)
+         self.add_arc('right-upper-in', (24, 22), (36, 10), radius_x=12, radius_y=12, sweep=True)
+-        self.add_arc('right-upper-out', (36, 10), (42, 20), radius_x=10, radius_y=10, sweep=True)
+-        self.add_arc('right-shoulder', (42, 20), (36, 30), radius_x=10, radius_y=10, sweep=True)
+-        self.add_arc('right-lower-out', (36, 30), (42, 38), radius_x=8, radius_y=8, sweep=True)
+-        self.add_arc('right-lower-base', (42, 38), (34, 42), radius_x=8, radius_y=8, sweep=True)
+-        self.add_arc('right-lower-in', (34, 42), (24, 36), radius_x=10, radius_y=10, sweep=True)
++        self.add_arc('right-upper-out', (36, 10), (42, 20), radius_x=6, radius_y=10, sweep=True)
++        self.add_arc('right-shoulder', (42, 20), (36, 30), radius_x=6, radius_y=10, sweep=True)
++        self.add_arc('right-lower-out', (36, 30), (42, 38), radius_x=6, radius_y=8, sweep=True)
++        self.add_arc('right-lower-base', (42, 38), (34, 42), radius_x=8, radius_y=4, sweep=True)
++        self.add_arc('right-lower-in', (34, 42), (24, 36), radius_x=10, radius_y=6, sweep=True)
+         self.add_contour('right-wing', 'right-upper-in', 'right-upper-out', 'right-shoulder', 'right-lower-out', 'right-lower-base', 'right-lower-in', closed=False)
+         self.add_arc('right-antenna', (24, 22), (36, 6), radius_x=20, radius_y=20, sweep=True)
+         self.add_line('body', (24, 22), (24, 36))
+--- before/camel_pose_89df2d47_dd44_58e7_a2f9_f8f36667b21c.py
++++ icon_set/model/icons/solo/camel_pose_89df2d47_dd44_58e7_a2f9_f8f36667b21c.py
+@@ -16,12 +16,16 @@
+     keywords = ('camel', 'pose', 'yoga', 'exercise')
+ 
+     def build(self):
+-        self.add_arc('head-top', (34, 7), (40, 7), radius_x=3, radius_y=3, sweep=True)
+-        self.add_arc('head-bottom', (40, 7), (34, 7), radius_x=3, radius_y=3, sweep=True)
++        # Human reference: human_ref/full_body_ref.png, kneeling pose.
++        # Head center (34,10), radius 6; body top (34,24): ink gap exactly 4.
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('head-top', (28, 10), (40, 10), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('head-bottom', (40, 10), (28, 10), radius_x=6, radius_y=6, sweep=True)
+         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+-        self.add_arc('arched-back', (30, 19), (8, 41), radius_x=22, radius_y=22, sweep=False)
+-        self.add_arc('knee', (8, 41), (11, 42), radius_x=3, radius_y=3, sweep=False)
+-        self.add_line('shin', (11, 42), (22, 42))
++        self.add_arc('arched-back', (34, 24), (8, 41), radius_x=26, radius_y=17, sweep=False)
++        self.add_arc('knee', (8, 41), (11, 44), radius_x=3, radius_y=3, sweep=False)
++        self.add_line('shin', (11, 44), (22, 44))
+         self.add_contour('body', 'arched-back', 'knee', 'shin', closed=False)
+-        self.add_line('arm', (30, 19), (30, 42))
++        self.add_line('arm', (34, 24), (34, 44))
+         self.relate("connect", 'body', 'arm')
+--- before/caterpillar_toy_b5c1ac54_b49a_4df4_acfe_b33a9fa9b695.py
++++ icon_set/model/icons/solo/caterpillar_toy_b5c1ac54_b49a_4df4_acfe_b33a9fa9b695.py
+@@ -17,6 +17,8 @@
+     keywords = ('caterpillar', 'toy', 'infant', 'nursery')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Centerline extremes: (6,6)-(42,42).
+         self.add_arc('head-top', (6, 16), (22, 16), radius_x=10, radius_y=10, sweep=True, large_arc=False)
+         self.add_arc('head-bottom', (22, 16), (6, 16), radius_x=10, radius_y=10, sweep=True, large_arc=False)
+@@ -25,9 +27,9 @@
+         self.add_arc('body-lower', (34, 28), (22, 40), radius_x=12, radius_y=12, sweep=True, large_arc=False)
+         self.add_arc('body-front', (22, 40), (12, 26), radius_x=10, radius_y=14, sweep=True, large_arc=False)
+         self.add_contour('body', 'body-upper', 'body-lower', 'body-front', closed=False)
+-        self.add_arc('tail-top', (34, 28), (42, 37), radius_x=12, radius_y=9, sweep=True, large_arc=False)
+-        self.add_arc('tail-tip', (42, 37), (37, 42), radius_x=9, radius_y=9, sweep=True, large_arc=False)
+-        self.add_arc('tail-bottom', (37, 42), (22, 40), radius_x=15, radius_y=6, sweep=True, large_arc=False)
++        self.add_arc('tail-top', (34, 28), (42, 37), radius_x=8, radius_y=9, sweep=True, large_arc=False)
++        self.add_arc('tail-tip', (42, 37), (37, 42), radius_x=5, radius_y=5, sweep=True, large_arc=False)
++        self.add_arc('tail-bottom', (37, 42), (22, 40), radius_x=15, radius_y=2, sweep=True, large_arc=False)
+         self.add_contour('tail', 'tail-top', 'tail-tip', 'tail-bottom', closed=False)
+         self.add_polyline('antenna-left', (6, 8), (6, 6))
+         self.add_polyline('antenna-right', (18, 8), (22, 6))
+--- before/chevron_marker_board_88cc82e8_6bf8_4a2c_bd7b_cc0bddf04d43.py
++++ icon_set/model/icons/solo/chevron_marker_board_88cc82e8_6bf8_4a2c_bd7b_cc0bddf04d43.py
+@@ -7,7 +7,7 @@
+ 
+ class ChevronMarkerBoard(Solo48):
+     icon_id = 'chevron-marker-board'
+-    keyshape = Keyshape.VRECT_XL
++    keyshape = Keyshape.VRECT_L
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "objects/transportation"
+@@ -15,15 +15,17 @@
+     keywords = ('chevron', 'marker', 'guide', 'road marker', 'reflector', 'direction', 'sign', 'light guide')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Current contract centerline extremes: (8,6)-(40,42).
+-        self.add_line('top',(12,6),(36,6))
+-        self.add_arc('tr',(36,6),(40,8),radius_x=4)
++        self.add_line('top',(12, 4),(36, 4))
++        self.add_arc('tr',(36, 4),(40,8),radius_x=4)
+         self.add_polyline('right',(40,8),(40,24),(40,38),(40,40))
+-        self.add_arc('br',(40,40),(36,42),radius_x=4)
+-        self.add_line('bottom',(36,42),(12,42))
+-        self.add_arc('bl',(12,42),(8,40),radius_x=4)
++        self.add_arc('br',(40,40),(36, 44),radius_x=4)
++        self.add_line('bottom',(36, 44),(12, 44))
++        self.add_arc('bl',(12, 44),(8,40),radius_x=4)
+         self.add_polyline('left',(8,40),(8,38),(8,24),(8,8))
+-        self.add_arc('tl',(8,8),(12,6),radius_x=4)
++        self.add_arc('tl',(8,8),(12, 4),radius_x=4)
+         self.relate('connect','top','tr')
+         self.relate('connect','tr','right')
+         self.relate('connect','right','br')
+--- before/clapperboard_plain_8a8cf377_eae0_4a60_a2fd_be61a02a94d5.py
++++ icon_set/model/icons/solo/clapperboard_plain_8a8cf377_eae0_4a60_a2fd_be61a02a94d5.py
+@@ -23,19 +23,21 @@
+     keywords = ('clapperboard', 'film', 'movie', 'cinema', 'video', 'production', 'slate', 'scene')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('top-1', (8, 8), (28, 8))
+         self.add_line('top-2', (28, 8), (40, 8))
+-        self.add_arc('ne', (40, 8), (42, 12), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('right-1', (42, 12), (42, 18))
+-        self.add_line('right-2', (42, 18), (42, 36))
+-        self.add_arc('se', (42, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('ne', (40, 8), (44, 12), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('right-1', (44, 12), (44, 18))
++        self.add_line('right-2', (44, 18), (44, 36))
++        self.add_arc('se', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('bottom', (40, 40), (8, 40))
+-        self.add_arc('sw', (8, 40), (6, 36), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('left-1', (6, 36), (6, 18))
+-        self.add_line('left-2', (6, 18), (6, 12))
+-        self.add_arc('nw', (6, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('sw', (8, 40), (4, 36), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('left-1', (4, 36), (4, 18))
++        self.add_line('left-2', (4, 18), (4, 12))
++        self.add_arc('nw', (4, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
+         self.add_contour('board', 'top-1', 'top-2', 'ne', 'right-1', 'right-2', 'se', 'bottom', 'sw', 'left-1', 'left-2', 'nw', closed=True)
+-        self.add_polyline('band', (6, 18), (20, 18), (42, 18))
++        self.add_polyline('band', (4, 18), (20, 18), (44, 18))
+         self.add_line('stripe', (20, 18), (28, 8))
+         self.relate("connect", 'board', 'band')
+         self.relate("connect", 'board', 'stripe')
+--- before/climbing_airplane_rounded_nose_8fe19626_3dae_5f95_be02_4dbe10f65534.py
++++ icon_set/model/icons/solo/climbing_airplane_rounded_nose_8fe19626_3dae_5f95_be02_4dbe10f65534.py
+@@ -21,6 +21,8 @@
+     keywords = ('airplane', 'plane', 'flight', 'climbing', 'aircraft', 'departure', 'aviation', 'travel')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         runs = {}
+         def run(name, *points):
+          ids = []
+@@ -29,13 +31,13 @@
+           self.add_line(part,a,b)
+           ids.append(part)
+          runs[name] = ids
+-        # HRECT_L extremes (6,8)-(42,40); coherent curved belly and round nose.
+-        run('upper-body',(6,21),(12,19),(16,24),(20,22),(29,18),(35,16))
+-        self.add_arc('nose',(35,16),(42,22),radius_x=9,radius_y=6)
+-        self.add_arc('chin',(42,22),(40,26),radius_x=4)
++        # HRECT_L centerline extremes (4,8)-(44,40); coherent curved belly and round nose.
++        run('upper-body',(4, 21),(10,19),(14,25),(23,20),(12,10),(22,8),(33,18),(35,16))
++        self.add_arc('nose',(35,16),(44, 22),radius_x=9,radius_y=6)
++        self.add_arc('chin',(44, 22),(40,26),radius_x=4)
+         run('lower-body',(40,26),(30,29),(25,40),(15,40),(19,30),(13,34))
+         self.add_arc('belly',(13,34),(7,30),radius_x=8)
+-        self.add_line('tail-close',(7,30),(6,21))
++        self.add_line('tail-close',(7,30),(4, 21))
+         self.add_contour('outline',*runs['upper-body'],'nose','chin',*runs['lower-body'],'belly','tail-close',closed=True)
+-        self.add_polyline('far-wing',(20,22),(9,10),(18,8),(29,18))
+-        self.relate('connect','outline','far-wing')
++        # The far wing is part of the silhouette; its redundant crossing seam
++        # is omitted so the tail/wing junction does not create tiny counters.
+--- before/clipboard_empty_0589c841_d5e2_4af8_8589_318d524088fe.py
++++ icon_set/model/icons/solo/clipboard_empty_0589c841_d5e2_4af8_8589_318d524088fe.py
+@@ -23,15 +23,17 @@
+     keywords = ('clipboard', 'board', 'notes', 'document', 'list', 'paper', 'office', 'task')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_arc('clip-top', (16, 12), (32, 12), radius_x=8, radius_y=8, sweep=True)
+         self.add_arc('clip-bottom', (32, 12), (16, 12), radius_x=8, radius_y=8, sweep=True)
+         self.add_contour('clip', 'clip-top', 'clip-bottom', closed=True)
+         self.add_line('top-right', (32, 12), (36, 12))
+         self.add_arc('ne', (36, 12), (40, 16), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('right', (40, 16), (40, 40))
+-        self.add_arc('se', (40, 40), (36, 42), radius_x=4, radius_y=4, sweep=True)
+-        self.add_line('bottom', (36, 42), (12, 42))
+-        self.add_arc('sw', (12, 42), (8, 40), radius_x=4, radius_y=4, sweep=True)
++        self.add_arc('se', (40, 40), (36, 44), radius_x=4, radius_y=4, sweep=True)
++        self.add_line('bottom', (36, 44), (12, 44))
++        self.add_arc('sw', (12, 44), (8, 40), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('left', (8, 40), (8, 16))
+         self.add_arc('nw', (8, 16), (12, 12), radius_x=4, radius_y=4, sweep=True)
+         self.add_line('top-left', (12, 12), (16, 12))
+--- before/clouds_wavy_mist_c8038333_61a4_4ef0_b9e5_a2c178d69a5a.py
++++ icon_set/model/icons/solo/clouds_wavy_mist_c8038333_61a4_4ef0_b9e5_a2c178d69a5a.py
+@@ -12,7 +12,7 @@
+ 
+ class CloudsWavyMist(Solo48):
+     icon_id = 'clouds-wavy-mist'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.HRECT_L
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "objects/weather"
+@@ -20,6 +20,8 @@
+     keywords = ('cloud', 'mist', 'haze', 'overcast', 'weather', 'atmosphere')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Live HRECT_XL visible bounds: (2, 6, 46, 42).
+         self.add_arc('front-left', (12, 28), (12, 18), radius_x=8, radius_y=5, sweep=True, large_arc=False)
+         self.add_arc('front-crown-left', (12, 18), (20, 12), radius_x=8, radius_y=6, sweep=True)
+@@ -31,7 +33,7 @@
+         self.add_arc('back-side', (36, 12), (36, 24), radius_x=8, radius_y=6, sweep=True, large_arc=False)
+         self.add_line('back-return', (36, 24), (36, 24))
+         self.add_contour('back', 'back-top', 'back-side', 'back-return', closed=False)
+-        self.add_arc('mist-a', (6, 38), (24, 38), radius_x=10, radius_y=2, sweep=False, large_arc=False)
+-        self.add_arc('mist-b', (24, 38), (42, 38), radius_x=10, radius_y=2, sweep=True, large_arc=False)
++        self.add_arc('mist-a', (6, 38), (24, 38), radius_x=9, radius_y=2, sweep=False, large_arc=False)
++        self.add_arc('mist-b', (24, 38), (42, 38), radius_x=9, radius_y=2, sweep=True, large_arc=False)
+         self.add_contour('mist', 'mist-a', 'mist-b', closed=False)
+         self.relate("connect", "front", "back")
+--- before/cockatoo_9442c76e_74c3_56b2_8dda_349c7fd38db5.py
++++ icon_set/model/icons/solo/cockatoo_9442c76e_74c3_56b2_8dda_349c7fd38db5.py
+@@ -7,7 +7,7 @@
+ 
+ class Cockatoo(Solo48):
+     icon_id = 'cockatoo'
+-    keyshape = Keyshape.VRECT_XL
++    keyshape = Keyshape.VRECT_L
+     semantic_role = 'MAIN'
+     semantic_kind = 'noun'
+     category = 'nature/animals'
+@@ -15,15 +15,17 @@
+     keywords = ('cockatoo',)
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # VRECT_XL centerline extremes (6,6)-(42,42). Enlarged head portrait.
+-        self.add_arc('nape', (6,42), (10,19), radius_x=5, radius_y=27)
+-        self.add_line('crest-back', (10,19), (6,6))
+-        self.add_arc('crest-top', (6,6), (23,10), radius_x=18, radius_y=8)
++        self.add_arc('nape', (8, 44), (10,19), radius_x=2, radius_y=25)
++        self.add_line('crest-back', (10,19), (8, 4))
++        self.add_arc('crest-top', (8, 4), (23,10), radius_x=15, radius_y=6)
+         self.add_arc('crown', (23,10), (35,22), radius_x=12)
+-        self.add_arc('beak-top', (35,22), (42,30), radius_x=8)
+-        self.add_arc('beak-hook', (42,30), (35,38), radius_x=8)
++        self.add_arc('beak-top', (35,22), (40, 30), radius_x=5, radius_y=8)
++        self.add_arc('beak-hook', (40, 30), (35,38), radius_x=5, radius_y=8)
+         self.add_line('beak-inner', (35,38), (35,30))
+-        self.add_arc('chin', (35,30), (23,42), radius_x=12)
+-        self.add_line('neck', (23,42), (23,42))
++        self.add_arc('chin', (35,30), (23, 44), radius_x=12, radius_y=14)
++        self.add_line('neck', (23, 44), (23, 44))
+         self.add_contour('outline', 'nape','crest-back','crest-top','crown','beak-top','beak-hook','beak-inner','chin','neck')
+         self.add_dot('eye', (24,23))
+--- before/cow_cb85044f_327b_4e51_b138_6ce8832a4242.py
++++ icon_set/model/icons/solo/cow_cb85044f_327b_4e51_b138_6ce8832a4242.py
+@@ -17,11 +17,13 @@
+     keywords = ('cow', 'cattle', 'head', 'ears', 'muzzle', 'farm', 'bovine', 'dairy')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Visible bounds: (0, 0, 48, 48); centerline inset 2.
+         self.add_arc('crown', (14, 16), (34, 16), radius_x=10, radius_y=8, sweep=True)
+         self.add_line('cheek-left', (14, 16), (16, 37))
+         self.add_line('cheek-right', (34, 16), (32, 37))
+-        self.add_arc('muzzle-bottom', (32, 37), (16, 37), radius_x=8, radius_y=9, sweep=True)
++        self.add_arc('muzzle-bottom', (32, 37), (16, 37), radius_x=8, radius_y=5, sweep=True)
+         self.add_contour('head', 'cheek-left', closed=False)
+         self.add_contour('right', 'cheek-right', 'muzzle-bottom', closed=False)
+         self.relate("connect", 'crown', 'head')
+@@ -32,15 +34,15 @@
+         self.relate("connect", 'muzzle-top', 'right')
+         self.add_arc('horn-left', (24, 8), (6, 6), radius_x=19, radius_y=6, sweep=True)
+         self.relate("connect", 'horn-left', 'crown')
+-        self.add_arc('ear-left', (14, 16), (6, 27), radius_x=12, radius_y=11, sweep=False)
+-        self.add_arc('ear-bottom-left', (6, 27), (13, 28), radius_x=12, radius_y=5, sweep=False)
++        self.add_arc('ear-left', (14, 16), (6, 27), radius_x=8, radius_y=11, sweep=False)
++        self.add_arc('ear-bottom-left', (6, 27), (13, 28), radius_x=7, radius_y=1, sweep=False)
+         self.relate("connect", 'ear-left', 'ear-bottom-left')
+         self.relate("connect", 'ear-left', 'crown')
+         self.relate("connect", 'ear-left', 'head')
+         self.add_arc('horn-right', (24, 8), (42, 6), radius_x=19, radius_y=6, sweep=False)
+         self.relate("connect", 'horn-right', 'crown')
+-        self.add_arc('ear-right', (34, 16), (42, 27), radius_x=12, radius_y=11, sweep=True)
+-        self.add_arc('ear-bottom-right', (42, 27), (35, 28), radius_x=12, radius_y=5, sweep=True)
++        self.add_arc('ear-right', (34, 16), (42, 27), radius_x=8, radius_y=11, sweep=True)
++        self.add_arc('ear-bottom-right', (42, 27), (35, 28), radius_x=7, radius_y=1, sweep=True)
+         self.relate("connect", 'ear-right', 'ear-bottom-right')
+         self.relate("connect", 'ear-right', 'crown')
+         self.relate("connect", 'ear-right', 'right')
+--- before/cpp_text_fe40b320_52ca_41ee_9fde_5c659d270f28.py
++++ icon_set/model/icons/solo/cpp_text_fe40b320_52ca_41ee_9fde_5c659d270f28.py
+@@ -23,12 +23,14 @@
+     keywords = ('c++', 'cpp', 'code', 'programming', 'language', 'development', 'text', 'software')
+ 
+     def build(self) -> None:
+-        self.add_arc('c-upper', (14, 8), (6, 24), radius_x=10, radius_y=16, sweep=False)
+-        self.add_arc('c-lower', (6, 24), (14, 40), radius_x=10, radius_y=16, sweep=False)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('c-upper', (14, 8), (4, 24), radius_x=10, radius_y=16, sweep=False)
++        self.add_arc('c-lower', (4, 24), (14, 40), radius_x=10, radius_y=16, sweep=False)
+         self.add_contour('c', 'c-upper', 'c-lower')
+         self.add_polyline('plus-one-h', (20, 24), (24, 24), (28, 24))
+         self.add_polyline('plus-one-v', (24, 20), (24, 24), (24, 28))
+         self.relate("connect", 'plus-one-h', 'plus-one-v')
+-        self.add_polyline('plus-two-h', (36, 24), (40, 24), (42, 24))
++        self.add_polyline('plus-two-h', (36, 24), (40, 24), (44, 24))
+         self.add_polyline('plus-two-v', (40, 20), (40, 24), (40, 28))
+         self.relate("connect", 'plus-two-h', 'plus-two-v')
+--- before/chicken_body_ebb7d89a_2d4a_5589_bf87_f5864b4b5ccf.py
++++ icon_set/model/icons/solo/chicken_body_ebb7d89a_2d4a_5589_bf87_f5864b4b5ccf.py
+@@ -17,6 +17,8 @@
+     keywords = ('chicken', 'hen', 'bird', 'crest', 'beak', 'perch', 'farm', 'poultry')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # SQUARE visible (6,6)-(42,42); centerlines (6,6)-(42,42).
+         self.add_line('tail', (6,22), (8,22))
+         self.add_arc('tail-turn', (8,22), (12,26), radius_x=4)
+@@ -34,7 +36,7 @@
+         self.add_line('back-bottom', (16,28), (12,28))
+         self.add_contour('body', 'belly-left', 'belly-right', 'breast', 'bill-bottom', 'bill-top', 'head-right', 'head-left', 'back', 'back-turn', 'back-bottom', closed=True)
+         self.relate('connect', 'tail-shape', 'body')
+-        self.add_arc('crest', (31,8), (25,6), radius_x=6, sweep=False)
++        self.add_arc('crest', (31,8), (25,6), radius_x=6, sweep=False, radius_y=2)
+         self.relate('connect', 'crest', 'body')
+         self.add_line('leg', (26,40), (26,42))
+         self.relate('connect', 'leg', 'body')
+--- before/css_text_4e86ad2e_5a24_449c_8379_d7e832726bb6.py
++++ icon_set/model/icons/solo/css_text_4e86ad2e_5a24_449c_8379_d7e832726bb6.py
+@@ -23,10 +23,12 @@
+     keywords = ('css', 'code', 'stylesheet', 'web', 'development', 'programming', 'text', 'language')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('c-top', (14, 8), (10, 8))
+-        self.add_arc('c-nw', (10, 8), (6, 14), radius_x=6, radius_y=6, sweep=False)
+-        self.add_line('c-left', (6, 14), (6, 34))
+-        self.add_arc('c-sw', (6, 34), (10, 40), radius_x=6, radius_y=6, sweep=False)
++        self.add_arc('c-nw', (10, 8), (4, 14), radius_x=6, radius_y=6, sweep=False)
++        self.add_line('c-left', (4, 14), (4, 34))
++        self.add_arc('c-sw', (4, 34), (10, 40), radius_x=6, radius_y=6, sweep=False)
+         self.add_line('c-bottom', (10, 40), (14, 40))
+         self.add_contour('c', 'c-top', 'c-nw', 'c-left', 'c-sw', 'c-bottom')
+         self.add_line('s-first-top', (29, 8), (26, 8))
+@@ -34,7 +36,7 @@
+         self.add_arc('s-first-lower', (26, 24), (26, 40), radius_x=3, radius_y=8, sweep=True)
+         self.add_line('s-first-foot', (26, 40), (23, 40))
+         self.add_contour('s-first', 's-first-top', 's-first-upper', 's-first-lower', 's-first-foot')
+-        self.add_line('s-second-top', (42, 8), (41, 8))
++        self.add_line('s-second-top', (44, 8), (41, 8))
+         self.add_arc('s-second-upper', (41, 8), (41, 24), radius_x=3, radius_y=8, sweep=False)
+         self.add_arc('s-second-lower', (41, 24), (41, 40), radius_x=3, radius_y=8, sweep=True)
+         self.add_line('s-second-foot', (41, 40), (38, 40))
+--- before/dam_spillway_water_6e9836ef_b3e3_41e7_819a_f79c721f25ec.py
++++ icon_set/model/icons/solo/dam_spillway_water_6e9836ef_b3e3_41e7_819a_f79c721f25ec.py
+@@ -7,7 +7,7 @@
+ 
+ class DamSpillwayWater(Solo48):
+     icon_id = 'dam-spillway-water'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.HRECT_L
+     semantic_role = 'MAIN'
+     semantic_kind = 'noun'
+     category = 'objects/landmarks'
+@@ -15,10 +15,12 @@
+     keywords = ('dam', 'spillway', 'water', 'hydro', 'energy', 'flow', 'waterfall', 'renewable', 'power')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         for i, x in enumerate((7, 22, 37)):
+-            self.add_line(f'fall-{i}', (x, 5), (x, 25))
++            self.add_line(f'fall-{i}', (x, 8), (x, 25))
+             self.add_arc(f'foot-{i}', (x, 25), (x + 5, 30), radius_x=5, sweep=False)
+             self.add_contour(f'stream-{i}', f'fall-{i}', f'foot-{i}')
+-        self.add_arc('water-left', (6, 40), (24, 40), radius_x=11, radius_y=3, sweep=False)
+-        self.add_arc('water-right', (24, 40), (42, 40), radius_x=11, radius_y=3, sweep=False)
++        self.add_arc('water-left', (4, 38), (24, 38), radius_x=10, radius_y=2, sweep=False)
++        self.add_arc('water-right', (24, 38), (44, 38), radius_x=10, radius_y=2, sweep=False)
+         self.add_contour('water', 'water-left', 'water-right')
+--- before/dashed_window_with_ornament_bar_05cd527a_cbae_5492_b42f_f1fc82a8b542.py
++++ icon_set/model/icons/solo/dashed_window_with_ornament_bar_05cd527a_cbae_5492_b42f_f1fc82a8b542.py
+@@ -15,6 +15,8 @@
+     keywords = ('window', 'ornament', 'toolbar', 'dashed', 'spatial', 'interface', 'placeholder')
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         def line(n,a,b): self.add_line(n,a,b)
+         def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
+         def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+@@ -30,11 +32,11 @@
+             line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
+             line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
+             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
+-        line('tl-top',(10,8),(14,8));arc('tl',(6,14),(10,8),6)
+-        line('tl-side',(6,20),(6,14));contour('top-left','tl-side','tl','tl-top')
+-        line('tr-top',(34,8),(38,8));arc('tr',(38,8),(42,14),6)
+-        line('tr-side',(42,14),(42,20));contour('top-right','tr-top','tr','tr-side')
++        line('tl-top',(10,8),(14,8));arc('tl',(4, 14),(10,8),6)
++        line('tl-side',(4, 20),(4, 14));contour('top-left','tl-side','tl','tl-top')
++        line('tr-top',(34,8),(38,8));arc('tr',(38,8),(44, 14),6)
++        line('tr-side',(44, 14),(44, 20));contour('top-right','tr-top','tr','tr-side')
+         self.add_dot('top-dash',(24,8))
+-        arc('bl',(6,30),(10,36),6,sweep=False);line('bl-end',(10,36),(14,36));contour('bottom-left','bl','bl-end')
+-        arc('br',(38,36),(42,30),6,sweep=False);line('br-start',(34,36),(38,36));contour('bottom-right','br-start','br')
++        arc('bl',(4, 30),(10,36),6,sweep=False);line('bl-end',(10,36),(14,36));contour('bottom-left','bl','bl-end')
++        arc('br',(38,36),(44, 30),6,sweep=False);line('br-start',(34,36),(38,36));contour('bottom-right','br-start','br')
+         box('ornament',14,30,34,40,5);connect('ornament','bottom-left');connect('ornament','bottom-right')
+--- before/deer_antlers.py
++++ icon_set/model/icons/solo/deer_antlers.py
+@@ -16,22 +16,24 @@
+     keywords = ('antlers', 'deer', 'horns', 'stag', 'hunting', 'wildlife', 'rack', 'nature')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         """Opening repair: Removed the tiny folded-back tip strokes; retained the main antler beams and visible side tines."""
+-        self.add_line('left-base', (20, 42), (20, 39))
+-        self.add_arc('left-beam-low', (20, 39), (12, 24), radius_x=18, radius_y=18, sweep=False)
++        self.add_line('left-base', (19, 42), (19, 39))
++        self.add_arc('left-beam-low', (19, 39), (12, 24), radius_x=18, radius_y=18, sweep=False)
+         self.add_arc('left-beam-high', (12, 24), (7, 10), radius_x=22, radius_y=22, sweep=False)
+         self.add_line('left-tip', (7, 10), (7, 6))
+         self.add_contour('left-beam', 'left-base', 'left-beam-low', 'left-beam-high', 'left-tip', closed=False)
+-        self.add_arc('left-middle-tine', (12, 24), (6, 20), radius_x=10, radius_y=4, sweep=True)
++        self.add_arc('left-middle-tine', (12, 24), (6, 20), radius_x=6, radius_y=4, sweep=True)
+         self.relate('connect', 'left-middle-tine', 'left-beam')
+-        self.add_line('left-lower-tine', (20, 39), (11, 34))
++        self.add_line('left-lower-tine', (19, 39), (11, 34))
+         self.relate('connect', 'left-lower-tine', 'left-beam')
+-        self.add_line('right-base', (28, 42), (28, 39))
+-        self.add_arc('right-beam-low', (28, 39), (36, 24), radius_x=18, radius_y=18, sweep=True)
++        self.add_line('right-base', (29, 42), (29, 39))
++        self.add_arc('right-beam-low', (29, 39), (36, 24), radius_x=18, radius_y=18, sweep=True)
+         self.add_arc('right-beam-high', (36, 24), (41, 10), radius_x=22, radius_y=22, sweep=True)
+         self.add_line('right-tip', (41, 10), (41, 6))
+         self.add_contour('right-beam', 'right-base', 'right-beam-low', 'right-beam-high', 'right-tip', closed=False)
+-        self.add_arc('right-middle-tine', (36, 24), (42, 20), radius_x=10, radius_y=4, sweep=False)
++        self.add_arc('right-middle-tine', (36, 24), (42, 20), radius_x=6, radius_y=4, sweep=False)
+         self.relate('connect', 'right-middle-tine', 'right-beam')
+-        self.add_line('right-lower-tine', (28, 39), (37, 34))
++        self.add_line('right-lower-tine', (29, 39), (37, 34))
+         self.relate('connect', 'right-lower-tine', 'right-beam')
+--- before/diaper_65ae559e_2c84_5981_8ba7_39a805fd99ae.py
++++ icon_set/model/icons/solo/diaper_65ae559e_2c84_5981_8ba7_39a805fd99ae.py
+@@ -16,15 +16,17 @@
+ 
+     # Designed to centerline extremes (6, 8)–(42, 40).
+     def build(self) -> None:
+-        self.add_line('shell-1', (6, 8), (42, 8))
+-        self.add_line('shell-2', (42, 8), (42, 18))
+-        self.add_arc('shell-3', (42, 18), (24, 40), radius_x=22, radius_y=22, sweep=True)
+-        self.add_arc('shell-4', (24, 40), (6, 18), radius_x=22, radius_y=22, sweep=True)
+-        self.add_line('shell-5', (6, 18), (6, 8))
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_line('shell-1', (4, 8), (44, 8))
++        self.add_line('shell-2', (44, 8), (44, 18))
++        self.add_arc('shell-3', (44, 18), (24, 40), radius_x=20, radius_y=22, sweep=True)
++        self.add_arc('shell-4', (24, 40), (4, 18), radius_x=20, radius_y=22, sweep=True)
++        self.add_line('shell-5', (4, 18), (4, 8))
+         self.add_contour('shell', 'shell-1', 'shell-2', 'shell-3', 'shell-4', 'shell-5', closed=True)
+-        self.add_line('tab-left-1', (6, 18), (11, 18))
++        self.add_line('tab-left-1', (4, 18), (11, 18))
+         self.add_contour('tab-left', 'tab-left-1', closed=False)
+-        self.add_line('tab-right-1', (42, 18), (37, 18))
++        self.add_line('tab-right-1', (44, 18), (37, 18))
+         self.add_contour('tab-right', 'tab-right-1', closed=False)
+         self.relate("connect", "shell", "tab-left")
+         self.relate("connect", "shell", "tab-right")
+--- before/dragonfly.py
++++ icon_set/model/icons/solo/dragonfly.py
+@@ -16,6 +16,8 @@
+     keywords = ('dragonfly', 'insect', 'wings', 'symmetry', 'damselfly', 'bug', 'nature', 'pond')
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         """Opening repair: Rebuilt the head as a true circle; preserved all four wings and their divisions."""
+         self.add_arc('head-1', (24, 6), (24, 12), sweep=True, radius_x=3, radius_y=3)
+         self.add_arc('head-2', (24, 12), (24, 6), sweep=True, radius_x=3, radius_y=3)
+@@ -23,10 +25,10 @@
+         self.add_line('body', (24, 12), (24, 42))
+         self.relate('connect', 'head', 'body')
+         self.add_arc('wings-left-1', (24, 22), (12, 16), radius_x=14, radius_y=9, sweep=False)
+-        self.add_arc('wings-left-2', (12, 16), (6, 22), radius_x=10, radius_y=6, sweep=False)
+-        self.add_arc('wings-left-3', (6, 22), (10, 27), radius_x=8, radius_y=5, sweep=False)
++        self.add_arc('wings-left-2', (12, 16), (6, 22), radius_x=6, radius_y=6, sweep=False)
++        self.add_arc('wings-left-3', (6, 22), (10, 27), radius_x=4, radius_y=5, sweep=False)
+         self.add_line('wings-left-4', (10, 27), (6, 33))
+-        self.add_arc('wings-left-5', (6, 33), (11, 39), radius_x=6, radius_y=6, sweep=False)
++        self.add_arc('wings-left-5', (6, 33), (11, 39), radius_x=5, radius_y=6, sweep=False)
+         self.add_line('wings-left-6', (11, 39), (17, 39))
+         self.add_arc('wings-left-7', (17, 39), (24, 30), radius_x=7, radius_y=9, sweep=False)
+         self.add_line('wings-left-8', (24, 30), (24, 22))
+@@ -36,10 +38,10 @@
+         self.relate('connect', 'body', 'division-left')
+         self.relate('connect', 'body', 'wings-left')
+         self.add_arc('wings-right-1', (24, 22), (36, 16), radius_x=14, radius_y=9, sweep=True)
+-        self.add_arc('wings-right-2', (36, 16), (42, 22), radius_x=10, radius_y=6, sweep=True)
+-        self.add_arc('wings-right-3', (42, 22), (38, 27), radius_x=8, radius_y=5, sweep=True)
++        self.add_arc('wings-right-2', (36, 16), (42, 22), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('wings-right-3', (42, 22), (38, 27), radius_x=4, radius_y=5, sweep=True)
+         self.add_line('wings-right-4', (38, 27), (42, 33))
+-        self.add_arc('wings-right-5', (42, 33), (37, 39), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('wings-right-5', (42, 33), (37, 39), radius_x=5, radius_y=6, sweep=True)
+         self.add_line('wings-right-6', (37, 39), (31, 39))
+         self.add_arc('wings-right-7', (31, 39), (24, 30), radius_x=7, radius_y=9, sweep=True)
+         self.add_line('wings-right-8', (24, 30), (24, 22))
+--- before/dragonfly_d6685301_6b89_4411_b0fe_9a3e331aecd9.py
++++ icon_set/model/icons/solo/dragonfly_d6685301_6b89_4411_b0fe_9a3e331aecd9.py
+@@ -17,6 +17,8 @@
+     keywords = ('dragonfly', 'insect', 'wings', 'eyes', 'damselfly', 'bug', 'nature', 'pond')
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_arc('eye-left-1', (21, 6), (21, 8), radius_x=3, radius_y=3, sweep=True)
+         self.add_arc('eye-left-2', (21, 8), (21, 6), radius_x=3, radius_y=3, sweep=True)
+         self.add_contour('eye-left', 'eye-left-1', 'eye-left-2', closed=True)
+@@ -28,21 +30,21 @@
+         self.relate("connect", 'body', 'eye-left')
+         self.relate("connect", 'body', 'eye-right')
+         self.add_line('upper-left-1', (24, 17), (6, 12))
+-        self.add_arc('upper-left-2', (6, 12), (9, 24), radius_x=7, radius_y=12, sweep=False)
++        self.add_arc('upper-left-2', (6, 12), (9, 24), radius_x=3, radius_y=12, sweep=False)
+         self.add_line('upper-left-3', (9, 24), (24, 17))
+         self.add_contour('upper-left', 'upper-left-1', 'upper-left-2', 'upper-left-3', closed=True)
+         self.add_line('lower-left-1', (24, 27), (6, 34))
+-        self.add_arc('lower-left-2', (6, 34), (13, 40), radius_x=10, radius_y=6, sweep=False)
++        self.add_arc('lower-left-2', (6, 34), (13, 40), radius_x=7, radius_y=6, sweep=False)
+         self.add_line('lower-left-3', (13, 40), (24, 27))
+         self.add_contour('lower-left', 'lower-left-1', 'lower-left-2', 'lower-left-3', closed=True)
+         self.relate("connect", 'body', 'upper-left')
+         self.relate("connect", 'body', 'lower-left')
+         self.add_line('upper-right-1', (24, 17), (42, 12))
+-        self.add_arc('upper-right-2', (42, 12), (39, 24), radius_x=7, radius_y=12, sweep=True)
++        self.add_arc('upper-right-2', (42, 12), (39, 24), radius_x=3, radius_y=12, sweep=True)
+         self.add_line('upper-right-3', (39, 24), (24, 17))
+         self.add_contour('upper-right', 'upper-right-1', 'upper-right-2', 'upper-right-3', closed=True)
+         self.add_line('lower-right-1', (24, 27), (42, 34))
+-        self.add_arc('lower-right-2', (42, 34), (35, 40), radius_x=10, radius_y=6, sweep=True)
++        self.add_arc('lower-right-2', (42, 34), (35, 40), radius_x=7, radius_y=6, sweep=True)
+         self.add_line('lower-right-3', (35, 40), (24, 27))
+         self.add_contour('lower-right', 'lower-right-1', 'lower-right-2', 'lower-right-3', closed=True)
+         self.relate("connect", 'body', 'upper-right')
+--- before/jellyfish_ef0702b0_d65f_5955_8954_f383064a984c.py
++++ icon_set/model/icons/solo/jellyfish_ef0702b0_d65f_5955_8954_f383064a984c.py
+@@ -17,14 +17,15 @@
+     keywords = ('jellyfish', 'drift', 'sea', 'ocean', 'marine', 'tentacles', 'bell', 'swim')
+ 
+     def build(self) -> None:
+-        self.add_arc('bell-top', (14, 6), (26, 6), radius_x=20, radius_y=20, sweep=True)
+-        self.add_arc('bell-right', (26, 6), (42, 22), radius_x=20, radius_y=20, sweep=True)
+-        self.add_arc('bell-bottom', (42, 22), (38, 38), radius_x=20, radius_y=20, sweep=True)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('bell-top', (14, 6), (42, 24), radius_x=28, radius_y=18, sweep=True)
++        self.add_arc('bell-bottom', (42, 24), (38, 38), radius_x=4, radius_y=14, sweep=True)
+         self.add_line('rim-0', (38, 38), (32, 30))
+         self.add_line('rim-1', (32, 30), (26, 22))
+         self.add_line('rim-2', (26, 22), (20, 14))
+         self.add_line('rim-3', (20, 14), (14, 6))
+-        self.add_contour('bell', 'bell-top', 'bell-right', 'bell-bottom', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
++        self.add_contour('bell', 'bell-top', 'bell-bottom', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
+         self.add_arc('tentacle-0', (20, 14), (6, 29), radius_x=40, radius_y=40, sweep=True)
+         self.relate("connect", 'bell', 'tentacle-0')
+         self.add_arc('tentacle-1', (26, 22), (10, 39), radius_x=40, radius_y=40, sweep=True)
+--- before/duck_silhouette_4cda3eae_34c4_5ab8_a48f_adebd3cb4042.py
++++ icon_set/model/icons/solo/duck_silhouette_4cda3eae_34c4_5ab8_a48f_adebd3cb4042.py
+@@ -15,17 +15,19 @@
+     keywords = ('duck', 'bird', 'rubber duck', 'toy', 'bath', 'silhouette', 'poultry', 'minimal')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_arc('head-back', (22, 18), (32, 8), radius_x=10, radius_y=10, sweep=True)
+         self.add_arc('crown', (32, 8), (40, 16), radius_x=8, radius_y=8, sweep=True)
+-        self.add_line('bill-1', (40, 16), (42, 16))
+-        self.add_line('bill-2', (42, 16), (42, 24))
+-        self.add_line('bill-bottom', (42,24), (40,24))
++        self.add_line('bill-1', (40, 16), (44, 16))
++        self.add_line('bill-2', (44, 16), (44, 24))
++        self.add_line('bill-bottom', (44, 24), (40,24))
+         self.add_dot('eye',(32,17))
+         self.add_line('breast', (40, 24), (40, 26))
+         self.add_arc('belly-right', (40, 26), (26, 40), radius_x=14, radius_y=14, sweep=True)
+         self.add_line('belly', (26, 40), (18, 40))
+-        self.add_arc('belly-left', (18, 40), (6, 24), radius_x=16, radius_y=16, sweep=True)
+-        self.add_line('tail', (6, 24), (7, 20))
++        self.add_arc('belly-left', (18, 40), (4, 24), radius_x=14, radius_y=16, sweep=True)
++        self.add_line('tail', (4, 24), (7, 20))
+         self.add_arc('scoop', (7, 20), (14, 27), radius_x=7, radius_y=7, sweep=False)
+         self.add_line('back', (14, 27), (19, 27))
+         self.add_arc('neck', (19, 27), (22, 24), radius_x=3, radius_y=3, sweep=False)
+--- before/wild_bird_eagle_a4eec1cf_c3e3_4378_acb6_422b50d1da15.py
++++ icon_set/model/icons/solo/wild_bird_eagle_a4eec1cf_c3e3_4378_acb6_422b50d1da15.py
+@@ -9,7 +9,7 @@
+ 
+ class EagleHead(Solo48):
+     icon_id = 'eagle-head'
+-    keyshape = Keyshape.HRECT_XL
++    keyshape = Keyshape.SQUARE
+     semantic_role = "MAIN"
+     semantic_kind = "noun"
+     category = "nature/animals"
+@@ -17,11 +17,13 @@
+     keywords = ('eagle', 'head', 'profile', 'beak', 'hawk', 'raptor', 'bird', 'wildlife')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('tuft', (6, 6), (25, 6))
+-        self.add_arc('crown', (25, 6), (36, 16), radius_x=11, radius_y=11, sweep=True)
++        self.add_arc('crown', (25, 6), (36, 16), radius_x=11, radius_y=10, sweep=True)
+         self.add_arc('face', (36, 16), (32, 26), radius_x=14, radius_y=14, sweep=True)
+         self.add_line('neck', (32, 26), (32, 37))
+-        self.add_arc('hem-right', (32, 37), (24, 42), radius_x=8, radius_y=6, sweep=True)
++        self.add_arc('hem-right', (32, 37), (24, 42), radius_x=8, radius_y=5, sweep=True)
+         self.add_line('feathers-1', (24, 42), (19, 39))
+         self.add_line('feathers-2', (19, 39), (14, 42))
+         self.add_line('feathers-3', (14, 42), (9, 39))
+@@ -30,7 +32,7 @@
+         self.add_line('feathers-6', (6, 19), (8, 13))
+         self.add_line('feathers-7', (8, 13), (6, 6))
+         self.add_contour('head', 'tuft', 'crown', 'face', 'neck', 'hem-right', 'feathers-1', 'feathers-2', 'feathers-3', 'feathers-4', 'feathers-5', 'feathers-6', 'feathers-7', closed=True)
+-        self.add_arc('beak-outer', (36, 16), (42, 30), radius_x=10, radius_y=14, sweep=True)
++        self.add_arc('beak-outer', (36, 16), (42, 30), radius_x=6, radius_y=14, sweep=True)
+         self.add_arc('beak-inner', (42, 30), (32, 26), radius_x=14, radius_y=8, sweep=False)
+         self.add_contour('beak', 'beak-outer', 'beak-inner', closed=False)
+         self.relate("connect", 'beak', 'head')
+--- before/elastic_load_balance_circle_b5811619_4d2e_4d0e_bd82_0ceb97f8b687.py
++++ icon_set/model/icons/solo/elastic_load_balance_circle_b5811619_4d2e_4d0e_bd82_0ceb97f8b687.py
+@@ -4,7 +4,7 @@
+ 
+ SOURCE_ICON_ID = 'b5811619-4d2e-4d0e-bd82-0ceb97f8b687'
+ SOURCE_PATH = 'icons-json/programing/elastic load balance circle_b5811619-4d2e-4d0e-bd82-0ceb97f8b687.json'
+-AUTHOR = 'json_to_solo'
++AUTHOR = 'gpt-6'
+ 
+ class ElasticLoadBalanceCircle(Solo48):
+     icon_id = 'elastic-load-balance-circle'
+@@ -15,42 +15,22 @@
+     aliases = ()
+     keywords = ('elastic', 'load', 'balance', 'circle', 'programing')
+ 
+-    def build(self):
+-        self.add_arc('sym-e0', (35, 24), (41, 24), radius_x=3)
+-        self.add_arc('sym-e1', (41, 24), (35, 24), radius_x=3)
+-        self.add_arc('sym-e2', (6, 24), (21, 24), radius_x=7)
+-        self.add_arc('sym-e3', (21, 24), (6, 24), radius_x=7)
+-        self.add_arc('sym-e4', (34, 10), (42, 10), radius_x=4)
+-        self.add_arc('sym-e5', (42, 10), (35, 13), radius_x=4)
+-        self.add_arc('sym-e6', (35, 13), (34, 10), radius_x=4)
+-        self.add_arc('sym-e7', (34, 38), (42, 38), radius_x=4, sweep=False)
+-        self.add_arc('sym-e8', (42, 38), (35, 35), radius_x=4, sweep=False)
+-        self.add_arc('sym-e9', (35, 35), (34, 38), radius_x=4, sweep=False)
+-        self.add_line('sym-e10', (35, 24), (34, 24))
+-        self.add_line('sym-e11', (34, 24), (23, 24))
+-        self.add_line('sym-e12', (23, 24), (21, 24))
+-        self.add_line('sym-e13', (21, 24), (22, 22))
+-        self.add_line('sym-e14', (22, 22), (34, 13))
+-        self.add_line('sym-e15', (34, 13), (35, 13))
+-        self.add_line('sym-e16', (21, 24), (22, 26))
+-        self.add_line('sym-e17', (22, 26), (34, 35))
+-        self.add_line('sym-e18', (34, 35), (35, 35))
+-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
+-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', closed=True)
+-        self.add_contour('sym-c2', 'sym-e4', 'sym-e5', 'sym-e6', closed=True)
+-        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9', closed=True)
+-        self.add_contour('sym-c4', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15')
+-        self.add_contour('sym-c5', 'sym-e16', 'sym-e17', 'sym-e18')
+-        self.relate('connect', 'sym-c0', 'sym-c4')
+-        self.relate('connect', 'sym-c1', 'sym-c4', 'sym-c5')
+-        self.relate('connect', 'sym-c2', 'sym-c4')
+-        self.relate('connect', 'sym-c3', 'sym-c5')
+-        self.relate('connect', 'sym-c4', 'sym-c5')
+-        self.relate('connect', 'sym-c1', 'sym-c4')
+-        self.relate('connect', 'sym-c1', 'sym-c4')
+-        self.relate('connect', 'sym-c1', 'sym-c5')
+-        self.relate('connect', 'sym-c1', 'sym-c4')
+-        self.relate('connect', 'sym-c0', 'sym-c4')
+-        self.relate('connect', 'sym-c0', 'sym-c4')
+-        self.relate('connect', 'sym-c3', 'sym-c5')
+-        self.relate('connect', 'sym-c2', 'sym-c4')
++    def build(self) -> None:
++        # Circular root plus a repeated pair of circular branch nodes.
++        # SQUARE extremes: root reaches x=6; branch circles reach x=42,y=6,42.
++        def circle(name, x, y, radius):
++            self.add_arc(name+'-a', (x-radius,y), (x+radius,y), radius_x=radius)
++            self.add_arc(name+'-b', (x+radius,y), (x-radius,y), radius_x=radius)
++            self.add_contour(name, name+'-a', name+'-b', closed=True)
++        circle('root', 14, 24, 8)
++        circle('middle', 38, 24, 3)
++        self.add_line('middle-branch', (22,24), (35,24))
++        self.relate('connect', 'root', 'middle-branch')
++        self.relate('connect', 'middle', 'middle-branch')
++        for name, y in [('upper',10), ('lower',38)]:
++            circle(name, 38, y, 4)
++            self.add_line(name+'-branch', (22,24), (34,y))
++            self.relate('connect', 'root', name+'-branch')
++            self.relate('connect', name, name+'-branch')
++            self.relate('connect', 'middle-branch', name+'-branch')
++        self.relate('connect', 'upper-branch', 'lower-branch')
+--- before/elephant_water_646538bd_5d21_575c_8567_ebb5fbaa5502.py
++++ icon_set/model/icons/solo/elephant_water_646538bd_5d21_575c_8567_ebb5fbaa5502.py
+@@ -17,10 +17,12 @@
+     keywords = ('elephant', 'spraying', 'water')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # SQUARE visible bounds (0, 0, 48, 48); centerlines (2, 2, 46, 46).
+-        self.add_arc('trunk-outer', (14, 12), (6, 28), radius_x=12, radius_y=16, sweep=False)
+-        self.add_arc('cheek', (6, 28), (12, 40), radius_x=10, radius_y=12, sweep=False)
+-        self.add_arc('neck', (12, 40), (18, 42), radius_x=6, radius_y=6, sweep=True)
++        self.add_arc('trunk-outer', (14, 12), (6, 28), radius_x=8, radius_y=16, sweep=False)
++        self.add_arc('cheek', (6, 28), (12, 40), radius_x=6, radius_y=12, sweep=False)
++        self.add_arc('neck', (12, 40), (18, 42), radius_x=6, radius_y=2, sweep=True)
+         self.add_contour('outside', 'trunk-outer', 'cheek', 'neck')
+         self.add_arc('trunk-tip', (14, 12), (16, 18), radius_x=3, radius_y=4, sweep=True)
+         self.add_arc('trunk-inside', (16, 18), (10, 26), radius_x=9, radius_y=10, sweep=False)
+@@ -29,9 +31,9 @@
+         self.add_arc('ear-top', (25, 27), (38, 33), radius_x=9, radius_y=9, sweep=True)
+         self.add_contour('raised', 'trunk-tip', 'trunk-inside', 'trunk-fold', 'brow', 'ear-top')
+         self.relate("connect", 'outside', 'raised')
+-        self.add_arc('ear-bottom', (38, 33), (27, 42), radius_x=11, radius_y=10, sweep=True)
++        self.add_arc('ear-bottom', (38, 33), (27, 42), radius_x=11, radius_y=9, sweep=True)
+         self.relate("connect", 'raised', 'ear-bottom')
+-        self.add_arc('back', (38, 33), (42, 41), radius_x=8, radius_y=8, sweep=True)
++        self.add_arc('back', (38, 33), (42, 41), radius_x=4, radius_y=8, sweep=True)
+         self.add_line('rump', (42, 41), (42, 42))
+         self.add_contour('body', 'back', 'rump')
+         self.relate("connect", 'raised', 'body')
+--- before/fetus_4fc6e6b7_6051_5189_a2f3_a325aceb58b2.py
++++ icon_set/model/icons/solo/fetus_4fc6e6b7_6051_5189_a2f3_a325aceb58b2.py
+@@ -8,7 +8,7 @@
+ 
+ class Fetus(Solo48):
+     icon_id = 'fetus'
+-    keyshape = Keyshape.VRECT_XL
++    keyshape = Keyshape.VRECT_L
+     semantic_role = 'MAIN'
+     semantic_kind = 'noun'
+     category = 'objects/maternity'
+@@ -16,20 +16,22 @@
+     keywords = ('fetus', 'pregnancy', 'unborn', 'womb', 'embryo', 'prenatal', 'baby', 'gestation')
+ 
+     def build(self) -> None:
+-        self.add_arc('head-right', (18,6), (31,15), radius_x=13)
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_arc('head-right', (18, 4), (31,15), radius_x=13, radius_y=11)
+         self.add_arc('chin', (31,15), (22,24), radius_x=9)
+         self.add_line('neck', (22,24), (19,24))
+-        self.add_arc('head-left', (6,15), (18,6), radius_x=13)
+-        self.add_line('back', (6,28), (6,15))
+-        self.add_arc('spine', (23,42), (6,28), radius_x=18)
+-        self.add_arc('tucked-leg', (33,41), (23,42), radius_x=13)
+-        self.add_line('ankle', (38,42), (33,41))
+-        self.add_arc('foot', (38,34), (38,42), radius_x=5)
++        self.add_arc('head-left', (8, 15), (18, 4), radius_x=10, radius_y=11)
++        self.add_line('back', (8, 28), (8, 15))
++        self.add_arc('spine', (23, 44), (8, 28), radius_x=15, radius_y=16)
++        self.add_arc('tucked-leg', (33,41), (23, 44), radius_x=10, radius_y=3)
++        self.add_line('ankle', (38, 44), (33,41))
++        self.add_arc('foot', (38,34), (38, 44), radius_x=2, radius_y=5)
+         self.add_arc('knee', (35,31), (38,34), radius_x=3)
+         self.add_contour('body', 'knee', 'foot', 'ankle', 'tucked-leg', 'spine', 'back', 'head-left', 'head-right', 'chin', 'neck')
+         self.add_line('upper-arm', (22,24), (27,27))
+         self.add_line('forearm-top', (27,27), (34,21))
+-        self.add_arc('hand', (34,21), (40,27), radius_x=5)
++        self.add_arc('hand', (34,21), (40,27), radius_x=6, radius_y=6)
+         self.add_line('forearm-bottom-a', (40,27), (35,31))
+         self.add_line('forearm-bottom-b', (35,31), (30,35))
+         self.add_arc('elbow', (30,35), (22,35), radius_x=7)
+--- before/fish_and_knife_90a8c206_2f73_4de0_bff5_b2af71b9dd6b.py
++++ icon_set/model/icons/solo/fish_and_knife_90a8c206_2f73_4de0_bff5_b2af71b9dd6b.py
+@@ -17,15 +17,17 @@
+     keywords = ('fish', 'knife', 'seafood', 'cooking', 'kitchen', 'fillet', 'food', 'butcher')
+ 
+     def build(self) -> None:
+-        self.add_line('knife-spine', (6,8), (32,8))
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
++        self.add_line('knife-spine', (4, 8), (32,8))
+         self.add_line('knife-bolster', (32,8), (32,17))
+         self.add_line('knife-edge', (32,17), (14,17))
+-        self.add_arc('knife-tip', (14,17), (6,8), radius_x=10, radius_y=9)
++        self.add_arc('knife-tip', (14,17), (4, 8), radius_x=10, radius_y=9)
+         self.add_contour('blade', 'knife-spine', 'knife-bolster', 'knife-edge', 'knife-tip', closed=True)
+-        self.add_line('handle', (32,8), (42,8))
++        self.add_line('handle', (32,8), (44, 8))
+         self.relate('connect', 'blade', 'handle')
+-        self.add_arc('fish-back', (16,33), (42,33), radius_x=14, radius_y=7)
+-        self.add_arc('fish-belly', (42,33), (16,33), radius_x=14, radius_y=7)
++        self.add_arc('fish-back', (16,33), (44, 33), radius_x=14, radius_y=7)
++        self.add_arc('fish-belly', (44, 33), (16,33), radius_x=14, radius_y=7)
+         self.add_contour('fish', 'fish-back', 'fish-belly', closed=True)
+-        self.add_polyline('tail', (16,33), (6,26), (6,40), (16,33))
++        self.add_polyline('tail', (16,33), (4, 26), (4, 40), (16,33))
+         self.relate('connect', 'fish', 'tail')
+--- before/five_leaf_hanging_vine.py
++++ icon_set/model/icons/solo/five_leaf_hanging_vine.py
+@@ -16,13 +16,15 @@
+     keywords = ('plant', 'decoration', 'foliage', 'indoor')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         """Opening repair: Broadened the upper-right and terminal leaves by changing each paired arc definition together."""
+-        self.add_polyline('stem', (24, 6), (24, 12), (24, 16), (24, 28), (24, 34))
+-        self.add_arc('upper-left-a', (8, 6), (24, 16), radius_x=16, radius_y=12)
+-        self.add_arc('upper-left-b', (24, 16), (8, 6), radius_x=16, radius_y=12)
++        self.add_polyline('stem', (24, 4), (24, 14), (24, 16), (24, 28), (24, 34))
++        self.add_arc('upper-left-a', (8, 4), (24, 16), radius_x=16, radius_y=12)
++        self.add_arc('upper-left-b', (24, 16), (8, 4), radius_x=16, radius_y=12)
+         self.add_contour('upper-left', 'upper-left-a', 'upper-left-b', closed=True)
+-        self.add_arc('upper-right-a', (24, 12), (40, 6), radius_x=11, radius_y=11)
+-        self.add_arc('upper-right-b', (40, 6), (24, 12), radius_x=11, radius_y=11)
++        self.add_arc('upper-right-a', (24, 14), (40, 4), radius_x=16, radius_y=10)
++        self.add_arc('upper-right-b', (40, 4), (24, 14), radius_x=16, radius_y=10)
+         self.add_contour('upper-right', 'upper-right-a', 'upper-right-b', closed=True)
+         self.add_arc('lower-left-a', (8, 22), (24, 34), radius_x=16, radius_y=12)
+         self.add_arc('lower-left-b', (24, 34), (8, 22), radius_x=16, radius_y=12)
+@@ -30,8 +32,8 @@
+         self.add_arc('lower-right-a', (24, 28), (40, 16), radius_x=16, radius_y=12)
+         self.add_arc('lower-right-b', (40, 16), (24, 28), radius_x=16, radius_y=12)
+         self.add_contour('lower-right', 'lower-right-a', 'lower-right-b', closed=True)
+-        self.add_arc('terminal-a', (24, 34), (36, 42), radius_x=9, radius_y=9)
+-        self.add_arc('terminal-b', (36, 42), (24, 34), radius_x=9, radius_y=9)
++        self.add_arc('terminal-a', (24, 34), (36, 44), radius_x=12, radius_y=10)
++        self.add_arc('terminal-b', (36, 44), (24, 34), radius_x=12, radius_y=10)
+         self.add_contour('terminal', 'terminal-a', 'terminal-b', closed=True)
+         for name in ('upper-left', 'upper-right', 'lower-left', 'lower-right', 'terminal'):
+             self.relate('connect', name, 'stem')
+--- before/flexed_biceps_16db6751_7b03_56d8_bdde_9fcaff03d631.py
++++ icon_set/model/icons/solo/flexed_biceps_16db6751_7b03_56d8_bdde_9fcaff03d631.py
+@@ -42,13 +42,15 @@
+         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
+ 
+     def build(self):
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # A flexed arm curls upward into a fist above a rounded biceps.
+-        self.add_arc('outer-forearm',(6,32),(14,8),radius_x=10,radius_y=24)
++        self.add_arc('outer-forearm',(4, 32),(14,8),radius_x=10,radius_y=24)
+         self.add_line('fist-top',(14,8),(18,8))
+         self.add_arc('fist',(18,8),(18,16),radius_x=4)
+         self.add_line('inner-forearm',(18,16),(16,26))
+         self.add_arc('inner-elbow',(16,26),(24,26),radius_x=6)
+-        self.add_arc('biceps',(24,26),(42,26),radius_x=10)
+-        self.add_arc('lower-arm-right',(42,26),(24,40),radius_x=20,radius_y=14)
+-        self.add_arc('lower-arm-left',(24,40),(6,32),radius_x=20,radius_y=8)
++        self.add_arc('biceps',(24,26),(44, 26),radius_x=10)
++        self.add_arc('lower-arm-right',(44, 26),(24,40),radius_x=20,radius_y=14)
++        self.add_arc('lower-arm-left',(24,40),(4, 32),radius_x=20,radius_y=8)
+         self.add_contour('arm','outer-forearm','fist-top','fist','inner-forearm','inner-elbow','biceps','lower-arm-right','lower-arm-left',closed=True)
+--- before/lamb_21b268be_a1e9_55dc_87aa_2da6963b8b79.py
++++ icon_set/model/icons/solo/lamb_21b268be_a1e9_55dc_87aa_2da6963b8b79.py
+@@ -17,18 +17,20 @@
+     keywords = ('sheep', 'wool', 'fluffy', 'lamb', 'farm', 'livestock', 'ewe', 'animal')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         # Exact visible extremes: (0, 6, 48, 42); centerline inset 2.
+         self.add_arc('fleece-top-left', (8, 16), (17, 11), radius_x=7, radius_y=7, sweep=True, large_arc=False)
+         self.add_arc('fleece-top', (17, 11), (29, 11), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+         self.add_arc('fleece-bottom-right', (36, 26), (28, 33), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+         self.add_arc('fleece-bottom', (28, 33), (16, 33), radius_x=8, radius_y=8, sweep=True, large_arc=False)
+         self.add_arc('fleece-bottom-left', (16, 33), (8, 30), radius_x=7, radius_y=7, sweep=True, large_arc=False)
+-        self.add_arc('fleece-left-bottom', (8, 30), (6, 23), radius_x=6, radius_y=7, sweep=True, large_arc=False)
+-        self.add_arc('fleece-left-top', (6, 23), (8, 16), radius_x=6, radius_y=7, sweep=True, large_arc=False)
++        self.add_arc('fleece-left-bottom', (8, 30), (4, 23), radius_x=4, radius_y=7, sweep=True, large_arc=False)
++        self.add_arc('fleece-left-top', (4, 23), (8, 16), radius_x=4, radius_y=7, sweep=True, large_arc=False)
+         self.add_contour('fleece', 'fleece-bottom-right', 'fleece-bottom', 'fleece-bottom-left', 'fleece-left-bottom', 'fleece-left-top', 'fleece-top-left', 'fleece-top', closed=False)
+         self.add_arc('head-top-left', (29, 11), (36, 8), radius_x=7, radius_y=3, sweep=True, large_arc=False)
+-        self.add_arc('head-top-right', (36, 8), (42, 20), radius_x=10, radius_y=12, sweep=True, large_arc=False)
+-        self.add_arc('head-bottom', (42, 20), (36, 26), radius_x=10, radius_y=6, sweep=True, large_arc=False)
++        self.add_arc('head-top-right', (36, 8), (44, 20), radius_x=8, radius_y=12, sweep=True, large_arc=False)
++        self.add_arc('head-bottom', (44, 20), (36, 26), radius_x=8, radius_y=6, sweep=True, large_arc=False)
+         self.add_arc('head-back', (36, 26), (29, 11), radius_x=9, radius_y=12, sweep=True, large_arc=False)
+         self.add_contour('head', 'head-top-left', 'head-top-right', 'head-bottom', 'head-back', closed=True)
+         self.relate("connect", 'head', 'fleece')
+--- before/flying_bird_00732191_23f0_53ae_84da_b288489181c6.py
++++ icon_set/model/icons/solo/flying_bird_00732191_23f0_53ae_84da_b288489181c6.py
+@@ -15,6 +15,8 @@
+     keywords = ('bird', 'flying', 'wings', 'dove', 'flight', 'sky', 'freedom', 'soar')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+         self.add_line('wing-1', (8,35), (6,6))
+         self.add_line('wing-6', (6,6), (23,18))
+         self.add_arc('wing-fold', (23, 18), (25, 27), radius_x=10, radius_y=10, sweep=True)
+@@ -24,6 +26,6 @@
+         self.add_line('beak-1', (42, 18), (42, 24))
+         self.add_line('beak-2', (42, 24), (42, 26))
+         self.add_line('breast-top', (42, 26), (42, 28))
+-        self.add_arc('breast', (42, 28), (25, 42), radius_x=18, radius_y=18, sweep=True)
+-        self.add_arc('tail', (25, 42), (8, 35), radius_x=20, radius_y=20, sweep=True)
++        self.add_arc('breast', (42, 28), (25, 42), radius_x=17, radius_y=14, sweep=True)
++        self.add_arc('tail', (25, 42), (8, 35), radius_x=17, radius_y=7, sweep=True)
+         self.add_contour('body', 'wing-1', 'wing-6', 'wing-fold', 'throat', 'neck', 'head', 'beak-1', 'beak-2', 'breast-top', 'breast', 'tail', closed=True)
+--- before/flying_saucer_795b2c92_4700_5a19_90ac_bc654e75ebf3.py
++++ icon_set/model/icons/solo/flying_saucer_795b2c92_4700_5a19_90ac_bc654e75ebf3.py
+@@ -17,15 +17,17 @@
+     keywords = ('ufo', 'flying saucer', 'spaceship', 'alien', 'spacecraft', 'sci-fi', 'space', 'vehicle')
+ 
+     def build(self) -> None:
++        # Envelope repair: shared boundary nodes and cardinal curve extrema;
++        # retain the subject, grid, stroke, and declared physical joins.
+ 
+         # Dome and disc share two nodes; paired landing struts mirror around x=24.
+         self.add_arc('dome',(14,18),(34,18),radius_x=10)
+         self.add_line('disc-top',(14,18),(34,18))
+-        self.add_arc('disc-upper-right',(34,18),(42,25),radius_x=10,radius_y=7)
+-        self.add_arc('disc-lower-right',(42,25),(34,32),radius_x=10,radius_y=7)
++        self.add_arc('disc-upper-right',(34,18),(44, 25),radius_x=10,radius_y=7)
++        self.add_arc('disc-lower-right',(44, 25),(34,32),radius_x=10,radius_y=7)
+         self.add_line('disc-bottom',(34,32),(14,32))
+-        self.add_arc('disc-lower-left',(14,32),(6,25),radius_x=10,radius_y=7)
+-        self.add_arc('disc-upper-left',(6,25),(14,18),radius_x=10,radius_y=7)
++        self.add_arc('disc-lower-left',(14,32),(4, 25),radius_x=10,radius_y=7)
++        self.add_arc('disc-upper-left',(4, 25),(14,18),radius_x=10,radius_y=7)
+         self.add_contour('disc','disc-top','disc-upper-right','disc-lower-right','disc-bottom','disc-lower-left','disc-upper-left',closed=True)
+         for part in ['disc-top','disc-upper-left','disc-upper-right']: self.relate('connect','dome',part)
+         for side,x,end,arc in [('left',14,10,'disc-lower-left'),('right',34,38,'disc-lower-right')]:

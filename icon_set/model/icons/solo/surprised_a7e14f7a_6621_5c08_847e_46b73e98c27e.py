@@ -1,10 +1,10 @@
-"""Surprised (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'surprised: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a7e14f7a-6621-5c08-847e-46b73e98c27e'
 SOURCE_PATH = 'icons-json/smileys/surprised_a7e14f7a-6621-5c08-847e-46b73e98c27e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Surprised(Solo48):
     icon_id = 'surprised'
@@ -15,18 +15,13 @@ class Surprised(Solo48):
     aliases = ()
     keywords = ('surprised', 'smileys')
 
-    def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1-top', (14, 19), (20, 19), radius_x=3)
-        self.add_arc('e1-bottom', (20, 19), (14, 19), radius_x=3)
-        self.add_arc('e2-top', (28, 19), (34, 19), radius_x=3)
-        self.add_arc('e2-bottom', (34, 19), (28, 19), radius_x=3)
-        self.add_arc('e3-1', (26, 37), (19, 32), radius_x=5)
-        self.add_arc('e3-2', (19, 32), (24, 25), radius_x=6)
-        self.add_arc('e3-3', (24, 25), (29, 29), radius_x=6)
-        self.add_arc('e3-4', (29, 29), (26, 37), radius_x=7)
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', closed=True)
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_dot('eye-left',(18,18))
+        self.add_dot('eye-right',(30,18))
+
+        self.add_arc('mouth-top', (20,30), (28,30), radius_x=4, radius_y=4)
+        self.add_arc('mouth-bottom', (28,30), (20,30), radius_x=4, radius_y=4)
+        self.add_contour('mouth', 'mouth-top', 'mouth-bottom', closed=True)

@@ -1,10 +1,10 @@
-"""Mad (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'mad: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c55e4757-168f-408f-9fa6-029cf52ff688'
 SOURCE_PATH = 'icons-json/smileys/mad_c55e4757-168f-408f-9fa6-029cf52ff688.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Mad(Solo48):
     icon_id = 'mad'
@@ -15,14 +15,10 @@ class Mad(Solo48):
     aliases = ()
     keywords = ('mad', 'smileys')
 
-    def build(self):
-        self.add_line('e0', (12, 18), (19, 21))
-        self.add_line('e1', (29, 21), (35, 18))
-        self.add_arc('e2-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e2-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e3-1', (15, 35), (27, 28), radius_x=9)
-        self.add_arc('e3-2', (27, 28), (33, 35), radius_x=9)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e3-1', 'e3-2')
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_line('eye-left',(15,17),(20,19))
+        self.add_line('eye-right',(28,19),(33,17))
+        self.add_arc('mouth',(17,32),(31,32),radius_x=7,radius_y=4)

@@ -1,7 +1,7 @@
 """Head-and-body portrait corresponding to avatar-police-woman-1.
 
 SOLO48 construction on VRECT_L: visible ink (6,2)-(42,46).
-Head bottom 28; shoulder top 36; measured head/body ink gap 4.
+Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-police-woman-1.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-police-woman-1'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 28
+HEAD_BOTTOM = 30
 
 class PoliceWoman1Avatar(Solo48):
     icon_id = 'police-woman-1-avatar'
@@ -30,7 +30,7 @@ class PoliceWoman1Avatar(Solo48):
         self.add_polyline('cap', (8, 12), (cx, 4), (40, 12), (34, 20), (14, 20), (8, 12))
         self.add_line('band', (8, 12), (40, 12))
         self.relate('connect', 'cap', 'band')
-        self.add_arc('face', (34, 20), (14, 20), radius_x=10, radius_y=8)
+        self.add_arc('face', (34, 20), (14, 20), radius_x=10, radius_y=10)
         self.relate('connect', 'cap', 'face')
         for side, sign in [('left', -1), ('right', 1)]:
             self.add_bezier('hair-' + side, (cx + sign * 10, 20), ((cx + sign * 10, 24), (cx + sign * 13, 26), (cx + sign * 16, 28)))
@@ -54,3 +54,6 @@ class PoliceWoman1Avatar(Solo48):
         self.add_polyline('body-tie', (16, top), (24,44), (32, top))
         self.relate('connect', 'body-tie', 'body-top')
         self.relate('connect', 'body-tie', 'body-top-right')
+
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

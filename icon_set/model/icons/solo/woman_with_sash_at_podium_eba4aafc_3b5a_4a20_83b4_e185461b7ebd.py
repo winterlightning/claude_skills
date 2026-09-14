@@ -33,9 +33,9 @@ class WomanWithSashAtPodium(Solo48):
         self.relate('connect',name+'-head',name+'-shoulders')
 
     def build(self) -> None:
-        self.circle('head',24,9,3)
-        self.add_arc('shoulder-left',(12,32),(24,21),radius_x=12,radius_y=11)
-        self.add_arc('shoulder-right',(24,21),(36,32),radius_x=12,radius_y=11)
+        self.circle('head',24,10,4)
+        self.add_arc('shoulder-left',(12,32),(24,22),radius_x=12,radius_y=10)
+        self.add_arc('shoulder-right',(24,22),(36,32),radius_x=12,radius_y=10)
         self.add_contour('shoulders','shoulder-left','shoulder-right')
         self.add_polyline('ledge',(6,32),(12,32),(36,32),(42,32))
         self.relate('connect','shoulders','ledge')
@@ -43,7 +43,7 @@ class WomanWithSashAtPodium(Solo48):
             self.add_line(side,(x,32),(end,42))
             self.relate('connect',side,'ledge')
             self.relate('connect',side,'shoulders')
-        self.add_line('hair-left',(21,9),(19,15))
-        self.add_line('hair-right',(27,9),(29,15))
+        self.add_line('hair-left',(20,10),(19,13))
+        self.add_line('hair-right',(28,10),(29,13))
         self.relate('connect','head','hair-left')
         self.relate('connect','head','hair-right')

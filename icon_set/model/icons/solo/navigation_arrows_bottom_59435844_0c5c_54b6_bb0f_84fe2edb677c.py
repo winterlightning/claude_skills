@@ -1,10 +1,10 @@
-"""Navigation arrows bottom (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Double navigation: two equal open chevrons replace crowded enclosed triangles, preserving direction and repetition.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '59435844-0c5c-54b6-bb0f-84fe2edb677c'
 SOURCE_PATH = 'icons-json/arrows/navigation arrows bottom_59435844-0c5c-54b6-bb0f-84fe2edb677c.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class NavigationArrowsBottom(Solo48):
     icon_id = 'navigation-arrows-bottom'
@@ -15,12 +15,8 @@ class NavigationArrowsBottom(Solo48):
     aliases = ()
     keywords = ('navigation', 'arrows', 'bottom')
 
-    def build(self):
-        self.add_line('e0', (6, 6), (42, 6))
-        self.add_line('e1', (42, 6), (24, 23))
-        self.add_line('e2', (24, 23), (6, 6))
-        self.add_line('e3', (6, 25), (42, 25))
-        self.add_line('e4', (42, 25), (24, 42))
-        self.add_line('e5', (24, 42), (6, 25))
-        self.add_contour('c0', 'e0', 'e1', 'e2', closed=True)
-        self.add_contour('c1', 'e3', 'e4', 'e5', closed=True)
+    def build(self) -> None:
+        def p(x,y): return (x,y)
+        # Equal open chevrons keep the double-navigation symbol readable at 48.
+        self.add_polyline('first',p(6,6),p(24,20),p(42,6))
+        self.add_polyline('second',p(6,28),p(24,42),p(42,28))

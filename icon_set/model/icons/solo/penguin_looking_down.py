@@ -15,15 +15,11 @@ class PenguinLookingDown(Solo48):
     keywords = ('penguin', 'bending', 'looking', 'down', 'bird', 'antarctic', 'nurture', 'care')
 
     def build(self) -> None:
-        # VRECT_L centerlines (8,6)-(40,42); head bows to the left.
-        self.add_arc('crown', (12, 15), (24, 6), radius_x=12, radius_y=13, sweep=True)
-        self.add_arc('head-back', (24, 6), (36, 14), radius_x=12, sweep=True)
-        self.add_arc('back', (36, 14), (40, 34), radius_x=52, sweep=True)
-        self.add_arc('rump', (40, 34), (28, 42), radius_x=12, sweep=True)
-        self.add_line('base', (28, 42), (18, 42))
-        self.add_arc('belly', (18, 42), (15, 24), radius_x=12, radius_y=26, sweep=True)
-        self.add_line('beak-under', (15, 24), (8, 25))
-        self.add_line('beak-top', (8, 25), (12, 15))
-        self.add_contour('outline', 'crown', 'head-back', 'back', 'rump', 'base', 'belly', 'beak-under', 'beak-top', closed=True)
-        self.add_dot('eye', (22, 13))
-        self.add_arc('flipper', (29, 23), (26, 36), radius_x=20, sweep=True)
+        self.add_bezier('head',(12,16),((14,9),(19,4),(24,4)),((31,4),(35,9),(36,15)))
+        self.add_bezier('back',(36,15),((38,22),(40,29),(40,34)),((40,40),(34,44),(28,44)))
+        self.add_line('base',(28,44),(18,44))
+        self.add_bezier('belly',(18,44),((15,39),(14,29),(15,25)))
+        self.add_line('beak-low',(15,25),(8,26));self.add_line('beak-high',(8,26),(12,16))
+        self.add_contour('outline','head','back','base','belly','beak-low','beak-high',closed=True)
+        self.add_dot('eye',(23,15))
+        self.add_bezier('flipper',(28,25),((30,29),(28,34),(26,35)))
