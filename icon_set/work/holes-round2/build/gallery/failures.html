@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Failed build</title>
+<script>
+  // Inside the gallery's Failed build tab, match the gallery's light theme.
+  if (window.self !== window.top) document.documentElement.classList.add('embedded');
+</script>
+<style>
+:root {
+  --bg: #f6f5f2; --panel: #ffffff; --line: #e3e0d9; --text: #1d1c1a; --muted: #6d6a63;
+  --ink: #2a2926; --canvas: #fbfaf8; --grid: #ecebe6; --guide: #2f6fdb;
+  --bounds: #2f6fdb; --spacing: #d63b2f; --holes: #c77c00; --broken: #8a4fd0; --other: #6d6a63;
+  --hi: #d63b2f; --gap: #a3160c; --chip: #f0eee9; --sel: #1d1c1a; --sel-text: #fff;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not(.embedded) {
+    --bg: #161615; --panel: #1f1e1c; --line: #34322e; --text: #ecebe7; --muted: #a19d95;
+    --ink: #d9d6cf; --canvas: #262523; --grid: #302e2b; --guide: #6fa0f5;
+    --bounds: #6fa0f5; --spacing: #ff6b5e; --holes: #f0a830; --broken: #b98af0; --other: #a19d95;
+    --hi: #ff6b5e; --gap: #ffd23f; --chip: #2b2a27; --sel: #ecebe7; --sel-text: #161615;
+  }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text);
+  font: 14px/1.45 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; }
+header { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); padding: 12px 20px; }
+.bar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: center; max-width: 1600px; margin: 0 auto; }
+h1 { font-size: 17px; margin: 0; font-weight: 650; letter-spacing: -0.01em; }
+.sub { color: var(--muted); }
+.controls { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; align-items: center; }
+input[type=search], select { font: inherit; color: var(--text); background: var(--panel); border: 1px solid var(--line);
+  border-radius: 8px; padding: 6px 10px; }
+input[type=search] { width: 220px; max-width: 100%; }
+label.toggle { display: inline-flex; gap: 6px; align-items: center; color: var(--muted); cursor: pointer; }
+.layout { display: grid; grid-template-columns: 290px minmax(0, 1fr); gap: 20px; max-width: 1600px; margin: 0 auto; padding: 16px 20px 60px; }
+@media (max-width: 860px) { .layout { grid-template-columns: 1fr; } nav { position: static !important; max-height: none !important; } }
+nav { position: sticky; top: 70px; align-self: start; max-height: calc(100vh - 86px); overflow: auto; }
+.group { margin-bottom: 14px; }
+.group-head, .kind { display: flex; justify-content: space-between; gap: 8px; width: 100%; text-align: left; font: inherit;
+  color: var(--text); background: none; border: 0; border-radius: 7px; padding: 5px 8px; cursor: pointer; }
+.group-head { font-weight: 650; }
+.group-head .dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; }
+.kind { color: var(--muted); padding-left: 24px; }
+.group-head:hover, .kind:hover { background: var(--chip); }
+.group-head.on, .kind.on { background: var(--sel); color: var(--sel-text); }
+.count { font-variant-numeric: tabular-nums; opacity: .8; }
+.explain { background: var(--panel); border: 1px solid var(--line); border-left: 4px solid var(--accent, var(--muted));
+  border-radius: 10px; padding: 12px 16px; margin-bottom: 16px; }
+.explain h2 { margin: 0 0 4px; font-size: 15px; }
+.explain p { margin: 2px 0; }
+.explain .fix { color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 8px; color: var(--muted); font-size: 12px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { display: inline-block; width: 18px; height: 0; border-top: 2px solid; }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 14px; }
+.card { background: var(--panel); border: 1px solid var(--line); border-radius: 12px; overflow: hidden;
+  display: flex; flex-direction: column; content-visibility: auto; contain-intrinsic-size: 290px 520px; }
+.card-head { display: flex; justify-content: space-between; gap: 8px; align-items: baseline; padding: 10px 12px 6px; }
+.card-head b { font-family: ui-monospace, "SF Mono", Menlo, monospace; font-size: 13px; overflow-wrap: anywhere; }
+.badge { font-size: 11px; color: var(--muted); background: var(--chip); border-radius: 999px; padding: 1px 8px; white-space: nowrap; }
+.figure { display: flex; gap: 10px; align-items: flex-end; padding: 4px 12px 8px; }
+.big { width: 100%; max-width: 230px; aspect-ratio: 1; flex: 1; }
+.big svg { width: 100%; height: 100%; display: block; border-radius: 6px; }
+.native { display: flex; flex-direction: column; align-items: center; gap: 4px; color: var(--muted); font-size: 10px; }
+.native svg { display: block; color: var(--ink); }
+.norender { display: grid; place-items: center; text-align: center; color: var(--muted); background: var(--canvas);
+  border: 1px dashed var(--line); border-radius: 6px; width: 100%; aspect-ratio: 1; padding: 16px; }
+ul.issues { list-style: none; margin: 0; padding: 0 12px 8px; display: grid; gap: 6px; }
+ul.issues li { border-left: 3px solid var(--c); padding: 2px 0 2px 8px; }
+ul.issues li.dim { opacity: .45; }
+ul.issues .k { font-weight: 600; font-size: 12.5px; }
+ul.issues .t { color: var(--muted); font-size: 11.5px; overflow-wrap: anywhere; }
+.card-foot { margin-top: auto; border-top: 1px solid var(--line); padding: 7px 12px; display: flex; gap: 8px;
+  justify-content: space-between; align-items: center; }
+.path { background: none; border: 0; padding: 0; color: var(--muted); cursor: copy; text-align: left; overflow-wrap: anywhere; }
+.path:hover { color: var(--text); }
+.card-foot a { color: var(--muted); font-size: 12px; white-space: nowrap; }
+.empty { color: var(--muted); padding: 40px; text-align: center; }
+#more { height: 1px; }
+.toast { position: fixed; bottom: 18px; left: 50%; transform: translateX(-50%); background: var(--sel); color: var(--sel-text);
+  padding: 6px 12px; border-radius: 8px; font-size: 12px; opacity: 0; transition: opacity .2s; pointer-events: none; }
+.toast.show { opacity: 1; }
+</style>
+</head>
+<body>
+<header>
+  <div class="bar">
+    <div>
+      <h1>Failed build</h1>
+      <div class="sub" id="summary"></div>
+    </div>
+    <div class="controls">
+      <input type="search" id="search" placeholder="Filter by icon id or message" aria-label="Filter">
+      <select id="family" aria-label="Family"><option value="">All families</option></select>
+      <select id="sort" aria-label="Sort">
+        <option value="fewest">Fewest issues first</option>
+        <option value="most">Most issues first</option>
+        <option value="name">Name</option>
+      </select>
+      <label class="toggle"><input type="checkbox" id="marks" checked> Markings</label>
+    </div>
+  </div>
+</header>
+<div class="layout">
+  <nav id="nav" aria-label="Rules"></nav>
+  <main>
+    <section class="explain" id="explain"></section>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>No failed icon matches this filter.</div>
+    <div id="more"></div>
+  </main>
+</div>
+<div class="toast" id="toast">Path copied</div>
+<script id="data" type="application/json">{"total":25,"failed":0,"families":["solo"],"rules":{"bounds":{"title":"Keyshape bounds","summary":"The visible ink must land exactly on the keyshape envelope: every side touches, none overshoots.","fix":"Move the outermost strokes so the ink box equals the dashed envelope, or pick the keyshape the drawing really fits."},"spacing":{"title":"Spacing (MIC)","summary":"Separate strokes need 8u between centerlines (4u of clear ink) unless their contact is declared.","fix":"Push the marked parts apart to the minimum, join them into one contour, or declare a scoped `connect` if they truly touch."},"holes":{"title":"Holes & pinches","summary":"Enclosed counters must stay open at ship size; tiny holes fill in and read as blobs.","fix":"Enlarge the marked counter, or close it completely so it is not a hole."},"broken":{"title":"Broken geometry","summary":"The drawing cannot be emitted, so there is nothing to render. The Python model itself is inconsistent.","fix":"Fix the contour order, the arc endpoints, or the element names reported below."},"other":{"title":"Other","summary":"Findings that do not fit a known rule group.","fix":"Read the message; it names the element and the check."}},"kinds":[],"icons":[]}</script>
+<script>
+const DATA = JSON.parse(document.getElementById('data').textContent);
+const RULE_ORDER = ['bounds', 'spacing', 'holes', 'broken', 'other'];
+const state = { rule: '', kind: '', q: '', family: '', sort: 'fewest', marks: true, shown: 0 };
+const PAGE = 48;
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function readHash() {
+  const p = new URLSearchParams(location.hash.slice(1));
+  state.rule = p.get('rule') || ''; state.kind = p.get('kind') || '';
+}
+function writeHash() {
+  const p = new URLSearchParams();
+  if (state.rule) p.set('rule', state.rule);
+  if (state.kind) p.set('kind', state.kind);
+  history.replaceState(null, '', p.toString() ? '#' + p : location.pathname);
+}
+
+function matchesIssue(issue) {
+  return (!state.rule || issue.rule === state.rule) && (!state.kind || issue.kind === state.kind);
+}
+function filtered() {
+  const q = state.q.toLowerCase();
+  let list = DATA.icons.filter(icon =>
+    (!state.family || icon.family === state.family) &&
+    icon.issues.some(matchesIssue) &&
+    (!q || icon.id.includes(q) || icon.issues.some(i => i.text.toLowerCase().includes(q))));
+  if (state.sort === 'most') list = [...list].sort((a, b) => b.issues.length - a.issues.length || a.id.localeCompare(b.id));
+  if (state.sort === 'name') list = [...list].sort((a, b) => a.id.localeCompare(b.id));
+  return list;
+}
+
+function renderNav() {
+  // Counts are icons, not messages: how many drawings a fix to this kind touches.
+  const pool = DATA.icons.filter(icon => !state.family || icon.family === state.family);
+  const iconsWith = test => pool.filter(icon => icon.issues.some(test)).length;
+  let html = `<div class="group"><button class="group-head ${!state.rule ? 'on' : ''}" data-rule="" data-kind="">
+    <span>All failures</span><span class="count">${pool.length}</span></button></div>`;
+  for (const rule of RULE_ORDER) {
+    const kinds = DATA.kinds.filter(k => k.rule === rule);
+    if (!kinds.length) continue;
+    const total = iconsWith(i => i.rule === rule);
+    html += `<div class="group"><button class="group-head ${state.rule === rule && !state.kind ? 'on' : ''}" data-rule="${rule}" data-kind="">
+      <span><span class="dot" style="background:var(--${rule})"></span>${esc(DATA.rules[rule].title)}</span>
+      <span class="count">${total}</span></button>`;
+    const rows = kinds.map(k => ({ kind: k.kind, n: iconsWith(i => i.rule === rule && i.kind === k.kind) }))
+      .filter(r => r.n).sort((a, b) => b.n - a.n);
+    for (const r of rows) {
+      html += `<button class="kind ${state.rule === rule && state.kind === r.kind ? 'on' : ''}" data-rule="${rule}" data-kind="${esc(r.kind)}">
+        <span>${esc(r.kind)}</span><span class="count">${r.n}</span></button>`;
+    }
+    html += '</div>';
+  }
+  $('nav').innerHTML = html;
+}
+
+function renderExplain(count) {
+  const box = $('explain');
+  if (!state.rule) {
+    box.style.setProperty('--accent', 'var(--muted)');
+    box.innerHTML = `<h2>${count} failing icons</h2>
+      <p>Pick a rule on the left to work through one kind of violation at a time. Each card draws the violation over the icon.</p>` + legend();
+    return;
+  }
+  const rule = DATA.rules[state.rule];
+  box.style.setProperty('--accent', `var(--${state.rule})`);
+  box.innerHTML = `<h2>${esc(rule.title)}${state.kind ? ' · ' + esc(state.kind) : ''} <span class="sub">— ${count} icons</span></h2>
+    <p>${esc(rule.summary)}</p><p class="fix"><b>Fix:</b> ${esc(rule.fix)}</p>` + legend();
+}
+function legend() {
+  return `<div class="legend">
+    <span><i style="border-color:var(--guide);border-top-style:dashed"></i>Keyshape envelope</span>
+    <span><i style="border-color:var(--bounds)"></i>Actual ink box / radius (shaded: the mismatch)</span>
+    <span><i style="border-color:var(--gap)"></i>Too-close gap</span>
+    <span><i style="border-color:var(--hi);opacity:.5"></i>Parts involved</span>
+    <span><i style="border-color:var(--holes)"></i>Undersized hole</span></div>`;
+}
+
+function elementHighlights(icon, issues) {
+  const ids = new Set((icon.paths || []).map(p => p.id));
+  const hits = new Set();
+  for (const issue of issues) {
+    for (const name of issue.elements || []) {
+      if (ids.has(name)) { hits.add(name); continue; }
+      // Edge names are often "<element>-<n>": fall back to the longest element id they extend.
+      let best = '';
+      for (const id of ids) if (id && name.startsWith(id + '-') && id.length > best.length) best = id;
+      if (best) hits.add(best);
+    }
+  }
+  return hits;
+}
+
+function iconSvg(icon, size, { marks, issues }) {
+  const n = icon.canvas;
+  const sw = icon.svg?.['stroke-width'] || 4;
+  const hits = marks ? elementHighlights(icon, issues) : new Set();
+  const u = n / size; // one screen pixel in canvas units
+  let grid = '';
+  if (size > 100) {
+    for (let v = 4; v < n; v += 4) {
+      grid += `<line x1="${v}" y1="0" x2="${v}" y2="${n}"/><line x1="0" y1="${v}" x2="${n}" y2="${v}"/>`;
+    }
+  }
+  const paths = icon.paths.map(p =>
+    `<path d="${esc(p.d)}"${hits.has(p.id) ? ' stroke="var(--hi)" stroke-opacity=".38"' : ''}><title>${esc(p.id)}</title></path>`).join('');
+  let over = '';
+  if (marks) {
+    // The gap is drawn over the tinted parts with a halo, so it reads even where they overlap it.
+    const gap = (a, b) => `<g stroke-linecap="round">
+        <line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--panel)" stroke-width="${7 * u}"/>
+        <line x1="${a[0]}" y1="${a[1]}" x2="${b[0]}" y2="${b[1]}" stroke="var(--gap)" stroke-width="${3 * u}"/>
+        ${[a, b].map(pt => `<circle cx="${pt[0]}" cy="${pt[1]}" r="${4.5 * u}" fill="var(--gap)" stroke="var(--panel)" stroke-width="${2 * u}"/>`).join('')}</g>`;
+    const line = (w, color, dash) => `fill="none" stroke="${color}" stroke-width="${w * u}"${dash ? ` stroke-dasharray="${4 * u} ${3 * u}"` : ''}`;
+    for (const issue of issues) {
+      const o = issue.overlay;
+      if (o?.type === 'box') {
+        const [ex1, ey1, ex2, ey2] = o.env, [ix1, iy1, ix2, iy2] = o.ink;
+        // Shade the band between envelope and ink: that band is the violation.
+        over += `<path fill="var(--bounds)" fill-opacity=".28" fill-rule="evenodd" d="M${ex1} ${ey1}H${ex2}V${ey2}H${ex1}Z M${ix1} ${iy1}H${ix2}V${iy2}H${ix1}Z"/>`;
+        over += `<rect x="${ex1}" y="${ey1}" width="${ex2 - ex1}" height="${ey2 - ey1}" ${line(1.5, 'var(--guide)', true)}/>`;
+        over += `<rect x="${ix1}" y="${iy1}" width="${ix2 - ix1}" height="${iy2 - iy1}" ${line(1.5, 'var(--bounds)')} stroke-opacity=".55"/>`;
+      } else if (o?.type === 'circle') {
+        const [r1, r2] = [Math.min(o.env, o.ink), Math.max(o.env, o.ink)];
+        over += `<path fill="var(--bounds)" fill-opacity=".28" fill-rule="evenodd" d="M${o.c[0] - r2} ${o.c[1]}a${r2} ${r2} 0 1 0 ${2 * r2} 0a${r2} ${r2} 0 1 0 ${-2 * r2} 0Z M${o.c[0] - r1} ${o.c[1]}a${r1} ${r1} 0 1 0 ${2 * r1} 0a${r1} ${r1} 0 1 0 ${-2 * r1} 0Z"/>`;
+        over += `<circle cx="${o.c[0]}" cy="${o.c[1]}" r="${o.env}" ${line(1.5, 'var(--guide)', true)}/>`;
+        over += `<circle cx="${o.c[0]}" cy="${o.c[1]}" r="${o.ink}" ${line(1.5, 'var(--bounds)')} stroke-opacity=".55"/>`;
+      } else if (o?.type === 'gap') {
+        over += gap(o.a, o.b);
+      }
+      if (issue.kind === 'Parallel straight edges too close') {
+        for (const pair of icon.spacingPairs) {
+          over += gap(pair.a, pair.b);
+        }
+      }
+      if (issue.rule === 'holes') {
+        for (const [x, y, w, h] of icon.holes) {
+          over += `<rect x="${x - 1}" y="${y - 1}" width="${w + 2}" height="${h + 2}" rx="${2}" ${line(2, 'var(--holes)')}/>`;
+        }
+      }
+    }
+  }
+  const bg = size > 100 ? `<rect width="${n}" height="${n}" fill="var(--canvas)"/>
+    <g stroke="var(--grid)" stroke-width="${u}">${grid}</g>
+    <rect x="${u / 2}" y="${u / 2}" width="${n - u}" height="${n - u}" fill="none" stroke="var(--line)" stroke-width="${u}"/>` : '';
+  return `<svg viewBox="0 0 ${n} ${n}" width="${size}" height="${size}" role="img" aria-label="${esc(icon.id)}">${bg}
+    <g fill="none" stroke="var(--ink)" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round">${paths}</g>${over}</svg>`;
+}
+
+function card(icon) {
+  const active = icon.issues.filter(matchesIssue);
+  const figure = icon.paths
+    ? `<div class="big">${iconSvg(icon, 230, { marks: state.marks, issues: active })}</div>
+       <div class="native">${iconSvg(icon, icon.canvas, { marks: false, issues: [] })}<span>${icon.canvas}px</span></div>`
+    : `<div class="norender">No SVG<br>the model cannot be drawn until this is fixed</div>`;
+  const issues = icon.issues.map(i => `<li class="${matchesIssue(i) ? '' : 'dim'}" style="--c:var(--${i.rule})">
+      <div class="k">${esc(i.kind)}${i.keyshape ? ` <span class="badge">${esc(i.keyshape)}</span>` : ''}${i.distance != null ? ` <span class="badge">${i.distance}u / needs ${i.required}u</span>` : ''}</div>
+      <div class="t mono">${esc(i.text)}</div></li>`).join('');
+  return `<article class="card">
+    <div class="card-head"><b>${esc(icon.id)}</b><span class="badge">${esc(icon.profile || icon.family)}</span></div>
+    <div class="figure">${figure}</div>
+    <ul class="issues">${issues}</ul>
+    <div class="card-foot">
+      ${icon.file ? `<button class="path mono" data-copy="${esc(icon.file)}" title="Copy path">${esc(icon.file)}</button>` : '<span></span>'}
+      ${icon.svgUrl ? `<a href="${esc(icon.svgUrl)}" target="_blank" rel="noopener">SVG</a>` : ''}
+    </div></article>`;
+}
+
+let current = [];
+function render() {
+  writeHash();
+  renderNav();
+  current = filtered();
+  renderExplain(current.length);
+  $('grid').innerHTML = '';
+  state.shown = 0;
+  $('empty').hidden = current.length > 0;
+  more();
+}
+function more() {
+  if (state.shown >= current.length) return;
+  const next = current.slice(state.shown, state.shown + PAGE);
+  $('grid').insertAdjacentHTML('beforeend', next.map(card).join(''));
+  state.shown += next.length;
+}
+new IntersectionObserver(entries => { if (entries.some(e => e.isIntersecting)) more(); }, { rootMargin: '1200px' })
+  .observe($('more'));
+
+const scope = DATA.families ? ` ${DATA.families.join(' + ')}` : '';
+$('summary').textContent = (DATA.total
+  ? `${DATA.failed} of ${DATA.total}${scope} icons failed the build`
+  : `${DATA.failed}${scope} icons failed the build`) + ' · rendered from dist/failed, not shipped';
+if (DATA.families && DATA.families.length === 1) $('family').hidden = true;
+for (const family of [...new Set(DATA.icons.map(i => i.family))].sort()) {
+  $('family').insertAdjacentHTML('beforeend', `<option value="${esc(family)}">${esc(family)}</option>`);
+}
+$('nav').addEventListener('click', e => {
+  const b = e.target.closest('button[data-rule]');
+  if (!b) return;
+  state.rule = b.dataset.rule; state.kind = b.dataset.kind;
+  render(); window.scrollTo({ top: 0 });
+});
+let timer;
+$('search').addEventListener('input', e => { clearTimeout(timer); timer = setTimeout(() => { state.q = e.target.value.trim(); render(); }, 150); });
+$('family').addEventListener('change', e => { state.family = e.target.value; render(); });
+$('sort').addEventListener('change', e => { state.sort = e.target.value; render(); });
+$('marks').addEventListener('change', e => { state.marks = e.target.checked; render(); });
+$('grid').addEventListener('click', async e => {
+  const b = e.target.closest('[data-copy]');
+  if (!b) return;
+  try { await navigator.clipboard.writeText(b.dataset.copy); } catch { return; }
+  $('toast').classList.add('show'); setTimeout(() => $('toast').classList.remove('show'), 1200);
+});
+window.addEventListener('hashchange', () => { readHash(); render(); });
+readHash();
+render();
+</script>
+</body>
+</html>

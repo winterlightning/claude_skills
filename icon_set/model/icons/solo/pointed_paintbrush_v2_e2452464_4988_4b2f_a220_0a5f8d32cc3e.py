@@ -19,15 +19,14 @@ class PointedPaintbrushVariant2(Solo48):
 
     def build(self):
         # Lucide paintbrush: diagonal handle and broad bristle head. Intentional bristle point; coherent cap will be checked against exact square extrema.
-        self.add_line('handle-upper', (20, 24), (36, 8))
-        self.add_arc('cap-top', (36, 8), (40, 8), radius_x=4, radius_y=4, sweep=True)
-        self.add_arc('cap-right', (40, 8), (40, 12), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('handle-lower', (40, 12), (26, 30))
-        self.add_line('ferrule', (26, 30), (20, 24))
-        self.add_contour('handle', 'handle-upper', 'cap-top', 'cap-right', 'handle-lower', 'ferrule', closed=True)
-        self.add_arc('bristle-crown', (20, 24), (8, 32), radius_x=10, radius_y=10, sweep=False)
+        self.add_line('handle-upper', (18, 19), (34, 7))
+        self.add_arc('cap', (34, 7), (40, 15), radius_x=5, radius_y=5, sweep=True)
+        self.add_line('handle-lower', (40, 15), (24, 27))
+        self.add_line('ferrule', (24, 27), (18, 19))
+        self.add_contour('handle', 'handle-upper', 'cap', 'handle-lower', 'ferrule', closed=True)
+        self.add_arc('bristle-crown', (18, 19), (8, 32), radius_x=14, radius_y=14, sweep=False)
         self.add_line('bristle-tip', (8, 32), (6, 42))
         self.add_line('bristle-bottom', (6, 42), (22, 42))
-        self.add_arc('bristle-side', (22, 42), (26, 30), radius_x=11, radius_y=11, sweep=False)
+        self.add_arc('bristle-side', (22, 42), (24, 27), radius_x=16, radius_y=16, sweep=False)
         self.add_contour('bristles', 'bristle-crown', 'bristle-tip', 'bristle-bottom', 'bristle-side', closed=False)
         self.relate("connect", 'handle', 'bristles')

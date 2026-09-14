@@ -5,10 +5,9 @@
   "selected_for_build": true,
   "status": "fail",
   "errors": [
-    "mic [silhouette]: parallel straight edges silhouette-11 and silhouette-9, silhouette-13 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [front-leg]: parallel straight edges front-leg-2 and silhouette-9 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (overlap-fallback)",
     "mic [horn]: parallel straight edges horn-2 and silhouette-6 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)",
-    "mic [silhouette]: parallel straight edges silhouette-8 and silhouette-10 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)",
-    "holes/pinches: 1 undersized holes; 0 pinches"
+    "mic [silhouette]: parallel straight edges silhouette-8 and front-leg-1 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (overlap-fallback)"
   ],
   "warnings": [],
   "spacing": {
@@ -20,14 +19,14 @@
         "elementId": "silhouette",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 42 L 6 34 L 12 30 L 12 23 L 30 14 L 34 8 L 40 8 L 42 14 L 38 16 L 38 24 L 42 22 L 42 34 L 38 30 L 38 24 L 18 36 L 10 40 L 6 42 L 6 42",
+        "pathData": "M 6 42 L 6 34 L 12 30 L 12 23 L 30 14 L 34 8 L 40 8 L 42 14 L 38 16 L 38 24 L 10 40 L 6 42 L 6 42",
         "bounds": [
           6.0,
           8.0,
           42.0,
           42.0
         ],
-        "segmentCount": 17,
+        "segmentCount": 12,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -46,6 +45,22 @@
         "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
+      },
+      {
+        "id": "front-leg:subpath-1",
+        "elementId": "front-leg",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 38 24 L 42 22 L 42 34",
+        "bounds": [
+          38.0,
+          22.0,
+          42.0,
+          34.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
@@ -53,15 +68,18 @@
         "id": "component-1",
         "memberIds": [
           "silhouette:subpath-1",
-          "horn:subpath-1"
+          "horn:subpath-1",
+          "front-leg:subpath-1"
         ],
         "contourIds": [
           "silhouette:subpath-1",
-          "horn:subpath-1"
+          "horn:subpath-1",
+          "front-leg:subpath-1"
         ],
         "elementIds": [
           "silhouette",
-          "horn"
+          "horn",
+          "front-leg"
         ],
         "bounds": [
           6.0,
@@ -82,6 +100,17 @@
         "point": [
           34.0,
           8.0
+        ]
+      },
+      {
+        "contourIds": [
+          "silhouette:subpath-1",
+          "front-leg:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          38.0,
+          24.0
         ]
       }
     ],
@@ -104,6 +133,34 @@
             8.0
           ]
         }
+      },
+      {
+        "contourIds": [
+          "silhouette:subpath-1",
+          "front-leg:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "silhouette:subpath-1",
+            "front-leg:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            38.0,
+            24.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "horn:subpath-1",
+          "front-leg:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
       }
     ],
     "errors": [],
@@ -121,8 +178,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 19,
+      "commands": 19,
+      "flattenedSegments": 16,
       "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
@@ -131,15 +188,15 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "fail",
-    "hole_count": 2,
-    "failed_hole_count": 1,
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          19.1094,
+          18.7031,
           27.2344
         ],
         "bbox_viewbox": [
@@ -156,49 +213,17 @@
           34.875,
           32.6875
         ],
-        "area_ship_px2": 434.333,
-        "equivalent_diameter_ship_px": 23.5162,
-        "equivalent_diameter_design_u": 23.5162,
-        "inscribed_diameter_ship_px": 12.7197,
-        "inscribed_diameter_design_u": 12.7197,
-        "inscribed_radius_ship_px": 6.3598,
-        "inscribed_radius_design_u": 6.3598,
+        "area_ship_px2": 426.3965,
+        "equivalent_diameter_ship_px": 23.3003,
+        "equivalent_diameter_design_u": 23.3003,
+        "inscribed_diameter_ship_px": 12.3454,
+        "inscribed_diameter_design_u": 12.3454,
+        "inscribed_radius_ship_px": 6.1727,
+        "inscribed_radius_design_u": 6.1727,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 4.8598,
-        "equivalent_diameter_at_authored_stroke_design_u": 9.7196
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          39.9844,
-          25.2656
-        ],
-        "bbox_viewbox": [
-          38.5,
-          22.8125,
-          3.0,
-          9.9688
-        ],
-        "bbox_ship_px": [
-          3.0,
-          9.9688
-        ],
-        "bbox_design_u": [
-          3.0,
-          9.9688
-        ],
-        "area_ship_px2": 23.2031,
-        "equivalent_diameter_ship_px": 5.4354,
-        "equivalent_diameter_design_u": 5.4354,
-        "inscribed_diameter_ship_px": 3.0,
-        "inscribed_diameter_design_u": 3.0,
-        "inscribed_radius_ship_px": 1.5,
-        "inscribed_radius_design_u": 1.5,
-        "minimum_radius_design_u": 2.5,
-        "status": "fail",
-        "equivalent_radius_at_authored_stroke_design_u": 0.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 0.0
+        "equivalent_radius_at_authored_stroke_design_u": 4.6727,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.3454
       }
     ],
     "pinches": [],
@@ -224,7 +249,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "e17943613f98f1e593e18802714e8713b20b08b3f9d7397a54f0dd8ddce16702",
+  "svg_sha256": "dea26e9c974acdae27be828ee7a88bad7f5a6162c61aaf2e3ee832ca2192ccbd",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -294,20 +319,20 @@
         "contour": "silhouette",
         "elements": [
           "silhouette-2",
-          "silhouette-15"
+          "silhouette-10"
         ],
         "status": "review",
-        "sustained_length": 5.9628,
-        "centerline_distance": 7.2881,
-        "ink_gap": 3.2881,
+        "sustained_length": 6.2498,
+        "centerline_distance": 7.2541,
+        "ink_gap": 3.2541,
         "nearest_points": [
           [
-            6.512820512820454,
-            33.658119658119695
+            6.518783542039297,
+            33.654144305307135
           ],
           [
-            10.555555555555557,
-            39.72222222222222
+            10.54263565891473,
+            39.689922480620154
           ]
         ]
       },
@@ -329,27 +354,6 @@
           [
             41.50000000000004,
             14.24999999999998
-          ]
-        ]
-      },
-      {
-        "contour": "silhouette",
-        "elements": [
-          "silhouette-11",
-          "silhouette-13"
-        ],
-        "status": "review",
-        "sustained_length": 5.0,
-        "centerline_distance": 4.0,
-        "ink_gap": 0.0,
-        "nearest_points": [
-          [
-            42.0,
-            24.625
-          ],
-          [
-            38.0,
-            24.625
           ]
         ]
       }

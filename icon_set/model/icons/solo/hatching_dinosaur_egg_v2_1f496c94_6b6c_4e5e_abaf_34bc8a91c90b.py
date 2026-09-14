@@ -20,7 +20,10 @@ class HatchingDinosaurEggVariant2(Solo48):
     def build(self):
         # Baby dinosaur head uses tangent cardinal arcs and a broad muzzle above a single cracked shell. Eye placed with generous head clearance. No useful Lucide hatchling match.
         self.add_arc('shell-bottom', (42, 28), (6, 28), radius_x=18, radius_y=14, sweep=True)
-        self.add_polyline('crack', (6, 28), (15, 34), (24, 28), (33, 34), (42, 28), closed=False)
+        self.add_line('crack-1', (6, 28), (15, 34))
+        self.add_line('crack-2', (15, 34), (24, 28))
+        self.add_line('crack-3', (24, 28), (33, 34))
+        self.add_line('crack-4', (33, 34), (42, 28))
         self.add_contour('shell', 'shell-bottom', 'crack-1', 'crack-2', 'crack-3', 'crack-4', closed=True)
         self.add_line('neck', (33, 34), (33, 16))
         self.add_arc('head-top', (33, 16), (23, 6), radius_x=10, radius_y=10, sweep=False)

@@ -15,12 +15,15 @@ bash icon_set/scripts/run_icon_agent.sh fix --icon sub/plus --prompt "Adjust the
 
 Use `--family auto` to let the agent choose the skill, `--model MODEL_NAME` to specify a model, or `--server http://HOST:8000` for your server. These commands use the same review queue and acceptance controls as the browser.
 
-The reusable low-level shell runner also accepts a workspace and a prompt file, plus an optional model:
+The reusable low-level shell runner also accepts a workspace and a prompt file, plus an optional model (pass `""` for the default) and PNG images to attach:
 
 ```bash
 bash icon_set/scripts/run_icon_agent.sh /path/to/candidate-workspace /path/to/prompt.txt
 bash icon_set/scripts/run_icon_agent.sh /path/to/candidate-workspace /path/to/prompt.txt MODEL_NAME
+bash icon_set/scripts/run_icon_agent.sh /path/to/candidate-workspace /path/to/prompt.txt "" ref-1.png ref-2.png
 ```
+
+**Reference images.** The Generate page, the icon popup's feedback form and its Generate fixed variant form accept up to four SVG or PNG references (PNG ≤ 2 MB, SVG ≤ 1 MB; uploading needs an admin login). They are stored by content hash in `icon_set/data/reference-images/`, never under `dist`. Feedback keeps its references, and Regenerate carries them into the fix. A job copies them into `workspace/reference-images/`, lists them under `reference_images` in the request JSON, and attaches PNGs (and a 512 px rasterized copy of each SVG) to Codex with `--image`.
 
 The app prepares the prompt with the mission (generate or fix), icon name, requested family/skill, instructions, and fix source path. It copies the model, scripts, contracts and skills into `icon_set/data/generation-jobs/<job-id>/workspace`, then invokes the shell runner. It does not copy the feedback database or account credentials into that workspace. The model selects a unique Python filename and (for Auto) the type. Only one new Python icon module is eligible for acceptance; edits to existing files are rejected. A successful build is required to present the candidate.
 

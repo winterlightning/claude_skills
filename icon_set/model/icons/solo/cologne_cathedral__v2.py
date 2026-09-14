@@ -1,4 +1,3 @@
-# Variant of cologne-cathedral; parent file remains unchanged.
 """Cologne Cathedral. Rebuilt from the supplied silhouette."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,12 +17,14 @@ class LandmarkVariant2(Solo48):
     keywords = ('cologne', 'cathedral', 'germany', 'church', 'spire', 'gothic', 'landmark', 'religion')
 
     def build(self):
-        self.add_polyline('outline', (6, 42), (6, 23), (9, 14), (16, 23), (16, 31), (27, 23), (36, 31), (36, 35), (42, 39), (42, 42), (32, 42), (28, 42), (24, 42), closed=True)
-        self.add_polyline('cross-stem', (9, 6), (9, 6), (9, 14), closed=False)
+        """Opening repair: Lowered the tower crossbeam to enlarge the spire opening; preserved the outer silhouette."""
+        beam_y = 27
+        self.add_polyline('outline', (6, 42), (6, beam_y), (6, 23), (9, 14), (16, 23), (16, beam_y), (16, 31), (27, 23), (36, 31), (36, 35), (42, 39), (42, 42), (32, 42), (28, 42), (24, 42), closed=True)
+        self.add_polyline('cross-stem', (9, 6), (9, 14), closed=False)
         self.add_polyline('cross-bar', (6, 6), (9, 6), (13, 6), closed=False)
         self.relate('connect', 'cross-stem', 'cross-bar')
         self.relate('connect', 'cross-stem', 'outline')
-        self.add_polyline('tower', (6, 23), (16, 23), (16, 42), closed=False)
+        self.add_polyline('tower', (6, beam_y), (16, beam_y), (16, 42), closed=False)
         self.relate('connect', 'tower', 'outline')
         self.add_line('door', (28, 42), (28, 38))
         self.relate('connect', 'door', 'outline')

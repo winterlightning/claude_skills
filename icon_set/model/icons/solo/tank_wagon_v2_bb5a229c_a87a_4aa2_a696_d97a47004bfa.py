@@ -19,7 +19,11 @@ class TankWagonVariant2(Solo48):
 
     def build(self):
         # Capsule tank with matched radius-11 ends, integral hatch and equally sized wheels. Preserve attached ladder. No useful Lucide tank-wagon match.
-        self.add_polyline('top', (15, 12), (20, 12), (20, 8), (28, 8), (28, 12), (33, 12), closed=False)
+        self.add_line('top-1', (15, 12), (20, 12))
+        self.add_line('top-2', (20, 12), (20, 8))
+        self.add_line('top-3', (20, 8), (28, 8))
+        self.add_line('top-4', (28, 8), (28, 12))
+        self.add_line('top-5', (28, 12), (33, 12))
         self.add_arc('right', (33, 12), (33, 34), radius_x=11, radius_y=11, sweep=True)
         self.add_line('bottom', (33, 34), (15, 34))
         self.add_arc('left-bottom', (15, 34), (4, 23), radius_x=11, radius_y=11, sweep=True)

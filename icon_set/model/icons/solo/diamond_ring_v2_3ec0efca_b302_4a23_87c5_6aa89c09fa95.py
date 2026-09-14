@@ -22,7 +22,11 @@ class DiamondRingVariant2(Solo48):
 
     def build(self):
         # Lucide gem: deliberate facet corners; band uses exact cardinal ellipse and circle junctions, mirrored about x=24.
-        self.add_polyline('gem', (16, 16), (12, 8), (18, 4), (30, 4), (36, 8), (32, 16), closed=False)
+        self.add_line('gem-1', (16, 16), (12, 8))
+        self.add_line('gem-2', (12, 8), (18, 4))
+        self.add_line('gem-3', (18, 4), (30, 4))
+        self.add_line('gem-4', (30, 4), (36, 8))
+        self.add_line('gem-5', (36, 8), (32, 16))
         self.add_arc('band-top-right', (32, 16), (40, 28), radius_x=8, radius_y=12, sweep=True)
         self.add_arc('band-bottom-right', (40, 28), (24, 44), radius_x=16, radius_y=16, sweep=True)
         self.add_arc('band-bottom-left', (24, 44), (8, 28), radius_x=16, radius_y=16, sweep=True)

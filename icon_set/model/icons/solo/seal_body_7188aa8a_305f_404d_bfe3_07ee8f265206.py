@@ -1,42 +1,41 @@
 """sea-lion: HRECT_XL ink (6,6)-(42,42). Left-facing raised head, sweeping back and splayed flippers."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7188aa8a-305f-404d-bfe3-07ee8f265206'
 SOURCE_PATH = 'pictographic-primitives/animals/seal body_7188aa8a-305f-404d-bfe3-07ee8f265206.svg'
 AUTHOR = 'gpt-6'
 
-
 class SeaLion(Solo48):
     icon_id = 'sea-lion'
-    keyshape = Keyshape.HRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "animals/marine"
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'animals/marine'
     aliases = ()
     keywords = ('sea lion', 'seal', 'flippers', 'marine', 'animal', 'ocean', 'zoo', 'whiskers')
 
     def build(self) -> None:
-        self.add_arc('body-1', (12, 6), (22, 15), radius_x=10, radius_y=10, sweep=True)
-        self.add_line('body-2', (22, 15), (22, 19))
-        self.add_line('body-3', (22, 19), (28, 19))
-        self.add_arc('body-4', (28, 19), (42, 37), radius_x=18, radius_y=18, sweep=True)
-        self.add_line('body-5', (42, 37), (42, 39))
-        self.add_arc('body-6', (42, 39), (38, 42), radius_x=8, radius_y=4, sweep=False)
-        self.add_line('body-7', (38, 42), (41, 35))
-        self.add_line('body-8', (41, 35), (36, 30))
-        self.add_arc('body-9', (36, 30), (25, 34), radius_x=20, radius_y=12, sweep=True)
-        self.add_line('body-10', (25, 34), (30, 42))
-        self.add_arc('body-11', (30, 42), (17, 37), radius_x=13, radius_y=6, sweep=True)
-        self.add_line('body-12', (17, 37), (9, 40))
-        self.add_line('body-13', (9, 40), (6, 38))
-        self.add_arc('body-14', (6, 38), (10, 30), radius_x=12, radius_y=12, sweep=False)
-        self.add_arc('body-15', (10, 30), (6, 19), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('body-16', (6, 19), (6, 14), radius_x=3, radius_y=5, sweep=True)
-        self.add_arc('body-17', (6, 14), (6, 9), radius_x=4, radius_y=5, sweep=True)
-        self.add_arc('body-18', (6, 9), (12, 6), radius_x=7, radius_y=7, sweep=True)
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', 'body-11', 'body-12', 'body-13', 'body-14', 'body-15', 'body-16', 'body-17', 'body-18', closed=True)
-        self.add_line('flipper-1', (17, 29), (17, 37))
-        self.add_contour('flipper', 'flipper-1', closed=False)
-        self.add_dot('eye', (12, 15))
-        self.relate("connect", 'body', 'flipper')
+        self.add_arc('head-back', (16, 6), (28, 16), radius_x=12, radius_y=10)
+        self.add_line('neck-back', (28, 16), (28, 22))
+        self.add_line('back-start', (28, 22), (30, 22))
+        self.add_arc('back', (30, 22), (42, 34), radius_x=12)
+        self.add_line('rear-edge', (42, 34), (42, 38))
+        self.add_arc('rear-tip', (42, 38), (38, 42), radius_x=4)
+        self.add_line('rear-base', (38, 42), (34, 42))
+        self.add_line('rear-inner', (34, 42), (36, 34))
+        self.add_line('rear-join', (36, 34), (30, 32))
+        self.add_arc('belly', (30, 32), (24, 34), radius_x=12, radius_y=6)
+        self.add_line('front-flipper', (24, 34), (28, 42))
+        self.add_arc('front-flipper-base', (28, 42), (16, 38), radius_x=12, radius_y=4)
+        self.add_line('chest-base', (16, 38), (10, 40))
+        self.add_line('front-foot', (10, 40), (6, 38))
+        self.add_line('chest-lower', (6, 38), (10, 30))
+        self.add_arc('chest-upper', (10, 30), (8, 24), radius_x=14)
+        self.add_line('jaw', (8, 24), (6, 18))
+        self.add_line('mouth-lower', (6, 18), (10, 16))
+        self.add_line('mouth-upper', (10, 16), (6, 14))
+        self.add_arc('forehead', (6, 14), (16, 6), radius_x=10, radius_y=8)
+        self.add_contour('body', 'head-back', 'neck-back', 'back-start', 'back', 'rear-edge', 'rear-tip', 'rear-base', 'rear-inner', 'rear-join', 'belly', 'front-flipper', 'front-flipper-base', 'chest-base', 'front-foot', 'chest-lower', 'chest-upper', 'jaw', 'mouth-lower', 'mouth-upper', 'forehead', closed=True)
+        self.add_line('flipper-mark', (16, 30), (16, 38))
+        self.relate('connect', 'flipper-mark', 'body')
+        self.add_dot('eye', (19, 15))

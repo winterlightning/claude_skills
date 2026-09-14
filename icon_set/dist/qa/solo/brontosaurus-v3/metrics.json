@@ -1,0 +1,230 @@
+{
+  "icon_id": "brontosaurus-v3",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "dinosaur:subpath-1",
+        "elementId": "dinosaur",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 8 12 A 2 3 0 0 1 8 6 L 12 6 A 6 6 0 0 1 18 12 L 20 26 A 16 8 0 0 1 36 28 A 14 14 0 0 0 42 34 A 10 10 0 0 1 38 38 A 10 10 0 0 1 32 36 L 32 42 L 24 42 L 24 36 L 16 34 L 16 42 L 8 42 L 8 12 Z",
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 298,
+        "approximationError": 0.0009039468983290044,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "dinosaur:subpath-1"
+        ],
+        "contourIds": [
+          "dinosaur:subpath-1"
+        ],
+        "elementIds": [
+          "dinosaur"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [],
+    "excludedPairs": [],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 17,
+      "flattenedSegments": 298,
+      "adaptiveNodes": 570,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          14.2031,
+          28.1406
+        ],
+        "bbox_viewbox": [
+          6.5,
+          6.5,
+          34.8125,
+          35.0
+        ],
+        "bbox_ship_px": [
+          34.8125,
+          35.0
+        ],
+        "bbox_design_u": [
+          34.8125,
+          35.0
+        ],
+        "area_ship_px2": 544.0332,
+        "equivalent_diameter_ship_px": 26.3189,
+        "equivalent_diameter_design_u": 26.3189,
+        "inscribed_diameter_ship_px": 11.4145,
+        "inscribed_diameter_design_u": 11.4145,
+        "inscribed_radius_ship_px": 5.7073,
+        "inscribed_radius_design_u": 5.7073,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.2073,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.4146
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/brontosaurus-v3/icon.svg",
+    "metrics": "solo/brontosaurus-v3/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "4def094a836a47868bfa7bd55bf478ed2e13a8b8673b2e48246c3125b0c74253",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "review",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [
+      {
+        "contour": "dinosaur",
+        "elements": [
+          "tail-1",
+          "tail-3"
+        ],
+        "status": "review",
+        "sustained_length": 5.1974,
+        "centerline_distance": 5.9122,
+        "ink_gap": 1.9122,
+        "nearest_points": [
+          [
+            40.51920487553047,
+            33.11399253357088
+          ],
+          [
+            37.13489772640262,
+            37.96174104876586
+          ]
+        ]
+      }
+    ],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": true
+}

@@ -1,23 +1,21 @@
 """A bear crown on four widening rounded rings. Shared tier boundaries avoid doubled strokes; facial decoration is omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '11f12d81-7f9c-589f-99c1-4d862f93acd8'
 SOURCE_PATH = 'pictographic-primitives/babies/toy_11f12d81-7f9c-589f-99c1-4d862f93acd8.svg'
 AUTHOR = 'gpt-6'
 
-
 class StackingRingToy(Solo48):
     icon_id = 'stacking-ring-toy'
     keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "people/babies"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'people/babies'
     aliases = ()
     keywords = ('stacking', 'ring', 'toy', 'infant', 'nursery')
 
     def build(self) -> None:
-        # Centerline extremes: (6,6)-(42,42).
+        """Opening repair: Merged the compressed bottom two tiers into one roomy base ring; retained the bear crown and stacking rhythm."""
         self.add_arc('ear-left', (16, 6), (22, 6), radius_x=3, radius_y=3, sweep=True, large_arc=False)
         self.add_line('crown', (22, 6), (26, 6))
         self.add_arc('ear-right', (26, 6), (32, 6), radius_x=3, radius_y=3, sweep=True, large_arc=False)
@@ -38,16 +36,10 @@ class StackingRingToy(Solo48):
         self.add_arc('ring-two-left', (14, 30), (14, 22), radius_x=4, radius_y=4, sweep=True, large_arc=False)
         self.add_contour('ring-two', 'ring-two-top', 'ring-two-right', 'ring-two-bottom', 'ring-two-left', closed=True)
         self.add_line('ring-three-top', (12, 30), (36, 30))
-        self.add_arc('ring-three-right', (36, 30), (36, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('ring-three-bottom', (36, 38), (12, 38))
-        self.add_arc('ring-three-left', (12, 38), (12, 30), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+        self.add_arc('ring-three-right', (36, 30), (36, 42), sweep=True, large_arc=False, radius_x=6, radius_y=6)
+        self.add_line('ring-three-bottom', (36, 42), (12, 42))
+        self.add_arc('ring-three-left', (12, 42), (12, 30), sweep=True, large_arc=False, radius_x=6, radius_y=6)
         self.add_contour('ring-three', 'ring-three-top', 'ring-three-right', 'ring-three-bottom', 'ring-three-left', closed=True)
-        self.add_line('ring-four-top', (9, 38), (39, 38))
-        self.add_arc('ring-four-right', (39, 38), (39, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('ring-four-bottom', (39, 42), (9, 42))
-        self.add_arc('ring-four-left', (9, 42), (9, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('ring-four', 'ring-four-top', 'ring-four-right', 'ring-four-bottom', 'ring-four-left', closed=True)
-        self.relate("connect", 'bear', 'ring-one')
-        self.relate("connect", 'ring-one', 'ring-two')
-        self.relate("connect", 'ring-two', 'ring-three')
-        self.relate("connect", 'ring-three', 'ring-four')
+        self.relate('connect', 'bear', 'ring-one')
+        self.relate('connect', 'ring-one', 'ring-two')
+        self.relate('connect', 'ring-two', 'ring-three')

@@ -1,22 +1,21 @@
 """Bill pouch, bent neck, folded wing and water. Lucide bird informs the head and coherent bird contour. Eye omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a64f3ff4-3dac-4e77-9941-a21f45a74c31'
 SOURCE_PATH = 'pictographic-primitives/animals/pelican_a64f3ff4-3dac-4e77-9941-a21f45a74c31.svg'
 AUTHOR = 'gpt-6'
 
-
 class PelicanOnWater(Solo48):
     icon_id = 'pelican-on-water'
     keyshape = Keyshape.SQUARE
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "nature/animals"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'nature/animals'
     aliases = ('pelican',)
     keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
 
     def build(self) -> None:
+        """Opening repair: Deepened the bill pouch into a smooth half-ellipse, retaining the bent neck and wing."""
         self.add_line('outline-1', (6, 14), (18, 8))
         self.add_arc('outline-2', (18, 8), (26, 6), radius_x=8, radius_y=6, sweep=True)
         self.add_arc('outline-3', (26, 6), (34, 10), radius_x=8, radius_y=8, sweep=True)
@@ -27,7 +26,7 @@ class PelicanOnWater(Solo48):
         self.add_line('outline-8', (33, 36), (24, 36))
         self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', closed=False)
         self.add_line('pouch-1', (6, 14), (20, 14))
-        self.add_arc('pouch-2', (20, 14), (6, 14), radius_x=9, radius_y=11, sweep=True)
+        self.add_arc('pouch-2', (20, 14), (6, 14), sweep=True, radius_x=7, radius_y=6)
         self.add_contour('pouch', 'pouch-1', 'pouch-2', closed=False)
         self.add_line('neck-1', (20, 14), (15, 28))
         self.add_arc('neck-2', (15, 28), (17, 35), radius_x=10, radius_y=10, sweep=False)
@@ -35,5 +34,5 @@ class PelicanOnWater(Solo48):
         self.add_arc('water-1', (6, 42), (24, 42), radius_x=11, radius_y=3, sweep=False)
         self.add_arc('water-2', (24, 42), (42, 42), radius_x=11, radius_y=3, sweep=False)
         self.add_contour('water', 'water-1', 'water-2', closed=False)
-        self.relate("connect", 'outline', 'pouch')
-        self.relate("connect", 'pouch', 'neck')
+        self.relate('connect', 'outline', 'pouch')
+        self.relate('connect', 'pouch', 'neck')

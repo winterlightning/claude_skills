@@ -19,7 +19,12 @@ class DinosaurFootprintVariant2(Solo48):
 
     def build(self):
         # Three pointed toes and one elliptical heel, mirrored about x=24. Lucide footprints informs the simple single-contour footprint, not human toe anatomy.
-        self.add_polyline('toes', (6, 28), (6, 6), (17, 20), (24, 6), (31, 20), (42, 6), (42, 28), closed=False)
-        self.add_arc('heel-right', (42, 28), (24, 42), radius_x=18, radius_y=14, sweep=True)
-        self.add_arc('heel-left', (24, 42), (6, 28), radius_x=18, radius_y=14, sweep=True)
+        self.add_line('toes-1', (10, 32), (6, 10))
+        self.add_line('toes-2', (6, 10), (17, 22))
+        self.add_line('toes-3', (17, 22), (24, 6))
+        self.add_line('toes-4', (24, 6), (31, 22))
+        self.add_line('toes-5', (31, 22), (42, 10))
+        self.add_line('toes-6', (42, 10), (38, 32))
+        self.add_arc('heel-right', (38, 32), (24, 42), radius_x=14, radius_y=10, sweep=True)
+        self.add_arc('heel-left', (24, 42), (10, 32), radius_x=14, radius_y=10, sweep=True)
         self.add_contour('track', 'toes-1', 'toes-2', 'toes-3', 'toes-4', 'toes-5', 'toes-6', 'heel-right', 'heel-left', closed=True)

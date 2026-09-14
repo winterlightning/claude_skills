@@ -26,6 +26,7 @@ class FuelPumpWithDisplayVariant2(Solo48):
         self.add_line('hose-start', (26, 24), (34, 24))
         self.add_line('hose-drop', (34, 24), (34, 35))
         self.add_arc('hose-turn', (34, 35), (44, 35), radius_x=5, radius_y=5, sweep=False)
-        self.add_polyline('nozzle', (44, 35), (44, 16), (38, 8), closed=False)
+        self.add_line('nozzle-1', (44, 35), (44, 16))
+        self.add_line('nozzle-2', (44, 16), (38, 8))
         self.add_contour('hose', 'hose-start', 'hose-drop', 'hose-turn', 'nozzle-1', 'nozzle-2', closed=False)
         self.relate("connect", 'pump', 'hose')

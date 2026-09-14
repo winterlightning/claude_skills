@@ -1,4 +1,3 @@
-# Variant of star-labelled-bottle; parent file remains unchanged.
 """Star-labelled decorative bottle with a deeper cap opening. VRECT_L preserves the bottle proportions and intrinsic label."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,15 +17,16 @@ class StarLabelledBottleVariant2(Solo48):
     keywords = ('bottle', 'star', 'cap', 'container', 'label', 'decor', 'vessel')
 
     def build(self) -> None:
-        self.add_polyline('neck', (16, 12), (16, 11), (16, 6), (32, 6), (32, 11), (32, 12))
-        self.add_line('cap-bottom', (16, 11), (32, 11))
-        self.add_arc('shoulder-right', (32, 12), (40, 20), radius_x=8)
-        self.add_line('body-right', (40, 20), (40, 40))
+        """Opening repair: Deepened the cap band, moving both shoulder junctions together and retaining the star label."""
+        self.add_polyline('neck', (16, 14), (16, 6), (32, 6), (32, 14))
+        self.add_line('cap-bottom', (16, 14), (32, 14))
+        self.add_arc('shoulder-right', (32, 14), (40, 22), radius_x=8)
+        self.add_line('body-right', (40, 22), (40, 40))
         self.add_arc('base-right', (40, 40), (34, 42), radius_x=6)
         self.add_line('base', (34, 42), (14, 42))
         self.add_arc('base-left', (14, 42), (8, 40), radius_x=6)
-        self.add_line('body-left', (8, 40), (8, 20))
-        self.add_arc('shoulder-left', (8, 20), (16, 12), radius_x=8)
+        self.add_line('body-left', (8, 40), (8, 22))
+        self.add_arc('shoulder-left', (8, 22), (16, 14), radius_x=8)
         self.add_contour('body', 'shoulder-right', 'body-right', 'base-right', 'base', 'base-left', 'body-left', 'shoulder-left')
         self.relate('connect', 'neck', 'body')
         self.relate('connect', 'neck', 'cap-bottom')

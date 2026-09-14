@@ -1,4 +1,3 @@
-# Variant of analogue-wristwatch; parent file remains unchanged.
 """An analogue wristwatch with taller open straps and a circular face. VRECT_M provides strap clearance; Lucide watch informs the shared strap and dial axis."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,14 +17,14 @@ class AnalogueWristwatchVariant2(Solo48):
     keywords = ('watch', 'wristwatch', 'time', 'clock', 'analogue', 'dial', 'strap', 'accessory')
 
     def build(self) -> None:
-        # VRECT_M centerline extremes (11,6)-(37,42).
-        self.add_arc('face-top', (19,12), (29,12), radius_x=13)
-        self.add_arc('face-right', (29,12), (29,36), radius_x=13)
-        self.add_arc('face-bottom', (29,36), (19,36), radius_x=13)
-        self.add_arc('face-left', (19,36), (19,12), radius_x=13)
+        """Opening repair: Extended both strap ends equally to enlarge their openings, preserving the dial and hands."""
+        self.add_arc('face-top', (19, 12), (29, 12), radius_x=13)
+        self.add_arc('face-right', (29, 12), (29, 36), radius_x=13)
+        self.add_arc('face-bottom', (29, 36), (19, 36), radius_x=13)
+        self.add_arc('face-left', (19, 36), (19, 12), radius_x=13)
         self.add_contour('face', 'face-top', 'face-right', 'face-bottom', 'face-left', closed=True)
-        self.add_polyline('upper-strap', (19,12), (19,6), (29,6), (29,12))
-        self.add_polyline('lower-strap', (19,36), (19,42), (29,42), (29,36))
-        self.relate('connect','upper-strap','face')
-        self.relate('connect','lower-strap','face')
-        self.add_polyline('hands',(20,21),(24,24),(28,20))
+        self.add_polyline('upper-strap', (19, 12), (19, 4), (29, 4), (29, 12))
+        self.add_polyline('lower-strap', (19, 36), (19, 44), (29, 44), (29, 36))
+        self.relate('connect', 'upper-strap', 'face')
+        self.relate('connect', 'lower-strap', 'face')
+        self.add_polyline('hands', (20, 21), (24, 24), (28, 20))

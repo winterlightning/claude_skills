@@ -1,4 +1,3 @@
-# Variant of three-bead-drop-earring; parent file remains unchanged.
 """Three-bead drop earring with larger circular end beads and an oval central bead to preserve spacing. VRECT_S retains the vertical stack."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,18 +17,15 @@ class ThreeBeadDropEarringVariant2(Solo48):
     keywords = ('earring', 'bead', 'drop', 'pearl', 'jewellery', 'jewelry', 'circle', 'accessory')
 
     def build(self) -> None:
-        self.add_arc('stud-right', (24, 6), (24, 10), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('stud-left', (24, 10), (24, 6), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('stud', 'stud-right', 'stud-left', closed=True)
+        """Opening repair: Replaced visually solid end-bead slivers with clean solid strokes; preserved the open central oval and links."""
         self.add_arc('main-right', (24, 17), (24, 31), radius_x=10, radius_y=7, sweep=True, large_arc=False)
         self.add_arc('main-left', (24, 31), (24, 17), radius_x=10, radius_y=7, sweep=True, large_arc=False)
         self.add_contour('main', 'main-right', 'main-left', closed=True)
-        self.add_arc('drop-right', (24, 38), (24, 42), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('drop-left', (24, 42), (24, 38), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('drop', 'drop-right', 'drop-left', closed=True)
         self.add_line('upper-link', (24, 10), (24, 17))
         self.add_line('lower-link', (24, 31), (24, 38))
-        self.relate('connect', 'stud', 'upper-link')
         self.relate('connect', 'main', 'upper-link')
         self.relate('connect', 'main', 'lower-link')
+        self.add_line('stud', (24, 6), (24, 10))
+        self.add_line('drop', (24, 38), (24, 42))
+        self.relate('connect', 'stud', 'upper-link')
         self.relate('connect', 'drop', 'lower-link')

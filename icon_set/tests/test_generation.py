@@ -71,6 +71,29 @@ class GenerationTests(unittest.TestCase):
         self.assertEqual(self.manager.read(self.row['id'])['status'],'failed')
         self.assertEqual(self.old.read_text(),'# original')
 
+    def test_reference_images_reach_the_agent_workspace_and_prompt(self):
+        from icon_set.scripts.reference_images import ReferenceStore
+        store=ReferenceStore(self.root/'data/refs');self.manager.references=store
+        png=store.save('Shape.png',b'\x89PNG\r\n\x1a\n'+b'\x00'*16)
+        svg=store.save('outline.svg',b'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><rect width="20" height="10"/></svg>')
+        calls=[]
+        def agent(args,cwd,log):
+            calls.append(args);self.agent(args,cwd,log)
+        with self.assertRaises(ValueError):
+            self.manager.start({'mode':'generate','name':'x','prompt':'x','family':'sub','reference_images':['f'*64]},{})
+        row=dict(self.row,reference_images=[png,svg])
+        with patch.object(self.manager,'snapshot',self.snapshot),patch.object(self.manager,'command',agent),patch.object(self.manager,'build',self.build):
+            self.manager.run(row)
+        self.assertEqual(self.manager.read(row['id'])['status'],'candidate')
+        workspace=self.manager.folder(row['id'])/'workspace'
+        self.assertEqual((workspace/'reference-images/01-shape.png').read_bytes(),store.path(png['id']).read_bytes())
+        self.assertTrue((workspace/'reference-images/02-outline.svg').is_file())
+        request=json.loads((self.manager.folder(row['id'])/'prompt.txt').read_text().rsplit('(JSON)',1)[1])
+        self.assertEqual([item['path'] for item in request['reference_images']],['reference-images/01-shape.png','reference-images/02-outline.svg'])
+        self.assertEqual(request['reference_images'][1]['preview_png'],'reference-images/02-outline.preview.png')
+        self.assertTrue((workspace/'reference-images/02-outline.preview.png').read_bytes().startswith(b'\x89PNG'))
+        self.assertEqual(calls[0][5:],[str(workspace/'reference-images/01-shape.png'),str(workspace/'reference-images/02-outline.preview.png')])
+
     def test_invalid_request_and_job_paths(self):
         with self.assertRaises(ValueError):self.manager.folder('../escape')
         with self.assertRaises(ValueError):self.manager.start({'mode':'generate','name':'x','prompt':'x','family':'bad'}, {})

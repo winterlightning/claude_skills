@@ -1,4 +1,3 @@
-# Variant of bobble-hat-with-seams; parent file remains unchanged.
 """A bobble hat with a deep cuff and two short crown seams."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,6 +17,7 @@ class BobbleHatWithSeamsVariant2(Solo48):
     keywords = ('beanie', 'hat', 'bobble hat', 'winter', 'knit', 'pompom', 'cap', 'clothing')
 
     def build(self) -> None:
+        """Opening repair: Made the bobble a true circle with an open centre."""
         self.add_line('cuff0', (8, 34), (40, 34))
         self.add_arc('cuff1', (40, 34), (42, 37), radius_x=3, radius_y=3, sweep=True)
         self.add_line('cuff2', (42, 37), (42, 42))
@@ -33,7 +33,7 @@ class BobbleHatWithSeamsVariant2(Solo48):
         self.add_line('crown-r', (40, 30), (40, 34))
         self.add_contour('crown', 'crown-l', 'crown-a', 'crown-b', 'crown-r', closed=False)
         self.relate('connect', 'crown', 'cuff')
-        self.add_arc('bobble-a', (24, 6), (24, 14), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('bobble-b', (24, 14), (24, 6), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('bobble-a', (24, 6), (24, 14), sweep=True, radius_x=4, radius_y=4)
+        self.add_arc('bobble-b', (24, 14), (24, 6), sweep=True, radius_x=4, radius_y=4)
         self.add_contour('bobble', 'bobble-a', 'bobble-b', closed=True)
         self.relate('connect', 'bobble', 'crown')

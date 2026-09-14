@@ -1,7 +1,6 @@
 """Unequal hanging stems carry a leaf and a downward-facing flower; tiny lower petal omitted."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '76e15d0e-0c43-40b6-ba38-ae2903117c14'
 SOURCE_PATH = 'pictographic-primitives/decoration/batch-02/hanging flowers_76e15d0e-0c43-40b6-ba38-ae2903117c14.svg'
 AUTHOR = 'gpt-6'
@@ -9,17 +8,17 @@ AUTHOR = 'gpt-6'
 class HangingFlowerPair(Solo48):
     icon_id = 'hanging-flower-pair'
     keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/decoration"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/decoration'
     aliases = ()
     keywords = ('flower', 'hanging', 'petals', 'stem', 'leaf', 'botanical', 'decor')
 
     def build(self) -> None:
-        # VRECT_XL: exact SOLO48 extremes; geometry authored on the integer grid.
+        """Opening repair: Broadened the hanging leaf while retaining the separate flower and unequal stems."""
         self.add_line('left-stem', (16, 6), (16, 28))
-        self.add_arc('leaf-a', (16, 28), (6, 39), radius_x=11, radius_y=11, sweep=True)
-        self.add_arc('leaf-b', (6, 39), (16, 28), radius_x=11, radius_y=11, sweep=True)
+        self.add_arc('leaf-a', (16, 28), (6, 39), sweep=True, radius_x=9, radius_y=9)
+        self.add_arc('leaf-b', (6, 39), (16, 28), sweep=True, radius_x=9, radius_y=9)
         self.add_contour('leaf', 'leaf-a', 'leaf-b', closed=True)
         self.relate('connect', 'left-stem', 'leaf')
         self.add_arc('tail-a', (16, 28), (19, 31), radius_x=3, radius_y=3, sweep=True)

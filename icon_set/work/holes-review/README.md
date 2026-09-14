@@ -17,3 +17,8 @@ Nine selected icons have new independent candidates in revision-2-mapping.json; 
 The current page defaults to Latest revisions (9), comparing previous drafts to the new candidates. The full batch now contains 64 icons: 22 fully pass and 42 retain other findings. Original batch JSON and HTML are preserved under revision-1/. No production failure gallery rebuild was requested or performed. Do not rerun repair_batch.py over these later revisions. The latest revision sources are authored by revise_selected.py, and the current review is emitted by make_gallery.py.
 
 Visual QA: all nine inspected enlarged and at 48px in both themes. Browser refresh was unavailable because the browser tool blocks file URLs; the HTML itself was generated and checked locally.
+
+
+## Approved and applied — 2026-09-14
+
+User approved the current review. All 64 approved geometries were applied to the original Python icon models, preserving identities and backing up prior sources in approved-source-backups. SOLO gallery rebuilt; all 64 originals pass negative-space validation. The rebuilt gallery reports 27 remaining undersized-hole icons, including the excluded user-with-gear. Other validation findings remain visible. See remaining-holes.json for fresh checks.

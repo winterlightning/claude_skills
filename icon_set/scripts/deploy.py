@@ -7,6 +7,8 @@ Use --open for local browser preview. Put a TLS reverse proxy in front on a serv
 from __future__ import annotations
 
 import argparse
+import base64
+import binascii
 from contextlib import closing
 from datetime import datetime, timezone
 from functools import partial
@@ -24,14 +26,18 @@ import webbrowser
 if __package__:
     from .generation import GenerationManager
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
+    from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
 else:
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
+    from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
 DEFAULT_DB = PACKAGE_ROOT / 'data' / 'feedback.sqlite3'
 MAX_BODY = 65536
+# Base64 inflates by 4/3; leave room for the JSON wrapper around the largest image.
+MAX_REFERENCE_BODY = max(REFERENCE_LIMITS.values()) * 4 // 3 + 4096
 ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1"}
 SESSION_TTL = 12 * 60 * 60
 
@@ -59,6 +65,8 @@ def init_database(path: Path) -> None:
             id INTEGER PRIMARY KEY, icon TEXT NOT NULL, feedback TEXT NOT NULL,
             svg_sha256 TEXT NOT NULL, created_at TEXT NOT NULL)''')
         connection.execute('CREATE INDEX IF NOT EXISTS feedback_icon ON feedback(icon, id)')
+        if 'reference_images' not in {row[1] for row in connection.execute('PRAGMA table_info(feedback)')}:
+            connection.execute("ALTER TABLE feedback ADD COLUMN reference_images TEXT NOT NULL DEFAULT '[]'")
         connection.execute('''CREATE TABLE IF NOT EXISTS reviews (
             icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
             status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected')),
@@ -76,6 +84,15 @@ def init_database(path: Path) -> None:
         connection.execute('''INSERT OR IGNORE INTO reviews(icon, svg_sha256, status, updated_at)
             SELECT icon, svg_sha256, 'pending', MAX(created_at)
             FROM feedback GROUP BY icon, svg_sha256''')
+
+
+def feedback_row(row):
+    data = dict(row)
+    try:
+        data['reference_images'] = json.loads(data.get('reference_images') or '[]')
+    except ValueError:
+        data['reference_images'] = []
+    return data
 
 
 class GalleryHandler(SimpleHTTPRequestHandler):
@@ -181,6 +198,18 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Unknown generation route.'}, 404)
             except (OSError, ValueError) as error:
                 return self.json_response({'error': str(error)}, 400)
+        if parsed.path == '/api/reference-images':
+            try:
+                content, mime = self.server.references.read(parse_qs(parsed.query).get('id', [''])[0])
+            except (OSError, ValueError) as error:
+                return self.json_response({'error': str(error)}, 404)
+            self.send_response(200)
+            self.send_header('Content-Type', mime)
+            self.send_header('Content-Length', str(len(content)))
+            self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+            self.end_headers()
+            self.wfile.write(content)
+            return
         if parsed.path == '/api/icon-flag':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
@@ -218,9 +247,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     connection.row_factory = sqlite3.Row
                     rows = connection.execute(
-                        'SELECT id, icon, feedback, svg_sha256, created_at FROM feedback ORDER BY id DESC'
+                        'SELECT id, icon, feedback, svg_sha256, created_at, reference_images FROM feedback ORDER BY id DESC'
                     ).fetchall()
-                return self.json_response([dict(row) for row in rows])
+                return self.json_response([feedback_row(row) for row in rows])
             except sqlite3.Error:
                 return self.json_response({'error': 'Feedback is temporarily unavailable'}, 503)
         if parsed.path == '/api/reviews':
@@ -258,10 +287,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     connection.row_factory = sqlite3.Row
                     rows = connection.execute(
-                        'SELECT id, feedback, svg_sha256, created_at FROM feedback WHERE icon=? ORDER BY id DESC LIMIT 100',
+                        'SELECT id, feedback, svg_sha256, created_at, reference_images FROM feedback WHERE icon=? ORDER BY id DESC LIMIT 100',
                         (key,),
                     ).fetchall()
-                return self.json_response([dict(row) for row in rows])
+                return self.json_response([feedback_row(row) for row in rows])
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Feedback is temporarily unavailable'}, 503)
         return super().do_GET()
@@ -292,10 +321,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images'):
             return self.json_response({'error': 'Not found'}, 404)
         if route.startswith('/api/generation') and not self.current_user():
             return self.json_response({'error': 'Log in as an admin to generate icons.'}, 401)
+        if route == '/api/reference-images' and not self.current_user():
+            return self.json_response({'error': 'Log in as an admin to attach reference images.'}, 401)
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
                        urlsplit(origin).netloc != self.headers.get('Host')):
@@ -306,12 +337,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        if self.headers.get('Transfer-Encoding') or not 0 < size <= (131072 if route == '/api/generation' else MAX_BODY):
-            return self.json_response({'error': 'Invalid request size'}, 413)
+        limit = {'/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
+        if self.headers.get('Transfer-Encoding') or not 0 < size <= limit:
+            return self.json_response({'error': 'Invalid request size' if route != '/api/reference-images' else 'Reference image is too large.'}, 413)
         try:
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route == '/api/reference-images':
+                return self.upload_reference(data)
             if route in ('/api/auth/login', '/api/auth/logout'):
                 return self.auth_action(route, data)
             if route in ('/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
@@ -342,6 +376,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if route == '/api/feedback':
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
                     raise ValueError()
+                try:
+                    references = self.server.references.resolve(data.get('reference_images'))
+                except ValueError as error:
+                    return self.json_response({'error': str(error)}, 400)
                 status = 'pending'
             elif status not in ('ready', 'pending', 're-generated', 'approve', 'rejected'):
                 raise ValueError()
@@ -369,8 +407,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 now = datetime.now(timezone.utc).isoformat()
                 if route == '/api/feedback':
                     connection.execute(
-                        'INSERT INTO feedback(icon, feedback, svg_sha256, created_at) VALUES (?, ?, ?, ?)',
-                        (key, feedback.strip(), icon['svg_sha256'], now),
+                        'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images) VALUES (?, ?, ?, ?, ?)',
+                        (key, feedback.strip(), icon['svg_sha256'], now, json.dumps(references)),
                     )
                 connection.execute(
                     '''INSERT INTO reviews(icon, svg_sha256, status, updated_at) VALUES (?, ?, ?, ?)
@@ -381,6 +419,21 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'saved': True, 'status': status}, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
+
+    def upload_reference(self, data):
+        encoded = data.get('data')
+        try:
+            if not isinstance(encoded, str):
+                raise ValueError('Choose an SVG or PNG file.')
+            try:
+                content = base64.b64decode(encoded, validate=True)
+            except (binascii.Error, ValueError):
+                raise ValueError('Could not read the uploaded file.')
+            return self.json_response(self.server.references.save(data.get('name'), content), 201)
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except OSError:
+            return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
 
     def save_icon_flag(self, data):
         key, flag = data.get('icon'), data.get('flag')
@@ -466,7 +519,8 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
     init_database(database)
     server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
-    server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs')
+    server.references = ReferenceStore(database.parent / 'reference-images')
+    server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
     return server
 
 

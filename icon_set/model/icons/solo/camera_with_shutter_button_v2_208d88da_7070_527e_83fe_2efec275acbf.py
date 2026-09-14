@@ -37,7 +37,11 @@ class CameraWithShutterButtonVariant2(Solo48):
 
     def build(self):
         # Lucide camera: tangent quarter-circle body corners and a centered lens; raised housing retained.
-        self.add_polyline('housing', (8, 14), (12, 14), (18, 8), (30, 8), (36, 14), (40, 14), closed=False)
+        self.add_line('housing-1', (8, 14), (12, 14))
+        self.add_line('housing-2', (12, 14), (18, 8))
+        self.add_line('housing-3', (18, 8), (30, 8))
+        self.add_line('housing-4', (30, 8), (36, 14))
+        self.add_line('housing-5', (36, 14), (40, 14))
         self.add_arc('tr', (40, 14), (44, 18), radius_x=4, radius_y=4, sweep=True)
         self.add_line('right', (44, 18), (44, 36))
         self.add_arc('br', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
@@ -46,8 +50,8 @@ class CameraWithShutterButtonVariant2(Solo48):
         self.add_line('left', (4, 36), (4, 18))
         self.add_arc('tl', (4, 18), (8, 14), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('body', 'housing-1', 'housing-2', 'housing-3', 'housing-4', 'housing-5', 'tr', 'right', 'br', 'bottom', 'bl', 'left', 'tl', closed=True)
-        self.add_arc('lens-a', (18, 26), (30, 26), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('lens-b', (30, 26), (18, 26), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('lens-a', (18, 25), (30, 25), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('lens-b', (30, 25), (18, 25), radius_x=6, radius_y=6, sweep=True)
         self.add_contour('lens', 'lens-a', 'lens-b', closed=True)
         self.add_line('shutter', (8, 14), (8, 8))
         self.relate("connect", 'shutter', 'body')

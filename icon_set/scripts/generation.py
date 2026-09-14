@@ -18,6 +18,8 @@ def mission_prompt(row):
     if mode not in ('generate', 'fix'):
         raise ValueError('Unknown icon mission.')
     request = {key: row[key] for key in ('name', 'prompt', 'family')}
+    if row.get('reference_files'):
+        request['reference_images'] = row['reference_files']
     if mode == 'fix':
         source = row.get('source')
         if not source or not source.get('python_source', {}).get('path'):
@@ -33,8 +35,9 @@ def digest(path):
 
 
 class GenerationManager:
-    def __init__(self, root, dist, storage):
+    def __init__(self, root, dist, storage, references=None):
         self.root, self.dist, self.storage = Path(root), Path(dist), Path(storage)
+        self.references = references
         self.storage.mkdir(parents=True, exist_ok=True)
         self.lock = threading.RLock()
         self.busy = False
@@ -85,12 +88,17 @@ class GenerationManager:
             if not relative or not path.is_relative_to((self.root/'icon_set/model/icons').resolve()) or not path.is_file():
                 raise ValueError('This icon has no available Python source.')
             family = source['family']
+        references = []
+        if data.get('reference_images'):
+            if self.references is None:
+                raise ValueError('Reference images are not available on this server.')
+            references = self.references.resolve(data['reference_images'])
         with self.lock:
             if self.busy:
                 raise ValueError('An agent or build is already running. Wait for it to finish.')
             if not shutil.which(os.environ.get('CODEX_BIN','codex')):
                 raise ValueError('Install Codex CLI on this server and sign in before generating.')
-            row = dict(id=uuid.uuid4().hex, mode=mode, name=name.strip(), prompt=prompt.strip(), family=family, model=model, source=source, status='running')
+            row = dict(id=uuid.uuid4().hex, mode=mode, name=name.strip(), prompt=prompt.strip(), family=family, model=model, source=source, reference_images=references, status='running')
             self.write(row)
             self.busy=True
             threading.Thread(target=self.run, args=(row,), daemon=True).start()
@@ -103,6 +111,35 @@ class GenerationManager:
                 shutil.copytree(source,destination/relative,ignore=shutil.ignore_patterns('__pycache__','*.pyc'))
         shutil.copy2(self.root/'icon_set/__init__.py',destination/'icon_set/__init__.py')
         return {str(p.relative_to(destination)):digest(p) for p in destination.rglob('*') if p.is_file()}
+
+    def stage_references(self, row, workspace):
+        """Copy the job's reference images into the workspace (after the snapshot, so they are
+        not baseline files) and return (request entries, PNG paths to attach to the agent)."""
+        files, images = [], []
+        folder = workspace/'reference-images'
+        for index, meta in enumerate(row.get('reference_images') or [], 1):
+            if self.references is None:
+                raise ValueError('Reference images are not available on this server.')
+            relative = f"reference-images/{index:02d}-{meta['name']}"
+            folder.mkdir(exist_ok=True)
+            content = self.references.path(meta['id']).read_bytes()
+            (workspace/relative).write_bytes(content)
+            entry = {'path': relative, 'kind': meta['kind'], 'name': meta['name']}
+            if meta['kind'] == 'svg':
+                # The agent sees PNGs directly; an SVG also gets a rasterized copy.
+                try:
+                    import cairosvg
+                    preview = workspace/(relative[:-4] + '.preview.png')
+                    # Uploaded SVGs are untrusted: safe mode loads no linked files or URLs.
+                    preview.write_bytes(cairosvg.svg2png(bytestring=content, output_width=512, unsafe=False))
+                    entry['preview_png'] = str(preview.relative_to(workspace))
+                    images.append(str(preview))
+                except Exception:
+                    pass  # the SVG source is still in the workspace
+            else:
+                images.append(str(workspace/relative))
+            files.append(entry)
+        return files, images
 
     def command(self, args, cwd, log, timeout=1800):
         with log.open('ab') as stream:
@@ -126,9 +163,10 @@ class GenerationManager:
         try:
             baseline=self.snapshot(workspace)
             source=row['source']
-            prompt = mission_prompt(row)
+            files,images=self.stage_references(row,workspace)
+            prompt = mission_prompt(dict(row,reference_files=files))
             prompt_path=folder/'prompt.txt'; prompt_path.write_text(prompt)
-            self.command(['bash',str(self.root/'icon_set/scripts/run_icon_agent.sh'),str(workspace),str(prompt_path),row['model']],workspace,log)
+            self.command(['bash',str(self.root/'icon_set/scripts/run_icon_agent.sh'),str(workspace),str(prompt_path),row['model'],*images],workspace,log)
             candidate=json.loads((workspace/'candidate.json').read_text())
             relative=candidate['path']; family=candidate['family']
             if family not in FAMILIES or not re.fullmatch(r'icon_set/model/icons/'+family+r'/[a-z][a-z0-9_]*\.py',relative):

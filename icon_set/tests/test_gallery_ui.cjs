@@ -9,6 +9,9 @@ class Element {
   append(...items) { this.children.push(...items); this.options = this.children; }
   replaceChildren(...items) { this.children = items; this.options = this.children; }
   setAttribute() {}
+  closest() { return new Element(); }
+  focus() {}
+  scrollIntoView() {}
   addEventListener() {}
   querySelector() { return new Element(); }
   querySelectorAll() {
@@ -28,9 +31,12 @@ function page(name) {
   const localStorage = { getItem: k => storage.get(k), setItem: (k,v) => storage.set(k,v), removeItem: k => storage.delete(k) };
   const location = { search: '', href: 'http://localhost/gallery/generate.html', assign: url => navigations.push(url) };
   const context = vm.createContext({document, localStorage, sessionStorage: localStorage, location,
-    window: {addEventListener() {}}, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console});
+    window: {addEventListener() {}}, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console,
+    fetch: async () => ({ok: false, json: async () => null})});
   let script = fs.readFileSync(path.join(__dirname, '../scripts/templates', name+'.html'), 'utf8').split('<script>')[1].split('</script>')[0];
   script = name === 'gallery' ? script.slice(0, script.lastIndexOf('(async()=>')) : script.replace('refresh();setInterval(()=>{if(!document.hidden)refresh();},4000);', '');
+  vm.runInContext(fs.readFileSync(path.join(__dirname, '../scripts/templates/reference-picker.js'), 'utf8'), context);
+  vm.runInContext('var ReferencePicker=window.ReferencePicker,referenceThumbs=window.referenceThumbs;', context);
   vm.runInContext(script, context);
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
@@ -83,6 +89,25 @@ async function main() {
   assert.equal(generate.document.getElementById('notice').textContent, 'Build failed');
   assert.equal(generate.run('pendingGridJob'), '');
   assert.equal(generate.navigations.length, 1, 'Failed build stays on Generate');
-  console.log('Gallery version groups, rejection, pagination, and build-to-grid navigation passed.');
+
+  // Reference images: feedback keeps them, Regenerate carries them into the fix, and both forms send ids.
+  const refs = [{id:'a'.repeat(64),kind:'png',name:'shape.png'}];
+  const posts = [];
+  gallery.context.fetch = async (url, options={}) => { if (options.method === 'POST') posts.push([url, JSON.parse(options.body)]); return {ok:true,status:201,headers:{get:()=> 'application/json'},json:async()=>({status:'pending'}),text:async()=>''}; };
+  gallery.run("selected=icons[0];feedbackPicker.set(" + JSON.stringify(refs) + ");$('feedback').value='Softer';");
+  await gallery.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.deepEqual(posts.at(-1)[1].reference_images, [refs[0].id]);
+  assert.deepEqual(JSON.parse(gallery.run('JSON.stringify(feedbackPicker.ids())')), [], 'Saved feedback clears the picker');
+  gallery.run("inspect=()=>{};addRegenerate(" + JSON.stringify({feedback:'Softer',svg_sha256:'x',reference_images:refs}) + ",Object.assign(icons[0],{python_source:{path:'p.py'}}),$('fixActions'));$('fixActions').children.at(-1).onclick();");
+  assert.deepEqual(JSON.parse(gallery.run('JSON.stringify(fixPicker.ids())')), [refs[0].id], 'Regenerate carries feedback references');
+  await gallery.run("$('fixForm').onsubmit({preventDefault(){}})");
+  assert.equal(posts.at(-1)[0], '../api/generation');
+  assert.deepEqual(posts.at(-1)[1].reference_images, [refs[0].id]);
+  generate.context.fetch = async (url, options={}) => { if (options.method === 'POST') posts.push([url, JSON.parse(options.body)]); return {ok:true,status:202,headers:{get:()=> 'application/json'},json:async()=>(options.method === 'POST' ? {} : [])}; };
+  generate.run("referencePicker.set(" + JSON.stringify(refs) + ");");
+  await generate.run("$('generateForm').onsubmit({preventDefault(){}})");
+  assert.deepEqual(posts.at(-1)[1].reference_images, [refs[0].id]);
+  assert.deepEqual(JSON.parse(generate.run('JSON.stringify(referencePicker.ids())')), []);
+  console.log('Gallery version groups, rejection, pagination, build-to-grid navigation, and reference images passed.');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });

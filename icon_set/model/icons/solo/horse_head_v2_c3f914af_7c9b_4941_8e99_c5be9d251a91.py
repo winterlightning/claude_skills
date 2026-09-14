@@ -18,6 +18,8 @@ class HorseHeadVariant2(Solo48):
     keywords = ('horse', 'head', 'profile', 'mane', 'equine', 'pony', 'zebra')
 
     def build(self):
+        # Remove the secondary mane stripe: its enclosed wedge fails the hole gate.
+        # Retain the equine outer mane, pricked ear, muzzle and eye.
         points = [(6, 28), (6, 26), (22, 12), (18, 8), (18, 6), (28, 8)]
         for j, (a, b) in enumerate(zip(points, points[1:]), 1):
             self.add_line(f'forehead-{j}', a, b)
@@ -29,6 +31,5 @@ class HorseHeadVariant2(Solo48):
         self.add_line('neck-2', (24, 34), (10, 36))
         self.add_arc('muzzle', (10, 36), (6, 28), radius_x=4, radius_y=8, sweep=True)
         self.add_contour('outline', *[f'forehead-{i}' for i in range(1, 6)], 'poll', 'poll-back', 'mane-back', 'neck-1', 'neck-mid', 'neck-2', 'muzzle', closed=True)
-        self.add_arc('mane-inner', (38, 12), (29, 40), radius_x=60, radius_y=60, sweep=True)
-        self.relate('connect', 'mane-inner', 'outline')
+
         self.add_dot('eye', (25, 21))

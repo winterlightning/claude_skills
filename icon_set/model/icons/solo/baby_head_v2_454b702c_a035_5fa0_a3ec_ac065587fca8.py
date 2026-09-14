@@ -1,4 +1,3 @@
-# Variant of baby-head; parent file remains unchanged.
 """A blank baby portrait with curled hair, ear bumps and broad shoulders; Lucide baby informs the continuous face contour."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,11 +17,11 @@ class BabyHeadVariant2(Solo48):
     keywords = ('baby', 'head', 'infant', 'nursery')
 
     def build(self) -> None:
-        # SQUARE extremes (6,6)-(42,42): plain circular head and a single curl.
-        self.add_arc('head-left', (24,6), (24,42), radius_x=22, sweep=False)
-        self.add_arc('head-right', (24,42), (24,6), radius_x=22, sweep=False)
+        """Opening repair: Rebuilt the intended round head and inward curl so the curl no longer crosses the forehead."""
+        self.add_arc('head-left', (24, 6), (24, 42), radius_x=18, sweep=False)
+        self.add_arc('head-right', (24, 42), (24, 6), radius_x=18, sweep=False)
         self.add_contour('head', 'head-left', 'head-right', closed=True)
-        self.add_arc('curl-down', (24,6), (32,10), radius_x=8)
-        self.add_arc('curl-in', (32,10), (26,16), radius_x=6)
+        self.add_arc('curl-down', (24, 6), (30, 12), radius_x=6)
+        self.add_arc('curl-in', (30, 12), (24, 18), radius_x=6)
         self.add_contour('curl', 'curl-down', 'curl-in')
         self.relate('connect', 'head', 'curl')

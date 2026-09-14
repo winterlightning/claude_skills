@@ -5,8 +5,7 @@
   "selected_for_build": true,
   "status": "fail",
   "errors": [
-    "canvas/keyshape bounds: visible ink (3.93296, 4, 44.067, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.067, 0.0, 0.067, 0.0], tolerance 0.0)",
-    "holes/pinches: 1 undersized holes; 0 pinches"
+    "canvas/keyshape bounds: visible ink (3.93296, 4, 44.067, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.067, 0.0, 0.067, 0.0], tolerance 0.0)"
   ],
   "warnings": [],
   "spacing": {
@@ -18,15 +17,15 @@
         "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 6 A 5 5 0 0 1 24 12 A 5 5 0 0 1 24 6 Z",
+        "pathData": "M 24 6 A 3 3 0 0 1 24 12 A 3 3 0 0 1 24 6 Z",
         "bounds": [
-          23.0,
+          21.0,
           6.0,
-          25.0,
+          27.0,
           12.0
         ],
         "segmentCount": 129,
-        "approximationError": 0.0002527427232681513,
+        "approximationError": 0.0009039468984426912,
         "hasCurves": true
       },
       {
@@ -541,42 +540,53 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "fail",
+    "status": "pass",
     "hole_count": 5,
-    "failed_hole_count": 1,
+    "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          8.7969
+          8.9844
         ],
         "bbox_viewbox": [
-          23.5,
-          6.9688,
-          1.0,
-          4.0625
+          21.5,
+          6.5,
+          5.0,
+          5.0
         ],
         "bbox_ship_px": [
-          1.0,
-          4.0625
+          5.0,
+          5.0
         ],
         "bbox_design_u": [
-          1.0,
-          4.0625
+          5.0,
+          5.0
         ],
-        "area_ship_px2": 2.7881,
-        "equivalent_diameter_ship_px": 1.8841,
-        "equivalent_diameter_design_u": 1.8841,
-        "inscribed_diameter_ship_px": 1.0,
-        "inscribed_diameter_design_u": 1.0,
-        "inscribed_radius_ship_px": 0.5,
-        "inscribed_radius_design_u": 0.5,
+        "area_ship_px2": 19.6367,
+        "equivalent_diameter_ship_px": 5.0002,
+        "equivalent_diameter_design_u": 5.0002,
+        "inscribed_diameter_ship_px": 4.8932,
+        "inscribed_diameter_design_u": 4.8932,
+        "inscribed_radius_ship_px": 2.4466,
+        "inscribed_radius_design_u": 2.4466,
         "minimum_radius_design_u": 2.5,
-        "status": "fail",
-        "equivalent_radius_at_authored_stroke_design_u": -1.0,
-        "equivalent_diameter_at_authored_stroke_design_u": -2.0
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 0.9466,
+        "equivalent_diameter_at_authored_stroke_design_u": 1.8932,
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "head",
+          "center": [
+            24.0,
+            9.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
       },
       {
         "hole": 2,
@@ -708,7 +718,7 @@
       }
     ],
     "pinches": [],
-    "exception_count": 0,
+    "exception_count": 1,
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
@@ -730,7 +740,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "ba485d5b2aafe7c59564d72eac4a800cb5431af30c3777a02b9cff4cae512185",
+  "svg_sha256": "a80eac13c3428c0cf6156ade02b7ca801ff838e7b396223f13fe38c2ee56bc2f",
   "rules": {
     "profile": {
       "canvas_size": 48,

@@ -1,5 +1,4 @@
-# Variant of pelican-on-water; parent file remains unchanged.
-'A pelican floating on water with the short underline beneath its folded wing removed. SQUARE extremes (6,6)-(42,42) preserve the bill, neck and water. Lucide bird informs the sparse curved profile. Left-facing asymmetry is intentional.'
+"""A pelican floating on water with the short underline beneath its folded wing removed. SQUARE extremes (6,6)-(42,42) preserve the bill, neck and water. Lucide bird informs the sparse curved profile. Left-facing asymmetry is intentional."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a64f3ff4-3dac-4e77-9941-a21f45a74c31'
@@ -18,22 +17,22 @@ class PelicanOnWaterVariant2(Solo48):
     keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
 
     def build(self) -> None:
-        self.add_line('outline-1', (6, 14), (18, 8))
-        self.add_arc('outline-2', (18, 8), (26, 6), radius_x=8, radius_y=6, sweep=True)
-        self.add_arc('outline-3', (26, 6), (34, 10), radius_x=8, radius_y=8, sweep=True)
-        self.add_arc('outline-4', (34, 10), (30, 22), radius_x=18, radius_y=18, sweep=True)
-        self.add_line('outline-5', (30, 22), (25, 28))
-        self.add_arc('outline-6', (25, 28), (42, 23), radius_x=12, radius_y=9, sweep=False)
-        self.add_arc('outline-7', (42, 23), (33, 36), radius_x=13, radius_y=13, sweep=True)
-        self.add_contour('outline', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', closed=False)
-        self.add_line('pouch-1', (6, 14), (20, 14))
-        self.add_arc('pouch-2', (20, 14), (6, 14), radius_x=9, radius_y=11, sweep=True)
-        self.add_contour('pouch', 'pouch-1', 'pouch-2', closed=False)
-        self.add_line('neck-1', (20, 14), (15, 28))
-        self.add_arc('neck-2', (15, 28), (17, 35), radius_x=10, radius_y=10, sweep=False)
-        self.add_contour('neck', 'neck-1', 'neck-2', closed=False)
-        self.add_arc('water-1', (6, 42), (24, 42), radius_x=11, radius_y=3, sweep=False)
-        self.add_arc('water-2', (24, 42), (42, 42), radius_x=11, radius_y=3, sweep=False)
-        self.add_contour('water', 'water-1', 'water-2', closed=False)
-        self.relate("connect", 'outline', 'pouch')
-        self.relate("connect", 'pouch', 'neck')
+        self.add_arc('head-left', (20, 14), (28, 6), radius_x=8)
+        self.add_arc('head-right', (28, 6), (36, 14), radius_x=8)
+        self.add_arc('neck-back', (36, 14), (30, 24), radius_x=12)
+        self.add_line('wing-root', (30, 24), (26, 26))
+        self.add_arc('wing-upper', (26, 26), (42, 22), radius_x=16, radius_y=4, sweep=False)
+        self.add_arc('wing-lower', (42, 22), (32, 32), radius_x=10)
+        self.add_contour('outline', 'head-left', 'head-right', 'neck-back', 'wing-root', 'wing-upper', 'wing-lower')
+        self.add_line('bill-top', (6, 14), (20, 14))
+        self.add_arc('bill-pouch', (20, 14), (6, 14), radius_x=7, radius_y=6)
+        self.add_contour('pouch', 'bill-top', 'bill-pouch', closed=True)
+        self.add_line('neck-front', (20, 14), (15, 26))
+        self.add_arc('breast', (15, 26), (17, 32), radius_x=6, sweep=False)
+        self.add_contour('neck', 'neck-front', 'breast')
+        self.relate('connect', 'outline', 'pouch')
+        self.relate('connect', 'outline', 'neck')
+        self.relate('connect', 'pouch', 'neck')
+        self.add_arc('wave-up', (6, 41), (24, 41), radius_x=9, radius_y=1)
+        self.add_arc('wave-down', (24, 41), (42, 41), radius_x=9, radius_y=1, sweep=False)
+        self.add_contour('water', 'wave-up', 'wave-down')

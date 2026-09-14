@@ -5,22 +5,21 @@ Keyshape VRECT_XL; extremes obtained from the SOLO48 contract.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '100799e2-7de7-58f9-a91a-cf91475c62fe'
 SOURCE_PATH = 'pictographic-primitives/animals/wild bird sing_100799e2-7de7-58f9-a91a-cf91475c62fe.svg'
 AUTHOR = 'gpt-6'
 
-
 class SingingBird(Solo48):
     icon_id = 'singing-bird'
     keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "animals/birds"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'animals/birds'
     aliases = ()
     keywords = ('bird', 'singing', 'beak', 'open', 'song', 'chirp', 'head', 'wildlife')
 
     def build(self) -> None:
+        """Opening repair: Raised and widened the crown triangle to give its opening room."""
         self.add_arc('head-top', (6, 27), (18, 14), radius_x=13, radius_y=13, sweep=True)
         self.add_arc('forehead', (18, 14), (30, 22), radius_x=12, radius_y=8, sweep=True)
         self.add_line('upper-beak', (30, 22), (42, 15))
@@ -32,9 +31,9 @@ class SingingBird(Solo48):
         self.add_arc('nape', (6, 27), (8, 39), radius_x=26, radius_y=26, sweep=False)
         self.add_line('neck-back', (8, 39), (6, 42))
         self.add_contour('back', 'nape', 'neck-back', closed=False)
-        self.relate("connect", 'front', 'back')
-        self.add_line('beak-crown', (18, 14), (23, 6))
-        self.add_line('beak-rise', (23, 6), (30, 22))
+        self.relate('connect', 'front', 'back')
+        self.add_line('beak-crown', (18, 14), (25, 4))
+        self.add_line('beak-rise', (25, 4), (30, 22))
         self.add_contour('crown', 'beak-crown', 'beak-rise', closed=False)
-        self.relate("connect", 'front', 'crown')
+        self.relate('connect', 'front', 'crown')
         self.add_dot('eye', (17, 26))

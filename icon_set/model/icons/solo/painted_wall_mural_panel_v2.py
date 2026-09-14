@@ -1,4 +1,3 @@
-# Variant of painted-wall-mural-panel; parent file remains unchanged.
 """Wider capped Berlin wall with a rectangular mural. Centerline extremes (6,6)-(42,42)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,7 +17,8 @@ class PaintedWallMuralPanelVariant2(Solo48):
     keywords = ('berlin wall', 'east side gallery', 'mural', 'graffiti', 'wall', 'art', 'landmark', 'panel', 'face')
 
     def build(self) -> None:
-        self.add_polyline('cap', (6, 6), (42, 6), (42, 9), (41, 9), (7, 9), (6, 9), closed=True)
-        self.add_polyline('panel', (7, 9), (7, 42), (41, 42), (41, 9), closed=False)
+        """Opening repair: Replaced the thin hollow coping band with one solid cap stroke; retained the mural."""
+        self.add_polyline('cap', (6, 6), (7, 6), (41, 6), (42, 6), closed=False)
+        self.add_polyline('panel', (7, 6), (7, 42), (41, 42), (41, 6), closed=False)
         self.add_polyline('mural', (18, 20), (30, 20), (30, 38), (18, 38), closed=True)
         self.relate('connect', 'cap', 'panel')

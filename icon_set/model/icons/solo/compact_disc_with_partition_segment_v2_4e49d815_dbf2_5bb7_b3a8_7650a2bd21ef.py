@@ -1,4 +1,3 @@
-# Variant of compact-disc-with-partition-segment; parent file remains unchanged.
 """A compact disc with a solid hub dot and lower-right sector boundary. CIRCLE preserves the radial envelope. Lucide disc-3 informs concentric construction; the sector is deliberately asymmetric."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -18,14 +17,15 @@ class CompactDiscWithPartitionSegmentVariant2(Solo48):
     keywords = ('cd', 'disc', 'partition', 'segment', 'storage', 'disk', 'sector', 'media')
 
     def build(self) -> None:
-        self.add_arc('rim-0', (24, 6), (42, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-1', (42, 24), (24, 42), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-2', (24, 42), (6, 24), radius_x=22, radius_y=22, sweep=True, large_arc=False)
-        self.add_arc('rim-3', (6, 24), (24, 6), radius_x=22, radius_y=22, sweep=True, large_arc=False)
+        """Opening repair: Restored the circular disc rim and widened the lower-right partition band."""
+        self.add_arc('rim-0', (24, 4), (44, 24), sweep=True, large_arc=False, radius_x=20, radius_y=20)
+        self.add_arc('rim-1', (44, 24), (24, 44), sweep=True, large_arc=False, radius_x=20, radius_y=20)
+        self.add_arc('rim-2', (24, 44), (4, 24), sweep=True, large_arc=False, radius_x=20, radius_y=20)
+        self.add_arc('rim-3', (4, 24), (24, 4), sweep=True, large_arc=False, radius_x=20, radius_y=20)
         self.add_contour('rim', 'rim-0', 'rim-1', 'rim-2', 'rim-3', closed=True)
-        self.add_line('sector-right', (42, 24), (36, 24))
-        self.add_arc('sector-turn', (36, 24), (24, 36), radius_x=12, radius_y=12, sweep=True, large_arc=False)
-        self.add_line('sector-bottom', (24, 36), (24, 42))
+        self.add_line('sector-right', (44, 24), (35, 24))
+        self.add_arc('sector-turn', (35, 24), (24, 35), sweep=True, large_arc=False, radius_x=11, radius_y=11)
+        self.add_line('sector-bottom', (24, 35), (24, 44))
         self.add_contour('sector', 'sector-right', 'sector-turn', 'sector-bottom', closed=False)
         self.relate('connect', 'rim', 'sector')
         self.add_dot('hub', (24, 24))
