@@ -1,10 +1,9 @@
 """Computer chip core (electronics), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '97ad08e4-d7db-5b0b-9fcc-6d4b0b6baf52'
 SOURCE_PATH = 'icons-json/electronics/computer chip core_97ad08e4-d7db-5b0b-9fcc-6d4b0b6baf52.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ComputerChipCore(Solo48):
     icon_id = 'computer-chip-core'
@@ -15,115 +14,31 @@ class ComputerChipCore(Solo48):
     aliases = ()
     keywords = ('computer', 'chip', 'core', 'electronics')
 
+    def _circle(self, name, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r, radius_y=ry)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r, radius_y=ry)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def _path(self, name, start, parts, closed=False):
+        ids = []
+        p = start
+        for j, s in enumerate(parts):
+            i = f'{name}-{j}'
+            q = s[1]
+            if s[0] == 'L':
+                self.add_line(i, p, q)
+            else:
+                self.add_arc(i, p, q, radius_x=s[2], radius_y=s[3], sweep=s[4])
+            ids.append(i)
+            p = q
+        self.add_contour(name, *ids, closed=closed)
+
     def build(self):
-        self.add_line('sym-e0', (6, 24), (12, 24))
-        self.add_line('sym-e1', (12, 24), (12, 31))
-        self.add_line('sym-e2', (12, 31), (6, 31))
-        self.add_line('sym-e3', (42, 24), (36, 24))
-        self.add_line('sym-e4', (36, 24), (36, 31))
-        self.add_line('sym-e5', (36, 31), (42, 31))
-        self.add_line('sym-e6', (24, 42), (24, 36))
-        self.add_line('sym-e7', (24, 36), (17, 36))
-        self.add_line('sym-e8', (17, 36), (17, 42))
-        self.add_line('sym-e9', (17, 24), (17, 31))
-        self.add_line('sym-e10', (17, 31), (31, 31))
-        self.add_line('sym-e11', (31, 31), (31, 24))
-        self.add_line('sym-e12', (31, 24), (31, 17))
-        self.add_line('sym-e13', (31, 17), (17, 17))
-        self.add_line('sym-e14', (17, 17), (17, 24))
-        self.add_line('sym-e15', (17, 36), (14, 36))
-        self.add_arc('sym-e16', (14, 36), (12, 34), radius_x=2)
-        self.add_line('sym-e17', (12, 34), (12, 31))
-        self.add_line('sym-e18', (31, 42), (31, 36))
-        self.add_line('sym-e19', (31, 36), (24, 36))
-        self.add_line('sym-e20', (31, 36), (34, 36))
-        self.add_arc('sym-e21', (34, 36), (36, 34), radius_x=2, sweep=False)
-        self.add_line('sym-e22', (36, 34), (36, 31))
-        self.add_line('sym-e23', (24, 6), (24, 12))
-        self.add_line('sym-e24', (24, 12), (17, 12))
-        self.add_line('sym-e25', (17, 12), (17, 6))
-        self.add_line('sym-e26', (6, 17), (12, 17))
-        self.add_line('sym-e27', (12, 17), (12, 14))
-        self.add_arc('sym-e28', (12, 14), (14, 12), radius_x=2)
-        self.add_line('sym-e29', (14, 12), (17, 12))
-        self.add_line('sym-e30', (12, 17), (12, 24))
-        self.add_line('sym-e31', (42, 17), (36, 17))
-        self.add_line('sym-e32', (36, 17), (36, 14))
-        self.add_arc('sym-e33', (36, 14), (34, 12), radius_x=2, sweep=False)
-        self.add_line('sym-e34', (34, 12), (31, 12))
-        self.add_line('sym-e35', (31, 12), (31, 6))
-        self.add_line('sym-e36', (24, 12), (31, 12))
-        self.add_line('sym-e37', (36, 17), (36, 24))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2')
-        self.add_contour('sym-c1', 'sym-e3', 'sym-e4', 'sym-e5')
-        self.add_contour('sym-c2', 'sym-e6', 'sym-e7', 'sym-e8')
-        self.add_contour('sym-c3', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', closed=True)
-        self.add_contour('sym-c4', 'sym-e15', 'sym-e16', 'sym-e17')
-        self.add_contour('sym-c5', 'sym-e18', 'sym-e19')
-        self.add_contour('sym-c6', 'sym-e20', 'sym-e21', 'sym-e22')
-        self.add_contour('sym-c7', 'sym-e23', 'sym-e24', 'sym-e25')
-        self.add_contour('sym-c8', 'sym-e26', 'sym-e27', 'sym-e28', 'sym-e29')
-        self.add_contour('sym-c9', 'sym-e30')
-        self.add_contour('sym-c10', 'sym-e31', 'sym-e32', 'sym-e33', 'sym-e34', 'sym-e35')
-        self.add_contour('sym-c11', 'sym-e36')
-        self.add_contour('sym-c12', 'sym-e37')
-        self.relate('connect', 'sym-c0', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c12')
-        self.relate('connect', 'sym-c1', 'sym-c6')
-        self.relate('connect', 'sym-c2', 'sym-c5')
-        self.relate('connect', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c11', 'sym-c7')
-        self.relate('connect', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c10', 'sym-c12')
-        self.relate('connect', 'sym-c10', 'sym-c11')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c0', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c2', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12', 'sym-c7')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
-        self.relate('connect', 'sym-c7', 'sym-c8', 'sym-c9')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c10', 'sym-c11', 'sym-c12')
+        self.add_polyline('body', (11, 11), (37, 11), (37, 37), (11, 37), closed=True)
+        self.add_polyline('core', (20, 20), (28, 20), (28, 28), (20, 28), closed=True)
+        for j, t in enumerate([16, 24, 32]):
+            for side, a, b in [('t', (t, 6), (t, 11)), ('b', (t, 37), (t, 42)), ('l', (6, t), (11, t)), ('r', (37, t), (42, t))]:
+                n = f'pin-{side}-{j}'
+                self.add_line(n, a, b)
+                self.relate('connect', n, 'body')

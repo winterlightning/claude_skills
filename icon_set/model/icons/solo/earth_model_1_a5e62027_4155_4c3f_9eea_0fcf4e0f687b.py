@@ -1,10 +1,9 @@
 """Earth model 1 (maps), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a5e62027-4155-4c3f-9eea-0fcf4e0f687b'
 SOURCE_PATH = 'icons-json/maps/earth model 1_a5e62027-4155-4c3f-9eea-0fcf4e0f687b.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class EarthModel1(Solo48):
     icon_id = 'earth-model-1'
@@ -15,26 +14,30 @@ class EarthModel1(Solo48):
     aliases = ()
     keywords = ('earth', 'model', 'maps')
 
+    def _circle(self, name, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r, radius_y=ry)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r, radius_y=ry)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def _path(self, name, start, parts, closed=False):
+        ids = []
+        p = start
+        for j, s in enumerate(parts):
+            i = f'{name}-{j}'
+            q = s[1]
+            if s[0] == 'L':
+                self.add_line(i, p, q)
+            else:
+                self.add_arc(i, p, q, radius_x=s[2], radius_y=s[3], sweep=s[4])
+            ids.append(i)
+            p = q
+        self.add_contour(name, *ids, closed=closed)
+
     def build(self):
-        self.add_line('e0', (22, 40), (22, 36))
-        self.add_line('e1', (31, 44), (13, 44))
-        self.add_line('e2', (15, 40), (29, 40))
-        self.add_arc('e3-top', (8, 19), (36, 19), radius_x=14, radius_y=13)
-        self.add_arc('e3-bottom', (36, 19), (8, 19), radius_x=14, radius_y=13)
-        self.add_arc('e4-1', (34, 4), (33, 5), radius_x=2, sweep=False)
-        self.add_arc('e4-2', (33, 5), (39, 12), radius_x=20)
-        self.add_line('e4-3', (39, 12), (40, 18))
-        self.add_arc('e4-4', (40, 18), (22, 36), radius_x=18)
-        self.add_line('e5-1', (8, 30), (17, 35))
-        self.add_line('e5-2', (17, 35), (22, 36))
-        self.add_arc('e6', (13, 44), (15, 40), radius_x=3)
-        self.add_arc('e7', (29, 40), (31, 44), radius_x=3)
-        self.add_contour('c0', 'e4-1', 'e4-2', 'e4-3', 'e4-4')
-        self.add_contour('c1', 'e5-1', 'e5-2')
-        self.add_contour('c2', 'e0')
-        self.add_contour('c3', 'e1', 'e6', 'e2', 'e7', closed=True)
-        self.add_contour('e3', 'e3-top', 'e3-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c2', 'c3')
+        self._circle('globe', 18, 16, 10)
+        self._path('meridian', (32, 4), [('A', (40, 20), 20, 20, True), ('A', (22, 34), 18, 14, True), ('A', (8, 32), 24, 24, True)])
+        self.add_line('stem', (22, 34), (22, 36))
+        self.relate('connect', 'stem', 'meridian')
+        self._path('base', (13, 44), [('A', (22, 36), 9, 8, True), ('A', (31, 44), 9, 8, True), ('L', (13, 44))], True)
+        self.relate('connect', 'stem', 'base')

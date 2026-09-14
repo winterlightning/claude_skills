@@ -1,10 +1,9 @@
 """War flag guild faction (video-games), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a677ecd4-20fe-4fb0-b00c-927e74c53dff'
 SOURCE_PATH = 'icons-json/video-games/war flag guild faction_a677ecd4-20fe-4fb0-b00c-927e74c53dff.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class WarFlagGuildFaction(Solo48):
     icon_id = 'war-flag-guild-faction'
@@ -15,25 +14,29 @@ class WarFlagGuildFaction(Solo48):
     aliases = ()
     keywords = ('war', 'flag', 'guild', 'faction', 'video-games')
 
+    def _circle(self, name, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r, radius_y=ry)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r, radius_y=ry)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def _path(self, name, start, parts, closed=False):
+        ids = []
+        p = start
+        for j, s in enumerate(parts):
+            i = f'{name}-{j}'
+            q = s[1]
+            if s[0] == 'L':
+                self.add_line(i, p, q)
+            else:
+                self.add_arc(i, p, q, radius_x=s[2], radius_y=s[3], sweep=s[4])
+            ids.append(i)
+            p = q
+        self.add_contour(name, *ids, closed=closed)
+
     def build(self):
-        self.add_line('e0', (11, 44), (11, 29))
-        self.add_line('e1', (11, 11), (40, 11))
-        self.add_line('e2', (40, 11), (34, 20))
-        self.add_line('e3', (34, 20), (40, 29))
-        self.add_line('e4', (40, 29), (11, 29))
-        self.add_line('e5', (11, 11), (11, 29))
-        self.add_arc('e6-top', (8, 7), (14, 7), radius_x=3)
-        self.add_arc('e6-bottom', (14, 7), (8, 7), radius_x=3)
-        self.add_line('e7', (11, 11), (11, 9))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e2', 'e3', 'e4')
-        self.add_contour('c2', 'e5')
-        self.add_contour('c3', 'e7')
-        self.add_contour('e6', 'e6-top', 'e6-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'e6')
+        self._circle('finial', 13, 9, 5)
+        self.add_polyline('pole', (13, 14), (13, 18), (13, 34), (13, 44))
+        self.add_polyline('flag', (13, 18), (40, 18), (34, 26), (40, 34), (13, 34))
+        self.relate('connect', 'finial', 'pole')
+        self.relate('connect', 'pole', 'flag')

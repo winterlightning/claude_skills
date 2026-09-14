@@ -1,10 +1,9 @@
 """Cracked shield (protection), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '83e2a7c2-7e92-57f9-a0d4-a9b2bd0095d5'
 SOURCE_PATH = 'icons-json/protection/cracked shield_83e2a7c2-7e92-57f9-a0d4-a9b2bd0095d5.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CrackedShield(Solo48):
     icon_id = 'cracked-shield'
@@ -15,12 +14,27 @@ class CrackedShield(Solo48):
     aliases = ()
     keywords = ('cracked', 'shield', 'protection')
 
+    def _circle(self, name, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r, radius_y=ry)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r, radius_y=ry)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def _path(self, name, start, parts, closed=False):
+        ids = []
+        p = start
+        for j, s in enumerate(parts):
+            i = f'{name}-{j}'
+            q = s[1]
+            if s[0] == 'L':
+                self.add_line(i, p, q)
+            else:
+                self.add_arc(i, p, q, radius_x=s[2], radius_y=s[3], sweep=s[4])
+            ids.append(i)
+            p = q
+        self.add_contour(name, *ids, closed=closed)
+
     def build(self):
-        self.add_line('e0', (29, 7), (21, 20))
-        self.add_line('e1', (21, 20), (29, 23))
-        self.add_line('e2', (29, 23), (22, 34))
-        self.add_line('e3', (24, 4), (21, 6))
-        self.add_bezier('e4', (21, 6), ((20.444, 6.3), (19.427, 6.3), (18.838, 6.536)), ((16.286, 7.536), (13.667, 8.145), (10.964, 8.509)), ((10.038, 8.636), (9.095, 8.582), (8.177, 8.745)), ((8.168, 8.745), (8.143, 9.727), (8.126, 10.2)), ((8.076, 11.709), (8.017, 13.227), (8.017, 14.736)), ((8.017, 15.3), (8, 15.855), (8, 16.418)), ((8, 16.42), (8, 16.423), (8, 16.425)), ((8, 16.568), (8.008, 16.702), (8.008, 16.845)), ((8.008, 25.818), (11.882, 34.345), (18.392, 39.936)), ((19.688, 41.055), (21.027, 42.091), (22.451, 43)), ((22.728, 43.182), (23.823, 44), (24.093, 44)), ((24.096, 44), (24.1, 44), (24.104, 44)), ((24.345, 44), (25.376, 43.189), (25.608, 43.045)), ((27.175, 42.027), (28.716, 40.9), (30.097, 39.6)), ((36.135, 33.955), (39.983, 25.891), (39.983, 17.182)), ((39.983, 16.645), (40, 16.108), (40, 15.571)), ((40, 15.562), (40, 15.554), (40, 15.545)), ((40, 14.9), (39.983, 14.255), (39.983, 13.609)), ((39.983, 12.418), (39.941, 11.227), (39.891, 10.036)), ((39.891, 9.909), (39.865, 8.764), (39.84, 8.736)), ((39.773, 8.664), (37.204, 8.5), (36.867, 8.473)), ((34.164, 8.2), (31.621, 7.691), (29.053, 6.727)), ((27.874, 6.282), (26.771, 5.627), (25.667, 5)), ((25.314, 4.8), (24.952, 4.591), (24.598, 4.373)), ((24.472, 4.3), (24.354, 4.227), (24.227, 4.145)), ((24.152, 4.1), (24.076, 4.045), (24, 4)))
-        self.add_contour('c0', 'e0', 'e1', 'e2')
-        self.add_contour('c1', 'e3', 'e4', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        self._path('shield', (24, 4), [('L', (16, 8)), ('A', (8, 10), 16, 16, True), ('L', (8, 22)), ('A', (24, 44), 24, 24, False), ('A', (40, 22), 24, 24, False), ('L', (40, 10)), ('A', (32, 8), 16, 16, True), ('L', (24, 4))], True)
+        self.add_polyline('crack', (32, 8), (22, 20), (30, 24), (23, 35))
+        self.relate('connect', 'crack', 'shield')

@@ -1,10 +1,9 @@
 """Meeting headphone wireless (office), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5b320b4e-ed89-4f2f-be89-6e9fdbbeecce'
 SOURCE_PATH = 'icons-json/office/meeting headphone wireless_5b320b4e-ed89-4f2f-be89-6e9fdbbeecce.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class MeetingHeadphoneWireless(Solo48):
     icon_id = 'meeting-headphone-wireless'
@@ -15,40 +14,34 @@ class MeetingHeadphoneWireless(Solo48):
     aliases = ()
     keywords = ('meeting', 'headphone', 'wireless', 'office')
 
+    def _circle(self, name, x, y, r, ry=None):
+        ry = r if ry is None else ry
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r, radius_y=ry)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r, radius_y=ry)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def _path(self, name, start, parts, closed=False):
+        ids = []
+        p = start
+        for j, s in enumerate(parts):
+            i = f'{name}-{j}'
+            q = s[1]
+            if s[0] == 'L':
+                self.add_line(i, p, q)
+            else:
+                self.add_arc(i, p, q, radius_x=s[2], radius_y=s[3], sweep=s[4])
+            ids.append(i)
+            p = q
+        self.add_contour(name, *ids, closed=closed)
+
     def build(self):
-        self.add_line('e0', (27, 42), (27, 43))
-        self.add_line('e1', (26, 44), (22, 44))
-        self.add_line('e2', (22, 40), (26, 40))
-        self.add_line('e3', (27, 40), (27, 42))
-        self.add_line('e4', (34, 39), (34, 29))
-        self.add_line('e5', (14, 39), (14, 29))
-        self.add_arc('e6-1', (14, 8), (24, 4), radius_x=15)
-        self.add_arc('e6-2', (24, 4), (34, 8), radius_x=15)
-        self.add_arc('e7', (17, 12), (31, 12), radius_x=11)
-        self.add_line('e8', (27, 43), (26, 44))
-        self.add_arc('e9-1', (22, 44), (21, 42), radius_x=2)
-        self.add_line('e9-2', (21, 42), (22, 40))
-        self.add_arc('e10', (26, 40), (27, 40), radius_x=28)
-        self.add_arc('e11', (27, 42), (34, 39), radius_x=6, sweep=False)
-        self.add_arc('e12-1', (34, 39), (40, 35), radius_x=5, sweep=False)
-        self.add_arc('e12-2', (40, 35), (34, 29), radius_x=6, sweep=False)
-        self.add_arc('e13-1', (34, 29), (27, 18), radius_x=10, sweep=False)
-        self.add_arc('e13-2', (27, 18), (14, 29), radius_x=10, sweep=False)
-        self.add_arc('e14-1', (14, 29), (8, 34), radius_x=6, sweep=False)
-        self.add_arc('e14-2', (8, 34), (14, 39), radius_x=6, sweep=False)
-        self.add_contour('c0', 'e6-1', 'e6-2')
-        self.add_contour('c1', 'e7')
-        self.add_contour('c2', 'e0', 'e8', 'e1', 'e9-1', 'e9-2', 'e2', 'e10', 'e3', closed=True)
-        self.add_contour('c3', 'e11')
-        self.add_contour('c4', 'e12-1', 'e12-2')
-        self.add_contour('c5', 'e4')
-        self.add_contour('c6', 'e13-1', 'e13-2')
-        self.add_contour('c7', 'e14-1', 'e14-2', 'e5', closed=True)
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c6', 'c7')
+        self.add_arc('signal', (14, 8), (34, 8), radius_x=10, radius_y=4)
+        self.add_arc('band', (8, 29), (40, 29), radius_x=16, radius_y=12)
+        for j, x in enumerate([8, 32]):
+            n = f'cup-{j}'
+            self._path(n, (x, 29), [('L', (x + 8, 29)), ('L', (x + 8, 36)), ('A', (x + 4, 40), 4, 4, True), ('A', (x, 36), 4, 4, True), ('L', (x, 29))], True)
+            self.relate('connect', n, 'band')
+        self._circle('mic', 24, 40, 4)
+        self._path('boom', (36, 40), [('A', (32, 44), 4, 4, True), ('L', (24, 44))])
+        self.relate('connect', 'boom', 'cup-1')
+        self.relate('connect', 'boom', 'mic')
