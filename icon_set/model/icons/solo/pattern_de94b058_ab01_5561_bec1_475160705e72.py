@@ -15,36 +15,42 @@ class Pattern(Solo48):
     aliases = ()
     keywords = ('pattern', 'design')
 
-    def build(self):
-        # Pattern: four equal rounded cells with generous uniform gaps, replacing nine undersized loops.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def r(name, x0, y0, x1, y1, radius=4):
-            # Equal corner radii and shared tangent endpoints own the rounded box.
-            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
-                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
-                      (x0,y1-radius),(x0,y0+radius)]
-            ids=[]
-            for index,start in enumerate(points):
-                end=points[(index+1)%8]
-                if start==end:
-                    continue
-                part=f'{name}-{index}'
-                if index%2:
-                    a(part,start,end,radius)
-                else:
-                    l(part,start,end)
-                ids.append(part)
-            self.add_contour(name,*ids,closed=True)
-
-        # Four equal cells keep the pattern legible without nine cramped counters.
-        for row in range(2):
-            for col in range(2):
-                x,y=6+24*col,6+24*row
-                r(f'cell-{row}-{col}',x,y,x+12,y+12,3)
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('cell-0-0-0', (9, 6), (15, 6))
+        self.add_arc('cell-0-0-1', (15, 6), (18, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-0-2', (18, 9), (18, 15))
+        self.add_arc('cell-0-0-3', (18, 15), (15, 18), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-0-4', (15, 18), (9, 18))
+        self.add_arc('cell-0-0-5', (9, 18), (6, 15), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-0-6', (6, 15), (6, 9))
+        self.add_arc('cell-0-0-7', (6, 9), (9, 6), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-1-0', (33, 6), (39, 6))
+        self.add_arc('cell-0-1-1', (39, 6), (42, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-1-2', (42, 9), (42, 15))
+        self.add_arc('cell-0-1-3', (42, 15), (39, 18), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-1-4', (39, 18), (33, 18))
+        self.add_arc('cell-0-1-5', (33, 18), (30, 15), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-0-1-6', (30, 15), (30, 9))
+        self.add_arc('cell-0-1-7', (30, 9), (33, 6), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-0-0', (9, 30), (15, 30))
+        self.add_arc('cell-1-0-1', (15, 30), (18, 33), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-0-2', (18, 33), (18, 39))
+        self.add_arc('cell-1-0-3', (18, 39), (15, 42), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-0-4', (15, 42), (9, 42))
+        self.add_arc('cell-1-0-5', (9, 42), (6, 39), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-0-6', (6, 39), (6, 33))
+        self.add_arc('cell-1-0-7', (6, 33), (9, 30), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-1-0', (33, 30), (39, 30))
+        self.add_arc('cell-1-1-1', (39, 30), (42, 33), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-1-2', (42, 33), (42, 39))
+        self.add_arc('cell-1-1-3', (42, 39), (39, 42), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-1-4', (39, 42), (33, 42))
+        self.add_arc('cell-1-1-5', (33, 42), (30, 39), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('cell-1-1-6', (30, 39), (30, 33))
+        self.add_arc('cell-1-1-7', (30, 33), (33, 30), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('cell-0-0', *('cell-0-0-0', 'cell-0-0-1', 'cell-0-0-2', 'cell-0-0-3', 'cell-0-0-4', 'cell-0-0-5', 'cell-0-0-6', 'cell-0-0-7'), closed=True)
+        self.add_contour('cell-0-1', *('cell-0-1-0', 'cell-0-1-1', 'cell-0-1-2', 'cell-0-1-3', 'cell-0-1-4', 'cell-0-1-5', 'cell-0-1-6', 'cell-0-1-7'), closed=True)
+        self.add_contour('cell-1-0', *('cell-1-0-0', 'cell-1-0-1', 'cell-1-0-2', 'cell-1-0-3', 'cell-1-0-4', 'cell-1-0-5', 'cell-1-0-6', 'cell-1-0-7'), closed=True)
+        self.add_contour('cell-1-1', *('cell-1-1-0', 'cell-1-1-1', 'cell-1-1-2', 'cell-1-1-3', 'cell-1-1-4', 'cell-1-1-5', 'cell-1-1-6', 'cell-1-1-7'), closed=True)

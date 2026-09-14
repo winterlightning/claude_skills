@@ -15,34 +15,18 @@ class BarcodeShopping(Solo48):
     aliases = ()
     keywords = ('barcode', 'shopping')
 
-    def build(self):
-        # Barcode: three evenly spaced bars in a smooth frame, with 10-unit border clearance.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def r(name, x0, y0, x1, y1, radius=4):
-            # Equal corner radii and shared tangent endpoints own the rounded box.
-            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
-                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
-                      (x0,y1-radius),(x0,y0+radius)]
-            ids=[]
-            for index,start in enumerate(points):
-                end=points[(index+1)%8]
-                if start==end:
-                    continue
-                part=f'{name}-{index}'
-                if index%2:
-                    a(part,start,end,radius)
-                else:
-                    l(part,start,end)
-                ids.append(part)
-            self.add_contour(name,*ids,closed=True)
-
-        r('frame',4,8,44,40,6)
-        for x in (14,24,34):
-            l(f'bar-{x}',(x,18),(x,30))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('frame-0', (10, 8), (38, 8))
+        self.add_arc('frame-1', (38, 8), (44, 14), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('frame-2', (44, 14), (44, 34))
+        self.add_arc('frame-3', (44, 34), (38, 40), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('frame-4', (38, 40), (10, 40))
+        self.add_arc('frame-5', (10, 40), (4, 34), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('frame-6', (4, 34), (4, 14))
+        self.add_arc('frame-7', (4, 14), (10, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('bar-14', (14, 18), (14, 30))
+        self.add_line('bar-24', (24, 18), (24, 30))
+        self.add_line('bar-34', (34, 18), (34, 30))
+        self.add_contour('frame', *('frame-0', 'frame-1', 'frame-2', 'frame-3', 'frame-4', 'frame-5', 'frame-6', 'frame-7'), closed=True)

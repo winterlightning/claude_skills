@@ -16,35 +16,18 @@ class PinCodeField(Solo48):
     aliases = ()
     keywords = ('pin', 'code', 'password', 'input', 'field', 'keycode', 'passcode', 'security')
 
-    def build(self):
-        # PIN field: even entry spacing, smooth frame and an upright cursor.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def r(name, x0, y0, x1, y1, radius=4):
-            # Equal corner radii and shared tangent endpoints own the rounded box.
-            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
-                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
-                      (x0,y1-radius),(x0,y0+radius)]
-            ids=[]
-            for index,start in enumerate(points):
-                end=points[(index+1)%8]
-                if start==end:
-                    continue
-                part=f'{name}-{index}'
-                if index%2:
-                    a(part,start,end,radius)
-                else:
-                    l(part,start,end)
-                ids.append(part)
-            self.add_contour(name,*ids,closed=True)
-
-        r('field',4,8,44,40,4)
-        for x in (14,24):
-            l(f'digit-{x}',(x,28),(x+1,28))
-        l('cursor',(34,18),(34,30))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('field-0', (8, 8), (40, 8))
+        self.add_arc('field-1', (40, 8), (44, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('field-2', (44, 12), (44, 36))
+        self.add_arc('field-3', (44, 36), (40, 40), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('field-4', (40, 40), (8, 40))
+        self.add_arc('field-5', (8, 40), (4, 36), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('field-6', (4, 36), (4, 12))
+        self.add_arc('field-7', (4, 12), (8, 8), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('digit-14', (14, 28), (15, 28))
+        self.add_line('digit-24', (24, 28), (25, 28))
+        self.add_line('cursor', (34, 18), (34, 30))
+        self.add_contour('field', *('field-0', 'field-1', 'field-2', 'field-3', 'field-4', 'field-5', 'field-6', 'field-7'), closed=True)

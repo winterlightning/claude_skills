@@ -118,6 +118,52 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertIn("icon_id = 'square'", archived[0].read_text())
         self.assertEqual(self.request('POST', '/api/icons/discard', payload)[0], 404)
 
+    def test_batch_discard_removes_eligible_icons_and_reports_the_rest(self):
+        source_root = self.root / 'repo'
+        family = source_root / 'icon_set/model/icons/sub'
+        family.mkdir(parents=True)
+        (family / 'shapes.py').write_text(
+            "from ._base import Sub32\n\nclass Square(Sub32):\n    icon_id = 'square'\n\n\n"
+            "class Circle(Sub32):\n    icon_id = 'circle'\n\n\nclass Dot(Sub32):\n    icon_id = 'dot'\n")
+        (family / 'user.py').write_text('from .shapes import Dot\n')
+        for name in ('circle', 'dot', 'kept'):
+            (self.dist / f'sub32/{name}.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg"/>')
+        manifest = self.dist / 'sub32/manifest.json'
+        manifest.write_text(json.dumps({'icons': [{'family': 'sub', 'icon_id': name, 'name': name, 'svg_sha256': 'abc'}
+                                                  for name in ('circle', 'dot', 'kept', 'square')]}))
+        catalog = self.dist / 'gallery/icons.json'
+        template = json.loads(catalog.read_text())['icons'][0]
+        classes = {'square': 'Square', 'circle': 'Circle', 'dot': 'Dot', 'kept': 'Kept'}
+        catalog.write_text(json.dumps({'icons': [dict(template, key=f'sub/{name}', icon_id=name, name=name,
+                                                      preview_url=f'../sub32/{name}.svg',
+                                                      python_source={'path': 'icon_set/model/icons/sub/shapes.py',
+                                                                     'family': 'sub', 'class_name': cls})
+                                                 for name, cls in classes.items()]}))
+        self.enterContext(patch('icon_set.scripts.deploy.PACKAGE_ROOT', source_root / 'icon_set'))
+        for name in ('square', 'circle', 'dot'):
+            self.assertEqual(self.request('POST', '/api/reviews',
+                                          {'icon': f'sub/{name}', 'svg_sha256': 'abc', 'status': 'rejected'})[0], 201)
+
+        items = [{'icon': f'sub/{name}', 'svg_sha256': 'abc'} for name in ('square', 'circle', 'dot', 'kept')]
+        code, body = self.request('POST', '/api/icons/discard', {'icons': items + [items[0]]})
+        self.assertEqual(code, 200, body)
+        result = json.loads(body)
+        self.assertEqual(sorted(row['icon'] for row in result['discarded']), ['sub/circle', 'sub/square'])
+        self.assertEqual({row['icon']: row['error'] for row in result['failed']}, {
+            'sub/kept': 'Only rejected icons can be discarded. Reject it first.',
+            'sub/dot': 'user.py imports Dot; update it before discarding.'})
+        # Two classes left the shared module in one batch; the imported one stays.
+        remaining = (family / 'shapes.py').read_text()
+        self.assertNotIn('class Square', remaining)
+        self.assertNotIn('class Circle', remaining)
+        self.assertIn('class Dot', remaining)
+        compile(remaining, 'shapes.py', 'exec')
+        self.assertEqual([row['icon_id'] for row in json.loads(manifest.read_text())['icons']], ['dot', 'kept'])
+        self.assertEqual([row['key'] for row in json.loads(catalog.read_text())['icons']], ['sub/dot', 'sub/kept'])
+        self.assertFalse((self.dist / 'sub32/circle.svg').exists())
+        self.assertTrue((self.dist / 'sub32/dot.svg').exists())
+        self.assertEqual(self.request('POST', '/api/icons/discard', {'icons': []})[0], 400)
+
     def test_existing_four_status_database_migrates_without_data_loss(self):
         with sqlite3.connect(self.database) as connection:
             connection.execute('DROP TABLE reviews')
@@ -139,7 +185,8 @@ class RejectedFeedbackTests(unittest.TestCase):
 class RejectedGalleryTests(unittest.TestCase):
     def test_rejection_filters_and_brief_downloads(self):
         template = (Path(__file__).resolve().parents[1] / 'scripts/templates/gallery.html').read_text()
-        functions = ['iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector']
+        functions = ['iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector',
+                     'discardMode', 'selectable']
         code = '\n'.join(next(line for line in template.splitlines() if line.startswith('function ' + name + '('))
                          for name in functions)
         harness = """
@@ -155,7 +202,9 @@ const rejected={key:'sub/rejected',family:'sub',icon_id:'rejected'};
 const approved={key:'sub/approved',family:'sub',icon_id:'approved'};
 assert.equal(inSection(rejected),false);
 assert.equal(inSection(approved),true);
+assert.equal(selectable(approved),true);assert.equal(selectable(rejected),false);
 reviewFilter='rejected';assert.equal(inSection(rejected),true);
+assert.equal(selectable(rejected),true);assert.equal(selectable(approved),false);
 section='final';assert.equal(inSection(rejected),false);assert.equal(inSection(approved),true);
 assert.equal(feedbackIconState(rejected),'rejected');
 const files=feedbackBriefFiles([{id:1,icon:rejected.key},{id:2,icon:approved.key}],[rejected,approved]);

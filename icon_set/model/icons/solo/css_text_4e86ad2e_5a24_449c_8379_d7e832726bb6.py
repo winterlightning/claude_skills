@@ -23,10 +23,12 @@ class CssText(Solo48):
     keywords = ('css', 'code', 'stylesheet', 'web', 'development', 'programming', 'text', 'language')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         self.add_line('c-top', (14, 8), (10, 8))
-        self.add_arc('c-nw', (10, 8), (6, 14), radius_x=6, radius_y=6, sweep=False)
-        self.add_line('c-left', (6, 14), (6, 34))
-        self.add_arc('c-sw', (6, 34), (10, 40), radius_x=6, radius_y=6, sweep=False)
+        self.add_arc('c-nw', (10, 8), (4, 14), radius_x=6, radius_y=6, sweep=False)
+        self.add_line('c-left', (4, 14), (4, 34))
+        self.add_arc('c-sw', (4, 34), (10, 40), radius_x=6, radius_y=6, sweep=False)
         self.add_line('c-bottom', (10, 40), (14, 40))
         self.add_contour('c', 'c-top', 'c-nw', 'c-left', 'c-sw', 'c-bottom')
         self.add_line('s-first-top', (29, 8), (26, 8))
@@ -34,7 +36,7 @@ class CssText(Solo48):
         self.add_arc('s-first-lower', (26, 24), (26, 40), radius_x=3, radius_y=8, sweep=True)
         self.add_line('s-first-foot', (26, 40), (23, 40))
         self.add_contour('s-first', 's-first-top', 's-first-upper', 's-first-lower', 's-first-foot')
-        self.add_line('s-second-top', (42, 8), (41, 8))
+        self.add_line('s-second-top', (44, 8), (41, 8))
         self.add_arc('s-second-upper', (41, 8), (41, 24), radius_x=3, radius_y=8, sweep=False)
         self.add_arc('s-second-lower', (41, 24), (41, 40), radius_x=3, radius_y=8, sweep=True)
         self.add_line('s-second-foot', (41, 40), (38, 40))

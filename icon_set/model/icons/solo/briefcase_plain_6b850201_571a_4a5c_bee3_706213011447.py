@@ -23,16 +23,18 @@ class BriefcasePlain(Solo48):
     keywords = ('briefcase', 'case', 'bag', 'work', 'business', 'job', 'portfolio', 'luggage')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         self.add_line('case-top-1', (8, 18), (16, 18))
         self.add_line('case-top-2', (16, 18), (32, 18))
         self.add_line('case-top-3', (32, 18), (40, 18))
-        self.add_arc('case-ne', (40, 18), (42, 22), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('case-right', (42, 22), (42, 36))
-        self.add_arc('case-se', (42, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('case-ne', (40, 18), (44, 22), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('case-right', (44, 22), (44, 36))
+        self.add_arc('case-se', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
         self.add_line('case-bottom-1', (40, 40), (8, 40))
-        self.add_arc('case-sw', (8, 40), (6, 36), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('case-left', (6, 36), (6, 22))
-        self.add_arc('case-nw', (6, 22), (8, 18), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('case-sw', (8, 40), (4, 36), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('case-left', (4, 36), (4, 22))
+        self.add_arc('case-nw', (4, 22), (8, 18), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('case', 'case-top-1', 'case-top-2', 'case-top-3', 'case-ne', 'case-right', 'case-se', 'case-bottom-1', 'case-sw', 'case-left', 'case-nw', closed=True)
         self.add_line('handle-left', (16, 18), (16, 12))
         self.add_arc('handle-nw', (16, 12), (20, 8), radius_x=4, radius_y=4, sweep=True)

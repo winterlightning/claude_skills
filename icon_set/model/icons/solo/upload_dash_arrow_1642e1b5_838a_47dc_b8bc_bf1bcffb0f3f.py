@@ -15,16 +15,15 @@ class UploadDashArrow(Solo48):
     aliases = ()
     keywords = ('upload', 'dash', 'arrow', 'arrows')
 
-    def build(self):
-        # Upload arrow: centered arrowhead and shaft; detached dashes retain 8-unit spacing.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        p('arrow',(16,34),(16,18),(8,18),(24,4),(40,18),(32,18),(32,34))
-        for x in (16,32):
-            l(f'dash-{x}',(x,42),(x,44))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('arrow-1', (16, 34), (16, 18))
+        self.add_line('arrow-2', (16, 18), (8, 18))
+        self.add_line('arrow-3', (8, 18), (24, 4))
+        self.add_line('arrow-4', (24, 4), (40, 18))
+        self.add_line('arrow-5', (40, 18), (32, 18))
+        self.add_line('arrow-6', (32, 18), (32, 34))
+        self.add_line('dash-16', (16, 42), (16, 44))
+        self.add_line('dash-32', (32, 42), (32, 44))
+        self.add_contour('arrow', *('arrow-1', 'arrow-2', 'arrow-3', 'arrow-4', 'arrow-5', 'arrow-6'), closed=False)

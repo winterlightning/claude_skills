@@ -17,21 +17,23 @@ class BabyStroller(Solo48):
     keywords = ('baby', 'stroller', 'baby', 'nursery', 'toy')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # Centerline keyshape: SQUARE; Side-facing baby carriage with quarter-round hood and round wheels. Lucide bed informs body corners. Small axle omitted; paired supports attach the wheels to the body.
-        self.add_arc('hood', (42, 20), (28, 6), radius_x=18, radius_y=18, sweep=False)
+        self.add_arc('hood', (42, 20), (28, 6), radius_x=14, radius_y=14, sweep=False)
         self.add_line('hood-back', (28, 6), (28, 20))
         self.add_contour('hood-shell', 'hood', 'hood-back', closed=False)
         self.add_line('rim', (42, 20), (12, 20))
         self.relate("connect", 'hood-shell', 'rim')
         self.add_line('body-left', (42, 20), (42, 24))
-        self.add_arc('body-bottom-left', (42, 24), (36, 34), radius_x=10, radius_y=10, sweep=True)
+        self.add_arc('body-bottom-left', (42, 24), (36, 34), radius_x=6, radius_y=10, sweep=True)
         self.add_line('body-bottom', (36, 34), (22, 34))
         self.add_arc('body-bottom-right', (22, 34), (12, 24), radius_x=10, radius_y=10, sweep=True)
         self.add_line('body-right', (12, 24), (12, 20))
         self.add_contour('body', 'body-left', 'body-bottom-left', 'body-bottom', 'body-bottom-right', 'body-right', closed=False)
         self.relate("connect", 'body', 'rim')
         self.relate("connect", 'body', 'hood-shell')
-        self.add_arc('handle-curve', (12, 20), (6, 10), radius_x=8, radius_y=10, sweep=False)
+        self.add_arc('handle-curve', (12, 20), (6, 10), radius_x=6, radius_y=10, sweep=False)
         self.add_line('handle-tip', (6, 10), (6, 10))
         self.add_contour('handle', 'handle-curve', 'handle-tip', closed=False)
         self.relate("connect", 'handle', 'rim')

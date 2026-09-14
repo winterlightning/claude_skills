@@ -15,6 +15,8 @@ class FlyingBird(Solo48):
     keywords = ('bird', 'flying', 'wings', 'dove', 'flight', 'sky', 'freedom', 'soar')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         self.add_line('wing-1', (8,35), (6,6))
         self.add_line('wing-6', (6,6), (23,18))
         self.add_arc('wing-fold', (23, 18), (25, 27), radius_x=10, radius_y=10, sweep=True)
@@ -24,6 +26,6 @@ class FlyingBird(Solo48):
         self.add_line('beak-1', (42, 18), (42, 24))
         self.add_line('beak-2', (42, 24), (42, 26))
         self.add_line('breast-top', (42, 26), (42, 28))
-        self.add_arc('breast', (42, 28), (25, 42), radius_x=18, radius_y=18, sweep=True)
-        self.add_arc('tail', (25, 42), (8, 35), radius_x=20, radius_y=20, sweep=True)
+        self.add_arc('breast', (42, 28), (25, 42), radius_x=17, radius_y=14, sweep=True)
+        self.add_arc('tail', (25, 42), (8, 35), radius_x=17, radius_y=7, sweep=True)
         self.add_contour('body', 'wing-1', 'wing-6', 'wing-fold', 'throat', 'neck', 'head', 'beak-1', 'beak-2', 'breast-top', 'breast', 'tail', closed=True)

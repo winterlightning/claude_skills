@@ -29,7 +29,7 @@ class AvatarTests(unittest.TestCase):
 
     def test_all_avatars_export_at_48_with_exact_head_body_gap(self):
         for icon in icons_in('solo'):
-            if icon.category != 'people/avatars':
+            if icon.category != 'avatars':
                 continue
             with self.subTest(icon=icon.icon_id):
                 report = icon.validate_icon()

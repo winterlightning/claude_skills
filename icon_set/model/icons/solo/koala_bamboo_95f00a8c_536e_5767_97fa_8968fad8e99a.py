@@ -16,39 +16,31 @@ class KoalaWithBranch(Solo48):
     aliases = ()
     keywords = ('koala', 'branch', 'eucalyptus', 'holding', 'marsupial', 'australia', 'animal', 'sitting')
 
-    def build(self):
-        # Koala: round centered nose and head, an open outlined ear, smooth sitting body and a clear gripping arm.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def c(name, x, y, radius):
-            a(name+'-top', (x-radius,y), (x+radius,y), radius)
-            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-        c('head',20,18,10)
-        p('ear-top',(20,8),(16,6),(10,6))
-        a('ear-left',(10,6),(6,10),4,sweep=False)
-        l('ear-side',(6,10),(6,14))
-        a('ear-bottom',(6,14),(10,18),4,sweep=False)
-        link('connect','ear-top','ear-left')
-        link('connect','ear-left','ear-side')
-        link('connect','ear-side','ear-bottom')
-        link('connect','ear-top','head')
-        link('connect','ear-bottom','head')
-        self.add_dot('nose',(20,18))
-        a('back',(12,24),(10,36),18,14,sweep=False)
-        a('bottom',(10,36),(20,42),10,6,sweep=False)
-        l('foot',(20,42),(30,42))
-        self.add_contour('body','back','bottom','foot')
-        link('connect','body','head')
-        l('branch',(30,42),(42,8))
-        link('connect','branch','body')
-        l('arm',(20,28),(36,25))
-        link('connect','arm','branch')
-        link('connect','arm','head')
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_arc('head-top', (10, 18), (30, 18), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('head-bottom', (30, 18), (10, 18), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_line('ear-top-1', (20, 8), (16, 6))
+        self.add_line('ear-top-2', (16, 6), (10, 6))
+        self.add_arc('ear-left', (10, 6), (6, 10), radius_x=4, radius_y=4, large_arc=False, sweep=False)
+        self.add_line('ear-side', (6, 10), (6, 14))
+        self.add_arc('ear-bottom', (6, 14), (10, 18), radius_x=4, radius_y=4, large_arc=False, sweep=False)
+        self.add_line('nose', (20, 18), (20, 18))
+        self.add_arc('back', (12, 24), (10, 36), radius_x=18, radius_y=14, large_arc=False, sweep=False)
+        self.add_arc('bottom', (10, 36), (20, 42), radius_x=10, radius_y=6, large_arc=False, sweep=False)
+        self.add_line('foot', (20, 42), (30, 42))
+        self.add_line('branch', (30, 42), (42, 8))
+        self.add_line('arm', (20, 28), (36, 25))
+        self.add_contour('head', *('head-top', 'head-bottom'), closed=True)
+        self.add_contour('ear-top', *('ear-top-1', 'ear-top-2'), closed=False)
+        self.add_contour('body', *('back', 'bottom', 'foot'), closed=False)
+        self.relate('connect', *('ear-top', 'ear-left'))
+        self.relate('connect', *('ear-left', 'ear-side'))
+        self.relate('connect', *('ear-side', 'ear-bottom'))
+        self.relate('connect', *('ear-top', 'head'))
+        self.relate('connect', *('ear-bottom', 'head'))
+        self.relate('connect', *('body', 'head'))
+        self.relate('connect', *('branch', 'body'))
+        self.relate('connect', *('arm', 'branch'))
+        self.relate('connect', *('arm', 'head'))

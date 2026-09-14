@@ -15,18 +15,11 @@ class TextUnderline(Solo48):
     aliases = ()
     keywords = ('text', 'underline', 'interface-essential')
 
-    def build(self):
-        # Underlined U: a true semicircular bowl with 8 units above the underline.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        l('left',(12,6),(12,22))
-        a('bowl',(12,22),(36,22),12,sweep=False)
-        l('right',(36,22),(36,6))
-        self.add_contour('letter','left','bowl','right')
-        l('underline',(6,42),(42,42))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('left', (12, 6), (12, 22))
+        self.add_arc('bowl', (12, 22), (36, 22), radius_x=12, radius_y=12, large_arc=False, sweep=False)
+        self.add_line('right', (36, 22), (36, 6))
+        self.add_line('underline', (6, 42), (42, 42))
+        self.add_contour('letter', *('left', 'bowl', 'right'), closed=False)

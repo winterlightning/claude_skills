@@ -28,7 +28,7 @@ class DiverAvatar(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/avatars'
+    category = 'avatars'
     aliases = ()
     keywords = ('diver', 'portrait', 'bust')
 

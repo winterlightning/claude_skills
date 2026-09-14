@@ -16,6 +16,8 @@ class Dragonfly(Solo48):
     keywords = ('dragonfly', 'insect', 'wings', 'symmetry', 'damselfly', 'bug', 'nature', 'pond')
 
     def build(self):
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         """Opening repair: Rebuilt the head as a true circle; preserved all four wings and their divisions."""
         self.add_arc('head-1', (24, 6), (24, 12), sweep=True, radius_x=3, radius_y=3)
         self.add_arc('head-2', (24, 12), (24, 6), sweep=True, radius_x=3, radius_y=3)
@@ -23,10 +25,10 @@ class Dragonfly(Solo48):
         self.add_line('body', (24, 12), (24, 42))
         self.relate('connect', 'head', 'body')
         self.add_arc('wings-left-1', (24, 22), (12, 16), radius_x=14, radius_y=9, sweep=False)
-        self.add_arc('wings-left-2', (12, 16), (6, 22), radius_x=10, radius_y=6, sweep=False)
-        self.add_arc('wings-left-3', (6, 22), (10, 27), radius_x=8, radius_y=5, sweep=False)
+        self.add_arc('wings-left-2', (12, 16), (6, 22), radius_x=6, radius_y=6, sweep=False)
+        self.add_arc('wings-left-3', (6, 22), (10, 27), radius_x=4, radius_y=5, sweep=False)
         self.add_line('wings-left-4', (10, 27), (6, 33))
-        self.add_arc('wings-left-5', (6, 33), (11, 39), radius_x=6, radius_y=6, sweep=False)
+        self.add_arc('wings-left-5', (6, 33), (11, 39), radius_x=5, radius_y=6, sweep=False)
         self.add_line('wings-left-6', (11, 39), (17, 39))
         self.add_arc('wings-left-7', (17, 39), (24, 30), radius_x=7, radius_y=9, sweep=False)
         self.add_line('wings-left-8', (24, 30), (24, 22))
@@ -36,10 +38,10 @@ class Dragonfly(Solo48):
         self.relate('connect', 'body', 'division-left')
         self.relate('connect', 'body', 'wings-left')
         self.add_arc('wings-right-1', (24, 22), (36, 16), radius_x=14, radius_y=9, sweep=True)
-        self.add_arc('wings-right-2', (36, 16), (42, 22), radius_x=10, radius_y=6, sweep=True)
-        self.add_arc('wings-right-3', (42, 22), (38, 27), radius_x=8, radius_y=5, sweep=True)
+        self.add_arc('wings-right-2', (36, 16), (42, 22), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('wings-right-3', (42, 22), (38, 27), radius_x=4, radius_y=5, sweep=True)
         self.add_line('wings-right-4', (38, 27), (42, 33))
-        self.add_arc('wings-right-5', (42, 33), (37, 39), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('wings-right-5', (42, 33), (37, 39), radius_x=5, radius_y=6, sweep=True)
         self.add_line('wings-right-6', (37, 39), (31, 39))
         self.add_arc('wings-right-7', (31, 39), (24, 30), radius_x=7, radius_y=9, sweep=True)
         self.add_line('wings-right-8', (24, 30), (24, 22))

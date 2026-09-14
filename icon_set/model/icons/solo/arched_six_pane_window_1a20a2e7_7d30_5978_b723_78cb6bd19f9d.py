@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class ArchedSixPaneWindow(Solo48):
     icon_id = 'arched-six-pane-window'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/decoration"
@@ -17,8 +17,10 @@ class ArchedSixPaneWindow(Solo48):
     keywords = ('window', 'arch', 'panes', 'frame', 'architecture', 'interior', 'glazing')
 
     def build(self) -> None:
-        self.add_arc('arch-left', (8,18), (24,6), radius_x=16)
-        self.add_arc('arch-right', (24,6), (40,18), radius_x=16)
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_arc('arch-left', (8,18), (24,6), radius_x=16, radius_y=12)
+        self.add_arc('arch-right', (24,6), (40,18), radius_x=16, radius_y=12)
         self.add_polyline('right-wall', (40,18),(40,32),(40,42))
         self.add_polyline('sill', (42,42),(40,42),(24,42),(8,42),(6,42))
         self.add_polyline('left-wall', (8,42),(8,32),(8,18))

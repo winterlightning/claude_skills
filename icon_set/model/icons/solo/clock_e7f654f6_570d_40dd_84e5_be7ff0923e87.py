@@ -1,10 +1,10 @@
-"""Clock (office), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'Clock: retain its left-and-down hand direction with the pivot at the center; give the long hand radial clearance.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e7f654f6-570d-40dd-84e5-be7ff0923e87'
 SOURCE_PATH = 'icons-json/office/clock_e7f654f6-570d-40dd-84e5-be7ff0923e87.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ClockE7f654f6(Solo48):
     icon_id = 'clock-e7f654f6'
@@ -15,10 +15,8 @@ class ClockE7f654f6(Solo48):
     aliases = ()
     keywords = ('clock', 'office')
 
-    def build(self):
-        self.add_line('e0', (12, 24), (24, 24))
-        self.add_line('e1', (24, 24), (24, 33))
-        self.add_arc('e2-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e2-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_polyline('hands',(13,24),(24,24),(24,33))

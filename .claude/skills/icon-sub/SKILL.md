@@ -32,7 +32,6 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 
 - `/icon-solo` — solo family, `SOLO48`, 48×48
 - `/icon-container` — container family, `CONTAINER64`, 64×64
-- `/icon-avatar` — avatar family, `AVATAR48`, 48×48
 
 ## Visual priorities
 

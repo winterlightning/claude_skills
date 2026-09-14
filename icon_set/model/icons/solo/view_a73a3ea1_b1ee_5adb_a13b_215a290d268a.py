@@ -15,22 +15,12 @@ class View(Solo48):
     aliases = ()
     keywords = ('view', 'interface-essential')
 
-    def build(self):
-        # Eye: balanced smooth almond-like envelope and a circular iris with generous clear space.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def c(name, x, y, radius):
-            a(name+'-top', (x-radius,y), (x+radius,y), radius)
-            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-        a('upper',(4,24),(44,24),20,16)
-        a('lower',(44,24),(4,24),20,16)
-        self.add_contour('eye','upper','lower',closed=True)
-        c('iris',24,24,7)
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_arc('upper', (4, 24), (44, 24), radius_x=20, radius_y=16, large_arc=False, sweep=True)
+        self.add_arc('lower', (44, 24), (4, 24), radius_x=20, radius_y=16, large_arc=False, sweep=True)
+        self.add_arc('iris-top', (17, 24), (31, 24), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_arc('iris-bottom', (31, 24), (17, 24), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_contour('eye', *('upper', 'lower'), closed=True)
+        self.add_contour('iris', *('iris-top', 'iris-bottom'), closed=True)

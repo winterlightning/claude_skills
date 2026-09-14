@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'efa0e2aa-ab3d-4293-a005-4044f8760a5e'
 SOURCE_PATH = 'icons-json/artificial-intelligence/deepfake face_efa0e2aa-ab3d-4293-a005-4044f8760a5e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DeepfakeFaceArtificialIntelligence(Solo48):
     icon_id = 'deepfake-face-artificial-intelligence'
@@ -17,10 +17,10 @@ class DeepfakeFaceArtificialIntelligence(Solo48):
 
     def build(self):
         self.add_line('e0', (40, 19), (8, 19))
-        self.add_line('e1', (24, 28), (24, 4))
+        self.add_line('e1', (24, 21), (24, 4))
         self.add_line('e2', (40, 26), (40, 12))
         self.add_line('e3', (8, 19), (8, 29))
-        self.add_arc('e4', (16, 30), (32, 30), radius_x=9, sweep=False)
+        self.add_arc('e4', (17, 30), (31, 30), radius_x=7, radius_y=5, sweep=False)
         self.add_arc('e5-1', (40, 12), (36, 6), radius_x=11, sweep=False)
         self.add_arc('e5-2', (36, 6), (31, 4), radius_x=10, sweep=False)
         self.add_line('e5-3', (31, 4), (24, 4))

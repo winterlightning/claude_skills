@@ -15,6 +15,8 @@ class BendablePhone(Solo48):
     keywords = ('phone', 'bendable', 'flexible', 'smartphone', 'mobile', 'device', 'foldable')
 
     def build(self):
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         def line(n,a,b): self.add_line(n,a,b)
         def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
         def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
@@ -30,13 +32,13 @@ class BendablePhone(Solo48):
             line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
             line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
             contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-        line('top',(22,6),(36,6))
-        arc('tr',(36,6),(40,8),4)
+        line('top',(22, 4),(36, 4))
+        arc('tr',(36, 4),(40,8),4)
         arc('bend-right',(40,8),(32,40),68,sweep=False)
-        arc('br',(32,40),(28,42),4)
-        line('bottom',(28,42),(12,42))
-        arc('bl',(12,42),(8,40),4)
+        arc('br',(32,40),(28, 44),4)
+        line('bottom',(28, 44),(12, 44))
+        arc('bl',(12, 44),(8,40),4)
         arc('bend-left',(8,40),(18,8),60)
-        arc('tl',(18,8),(22,6),4)
+        arc('tl',(18,8),(22, 4),4)
         contour('body','top','tr','bend-right','br','bottom','bl','bend-left','tl',closed=True)
         line('slot',(18,34),(23,34))

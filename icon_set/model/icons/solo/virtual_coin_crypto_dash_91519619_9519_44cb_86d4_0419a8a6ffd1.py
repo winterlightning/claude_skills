@@ -15,25 +15,17 @@ class VirtualCoinCryptoDash(Solo48):
     aliases = ()
     keywords = ('virtual', 'coin', 'crypto', 'dash', 'money')
 
-    def build(self):
-        # Dash coin: a true circular rim and a clean inner mark with evenly spaced horizontal strokes.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def c(name, x, y, radius):
-            a(name+'-top', (x-radius,y), (x+radius,y), radius)
-            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-        c('coin',24,24,20)
-        l('top',(19,15),(29,15))
-        a('round',(29,15),(33,19),4)
-        p('return',(33,19),(30,33),(18,33))
-        link('connect','top','round')
-        link('connect','round','return')
-        l('dash',(13,24),(23,24))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_arc('coin-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('coin-bottom', (44, 24), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_line('top', (19, 15), (29, 15))
+        self.add_arc('round', (29, 15), (33, 19), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('return-1', (33, 19), (30, 33))
+        self.add_line('return-2', (30, 33), (18, 33))
+        self.add_line('dash', (13, 24), (23, 24))
+        self.add_contour('coin', *('coin-top', 'coin-bottom'), closed=True)
+        self.add_contour('return', *('return-1', 'return-2'), closed=False)
+        self.relate('connect', *('top', 'round'))
+        self.relate('connect', *('round', 'return'))

@@ -17,6 +17,8 @@ class CrestedBird(Solo48):
     keywords = ('chicken', 'hen', 'bird', 'crest', 'beak', 'perch', 'farm', 'poultry')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # SQUARE visible (6,6)-(42,42); centerlines (6,6)-(42,42).
         self.add_line('tail', (6,22), (8,22))
         self.add_arc('tail-turn', (8,22), (12,26), radius_x=4)
@@ -34,7 +36,7 @@ class CrestedBird(Solo48):
         self.add_line('back-bottom', (16,28), (12,28))
         self.add_contour('body', 'belly-left', 'belly-right', 'breast', 'bill-bottom', 'bill-top', 'head-right', 'head-left', 'back', 'back-turn', 'back-bottom', closed=True)
         self.relate('connect', 'tail-shape', 'body')
-        self.add_arc('crest', (31,8), (25,6), radius_x=6, sweep=False)
+        self.add_arc('crest', (31,8), (25,6), radius_x=6, sweep=False, radius_y=2)
         self.relate('connect', 'crest', 'body')
         self.add_line('leg', (26,40), (26,42))
         self.relate('connect', 'leg', 'body')

@@ -42,13 +42,15 @@ class FlexedBiceps(Solo48):
         self.add_contour(name,name+'-top',name+'-bottom',closed=True)
 
     def build(self):
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # A flexed arm curls upward into a fist above a rounded biceps.
-        self.add_arc('outer-forearm',(6,32),(14,8),radius_x=10,radius_y=24)
+        self.add_arc('outer-forearm',(4, 32),(14,8),radius_x=10,radius_y=24)
         self.add_line('fist-top',(14,8),(18,8))
         self.add_arc('fist',(18,8),(18,16),radius_x=4)
         self.add_line('inner-forearm',(18,16),(16,26))
         self.add_arc('inner-elbow',(16,26),(24,26),radius_x=6)
-        self.add_arc('biceps',(24,26),(42,26),radius_x=10)
-        self.add_arc('lower-arm-right',(42,26),(24,40),radius_x=20,radius_y=14)
-        self.add_arc('lower-arm-left',(24,40),(6,32),radius_x=20,radius_y=8)
+        self.add_arc('biceps',(24,26),(44, 26),radius_x=10)
+        self.add_arc('lower-arm-right',(44, 26),(24,40),radius_x=20,radius_y=14)
+        self.add_arc('lower-arm-left',(24,40),(4, 32),radius_x=20,radius_y=8)
         self.add_contour('arm','outer-forearm','fist-top','fist','inner-forearm','inner-elbow','biceps','lower-arm-right','lower-arm-left',closed=True)

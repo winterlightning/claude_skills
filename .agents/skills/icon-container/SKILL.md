@@ -33,7 +33,6 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 
 - `$icon-sub` — sub family, `SUB32`, 32×32
 - `$icon-solo` — solo family, `SOLO48`, 48×48
-- `$icon-avatar` — avatar family, `AVATAR48`, 48×48
 
 ## Visual priorities
 

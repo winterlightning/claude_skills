@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '1f61f1a6-7004-4899-8bf1-688257e3f936'
 SOURCE_PATH = 'icons-json/arrows/fast up_1f61f1a6-7004-4899-8bf1-688257e3f936.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class FastUp(Solo48):
     icon_id = 'fast-up'
@@ -15,17 +15,19 @@ class FastUp(Solo48):
     aliases = ()
     keywords = ('fast', 'up', 'arrows')
 
-    def build(self):
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
         self.add_line('e0', (34, 12), (39, 8))
         self.add_line('e1', (44, 12), (39, 8))
-        self.add_line('e2', (11, 39), (14, 38))
+        self.add_line('e2', (13, 31), (15, 30))
         self.add_line('e3', (4, 40), (7, 40))
-        self.add_arc('e4', (19, 37), (39, 8), radius_x=31, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e4')
-        self.add_contour('c2', 'e1')
-        self.add_contour('c3', 'e2')
-        self.add_contour('c4', 'e3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        self.add_arc('e4', (19, 37), (39, 8), radius_x=31, radius_y=31, large_arc=False, sweep=False)
+        self.add_contour('c0', *('e0',), closed=False)
+        self.add_contour('c1', *('e4',), closed=False)
+        self.add_contour('c2', *('e1',), closed=False)
+        self.add_contour('c3', *('e2',), closed=False)
+        self.add_contour('c4', *('e3',), closed=False)
+        self.relate('connect', *('c0', 'c1'))
+        self.relate('connect', *('c0', 'c2'))
+        self.relate('connect', *('c1', 'c2'))

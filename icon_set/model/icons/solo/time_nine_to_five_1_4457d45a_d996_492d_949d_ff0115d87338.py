@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '4457d45a-d996-492d-949d-ff0115d87338'
 SOURCE_PATH = 'icons-json/interface-essential/time nine to five 1_4457d45a-d996-492d-949d-ff0115d87338.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TimeNineToFive1(Solo48):
     icon_id = 'time-nine-to-five-1'
@@ -15,19 +15,21 @@ class TimeNineToFive1(Solo48):
     aliases = ()
     keywords = ('time', 'nine', 'to', 'five', 'interface-essential')
 
-    def build(self):
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
         self.add_line('e0', (35, 32), (35, 38))
         self.add_line('e1', (40, 38), (35, 38))
-        self.add_line('e2', (31, 16), (22, 26))
-        self.add_arc('e3-1', (24, 42), (6, 24), radius_x=18)
-        self.add_arc('e3-2', (6, 24), (24, 6), radius_x=18)
-        self.add_arc('e3-3', (24, 6), (42, 24), radius_x=18)
+        self.add_line('e2', (31, 17), (22, 27))
+        self.add_arc('e3-1', (24, 42), (6, 24), radius_x=18, radius_y=18, large_arc=False, sweep=True)
+        self.add_arc('e3-2', (6, 24), (24, 6), radius_x=18, radius_y=18, large_arc=False, sweep=True)
+        self.add_arc('e3-3', (24, 6), (42, 24), radius_x=18, radius_y=18, large_arc=False, sweep=True)
         self.add_line('e3-4', (42, 24), (40, 32))
         self.add_line('e3-5', (40, 32), (35, 38))
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e3-5')
-        self.add_contour('c1', 'e0')
-        self.add_contour('c2', 'e1')
-        self.add_contour('c3', 'e2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        self.add_contour('c0', *('e3-1', 'e3-2', 'e3-3', 'e3-4', 'e3-5'), closed=False)
+        self.add_contour('c1', *('e0',), closed=False)
+        self.add_contour('c2', *('e1',), closed=False)
+        self.add_contour('c3', *('e2',), closed=False)
+        self.relate('connect', *('c0', 'c1'))
+        self.relate('connect', *('c0', 'c2'))
+        self.relate('connect', *('c1', 'c2'))

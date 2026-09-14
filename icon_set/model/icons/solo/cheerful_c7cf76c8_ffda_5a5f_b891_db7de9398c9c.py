@@ -4,7 +4,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'c7cf76c8-ffda-5a5f-b891-db7de9398c9c'
 SOURCE_PATH = 'icons-json/smileys/cheerful_c7cf76c8-ffda-5a5f-b891-db7de9398c9c.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cheerful(Solo48):
     icon_id = 'cheerful'
@@ -15,19 +15,21 @@ class Cheerful(Solo48):
     aliases = ()
     keywords = ('cheerful', 'smileys')
 
-    def build(self):
-        self.add_line('e0', (14, 27), (19, 28))
-        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e2-1', (34, 27), (24, 36), radius_x=11)
-        self.add_arc('e2-2', (24, 36), (14, 27), radius_x=11)
-        self.add_arc('e3-1', (19, 28), (34, 27), radius_x=57, sweep=False)
-        self.add_line('e3-2', (34, 27), (33, 29))
-        self.add_arc('e4-1', (13, 19), (17, 16), radius_x=4)
-        self.add_arc('e4-2', (17, 16), (20, 19), radius_x=3)
-        self.add_arc('e5-1', (28, 19), (31, 15), radius_x=3)
-        self.add_arc('e5-2', (31, 15), (35, 19), radius_x=4)
-        self.add_contour('c0', 'e2-1', 'e2-2', 'e0', 'e3-1', 'e3-2')
-        self.add_contour('c1', 'e4-1', 'e4-2')
-        self.add_contour('c2', 'e5-1', 'e5-2')
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('e0', (15, 27), (19, 28))
+        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('e2-1', (33, 27), (24, 35), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('e2-2', (24, 35), (15, 27), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('e3-1', (19, 28), (33, 27), radius_x=54, radius_y=54, large_arc=False, sweep=False)
+        self.add_line('e3-2', (33, 27), (32, 29))
+        self.add_arc('e4-1', (14, 19), (17, 16), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('e4-2', (17, 16), (19, 19), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('e5-1', (28, 19), (31, 16), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('e5-2', (31, 16), (34, 19), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('c0', *('e2-1', 'e2-2', 'e0', 'e3-1', 'e3-2'), closed=False)
+        self.add_contour('c1', *('e4-1', 'e4-2'), closed=False)
+        self.add_contour('c2', *('e5-1', 'e5-2'), closed=False)
+        self.add_contour('e1', *('e1-top', 'e1-bottom'), closed=True)

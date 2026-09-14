@@ -16,25 +16,18 @@ class Rattlesnake(Solo48):
     aliases = ()
     keywords = ('rattlesnake', 'snake', 'rattle', 'reptile', 'slither', 'venom', 'desert', 'serpent')
 
-    def build(self):
-        # Rattlesnake: tangent nested turns, a broad head and well-separated round rattle marks.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        self.add_dot('rattle-top',(6,6))
-        self.add_dot('rattle-bottom',(6,15))
-        l('tail',(6,26),(6,32))
-        a('tail-turn',(6,32),(22,32),8,sweep=False)
-        l('inner-neck',(22,32),(22,20))
-        a('inner-top',(22,20),(32,20),5)
-        l('inner-right',(32,20),(32,37))
-        a('head-tip',(32,37),(42,37),5,sweep=False)
-        l('outer-right',(42,37),(42,20))
-        a('outer-top',(42,20),(14,20),14,sweep=False)
-        l('outer-neck',(14,20),(14,32))
-        self.add_contour('snake','tail','tail-turn','inner-neck','inner-top','inner-right','head-tip','outer-right','outer-top','outer-neck')
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('rattle-top', (6, 6), (6, 6))
+        self.add_line('rattle-bottom', (6, 15), (6, 15))
+        self.add_line('tail', (6, 26), (6, 32))
+        self.add_arc('tail-turn', (6, 32), (22, 32), radius_x=8, radius_y=8, large_arc=False, sweep=False)
+        self.add_line('inner-neck', (22, 32), (22, 20))
+        self.add_arc('inner-top', (22, 20), (32, 20), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('inner-right', (32, 20), (32, 37))
+        self.add_arc('head-tip', (32, 37), (42, 37), radius_x=5, radius_y=5, large_arc=False, sweep=False)
+        self.add_line('outer-right', (42, 37), (42, 20))
+        self.add_arc('outer-top', (42, 20), (14, 20), radius_x=14, radius_y=14, large_arc=False, sweep=False)
+        self.add_line('outer-neck', (14, 20), (14, 32))
+        self.add_contour('snake', *('tail', 'tail-turn', 'inner-neck', 'inner-top', 'inner-right', 'head-tip', 'outer-right', 'outer-top', 'outer-neck'), closed=False)

@@ -16,24 +16,14 @@ class CloudDisplayGlobe(Solo48):
     aliases = ()
     keywords = ('globe', 'cloud', 'sphere', 'pedestal', 'display', 'ornament', 'decor')
 
-    def build(self):
-        # Cloud globe: a true circular globe around one smooth, balanced cloud; the cramped base is omitted.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def c(name, x, y, radius):
-            a(name+'-top', (x-radius,y), (x+radius,y), radius)
-            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-        c('globe',24,24,20)
-        a('cloud-left',(18,29),(18,19),5)
-        a('cloud-crown',(18,19),(30,19),6)
-        a('cloud-right',(30,19),(30,29),5)
-        l('cloud-bottom',(30,29),(18,29))
-        self.add_contour('cloud','cloud-left','cloud-crown','cloud-right','cloud-bottom',closed=True)
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_arc('globe-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('globe-bottom', (44, 24), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('cloud-left', (18, 29), (18, 19), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('cloud-crown', (18, 19), (30, 19), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('cloud-right', (30, 19), (30, 29), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('cloud-bottom', (30, 29), (18, 29))
+        self.add_contour('globe', *('globe-top', 'globe-bottom'), closed=True)
+        self.add_contour('cloud', *('cloud-left', 'cloud-crown', 'cloud-right', 'cloud-bottom'), closed=True)

@@ -15,16 +15,17 @@ class VirtualCoinCyrptoCurrency(Solo48):
     aliases = ()
     keywords = ('virtual', 'coin', 'cyrpto', 'currency', 'design')
 
-    def build(self):
-        # Layered currency: one clear diamond and two equally spaced lower layers, preserving all three levels.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        p('top',(8,12),(24,4),(40,12),(24,20),(8,12))
-        p('middle',(8,24),(24,32),(40,24))
-        p('bottom',(8,36),(24,44),(40,36))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('top-1', (8, 12), (24, 4))
+        self.add_line('top-2', (24, 4), (40, 12))
+        self.add_line('top-3', (40, 12), (24, 20))
+        self.add_line('top-4', (24, 20), (8, 12))
+        self.add_line('middle-1', (8, 24), (24, 32))
+        self.add_line('middle-2', (24, 32), (40, 24))
+        self.add_line('bottom-1', (8, 36), (24, 44))
+        self.add_line('bottom-2', (24, 44), (40, 36))
+        self.add_contour('top', *('top-1', 'top-2', 'top-3', 'top-4'), closed=False)
+        self.add_contour('middle', *('middle-1', 'middle-2'), closed=False)
+        self.add_contour('bottom', *('bottom-1', 'bottom-2'), closed=False)

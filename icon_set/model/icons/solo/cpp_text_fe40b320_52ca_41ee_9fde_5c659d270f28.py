@@ -23,12 +23,14 @@ class CppText(Solo48):
     keywords = ('c++', 'cpp', 'code', 'programming', 'language', 'development', 'text', 'software')
 
     def build(self) -> None:
-        self.add_arc('c-upper', (14, 8), (6, 24), radius_x=10, radius_y=16, sweep=False)
-        self.add_arc('c-lower', (6, 24), (14, 40), radius_x=10, radius_y=16, sweep=False)
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_arc('c-upper', (14, 8), (4, 24), radius_x=10, radius_y=16, sweep=False)
+        self.add_arc('c-lower', (4, 24), (14, 40), radius_x=10, radius_y=16, sweep=False)
         self.add_contour('c', 'c-upper', 'c-lower')
         self.add_polyline('plus-one-h', (20, 24), (24, 24), (28, 24))
         self.add_polyline('plus-one-v', (24, 20), (24, 24), (24, 28))
         self.relate("connect", 'plus-one-h', 'plus-one-v')
-        self.add_polyline('plus-two-h', (36, 24), (40, 24), (42, 24))
+        self.add_polyline('plus-two-h', (36, 24), (40, 24), (44, 24))
         self.add_polyline('plus-two-v', (40, 20), (40, 24), (40, 28))
         self.relate("connect", 'plus-two-h', 'plus-two-v')

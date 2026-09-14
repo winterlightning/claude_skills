@@ -1,6 +1,6 @@
 ---
 name: icon-making
-description: Inspect a Pictographic icon request or reference, decide solo/sub/container/avatar routing, and run the appropriate icon skill. Use as the entry point for making icons, applying review feedback, or processing Pending briefs. Detect container and side combinations and split them into standalone component briefs rather than authoring a combined primitive. Generated from .claude/skills/icon-making/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
+description: Inspect a Pictographic icon request or reference, decide solo/sub/container routing and avatar specialization, and run the appropriate icon skill. Use as the entry point for making icons, applying review feedback, or processing Pending briefs. Detect container and side combinations and split them into standalone component briefs rather than authoring a combined primitive. Generated from .claude/skills/icon-making/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
 ---
 
 # $icon-making — reference triage and family routing
@@ -34,7 +34,7 @@ Otherwise this router is authorized to decide it:
 
 | Intended subject | Route |
 |---|---|
-| A standalone avatar or profile bust combining a head and its own body | `$icon-avatar` (48×48) |
+| A standalone avatar or profile bust combining a head and its own body | `$icon-avatar` (solo family, 48×48) |
 | One independently recognizable noun/object, tool, person, animal, or scene reduced to a single subject | `$icon-solo` (48×48) |
 | Small operator, arrow, state, modifier, or simple glyph intended to accompany another icon | `$icon-sub` (32×32) |
 | A standalone enclosure, frame, screen, card, window, or speech bubble | `$icon-container` (64×64) |

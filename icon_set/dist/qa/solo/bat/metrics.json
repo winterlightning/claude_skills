@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (3.93296, 6, 44.067, 42) does not match the HRECT_L envelope (2, 6, 46, 42) (deltas [1.933, 0.0, 1.933, 0.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,15 +15,15 @@
         "elementId": "bat-outline",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 19 L 17 8 L 24 12 L 31 8 L 30 19 A 8 8 0 0 0 38 11 A 8 22 0 0 1 42 33 A 8 6 0 0 0 34 33 A 10 7 0 0 0 24 40 A 10 7 0 0 0 14 33 A 8 6 0 0 0 6 33 A 8 22 0 0 1 10 11 A 8 8 0 0 0 18 19 Z",
+        "pathData": "M 18 19 L 17 8 L 24 12 L 31 8 L 30 19 A 8 8 0 0 0 38 11 A 6 22 0 0 1 44 33 A 8 6 0 0 0 34 33 A 10 7 0 0 0 24 40 A 10 7 0 0 0 14 33 A 8 6 0 0 0 4 33 A 6 22 0 0 1 10 11 A 8 8 0 0 0 18 19 Z",
         "bounds": [
-          5.932958966553777,
+          4.0,
           8.0,
-          42.067041033446216,
+          44.0,
           40.0
         ],
-        "segmentCount": 517,
-        "approximationError": 0.0009450062815660064,
+        "segmentCount": 645,
+        "approximationError": 0.0007529910597822639,
         "hasCurves": true
       }
     ],
@@ -42,9 +40,9 @@
           "bat-outline"
         ],
         "bounds": [
-          5.932958966553777,
+          4.0,
           8.0,
-          42.067041033446216,
+          44.0,
           40.0
         ]
       }
@@ -68,8 +66,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 14,
-      "flattenedSegments": 517,
-      "adaptiveNodes": 1016,
+      "flattenedSegments": 645,
+      "adaptiveNodes": 1272,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -78,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          25.9844
+        ],
+        "bbox_viewbox": [
+          6.0625,
+          11.6562,
+          35.875,
+          23.3125
+        ],
+        "bbox_ship_px": [
+          35.875,
+          23.3125
+        ],
+        "bbox_design_u": [
+          35.875,
+          23.3125
+        ],
+        "area_ship_px2": 471.9854,
+        "equivalent_diameter_ship_px": 24.5143,
+        "equivalent_diameter_design_u": 24.5143,
+        "inscribed_diameter_ship_px": 14.358,
+        "inscribed_diameter_design_u": 14.358,
+        "inscribed_radius_ship_px": 7.179,
+        "inscribed_radius_design_u": 7.179,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -89,22 +121,22 @@
           25.9844
         ],
         "bbox_viewbox": [
-          6.4375,
+          4.5,
           8.9375,
-          35.125,
+          39.0,
           28.7188
         ],
         "bbox_ship_px": [
-          35.125,
+          39.0,
           28.7188
         ],
         "bbox_design_u": [
-          35.125,
+          39.0,
           28.7188
         ],
-        "area_ship_px2": 617.0137,
-        "equivalent_diameter_ship_px": 28.0287,
-        "equivalent_diameter_design_u": 28.0287,
+        "area_ship_px2": 677.2734,
+        "equivalent_diameter_ship_px": 29.3655,
+        "equivalent_diameter_design_u": 29.3655,
         "inscribed_diameter_ship_px": 17.3383,
         "inscribed_diameter_design_u": 17.3383,
         "inscribed_radius_ship_px": 8.6691,
@@ -138,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "27ba78482626f68d9d72f9980dd4eaf3922a6df8726430890939e8851473c0d0",
+  "svg_sha256": "5842996e96c949c3ce62a8bda836c7e23d710adf02b05decf675892e540d3114",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -166,7 +198,7 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
       "version": 1,
@@ -190,7 +222,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

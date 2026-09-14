@@ -23,9 +23,11 @@ class ArrowTurnRight(Solo48):
     keywords = ('arrow', 'turn', 'right', 'redirect', 'forward', 'curve', 'direction', 'share')
 
     def build(self) -> None:
-        self.add_polyline('head', (32, 8), (42, 20), (32, 32))
-        self.add_line('shaft', (42, 20), (16, 20))
-        self.add_arc('bend', (16, 20), (6, 32), radius_x=12, radius_y=12, sweep=False)
-        self.add_line('tail', (6, 32), (12, 40))
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_polyline('head', (32, 8), (44, 20), (32, 32))
+        self.add_line('shaft', (44, 20), (16, 20))
+        self.add_arc('bend', (16, 20), (4, 32), radius_x=12, radius_y=12, sweep=False)
+        self.add_line('tail', (4, 32), (12, 40))
         self.add_contour('body', 'shaft', 'bend', 'tail')
         self.relate("connect", 'head', 'body')

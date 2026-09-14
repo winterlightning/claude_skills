@@ -21,7 +21,7 @@ class WomanStoreClerk3Avatar(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'people/avatars'
+    category = 'avatars'
     aliases = ()
     keywords = ('avatar', 'woman', 'store', 'clerk', '3', 'bust', 'body', 'portrait')
 

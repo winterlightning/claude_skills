@@ -16,35 +16,24 @@ class FossilTablet(Solo48):
     aliases = ()
     keywords = ('fossil', 'dinosaur', 'skeleton', 'pterosaur', 'stone', 'tablet', 'archaeology', 'prehistoric')
 
-    def build(self):
-        # Fossil tablet: a clear fossil silhouette inside a smooth balanced stone frame.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def r(name, x0, y0, x1, y1, radius=4):
-            # Equal corner radii and shared tangent endpoints own the rounded box.
-            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
-                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
-                      (x0,y1-radius),(x0,y0+radius)]
-            ids=[]
-            for index,start in enumerate(points):
-                end=points[(index+1)%8]
-                if start==end:
-                    continue
-                part=f'{name}-{index}'
-                if index%2:
-                    a(part,start,end,radius)
-                else:
-                    l(part,start,end)
-                ids.append(part)
-            self.add_contour(name,*ids,closed=True)
-
-        r('tablet',6,6,42,42,4)
-        p('fossil',(15,31),(15,23),(30,18),(33,29))
-        p('spine',(26,15),(23,22),(29,30),(26,33))
-        link('connect','spine','fossil')
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('tablet-0', (10, 6), (38, 6))
+        self.add_arc('tablet-1', (38, 6), (42, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('tablet-2', (42, 10), (42, 38))
+        self.add_arc('tablet-3', (42, 38), (38, 42), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('tablet-4', (38, 42), (10, 42))
+        self.add_arc('tablet-5', (10, 42), (6, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('tablet-6', (6, 38), (6, 10))
+        self.add_arc('tablet-7', (6, 10), (10, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('fossil-1', (15, 31), (15, 23))
+        self.add_line('fossil-2', (15, 23), (30, 18))
+        self.add_line('fossil-3', (30, 18), (33, 29))
+        self.add_line('spine-1', (26, 15), (23, 22))
+        self.add_line('spine-2', (23, 22), (29, 30))
+        self.add_line('spine-3', (29, 30), (26, 33))
+        self.add_contour('tablet', *('tablet-0', 'tablet-1', 'tablet-2', 'tablet-3', 'tablet-4', 'tablet-5', 'tablet-6', 'tablet-7'), closed=True)
+        self.add_contour('fossil', *('fossil-1', 'fossil-2', 'fossil-3'), closed=False)
+        self.add_contour('spine', *('spine-1', 'spine-2', 'spine-3'), closed=False)
+        self.relate('connect', *('spine', 'fossil'))

@@ -23,15 +23,17 @@ class ClipboardEmpty(Solo48):
     keywords = ('clipboard', 'board', 'notes', 'document', 'list', 'paper', 'office', 'task')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         self.add_arc('clip-top', (16, 12), (32, 12), radius_x=8, radius_y=8, sweep=True)
         self.add_arc('clip-bottom', (32, 12), (16, 12), radius_x=8, radius_y=8, sweep=True)
         self.add_contour('clip', 'clip-top', 'clip-bottom', closed=True)
         self.add_line('top-right', (32, 12), (36, 12))
         self.add_arc('ne', (36, 12), (40, 16), radius_x=4, radius_y=4, sweep=True)
         self.add_line('right', (40, 16), (40, 40))
-        self.add_arc('se', (40, 40), (36, 42), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('bottom', (36, 42), (12, 42))
-        self.add_arc('sw', (12, 42), (8, 40), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('se', (40, 40), (36, 44), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('bottom', (36, 44), (12, 44))
+        self.add_arc('sw', (12, 44), (8, 40), radius_x=4, radius_y=4, sweep=True)
         self.add_line('left', (8, 40), (8, 16))
         self.add_arc('nw', (8, 16), (12, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('top-left', (12, 12), (16, 12))

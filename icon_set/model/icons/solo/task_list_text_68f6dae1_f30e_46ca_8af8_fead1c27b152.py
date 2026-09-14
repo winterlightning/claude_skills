@@ -15,34 +15,18 @@ class TaskListText(Solo48):
     aliases = ()
     keywords = ('task', 'list', 'text', 'office')
 
-    def build(self):
-        # Task list: three straight baselines with even 9-unit spacing and balanced margins.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def r(name, x0, y0, x1, y1, radius=4):
-            # Equal corner radii and shared tangent endpoints own the rounded box.
-            points = [(x0+radius,y0),(x1-radius,y0),(x1,y0+radius),
-                      (x1,y1-radius),(x1-radius,y1),(x0+radius,y1),
-                      (x0,y1-radius),(x0,y0+radius)]
-            ids=[]
-            for index,start in enumerate(points):
-                end=points[(index+1)%8]
-                if start==end:
-                    continue
-                part=f'{name}-{index}'
-                if index%2:
-                    a(part,start,end,radius)
-                else:
-                    l(part,start,end)
-                ids.append(part)
-            self.add_contour(name,*ids,closed=True)
-
-        r('page',6,6,42,42,3)
-        for y,end in ((15,33),(24,33),(33,27)):
-            l(f'text-{y}',(15,y),(end,y))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('page-0', (9, 6), (39, 6))
+        self.add_arc('page-1', (39, 6), (42, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('page-2', (42, 9), (42, 39))
+        self.add_arc('page-3', (42, 39), (39, 42), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('page-4', (39, 42), (9, 42))
+        self.add_arc('page-5', (9, 42), (6, 39), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('page-6', (6, 39), (6, 9))
+        self.add_arc('page-7', (6, 9), (9, 6), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('text-15', (15, 15), (33, 15))
+        self.add_line('text-24', (15, 24), (33, 24))
+        self.add_line('text-33', (15, 33), (27, 33))
+        self.add_contour('page', *('page-0', 'page-1', 'page-2', 'page-3', 'page-4', 'page-5', 'page-6', 'page-7'), closed=True)

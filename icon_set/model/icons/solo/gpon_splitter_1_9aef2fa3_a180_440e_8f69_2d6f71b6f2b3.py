@@ -1,10 +1,10 @@
-"""Gpon splitter 1 (networks), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Three-way splitter: a circular hub and three clearly connected outgoing arrows, with matching arrowheads.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9aef2fa3-a180-440e-8f69-2d6f71b6f2b3'
 SOURCE_PATH = 'icons-json/networks/gpon splitter 1_9aef2fa3-a180-440e-8f69-2d6f71b6f2b3.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class GponSplitter1(Solo48):
     icon_id = 'gpon-splitter-1'
@@ -15,41 +15,14 @@ class GponSplitter1(Solo48):
     aliases = ()
     keywords = ('gpon', 'splitter', 'networks')
 
-    def build(self):
-        self.add_line('e0', (32, 8), (39, 8))
-        self.add_line('e1', (4, 24), (15, 24))
-        self.add_line('e2', (33, 40), (39, 40))
-        self.add_line('e3', (39, 34), (39, 40))
-        self.add_line('e4', (40, 27), (44, 24))
-        self.add_line('e5', (40, 21), (44, 24))
-        self.add_line('e6', (39, 14), (39, 10))
-        self.add_line('e7', (23, 21), (39, 8))
-        self.add_line('e8', (39, 40), (23, 27))
-        self.add_line('e9', (24, 24), (44, 24))
-        self.add_arc('e10-top', (14, 24), (24, 24), radius_x=5, radius_y=4)
-        self.add_arc('e10-bottom', (24, 24), (14, 24), radius_x=5, radius_y=4)
-        self.add_line('e11', (39, 10), (39, 8))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('c6', 'e6', 'e11')
-        self.add_contour('c7', 'e7')
-        self.add_contour('c8', 'e8')
-        self.add_contour('c9', 'e9')
-        self.add_contour('e10', 'e10-top', 'e10-bottom', closed=True)
-        self.relate('connect', 'c0', 'c6')
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c8')
-        self.relate('connect', 'c3', 'c8')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c9')
-        self.relate('connect', 'c5', 'c9')
-        self.relate('connect', 'c1', 'e10')
-        self.relate('connect', 'c7', 'e10')
-        self.relate('connect', 'c8', 'e10')
-        self.relate('connect', 'c9', 'e10')
+    def build(self) -> None:
+        # Three outgoing paths share one real junction; ring keeps a legible central opening.
+        self.add_arc('hub-a',(12,24),(24,24),radius_x=6)
+        self.add_arc('hub-b',(24,24),(12,24),radius_x=6)
+        self.add_contour('hub','hub-a','hub-b',closed=True)
+        self.add_line('input',(4,24),(12,24));self.relate('connect','input','hub')
+        self.add_polyline('branches',(38,8),(24,24),(44,24))
+        self.add_line('lower',(24,24),(38,40))
+        self.relate('connect','branches','hub');self.relate('connect','lower','hub');self.relate('connect','branches','lower')
+        for name,pts,owner in (('top-head',((31,8),(38,8),(38,15)),'branches'),('right-head',((39,19),(44,24),(39,29)),'branches'),('lower-head',((31,40),(38,40),(38,33)),'lower')):
+            self.add_polyline(name,*pts);self.relate('connect',name,owner)

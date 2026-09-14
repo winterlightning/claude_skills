@@ -21,6 +21,8 @@ class ClimbingAirplaneRoundedNose(Solo48):
     keywords = ('airplane', 'plane', 'flight', 'climbing', 'aircraft', 'departure', 'aviation', 'travel')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         runs = {}
         def run(name, *points):
          ids = []
@@ -29,13 +31,13 @@ class ClimbingAirplaneRoundedNose(Solo48):
           self.add_line(part,a,b)
           ids.append(part)
          runs[name] = ids
-        # HRECT_L extremes (6,8)-(42,40); coherent curved belly and round nose.
-        run('upper-body',(6,21),(12,19),(16,24),(20,22),(29,18),(35,16))
-        self.add_arc('nose',(35,16),(42,22),radius_x=9,radius_y=6)
-        self.add_arc('chin',(42,22),(40,26),radius_x=4)
+        # HRECT_L centerline extremes (4,8)-(44,40); coherent curved belly and round nose.
+        run('upper-body',(4, 21),(10,19),(14,25),(23,20),(12,10),(22,8),(33,18),(35,16))
+        self.add_arc('nose',(35,16),(44, 22),radius_x=9,radius_y=6)
+        self.add_arc('chin',(44, 22),(40,26),radius_x=4)
         run('lower-body',(40,26),(30,29),(25,40),(15,40),(19,30),(13,34))
         self.add_arc('belly',(13,34),(7,30),radius_x=8)
-        self.add_line('tail-close',(7,30),(6,21))
+        self.add_line('tail-close',(7,30),(4, 21))
         self.add_contour('outline',*runs['upper-body'],'nose','chin',*runs['lower-body'],'belly','tail-close',closed=True)
-        self.add_polyline('far-wing',(20,22),(9,10),(18,8),(29,18))
-        self.relate('connect','outline','far-wing')
+        # The far wing is part of the silhouette; its redundant crossing seam
+        # is omitted so the tail/wing junction does not create tiny counters.

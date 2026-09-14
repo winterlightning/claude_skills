@@ -16,13 +16,22 @@ class WateredPlanter(Solo48):
     keywords = ('planter', 'water', 'droplet', 'leaves', 'plant', 'bowl', 'gardening')
 
     def build(self) -> None:
-        """Opening repair: Deepened the bowl using a true half-ellipse; retained the foliage and droplet."""
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
         self.add_line('potrim', (6, 34), (42, 34))
-        self.add_arc('potarc', (42, 34), (6, 34), sweep=True, radius_x=18, radius_y=8)
-        self.add_contour('pot', 'potrim', 'potarc', closed=True)
-        self.add_polyline('foliage', (6, 34), (6, 22), (16, 26), (16, 18), (24, 26), (32, 18), (32, 26), (42, 22), (42, 34), closed=False)
-        self.relate('connect', 'foliage', 'pot')
-        self.add_arc('drop-a', (24, 6), (28, 10), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('drop-b', (28, 10), (20, 10), radius_x=4, radius_y=4, sweep=True)
-        self.add_arc('drop-c', (20, 10), (24, 6), radius_x=6, radius_y=6, sweep=True)
-        self.add_contour('drop', 'drop-a', 'drop-b', 'drop-c', closed=True)
+        self.add_arc('potarc', (42, 34), (6, 34), radius_x=18, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('foliage-1', (6, 34), (6, 22))
+        self.add_line('foliage-2', (6, 22), (16, 26))
+        self.add_line('foliage-3', (16, 26), (16, 18))
+        self.add_line('foliage-4', (16, 18), (24, 26))
+        self.add_line('foliage-5', (24, 26), (32, 18))
+        self.add_line('foliage-6', (32, 18), (32, 26))
+        self.add_line('foliage-7', (32, 26), (42, 22))
+        self.add_line('foliage-8', (42, 22), (42, 34))
+        self.add_arc('drop-a', (24, 6), (27, 10), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('drop-b', (27, 10), (21, 10), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('drop-c', (21, 10), (24, 6), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('pot', *('potrim', 'potarc'), closed=True)
+        self.add_contour('foliage', *('foliage-1', 'foliage-2', 'foliage-3', 'foliage-4', 'foliage-5', 'foliage-6', 'foliage-7', 'foliage-8'), closed=False)
+        self.add_contour('drop', *('drop-a', 'drop-b', 'drop-c'), closed=True)
+        self.relate('connect', *('foliage', 'pot'))

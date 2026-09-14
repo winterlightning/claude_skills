@@ -14,23 +14,32 @@ class BabyBottleWithHandles(Solo48):
     keywords = ('bottle', 'handles', 'baby', 'milk', 'feeding', 'sippy', 'teat', 'infant')
 
     def build(self) -> None:
-        self.add_arc('bottle-1', (6, 34), (14, 42), radius_x=12, radius_y=12, sweep=False)
-        self.add_arc('bottle-2', (14, 42), (22, 42), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('bottle-3', (22, 42), (38, 26))
-        self.add_line('bottle-4', (38, 26), (22, 10))
-        self.add_line('bottle-5', (22, 10), (6, 26))
-        self.add_arc('bottle-6', (6, 26), (6, 34), radius_x=10, radius_y=10, sweep=False)
-        self.add_contour('bottle', 'bottle-1', 'bottle-2', 'bottle-3', 'bottle-4', 'bottle-5', 'bottle-6', closed=True)
-        self.add_line('teat-1', (22, 10), (34, 6))
-        self.add_arc('teat-2', (34, 6), (40, 6), radius_x=6, radius_y=4, sweep=True)
-        self.add_arc('teat-3', (40, 6), (42, 8), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('teat-4', (42, 8), (42, 14), radius_x=4, radius_y=6, sweep=True)
-        self.add_line('teat-5', (42, 14), (38, 26))
-        self.add_contour('teat', 'teat-1', 'teat-2', 'teat-3', 'teat-4', 'teat-5', closed=False)
-        self.add_arc('handle-left-1', (8, 24), (20, 12), radius_x=9, radius_y=9, large_arc=True, sweep=True)
-        self.add_contour('handle-left', 'handle-left-1', closed=False)
-        self.add_arc('handle-right-1', (36, 28), (24, 40), radius_x=9, radius_y=9, large_arc=True, sweep=True)
-        self.add_contour('handle-right', 'handle-right-1', closed=False)
-        self.relate('connect', 'bottle', 'teat')
-        self.relate('connect', 'bottle', 'handle-left')
-        self.relate('connect', 'bottle', 'handle-right')
+        # Diagonal feeding bottle with two physical handles. Each handle owns
+        # its cardinal lobes; its endpoints share the bottle's diagonal seams.
+        # SQUARE centerline extrema: (6,6)-(42,42).
+        def contour(name, start, pieces, closed=False):
+            members = []
+            point = start
+            for index, (end, radii) in enumerate(pieces):
+                member = f'{name}-{index}'
+                if radii:
+                    rx, ry, sweep = radii
+                    self.add_arc(member, point, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                else:
+                    self.add_line(member, point, end)
+                members.append(member)
+                point = end
+            self.add_contour(name, *members, closed=closed)
+        contour('bottle', (6, 28), [
+            ((6, 34), None), ((14, 42), (8, 8, False)),
+            ((24, 42), None), ((26, 40), None), ((40, 26), None),
+            ((24, 10), None), ((10, 24), None),
+            ((6, 28), None)], True)
+        contour('teat', (24, 10), [
+            ((34, 6), None), ((38, 6), None), ((42, 10), (4, 4, True)),
+            ((42, 14), None), ((40, 26), None)])
+        # Radius-10 circles use exact 6-8-10 attachment vectors.
+        self.add_arc('handle-left', (10, 24), (24, 10), radius_x=10, large_arc=True)
+        self.add_arc('handle-right', (40, 26), (26, 40), radius_x=10)
+        for part in ('teat', 'handle-left', 'handle-right'):
+            self.relate('connect', 'bottle', part)

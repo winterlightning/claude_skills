@@ -28,12 +28,12 @@ if __package__:
     from .generation import GenerationManager
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
-    from .discard_icon import discard as discard_icon
+    from .discard_icon import discard_many
 else:
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
-    from discard_icon import discard as discard_icon
+    from discard_icon import discard_many
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
@@ -45,6 +45,7 @@ ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1"}
 SESSION_TTL = 12 * 60 * 60
 # Discards rewrite icons.json and manifests; one at a time.
 DISCARD_LOCK = threading.Lock()
+MAX_DISCARD_BATCH = 500
 
 
 def init_database(path: Path) -> None:
@@ -511,29 +512,46 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
 
     def discard_icon(self, data, user):
-        """Permanently remove a rejected icon: Python model, published files and its review rows."""
-        key = data.get('icon')
+        """Permanently remove rejected icons: Python models, published files and their review rows.
+
+        Accepts {icon, svg_sha256} or {icons: [{icon, svg_sha256}, ...]}. A batch discards every
+        icon that passes its checks and lists the rest under `failed`.
+        """
+        batch = 'icons' in data
+        requests = data.get('icons') if batch else [data]
+        if not isinstance(requests, list) or not 1 <= len(requests) <= MAX_DISCARD_BATCH or \
+                not all(isinstance(item, dict) and isinstance(item.get('icon'), str) for item in requests):
+            return self.json_response({'error': f'Choose between 1 and {MAX_DISCARD_BATCH} icons to discard.'}, 400)
         with DISCARD_LOCK:
             try:
-                icon = self.catalog().get(key) if isinstance(key, str) else None
-                if icon is None:
-                    return self.json_response({'error': 'Unknown icon'}, 404)
-                if data.get('svg_sha256') != icon['svg_sha256']:
-                    return self.json_response({'error': 'Icon changed. Refresh before discarding.'}, 409)
+                catalog = self.catalog()
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
-                    if not self.is_rejected(connection, key, icon['svg_sha256']):
-                        return self.json_response({'error': 'Only rejected icons can be discarded. Reject it first.'}, 409)
+                    icons, failed = [], []
+                    for item in requests:
+                        key, icon = item['icon'], catalog.get(item['icon'])
+                        error = ('Unknown icon' if icon is None else
+                                 'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon['svg_sha256'] else
+                                 'Only rejected icons can be discarded. Reject it first.'
+                                 if not self.is_rejected(connection, key, icon['svg_sha256']) else None)
+                        if error:
+                            failed.append({'icon': key, 'name': icon['name'] if icon else key, 'error': error})
+                        elif all(existing['key'] != key for existing in icons):
+                            icons.append(icon)
+                    if not batch and failed:
+                        return self.json_response({'error': failed[0]['error']}, 404 if failed[0]['error'] == 'Unknown icon' else 409)
                     source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
-                    result = discard_icon(icon, source_root=source_root, dist=self.root,
+                    result = discard_many(icons, source_root=source_root, dist=self.root,
                                           archive=self.database.parent / 'discarded-icons',
                                           connection=connection, user=user)
-                    record_activity(connection, user, 'discard', key, svg_sha256=icon['svg_sha256'],
-                                    source=result['source'], archive=result['archive'])
+                    for row in result['discarded']:
+                        record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']]['svg_sha256'],
+                                        source=row['source'], archive=row['archive'])
+                    result['failed'] = failed + result['failed']
+                if not batch and result['failed']:
+                    return self.json_response({'error': result['failed'][0]['error']}, 409)
                 return self.json_response(result)
-            except ValueError as error:
-                return self.json_response({'error': str(error)}, 409)
             except (OSError, SyntaxError, sqlite3.Error):
-                return self.json_response({'error': 'Could not discard this icon. Please retry.'}, 503)
+                return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
     def save_icon_flag(self, data, user):
         key, flag = data.get('icon'), data.get('flag')

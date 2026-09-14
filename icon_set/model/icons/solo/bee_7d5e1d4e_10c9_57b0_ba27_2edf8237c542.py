@@ -17,6 +17,8 @@ class BeeWithRoundedWings(Solo48):
     keywords = ('bee', 'honeybee', 'insect', 'wings', 'stripes', 'honey', 'bug', 'symmetry')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # SQUARE centerline extremes recorded in batch-02-review.md.
         self.add_arc('crown-left', (16, 18), (24, 10), radius_x=8, radius_y=8, sweep=True)
         self.add_arc('crown-right', (24, 10), (32, 18), radius_x=8, radius_y=8, sweep=True)
@@ -31,8 +33,8 @@ class BeeWithRoundedWings(Solo48):
         self.relate("connect", 'body', 'stripe-32')
         self.add_line('stinger', (24, 42), (24, 42))
         self.relate("connect", 'body', 'stinger')
-        self.add_arc('left-wing-upper', (16, 18), (6, 26), radius_x=14, radius_y=8, sweep=False)
-        self.add_arc('left-wing-lower', (6, 26), (16, 34), radius_x=14, radius_y=8, sweep=False)
+        self.add_arc('left-wing-upper', (16, 18), (6, 26), radius_x=10, radius_y=8, sweep=False)
+        self.add_arc('left-wing-lower', (6, 26), (16, 34), radius_x=10, radius_y=8, sweep=False)
         self.add_contour('left-wing', 'left-wing-upper', 'left-wing-lower', closed=False)
         self.relate("connect", 'body', 'left-wing')
         self.add_line('left-antenna-stem', (16, 18), (16, 8))
@@ -40,8 +42,8 @@ class BeeWithRoundedWings(Solo48):
         self.add_contour('left-antenna', 'left-antenna-stem', 'left-antenna-curl', closed=False)
         self.relate("connect", 'body', 'left-antenna')
         self.relate("connect", 'left-wing', 'left-antenna')
-        self.add_arc('right-wing-upper', (32, 18), (42, 26), radius_x=14, radius_y=8, sweep=True)
-        self.add_arc('right-wing-lower', (42, 26), (32, 34), radius_x=14, radius_y=8, sweep=True)
+        self.add_arc('right-wing-upper', (32, 18), (42, 26), radius_x=10, radius_y=8, sweep=True)
+        self.add_arc('right-wing-lower', (42, 26), (32, 34), radius_x=10, radius_y=8, sweep=True)
         self.add_contour('right-wing', 'right-wing-upper', 'right-wing-lower', closed=False)
         self.relate("connect", 'body', 'right-wing')
         self.add_line('right-antenna-stem', (32, 18), (32, 8))

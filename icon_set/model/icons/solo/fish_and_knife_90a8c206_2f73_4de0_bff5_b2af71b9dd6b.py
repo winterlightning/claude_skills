@@ -17,15 +17,17 @@ class FishAndKnife(Solo48):
     keywords = ('fish', 'knife', 'seafood', 'cooking', 'kitchen', 'fillet', 'food', 'butcher')
 
     def build(self) -> None:
-        self.add_line('knife-spine', (6,8), (32,8))
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_line('knife-spine', (4, 8), (32,8))
         self.add_line('knife-bolster', (32,8), (32,17))
         self.add_line('knife-edge', (32,17), (14,17))
-        self.add_arc('knife-tip', (14,17), (6,8), radius_x=10, radius_y=9)
+        self.add_arc('knife-tip', (14,17), (4, 8), radius_x=10, radius_y=9)
         self.add_contour('blade', 'knife-spine', 'knife-bolster', 'knife-edge', 'knife-tip', closed=True)
-        self.add_line('handle', (32,8), (42,8))
+        self.add_line('handle', (32,8), (44, 8))
         self.relate('connect', 'blade', 'handle')
-        self.add_arc('fish-back', (16,33), (42,33), radius_x=14, radius_y=7)
-        self.add_arc('fish-belly', (42,33), (16,33), radius_x=14, radius_y=7)
+        self.add_arc('fish-back', (16,33), (44, 33), radius_x=14, radius_y=7)
+        self.add_arc('fish-belly', (44, 33), (16,33), radius_x=14, radius_y=7)
         self.add_contour('fish', 'fish-back', 'fish-belly', closed=True)
-        self.add_polyline('tail', (16,33), (6,26), (6,40), (16,33))
+        self.add_polyline('tail', (16,33), (4, 26), (4, 40), (16,33))
         self.relate('connect', 'fish', 'tail')

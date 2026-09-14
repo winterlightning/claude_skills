@@ -221,11 +221,11 @@ FAMILY_TEXT = {
         "trigger": "Use for a standalone user avatar, profile bust, or head-and-body portrait drawn at 48. A head and its own body form one natural subject.",
         "default_role": "MAIN",
         "default_kind": "noun",
-        "default_category": "people/avatars",
-        "job": "An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.",
+        "default_category": "avatars",
+        "job": "This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.",
         "specifics": [
-            "AVATAR48 uses the same four keyshape choices and exact inset bounds as SOLO48: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Keep family `avatar`, profile `AVATAR48`, and base `Avatar48`; sharing keyshapes does not change the family. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
-            "Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `profiles.AVATAR48.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly {avatar_gap} units of visible ink clearance, or {avatar_centerline_gap} between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.",
+            "Avatar is a specialized authoring skill within the solo family, using SOLO48 and its four exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
+            "Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly {avatar_gap} units of visible ink clearance, or {avatar_centerline_gap} between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.",
             "Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.",
             "For a set of avatars, plan one recognizable body cue per subject before drawing: an apron, wrap collar, coat fastening, scarf, or natural arm pose. Compare neighboring avatars at native size, especially those sharing similar heads. Do not reuse an identical generic torso for every named subject or invent arbitrary costume details just to make it different; retain the simple bust for a generic user.",
             "Budget head, exact gap, and torso together inside the inset keyshape. Keep hair/headwear within the same whole-avatar envelope. Leave enough torso height for broad readable clothing openings; simplify details instead of crowding collars, widening the gap, or replacing curved shoulders with angular clothing outlines.",
@@ -239,8 +239,9 @@ FAMILY_TEXT = {
 
 
 def render(family: str) -> str:
-    row = contracts.families()[family]
-    profile = Profile.for_family(family)
+    bound_family = "solo" if family == "avatar" else family
+    row = contracts.families()[bound_family]
+    profile = Profile.for_family(bound_family)
     spec = profile.spec
     text = FAMILY_TEXT[family]
     folder = row["package"].rsplit("/", 1)[-1]
@@ -248,11 +249,11 @@ def render(family: str) -> str:
     base = row["base_class"]
     region = _content_region()
     region_text = f"({region[0]},{region[1]})-({region[2]},{region[3]})"
-    avatar_gap = contracts.icon_profile()["profiles"]["AVATAR48"]["head_body_ink_gap"]
+    avatar_gap = contracts.icon_profile()["authoring"]["avatar"]["head_body_ink_gap"]
     human_gap = avatar_gap if family == "avatar" else 4
     fmt = {"shared": SHARED, "slot": region_text,
            "avatar_gap": avatar_gap, "avatar_centerline_gap": avatar_gap + 4}
-    others = [f for f in contracts.families() if f != family]
+    others = [f for f in contracts.families() if f != bound_family]
     other_lines = "\n".join(
         f"- `/icon-{other}` — {other} family, "
         f"`{contracts.families()[other]['profile']}`, "
@@ -301,13 +302,15 @@ def render(family: str) -> str:
         "python3 -m unittest icon_set.tests.test_avatar icon_set.tests.test_profiles_keyshapes"
         if family == "avatar" else "python3 -m unittest discover -s icon_set/tests -t ."
     )
-    build_options = " --all --no-report" if family == "avatar" else ""
+    preview_options = " --category avatars" if family == "avatar" else ""
+    build_options = " --icon icon_set/model/icons/solo/<module_filename>.py --no-report" if family == "avatar" else ""
     light_preview = (
-        "   python3 icon_set/scripts/contact_sheet.py --family avatar --theme light --png /tmp/avatar-light.png\n"
+        "   python3 icon_set/scripts/contact_sheet.py --family solo --category avatars --theme light --png /tmp/avatar-light.png\n"
         if family == "avatar" else ""
     )
     build_note = (
-        "   `--all` rechecks the avatar family after repairs; `--no-report` skips only\n"
+        "   Replace `<module_filename>` with the original avatar module; repeat `--icon`\n"
+        "   for a batch. This rebuilds those solo icons; `--no-report` skips only\n"
         "   the library-wide report, not release validation. If shared validation code\n"
         "   changes, run its relevant regression tests too. Report unrelated test failures\n"
         "   separately; do not claim the entire suite passed.\n\n"
@@ -321,7 +324,7 @@ def render(family: str) -> str:
 
     return f"""---
 name: icon-{family}
-description: Author {"an" if family == "avatar" else "a"} {family}-family icon for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Author a {bound_family}-family {"avatar" if family == "avatar" else "icon"} for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 ---
 
@@ -334,7 +337,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 | | |
 |---|---|
-| Family | `{family}` |
+| Family | `{bound_family}` |
 | Profile | `{row['profile']}` |
 | Canvas | {spec.canvas_size}×{spec.canvas_size}, centre ({cx},{cy}), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/{folder}/` — one file per icon |
@@ -342,7 +345,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/{row['dist']}/` with its own `manifest.json` |
 | Ink clearance (MIC) | {spec.mic} between distinct parts = **{spec.equal_stroke_centerline_min} between centerlines** |
 | Interior guide | ({guide_l},{guide_t})-({guide_r},{guide_b}) — constrains inner detail only |
-| Existing icons to imitate | {_examples(family)} |
+| Existing icons to imitate | {("`user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar`" if family == "avatar" else _examples(family))} |
 
 {text['job'].format(**fmt)}
 
@@ -484,8 +487,8 @@ it as one primitive and queue two component briefs. A Pending component brief
 
    ```bash
    {test_command}
-   python3 icon_set/scripts/build.py --family {family}{build_options}
-{light_preview}   python3 icon_set/scripts/contact_sheet.py --family {family} --theme dark --png /tmp/{family}.png
+   python3 icon_set/scripts/build.py --family {bound_family}{build_options}
+{light_preview}   python3 icon_set/scripts/contact_sheet.py --family {bound_family}{preview_options} --theme dark --png /tmp/{family}.png
    ```
 
 {build_note}   Open the PNG and judge it at {spec.canvas_size} pixels. Numeric success is not
@@ -512,7 +515,7 @@ it as one primitive and queue two component briefs. A Pending component brief
   records the exact `SOURCE_ICON_ID`, `SOURCE_PATH` and an `AUTHOR` naming your
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
-- Tests green; `build.py --family {family}` exits 0; the icon is in
+- Tests green; `build.py --family {bound_family}` exits 0; the icon is in
   `icon_set/{row['dist']}/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 {avatar_done}- Reviewed at native size in both themes for smooth joins, consistent radii,
@@ -555,7 +558,7 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
 def write_all(check_only: bool = False, agent: str = "all") -> int:
     stale = []
     outputs = {}
-    for family in contracts.families():
+    for family in [*contracts.families(), "avatar"]:
         content = render(family)
         if agent in ("all", "claude"):
             outputs[SKILLS_DIR / f"icon-{family}" / "SKILL.md"] = content

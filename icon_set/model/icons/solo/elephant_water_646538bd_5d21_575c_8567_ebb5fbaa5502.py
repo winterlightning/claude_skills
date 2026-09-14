@@ -17,10 +17,12 @@ class ElephantSprayingWater(Solo48):
     keywords = ('elephant', 'spraying', 'water')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # SQUARE visible bounds (0, 0, 48, 48); centerlines (2, 2, 46, 46).
-        self.add_arc('trunk-outer', (14, 12), (6, 28), radius_x=12, radius_y=16, sweep=False)
-        self.add_arc('cheek', (6, 28), (12, 40), radius_x=10, radius_y=12, sweep=False)
-        self.add_arc('neck', (12, 40), (18, 42), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('trunk-outer', (14, 12), (6, 28), radius_x=8, radius_y=16, sweep=False)
+        self.add_arc('cheek', (6, 28), (12, 40), radius_x=6, radius_y=12, sweep=False)
+        self.add_arc('neck', (12, 40), (18, 42), radius_x=6, radius_y=2, sweep=True)
         self.add_contour('outside', 'trunk-outer', 'cheek', 'neck')
         self.add_arc('trunk-tip', (14, 12), (16, 18), radius_x=3, radius_y=4, sweep=True)
         self.add_arc('trunk-inside', (16, 18), (10, 26), radius_x=9, radius_y=10, sweep=False)
@@ -29,9 +31,9 @@ class ElephantSprayingWater(Solo48):
         self.add_arc('ear-top', (25, 27), (38, 33), radius_x=9, radius_y=9, sweep=True)
         self.add_contour('raised', 'trunk-tip', 'trunk-inside', 'trunk-fold', 'brow', 'ear-top')
         self.relate("connect", 'outside', 'raised')
-        self.add_arc('ear-bottom', (38, 33), (27, 42), radius_x=11, radius_y=10, sweep=True)
+        self.add_arc('ear-bottom', (38, 33), (27, 42), radius_x=11, radius_y=9, sweep=True)
         self.relate("connect", 'raised', 'ear-bottom')
-        self.add_arc('back', (38, 33), (42, 41), radius_x=8, radius_y=8, sweep=True)
+        self.add_arc('back', (38, 33), (42, 41), radius_x=4, radius_y=8, sweep=True)
         self.add_line('rump', (42, 41), (42, 42))
         self.add_contour('body', 'back', 'rump')
         self.relate("connect", 'raised', 'body')

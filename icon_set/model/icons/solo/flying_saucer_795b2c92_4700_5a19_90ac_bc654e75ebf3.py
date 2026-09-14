@@ -17,15 +17,17 @@ class FlyingSaucer(Solo48):
     keywords = ('ufo', 'flying saucer', 'spaceship', 'alien', 'spacecraft', 'sci-fi', 'space', 'vehicle')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
 
         # Dome and disc share two nodes; paired landing struts mirror around x=24.
         self.add_arc('dome',(14,18),(34,18),radius_x=10)
         self.add_line('disc-top',(14,18),(34,18))
-        self.add_arc('disc-upper-right',(34,18),(42,25),radius_x=10,radius_y=7)
-        self.add_arc('disc-lower-right',(42,25),(34,32),radius_x=10,radius_y=7)
+        self.add_arc('disc-upper-right',(34,18),(44, 25),radius_x=10,radius_y=7)
+        self.add_arc('disc-lower-right',(44, 25),(34,32),radius_x=10,radius_y=7)
         self.add_line('disc-bottom',(34,32),(14,32))
-        self.add_arc('disc-lower-left',(14,32),(6,25),radius_x=10,radius_y=7)
-        self.add_arc('disc-upper-left',(6,25),(14,18),radius_x=10,radius_y=7)
+        self.add_arc('disc-lower-left',(14,32),(4, 25),radius_x=10,radius_y=7)
+        self.add_arc('disc-upper-left',(4, 25),(14,18),radius_x=10,radius_y=7)
         self.add_contour('disc','disc-top','disc-upper-right','disc-lower-right','disc-bottom','disc-lower-left','disc-upper-left',closed=True)
         for part in ['disc-top','disc-upper-left','disc-upper-right']: self.relate('connect','dome',part)
         for side,x,end,arc in [('left',14,10,'disc-lower-left'),('right',34,38,'disc-lower-right')]:

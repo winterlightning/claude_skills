@@ -15,29 +15,18 @@ class VirtualCoinCryptoDigibyte(Solo48):
     aliases = ()
     keywords = ('virtual', 'coin', 'crypto', 'digibyte', 'money')
 
-    def build(self):
-        # Digibyte: true circular rim, a clean D counter and short external currency ticks.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        def c(name, x, y, radius):
-            a(name+'-top', (x-radius,y), (x+radius,y), radius)
-            a(name+'-bottom', (x+radius,y), (x-radius,y), radius)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-
-        c('coin',24,24,20)
-        l('top',(18,16),(26,16))
-        a('bowl',(26,16),(26,32),8)
-        l('bottom',(26,32),(18,32))
-        l('stem',(18,32),(18,16))
-        self.add_contour('d','top','bowl','bottom','stem',closed=True)
-        # A single pair of currency ticks preserves the emblem without crowding the bowl.
-        l('top-tick',(24,13),(24,16))
-        l('bottom-tick',(24,32),(24,35))
-        link('connect','top-tick','d')
-        link('connect','bottom-tick','d')
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_arc('coin-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('coin-bottom', (44, 24), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_line('top', (18, 16), (26, 16))
+        self.add_arc('bowl', (26, 16), (26, 32), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('bottom', (26, 32), (18, 32))
+        self.add_line('stem', (18, 32), (18, 16))
+        self.add_line('top-tick', (24, 13), (24, 16))
+        self.add_line('bottom-tick', (24, 32), (24, 35))
+        self.add_contour('coin', *('coin-top', 'coin-bottom'), closed=True)
+        self.add_contour('d', *('top', 'bowl', 'bottom', 'stem'), closed=True)
+        self.relate('connect', *('top-tick', 'd'))
+        self.relate('connect', *('bottom-tick', 'd'))

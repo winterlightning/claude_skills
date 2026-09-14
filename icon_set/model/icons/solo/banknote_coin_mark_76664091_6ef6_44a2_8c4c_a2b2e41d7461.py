@@ -23,14 +23,16 @@ class BanknoteCoinMark(Solo48):
     keywords = ('banknote', 'cash', 'money', 'bill', 'payment', 'currency', 'finance', 'note')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         self.add_line('bill-top-1', (8, 8), (40, 8))
-        self.add_arc('bill-ne', (40, 8), (42, 12), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('bill-right', (42, 12), (42, 36))
-        self.add_arc('bill-se', (42, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('bill-ne', (40, 8), (44, 12), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('bill-right', (44, 12), (44, 36))
+        self.add_arc('bill-se', (44, 36), (40, 40), radius_x=4, radius_y=4, sweep=True)
         self.add_line('bill-bottom-1', (40, 40), (8, 40))
-        self.add_arc('bill-sw', (8, 40), (6, 36), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('bill-left', (6, 36), (6, 12))
-        self.add_arc('bill-nw', (6, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
+        self.add_arc('bill-sw', (8, 40), (4, 36), radius_x=4, radius_y=4, sweep=True)
+        self.add_line('bill-left', (4, 36), (4, 12))
+        self.add_arc('bill-nw', (4, 12), (8, 8), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('bill', 'bill-top-1', 'bill-ne', 'bill-right', 'bill-se', 'bill-bottom-1', 'bill-sw', 'bill-left', 'bill-nw', closed=True)
         self.add_arc('coin-right', (24, 17), (24, 31), radius_x=7, radius_y=7, sweep=True)
         self.add_arc('coin-left', (24, 31), (24, 17), radius_x=7, radius_y=7, sweep=True)

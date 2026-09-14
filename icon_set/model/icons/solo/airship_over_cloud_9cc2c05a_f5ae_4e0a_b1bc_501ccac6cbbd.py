@@ -15,13 +15,15 @@ class AirshipOverCloud(Solo48):
     keywords = ('airship', 'blimp', 'zeppelin', 'dirigible', 'cloud', 'sky', 'flight', 'aviation')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # Current contract centerline extremes: (6,8)-(42,40).
         self.add_line('envelope-top',(10,8),(38,8))
         self.add_arc('envelope-right',(38,8),(38,20),radius_x=6)
         self.add_line('envelope-bottom-1',(38,20),(24,20))
         self.add_line('envelope-bottom-2',(24,20),(10,20))
-        self.add_arc('envelope-left-bottom',(10,20),(6,14),radius_x=6)
-        self.add_arc('envelope-left-top',(6,14),(10,8),radius_x=6)
+        self.add_arc('envelope-left-bottom',(10,20),(4, 14),radius_x=6)
+        self.add_arc('envelope-left-top',(4, 14),(10,8),radius_x=6)
         self.add_contour('envelope','envelope-top','envelope-right','envelope-bottom-1','envelope-bottom-2','envelope-left-bottom','envelope-left-top',closed=True)
         self.add_line('gondola',(24,20),(24,23))
         self.relate('connect','gondola','envelope')
@@ -30,5 +32,5 @@ class AirshipOverCloud(Solo48):
         self.add_arc('cloud-right',(26,34),(32,40),radius_x=6)
         self.add_line('cloud-bottom',(32,40),(12,40))
         self.add_contour('cloud','cloud-left','cloud-crown','cloud-right','cloud-bottom',closed=True)
-        self.add_polyline('tail-fin',(6,8),(6,14),(6,20))
+        self.add_polyline('tail-fin',(4, 8),(4, 14),(4, 20))
         self.relate('connect','tail-fin','envelope')

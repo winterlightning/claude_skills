@@ -92,10 +92,13 @@ def _cell(icon, column: int, row: int, theme: dict) -> str:
 
 
 def render_sheet(
-    theme_name: str = "light", columns: int = COLUMNS, family: str | None = None
+    theme_name: str = "light", columns: int = COLUMNS, family: str | None = None,
+    category: str | None = None
 ) -> str:
     theme = THEMES[theme_name]
     icons = list(icons_in(family)) if family else list(all_icons())
+    if category is not None:
+        icons = [icon for icon in icons if icon.category == category]
     rows = (len(icons) + columns - 1) // columns
     width = columns * CELL
     height = rows * (CELL + LABEL_HEIGHT)
@@ -123,10 +126,11 @@ def main(argv: list[str] | None = None) -> int:
         "--out", type=Path,
         default=REPO_ROOT / "icon_set" / "assets" / "previews-svg" / "contact-sheet.svg",
     )
+    parser.add_argument("--category", help="filter to an exact category, such as people/avatars")
     parser.add_argument("--png", type=Path, default=None)
     args = parser.parse_args(argv)
 
-    document = render_sheet(args.theme, args.columns, args.family)
+    document = render_sheet(args.theme, args.columns, args.family, args.category)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(document, encoding="utf-8")
     print(f"contact sheet -> {args.out}")

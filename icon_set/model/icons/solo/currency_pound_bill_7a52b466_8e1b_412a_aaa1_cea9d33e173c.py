@@ -15,17 +15,22 @@ class CurrencyPoundBill(Solo48):
     aliases = ()
     keywords = ('currency', 'pound', 'bill', 'money')
 
-    def build(self):
-        # Pound note: straight symmetric border and a simple legible currency stroke.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        p('bill',(8,8),(40,8),(44,18),(44,30),(40,40),(8,40),(4,30),(4,18),(8,8))
-        p('pound',(29,17),(26,16),(22,19),(22,32),(29,32))
-        l('bar',(18,24),(28,24))
-        link('connect','pound','bar')
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('bill-1', (8, 8), (40, 8))
+        self.add_line('bill-2', (40, 8), (44, 18))
+        self.add_line('bill-3', (44, 18), (44, 30))
+        self.add_line('bill-4', (44, 30), (40, 40))
+        self.add_line('bill-5', (40, 40), (8, 40))
+        self.add_line('bill-6', (8, 40), (4, 30))
+        self.add_line('bill-7', (4, 30), (4, 18))
+        self.add_line('bill-8', (4, 18), (8, 8))
+        self.add_line('pound-1', (29, 17), (26, 16))
+        self.add_line('pound-2', (26, 16), (22, 19))
+        self.add_line('pound-3', (22, 19), (22, 32))
+        self.add_line('pound-4', (22, 32), (29, 32))
+        self.add_line('bar', (18, 24), (28, 24))
+        self.add_contour('bill', *('bill-1', 'bill-2', 'bill-3', 'bill-4', 'bill-5', 'bill-6', 'bill-7', 'bill-8'), closed=False)
+        self.add_contour('pound', *('pound-1', 'pound-2', 'pound-3', 'pound-4'), closed=False)
+        self.relate('connect', *('pound', 'bar'))

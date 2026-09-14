@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class Fetus(Solo48):
     icon_id = 'fetus'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/maternity'
@@ -16,20 +16,22 @@ class Fetus(Solo48):
     keywords = ('fetus', 'pregnancy', 'unborn', 'womb', 'embryo', 'prenatal', 'baby', 'gestation')
 
     def build(self) -> None:
-        self.add_arc('head-right', (18,6), (31,15), radius_x=13)
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_arc('head-right', (18, 4), (31,15), radius_x=13, radius_y=11)
         self.add_arc('chin', (31,15), (22,24), radius_x=9)
         self.add_line('neck', (22,24), (19,24))
-        self.add_arc('head-left', (6,15), (18,6), radius_x=13)
-        self.add_line('back', (6,28), (6,15))
-        self.add_arc('spine', (23,42), (6,28), radius_x=18)
-        self.add_arc('tucked-leg', (33,41), (23,42), radius_x=13)
-        self.add_line('ankle', (38,42), (33,41))
-        self.add_arc('foot', (38,34), (38,42), radius_x=5)
+        self.add_arc('head-left', (8, 15), (18, 4), radius_x=10, radius_y=11)
+        self.add_line('back', (8, 28), (8, 15))
+        self.add_arc('spine', (23, 44), (8, 28), radius_x=15, radius_y=16)
+        self.add_arc('tucked-leg', (33,41), (23, 44), radius_x=10, radius_y=3)
+        self.add_line('ankle', (38, 44), (33,41))
+        self.add_arc('foot', (38,34), (38, 44), radius_x=2, radius_y=5)
         self.add_arc('knee', (35,31), (38,34), radius_x=3)
         self.add_contour('body', 'knee', 'foot', 'ankle', 'tucked-leg', 'spine', 'back', 'head-left', 'head-right', 'chin', 'neck')
         self.add_line('upper-arm', (22,24), (27,27))
         self.add_line('forearm-top', (27,27), (34,21))
-        self.add_arc('hand', (34,21), (40,27), radius_x=5)
+        self.add_arc('hand', (34,21), (40,27), radius_x=6, radius_y=6)
         self.add_line('forearm-bottom-a', (40,27), (35,31))
         self.add_line('forearm-bottom-b', (35,31), (30,35))
         self.add_arc('elbow', (30,35), (22,35), radius_x=7)

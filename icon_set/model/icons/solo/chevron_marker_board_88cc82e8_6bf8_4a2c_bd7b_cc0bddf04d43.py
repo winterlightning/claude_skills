@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class ChevronMarkerBoard(Solo48):
     icon_id = 'chevron-marker-board'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/transportation"
@@ -15,15 +15,17 @@ class ChevronMarkerBoard(Solo48):
     keywords = ('chevron', 'marker', 'guide', 'road marker', 'reflector', 'direction', 'sign', 'light guide')
 
     def build(self) -> None:
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
         # Current contract centerline extremes: (8,6)-(40,42).
-        self.add_line('top',(12,6),(36,6))
-        self.add_arc('tr',(36,6),(40,8),radius_x=4)
+        self.add_line('top',(12, 4),(36, 4))
+        self.add_arc('tr',(36, 4),(40,8),radius_x=4)
         self.add_polyline('right',(40,8),(40,24),(40,38),(40,40))
-        self.add_arc('br',(40,40),(36,42),radius_x=4)
-        self.add_line('bottom',(36,42),(12,42))
-        self.add_arc('bl',(12,42),(8,40),radius_x=4)
+        self.add_arc('br',(40,40),(36, 44),radius_x=4)
+        self.add_line('bottom',(36, 44),(12, 44))
+        self.add_arc('bl',(12, 44),(8,40),radius_x=4)
         self.add_polyline('left',(8,40),(8,38),(8,24),(8,8))
-        self.add_arc('tl',(8,8),(12,6),radius_x=4)
+        self.add_arc('tl',(8,8),(12, 4),radius_x=4)
         self.relate('connect','top','tr')
         self.relate('connect','tr','right')
         self.relate('connect','right','br')

@@ -15,15 +15,18 @@ class UploadThickBottom(Solo48):
     aliases = ()
     keywords = ('upload', 'thick', 'bottom', 'arrows')
 
-    def build(self):
-        # Upload tray: symmetric arrow with a spacious shaft and 10-unit tray clearance.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        p('arrow',(18,30),(18,20),(10,20),(24,8),(38,20),(30,20),(30,30),(18,30))
-        p('tray',(4,32),(4,40),(44,40),(44,32))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('arrow-1', (18, 30), (18, 20))
+        self.add_line('arrow-2', (18, 20), (10, 20))
+        self.add_line('arrow-3', (10, 20), (24, 8))
+        self.add_line('arrow-4', (24, 8), (38, 20))
+        self.add_line('arrow-5', (38, 20), (30, 20))
+        self.add_line('arrow-6', (30, 20), (30, 30))
+        self.add_line('arrow-7', (30, 30), (18, 30))
+        self.add_line('tray-1', (4, 32), (4, 40))
+        self.add_line('tray-2', (4, 40), (44, 40))
+        self.add_line('tray-3', (44, 40), (44, 32))
+        self.add_contour('arrow', *('arrow-1', 'arrow-2', 'arrow-3', 'arrow-4', 'arrow-5', 'arrow-6', 'arrow-7'), closed=False)
+        self.add_contour('tray', *('tray-1', 'tray-2', 'tray-3'), closed=False)

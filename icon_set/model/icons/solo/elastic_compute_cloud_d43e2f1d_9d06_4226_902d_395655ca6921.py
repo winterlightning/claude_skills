@@ -15,16 +15,17 @@ class ElasticComputeCloud(Solo48):
     aliases = ()
     keywords = ('elastic', 'compute', 'cloud', 'programing')
 
-    def build(self):
-        # Compute stack: three regular perspective panels with clear diagonal separation.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
-
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        p('front',(6,20),(18,26),(18,42),(6,36),(6,20))
-        p('middle',(14,12),(28,19),(28,36))
-        p('back',(26,6),(42,14),(42,30))
+    def build(self) -> None:
+        # Symbol plan: preserve the subject, contour topology and curve types.
+        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
+        self.add_line('front-1', (6, 20), (18, 26))
+        self.add_line('front-2', (18, 26), (18, 42))
+        self.add_line('front-3', (18, 42), (6, 36))
+        self.add_line('front-4', (6, 36), (6, 20))
+        self.add_line('middle-1', (14, 12), (28, 19))
+        self.add_line('middle-2', (28, 19), (28, 36))
+        self.add_line('back-1', (26, 6), (42, 14))
+        self.add_line('back-2', (42, 14), (42, 30))
+        self.add_contour('front', *('front-1', 'front-2', 'front-3', 'front-4'), closed=False)
+        self.add_contour('middle', *('middle-1', 'middle-2'), closed=False)
+        self.add_contour('back', *('back-1', 'back-2'), closed=False)

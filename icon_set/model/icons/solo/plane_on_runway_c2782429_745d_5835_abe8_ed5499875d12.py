@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class PlaneOnRunway(Solo48):
     icon_id = 'plane-on-runway'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'travel'
@@ -16,7 +16,7 @@ class PlaneOnRunway(Solo48):
     keywords = ('plane', 'on', 'runway', 'travel')
 
     def build(self):
-        # Departing plane: smooth semicircular nose and a wider fuselage above a straight runway.
+        # Departing plane: naturally balanced broad wing, tail and fuselage with a smooth nose above the runway.
         l = self.add_line
         p = self.add_polyline
         link = self.relate
@@ -25,7 +25,7 @@ class PlaneOnRunway(Solo48):
             self.add_arc(name, start, end, radius_x=rx,
                          radius_y=rx if ry is None else ry, sweep=sweep)
 
-        p('upper',(38,8),(26,14),(16,8),(10,11),(18,19),(12,23),(6,19),(4,21),(10,30),(16,31),(38,20))
-        a('nose',(38,20),(38,8),6,sweep=False)
-        link('connect','upper','nose')
-        l('runway',(4,40),(44,40))
+        p('plane',(36,6),(24,12),(18,6),(10,10),(19,20),(10,24),(6,20),(6,34),(14,34),(36,18))
+        a('nose',(36,18),(36,6),6,sweep=False)
+        link('connect','plane','nose')
+        l('runway',(6,42),(42,42))

@@ -16,12 +16,16 @@ class CamelPose(Solo48):
     keywords = ('camel', 'pose', 'yoga', 'exercise')
 
     def build(self):
-        self.add_arc('head-top', (34, 7), (40, 7), radius_x=3, radius_y=3, sweep=True)
-        self.add_arc('head-bottom', (40, 7), (34, 7), radius_x=3, radius_y=3, sweep=True)
+        # Human reference: human_ref/full_body_ref.png, kneeling pose.
+        # Head center (34,10), radius 6; body top (34,24): ink gap exactly 4.
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
+        self.add_arc('head-top', (28, 10), (40, 10), radius_x=6, radius_y=6, sweep=True)
+        self.add_arc('head-bottom', (40, 10), (28, 10), radius_x=6, radius_y=6, sweep=True)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_arc('arched-back', (30, 19), (8, 41), radius_x=22, radius_y=22, sweep=False)
-        self.add_arc('knee', (8, 41), (11, 42), radius_x=3, radius_y=3, sweep=False)
-        self.add_line('shin', (11, 42), (22, 42))
+        self.add_arc('arched-back', (34, 24), (8, 41), radius_x=26, radius_y=17, sweep=False)
+        self.add_arc('knee', (8, 41), (11, 44), radius_x=3, radius_y=3, sweep=False)
+        self.add_line('shin', (11, 44), (22, 44))
         self.add_contour('body', 'arched-back', 'knee', 'shin', closed=False)
-        self.add_line('arm', (30, 19), (30, 42))
+        self.add_line('arm', (34, 24), (34, 44))
         self.relate("connect", 'body', 'arm')

@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class BottleWithBurningWick(Solo48):
     icon_id = 'bottle-with-burning-wick'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/war'
@@ -17,6 +17,8 @@ class BottleWithBurningWick(Solo48):
     keywords = ('bottle', 'wick', 'fire', 'incendiary', 'glass', 'flame')
 
     def build(self):
+        # Envelope repair: shared boundary nodes and cardinal curve extrema;
+        # retain the subject, grid, stroke, and declared physical joins.
 
         def L(n,a,b): self.add_line(n,a,b)
         def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
@@ -37,6 +39,6 @@ class BottleWithBurningWick(Solo48):
             A(n+'tl',(x,y+r),(x+r,y),r)
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
-        P('bottle',(8,42),(8,30),(16,22),(16,14),(26,14),(26,22),(32,30),(32,42),(8,42))
-        A('wick-rise',(21,14),(29,6),8,10)
-        P('flame',(29,6),(34,10),(40,10));J('wick-rise','bottle');J('wick-rise','flame')
+        P('bottle',(8, 44),(8,30),(16,22),(16,14),(26,14),(26,22),(32,30),(32, 44),(8, 44))
+        A('wick-rise',(21,14),(29, 4),8,10)
+        P('flame',(29, 4),(34,10),(40,10));J('wick-rise','bottle');J('wick-rise','flame')

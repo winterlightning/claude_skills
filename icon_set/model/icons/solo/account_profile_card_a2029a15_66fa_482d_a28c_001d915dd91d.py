@@ -23,12 +23,16 @@ class AccountProfileCard(Solo48):
     keywords = ('account', 'profile', 'user', 'person', 'details', 'card', 'identity', 'page')
 
     def build(self) -> None:
-        self.add_arc('head-right', (14, 8), (14, 24), radius_x=8, radius_y=8, sweep=True)
-        self.add_arc('head-left', (14, 24), (14, 8), radius_x=8, radius_y=8, sweep=True)
+        # Shared human_ref/user.svg construction: circular head, broad shoulders,
+        # and exactly 4 units of visible head/body clearance (8 centerline).
+        # HRECT_L centerline extremes: (4,8)-(44,40).
+        cx, head_cy, head_radius = 14, 14, 6
+        body_top = head_cy + head_radius + 8
+        self.add_arc('head-right', (cx, 8), (cx, 20), radius_x=head_radius)
+        self.add_arc('head-left', (cx, 20), (cx, 8), radius_x=head_radius)
         self.add_contour('head', 'head-right', 'head-left', closed=True)
-        self.add_arc('shoulder-left', (6, 40), (14, 24), radius_x=10, radius_y=16, sweep=True)
-        self.add_arc('shoulder-right', (14, 24), (24, 40), radius_x=10, radius_y=16, sweep=True)
+        self.add_arc('shoulder-left', (4, 40), (cx, body_top), radius_x=10, radius_y=12)
+        self.add_arc('shoulder-right', (cx, body_top), (24, 40), radius_x=10, radius_y=12)
         self.add_contour('shoulders', 'shoulder-left', 'shoulder-right')
-        self.relate("connect", 'head', 'shoulders')
-        self.add_polyline('detail-box', (34, 10), (42, 10), (42, 22), (34, 22), closed=True)
-        self.add_line('detail-line', (34, 34), (42, 34))
+        self.add_polyline('detail-box', (34, 10), (44, 10), (44, 22), (34, 22), closed=True)
+        self.add_line('detail-line', (34, 34), (44, 34))

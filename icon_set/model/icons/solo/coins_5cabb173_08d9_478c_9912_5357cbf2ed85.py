@@ -1,10 +1,10 @@
-"""Coins (money), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'Coin: concentric circular rims and a centered value mark; balanced radial spacing.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5cabb173-08d9-478c-9912-5357cbf2ed85'
 SOURCE_PATH = 'icons-json/money/coins_5cabb173-08d9-478c-9912-5357cbf2ed85.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Coins(Solo48):
     icon_id = 'coins'
@@ -15,12 +15,12 @@ class Coins(Solo48):
     aliases = ()
     keywords = ('coins', 'money')
 
-    def build(self):
-        self.add_arc('sym-e0', (12, 24), (36, 24), radius_x=12)
-        self.add_arc('sym-e1', (36, 24), (12, 24), radius_x=12)
-        self.add_arc('sym-e2', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('sym-e3', (44, 24), (4, 24), radius_x=20)
-        self.add_line('sym-e4', (24, 19), (24, 29))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', closed=True)
-        self.add_contour('sym-c2', 'sym-e4')
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+
+        self.add_arc('inner-top', (13,24), (35,24), radius_x=11, radius_y=11)
+        self.add_arc('inner-bottom', (35,24), (13,24), radius_x=11, radius_y=11)
+        self.add_contour('inner', 'inner-top', 'inner-bottom', closed=True)
+        self.add_line('value',(24,22),(24,26))

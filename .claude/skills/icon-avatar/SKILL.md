@@ -1,10 +1,10 @@
 ---
 name: icon-avatar
-description: Author an avatar-family icon for the Pictographic icon set on the AVATAR48 profile (48x48). Use for a standalone user avatar, profile bust, or head-and-body portrait drawn at 48. A head and its own body form one natural subject. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Author a solo-family avatar for the Pictographic icon set on the SOLO48 profile (48x48). Use for a standalone user avatar, profile bust, or head-and-body portrait drawn at 48. A head and its own body form one natural subject. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 ---
 
-# /icon-avatar — one avatar icon on `AVATAR48`
+# /icon-avatar — one avatar icon on `SOLO48`
 
 Request: $ARGUMENTS
 
@@ -13,25 +13,24 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 | | |
 |---|---|
-| Family | `avatar` |
-| Profile | `AVATAR48` |
+| Family | `solo` |
+| Profile | `SOLO48` |
 | Canvas | 48×48, centre (24,24), integer grid 1, stroke 4, round caps and joins |
-| Module goes in | `icon_set/model/icons/avatar/` — one file per icon |
-| Subclass | `Avatar48` from `._base` |
-| Ships to | `icon_set/dist/avatar48/` with its own `manifest.json` |
+| Module goes in | `icon_set/model/icons/solo/` — one file per icon |
+| Subclass | `Solo48` from `._base` |
+| Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `arabian-man-avatar`, `bartender-avatar`, `boxer-avatar`, `fire-fighter-woman-avatar`, `jockey-man-avatar`, `judo-athlete-man-avatar` |
+| Existing icons to imitate | `user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar` |
 
-An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.
+This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` as the primary construction reference: circular head, rounded shoulders, and an open body bottom unless the requested subject requires another treatment.
 
 **Wrong family? Stop.** For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For an enclosure, use `/icon-container`; for a hosted glyph, use `/icon-sub`. An avatar icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
-`Avatar48` in another folder, and the validator rejects the profile. Do not widen
+`Solo48` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.
 
 - `/icon-sub` — sub family, `SUB32`, 32×32
-- `/icon-solo` — solo family, `SOLO48`, 48×48
 - `/icon-container` — container family, `CONTAINER64`, 64×64
 
 ## Visual priorities
@@ -94,7 +93,7 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 
 3. **Choose the keyshape, write down its four extremes, design backwards to
    them.** The rectangle fit is exact (tolerance 0); `CIRCLE` is radial. These are
-   the `AVATAR48` numbers:
+   the `SOLO48` numbers:
 
 | Keyshape | Visible ink | Centerline box (author to this) |
 |---|---|---|
@@ -104,9 +103,9 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 | `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
 
    Ask the model instead of doing arithmetic:
-   `Keyshape.HRECT_L.bounds_for(Profile.AVATAR48)`.
+   `Keyshape.HRECT_L.bounds_for(Profile.SOLO48)`.
 
-4. **Author the module** at `icon_set/model/icons/avatar/<icon_id_with_underscores>.py`:
+4. **Author the module** at `icon_set/model/icons/solo/<icon_id_with_underscores>.py`:
 
    For a supplied reference ID, the new filename must instead be
    `<descriptive_name>_<source_id_with_underscores>.py`. Every generated module
@@ -123,19 +122,19 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 
    ```python
    from ...keyshapes import Keyshape
-   from ._base import Avatar48
+   from ._base import Solo48
 
    SOURCE_ICON_ID = "<exact-reference-id>"  # None only if no ID was supplied
    SOURCE_PATH = "<source-path>"  # None only if no path was supplied
    AUTHOR = "<your-model>"  # the model authoring this file; never None
 
 
-   class <ClassName>(Avatar48):
+   class <ClassName>(Solo48):
        icon_id = "<icon-id>"
        keyshape = Keyshape.<TOKEN>
        semantic_role = "MAIN"
        semantic_kind = "noun"
-       category = "people/avatars"
+       category = "avatars"
        aliases = ()
        keywords = ()
 
@@ -183,8 +182,8 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 
 6. **Family-specific checks.**
 
-- AVATAR48 uses the same four keyshape choices and exact inset bounds as SOLO48: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Keep family `avatar`, profile `AVATAR48`, and base `Avatar48`; sharing keyshapes does not change the family. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
-- Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `profiles.AVATAR48.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly 4 units of visible ink clearance, or 8 between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
+- Avatar is a specialized authoring skill within the solo family, using SOLO48 and its four exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
+- Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Current detached-head spacing is exactly 4 units of visible ink clearance, or 8 between centerlines with stroke 4. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
 - Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.
 - For a set of avatars, plan one recognizable body cue per subject before drawing: an apron, wrap collar, coat fastening, scarf, or natural arm pose. Compare neighboring avatars at native size, especially those sharing similar heads. Do not reuse an identical generic torso for every named subject or invent arbitrary costume details just to make it different; retain the simple bust for a generic user.
 - Budget head, exact gap, and torso together inside the inset keyshape. Keep hair/headwear within the same whole-avatar envelope. Leave enough torso height for broad readable clothing openings; simplify details instead of crowding collars, widening the gap, or replacing curved shoulders with angular clothing outlines.
@@ -196,12 +195,13 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 
    ```bash
    python3 -m unittest icon_set.tests.test_avatar icon_set.tests.test_profiles_keyshapes
-   python3 icon_set/scripts/build.py --family avatar --all --no-report
-   python3 icon_set/scripts/contact_sheet.py --family avatar --theme light --png /tmp/avatar-light.png
-   python3 icon_set/scripts/contact_sheet.py --family avatar --theme dark --png /tmp/avatar.png
+   python3 icon_set/scripts/build.py --family solo --icon icon_set/model/icons/solo/<module_filename>.py --no-report
+   python3 icon_set/scripts/contact_sheet.py --family solo --category avatars --theme light --png /tmp/avatar-light.png
+   python3 icon_set/scripts/contact_sheet.py --family solo --category avatars --theme dark --png /tmp/avatar.png
    ```
 
-   `--all` rechecks the avatar family after repairs; `--no-report` skips only
+   Replace `<module_filename>` with the original avatar module; repeat `--icon`
+   for a batch. This rebuilds those solo icons; `--no-report` skips only
    the library-wide report, not release validation. If shared validation code
    changes, run its relevant regression tests too. Report unrelated test failures
    separately; do not claim the entire suite passed.
@@ -230,8 +230,8 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
   records the exact `SOURCE_ICON_ID`, `SOURCE_PATH` and an `AUTHOR` naming your
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
-- Tests green; `build.py --family avatar` exits 0; the icon is in
-  `icon_set/dist/avatar48/manifest.json`.
+- Tests green; `build.py --family solo` exits 0; the icon is in
+  `icon_set/dist/solo48/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Release QA passes, including holes measured at the actual 4-unit stroke; report its result separately from vector validation.
 - Named avatars have recognizable body cues while retaining curved reference shoulders; compare the set at native size.
