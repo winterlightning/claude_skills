@@ -1,10 +1,9 @@
 """Curvy both direction (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7d07f4a9-676f-4b08-ad2a-73d2ff083486'
 SOURCE_PATH = 'icons-json/arrows/curvy both direction_7d07f4a9-676f-4b08-ad2a-73d2ff083486.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CurvyBothDirection(Solo48):
     icon_id = 'curvy-both-direction'
@@ -16,25 +15,41 @@ class CurvyBothDirection(Solo48):
     keywords = ('curvy', 'both', 'direction', 'arrows')
 
     def build(self):
-        self.add_line('e0', (39, 8), (44, 12))
-        self.add_line('e1', (9, 32), (4, 36))
-        self.add_line('e2', (9, 40), (4, 36))
-        self.add_line('e3', (39, 16), (44, 12))
-        self.add_line('e4', (44, 12), (20, 12))
-        self.add_line('e5', (21, 24), (26, 24))
-        self.add_line('e6', (27, 36), (4, 36))
-        self.add_arc('e7-1', (20, 12), (15, 19), radius_x=6, sweep=False)
-        self.add_arc('e7-2', (15, 19), (21, 24), radius_x=6, sweep=False)
-        self.add_arc('e8-1', (26, 24), (32, 29), radius_x=6)
-        self.add_arc('e8-2', (32, 29), (27, 36), radius_x=6)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4', 'e7-1', 'e7-2', 'e5', 'e8-1', 'e8-2', 'e6')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c2', 'c4')
+        runs = [{'start': (44, 12), 'steps': [('L', 20, 12), ('A', 20, 24, 6, 6, False), ('L', 26, 24), ('A', 26, 36, 6, 6, True), ('L', 4, 36)], 'closed': False}, {'start': (40, 8), 'steps': [('L', 44, 12), ('L', 40, 16)], 'closed': False}, {'start': (8, 32), 'steps': [('L', 4, 36), ('L', 8, 40)], 'closed': False}]
+        rotation = 0
+
+        def point(x, y):
+            for _ in range(rotation):
+                x, y = (48 - y, x)
+            return (x, y)
+        contacts = []
+        for ri, run in enumerate(runs):
+            start = point(*run['start'])
+            previous = start
+            members, nodes = ([], {start})
+            for si, step in enumerate(run['steps']):
+                end = point(step[1], step[2])
+                if previous == end:
+                    continue
+                name = f'run-{ri}-{si}'
+                if step[0] == 'L':
+                    self.add_line(name, previous, end)
+                else:
+                    rx, ry = step[3:5]
+                    if rotation % 2:
+                        rx, ry = (ry, rx)
+                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+                members.append(name)
+                nodes.add(end)
+                previous = end
+            if run['closed'] and previous != start:
+                name = f'run-{ri}-close'
+                self.add_line(name, previous, start)
+                members.append(name)
+            contour = f'outline-{ri}'
+            self.add_contour(contour, *members, closed=run['closed'])
+            contacts.append((contour, nodes))
+        for j, (a, points_a) in enumerate(contacts):
+            for b, points_b in contacts[j + 1:]:
+                if points_a & points_b:
+                    self.relate('connect', a, b)

@@ -1,10 +1,9 @@
 """Arrow button bottom 3 (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ad6e8a62-5ea2-548c-9392-01f3412c7152'
 SOURCE_PATH = 'icons-json/arrows/arrow button bottom 3_ad6e8a62-5ea2-548c-9392-01f3412c7152.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrowButtonBottom3(Solo48):
     icon_id = 'arrow-button-bottom-3'
@@ -16,21 +15,41 @@ class ArrowButtonBottom3(Solo48):
     keywords = ('arrow', 'button', 'bottom', 'arrows')
 
     def build(self):
-        self.add_line('sym-e0', (24, 40), (24, 40))
-        self.add_arc('sym-e1', (24, 40), (27, 38), radius_x=4, sweep=False)
-        self.add_line('sym-e2', (27, 38), (43, 22))
-        self.add_line('sym-e3', (43, 22), (44, 21))
-        self.add_arc('sym-e4', (44, 21), (44, 20), radius_x=26)
-        self.add_arc('sym-e5', (44, 20), (44, 19), radius_x=26)
-        self.add_line('sym-e6', (44, 19), (44, 8))
-        self.add_line('sym-e7', (44, 8), (25, 27))
-        self.add_arc('sym-e8', (25, 27), (24, 27), radius_x=1, sweep=False)
-        self.add_arc('sym-e9', (24, 27), (23, 27), radius_x=1, sweep=False)
-        self.add_line('sym-e10', (23, 27), (4, 8))
-        self.add_line('sym-e11', (4, 8), (4, 19))
-        self.add_line('sym-e12', (4, 19), (4, 20))
-        self.add_line('sym-e13', (4, 20), (4, 21))
-        self.add_line('sym-e14', (4, 21), (5, 22))
-        self.add_line('sym-e15', (5, 22), (21, 38))
-        self.add_arc('sym-e16', (21, 38), (24, 40), radius_x=4, sweep=False)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', closed=True)
+        runs = [{'start': (4, 8), 'steps': [('L', 24, 28), ('L', 44, 8), ('L', 44, 20), ('L', 24, 40), ('L', 4, 20)], 'closed': True}]
+        rotation = 0
+
+        def point(x, y):
+            for _ in range(rotation):
+                x, y = (48 - y, x)
+            return (x, y)
+        contacts = []
+        for ri, run in enumerate(runs):
+            start = point(*run['start'])
+            previous = start
+            members, nodes = ([], {start})
+            for si, step in enumerate(run['steps']):
+                end = point(step[1], step[2])
+                if previous == end:
+                    continue
+                name = f'run-{ri}-{si}'
+                if step[0] == 'L':
+                    self.add_line(name, previous, end)
+                else:
+                    rx, ry = step[3:5]
+                    if rotation % 2:
+                        rx, ry = (ry, rx)
+                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+                members.append(name)
+                nodes.add(end)
+                previous = end
+            if run['closed'] and previous != start:
+                name = f'run-{ri}-close'
+                self.add_line(name, previous, start)
+                members.append(name)
+            contour = f'outline-{ri}'
+            self.add_contour(contour, *members, closed=run['closed'])
+            contacts.append((contour, nodes))
+        for j, (a, points_a) in enumerate(contacts):
+            for b, points_b in contacts[j + 1:]:
+                if points_a & points_b:
+                    self.relate('connect', a, b)

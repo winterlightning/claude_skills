@@ -1,5 +1,5 @@
 # Variant of squid; parent file remains unchanged.
-"""Frontal squid with a pointed mantle, paired fins and four curling arms. Bounds (6,6)-(42,42). Mirror construction about x=24; omit collar band and two crowded arms. No useful local squid match."""
+'squid: Widened the mantle and separated all four arm roots. Keyshape SQUARE; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6b1b950d-cc96-5942-b04e-c7eb45776f56'

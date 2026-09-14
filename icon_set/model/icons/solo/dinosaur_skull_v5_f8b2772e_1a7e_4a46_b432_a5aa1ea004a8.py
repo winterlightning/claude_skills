@@ -1,5 +1,5 @@
 # Variant of dinosaur-skull; parent file remains unchanged.
-"""Left-facing theropod skull with open jaw, eye and nostril. HRECT_L (2,8)-(46,40). Removed detached fossil fragments; asymmetric anatomy preserved. No useful direct Lucide match."""
+'dinosaur-skull: Used the square envelope to widen both jaw gaps; the eye becomes a dot and the nostril is omitted. Keyshape SQUARE; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f8b2772e-1a7e-4a46-b432-a5aa1ea004a8'

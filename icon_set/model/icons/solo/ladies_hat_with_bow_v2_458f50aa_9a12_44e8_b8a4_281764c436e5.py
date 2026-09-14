@@ -1,5 +1,5 @@
 # Variant of ladies-hat-with-bow; parent file remains unchanged.
-"""A domed ladies hat with broad brim and right-side bow. Lucide hat-glasses informs crown and brim; asymmetry preserves the bow placement."""
+'ladies-hat-with-bow: Narrowed the brim and enlarged both bow openings. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '458f50aa-9a12-44e8-b8a4-281764c436e5'

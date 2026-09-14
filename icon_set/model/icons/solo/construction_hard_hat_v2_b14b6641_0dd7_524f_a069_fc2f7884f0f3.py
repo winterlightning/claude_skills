@@ -1,5 +1,5 @@
 # Variant of construction-hard-hat; parent file remains unchanged.
-"""Hard hat with crown badge and broad brim. HRECT_L extremes (2,8)-(46,40). Lucide hard-hat informs mirrored shell arcs, central crest and rounded brim."""
+'construction-hard-hat: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b14b6641-0dd7-524f-a069-fc2f7884f0f3'

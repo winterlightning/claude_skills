@@ -1,5 +1,5 @@
 # Variant of capricorn-zodiac-symbol; parent file remains unchanged.
-"""Capricorn with an angular left stroke, descending tail and open circular loop."""
+'capricorn-zodiac-symbol: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f5e70bca-f373-5831-8f15-24890eb86b22'

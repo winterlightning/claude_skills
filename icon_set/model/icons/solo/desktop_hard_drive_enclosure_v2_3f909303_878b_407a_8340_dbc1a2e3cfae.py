@@ -1,9 +1,5 @@
 # Variant of desktop-hard-drive-enclosure; parent file remains unchanged.
-"""A low hard-drive enclosure with a sloping lid, indicator and two feet.
-
-HRECT_L extremes (2,8)-(46,40) fit a low case. Lucide hard-drive informs
-the lid/front relationship and dot indicator. Source perspective is retained.
-"""
+'desktop-hard-drive-enclosure: Narrowed the case and enlarged the front panel around the indicator. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3f909303-878b-407a-8340-dbc1a2e3cfae'

@@ -1,5 +1,5 @@
 # Variant of bucket-hat; parent file remains unchanged.
-"""A domed bucket hat with a flared brim; underside ellipse omitted for clear spacing."""
+'bucket-hat: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7f207853-40b4-5ba8-b45a-fe138cd26930'

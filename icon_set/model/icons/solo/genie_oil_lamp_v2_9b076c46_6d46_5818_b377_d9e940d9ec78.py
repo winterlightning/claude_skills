@@ -1,5 +1,5 @@
 # Variant of genie-oil-lamp; parent file remains unchanged.
-"""An oil lamp with a curled handle, lid finial, raised spout and foot. HRECT_L extremes (2,8)-(46,40). Preserve the source side-view asymmetry; omit foot steps."""
+'genie-oil-lamp: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9b076c46-6d46-5818-b377-d9e940d9ec78'

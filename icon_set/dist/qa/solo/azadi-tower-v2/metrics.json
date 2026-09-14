@@ -1,0 +1,421 @@
+{
+  "icon_id": "azadi-tower-v2",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "fail",
+  "errors": [
+    "mic [monument]: parallel straight edges left-flare and left-opening-leg are 7.8095 apart on centerlines (ink gap 3.8095); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [monument]: parallel straight edges right-flare and right-opening-leg are 7.8095 apart on centerlines (ink gap 3.8095); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "fail",
+    "contours": [
+      {
+        "id": "monument:subpath-1",
+        "elementId": "monument",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 14 6 L 34 6 L 35 16 A 34 34 0 0 0 40 33 L 42 42 L 34 42 L 32 33 A 27 27 0 0 0 24 16 A 27 27 0 0 0 16 33 L 14 42 L 6 42 L 8 33 A 34 34 0 0 0 13 16 L 14 6 Z",
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 266,
+        "approximationError": 0.00041621715334445636,
+        "hasCurves": true
+      },
+      {
+        "id": "lower-arch:subpath-1",
+        "elementId": "lower-arch",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 16 33 A 10 10 0 0 1 24 27 A 10 10 0 0 1 32 33",
+        "bounds": [
+          16.0,
+          27.0,
+          32.0,
+          33.0
+        ],
+        "segmentCount": 128,
+        "approximationError": 0.0003346626935908392,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "contourIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "elementIds": [
+          "monument",
+          "lower-arch"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          16.0,
+          33.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "monument:subpath-1",
+          "lower-arch:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "monument:subpath-1",
+            "lower-arch:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            16.0,
+            33.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 18,
+      "flattenedSegments": 394,
+      "adaptiveNodes": 762,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          19.4219,
+          12.0156
+        ],
+        "bbox_viewbox": [
+          6.625,
+          6.5,
+          34.75,
+          35.0
+        ],
+        "bbox_ship_px": [
+          34.75,
+          35.0
+        ],
+        "bbox_design_u": [
+          34.75,
+          35.0
+        ],
+        "area_ship_px2": 524.0684,
+        "equivalent_diameter_ship_px": 25.8315,
+        "equivalent_diameter_design_u": 25.8315,
+        "inscribed_diameter_ship_px": 11.025,
+        "inscribed_diameter_design_u": 11.025,
+        "inscribed_radius_ship_px": 5.5125,
+        "inscribed_radius_design_u": 5.5125,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.0125,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.025
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          23.9844,
+          22.7344
+        ],
+        "bbox_viewbox": [
+          16.8438,
+          16.7188,
+          14.3125,
+          13.8125
+        ],
+        "bbox_ship_px": [
+          14.3125,
+          13.8125
+        ],
+        "bbox_design_u": [
+          14.3125,
+          13.8125
+        ],
+        "area_ship_px2": 85.541,
+        "equivalent_diameter_ship_px": 10.4362,
+        "equivalent_diameter_design_u": 10.4362,
+        "inscribed_diameter_ship_px": 7.5395,
+        "inscribed_diameter_design_u": 7.5395,
+        "inscribed_radius_ship_px": 3.7698,
+        "inscribed_radius_design_u": 3.7698,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.2698,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.5396
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/azadi-tower-v2/icon.svg",
+    "metrics": "solo/azadi-tower-v2/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "4baeeeedc60c4e5ff7f26a6500ebe6df71d6d0a8ae9e53c07518a9a79280385d",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-v2"
+    },
+    "internal_spacing": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "internal_spacing": {
+    "status": "review",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 1,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false
+    },
+    "findings": [
+      {
+        "contour": "monument",
+        "elements": [
+          "right-shoulder",
+          "right-opening-leg"
+        ],
+        "status": "review",
+        "sustained_length": 2.9901,
+        "centerline_distance": 7.1808,
+        "ink_gap": 3.1808,
+        "nearest_points": [
+          [
+            38.55298358515915,
+            30.38704520827637
+          ],
+          [
+            32.13513513513513,
+            33.608108108108105
+          ]
+        ]
+      },
+      {
+        "contour": "monument",
+        "elements": [
+          "right-shoulder",
+          "right-pointed-arch"
+        ],
+        "status": "review",
+        "sustained_length": 15.1881,
+        "centerline_distance": 5.9647,
+        "ink_gap": 1.9647,
+        "nearest_points": [
+          [
+            36.55434117700031,
+            25.42692396331453
+          ],
+          [
+            30.85850202771292,
+            27.197526961324595
+          ]
+        ]
+      },
+      {
+        "contour": "monument",
+        "elements": [
+          "right-flare",
+          "right-opening-leg"
+        ],
+        "status": "review",
+        "sustained_length": 6.4786,
+        "centerline_distance": 7.8095,
+        "ink_gap": 3.8095,
+        "nearest_points": [
+          [
+            41.16216216216216,
+            38.22972972972973
+          ],
+          [
+            33.53863275039742,
+            39.923847376788366
+          ]
+        ]
+      },
+      {
+        "contour": "monument",
+        "elements": [
+          "left-pointed-arch",
+          "left-shoulder"
+        ],
+        "status": "review",
+        "sustained_length": 15.1881,
+        "centerline_distance": 5.9647,
+        "ink_gap": 1.9647,
+        "nearest_points": [
+          [
+            17.141497972287077,
+            27.197526961324602
+          ],
+          [
+            11.445658822999686,
+            25.426923963314533
+          ]
+        ]
+      },
+      {
+        "contour": "monument",
+        "elements": [
+          "left-opening-leg",
+          "left-flare"
+        ],
+        "status": "review",
+        "sustained_length": 6.4786,
+        "centerline_distance": 7.8095,
+        "ink_gap": 3.8095,
+        "nearest_points": [
+          [
+            15.324324324324323,
+            36.04054054054054
+          ],
+          [
+            7.700794912559623,
+            34.3464228934817
+          ]
+        ]
+      },
+      {
+        "contour": "monument",
+        "elements": [
+          "left-opening-leg",
+          "left-shoulder"
+        ],
+        "status": "review",
+        "sustained_length": 2.9901,
+        "centerline_distance": 7.1808,
+        "ink_gap": 3.1808,
+        "nearest_points": [
+          [
+            15.864864864864865,
+            33.608108108108105
+          ],
+          [
+            9.447016414840853,
+            30.387045208276366
+          ]
+        ]
+      }
+    ],
+    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": true
+}

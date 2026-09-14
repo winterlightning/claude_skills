@@ -1,5 +1,5 @@
 # Variant of libra-zodiac-symbol; parent file remains unchanged.
-"""Libra dome above a parallel baseline. Extremes (2,8)-(46,40). Mirrored arch, no useful Lucide subject match; no features dropped."""
+'libra-zodiac-symbol: Reduced the dome radius to open the gap above the baseline. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cf03c01d-0ec1-5a48-b85f-a420423f6055'

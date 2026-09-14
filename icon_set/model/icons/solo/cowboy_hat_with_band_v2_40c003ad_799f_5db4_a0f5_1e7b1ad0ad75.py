@@ -1,5 +1,5 @@
 # Variant of cowboy-hat-with-band; parent file remains unchanged.
-"""A cowboy hat with a dipped crown and upturned brim. HRECT_L extremes (2,8)-(46,40). Lucide hat-glasses informs the tapered crown; the supplied western brim is preserved. Symmetric construction with deliberate crown corners."""
+'cowboy-hat-with-band: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '40c003ad-799f-5db4-a0f5-1e7b1ad0ad75'

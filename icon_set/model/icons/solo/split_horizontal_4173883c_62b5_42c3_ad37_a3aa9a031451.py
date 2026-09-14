@@ -1,10 +1,9 @@
 """Split horizontal (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4173883c-62b5-42c3-ad37-a3aa9a031451'
 SOURCE_PATH = 'icons-json/arrows/split horizontal_4173883c-62b5-42c3-ad37-a3aa9a031451.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SplitHorizontal(Solo48):
     icon_id = 'split-horizontal'
@@ -16,34 +15,41 @@ class SplitHorizontal(Solo48):
     keywords = ('split', 'horizontal', 'arrows')
 
     def build(self):
-        self.add_line('sym-e0', (4, 24), (31, 24))
-        self.add_arc('sym-e1', (31, 24), (32, 24), radius_x=11)
-        self.add_line('sym-e2', (32, 24), (33, 24))
-        self.add_line('sym-e3', (33, 24), (32, 24))
-        self.add_arc('sym-e4', (32, 24), (33, 24), radius_x=22, sweep=False)
-        self.add_line('sym-e5', (33, 24), (32, 24))
-        self.add_line('sym-e6', (32, 24), (31, 24))
-        self.add_arc('sym-e7', (31, 24), (39, 29), radius_x=11)
-        self.add_line('sym-e8', (39, 29), (39, 32))
-        self.add_line('sym-e9', (39, 32), (39, 40))
-        self.add_line('sym-e10', (39, 40), (35, 36))
-        self.add_line('sym-e11', (44, 36), (39, 40))
-        self.add_arc('sym-e12', (31, 24), (39, 19), radius_x=11, sweep=False)
-        self.add_line('sym-e13', (39, 19), (39, 16))
-        self.add_line('sym-e14', (39, 16), (39, 8))
-        self.add_line('sym-e15', (39, 8), (35, 12))
-        self.add_line('sym-e16', (44, 12), (39, 8))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10')
-        self.add_contour('sym-c1', 'sym-e11')
-        self.add_contour('sym-c2', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15')
-        self.add_contour('sym-c3', 'sym-e16')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
+        runs = [{'start': (4, 24), 'steps': [('L', 31, 24)], 'closed': False}, {'start': (31, 24), 'steps': [('A', 39, 16, 8, 8, False), ('L', 39, 8)], 'closed': False}, {'start': (31, 24), 'steps': [('A', 39, 32, 8, 8, True), ('L', 39, 40)], 'closed': False}, {'start': (34, 13), 'steps': [('L', 39, 8), ('L', 44, 13)], 'closed': False}, {'start': (34, 35), 'steps': [('L', 39, 40), ('L', 44, 35)], 'closed': False}]
+        rotation = 0
+
+        def point(x, y):
+            for _ in range(rotation):
+                x, y = (48 - y, x)
+            return (x, y)
+        contacts = []
+        for ri, run in enumerate(runs):
+            start = point(*run['start'])
+            previous = start
+            members, nodes = ([], {start})
+            for si, step in enumerate(run['steps']):
+                end = point(step[1], step[2])
+                if previous == end:
+                    continue
+                name = f'run-{ri}-{si}'
+                if step[0] == 'L':
+                    self.add_line(name, previous, end)
+                else:
+                    rx, ry = step[3:5]
+                    if rotation % 2:
+                        rx, ry = (ry, rx)
+                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+                members.append(name)
+                nodes.add(end)
+                previous = end
+            if run['closed'] and previous != start:
+                name = f'run-{ri}-close'
+                self.add_line(name, previous, start)
+                members.append(name)
+            contour = f'outline-{ri}'
+            self.add_contour(contour, *members, closed=run['closed'])
+            contacts.append((contour, nodes))
+        for j, (a, points_a) in enumerate(contacts):
+            for b, points_b in contacts[j + 1:]:
+                if points_a & points_b:
+                    self.relate('connect', a, b)

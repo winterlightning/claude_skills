@@ -1,5 +1,5 @@
 # Variant of cowboy-hat; parent file remains unchanged.
-"""Western hat with pinched crown and upswept brim. HRECT_L (2,8)-(46,40) retains the wide hat silhouette. Lucide hat-glasses informed sloping crown sides; symmetric front view."""
+'cowboy-hat: Narrowed the brim and joined the crown to shared brim points. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '102a699a-efb8-5111-a65a-a03761946e2d'

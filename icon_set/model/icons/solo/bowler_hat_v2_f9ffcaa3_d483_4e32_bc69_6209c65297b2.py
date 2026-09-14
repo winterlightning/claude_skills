@@ -1,8 +1,5 @@
 # Variant of bowler-hat; parent file remains unchanged.
-"""A domed bowler with a hatband and upturned brim. Symmetric crown and brim corners use shared radii.
-
-Authored directly on SOLO48 using the HRECT_L centerline envelope.
-"""
+'bowler-hat: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f9ffcaa3-d483-4e32-bc69-6209c65297b2'

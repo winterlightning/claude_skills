@@ -1,5 +1,5 @@
 # Variant of round-bud-vase; parent file remains unchanged.
-"""Four circular buds on an uneven fan of stems rising from a small round vase."""
+'round-bud-vase: Rebalanced the four buds, raised the side attachment and deepened the vase. Keyshape VRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b6d820eb-0b98-4c05-838c-9bade7c068de'

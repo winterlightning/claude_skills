@@ -11,10 +11,26 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "outline-0:subpath-1",
+        "elementId": "outline-0",
         "subpathIndex": 1,
         "componentId": "component-1",
+        "pathData": "M 9 8 L 39 8 L 24 29 L 9 8 Z",
+        "bounds": [
+          9.0,
+          8.0,
+          39.0,
+          29.0
+        ],
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "outline-1:subpath-1",
+        "elementId": "outline-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
         "pathData": "M 4 40 L 44 40",
         "bounds": [
           4.0,
@@ -25,35 +41,37 @@
         "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
-      },
-      {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
-        "subpathIndex": 1,
-        "componentId": "component-2",
-        "pathData": "M 10 8 L 38 8 L 39 10 L 25 29 L 23 28 L 9 10 L 10 8 Z",
-        "bounds": [
-          9.0,
-          8.0,
-          39.0,
-          29.0
-        ],
-        "segmentCount": 7,
-        "approximationError": 0.0,
-        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1"
+          "outline-0:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1"
+          "outline-0:subpath-1"
         ],
         "elementIds": [
-          "c0"
+          "outline-0"
+        ],
+        "bounds": [
+          9.0,
+          8.0,
+          39.0,
+          29.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "outline-1:subpath-1"
+        ],
+        "contourIds": [
+          "outline-1:subpath-1"
+        ],
+        "elementIds": [
+          "outline-1"
         ],
         "bounds": [
           4.0,
@@ -61,31 +79,13 @@
           44.0,
           40.0
         ]
-      },
-      {
-        "id": "component-2",
-        "memberIds": [
-          "c1:subpath-1"
-        ],
-        "contourIds": [
-          "c1:subpath-1"
-        ],
-        "elementIds": [
-          "c1"
-        ],
-        "bounds": [
-          9.0,
-          8.0,
-          39.0,
-          29.0
-        ]
       }
     ],
     "pairs": [
       {
         "closestContours": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "outline-0:subpath-1",
+          "outline-1:subpath-1"
         ],
         "centerlineDistance": 11.0,
         "inkClearance": 7.0,
@@ -97,12 +97,12 @@
         "approximationError": 0.0,
         "nearestPoints": [
           [
-            25.0,
-            40.0
+            24.0,
+            29.0
           ],
           [
-            25.0,
-            29.0
+            24.0,
+            40.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -116,17 +116,17 @@
         ],
         "memberIds": [
           [
-            "c0:subpath-1"
+            "outline-0:subpath-1"
           ],
           [
-            "c1:subpath-1"
+            "outline-1:subpath-1"
           ]
         ],
         "contourPairs": [
           {
             "closestContours": [
-              "c0:subpath-1",
-              "c1:subpath-1"
+              "outline-0:subpath-1",
+              "outline-1:subpath-1"
             ],
             "centerlineDistance": 11.0,
             "inkClearance": 7.0,
@@ -138,12 +138,12 @@
             "approximationError": 0.0,
             "nearestPoints": [
               [
-                25.0,
-                40.0
+                24.0,
+                29.0
               ],
               [
-                25.0,
-                29.0
+                24.0,
+                40.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -172,10 +172,10 @@
     "minimumInkClearance": 7.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 10,
-      "flattenedSegments": 8,
+      "commands": 7,
+      "flattenedSegments": 5,
       "adaptiveNodes": 0,
-      "distanceTests": 4,
+      "distanceTests": 3,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -190,34 +190,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          24.2344,
-          16.2031
+          23.9844,
+          15.6719
         ],
         "bbox_viewbox": [
-          9.5938,
+          9.9688,
           8.5,
-          28.8125,
-          19.8438
+          28.0625,
+          19.625
         ],
         "bbox_ship_px": [
-          28.8125,
-          19.8438
+          28.0625,
+          19.625
         ],
         "bbox_design_u": [
-          28.8125,
-          19.8438
+          28.0625,
+          19.625
         ],
-        "area_ship_px2": 314.2988,
-        "equivalent_diameter_ship_px": 20.0044,
-        "equivalent_diameter_design_u": 20.0044,
-        "inscribed_diameter_ship_px": 15.3783,
-        "inscribed_diameter_design_u": 15.3783,
-        "inscribed_radius_ship_px": 7.6891,
-        "inscribed_radius_design_u": 7.6891,
+        "area_ship_px2": 275.5391,
+        "equivalent_diameter_ship_px": 18.7304,
+        "equivalent_diameter_design_u": 18.7304,
+        "inscribed_diameter_ship_px": 14.375,
+        "inscribed_diameter_design_u": 14.375,
+        "inscribed_radius_ship_px": 7.1875,
+        "inscribed_radius_design_u": 7.1875,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 6.1891,
-        "equivalent_diameter_at_authored_stroke_design_u": 12.3782
+        "equivalent_radius_at_authored_stroke_design_u": 5.6875,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.375
       }
     ],
     "pinches": [],
@@ -243,7 +243,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "f6bdd80f61e2c0bc13aec8478219766595a42d643f81d94ba2a7ac77587ca1f8",
+  "svg_sha256": "4f881c3c1f319e10d7a7a384c9656e0b45710acf47a74862dd511faaa08f461d",
   "rules": {
     "profile": {
       "canvas_size": 48,

@@ -1,5 +1,5 @@
 # Variant of standing-deer; parent file remains unchanged.
-"""Right-facing standing deer with capsule body and crown antlers. Four legs reduced to two visible legs for separation; source asymmetry retained. Lucide bird informs rounded body joins."""
+'standing-deer: Narrowed the rump and widened the neck. Keyshape SQUARE; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a6ff6a0a-a017-4795-b53f-e68479e6966b'

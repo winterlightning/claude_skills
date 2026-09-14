@@ -1,8 +1,5 @@
 # Variant of power-supply-unit; parent file remains unchanged.
-"""A power supply rear panel has a cross-braced fan and a rectangular socket.
-
-Keyshape HRECT_L: visible extremes (0, 6, 48, 42).
-Landscape keyshape preserves side-by-side hardware. Lucide monitor informs the simple panel. Source arrangement is intentionally asymmetric."""
+'power-supply-unit: Simplified the fan grille to a ring and the socket to one port stroke to preserve clearance. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '89829747-3c99-4088-88f2-439e8b3d4eb2'

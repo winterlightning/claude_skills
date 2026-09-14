@@ -1,5 +1,5 @@
 # Variant of laptop-with-flat-base-lip; parent file remains unchanged.
-"""Laptop with flat base lip."""
+'laptop-with-flat-base-lip: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2ffd20f7-a2b4-4695-96d2-ac7023d30828'

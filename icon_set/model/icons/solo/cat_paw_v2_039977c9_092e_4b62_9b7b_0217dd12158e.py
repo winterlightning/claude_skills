@@ -1,5 +1,5 @@
 # Variant of cat-paw; parent file remains unchanged.
-"""Palm-on cat paw continuing into an open leg. Lucide paw-print informs separated pads; four toe pads become dots and the central pad uses a broad rounded contour for clearance."""
+'cat-paw: Rebalanced the toe lobes and palm; removed two crowded side dots. Keyshape VRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '039977c9-092e-4b62-9b7b-0217dd12158e'

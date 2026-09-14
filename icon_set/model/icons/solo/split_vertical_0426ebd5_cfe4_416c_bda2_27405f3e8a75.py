@@ -1,10 +1,9 @@
 """Split vertical (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0426ebd5-cfe4-416c-bda2-27405f3e8a75'
 SOURCE_PATH = 'icons-json/arrows/split vertical_0426ebd5-cfe4-416c-bda2-27405f3e8a75.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SplitVertical(Solo48):
     icon_id = 'split-vertical'
@@ -16,34 +15,41 @@ class SplitVertical(Solo48):
     keywords = ('split', 'vertical', 'arrows')
 
     def build(self):
-        self.add_line('e0', (10, 6), (6, 10))
-        self.add_line('e1', (10, 14), (6, 10))
-        self.add_line('e2', (24, 42), (24, 22))
-        self.add_line('e3', (33, 10), (42, 10))
-        self.add_line('e4', (38, 14), (42, 10))
-        self.add_line('e5', (38, 6), (42, 10))
-        self.add_line('e6', (6, 10), (14, 10))
-        self.add_arc('e7', (24, 22), (24, 21), radius_x=18)
-        self.add_arc('e8', (24, 22), (33, 10), radius_x=12)
-        self.add_arc('e9', (14, 10), (24, 22), radius_x=12)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e7')
-        self.add_contour('c4', 'e8', 'e3')
-        self.add_contour('c5', 'e4')
-        self.add_contour('c6', 'e5')
-        self.add_contour('c7', 'e6', 'e9')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c1', 'c7')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c7')
-        self.relate('connect', 'c7', 'c3')
-        self.relate('connect', 'c7', 'c4')
+        runs = [{'start': (24, 42), 'steps': [('L', 24, 22)], 'closed': False}, {'start': (24, 22), 'steps': [('A', 12, 10, 12, 12, False), ('L', 6, 10)], 'closed': False}, {'start': (24, 22), 'steps': [('A', 36, 10, 12, 12, True), ('L', 42, 10)], 'closed': False}, {'start': (10, 6), 'steps': [('L', 6, 10), ('L', 10, 14)], 'closed': False}, {'start': (38, 6), 'steps': [('L', 42, 10), ('L', 38, 14)], 'closed': False}]
+        rotation = 0
+
+        def point(x, y):
+            for _ in range(rotation):
+                x, y = (48 - y, x)
+            return (x, y)
+        contacts = []
+        for ri, run in enumerate(runs):
+            start = point(*run['start'])
+            previous = start
+            members, nodes = ([], {start})
+            for si, step in enumerate(run['steps']):
+                end = point(step[1], step[2])
+                if previous == end:
+                    continue
+                name = f'run-{ri}-{si}'
+                if step[0] == 'L':
+                    self.add_line(name, previous, end)
+                else:
+                    rx, ry = step[3:5]
+                    if rotation % 2:
+                        rx, ry = (ry, rx)
+                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+                members.append(name)
+                nodes.add(end)
+                previous = end
+            if run['closed'] and previous != start:
+                name = f'run-{ri}-close'
+                self.add_line(name, previous, start)
+                members.append(name)
+            contour = f'outline-{ri}'
+            self.add_contour(contour, *members, closed=run['closed'])
+            contacts.append((contour, nodes))
+        for j, (a, points_a) in enumerate(contacts):
+            for b, points_b in contacts[j + 1:]:
+                if points_a & points_b:
+                    self.relate('connect', a, b)

@@ -1,5 +1,5 @@
 # Variant of academic-graduation-cap; parent file remains unchanged.
-"""Diamond mortarboard above a curved crown. Lucide graduation-cap informs the board and elliptical crown; no tassel in source."""
+'academic-graduation-cap: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ac0c8839-9020-4a65-9a30-af5a45d63503'

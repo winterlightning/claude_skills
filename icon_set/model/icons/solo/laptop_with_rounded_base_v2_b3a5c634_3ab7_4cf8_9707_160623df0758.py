@@ -1,10 +1,5 @@
 # Variant of laptop-with-rounded-base; parent file remains unchanged.
-"""An open laptop with a wide, rounded dish base.
-
-HRECT_L: centerline extremes (2,8)-(46,40).
-Lucide laptop: concentric arcs / matched tangent corners and shared-axis geometry.
-Source duplicates are retained in SOURCE_REFERENCES.
-"""
+'laptop-with-rounded-base: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b3a5c634-3ab7-4cf8-9707-160623df0758'

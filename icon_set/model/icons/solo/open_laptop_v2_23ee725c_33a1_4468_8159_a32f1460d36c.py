@@ -1,8 +1,5 @@
 # Variant of open-laptop; parent file remains unchanged.
-"""open-laptop: reconstructed from the batch-01 references on SOLO48.
-
-Duplicate source drawings share one concept; SOURCE_REFERENCES retains every ID.
-"""
+'open-laptop: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '23ee725c-33a1-4468-8159-a32f1460d36c'

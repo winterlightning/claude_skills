@@ -1,5 +1,5 @@
 # Variant of swan-couple-heart; parent file remains unchanged.
-"""Two mirrored swans make a heart between their necks. Bounds (6,8)-(42,40). Lucide bird informs open body contours. Beaks and eyes omitted to preserve the central opening."""
+'swan-couple-heart: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ea964fee-5bf0-42a1-bfb2-b6f7dbff3fea'

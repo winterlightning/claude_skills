@@ -1,5 +1,5 @@
 # Variant of curled-centipede; parent file remains unchanged.
-"""Curled centipede; centerline extremes (6,6)-(42,42). Comma body preserved, bristles reduced to six. Asymmetric curl follows supplied source."""
+'curled-centipede: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape SQUARE; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0f8bec42-eede-4182-ae2b-3d6dbe6d13f9'

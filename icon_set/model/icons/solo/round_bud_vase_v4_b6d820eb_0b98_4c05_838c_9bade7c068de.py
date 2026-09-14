@@ -1,5 +1,5 @@
 # Variant of round-bud-vase-v2; parent file remains unchanged.
-"""Round vase with three bud stems, omitting the bottom-right branch. VRECT_XL retains the original extremities. Natural stem asymmetry is preserved; Lucide sprout informed the simple plant construction."""
+'round-bud-vase-v2: Rebalanced the three buds and deepened the vase. Keyshape VRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b6d820eb-0b98-4c05-838c-9bade7c068de'

@@ -1,8 +1,5 @@
 # Variant of graduation-mortarboard; parent file remains unchanged.
-"""An academic diamond cap above a shallow crown. Lucide graduation-cap informs the layered construction; no tassel added.
-
-Authored directly on SOLO48 using the HRECT_L centerline envelope.
-"""
+'graduation-mortarboard: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5f6ee542-cdce-408a-b798-b60860e5b325'

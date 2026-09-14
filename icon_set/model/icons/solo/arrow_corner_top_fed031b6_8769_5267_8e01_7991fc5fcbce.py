@@ -1,14 +1,13 @@
-"""Arrow corner top (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Square arrow corner with two equal straight arms. Preserves the original direction; visible ink (4,4)-(44,44)."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'fed031b6-8769-5267-8e01-7991fc5fcbce'
 SOURCE_PATH = 'icons-json/arrows/arrow corner top_fed031b6-8769-5267-8e01-7991fc5fcbce.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrowCornerTop(Solo48):
     icon_id = 'arrow-corner-top'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
@@ -16,6 +15,8 @@ class ArrowCornerTop(Solo48):
     keywords = ('arrow', 'corner', 'top', 'arrows')
 
     def build(self):
-        self.add_line('e0', (44, 8), (4, 8))
-        self.add_line('e1', (4, 8), (4, 40))
-        self.add_contour('c0', 'e0', 'e1')
+        low, center, high = (6, 24, 42)
+        a, joint, b = [(high, low), (low, low), (low, high)]
+        self.add_line('arm-a', a, joint)
+        self.add_line('arm-b', joint, b)
+        self.add_contour('corner', 'arm-a', 'arm-b')

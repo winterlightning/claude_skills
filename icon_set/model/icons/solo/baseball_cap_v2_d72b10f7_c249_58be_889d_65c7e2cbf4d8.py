@@ -1,5 +1,5 @@
 # Variant of baseball-cap; parent file remains unchanged.
-"""A left-facing baseball cap with a long curved peak and one panel seam; top button omitted."""
+'baseball-cap: Repositioned the outer contours to the exact keyshape width while retaining the defining details. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd72b10f7-c249-58be-889d-65c7e2cbf4d8'

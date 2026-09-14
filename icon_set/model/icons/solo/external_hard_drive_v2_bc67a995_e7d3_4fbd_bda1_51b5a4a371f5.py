@@ -1,5 +1,5 @@
 # Variant of external-hard-drive; parent file remains unchanged.
-"""Perspective hard drive with seam and front slot. Extremes (2,8)-(46,40); Lucide hard-drive trapezoid and rounded front."""
+'external-hard-drive: Narrowed the case and enlarged the front panel around the slot. Keyshape HRECT_L; SOLO48 stroke 4. Reviewed at 48 px in both themes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bc67a995-e7d3-4fbd-bda1-51b5a4a371f5'

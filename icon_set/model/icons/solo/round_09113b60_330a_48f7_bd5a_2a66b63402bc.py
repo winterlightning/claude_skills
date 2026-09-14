@@ -1,10 +1,9 @@
 """Round (arrows), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '09113b60-330a-48f7-bd5a-2a66b63402bc'
 SOURCE_PATH = 'icons-json/arrows/round_09113b60-330a-48f7-bd5a-2a66b63402bc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Round(Solo48):
     icon_id = 'round'
@@ -16,13 +15,41 @@ class Round(Solo48):
     keywords = ('round', 'arrows')
 
     def build(self):
-        self.add_line('e0', (13, 33), (10, 31))
-        self.add_line('e1', (10, 31), (8, 31))
-        self.add_line('e2', (6, 36), (8, 31))
-        self.add_bezier('e3', (7, 24), ((7.115, 21.341), (7.366, 18.739), (8.446, 16.293)), ((10.95, 10.598), (17.16, 6.008), (23.517, 6.008)), ((23.646, 6.008), (23.783, 6), (23.912, 6)), ((23.914, 6), (23.916, 6), (23.918, 6)), ((24.147, 6), (24.376, 6.008), (24.605, 6.008)), ((33.761, 6.008), (41.992, 14.305), (41.992, 23.452)), ((41.992, 23.589), (42, 23.718), (42, 23.854)), ((42, 23.857), (42, 23.859), (42, 23.861)), ((42, 24.164), (41.992, 24.466), (41.992, 24.769)), ((41.992, 33.785), (33.9, 41.992), (24.867, 41.992)), ((24.787, 41.992), (24.706, 42), (24.626, 42)), ((24.624, 42), (24.623, 42), (24.622, 42)), ((24.278, 42), (23.926, 41.992), (23.583, 41.992)), ((18.044, 41.992), (12.652, 38.4), (9.584, 33.957)), ((8.839, 32.885), (8.622, 32.137), (8, 31)))
-        self.add_contour('c0', 'e3')
-        self.add_contour('c1', 'e0', 'e1')
-        self.add_contour('c2', 'e2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        runs = [{'start': (6, 24), 'steps': [('A', 24, 6, 18, 18, True), ('A', 42, 24, 18, 18, True), ('A', 24, 42, 18, 18, True), ('A', 10, 32, 14, 10, True)], 'closed': False}, {'start': (6, 36), 'steps': [('L', 10, 32), ('L', 14, 36)], 'closed': False}]
+        rotation = 0
+
+        def point(x, y):
+            for _ in range(rotation):
+                x, y = (48 - y, x)
+            return (x, y)
+        contacts = []
+        for ri, run in enumerate(runs):
+            start = point(*run['start'])
+            previous = start
+            members, nodes = ([], {start})
+            for si, step in enumerate(run['steps']):
+                end = point(step[1], step[2])
+                if previous == end:
+                    continue
+                name = f'run-{ri}-{si}'
+                if step[0] == 'L':
+                    self.add_line(name, previous, end)
+                else:
+                    rx, ry = step[3:5]
+                    if rotation % 2:
+                        rx, ry = (ry, rx)
+                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+                members.append(name)
+                nodes.add(end)
+                previous = end
+            if run['closed'] and previous != start:
+                name = f'run-{ri}-close'
+                self.add_line(name, previous, start)
+                members.append(name)
+            contour = f'outline-{ri}'
+            self.add_contour(contour, *members, closed=run['closed'])
+            contacts.append((contour, nodes))
+        for j, (a, points_a) in enumerate(contacts):
+            for b, points_b in contacts[j + 1:]:
+                if points_a & points_b:
+                    self.relate('connect', a, b)
