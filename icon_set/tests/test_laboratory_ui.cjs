@@ -15,17 +15,27 @@ const context=vm.createContext({document,URL,URLSearchParams,location:{href:'htt
 const run=code=>vm.runInContext(code,context);
 run(fs.readFileSync(path.join(root,'scripts/templates/icon-laboratory.js'),'utf8').replace(/loadLaboratory\(\);\s*$/,''));
 run("contracts=data;icons=fixtureIcons;$('gap').value='2';selectProfile('SOLO48');");
-assert.equal(elements.get('sizeTitle').textContent,'36 × 48');
+assert.equal(elements.get('sizeTitle').textContent,'36 × 44');
 assert.equal(elements.get('inspectLink').hidden,false);
-assert.equal(elements.get('atlas').children.length,10);
+assert.equal(elements.get('atlas').children.length,4);
+assert.equal(elements.get('atlasTitle').textContent,'Four standard envelopes for solo icons.');
 assert.equal(elements.get('ruleCards').children.length,6);
 assert.ok(elements.get('drawing').children[0].children.some(child=>child.tag==='image'));
+run("shapeName='CIRCLE';renderShapes();renderExamples();");
+assert.equal(elements.get('example').value,'reference/big-circle');
+const ring=elements.get('drawing').children[0].children.find(child=>child.tag==='circle');
+assert.ok(ring,'CIRCLE defaults to the big circle reference');
+assert.equal(ring.attrs.r,'20');assert.equal(ring.attrs['stroke-width'],'4');
+assert.equal(elements.get('inspectLink').hidden,true);
+run("shapeName='VRECT_L';renderShapes();renderExamples();");
 run("$('showIcon').checked=false;renderDrawing()");
 assert.ok(!elements.get('drawing').children[0].children.some(child=>child.tag==='image'));
 for(const profile of Object.keys(data.profile.profiles)) {
  context.nextProfile=profile;
  run('selectProfile(nextProfile)');
- for(const name of Object.keys(data.keyshapes.resolved[profile])) {
+ const names=data.profile.profiles[profile].keyshape_choices||Object.keys(data.keyshapes.resolved[profile]);
+ assert.equal(elements.get('atlas').children.length,names.length);
+ for(const name of names) {
   context.nextShape=name;
   run('shapeName=nextShape;renderShapes();renderExamples();');
   const shape=data.keyshapes.resolved[profile][name];
@@ -40,4 +50,4 @@ run("$('gap').value='1';renderGap();");
 assert.equal(elements.get('gapResult').dataset.valid,'false');
 run("$('gap').value='2';renderGap();");
 assert.equal(elements.get('gapResult').dataset.valid,'true');
-console.log('Laboratory: all 30 envelopes, family switching, artwork layers, empty examples, and spacing thresholds passed.');
+console.log('Laboratory: every family envelope, family switching, artwork layers, empty examples, and spacing thresholds passed.');

@@ -26,9 +26,11 @@ touches. This is why a five-point star can use `CIRCLE`: it has no ink at the
 bounding box's corners, and its bbox is not square.
 
 SOLO48 has centered visible-ink envelopes: circle 44×44, square 40×40,
-landscape 44×36 and portrait 36×44. Use `HRECT_L` and `VRECT_L` for new
-rectangles; the other rectangle size tokens remain compatibility names for
-these same bounds on SOLO48. SUB32 and CONTAINER64 retain their own tables.
+landscape 44×36 and portrait 36×44 — four keyshapes: `CIRCLE`, `SQUARE`,
+`HRECT_L` and `VRECT_L` (the contract's `keyshape_choices`). The other
+rectangle size tokens exist only so older modules still resolve; on SOLO48 they
+give the same bounds as `HRECT_L`/`VRECT_L`. Never choose one for new work.
+SUB32 and CONTAINER64 retain their own tables.
 
 SOLO48 spacing is **4 units between ink edges, or 8 between centerlines**
 for 4-unit strokes. The validator enforces this for parallel straight edges
@@ -73,14 +75,8 @@ authored, never scaled, because the stroke stays 4 and the grid stays 1.
 |---|---|---|
 | `CIRCLE` | radius 22 about (24,24) | radius 20 |
 | `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
-| `HRECT_XL` | (2,6)-(46,42) | (4,8)-(44,40) |
 | `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
-| `HRECT_M` | (2,6)-(46,42) | (4,8)-(44,40) |
-| `HRECT_S` | (2,6)-(46,42) | (4,8)-(44,40) |
-| `VRECT_XL` | (6,2)-(42,46) | (8,4)-(40,44) |
 | `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
-| `VRECT_M` | (6,2)-(42,46) | (8,4)-(40,44) |
-| `VRECT_S` | (6,2)-(42,46) | (8,4)-(40,44) |
 
 ### `container` — `CONTAINER64`, canvas 64, MIC 4, centerline minimum 8
 
@@ -116,18 +112,18 @@ vertex has to reach `R`. Where an exact alternative exists, prefer it: the
 
 **Curved parts need real clearance margin.** See
 [authoring.md](authoring.md#spacing). A curve exactly on the minimum returns
-`review`, not `pass`. This bites at 48 in particular: `film-frame` had to move
-from `SQUARE` to `VRECT_XL` because a 15-deep band between a curved frame edge
-and a divider cannot hold a mark with 8 on either side, and 8 against the curved
-frame would not certify anyway. `VRECT_XL` gives 18, so the marks sit at 9.
+`review`, not `pass`. This bites at 48 in particular: a 4-unit mark between two
+walls needs 16 between the wall centerlines, 17 when a wall is curved, and the
+SOLO48 centerline boxes are only 36×36 (`SQUARE`) or 40×32 (`HRECT_L`/`VRECT_L`).
+A band that is short cannot be fixed by squeezing; change the keyshape or drop
+the mark.
 
 **Reaching a bound mid-arc works, but only if the centre is exact.** An arc's
 axis extremum is measured exactly, so a semicircle whose centre is an integer
 point reaches its extreme exactly. An arc whose endpoints do not sit on the
-intended ellipse gives a centre with a fractional part and misses. The
-`smartwatch` strap uses r 15 from (10,11) to (22,5) because that is the one
-integer radius whose apex *is* the endpoint; r 13 from (30,5) to (43,18) does
-the same on the right edge.
+intended ellipse gives a centre with a fractional part and misses. Pick the
+integer radius whose apex *is* the endpoint that sits on the centerline box, so
+the arc lands on the bound instead of overshooting it.
 
 ## When nothing fits: `FREE`
 

@@ -19,8 +19,8 @@ measurement meaningless.
 | 1 | `schema/profile` | Required fields, valid enums, geometry present, `FREE` approved, **family owns the profile** (`sub`→SUB32, `solo`→SOLO48, `container`→CONTAINER64) |
 | 2 | `style/grid` | Integer coordinates, stroke 4, round cap and join, grid 1 |
 | 3 | `canvas/keyshape bounds` | Ink inside the canvas and matching its keyshape envelope |
-| 4 | `mic` | Vector clearance between distinct parts meets 3 / 4 / 4 |
-| 5 | `keyshape` | The token resolves by exact 1x / 1.5x / 2x arithmetic for SUB32 / SOLO48 / CONTAINER64 |
+| 4 | `mic` | Vector clearance between distinct parts meets 2 / 4 / 2 |
+| 5 | `keyshape` | The token resolves to the contract table: 1x for SUB32, the explicit `keyshape_overrides` for SOLO48, 2x for CONTAINER64 |
 | 6 | `composition` | Roles, class template, child profiles and positions |
 | 7 | `svg round-trip` | Exact viewBox, canonical style, no transform, reparses identically |
 | 8 | `reproducibility` | Two renders of one model are byte-identical |

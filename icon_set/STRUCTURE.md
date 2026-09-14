@@ -72,7 +72,7 @@ every manifest conforms; `tests/test_schema.py` checks it.
 |---|---|
 | `contracts.py` | The one read path for the JSON: `icon_profile()`, `keyshapes()`, `exceptions()`, `composition_templates()`, `families()`, `family_for_profile()`, `approved_free_keyshapes()`. Cached. |
 | `profiles.py` | `Profile` enum — `SUB32`, `SOLO48`, `CONTAINER64` — with `.spec` (canvas, MIC, guide, centre, scale), `.family`, and `Profile.for_family("solo")`. Also the style and tolerance constants. Asserts the contract's two tables agree. |
-| `keyshapes.py` | `Keyshape` enum (CIRCLE, SQUARE, HRECT_*, VRECT_*, FREE) with exact 1× / 1.5× / 2× resolution per profile, `bounds_for(profile)`, radial helpers, `FreeKeyshapeSpec`, `approved_free_spec()`. Cross-checked against the contract at import. |
+| `keyshapes.py` | `Keyshape` enum (CIRCLE, SQUARE, HRECT_*, VRECT_*, FREE) resolved per profile (1× SUB32, explicit contract overrides for SOLO48, 2× CONTAINER64), `bounds_for(profile)`, radial helpers, `FreeKeyshapeSpec`, `approved_free_spec()`. Cross-checked against the contract at import. |
 | `primitives.py` | The typed geometry AST: `Point`, `Line`, `Arc`, `Contour`, `Relationship`, `Position`, `ResolvedDrawing`, `translate()`, and dict (de)serialisation. The model's internal geometry and the interchange format are the same objects. |
 | `position.py` | `PlacedIcon` — an icon bound to its integer translation inside a composition. |
 

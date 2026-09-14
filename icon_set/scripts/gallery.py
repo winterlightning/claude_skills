@@ -146,5 +146,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
+    for asset in ("home.html", "login.html", "site.css", "site.js", "icons.html", "approved-icons.js"):
+        shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
     stage_laboratory(target)
     return target

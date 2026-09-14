@@ -12,6 +12,10 @@ from datetime import datetime, timezone
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
+import hashlib
+import secrets
+import time
+from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
 import sqlite3
 from urllib.parse import parse_qs, unquote, urlsplit
@@ -28,11 +32,14 @@ PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
 DEFAULT_DB = PACKAGE_ROOT / 'data' / 'feedback.sqlite3'
 MAX_BODY = 65536
+ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1"}
+SESSION_TTL = 12 * 60 * 60
 
 
 def init_database(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(path)) as connection, connection:
+        connection.execute("CREATE TABLE IF NOT EXISTS admin_sessions (token TEXT PRIMARY KEY, username TEXT NOT NULL, expires REAL NOT NULL)")
         init_brief_queue(connection)
         connection.execute("""CREATE TABLE IF NOT EXISTS icon_flags (
             icon TEXT PRIMARY KEY, flag TEXT NOT NULL CHECK(flag IN ('container_combination','combination','other','exception')),
@@ -83,7 +90,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('X-Content-Type-Options', 'nosniff')
-        self.send_header('Cache-Control', 'no-cache')
+        self.send_header('Cache-Control', 'no-store')
         super().end_headers()
 
     def json_response(self, data, status=200):
@@ -94,6 +101,51 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         if self.command != 'HEAD':
             self.wfile.write(content)
+
+    def current_user(self):
+        cookie = SimpleCookie()
+        try:
+            cookie.load(self.headers.get('Cookie', ''))
+            token = cookie.get('pictographic_session')
+            if not token:
+                return None
+            digest = hashlib.sha256(token.value.encode()).hexdigest()
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                row = connection.execute('SELECT username FROM admin_sessions WHERE token=? AND expires>?',
+                                         (digest, time.time())).fetchone()
+            return row[0] if row else None
+        except (ValueError, CookieError, sqlite3.Error):
+            return None
+
+    def auth_action(self, route, data):
+        cookie = SimpleCookie()
+        try:
+            cookie.load(self.headers.get('Cookie', ''))
+        except CookieError:
+            cookie = SimpleCookie()
+        old = cookie.get('pictographic_session')
+        username = data.get('username')
+        if route.endswith('/login'):
+            password = data.get('password')
+            if (not isinstance(username, str) or not isinstance(password, str) or
+                    username not in ADMIN_USERS or not secrets.compare_digest(password, ADMIN_USERS[username])):
+                return self.json_response({'error': 'Incorrect username or password.'}, 401)
+        with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+            connection.execute('DELETE FROM admin_sessions WHERE expires<=?', (time.time(),))
+            if old:
+                connection.execute('DELETE FROM admin_sessions WHERE token=?',
+                                   (hashlib.sha256(old.value.encode()).hexdigest(),))
+            token = secrets.token_urlsafe(32) if route.endswith('/login') else ''
+            if token:
+                connection.execute('INSERT INTO admin_sessions VALUES (?,?,?)',
+                                   (hashlib.sha256(token.encode()).hexdigest(), username, time.time()+SESSION_TTL))
+        content = json.dumps({'user': username if token else None}).encode()
+        self.send_response(200)
+        self.send_header('Set-Cookie', f'pictographic_session={token}; Path=/; HttpOnly; SameSite=Strict; Max-Age={SESSION_TTL if token else 0}')
+        self.send_header('Content-Type', 'application/json')
+        self.send_header('Content-Length', str(len(content)))
+        self.end_headers()
+        self.wfile.write(content)
 
     def catalog(self):
         data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
@@ -108,7 +160,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path == '/api/auth/session':
+            return self.json_response({'user': self.current_user()})
         if parsed.path.startswith('/api/generation'):
+            if not self.current_user():
+                return self.json_response({'error': 'Log in as an admin to generate icons.'}, 401)
             try:
                 manager = self.server.generation
                 if parsed.path == '/api/generation':
@@ -214,12 +270,18 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         path = unquote(urlsplit(self.path).path)
         if path == '/':
             self.send_response(302)
-            self.send_header('Location', 'gallery/index.html')
+            self.send_header('Location', '/gallery/home.html')
             self.send_header('Content-Length', '0')
             self.end_headers()
             return None
         parts = Path(path.lstrip('/')).parts
         candidate = (self.root / path.lstrip('/')).resolve()
+        if candidate == self.root / 'gallery/generate.html' and not self.current_user():
+            self.send_response(302)
+            self.send_header('Location', '/gallery/login.html')
+            self.send_header('Content-Length', '0')
+            self.end_headers()
+            return None
         # No directory listings, hidden build stages, traversal or symlink escapes.
         if (any(part.startswith('.') for part in parts) or
                 not candidate.is_relative_to(self.root) or not candidate.is_file() or
@@ -230,8 +292,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
             return self.json_response({'error': 'Not found'}, 404)
+        if route.startswith('/api/generation') and not self.current_user():
+            return self.json_response({'error': 'Log in as an admin to generate icons.'}, 401)
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
                        urlsplit(origin).netloc != self.headers.get('Host')):
@@ -248,6 +312,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route in ('/api/auth/login', '/api/auth/logout'):
+                return self.auth_action(route, data)
             if route in ('/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore'):
                 return self.brief_action(route, data)
             if route in ('/api/generation', '/api/generation/accept', '/api/generation/discard'):

@@ -22,7 +22,7 @@ family and read from `icon_set/model/contracts$icon-profile.v1.json`:
 | Ships to | `icon_set/dist/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
-| Existing icons to imitate | `aiming-reticle`, `award-ribbon-container`, `browser-window`, `captive-bead-ring`, `circular-speech-bubble`, `clipboard` and 155 more |
+| Existing icons to imitate | `aiming-reticle`, `award-ribbon-container`, `browser-window`, `captive-bead-ring`, `circular-speech-bubble`, `clipboard` and 159 more |
 
 A **container** stands alone as a noun and is the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
 

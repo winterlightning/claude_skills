@@ -39,8 +39,9 @@ SHARED = "icon_set/skills/icon-design"
 
 def _keyshape_table(profile: Profile) -> str:
     rows = ["| Keyshape | Visible ink | Centerline box (author to this) |", "|---|---|---|"]
+    choices = contracts.icon_profile()["profiles"][profile.name].get("keyshape_choices")
     for shape in Keyshape:
-        if shape is Keyshape.FREE:
+        if shape is Keyshape.FREE or (choices and shape.name not in choices):
             continue
         if shape.is_radial:
             radius = int(shape.visible_radius_for(profile))
@@ -124,29 +125,37 @@ FAMILY_TEXT = {
         "default_kind": "noun",
         "default_category": "objects/<device|media|award|...>",
         "job": (
-            "A **solo** icon is one independently readable subject. The whole 48 canvas "
-            "belongs to it: there is nothing it must fit inside. It "
+            "A **solo** icon is one independently readable subject. It is never hosted "
+            "and hosts nothing, but it does not own the edge of the 48 canvas: its "
+            "keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on "
+            "`SQUARE`, 6 on a short axis). It "
             "is always `semantic_role = \"MAIN\"`, `semantic_kind = \"noun\"`."
         ),
         "specifics": [
-            "Use CIRCLE, SQUARE, HRECT_L or VRECT_L with the visible-ink bounds "
-            "in the table above. Other rectangle size tokens are compatibility "
-            "names for the same orientation bounds on SOLO48. If an upright "
+            "SOLO48 has four keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L` and `VRECT_L`, "
+            "with the visible-ink bounds in the table above. Older modules may still "
+            "name `HRECT_XL`/`_M`/`_S` or `VRECT_XL`/`_M`/`_S`; on SOLO48 those resolve "
+            "to the same bounds as `HRECT_L`/`VRECT_L`, so never choose one for new "
+            "work. If an upright "
             "subject cannot fit, try a recognizable diagonal construction on "
             "the integer grid. If it still cannot fit, retain the validation "
             "findings and request the gallery's exception flag for manual review; "
             "record the reason and attempted fit. The flag is not a validation "
             "waiver or permission to leave the 48x48 canvas.",
-            "Twelve stroke widths across the canvas: one more feature than a sub icon, no "
-            "more. Between a curved outline and an interior part you need the 8-unit "
-            "minimum *plus* a unit of margin, because the engine cannot certify a curved "
-            "pair sitting exactly on the minimum. `film-frame` moved from `SQUARE` to "
-            "`VRECT_XL` for exactly this reason: a 15-deep band cannot hold a 4-unit mark "
-            "with 8 on both sides.",
+            "Budget before drawing: the centerline box is 36x36 on `SQUARE` and 40x32 on "
+            "`HRECT_L`/`VRECT_L`, and every gap between distinct parts costs 8 on "
+            "centerlines. An interior mark between two walls needs a band of 16 between "
+            "the wall centerlines, 17 if either wall is curved, because the engine cannot "
+            "certify a curved pair sitting exactly on the minimum. If the band is short, "
+            "change the keyshape or drop the part; never squeeze.",
+            "Existing solo modules authored before 2026-09-13 were drawn to full-canvas "
+            "envelopes (ink 0-48) and MIC 2, and many no longer validate. Run "
+            "`validate_icon()` on any icon before imitating its coordinates; take "
+            "construction ideas from a failing one, not numbers.",
             "Traced references: render first, then re-author on this grid. Reconstruct "
-            "the subject, never the source's coordinates. Pick arc radii whose apex *is* "
-            "the endpoint so the arc cannot overshoot the keyshape (`smartwatch`: r 15 "
-            "from (10,11) to (22,5)).",
+            "the subject, never the source's coordinates. Put arc centres on integer "
+            "points and pick radii whose apex *is* the endpoint, so the arc reaches the "
+            "keyshape edge exactly and cannot overshoot it.",
             "Split a wall where a part attaches so the two share an endpoint; declare "
             "the contact with `relate(\"connect\", ...)`. An arc merely touching a line is "
             "not proved as a connection and comes back `review`.",

@@ -22,7 +22,7 @@ family and read from `icon_set/model/contracts$icon-profile.v1.json`:
 | Ships to | `icon_set/dist/sub32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `arrow-down`, `arrow-down-left`, `arrow-down-right`, `arrow-left`, `arrow-right`, `arrow-up` and 47 more |
+| Existing icons to imitate | `arrow-down`, `arrow-down-left`, `arrow-down-right`, `arrow-left`, `arrow-right`, `arrow-up` and 48 more |
 
 A **sub** icon is read small and hosted by others. Its whole canvas is the container's content region, so anything valid here can be placed in one. Verbs, states and modifiers declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `circle`, `star`) declares `MAIN` with `semantic_kind = "noun"` and is still a sub icon -- the role describes the subject, the family decides the canvas.
 

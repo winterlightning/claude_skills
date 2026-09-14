@@ -218,9 +218,10 @@ are measured rather than assumed.
   would reject every genuinely radial subject, because a regular pentagon or
   five-point star has no exact integer vertices at any useful radius.
 
-A consequence worth knowing: **there is no full-canvas square keyshape.**
-`CIRCLE` is the only full-canvas token and it is radial-only, so full-bleed
-rectilinear art uses `SQUARE` (28 of 32, 42 of 48, 56 of 64).
+A consequence worth knowing: **full-bleed depends on the profile.** On SUB32
+and CONTAINER64, `SQUARE` and `CIRCLE` both reach the canvas edge (32 and 64).
+SOLO48 does not scale that base: its envelopes are explicit and inset, `SQUARE`
+40×40, `CIRCLE` 44, landscape 44×36 and portrait 36×44.
 
 ## Validation
 
@@ -365,10 +366,12 @@ scaled copy of source geometry, and the model rejects scale transforms.
   — but only if *both* paths are straight. `film-frame`'s perforations sat
   exactly 8 from the frame's straight rails and still came back `review`,
   because the rails share a contour with curved corners. They sit at 9 now.
-- **A 48 canvas holds one feature fewer than you think.** `film-frame` on
-  `SQUARE-48` has 15-unit bands between its curved edge and each divider; a
-  4-unit mark with the 8-unit minimum on both sides needs 16. `VRECT_XL-48`
-  gives 18 and the design survives with all its parts.
+- **A 48 canvas holds one feature fewer than you think.** A 4-unit mark with
+  the 8-unit minimum on both sides needs a 16-unit band between wall
+  centerlines (17 against a curve). SOLO48 centerline boxes are 36×36
+  (`SQUARE`) and 40×32 (`HRECT_L`/`VRECT_L`), and the rectangle size tokens
+  all resolve to that one envelope per orientation, so a short band means
+  dropping a part rather than switching `SQUARE` for a taller rectangle.
 - **Regular polygons have no integer vertices.** Pentagon and the five-point
   star place vertices on the nearest grid point to the true radius, which the
   circle touch rule accepts. The octagon is authored as a chamfered square
@@ -490,6 +493,21 @@ python3 icon_set/scripts/deploy.py --host 0.0.0.0 --port 8000
 ```
 
 Open `http://localhost:8000/` locally or `http://SERVER_IP:8000/` remotely.
+The root opens the landing page. Shared navigation links to **Home**, **Design
+rules**, **Icon**, and **Icon Grid**. **Icon** shows only currently approved
+icons with SVG downloads and no review actions. **Icon Grid** retains the review
+workspace, including a **Generate** subtab. Generate requires login and returns
+to the matching grid view after an output is accepted. Generation and admin login
+are omitted from the main navigation.
+The grid and interactive design
+rules are public; the generation page, job list, previews, logs, and generation
+actions require an admin session. Log in as `jakes`, `hina`, or `ray`, each with
+password `1`. These requested accounts are defined server-side in `deploy.py`.
+Sessions last 12 hours, use an HttpOnly cookie, and are revoked on logout. Session
+records are stored in the feedback database; only token hashes are persisted.
+Restart the server after updating `deploy.py`. Shared UI templates live in
+`icon_set/scripts/templates/` and are copied into the gallery on every build.
+
 `deploy.py` serves the build; it does not upload files or run a build for you.
 It needs only Python 3.10+ and the standard library; build requirements remain
 in `requirements-qa.txt`. Paths default relative to the script, so it works
