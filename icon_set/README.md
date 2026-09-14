@@ -16,7 +16,8 @@ hole/pinch QA requires CairoSVG, NumPy, OpenCV, and Pillow; install them with
 
 ```bash
 python3 -m unittest discover -s icon_set/tests -t .     # test suite
-python3 icon_set/scripts/build.py                        # validate + export every family to dist/
+python3 icon_set/scripts/build.py                        # validate + export new/changed icons to dist/
+python3 icon_set/scripts/build.py --all                  # re-check every icon (after validator/rule changes)
 python3 icon_set/scripts/build.py --family solo          # one family only
 python3 icon_set/scripts/generate_skills.py              # regenerate /icon-sub, /icon-solo, /icon-container
 python3 icon_set/scripts/profile_lab.py show             # the profile numbers in force
@@ -467,8 +468,9 @@ and an advisory can coexist; JSON and manifests keep these separate.
 
 Every successful build also creates `dist/gallery/index.html` and `icons.json`.
 The gallery shows all currently exported families, including unchanged families
-when building with `--family`. It is generated even with `--no-report`. A failed
-build preserves the previous gallery and exported icons.
+when building with `--family`. It is generated even with `--no-report`. Icons
+that fail validation are skipped and listed; every passing icon still appears in
+the gallery. A family where no icon exports keeps its previous release.
 
 Search by name or keyword, filter by family/category, and click an icon to see
 its enlarged preview, canvas, stroke, keyshape, SVG source, full metadata, and

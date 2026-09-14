@@ -100,34 +100,71 @@ class BuildIntegrityTests(unittest.TestCase):
             for family in ('sub32', 'solo48'):
                 folder = root / family
                 folder.mkdir(parents=True)
-                for name in ('square.svg', 'stale.svg', 'square.png', 'manifest.json'):
+                for name in ('square.svg', 'stale.svg', 'square.png'):
                     (folder / name).write_bytes(b'previous release')
+                (folder / 'manifest.json').write_text('{"icons": []}\n')
         self.before = self.snapshot()
 
     def snapshot(self):
         return {str(p.relative_to(self.root)): p.read_bytes()
                 for p in self.root.rglob('*') if p.is_file()}
 
-    def test_invalid_icon_preserves_previous_family(self):
+    def family_snapshot(self):
+        # The gallery is regenerated from whatever did publish, so compare families only.
+        return {key: value for key, value in self.snapshot().items() if '/gallery/' not in key}
+
+    def test_invalid_icon_is_skipped_and_valid_icons_publish(self):
         good, bad = create('square'), create('plus')
         bad.STROKE_WIDTH = 99
         with patch.object(builder, 'icons_in', return_value=[good, bad]):
-            self.assertEqual(builder.build_family('sub', self.dist, self.png, write_png=False, report=False), (0, 1))
-        self.assertEqual(self.snapshot(), self.before)
+            self.assertEqual(builder.build_family('sub', self.dist, self.png, write_png=False, report=False), (1, 1))
+        manifest = json.loads((self.dist / 'sub32/manifest.json').read_text())
+        self.assertEqual([record['icon_id'] for record in manifest['icons']], ['square'])
+        self.assertFalse((self.dist / 'sub32/plus.svg').exists())
+        self.assertFalse((self.dist / 'sub32/stale.svg').exists())
+        gallery = json.loads((self.dist / 'gallery/icons.json').read_text())
+        self.assertIn('sub/square', [record['key'] for record in gallery['icons']])
 
-    def test_failure_in_later_family_preserves_all_outputs(self):
+    def test_incremental_build_reuses_unchanged_icons_and_all_rechecks(self):
+        import os
+        def run(**options):
+            checked = []
+            def inspect(icon, **kwargs):
+                checked.append(icon.icon_id)
+                return real_inspect(icon, **kwargs)
+            with patch.object(builder, 'icons_in', return_value=[create('square')]), \
+                    patch('icon_set.model.icons.registry.all_icons', return_value=[]), \
+                    patch.object(builder, 'inspect_icon', side_effect=inspect):
+                self.assertEqual(builder.build_family('sub', self.dist, self.png, write_png=False,
+                                                      report=True, **options), (1, 0))
+            return checked
+        real_inspect = builder.inspect_icon
+        self.assertEqual(run(), ['square'])
+        after = self.family_snapshot()
+        self.assertEqual(run(), [])
+        self.assertEqual(self.family_snapshot(), after)
+        self.assertEqual(run(rebuild_all=True), ['square'])
+        # A source edited after its last output is checked again.
+        source = builder._source_mtime(create('square'))
+        os.utime(self.dist / 'sub32/square.svg', (source - 10, source - 10))
+        self.assertEqual(run(), ['square'])
+
+    def test_failing_family_keeps_previous_release_while_others_publish(self):
         bad = create('smartwatch')
         bad.STROKE_WIDTH = 99
         with patch.object(builder, 'icons_in', side_effect=lambda f: [create('square')] if f == 'sub' else [bad]):
             self.assertEqual(builder.build(self.dist, self.png, write_png=False, only=['sub', 'solo'], report=False), 1)
-        self.assertEqual(self.snapshot(), self.before)
+        self.assertTrue((self.dist / 'sub32/square.svg').read_bytes().startswith(b'<'))
+        self.assertFalse((self.dist / 'sub32/stale.svg').exists())
+        self.assertEqual((self.dist / 'solo48/stale.svg').read_bytes(), b'previous release')
+        self.assertEqual((self.dist / 'solo48/manifest.json').read_text(), '{"icons": []}\n')
 
     def test_png_failure_preserves_svgs_manifests_and_previews(self):
         with patch.object(builder, 'icons_in', return_value=[create('square')]), \
                 patch.object(builder, 'render_png', side_effect=RuntimeError('renderer unavailable')):
             self.assertEqual(builder.build_family('sub', self.dist, self.png,
                                                    write_png=True, report=False), (0, 1))
-        self.assertEqual(self.snapshot(), self.before)
+        self.assertEqual(self.family_snapshot(), self.before)
 
     def test_publish_failure_rolls_back_prior_swaps(self):
         original = builder.os.replace
@@ -163,4 +200,4 @@ class BuildIntegrityTests(unittest.TestCase):
         icon.icon_id = '../escaped'
         with patch.object(builder, 'icons_in', return_value=[icon]):
             self.assertEqual(builder.build_family('sub', self.dist, self.png, write_png=False, report=False), (0, 1))
-        self.assertEqual(self.snapshot(), self.before)
+        self.assertEqual(self.family_snapshot(), self.before)

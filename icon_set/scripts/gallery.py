@@ -23,13 +23,22 @@ def original_sources() -> dict[str, list[Path]]:
     for icon_id, factory in factories().items():
         module = sys.modules[factory.__module__]
         refs = [(getattr(module, 'SOURCE_ICON_ID', None), getattr(module, 'SOURCE_PATH', None))]
-        refs += list(getattr(module, 'SOURCE_REFERENCES', ()))
+        for entry in getattr(module, 'SOURCE_REFERENCES', None) or ():
+            # Entries are (uid, path) pairs or dicts keyed source_icon_id/source_path in any case.
+            if isinstance(entry, dict):
+                entry = {str(key).lower(): value for key, value in entry.items()}
+                refs.append((entry.get('source_icon_id'), entry.get('source_path')))
+            elif isinstance(entry, (tuple, list)) and len(entry) == 2:
+                refs.append(tuple(entry))
         paths = []
         ids = set()
         for uid, source in refs:
-            if uid:
-                ids.add(uid.lower())
-            if source:
+            for value in (uid if isinstance(uid, (tuple, list)) else (uid,)):
+                if value:
+                    ids.add(value.lower())
+            for source in (source if isinstance(source, (tuple, list)) else (source,)):
+                if not source:
+                    continue
                 path = (REPO_ROOT / source).resolve()
                 for candidate in (path, path.with_suffix('.svg'), path.with_suffix('.png')):
                     if candidate.is_relative_to(primitives) and candidate.suffix.lower() in ('.svg', '.png') and candidate.is_file():
