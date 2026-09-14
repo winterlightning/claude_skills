@@ -1,3 +1,8 @@
+"""Corrected keyshape selection to match the existing square proportions.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+Lucide cat: integrated pointed ears and tapered cheek outline.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

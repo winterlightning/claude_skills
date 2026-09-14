@@ -1,3 +1,8 @@
+"""Re-authored the three-bead chain diagonally to preserve circular beads and avoid an oversized middle bead.
+
+SQUARE: visible ink (4, 4, 44, 44). Diagonal square construction preserves a narrow subject without stretching it sideways.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

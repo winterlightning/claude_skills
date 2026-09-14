@@ -1,3 +1,8 @@
+"""Square envelope; canonical elliptical crown and chin reach exact integer extremes.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '62ffc005-105c-5ac9-aefb-e949fc1fa313'

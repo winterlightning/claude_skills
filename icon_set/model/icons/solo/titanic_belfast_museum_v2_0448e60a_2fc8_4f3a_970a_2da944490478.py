@@ -1,3 +1,8 @@
+"""Square envelope; opened the plinth band to eight units, moving all attached walls with it.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0448e60a-2fc8-4f3a-970a-2da944490478'

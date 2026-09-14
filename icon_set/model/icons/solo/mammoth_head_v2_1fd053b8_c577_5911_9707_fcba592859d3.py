@@ -1,3 +1,8 @@
+"""Square envelope; widened the forehead for the eye and broadened the curved trunk; tusk retained.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -17,18 +22,18 @@ class MammothHeadVariant2(Solo48):
     keywords = ('mammoth', 'head', 'animal')
 
     def build(self) -> None:
-        self.add_arc('crown', (25, 19), (34, 6), radius_x=9, radius_y=13, sweep=True)
-        self.add_arc('head-back', (34, 6), (42, 17), radius_x=8, radius_y=11, sweep=True)
+        self.add_arc('crown', (23, 19), (33, 6), radius_x=10, radius_y=13, sweep=True)
+        self.add_arc('head-back', (33, 6), (42, 17), radius_x=9, radius_y=11, sweep=True)
         self.add_line('neck', (42, 17), (42, 42))
         self.add_contour('head', 'crown', 'head-back', 'neck', closed=False)
         self.add_arc('tusk-low', (6, 24), (29, 27), radius_x=20, radius_y=13, sweep=False)
-        self.add_line('tusk-root', (29, 27), (25, 19))
-        self.add_arc('tusk-top', (25, 19), (6, 24), radius_x=19, radius_y=11, sweep=True)
+        self.add_line('tusk-root', (29, 27), (23, 19))
+        self.add_arc('tusk-top', (23, 19), (6, 24), radius_x=19, radius_y=11, sweep=True)
         self.add_contour('tusk', 'tusk-low', 'tusk-root', 'tusk-top', closed=True)
         self.relate('connect', 'tusk', 'head')
         self.add_arc('trunk-outer', (29, 27), (18, 42), radius_x=18, radius_y=18, sweep=True)
-        self.add_line('trunk-tip', (18, 42), (11, 38))
-        self.add_arc('trunk-inner', (11, 38), (20, 30), radius_x=12, radius_y=12, sweep=False)
+        self.add_line('trunk-tip', (18, 42), (8, 37))
+        self.add_arc('trunk-inner', (8, 37), (17, 29), radius_x=12, radius_y=12, sweep=False)
         self.add_contour('trunk', 'trunk-outer', 'trunk-tip', 'trunk-inner', closed=False)
         self.relate('connect', 'trunk', 'tusk')
-        self.add_dot('eye', (34, 19))
+        self.add_dot('eye', (33, 18))

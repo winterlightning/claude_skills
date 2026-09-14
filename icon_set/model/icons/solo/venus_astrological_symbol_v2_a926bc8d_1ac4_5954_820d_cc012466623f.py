@@ -1,3 +1,8 @@
+"""Broadened the ring to a gentle oval and inset the stem, preserving the centered cross.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide venus: centered ring and cross.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a926bc8d-1ac4-5954-820d-cc012466623f'

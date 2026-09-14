@@ -1,3 +1,8 @@
+"""Square envelope; narrowed and centered the main gable to leave eight units beside the turret divider.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd4c1285a-03ff-4854-95de-453b55fedb44'

@@ -1,3 +1,8 @@
+"""Widened the crescent horns with shared radii and inset the top and cross ends.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide venus: cardinal circle-to-stem attachment.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6f7cdbf8-30d8-5d08-bdb8-561dcf643682'

@@ -1,3 +1,8 @@
+"""Square envelope; opened both jaw bands and replaced the crowded eye ring with a solid eye mark; nostril retained.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -30,7 +35,5 @@ class DinosaurSkullVariant6(Solo48):
         self.add_line('jaw-4', (29, 34), (36, 26))
         self.add_line('jaw-5', (36, 26), (6, 26))
         self.add_contour('skull', 'snout-1', 'snout-2', 'snout-3', 'snout-4', 'braincase', 'back', 'jaw-back', 'jaw-1', 'jaw-2', 'jaw-3', 'jaw-4', 'jaw-5', closed=True)
-        self.add_arc('eye-top', (29, 16), (33, 16), radius_x=2, sweep=True)
-        self.add_arc('eye-bottom', (33, 16), (29, 16), radius_x=2, sweep=True)
-        self.add_contour('eye', 'eye-top', 'eye-bottom', closed=True)
+        self.add_dot('eye',(31,16))
         self.add_dot('nostril', (15, 17))

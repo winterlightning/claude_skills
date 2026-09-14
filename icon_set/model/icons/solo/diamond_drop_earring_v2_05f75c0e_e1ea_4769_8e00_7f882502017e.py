@@ -1,3 +1,8 @@
+"""Broadened the diamond at its facet and inset the stud and drop ends; retained the facet.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide gem: broad diamond and a single horizontal facet.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '05f75c0e-e1ea-4769-8e00-7f882502017e'

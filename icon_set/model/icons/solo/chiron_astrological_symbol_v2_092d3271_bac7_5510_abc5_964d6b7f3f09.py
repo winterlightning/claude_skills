@@ -1,3 +1,8 @@
+"""Widened the key bow and inset the stem and bow ends on VRECT_L.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '092d3271-bac7-5510-abc5-964d6b7f3f09'

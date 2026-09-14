@@ -1,3 +1,8 @@
+"""Square envelope; moved the sun up one unit and retained the snowline and mountain.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+Lucide mountain-snow: snowline attaches to the mountain silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '99f40798-d32b-4978-8d5c-7e9dc3adf2dd'

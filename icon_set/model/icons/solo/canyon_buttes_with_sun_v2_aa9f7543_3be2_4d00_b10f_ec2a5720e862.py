@@ -1,3 +1,8 @@
+"""Square envelope; moved the sun down one unit without changing its radius or the buttes.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'aa9f7543-3be2-4d00-b10f-ec2a5720e862'

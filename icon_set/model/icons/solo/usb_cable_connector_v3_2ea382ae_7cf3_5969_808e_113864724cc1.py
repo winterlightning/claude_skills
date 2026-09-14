@@ -1,3 +1,8 @@
+"""Broadened the grip and opened the USB tip for a centered mark with margin above and below.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide cable: stepped connector and tangent cable bend.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

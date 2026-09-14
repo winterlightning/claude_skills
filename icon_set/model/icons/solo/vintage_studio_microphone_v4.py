@@ -1,3 +1,8 @@
+"""Widened the foot and capsule; replaced three crowded grille rows with two equally spaced rows.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide mic: tangent capsule corners and shared stand attachment.
+"""
 # Independent revision; parent models preserved.
 from __future__ import annotations
 from ...keyshapes import Keyshape

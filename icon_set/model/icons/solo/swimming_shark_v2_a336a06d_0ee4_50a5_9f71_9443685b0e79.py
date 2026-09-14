@@ -1,3 +1,8 @@
+"""Square envelope; moved and shortened the gill within the broadest body region.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -29,5 +34,5 @@ class SwimmingSharkVariant2(Solo48):
         self.add_line('body-10', (26, 42), (19, 35))
         self.add_arc('body-11', (19, 35), (6, 25), radius_x=30, radius_y=24, sweep=True)
         self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', 'body-9', 'body-10', 'body-11', closed=True)
-        self.add_arc('gill-1', (22, 23), (22, 27), radius_x=9, radius_y=9, sweep=True)
+        self.add_arc('gill-1', (21, 24), (21, 26), radius_x=9, radius_y=9, sweep=True)
         self.add_contour('gill', 'gill-1', closed=False)

@@ -1,3 +1,8 @@
+"""Enlarged the oval jewel and inset the open hook; retained the hook, post and jewel.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

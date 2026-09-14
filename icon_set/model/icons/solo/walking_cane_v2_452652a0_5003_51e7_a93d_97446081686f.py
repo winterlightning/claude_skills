@@ -1,3 +1,8 @@
+"""Re-authored diagonally with a compact circular handle and smooth tangent transition to the straight shaft.
+
+SQUARE: visible ink (4, 4, 44, 44). Diagonal square construction preserves a narrow subject without stretching it sideways.
+Lucide candy-cane: a coherent curved hook transitioning into the shaft.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

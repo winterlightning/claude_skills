@@ -1,3 +1,8 @@
+"""Broadened the plug and body, retaining two contacts with eight-unit spacing and rounded lower corners.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide cable: stepped plug and simple grip outline.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

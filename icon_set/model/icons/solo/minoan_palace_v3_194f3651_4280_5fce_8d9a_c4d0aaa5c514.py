@@ -1,3 +1,8 @@
+"""Square envelope; ended the repeated columns exactly at the common base.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+Lucide landmark: repeated columns sharing one base.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '194f3651-4280-5fce-8d9a-c4d0aaa5c514'

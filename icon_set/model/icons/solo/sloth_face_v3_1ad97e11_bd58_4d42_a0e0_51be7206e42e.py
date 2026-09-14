@@ -1,3 +1,8 @@
+"""Square envelope; repositioned both eyes equally between the mask curves and cheek outline.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1ad97e11-bd58-4d42-a0e0-51be7206e42e'

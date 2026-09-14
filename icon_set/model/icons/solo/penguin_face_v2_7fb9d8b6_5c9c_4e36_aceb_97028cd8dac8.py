@@ -1,3 +1,8 @@
+"""Square envelope; corrected the dome to exact quarter ellipses and moved the eyes inward symmetrically.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7fb9d8b6-5c9c-4e36-aceb-97028cd8dac8'

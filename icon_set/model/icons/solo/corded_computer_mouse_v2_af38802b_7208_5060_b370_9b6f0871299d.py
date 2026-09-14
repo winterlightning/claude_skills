@@ -1,3 +1,8 @@
+"""Broadened the capsule with matched elliptical caps, inset the ends and retained the cable and two buttons.
+
+VRECT_L: visible ink (6, 2, 42, 46). Upright envelope accommodates the object’s vertical construction.
+Lucide mouse: tangent capsule ends and shared button attachments.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

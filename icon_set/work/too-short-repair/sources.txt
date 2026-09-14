@@ -1,0 +1,2175 @@
+air-traffic-control-tower
+def build(self) -> None:
+    self.add_polyline('cab', (8, 12), (24, 12), (40, 12), (38, 20), (36, 28), (32, 28), (16, 28), (12, 28), (10, 20), closed=True)
+    self.add_line('window-band', (10, 20), (38, 20))
+    self.add_line('antenna', (24, 6), (24, 12))
+    self.relate('connect', 'cab', 'window-band')
+    self.relate('connect', 'cab', 'antenna')
+    for i, x in enumerate((16, 32)):
+        self.add_line(f'support-{i}', (x, 28), (x, 44))
+        self.relate('connect', 'cab', f'support-{i}')
+
+angry-bird
+def build(self):
+
+    def circle(name, x, y, r):
+        self.add_arc(name + '-a', (x, y - r), (x, y + r), radius_x=r)
+        self.add_arc(name + '-b', (x, y + r), (x, y - r), radius_x=r)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def arc(name, a, b, r, ry=None, sweep=True):
+        self.add_arc(name, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
+
+    def poly(name, *pts):
+        for i, (a, b) in enumerate(zip(pts, pts[1:]), 1):
+            self.add_line(f'{name}-{i}', a, b)
+    arc('body-left', (24, 12), (8, 28), 16, sweep=False)
+    arc('body-bottom', (8, 28), (40, 28), 16, sweep=False)
+    arc('body-right', (40, 28), (24, 12), 16, sweep=False)
+    self.add_contour('body', 'body-left', 'body-bottom', 'body-right', closed=True)
+    self.add_polyline('tuft', (24, 12), (20, 6), (29, 6))
+    self.relate('connect', 'tuft', 'body')
+    self.add_polyline('brows', (19, 23), (24, 25), (29, 23))
+    self.add_polyline('beak', (21, 33), (24, 35), (27, 33))
+
+ant-head
+def build(self) -> None:
+    self.add_arc('brow-left', (14, 27), (20, 18), radius_x=6, radius_y=9, sweep=True)
+    self.add_line('brow-top', (20, 18), (28, 18))
+    self.add_arc('brow-right', (28, 18), (34, 27), radius_x=6, radius_y=9, sweep=True)
+    self.add_line('cheek-right', (34, 27), (34, 34))
+    self.add_arc('jaw-right', (34, 34), (29, 39), radius_x=5, radius_y=5, sweep=True)
+    self.add_arc('jaw-left', (19, 39), (14, 34), radius_x=5, radius_y=5, sweep=True)
+    self.add_line('cheek-left', (14, 34), (14, 27))
+    self.add_line('mouth-bottom-1', (29, 39), (29, 42))
+    self.add_line('mouth-bottom-2', (29, 42), (19, 42))
+    self.add_line('mouth-bottom-3', (19, 42), (19, 39))
+    self.add_contour('face', 'brow-left', 'brow-top', 'brow-right', 'cheek-right', 'jaw-right', 'mouth-bottom-1', 'mouth-bottom-2', 'mouth-bottom-3', 'jaw-left', 'cheek-left', closed=True)
+    self.add_polyline('antenna-left', (20, 18), (20, 8), (14, 6), closed=False)
+    self.relate('connect', 'face', 'antenna-left')
+    self.add_arc('eye-left-0', (11, 24), (14, 27), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-left-1', (14, 27), (11, 30), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-left-2', (11, 30), (8, 27), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-left-3', (8, 27), (11, 24), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('eye-left', 'eye-left-0', 'eye-left-1', 'eye-left-2', 'eye-left-3', closed=True)
+    self.relate('connect', 'face', 'eye-left')
+    self.add_polyline('antenna-right', (28, 18), (28, 8), (34, 6), closed=False)
+    self.relate('connect', 'face', 'antenna-right')
+    self.add_arc('eye-right-0', (37, 24), (40, 27), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-right-1', (40, 27), (37, 30), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-right-2', (37, 30), (34, 27), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('eye-right-3', (34, 27), (37, 24), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('eye-right', 'eye-right-0', 'eye-right-1', 'eye-right-2', 'eye-right-3', closed=True)
+    self.relate('connect', 'face', 'eye-right')
+    self.add_polyline('mouth', (19, 39), (19, 34), (29, 34), (29, 39), closed=False)
+    self.relate('connect', 'mouth', 'face')
+
+arrow-winding-up
+def build(self) -> None:
+    self.add_line('rise-left', (8, 42), (8, 34))
+    self.add_arc('turn-left', (8, 34), (18, 24), radius_x=10)
+    self.add_line('middle', (18, 24), (20, 24))
+    self.add_arc('turn-right', (20, 24), (30, 14), radius_x=10, sweep=False)
+    self.add_line('rise-right', (30, 14), (30, 6))
+    self.add_contour('route', 'rise-left', 'turn-left', 'middle', 'turn-right', 'rise-right')
+    self.add_polyline('head', (20, 14), (30, 6), (40, 14))
+    self.relate('connect', 'route', 'head')
+
+arrows-diagonal-resize
+def build(self) -> None:
+    self.add_line('ne-shaft', (8, 28), (32, 6))
+    self.add_polyline('ne-head', (20, 6), (32, 6), (32, 16))
+    self.relate('connect', 'ne-shaft', 'ne-head')
+    self.add_line('sw-shaft', (40, 20), (16, 42))
+    self.add_polyline('sw-head', (16, 32), (16, 42), (28, 42))
+    self.relate('connect', 'sw-shaft', 'sw-head')
+
+award-flower-rosette
+def build(self) -> None:
+    self.add_arc('top', (18, 10), (30, 10), radius_x=6, radius_y=6, sweep=True)
+    self.add_arc('ne-outer', (30, 10), (40, 16), radius_x=10, radius_y=6, sweep=True)
+    self.add_arc('ne-inner', (40, 16), (36, 20), radius_x=4, radius_y=4, sweep=True)
+    self.add_arc('se-inner', (36, 20), (40, 24), radius_x=4, radius_y=4, sweep=True)
+    self.add_arc('se-outer', (40, 24), (30, 30), radius_x=10, radius_y=6, sweep=True)
+    self.add_arc('bottom', (30, 30), (18, 30), radius_x=6, radius_y=4, sweep=True)
+    self.add_arc('sw-outer', (18, 30), (8, 24), radius_x=10, radius_y=6, sweep=True)
+    self.add_arc('sw-inner', (8, 24), (12, 20), radius_x=4, radius_y=4, sweep=True)
+    self.add_arc('nw-inner', (12, 20), (8, 16), radius_x=4, radius_y=4, sweep=True)
+    self.add_arc('nw-outer', (8, 16), (18, 10), radius_x=10, radius_y=6, sweep=True)
+    self.add_contour('rosette', 'top', 'ne-outer', 'ne-inner', 'se-inner', 'se-outer', 'bottom', 'sw-outer', 'sw-inner', 'nw-inner', 'nw-outer', closed=True)
+    self.add_arc('center-ring-right', (24, 17), (24, 23), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('center-ring-left', (24, 23), (24, 17), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('center-ring', 'center-ring-right', 'center-ring-left', closed=True)
+    self.add_polyline('ribbon', (18, 30), (12, 42), (24, 38), (36, 42), (30, 30))
+    self.relate('connect', 'rosette', 'ribbon')
+
+b-letter-underlined
+def build(self) -> None:
+    self.add_line('b-top', (8, 6), (26, 6))
+    self.add_arc('b-upper', (26, 6), (26, 18), radius_x=12, radius_y=7, sweep=True)
+    self.add_arc('b-lower', (26, 18), (26, 32), radius_x=14, radius_y=7, sweep=True)
+    self.add_line('b-back-1', (26, 32), (8, 32))
+    self.add_line('b-back-2', (8, 32), (8, 18))
+    self.add_line('b-back-3', (8, 18), (8, 6))
+    self.add_contour('b', 'b-top', 'b-upper', 'b-lower', 'b-back-1', 'b-back-2', 'b-back-3', closed=True)
+    self.add_line('b-bar', (8, 18), (26, 18))
+    self.relate('connect', 'b', 'b-bar')
+    self.add_line('underline', (8, 42), (40, 42))
+
+bell
+def build(self) -> None:
+    self.add_arc('dome-right', (24, 8), (36, 20), radius_x=12, radius_y=12, sweep=True)
+    self.add_arc('flare-right', (36, 20), (40, 32), radius_x=20, radius_y=20, sweep=False)
+    self.add_arc('lip-right', (40, 32), (38, 34), radius_x=2, radius_y=2, sweep=True)
+    self.add_line('lip-1', (38, 34), (30, 34))
+    self.add_line('lip-2', (30, 34), (18, 34))
+    self.add_line('lip-3', (18, 34), (10, 34))
+    self.add_arc('lip-left', (10, 34), (8, 32), radius_x=2, radius_y=2, sweep=True)
+    self.add_arc('flare-left', (8, 32), (12, 20), radius_x=20, radius_y=20, sweep=False)
+    self.add_arc('dome-left', (12, 20), (24, 8), radius_x=12, radius_y=12, sweep=True)
+    self.add_contour('bell-body', 'dome-right', 'flare-right', 'lip-right', 'lip-1', 'lip-2', 'lip-3', 'lip-left', 'flare-left', 'dome-left', closed=True)
+    self.add_line('top-stem', (24, 6), (24, 8))
+    self.relate('connect', 'bell-body', 'top-stem')
+    self.add_arc('clapper', (30, 34), (18, 34), radius_x=6, radius_y=10, sweep=True)
+    self.relate('connect', 'bell-body', 'clapper')
+
+bell-flat-clapper
+def build(self) -> None:
+    self.add_arc('dome', (12, 16), (36, 16), radius_x=12)
+    self.add_line('right-side', (36, 16), (36, 22))
+    self.add_arc('right-flare', (36, 22), (40, 34), radius_x=20, sweep=False)
+    self.add_line('lip', (40, 34), (8, 34))
+    self.add_arc('left-flare', (8, 34), (12, 22), radius_x=20, sweep=False)
+    self.add_line('left-side', (12, 22), (12, 16))
+    self.add_contour('bell', 'dome', 'right-side', 'right-flare', 'lip', 'left-flare', 'left-side', closed=True)
+    self.add_line('clapper', (20, 42), (28, 42))
+
+bell-knob-curved-clapper
+def build(self) -> None:
+    self.add_dot('knob', (24, 6))
+    self.add_arc('dome', (12, 24), (36, 24), radius_x=12, radius_y=10)
+    self.add_line('right-side', (36, 24), (36, 26))
+    self.add_arc('right-flare', (36, 26), (40, 32), radius_x=7, sweep=False)
+    self.add_line('lip', (40, 32), (8, 32))
+    self.add_arc('left-flare', (8, 32), (12, 26), radius_x=7, sweep=False)
+    self.add_line('left-side', (12, 26), (12, 24))
+    self.add_contour('bell', 'dome', 'right-side', 'right-flare', 'lip', 'left-flare', 'left-side', closed=True)
+    self.add_arc('clapper', (20, 42), (28, 42), radius_x=4, radius_y=2, sweep=False)
+
+bell-shaped-stupa
+def build(self) -> None:
+    self.add_line('finial-1', (17, 18), (24, 6))
+    self.add_line('finial-2', (24, 6), (31, 18))
+    self.add_arc('bell-right', (31, 18), (37, 34), radius_x=6, radius_y=16)
+    self.add_line('base', (37, 34), (11, 34))
+    self.add_arc('bell-left', (11, 34), (17, 18), radius_x=6, radius_y=16)
+    self.add_contour('body', 'finial-1', 'finial-2', 'bell-right', 'base', 'bell-left', closed=True)
+    self.add_line('plinth', (8, 42), (40, 42))
+
+bullet-train-front
+def build(self) -> None:
+    self.add_arc('roof', (11, 14), (37, 14), radius_x=13, radius_y=10)
+    self.add_line('right-flank', (37, 14), (37, 30))
+    self.add_arc('lower-right', (37, 30), (29, 38), radius_x=8)
+    self.add_line('base', (29, 38), (19, 38))
+    self.add_arc('lower-left', (19, 38), (11, 30), radius_x=8)
+    self.add_line('left-flank', (11, 30), (11, 14))
+    self.add_contour('body', 'roof', 'right-flank', 'lower-right', 'base', 'lower-left', 'left-flank', closed=True)
+    self.add_line('windscreen-base', (11, 14), (37, 14))
+    self.relate('connect', 'windscreen-base', 'body')
+    self.add_arc('headlight-right', (24, 23), (24, 29), radius_x=3)
+    self.add_arc('headlight-left', (24, 29), (24, 23), radius_x=3)
+    self.add_contour('headlight', 'headlight-right', 'headlight-left', closed=True)
+    self.add_line('left-rail', (19, 38), (8, 42))
+    self.add_line('right-rail', (29, 38), (40, 42))
+    self.relate('connect', 'left-rail', 'body')
+    self.relate('connect', 'right-rail', 'body')
+
+burj-al-arab
+def build(self) -> None:
+    self.add_polyline('mast', (14, 6), (14, 10), (14, 18), (14, 42))
+    self.add_arc('sail', (14, 10), (36, 42), radius_x=52, sweep=True)
+    self.add_polyline('ground', (8, 42), (14, 42), (36, 42), (40, 42))
+    self.add_line('arm', (8, 18), (14, 18))
+    self.relate('connect', 'mast', 'sail')
+    self.relate('connect', 'mast', 'ground')
+    self.relate('connect', 'sail', 'ground')
+    self.relate('connect', 'mast', 'arm')
+
+burning-crashed-aircraft
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('plane', (8, 26), (20, 30), (17, 18), (27, 23), (28, 34), (40, 40), (36, 42), (25, 39), (18, 42), (12, 42), (18, 36), (8, 31), closed=True)
+    P('fire', (28, 25), (26, 17), (31, 9), (30, 6), (40, 14), (40, 23), (34, 37))
+    J('fire', 'plane')
+    L('smoke', (12, 6), (10, 14))
+
+car-skidding
+def build(self) -> None:
+    self.add_line('body-top-1', (11, 14), (14, 14))
+    self.add_line('body-top-2', (14, 14), (34, 14))
+    self.add_line('body-top-3', (34, 14), (37, 14))
+    self.add_arc('body-ne', (37, 14), (40, 17), radius_x=3, radius_y=3, sweep=True)
+    self.add_line('body-right', (40, 17), (40, 20))
+    self.add_arc('body-se', (40, 20), (37, 23), radius_x=3, radius_y=3, sweep=True)
+    self.add_line('body-bottom-1', (37, 23), (11, 23))
+    self.add_arc('body-sw', (11, 23), (8, 20), radius_x=3, radius_y=3, sweep=True)
+    self.add_line('body-left', (8, 20), (8, 17))
+    self.add_arc('body-nw', (8, 17), (11, 14), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('body', 'body-top-1', 'body-top-2', 'body-top-3', 'body-ne', 'body-right', 'body-se', 'body-bottom-1', 'body-sw', 'body-left', 'body-nw', closed=True)
+    self.add_polyline('cabin', (14, 14), (18, 6), (30, 6), (34, 14))
+    self.relate('connect', 'body', 'cabin')
+    self.add_arc('left-track-a', (16, 32), (16, 38), radius_x=4, radius_y=3, sweep=False)
+    self.add_arc('left-track-b', (16, 38), (16, 42), radius_x=4, radius_y=3, sweep=True)
+    self.add_contour('left-track', 'left-track-a', 'left-track-b')
+    self.add_arc('right-track-a', (32, 32), (32, 38), radius_x=4, radius_y=3, sweep=False)
+    self.add_arc('right-track-b', (32, 38), (32, 42), radius_x=4, radius_y=3, sweep=True)
+    self.add_contour('right-track', 'right-track-a', 'right-track-b')
+
+chair-pose
+def build(self):
+    self.add_arc('head-top', (8, 10), (14, 10), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (14, 10), (8, 10), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_polyline('arm', (28, 6), (28, 20), (28, 27), closed=False)
+    self.add_polyline('body', (28, 20), (17, 27), (32, 35), (26, 42), closed=False)
+    self.relate('connect', 'arm', 'body')
+    self.add_line('feet', (26, 42), (40, 42))
+    self.relate('connect', 'body', 'feet')
+
+cloud-gaming-controller
+def build(self):
+
+    def circle(name, x, y, r):
+        self.add_arc(name + '-a', (x, y - r), (x, y + r), radius_x=r)
+        self.add_arc(name + '-b', (x, y + r), (x, y - r), radius_x=r)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def arc(name, a, b, r, ry=None, sweep=True):
+        self.add_arc(name, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
+
+    def poly(name, *pts):
+        for i, (a, b) in enumerate(zip(pts, pts[1:]), 1):
+            self.add_line(f'{name}-{i}', a, b)
+    arc('cloud-left', (16, 22), (16, 10), 6)
+    arc('cloud-top', (16, 10), (32, 10), 8, 6)
+    arc('cloud-right', (32, 10), (32, 22), 6)
+    poly('cloud-base', (32, 22), (24, 22), (16, 22))
+    self.add_contour('cloud', 'cloud-left', 'cloud-top', 'cloud-right', 'cloud-base-1', 'cloud-base-2', closed=True)
+    self.add_line('link', (24, 22), (24, 31))
+    self.relate('connect', 'link', 'cloud')
+    self.add_polyline('controller', (24, 31), (35, 31), (40, 42), (31, 42), (27, 39), (21, 39), (17, 42), (8, 42), (13, 31), (24, 31), closed=True)
+    self.relate('connect', 'link', 'controller')
+
+conical-pendant-lamp
+def build(self) -> None:
+    self.add_line('cord', (24, 6), (24, 18))
+    self.add_polyline('shade-top', (8, 34), (18, 18), (24, 18), (30, 18), (40, 34))
+    self.add_polyline('rim', (40, 34), (34, 34), (14, 34), (8, 34))
+    self.add_arc('bulb', (34, 34), (14, 34), radius_x=10, sweep=True)
+    self.relate('connect', 'bulb', 'rim')
+    self.relate('connect', 'shade-top', 'rim')
+    self.relate('connect', 'shade-top', 'cord')
+
+crossed-blade-scissors
+def build(self) -> None:
+
+    def circle(n, x, y, r):
+        self.add_arc(n + '-a', (x - r, y), (x + r, y), radius_x=r)
+        self.add_arc(n + '-b', (x + r, y), (x - r, y), radius_x=r)
+        self.add_contour(n, n + '-a', n + '-b', closed=True)
+    for n, x in [('left', 13), ('right', 35)]:
+        circle(n + '-loop', x, 39, 5)
+    self.add_polyline('blade-a', (13, 34), (24, 22), (36, 6))
+    self.add_polyline('blade-b', (35, 34), (24, 22), (12, 6))
+    self.relate('connect', 'blade-a', 'left-loop')
+    self.relate('connect', 'blade-b', 'right-loop')
+    self.relate('connect', 'blade-a', 'blade-b')
+
+diamond-ring
+def build(self) -> None:
+    points = [(16, 16), (14, 8), (18, 6), (30, 6), (34, 8), (32, 16)]
+    for i, (a, b) in enumerate(zip(points, points[1:]), 1):
+        self.add_line('gem-' + str(i), a, b)
+    self.add_arc('band-right-top', (32, 16), (40, 28), radius_x=8, radius_y=12)
+    self.add_arc('band-bottom-right', (40, 28), (24, 42), radius_x=16)
+    self.add_arc('band-bottom-left', (24, 42), (8, 28), radius_x=16)
+    self.add_arc('band-left-top', (8, 28), (16, 16), radius_x=8, radius_y=12)
+    self.add_contour('outline', *['gem-' + str(i) for i in range(1, 6)], 'band-right-top', 'band-bottom-right', 'band-bottom-left', 'band-left-top', closed=True)
+    self.add_arc('band-crown', (16, 16), (32, 16), radius_x=8, radius_y=4)
+    self.relate('connect', 'outline', 'band-crown')
+
+direction-signpost
+def build(self) -> None:
+    self.add_polyline('upper-board', (12, 6), (34, 6), (40, 10), (34, 16), (24, 16), (12, 16), closed=True)
+    self.add_polyline('lower-board', (14, 24), (24, 24), (40, 24), (40, 36), (24, 36), (14, 36), (8, 30), closed=True)
+    self.add_line('post-middle', (24, 16), (24, 24))
+    self.add_line('post-bottom', (24, 36), (24, 42))
+    self.relate('connect', 'post-middle', 'upper-board')
+    self.relate('connect', 'post-middle', 'lower-board')
+    self.relate('connect', 'post-bottom', 'lower-board')
+
+dome-pendant-lamp
+def build(self) -> None:
+    self.add_line('cord', (24, 6), (24, 18))
+    self.add_arc('dome-left', (8, 34), (24, 18), radius_x=16, sweep=True)
+    self.add_arc('dome-right', (24, 18), (40, 34), radius_x=16, sweep=True)
+    self.add_polyline('rim', (40, 34), (34, 34), (14, 34), (8, 34))
+    self.add_arc('bulb', (34, 34), (14, 34), radius_x=10, sweep=True)
+    self.relate('connect', 'bulb', 'rim')
+    self.add_contour('shade', 'dome-left', 'dome-right')
+    self.relate('connect', 'shade', 'rim')
+    self.relate('connect', 'shade', 'cord')
+
+employee-behind-laptop
+def build(self) -> None:
+    self.add_arc('head-top', (18, 10), (30, 10), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+    self.add_arc('head-bottom', (30, 10), (18, 10), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_arc('shoulders', (10, 32), (38, 32), radius_x=14, radius_y=7, sweep=True, large_arc=False)
+    self.add_polyline('laptop', (8, 32), (40, 32), (36, 42), (12, 42), closed=True)
+    self.relate('connect', 'shoulders', 'laptop')
+    self.add_line('base', (8, 42), (40, 42))
+    self.relate('connect', 'base', 'laptop')
+
+end-point-none
+def build(self):
+    self.add_line('e0', (4, 24), (44, 24))
+    self.add_contour('c0', 'e0')
+
+euro-sign-single-bar
+def build(self) -> None:
+    self.add_line('c-top', (40, 6), (32, 6))
+    self.add_arc('c-upper', (32, 6), (16, 24), radius_x=16, radius_y=20, sweep=False)
+    self.add_arc('c-lower', (16, 24), (32, 42), radius_x=16, radius_y=20, sweep=False)
+    self.add_line('c-bottom', (32, 42), (40, 42))
+    self.add_contour('c', 'c-top', 'c-upper', 'c-lower', 'c-bottom')
+    self.add_polyline('bar', (8, 24), (16, 24), (30, 24))
+    self.relate('connect', 'c', 'bar')
+
+explosive-vest
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('vest', (8, 42), (8, 20), (12, 16), (12, 6), (20, 6), (20, 14), (28, 14), (28, 6), (36, 6), (36, 16), (40, 20), (40, 42), (8, 42))
+    C('bomb', 24, 32, 6)
+    L('fuse', (24, 26), (24, 22))
+    J('fuse', 'bomb')
+    L('belt-left', (8, 32), (18, 32))
+    L('belt-right', (30, 32), (40, 32))
+    J('belt-left', 'vest')
+    J('belt-left', 'bomb')
+    J('belt-right', 'vest')
+    J('belt-right', 'bomb')
+
+fighter-jet
+def build(self) -> None:
+    right = [(24, 6), (29, 12), (29, 18), (40, 30), (40, 34), (29, 30), (29, 36), (32, 40), (32, 42), (24, 40)]
+    left = [(48 - x, y) for x, y in reversed(right[1:-1])]
+    self.add_polyline('airframe', *right + left, closed=True)
+
+forked-slingshot
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('fork-left', (23, 42), (23, 28), (16, 20), (16, 6))
+    P('fork-right', (33, 42), (33, 28), (40, 20), (40, 6))
+    A('fork-bowl', (16, 6), (40, 6), 12, 16, s=False)
+    J('fork-bowl', 'fork-left')
+    J('fork-bowl', 'fork-right')
+    L('base', (23, 42), (33, 42))
+    J('base', 'fork-left')
+    J('base', 'fork-right')
+    P('band', (16, 12), (8, 27), (15, 35), (23, 28))
+    J('band', 'fork-left')
+
+fuel-filter-drip
+def build(self) -> None:
+    self.add_polyline('flange', (8, 6), (12, 6), (36, 6), (40, 6))
+    self.add_polyline('bowl', (12, 6), (12, 14), (12, 18), (24, 24), (36, 18), (36, 14), (36, 6))
+    self.relate('connect', 'flange', 'bowl')
+    self.add_line('liquid', (12, 14), (36, 14))
+    self.relate('connect', 'liquid', 'bowl')
+    self.add_line('drop-right', (24, 33), (28, 40))
+    self.add_arc('drop-base', (28, 40), (20, 40), radius_x=4)
+    self.add_line('drop-left', (20, 40), (24, 33))
+    self.add_contour('drop', 'drop-right', 'drop-base', 'drop-left', closed=True)
+
+gabled-church-with-cross
+def build(self):
+    self.add_polyline('outline', (8, 42), (8, 32), (14, 28), (14, 24), (24, 16), (34, 24), (34, 28), (40, 32), (40, 42), (28, 42), (20, 42), closed=True)
+    self.add_polyline('cross-stem', (24, 6), (24, 8), (24, 16))
+    self.add_polyline('cross-bar', (20, 8), (24, 8), (28, 8))
+    self.relate('connect', 'cross-stem', 'cross-bar')
+    self.relate('connect', 'cross-stem', 'outline')
+    self.add_line('door-left', (20, 42), (20, 36))
+    self.add_arc('door-arch', (20, 36), (28, 36), radius_x=4)
+    self.add_line('door-right', (28, 36), (28, 42))
+    self.add_contour('door', 'door-left', 'door-arch', 'door-right')
+    self.relate('connect', 'door', 'outline')
+
+girl-pigtails
+def build(self) -> None:
+    self.add_arc('head-top', (15, 13), (33, 13), radius_x=9)
+    self.add_arc('head-bottom', (33, 13), (15, 13), radius_x=9)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    for side, sign in [('left', -1), ('right', 1)]:
+        self.add_arc('pigtail-' + side, (24 + sign * 9, 13), (24 + sign * 16, 21), radius_x=10, sweep=sign < 0)
+        self.relate('connect', 'head', 'pigtail-' + side)
+    self.add_line('body-left', (8, 42), (14, 37))
+    self.add_arc('body-top', (14, 37), (34, 37), radius_x=12, radius_y=9)
+    self.add_line('body-right', (34, 37), (40, 42))
+    self.add_contour('body', 'body-left', 'body-top', 'body-right')
+
+hanging-boxing-bag
+def build(self):
+    self.skeleton([('beam', [(8, 6), (24, 6), (40, 6)]), ('chain', [(24, 6), (24, 16)])])
+    self.add_line('bag-top-left', (20, 16), (24, 16))
+    self.add_line('bag-top-right', (24, 16), (28, 16))
+    self.add_arc('bag-tr', (28, 16), (34, 22), radius_x=6)
+    self.add_line('bag-right', (34, 22), (34, 34))
+    self.add_arc('bag-bottom', (34, 34), (14, 34), radius_x=10)
+    self.add_line('bag-left', (14, 34), (14, 22))
+    self.add_arc('bag-tl', (14, 22), (20, 16), radius_x=6)
+    self.add_contour('bag', 'bag-top-left', 'bag-top-right', 'bag-tr', 'bag-right', 'bag-bottom', 'bag-left', 'bag-tl', closed=True)
+    for part in ['bag-top-left', 'bag-top-right']:
+        self.relate('connect', 'chain-0', part)
+
+head-with-drinking-straw
+def build(self) -> None:
+    self.add_arc('forehead', (21, 10), (10, 23), radius_x=11, radius_y=13, sweep=False, large_arc=False)
+    self.add_line('face-1', (10, 23), (8, 29))
+    self.add_line('face-2', (8, 29), (13, 29))
+    self.add_line('face-3', (13, 29), (13, 35))
+    self.add_arc('chin', (13, 35), (20, 42), radius_x=7, radius_y=7, sweep=False, large_arc=False)
+    self.add_line('neck-front', (20, 42), (20, 42))
+    self.add_contour('face-outline', 'forehead', 'face-1', 'face-2', 'face-3', 'chin', 'neck-front', closed=False)
+    self.add_arc('skull', (38, 17), (35, 34), radius_x=17, radius_y=17, sweep=True, large_arc=False)
+    self.add_line('neck-back', (35, 34), (34, 42))
+    self.add_contour('back-outline', 'skull', 'neck-back', closed=False)
+    self.add_polyline('straw', (40, 6), (32, 6), (27, 26), closed=False)
+    self.add_arc('liquid', (22, 26), (27, 26), radius_x=8, radius_y=3, sweep=True, large_arc=False)
+    self.relate('connect', 'liquid', 'straw')
+
+height-limit-4m
+def build(self) -> None:
+    self.add_polyline('top-chevron', (19, 6), (24, 9), (29, 6))
+    self.add_polyline('bottom-chevron', (19, 42), (24, 39), (29, 42))
+    self.add_polyline('four', (8, 18), (8, 26), (18, 26), (18, 18), (18, 30))
+    self.add_polyline('metres', (26, 30), (26, 18), (33, 25), (40, 18), (40, 30))
+
+helicopter-top-view
+def build(self) -> None:
+    self.add_arc('cockpit', (14, 14), (34, 14), radius_x=10)
+    self.add_polyline('fuselage', (34, 14), (34, 34), (24, 38), (14, 34), (14, 14))
+    self.relate('connect', 'cockpit', 'fuselage')
+    self.add_polyline('rotor-a', (8, 8), (14, 14), (24, 24), (34, 34), (40, 40))
+    self.add_polyline('rotor-b', (8, 40), (14, 34), (24, 24), (34, 14), (40, 8))
+    self.relate('connect', 'rotor-a', 'rotor-b')
+    self.relate('connect', 'rotor-a', 'fuselage')
+    self.relate('connect', 'rotor-b', 'fuselage')
+    self.add_line('tail', (24, 38), (24, 42))
+    self.add_polyline('tail-rotor', (18, 42), (24, 42), (30, 42))
+    self.relate('connect', 'tail', 'fuselage')
+    self.relate('connect', 'tail', 'tail-rotor')
+    self.relate('connect', 'cockpit', 'rotor-a')
+    self.relate('connect', 'cockpit', 'rotor-b')
+
+hourglass-shaped-mark
+def build(self) -> None:
+    self.add_polyline('upper', (24, 24), (8, 6), (40, 6), (24, 24), closed=True)
+    self.add_polyline('lower', (24, 24), (40, 42), (8, 42), (24, 24), closed=True)
+    self.relate('connect', 'upper', 'lower')
+
+hryvnia-sign
+def build(self) -> None:
+    self.add_line('top', (14, 6), (26, 6))
+    self.add_arc('upper', (26, 6), (26, 20), radius_x=8)
+    self.add_line('diagonal', (26, 20), (22, 28))
+    self.add_arc('lower', (22, 28), (22, 42), radius_x=8, sweep=False)
+    self.add_line('bottom', (22, 42), (34, 42))
+    self.add_contour('currency', 'top', 'upper', 'diagonal', 'lower', 'bottom')
+    self.add_polyline('bar-upper', (8, 20), (26, 20), (40, 20))
+    self.add_polyline('bar-lower', (8, 28), (22, 28), (40, 28))
+    self.relate('connect', 'currency', 'bar-upper')
+    self.relate('connect', 'currency', 'bar-lower')
+
+ice-cream-cone
+def build(self) -> None:
+    self.add_arc('scoop-top', (14, 14), (34, 14), radius_x=10)
+    self.add_arc('scoop-right', (34, 14), (34, 28), radius_x=6, radius_y=7)
+    self.add_arc('scallop-right', (34, 28), (24, 26), radius_x=8, radius_y=6)
+    self.add_arc('scallop-left', (24, 26), (14, 28), radius_x=8, radius_y=6)
+    self.add_arc('scoop-left', (14, 28), (14, 14), radius_x=6, radius_y=7)
+    self.add_contour('scoop', 'scoop-top', 'scoop-right', 'scallop-right', 'scallop-left', 'scoop-left', closed=True)
+    self.add_polyline('cone', (14, 28), (24, 42), (34, 28))
+    self.relate('connect', 'scoop', 'cone')
+
+k-letter-underlined
+def build(self) -> None:
+    self.add_polyline('stem', (12, 6), (12, 18), (12, 32))
+    self.add_polyline('arms', (34, 6), (12, 18), (36, 32))
+    self.relate('connect', 'stem', 'arms')
+    self.add_line('underline', (8, 42), (40, 42))
+
+kayak-with-paddle
+def build(self) -> None:
+    self.add_arc('hull-right-top', (24, 6), (30, 9), radius_x=30, radius_y=25)
+    self.add_arc('hull-right-middle', (30, 9), (36, 24), radius_x=30, radius_y=25)
+    self.add_arc('hull-right-bottom', (36, 24), (24, 42), radius_x=30, radius_y=25)
+    self.add_arc('hull-left-bottom', (24, 42), (12, 24), radius_x=30, radius_y=25)
+    self.add_arc('hull-left-top', (12, 24), (24, 6), radius_x=30, radius_y=25)
+    self.add_contour('hull', 'hull-right-top', 'hull-right-middle', 'hull-right-bottom', 'hull-left-bottom', 'hull-left-top', closed=True)
+    self.add_line('paddle-shaft', (12, 24), (30, 9))
+    self.relate('connect', 'paddle-shaft', 'hull')
+    self.add_polyline('blade-left', (12, 24), (8, 28), (8, 32))
+    self.add_polyline('blade-right', (30, 9), (36, 6), (40, 6))
+    self.relate('connect', 'paddle-shaft', 'blade-left')
+    self.relate('connect', 'paddle-shaft', 'blade-right')
+    self.relate('connect', 'hull', 'blade-left')
+    self.relate('connect', 'hull', 'blade-right')
+
+lightning-bolt
+def build(self) -> None:
+    self.add_polyline('bolt', (24, 6), (40, 6), (26, 20), (40, 20), (8, 42), (19, 27), (8, 27), closed=True)
+
+location-pin-ground
+def build(self) -> None:
+    self.add_arc('cap', (8, 16), (40, 16), radius_x=16, radius_y=12)
+    self.add_arc('right-turn', (40, 16), (36, 25), radius_x=20, radius_y=15)
+    self.add_line('right-tip', (36, 25), (24, 34))
+    self.add_line('left-tip', (24, 34), (12, 25))
+    self.add_arc('left-turn', (12, 25), (8, 16), radius_x=20, radius_y=15)
+    self.add_contour('pin', 'cap', 'right-turn', 'right-tip', 'left-tip', 'left-turn', closed=True)
+    cx, cy, radius = (24, 16, 3)
+    self.add_arc('ring-top', (cx - radius, cy), (cx + radius, cy), radius_x=radius)
+    self.add_arc('ring-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
+    self.add_contour('ring', 'ring-top', 'ring-bottom', closed=True)
+    self.add_line('ground', (16, 42), (32, 42))
+
+location-pin-ring
+def build(self) -> None:
+    self.add_arc('cap', (8, 18), (40, 18), radius_x=16, radius_y=14)
+    self.add_arc('right-turn', (40, 18), (36, 30), radius_x=20, radius_y=20)
+    self.add_line('right-tip', (36, 30), (24, 42))
+    self.add_line('left-tip', (24, 42), (12, 30))
+    self.add_arc('left-turn', (12, 30), (8, 18), radius_x=20, radius_y=20)
+    self.add_contour('pin', 'cap', 'right-turn', 'right-tip', 'left-tip', 'left-turn', closed=True)
+    cx, cy, radius = (24, 18, 5)
+    self.add_arc('ring-top', (cx - radius, cy), (cx + radius, cy), radius_x=radius)
+    self.add_arc('ring-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
+    self.add_contour('ring', 'ring-top', 'ring-bottom', closed=True)
+
+lucha-wrestling-mask
+def build(self):
+    self.add_arc('top-l', (8, 20), (24, 6), radius_x=16, radius_y=16, sweep=True)
+    self.add_arc('top-r', (24, 6), (40, 20), radius_x=16, radius_y=16, sweep=True)
+    self.add_line('r', (40, 20), (40, 28))
+    self.add_arc('bottom', (40, 28), (8, 28), radius_x=16, radius_y=16, sweep=True)
+    self.add_line('l', (8, 28), (8, 20))
+    self.add_contour('outline', 'top-l', 'top-r', 'r', 'bottom', 'l', closed=True)
+    self.add_line('mask-seam', (24, 6), (24, 12))
+    self.relate('connect', 'mask-seam', 'outline')
+    self.add_line('eye-left', (17, 21), (20, 24))
+    self.add_line('eye-right', (31, 21), (28, 24))
+    self.add_line('mouth', (21, 35), (27, 35))
+
+mailbox-arched
+def build(self) -> None:
+    self.add_line('left-foot', (8, 42), (8, 36))
+    self.add_line('left-wall', (8, 36), (8, 20))
+    self.add_arc('roof', (8, 20), (40, 20), radius_x=16)
+    self.add_line('right-wall', (40, 20), (40, 36))
+    self.add_line('right-foot', (40, 36), (40, 42))
+    self.add_contour('shell', 'left-foot', 'left-wall', 'roof', 'right-wall', 'right-foot')
+    self.add_line('bottom', (8, 36), (40, 36))
+    self.relate('connect', 'shell', 'bottom')
+    self.add_line('slot', (18, 23), (30, 23))
+
+map-pin-stem
+def build(self) -> None:
+    self.add_arc('cap', (8, 16), (40, 16), radius_x=16, radius_y=12)
+    self.add_arc('right-turn', (40, 16), (36, 25), radius_x=20, radius_y=15)
+    self.add_line('right-tip', (36, 25), (24, 37))
+    self.add_line('left-tip', (24, 37), (12, 25))
+    self.add_arc('left-turn', (12, 25), (8, 16), radius_x=20, radius_y=15)
+    self.add_contour('pin', 'cap', 'right-turn', 'right-tip', 'left-tip', 'left-turn', closed=True)
+    self.add_dot('center', (24, 16))
+    self.add_line('stem', (24, 37), (24, 42))
+    self.relate('connect', 'pin', 'stem')
+
+military-drone-overhead
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('airframe', (24, 6), (28, 10), (28, 18), (40, 22), (40, 28), (28, 27), (28, 36), (34, 40), (24, 42), (14, 40), (20, 36), (20, 27), (8, 28), (8, 22), (20, 18), (20, 10), closed=True)
+
+money-plant
+def build(self) -> None:
+    self.add_line('dollar-top-right', (30, 7), (24, 7))
+    self.add_line('dollar-top-left', (24, 7), (22, 7))
+    self.add_arc('dollar-upper', (22, 7), (22, 15), radius_x=4, sweep=False)
+    self.add_line('dollar-middle', (22, 15), (26, 15))
+    self.add_arc('dollar-lower', (26, 15), (26, 23), radius_x=4)
+    self.add_line('dollar-bottom-right', (26, 23), (24, 23))
+    self.add_line('dollar-bottom-left', (24, 23), (18, 23))
+    self.add_contour('dollar', 'dollar-top-right', 'dollar-top-left', 'dollar-upper', 'dollar-middle', 'dollar-lower', 'dollar-bottom-right', 'dollar-bottom-left')
+    self.add_line('dollar-tick', (24, 6), (24, 7))
+    self.relate('connect', 'dollar', 'dollar-tick')
+    self.add_polyline('stem', (24, 23), (24, 42))
+    self.relate('connect', 'dollar', 'stem')
+    for name, tip, root, sweep in [('left', (8, 29), (19, 42), False), ('right', (40, 29), (29, 42), True)]:
+        self.add_arc('leaf-' + name + '-outer', tip, root, radius_x=11, radius_y=13, sweep=sweep)
+        self.add_arc('leaf-' + name + '-inner', root, tip, radius_x=11, radius_y=13, sweep=sweep)
+        self.add_contour('leaf-' + name, 'leaf-' + name + '-outer', 'leaf-' + name + '-inner', closed=True)
+        self.add_line('branch-' + name, root, (24, 42))
+        self.relate('connect', 'leaf-' + name, 'branch-' + name)
+        self.relate('connect', 'branch-' + name, 'stem')
+
+mosque-arch-silhouette
+def build(self) -> None:
+    self.add_arc('tip-left', (24, 6), (16, 12), radius_x=8, sweep=True)
+    self.add_arc('bulb-left', (16, 12), (8, 20), radius_x=8, sweep=False)
+    self.add_arc('shoulder-left', (8, 20), (12, 28), radius_x=4, radius_y=8, sweep=False)
+    points = [(12, 28), (8, 32), (8, 42), (40, 42), (40, 32), (36, 28)]
+    for n, (a, b) in enumerate(zip(points, points[1:]), 1):
+        self.add_line(f'walls-{n}', a, b)
+    self.add_arc('shoulder-right', (36, 28), (40, 20), radius_x=4, radius_y=8, sweep=False)
+    self.add_arc('bulb-right', (40, 20), (32, 12), radius_x=8, sweep=False)
+    self.add_arc('tip-right', (32, 12), (24, 6), radius_x=8, sweep=True)
+    self.add_contour('outline', 'tip-left', 'bulb-left', 'shoulder-left', 'walls-1', 'walls-2', 'walls-3', 'walls-4', 'walls-5', 'shoulder-right', 'bulb-right', 'tip-right', closed=True)
+
+mountain-pose
+def build(self):
+    self.add_arc('head-top', (21, 7), (27, 7), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (27, 7), (21, 7), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_line('arm-l', (8, 34), (8, 25))
+    self.add_arc('shoulder-l', (8, 25), (24, 19), radius_x=16, radius_y=6, sweep=True)
+    self.add_arc('shoulder-r', (24, 19), (40, 25), radius_x=16, radius_y=6, sweep=True)
+    self.add_line('arm-r', (40, 25), (40, 34))
+    self.add_contour('arms', 'arm-l', 'shoulder-l', 'shoulder-r', 'arm-r', closed=False)
+    self.add_line('body', (24, 19), (24, 42))
+    self.relate('connect', 'arms', 'body')
+
+mountain-pose-raised-arms
+def build(self):
+    self.add_arc('head-top', (21, 10), (27, 10), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (27, 10), (21, 10), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_polyline('arms', (8, 6), (8, 19), (24, 24), (40, 19), (40, 6), closed=False)
+    self.add_line('body', (24, 24), (24, 42))
+    self.relate('connect', 'arms', 'body')
+
+occupant-side-airbag
+def build(self) -> None:
+    self.add_arc('head-top', (13, 7), (19, 7), radius_x=3)
+    self.add_arc('head-bottom', (19, 7), (13, 7), radius_x=3)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_polyline('body', (8, 42), (8, 34), (8, 25), (15, 19), (22, 25), (22, 34), (22, 42))
+    self.add_line('belt', (8, 34), (22, 25))
+    self.add_line('seat', (8, 34), (22, 34))
+    for part in ['body-1', 'body-2', 'body-4', 'body-5']:
+        self.relate('connect', 'belt', part)
+    for part in ['body-1', 'body-2', 'body-5', 'body-6']:
+        self.relate('connect', 'seat', part)
+    self.relate('connect', 'belt', 'seat')
+    self.add_arc('airbag-top', (30, 15), (40, 15), radius_x=5, radius_y=10)
+    self.add_arc('airbag-bottom', (40, 15), (30, 15), radius_x=5, radius_y=10)
+    self.add_contour('airbag', 'airbag-top', 'airbag-bottom', closed=True)
+
+open-pliers
+def build(self) -> None:
+    self.add_polyline('left-handle', (8, 42), (24, 24), (31, 6))
+    self.add_polyline('right-handle', (40, 42), (24, 24), (17, 6))
+    self.relate('connect', 'left-handle', 'right-handle')
+    self.add_arc('left-jaw', (17, 6), (18, 24), radius_x=18, sweep=False)
+    self.add_arc('right-jaw', (31, 6), (30, 24), radius_x=18)
+    self.relate('connect', 'left-jaw', 'right-handle')
+    self.relate('connect', 'right-jaw', 'left-handle')
+
+open-scissors
+def build(self) -> None:
+
+    def circle(n, x, y, r):
+        self.add_arc(n + '-a', (x - r, y), (x + r, y), radius_x=r)
+        self.add_arc(n + '-b', (x + r, y), (x - r, y), radius_x=r)
+        self.add_contour(n, n + '-a', n + '-b', closed=True)
+    for n, x in [('left', 13), ('right', 35)]:
+        circle(n + '-loop', x, 39, 5)
+    self.add_line('neck-a', (13, 34), (24, 22))
+    self.add_arc('bow-a', (24, 22), (36, 6), radius_x=18, sweep=False)
+    self.add_contour('blade-a', 'neck-a', 'bow-a')
+    self.add_line('neck-b', (35, 34), (24, 22))
+    self.add_arc('bow-b', (24, 22), (12, 6), radius_x=18)
+    self.add_contour('blade-b', 'neck-b', 'bow-b')
+    self.relate('connect', 'blade-a', 'left-loop')
+    self.relate('connect', 'blade-b', 'right-loop')
+    self.relate('connect', 'blade-a', 'blade-b')
+
+person-bust-with-sash
+def build(self) -> None:
+    self.circle('head', 24, 12, 8)
+    self.add_arc('shoulder-left', (8, 37), (16, 29), radius_x=8)
+    self.add_line('shoulders', (16, 29), (32, 29))
+    self.add_arc('shoulder-right', (32, 29), (40, 37), radius_x=8)
+    self.add_line('body-base-1', (40, 37), (40, 42))
+    self.add_line('body-base-2', (40, 42), (20, 42))
+    self.add_line('body-base-3', (20, 42), (8, 42))
+    self.add_line('body-base-4', (8, 42), (8, 37))
+    self.add_contour('body', 'shoulder-left', 'shoulders', 'shoulder-right', 'body-base-1', 'body-base-2', 'body-base-3', 'body-base-4', closed=True)
+    self.add_line('sash', (32, 29), (20, 42))
+    self.relate('connect', 'body', 'sash')
+
+person-bust-with-strap
+def build(self) -> None:
+    self.circle('head', 24, 12, 8)
+    self.add_arc('shoulder-left', (8, 37), (16, 29), radius_x=8)
+    self.add_line('shoulders', (16, 29), (32, 29))
+    self.add_arc('shoulder-right', (32, 29), (40, 37), radius_x=8)
+    self.add_line('side-right', (40, 37), (40, 42))
+    self.add_line('base-right', (40, 42), (28, 42))
+    self.add_line('base-left', (28, 42), (8, 42))
+    self.add_line('side-left', (8, 42), (8, 37))
+    self.add_contour('body', 'shoulder-left', 'shoulders', 'shoulder-right', 'side-right', 'base-right', 'base-left', 'side-left', closed=True)
+    self.add_line('strap', (28, 42), (34, 37))
+    self.relate('connect', 'body', 'strap')
+
+person-waving
+def build(self) -> None:
+    self.circle('head', 23, 10, 6)
+    self.add_line('torso', (23, 25), (23, 33))
+    self.add_polyline('left-arm', (23, 25), (14, 25), (8, 31), (8, 36))
+    self.add_polyline('wave', (23, 25), (32, 25), (40, 17), (40, 7))
+    self.add_polyline('legs', (17, 42), (17, 33), (23, 33), (29, 33), (29, 42))
+    for member in ('left-arm', 'wave', 'legs'):
+        self.relate('connect', 'torso', member)
+    self.relate('connect', 'left-arm', 'wave')
+
+person-wearing-headphones
+def build(self) -> None:
+    self.add_arc('band', (8, 20), (40, 20), radius_x=16, radius_y=16, sweep=True, large_arc=False)
+    self.add_line('cup-left', (8, 20), (8, 28))
+    self.add_line('cup-right', (40, 20), (40, 28))
+    self.relate('connect', 'band', 'cup-left')
+    self.relate('connect', 'band', 'cup-right')
+    self.add_arc('jaw', (31, 21), (17, 21), radius_x=7, radius_y=10, sweep=True, large_arc=False)
+    self.add_arc('shoulder-left', (8, 42), (16, 40), radius_x=8, radius_y=4, sweep=True, large_arc=False)
+    self.add_line('shoulder-top', (16, 40), (32, 40))
+    self.add_arc('shoulder-right', (32, 40), (40, 42), radius_x=8, radius_y=4, sweep=True, large_arc=False)
+    self.add_contour('shoulders', 'shoulder-left', 'shoulder-top', 'shoulder-right', closed=False)
+
+person-with-bindle
+def build(self) -> None:
+    """Opening repair: Joined the carrying pole at the bundle’s lower-right node, eliminating a tiny crossing pocket."""
+    self.circle('head', 34, 10, 6)
+    self.add_line('bundle-left', (13, 6), (8, 16))
+    self.add_arc('bundle-bottom', (8, 16), (18, 16), radius_x=5, sweep=False)
+    self.add_line('bundle-right', (18, 16), (13, 6))
+    self.add_contour('bundle', 'bundle-left', 'bundle-bottom', 'bundle-right', closed=True)
+    self.add_line('pole', (18, 16), (26, 26))
+    self.relate('connect', 'bundle', 'pole')
+    self.add_line('torso', (26, 26), (24, 34))
+    self.add_polyline('arm', (26, 26), (33, 31), (39, 27))
+    self.add_polyline('legs', (16, 42), (24, 34), (32, 37), (40, 42))
+    self.relate('connect', 'pole', 'torso')
+    self.relate('connect', 'pole', 'arm')
+    self.relate('connect', 'torso', 'arm')
+    self.relate('connect', 'torso', 'legs')
+
+person-with-bindle-v2
+def build(self) -> None:
+    """Opening repair: Joined the carrying pole at the bundle’s lower-right node, eliminating a tiny crossing pocket."""
+    self.circle('head', 34, 10, 6)
+    self.add_line('bundle-left', (13, 6), (8, 16))
+    self.add_arc('bundle-bottom', (8, 16), (18, 16), radius_x=5, sweep=False)
+    self.add_line('bundle-right', (18, 16), (13, 6))
+    self.add_contour('bundle', 'bundle-left', 'bundle-bottom', 'bundle-right', closed=True)
+    self.add_line('pole', (18, 16), (26, 26))
+    self.relate('connect', 'bundle', 'pole')
+    self.add_line('torso', (26, 26), (24, 34))
+    self.add_polyline('arm', (26, 26), (33, 31), (39, 27))
+    self.add_polyline('legs', (16, 42), (24, 34), (32, 37), (40, 42))
+    self.relate('connect', 'pole', 'torso')
+    self.relate('connect', 'pole', 'arm')
+    self.relate('connect', 'torso', 'arm')
+    self.relate('connect', 'torso', 'legs')
+
+plunger
+def build(self) -> None:
+    self.add_arc('grip-top', (20, 8), (28, 8), radius_x=4)
+    self.add_line('grip-right', (28, 8), (28, 18))
+    self.add_arc('grip-bottom-right', (28, 18), (24, 22), radius_x=4)
+    self.add_arc('grip-bottom-left', (24, 22), (20, 18), radius_x=4)
+    self.add_line('grip-left', (20, 18), (20, 8))
+    self.add_contour('grip', 'grip-top', 'grip-right', 'grip-bottom-right', 'grip-bottom-left', 'grip-left', closed=True)
+    self.add_line('shaft', (24, 22), (24, 28))
+    self.add_arc('cup-right', (24, 28), (40, 42), radius_x=16)
+    self.add_line('cup-base', (40, 42), (8, 42))
+    self.add_arc('cup-left', (8, 42), (24, 28), radius_x=16)
+    self.add_contour('cup', 'cup-right', 'cup-base', 'cup-left', closed=True)
+    self.relate('connect', 'grip', 'shaft')
+    self.relate('connect', 'cup', 'shaft')
+
+pointed-wrestling-mask
+def build(self):
+    self.add_line('crown-1', (8, 28), (8, 6))
+    self.add_line('crown-2', (8, 6), (24, 14))
+    self.add_line('crown-3', (24, 14), (40, 6))
+    self.add_line('crown-4', (40, 6), (40, 28))
+    self.add_arc('chin', (40, 28), (8, 28), radius_x=16, radius_y=16, sweep=True)
+    self.add_contour('outline', 'crown-1', 'crown-2', 'crown-3', 'crown-4', 'chin', closed=True)
+    self.add_line('eye-left', (17, 21), (20, 24))
+    self.add_line('eye-right', (31, 21), (28, 24))
+    self.add_line('mouth', (21, 35), (27, 35))
+
+police-car-front
+def build(self) -> None:
+    self.add_polyline('body', (8, 26), (12, 26), (36, 26), (40, 26), (40, 42), (34, 42), (14, 42), (8, 42), closed=True)
+    self.add_polyline('windscreen-lightbar', (12, 26), (16, 18), (18, 18), (18, 14), (30, 14), (30, 18), (32, 18), (36, 26))
+    self.relate('connect', 'body', 'windscreen-lightbar')
+    for name, x in [('left', 14), ('right', 34)]:
+        self.add_line(name + '-wheel', (x, 42), (x, 44))
+        self.relate('connect', name + '-wheel', 'body')
+    self.add_dot('left-headlight', (17, 34))
+    self.add_dot('right-headlight', (31, 34))
+    self.add_line('left-ray', (8, 6), (10, 6))
+    self.add_dot('top-ray', (24, 6))
+    self.add_line('right-ray', (38, 6), (40, 6))
+
+pound-sign
+def build(self) -> None:
+    self.add_arc('crown', (40, 16), (16, 16), radius_x=12, sweep=False)
+    self.add_line('stem-upper', (16, 16), (16, 26))
+    self.add_line('stem-lower', (16, 26), (16, 34))
+    self.add_arc('foot', (16, 34), (8, 42), radius_x=13)
+    self.add_contour('stem', 'crown', 'stem-upper', 'stem-lower', 'foot')
+    self.add_polyline('bar', (8, 26), (16, 26), (30, 26))
+    self.add_line('base', (8, 42), (40, 42))
+    self.relate('connect', 'bar', 'stem')
+    self.relate('connect', 'base', 'stem')
+
+power-symbol
+def build(self) -> None:
+    self.add_line('stem', (24, 6), (24, 24))
+    self.add_arc('ring-left', (14, 12), (8, 28), radius_x=6, radius_y=16, sweep=False)
+    self.add_arc('ring-bottom', (8, 28), (40, 28), radius_x=16, sweep=False)
+    self.add_arc('ring-right', (40, 28), (34, 12), radius_x=6, radius_y=16, sweep=False)
+    self.add_contour('ring', 'ring-left', 'ring-bottom', 'ring-right')
+
+protester-carrying-flag
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('flag', (8, 6), (40, 6), (30, 14))
+    L('pole', (8, 6), (20, 31))
+    J('pole', 'flag')
+    C('head', 37, 25, 3)
+    P('body', (36, 42), (30, 33), (37, 28), (30, 33), (24, 31), (16, 39), (14, 42))
+    P('arms', (30, 33), (20, 30), (16, 26))
+    J('arms', 'body')
+    J('arms', 'pole')
+    J('head', 'body')
+
+raised-clenched-fist
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('outline', (12, 42), (12, 36), (8, 29), (8, 18))
+    A('knuckle-left', (8, 18), (16, 18), 4)
+    P('finger-left', (16, 18), (16, 13))
+    A('knuckle-top', (16, 13), (24, 13), 4)
+    P('finger-right', (24, 13), (24, 22), (34, 22))
+    A('thumb', (34, 22), (40, 28), 6)
+    P('palm', (40, 28), (36, 38), (32, 42))
+    J('palm', 'thumb')
+    J('outline', 'knuckle-left')
+    J('knuckle-left', 'finger-left')
+    J('finger-left', 'knuckle-top')
+    J('knuckle-top', 'finger-right')
+    J('finger-right', 'thumb')
+    L('thumb-fold', (34, 22), (24, 32))
+    J('thumb-fold', 'finger-right')
+    J('thumb-fold', 'thumb')
+    L('ray', (36, 6), (40, 8))
+
+rosette-ribbon
+def build(self) -> None:
+    segments = [('top', (16, 8), (32, 8), 8, 4), ('upper-right', (32, 8), (36, 12), 4, 4), ('right', (36, 12), (36, 20), 4, 4), ('lower-right', (36, 20), (32, 24), 4, 4), ('bottom', (32, 24), (16, 24), 8, 4), ('lower-left', (16, 24), (12, 20), 4, 4), ('left', (12, 20), (12, 12), 4, 4), ('upper-left', (12, 12), (16, 8), 4, 4)]
+    for name, a, b, rx, ry in segments:
+        self.add_arc(name, a, b, radius_x=rx, radius_y=ry)
+    self.add_contour('rosette', *[s[0] for s in segments], closed=True)
+    self.add_arc('centre-top', (21, 16), (27, 16), radius_x=3)
+    self.add_arc('centre-bottom', (27, 16), (21, 16), radius_x=3)
+    self.add_contour('centre', 'centre-top', 'centre-bottom', closed=True)
+    self.add_polyline('tails', (12, 20), (12, 42), (24, 36), (36, 42), (36, 20))
+    self.relate('connect', 'rosette', 'tails')
+
+round-head-nail
+def build(self) -> None:
+    self.add_arc('dome', (8, 20), (40, 20), radius_x=16)
+    self.add_line('cap-base', (40, 20), (8, 20))
+    self.add_contour('cap', 'dome', 'cap-base', closed=True)
+    self.add_polyline('shank', (20, 20), (20, 36), (24, 42), (28, 36), (28, 20))
+    self.relate('connect', 'shank', 'cap')
+
+rubber-plunger
+def build(self) -> None:
+
+    def box(n, x, y, w, h, r=0):
+        if not r:
+            self.add_polyline(n, (x, y), (x + w, y), (x + w, y + h), (x, y + h), closed=True)
+            return
+        pts = [(x + r, y), (x + w - r, y), (x + w, y + r), (x + w, y + h - r), (x + w - r, y + h), (x + r, y + h), (x, y + h - r), (x, y + r)]
+        for j in range(8):
+            a, b = (pts[j], pts[(j + 1) % 8])
+            if j % 2:
+                self.add_arc(n + str(j), a, b, radius_x=r)
+            else:
+                self.add_line(n + str(j), a, b)
+        self.add_contour(n, *[n + str(j) for j in range(8)], closed=True)
+    box('grip', 20, 4, 8, 12, 4)
+    self.add_line('shaft', (24, 16), (24, 28))
+    self.relate('connect', 'shaft', 'grip')
+    self.add_arc('cup-left', (8, 42), (24, 28), radius_x=16)
+    self.add_arc('cup-right', (24, 28), (40, 42), radius_x=16)
+    self.add_line('rim', (40, 42), (8, 42))
+    self.add_contour('cup', 'cup-left', 'cup-right', 'rim', closed=True)
+    self.relate('connect', 'shaft', 'cup')
+
+saint-basils-cathedral
+def build(self):
+    self.add_polyline('base', (10, 30), (10, 42), (38, 42), (38, 30))
+    for side in (-1, 1):
+        p = 'left' if side < 0 else 'right'
+
+        def pt(x, y):
+            return (x if side < 0 else 48 - x, y)
+        self.add_arc(p + '-lower', pt(10, 30), pt(8, 24), radius_x=2, radius_y=6, sweep=side < 0)
+        self.add_arc(p + '-outer', pt(8, 24), pt(12, 16), radius_x=10, radius_y=10, sweep=side < 0)
+        self.add_arc(p + '-inner', pt(12, 16), pt(16, 24), radius_x=10, radius_y=10, sweep=side < 0)
+        self.add_arc(p + '-inner-lower', pt(16, 24), pt(14, 30), radius_x=2, radius_y=6, sweep=side < 0)
+        self.add_polyline(p + '-shoulder', pt(14, 30), pt(20, 24), pt(20, 22))
+        self.add_arc(p + '-central-lower', pt(20, 22), pt(18, 16), radius_x=2, radius_y=6, sweep=side < 0)
+        self.add_arc(p + '-central-top', pt(18, 16), (24, 6), radius_x=15, sweep=side < 0)
+        self.add_contour(p + '-central', p + '-central-lower', p + '-central-top')
+        self.add_contour(p + '-silhouette', p + '-lower', p + '-outer', p + '-inner', p + '-inner-lower')
+        self.relate('connect', p + '-silhouette', 'base')
+        self.relate('connect', p + '-silhouette', p + '-shoulder')
+        self.relate('connect', p + '-shoulder', p + '-central')
+    self.relate('connect', 'left-central', 'right-central')
+
+security-officer
+def build(self) -> None:
+    runs = {}
+
+    def run(name, *points):
+        ids = []
+        for n, (a, b) in enumerate(zip(points, points[1:])):
+            part = f'{name}-{n}'
+            self.add_line(part, a, b)
+            ids.append(part)
+        runs[name] = ids
+    self.add_polyline('cap', (20, 6), (36, 6), (34, 14), (20, 14), closed=True)
+    self.add_arc('face', (34, 14), (20, 14), radius_x=7)
+    self.relate('connect', 'cap', 'face')
+    self.add_line('brim', (16, 14), (20, 14))
+    self.relate('connect', 'cap', 'brim')
+    self.relate('connect', 'face', 'brim')
+    run('torso-top', (20, 42), (20, 30), (24, 30), (28, 36), (32, 30), (34, 30))
+    self.add_arc('shoulder', (34, 30), (40, 36), radius_x=6)
+    run('torso-right', (40, 36), (40, 42), (20, 42))
+    self.add_contour('torso', *runs['torso-top'], 'shoulder', *runs['torso-right'], closed=True)
+    self.add_line('arm', (20, 30), (8, 42))
+    self.relate('connect', 'arm', 'torso')
+
+segmented-hand-grenade
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('neck', (18, 12), (18, 6), (30, 6), (30, 12))
+    A('shoulder-r', (30, 12), (40, 24), 10, 12)
+    A('lower-r', (40, 24), (24, 42), 16, 20)
+    A('lower-l', (24, 42), (8, 24), 16, 20)
+    A('shoulder-l', (8, 24), (18, 12), 10, 12)
+    self.add_contour('body', 'shoulder-r', 'lower-r', 'lower-l', 'shoulder-l')
+    J('neck', 'body')
+    L('seam', (8, 24), (40, 24))
+    J('seam', 'body')
+    L('lower-seam', (24, 24), (24, 42))
+    J('lower-seam', 'body')
+    J('lower-seam', 'seam')
+
+segway
+def build(self) -> None:
+    self.add_arc('wheel-top', (12, 34), (32, 34), radius_x=10)
+    self.add_arc('wheel-bottom', (32, 34), (12, 34), radius_x=10)
+    self.add_contour('wheel', 'wheel-top', 'wheel-bottom', closed=True)
+    self.add_dot('hub', (22, 34))
+    self.add_polyline('column', (32, 34), (34, 34), (40, 6), (30, 6))
+    self.relate('connect', 'column-1', 'wheel-top')
+    self.relate('connect', 'column-1', 'wheel-bottom')
+    self.add_line('platform', (8, 34), (12, 34))
+    self.relate('connect', 'platform', 'wheel-top')
+    self.relate('connect', 'platform', 'wheel-bottom')
+
+shock-absorber
+def build(self) -> None:
+    """Opening repair: Made the lower mounting eye circular instead of a thin lens."""
+    self.add_polyline('body', (8, 12), (18, 12), (30, 12), (40, 12), (40, 28), (24, 28), (8, 28), closed=True)
+    self.add_arc('mount', (18, 12), (30, 12), radius_x=6, radius_y=8)
+    self.add_line('piston', (24, 28), (24, 36))
+    self.add_arc('eye-right', (24, 36), (24, 42), radius_x=3, radius_y=3)
+    self.add_arc('eye-left', (24, 42), (24, 36), radius_x=3, radius_y=3)
+    self.add_contour('eye', 'eye-right', 'eye-left', closed=True)
+    for i, a in enumerate(self.primitives):
+        for b in self.primitives[i + 1:]:
+            if a.start in (b.start, b.end) or a.end in (b.start, b.end):
+                self.relate('connect', a.element_id, b.element_id)
+
+shock-absorber-v2
+def build(self) -> None:
+    """Opening repair: Made the lower mounting eye circular instead of a thin lens."""
+    self.add_polyline('body', (8, 12), (18, 12), (30, 12), (40, 12), (40, 28), (24, 28), (8, 28), closed=True)
+    self.add_arc('mount', (18, 12), (30, 12), radius_x=6, radius_y=8)
+    self.add_line('piston', (24, 28), (24, 36))
+    self.add_arc('eye-right', (24, 36), (24, 42), radius_x=3, radius_y=3)
+    self.add_arc('eye-left', (24, 42), (24, 36), radius_x=3, radius_y=3)
+    self.add_contour('eye', 'eye-right', 'eye-left', closed=True)
+    for i, a in enumerate(self.primitives):
+        for b in self.primitives[i + 1:]:
+            if a.start in (b.start, b.end) or a.end in (b.start, b.end):
+                self.relate('connect', a.element_id, b.element_id)
+
+signpost-on-globe
+def build(self) -> None:
+    self.add_polyline('post', (24, 8), (24, 20), (24, 32))
+    self.add_polyline('right-shaft', (18, 8), (24, 8), (38, 8))
+    self.add_polyline('right-head', (32, 6), (38, 8), (32, 12))
+    self.add_polyline('left-shaft', (10, 20), (24, 20), (30, 20))
+    self.add_polyline('left-head', (16, 16), (10, 20), (16, 24))
+    self.relate('connect', 'right-shaft', 'right-head')
+    self.relate('connect', 'left-shaft', 'left-head')
+    self.relate('connect', 'post', 'right-shaft')
+    self.relate('connect', 'post', 'left-shaft')
+    self.add_arc('globe-left', (8, 42), (24, 32), radius_x=16, radius_y=12)
+    self.add_arc('globe-right', (24, 32), (40, 42), radius_x=16, radius_y=12)
+    self.add_contour('globe', 'globe-left', 'globe-right')
+    self.add_arc('meridian-left', (24, 32), (18, 42), radius_x=6, radius_y=12, sweep=False)
+    self.add_arc('meridian-right', (24, 32), (30, 42), radius_x=6, radius_y=12)
+    for part in ('globe', 'meridian-left', 'meridian-right'):
+        self.relate('connect', 'post', part)
+    self.relate('connect', 'globe', 'meridian-left')
+    self.relate('connect', 'globe', 'meridian-right')
+    self.relate('connect', 'meridian-left', 'meridian-right')
+
+smoking-tear-gas-canister
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    R('canister', 8, 32, 20, 12, 3)
+    L('outlet', (28, 38), (33, 38))
+    J('outlet', 'canister')
+    A('smoke-lower', (33, 38), (40, 27), 7, 11, s=False)
+    A('smoke-upper', (40, 27), (30, 16), 10, 11, s=False)
+    A('smoke-tip', (30, 16), (20, 6), 10, 12)
+    self.add_contour('smoke', 'smoke-lower', 'smoke-upper', 'smoke-tip')
+    J('smoke', 'outlet')
+
+snow-capped-mountain-with-sun-v3
+def build(self) -> None:
+    self.add_arc('left-lower', (6, 42), (14, 27), radius_x=55, sweep=False)
+    self.add_arc('left-upper', (14, 27), (18, 17), radius_x=55, sweep=False)
+    self.add_line('summit', (18, 17), (30, 17))
+    self.add_arc('right-upper', (30, 17), (34, 27), radius_x=55, sweep=False)
+    self.add_arc('right-lower', (34, 27), (42, 42), radius_x=55, sweep=False)
+    self.add_contour('mountain', 'left-lower', 'left-upper', 'summit', 'right-upper', 'right-lower')
+    self.add_polyline('snowline', (14, 27), (20, 31), (25, 26), (31, 31))
+    self.relate('connect', 'snowline', 'mountain')
+    self.add_arc('sun-top', (6, 9), (12, 9), sweep=True, radius_x=3, radius_y=3)
+    self.add_arc('sun-bottom', (12, 9), (6, 9), sweep=True, radius_x=3, radius_y=3)
+    self.add_contour('sun', 'sun-top', 'sun-bottom', closed=True)
+
+soldier-behind-sandbags
+def build(self):
+    """Opening repair: Removed the thin central brim divider and made the helmeted head rounder; kept the rifle and both bags."""
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    A('helmet', (30, 15), (42, 15), 6)
+    A('face', (30, 15), (42, 15), 6, s=False)
+    J('face', 'helmet')
+    L('rifle', (6, 15), (30, 15))
+    J('rifle', 'helmet')
+    J('rifle', 'face')
+    R('bag-left', 4, 31, 15, 9, 4)
+    R('bag-right', 29, 31, 15, 9, 4)
+
+soldier-behind-sandbags-v2
+def build(self):
+    """Opening repair: Removed the thin central brim divider and made the helmeted head rounder; kept the rifle and both bags."""
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    A('helmet', (30, 15), (42, 15), 6)
+    A('face', (30, 15), (42, 15), 6, s=False)
+    J('face', 'helmet')
+    L('rifle', (6, 15), (30, 15))
+    J('rifle', 'helmet')
+    J('rifle', 'face')
+    R('bag-left', 4, 31, 15, 9, 4)
+    R('bag-right', 29, 31, 15, 9, 4)
+
+sports-stopwatch
+def build(self):
+    self.add_arc('dial-top', (8, 29), (40, 29), radius_x=16, radius_y=15, sweep=True)
+    self.add_arc('dial-bottom', (40, 29), (8, 29), radius_x=16, radius_y=15, sweep=True)
+    self.add_contour('dial', 'dial-top', 'dial-bottom', closed=True)
+    self.add_line('button', (20, 6), (28, 6))
+    self.add_line('hand', (24, 29), (28, 25))
+
+standing-back-stretch
+def build(self):
+    self.add_arc('head-top', (8, 7), (14, 7), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (14, 7), (8, 7), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_polyline('back', (25, 14), (17, 23), (23, 30), (23, 42), closed=False)
+    self.add_polyline('arm', (17, 23), (29, 11), (40, 11), closed=False)
+    self.relate('connect', 'back', 'arm')
+    self.add_polyline('raised-knee', (23, 30), (36, 23), (29, 16), closed=False)
+    self.relate('connect', 'back', 'raised-knee')
+
+standing-forward-fold
+def build(self):
+    self.add_line('leg', (8, 42), (8, 16))
+    self.add_arc('hip', (8, 16), (32, 16), radius_x=12, radius_y=12, sweep=True)
+    self.add_line('torso-arm', (32, 16), (20, 42))
+    self.add_contour('body', 'leg', 'hip', 'torso-arm', closed=False)
+    self.add_arc('head-top', (34, 33), (40, 33), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (40, 33), (34, 33), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+
+standing-full-body-stretch
+def build(self):
+    self.add_arc('head-top', (21, 12), (27, 12), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (27, 12), (21, 12), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_line('arm-l', (8, 6), (8, 8))
+    self.add_arc('shoulder-l', (8, 8), (24, 24), radius_x=16, radius_y=16, sweep=False)
+    self.add_arc('shoulder-r', (24, 24), (40, 8), radius_x=16, radius_y=16, sweep=False)
+    self.add_line('arm-r', (40, 8), (40, 6))
+    self.add_contour('arms', 'arm-l', 'shoulder-l', 'shoulder-r', 'arm-r', closed=False)
+    self.add_polyline('torso', (24, 24), (24, 32), (24, 42), closed=False)
+    self.relate('connect', 'arms', 'torso')
+    self.add_polyline('leg', (24, 32), (35, 39), (33, 42), closed=False)
+    self.relate('connect', 'torso', 'leg')
+
+steam-locomotive-front
+def build(self) -> None:
+
+    def wheel(name, x, y, r):
+        self.add_arc(name + '-right', (x, y - r), (x, y + r), radius_x=r)
+        self.add_arc(name + '-left', (x, y + r), (x, y - r), radius_x=r)
+        self.add_contour(name, name + '-right', name + '-left', closed=True)
+    wheel('smokebox', 24, 24, 10)
+    self.add_dot('smokebox-boss', (24, 24))
+    self.add_polyline('chimney', (18, 6), (20, 14), (24, 14), (28, 14), (30, 6), closed=True)
+    self.add_polyline('chimney-rim', (16, 6), (18, 6), (30, 6), (32, 6))
+    self.relate('connect', 'chimney', 'smokebox')
+    self.relate('connect', 'chimney', 'chimney-rim')
+    self.add_polyline('buffer', (8, 36), (24, 34), (40, 36), (38, 42), (24, 42), (10, 42), closed=True)
+    self.relate('connect', 'buffer', 'smokebox')
+
+subtract
+def build(self):
+    self.add_line('e0', (4, 24), (44, 24))
+    self.add_contour('c0', 'e0')
+
+subtract-interface-essential
+def build(self):
+    self.add_line('e0', (4, 24), (44, 24))
+    self.add_contour('c0', 'e0')
+
+tiered-tower-with-spire
+def build(self) -> None:
+    self.add_polyline('roof', (12, 14), (24, 6), (36, 14), (30, 14), (18, 14), (12, 14), closed=True)
+    self.add_polyline('upper-tier', (18, 14), (18, 24), (30, 24), (30, 14))
+    self.relate('connect', 'upper-tier', 'roof')
+    self.add_polyline('middle-tier', (12, 34), (12, 24), (18, 24), (30, 24), (36, 24), (36, 34))
+    self.relate('connect', 'upper-tier', 'middle-tier')
+    self.add_polyline('lower-left', (18, 42), (8, 42), (8, 34), (12, 34), (36, 34), (40, 34), (40, 42), (30, 42))
+    self.relate('connect', 'middle-tier', 'lower-left')
+    self.add_arc('door', (18, 42), (30, 42), radius_x=6, sweep=True)
+    self.relate('connect', 'door', 'lower-left')
+
+tree-pose
+def build(self):
+    self.add_arc('head-top', (21, 12), (27, 12), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (27, 12), (21, 12), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_line('arm-l', (8, 6), (8, 8))
+    self.add_arc('shoulder-l', (8, 8), (24, 24), radius_x=16, radius_y=16, sweep=False)
+    self.add_arc('shoulder-r', (24, 24), (40, 8), radius_x=16, radius_y=16, sweep=False)
+    self.add_line('arm-r', (40, 8), (40, 6))
+    self.add_contour('arms', 'arm-l', 'shoulder-l', 'shoulder-r', 'arm-r', closed=False)
+    self.add_polyline('body', (24, 24), (24, 29), (24, 42), (24, 42), closed=False)
+    self.relate('connect', 'arms', 'body')
+    self.add_polyline('bent-leg', (24, 29), (38, 36), (24, 42), closed=False)
+    self.relate('connect', 'body', 'bent-leg')
+
+trophy-on-ladder
+def build(self) -> None:
+    """Opening repair: Deepened the cup handles and bowl together to enlarge both handle openings."""
+    self.add_line('stem', (24, 24), (24, 22))
+    self.add_arc('cup-left', (24, 22), (16, 14), sweep=True, large_arc=False, radius_x=8, radius_y=8)
+    self.add_line('cup-wall-left', (16, 14), (16, 6))
+    self.add_line('cup-rim', (16, 6), (32, 6))
+    self.add_line('cup-wall-right', (32, 6), (32, 14))
+    self.add_arc('cup-right', (32, 14), (24, 22), sweep=True, large_arc=False, radius_x=8, radius_y=8)
+    self.add_contour('cup', 'stem', 'cup-left', 'cup-wall-left', 'cup-rim', 'cup-wall-right', 'cup-right', closed=False)
+    self.add_line('handle-left-top', (16, 6), (8, 6))
+    self.add_arc('handle-left', (8, 6), (16, 14), large_arc=False, radius_x=8, radius_y=10, sweep=False)
+    self.add_contour('left-handle', 'handle-left-top', 'handle-left', closed=False)
+    self.relate('connect', 'left-handle', 'cup')
+    self.add_line('handle-right-top', (32, 6), (40, 6))
+    self.add_arc('handle-right', (40, 6), (32, 14), large_arc=False, radius_x=8, radius_y=10, sweep=True)
+    self.add_contour('right-handle', 'handle-right-top', 'handle-right', closed=False)
+    self.relate('connect', 'right-handle', 'cup')
+    self.add_polyline('ladder', (16, 42), (18, 34), (20, 24), (24, 24), (28, 24), (30, 34), (32, 42), closed=False)
+    self.relate('connect', 'ladder', 'cup')
+    self.add_line('rung', (18, 34), (30, 34))
+    self.relate('connect', 'rung', 'ladder')
+
+trophy-on-ladder-v2
+def build(self) -> None:
+    """Opening repair: Deepened the cup handles and bowl together to enlarge both handle openings."""
+    self.add_line('stem', (24, 24), (24, 22))
+    self.add_arc('cup-left', (24, 22), (16, 14), sweep=True, large_arc=False, radius_x=8, radius_y=8)
+    self.add_line('cup-wall-left', (16, 14), (16, 6))
+    self.add_line('cup-rim', (16, 6), (32, 6))
+    self.add_line('cup-wall-right', (32, 6), (32, 14))
+    self.add_arc('cup-right', (32, 14), (24, 22), sweep=True, large_arc=False, radius_x=8, radius_y=8)
+    self.add_contour('cup', 'stem', 'cup-left', 'cup-wall-left', 'cup-rim', 'cup-wall-right', 'cup-right', closed=False)
+    self.add_line('handle-left-top', (16, 6), (8, 6))
+    self.add_arc('handle-left', (8, 6), (16, 14), large_arc=False, radius_x=8, radius_y=10, sweep=False)
+    self.add_contour('left-handle', 'handle-left-top', 'handle-left', closed=False)
+    self.relate('connect', 'left-handle', 'cup')
+    self.add_line('handle-right-top', (32, 6), (40, 6))
+    self.add_arc('handle-right', (40, 6), (32, 14), large_arc=False, radius_x=8, radius_y=10, sweep=True)
+    self.add_contour('right-handle', 'handle-right-top', 'handle-right', closed=False)
+    self.relate('connect', 'right-handle', 'cup')
+    self.add_polyline('ladder', (16, 42), (18, 34), (20, 24), (24, 24), (28, 24), (30, 34), (32, 42), closed=False)
+    self.relate('connect', 'ladder', 'cup')
+    self.add_line('rung', (18, 34), (30, 34))
+    self.relate('connect', 'rung', 'ladder')
+
+twisting-triangle-pose
+def build(self):
+    self.add_arc('head-top', (8, 15), (14, 15), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (14, 15), (8, 15), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_polyline('torso', (26, 6), (20, 25), (28, 32), closed=False)
+    self.add_polyline('legs', (8, 42), (20, 25), (33, 28), (40, 42), closed=False)
+    self.relate('connect', 'torso', 'legs')
+    self.add_line('low-arm', (20, 25), (17, 42))
+    self.relate('connect', 'low-arm', 'torso')
+    self.relate('connect', 'low-arm', 'legs')
+
+umbrella-stand
+def build(self) -> None:
+    self.add_polyline('holder', (8, 27), (13, 42), (35, 42), (40, 27), closed=True)
+    self.add_line('left-shaft', (17, 8), (17, 27))
+    self.add_arc('left-hook', (17, 8), (9, 8), radius_x=4, radius_y=4, sweep=False, large_arc=False)
+    self.relate('connect', 'left-shaft', 'left-hook')
+    self.relate('connect', 'holder', 'left-shaft')
+    self.add_line('right-shaft', (31, 8), (31, 27))
+    self.add_arc('right-hook', (31, 8), (39, 8), radius_x=4, radius_y=4, sweep=True, large_arc=False)
+    self.relate('connect', 'right-shaft', 'right-hook')
+    self.relate('connect', 'holder', 'right-shaft')
+
+unicycle
+def build(self) -> None:
+    pts = [(24, 12), (40, 28), (24, 42), (8, 28)]
+    for i, p in enumerate(pts):
+        self.add_arc(f'rim-{i}', p, pts[(i + 1) % 4], radius_x=16)
+        self.add_line(f'spoke-{i}', (24, 28), p)
+    self.add_contour('rim', *[f'rim-{i}' for i in range(4)], closed=True)
+    self.add_line('post', (24, 6), (24, 12))
+    self.add_arc('saddle-left', (14, 6), (24, 6), radius_x=10, radius_y=2, sweep=False)
+    self.add_arc('saddle-right', (24, 6), (34, 6), radius_x=10, radius_y=2, sweep=False)
+    self.add_contour('saddle', 'saddle-left', 'saddle-right')
+    for i, a in enumerate(self.primitives):
+        for b in self.primitives[i + 1:]:
+            if a.start in (b.start, b.end) or a.end in (b.start, b.end):
+                self.relate('connect', a.element_id, b.element_id)
+
+upright-flashlight
+def build(self) -> None:
+    self.add_polyline('outline', (8, 6), (40, 6), (40, 14), (33, 22), (33, 40), (29, 42), (19, 42), (15, 40), (15, 22), (8, 14), closed=True)
+    self.add_line('lens', (8, 14), (40, 14))
+    self.relate('connect', 'outline', 'lens')
+    self.add_line('switch', (24, 28), (24, 32))
+
+upright-rolling-suitcase
+def build(self) -> None:
+    left, right, top, bottom, r = (8, 40, 14, 40, 6)
+    self.add_line('top-left', (14, top), (16, top))
+    self.add_line('top-middle', (16, top), (32, top))
+    self.add_line('top-right', (32, top), (34, top))
+    self.add_arc('tr', (34, top), (right, 20), radius_x=r)
+    self.add_line('right', (right, 20), (right, 34))
+    self.add_arc('br', (right, 34), (34, bottom), radius_x=r)
+    self.add_line('bottom-right', (34, bottom), (32, bottom))
+    self.add_line('bottom-middle', (32, bottom), (16, bottom))
+    self.add_line('bottom-left', (16, bottom), (14, bottom))
+    self.add_arc('bl', (14, bottom), (left, 34), radius_x=r)
+    self.add_line('left', (left, 34), (left, 20))
+    self.add_arc('tl', (left, 20), (14, top), radius_x=r)
+    self.add_contour('body', 'top-left', 'top-middle', 'top-right', 'tr', 'right', 'br', 'bottom-right', 'bottom-middle', 'bottom-left', 'bl', 'left', 'tl', closed=True)
+    self.add_polyline('handle', (16, 14), (16, 6), (32, 6), (32, 14))
+    self.relate('connect', 'body', 'handle')
+    for i, x in enumerate((16, 32)):
+        self.add_line(f'wheel-{i}', (x, 40), (x, 44))
+        self.relate('connect', 'body', f'wheel-{i}')
+    for i, x in enumerate((20, 28)):
+        self.add_line(f'rib-{i}', (x, 23), (x, 31))
+
+user-bust
+def build(self) -> None:
+    cx, cy, radius = (24, 12, 8)
+    self.add_arc('head-top', (cx - radius, cy), (cx + radius, cy), radius_x=radius)
+    self.add_arc('head-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_arc('shoulders', (8, 42), (40, 42), radius_x=16, radius_y=14)
+
+user-bust-square-shoulders
+def build(self) -> None:
+    cx, cy, radius = (24, 14, 10)
+    self.add_arc('head-top', (cx - radius, cy), (cx + radius, cy), radius_x=radius)
+    self.add_arc('head-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_line('side-left', (8, 42), (8, 39))
+    self.add_arc('shoulder-left', (8, 39), (14, 33), radius_x=6)
+    self.add_line('shoulder-top', (14, 33), (34, 33))
+    self.add_arc('shoulder-right', (34, 33), (40, 39), radius_x=6)
+    self.add_line('side-right', (40, 39), (40, 42))
+    self.add_contour('shoulders', 'side-left', 'shoulder-left', 'shoulder-top', 'shoulder-right', 'side-right')
+
+user-with-gear-v2
+def build(self) -> None:
+    """Opening repair: Made the organic half-head a true semicircle, enlarging its opening beside the centre axis."""
+    self.add_arc('head-left', (24, 24), (24, 6), radius_x=9, radius_y=9)
+    self.add_polyline('head-teeth', (24, 6), (32, 6), (32, 8), (36, 10), (40, 10), (40, 18), (36, 18), (32, 20), (32, 24), (24, 24))
+    self.relate('connect', 'head-left', 'head-teeth')
+    self.add_polyline('axis', (24, 6), (24, 24), (24, 33), (24, 42))
+    self.relate('connect', 'head-left', 'axis')
+    self.relate('connect', 'head-teeth', 'axis')
+    self.add_arc('body-left', (8, 42), (24, 33), radius_x=16, radius_y=11)
+    self.add_line('base', (8, 42), (24, 42))
+    self.relate('connect', 'body-left', 'base')
+    self.relate('connect', 'body-left', 'axis')
+    self.relate('connect', 'base', 'axis')
+    self.add_polyline('body-teeth', (24, 33), (31, 33), (34, 33), (38, 37), (35, 40), (40, 40), (40, 42))
+    self.relate('connect', 'body-teeth', 'axis')
+    self.relate('connect', 'body-teeth', 'body-left')
+
+wet-floor-mop
+def build(self) -> None:
+    self.add_line('handle', (24, 6), (24, 22))
+    self.add_polyline('head', (24, 22), (15, 22), (8, 42), (40, 42), (33, 22), (24, 22))
+    self.relate('connect', 'handle', 'head')
+    for i, x in enumerate((19, 29)):
+        self.add_line('strand' + str(i), (x, 33), (x, 44))
+        self.relate('connect', 'strand' + str(i), 'head')
+
+wide-leg-inversion-pose
+def build(self):
+    self.add_polyline('legs', (8, 6), (24, 22), (40, 6), closed=False)
+    self.add_line('torso', (24, 22), (24, 28))
+    self.relate('connect', 'legs', 'torso')
+    self.add_polyline('arms', (8, 33), (24, 28), (40, 33), closed=False)
+    self.relate('connect', 'arms', 'torso')
+    self.add_arc('head-top', (21, 41), (27, 41), radius_x=3, radius_y=3, sweep=True)
+    self.add_arc('head-bottom', (27, 41), (21, 41), radius_x=3, radius_y=3, sweep=True)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+
+woman-figure
+def build(self) -> None:
+    self.circle('head', 24, 12, 8)
+    for side, direction in (('left', -1), ('right', 1)):
+        x = 24 + direction * 8
+        tip = 24 + direction * 12
+        self.add_line('hair-' + side + '-stem', (x, 12), (x, 16))
+        self.add_arc('hair-' + side + '-flick', (x, 16), (tip, 20), radius_x=4, sweep=direction < 0)
+        self.add_contour('hair-' + side, 'hair-' + side + '-stem', 'hair-' + side + '-flick')
+        self.relate('connect', 'head', 'hair-' + side)
+    self.add_arc('dress-neck', (20, 31), (28, 31), radius_x=5)
+    self.add_line('dress-right', (28, 31), (40, 42))
+    self.add_line('dress-hem', (40, 42), (8, 42))
+    self.add_line('dress-left', (8, 42), (20, 31))
+    self.add_contour('dress', 'dress-neck', 'dress-right', 'dress-hem', 'dress-left', closed=True)
+
+woman-wearing-crown
+def build(self) -> None:
+    self.add_polyline('crown', (14, 18), (10, 6), (18, 10), (24, 6), (30, 10), (38, 6), (34, 18), (24, 18), closed=True)
+    self.add_polyline('hair-left', (14, 18), (14, 28), (14, 30), (8, 38), (16, 38), closed=False)
+    self.add_arc('chin', (16, 38), (32, 38), radius_x=8, radius_y=6, sweep=False, large_arc=False)
+    self.add_polyline('hair-right', (32, 38), (40, 38), (34, 30), (34, 28), (34, 18), closed=False)
+    self.relate('connect', 'hair-left', 'crown')
+    self.relate('connect', 'hair-left', 'chin')
+    self.relate('connect', 'chin', 'hair-right')
+    self.relate('connect', 'hair-right', 'crown')
+    self.add_line('mouth', (22, 32), (26, 32))
+
+bandaged-index-finger
+def build(self) -> None:
+    self.add_arc('fingertip', (22, 9), (32, 9), radius_x=5, radius_y=5, sweep=True, large_arc=False)
+    self.add_line('index-upper', (32, 9), (32, 12))
+    self.add_line('index-lower', (32, 12), (32, 20))
+    self.add_line('knuckles', (32, 20), (34, 20))
+    self.add_arc('knuckle-round', (34, 20), (40, 26), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+    self.add_line('palm-side', (40, 26), (40, 30))
+    self.add_arc('palm-round', (40, 30), (34, 36), radius_x=6, radius_y=6, sweep=True, large_arc=False)
+    self.add_line('wrist-top', (34, 36), (18, 36))
+    self.add_line('thumb-heel', (18, 36), (12, 36))
+    self.add_line('thumb-outer', (12, 36), (8, 30))
+    self.add_line('thumb-wall', (8, 30), (8, 25))
+    self.add_arc('thumb-tip', (8, 25), (14, 25), radius_x=3, radius_y=3, sweep=True, large_arc=False)
+    self.add_line('thumb-inner', (14, 25), (22, 30))
+    self.add_line('index-left-lower', (22, 30), (22, 18))
+    self.add_line('index-left-upper', (22, 18), (22, 9))
+    self.add_contour('hand', 'fingertip', 'index-upper', 'index-lower', 'knuckles', 'knuckle-round', 'palm-side', 'palm-round', 'wrist-top', 'thumb-heel', 'thumb-outer', 'thumb-wall', 'thumb-tip', 'thumb-inner', 'index-left-lower', 'index-left-upper', closed=True)
+    self.add_line('bandage-seam', (22, 18), (32, 12))
+    self.relate('connect', 'bandage-seam', 'hand')
+    self.add_polyline('cuff', (18, 36), (18, 42), (34, 42), (34, 36), closed=False)
+    self.relate('connect', 'cuff', 'hand')
+
+broad-leaf-seedling-in-rimmed-pot-v2
+def build(self) -> None:
+    self.add_arc('left-upper', (8, 6), (24, 20), radius_x=16, radius_y=16)
+    self.add_arc('left-lower', (24, 20), (8, 6), radius_x=16, radius_y=16)
+    self.add_contour('left-leaf', 'left-upper', 'left-lower', closed=True)
+    self.add_arc('right-upper', (24, 23), (40, 7), radius_x=16, radius_y=16)
+    self.add_arc('right-lower', (40, 7), (24, 23), radius_x=16, radius_y=16)
+    self.add_contour('right-leaf', 'right-upper', 'right-lower', closed=True)
+    self.add_polyline('stem', (24, 20), (24, 23), (24, 28))
+    self.relate('connect', 'left-leaf', 'stem')
+    self.relate('connect', 'right-leaf', 'stem')
+    self.add_polyline('rim', (10, 28), (24, 28), (38, 28), (38, 36), (34, 36), (14, 36), (10, 36), closed=True)
+    self.add_polyline('pot', (14, 36), (16, 42), (32, 42), (34, 36))
+    self.relate('connect', 'rim', 'pot')
+    self.relate('connect', 'stem', 'rim')
+
+compass-east
+def build(self) -> None:
+    self.add_line('dial-left', (8, 32), (8, 20))
+    self.add_arc('dial-top', (8, 20), (40, 20), radius_x=16, radius_y=16, sweep=True, large_arc=False)
+    self.add_contour('dial', 'dial-left', 'dial-top', closed=False)
+    self.add_polyline('needle', (18, 18), (28, 14), (24, 23), closed=False)
+    self.add_polyline('legend', (38, 42), (32, 42), (32, 28), (38, 28), closed=False)
+    self.add_line('legend-middle', (32, 36), (38, 36))
+    self.relate('connect', 'legend', 'legend-middle')
+
+expanded-dropdown-menu
+def build(self) -> None:
+    self.box('field', 8, 4, 40, 12, r=2, joins=((12, 12),))
+    self.add_polyline('panel', (12, 12), (12, 42), (40, 42), (40, 10))
+    self.relate('connect', 'field', 'panel')
+    self.add_line('option', (20, 21), (31, 21))
+    self.add_polyline('down', (20, 30), (26, 36), (32, 30))
+
+graduate-person
+def build(self) -> None:
+    self.add_polyline('board', (8, 12), (24, 6), (40, 12), (34, 15), (24, 20), (14, 15), (8, 12), closed=True)
+    self.add_arc('face', (14, 15), (34, 15), radius_x=10, radius_y=13, sweep=False)
+    self.relate('connect', 'board', 'face')
+    self.add_arc('shoulders', (8, 42), (40, 42), radius_x=16, radius_y=7)
+
+hand-holding-remote-with-signal
+def build(self):
+    self.add_arc('signal', (8, 8), (28, 8), radius_x=10, radius_y=4)
+    self.add_line('remote-top', (11, 17), (25, 17))
+    self.add_arc('remote-ne', (25, 17), (28, 20), radius_x=3)
+    self.add_line('remote-right-a', (28, 20), (28, 23))
+    self.add_line('remote-right', (28, 23), (28, 30))
+    self.add_line('remote-bottom', (18, 38), (11, 38))
+    self.add_arc('remote-sw', (11, 38), (8, 35), radius_x=3)
+    self.add_line('remote-left', (8, 35), (8, 20))
+    self.add_arc('remote-nw', (8, 20), (11, 17), radius_x=3)
+    self.add_contour('remote-outline', 'remote-bottom', 'remote-sw', 'remote-left', 'remote-nw', 'remote-top', 'remote-ne', 'remote-right-a', 'remote-right')
+    self.add_line('thumb-tip-a', (32, 34), (28, 30))
+    self.add_line('thumb-tip', (28, 30), (26, 28))
+    self.add_arc('thumb-round', (26, 28), (20, 34), radius_x=5, sweep=False)
+    self.add_line('thumb-palm-1', (20, 34), (24, 39))
+    self.add_line('thumb-palm-2', (24, 39), (26, 42))
+    self.add_contour('grip', 'thumb-tip-a', 'thumb-tip', 'thumb-round', 'thumb-palm-1', 'thumb-palm-2')
+    self.add_polyline('outer-hand', (28, 23), (36, 31), (36, 38), (40, 42))
+    self.relate('connect', 'remote-outline', 'outer-hand')
+    self.relate('connect', 'remote-outline', 'grip')
+
+kayak-cockpit-paddle
+def build(self) -> None:
+    self.add_arc('hull-right-top', (24, 6), (31, 9), radius_x=35, radius_y=25)
+    self.add_arc('hull-right-middle', (31, 9), (38, 24), radius_x=35, radius_y=25)
+    self.add_arc('hull-right-bottom', (38, 24), (24, 42), radius_x=35, radius_y=25)
+    self.add_arc('hull-left-bottom', (24, 42), (10, 24), radius_x=35, radius_y=25)
+    self.add_arc('hull-left-top', (10, 24), (24, 6), radius_x=35, radius_y=25)
+    self.add_contour('hull', 'hull-right-top', 'hull-right-middle', 'hull-right-bottom', 'hull-left-bottom', 'hull-left-top', closed=True)
+    self.add_line('paddle-shaft', (10, 24), (31, 9))
+    self.relate('connect', 'paddle-shaft', 'hull')
+    self.add_polyline('blade-left', (10, 24), (8, 28), (8, 32))
+    self.add_polyline('blade-right', (31, 9), (36, 6), (40, 6))
+    self.relate('connect', 'paddle-shaft', 'blade-left')
+    self.relate('connect', 'paddle-shaft', 'blade-right')
+    self.relate('connect', 'hull', 'blade-left')
+    self.relate('connect', 'hull', 'blade-right')
+    self.add_arc('cockpit-a', (24, 26), (24, 32), radius_x=3)
+    self.add_arc('cockpit-b', (24, 32), (24, 26), radius_x=3)
+    self.add_contour('cockpit', 'cockpit-a', 'cockpit-b', closed=True)
+
+milestone-marker-divided
+def build(self) -> None:
+    self.add_arc('arch', (12, 16), (36, 16), radius_x=12)
+    self.add_polyline('stone-right', (36, 16), (36, 36))
+    self.add_polyline('stone-left', (12, 36), (12, 16))
+    self.add_polyline('arch-base', (12, 16), (24, 16), (36, 16))
+    self.add_polyline('plinth', (8, 36), (12, 36), (24, 36), (36, 36), (40, 36), (40, 42), (8, 42), closed=True)
+    self.add_line('divider', (24, 16), (24, 36))
+    for part in ('stone-left', 'stone-right', 'arch-base'):
+        self.relate('connect', 'arch', part)
+    self.relate('connect', 'stone-left', 'arch-base')
+    self.relate('connect', 'stone-right', 'arch-base')
+    for part in ('stone-left', 'stone-right', 'divider'):
+        self.relate('connect', 'plinth', part)
+    self.relate('connect', 'divider', 'arch-base')
+
+plain-tram-front
+def build(self) -> None:
+    self.add_line('roof-1', (12, 12), (24, 12))
+    self.add_line('roof-2', (24, 12), (36, 12))
+    self.add_arc('upper-right', (36, 12), (40, 16), radius_x=4)
+    self.add_line('right-wall-1', (40, 16), (40, 26))
+    self.add_line('right-wall-2', (40, 26), (40, 32))
+    self.add_line('right-wall-3', (40, 32), (40, 36))
+    self.add_arc('lower-right', (40, 36), (36, 40), radius_x=4)
+    self.add_line('base-1', (36, 40), (34, 40))
+    self.add_line('base-2', (34, 40), (30, 40))
+    self.add_line('base-3', (30, 40), (18, 40))
+    self.add_line('base-4', (18, 40), (14, 40))
+    self.add_line('base-5', (14, 40), (12, 40))
+    self.add_arc('lower-left', (12, 40), (8, 36), radius_x=4)
+    self.add_line('left-wall-1', (8, 36), (8, 32))
+    self.add_line('left-wall-2', (8, 32), (8, 26))
+    self.add_line('left-wall-3', (8, 26), (8, 16))
+    self.add_arc('upper-left', (8, 16), (12, 12), radius_x=4)
+    self.add_contour('body', 'roof-1', 'roof-2', 'upper-right', 'right-wall-1', 'right-wall-2', 'right-wall-3', 'lower-right', 'base-1', 'base-2', 'base-3', 'base-4', 'base-5', 'lower-left', 'left-wall-1', 'left-wall-2', 'left-wall-3', 'upper-left', closed=True)
+    self.add_polyline('divider', (8, 26), (24, 26), (40, 26))
+    self.relate('connect', 'body', 'divider')
+    for name, x, end in [('left', 14, 8), ('right', 34, 40)]:
+        self.add_line(name + '-rail', (x, 40), (end, 44))
+        self.relate('connect', name + '-rail', 'body')
+    self.add_line('mast', (24, 6), (24, 12))
+    self.add_polyline('pantograph-bar', (16, 6), (24, 6), (32, 6))
+    self.relate('connect', 'mast', 'body')
+    self.relate('connect', 'mast', 'pantograph-bar')
+
+taxi-front
+def build(self) -> None:
+    self.add_line('body-top-0', (10, 20), (12, 20))
+    self.add_line('body-top-1', (12, 20), (36, 20))
+    self.add_line('body-top-2', (36, 20), (38, 20))
+    self.add_arc('body-top-corner', (38, 20), (40, 22), radius_x=2)
+    self.add_line('body-right-0', (40, 22), (40, 36))
+    self.add_arc('body-right-corner', (40, 36), (38, 38), radius_x=2)
+    self.add_line('body-bottom-0', (38, 38), (36, 38))
+    self.add_line('body-bottom-1', (36, 38), (12, 38))
+    self.add_line('body-bottom-2', (12, 38), (10, 38))
+    self.add_arc('body-bottom-corner', (10, 38), (8, 36), radius_x=2)
+    self.add_line('body-left-0', (8, 36), (8, 22))
+    self.add_arc('body-left-corner', (8, 22), (10, 20), radius_x=2)
+    self.add_contour('body', 'body-top-0', 'body-top-1', 'body-top-2', 'body-top-corner', 'body-right-0', 'body-right-corner', 'body-bottom-0', 'body-bottom-1', 'body-bottom-2', 'body-bottom-corner', 'body-left-0', 'body-left-corner', closed=True)
+    self.add_polyline('cabin', (12, 20), (16, 12), (18, 12), (30, 12), (32, 12), (36, 20))
+    self.add_polyline('roof-sign', (18, 12), (18, 6), (30, 6), (30, 12))
+    self.relate('connect', 'roof-sign', 'cabin')
+    self.relate('connect', 'cabin', 'body')
+    for side, x in [('left', 12), ('right', 36)]:
+        self.add_line(side + '-wheel', (x, 38), (x, 44))
+        self.relate('connect', side + '-wheel', 'body')
+    self.add_line('left-light', (17, 29), (18, 29))
+    self.add_line('right-light', (30, 29), (31, 29))
+
+tram-front-headlights
+def build(self) -> None:
+    self.add_line('roof-1', (12, 12), (24, 12))
+    self.add_line('roof-2', (24, 12), (36, 12))
+    self.add_arc('upper-right', (36, 12), (40, 16), radius_x=4)
+    self.add_line('right-wall-1', (40, 16), (40, 22))
+    self.add_line('right-wall-2', (40, 22), (40, 32))
+    self.add_line('right-wall-3', (40, 32), (40, 36))
+    self.add_arc('lower-right', (40, 36), (36, 40), radius_x=4)
+    self.add_line('base-1', (36, 40), (34, 40))
+    self.add_line('base-2', (34, 40), (30, 40))
+    self.add_line('base-3', (30, 40), (18, 40))
+    self.add_line('base-4', (18, 40), (14, 40))
+    self.add_line('base-5', (14, 40), (12, 40))
+    self.add_arc('lower-left', (12, 40), (8, 36), radius_x=4)
+    self.add_line('left-wall-1', (8, 36), (8, 32))
+    self.add_line('left-wall-2', (8, 32), (8, 22))
+    self.add_line('left-wall-3', (8, 22), (8, 16))
+    self.add_arc('upper-left', (8, 16), (12, 12), radius_x=4)
+    self.add_contour('body', 'roof-1', 'roof-2', 'upper-right', 'right-wall-1', 'right-wall-2', 'right-wall-3', 'lower-right', 'base-1', 'base-2', 'base-3', 'base-4', 'base-5', 'lower-left', 'left-wall-1', 'left-wall-2', 'left-wall-3', 'upper-left', closed=True)
+    self.add_polyline('divider', (8, 22), (24, 22), (40, 22))
+    self.relate('connect', 'body', 'divider')
+    for name, x, end in [('left', 14, 8), ('right', 34, 40)]:
+        self.add_line(name + '-rail', (x, 40), (end, 44))
+        self.relate('connect', name + '-rail', 'body')
+    self.add_line('mast', (24, 6), (24, 12))
+    self.add_polyline('pantograph-bar', (16, 6), (24, 6), (32, 6))
+    self.relate('connect', 'mast', 'body')
+    self.relate('connect', 'mast', 'pantograph-bar')
+    self.add_dot('left-headlight', (17, 31))
+    self.add_dot('right-headlight', (31, 31))
+
+tram-front-split-windscreen
+def build(self) -> None:
+    self.add_line('roof-1', (12, 12), (24, 12))
+    self.add_line('roof-2', (24, 12), (36, 12))
+    self.add_arc('upper-right', (36, 12), (40, 16), radius_x=4)
+    self.add_line('right-wall-1', (40, 16), (40, 24))
+    self.add_line('right-wall-2', (40, 24), (40, 32))
+    self.add_line('right-wall-3', (40, 32), (40, 36))
+    self.add_arc('lower-right', (40, 36), (36, 40), radius_x=4)
+    self.add_line('base-1', (36, 40), (34, 40))
+    self.add_line('base-2', (34, 40), (30, 40))
+    self.add_line('base-3', (30, 40), (18, 40))
+    self.add_line('base-4', (18, 40), (14, 40))
+    self.add_line('base-5', (14, 40), (12, 40))
+    self.add_arc('lower-left', (12, 40), (8, 36), radius_x=4)
+    self.add_line('left-wall-1', (8, 36), (8, 32))
+    self.add_line('left-wall-2', (8, 32), (8, 24))
+    self.add_line('left-wall-3', (8, 24), (8, 16))
+    self.add_arc('upper-left', (8, 16), (12, 12), radius_x=4)
+    self.add_contour('body', 'roof-1', 'roof-2', 'upper-right', 'right-wall-1', 'right-wall-2', 'right-wall-3', 'lower-right', 'base-1', 'base-2', 'base-3', 'base-4', 'base-5', 'lower-left', 'left-wall-1', 'left-wall-2', 'left-wall-3', 'upper-left', closed=True)
+    self.add_polyline('divider', (8, 24), (24, 24), (40, 24))
+    self.relate('connect', 'body', 'divider')
+    for name, x, end in [('left', 14, 8), ('right', 34, 40)]:
+        self.add_line(name + '-rail', (x, 40), (end, 44))
+        self.relate('connect', name + '-rail', 'body')
+    self.add_line('mast', (24, 6), (24, 12))
+    self.add_polyline('pantograph-bar', (16, 6), (24, 6), (32, 6))
+    self.relate('connect', 'mast', 'body')
+    self.relate('connect', 'mast', 'pantograph-bar')
+    self.add_line('window-post', (24, 12), (24, 24))
+    self.relate('connect', 'window-post', 'body')
+    self.relate('connect', 'window-post', 'divider')
+    self.relate('connect', 'window-post', 'mast')
+    self.add_line('left-lamp', (8, 32), (12, 32))
+    self.add_line('right-lamp', (36, 32), (40, 32))
+    self.relate('connect', 'left-lamp', 'body')
+    self.relate('connect', 'right-lamp', 'body')
+    self.add_line('bumper-left', (18, 40), (18, 38))
+    self.add_arc('bumper-arch', (18, 38), (30, 38), radius_x=6, radius_y=4)
+    self.add_line('bumper-right', (30, 38), (30, 40))
+    self.add_contour('bumper', 'bumper-left', 'bumper-arch', 'bumper-right')
+    self.relate('connect', 'bumper', 'body')
+
+user
+def build(self) -> None:
+    self.circle('head', 24, 12, 8)
+    self.add_arc('shoulders', (8, 42), (40, 42), radius_x=16, radius_y=15)
+    self.add_line('base', (40, 42), (8, 42))
+    self.add_contour('bust', 'shoulders', 'base', closed=True)
+
+user-profile
+def build(self) -> None:
+    self.add_arc('head-top', (15, 13), (33, 13), radius_x=9)
+    self.add_arc('head-bottom', (33, 13), (15, 13), radius_x=9)
+    self.add_contour('head', 'head-top', 'head-bottom', closed=True)
+    self.add_arc('shoulders', (8, 42), (40, 42), radius_x=16, radius_y=13, sweep=True)
+
+user-with-gear
+def build(self) -> None:
+    self.add_arc('head-left', (24, 24), (24, 6), radius_x=10)
+    self.add_polyline('head-teeth', (24, 6), (32, 6), (32, 8), (36, 10), (40, 10), (40, 18), (36, 18), (32, 20), (32, 24), (24, 24))
+    self.relate('connect', 'head-left', 'head-teeth')
+    self.add_polyline('axis', (24, 6), (24, 24), (24, 33), (24, 42))
+    self.relate('connect', 'head-left', 'axis')
+    self.relate('connect', 'head-teeth', 'axis')
+    self.add_arc('body-left', (8, 42), (24, 33), radius_x=16, radius_y=11)
+    self.add_line('base', (8, 42), (24, 42))
+    self.relate('connect', 'body-left', 'base')
+    self.relate('connect', 'body-left', 'axis')
+    self.relate('connect', 'base', 'axis')
+    self.add_polyline('body-teeth', (24, 33), (31, 33), (34, 33), (38, 37), (35, 40), (40, 40), (40, 42))
+    self.relate('connect', 'body-teeth', 'axis')
+    self.relate('connect', 'body-teeth', 'body-left')
+
+waterside-fortress-v2
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def C(n, x, y, r):
+        A(n + '-upper', (x - r, y), (x + r, y), r)
+        A(n + '-lower', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + '-upper', n + '-lower', closed=True)
+    P('fort', (8, 40), (8, 34), (18, 22), (24, 22), (30, 22), (40, 32), (40, 40))
+    P('flag', (24, 6), (38, 6), (34, 8), (38, 12), (24, 12), closed=True)
+    L('pole', (24, 12), (24, 22))
+    J('pole', 'flag')
+    J('pole', 'fort')
+    L('door-left', (22, 40), (22, 35))
+    A('door-arch', (22, 35), (30, 35), 4)
+    L('door-right', (30, 35), (30, 40))
+    self.add_contour('door', 'door-left', 'door-arch', 'door-right')
+    A('wave-a', (8, 40), (14, 40), 3, 4, s=False)
+    A('wave-b', (14, 40), (22, 40), 4, 4, s=False)
+    A('wave-c', (22, 40), (30, 40), 4, 4, s=False)
+    A('wave-d', (30, 40), (40, 40), 5, 4, s=False)
+    self.add_contour('water', 'wave-a', 'wave-b', 'wave-c', 'wave-d')
+    J('water', 'fort')
+    J('water', 'door')
+
+blank-arched-gravestone
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    A('arch', (12, 16), (36, 16), 12)
+    P('walls', (36, 16), (36, 36), (12, 36), (12, 16))
+    J('walls', 'arch')
+    P('base', (8, 36), (40, 36), (40, 42), (8, 42), closed=True)
+    J('base', 'walls')
+
+hand-holding-document
+def build(self):
+    self.add_polyline('paper', (18, 20), (8, 20), (8, 42), (32, 42), (32, 26))
+    self.add_polyline('arm-top', (40, 6), (31, 10), (23, 10), (18, 20))
+    self.relate('connect', 'arm-top', 'paper')
+    self.add_line('arm-lower-1', (40, 16), (34, 21))
+    self.add_line('arm-lower-2', (34, 21), (29, 21))
+    self.add_line('arm-lower-3', (29, 21), (24, 26))
+    self.add_arc('thumb-tip', (24, 26), (18, 20), radius_x=5, sweep=True)
+    self.add_line('thumb-upper', (18, 20), (24, 14))
+    self.add_contour('thumb', 'arm-lower-1', 'arm-lower-2', 'arm-lower-3', 'thumb-tip', 'thumb-upper')
+    self.relate('connect', 'paper', 'thumb')
+    self.relate('connect', 'arm-top', 'thumb')
+    self.add_line('text', (17, 35), (23, 35))
+
+monitor-with-portrait-window
+def build(self):
+
+    def line(n, a, b):
+        self.add_line(n, a, b)
+
+    def arc(n, a, b, r, ry=None, sweep=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
+
+    def poly(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def contour(n, *m, closed=False):
+        self.add_contour(n, *m, closed=closed)
+
+    def connect(a, b):
+        self.relate('connect', a, b)
+
+    def circle(n, x, y, r):
+        arc(n + 'a', (x, y - r), (x, y + r), r)
+        arc(n + 'b', (x, y + r), (x, y - r), r)
+        contour(n, n + 'a', n + 'b', closed=True)
+
+    def box(n, l, t, r, b, rad=4):
+        line(n + 't', (l + rad, t), (r - rad, t))
+        arc(n + 'tr', (r - rad, t), (r, t + rad), rad)
+        line(n + 'r', (r, t + rad), (r, b - rad))
+        arc(n + 'br', (r, b - rad), (r - rad, b), rad)
+        line(n + 'b', (r - rad, b), (l + rad, b))
+        arc(n + 'bl', (l + rad, b), (l, b - rad), rad)
+        line(n + 'l', (l, b - rad), (l, t + rad))
+        arc(n + 'tl', (l, t + rad), (l + rad, t), rad)
+        contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    box('screen', 8, 4, 40, 35, 4)
+    box('portrait', 19, 13, 29, 26, 2)
+    line('base', (16, 42), (32, 42))
+
+moving-server-stack
+def build(self) -> None:
+    for n, y in enumerate((6, 23)):
+        self.box(f'server-{n}', 8, y, 40, y + 10, r=5)
+    for n, x in enumerate((14, 24, 34)):
+        self.add_line(f'motion-{n}', (x, 42), (x, 44))
+
+rip-gravestone
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    A('arch', (8, 20), (40, 20), 16)
+    P('walls', (40, 20), (40, 42), (8, 42), (8, 20))
+    J('walls', 'arch')
+    L('r-stem', (22, 14), (22, 21))
+    C('r-loop', 24, 16, 2)
+    J('r-stem', 'r-loop')
+    L('r-leg', (24, 18), (26, 21))
+    J('r-leg', 'r-loop')
+    L('i', (18, 29), (18, 36))
+    L('p-stem', (27, 29), (27, 35))
+    C('p-loop', 29, 31, 2)
+    J('p-stem', 'p-loop')
+
+waterside-fortress
+def build(self):
+
+    def L(n, a, b):
+        self.add_line(n, a, b)
+
+    def P(n, *p, closed=False):
+        self.add_polyline(n, *p, closed=closed)
+
+    def A(n, a, b, r, ry=None, s=True):
+        self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
+
+    def C(n, x, y, r):
+        A(n + 'a', (x - r, y), (x + r, y), r)
+        A(n + 'b', (x + r, y), (x - r, y), r)
+        self.add_contour(n, n + 'a', n + 'b', closed=True)
+
+    def J(a, b):
+        self.relate('connect', a, b)
+
+    def R(n, x, y, w, h, r=4):
+        L(n + 't', (x + r, y), (x + w - r, y))
+        A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
+        L(n + 'r', (x + w, y + r), (x + w, y + h - r))
+        A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
+        L(n + 'b', (x + w - r, y + h), (x + r, y + h))
+        A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
+        L(n + 'l', (x, y + h - r), (x, y + r))
+        A(n + 'tl', (x, y + r), (x + r, y), r)
+        self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
+    P('fort', (8, 42), (8, 31), (20, 19), (32, 19), (40, 27), (40, 42))
+    P('flag', (26, 19), (26, 6), (38, 6), (34, 12), (26, 12))
+    J('flag', 'fort')
+    P('door', (22, 42), (22, 34), (32, 34), (32, 42))
+    P('water', (8, 42), (11, 41), (14, 42))
+    J('water', 'fort')

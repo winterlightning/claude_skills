@@ -1,3 +1,8 @@
+"""Canonical quarter ellipses remove off-grid extremes; valve creases now attach at exact shell nodes.
+
+SQUARE: visible ink (4, 4, 44, 44). Square envelope preserves the subject’s near-equal overall width and height.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48

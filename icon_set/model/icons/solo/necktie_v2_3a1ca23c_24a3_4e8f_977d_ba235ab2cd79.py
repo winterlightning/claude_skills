@@ -1,3 +1,8 @@
+"""Re-authored diagonally to preserve a narrow tie blade and trapezoid knot without stretching it sideways.
+
+SQUARE: visible ink (4, 4, 44, 44). Diagonal square construction preserves a narrow subject without stretching it sideways.
+No useful exact local Lucide match; retained the inspected parent silhouette.
+"""
 # Independent revision; parent models preserved.
 from ...keyshapes import Keyshape
 from ._base import Solo48
