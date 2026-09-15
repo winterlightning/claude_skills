@@ -169,6 +169,49 @@ class BuildIntegrityTests(unittest.TestCase):
         os.utime(self.dist / 'sub32/square.svg', (source - 10, source - 10))
         self.assertEqual(run(), ['square'])
 
+    def test_failed_qa_overlays_result_sends_icon_to_failed_build(self):
+        overlays = self.root / 'qa_overlays'
+        (overlays / 'sub32').mkdir(parents=True)
+        metrics = overlays / 'sub32/square.metrics.json'
+        drawing = hashlib.sha256(create('square').to_svg().encode('utf-8')).hexdigest()
+        def run():
+            checked = []
+            def inspect(icon, **kwargs):
+                checked.append(icon.icon_id)
+                return real_inspect(icon, **kwargs)
+            with patch.object(builder, 'icons_in', return_value=[create('square'), create('plus')]), \
+                    patch('icon_set.model.icons.registry.all_icons', return_value=[]), \
+                    patch.object(builder, 'inspect_icon', side_effect=inspect):
+                counts = builder.build_family('sub', self.dist, self.png, write_png=False, report=True,
+                                              qa_overlays=overlays)
+            return counts, checked
+        real_inspect = builder.inspect_icon
+        def write(**fields):
+            metrics.write_text(json.dumps({'distance_passed': True, 'negative_space_passed': True, **fields}))
+
+        # A verdict for another drawing is ignored.
+        write(svg_sha256='0' * 64, distance_passed=False)
+        self.assertEqual(run(), ((2, 0), ['square', 'plus']))
+
+        write(svg_sha256=drawing, distance_passed=False, lowest_distance=5.5, distance_gate=6.0, min_gap_kind='line',
+              negative_space_passed=False, pinches=[{'center': [8, 8]}],
+              holes=[{'center': [16, 16], 'inscribed_radius_u': 1.0, 'status': 'fail'}])
+        self.assertEqual(run(), ((1, 1), ['square']))
+        self.assertFalse((self.dist / 'sub32/square.svg').exists())
+        failed = json.loads((self.dist / 'failed/sub32/manifest.json').read_text())['icons']
+        self.assertEqual([record['icon_id'] for record in failed], ['square'])
+        self.assertTrue(failed[0]['qa_overlays_failed'])
+        self.assertEqual(failed[0]['holes'], [[15.0, 15.0, 17.0, 17.0]])
+        self.assertEqual(failed[0]['errors'], [
+            'qa-overlays distance: lowest line distance 5.5 on centerlines; requires at least 6.0',
+            'qa-overlays holes/pinches: 1 undersized holes; 1 pinches'])
+        # Unchanged icon and verdict: the failure is reused without re-checking.
+        self.assertEqual(run(), ((1, 1), []))
+        # Once qa_overlays passes it, the icon is checked again and published.
+        write(svg_sha256=drawing)
+        self.assertEqual(run(), ((2, 0), ['square']))
+        self.assertTrue((self.dist / 'sub32/square.svg').is_file())
+
     def test_failing_family_keeps_previous_release_while_others_publish(self):
         bad = create('smartwatch')
         bad.STROKE_WIDTH = 99

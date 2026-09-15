@@ -19,6 +19,11 @@ Each family ships to its own folder, named by the contract -- ``dist/sub32/``,
 folders never mix: a family's manifest lists one profile, and an icon whose
 profile is not its family's is sent to the failed build.
 
+Results saved by ``qa_overlays.py`` into ``icon_set/work/qa_overlays/<folder>/``
+also gate publication: an icon whose saved distance or hole check failed on the
+exact SVG it would publish goes to the failed build. Run qa_overlays.py first,
+then build; ``--qa-overlays DIR`` reads another folder.
+
     python3 icon_set/scripts/build.py                # all families, changed icons only
     python3 icon_set/scripts/build.py --all          # re-check every icon
     python3 icon_set/scripts/build.py --family solo  # one family only
@@ -56,6 +61,7 @@ DEFAULT_DIST = PACKAGE_ROOT / "dist"
 DEFAULT_PNG = PACKAGE_ROOT / "assets" / "previews-png"
 MANIFEST_VERSION = 2
 ICONS_ROOT = PACKAGE_ROOT / "model" / "icons"
+DEFAULT_QA_OVERLAYS = PACKAGE_ROOT / "work" / "qa_overlays"
 STALE_STAGE_SECONDS = 24 * 60 * 60
 
 
@@ -175,6 +181,34 @@ def _failed_record(icon, family: str, qa: dict, messages: list[str], mtime: floa
     }
 
 
+def _qa_overlay_failure(results: Path | None, folder: str, icon_id: str, svg_sha: str | None) -> dict | None:
+    """qa_overlays.py's saved verdict for this exact SVG, when its distance or hole check failed.
+
+    Returns the findings to fail the icon with, or None: no results, a result for
+    another drawing, or a pass. An errored measurement is not a failure.
+    """
+    if results is None or svg_sha is None:
+        return None
+    try:
+        metrics = json.loads((results / folder / f"{icon_id}.metrics.json").read_text(encoding='utf-8'))
+    except (OSError, ValueError):
+        return None
+    if not isinstance(metrics, dict) or metrics.get('svg_sha256') != svg_sha:
+        return None
+    errors, holes = [], []
+    if metrics.get('distance_passed') is False:
+        errors.append(f"qa-overlays distance: lowest {metrics.get('min_gap_kind') or 'gap'} distance "
+                      f"{metrics.get('lowest_distance')} on centerlines; requires at least {metrics.get('distance_gate')}")
+    if metrics.get('negative_space_passed') is False:
+        failed = [hole for hole in metrics.get('holes') or [] if hole.get('status') == 'fail']
+        errors.append(f"qa-overlays holes/pinches: {len(failed)} undersized holes; "
+                      f"{len(metrics.get('pinches') or [])} pinches")
+        for hole in failed:
+            (cx, cy), radius = hole['center'], hole['inscribed_radius_u']
+            holes.append([cx - radius, cy - radius, cx + radius, cy + radius])
+    return {'errors': errors, 'holes': holes} if errors else None
+
+
 def _drawing_sha(icon) -> str | None:
     """Hash of the SVG the model draws now; cheap next to validation, and it sees edits
     made outside the icon's own file (a shared base, a keyshape) that mtimes miss."""
@@ -210,7 +244,7 @@ def _manifest_icons(path: Path) -> dict[str, dict]:
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
-    only: set[str] | None = None,
+    only: set[str] | None = None, qa_overlays: Path | None = None,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
@@ -276,6 +310,9 @@ def _stage_family(
             entry["svg_sha256"] = hashlib.sha256(document.encode('utf-8')).hexdigest()
         failed_records.append(entry)
 
+    def overlay_failure(icon_id, svg_sha):
+        return _qa_overlay_failure(qa_overlays, folder, icon_id, svg_sha)
+
     for icon in icons:
         key = artifact_key(icon)
         mtime = _source_mtime(icon) if previous is not None else None
@@ -293,7 +330,9 @@ def _stage_family(
             record = old_records.get(icon.icon_id)
             old_qa = previous.qa_row(key, mtime) if qa_dir is not None else None
             png = preview_dir / f"{icon.icon_id}.png" if preview_dir is not None else None
+            overlay = overlay_failure(icon.icon_id, drawing)
             if _reusable_record(record, target_dir / f"{icon.icon_id}.svg", png, mtime, drawing) and \
+                    overlay is None and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] == 'pass')):
                 records.append(record)
                 if old_qa is not None:
@@ -303,6 +342,7 @@ def _stage_family(
             stale = old_failed.get(icon.icon_id)
             if record is None and stale is not None and mtime is not None and \
                     (stale.get('source_mtime') or 0) >= mtime and stale.get('svg_sha256') == drawing and \
+                    bool(stale.get('qa_overlays_failed')) == (overlay is not None) and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] != 'pass')):
                 # Unchanged since it last failed: the result would be the same.
                 document = None
@@ -323,8 +363,18 @@ def _stage_family(
         qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
         qa['_key'] = key
         qa_rows.append(qa)
+        document = qa.get('_svg')
+        overlay = overlay_failure(icon.icon_id, hashlib.sha256(document.encode('utf-8')).hexdigest()
+                                  if document else None)
+        if overlay is not None:
+            qa['errors'].extend(overlay['errors'])
+            if qa['status'] == 'pass':
+                qa['status'] = 'fail'
         if qa['status'] != 'pass':
             fail(icon, qa, qa['errors'] or qa['warnings'], mtime)
+            if overlay is not None:
+                failed_records[-1]['qa_overlays_failed'] = True
+                failed_records[-1]['holes'].extend(overlay['holes'])
             continue
         try:
             document = qa['_svg']
@@ -439,7 +489,8 @@ def _sweep_stale_stages(root: Path) -> None:
             pass
 
 
-def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None):
+def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
+                    qa_overlays=None):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -470,6 +521,7 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
                 family, stages[dist], stages.get(png_dir),
                 write_png=write_png, published_dist=dist,
                 qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous, only=only,
+                qa_overlays=qa_overlays,
             ))
         if qa_dir is not None:
             # A filtered build still shows the complete current library. Only
@@ -519,17 +571,17 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
 
 def build_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool,
-    debug: bool = False, report: bool = True, rebuild_all: bool = False,
+    debug: bool = False, report: bool = True, rebuild_all: bool = False, qa_overlays: Path | None = None,
 ) -> tuple[int, int]:
     """Publish one family's passing icons; failing icons go to dist/failed and are counted."""
     return _build_selected([family], dist, png_dir, write_png=write_png, debug=debug, report=report,
-                           rebuild_all=rebuild_all)
+                           rebuild_all=rebuild_all, qa_overlays=qa_overlays)
 
 
 def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
-    rebuild_all: bool = False, sources: list[Path] | None = None,
+    rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -555,7 +607,7 @@ def build(
         # Without --family, build just the families the selected icons belong to.
         families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
-                                rebuild_all=rebuild_all, only=selected)
+                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays)
     return 1 if failed else 0
 
 
@@ -582,9 +634,14 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument('--icon', dest='sources', action='append', type=Path, metavar='PYTHON_FILE',
                         help='check only the icons defined in this file (repeatable); every other icon '
                              'keeps its last built result unchecked, and the exit code covers these alone')
+    parser.add_argument('--qa-overlays', type=Path, default=DEFAULT_QA_OVERLAYS, metavar='DIR',
+                        help='qa_overlays.py results per family folder (DIR/solo48/...); icons whose saved '
+                             'distance or hole check failed on the SVG being published go to the failed build '
+                             f'(default: {DEFAULT_QA_OVERLAYS.relative_to(REPO_ROOT)})')
     args = parser.parse_args(argv)
     return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
-                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources)
+                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
+                 qa_overlays=args.qa_overlays)
 
 
 if __name__ == "__main__":

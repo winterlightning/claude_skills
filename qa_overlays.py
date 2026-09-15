@@ -2,8 +2,17 @@
 """qa_overlays.py — render the review QA PNGs + gate metrics for finished SVGs.
 
 Usage:  python3 qa_overlays.py icon.svg|svg_dir [more ...] \
-            [--out-dir DIR] [--gate N] [--jobs N] \
+            [--out-dir DIR] [--gate N] [--jobs N] [--force] \
             [--png source.png --src-svg icon_final_raw.svg]
+
+By default only SVGs whose output is missing or stale are measured: an SVG is
+skipped when its metrics.json records the same svg_sha256, was measured at the
+same --gate, and the debug PNGs it implies exist. --force re-measures
+everything. Runs with --png/--src-svg always measure.
+
+build.py reads icon_set/work/qa_overlays/<family folder>/ (e.g. solo48): an
+icon whose saved result here failed distance or holes for the SVG it would
+publish goes to dist/failed instead. Measure into that folder, then rebuild.
 
 For each SVG (directories are expanded to their *.svg; missing files are
 skipped) this writes, next to it or into --out-dir:
@@ -52,6 +61,7 @@ execution.py.
 """
 import argparse
 import csv
+import hashlib
 import json
 import os
 import re
@@ -471,10 +481,11 @@ def source_metrics(png_path, src_svg_path, overlay_path):
 
 def process(svg_path, src_metrics=None, hole_metrics=None, out_dir=None,
             gate=None, quiet=False):
-    stem = os.path.splitext(os.path.basename(svg_path))[0]
-    base = (os.path.join(out_dir, stem) if out_dir
-            else os.path.splitext(svg_path)[0])
+    base = _output_base(svg_path, out_dir)
     metrics = dict(src_metrics) if src_metrics else {}
+    # Ties the result to this exact drawing: build.py only applies a verdict
+    # whose hash matches the SVG it is publishing.
+    metrics["svg_sha256"] = _file_sha256(svg_path)
     if hole_metrics:
         metrics.update(hole_metrics)
 
@@ -552,6 +563,40 @@ def process(svg_path, src_metrics=None, hole_metrics=None, out_dir=None,
     return metrics
 
 
+def _file_sha256(path):
+    with open(path, "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()
+
+
+def _output_base(svg_path, out_dir):
+    stem = os.path.splitext(os.path.basename(svg_path))[0]
+    return (os.path.join(out_dir, stem) if out_dir
+            else os.path.splitext(svg_path)[0])
+
+
+def existing_metrics(svg_path, out_dir=None, gate=None):
+    """The saved metrics when this SVG's debug output is complete and current,
+    else None: metrics.json measured this exact SVG (svg_sha256) at the
+    requested gate, and every debug PNG that metrics.json implies is on disk."""
+    base = _output_base(svg_path, out_dir)
+    try:
+        with open(base + ".metrics.json", encoding="utf-8") as f:
+            m = json.load(f)
+        current = _file_sha256(svg_path)
+    except (OSError, ValueError):
+        return None
+    if not isinstance(m, dict) or m.get("svg_sha256") != current:
+        return None
+    if gate is not None and m.get("distance_gate") != gate:
+        return None
+    needed = []
+    if m.get("canvas") is not None:
+        needed.append(base + "_distance_debug.png")
+    if m.get("negative_space_status") not in (None, "error"):
+        needed.append(base + "_hole_debug.png")
+    return m if all(os.path.isfile(p) for p in needed) else None
+
+
 def _process_batch_item(job):
     path, out_dir, gate = job
     try:
@@ -560,7 +605,10 @@ def _process_batch_item(job):
         return {"icon": os.path.basename(path)[:-4], "status": "ERROR",
                 "distance_status": "ERROR", "hole_status": "ERROR",
                 "error": str(e)[:200]}
+    return _summary_row(path, m)
 
+
+def _summary_row(path, m):
     def verdict(v):
         return "ERROR" if v is None else "PASS" if v else "FAIL"
 
@@ -599,6 +647,10 @@ def main():
     ap.add_argument("--png", help="source PNG (enables precision/recall gates)")
     ap.add_argument("--src-svg", help="source-coordinate SVG matching --png "
                                       "(e.g. <stem>_final_raw.svg)")
+    ap.add_argument("--force", action="store_true",
+                    help="re-measure every SVG (default: only SVGs whose "
+                         "debug PNGs/metrics.json are missing or were "
+                         "measured on a different SVG)")
     args = ap.parse_args()
 
     svgs = []
@@ -616,21 +668,35 @@ def main():
 
     if len(svgs) > 1 and not (args.png or args.src_svg):
         from multiprocessing import Pool
-        jobs = [(p, args.out_dir, args.gate) for p in svgs]
-        with Pool(max(1, args.jobs)) as pool:
-            rows = []
-            for i, row in enumerate(pool.imap(_process_batch_item, jobs,
-                                              chunksize=8), 1):
-                rows.append(row)
-                if row["status"] != "PASS":
-                    print(f"{row['icon']}: distance={row['distance_status']}"
-                          f" lowest_distance={row.get('lowest_distance')}"
-                          f" holes={row['hole_status']}"
-                          f" failed_holes={row.get('failed_holes')}"
-                          f" pinches={row.get('pinches')} "
-                          f"{row.get('error', '')}".rstrip())
-                if i % 500 == 0:
-                    print(f"  ... {i}/{len(jobs)}", file=sys.stderr)
+        rows_by_path = {}
+        if not args.force:
+            for p in svgs:
+                m = existing_metrics(p, args.out_dir, args.gate)
+                if m is not None:
+                    rows_by_path[p] = _summary_row(p, m)
+        jobs = [(p, args.out_dir, args.gate) for p in svgs
+                if p not in rows_by_path]
+        print(f"measuring {len(jobs)}/{len(svgs)} SVGs "
+              f"({len(rows_by_path)} up to date"
+              f"{'' if args.force else '; --force re-measures all'})",
+              file=sys.stderr)
+        if jobs:
+            with Pool(max(1, min(args.jobs, len(jobs)))) as pool:
+                for i, row in enumerate(pool.imap(_process_batch_item, jobs,
+                                                  chunksize=8), 1):
+                    rows_by_path[jobs[i - 1][0]] = row
+                    if i % 500 == 0:
+                        print(f"  ... {i}/{len(jobs)}", file=sys.stderr)
+        # Report and write the CSV over every SVG, skipped ones included.
+        rows = [rows_by_path[p] for p in svgs]
+        for row in rows:
+            if row["status"] != "PASS":
+                print(f"{row['icon']}: distance={row['distance_status']}"
+                      f" lowest_distance={row.get('lowest_distance')}"
+                      f" holes={row['hole_status']}"
+                      f" failed_holes={row.get('failed_holes')}"
+                      f" pinches={row.get('pinches')} "
+                      f"{row.get('error', '')}".rstrip())
 
         def tally(key):
             counts = {}
@@ -677,6 +743,11 @@ def main():
               "+ holes", file=sys.stderr)
 
     for p in svgs:
+        # Source-referenced runs are not covered by the saved-output check.
+        if not (args.force or args.png or args.src_svg) and \
+                existing_metrics(p, args.out_dir, args.gate) is not None:
+            print(f"{os.path.basename(p)}: up to date (--force to re-measure)")
+            continue
         try:
             process(p, src_metrics=src, hole_metrics=holes,
                     out_dir=args.out_dir, gate=args.gate)

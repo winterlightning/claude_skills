@@ -129,7 +129,9 @@ def classify(message: str) -> dict:
                          elements=[match.group(1)] + re.split(r",\s*|\s+and\s+", match.group(2)))
         else:
             issue["kind"] = "Spacing (unparsed)"
-    elif message.startswith("holes/pinches"):
+    elif message.startswith("qa-overlays distance"):
+        issue.update(rule="spacing", kind="Distance check (qa_overlays)")
+    elif message.startswith(("holes/pinches", "qa-overlays holes/pinches")):
         issue["rule"] = "holes"
         match = HOLES.search(message)
         holes, pinches = (int(match.group(1)), int(match.group(2))) if match else (0, 0)
