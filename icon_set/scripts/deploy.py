@@ -31,6 +31,7 @@ if __package__:
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
     from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
     from generation import GenerationManager
@@ -39,6 +40,7 @@ else:
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
     from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from progression import import_snapshot
     from primitives_catalog import primitives_root
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
@@ -742,6 +744,8 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
     if database.is_relative_to(dist):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
     init_database(database)
+    with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
+        import_snapshot(connection)
     server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
     server.references = ReferenceStore(database.parent / 'reference-images')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
