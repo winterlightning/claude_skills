@@ -1,4 +1,4 @@
-"""Speaker (audio), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""speaker: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/audio/speaker_81d4c431-5d96-51d5-9f0d-22d
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Speaker(Solo48):
     icon_id = 'speaker'
@@ -19,13 +19,24 @@ class Speaker(Solo48):
     keywords = ('speaker', 'audio')
 
     def build(self):
-        self.add_line('e0', (9, 34), (8, 35))
-        self.add_line('e1', (35, 39), (36, 40))
-        self.add_line('e2', (40, 14), (40, 13))
-        self.add_arc('e3-top', (17, 24), (31, 24), radius_x=7)
-        self.add_arc('e3-bottom', (31, 24), (17, 24), radius_x=7)
-        self.add_bezier('e4', (8, 35), ((7.853, 35.401), (7.301, 36.232), (7.252, 36.665)), ((7.031, 38.735), (9.297, 40.495), (11.204, 40.11)), ((12.325, 39.881), (13.094, 38.678), (13.454, 38.588)), ((13.535, 38.572), (13.969, 38.915), (14.051, 38.965)), ((14.746, 39.406), (15.442, 39.873), (16.195, 40.208)), ((18.477, 41.239), (20.989, 41.992), (23.517, 41.992)), ((23.574, 41.992), (23.63, 42), (23.686, 42)), ((23.687, 42), (23.688, 42), (23.689, 42)), ((23.845, 42), (24, 41.984), (24.164, 41.984)), ((28.025, 41.984), (31.768, 41.037), (35, 39)))
-        self.add_bezier('e5', (36, 40), ((36.663, 40.311), (37.525, 40.977), (38.285, 40.879)), ((40.233, 40.625), (41.558, 38.392), (41.116, 36.559)), ((40.855, 35.487), (39.251, 34.17), (39.185, 33.892)), ((39.169, 33.826), (40.47, 31.355), (40.609, 31.02)), ((41.485, 29.007), (41.984, 26.774), (41.984, 24.573)), ((41.984, 24.237), (42, 23.894), (42, 23.55)), ((42, 23.546), (42, 23.541), (42, 23.537)), ((42, 23.255), (41.992, 22.981), (41.992, 22.699)), ((41.992, 19.729), (41.53, 16.512), (40, 14)))
-        self.add_bezier('e6', (40, 13), ((40.196, 11.568), (40.454, 9.886), (38.948, 9.183)), ((37.246, 8.389), (36.052, 9.78), (35.225, 9.575)), ((34.841, 9.485), (34.514, 9.134), (34.178, 8.937)), ((33.442, 8.512), (32.673, 8.111), (31.904, 7.743)), ((29.768, 6.72), (27.191, 6.016), (24.818, 6.016)), ((24.52, 6.016), (24.222, 6), (23.932, 6)), ((23.927, 6), (23.923, 6), (23.918, 6)), ((23.656, 6), (23.395, 6.016), (23.133, 6.016)), ((20.719, 6.016), (18.256, 6.761), (16.121, 7.833)), ((15.311, 8.225), (14.583, 8.7), (13.855, 9.232)), ((13.789, 9.273), (13.454, 9.592), (13.38, 9.584)), ((13.184, 9.551), (11.711, 8.266), (11.163, 8.07)), ((9.068, 7.325), (6.802, 9.297), (7.35, 11.506)), ((7.522, 12.21), (7.825, 12.717), (8.307, 13.241)), ((8.422, 13.372), (8.921, 13.748), (8.945, 13.912)), ((8.905, 13.977), (8.864, 14.043), (8.823, 14.108)), ((8.283, 14.959), (7.784, 15.826), (7.366, 16.743)), ((6.54, 18.535), (6.016, 21.12), (6.016, 23.108)), ((6.016, 23.452), (6, 23.795), (6, 24.139)), ((6, 24.143), (6, 24.147), (6, 24.151)), ((6, 24.392), (6.008, 24.642), (6.008, 24.892)), ((6.008, 28.328), (7.208, 32.153), (9, 35)))
-        self.add_contour('c0', 'e0', 'e4', 'e1', 'e5', 'e2', 'e6')
-        self.add_contour('e3', 'e3-top', 'e3-bottom', closed=True)
+        # Plan: SQUARE; matching mounting ears around a centered circular cone.
+        # Reference: No exact speaker-driver reference; repeated rotational geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Four identical mounting ears, smoothly joined to the circular body.
+        path('rim',(24,6),[
+         ('C',(28,6),(31,7),(34,9)),('C',(40,3),(45,8),(39,14)),
+         ('C',(43,20),(43,28),(39,34)),('C',(45,40),(40,45),(34,39)),
+         ('C',(28,43),(20,43),(14,39)),('C',(8,45),(3,40),(9,34)),
+         ('C',(5,28),(5,20),(9,14)),('C',(3,8),(8,3),(14,9)),('C',(17,7),(20,6),(24,6))],True)
+        self.add_arc('cone-a',(24,17),(24,31),radius_x=7)
+        self.add_arc('cone-b',(24,31),(24,17),radius_x=7)
+        self.add_contour('cone','cone-a','cone-b',closed=True)

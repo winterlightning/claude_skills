@@ -1,4 +1,4 @@
-"""Fire (weather), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""fire-5ae1316a: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/weather/fire_5ae1316a-475c-4f56-8965-7568
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Fire5ae1316a(Solo48):
     icon_id = 'fire-5ae1316a'
@@ -19,14 +19,18 @@ class Fire5ae1316a(Solo48):
     keywords = ('fire', 'weather')
 
     def build(self):
-        self.add_line('e0', (17, 16), (12, 21))
-        self.add_line('e1', (27, 8), (22, 4))
-        self.add_arc('e2', (22, 4), (17, 16), radius_x=18)
-        self.add_arc('e3-1', (12, 21), (9, 26), radius_x=16, sweep=False)
-        self.add_line('e3-2', (9, 26), (8, 31))
-        self.add_arc('e3-3', (8, 31), (10, 37), radius_x=10, sweep=False)
-        self.add_arc('e3-4', (10, 37), (24, 44), radius_x=18, sweep=False)
-        self.add_arc('e3-5', (24, 44), (35, 40), radius_x=18, sweep=False)
-        self.add_arc('e3-6', (35, 40), (40, 30), radius_x=13, sweep=False)
-        self.add_arc('e3-7', (40, 30), (27, 8), radius_x=32, sweep=False)
-        self.add_contour('c0', 'e2', 'e0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e3-5', 'e3-6', 'e3-7', 'e1', closed=True)
+        # Plan: VRECT_L; one flowing asymmetric flame tip over a smooth balanced bowl.
+        # Reference: No useful simple-flame Lucide match; preserve the original leaning flame silhouette.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Deliberately asymmetric flame tip; continuous curve through both side extremes.
+        path('flame',(22,4),[('C',(23,15),(40,18),(40,29)),('C',(40,38),(33,44),(24,44)),
+         ('C',(15,44),(8,38),(8,29)),('C',(8,18),(20,17),(22,4))],True)

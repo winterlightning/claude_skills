@@ -1,4 +1,4 @@
-"""Curly brackets (programing), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""curly-brackets-programing: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/programing/curly brackets_c9944ea4-e25f-5
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class CurlyBracketsPrograming(Solo48):
     icon_id = 'curly-brackets-programing'
@@ -19,18 +19,20 @@ class CurlyBracketsPrograming(Solo48):
     keywords = ('curly', 'brackets', 'programing')
 
     def build(self):
-        self.add_line('e0', (40, 27), (40, 36))
-        self.add_line('e1', (9, 21), (9, 11))
-        self.add_line('e2', (9, 29), (9, 36))
-        self.add_bezier('e3', (35, 8), ((35.236, 8), (35.382, 8.008), (35.609, 8.008)), ((37.836, 8.008), (39.973, 9.179), (40.427, 11.326)), ((40.545, 11.882), (40.527, 12.488), (40.527, 13.053)), ((40.555, 15.394), (39.973, 19.528), (40.864, 21.642)), ((41.373, 22.88), (42.782, 23.545), (44, 24)))
-        self.add_bezier('e4', (44, 24), ((42.573, 24.665), (40, 25.147), (40, 27)))
-        self.add_bezier('e5', (40, 36), ((40, 37.827), (38.8, 40), (36.582, 40)), ((36.373, 40), (36.173, 40), (35.964, 40)), ((35.827, 40), (35.682, 39.992), (35.545, 39.992)), ((35.473, 39.992), (35.4, 40), (35.336, 40)), ((35.191, 40), (35.145, 40), (35, 40)))
-        self.add_bezier('e6', (6, 24), ((7.436, 23.301), (9, 22.659), (9, 21)))
-        self.add_bezier('e7', (9, 11), ((9.7, 9.568), (10.8, 8.008), (12.727, 8.008)), ((13.009, 8.008), (13.291, 8), (13.573, 8)), ((13.718, 8), (13.855, 8), (14, 8)))
-        self.add_bezier('e8', (4, 24), ((4.609, 24), (5.209, 24), (5.818, 24)), ((6.155, 24.008), (6.655, 24.345), (6.927, 24.522)), ((8.145, 25.331), (8.691, 26.737), (8.655, 28.084)), ((8.645, 28.413), (9, 28.68), (9, 29)))
-        self.add_bezier('e9', (9, 36), ((9, 37.735), (10.155, 40), (12.264, 40)), ((12.482, 40), (12.691, 40), (12.909, 40)), ((13.055, 40), (13.2, 39.992), (13.345, 39.992)), ((13.418, 39.992), (13.491, 40), (13.564, 40)), ((13.709, 40), (13.855, 40), (14, 40)))
-        self.add_contour('c0', 'e3')
-        self.add_contour('c1', 'e4', 'e0', 'e5')
-        self.add_contour('c2', 'e6', 'e1', 'e7')
-        self.add_contour('c3', 'e8', 'e2', 'e9')
-        self.relate('connect', 'c2', 'c3')
+        # Plan: HRECT_L; mirrored braces with matching shoulders and centered cusps.
+        # Reference: Lucide braces: paired repeated curved brackets.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        for side,mirror in [('left',False),('right',True)]:
+         def p(x,y):return (48-x,y) if mirror else (x,y)
+         path(side,p(12,8),[('L',p(10,8)),('C',p(7,8),p(6,10),p(6,13)),('L',p(6,18)),
+         ('C',p(6,22),p(6,24),p(4,24)),('C',p(6,24),p(6,26),p(6,30)),('L',p(6,35)),
+         ('C',p(6,38),p(7,40),p(10,40)),('L',p(12,40))])

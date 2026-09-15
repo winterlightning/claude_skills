@@ -1,4 +1,4 @@
-"""Soundcloud logo (logos), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""soundcloud-logo: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/logos/soundcloud logo_7c396518-42a3-4878-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SoundcloudLogo(Solo48):
     icon_id = 'soundcloud-logo'
@@ -19,6 +19,18 @@ class SoundcloudLogo(Solo48):
     keywords = ('soundcloud', 'logo', 'logos')
 
     def build(self):
-        self.add_line('e0', (36, 40), (11, 40))
-        self.add_bezier('e1', (11, 40), ((10.964, 40), (11.2, 39.988), (11.164, 39.988)), ((7.727, 39.988), (4.009, 35.028), (4.009, 30.363)), ((4.009, 30.278), (4, 30.205), (4, 30.121)), ((4, 30.12), (4, 30.118), (4, 30.117)), ((4, 29.797), (4.009, 29.477), (4.009, 29.157)), ((4.009, 24.394), (7.091, 20.492), (10.309, 19.409)), ((11.236, 19.102), (12.173, 18.966), (13.127, 18.966)), ((13.336, 18.966), (13.9, 18.978), (13.9, 18.978)), ((13.982, 18.868), (14.1, 17.994), (14.191, 17.575)), ((14.4, 16.578), (14.773, 15.594), (15.182, 14.72)), ((16.991, 10.892), (20.473, 8.025), (23.882, 8.025)), ((24.045, 8.025), (24.2, 8), (24.364, 8)), ((24.368, 8), (24.372, 8), (24.377, 8)), ((24.655, 8), (24.941, 8.025), (25.218, 8.025)), ((28.627, 8.025), (31.982, 10.634), (33.9, 14.351)), ((34.4, 15.323), (34.764, 16.468), (35.036, 17.588)), ((35.109, 17.895), (35.255, 18.88), (35.327, 18.966)), ((35.336, 18.978), (35.9, 18.991), (36.082, 18.978)), ((36.909, 18.942), (37.727, 19.138), (38.518, 19.446)), ((41.382, 20.554), (43.991, 24.492), (43.991, 28.665)), ((43.991, 28.786), (44, 28.895), (44, 29.016)), ((44, 29.018), (44, 29.02), (44, 29.022)), ((44, 29.268), (43.991, 29.502), (43.991, 29.748)), ((43.991, 34.412), (41.027, 38.031), (37.973, 39.385)), ((37.336, 39.655), (36.591, 39.975), (35.918, 39.975)), ((35.882, 39.988), (36.036, 39.988), (36, 40)))
-        self.add_contour('c0', 'e0', 'e1', closed=True)
+        # Plan: HRECT_L; matching cloud shoulders, smooth crown and straight base.
+        # Reference: Lucide cloud: coherent lobes and tangent baseline.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        path('cloud',(14,40),[('A',(4,30),10,10,True),('A',(14,20),10,10,True),
+         ('C',(14,13),(18,8),(24,8)),('C',(30,8),(34,13),(34,20)),
+         ('A',(44,30),10,10,True),('A',(34,40),10,10,True),('L',(14,40))],True)

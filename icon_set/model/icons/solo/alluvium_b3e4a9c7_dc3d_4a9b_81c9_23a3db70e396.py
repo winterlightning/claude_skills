@@ -1,4 +1,4 @@
-"""Alluvium (_uncategorized_02), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""alluvium: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/alluvium_b3e4a9c7-dc3d-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Alluvium(Solo48):
     icon_id = 'alluvium'
@@ -19,17 +19,18 @@ class Alluvium(Solo48):
     keywords = ('alluvium', '_uncategorized_02')
 
     def build(self):
-        self.add_line('e0', (21, 10), (26, 13))
-        self.add_line('e1', (21, 23), (26, 25))
-        self.add_line('e2', (21, 35), (26, 38))
-        self.add_arc('e3-1', (4, 12), (13, 8), radius_x=17)
-        self.add_line('e3-2', (13, 8), (21, 10))
-        self.add_arc('e4', (26, 13), (44, 9), radius_x=13, sweep=False)
-        self.add_arc('e5', (4, 24), (21, 23), radius_x=14)
-        self.add_arc('e6', (26, 25), (44, 22), radius_x=13, sweep=False)
-        self.add_arc('e7', (4, 36), (21, 35), radius_x=15)
-        self.add_line('e8-1', (26, 38), (32, 40))
-        self.add_arc('e8-2', (32, 40), (44, 33), radius_x=18, sweep=False)
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e0', 'e4')
-        self.add_contour('c1', 'e5', 'e1', 'e6')
-        self.add_contour('c2', 'e7', 'e2', 'e8-1', 'e8-2')
+        # Plan: HRECT_L; three identical translated waves with smooth continuous tangents.
+        # Reference: No exact wave reference; repeated curve definition.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        for i,y in enumerate((12,24,36)):
+         path(f'wave-{i}',(4,y),[('C',(4+20/3,y-16/3),(24-20/3,y-16/3),(24,y)),
+         ('C',(24+20/3,y+16/3),(44-20/3,y+16/3),(44,y))])

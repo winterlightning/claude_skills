@@ -1,4 +1,4 @@
-"""Pin wave (state), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""pin-wave: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/state/pin wave_79f28f0f-6da1-42b3-a142-47
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PinWave(Solo48):
     icon_id = 'pin-wave'
@@ -19,21 +19,21 @@ class PinWave(Solo48):
     keywords = ('pin', 'wave', 'state')
 
     def build(self):
-        self.add_arc('sym-e0', (18, 19), (30, 19), radius_x=6, radius_y=5)
-        self.add_arc('sym-e1', (30, 19), (18, 19), radius_x=6, radius_y=5)
-        self.add_arc('sym-e2', (22, 42), (15, 34), radius_x=77)
-        self.add_line('sym-e3', (15, 34), (11, 28))
-        self.add_arc('sym-e4', (11, 28), (8, 19), radius_x=18)
-        self.add_line('sym-e6', (8, 19), (8, 18))
-        self.add_arc('sym-e7', (8, 18), (23, 4), radius_x=16)
-        self.add_arc('sym-e8', (23, 4), (24, 4), radius_x=69, sweep=False)
-        self.add_arc('sym-e11', (24, 4), (25, 4), radius_x=76, sweep=False)
-        self.add_arc('sym-e12', (25, 4), (40, 18), radius_x=16)
-        self.add_line('sym-e13', (40, 18), (40, 19))
-        self.add_arc('sym-e15', (40, 19), (37, 28), radius_x=17)
-        self.add_arc('sym-e16', (37, 28), (33, 34), radius_x=59)
-        self.add_arc('sym-e17', (33, 34), (26, 42), radius_x=76, sweep=False)
-        self.add_line('sym-e18', (26, 42), (24, 44))
-        self.add_line('sym-e19', (24, 44), (22, 42))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', closed=True)
+        # Plan: VRECT_L; circular crown and mirrored tangent shoulders meet at one centered pin tip.
+        # Reference: Lucide map-pin: symmetric location outline and centered marker.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Left and right halves share their apex, crown and tangent controls.
+        path('pin',(24,44),[('C',(18,38),(8,30),(8,20)),('A',(24,4),16,16,True),
+         ('A',(40,20),16,16,True),('C',(40,30),(30,38),(24,44))],True)
+        self.add_arc('hole-a',(24,15),(24,25),radius_x=5)
+        self.add_arc('hole-b',(24,25),(24,15),radius_x=5)
+        self.add_contour('hole','hole-a','hole-b',closed=True)

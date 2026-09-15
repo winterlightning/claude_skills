@@ -1,4 +1,4 @@
-"""Video player (video), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""video-player: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/video/video player_1fbf3568-1a46-4a75-92f
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class VideoPlayer(Solo48):
     icon_id = 'video-player'
@@ -19,17 +19,21 @@ class VideoPlayer(Solo48):
     keywords = ('video', 'player')
 
     def build(self):
-        self.add_line('e0', (39, 9), (31, 8))
-        self.add_line('e1', (4, 28), (5, 36))
-        self.add_line('e2', (43, 36), (44, 28))
-        self.add_line('e3', (30, 25), (19, 31))
-        self.add_line('e4', (19, 31), (19, 17))
-        self.add_line('e5', (19, 17), (30, 23))
-        self.add_bezier('e6', (31, 8), ((30.327, 8), (29.927, 8.02), (29.255, 8.02)), ((28.673, 8.02), (28.091, 8.02), (27.5, 8.02)), ((27.3, 8.02), (27.1, 8), (26.909, 8)), ((25.145, 8), (23.382, 8.01), (21.627, 8.01)), ((17.764, 8.01), (13.809, 8.33), (9.982, 8.93)), ((8.536, 9.16), (6.564, 9.1), (5.527, 10.4)), ((4.791, 11.32), (4.8, 12.74), (4.655, 13.9)), ((4.318, 16.62), (4.018, 19.37), (4.018, 22.12)), ((4.018, 22.27), (4, 22.41), (4, 22.56)), ((4, 23.02), (4.018, 23.49), (4.018, 23.95)), ((4.018, 24.34), (4.018, 24.72), (4.018, 25.11)), ((4.018, 25.32), (4, 25.52), (4, 25.73)), ((4, 26.49), (4, 27.24), (4, 28)))
-        self.add_bezier('e7', (5, 36), ((5.264, 38.3), (7.336, 38.63), (9.009, 38.89)), ((13.164, 39.54), (17.318, 39.99), (21.518, 39.99)), ((21.831, 39.99), (22.136, 40), (22.449, 40)), ((22.454, 40), (22.459, 40), (22.464, 40)), ((23.609, 40), (24.764, 39.99), (25.909, 39.99)), ((30.109, 39.99), (34.327, 39.76), (38.455, 38.83)), ((40.591, 38.35), (42.064, 38.51), (43, 36)))
-        self.add_bezier('e8', (44, 28), ((44, 27.02), (43.991, 26.04), (43.991, 25.07)), ((43.991, 24.4), (43.982, 23.73), (43.982, 23.06)), ((43.982, 22.86), (44, 22.66), (44, 22.46)), ((44, 22.03), (43.982, 21.59), (43.982, 21.16)), ((43.982, 18.54), (43.6, 15.92), (43.2, 13.36)), ((43.036, 12.32), (42.973, 11.02), (42.273, 10.23)), ((41.355, 9.2), (40.236, 9.17), (39, 9)))
-        self.add_bezier('e9', (19, 31), ((18.809, 31.02), (19.145, 31.25), (18.909, 31.22)), ((18.773, 31.2), (19.082, 31.01), (19, 31)))
-        self.add_bezier('e10', (19, 17), ((19.018, 17), (18.791, 16.8), (18.936, 16.8)), ((19.127, 16.8), (18.855, 17), (19, 17)))
-        self.add_bezier('e11', (30, 23), ((30.164, 23.37), (31.091, 24.03), (31, 24.43)), ((30.782, 24.62), (30.209, 24.81), (30, 25)))
-        self.add_contour('c0', 'e0', 'e6', 'e1', 'e7', 'e2', 'e8', closed=True)
-        self.add_contour('c1', 'e3', 'e9', 'e4', 'e10', 'e5', 'e11', closed=True)
+        # Plan: HRECT_L; balanced bowed screen with a centered play triangle.
+        # Reference: Lucide youtube: rounded video frame and simple play mark.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Four broad tangent corners preserve the softly bowed video frame.
+        path('screen',(24,8),[('C',(32,8),(38,8),(41,10)),('C',(44,12),(44,18),(44,24)),
+         ('C',(44,30),(44,36),(41,38)),('C',(38,40),(32,40),(24,40)),
+         ('C',(16,40),(10,40),(7,38)),('C',(4,36),(4,30),(4,24)),
+         ('C',(4,18),(4,12),(7,10)),('C',(10,8),(16,8),(24,8))],True)
+        self.add_polyline('play',(19,17),(31,24),(19,31),closed=True)

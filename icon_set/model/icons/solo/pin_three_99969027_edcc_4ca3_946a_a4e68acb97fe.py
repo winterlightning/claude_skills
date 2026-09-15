@@ -1,4 +1,4 @@
-"""Pin three (other), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""pin-three: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/other/pin three_99969027-edcc-4ca3-946a-a
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PinThree(Solo48):
     icon_id = 'pin-three'
@@ -19,20 +19,18 @@ class PinThree(Solo48):
     keywords = ('pin', 'three', 'other')
 
     def build(self):
-        self.add_bezier('sym-e0', (24, 44), ((17.971, 38.355), (8, 30.509), (8, 21)))
-        self.add_bezier('sym-e1', (8, 21), ((8, 20.782), (8, 20.218), (8, 20)))
-        self.add_bezier('sym-e2', (8, 20), ((8, 19.709), (8, 19.291), (8, 19)))
-        self.add_bezier('sym-e3', (8, 19), ((8, 17.436), (8.453, 16.427), (9, 15)))
-        self.add_bezier('sym-e4', (9, 15), ((11.417, 8.718), (17.676, 4), (24, 4)))
-        self.add_bezier('sym-e5', (24, 4), ((24.067, 4), (23.933, 4), (24, 4)))
-        self.add_bezier('sym-e6', (24, 4), ((24.021, 4), (23.979, 4), (24, 4)))
-        self.add_bezier('sym-e7', (24, 4), ((24.01, 4), (23.99, 4), (24, 4)))
-        self.add_bezier('sym-e8', (24, 4), ((24.01, 4), (23.99, 4), (24, 4)))
-        self.add_bezier('sym-e9', (24, 4), ((24.021, 4), (23.979, 4), (24, 4)))
-        self.add_bezier('sym-e10', (24, 4), ((24.067, 4), (23.933, 4), (24, 4)))
-        self.add_bezier('sym-e11', (24, 4), ((30.324, 4), (36.583, 8.718), (39, 15)))
-        self.add_bezier('sym-e12', (39, 15), ((39.547, 16.427), (40, 17.436), (40, 19)))
-        self.add_bezier('sym-e13', (40, 19), ((40, 19.291), (40, 19.709), (40, 20)))
-        self.add_bezier('sym-e14', (40, 20), ((40, 20.218), (40, 20.782), (40, 21)))
-        self.add_bezier('sym-e15', (40, 21), ((40, 30.509), (30.029, 38.355), (24, 44)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', closed=True)
+        # Plan: VRECT_L; circular crown and mirrored tangent shoulders meet at one centered pin tip.
+        # Reference: Lucide map-pin: symmetric location outline and centered marker.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Left and right halves share their apex, crown and tangent controls.
+        path('pin',(24,44),[('C',(18,38),(8,30),(8,20)),('A',(24,4),16,16,True),
+         ('A',(40,20),16,16,True),('C',(40,30),(30,38),(24,44))],True)

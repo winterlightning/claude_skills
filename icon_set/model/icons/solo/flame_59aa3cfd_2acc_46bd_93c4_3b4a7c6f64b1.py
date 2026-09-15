@@ -1,4 +1,4 @@
-"""Flame (products), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""flame-59aa3cfd: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/products/flame_59aa3cfd-2acc-46bd-93c4-3b
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Flame59aa3cfd(Solo48):
     icon_id = 'flame-59aa3cfd'
@@ -19,7 +19,18 @@ class Flame59aa3cfd(Solo48):
     keywords = ('flame', 'products')
 
     def build(self):
-        self.add_line('e0', (23, 4), (23, 7))
-        self.add_line('e1', (29, 9), (23, 4))
-        self.add_bezier('e2', (23, 7), ((23, 8.491), (22.51, 9.5), (21.92, 10.864)), ((20.76, 13.536), (18.96, 15.727), (16.76, 17.755)), ((12.45, 21.718), (8.02, 24.109), (8.02, 30.427)), ((8.02, 30.645), (8, 30.873), (8, 31.091)), ((8, 31.092), (8, 31.093), (8, 31.094)), ((8, 31.166), (8.01, 31.237), (8.01, 31.309)), ((8.01, 32.373), (8.32, 33.491), (8.69, 34.491)), ((10.77, 40.245), (17.45, 43.982), (23.99, 43.982)), ((24.197, 43.982), (24.403, 44), (24.61, 44)), ((24.613, 44), (24.617, 44), (24.62, 44)), ((24.7, 43.991), (24.78, 43.991), (24.87, 43.982)), ((26.05, 43.982), (27.32, 43.682), (28.45, 43.382)), ((33.98, 41.9), (38.03, 37.991), (39.42, 32.936)), ((39.7, 31.918), (39.98, 30.864), (39.98, 29.809)), ((39.98, 29.518), (40, 29.236), (40, 28.945)), ((40, 28.939), (40, 28.932), (40, 28.926)), ((40, 28.514), (39.99, 28.103), (39.99, 27.691)), ((39.99, 21.764), (35.71, 15.5), (31.61, 11.109)), ((30.78, 10.227), (29.98, 9.745), (29, 9)))
-        self.add_contour('c0', 'e0', 'e2', 'e1', closed=True)
+        # Plan: VRECT_L; one flowing asymmetric flame tip over a smooth balanced bowl.
+        # Reference: No useful simple-flame Lucide match; preserve the original leaning flame silhouette.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Deliberately asymmetric flame tip; continuous curve through both side extremes.
+        path('flame',(22,4),[('C',(23,15),(40,18),(40,29)),('C',(40,38),(33,44),(24,44)),
+         ('C',(15,44),(8,38),(8,29)),('C',(8,18),(20,17),(22,4))],True)

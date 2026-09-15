@@ -1,0 +1,768 @@
+{
+  "icon_id": "skier-chairlift",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "review",
+  "errors": [],
+  "warnings": [
+    "internal-spacing [rider / ski]: rider-2 and ski-1 have 2.7594 units of ink clearance over 6.75 units; requires 4; review required"
+  ],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "head:subpath-1",
+        "elementId": "head",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 17 6 A 3 3 0 0 1 17 12 A 3 3 0 0 1 17 6 Z",
+        "bounds": [
+          14.0,
+          6.0,
+          20.0,
+          12.0
+        ],
+        "segmentCount": 129,
+        "approximationError": 0.0009039468984426912,
+        "hasCurves": true
+      },
+      {
+        "id": "rider:subpath-1",
+        "elementId": "rider",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 12 21 L 14 32 L 29 32 L 33 38",
+        "bounds": [
+          12.0,
+          21.0,
+          33.0,
+          38.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "arm:subpath-1",
+        "elementId": "arm",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 12 21 L 23 23 L 32 23",
+        "bounds": [
+          12.0,
+          21.0,
+          32.0,
+          23.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "suspension:subpath-1",
+        "elementId": "suspension",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 32 6 L 32 16 L 32 23",
+        "bounds": [
+          32.0,
+          6.0,
+          32.0,
+          23.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "seat:subpath-1",
+        "elementId": "seat",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 6 32 L 14 32",
+        "bounds": [
+          6.0,
+          32.0,
+          14.0,
+          32.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "ski:subpath-1",
+        "elementId": "ski",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 12 42 L 33 38 L 42 35",
+        "bounds": [
+          12.0,
+          35.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "head:subpath-1"
+        ],
+        "contourIds": [
+          "head:subpath-1"
+        ],
+        "elementIds": [
+          "head"
+        ],
+        "bounds": [
+          14.0,
+          6.0,
+          20.0,
+          12.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "rider:subpath-1",
+          "arm:subpath-1",
+          "suspension:subpath-1",
+          "seat:subpath-1",
+          "ski:subpath-1"
+        ],
+        "contourIds": [
+          "rider:subpath-1",
+          "arm:subpath-1",
+          "suspension:subpath-1",
+          "seat:subpath-1",
+          "ski:subpath-1"
+        ],
+        "elementIds": [
+          "rider",
+          "arm",
+          "suspension",
+          "seat",
+          "ski"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "head:subpath-1",
+          "arm:subpath-1"
+        ],
+        "centerlineDistance": 9.701274281998597,
+        "inkClearance": 5.701274281998597,
+        "signedInkClearance": 5.701274281998597,
+        "lowerBound": 9.70037033510015,
+        "upperBound": 9.702178228897042,
+        "inkClearanceLowerBound": 5.70037033510015,
+        "inkClearanceUpperBound": 5.702178228897042,
+        "approximationError": 0.0009039468984468613,
+        "nearestPoints": [
+          [
+            16.414729033951616,
+            11.942355841209691
+          ],
+          [
+            14.67931233291807,
+            21.487147696894194
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "head:subpath-1"
+          ],
+          [
+            "rider:subpath-1",
+            "arm:subpath-1",
+            "suspension:subpath-1",
+            "seat:subpath-1",
+            "ski:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "rider:subpath-1"
+            ],
+            "centerlineDistance": 10.000008534408092,
+            "inkClearance": 6.000008534408092,
+            "signedInkClearance": 6.000008534408092,
+            "lowerBound": 9.999104587509645,
+            "upperBound": 10.000912481306537,
+            "inkClearanceLowerBound": 5.999104587509645,
+            "inkClearanceUpperBound": 6.000912481306537,
+            "approximationError": 0.0009039468984426912,
+            "nearestPoints": [
+              [
+                15.851949702904731,
+                11.77163859753386
+              ],
+              [
+                12.0,
+                21.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "arm:subpath-1"
+            ],
+            "centerlineDistance": 9.701274281998597,
+            "inkClearance": 5.701274281998597,
+            "signedInkClearance": 5.701274281998597,
+            "lowerBound": 9.70037033510015,
+            "upperBound": 9.702178228897042,
+            "inkClearanceLowerBound": 5.70037033510015,
+            "inkClearanceUpperBound": 5.702178228897042,
+            "approximationError": 0.0009039468984426912,
+            "nearestPoints": [
+              [
+                16.414729033951616,
+                11.942355841209691
+              ],
+              [
+                14.67931233291807,
+                21.487147696894194
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "suspension:subpath-1"
+            ],
+            "centerlineDistance": 12.0,
+            "inkClearance": 8.0,
+            "signedInkClearance": 8.0,
+            "lowerBound": 12.0,
+            "upperBound": 12.000903946898445,
+            "inkClearanceLowerBound": 8.0,
+            "inkClearanceUpperBound": 8.000903946898445,
+            "approximationError": 0.0009039468984426912,
+            "nearestPoints": [
+              [
+                20.0,
+                9.0
+              ],
+              [
+                32.0,
+                9.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "seat:subpath-1"
+            ],
+            "centerlineDistance": 20.195358206396435,
+            "inkClearance": 16.195358206396435,
+            "signedInkClearance": 16.195358206396435,
+            "lowerBound": 20.194454259497984,
+            "upperBound": 20.19626215329488,
+            "inkClearanceLowerBound": 16.194454259497984,
+            "inkClearanceUpperBound": 16.19626215329488,
+            "approximationError": 0.0009039468984426912,
+            "nearestPoints": [
+              [
+                16.559808576633916,
+                11.967529529894342
+              ],
+              [
+                14.0,
+                32.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "ski:subpath-1"
+            ],
+            "centerlineDistance": 28.48171124938884,
+            "inkClearance": 24.48171124938884,
+            "signedInkClearance": 24.48171124938884,
+            "lowerBound": 28.48080730249039,
+            "upperBound": 28.482615196287288,
+            "inkClearanceLowerBound": 24.48080730249039,
+            "inkClearanceUpperBound": 24.482615196287288,
+            "approximationError": 0.0009039468984426912,
+            "nearestPoints": [
+              [
+                17.585270966048384,
+                11.942355841209691
+              ],
+              [
+                22.914543994235718,
+                39.9210392391932
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "arm:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          12.0,
+          21.0
+        ]
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "seat:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          32.0
+        ]
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "ski:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          33.0,
+          38.0
+        ]
+      },
+      {
+        "contourIds": [
+          "arm:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          32.0,
+          23.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "arm:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rider:subpath-1",
+            "arm:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            12.0,
+            21.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "seat:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rider:subpath-1",
+            "seat:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            32.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rider:subpath-1",
+            "ski:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            33.0,
+            38.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "arm:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "arm:subpath-1",
+            "suspension:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            32.0,
+            23.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "arm:subpath-1",
+          "seat:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "arm:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "suspension:subpath-1",
+          "seat:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "suspension:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "seat:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 9.701274281998597,
+    "minimumInkClearance": 5.701274281998597,
+    "reason": "All disconnected components meet the required spacing.",
+    "stats": {
+      "commands": 19,
+      "flattenedSegments": 139,
+      "adaptiveNodes": 254,
+      "distanceTests": 157,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          16.9844,
+          8.9844
+        ],
+        "bbox_viewbox": [
+          16.0,
+          8.0,
+          2.0,
+          2.0
+        ],
+        "bbox_ship_px": [
+          2.0,
+          2.0
+        ],
+        "bbox_design_u": [
+          2.0,
+          2.0
+        ],
+        "area_ship_px2": 3.1523,
+        "equivalent_diameter_ship_px": 2.0034,
+        "equivalent_diameter_design_u": 2.0034,
+        "inscribed_diameter_ship_px": 1.9479,
+        "inscribed_diameter_design_u": 1.9479,
+        "inscribed_radius_ship_px": 0.9739,
+        "inscribed_radius_design_u": 0.9739,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass",
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "head",
+          "center": [
+            17.0,
+            9.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
+    "hole_count": 1,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          16.9844,
+          8.9844
+        ],
+        "bbox_viewbox": [
+          14.5,
+          6.5,
+          5.0,
+          5.0
+        ],
+        "bbox_ship_px": [
+          5.0,
+          5.0
+        ],
+        "bbox_design_u": [
+          5.0,
+          5.0
+        ],
+        "area_ship_px2": 19.6367,
+        "equivalent_diameter_ship_px": 5.0002,
+        "equivalent_diameter_design_u": 5.0002,
+        "inscribed_diameter_ship_px": 4.8932,
+        "inscribed_diameter_design_u": 4.8932,
+        "inscribed_radius_ship_px": 2.4466,
+        "inscribed_radius_design_u": 2.4466,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 0.9466,
+        "equivalent_diameter_at_authored_stroke_design_u": 1.8932,
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "head",
+          "center": [
+            17.0,
+            9.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
+      }
+    ],
+    "pinches": [],
+    "exception_count": 1,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 1.0,
+    "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
+    "samples_per_unit": 32
+  },
+  "artifacts": {},
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "17eae8a0be9fc409a745d1b47639ce86b1b756bd19bc0f0774767ca059449d37",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-authored-topology-v3"
+    },
+    "internal_spacing": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "pinch_measurement": "authored-stroke-v1",
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "internal_spacing": {
+    "status": "review",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "findings": [
+      {
+        "contour": "rider / ski",
+        "elements": [
+          "rider-2",
+          "ski-1"
+        ],
+        "status": "review",
+        "sustained_length": 6.75,
+        "centerline_distance": 6.7594,
+        "ink_gap": 2.7594,
+        "nearest_points": [
+          [
+            28.375,
+            32.0
+          ],
+          [
+            29.639770240700308,
+            38.64004376367613
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": true
+}

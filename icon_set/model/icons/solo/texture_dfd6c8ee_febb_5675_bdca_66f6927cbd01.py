@@ -1,4 +1,4 @@
-"""Texture (nature), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""texture: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/nature/texture_dfd6c8ee-febb-5675-bdca-66
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Texture(Solo48):
     icon_id = 'texture'
@@ -19,11 +19,21 @@ class Texture(Solo48):
     keywords = ('texture', 'nature')
 
     def build(self):
-        self.add_bezier('e0', (6, 8), ((6.458, 7.926), (6.933, 8.34), (7.375, 8.185)), ((9.134, 7.587), (9.944, 6.016), (12.104, 6.016)), ((12.161, 6.008), (12.226, 6.008), (12.292, 6)), ((12.349, 6), (12.406, 6.008), (12.464, 6.008)), ((15.434, 6.008), (16.456, 8.708), (19.173, 8.692)), ((21.693, 8.675), (23.043, 6.016), (25.612, 6.016)), ((28.623, 6.016), (29.49, 8.504), (32.141, 8.651)), ((34.784, 8.798), (36.093, 6.008), (38.907, 6.008)), ((38.964, 6.008), (39.028, 6), (39.085, 6)), ((39.085, 6), (39.086, 6), (39.087, 6)), ((39.161, 6), (39.226, 6.008), (39.3, 6.016)), ((40.331, 6.016), (41.116, 6.517), (42, 7)))
-        self.add_bezier('e1', (6, 20), ((6.442, 19.926), (6.908, 19.795), (7.325, 19.639)), ((7.726, 19.5), (8.095, 19.205), (8.438, 18.976)), ((9.895, 17.995), (11.073, 17.054), (12.914, 17.119)), ((15.466, 17.201), (16.841, 19.958), (19.475, 19.778)), ((22.11, 19.598), (22.912, 16.898), (26.209, 17.103)), ((28.623, 17.25), (29.719, 19.615), (32.239, 19.762)), ((34.178, 19.868), (35.234, 18.404), (36.829, 17.602)), ((38.367, 16.825), (40.225, 17.095), (41.673, 17.97)), ((41.804, 18.044), (41.869, 17.918), (42, 18)))
-        self.add_bezier('e2', (6, 31), ((6.483, 30.935), (6.982, 30.439), (7.448, 30.292)), ((9.371, 29.686), (10.246, 27.919), (12.619, 28.132)), ((15.36, 28.385), (16.89, 31.085), (19.451, 30.881)), ((22.02, 30.676), (23.084, 28.066), (25.939, 28.189)), ((28.492, 28.295), (29.915, 30.963), (32.517, 30.897)), ((34.154, 30.856), (35.111, 29.654), (36.404, 28.852)), ((38.351, 27.616), (40.11, 27.773), (42, 29)))
-        self.add_bezier('e3', (6, 42), ((6.434, 41.918), (6.892, 41.869), (7.309, 41.722)), ((9.207, 41.035), (10.083, 39.21), (12.431, 39.3)), ((13.437, 39.333), (14.386, 39.57), (15.237, 40.135)), ((16.35, 40.879), (17.479, 42), (18.919, 42)), ((18.976, 42), (19.042, 42), (19.099, 41.992)), ((21.619, 41.992), (23.018, 39.267), (25.546, 39.292)), ((28.713, 39.316), (29.825, 42), (32.943, 41.918)), ((34.505, 41.714), (35.635, 40.437), (36.993, 39.758)), ((38.695, 38.915), (40.478, 39.084), (42, 40)))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
+        # Plan: Equal translated waves with matched tangent directions; tiny flat fragments removed.
+        # Reference: No exact Lucide wave match; repeated smooth curve definition.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        for i,y in enumerate((9, 19, 29, 39)):
+            xs=(6, 24, 42);commands=[]
+            for j,(a,b) in enumerate(zip(xs,xs[1:])):
+                amplitude=3*(-1 if j%2==0 else 1)
+                commands.append(('C',(a+(b-a)/3,y+amplitude*4/3),(b-(b-a)/3,y+amplitude*4/3),(b,y)))
+            path(f'wave-{i}',(xs[0],y),commands)

@@ -1,4 +1,4 @@
-"""mobile-me-logo: reviewed and repaired in place on SOLO48."""
+"""mobile-me-logo: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/logos/mobile me logo_936a3619-3936-495a-b
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-repaired'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class MobileMeLogo(Solo48):
     icon_id = 'mobile-me-logo'
@@ -19,10 +19,18 @@ class MobileMeLogo(Solo48):
     keywords = ('mobile', 'me', 'logo', 'logos')
 
     def build(self):
-        # HRECT_L (4,8)-(44,40); preserve cloud silhouette, remove tiny converted segments.
-        # Construction reference: Lucide cloud: a few coherent lobes and a flat base
-        self.add_line('base',(34,40),(13,40))
-        self.add_arc('left-lobe',(13,40),(13,22),radius_x=9)
-        self.add_bezier('crown',(13,22),((13,14),(17,8),(24,8)),((31,8),(35,14),(35,20)))
-        self.add_bezier('right-lobe',(35,20),((41,20),(44,24),(44,30)),((44,36),(40,40),(34,40)))
-        self.add_contour('outline','base','left-lobe','crown','right-lobe',closed=True)
+        # Plan: HRECT_L; smooth crown, matching shoulders and tangent base replace lumpy cloud joins.
+        # Reference: Lucide cloud: continuous cloud silhouette.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        path('cloud',(14,40),[('A',(4,30),10,10,True),('A',(14,20),10,10,True),
+         ('C',(14,13),(18,8),(24,8)),('C',(30,8),(34,13),(34,20)),
+         ('A',(44,30),10,10,True),('A',(34,40),10,10,True),('L',(14,40))],True)

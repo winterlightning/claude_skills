@@ -1,4 +1,4 @@
-"""Fire (fire), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""fire: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/fire/fire_d57b67f9-c8ed-433b-aa42-f2f21b1
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Fire(Solo48):
     icon_id = 'fire'
@@ -19,6 +19,18 @@ class Fire(Solo48):
     keywords = ('fire',)
 
     def build(self):
-        self.add_line('e0', (12, 22), (16, 17))
-        self.add_bezier('e1', (16, 17), ((17.86, 14.473), (19.42, 11.727), (20.09, 8.709)), ((20.3, 7.782), (20.34, 6.818), (20.37, 5.873)), ((20.39, 5.245), (20.41, 4.627), (20.43, 4)), ((20.435, 4), (20.441, 4), (20.448, 4)), ((20.857, 4), (23.57, 6.181), (24.2, 6.7)), ((27.27, 9.236), (29.78, 12.791), (30.56, 16.527)), ((30.78, 17.582), (30.77, 18.609), (30.83, 19.673)), ((30.88, 20.682), (30.65, 21.764), (30.41, 22.745)), ((30.18, 23.664), (29.95, 24.591), (29.72, 25.509)), ((30.58, 24.955), (31.44, 24.4), (32.3, 23.845)), ((33.66, 22.964), (34.74, 21.927), (35.72, 20.7)), ((36.09, 20.236), (36.88, 19.155), (36.89, 19.155)), ((36.96, 19.164), (37.71, 20.718), (38, 21.282)), ((39.18, 23.6), (39.99, 26.309), (39.99, 28.873)), ((39.99, 28.998), (40, 29.114), (40, 29.239)), ((40, 29.241), (40, 29.243), (40, 29.245)), ((40, 29.436), (39.99, 29.618), (39.99, 29.809)), ((39.99, 37.473), (32.65, 43.991), (24.27, 43.991)), ((24.201, 43.991), (24.132, 44), (24.063, 44)), ((24.062, 44), (24.061, 44), (24.06, 44)), ((23.78, 44), (23.5, 43.991), (23.22, 43.991)), ((15.95, 43.991), (8.02, 38.664), (8.02, 31.645)), ((8.01, 31.527), (8.01, 31.409), (8, 31.282)), ((8, 31.278), (8, 31.274), (8, 31.271)), ((8, 31.038), (8.02, 30.796), (8.02, 30.555)), ((8.02, 27.473), (10.21, 24.445), (12, 22)))
-        self.add_contour('c0', 'e0', 'e1', closed=True)
+        # Plan: VRECT_L; flowing main flame and smooth lower bowl preserve the smaller side tongue.
+        # Reference: No close Lucide flame silhouette; retain deliberate asymmetric tongues.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        path('flame',(22,4),[('C',(26,7),(31,14),(31,20)),('C',(31,22),(30,25),(29,27)),
+         ('L',(37,21)),('C',(39,25),(40,28),(40,31)),('C',(40,39),(33,44),(24,44)),
+         ('C',(15,44),(8,38),(8,30)),('C',(8,20),(20,15),(22,4))],True)

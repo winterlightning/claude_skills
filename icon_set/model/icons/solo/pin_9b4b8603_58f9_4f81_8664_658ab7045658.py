@@ -1,4 +1,4 @@
-"""Pin (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""pin-9b4b8603: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/pin_9b4b8603-58f9-4f8
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Pin9b4b8603(Solo48):
     icon_id = 'pin-9b4b8603'
@@ -19,11 +19,19 @@ class Pin9b4b8603(Solo48):
     keywords = ('pin', 'interface-essential')
 
     def build(self):
-        self.add_line('e0', (29, 39), (24, 44))
-        self.add_arc('e1-1', (24, 44), (12, 31), radius_x=78)
-        self.add_arc('e1-2', (12, 31), (8, 20), radius_x=18)
-        self.add_arc('e1-3', (8, 20), (24, 4), radius_x=16)
-        self.add_arc('e1-4', (24, 4), (40, 20), radius_x=16)
-        self.add_arc('e1-5', (40, 20), (29, 39), radius_x=28)
-        self.add_dot('e2', (24, 19))
-        self.add_contour('c0', 'e0', 'e1-1', 'e1-2', 'e1-3', 'e1-4', 'e1-5', closed=True)
+        # Plan: VRECT_L; circular crown and mirrored tangent shoulders meet at one centered pin tip.
+        # Reference: Lucide map-pin: symmetric location outline and centered marker.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # Left and right halves share their apex, crown and tangent controls.
+        path('pin',(24,44),[('C',(18,38),(8,30),(8,20)),('A',(24,4),16,16,True),
+         ('A',(40,20),16,16,True),('C',(40,30),(30,38),(24,44))],True)
+        self.add_dot('location',(24,20))

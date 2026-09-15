@@ -1,4 +1,4 @@
-"""Reward stars (rating), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""reward-stars: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/rating/reward stars_c05c0079-7067-4069-b7
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class RewardStars(Solo48):
     icon_id = 'reward-stars'
@@ -19,18 +19,20 @@ class RewardStars(Solo48):
     keywords = ('reward', 'stars', 'rating')
 
     def build(self):
-        self.add_line('e0', (24, 6), (30, 18))
-        self.add_line('e1', (30, 18), (42, 20))
-        self.add_line('e2', (42, 20), (33, 29))
-        self.add_line('e3', (33, 29), (35, 42))
-        self.add_line('e4', (35, 42), (24, 35))
-        self.add_line('e5', (23, 35), (14, 41))
-        self.add_line('e6', (13, 40), (15, 29))
-        self.add_line('e7', (15, 28), (6, 20))
-        self.add_line('e8', (6, 20), (18, 18))
-        self.add_line('e9', (18, 18), (24, 6))
-        self.add_line('e10', (24, 35), (23, 35))
-        self.add_line('e11-1', (14, 41), (13, 42))
-        self.add_line('e11-2', (13, 42), (13, 40))
-        self.add_arc('e12', (15, 29), (15, 28), radius_x=1, sweep=False)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e10', 'e5', 'e11-1', 'e11-2', 'e6', 'e12', 'e7', 'e8', 'e9', closed=True)
+        # Plan: SQUARE; mirrored star arms and valleys, straight uninterrupted edges.
+        # Reference: Lucide star: common axis and deliberate corners.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        # One axis owns matching arms, not independently nudged vertices.
+        axis=24
+        right=[(axis,6),(axis+5,18),(42,20),(32,29),(35,42),(axis,35)]
+        points=right+[(48-x,y) for x,y in reversed(right[1:-1])]
+        self.add_polyline('star',*points,closed=True)

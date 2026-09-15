@@ -1,4 +1,4 @@
-"""Drug (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""drug: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/drug_1f8c6783-8fc1-48cd-91eb-d70ff
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Drug(Solo48):
     icon_id = 'drug'
@@ -19,27 +19,18 @@ class Drug(Solo48):
     keywords = ('drug', 'symbol')
 
     def build(self):
-        self.add_line('sym-e0', (24, 24), (31, 31))
-        self.add_line('sym-e1', (31, 31), (39, 23))
-        self.add_arc('sym-e2', (39, 23), (42, 16), radius_x=10, sweep=False)
-        self.add_arc('sym-e4', (42, 16), (39, 9), radius_x=10, sweep=False)
-        self.add_arc('sym-e5', (39, 9), (32, 6), radius_x=10, sweep=False)
-        self.add_arc('sym-e7', (32, 6), (25, 9), radius_x=10, sweep=False)
-        self.add_line('sym-e8', (25, 9), (17, 17))
-        self.add_line('sym-e9', (17, 17), (24, 24))
-        self.add_arc('sym-e10', (9, 39), (16, 42), radius_x=10, sweep=False)
-        self.add_arc('sym-e12', (16, 42), (23, 39), radius_x=10, sweep=False)
-        self.add_line('sym-e13', (23, 39), (31, 31))
-        self.add_arc('sym-e14', (9, 39), (6, 32), radius_x=10)
-        self.add_arc('sym-e16', (6, 32), (9, 25), radius_x=10)
-        self.add_line('sym-e17', (9, 25), (17, 17))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e4', 'sym-e5', 'sym-e7', 'sym-e8', 'sym-e9', closed=True)
-        self.add_contour('sym-c1', 'sym-e10', 'sym-e12', 'sym-e13')
-        self.add_contour('sym-c2', 'sym-e14', 'sym-e16', 'sym-e17')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
+        # Plan: SQUARE; matching diagonal capsule ends with smooth tangents and one exact seam.
+        # Reference: Lucide pill: parallel barrel edges and paired rounded caps.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        path('capsule',(9,25),[('L',(25,9)),('C',(29,5),(35,5),(39,9)),('C',(43,13),(43,19),(39,23)),
+         ('L',(23,39)),('C',(19,43),(13,43),(9,39)),('C',(5,35),(5,29),(9,25))],True)
+        self.add_line('seam',(17,17),(31,31));self.relate('connect','seam','capsule')

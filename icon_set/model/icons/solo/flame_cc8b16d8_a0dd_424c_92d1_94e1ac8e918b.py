@@ -1,4 +1,4 @@
-"""flame-fire: reviewed and repaired in place on SOLO48."""
+"""flame-fire: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/fire/flame_cc8b16d8-a0dd-424c-92d1-94e1ac
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-repaired'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class FlameFire(Solo48):
     icon_id = 'flame-fire'
@@ -19,10 +19,18 @@ class FlameFire(Solo48):
     keywords = ('flame', 'fire')
 
     def build(self):
-        # VRECT_L (8,4)-(40,44); retain two flame tips, omit the cramped inner flame.
-        # Construction reference: Lucide flame: a few flowing curves with intentional pointed tips
-        self.add_bezier('left',(24,44),((16,44),(8,38),(8,30)),((8,18),(24,16),(20,4)))
-        self.add_bezier('crest',(20,4),((29,10),(32,16),(30,24)))
-        self.add_bezier('notch',(30,24),((34,23),(36,20),(36,18)))
-        self.add_bezier('right',(36,18),((39,22),(40,26),(40,30)),((40,38),(32,44),(24,44)))
-        self.add_contour('outline','left','crest','notch','right',closed=True)
+        # Plan: VRECT_L; flowing main flame and smooth lower bowl preserve the smaller side tongue.
+        # Reference: No close Lucide flame silhouette; retain deliberate asymmetric tongues.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        path('flame',(22,4),[('C',(26,7),(31,14),(31,20)),('C',(31,22),(30,25),(29,27)),
+         ('L',(37,21)),('C',(39,25),(40,28),(40,31)),('C',(40,39),(33,44),(24,44)),
+         ('C',(15,44),(8,38),(8,30)),('C',(8,20),(20,15),(22,4))],True)

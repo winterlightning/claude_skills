@@ -1,4 +1,4 @@
-"""Warp wave (design), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""warp-wave: smooth geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/design/warp wave_014729fe-2ae7-5177-be6f-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class WarpWave(Solo48):
     icon_id = 'warp-wave'
@@ -19,11 +19,21 @@ class WarpWave(Solo48):
     keywords = ('warp', 'wave', 'design')
 
     def build(self):
-        self.add_line('e0', (27, 38), (22, 34))
-        self.add_bezier('e1', (4, 12), ((4.145, 11.88), (4.209, 11.69), (4.364, 11.57)), ((6.982, 9.67), (10.155, 8.02), (13.355, 8.02)), ((13.691, 8.02), (14.027, 8), (14.364, 8)), ((14.368, 8), (14.372, 8), (14.377, 8)), ((14.654, 8), (14.922, 8.01), (15.191, 8.01)), ((20.545, 8.01), (23.127, 12.13), (27.382, 14.45)), ((30.145, 15.96), (33.3, 16.58), (36.327, 15.73)), ((37.582, 15.38), (38.836, 14.82), (39.936, 14.04)), ((41.545, 12.9), (42.773, 11.56), (44, 10)))
-        self.add_bezier('e2', (4, 24), ((4.173, 23.87), (4.218, 23.68), (4.418, 23.56)), ((5.718, 22.77), (6.982, 21.78), (8.382, 21.18)), ((11.109, 20), (14.164, 19.53), (17.064, 20.16)), ((21.582, 21.15), (24.473, 25.25), (28.6, 27.1)), ((29.473, 27.49), (30.445, 27.73), (31.364, 27.93)), ((33.127, 28.3), (34.909, 28.18), (36.627, 27.59)), ((37.782, 27.2), (38.918, 26.71), (39.936, 25.97)), ((41.327, 24.97), (42.491, 23.76), (43.691, 22.52)), ((43.836, 22.37), (43.864, 22.16), (44, 22)))
-        self.add_bezier('e3', (44, 34), ((41.945, 36.71), (39.336, 38.83), (36.182, 39.64)), ((35.645, 39.78), (35.045, 39.98), (34.491, 39.98)), ((34.282, 39.98), (34.064, 40), (33.855, 40)), ((33.85, 40), (33.845, 40), (33.841, 40)), ((33.555, 40), (33.277, 39.98), (32.991, 39.98)), ((31.127, 39.98), (28.482, 39.3), (27, 38)))
-        self.add_bezier('e4', (22, 34), ((20.864, 33), (19.582, 32.4), (18.191, 31.99)), ((13.018, 30.47), (8.573, 32.19), (4.364, 35.52)), ((4.191, 35.65), (4.155, 35.85), (4, 36)))
-        self.add_contour('c0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e0', 'e4')
+        # Plan: Equal translated waves with matched tangent directions; tiny flat fragments removed.
+        # Reference: No exact Lucide wave match; repeated smooth curve definition.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L': self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C': self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A': self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+
+        for i,y in enumerate((12, 24, 36)):
+            xs=(4, 24, 44);commands=[]
+            for j,(a,b) in enumerate(zip(xs,xs[1:])):
+                amplitude=4*(-1 if j%2==0 else 1)
+                commands.append(('C',(a+(b-a)/3,y+amplitude*4/3),(b-(b-a)/3,y+amplitude*4/3),(b,y)))
+            path(f'wave-{i}',(xs[0],y),commands)
