@@ -21,6 +21,7 @@ RULES = {
     'ink_samples_per_unit': 16,
     'centerline_tolerance': 0.0001,
     'curve_flatness': 0.00001,
+    'maximum_sample_spacing': 0.25,
     'axes': ['vertical', 'horizontal'],
     'axis_origin': 'painted bounds midpoint (not canvas midpoint)',
     'centerline_measurement': 'sampled distance to union of bounded-error chords',
@@ -146,7 +147,7 @@ def analyze(icon, *, drawing=None, document=None, ink_min_iou=None):
                 # cannot distinguish a full line from two disconnected ends.
                 samples = []
                 for a, b in chords:
-                    count = max(2, math.ceil(float(np.linalg.norm(b-a)) / 0.25))
+                    count = max(2, math.ceil(float(np.linalg.norm(b-a)) / RULES['maximum_sample_spacing']))
                     samples.extend(a + (b-a) * (i/count) for i in range(count+1))
                 points = np.asarray(samples)
                 points[:, dimension] = 2*axis['coordinate'] - points[:, dimension]

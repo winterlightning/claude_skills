@@ -27,6 +27,35 @@ python3 icon_set/scripts/lucide_reference.py inspect heart --profile SUB32
 python3 icon_set/scripts/compose.py --host container-circle --sub heart --png
 ```
 
+## Symmetry check
+
+```bash
+python3 icon_set/scripts/check_symmetry.py --icon airmail
+python3 icon_set/scripts/check_symmetry.py --family solo
+python3 icon_set/scripts/check_symmetry.py  # all registered icons
+```
+
+The script writes `work/symmetry-check/index.html` and `results.json`; use
+`--out` to choose another directory. Repeat `--icon` or `--family` to select
+multiple entries. Exit codes: 0 for no detected mismatch, 1 for a symmetry
+failure, 2 for an input or checker error. Icon sources are never changed.
+
+Rendered ink with at least **98% mirror overlap** triggers a centerline check
+on the same horizontal or vertical axis through the ink bounds midpoint.
+The check compares the union of the authored lines and curves, independent
+of their names, direction, or subdivision. The tolerance is **0.0001 units**,
+with curve chord error bounded by **0.00001 units**. Geometry is sampled at
+chord endpoints and midpoints, with spacing at most 0.25 units on long lines;
+this is a numerical diagnostic, not a symbolic proof. Diagonal symmetry is
+outside this check. The ink threshold is a heuristic and may flag deliberate
+small asymmetries. All defaults live in `validation/symmetry.py`.
+
+The same check runs in build QA, even without debug artifacts, and prevents
+mismatched icons from shipping. It is separate from the standard-library
+vector-only `validate_icon()` API and uses the existing QA rendering dependencies.
+Airmail is a regression case: its ink overlaps by about 99.97%, but two shallow
+arcs on its right edge do not mirror its straight left edge.
+
 **Designing a new icon?** Use the family's slash skill — `/icon-sub`,
 `/icon-solo` or `/icon-container` — generated from the contracts into
 `.claude/skills/`. The shared technique library they point at is
