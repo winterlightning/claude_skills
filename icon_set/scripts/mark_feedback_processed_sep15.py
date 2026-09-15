@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-"""Remove processed feedback for 140 verified icons and set their reviewed versions Ready.
-Run after deploying the updated icons. Newer feedback and review decisions are kept.
+"""Remove processed feedback for 195 verified icons and set their reviewed versions Ready.
+Also remove records for seven combinations explicitly discarded by the user.
+Run after deploying the updated icons. Newer feedback and review decisions for retained icons are kept.
 """
 import argparse
 import hashlib
@@ -12,9 +13,10 @@ from pathlib import Path
 
 PACKAGE = Path(__file__).resolve().parents[1]
 PROCESSED_AT = '2026-09-15T22:55:53.393007+07:00'
+# Includes every resolved entry from the 63-icon local feedback audit.
+# Seven user-discarded combinations are handled separately below.
 # Fixed or visually verified icon IDs; hashes identify the exact reviewed drawings.
 CHANGED_ICONS = {
-    # Feedback #190: the current canoe already has a smooth curved bottom.
     'solo/canoe': '0db3b6e2ec79e083e4f4a0997b0e0376ea1124688555648f466e14d540e03caf',
     'container/hexagonal-molecular-structure': '6dcf16cea10a97fcc11f6bb7acab5e36d8a76d300f4dc099d4a617d9c4bff4f6',
     'container/fringed-area-rug': '0d830c810ac3f78ec1d172eafb60626ec58bb7eb9a5e33732ec2c4ef35da8b3e',
@@ -155,6 +157,61 @@ CHANGED_ICONS = {
     'solo/toucan': '1bf88fc6a5482e6cafaca5b3dcc4e454e1988668cac83b89d8158f95c4531ec5',
     'solo/windmill': '4b82891448d0b9122b708112866139bdeb102b7d4602f7bdea273c102dd078d1',
     'solo/wolf-head': 'b69bb1af93407fa61fdfd97b8bdd59138f529f3c3203da791efa0c1f8ed3cc71',
+    'container/counter-clockwise-circular-arrow': '00376c134f4ba11e63252be1363d873fa2fbb98c1328c2babad953cf5ffc74f1',
+    'container/kitchen-oven-appliance': '1021b9870906bd83273c3098b7e70c31a0532830308ff389750630971235d2ba',
+    'container/teacher-presenting-at-whiteboard': 'ed8c3fe6225e09c5a7c5030f00336b5ec1c5adad228a4dd6c493313496b2ef18',
+    'solo/ant': 'a589757fb816452c9326b24e21719f44e3bd81108173ba64cc1b2cd35db2843e',
+    'solo/arched-stone-bridge': '304e1fb47d9b650640c5ef5169cc3a9aa86797f19c004507839302c5bde9a058',
+    'solo/baby-bottle': '7eab9b120dc95afb50baa610bd81f5888acdb72338054f839a375845bf509d78',
+    'solo/baby-bottle-with-handles': '716f9d959e0bbb5cd416225d79e8fd19a70ee59aa6e725e9e136396d2537d544',
+    'solo/beaded-loop-with-heart-charm': '348b4ba4a6056b616e8deeacd1a16cbefdb35236bb7538d07a4f616d2251e058',
+    'solo/bell-shaped-stupa': '08bf96e019e82b6513331e1df7a877d04989885d45ba29448d5bf44aebddc809',
+    'solo/bird-in-flight': '7142218d68c6d60e8b0d28a37eb5b39623b45b1035da4d48628e4946125c5270',
+    'solo/buffalo-head': '6fb04602279c34193ecd329dd9129f04048b4caaf276a3f944220e23de7063e8',
+    'solo/cat-paw': '24a68dc358f8f94770aebb5c2f4eaa390ba2bb2bf269e15aadfdc2d3191e0946',
+    'solo/cobra-head': 'b6745ebbbd2fcb9e342e6683680f2f2b70b8ff5583af18e8348b47017e45932c',
+    'solo/compact-disc-with-sheen-arcs': '7562a13c6f4ff88b8836545e007a80d778a099446be7e444f5af1a4d1b927b84',
+    'solo/crested-penguin': '4abd8f93d59426cfc7cce9e852c4ad2d0e6b59b0876f353e4436451a3da64551',
+    'solo/disk-platter-with-drive-slots': '71965fae6041ded4f4e319956bc762ed65e320da582e5123c51c17e57f3dfe08',
+    'solo/face-wearing-round-glasses': 'ef0a136758def6cd6168020a061a769b0cf8557efcc00b10029721da4355785e',
+    'solo/hydroelectric-dam': 'e9bd6aea9eeaa6d418f90c7d610995a8504d0c4faf4e79dea8d4f6b028b6565e',
+    'solo/intertwined-snakes': '0d0631ae53568388e494a1edf75f27308ffd1614df32e7cb1fca6d5c5f30701a',
+    'solo/leaning-tower-of-pisa': 'bb5f826af2fa2accc4093da8a486eb815db84e94e7cfbcbb6e756a78a0c87d2c',
+    'solo/leaping-antelope': '40a4a4f206d35b694a4407b707b3de77af546185077583e87ba3c15243113a7d',
+    'solo/lidded-ceremonial-urn': '9894c8a1a67e8d035aa239675e1094c9fede81102735dcba66534351e75ab38b',
+    'solo/minoan-palace': '03b208343e22bae40937b97337a09f7cb70103690c1683a26ae2672f062e125f',
+    'solo/necklace-bust-form': '999e7f77b41f3cd1c09492cfeec81fd48a8693ddb2472e52022169006f3652a7',
+    'solo/necklace-with-three-beads': '8b87cdef13af231e238579f6e35ee3bea4b2e1ab74f2ad163716322f3a8fc16f',
+    'solo/olive-laurel-wreath': '96be940ae140a0e4ea922d707a6ba6c93842f9f2f27f3aef20f626581600a479',
+    'solo/open-folding-fan': '1377762de75e0061344d92f9a0e1e1c1f457a142a9f9ba65ffad3832cccee494',
+    'solo/pair-of-teardrop-earrings': '5219fcbe1e7541014a2b50f277997fabfe905557c6735f7c47c82faf377c1c58',
+    'solo/paw-print': '432aeddc96782c78f476322bb99d487be4f335ed4cfa424a544b155c6b7c8a9f',
+    'solo/pelican-on-water': 'ed840e421930815da95e1121e8bde2baf365666ebe0cb49d62e2f45552a4b14b',
+    'solo/round-bud-vase': '897e0056b6c30a3a3e5cef3a9d1e0e3f00175a6e1ccab75620fbd337d19e7904',
+    'solo/rubber-duck': '9ddfd438bca6961452b47f0f559e7f275f989614f4247ad47282f9112ef64ad1',
+    'solo/saturn-astrological-symbol': 'bc42d7824bfbfded937fa39f0aaf879291e9904f1856e668ece8dccad386007b',
+    'solo/scorpio-zodiac-symbol': '81ce8b8e68e7167ea830a712e031ae4d111246f7ebb39d0f794522c2191e535e',
+    'solo/selene-astrological-symbol': '960249b40a8541ac7955051a98f725e7a2725f687d81f463b6e995be1a845e77',
+    'solo/shanty-village-row': 'd872a392bb0e88a4ff59d8430a5794e25aa9074c5246120b0d048633a0513bc7',
+    'solo/shopping-bag-with-loop-handle': '2da92a76719028d472779e3cf39e4f3750a4029c41d5642c0551a47dbdec90f8',
+    'solo/sitting-penguin': 'ee2581bdbea44a227357a9803d1dc57678ba5f699ad50f9534be920b05eb3660',
+    'solo/sitting-rabbit': 'c447ce19ae1e1f6dec6bb010ac25d31e5934720ae183cb1aa2b110321bc659c6',
+    'solo/skunk': 'd21ee9be3eedfb9250d5c739d920f1de86ba977e5704bbb66a4ea3b9fcfcce06',
+    'solo/sloth-face': 'f1c20ed1d992f934e528fac17a6518003d855981ac69c9ff59dba84e0b73e3c3',
+    'solo/stacking-ring-toy': '2abf45def645a8c1b710583a23a9e6cf5542702e5ccd5dfb01eeae662972177e',
+    'solo/standing-giraffe': '50fc3846d28aa4d20bbb2b7e092b22a60c9516d87f4eeba21a2a62b1afa47fa4',
+    'solo/standing-lion': 'ab953e032cda4bc76ffa4241a4eaba6e1a98753b94e2d33c0cce51f77ec55b50',
+    'solo/standing-stag': 'c8b8ee286635a5f6c7af6d3142e9f158b3510ee3a7df4c2298a5184dfbb6b187',
+    'solo/three-bead-drop-earring': 'd7d1c768a0ef88613de8efa5c18d2a85e74de28d0aa27d3a8b325c8c806726f9',
+    'solo/three-flying-birds': '39efc31bf066e790c0399641deba4040c8486e214c1edc23e2e2f3c586f10abb',
+    'solo/tropical-island-with-palm-tree': '36f8dc9b6a46961cd8fdb19b57c84cedaa8a570cfca9b28449b79cebc6f7184b',
+    'solo/turreted-chateau-hotel': '3ab5d78c978cfac2488e88cc8afd81ff7707981c51dd6a16f1844b98a716ef5c',
+    'solo/vintage-studio-microphone': '7c8bc2c7b9f7132dd7f5a45c70b291265fe32169ef3e77fdbbfa9d4acf937cc5',
+    'solo/witches-cauldron': 'ad3ce3c5b9a42b96c1dbd0b517f75e2e8c4fd7330c648868183c8be6a6f13ced',
+    'solo/wolf-face': 'b9bde389bf24473041ddeb887dea0106ceef86dc3ab7eb9eac1752873aba30c8',
+    'solo/wolf-head-profile': 'b6d335ddc8a0463d3448b888963b6c737707e17fbb782cf362f11bc7598ebec3',
+    'solo/woolly-lamb-front': '0af31fcae81d5782dd6400f8ec29549208920d97a0b82f159089abdc1052e3f2',
+    'sub/hexagon': 'cbbafd7994fa5b4f304398922846d19de1311068797b39557de93b4c43d8c110',
 }
 ICON_ALIASES = {
     'solo/crocodile-in-water-v2': 'solo/crocodile-in-water',
@@ -173,17 +230,100 @@ ICON_ALIASES = {
 
 # Completion times for additional fixes or visual reviews; earlier cutoffs stay unchanged.
 PROCESSED_TIMES = {
-    'solo/canoe': '2026-09-15T17:06:21.912019+00:00',
+    'solo/canoe': '2026-09-15T17:07:56.518959+00:00',
     'solo/anteater': '2026-09-15T16:52:25.357440+00:00',
     'container/clipboard': '2026-09-15T16:52:25.357440+00:00',
     'container/fringed-area-rug': '2026-09-15T16:52:25.357440+00:00',
     'container/hexagonal-molecular-structure': '2026-09-15T16:52:25.357440+00:00',
+    'container/counter-clockwise-circular-arrow': '2026-09-15T17:07:56.518959+00:00',
+    'container/kitchen-oven-appliance': '2026-09-15T17:07:56.518959+00:00',
+    'container/teacher-presenting-at-whiteboard': '2026-09-15T17:07:56.518959+00:00',
+    'solo/ant': '2026-09-15T17:07:56.518959+00:00',
+    'solo/arched-stone-bridge': '2026-09-15T17:07:56.518959+00:00',
+    'solo/baby-bottle': '2026-09-15T17:07:56.518959+00:00',
+    'solo/baby-bottle-with-handles': '2026-09-15T17:07:56.518959+00:00',
+    'solo/beaded-loop-with-heart-charm': '2026-09-15T17:07:56.518959+00:00',
+    'solo/bell-shaped-stupa': '2026-09-15T17:07:56.518959+00:00',
+    'solo/bird-in-flight': '2026-09-15T17:07:56.518959+00:00',
+    'solo/buffalo-head': '2026-09-15T17:07:56.518959+00:00',
+    'solo/cat-paw': '2026-09-15T17:07:56.518959+00:00',
+    'solo/cobra-head': '2026-09-15T17:07:56.518959+00:00',
+    'solo/compact-disc-with-sheen-arcs': '2026-09-15T17:07:56.518959+00:00',
+    'solo/crested-penguin': '2026-09-15T17:07:56.518959+00:00',
+    'solo/disk-platter-with-drive-slots': '2026-09-15T17:07:56.518959+00:00',
+    'solo/face-wearing-round-glasses': '2026-09-15T17:07:56.518959+00:00',
+    'solo/hydroelectric-dam': '2026-09-15T17:07:56.518959+00:00',
+    'solo/intertwined-snakes': '2026-09-15T17:07:56.518959+00:00',
+    'solo/leaning-tower-of-pisa': '2026-09-15T17:07:56.518959+00:00',
+    'solo/leaping-antelope': '2026-09-15T17:07:56.518959+00:00',
+    'solo/lidded-ceremonial-urn': '2026-09-15T17:07:56.518959+00:00',
+    'solo/minoan-palace': '2026-09-15T17:07:56.518959+00:00',
+    'solo/necklace-bust-form': '2026-09-15T17:07:56.518959+00:00',
+    'solo/necklace-with-three-beads': '2026-09-15T17:07:56.518959+00:00',
+    'solo/olive-laurel-wreath': '2026-09-15T17:07:56.518959+00:00',
+    'solo/open-folding-fan': '2026-09-15T17:07:56.518959+00:00',
+    'solo/pair-of-teardrop-earrings': '2026-09-15T17:07:56.518959+00:00',
+    'solo/paw-print': '2026-09-15T17:07:56.518959+00:00',
+    'solo/pelican-on-water': '2026-09-15T17:07:56.518959+00:00',
+    'solo/round-bud-vase': '2026-09-15T17:07:56.518959+00:00',
+    'solo/rubber-duck': '2026-09-15T17:07:56.518959+00:00',
+    'solo/saturn-astrological-symbol': '2026-09-15T17:07:56.518959+00:00',
+    'solo/scorpio-zodiac-symbol': '2026-09-15T17:07:56.518959+00:00',
+    'solo/selene-astrological-symbol': '2026-09-15T17:07:56.518959+00:00',
+    'solo/shanty-village-row': '2026-09-15T17:07:56.518959+00:00',
+    'solo/shopping-bag-with-loop-handle': '2026-09-15T17:07:56.518959+00:00',
+    'solo/sitting-penguin': '2026-09-15T17:07:56.518959+00:00',
+    'solo/sitting-rabbit': '2026-09-15T17:07:56.518959+00:00',
+    'solo/skunk': '2026-09-15T17:07:56.518959+00:00',
+    'solo/sloth-face': '2026-09-15T17:07:56.518959+00:00',
+    'solo/stacking-ring-toy': '2026-09-15T17:07:56.518959+00:00',
+    'solo/standing-giraffe': '2026-09-15T17:07:56.518959+00:00',
+    'solo/standing-lion': '2026-09-15T17:07:56.518959+00:00',
+    'solo/standing-stag': '2026-09-15T17:07:56.518959+00:00',
+    'solo/three-bead-drop-earring': '2026-09-15T17:07:56.518959+00:00',
+    'solo/three-flying-birds': '2026-09-15T17:07:56.518959+00:00',
+    'solo/tropical-island-with-palm-tree': '2026-09-15T17:07:56.518959+00:00',
+    'solo/turreted-chateau-hotel': '2026-09-15T17:07:56.518959+00:00',
+    'solo/vintage-studio-microphone': '2026-09-15T17:07:56.518959+00:00',
+    'solo/witches-cauldron': '2026-09-15T17:07:56.518959+00:00',
+    'solo/wolf-face': '2026-09-15T17:07:56.518959+00:00',
+    'solo/wolf-head-profile': '2026-09-15T17:07:56.518959+00:00',
+    'solo/woolly-lamb-front': '2026-09-15T17:07:56.518959+00:00',
+    'sub/hexagon': '2026-09-15T17:07:56.518959+00:00',
 }
 PROFILE_FOLDERS = {'solo': 'solo48', 'container': 'container64', 'sub': 'sub32'}
+
+# Explicitly discarded by the user after viewing the seven-entry comparison.
+DISCARDED_ICONS = (
+    'solo/butterfly-in-heart',
+    'solo/classical-head-with-book',
+    'solo/knight-helm-on-shield',
+    'solo/monitor-download-arrow',
+    'solo/monitor-in-security-shield',
+    'solo/right-double-click-mouse',
+    'solo/sunglasses-with-sun',
+)
 
 def as_utc(value):
     parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
     return parsed.replace(tzinfo=timezone.utc) if parsed.tzinfo is None else parsed.astimezone(timezone.utc)
+
+
+def remove_discarded_records(db, dist, records, result):
+    """Clean only the named discarded icons, once their removal has been deployed."""
+    for key in DISCARDED_ICONS:
+        family, icon_id = key.split('/')
+        folder = PROFILE_FOLDERS[family]
+        if (key in records or (dist / folder / (icon_id + '.svg')).exists()
+                or (dist / 'failed' / folder / (icon_id + '.svg')).exists()):
+            result['skipped'][key] = 'Discarded icon is still deployed; deploy its removal first'
+            continue
+        db.execute('DELETE FROM pending_briefs WHERE split_id IN (SELECT id FROM split_requests WHERE icon=?)', (key,))
+        db.execute('DELETE FROM split_requests WHERE icon=?', (key,))
+        result['feedback_deleted'] += db.execute('DELETE FROM feedback WHERE icon=?', (key,)).rowcount
+        db.execute('DELETE FROM reviews WHERE icon=?', (key,))
+        db.execute('DELETE FROM icon_flags WHERE icon=?', (key,))
+        result['discarded'].append(key)
 
 
 def mark_processed(database, dist):
@@ -193,14 +333,14 @@ def mark_processed(database, dist):
     if database.is_relative_to(dist):
         raise ValueError('Keep the database outside the public build folder')
     data = json.loads((dist / 'gallery/icons.json').read_text())
-    records = {r['family'] + '/' + r['icon_id']:r for r in data['icons']}
+    records = {r['family'] + '/' + r['icon_id']:r for r in data['icons'] + data.get('failed_icons', [])}
     backup = database.with_name(database.name + '.before-ready-' +
                                 datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f') + '.bak')
     with closing(sqlite3.connect(database)) as source, closing(sqlite3.connect(backup)) as destination:
         source.backup(destination)
         if destination.execute('PRAGMA integrity_check').fetchone()[0] != 'ok':
             raise ValueError('Could not verify the database backup')
-    result = {'updated':[], 'already_ready':[], 'skipped':{}, 'feedback_deleted':0, 'backup':str(backup)}
+    result = {'updated':[], 'already_ready':[], 'skipped':{}, 'feedback_deleted':0, 'discarded':[], 'backup':str(backup)}
     with closing(sqlite3.connect(database, timeout=30)) as db, db:
         db.execute('BEGIN IMMEDIATE')
         for key, expected_hash in CHANGED_ICONS.items():
@@ -243,6 +383,7 @@ def mark_processed(database, dist):
                 ON CONFLICT(icon,svg_sha256) DO UPDATE SET status=excluded.status,
                 updated_at=excluded.updated_at,updated_by=excluded.updated_by""",(key,expected_hash,processed_at))
             result['updated'].append(key)
+        remove_discarded_records(db, dist, records, result)
     return result
 
 
@@ -255,10 +396,12 @@ def main():
         result = mark_processed(args.database,args.dist)
     except (OSError,ValueError,KeyError,sqlite3.Error) as error:
         parser.exit(1,f'{error}\n')
-    print(f"Ready: {len(result['updated'])}; already ready: {len(result['already_ready'])}; feedback deleted: {result['feedback_deleted']}; skipped: {len(result['skipped'])}")
+    print(f"Ready: {len(result['updated'])}; already ready: {len(result['already_ready'])}; feedback deleted: {result['feedback_deleted']}; discarded: {len(result['discarded'])}; skipped: {len(result['skipped'])}")
     print(f"Backup: {result['backup']}")
     for key in result['updated']:
         print(f'Updated {key}')
+    for key in result['discarded']:
+        print(f'Discarded {key}')
     for key,reason in result['skipped'].items():
         print(f'Skipped {key}: {reason}')
 

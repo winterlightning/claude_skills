@@ -122,6 +122,50 @@ class MarkProcessedTests(unittest.TestCase):
         self.assertEqual(review_detail(self.db,'solo/castle',self.sha)['status'],'ready')
         self.assertEqual(self.db.execute("SELECT count(*) FROM reviews WHERE icon='solo/castle' AND status='rejected'").fetchone()[0],0)
 
+    def test_discard_removes_all_related_records_and_is_repeatable(self):
+        key = 'solo/obsolete'
+        with self.db:
+            self.db.execute("INSERT INTO feedback(icon,feedback,svg_sha256,created_at) VALUES (?, 'Discard this', 'old', '2026-09-16')", (key,))
+            self.db.execute("INSERT INTO reviews VALUES (?, 'old', 'rejected', '2026-09-16', 'human')", (key,))
+            self.db.execute("INSERT INTO icon_flags VALUES (?, 'combination', '2026-09-16', 'human')", (key,))
+            split = self.db.execute("INSERT INTO split_requests(icon,svg_sha256,combination_type,reason,reference_path,created_at) VALUES (?, 'old', 'side', 'Combination', 'ref.svg', '2026-09-16')", (key,)).lastrowid
+            self.db.execute("INSERT INTO pending_briefs(split_id,position,name,family,description) VALUES (?, 0, 'Part', 'solo', 'Part')", (split,))
+        with patch.object(script, 'DISCARDED_ICONS', (key,)):
+            result = script.mark_processed(self.database, self.dist)
+            self.assertEqual(result['discarded'], [key])
+            self.assertEqual(result['feedback_deleted'], 2)
+            for table in ('feedback', 'reviews', 'icon_flags', 'split_requests'):
+                self.assertEqual(self.db.execute(f'SELECT count(*) FROM {table} WHERE icon=?', (key,)).fetchone()[0], 0)
+            self.assertEqual(self.db.execute('SELECT count(*) FROM pending_briefs').fetchone()[0], 0)
+            with sqlite3.connect(result['backup']) as backup:
+                self.assertEqual(backup.execute('SELECT count(*) FROM feedback WHERE icon=?', (key,)).fetchone()[0], 1)
+            self.assertEqual(script.mark_processed(self.database, self.dist)['feedback_deleted'], 0)
+        self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/unrelated'").fetchone()[0], 'approve')
+
+    def test_discard_waits_until_catalog_and_svg_removal_are_deployed(self):
+        key = 'solo/obsolete'
+        with self.db:
+            self.db.execute("INSERT INTO feedback(icon,feedback,svg_sha256,created_at) VALUES (?, 'Keep until deployed', 'old', '2026-09-16')", (key,))
+        catalog_path = self.dist / 'gallery/icons.json'
+        original = json.loads(catalog_path.read_text())
+        for location in ('icons', 'failed_icons', 'solo48', 'failed/solo48'):
+            with self.subTest(location=location), patch.object(script, 'DISCARDED_ICONS', (key,)):
+                data = json.loads(json.dumps(original))
+                artifact = None
+                if location in ('icons', 'failed_icons'):
+                    data.setdefault(location, []).append({'family': 'solo', 'icon_id': 'obsolete'})
+                else:
+                    artifact = self.dist / location / 'obsolete.svg'
+                    artifact.parent.mkdir(parents=True, exist_ok=True)
+                    artifact.write_text('old')
+                catalog_path.write_text(json.dumps(data))
+                result = script.mark_processed(self.database, self.dist)
+                self.assertIn(key, result['skipped'])
+                self.assertEqual(result['discarded'], [])
+                self.assertEqual(self.db.execute('SELECT count(*) FROM feedback WHERE icon=?', (key,)).fetchone()[0], 1)
+                if artifact:
+                    artifact.unlink()
+
     def test_newer_rejection_on_previous_svg_still_blocks_reset(self):
         with self.db:self.db.execute("INSERT INTO reviews VALUES ('solo/castle','old','rejected','2026-09-16T00:00:00+00:00','human')")
         result=script.mark_processed(self.database,self.dist)

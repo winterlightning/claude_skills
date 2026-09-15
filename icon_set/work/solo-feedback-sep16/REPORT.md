@@ -1,6 +1,6 @@
 # Seven solo corrections — 16 September
 
-All seven revised icons pass the full publication checks with zero warnings. Broader test results are saved with the report.
+All seven revised solo icons pass the full publication checks with zero warnings. The broader suite ran 427 tests: 7 failures, 1 error and 1 skip. These match the previously observed issues outside this seven-icon batch: diver-avatar metadata, laptop catalog matching, generated skill inventory, two QA fixtures, build snapshot timestamps, a missing smartwatch reference and the rejected-gallery test harness. No failure names one of these seven revisions.
 
 | Icon | Revision | Correction |
 |---|---|---|
