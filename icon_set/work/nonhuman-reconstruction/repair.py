@@ -404,3 +404,190 @@ for j,x in enumerate((8,24,40)):
  path(f'body-{j}',(x,22), [('A',(x,40),4,9,True),('A',(x,22),4,9,True)],True)
  line(f'neck-{j}',(x,14),(x,22));join(f'neck-{j}',f'head-{j}');join(f'neck-{j}',f'body-{j}')
 ''')
+replace('three-heart-plant-in-shallow-pot','CIRCLE','A rounded three-leaf cluster fits the circle envelope, reaching radius twenty at the bowl base. Smaller smooth leaves, separated stems and a broad bowl preserve all three hearts.', '''
+def heart(n,x,y):
+ path(n,(x,y), [('C',(x-5,y+1),(x-1,y-2),(x-5,y-3)),('C',(x,y+8),(x-5,y+4),(x-2,y+6)),('C',(x+5,y+1),(x+2,y+6),(x+5,y+4)),('C',(x,y),(x+5,y-3),(x+1,y-2))],True)
+heart('centre',24,8);heart('left',10,20);heart('right',38,20)
+line('stem',(24,16),(24,36));line('branch-left',(10,28),(16,36));line('branch-right',(38,28),(32,36))
+path('pot',(12,36), [('L',(16,36)),('L',(24,36)),('L',(32,36)),('L',(36,36)),('A',(12,36),12,8,True)],True)
+for leaf,stem in [('centre','stem'),('left','branch-left'),('right','branch-right')]:join(leaf,stem);join(stem,'pot')
+''')
+replace('grand-canyon-with-river','SQUARE','Broaden both cliff shoulders and use a smooth river bend; preserve the sun, distant ridge and open canyon between two cliffs.', '''
+poly('left-cliff',(6,42),(6,22),(14,22),(14,30))
+poly('right-cliff',(42,42),(42,22),(34,22),(34,30))
+poly('ridge',(6,14),(14,6),(22,6),(28,12))
+path('river',(25,23), [('C',(22,35),(25,29),(18,31)),('C',(28,42),(24,38),(26,40))])
+circle('sun',39,9,3)
+''')
+replace('long-sporting-rifle','SQUARE','Keep the diagonal stock and a broad tapered barrel, enlarging the shared receiver instead of preserving a thin diagonal neck.', '''
+poly('stock',(6,34),(14,42),(24,28),(16,22),closed=True)
+poly('barrel',(16,22),(24,12),(36,6),(42,12),(30,24),(24,28));join('barrel','stock')
+''')
+replace('potala-palace','HRECT_L','Preserve the terraced hillside palace with broader tiers; simplify the cramped narrow annex wall and finial while retaining the stepped roofline.', '''
+poly('outline',(4,30),(8,16),(14,16),(16,8),(28,8),(30,16),(34,16),(36,24),(44,24),(44,36))
+line('central-roof',(14,16),(30,16));join('central-roof','outline')
+poly('terraces',(4,30),(14,30),(16,36),(24,36),(24,40),(34,40));join('terraces','outline')
+line('central-wall',(36,24),(36,36));join('central-wall','outline')
+''')
+replace('inkscape-logo','SQUARE','Keep the peaked mountain and ink-shaped base, using coherent curves and a smaller detached snow chevron with room on every side.', '''
+poly('peak',(6,24),(24,6),(42,24))
+path('base',(42,24), [('C',(32,36),(42,36),(34,30)),('A',(16,36),8,6,True),('C',(6,24),(14,30),(6,36))]);join('base','peak')
+poly('snow',(18,24),(24,18),(30,24))
+''')
+# Local centerline corrections preserve the existing recognizable silhouettes.
+for name, changes, plan in [
+ ('turreted-chateau-hotel',[('(40, 27)', '(42, 27)')],'Broaden the right annex to give the entry gable a full eight-unit band; preserve the pitched roofs and turret.'),
+ ('lightning-with-wrench',[("(42,22),(29,32),(42,32),(32,42)","(42,20),(29,31),(42,31),(32,42)")],'Lengthen both lightning turns to open the opposing diagonal edges, retaining the existing curved wrench.'),
+ ('element-reallity-kit-1', [('(42, 26)','(42, 27)'),('(24, 26)','(24, 27)'),('(6, 26)','(6, 27)')],'Adjust the shared lower-cube roof station uniformly so the isometric cube faces clear their opposing diagonals.'),
+ ('hand-saw', [('(27,37),(31,33)','(25,37),(29,33)')],'Broaden the handle band by moving its inner cutout while preserving the toothed blade.'),
+ ('sawmill', [("('L',(14,25))","('L',(15,25))")],'Broaden the lowest blade tooth at its shared valley, retaining the irregular saw profile and broad arched opening.'),
+ ('straight-bodied-missile', [('(22,20),(12,20),(6,28)','(24,18),(10,18),(6,30)'),('(28,26),(28,36),(20,42)','(30,24),(30,38),(18,42)')],'Widen both fin roots together along the hull diagonals; preserve the pointed body and exhaust.'),
+ ('wedding-car-with-heart-balloon', [('(20,22),(30,22)','(24,22),(32,22)')],'Move the car roof forward to clear the heart balloon; preserve the complete balloon, curved tether and both wheels.')]:
+ i=next(i for i in A if i['icon_id']==name);p=Path(i['source_path']);backup=W/'originals'/p.name
+ if not backup.exists():backup.write_text(p.read_text())
+ s=backup.read_text()
+ for a,b in changes:
+  assert a in s,(name,a);s=s.replace(a,b)
+ s=re.sub(r'AUTHOR\s*=.*',"AUTHOR = 'gpt-6'",s)
+ p.write_text(s);i['audit_status']='reconstructed';i['plan']=plan
+(W/'audit.json').write_text(json.dumps(A,indent=2))
+# Recenter the river away from both cliff shoulders.
+i=next(i for i in A if i['icon_id']=='grand-canyon-with-river');p=Path(i['source_path']);p.write_text(p.read_text().replace('(18,31)', '(23,31)'))
+replace('three-heart-plant-in-square-pot','SQUARE','Three smooth heart leaves retain their complete counters. The paired side stems meet the central stem at the square pot rim, with all contacts sharing that exact node.', '''
+def heart(n,x,y):
+ path(n,(x,y), [('C',(x-6,y+1),(x-1,y-3),(x-6,y-4)),('C',(x,y+10),(x-6,y+5),(x-2,y+8)),('C',(x+6,y+1),(x+2,y+8),(x+6,y+5)),('C',(x,y),(x+6,y-4),(x+1,y-3))],True)
+heart('centre',24,8);heart('left',12,21);heart('right',36,21)
+line('stem',(24,18),(24,34));line('branch-left',(12,31),(24,34));line('branch-right',(36,31),(24,34))
+poly('pot',(18,34),(24,34),(30,34),(30,42),(18,42),closed=True)
+for leaf,stem in [('centre','stem'),('left','branch-left'),('right','branch-right')]:join(leaf,stem);join(stem,'pot')
+join('stem','branch-left');join('stem','branch-right');join('branch-left','branch-right')
+''')
+# A broad flat-bottomed bowl keeps useful width along its full depth.
+i=next(i for i in A if i['icon_id']=='three-heart-plant-in-shallow-pot');p=Path(i['source_path']);s=p.read_text();s=s.replace("('L',(36,36)),('A',(12,36),12,8,True)","('A',(36,40),4,4,True),('A',(32,44),4,4,True),('L',(16,44)),('A',(12,40),4,4,True),('A',(16,36),4,4,True),('L',(12,36))")
+# Start/end at the left rim station, using a rounded lower bowl only.
+s=s.replace("path('pot',(12,36), [('L',(16,36)),", "path('pot',(16,36), [")
+s=s.replace(",('L',(12,36))],True)","],True)")
+p.write_text(s)
+# Move the bolt apex horizontally to preserve clearance from the wrench.
+i=next(i for i in A if i['icon_id']=='lightning-with-wrench');p=Path(i['source_path']);p.write_text(p.read_text().replace('(29,31)', '(30,31)'))
+replace('flying-rocket-exhaust-streaks','SQUARE','Smooth nose curves share broad fin roots; retain the diagonal launch and two well-separated exhaust streaks, omitting the cramped porthole.', '''
+path('hull',(16,26), [('C',(22,16),(16,22),(19,19)),('C',(42,6),(28,10),(36,6)),('C',(30,26),(42,14),(36,22)),('L',(24,32)),('L',(16,26))],True)
+poly('fin-left',(22,16),(12,14),(6,24),(16,26));join('fin-left','hull')
+poly('fin-right',(30,26),(40,30),(30,42),(24,32));join('fin-right','hull')
+line('exhaust-left',(6,36),(8,34));line('exhaust-right',(14,42),(16,40))
+''')
+replace('standing-stag','SQUARE','Trace a clear neck and muzzle with a rounded back and belly. The branching antler rises from the forehead, with its tips held away from the head.', '''
+path('body',(6,42), [('L',(6,30)),('A',(12,24),6,6,True),('L',(26,24)),('L',(30,16)),('L',(38,16)),('L',(42,22)),('L',(36,24)),('L',(36,42))])
+path('belly',(6,34), [('L',(22,34)),('A',(30,42),8,8,True)]);join('body','belly')
+line('tail',(12,24),(6,18));join('tail','body')
+poly('antler',(38,16),(34,8),(34,6));poly('tine',(26,6),(28,8),(34,8),(42,6));join('antler','tine');join('antler','body')
+''')
+replace('spider-web','SQUARE','Two symmetric web rings share six radial spokes; a smaller inner hexagon opens the outer band while keeping the web center recognizable.', '''
+from itertools import combinations
+outer=[(24,6),(42,13),(42,35),(24,42),(6,35),(6,13)]
+inner=[(24,16),(32,20),(32,28),(24,32),(16,28),(16,20)]
+edges=[]
+for j in range(6):
+ for n,a,b in [(f'outer-{j}',outer[j],outer[(j+1)%6]),(f'inner-{j}',inner[j],inner[(j+1)%6]),(f'ray-{j}',outer[j],inner[j]),(f'center-{j}',inner[j],(24,24))]:
+  line(n,a,b);edges.append((n,a,b))
+for (a,p,q),(b,r,s) in combinations(edges,2):
+ if set((p,q))&set((r,s)):join(a,b)
+''')
+for name, changes in [
+ ('standing-stag',[("('L',(6,30))","('L',(6,34)),('L',(6,30))"),("('L',(36,24))","('L',(36,26))"),("('L',(22,34)),('A',(30,42),8,8,True)","('L',(20,34)),('A',(28,42),8,8,True)")]),
+ ('spider-web', [('[(24,16),(32,20),(32,28),(24,32),(16,28),(16,20)]','[(24,15),(34,20),(34,28),(24,33),(14,28),(14,20)]')]),
+ ('three-heart-plant-in-shallow-pot',[("(24,36)","(24,35)"),("(16,36)","(18,35)"),("(32,36)","(30,35)"),("(36,40)","(34,39)"),("(32,44)","(30,43)"),("(16,44)","(18,43)"),("(12,40)","(14,39)")])]:
+ i=next(i for i in A if i['icon_id']==name);p=Path(i['source_path']);s=p.read_text()
+ for a,b in changes:s=s.replace(a,b)
+ p.write_text(s)
+# Reuse the proven leaf spacing with a distinct square pot.
+i=next(i for i in A if i['icon_id']=='three-heart-plant-in-shallow-pot');s=Path(i['source_path']).read_text();body=s[s.index("        def heart(n,x,y):"):];body=body.replace("path('pot',(18,35), [('L',(24,35)),('L',(30,35)),('A',(34,39),4,4,True),('A',(30,43),4,4,True),('L',(18,43)),('A',(14,39),4,4,True),('A',(18,35),4,4,True)],True)","poly('pot',(18,35),(24,35),(30,35),(30,43),(18,43),closed=True)")
+replace('three-heart-plant-in-square-pot','CIRCLE','Three equal smooth heart leaves use the radial envelope to keep their spacing; a square pot owns three separated stem attachments.',textwrap.dedent(body))
+i=next(i for i in A if i['icon_id']=='element-reallity-kit-1');p=Path(i['source_path']);p.write_text(p.read_text().replace(', 31)', ', 32)'))
+replace('hand-saw','SQUARE','A broad rounded handle surrounds one clear opening. Reduce the blade to three strong teeth with clean shared roots, preserving its diagonal direction.', '''
+path('outline',(6,12), [('L',(14,6)),('L',(30,22)),('L',(40,32)),('A',(40,38),2,3,True),('L',(36,42)),('L',(24,36)),('L',(28,32)),('L',(24,28)),('L',(20,32)),('L',(16,28)),('L',(16,22)),('L',(10,22)),('L',(10,16)),('L',(6,16)),('L',(6,12))],True)
+poly('divider',(30,22),(24,28),(20,32));join('outline','divider')
+''')
+replace('hot-glue-gun','SQUARE','Broaden the nozzle and grip around a continuous outline, keeping the diagonal glue-gun profile and a smooth glue bead underneath.', '''
+poly('body',(6,30),(10,18),(24,6),(34,10),(30,18),(42,26))
+poly('underside',(6,30),(16,30),(24,22),(30,34),(34,24));join('body','underside')
+line('glue-stick',(29,8),(34,6));join('glue-stick','body')
+path('glue',(6,40), [('A',(14,40),4,2,False),('A',(22,40),4,2,True)])
+''')
+replace('rocking-horse','SQUARE','Trace a wider neck and rounded back into two legs, with a smooth belly and one continuous curved rocker.', '''
+path('front',(18,6), [('L',(8,10)),('L',(6,17)),('A',(12,20),4,4,False),('L',(14,18)),('L',(16,28)),('L',(12,42))])
+path('back',(18,6), [('C',(30,20),(24,6),(24,20)),('L',(35,20)),('A',(40,25),5,5,True),('L',(36,42))]);join('front','back')
+path('belly',(12,42), [('A',(36,42),13,13,True)]);join('belly','front');join('belly','back')
+path('rocker',(6,33), [('A',(12,42),10,10,False),('L',(36,42)),('A',(42,33),10,10,False)]);join('rocker','front');join('rocker','back');join('rocker','belly')
+''')
+i=next(i for i in A if i['icon_id']=='three-heart-plant-in-shallow-pot');p=Path(i['source_path']);s=p.read_text()
+for a,b in [('(18,35)','(18,34)'),('(24,35)','(24,34)'),('(30,35)','(30,34)'),('(34,39)','(34,38)'),('(30,43)','(30,42)'),('(18,43)','(18,42)'),('(14,39)','(14,38)')]:s=s.replace(a,b)
+p.write_text(s)
+replace('spider-web','SQUARE','Six radiating threads meet bowed silk spans; remove the crowded second ring so each web sector retains an open counter.', '''
+from itertools import combinations
+points=[(24,6),(42,13),(42,35),(24,42),(6,35),(6,13)]
+controls=[((28,12),(34,14)),((36,18),(36,30)),((34,34),(28,36)),((20,36),(14,34)),((12,30),(12,18)),((14,14),(20,12))]
+nodes=[]
+for j,(a,b) in enumerate(zip(points,points[1:]+points[:1])):
+ c,d=controls[j];path(f'web-{j}',a,[('C',b,c,d)]);line(f'ray-{j}',a,(24,24));nodes.extend([(f'web-{j}',{a,b}),(f'ray-{j}',{a,(24,24)})])
+for (a,p),(b,q) in combinations(nodes,2):
+ if p&q:join(a,b)
+''')
+i=next(i for i in A if i['icon_id']=='hand-saw');p=Path(i['source_path']);p.write_text(p.read_text().replace("('L',(24,36)),('L',(28,32)),('L',(24,28)),",''))
+replace('plumed-battle-helmet','VRECT_L','A smooth dome and broad cheek guard define the empty helmet. Widen the crest gap and remove the cramped neck fragments beneath the helmet.', '''
+path('helmet',(16,24), [('A',(28,12),12,12,True),('A',(40,24),12,12,True),('L',(40,28)),('L',(36,28)),('L',(40,44)),('L',(30,38)),('L',(26,28)),('L',(24,36)),('L',(16,36)),('L',(16,24))],True)
+path('crest',(28,12), [('L',(34,4)),('A',(8,30),26,26,False),('L',(8,40))]);join('crest','helmet')
+''')
+replace('burning-crashed-aircraft','VRECT_L','Broaden the broken aircraft wing and trace one flowing flame rising from two exact attachment nodes; retain the smoke trail.', '''
+poly('plane',(8,25),(18,30),(17,18),(27,23),(28,34),(38,34),(40,34),(40,44),(25,44),(8,36),closed=True)
+path('fire',(27,23), [('C',(30,12),(26,20),(26,16)),('C',(30,4),(32,8),(30,6)),('C',(40,22),(40,12),(40,16)),('C',(38,34),(40,26),(38,31))]);join('fire','plane')
+line('smoke',(12,4),(10,14))
+''')
+replace('heart-pierced-by-arrow','SQUARE','Move the complete heart away from the arrowhead; show the shaft entering and leaving its outline, with the middle naturally hidden behind the heart.', '''
+path('heart',(20,18), [('A',(8,18),6,6,False),('A',(10,22),5,5,False),('L',(18,30)),('L',(20,34)),('L',(24,30)),('L',(30,22)),('A',(32,18),5,5,False),('A',(20,18),6,6,False)],True)
+line('arrow-front',(32,18),(42,6));line('arrowhead',(42,6),(42,16));join('arrow-front','heart');join('arrow-front','arrowhead')
+line('arrow-back',(6,42),(18,30));poly('fletching',(6,34),(6,42),(14,42));join('arrow-back','heart');join('arrow-back','fletching')
+''')
+i=next(i for i in A if i['icon_id']=='three-heart-plant-in-shallow-pot');p=Path(i['source_path']);s=p.read_text()
+for a,b in [('(18,34)','(19,35)'),('(24,34)','(24,35)'),('(30,34)','(29,35)'),('(34,38)','(33,39)'),('(30,42)','(29,43)'),('(18,42)','(19,43)'),('(14,38)','(15,39)')]:s=s.replace(a,b)
+p.write_text(s)
+i=next(i for i in A if i['icon_id']=='propeller-plane');p=Path(i['source_path']);backup=W/'originals'/p.name
+if not backup.exists():backup.write_text(p.read_text())
+s=backup.read_text().replace('(14, 18), (8, 10), (6, 12), (6, 16)','(18, 18), (6, 6), (6, 18)');s=re.sub(r'AUTHOR\s*=.*',"AUTHOR = 'gpt-6'",s);p.write_text(s);i['audit_status']='reconstructed';i['plan']='Broaden the entire tail root while preserving the oblique propeller disc and the main wing.'
+(W/'audit.json').write_text(json.dumps(A,indent=2))
+replace('gear-hierarchy-square-nodes','SQUARE','Keep the gear and all three equal square child nodes; arrange the children around two sides to give the branches room instead of compressing a horizontal bus.', '''
+poly('gear',(14,6),(17,9),(22,10),(20,14),(22,18),(17,19),(14,22),(11,19),(6,18),(8,14),(6,10),(11,9),closed=True)
+poly('upper-node',(34,6),(42,6),(42,14),(34,14),(34,10),closed=True)
+poly('left-node',(6,34),(10,34),(14,34),(14,42),(6,42),closed=True)
+poly('right-node',(34,34),(38,34),(42,34),(42,42),(34,42),closed=True)
+line('upper-link',(20,14),(34,10));line('left-link',(14,22),(10,34));poly('right-link',(14,22),(38,26),(38,34))
+for link,node in [('upper-link','upper-node'),('left-link','left-node'),('right-link','right-node')]:join(link,'gear');join(link,node)
+join('left-link','right-link')
+''')
+i=next(i for i in A if i['icon_id']=='three-way-text-sign');p=Path(i['source_path']);backup=W/'originals'/p.name
+if not backup.exists():backup.write_text(p.read_text())
+s=backup.read_text().replace('(26,6),(30,22),(34,14),(38,22),(42,6)','(26,6),(26,22),(34,14),(42,22),(42,6)');s=re.sub(r'AUTHOR\s*=.*',"AUTHOR = 'gpt-6'",s);p.write_text(s);i['audit_status']='reconstructed';i['plan']='Open the W by giving it upright outer strokes and broad diagonal valleys; keep all four literal glyphs and the two-row layout.'
+(W/'audit.json').write_text(json.dumps(A,indent=2))
+replace('microsoft-dynamics-logo','VRECT_L','Trace the complete outer folded ribbon and its upper turn; remove the duplicate lower diagonal that creates a long pinched wedge.', '''
+poly('ribbon',(8,24),(8,44),(40,28),(40,18),(8,4),(8,14),(22,22))
+''')
+# Widen the heart's lower return away from the incoming arrow shaft.
+i=next(i for i in A if i['icon_id']=='heart-pierced-by-arrow');p=Path(i['source_path']);s=p.read_text().replace("('L',(20,34)),('L',(24,30))", "('L',(24,36)),('L',(28,30))");p.write_text(s)
+# A broader crest has a flat tangent at the top and a vertical end behind the helmet.
+i=next(i for i in A if i['icon_id']=='plumed-battle-helmet');p=Path(i['source_path']);s=p.read_text().replace("('A',(8,30),26,26,False)","('L',(24,4)),('A',(8,20),16,16,False),('L',(8,30))");p.write_text(s)
+i=next(i for i in A if i['icon_id']=='gear-hierarchy-square-nodes');p=Path(i['source_path']);s=p.read_text();s=re.sub(r'keyshape\s*=\s*Keyshape\.\w+','keyshape = Keyshape.SQUARE',s);s=s.replace("line('upper-link',(20,14),(34,10))", "line('upper-link',(22,10),(34,10))");s=s.replace("poly('right-link',(14,22),(38,26),(38,34))", "line('right-link',(14,22),(34,42))");p.write_text(s)
+i=next(i for i in A if i['icon_id']=='propeller-plane');p=Path(i['source_path']);s=p.read_text().replace('(24, 18), (18, 18)', '(24, 14), (18, 14)').replace('(16, 42), (24, 31)', '(16, 42), (30, 32)');p.write_text(s)
+i=next(i for i in A if i['icon_id']=='propeller-plane');p=Path(i['source_path']);p.write_text(p.read_text().replace('(16, 42), (30, 32)','(20, 42), (30, 32)'))
+replace('wedding-car-with-heart-balloon','SQUARE','Trace the full heart balloon and a roof shifted away from it. A clear eight-unit body band joins two small circular wheels at their top points.', '''
+path('balloon',(14,10), [('A',(6,10),4,4,False),('A',(8,14),5,5,False),('L',(14,20)),('L',(20,14)),('A',(22,10),5,5,False),('A',(14,10),4,4,False)],True)
+path('tether',(14,20), [('A',(10,28),10,10,False)]);join('balloon','tether')
+poly('body',(6,28),(10,28),(12,28),(18,28),(28,20),(34,20),(36,28),(42,28));join('body','tether')
+line('sill',(12,36),(36,36))
+for n,x in [('rear',12),('front',36)]:
+ path(n+'-wheel',(x,36), [('A',(x,42),3,3,True),('A',(x,36),3,3,True)],True)
+ line(n+'-strut',(x,28),(x,36));join(n+'-strut','body');join(n+'-strut','sill');join(n+'-strut',n+'-wheel');join('sill',n+'-wheel')
+''')
+replace('long-sporting-rifle','SQUARE','Keep the broad diagonal shoulder stock and a long single-stroke barrel. The barrel emerges from an explicit receiver node, preserving the rifle profile without a bottle-like oversized barrel.', '''
+poly('stock',(6,34),(14,42),(24,28),(20,25),(16,22),closed=True)
+line('barrel',(20,25),(42,6));join('barrel','stock')
+''')

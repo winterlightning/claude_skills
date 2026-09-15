@@ -378,15 +378,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             try:
                 catalog = self.catalog(include_failed=True)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    rows = connection.execute('SELECT icon, svg_sha256, status FROM reviews').fetchall()
+                    rows = connection.execute('SELECT icon, svg_sha256, status, updated_by FROM reviews').fetchall()
                     # Preserve an explicit restore until the next review or feedback action.
                     latest_actions = connection.execute("SELECT icon,action,details FROM activity_log WHERE id IN (SELECT MAX(id) FROM activity_log WHERE action IN ('restore','review','feedback') GROUP BY icon)").fetchall()
                     restored = {key: json.loads(details).get('svg_sha256') for key, action, details in latest_actions if action == 'restore'}
                 statuses = {key: 'ready' for key in catalog}
-                for key, sha, status in rows:
+                for key, sha, status, actor in rows:
                     if key in catalog and catalog[key]['svg_sha256'] == sha:
                         statuses[key] = status
-                for key, sha, status in rows:
+                for key, sha, status, actor in rows:
                     if key in catalog and status == 'rejected':
                         statuses[key] = 'rejected'
                 # A published child variant means the pending original has been regenerated.
@@ -401,6 +401,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 for key, sha in rejected:
                     if key in catalog and catalog[key]['svg_sha256'] == sha:
                         statuses[key] = 'rejected'
+                if parse_qs(parsed.query).get('include_approvers') == ['1']:
+                    approved_by = {key: actor for key, sha, status, actor in rows
+                                   if key in catalog and catalog[key]['svg_sha256'] == sha
+                                   and status == 'approve' and statuses[key] == 'approve' and actor}
+                    return self.json_response({'statuses': statuses, 'approved_by': approved_by})
                 return self.json_response(statuses)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
@@ -569,7 +574,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                        status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
                     (key, sha, status, now, user),
                 )
-            return self.json_response({'saved': True, 'status': status}, 201)
+            return self.json_response({'saved': True, 'status': status, 'updated_by': user}, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
 

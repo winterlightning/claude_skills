@@ -29,14 +29,29 @@ class FlyingRocketExhaustStreaks(Solo48):
         self.add_contour(name, *(f'{name}-{i}' for i in range(4)), closed=True)
 
     def build(self):
-        self.add_arc('nose-upper',(22,18),(42,6),radius_x=20,radius_y=12)
-        self.add_arc('nose-lower',(42,6),(36,26),radius_x=6,radius_y=20)
-        self.segments('tail-body',(36,26),(30,32),(22,24),(22,18))
-        self.add_contour('hull','nose-upper','nose-lower','tail-body-1','tail-body-2','tail-body-3',closed=True)
-        self.add_polyline('fin-left',(22,18),(16,14),(8,18),(22,24))
-        self.add_polyline('fin-right',(36,26),(42,34),(30,42),(30,32))
-        self.relate('connect','fin-left','hull');self.relate('connect','fin-right','hull')
-        self.add_dot('porthole',(32,18))
-        self.add_line('exhaust-left',(6,29),(7,28))
-        self.add_line('exhaust-center',(6,42),(14,34))
-        self.add_line('exhaust-right',(18,42),(22,38))
+        # Plan: Smooth nose curves share broad fin roots; retain the diagonal launch and two well-separated exhaust streaks, omitting the cramped porthole.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('hull',(16,26), [('C',(22,16),(16,22),(19,19)),('C',(42,6),(28,10),(36,6)),('C',(30,26),(42,14),(36,22)),('L',(24,32)),('L',(16,26))],True)
+        poly('fin-left',(22,16),(12,14),(6,24),(16,26));join('fin-left','hull')
+        poly('fin-right',(30,26),(40,30),(30,42),(24,32));join('fin-right','hull')
+        line('exhaust-left',(6,36),(8,34));line('exhaust-right',(14,42),(16,40))

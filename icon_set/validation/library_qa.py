@@ -22,6 +22,7 @@ from .spacing_reviews import apply_spacing_reviews
 from .parallel_straight import RULES as PARALLEL_STRAIGHT_RULES
 from .circle_exceptions import circle_candidates, apply_circle_exceptions
 from .stroke_distance import analyze_paths
+from .symmetry import analyze as analyze_symmetry, failure_messages as symmetry_failures, RULES as SYMMETRY_RULES
 from .validator import _declared_connections, _pair_elements
 
 PALETTE = ('#2563eb', '#9333ea', '#087f5b', '#c2410c', '#be185d', '#0e7490')
@@ -199,6 +200,7 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
            'profile': getattr(icon.profile, 'name', str(icon.profile)),
            'selected_for_build': selected, 'status': 'error', 'errors': [], 'warnings': [],
            'spacing': {'status': 'error'}, 'negative_space': {'status': 'error'},
+           'symmetry': {'status': 'error'},
            'artifacts': {}}
     try:
         validation = validation if validation is not None else icon.validate_icon()
@@ -210,6 +212,7 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         if any(e.startswith('schema/profile') for e in validation.errors):
             row['spacing'] = {'status': 'not_run'}
             row['negative_space'] = {'status': 'not_run'}
+            row['symmetry'] = {'status': 'not_run'}
             return row
         drawing = icon.draw()
         document = icon.to_svg()
@@ -218,9 +221,15 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         rules = {'profile': asdict(icon.profile.spec), 'stroke_width': STROKE_WIDTH,
                  'negative_space': negative_space_rules(), 'internal_spacing': INTERNAL_RULES,
                  'pinch_measurement': 'authored-stroke-v1',
-                 'internal_parallel_straight': PARALLEL_STRAIGHT_RULES}
+                 'internal_parallel_straight': PARALLEL_STRAIGHT_RULES,
+                 'symmetry': SYMMETRY_RULES}
         row['rules'] = rules
         row['rules_sha256'] = _hash(json.dumps(rules, sort_keys=True, separators=(',', ':')).encode('utf-8'))
+        row['checks_run'].append('symmetry')
+        row['symmetry'] = analyze_symmetry(icon, drawing=drawing, document=document)
+        if row['symmetry']['status'] == 'fail':
+            row['status'] = 'fail'
+            row['errors'].extend(symmetry_failures(row['symmetry']))
         row['spacing'] = measure_spacing(icon, drawing, validation)
         row['internal_spacing'] = apply_spacing_reviews(
             icon, analyze_internal_spacing(icon, drawing), row['svg_sha256'], row['rules_sha256'])

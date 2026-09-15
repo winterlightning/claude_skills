@@ -20,7 +20,7 @@ class ThreeWayTextSign(Solo48):
         self.add_line('number-middle',(10,14),(18,14))
         self.relate('connect','number-outline','number-middle')
 
-        self.add_polyline('w',(26,6),(30,22),(34,14),(38,22),(42,6))
+        self.add_polyline('w',(26,6),(26,22),(34,14),(42,22),(42,6))
         self.add_polyline('a-outline',(6,42),(8,39),(14,30),(20,39),(22,42))
         self.add_line('a-bar',(8,39),(20,39))
         self.relate('connect','a-outline','a-bar')

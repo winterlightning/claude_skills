@@ -38,6 +38,6 @@ class StraightBodiedMissile(Solo48):
             self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
 
         P('body',(16,26),(32,10),(42,6),(38,16),(22,32),(16,26))
-        P('left-fin',(22,20),(12,20),(6,28),(16,26));J('left-fin','body')
-        P('right-fin',(28,26),(28,36),(20,42),(22,32));J('right-fin','body')
+        P('left-fin',(24,18),(10,18),(6,30),(16,26));J('left-fin','body')
+        P('right-fin',(30,24),(30,38),(18,42),(22,32));J('right-fin','body')
         L('exhaust',(11,37),(6,42))

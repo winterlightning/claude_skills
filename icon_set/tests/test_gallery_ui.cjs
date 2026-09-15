@@ -95,6 +95,27 @@ async function main() {
   assert.equal(authors.run('filteredIcons().length'),3,'All authors and missing author metadata remain visible');
   authors.run("reviewsLoaded=true;reviews={'solo/a':'approve','solo/b':'approve'};showSection('final');");
   assert.equal(authors.run('filteredIcons().length'),2,'Approved collection does not filter authors');
+  const approvers = page('gallery');
+  approvers.run(`icons=[
+    {key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'},
+    {key:'solo/a-v2',family:'solo',icon_id:'a-v2',variant_of:'a',name:'A revised',category:'animals'},
+    {key:'solo/b',family:'solo',icon_id:'b',name:'B',category:'tools'},
+    {key:'solo/c',family:'solo',icon_id:'c',name:'C',category:'tools'}
+  ];reviewsLoaded=true;reviews={'solo/a':'approve','solo/b':'approve','solo/c':'pending'};
+  approvedBy={'solo/a':'phuong','solo/b':'hina','solo/c':'phuong'};
+  page=4;selectedKeys.add('solo/b');$('approvedBy').value='phuong';$('approvedBy').onchange();`);
+  assert.equal(approvers.run('filteredIcons().map(i=>i.key).join()'), 'solo/a');
+  assert.equal(approvers.run('page'), 1);
+  assert.equal(approvers.run('selectedKeys.size'), 0);
+  assert.equal(approvers.run('categoryCounts().has("tools")'), false);
+  approvers.run("setIconView('versions');");
+  assert.equal(approvers.run('filteredIcons().map(i=>i.key).join()'), 'solo/a', 'Versions must not introduce unapproved siblings');
+  approvers.run("$('approvedBy').value='hina';");
+  assert.equal(approvers.run('filteredIcons().map(i=>i.key).join()'), 'solo/b');
+  approvers.run("$('approvedBy').value='jakes';");
+  assert.equal(approvers.run('filteredIcons().length'), 0);
+  approvers.run("$('approvedBy').value='';");
+  assert.equal(approvers.run('filteredIcons().length'), 3, 'Anyone restores normal version grouping');
   const selection = page('gallery');
   selection.run(`icons=Array.from({length:53},(_,n)=>({key:'solo/icon-'+n,family:'solo',icon_id:'icon-'+n,name:'Icon '+n}));reviewsLoaded=true;setIconView('generated');pageSize=48;render();$('selectAll').checked=true;$('selectAll').onchange();`);
   assert.equal(selection.run('selectedKeys.size'), 48, 'Select all is limited to the visible page');

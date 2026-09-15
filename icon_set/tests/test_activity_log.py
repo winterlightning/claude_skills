@@ -33,6 +33,29 @@ class ActivityLogTests(unittest.TestCase):
                      '/api/review-detail?icon=sub/square', '/gallery/index.html'):
             self.assertEqual(self.request('GET', path, anonymous=True)[0], 200, path)
 
+    def test_approver_filter_uses_current_approved_revision(self):
+        icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
+        for user in ('phuong', 'hina', 'jakes'):
+            self.request('POST', '/api/auth/login', {'username': user, 'password': '1'}, anonymous=True)
+            status, body = self.request('POST', '/api/reviews', dict(icon, status='approve'))
+            self.assertEqual(status, 201)
+            self.assertEqual(json.loads(body)['updated_by'], user)
+            data = json.loads(self.request('GET', '/api/reviews?include_approvers=1', anonymous=True)[1])
+            self.assertEqual(data['approved_by'], {'sub/square': user})
+            self.assertEqual(data['statuses'], json.loads(self.request('GET', '/api/reviews')[1]))
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE reviews SET updated_by=NULL")
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])['approved_by'], {})
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE reviews SET svg_sha256='old', updated_by='hina'")
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])['approved_by'], {})
+        self.request('POST', '/api/reviews', dict(icon, status='approve'))
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE reviews SET status='rejected' WHERE svg_sha256='old'")
+        data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
+        self.assertEqual(data['statuses']['sub/square'], 'rejected')
+        self.assertEqual(data['approved_by'], {})
+
     def test_actions_record_who_did_them(self):
         icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
         self.assertEqual(self.request('POST', '/api/feedback', dict(icon, feedback='Round it'))[0], 201)

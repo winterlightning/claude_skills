@@ -15,24 +15,31 @@ class GrandCanyonWithRiver(Solo48):
     aliases = ()
     keywords = ('grand canyon', 'canyon', 'usa', 'arizona', 'river', 'cliff', 'landscape', 'nature', 'landmark')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('left-cliff-1', (6, 42), (6, 20))
-        self.add_line('left-cliff-2', (6, 20), (10, 20))
-        self.add_line('left-cliff-3', (10, 20), (14, 30))
-        self.add_line('ridge-1', (6, 12), (12, 6))
-        self.add_line('ridge-2', (12, 6), (22, 6))
-        self.add_line('ridge-3', (22, 6), (28, 12))
-        self.add_line('right-cliff-1', (42, 42), (42, 22))
-        self.add_line('right-cliff-2', (42, 22), (38, 22))
-        self.add_line('right-cliff-3', (38, 22), (36, 32))
-        self.add_arc('river-upper', (29, 25), (21, 36), radius_x=14, radius_y=14, large_arc=False, sweep=False)
-        self.add_arc('river-lower', (21, 36), (28, 41), radius_x=12, radius_y=12, large_arc=False, sweep=False)
-        self.add_arc('sun-top', (36, 9), (42, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('sun-bottom', (42, 9), (36, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('left-cliff', *('left-cliff-1', 'left-cliff-2', 'left-cliff-3'), closed=False)
-        self.add_contour('ridge', *('ridge-1', 'ridge-2', 'ridge-3'), closed=False)
-        self.add_contour('right-cliff', *('right-cliff-1', 'right-cliff-2', 'right-cliff-3'), closed=False)
-        self.add_contour('river', *('river-upper', 'river-lower'), closed=False)
-        self.add_contour('sun', *('sun-top', 'sun-bottom'), closed=True)
+    def build(self):
+        # Plan: Broaden both cliff shoulders and use a smooth river bend; preserve the sun, distant ridge and open canyon between two cliffs.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('left-cliff',(6,42),(6,22),(14,22),(14,30))
+        poly('right-cliff',(42,42),(42,22),(34,22),(34,30))
+        poly('ridge',(6,14),(14,6),(22,6),(28,12))
+        path('river',(25,23), [('C',(22,35),(25,29),(23,31)),('C',(28,42),(24,38),(26,40))])
+        circle('sun',39,9,3)

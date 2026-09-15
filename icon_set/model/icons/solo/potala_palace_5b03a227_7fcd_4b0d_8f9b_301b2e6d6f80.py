@@ -17,15 +17,29 @@ class Landmark(Solo48):
     keywords = ('potala', 'palace', 'tibet', 'lhasa', 'fortress', 'monastery', 'landmark', 'heritage')
 
     def build(self):
-        # HRECT_L centerline extremes (6,8)-(42,40).
-        # Building owns silhouette and attached architecture; repeat pairs share axes.
-        # Asymmetric terraced hillside; shared roof and wall junctions.
-        self.add_polyline("outline", (4,30), (7,16), (14,16), (16,8), (28,8), (30,16), (34,16), (36,24), (40,24), (44,24), (44,36))
-        self.add_line("central-roof", (14,16), (30,16))
-        self.relate("connect", "central-roof", "outline")
-        self.add_polyline("terraces", (4,30), (14,30), (16,36), (24,36), (24,40), (34,40))
-        self.relate("connect", "terraces", "outline")
-        self.add_line("central-wall", (36,24), (34,34))
-        self.relate("connect", "central-wall", "outline")
-        self.add_line("finial", (40,18), (40,24))
-        self.relate("connect", "finial", "outline")
+        # Plan: Preserve the terraced hillside palace with broader tiers; simplify the cramped narrow annex wall and finial while retaining the stepped roofline.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('outline',(4,30),(8,16),(14,16),(16,8),(28,8),(30,16),(34,16),(36,24),(44,24),(44,36))
+        line('central-roof',(14,16),(30,16));join('central-roof','outline')
+        poly('terraces',(4,30),(14,30),(16,36),(24,36),(24,40),(34,40));join('terraces','outline')
+        line('central-wall',(36,24),(36,36));join('central-wall','outline')

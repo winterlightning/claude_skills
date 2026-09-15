@@ -16,9 +16,29 @@ class BurningCrashedAircraft(Solo48):
     aliases = ()
     keywords = ('aircraft', 'crash', 'fire', 'smoke', 'flame', 'wreck')
 
-    def build(self) -> None:
-        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
-        self.add_polyline('plane', (8, 25), (20, 30), (17, 18), (27, 23), (28, 34), (40, 34), (40, 44), (25, 44), (8, 36), closed=True)
-        self.add_polyline('fire', (28, 25), (26, 17), (31, 9), (30, 4), (40, 14), (40, 23), (34, 37))
-        self.relate('connect', 'fire', 'plane')
-        self.add_line('smoke', (12, 4), (10, 14))
+    def build(self):
+        # Plan: Broaden the broken aircraft wing and trace one flowing flame rising from two exact attachment nodes; retain the smoke trail.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('plane',(8,25),(18,30),(17,18),(27,23),(28,34),(38,34),(40,34),(40,44),(25,44),(8,36),closed=True)
+        path('fire',(27,23), [('C',(30,12),(26,20),(26,16)),('C',(30,4),(32,8),(30,6)),('C',(40,22),(40,12),(40,16)),('C',(38,34),(40,26),(38,31))]);join('fire','plane')
+        line('smoke',(12,4),(10,14))

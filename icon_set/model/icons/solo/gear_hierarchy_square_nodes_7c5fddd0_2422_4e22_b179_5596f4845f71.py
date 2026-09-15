@@ -6,38 +6,44 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='7c5fddd0-2422-4e22-b179-5596f4845f71'
 SOURCE_PATH='pictographic-primitives/programing/obs works_7c5fddd0-2422-4e22-b179-5596f4845f71.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
 
 class GearHierarchySquareNodes(Solo48):
     icon_id='gear-hierarchy-square-nodes'
-    keyshape=Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role="MAIN"
     semantic_kind="noun"
     category="objects/programming"
     aliases=()
     keywords=('gear', 'hierarchy', 'tree', 'settings', 'operations', 'nodes', 'workflow', 'structure')
 
-    def build(self) -> None:
-        def ring(name,x,y,r):
-            points=((x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r))
-            members=[]
-            for i,(a,b) in enumerate(zip(points,points[1:])):
-                member=f'{name}-{i}'
-                self.add_arc(member,a,b,radius_x=r)
-                members.append(member)
-            self.add_contour(name,*members,closed=True)
+    def build(self):
+        # Plan: Keep the gear and all three equal square child nodes; arrange the children around two sides to give the branches room instead of compressing a horizontal bus.
 
-        def join(*names):
-            from itertools import combinations
-            for a,b in combinations(names,2): self.relate('connect',a,b)
-
-        self.add_polyline('gear',(24,8),(27,11),(32,12),(30,16),(32,20),(27,21),(24,24),(21,21),(16,20),(18,16),(16,12),(21,11),closed=True)
-        # Omit the small hub to keep the gear opening clear.
-        self.add_line('bus-left',(8,24),(24,24))
-        self.add_line('bus-right',(24,24),(40,24))
-        join('gear','bus-left','bus-right')
-        for name,x in (('left',8),('middle',24),('right',40)):
-            self.add_line(name+'-stem',(x,24),(x,32))
-            self.add_polyline(name+'-node',(x,32),(x+4,32),(x+4,40),(x-4,40),(x-4,32),closed=True)
-            join(name+'-stem',name+'-node')
-            for bus in (('bus-left',) if name=='left' else ('bus-right',) if name=='right' else ('bus-left','bus-right','gear')): join(name+'-stem',bus)
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('gear',(14,6),(17,9),(22,10),(20,14),(22,18),(17,19),(14,22),(11,19),(6,18),(8,14),(6,10),(11,9),closed=True)
+        poly('upper-node',(34,6),(42,6),(42,14),(34,14),(34,10),closed=True)
+        poly('left-node',(6,34),(10,34),(14,34),(14,42),(6,42),closed=True)
+        poly('right-node',(34,34),(38,34),(42,34),(42,42),(34,42),closed=True)
+        line('upper-link',(22,10),(34,10));line('left-link',(14,22),(10,34));line('right-link',(14,22),(34,42))
+        for link,node in [('upper-link','upper-node'),('left-link','left-node'),('right-link','right-node')]:join(link,'gear');join(link,node)
+        join('left-link','right-link')

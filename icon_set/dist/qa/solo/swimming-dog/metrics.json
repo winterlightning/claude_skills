@@ -3,14 +3,14 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.2 on centerlines; requires at least 8.0"
+  "status": "review",
+  "errors": [],
+  "warnings": [
+    "mic [muzzle]: muzzle and water are 8 apart on centerlines nearest (4, 28)<->(4, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
   ],
-  "warnings": [],
   "spacing": {
-    "ok": true,
-    "status": "pass",
+    "ok": false,
+    "status": "review",
     "contours": [
       {
         "id": "head:subpath-1",
@@ -33,12 +33,12 @@
         "elementId": "muzzle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 20 L 4 20 L 4 26 L 14 27",
+        "pathData": "M 12 20 L 4 20 L 4 28 L 14 28",
         "bounds": [
           4.0,
           20.0,
           14.0,
-          27.0
+          28.0
         ],
         "segmentCount": 3,
         "approximationError": 0.0,
@@ -49,30 +49,14 @@
         "elementId": "back",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 28 20 L 38 20",
+        "pathData": "M 28 20 L 38 20 A 6 6 0 0 1 44 26",
         "bounds": [
           28.0,
-          20.0,
-          38.0,
-          20.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "rump:subpath-1",
-        "elementId": "rump",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 38 20 A 6 6 0 0 1 44 26",
-        "bounds": [
-          38.0,
           20.0,
           44.0,
           26.0
         ],
-        "segmentCount": 64,
+        "segmentCount": 65,
         "approximationError": 0.0004517946359992781,
         "hasCurves": true
       },
@@ -99,26 +83,23 @@
         "memberIds": [
           "head:subpath-1",
           "muzzle:subpath-1",
-          "back:subpath-1",
-          "rump:subpath-1"
+          "back:subpath-1"
         ],
         "contourIds": [
           "head:subpath-1",
           "muzzle:subpath-1",
-          "back:subpath-1",
-          "rump:subpath-1"
+          "back:subpath-1"
         ],
         "elementIds": [
           "head",
           "muzzle",
-          "back",
-          "rump"
+          "back"
         ],
         "bounds": [
           4.0,
           8.0,
           44.0,
-          27.0
+          28.0
         ]
       },
       {
@@ -146,28 +127,28 @@
           "muzzle:subpath-1",
           "water:subpath-1"
         ],
-        "centerlineDistance": 9.0,
-        "inkClearance": 5.0,
-        "signedInkClearance": 5.0,
-        "lowerBound": 8.999622908423197,
-        "upperBound": 9.000377091576803,
-        "inkClearanceLowerBound": 4.999622908423197,
-        "inkClearanceUpperBound": 5.000377091576803,
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 7.9996229084231985,
+        "upperBound": 8.000377091576803,
+        "inkClearanceLowerBound": 3.9996229084231985,
+        "inkClearanceUpperBound": 4.000377091576803,
         "approximationError": 0.0003770915768033234,
         "nearestPoints": [
           [
-            14.0,
-            27.0
+            4.0,
+            28.0
           ],
           [
-            14.0,
+            4.0,
             36.0
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "pass",
-        "reason": "Every contour pair between these components meets the required minimum.",
+        "status": "review",
+        "reason": "The conservative curve distance interval crosses the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -177,8 +158,7 @@
           [
             "head:subpath-1",
             "muzzle:subpath-1",
-            "back:subpath-1",
-            "rump:subpath-1"
+            "back:subpath-1"
           ],
           [
             "water:subpath-1"
@@ -219,62 +199,33 @@
               "muzzle:subpath-1",
               "water:subpath-1"
             ],
-            "centerlineDistance": 9.0,
-            "inkClearance": 5.0,
-            "signedInkClearance": 5.0,
-            "lowerBound": 8.999622908423197,
-            "upperBound": 9.000377091576803,
-            "inkClearanceLowerBound": 4.999622908423197,
-            "inkClearanceUpperBound": 5.000377091576803,
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 7.9996229084231985,
+            "upperBound": 8.000377091576803,
+            "inkClearanceLowerBound": 3.9996229084231985,
+            "inkClearanceUpperBound": 4.000377091576803,
             "approximationError": 0.0003770915768009937,
             "nearestPoints": [
               [
-                14.0,
-                27.0
+                4.0,
+                28.0
               ],
               [
-                14.0,
+                4.0,
                 36.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "status": "review",
+            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
             "ambiguousContact": false
           },
           {
             "closestContours": [
               "back:subpath-1",
-              "water:subpath-1"
-            ],
-            "centerlineDistance": 16.0,
-            "inkClearance": 12.0,
-            "signedInkClearance": 12.0,
-            "lowerBound": 15.999622908423197,
-            "upperBound": 16.000377091576805,
-            "inkClearanceLowerBound": 11.999622908423197,
-            "inkClearanceUpperBound": 12.000377091576805,
-            "approximationError": 0.0003770915768009937,
-            "nearestPoints": [
-              [
-                34.0,
-                20.0
-              ],
-              [
-                34.0,
-                36.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "rump:subpath-1",
               "water:subpath-1"
             ],
             "centerlineDistance": 10.0,
@@ -326,17 +277,6 @@
           28.0,
           20.0
         ]
-      },
-      {
-        "contourIds": [
-          "back:subpath-1",
-          "rump:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          38.0,
-          20.0
-        ]
       }
     ],
     "excludedPairs": [
@@ -380,52 +320,17 @@
       },
       {
         "contourIds": [
-          "head:subpath-1",
-          "rump:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
           "muzzle:subpath-1",
           "back:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": null
-      },
-      {
-        "contourIds": [
-          "muzzle:subpath-1",
-          "rump:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "back:subpath-1",
-          "rump:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "back:subpath-1",
-            "rump:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            38.0,
-            20.0
-          ]
-        }
       }
     ],
-    "errors": [],
+    "errors": [
+      "component-1 / component-2: The conservative curve distance interval crosses the required minimum."
+    ],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -436,17 +341,17 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 9.0,
-    "minimumInkClearance": 5.0,
-    "reason": "All disconnected components meet the required spacing.",
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
+    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
     "stats": {
-      "commands": 15,
+      "commands": 14,
       "flattenedSegments": 708,
       "adaptiveNodes": 1402,
-      "distanceTests": 31,
+      "distanceTests": 19,
       "connectionTests": 0
     },
-    "raw_status": "pass",
+    "raw_status": "review",
     "canvas": 48
   },
   "negative_space": {
@@ -470,11 +375,6 @@
   },
   "artifacts": {
     "svg": "solo/swimming-dog/icon.svg",
-    "holes": "solo/swimming-dog/holes.png",
-    "spacing": "solo/swimming-dog/spacing.png",
-    "spacing_svg": "solo/swimming-dog/spacing.svg",
-    "internal-spacing": "solo/swimming-dog/internal-spacing.png",
-    "internal_spacing_svg": "solo/swimming-dog/internal-spacing.svg",
     "metrics": "solo/swimming-dog/metrics.json"
   },
   "checks_run": [
@@ -487,7 +387,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "2faae3f0e49068af030dcd7c5b2c19a7f41cc66fc8673b186436ae0182bb895a",
+  "svg_sha256": "f66e13f26f40913fcb23af884905778c4b795128b81a45c1bd0e3367548d8007",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -543,7 +443,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -555,38 +455,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "muzzle",
-        "elements": [
-          "muzzle-1",
-          "muzzle-3"
-        ],
-        "status": "review",
-        "sustained_length": 7.1084,
-        "centerline_distance": 6.061,
-        "ink_gap": 2.061,
-        "nearest_points": [
-          [
-            4.609756097560975,
-            20.0
-          ],
-          [
-            4.609756097560975,
-            26.0609756097561
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the swimming dog silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-6.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

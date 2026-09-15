@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.25 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,32 +15,16 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 6 A 12 10 0 0 1 28 16 L 28 22 L 30 22 A 12 12 0 0 1 42 34 L 42 38 A 4 4 0 0 1 38 42 L 34 42 L 36 34 L 30 32 A 12 6 0 0 1 24 34 L 28 42 A 12 4 0 0 1 16 38 L 10 40 L 6 38 L 10 30 A 14 14 0 0 1 8 24 L 6 18 L 10 16 L 6 14 A 10 8 0 0 1 16 6 Z",
+        "pathData": "M 16 6 A 12 10 0 0 1 28 16 L 28 22 L 30 22 A 12 12 0 0 1 42 34 L 42 40 A 2 2 0 0 1 40 42 L 32 42 L 34 34 L 30 32 A 12 6 0 0 1 24 34 L 24 42 C 20 42 16 42 16 38 L 10 40 L 6 38 L 10 30 A 14 14 0 0 1 8 24 L 6 18 L 10 16 L 6 14 A 10 8 0 0 1 16 6 Z",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 398,
-        "approximationError": 0.0009035892729080671,
+        "segmentCount": 374,
+        "approximationError": 0.0009886808754625046,
         "hasCurves": true
-      },
-      {
-        "id": "flipper-mark:subpath-1",
-        "elementId": "flipper-mark",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 16 30 L 16 38",
-        "bounds": [
-          16.0,
-          30.0,
-          16.0,
-          38.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
       },
       {
         "id": "eye:subpath-1",
@@ -65,16 +47,13 @@
       {
         "id": "component-1",
         "memberIds": [
-          "body:subpath-1",
-          "flipper-mark:subpath-1"
+          "body:subpath-1"
         ],
         "contourIds": [
-          "body:subpath-1",
-          "flipper-mark:subpath-1"
+          "body:subpath-1"
         ],
         "elementIds": [
-          "body",
-          "flipper-mark"
+          "body"
         ],
         "bounds": [
           6.0,
@@ -111,11 +90,11 @@
         "centerlineDistance": 8.158482546448392,
         "inkClearance": 4.158482546448392,
         "signedInkClearance": 4.158482546448392,
-        "lowerBound": 8.157578957175481,
-        "upperBound": 8.159386135721304,
-        "inkClearanceLowerBound": 4.157578957175481,
-        "inkClearanceUpperBound": 4.159386135721304,
-        "approximationError": 0.0009035892729123418,
+        "lowerBound": 8.157493865572928,
+        "upperBound": 8.159471227323857,
+        "inkClearanceLowerBound": 4.157493865572928,
+        "inkClearanceUpperBound": 4.159471227323857,
+        "approximationError": 0.000988680875465775,
         "nearestPoints": [
           [
             23.526864486566833,
@@ -137,8 +116,7 @@
         ],
         "memberIds": [
           [
-            "body:subpath-1",
-            "flipper-mark:subpath-1"
+            "body:subpath-1"
           ],
           [
             "eye:subpath-1"
@@ -153,11 +131,11 @@
             "centerlineDistance": 8.158482546448392,
             "inkClearance": 4.158482546448392,
             "signedInkClearance": 4.158482546448392,
-            "lowerBound": 8.157578957175481,
-            "upperBound": 8.159386135721304,
-            "inkClearanceLowerBound": 4.157578957175481,
-            "inkClearanceUpperBound": 4.159386135721304,
-            "approximationError": 0.0009035892729080671,
+            "lowerBound": 8.157493865572928,
+            "upperBound": 8.159471227323857,
+            "inkClearanceLowerBound": 4.157493865572928,
+            "inkClearanceUpperBound": 4.159471227323857,
+            "approximationError": 0.0009886808754625046,
             "nearestPoints": [
               [
                 23.526864486566833,
@@ -173,73 +151,12 @@
             "status": "pass",
             "reason": "The conservative distance lower bound meets the minimum.",
             "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "flipper-mark:subpath-1",
-              "eye:subpath-1"
-            ],
-            "centerlineDistance": 15.297058540778355,
-            "inkClearance": 11.297058540778355,
-            "signedInkClearance": 11.297058540778355,
-            "lowerBound": 15.297058540778353,
-            "upperBound": 15.297058540778355,
-            "inkClearanceLowerBound": 11.297058540778353,
-            "inkClearanceUpperBound": 11.297058540778355,
-            "approximationError": 0.0,
-            "nearestPoints": [
-              [
-                16.0,
-                30.0
-              ],
-              [
-                19.0,
-                15.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "Exact straight-segment spacing meets the minimum.",
-            "ambiguousContact": false
           }
         ]
       }
     ],
-    "connectedPairs": [
-      {
-        "contourIds": [
-          "body:subpath-1",
-          "flipper-mark:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          16.0,
-          38.0
-        ]
-      }
-    ],
-    "excludedPairs": [
-      {
-        "contourIds": [
-          "body:subpath-1",
-          "flipper-mark:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "body:subpath-1",
-            "flipper-mark:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            16.0,
-            38.0
-          ]
-        }
-      }
-    ],
+    "connectedPairs": [],
+    "excludedPairs": [],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -255,10 +172,10 @@
     "minimumInkClearance": 4.158482546448392,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 26,
-      "flattenedSegments": 400,
-      "adaptiveNodes": 761,
-      "distanceTests": 19,
+      "commands": 24,
+      "flattenedSegments": 375,
+      "adaptiveNodes": 713,
+      "distanceTests": 18,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -270,8 +187,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          20.0469,
-          22.9219
+          18.6094,
+          24.8594
         ],
         "bbox_viewbox": [
           8.1562,
@@ -287,13 +204,13 @@
           31.8438,
           32.0
         ],
-        "area_ship_px2": 485.0801,
-        "equivalent_diameter_ship_px": 24.852,
-        "equivalent_diameter_design_u": 24.852,
-        "inscribed_diameter_ship_px": 12.1704,
-        "inscribed_diameter_design_u": 12.1704,
-        "inscribed_radius_ship_px": 6.0852,
-        "inscribed_radius_design_u": 6.0852,
+        "area_ship_px2": 532.0693,
+        "equivalent_diameter_ship_px": 26.0279,
+        "equivalent_diameter_design_u": 26.0279,
+        "inscribed_diameter_ship_px": 15.8115,
+        "inscribed_diameter_design_u": 15.8115,
+        "inscribed_radius_ship_px": 7.9058,
+        "inscribed_radius_design_u": 7.9058,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -307,8 +224,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          20.0781,
-          22.9219
+          18.6406,
+          24.8594
         ],
         "bbox_viewbox": [
           6.5,
@@ -324,17 +241,17 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 738.9893,
-        "equivalent_diameter_ship_px": 30.6743,
-        "equivalent_diameter_design_u": 30.6743,
-        "inscribed_diameter_ship_px": 15.195,
-        "inscribed_diameter_design_u": 15.195,
-        "inscribed_radius_ship_px": 7.5975,
-        "inscribed_radius_design_u": 7.5975,
+        "area_ship_px2": 759.3047,
+        "equivalent_diameter_ship_px": 31.093,
+        "equivalent_diameter_design_u": 31.093,
+        "inscribed_diameter_ship_px": 18.811,
+        "inscribed_diameter_design_u": 18.811,
+        "inscribed_radius_ship_px": 9.4055,
+        "inscribed_radius_design_u": 9.4055,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 6.0975,
-        "equivalent_diameter_at_authored_stroke_design_u": 12.195
+        "equivalent_radius_at_authored_stroke_design_u": 7.9055,
+        "equivalent_diameter_at_authored_stroke_design_u": 15.811
       }
     ],
     "pinches": [],
@@ -349,11 +266,6 @@
   },
   "artifacts": {
     "svg": "solo/sea-lion/icon.svg",
-    "holes": "solo/sea-lion/holes.png",
-    "spacing": "solo/sea-lion/spacing.png",
-    "spacing_svg": "solo/sea-lion/spacing.svg",
-    "internal-spacing": "solo/sea-lion/internal-spacing.png",
-    "internal_spacing_svg": "solo/sea-lion/internal-spacing.svg",
     "metrics": "solo/sea-lion/metrics.json"
   },
   "checks_run": [
@@ -366,7 +278,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "915ce03375eac6f940b1d849807ab919ddf735695f2e73a3187c65dfec0b442f",
+  "svg_sha256": "25d23331fbe1ca48589a2728e9d2c556da3b881da0df4c956310a2a70f7223ce",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -422,7 +334,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -434,92 +346,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "body",
-        "elements": [
-          "rear-edge",
-          "rear-inner"
-        ],
-        "status": "review",
-        "sustained_length": 2.9986,
-        "centerline_distance": 6.1515,
-        "ink_gap": 2.1515,
-        "nearest_points": [
-          [
-            42.0,
-            34.60606060606061
-          ],
-          [
-            35.848484848484844,
-            34.60606060606061
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the sea lion silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      },
-      {
-        "contour": "body",
-        "elements": [
-          "rear-tip",
-          "rear-inner"
-        ],
-        "status": "review",
-        "sustained_length": 2.6579,
-        "centerline_distance": 6.3994,
-        "ink_gap": 2.3994,
-        "nearest_points": [
-          [
-            40.9112350587153,
-            40.74045887885468
-          ],
-          [
-            34.70290585548804,
-            39.18837657804782
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the sea lion silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      },
-      {
-        "contour": "body / flipper-mark",
-        "elements": [
-          "chest-lower",
-          "flipper-mark"
-        ],
-        "status": "review",
-        "sustained_length": 3.9752,
-        "centerline_distance": 6.2778,
-        "ink_gap": 2.2778,
-        "nearest_points": [
-          [
-            9.722222222222221,
-            30.555555555555557
-          ],
-          [
-            16.0,
-            30.555555555555557
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the sea lion silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 3
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

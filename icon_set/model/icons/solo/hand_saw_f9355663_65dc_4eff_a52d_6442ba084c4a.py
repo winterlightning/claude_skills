@@ -19,13 +19,28 @@ class HandSaw(Solo48):
     aliases = ()
     keywords = ('saw', 'handsaw', 'tool', 'carpentry', 'woodwork', 'cut', 'diy', 'construction')
 
-    def build(self) -> None:
+    def build(self):
+        # Plan: A broad rounded handle surrounds one clear opening. Reduce the blade to three strong teeth with clean shared roots, preserving its diagonal direction.
 
-        upper=[(6,12),(14,6),(30,22),(40,32)]
-        for i,(a,b) in enumerate(zip(upper,upper[1:]),1):self.add_line('upper-'+str(i),a,b)
-        self.add_arc('handle-end',(40,32),(40,38),radius_x=2,radius_y=3)
-        lower=[(40,38),(36,42),(27,37),(31,33),(24,28),(20,32),(18,30),(18,24),(12,24),(12,18),(6,18),(6,12)]
-        for i,(a,b) in enumerate(zip(lower,lower[1:]),1):self.add_line('lower-'+str(i),a,b)
-        self.add_contour('outline',*['upper-'+str(i) for i in range(1, 4)],'handle-end',*['lower-'+str(i) for i in range(1, 12)],closed=True)
-        self.add_polyline('blade-divider',(30,22),(24,28),(20,32))
-        self.relate('connect','outline','blade-divider')
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('outline',(6,12), [('L',(14,6)),('L',(30,22)),('L',(40,32)),('A',(40,38),2,3,True),('L',(36,42)),('L',(20,32)),('L',(16,28)),('L',(16,22)),('L',(10,22)),('L',(10,16)),('L',(6,16)),('L',(6,12))],True)
+        poly('divider',(30,22),(24,28),(20,32));join('outline','divider')

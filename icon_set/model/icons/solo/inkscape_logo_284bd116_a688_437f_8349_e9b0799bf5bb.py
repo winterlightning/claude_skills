@@ -23,8 +23,28 @@ class InkscapeLogo(Solo48):
     keywords = ('inkscape', 'vector', 'drawing', 'logo', 'brand', 'open-source', 'mountain')
 
     def build(self):
-        self.add_polyline('peak',(6,24),(12,18),(24,6),(36,18),(42,24))
-        self.add_bezier('base',(42,24),((42,32),(30,30),(30,36)),((30,40),(32,42),(24,42)),((16,42),(18,40),(18,36)),((18,30),(6,32),(6,24)))
-        self.relate('connect','peak','base')
-        self.add_polyline('snow',(6,24),(16,25),(24,18),(32,25),(42,24))
-        self.relate('connect','snow','peak')
+        # Plan: Keep the peaked mountain and ink-shaped base, using coherent curves and a smaller detached snow chevron with room on every side.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('peak',(6,24),(24,6),(42,24))
+        path('base',(42,24), [('C',(32,36),(42,36),(34,30)),('A',(16,36),8,6,True),('C',(6,24),(14,30),(6,36))]);join('base','peak')
+        poly('snow',(18,24),(24,18),(30,24))

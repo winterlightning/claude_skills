@@ -19,21 +19,30 @@ class RockingHorse(Solo48):
     aliases = ()
     keywords = ('rocking', 'horse', 'baby', 'nursery', 'toy')
 
-    def build(self) -> None:
-        self.add_polyline('head', (18, 6), (8, 10), (6, 17), (11, 21), (17, 17), (20, 27), (12, 42), closed=False)
-        self.add_polyline('back', (18, 6), (24, 20), (35, 20), closed=False)
-        self.relate('connect', 'head', 'back')
-        self.add_arc('rump', (35, 20), (40, 25), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('rear-leg', (40, 25), (36, 42))
-        self.add_contour('rear', 'rump', 'rear-leg', closed=False)
-        self.relate('connect', 'back', 'rear')
-        self.add_arc('belly', (12, 42), (36, 42), radius_x=13, radius_y=13, sweep=True)
-        self.relate('connect', 'belly', 'head')
-        self.relate('connect', 'belly', 'rear')
-        self.add_arc('rocker-left', (6, 33), (12, 42), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('rocker-base', (12, 42), (36, 42))
-        self.add_arc('rocker-right', (36, 42), (42, 33), radius_x=10, radius_y=10, sweep=False)
-        self.add_contour('rocker', 'rocker-left', 'rocker-base', 'rocker-right', closed=False)
-        self.relate('connect', 'rocker', 'head')
-        self.relate('connect', 'rocker', 'rear')
-        self.relate('connect', 'rocker', 'belly')
+    def build(self):
+        # Plan: Trace a wider neck and rounded back into two legs, with a smooth belly and one continuous curved rocker.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('front',(18,6), [('L',(8,10)),('L',(6,17)),('A',(12,20),4,4,False),('L',(14,18)),('L',(16,28)),('L',(12,42))])
+        path('back',(18,6), [('C',(30,20),(24,6),(24,20)),('L',(35,20)),('A',(40,25),5,5,True),('L',(36,42))]);join('front','back')
+        path('belly',(12,42), [('A',(36,42),13,13,True)]);join('belly','front');join('belly','back')
+        path('rocker',(6,33), [('A',(12,42),10,10,False),('L',(36,42)),('A',(42,33),10,10,False)]);join('rocker','front');join('rocker','back');join('rocker','belly')

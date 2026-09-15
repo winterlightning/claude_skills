@@ -19,24 +19,29 @@ class HeartPiercedByArrow(Solo48):
     aliases = ()
     keywords = ('heart', 'arrow', 'cupid', 'love', 'romance', 'pierced')
 
-    def build(self) -> None:
-        """Remove the crowded upper barb beside the heart lobe; the remaining open arrowhead preserves direction."""
-        self.add_arc('lobe-l', (24, 12), (12, 12), radius_x=6, sweep=False)
-        self.add_arc('shoulder-l', (12, 12), (14, 16), radius_x=5, sweep=False)
-        self.add_line('side-l-upper', (14, 16), (20, 28))
-        self.add_line('side-l-lower', (20, 28), (24, 34))
-        self.add_line('side-r-lower', (24, 34), (28, 28))
-        self.add_line('side-r-upper', (28, 28), (34, 16))
-        self.add_arc('shoulder-r', (34, 16), (36, 12), radius_x=5, sweep=False)
-        self.add_arc('lobe-r', (36, 12), (24, 12), radius_x=6, sweep=False)
-        self.add_contour('heart', 'lobe-l', 'shoulder-l', 'side-l-upper', 'side-l-lower', 'side-r-lower', 'side-r-upper', 'shoulder-r', 'lobe-r', closed=True)
-        self.add_line('arrow-inside', (28, 20), (36, 12))
-        self.add_line('arrow-outside', (36, 12), (42, 6))
-        self.add_contour('arrow-front', 'arrow-inside', 'arrow-outside')
-        self.add_polyline('arrowhead', (42, 6), (42, 14))
-        self.relate('connect', 'arrow-front', 'arrowhead')
-        self.relate('connect', 'arrow-front', 'heart')
-        self.add_line('arrow-back', (6, 42), (20, 28))
-        self.add_polyline('fletching', (6, 34), (6, 42), (14, 42))
-        self.relate('connect', 'arrow-back', 'fletching')
-        self.relate('connect', 'arrow-back', 'heart')
+    def build(self):
+        # Plan: Move the complete heart away from the arrowhead; show the shaft entering and leaving its outline, with the middle naturally hidden behind the heart.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('heart',(20,18), [('A',(8,18),6,6,False),('A',(10,22),5,5,False),('L',(18,30)),('L',(24,36)),('L',(28,30)),('L',(30,22)),('A',(32,18),5,5,False),('A',(20,18),6,6,False)],True)
+        line('arrow-front',(32,18),(42,6));line('arrowhead',(42,6),(42,16));join('arrow-front','heart');join('arrow-front','arrowhead')
+        line('arrow-back',(6,42),(18,30));poly('fletching',(6,34),(6,42),(14,42));join('arrow-back','heart');join('arrow-back','fletching')
