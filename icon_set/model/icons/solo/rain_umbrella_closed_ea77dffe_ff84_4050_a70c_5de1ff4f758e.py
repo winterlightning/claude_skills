@@ -1,4 +1,4 @@
-"""Rain umbrella closed (weather), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""rain-umbrella-closed: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/weather/rain umbrella closed_ea77dffe-ff8
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class RainUmbrellaClosed(Solo48):
     icon_id = 'rain-umbrella-closed'
@@ -19,22 +19,32 @@ class RainUmbrellaClosed(Solo48):
     keywords = ('rain', 'umbrella', 'closed', 'weather')
 
     def build(self):
-        self.add_line('e0', (24, 4), (24, 6))
-        self.add_line('e1', (24, 41), (24, 31))
-        self.add_line('e2', (24, 31), (40, 31))
-        self.add_line('e3', (40, 31), (24, 6))
-        self.add_line('e4', (24, 31), (8, 31))
-        self.add_line('e5', (8, 31), (24, 6))
-        self.add_line('e6-1', (16, 41), (17, 43))
-        self.add_line('e6-2', (17, 43), (20, 44))
-        self.add_arc('e6-3', (20, 44), (24, 41), radius_x=5, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e6-1', 'e6-2', 'e6-3', 'e1')
-        self.add_contour('c2', 'e2', 'e3')
-        self.add_contour('c3', 'e4', 'e5')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
+        # Plan: VRECT_L; centered canopy and true round handle return; lopsided short arcs removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('canopy',(8,31),(24,6),(40,31),(24,31),closed=True)
+        self.add_line('tip',(24,4),(24,6))
+        path('handle',(24,31),[('L',(24,40)),('A',(20,44),4,4,True),('A',(16,40),4,4,True)])
+        self.relate('connect','tip','canopy');self.relate('connect','handle','canopy')

@@ -47,16 +47,16 @@
         "elementId": "c2",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 4 L 40 39 A 39 39 0 0 1 39 39 L 9 39 A 20 20 0 0 0 8 39 L 24 4 Z",
+        "pathData": "M 24 4 L 40 39 L 8 39 L 24 4 Z",
         "bounds": [
           8.0,
           4.0,
           40.0,
-          39.00320525991911
+          39.0
         ],
-        "segmentCount": 10,
-        "approximationError": 0.000801325957240814,
-        "hasCurves": true
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
@@ -174,9 +174,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 11,
-      "flattenedSegments": 12,
-      "adaptiveNodes": 10,
+      "commands": 9,
+      "flattenedSegments": 6,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 5
     },
@@ -261,8 +261,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -279,7 +280,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "9c6b6341d91a4ed557236d45793509c18f5ef0f3653f3273101d7a6dd9631c6f",
+  "svg_sha256": "e88256a532abc7f0525e1c6516aa82e9b1734010cb924f17cf636e8179498a3c",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -318,6 +319,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -332,7 +334,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

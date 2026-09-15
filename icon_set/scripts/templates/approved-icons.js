@@ -11,9 +11,23 @@ function approvedCategory(value) {
   let icons=[],page=1,pageSize=48,query='',category='';
   function readURL(){const params=new URLSearchParams(window.location.search);const requested=Number(params.get('page'));page=Number.isSafeInteger(requested)&&requested>0?requested:1;const size=Number(params.get('page_size'));pageSize=[24,48,96].includes(size)?size:48;query=params.get('q')||'';category=params.get('category')||'';if(category)category=approvedCategory(category);if(category!=='Uncategorized'&&!icons.some(icon=>icon.category===category))category='';$('approvedSearch').value=query;$('approvedCategory').value=category;}
   function writeURL(replace=false){const url=new URL(window.location.href);url.searchParams.set('page',page);url.searchParams.set('page_size',pageSize);for(const [key,value] of [['q',query],['category',category]]){if(value)url.searchParams.set(key,value);else url.searchParams.delete(key);}if(url.href!==window.location.href)window.history[replace?'replaceState':'pushState'](null,'',url);}
+  function renderCategories(matching){
+    const counts=new Map();for(const icon of matching)counts.set(icon.category,(counts.get(icon.category)||0)+1);
+    const term=$('approvedCategorySearch').value.trim().toLowerCase(),fragment=document.createDocumentFragment();
+    for(const value of ['',...new Set(['Uncategorized',...icons.map(icon=>icon.category)])].sort()){
+      if(value&&term&&!value.toLowerCase().includes(term))continue;
+      const count=value?(counts.get(value)||0):matching.length,button=document.createElement('button');button.type='button';button.className='category-item';button.setAttribute('aria-pressed',String(category===value));button.setAttribute('aria-label',(value||'All categories')+', '+count+' icons');
+      const label=document.createElement('span');label.textContent=value||'All categories';const badge=document.createElement('span');badge.className='category-count';badge.textContent=count.toLocaleString();button.append(label,badge);
+      button.onclick=()=>{category=value;$('approvedCategory').value=value;page=1;render();writeURL();};fragment.append(button);
+    }
+    $('approvedCategoryList').replaceChildren(fragment);
+  }
+  $('approvedCategorySearch').oninput=()=>render();
   function render(){
     const terms=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-    const filtered=icons.filter(icon=>{const text=[icon.name,icon.icon_id,icon.category,...(icon.keywords||[]),...(icon.aliases||[])].join(' ').toLowerCase();return (!category||icon.category===category)&&terms.every(term=>text.includes(term));});
+    const matching=icons.filter(icon=>{const text=[icon.name,icon.icon_id,icon.category,...(icon.keywords||[]),...(icon.aliases||[])].join(' ').toLowerCase();return terms.every(term=>text.includes(term));});
+    renderCategories(matching);
+    const filtered=matching.filter(icon=>!category||icon.category===category);
     const pages=Math.max(1,Math.ceil(filtered.length/pageSize));page=Math.min(Math.max(1,page),pages);
     const start=(page-1)*pageSize,visible=filtered.slice(start,start+pageSize);
     status.textContent=filtered.length?`Showing ${start+1}–${start+visible.length} of ${filtered.length.toLocaleString()} approved icons`:icons.length?'No icons match your search and category. Try another search or clear the filters.':'No approved icons yet. Approved icons will appear here after review.';

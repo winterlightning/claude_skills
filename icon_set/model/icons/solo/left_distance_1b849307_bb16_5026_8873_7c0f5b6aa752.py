@@ -1,4 +1,4 @@
-"""Left distance (design), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""left-distance: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,20 +19,31 @@ class LeftDistance(Solo48):
     keywords = ('left', 'distance', 'design')
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (4, 8), (4, 40))
-        self.add_line('e1', (26, 24), (12, 24))
-        self.add_line('e2', (12, 24), (18, 19))
-        self.add_line('e3', (12, 24), (18, 29))
-        self.add_line('e4', (27, 16), (44, 16))
-        self.add_line('e5', (44, 16), (44, 32))
-        self.add_line('e6', (44, 32), (26, 32))
-        self.add_line('e7', (26, 32), (26, 20))
-        self.add_arc('e8', (26, 20), (27, 16), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', 'e2', closed=False)
-        self.add_contour('c2', 'e3', closed=False)
-        self.add_contour('c3', 'e8', 'e4', 'e5', 'e6', 'e7', closed=True)
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
+        # Plan: HRECT_L; straight square corners and equal arrow arms; hooked upper-left box corner removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_line('limit',(4,8),(4,40));self.add_polyline('box',(26,24),(26,16),(44,16),(44,32),(26,32),closed=True)
+        self.add_line('shaft',(26,24),(12,24));self.add_polyline('head',(18,18),(12,24),(18,30))
+        self.relate('connect','shaft','head');self.relate('connect','shaft','box')

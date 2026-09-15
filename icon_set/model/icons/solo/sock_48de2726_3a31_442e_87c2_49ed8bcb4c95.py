@@ -1,4 +1,4 @@
-"""Sock (holidays), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""sock: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/holidays/sock_48de2726-3a31-442e-87c2-49e
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Sock(Solo48):
     icon_id = 'sock'
@@ -19,38 +19,31 @@ class Sock(Solo48):
     keywords = ('sock', 'holidays')
 
     def build(self):
-        self.add_line('e0', (12, 27), (12, 12))
-        self.add_line('e1', (28, 12), (12, 12))
-        self.add_line('e2', (28, 12), (28, 24))
-        self.add_line('e3', (30, 28), (36, 29))
-        self.add_line('e4', (31, 44), (20, 40))
-        self.add_line('e5', (28, 4), (11, 4))
-        self.add_arc('e6', (12, 27), (20, 40), radius_x=11)
-        self.add_arc('e7', (12, 27), (20, 40), radius_x=10, sweep=False)
-        self.add_line('e8', (28, 24), (30, 28))
-        self.add_arc('e9-1', (36, 29), (40, 36), radius_x=9)
-        self.add_line('e9-2', (40, 36), (39, 40))
-        self.add_arc('e9-3', (39, 40), (33, 44), radius_x=7)
-        self.add_line('e9-4', (33, 44), (31, 44))
-        self.add_arc('e10', (28, 12), (28, 4), radius_x=4, sweep=False)
-        self.add_line('e11-1', (11, 4), (9, 5))
-        self.add_line('e11-2', (9, 5), (8, 8))
-        self.add_arc('e11-3', (8, 8), (12, 12), radius_x=4, sweep=False)
-        self.add_contour('c0', 'e6')
-        self.add_contour('c1', 'e7')
-        self.add_contour('c2', 'e0')
-        self.add_contour('c3', 'e1')
-        self.add_contour('c4', 'e2', 'e8', 'e3', 'e9-1', 'e9-2', 'e9-3', 'e9-4', 'e4')
-        self.add_contour('c5', 'e10', 'e5', 'e11-1', 'e11-2', 'e11-3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
+        # Plan: VRECT_L; clean cuff radius and continuous toe/heel silhouette; the narrow internal heel pocket is removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        rounded('cuff',8,4,32,12,4)
+        path('body',(12,12),[('L',(12,27)),('C',(12,33),(15,38),(20,40)),('L',(30,44)),('C',(36,44),(40,41),(40,36)),('C',(40,32),(38,29),(34,29)),('C',(30,29),(28,27),(28,24)),('L',(28,12))])
+        self.relate('connect','body','cuff')

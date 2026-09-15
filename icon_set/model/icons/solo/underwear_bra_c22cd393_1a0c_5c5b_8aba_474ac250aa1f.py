@@ -1,4 +1,4 @@
-"""Underwear bra (clothes), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""underwear-bra: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,24 +19,34 @@ class UnderwearBra(Solo48):
     keywords = ('underwear', 'bra', 'clothes')
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_line('e0', (7, 21), (7, 8))
-        self.add_line('e1', (41, 20), (41, 8))
-        self.add_line('e2', (26, 35), (22, 35))
-        self.add_line('e3', (26, 35), (27, 30))
-        self.add_line('e4', (36, 23), (42, 21))
-        self.add_bezier('e5', (22, 35), ((19.836, 37.66), (17.091, 40), (13.673, 40)), ((13.598, 40), (13.526, 39.99), (13.455, 39.99)), ((8.855, 39.99), (4.009, 35.8), (4.009, 30.47)), ((4.009, 30.391), (4, 30.303), (4, 30.224)), ((4, 30.14), (4.009, 30.05), (4.009, 29.97)), ((4.009, 27.79), (4.882, 25.67), (5.645, 23.71)), ((5.836, 23.24), (7, 21.34), (7, 21)))
-        self.add_bezier('e6', (26, 35), ((26.627, 35.87), (27.064, 36.84), (27.873, 37.53)), ((29.345, 38.8), (31.627, 39.99), (33.536, 39.99)), ((33.682, 39.99), (33.827, 40), (33.982, 40)), ((34.2, 40), (34.418, 39.99), (34.645, 39.99)), ((39.873, 39.99), (43.982, 35.44), (43.982, 29.73)), ((43.982, 29.57), (44, 29.4), (44, 29.23)), ((44, 29.148), (43.991, 29.069), (43.991, 28.99)), ((43.991, 26.22), (43.155, 23.53), (42.182, 21)), ((42.036, 20.62), (41, 20.44), (41, 20)))
-        self.add_bezier('e7', (27, 30), ((27.1, 29.45), (27.282, 28.81), (27.591, 28.38)), ((29.627, 25.58), (32.936, 23.96), (36, 23)))
-        self.add_bezier('e8', (7, 21), ((14.273, 22.45), (21.491, 25.62), (22, 35)))
-        self.add_contour('c0', 'e5', 'e0', closed=False)
-        self.add_contour('c1', 'e6', 'e1', closed=False)
-        self.add_contour('c2', 'e2', closed=False)
-        self.add_contour('c3', 'e3', 'e7', 'e4', closed=False)
-        self.add_contour('c4', 'e8', closed=False)
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'c1')
-        self.relate('connect', 'c4', 'c0')
+        # Plan: HRECT_L; mirrored cups, straight equal straps and a shared center bridge replace uneven fitted curvature.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_line('left-strap',(8,8),(8,21));self.add_line('right-strap',(40,8),(40,21))
+        path('left-cup',(8,21),[('C',(13,23),(21,26),(22,34)),('C',(23,38),(18,40),(14,40)),('C',(8,40),(4,36),(4,30)),('C',(4,26),(6,23),(8,21))],True)
+        path('right-cup',(40,21),[('C',(35,23),(27,26),(26,34)),('C',(25,38),(30,40),(34,40)),('C',(40,40),(44,36),(44,30)),('C',(44,26),(42,23),(40,21))],True)
+        self.add_line('bridge',(22,34),(26,34))
+        for side in ['left','right']:
+         self.relate('connect',side+'-strap',side+'-cup');self.relate('connect','bridge',side+'-cup')

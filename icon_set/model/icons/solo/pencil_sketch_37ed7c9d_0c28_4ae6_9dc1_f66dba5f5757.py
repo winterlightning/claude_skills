@@ -1,4 +1,4 @@
-"""Pencil sketch (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""pencil-sketch: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/design/pencil sketch_37ed7c9d-0c28-4ae6-9
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PencilSketch(Solo48):
     icon_id = 'pencil-sketch'
@@ -19,23 +19,30 @@ class PencilSketch(Solo48):
     keywords = ('pencil', 'sketch', 'design')
 
     def build(self):
-        self.add_line('sym-e0', (31, 17), (35, 21))
-        self.add_line('sym-e1', (35, 21), (17, 39))
-        self.add_line('sym-e2', (17, 39), (6, 42))
-        self.add_line('sym-e3', (6, 42), (9, 31))
-        self.add_line('sym-e4', (9, 31), (27, 13))
-        self.add_line('sym-e5', (27, 13), (31, 17))
-        self.add_line('sym-e6', (35, 21), (41, 15))
-        self.add_arc('sym-e7', (41, 15), (42, 13), radius_x=3, sweep=False)
-        self.add_arc('sym-e10', (42, 13), (39, 9), radius_x=9, sweep=False)
-        self.add_arc('sym-e11', (39, 9), (35, 6), radius_x=9, sweep=False)
-        self.add_arc('sym-e14', (35, 6), (33, 7), radius_x=3, sweep=False)
-        self.add_line('sym-e15', (33, 7), (27, 13))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', closed=True)
-        self.add_contour('sym-c1', 'sym-e6', 'sym-e7', 'sym-e10', 'sym-e11', 'sym-e14', 'sym-e15')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        # Plan: SQUARE; tangent rounded cap, parallel diagonal barrel and a seam ending exactly on its sides.
+        # Reference: Lucide pencil and the validated diagonal pen construction.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        path('outline',(12,28),[('L',(30,10)),('C',(32,8),(33,6),(36,6)),('A',(42,12),6,6,True),('C',(42,15),(40,16),(38,18)),('L',(20,36)),('L',(6,42)),('L',(12,28))],True)
+        self.add_line('seam',(26,14),(34,22));self.relate('connect','seam','outline')

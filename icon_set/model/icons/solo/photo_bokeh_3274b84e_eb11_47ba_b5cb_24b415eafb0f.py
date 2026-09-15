@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/photography/photo bokeh_3274b84e-eb11-47b
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PhotoBokeh(Solo48):
     icon_id = 'photo-bokeh'
@@ -19,12 +19,14 @@ class PhotoBokeh(Solo48):
     keywords = ('photo', 'bokeh', 'photography')
 
     def build(self):
+        # Plan: open the smallest bokeh ring and lift the upper-left ring for clear spacing.
+        # Reference: original circular bokeh arrangement; exact circles and their inner openings.
         self.add_arc('e0-top', (36, 9), (42, 9), radius_x=3)
         self.add_arc('e0-bottom', (42, 9), (36, 9), radius_x=3)
-        self.add_arc('e1-top', (6, 13), (16, 13), radius_x=5)
-        self.add_arc('e1-bottom', (16, 13), (6, 13), radius_x=5)
-        self.add_arc('e2-top', (24, 17), (28, 17), radius_x=2)
-        self.add_arc('e2-bottom', (28, 17), (24, 17), radius_x=2)
+        self.add_arc('e1-top', (6, 11), (16, 11), radius_x=5)
+        self.add_arc('e1-bottom', (16, 11), (6, 11), radius_x=5)
+        self.add_arc('e2-top', (23, 17), (29, 17), radius_x=3)
+        self.add_arc('e2-bottom', (29, 17), (23, 17), radius_x=3)
         self.add_arc('e3-top', (34, 27), (42, 27), radius_x=4)
         self.add_arc('e3-bottom', (42, 27), (34, 27), radius_x=4)
         self.add_arc('e4-top', (9, 34), (25, 34), radius_x=8)

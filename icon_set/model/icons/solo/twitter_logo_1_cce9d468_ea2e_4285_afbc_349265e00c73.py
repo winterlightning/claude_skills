@@ -1,4 +1,4 @@
-"""Twitter logo 1 (logos), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""twitter-logo-1: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,21 +19,29 @@ class TwitterLogo1(Solo48):
     keywords = ('twitter', 'logo', 'logos')
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (20, 23), (20, 30))
-        self.add_line('e1', (23, 34), (35, 34))
-        self.add_line('e2', (35, 44), (22, 44))
-        self.add_line('e3', (8, 30), (8, 9))
-        self.add_line('e4', (19, 9), (19, 13))
-        self.add_line('e5', (19, 13), (34, 13))
-        self.add_line('e6', (34, 23), (20, 23))
-        self.add_arc('e7', (20, 30), (23, 34), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('e8-1', (35, 34), (40, 39), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('e8-2', (40, 39), (35, 44), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('e9', (22, 44), (8, 30), radius_x=15, radius_y=15, large_arc=False, sweep=True)
-        self.add_line('e10-1', (8, 9), (9, 6))
-        self.add_line('e10-2', (9, 6), (14, 4))
-        self.add_arc('e10-3', (14, 4), (19, 9), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e11', (34, 13), (34, 23), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', 'e7', 'e1', 'e8-1', 'e8-2', 'e2', 'e9', 'e3', 'e10-1', 'e10-2', 'e10-3', 'e4', 'e5', 'e11', 'e6', closed=True)
+        # Plan: VRECT_L; tangent round terminals and a smooth shoulder replace the lopsided top and bottom corners.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        path('t',(20,23),[('L',(20,29)),('A',(25,34),5,5,False),('L',(35,34)),('A',(40,39),5,5,True),('A',(35,44),5,5,True),('L',(22,44)),('A',(8,30),14,14,True),('L',(8,10)),('A',(14,4),6,6,True),('A',(20,10),6,6,True),('L',(20,13)),('L',(35,13)),('A',(40,18),5,5,True),('A',(35,23),5,5,True),('L',(20,23))],True)

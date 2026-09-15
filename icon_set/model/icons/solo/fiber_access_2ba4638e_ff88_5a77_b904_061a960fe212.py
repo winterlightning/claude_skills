@@ -1,4 +1,4 @@
-"""Fiber access (networks), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""fiber-access: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/networks/fiber access_2ba4638e-ff88-5a77-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class FiberAccess(Solo48):
     icon_id = 'fiber-access'
@@ -19,34 +19,35 @@ class FiberAccess(Solo48):
     keywords = ('fiber', 'access', 'networks')
 
     def build(self):
-        self.add_line('e0', (4, 8), (18, 8))
-        self.add_line('e1', (40, 19), (44, 16))
-        self.add_line('e2', (44, 16), (27, 16))
-        self.add_line('e3', (40, 12), (44, 16))
-        self.add_line('e4', (18, 8), (17, 10))
-        self.add_line('e5', (4, 40), (19, 40))
-        self.add_line('e6', (40, 36), (44, 32))
-        self.add_line('e7', (40, 29), (44, 32))
-        self.add_line('e8', (18, 40), (16, 38))
-        self.add_line('e9', (44, 32), (27, 32))
-        self.add_bezier('e10', (18, 8), ((19.145, 8), (19.918, 8.02), (21.064, 8.02)), ((23.882, 8.02), (26.745, 10.53), (27.009, 13.71)), ((27.073, 14.5), (27.155, 15.23), (27, 16)))
-        self.add_bezier('e11', (17, 10), ((12.582, 15.69), (18.273, 22.15), (23.855, 19.23)), ((25.218, 18.52), (26.309, 17.42), (27, 16)))
-        self.add_bezier('e12', (19, 40), ((20.209, 40), (20.955, 40), (22.164, 40)), ((22.718, 40), (23.391, 39.52), (23.855, 39.21)), ((26.473, 37.47), (27.491, 35.21), (27, 32)))
-        self.add_bezier('e13', (16, 38), ((12.118, 31.97), (19.055, 25.74), (24.345, 28.98)), ((25.518, 29.7), (26.409, 30.72), (27, 32)))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e10')
-        self.add_contour('c4', 'e4', 'e11')
-        self.add_contour('c5', 'e5', 'e12')
-        self.add_contour('c6', 'e6')
-        self.add_contour('c7', 'e7')
-        self.add_contour('c8', 'e8', 'e13')
-        self.add_contour('c9', 'e9')
-        self.relate('connect', 'c5', 'c8')
-        self.relate('connect', 'c5', 'c9')
-        self.relate('connect', 'c8', 'c9')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c6', 'c9')
-        self.relate('connect', 'c7', 'c9')
-        self.relate('connect', 'c8', 'c5')
+        # Plan: HRECT_L; identical circle nodes, reflected smooth inputs, and equal arrowheads; tangled fitted loops removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        for name,cy,top in [('upper',14,8),('lower',34,40)]:
+         circle_nodes(name,22,cy,5,[(19,cy-4 if top<cy else cy+4)])
+         # Each source line bends smoothly to an exact circle boundary.
+         if top<cy:path(name+'-input',(4,8),[('L',(15,8)),('C',(17,8),(18,9),(19,10))])
+         else:path(name+'-input',(4,40),[('L',(15,40)),('C',(17,40),(18,39),(19,38))])
+         self.add_line(name+'-out',(27,cy),(44,cy));self.add_polyline(name+'-arrow',(40,cy-4),(44,cy),(40,cy+4))
+         self.relate('connect',name+'-input',name);self.relate('connect',name+'-out',name);self.relate('connect',name+'-out',name+'-arrow')

@@ -1,4 +1,4 @@
-"""Shapes shape (design), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""shapes-shape: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,14 +19,31 @@ class ShapesShape(Solo48):
     keywords = ('shapes', 'shape', 'design')
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_line('e0', (42, 20), (20, 20))
-        self.add_line('e1', (20, 20), (20, 42))
-        self.add_line('e2', (20, 42), (42, 42))
-        self.add_line('e3', (42, 42), (42, 20))
-        self.add_bezier('e4', (20, 31), ((18.061, 30.975), (16.039, 31.249), (14.215, 30.521)), ((9.641, 28.696), (6.008, 24.155), (6.008, 19.091)), ((6.008, 18.962), (6, 18.833), (6, 18.704)), ((6, 18.502), (6.008, 18.305), (6.008, 18.109)), ((6.008, 11.776), (11.695, 6.008), (18.027, 6.008)), ((18.108, 6.008), (18.18, 6), (18.261, 6)), ((18.404, 6), (18.543, 6.008), (18.682, 6.008)), ((23.427, 6.008), (27.976, 9.109), (29.67, 13.552)), ((30.447, 15.597), (31.082, 17.832), (31, 20)))
-        self.add_contour('c0', 'e4', closed=False)
-        self.add_contour('c1', 'e0', 'e1', 'e2', 'e3', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: SQUARE; true circle ends exactly on the square; clipped circle and short overlap stubs removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('square',(19,19),(32,19),(42,19),(42,42),(19,42),(19,32),closed=True)
+        path('circle',(32,19),[('A',(19,6),13,13,False),('A',(6,19),13,13,False),('A',(19,32),13,13,False)])
+        self.relate('connect','circle','square')

@@ -11,52 +11,52 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "head:subpath-1",
+        "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 17 4 L 8 15 L 27 15 A 13 13 0 0 1 39 24 L 40 30 A 15 15 0 0 1 29 44 L 21 44",
+        "pathData": "M 19 4 L 8 15 L 19 26",
         "bounds": [
           8.0,
           4.0,
-          40.0,
-          44.0
+          19.0,
+          26.0
         ],
-        "segmentCount": 132,
-        "approximationError": 0.0007392101730660901,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
+        "id": "return:subpath-1",
+        "elementId": "return",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 17 26 L 8 15",
+        "pathData": "M 8 15 L 25 15 C 34 15 40 21 40 30 C 40 39 34 44 25 44 L 21 44",
         "bounds": [
           8.0,
           15.0,
-          17.0,
-          26.0
+          40.0,
+          44.0
         ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 258,
+        "approximationError": 0.00039737579601923544,
+        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "return:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "return:subpath-1"
         ],
         "elementIds": [
-          "c0",
-          "c1"
+          "head",
+          "return"
         ],
         "bounds": [
           8.0,
@@ -70,8 +70,8 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "return:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -83,15 +83,15 @@
     "excludedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "return:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c1:subpath-1"
+            "head:subpath-1",
+            "return:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -116,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 9,
-      "flattenedSegments": 133,
-      "adaptiveNodes": 254,
+      "commands": 8,
+      "flattenedSegments": 260,
+      "adaptiveNodes": 510,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -139,8 +139,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -157,7 +158,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "59b6441f8806dc31ae50785ef0a7d93ea3930283a7d43c7796b1ea35654d95a1",
+  "svg_sha256": "eb04fa2efdb417d0b7864aa8c1499905825c918f725754ad1d91a9d22bf67fcb",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -196,6 +197,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -210,7 +212,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

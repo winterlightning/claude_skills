@@ -1,4 +1,4 @@
-"""House (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""house-7e1b4154: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,22 +19,31 @@ class House7e1b4154(Solo48):
     keywords = ('house', 'interface-essential')
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (6, 25), (10, 21))
-        self.add_line('e1', (42, 24), (39, 21))
-        self.add_line('e2', (20, 34), (20, 42))
-        self.add_line('e3', (20, 42), (13, 42))
-        self.add_line('e4', (10, 38), (10, 21))
-        self.add_line('e5', (10, 21), (24, 6))
-        self.add_line('e6', (24, 6), (39, 21))
-        self.add_line('e7', (39, 21), (39, 42))
-        self.add_line('e8', (39, 42), (29, 42))
-        self.add_line('e9', (29, 42), (29, 33))
-        self.add_arc('e10-1', (29, 33), (23, 29), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_arc('e10-2', (23, 29), (20, 34), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('e11', (13, 42), (10, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e10-1', 'e10-2', 'e2', 'e3', 'e11', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', closed=True)
-        self.relate('connect', 'c0', 'c2')
+        # Plan: SQUARE; reflected roof/walls, matched lower corners and a centered semicircular door.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('roof',(6,24),(10,20),(24,6),(38,20),(42,24))
+        path('walls',(10,20),[('L',(10,38)),('A',(14,42),4,4,False),('L',(20,42)),('L',(20,34)),('A',(24,30),4,4,True),('A',(28,34),4,4,True),('L',(28,42)),('L',(34,42)),('A',(38,38),4,4,False),('L',(38,20))])
+        self.relate('connect','roof','walls')

@@ -11,19 +11,19 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "v:subpath-1",
+        "elementId": "v",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 4 L 21 40 A 4 4 0 0 0 24 44 A 4 4 0 0 0 27 40 L 40 4",
+        "pathData": "M 8 4 L 21 40 C 22.083333333333332 43 22 44 24 44 C 26 44 25.916666666666668 43 27 40 L 40 4",
         "bounds": [
           8.0,
           4.0,
           40.0,
           44.0
         ],
-        "segmentCount": 66,
-        "approximationError": 0.000890239428204893,
+        "segmentCount": 94,
+        "approximationError": 0.0009533762443004141,
         "hasCurves": true
       }
     ],
@@ -31,13 +31,13 @@
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1"
+          "v:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1"
+          "v:subpath-1"
         ],
         "elementIds": [
-          "sym-c0"
+          "v"
         ],
         "bounds": [
           8.0,
@@ -66,8 +66,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 5,
-      "flattenedSegments": 66,
-      "adaptiveNodes": 126,
+      "flattenedSegments": 94,
+      "adaptiveNodes": 182,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -88,8 +88,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -106,7 +107,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "34e050e253f4b3c7a27365368b5f71851ebd4acea4cd5cc7f6e200688ecd8ad2",
+  "svg_sha256": "d6e7593e9cae01c421f3e984c7f55961a74d180a8d0c171ae14993e88c828499",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -145,6 +146,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -159,7 +161,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -1,4 +1,4 @@
-"""Split (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""split-transportation: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/transportation/split_d9be1009-50ba-42ef-8
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SplitTransportation(Solo48):
     icon_id = 'split-transportation'
@@ -19,32 +19,34 @@ class SplitTransportation(Solo48):
     keywords = ('split', 'transportation')
 
     def build(self):
-        self.add_line('e0', (39, 8), (44, 13))
-        self.add_line('e1', (4, 24), (20, 24))
-        self.add_line('e2', (40, 40), (44, 36))
-        self.add_line('e3', (40, 31), (44, 36))
-        self.add_line('e4', (39, 17), (44, 13))
-        self.add_line('e5', (25, 20), (28, 16))
-        self.add_line('e6', (34, 13), (44, 13))
-        self.add_line('e7', (25, 28), (28, 32))
-        self.add_line('e8', (34, 36), (44, 36))
-        self.add_arc('e9', (20, 24), (25, 20), radius_x=14, sweep=False)
-        self.add_arc('e10', (28, 16), (34, 13), radius_x=9)
-        self.add_arc('e11', (20, 24), (25, 28), radius_x=13)
-        self.add_arc('e12', (28, 32), (34, 36), radius_x=10, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e9', 'e5', 'e10', 'e6')
-        self.add_contour('c6', 'e11', 'e7', 'e12', 'e8')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c1', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c3', 'c6')
+        # Plan: HRECT_L; reflected smooth branch curves, matching arrowheads and one shared fork node.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_line('stem',(4,24),(20,24))
+        for name,sgn in [('top',-1),('bottom',1)]:
+         def p(x,y):return (x,24+sgn*y)
+         path(name,p(20,0),[('C',p(26,0),p(26,12),p(35,12)),('L',p(44,12))])
+         self.add_polyline(name+'-arrow',p(40,8),p(44,12),p(40,16));self.relate('connect',name,name+'-arrow');self.relate('connect',name,'stem')
+        self.relate('connect','top','bottom')

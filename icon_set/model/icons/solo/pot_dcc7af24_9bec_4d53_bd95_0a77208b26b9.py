@@ -1,4 +1,4 @@
-"""pot: geometric reconstruction on SOLO48."""
+"""pot: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,22 +19,34 @@ class Pot(Solo48):
     keywords = ('pot', 'furnitures')
 
     def build(self):
-        # Plan: SQUARE; smooth elliptical lid and handle; preserve the left spout and directional kettle body.
-        # Reference: Geometric lid and coherent handle curves.
-        self.add_arc('base-left',(10,42),(6,38),radius_x=4)
-        self.add_bezier('body-left',(6,38),((6,33),(7,28),(8,23)))
-        self.add_polyline('rim',(8,23),(6,19),(31,19))
-        self.add_bezier('body-right',(31,19),((32,24),(34,28),(34,33)))
-        self.add_line('body-right-base',(34,33),(34,38))
-        self.add_arc('base-corner',(34,38),(30,42),radius_x=4)
-        self.add_line('base',(30,42),(10,42))
-        self.add_contour('body','base-left','body-left','rim-1','rim-2','body-right','body-right-base','base-corner','base',closed=True)
-        self.contours=self.contours[1:]
-        self.add_arc('lid-left',(10,19),(20,8),radius_x=10,radius_y=11)
-        self.add_arc('lid-right',(20,8),(30,19),radius_x=10,radius_y=11)
-        self.add_contour('lid','lid-left','lid-right')
+        # Plan: SQUARE; matched body corners, symmetric lid and a single smooth handle; rim kink removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        path('body',(8,19),[('L',(6,37)),('C',(6,40),(7,42),(10,42)),('L',(30,42)),('C',(33,42),(34,40),(34,37)),('L',(32,19))])
+        self.add_polyline('rim',(6,19),(8,19),(10,19),(30,19),(32,19))
+        path('lid',(10,19),[('C',(11,12),(14,8),(20,8)),('C',(26,8),(29,12),(30,19))])
         self.add_line('knob',(20,6),(20,8))
-        self.add_bezier('handle',(31,19),((37,16),(42,20),(42,25)),((42,30),(38,33),(34,33)))
-        self.relate('connect','handle','body')
-        self.relate('connect','lid','body')
-        self.relate('connect','knob','lid')
+        path('handle',(32,19),[('C',(38,16),(42,21),(42,26)),('C',(42,30),(37,28),(33,28))])
+        self.relate('connect','body','rim');self.relate('connect','lid','rim');self.relate('connect','knob','lid');self.relate('connect','handle','body');self.relate('connect','handle','rim')

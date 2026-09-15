@@ -47,16 +47,16 @@
         "elementId": "c3",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 26 36 L 9 36 A 3 3 0 0 1 6 34 L 6 9 A 4 4 0 0 1 9 6 L 29 6 A 3 3 0 0 1 31 9 L 31 23",
+        "pathData": "M 26 36 L 6 36 L 6 6 L 31 6 L 31 23",
         "bounds": [
           6.0,
           6.0,
-          31.00441180377519,
-          36.00441180377519
+          31.0,
+          36.0
         ],
-        "segmentCount": 100,
-        "approximationError": 0.0006102923250869926,
-        "hasCurves": true
+        "segmentCount": 4,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "c5:subpath-1",
@@ -486,9 +486,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 20,
-      "flattenedSegments": 295,
-      "adaptiveNodes": 569,
+      "commands": 17,
+      "flattenedSegments": 199,
+      "adaptiveNodes": 380,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -518,9 +518,9 @@
           21.0,
           26.0
         ],
-        "area_ship_px2": 513.9229,
-        "equivalent_diameter_ship_px": 25.5802,
-        "equivalent_diameter_design_u": 25.5802,
+        "area_ship_px2": 514.6777,
+        "equivalent_diameter_ship_px": 25.599,
+        "equivalent_diameter_design_u": 25.599,
         "inscribed_diameter_ship_px": 21.0,
         "inscribed_diameter_design_u": 21.0,
         "inscribed_radius_ship_px": 10.5,
@@ -555,9 +555,9 @@
           24.0,
           29.0
         ],
-        "area_ship_px2": 660.8838,
-        "equivalent_diameter_ship_px": 29.008,
-        "equivalent_diameter_design_u": 29.008,
+        "area_ship_px2": 664.9365,
+        "equivalent_diameter_ship_px": 29.0968,
+        "equivalent_diameter_design_u": 29.0968,
         "inscribed_diameter_ship_px": 24.0,
         "inscribed_diameter_design_u": 24.0,
         "inscribed_radius_ship_px": 12.0,
@@ -573,8 +573,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -591,7 +592,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "b245bc05dd88f9d78b35abdba79774c222da73dec355c3ad1d56fac79c0ed046",
+  "svg_sha256": "a8e99eba15b7fa42e825d66ce151ef8042f1808ece55d0611cb09376fc9f46eb",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -630,6 +631,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -644,7 +646,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

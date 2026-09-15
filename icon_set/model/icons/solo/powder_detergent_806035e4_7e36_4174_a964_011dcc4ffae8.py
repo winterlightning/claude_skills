@@ -1,4 +1,4 @@
-"""Powder detergent (wayfinding), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""powder-detergent: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/wayfinding/powder detergent_806035e4-7e36
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PowderDetergent(Solo48):
     icon_id = 'powder-detergent'
@@ -19,13 +19,31 @@ class PowderDetergent(Solo48):
     keywords = ('powder', 'detergent', 'wayfinding')
 
     def build(self):
-        self.add_line('e0', (44, 8), (29, 8))
-        self.add_line('e1', (29, 8), (28, 37))
-        self.add_line('e2', (26, 40), (8, 40))
-        self.add_line('e3', (6, 37), (4, 8))
-        self.add_line('e4', (4, 8), (29, 8))
-        self.add_line('e5', (28, 37), (26, 40))
-        self.add_arc('e6', (8, 40), (6, 37), radius_x=4)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e5', 'e2', 'e6', 'e3', 'e4', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # Plan: HRECT_L; clean paired scoop corners and uninterrupted walls.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('rim',(4,8),(29,8),(44,8))
+        path('cup',(4,8),[('L',(6,36)),('C',(6.143,38),(7,40),(10,40)),('L',(24,40)),('C',(27,40),(27.929,38),(28,36)),('L',(29,8))])
+        self.relate('connect','cup','rim')

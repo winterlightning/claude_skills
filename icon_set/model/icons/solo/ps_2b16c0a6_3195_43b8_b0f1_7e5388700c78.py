@@ -1,4 +1,4 @@
-"""Ps (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""ps: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/Ps_2b16c0a6-3195-43b8-b0f1-7e53887
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Ps(Solo48):
     icon_id = 'ps'
@@ -19,18 +19,32 @@ class Ps(Solo48):
     keywords = ('ps', 'symbol')
 
     def build(self):
-        self.add_line('e0', (4, 25), (15, 25))
-        self.add_line('e1', (15, 8), (4, 8))
-        self.add_line('e2', (4, 8), (4, 40))
-        self.add_arc('e3-1', (15, 25), (23, 16), radius_x=9, sweep=False)
-        self.add_arc('e3-2', (23, 16), (15, 8), radius_x=9, sweep=False)
-        self.add_arc('e4-1', (44, 25), (34, 21), radius_x=6, sweep=False)
-        self.add_arc('e4-2', (34, 21), (33, 27), radius_x=5, sweep=False)
-        self.add_arc('e4-3', (33, 27), (42, 32), radius_x=18, sweep=False)
-        self.add_arc('e4-4', (42, 32), (44, 35), radius_x=4)
-        self.add_arc('e4-5', (44, 35), (42, 39), radius_x=5)
-        self.add_line('e4-6', (42, 39), (38, 40))
-        self.add_line('e4-7', (38, 40), (34, 39))
-        self.add_line('e4-8', (34, 39), (33, 36))
-        self.add_contour('c0', 'e0', 'e3-1', 'e3-2', 'e1', 'e2')
-        self.add_contour('c1', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5', 'e4-6', 'e4-7', 'e4-8')
+        # Plan: HRECT_L; a round P bowl and a continuous S with smooth inflection replace jagged short arcs.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('p-stem',(4,40),(4,25),(4,8),(14,8))
+        path('p-bowl',(14,8),[('C',(19,8),(23,12),(23,16)),('C',(23,21),(19,25),(14,25)),('L',(4,25))])
+        path('s',(44,24),[('C',(42,20),(33,19),(33,25)),('C',(33,29),(44,29),(44,35)),('C',(44,38),(42,40),(38,40)),('C',(35,40),(34,39),(33,36))])
+        self.relate('connect','p-stem','p-bowl')

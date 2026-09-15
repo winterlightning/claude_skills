@@ -1,4 +1,4 @@
-"""Rss feed (websites), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""rss-feed-websites: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/websites/rss feed_9d226a73-61ef-4fe3-8c19
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class RssFeedWebsites(Solo48):
     icon_id = 'rss-feed-websites'
@@ -19,15 +19,31 @@ class RssFeedWebsites(Solo48):
     keywords = ('rss', 'feed', 'websites')
 
     def build(self):
-        self.add_line('sym-e0', (10, 38), (10, 38))
-        self.add_line('sym-e1', (6, 6), (7, 6))
-        self.add_arc('sym-e2', (7, 6), (18, 8), radius_x=35)
-        self.add_arc('sym-e3', (18, 8), (31, 17), radius_x=36)
-        self.add_arc('sym-e4', (31, 17), (40, 30), radius_x=36)
-        self.add_line('sym-e5', (40, 30), (42, 41))
-        self.add_line('sym-e6', (42, 41), (42, 42))
-        self.add_arc('sym-e7', (6, 17), (23, 25), radius_x=25)
-        self.add_arc('sym-e8', (23, 25), (31, 42), radius_x=25)
-        self.add_contour('sym-c0', 'sym-e0', closed=True)
-        self.add_contour('sym-c1', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c2', 'sym-e7', 'sym-e8')
+        # Plan: SQUARE; concentric true quarter circles replace multi-arc approximations and terminal kinks.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        path('outer',(6,6),[('A',(42,42),36,36,True)])
+        path('inner',(6,17),[('A',(31,42),25,25,True)])
+        self.add_line('dot',(10,38),(10,38))

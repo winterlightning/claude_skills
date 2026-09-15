@@ -11,33 +11,33 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "shape:subpath-1",
+        "elementId": "shape",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 15 8 A 4 4 0 0 0 13 12 L 4 40 L 34 40 L 44 8 L 15 8 Z",
+        "pathData": "M 14 8 L 44 8 L 34 40 L 4 40 L 14 8 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 37,
-        "approximationError": 0.0006872772942712216,
-        "hasCurves": true
+        "segmentCount": 5,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1"
+          "shape:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1"
+          "shape:subpath-1"
         ],
         "elementIds": [
-          "c0"
+          "shape"
         ],
         "bounds": [
           4.0,
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 7,
-      "flattenedSegments": 37,
-      "adaptiveNodes": 63,
+      "commands": 6,
+      "flattenedSegments": 5,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -80,30 +80,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.5781,
-          25.6406
+          24.5469,
+          22.2656
         ],
         "bbox_viewbox": [
-          6.75,
+          6.7188,
           10.0,
-          34.5312,
+          34.5625,
           28.0
         ],
         "bbox_ship_px": [
-          34.5312,
+          34.5625,
           28.0
         ],
         "bbox_design_u": [
-          34.5312,
+          34.5625,
           28.0
         ],
-        "area_ship_px2": 719.1328,
-        "equivalent_diameter_ship_px": 30.2594,
-        "equivalent_diameter_design_u": 30.2594,
-        "inscribed_diameter_ship_px": 24.3657,
-        "inscribed_diameter_design_u": 24.3657,
-        "inscribed_radius_ship_px": 12.1828,
-        "inscribed_radius_design_u": 12.1828,
+        "area_ship_px2": 722.6406,
+        "equivalent_diameter_ship_px": 30.3331,
+        "equivalent_diameter_design_u": 30.3331,
+        "inscribed_diameter_ship_px": 24.528,
+        "inscribed_diameter_design_u": 24.528,
+        "inscribed_radius_ship_px": 12.264,
+        "inscribed_radius_design_u": 12.264,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -117,8 +117,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.6094,
-          25.5469
+          24.4844,
+          22.4531
         ],
         "bbox_viewbox": [
           4.6875,
@@ -134,17 +134,17 @@
           38.625,
           31.0
         ],
-        "area_ship_px2": 893.7588,
-        "equivalent_diameter_ship_px": 33.7338,
-        "equivalent_diameter_design_u": 33.7338,
-        "inscribed_diameter_ship_px": 27.3616,
-        "inscribed_diameter_design_u": 27.3616,
-        "inscribed_radius_ship_px": 13.6808,
-        "inscribed_radius_design_u": 13.6808,
+        "area_ship_px2": 897.5469,
+        "equivalent_diameter_ship_px": 33.8052,
+        "equivalent_diameter_design_u": 33.8052,
+        "inscribed_diameter_ship_px": 27.5237,
+        "inscribed_diameter_design_u": 27.5237,
+        "inscribed_radius_ship_px": 13.7619,
+        "inscribed_radius_design_u": 13.7619,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 12.1808,
-        "equivalent_diameter_at_authored_stroke_design_u": 24.3616
+        "equivalent_radius_at_authored_stroke_design_u": 12.2619,
+        "equivalent_diameter_at_authored_stroke_design_u": 24.5238
       }
     ],
     "pinches": [],
@@ -152,8 +152,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -170,7 +171,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "0c950e916416944059fe8a845c3edec5debecd0340e0d1fe2721ca6a735b8fa9",
+  "svg_sha256": "31eae839ff21374bbcfe47e1e9708aa159b2baf5d90813266b23f7f650b6c739",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -209,6 +210,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -223,7 +225,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

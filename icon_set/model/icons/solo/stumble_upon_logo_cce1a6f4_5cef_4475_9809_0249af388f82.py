@@ -1,4 +1,4 @@
-"""Stumble upon logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""stumble-upon-logo: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,17 +19,29 @@ class StumbleUponLogo(Solo48):
     keywords = ('stumble', 'upon', 'logo', 'logos')
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (4, 40), (19, 40))
-        self.add_line('e1', (16, 21), (31, 21))
-        self.add_line('e2', (31, 21), (31, 35))
-        self.add_line('e3', (44, 35), (44, 8))
-        self.add_arc('e4-1', (19, 40), (23, 35), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_arc('e4-2', (23, 35), (21, 31), radius_x=5, radius_y=5, large_arc=False, sweep=False)
-        self.add_line('e4-3', (21, 31), (13, 29))
-        self.add_arc('e4-4', (13, 29), (12, 23), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e4-5', (12, 23), (16, 21), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e6-1', (31, 35), (37, 40), radius_x=7, radius_y=7, large_arc=False, sweep=False)
-        self.add_arc('e6-2', (37, 40), (44, 35), radius_x=8, radius_y=8, large_arc=False, sweep=False)
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5', 'e1', 'e2', 'e6-1', 'e6-2', 'e3', closed=False)
+        # Plan: HRECT_L; continuous S and U bowls with smooth inflection and matched bottom tangents.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        path('s',(4,40),[('L',(18,40)),('C',(25,40),(25,32),(18,31)),('L',(15,30)),('C',(10,29),(10,21),(16,21)),('L',(31,21)),('L',(31,33)),('C',(31,37),(34,40),(37,40)),('C',(41,40),(44,37),(44,33)),('L',(44,8))])

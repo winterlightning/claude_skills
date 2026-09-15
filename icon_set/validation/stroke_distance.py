@@ -626,6 +626,76 @@ def _exact_axis_bounds(contour: _Contour) -> tuple[Fraction, Fraction, Fraction,
             max(p[0] for p in points), max(p[1] for p in points))
 
 
+def _circle_hull_separation(first: _Contour, second: _Contour) -> float:
+    """Prove exterior clearance from a circle to a line/Bezier control hull.
+
+    All predicates use the authored rational coordinates. A Bezier stays in
+    its control hull, so distance to that hull is a conservative lower bound.
+    Unrecognized arcs and a hull containing the circle center prove nothing.
+    This does not infer contacts or change any spacing tolerance.
+    """
+    commands = first.commands
+    if len(commands) not in (3, 4) or commands[0].type != 'M':
+        return 0.0
+    if len(commands) == 4 and commands[-1].type != 'Z':
+        return 0.0
+    arcs = commands[1:3]
+    if any(c.type != 'A' for c in arcs):
+        return 0.0
+    start = tuple(map(Fraction, commands[0].points[0]))
+    middle = tuple(map(Fraction, arcs[0].points[0]))
+    end = tuple(map(Fraction, arcs[1].points[0]))
+    rx, ry, rotation, _, sweep = arcs[0].arc
+    rx = Fraction(rx)
+    if (rx <= 0 or rx != ry or rotation != 0 or end != start
+            or arcs[1].arc[0] != rx or arcs[1].arc[1] != rx
+            or arcs[1].arc[2] != 0 or arcs[1].arc[4] != sweep
+            or (start[0]-middle[0])**2 + (start[1]-middle[1])**2 != 4*rx**2):
+        return 0.0
+    center = ((start[0]+middle[0])/2, (start[1]+middle[1])/2)
+    groups = []
+    cursor = origin = None
+    for command in second.commands:
+        coords = [tuple(map(Fraction, p)) for p in command.points]
+        if command.type == 'M':
+            cursor = origin = coords[0]
+        elif command.type in ('L', 'Q', 'C') and cursor is not None:
+            groups.append([cursor, *coords])
+            cursor = coords[-1]
+        elif command.type == 'Z' and cursor is not None:
+            groups.append([cursor, origin])
+            cursor = origin
+        else:
+            return 0.0
+    if not groups:
+        return 0.0
+    def cross(a, b, c):
+        return (b[0]-a[0])*(c[1]-a[1]) - (b[1]-a[1])*(c[0]-a[0])
+    def half(sequence):
+        result = []
+        for p in sequence:
+            while len(result) > 1 and cross(result[-2], result[-1], p) <= 0:
+                result.pop()
+            result.append(p)
+        return result
+    distances = []
+    for group in groups:
+        points = sorted(set(group))
+        hull = half(points)[:-1] + half(reversed(points))[:-1] if len(points) > 1 else points
+        if len(hull) > 2 and all(cross(a, b, center) >= 0
+                                 for a, b in zip(hull, hull[1:] + hull[:1])):
+            return 0.0
+        distances.append(min(_exact_point_segment(center, a, b)[0]
+                             for a, b in zip(hull, hull[1:] + hull[:1])))
+    squared = min(distances)
+    _, lower, _ = _sqrt_interval(squared)
+    exact_lower = Fraction(lower) - rx
+    result = float(exact_lower)
+    if Fraction(result) > exact_lower:
+        result = math.nextafter(result, -math.inf)
+    return max(0.0, result)
+
+
 def _axis_separation(first: _Contour, second: _Contour) -> float:
     a, b = _exact_axis_bounds(first), _exact_axis_bounds(second)
     if a is None or b is None:
@@ -642,7 +712,9 @@ def _pair(first: _Contour, second: _Contour, minimum: float, stroke: float, budg
     lower = max(0.0, math.nextafter(lower - error, -math.inf)) if error else lower
     upper = math.nextafter(upper + error, math.inf) if error else upper
     axis_lower = _axis_separation(first, second) if error else 0.0
-    lower = max(lower, axis_lower)
+    circle_lower = max(_circle_hull_separation(first, second),
+                       _circle_hull_separation(second, first)) if error else 0.0
+    lower = max(lower, axis_lower, circle_lower)
     ambiguous_contact = bool(first.has_curves or second.has_curves) and lower == 0
     if ambiguous_contact:
         status = "review"
@@ -652,7 +724,9 @@ def _pair(first: _Contour, second: _Contour, minimum: float, stroke: float, budg
         reason = "Exact straight-segment spacing meets the minimum." if status == "pass" else "Exact straight-segment spacing is below the minimum."
     elif lower >= minimum:
         status = "pass"
-        reason = ("Exact axis separation of enclosing geometry meets the minimum."
+        reason = ("Exact circle/control-hull separation meets the minimum."
+                  if circle_lower >= minimum else
+                  "Exact axis separation of enclosing geometry meets the minimum."
                   if axis_lower >= minimum else "The conservative distance lower bound meets the minimum.")
     elif upper < minimum:
         status, reason = "fail", "Even the conservative distance upper bound is below the minimum."

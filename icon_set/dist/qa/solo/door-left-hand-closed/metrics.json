@@ -47,16 +47,16 @@
         "elementId": "c2",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 10 42 L 10 8 A 2 2 0 0 1 12 6 L 35 6 A 2 2 0 0 1 37 8 L 37 42",
+        "pathData": "M 10 42 L 10 6 L 37 6 L 37 42",
         "bounds": [
           10.0,
           6.0,
           37.0,
           42.0
         ],
-        "segmentCount": 67,
-        "approximationError": 0.0006023928476657212,
-        "hasCurves": true
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "c3:subpath-1",
@@ -283,9 +283,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 12,
-      "flattenedSegments": 70,
-      "adaptiveNodes": 126,
+      "commands": 10,
+      "flattenedSegments": 6,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -352,9 +352,9 @@
           26.0,
           35.0
         ],
-        "area_ship_px2": 909.0312,
-        "equivalent_diameter_ship_px": 34.0208,
-        "equivalent_diameter_design_u": 34.0208,
+        "area_ship_px2": 910.0,
+        "equivalent_diameter_ship_px": 34.0389,
+        "equivalent_diameter_design_u": 34.0389,
         "inscribed_diameter_ship_px": 26.0,
         "inscribed_diameter_design_u": 26.0,
         "inscribed_radius_ship_px": 13.0,
@@ -370,8 +370,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -388,7 +389,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1f0f1ce037b6f4bdfc5ee52855405f95133b41d9837fbc2bacce682f73d069c2",
+  "svg_sha256": "cb7620d5e61c7ffb1f082ed7ec0173ae93428571dff393f81aae69a8a141c3cf",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -427,6 +428,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -441,7 +443,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

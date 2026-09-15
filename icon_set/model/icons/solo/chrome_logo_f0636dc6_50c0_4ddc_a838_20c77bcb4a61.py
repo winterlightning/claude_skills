@@ -48,7 +48,7 @@ class ChromeLogo(Solo48):
          for a,b in zip(nodes,nodes[1:]+nodes[:1]):
           aa=math.atan2(a[1]-cy,a[0]-cx);bb=math.atan2(b[1]-cy,b[0]-cx)
           angle=(bb-aa)%(2*math.pi);ra=math.dist(a,(cx,cy));rb=math.dist(b,(cx,cy))
-          f=4/3*math.tan(angle/4)*(.998 if name=='outer' else 1)
+          f=4/3*math.tan(angle/4)*(.99 if name=='outer' else 1)
           commands.append(('C',(a[0]-math.sin(aa)*ra*f,a[1]+math.cos(aa)*ra*f),(b[0]+math.sin(bb)*rb*f,b[1]-math.cos(bb)*rb*f),b))
          path(name,nodes[0],commands,True)
         ring('outer',24,24,[(24,4),(42,16),(44,24),(24,44),(4,24),(8,12)])

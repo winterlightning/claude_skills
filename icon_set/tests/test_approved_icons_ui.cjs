@@ -4,7 +4,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 const path = require('node:path');
 class Element {
-  constructor(tag) { this.tag = tag; this.children = []; }
+  constructor(tag) { this.tag = tag; this.children = []; this.value = ""; }
   append(...children) { this.children.push(...children); }
   replaceChildren(...children) { this.children = children; }
   scrollIntoView() {}

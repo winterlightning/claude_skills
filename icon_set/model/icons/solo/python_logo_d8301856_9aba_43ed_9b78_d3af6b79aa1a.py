@@ -1,4 +1,4 @@
-"""Python logo (logos), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""python-logo: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,38 +19,33 @@ class PythonLogo(Solo48):
     keywords = ('python', 'logo', 'logos')
 
     def build(self):
-        # Plan: absorb microscopic detours into neighboring cubics; retain the true extremes.
-        # Reference: original stroke graph and contour extremes.
-        self.add_line('e0', (24, 32), (32, 32))
-        self.add_line('e1', (24, 16), (16, 16))
-        self.add_line('e2', (36, 16), (32, 16))
-        self.add_line('e3', (32, 32), (32, 37))
-        self.add_line('e4', (16, 38), (16, 32))
-        self.add_line('e5', (26, 24), (22, 24))
-        self.add_line('e6', (16, 29), (16, 32))
-        self.add_line('e7', (16, 10), (16, 16))
-        self.add_bezier('e8', (32, 32), ((33.767, 32), (35.937, 32.501), (37.647, 31.994)), ((40.789, 31.069), (42.0, 27.346999999999998), (42, 24.368)), ((42, 24.065), (41.992, 23.771), (41.992, 23.468)), ((41.992, 20.155), (39.903, 16), (36, 16)))
-        self.add_bezier('e9', (32, 37), ((32, 40.641), (27.371, 41.992), (24.466, 41.992)), ((24.16, 41.992), (23.848, 42), (23.542, 42)), ((23.354, 42), (23.174, 41.984), (22.985, 41.984)), ((20.605, 41.984), (17.487, 41.354), (16.235, 39.104)), ((16.055, 38.776), (16, 38.385), (16, 38)))
-        self.add_bezier('e10', (32, 16), ((31.984, 19.191), (32.002, 21.627), (28.729, 23.182)), ((27.788, 23.624), (27.055, 24), (26, 24)))
-        self.add_bezier('e11', (22, 24), ((19.619, 24), (16, 26.439), (16, 29)))
-        self.add_bezier('e12', (32, 16), ((31.967, 11.778), (32.73, 7.505), (27.543, 6.311)), ((26.667, 6.106), (25.743, 6.008), (24.843, 6.008)), ((24.722, 6.008), (24.587, 6), (24.466, 6)), ((23.943, 6), (23.419, 6.016), (22.895, 6.016)), ((20.506, 6.016), (16.915, 6.54), (16.055, 9.175)), ((15.965, 9.428), (16, 9.73), (16, 10)))
-        self.add_bezier('e13', (16, 32), ((11.844, 32.016), (7.489, 32.763), (6.327, 27.518)), ((6.139, 26.675), (6.0, 25.612000000000002), (6, 24.745)), ((6, 24.417), (6.008, 24.082), (6.008, 23.755)), ((6.008, 20.474), (7.325, 16.923), (10.745, 15.974)), ((12.357, 15.524), (14.347, 16), (16, 16)))
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e8', 'e2', closed=False)
-        self.add_contour('c3', 'e3', 'e9', 'e4', closed=False)
-        self.add_contour('c4', 'e10', 'e5', 'e11', 'e6', closed=False)
-        self.add_contour('c5', 'e12', 'e7', closed=False)
-        self.add_contour('c6', 'e13', closed=False)
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c1', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c4', 'c6')
+        # Plan: SQUARE; smooth aligned interlocking runs with coherent corner tangents; subpixel undulations removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        # Two interlocking smooth runs, related by a half-turn.
+        path('upper',(24,16),[('L',(16,16)),('L',(16,10)),('C',(16,7),(19,6),(24,6)),('C',(29,6),(32,7),(32,12)),('L',(32,17)),('C',(32,22),(29,24),(24,24)),('L',(22,24)),('C',(18,24),(16,26),(16,32)),('L',(12,32)),('C',(8,32),(6,29),(6,24)),('C',(6,19),(8,16),(12,16)),('L',(16,16))])
+        path('lower',(24,32),[('L',(32,32)),('L',(32,38)),('C',(32,41),(29,42),(24,42)),('C',(19,42),(16,41),(16,36)),('L',(16,32))])
+        path('right',(32,16),[('L',(36,16)),('C',(40,16),(42,19),(42,24)),('C',(42,29),(40,32),(36,32)),('L',(32,32))])
+        self.relate('connect','upper','lower');self.relate('connect','upper','right');self.relate('connect','lower','right')

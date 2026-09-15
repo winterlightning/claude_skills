@@ -1,4 +1,4 @@
-"""Area chart (business), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""area-chart: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/business/area chart_a6257590-657e-51af-a6
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class AreaChart(Solo48):
     icon_id = 'area-chart'
@@ -19,17 +19,30 @@ class AreaChart(Solo48):
     keywords = ('area', 'chart', 'business')
 
     def build(self):
-        self.add_line('e0', (4, 8), (4, 40))
-        self.add_line('e1', (4, 40), (44, 40))
-        self.add_line('e2', (4, 34), (12, 25))
-        self.add_line('e3', (19, 25), (24, 17))
-        self.add_line('e4', (37, 19), (43, 12))
-        self.add_arc('e5-1', (12, 25), (14, 24), radius_x=2)
-        self.add_line('e5-2', (14, 24), (17, 26))
-        self.add_line('e5-3', (17, 26), (19, 25))
-        self.add_arc('e6-1', (24, 17), (27, 16), radius_x=2)
-        self.add_arc('e6-2', (27, 16), (33, 20), radius_x=30)
-        self.add_arc('e6-3', (33, 20), (37, 19), radius_x=3, sweep=False)
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('c1', 'e2', 'e5-1', 'e5-2', 'e5-3', 'e3', 'e6-1', 'e6-2', 'e6-3', 'e4')
-        self.relate('connect', 'c1', 'c0')
+        # Plan: HRECT_L; one deliberate straight segment per chart leg; short inconsistent fitted bends removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        def rounded(name,x1,y1,x2,y2,r):
+            path(name,(x1+r,y1),[('L',(x2-r,y1)),('A',(x2,y1+r),r,r,True),('L',(x2,y2-r)),('A',(x2-r,y2),r,r,True),('L',(x1+r,y2)),('A',(x1,y2-r),r,r,True),('L',(x1,y1+r)),('A',(x1+r,y1),r,r,True)],True)
+
+        self.add_polyline('axes',(4,8),(4,34),(4,40),(44,40))
+        self.add_polyline('series',(4,34),(14,24),(18,27),(27,16),(35,21),(43,12));self.relate('connect','axes','series')

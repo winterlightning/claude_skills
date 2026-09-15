@@ -41,6 +41,13 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const categories = page('gallery');
+  categories.run(`icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'}, {key:'solo/b',family:'solo',icon_id:'b',name:'B',category:'tools'}, {key:'sub/c',family:'sub',icon_id:'c',name:'C',category:'tools'}, {key:'solo/d',family:'solo',icon_id:'d',name:'D',category:'tools'}];reviews={'solo/d':'rejected'};$('family').value='solo';$('category').value='animals';`);
+  assert.equal(categories.run("categoryCounts().get('animals')"),1);
+  assert.equal(categories.run("categoryCounts().get('tools')"),1,'Counts ignore the selected category but respect family and status');
+  categories.run("reviewFilter='rejected';");
+  assert.equal(categories.run("categoryCounts().get('tools')"),1);
+  assert.equal(categories.run("categoryCounts().has('animals')"),false);
   const actions = page('gallery');
   actions.run("icons=[{key:'solo/example',family:'solo',icon_id:'example',name:'Example'}];reviewsLoaded=true;");
   for(const [state, expected] of [['ready',['✓ Approve','Pending','Reject']],['pending',['✓ Approve','Reject']],['rejected',['Pending','Discard']]]) {
@@ -83,37 +90,11 @@ async function main() {
   assert.equal(restored.run("reviews['solo/rejected']"), 'rejected', 'Failed restores retain rejected status');
   assert.equal(restored.run('saving.size'), 0, 'Restore failure allows retry');
   const authors = page('gallery');
-  authors.run(`icons=[
-    {key:'solo/base',family:'solo',icon_id:'base',name:'Base',author:'json_to_solo'},
-    {key:'solo/base-v2',family:'solo',icon_id:'base-v2',name:'Revision',author:'gpt-6',variant_of:'base',variant_root:'base'},
-    {key:'solo/unknown',family:'solo',icon_id:'unknown',name:'Unknown'}
-  ];section='json';setIconView('versions');`);
-  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base', 'Version expansion stays within the author tab');
-  authors.run("section='ai';");
-  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'Unknown authors are not classified as AI');
-  authors.run("icons[0].author='gpt-6';section='json';");
-  assert.equal(authors.run('filteredIcons().length'), 0, 'Updating model author removes the icon from the converter backlog');
-  authors.run("failedIcons=[{key:'solo/failed',family:'solo',icon_id:'failed',name:'Failed',author:'json_to_solo',build_failed:true}];reviews['solo/failed']='rejected';");
-  assert.equal(authors.run('filteredIcons().length'), 1, 'Author tabs include failed and rejected icons by default');
-  authors.run("reviewFilter='approve';");
-  assert.equal(authors.run('filteredIcons().length'), 0, 'Converter tab applies its selected Approved filter');
-  authors.run("reviewFilter='rejected';");
-  assert.equal(authors.run('filteredIcons().length'), 1, 'Converter tab can filter rejected failed icons');
-  authors.run("reviewFilter='';");
-  assert.equal(authors.run('selectable(failedIcons[0])'), false, 'Failed builds cannot be bulk approved');
-  authors.run("section='icons';setIconView('generated');");
-  assert.equal(authors.run('filteredIcons().some(i=>i.build_failed)'), false, 'Failed icons stay out of the exported library');
-  authors.run("loadReviews=()=>{};section='icons';reviewFilter='approve';showSection('json');");
-  assert.equal(authors.run('section'), 'icons', 'Legacy author tabs resolve to the Icons page');
-  assert.equal(authors.run("$('authorFilter').value"), 'json');
-  assert.equal(authors.run('reviewFilter'), 'approve', 'Author and review filters combine');
-  assert.equal(authors.document.getElementById('reviewTabs').hidden, false);
-  authors.run("$('authorFilter').value='ai';$('authorFilter').onchange();reviewsLoaded=true;reviews['solo/base-v2']='approve';");
-  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'AI author filter respects approval status');
-  authors.run("reviewFilter='ready';render();");
-  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base', 'AI author filter respects Ready status');
-  authors.run("showSection('final');");
-  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'Final icons remain approved AI icons');
+  authors.run(`icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A',author:'json_to_solo'},{key:'solo/b',family:'solo',icon_id:'b',name:'B',author:'gpt-6'},{key:'solo/c',family:'solo',icon_id:'c',name:'C'}];loadReviews=()=>{};showSection('ai');`);
+  assert.equal(authors.run('section'),'icons','Legacy author links open the unfiltered Icons page');
+  assert.equal(authors.run('filteredIcons().length'),3,'All authors and missing author metadata remain visible');
+  authors.run("reviewsLoaded=true;reviews={'solo/a':'approve','solo/b':'approve'};showSection('final');");
+  assert.equal(authors.run('filteredIcons().length'),2,'Approved collection does not filter authors');
   const selection = page('gallery');
   selection.run(`icons=Array.from({length:53},(_,n)=>({key:'solo/icon-'+n,family:'solo',icon_id:'icon-'+n,name:'Icon '+n}));reviewsLoaded=true;setIconView('generated');pageSize=48;render();$('selectAll').checked=true;$('selectAll').onchange();`);
   assert.equal(selection.run('selectedKeys.size'), 48, 'Select all is limited to the visible page');
