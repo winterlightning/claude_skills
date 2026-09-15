@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/war/symbol signals_c6618147-1dc8-4bda-b8d
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SymbolSignals(Solo48):
     icon_id = 'symbol-signals'
@@ -19,25 +19,22 @@ class SymbolSignals(Solo48):
     keywords = ('symbol', 'signals', 'war')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (4, 11), (23, 33))
         self.add_line('e1', (23, 33), (23, 19))
         self.add_line('e2', (23, 19), (24, 17))
         self.add_line('e3', (24, 17), (44, 39))
-        self.add_line('e4', (4, 11), (4, 38))
-        self.add_line('e5', (6, 40), (42, 40))
+        self.add_line('e4', (4, 11), (4, 40))
+        self.add_line('e5', (4, 40), (42, 40))
         self.add_line('e6', (42, 40), (44, 39))
-        self.add_line('e7', (6, 8), (42, 8))
-        self.add_line('e8', (44, 10), (44, 39))
-        self.add_arc('e9', (4, 38), (6, 40), radius_x=3, sweep=False)
-        self.add_arc('e10-1', (4, 11), (4, 10), radius_x=9, sweep=False)
-        self.add_arc('e10-2', (4, 10), (6, 8), radius_x=2)
-        self.add_arc('e11', (42, 8), (44, 10), radius_x=2)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3')
-        self.add_contour('c1', 'e4', 'e9', 'e5', 'e6')
-        self.add_contour('c2', 'e10-1', 'e10-2', 'e7', 'e11', 'e8')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        self.add_line('e7', (6, 8), (44, 8))
+        self.add_line('e8', (44, 8), (44, 39))
+        self.add_arc('e10-1', (4, 11), (4, 10), radius_x=9, radius_y=9, large_arc=False, sweep=False)
+        self.add_arc('e10-2', (4, 10), (6, 8), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', closed=False)
+        self.add_contour('c1', 'e4', 'e5', 'e6', closed=False)
+        self.add_contour('c2', 'e10-1', 'e10-2', 'e7', 'e8', closed=False)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

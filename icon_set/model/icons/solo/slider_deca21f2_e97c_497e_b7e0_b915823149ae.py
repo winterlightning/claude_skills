@@ -1,4 +1,4 @@
-"""Slider (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""slider: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/slider_deca21f2-e97c-497e-b7e0-b91
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Slider(Solo48):
     icon_id = 'slider'
@@ -19,23 +19,24 @@ class Slider(Solo48):
     keywords = ('slider', 'symbol')
 
     def build(self):
-        self.add_line('e0', (21, 12), (44, 12))
-        self.add_line('e1', (12, 12), (4, 12))
-        self.add_line('e2', (38, 27), (44, 27))
-        self.add_line('e3', (29, 27), (4, 27))
-        self.add_line('e4', (4, 40), (44, 40))
-        self.add_arc('e5-top', (28, 27), (38, 27), radius_x=5, radius_y=4)
-        self.add_arc('e5-bottom', (38, 27), (28, 27), radius_x=5, radius_y=4)
-        self.add_arc('e6-top', (12, 12), (22, 12), radius_x=5, radius_y=4)
-        self.add_arc('e6-bottom', (22, 12), (12, 12), radius_x=5, radius_y=4)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('e5', 'e5-top', 'e5-bottom', closed=True)
-        self.add_contour('e6', 'e6-top', 'e6-bottom', closed=True)
-        self.relate('connect', 'c0', 'e6')
-        self.relate('connect', 'c1', 'e6')
-        self.relate('connect', 'c2', 'e5')
-        self.relate('connect', 'c3', 'e5')
+        # Plan: HRECT_L; identical round knobs and rails ending exactly on their boundaries; removed one-unit intrusions.
+        # Reference: Lucide sliders-horizontal: a common rail definition and exact knob placement.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # Every rail stops exactly at its own circular knob's extreme.
+        for i,cx,y in [(0,16,13),(1,32,27)]:
+         oval(f'knob-{i}',cx,y,5)
+         self.add_line(f'left-{i}',(4,y),(cx-5,y));self.add_line(f'right-{i}',(cx+5,y),(44,y))
+         self.relate('connect',f'left-{i}',f'knob-{i}');self.relate('connect',f'right-{i}',f'knob-{i}')
+        self.add_line('base',(4,40),(44,40))

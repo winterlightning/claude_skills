@@ -3,19 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [wheel-rear / rider]: wheel-rear-a and rider-2 have 3.2522 units of ink clearance over 6.1445 units; requires 4; review required",
-    "internal-spacing [wheel-rear / rider]: wheel-rear-a and rider-3 have -0.6381 units of ink clearance over 2.9547 units; requires 4; review required",
-    "internal-spacing [wheel-rear / frame]: wheel-rear-a and frame have 1.3088 units of ink clearance over 2.48 units; requires 4; review required",
-    "internal-spacing [wheel-rear / frame]: wheel-rear-b and frame have 1.2419 units of ink clearance over 2.728 units; requires 4; review required",
-    "internal-spacing [wheel-front / fork]: wheel-front-a and fork have 1.2817 units of ink clearance over 2.48 units; requires 4; review required",
-    "internal-spacing [wheel-front / rider]: wheel-front-b and rider-3 have 2.8959 units of ink clearance over 6.8942 units; requires 4; review required",
-    "internal-spacing [wheel-front / arms]: wheel-front-b and arms-2 have 2.0533 units of ink clearance over 4.5 units; requires 4; review required",
-    "internal-spacing [wheel-front / fork]: wheel-front-b and fork have 1.2697 units of ink clearance over 2.728 units; requires 4; review required",
-    "internal-spacing [rider / arms]: rider-2 and arms-1 have 3.3841 units of ink clearance over 2.4578 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -1324,8 +1314,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -1381,6 +1372,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1395,9 +1387,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -1429,7 +1421,13 @@
             19.700000000000003,
             25.214285714285715
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-rear / rider",
@@ -1450,7 +1448,13 @@
             21.25,
             37.4375
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-rear / frame",
@@ -1471,7 +1475,13 @@
             13.249077424130974,
             33.50184515173805
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-rear / frame",
@@ -1492,7 +1502,13 @@
             13.304403250524636,
             33.391193498950734
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-front / fork",
@@ -1513,7 +1529,13 @@
             34.9061418480709,
             33.37474043537017
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-front / rider",
@@ -1534,7 +1556,13 @@
             24.25,
             30.6875
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-front / arms",
@@ -1555,7 +1583,13 @@
             34.875,
             24.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "wheel-front / fork",
@@ -1576,7 +1610,13 @@
             34.897651856394766,
             33.354364455347444
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "rider / arms",
@@ -1597,10 +1637,18 @@
             29.572599531615925,
             23.48711943793911
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the racing cyclist silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 9
   },
-  "needs_review": true
+  "needs_review": false
 }

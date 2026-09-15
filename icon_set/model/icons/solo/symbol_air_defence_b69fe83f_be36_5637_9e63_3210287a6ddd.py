@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/war/symbol air defence_b69fe83f-be36-5637
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SymbolAirDefence(Solo48):
     icon_id = 'symbol-air-defence'
@@ -19,23 +19,23 @@ class SymbolAirDefence(Solo48):
     keywords = ('symbol', 'air', 'defence', 'war')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('sym-e0', (24, 40), (6, 40))
-        self.add_arc('sym-e1', (6, 40), (4, 39), radius_x=19, sweep=False)
-        self.add_arc('sym-e2', (4, 39), (8, 33), radius_x=20)
-        self.add_arc('sym-e3', (8, 33), (24, 26), radius_x=21)
-        self.add_arc('sym-e6', (24, 26), (40, 33), radius_x=21)
-        self.add_arc('sym-e7', (40, 33), (44, 39), radius_x=19)
-        self.add_arc('sym-e8', (44, 39), (42, 40), radius_x=19, sweep=False)
+        self.add_arc('sym-e1', (6, 40), (4, 39), radius_x=19, radius_y=19, large_arc=False, sweep=False)
+        self.add_arc('sym-e2', (4, 39), (8, 33), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('sym-e3', (8, 33), (24, 26), radius_x=21, radius_y=21, large_arc=False, sweep=True)
+        self.add_arc('sym-e6', (24, 26), (40, 33), radius_x=21, radius_y=21, large_arc=False, sweep=True)
+        self.add_arc('sym-e7', (40, 33), (44, 39), radius_x=19, radius_y=19, large_arc=False, sweep=True)
+        self.add_arc('sym-e8', (44, 39), (42, 40), radius_x=19, radius_y=19, large_arc=False, sweep=False)
         self.add_line('sym-e9', (42, 40), (24, 40))
-        self.add_line('sym-e10', (24, 8), (6, 8))
-        self.add_arc('sym-e11', (6, 8), (4, 10), radius_x=2, sweep=False)
-        self.add_line('sym-e13', (4, 10), (4, 39))
-        self.add_line('sym-e14', (24, 8), (42, 8))
-        self.add_arc('sym-e15', (42, 8), (44, 10), radius_x=2)
-        self.add_line('sym-e17', (44, 10), (44, 39))
+        self.add_line('sym-e10', (24, 8), (4, 8))
+        self.add_line('sym-e13', (4, 8), (4, 39))
+        self.add_line('sym-e14', (24, 8), (44, 8))
+        self.add_line('sym-e17', (44, 8), (44, 39))
         self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', closed=True)
-        self.add_contour('sym-c1', 'sym-e10', 'sym-e11', 'sym-e13')
-        self.add_contour('sym-c2', 'sym-e14', 'sym-e15', 'sym-e17')
+        self.add_contour('sym-c1', 'sym-e10', 'sym-e13', closed=False)
+        self.add_contour('sym-c2', 'sym-e14', 'sym-e17', closed=False)
         self.relate('connect', 'sym-c0', 'sym-c1')
         self.relate('connect', 'sym-c0', 'sym-c2')
         self.relate('connect', 'sym-c1', 'sym-c2')

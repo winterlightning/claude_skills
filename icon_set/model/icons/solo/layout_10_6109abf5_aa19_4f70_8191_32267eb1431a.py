@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/layout 10_6109abf5-aa
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Layout10(Solo48):
     icon_id = 'layout-10'
@@ -19,38 +19,36 @@ class Layout10(Solo48):
     keywords = ('layout', 'interface-essential')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (42, 24), (30, 24))
-        self.add_line('e1', (42, 24), (42, 40))
-        self.add_line('e2', (40, 42), (30, 42))
-        self.add_line('e3', (42, 24), (42, 8))
-        self.add_line('e4', (40, 6), (24, 6))
+        self.add_line('e1', (42, 24), (42, 42))
+        self.add_line('e2', (42, 42), (30, 42))
+        self.add_line('e3', (42, 24), (42, 6))
+        self.add_line('e4', (42, 6), (24, 6))
         self.add_line('e5', (30, 24), (30, 42))
         self.add_line('e6', (30, 24), (24, 24))
         self.add_line('e7', (30, 42), (18, 42))
         self.add_line('e8', (6, 24), (18, 24))
-        self.add_line('e9', (6, 24), (6, 40))
-        self.add_line('e10', (8, 42), (18, 42))
-        self.add_line('e11', (6, 24), (6, 8))
-        self.add_line('e12', (8, 6), (24, 6))
+        self.add_line('e9', (6, 24), (6, 42))
+        self.add_line('e10', (6, 42), (18, 42))
+        self.add_line('e11', (6, 24), (6, 6))
+        self.add_line('e12', (6, 6), (24, 6))
         self.add_line('e13', (18, 24), (18, 42))
         self.add_line('e14', (18, 24), (24, 24))
         self.add_line('e15', (24, 6), (24, 24))
-        self.add_line('e16', (42, 40), (40, 42))
-        self.add_line('e17', (42, 8), (40, 6))
-        self.add_arc('e18', (6, 40), (8, 42), radius_x=4, sweep=False)
-        self.add_line('e19', (6, 8), (8, 6))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e16', 'e2')
-        self.add_contour('c2', 'e3', 'e17', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e6')
-        self.add_contour('c5', 'e7')
-        self.add_contour('c6', 'e8')
-        self.add_contour('c7', 'e9', 'e18', 'e10')
-        self.add_contour('c8', 'e11', 'e19', 'e12')
-        self.add_contour('c9', 'e13')
-        self.add_contour('c10', 'e14')
-        self.add_contour('c11', 'e15')
+        self.add_contour('c0', 'e0', closed=False)
+        self.add_contour('c1', 'e1', 'e2', closed=False)
+        self.add_contour('c2', 'e3', 'e4', closed=False)
+        self.add_contour('c3', 'e5', closed=False)
+        self.add_contour('c4', 'e6', closed=False)
+        self.add_contour('c5', 'e7', closed=False)
+        self.add_contour('c6', 'e8', closed=False)
+        self.add_contour('c7', 'e9', 'e10', closed=False)
+        self.add_contour('c8', 'e11', 'e12', closed=False)
+        self.add_contour('c9', 'e13', closed=False)
+        self.add_contour('c10', 'e14', closed=False)
+        self.add_contour('c11', 'e15', closed=False)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

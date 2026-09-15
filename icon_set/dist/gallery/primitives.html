@@ -47,6 +47,8 @@ body.guest .login-only{display:none!important}body:not(.guest) .guest-only{displ
 .pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin:18px 0}
 .empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
 dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);padding:20px}dialog textarea{width:100%;min-height:300px;font:12px ui-monospace,monospace}
+.component-brief{border-top:1px solid var(--line);padding-top:8px;font-size:12px}.component-brief summary{cursor:pointer}.component-brief p{margin:7px 0}.component-brief button,.brief-edit{margin-top:8px;border:1px solid var(--line);border-radius:6px;padding:6px;background:#fff;cursor:pointer}
+#briefDialog{max-height:85vh;overflow:auto}#briefDialog label{display:block;margin:12px 0 5px}#briefDialog input,#briefDialog select,#briefDialog textarea{box-sizing:border-box;width:100%;padding:9px;border:1px solid var(--line);border-radius:6px;font:inherit}#briefDialog textarea{min-height:90px}#briefDialog button{padding:8px 12px;margin:12px 6px 0 0}
 @media(max-width:700px){.prim-main{padding:0 18px 30px}.prim-intro h1{font-size:30px}.categories td.progress{min-width:120px}}
 </style>
 </head>
@@ -95,11 +97,20 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
       <select id="pageSize" aria-label="Page size"><option>48</option><option>96</option><option>192</option></select></div>
   </section>
 </main>
-<dialog id="copyDialog"><p>Copy this TODO list for the agent:</p><textarea id="copyText" readonly></textarea><p><button id="closeCopy" type="button">Close</button></p></dialog>
+<dialog id="copyDialog"><p>Copy this for later generation:</p><textarea id="copyText" readonly aria-label="Generation JSON"></textarea><p><button id="closeCopy" type="button">Close</button></p></dialog>
+<dialog id="briefDialog" aria-labelledby="briefTitle"><form id="briefForm">
+  <h2 id="briefTitle">Component brief</h2><p id="briefSource" class="muted"></p>
+  <p>Describe this icon on its own, including what to exclude from the source.</p>
+  <label for="briefFamily">Icon family</label><select id="briefFamily"><option value="container">Container</option><option value="solo">Solo</option><option value="sub">Sub</option></select>
+  <label for="componentName">Icon name</label><input id="componentName" maxlength="200" required>
+  <label for="componentDescription">Generation brief</label><textarea id="componentDescription" maxlength="2000" required></textarea>
+  <p id="briefMessage" role="status"></p><button id="saveBrief" type="submit">Save brief</button><button id="clearBrief" type="button">Clear brief</button><button id="closeBrief" type="button">Cancel</button>
+</form></dialog>
 <footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Primitives remake progress</span></footer>
 <script>
 const $=id=>document.getElementById(id);
 const REASONS={combination:'Combination',container:'Container',text_number:'Text / number',other:'Other'};
+const SUB_POSITIONS=['top-left','top','top-right','left','center','right','bottom-left','bottom','bottom-right'];
 const STATUS_LABEL={todo:'TODO',skip:'Skip',generated:'Generated'};
 let catalog={rows:[]},statuses={},selected=new Set(),sort={key:'name',dir:1},page=1;
 const state={category:'',status:'todo',batch:'',reason:'',q:''};
@@ -187,7 +198,49 @@ function tile(row){
   el.append(badges);
   if(d){const note=node('p','',(d.note?'“'+d.note+'” · ':'')+(d.updated_by||'')+(d.updated_at?' · '+d.updated_at.slice(0,10):''));el.append(note);}
   else if(row.models&&row.models.length&&s!=='generated'){el.append(node('p','warn','Model: '+row.models.join(', ')));}
+  if(d&&['container','combination'].includes(d.reason)){
+    if(d.reason==='combination'){
+      const position=node('section','component-brief');position.append(node('strong','','Sub icon position'),node('p','',d.sub_position||'Not set'),node('p','','Relative to the main icon; bottom-right places the sub icon at the main icon’s lower-right.'));
+      const select=document.createElement('select');select.className='login-only';select.setAttribute('aria-label','Sub icon position for '+row.concept);
+      select.append(new Option('Not set',''),...SUB_POSITIONS.map(p=>new Option(p,p)));select.value=d.sub_position||'';
+      const message=node('p','');message.setAttribute('role','status');
+      select.onchange=async()=>{select.disabled=true;message.textContent='Saving…';try{
+        const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[row.uuid],status:'skip',reason:d.reason,note:d.note,sub_position:select.value||null})});
+        const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save position');statuses[row.uuid]=data.decisions[row.uuid];renderDetail();
+      }catch(error){message.textContent=error.message;select.value=d.sub_position||'';}finally{select.disabled=false;}};
+      position.append(select,message);el.append(position);
+    }
+    for(const field of ['main_brief','sub_brief']){
+      const c=d[field],label=field==='sub_brief'?'Sub icon':(c?.family==='container'||(!c&&d.reason==='container')?'Container icon':'Main icon');
+      const section=node('section','component-brief');section.append(node('strong','',label+' brief'));
+      if(c){section.append(node('p','',c.name+' · '+c.family));const description=node('p','',c.description);section.append(description);
+        const copy=node('button','','Copy '+label.toLowerCase()+' brief');copy.type='button';copy.onclick=()=>{
+          const payload={source_uuid:row.uuid,reference_path:catalog.root_label+'/'+row.path,...c,...(d.sub_position?{sub_position:d.sub_position,position_reference:'Sub icon relative to main icon',generation_scope:'Generate only this component separately.'}:{})};
+          $('copyText').value=JSON.stringify(payload,null,2);$('copyDialog').showModal();$('copyText').select();};section.append(copy);
+      }else{section.append(node('p','','No brief yet'));}
+      const edit=node('button','brief-edit login-only',(c?'Edit ':'Add ')+label.toLowerCase()+' brief');edit.type='button';edit.onclick=()=>openBrief(row,field,label);section.append(edit);el.append(section);
+    }
+  }
   return el;
+}
+
+let briefRow=null,briefField=null;
+function openBrief(row,field,label){briefRow=row;briefField=field;const c=statuses[row.uuid][field];
+  $('briefTitle').textContent=label+' brief';$('briefSource').textContent=row.concept;
+  $('briefFamily').value=c?.family||(field==='sub_brief'?'sub':statuses[row.uuid].reason==='container'?'container':'solo');
+  for(const option of $('briefFamily').options)option.hidden=field==='sub_brief'?option.value!=='sub':option.value==='sub';
+  $('briefFamily').disabled=field==='sub_brief';
+  $('componentName').value=c?.name||'';$('componentDescription').value=c?.description||'';
+  $('briefMessage').textContent='';$('clearBrief').hidden=!c;$('briefDialog').showModal();
+}
+async function saveBrief(clear=false){const d=statuses[briefRow.uuid];
+  const brief=clear?null:{family:$('briefFamily').value,name:$('componentName').value.trim(),description:$('componentDescription').value.trim()};
+  $('saveBrief').disabled=$('clearBrief').disabled=$('closeBrief').disabled=true;$('briefMessage').textContent='Saving…';
+  try{const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[briefRow.uuid],status:'skip',reason:d.reason,note:d.note,[briefField]:brief})});
+    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save brief');
+    statuses[briefRow.uuid]=data.decisions[briefRow.uuid];$('briefDialog').close();renderDetail();
+  }catch(error){$('briefMessage').textContent=error.message;}
+  finally{$('saveBrief').disabled=$('clearBrief').disabled=$('closeBrief').disabled=false;}
 }
 
 function updateSelection(){$('selectedCount').textContent=selected.size.toLocaleString()+' selected';$('markSkip').disabled=!selected.size;$('markTodo').disabled=!selected.size;}
@@ -225,6 +278,7 @@ let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=s
 $('pageSize').onchange=()=>{page=1;renderDetail();};$('prev').onclick=()=>{page--;renderDetail();window.scrollTo(0,0);};$('next').onclick=()=>{page++;renderDetail();window.scrollTo(0,0);};
 $('selectPage').onchange=()=>{const size=Number($('pageSize').value);for(const r of detailRows().slice((page-1)*size,page*size))if(effective(r)!=='generated')$('selectPage').checked?selected.add(r.uuid):selected.delete(r.uuid);renderDetail();};
 $('markSkip').onclick=()=>save('skip');$('markTodo').onclick=()=>save('todo');$('copyTodo').onclick=copyTodo;$('closeCopy').onclick=()=>$('copyDialog').close();
+$('briefForm').onsubmit=e=>{e.preventDefault();saveBrief();};$('clearBrief').onclick=()=>saveBrief(true);$('closeBrief').onclick=()=>$('briefDialog').close();
 document.querySelector('.back').onclick=e=>{e.preventDefault();state.category='';selected.clear();show();};
 window.addEventListener('popstate',()=>{readURL();show();});
 

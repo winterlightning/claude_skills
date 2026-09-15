@@ -21,6 +21,9 @@ U2 = '00000000-0000-4000-8000-000000000002'
 U3 = '00000000-0000-4000-8000-000000000003'
 U4 = '00000000-0000-4000-8000-000000000004'
 ORIGINAL = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024"><path d="M0 0L10 10"/></svg>'
+BRIEF = {'combination_type': 'container', 'components': [
+    {'name': 'Monitor frame', 'family': 'container', 'description': 'Empty monitor. Exclude the arrow.'},
+    {'name': 'Upload arrow', 'family': 'sub', 'description': 'Upward arrow alone. Exclude the monitor.'}]}
 
 
 def primitives_tree(root: Path) -> Path:
@@ -122,6 +125,85 @@ class StatusStoreTests(unittest.TestCase):
             with self.subTest(args=args[1:], kwargs=kwargs), self.assertRaises(ValueError):
                 self.apply(*args, **kwargs)
 
+    def test_brief_migration_preservation_and_clear(self):
+        with sqlite3.connect(':memory:') as db:
+            db.execute('CREATE TABLE primitive_status(uuid TEXT PRIMARY KEY,status TEXT,reason TEXT,note TEXT,updated_by TEXT,updated_at TEXT)')
+            db.execute("INSERT INTO primitive_status VALUES (?,'skip','container','old note','agent','today')", (U1,))
+            ps.init_primitive_status(db)
+            ps.init_primitive_status(db)
+            self.assertEqual(ps.load_status(db)[U1]['note'], 'old note')
+            self.assertIsNone(ps.load_status(db)[U1]['combination_brief'])
+        self.assertEqual(self.apply([U1], 'skip', 'container', combination_brief=BRIEF)['changed'], 1)
+        self.assertEqual(self.apply([U1], 'skip', 'container', combination_brief=BRIEF)['changed'], 0)
+        self.apply([U1], 'skip', 'container', 'updated note')
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db)[U1]['combination_brief'], BRIEF)
+        self.apply([U1], 'skip', 'container', combination_brief=None)
+        with sqlite3.connect(self.database) as db:
+            self.assertIsNone(ps.load_status(db)[U1]['combination_brief'])
+        self.apply([U1], 'skip', 'container', combination_brief=BRIEF)
+        self.apply([U1], 'todo')
+        with sqlite3.connect(self.database) as db:
+            self.assertNotIn(U1, ps.load_status(db))
+
+    def test_invalid_brief_does_not_mutate_status(self):
+        for brief in ({}, [], {'combination_type': 'side', 'components': []},
+                      {**BRIEF, 'components': [BRIEF['components'][1], BRIEF['components'][0]]},
+                      {**BRIEF, 'components': [{**BRIEF['components'][0], 'name': ' '}, BRIEF['components'][1]]}):
+            with self.subTest(brief=brief), self.assertRaises(ValueError):
+                self.apply([U1], 'skip', 'container', combination_brief=brief)
+        for uuids, status, reason in (([U1,U2], 'skip', 'container'), ([U1], 'todo', None), ([U1], 'skip', 'text_number')):
+            with self.assertRaises(ValueError):
+                self.apply(uuids, status, reason, combination_brief=BRIEF)
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db), {})
+
+    def test_independent_fields_preserve_other_component(self):
+        main, sub = BRIEF['components']
+        self.apply([U1], 'skip', 'container', main_brief=main)
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db)[U1]['main_brief'], main)
+            self.assertIsNone(ps.load_status(db)[U1]['sub_brief'])
+        self.apply([U1], 'skip', 'container', sub_brief=sub)
+        self.apply([U1], 'skip', 'container', main_brief={**main, 'name': 'Edited main'})
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db)[U1]['sub_brief'], sub)
+        self.apply([U1], 'skip', 'container', main_brief=None)
+        with sqlite3.connect(self.database) as db:
+            self.assertIsNone(ps.load_status(db)[U1]['main_brief'])
+            self.assertEqual(ps.load_status(db)[U1]['sub_brief'], sub)
+        with self.assertRaises(ValueError):
+            self.apply([U1], 'skip', 'container', sub_brief=main)
+
+    def test_side_position_preserves_briefs_and_clears_on_reason_change(self):
+        main, sub = BRIEF['components']
+        self.apply([U1], 'skip', 'combination', main_brief=main, sub_brief=sub, sub_position='bottom-right')
+        self.apply([U1], 'skip', 'combination', 'updated note')
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db)[U1]['sub_position'], 'bottom-right')
+        self.apply([U1], 'skip', 'combination', sub_position='top')
+        with sqlite3.connect(self.database) as db:
+            self.assertEqual(ps.load_status(db)[U1]['sub_brief'], sub)
+            self.assertEqual(ps.load_status(db)[U1]['main_brief'], main)
+        for position in ('diagonal', [], 5):
+            with self.assertRaises(ValueError):
+                self.apply([U1], 'skip', 'combination', sub_position=position)
+        with self.assertRaises(ValueError):
+            self.apply([U1], 'skip', 'container', sub_position='top')
+        self.apply([U1], 'skip', 'container')
+        with sqlite3.connect(self.database) as db:
+            self.assertIsNone(ps.load_status(db)[U1]['sub_position'])
+
+    def test_migrate_existing_paired_brief_to_separate_columns(self):
+        with sqlite3.connect(self.database) as db:
+            db.execute("INSERT INTO primitive_status(uuid,status,reason,note,updated_by,updated_at,combination_brief) VALUES (?,'skip','container','','agent','today',?)", (U1, json.dumps(BRIEF)))
+            ps.init_primitive_status(db)
+            ps.init_primitive_status(db)
+            decision = ps.load_status(db)[U1]
+            self.assertEqual(decision['main_brief'], BRIEF['components'][0])
+            self.assertEqual(decision['sub_brief'], BRIEF['components'][1])
+            self.assertIsNone(db.execute('SELECT combination_brief FROM primitive_status WHERE uuid=?', (U1,)).fetchone()[0])
+
     def test_generated_wins_and_reports_conflict(self):
         rows = [dict(uuid=U1, category='a', state='generated'), dict(uuid=U2, category='a', state='build_failed'),
                 dict(uuid=U3, category='b', state='none')]
@@ -195,6 +277,29 @@ class PrimitivesServerTests(unittest.TestCase):
         self.assertEqual([(row['uuid'], row['batch'], row['status']) for row in rows], [(U2, '07', 'skip')])
         summary = json.loads(self.request('GET', '/api/primitives/summary')[1])
         self.assertEqual((summary['overall']['total'], summary['overall']['skip'], summary['overall']['todo']), (4, 1, 3))
+
+    def test_component_brief_api_round_trip(self):
+        change = {'uuids': [U1], 'status': 'skip', 'reason': 'container', 'combination_brief': BRIEF}
+        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 401)
+        self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        self.assertEqual(self.request('POST', '/api/primitives/status', {**change, 'combination_brief': {}})[0], 400)
+        code, body, _ = self.request('POST', '/api/primitives/status', change)
+        self.assertEqual(code, 200, body)
+        self.assertEqual(json.loads(body)['decisions'][U1]['combination_brief'], BRIEF)
+        rows = json.loads(self.request('GET', '/api/primitives?category=computers&status=skip')[1])
+        self.assertEqual(rows[0]['decision']['combination_brief'], BRIEF)
+        independent = {k: v for k, v in change.items() if k != 'combination_brief'}
+        updated_sub = {**BRIEF['components'][1], 'name': 'Separate arrow'}
+        code, body, _ = self.request('POST', '/api/primitives/status', {**independent, 'sub_brief': updated_sub})
+        self.assertEqual(code, 200, body)
+        self.assertEqual(json.loads(body)['decisions'][U1]['main_brief'], BRIEF['components'][0])
+        self.assertEqual(json.loads(body)['decisions'][U1]['sub_brief'], updated_sub)
+        code, body, _ = self.request('POST', '/api/primitives/status', {**independent, 'reason': 'combination', 'sub_position': 'bottom-right'})
+        self.assertEqual(code, 200, body)
+        self.assertEqual(json.loads(body)['decisions'][U1]['sub_position'], 'bottom-right')
+        self.assertEqual(json.loads(body)['decisions'][U1]['sub_brief'], updated_sub)
+        self.request('POST', '/api/primitives/status', {**change, 'combination_brief': None})
+        self.assertIsNone(json.loads(self.request('GET', '/api/primitives/status')[1])[U1]['combination_brief'])
 
 
 if __name__ == '__main__':

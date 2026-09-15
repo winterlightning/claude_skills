@@ -9,7 +9,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 import io
 
-from icon_set.scripts.gallery import stage_gallery
+from icon_set.scripts.gallery import remap_categories, stage_gallery
 from icon_set.scripts.deploy import create_server, init_database
 
 
@@ -23,6 +23,31 @@ def manifest(root, family, folder, name):
 
 
 class GalleryTests(unittest.TestCase):
+    def test_categories_follow_source_identity_including_variants_and_failures(self):
+        catalog = {'categories': {'animals': {}, 'pets': {}, 'clothes': {}}, 'rows': [
+            {'models': ['bird'], 'category': 'animals'},
+            {'models': ['failed-dog'], 'category': 'pets'},
+            {'models': ['ambiguous'], 'category': 'animals'},
+            {'models': ['ambiguous'], 'category': 'pets'},
+        ]}
+        rows = [
+            {'icon_id': 'bird', 'category': 'animals/birds'},
+            {'icon_id': 'bird-v2', 'variant_root': 'bird', 'category': 'nature/animals'},
+            {'icon_id': 'failed-dog', 'build_failed': True, 'category': 'animals'},
+            {'icon_id': 'robe', 'category': 'objects/clothing'},
+            {'icon_id': 'circle', 'category': 'containers'},
+            {'icon_id': 'plus', 'category': 'primitives/operator'},
+            {'icon_id': 'ambiguous', 'category': 'nature/animals'},
+        ]
+        remap_categories(rows, catalog)
+        self.assertEqual([r['category'] for r in rows], [
+            'animals', 'animals', 'pets', 'clothes', 'containers',
+            'primitives/operator', 'nature/animals',
+        ])
+        before = json.dumps(rows)
+        remap_categories(rows, {'rows': [], 'categories': {}})
+        self.assertEqual(json.dumps(rows), before)
+
     def test_partial_build_combines_new_and_existing_families_deterministically(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

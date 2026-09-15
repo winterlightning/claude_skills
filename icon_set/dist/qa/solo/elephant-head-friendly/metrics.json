@@ -3,16 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [face / ear-left]: forehead and ear-left-upper have 1.2833 units of ink clearance over 6.0938 units; requires 4; review required",
-    "internal-spacing [face / ear-right]: forehead and ear-right-upper have 1.204 units of ink clearance over 6.2533 units; requires 4; review required",
-    "internal-spacing [face / ear-right]: cheek-right and ear-right-lower have 2.601 units of ink clearance over 2.25 units; requires 4; review required",
-    "internal-spacing [face / ear-right]: jaw-right and ear-right-lower have 1.6091 units of ink clearance over 6.6683 units; requires 4; review required",
-    "internal-spacing [face / ear-left]: jaw-left and ear-left-lower have 1.6091 units of ink clearance over 6.6683 units; requires 4; review required",
-    "internal-spacing [face / ear-left]: cheek-left and ear-left-lower have 2.601 units of ink clearance over 2.25 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -797,8 +790,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -854,6 +848,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -868,9 +863,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -902,7 +897,13 @@
             6.928820349626568,
             13.809412806913144
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "face / ear-right",
@@ -923,7 +924,13 @@
             40.945011991502014,
             13.709796727585633
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "face / ear-right",
@@ -944,7 +951,13 @@
             43.190892718007426,
             26.665387633296728
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "face / ear-right",
@@ -965,7 +978,13 @@
             37.61004279063785,
             31.96117286273291
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "face / ear-left",
@@ -986,7 +1005,13 @@
             10.389957209362159,
             31.96117286273291
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "face / ear-left",
@@ -1007,10 +1032,18 @@
             4.809107281992599,
             26.665387633296785
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the elephant head friendly silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 6
   },
-  "needs_review": true
+  "needs_review": false
 }

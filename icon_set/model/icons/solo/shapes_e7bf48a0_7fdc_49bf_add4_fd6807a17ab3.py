@@ -1,4 +1,4 @@
-"""shapes-design: reviewed and repaired in place on SOLO48."""
+"""shapes-design: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/design/shapes_e7bf48a0-7fdc-49bf-add4-fd6
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-repaired'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class ShapesDesign(Solo48):
     icon_id = 'shapes-design'
@@ -19,14 +19,21 @@ class ShapesDesign(Solo48):
     keywords = ('shapes', 'design')
 
     def build(self):
-        # SQUARE (6,6)-(42,42); true circle partially hidden behind square.
-        # Construction reference: Lucide shapes: simple geometric subjects
-        self.add_polyline('square',(20,20),(42,20),(42,42),(20,42),closed=True)
-        self.add_arc('circle-top',(32,19),(6,19),radius_x=13,sweep=False)
-        self.add_arc('circle-bottom',(6,19),(19,32),radius_x=13,sweep=False)
-        self.add_line('right-contact',(32,19),(32,20))
-        self.add_line('bottom-contact',(19,32),(20,32))
-        self.add_contour('circle','circle-top','circle-bottom','bottom-contact')
+        # Plan: SQUARE; true circle ends exactly on the foreground square; one-unit connector stubs removed.
+        # Reference: Lucide shapes: a shared overlap boundary between the circle and square.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        self.add_polyline('square',(19,19),(32,19),(42,19),(42,42),(19,42),(19,32),closed=True)
+        path('circle',(32,19),[('A',(19,6),13,13,False),('A',(6,19),13,13,False),('A',(19,32),13,13,False)])
         self.relate('connect','circle','square')
-        self.relate('connect','circle','right-contact')
-        self.relate('connect','right-contact','square')

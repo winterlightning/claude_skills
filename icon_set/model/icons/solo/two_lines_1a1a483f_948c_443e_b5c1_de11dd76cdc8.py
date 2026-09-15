@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/two lines_1a1a483f-948c-443e-b5c1-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class TwoLines(Solo48):
     icon_id = 'two-lines'
@@ -19,7 +19,8 @@ class TwoLines(Solo48):
     keywords = ('two', 'lines', 'symbol')
 
     def build(self):
-        self.add_line('e0', (40, 4), (40, 43))
-        self.add_line('e1', (39, 44), (8, 44))
-        self.add_arc('e2', (40, 43), (39, 44), radius_x=1)
-        self.add_contour('c0', 'e0', 'e2', 'e1')
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (40, 4), (40, 44))
+        self.add_line('e1', (40, 44), (8, 44))
+        self.add_contour('c0', 'e0', 'e1', closed=False)

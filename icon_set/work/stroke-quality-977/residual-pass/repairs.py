@@ -188,6 +188,48 @@ path('bottle',(18,4),[('L',(18,8)),('C',(18,12),(8,12),(8,18)),('L',(8,24)),('L'
 path('water',(8,24),[('C',(18,20),(30,28),(40,24))]);self.relate('connect','water','bottle')
 ''','VRECT_L; paired bottle shoulders, equal corner radii and a smooth water surface.','No close Lucide bottle match; mirrored bottle boundary and flowing waterline.')
 
+# Five-petal blossoms use one axis; preserve the existing center mark type.
+for id,left,right,top,bottom,mark in [('flower',6,42,6,42,'none'),('flower-b31296d9',6,42,6,42,'dot'),('flower-nature',4,44,8,40,'oval')]:
+ patch(id,f'''
+left,right,top,bottom={left},{right},{top},{bottom}
+path('flower',(24,top),[('C',(29,top),(32,top+3),(32,15)),
+ ('C',(38,13),(right,17),(right,22)),('C',(right,27),(39,29),(35,30)),
+ ('C',(39,36),(35,bottom),(30,bottom)),('C',(27,bottom),(25,39),(24,37)),
+ ('C',(23,39),(21,bottom),(18,bottom)),('C',(13,bottom),(9,36),(13,30)),
+ ('C',(9,29),(left,27),(left,22)),('C',(left,17),(10,13),(16,15)),
+ ('C',(16,top+3),(19,top),(24,top))],True)
+'''+("self.add_dot('center',(24,24))\n" if mark=='dot' else "path('center',(20,24),[('A',(28,24),4,3,True),('A',(20,24),4,3,True)],True)\n" if mark=='oval' else ''),
+ 'Five mirrored petals with smooth lobe curves; preserved the original center mark.','Lucide flower: coherent petal lobes and balanced center spacing.')
+for id in ['organic-tree','organic-tree-ecology']:
+ detail="self.add_polyline('branches',(20,20),(24,24),(28,20));self.relate('connect','branches','trunk')\n" if id.endswith('ecology') else "self.add_line('base',(18,44),(30,44));self.relate('connect','base','trunk')\n"
+ patch(id,'''
+path('crown',(24,4),[('C',(30,4),(34,8),(34,14)),('L',(34,16)),
+ ('C',(38,18),(40,21),(40,25)),('C',(40,31),(34,34),(24,34)),
+ ('C',(14,34),(8,31),(8,25)),('C',(8,21),(10,18),(14,16)),('L',(14,14)),('C',(14,8),(18,4),(24,4))],True)
+self.add_polyline('trunk',(24,16),(24,24),(24,34),(24,44));self.relate('connect','trunk','crown')
+'''+detail,'VRECT_L; mirrored tree crown with smooth shoulders and a centered trunk.','No close Lucide tree match; preserve the original crown and branch structure.')
+patch('card-game-card-club','''
+path('club',(24,4),[('C',(29,4),(32,8),(32,13)),('C',(32,16),(31,18),(30,20)),
+ ('C',(36,18),(40,22),(40,27)),('C',(40,32),(36,36),(31,36)),('C',(28,36),(26,34),(24,32)),
+ ('C',(22,34),(20,36),(17,36)),('C',(12,36),(8,32),(8,27)),
+ ('C',(8,22),(12,18),(18,20)),('C',(17,18),(16,16),(16,13)),('C',(16,8),(19,4),(24,4))],True)
+self.add_line('stem',(24,32),(24,44));self.relate('connect','stem','club')
+''','VRECT_L; three clean club lobes, mirrored side bowls and an exact centered stem.','No inspected Lucide club match; preserve the three-lobe card-suit silhouette.')
+patch('card-game-card-spade','''
+path('spade',(24,4),[('C',(20,11),(8,18),(8,27)),('C',(8,33),(12,37),(17,37)),
+ ('C',(20,37),(22,35),(24,32)),('C',(26,35),(28,37),(31,37)),
+ ('C',(36,37),(40,33),(40,27)),('C',(40,18),(28,11),(24,4))],True)
+self.add_line('stem',(24,32),(24,44));self.relate('connect','stem','spade')
+''','VRECT_L; mirrored spade shoulders and bowl curves with a centered tip and stem.','No inspected Lucide spade match; paired bowls and one shared axis.')
+# Open infinity retains its intentional interruption.
+patch('loop-manual','''
+path('loop',(20,15),[('C',(17,9),(15,8),(12,8)),('C',(7,8),(4,15),(4,24)),
+ ('C',(4,33),(7,40),(12,40)),('C',(17,40),(18,34),(24,24)),
+ ('C',(30,14),(31,8),(36,8)),('C',(41,8),(44,15),(44,24)),
+ ('C',(44,33),(41,40),(36,40)),('C',(33,40),(31,36),(28,31))])
+''','HRECT_L; smooth paired infinity loops retain the open ends and their clearance.','Lucide infinity: flowing loop curvature; preserve the supplied open-loop variant.')
+# Gently curved half-round fish-bowl rim, preserving the fish detail from source.
+
 # Record cumulative changes without importing scripts that have patch side effects.
 (H/'changes.json').write_text(json.dumps(changes,indent=2))
 previous=json.loads((H.parent/'changes.json').read_text());ids={r['id'] for r in changes}

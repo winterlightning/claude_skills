@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/keyboard shift_723ba8
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class KeyboardShift(Solo48):
     icon_id = 'keyboard-shift'
@@ -19,13 +19,13 @@ class KeyboardShift(Solo48):
     keywords = ('keyboard', 'shift', 'interface-essential')
 
     def build(self):
-        self.add_line('e0', (32, 22), (32, 42))
-        self.add_line('e1', (30, 44), (17, 44))
-        self.add_line('e2', (16, 42), (16, 22))
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (32, 22), (32, 44))
+        self.add_line('e1', (32, 44), (16, 44))
+        self.add_line('e2', (16, 44), (16, 22))
         self.add_line('e3', (16, 22), (8, 22))
         self.add_line('e4', (8, 22), (24, 4))
         self.add_line('e5', (24, 4), (40, 22))
         self.add_line('e6', (40, 22), (32, 22))
-        self.add_arc('e7', (32, 42), (30, 44), radius_x=2)
-        self.add_arc('e8', (17, 44), (16, 42), radius_x=2)
-        self.add_contour('c0', 'e0', 'e7', 'e1', 'e8', 'e2', 'e3', 'e4', 'e5', 'e6', closed=True)
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', closed=True)

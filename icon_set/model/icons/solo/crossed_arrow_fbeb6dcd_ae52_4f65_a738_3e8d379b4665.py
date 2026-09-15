@@ -1,4 +1,4 @@
-"""Crossed arrow (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""crossed-arrow: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/crossed arrow_fbeb6dcd-ae52-4f65-a
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class CrossedArrow(Solo48):
     icon_id = 'crossed-arrow'
@@ -19,26 +19,27 @@ class CrossedArrow(Solo48):
     keywords = ('crossed', 'arrow', 'symbol')
 
     def build(self):
-        self.add_line('e0', (15, 33), (34, 13))
-        self.add_line('e1', (33, 33), (14, 13))
-        self.add_line('e2', (37, 32), (33, 33))
-        self.add_line('e3', (29, 8), (42, 6))
-        self.add_line('e4', (42, 6), (40, 18))
-        self.add_line('e5', (40, 18), (29, 8))
-        self.add_line('e6', (19, 8), (6, 6))
-        self.add_line('e7', (6, 6), (8, 18))
-        self.add_line('e8', (19, 8), (8, 18))
-        self.add_arc('e9', (6, 37), (15, 33), radius_x=6)
-        self.add_arc('e10', (11, 42), (15, 33), radius_x=6, sweep=False)
-        self.add_arc('e11', (36, 42), (33, 33), radius_x=6)
-        self.add_arc('e12', (42, 36), (37, 32), radius_x=9, sweep=False)
-        self.add_contour('c0', 'e9', 'e0')
-        self.add_contour('c1', 'e10')
-        self.add_contour('c2', 'e11', 'e1')
-        self.add_contour('c3', 'e12', 'e2')
-        self.add_contour('c4', 'e3', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('c6', 'e6', 'e7')
-        self.add_contour('c7', 'e8')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c2', 'c7')
+        # Plan: SQUARE; matching arrowheads with centered shafts and mirrored smooth tail curls; no broken arc/line tail.
+        # Reference: Lucide move-up-right: straight arrow direction and shared attachment points.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # Mirrored hollow arrowheads, centered shafts, and paired circular tails.
+        self.add_polyline('head-left',(6,6),(20,8),(8,20),closed=True)
+        self.add_polyline('head-right',(42,6),(28,8),(40,20),closed=True)
+        self.add_polyline('shaft-left',(14,14),(24,24),(34,34))
+        self.add_polyline('shaft-right',(34,14),(24,24),(14,34))
+        self.relate('connect','head-left','shaft-left');self.relate('connect','head-right','shaft-right');self.relate('connect','shaft-left','shaft-right')
+        path('tail-left',(6,36),[('C',(6,32),(10,30),(14,34)),('C',(18,38),(16,42),(12,42))])
+        path('tail-right',(42,36),[('C',(42,32),(38,30),(34,34)),('C',(30,38),(32,42),(36,42))])
+        self.relate('connect','tail-left','shaft-right');self.relate('connect','tail-right','shaft-left')

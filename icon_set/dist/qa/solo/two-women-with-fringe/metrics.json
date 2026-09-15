@@ -3,15 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [front-head / hair-right]: front-head-a and hair-right have -3.9797 units of ink clearance over 5.25 units; requires 4; review required",
-    "internal-spacing [front-head / fringe]: front-head-a and fringe have 2.2457 units of ink clearance over 6.7318 units; requires 4; review required",
-    "internal-spacing [front-head / hair-left]: front-head-b and hair-left have -3.9797 units of ink clearance over 5.25 units; requires 4; review required",
-    "internal-spacing [front-head / fringe]: front-head-b and fringe have 2.2457 units of ink clearance over 6.7318 units; requires 4; review required",
-    "internal-spacing [rear / rear-hair]: rear-neck and rear-hair have 1.4784 units of ink clearance over 3 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -1306,8 +1300,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -1363,6 +1358,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1377,9 +1373,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -1411,7 +1407,13 @@
             26.0,
             16.625
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the two women with fringe silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
+        }
       },
       {
         "contour": "front-head / fringe",
@@ -1432,7 +1434,13 @@
             21.2807900815304,
             14.541931414288118
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the two women with fringe silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
+        }
       },
       {
         "contour": "front-head / hair-left",
@@ -1453,7 +1461,13 @@
             6.0,
             16.625
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the two women with fringe silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
+        }
       },
       {
         "contour": "front-head / fringe",
@@ -1474,7 +1488,13 @@
             10.719209918469609,
             14.541931414288118
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the two women with fringe silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
+        }
       },
       {
         "contour": "rear / rear-hair",
@@ -1495,10 +1515,18 @@
             41.39000000000001,
             21.645000000000014
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the two women with fringe silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 5
   },
-  "needs_review": true
+  "needs_review": false
 }

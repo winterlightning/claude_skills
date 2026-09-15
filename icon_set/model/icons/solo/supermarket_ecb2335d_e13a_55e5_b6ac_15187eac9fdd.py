@@ -1,4 +1,4 @@
-"""Supermarket (school-learning), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""supermarket: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/school-learning/supermarket_ecb2335d-e13a
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Supermarket(Solo48):
     icon_id = 'supermarket'
@@ -19,31 +19,26 @@ class Supermarket(Solo48):
     keywords = ('supermarket', 'school-learning')
 
     def build(self):
-        self.add_line('e0', (28, 42), (28, 32))
-        self.add_line('e1', (20, 35), (20, 42))
-        self.add_line('e2', (34, 15), (14, 15))
-        self.add_line('e3', (32, 15), (32, 24))
-        self.add_line('e4', (32, 24), (42, 24))
-        self.add_line('e5', (40, 24), (40, 42))
-        self.add_line('e6', (40, 42), (8, 42))
-        self.add_line('e7', (8, 42), (8, 24))
-        self.add_line('e8', (6, 24), (16, 24))
-        self.add_line('e9', (16, 24), (16, 15))
-        self.add_line('e10', (24, 15), (24, 6))
-        self.add_line('e11', (26, 7), (31, 7))
-        self.add_arc('e12-1', (28, 32), (23, 28), radius_x=4, sweep=False)
-        self.add_arc('e12-2', (23, 28), (20, 35), radius_x=6, sweep=False)
-        self.add_line('e13', (24, 6), (26, 7))
-        self.add_contour('c0', 'e0', 'e12-1', 'e12-2', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e4')
-        self.add_contour('c3', 'e5', 'e6', 'e7')
-        self.add_contour('c4', 'e8', 'e9')
-        self.add_contour('c5', 'e10', 'e13', 'e11')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c1')
-        self.relate('connect', 'c3', 'c2')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c4', 'c1')
-        self.relate('connect', 'c5', 'c1')
+        # Plan: SQUARE; symmetric building tiers and door, with a straight flag and exact roof junctions.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        self.add_polyline('body',(8,24),(8,42),(20,42),(28,42),(40,42),(40,24))
+        self.add_polyline('left-step',(6,24),(8,24),(16,24),(16,15))
+        self.add_polyline('right-step',(42,24),(40,24),(32,24),(32,15))
+        self.add_polyline('roof',(14,15),(16,15),(24,15),(32,15),(34,15))
+        self.add_polyline('flag',(24,15),(24,6),(32,6))
+        path('door',(20,42),[('L',(20,34)),('A',(24,30),4,4,True),('A',(28,34),4,4,True),('L',(28,42))])
+        for side in ['left-step','right-step']:self.relate('connect',side,'body');self.relate('connect',side,'roof')
+        self.relate('connect','roof','flag');self.relate('connect','door','body')

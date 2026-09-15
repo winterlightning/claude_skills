@@ -1,4 +1,4 @@
-"""Virtual coin crypto waves (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""virtual-coin-crypto-waves: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/design/virtual coin crypto waves_be021017
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class VirtualCoinCryptoWaves(Solo48):
     icon_id = 'virtual-coin-crypto-waves'
@@ -19,16 +19,19 @@ class VirtualCoinCryptoWaves(Solo48):
     keywords = ('virtual', 'coin', 'crypto', 'waves', 'design')
 
     def build(self):
-        self.add_arc('sym-e2', (24, 6), (22, 7), radius_x=3, sweep=False)
-        self.add_line('sym-e3', (22, 7), (7, 22))
-        self.add_arc('sym-e4', (7, 22), (6, 24), radius_x=4, sweep=False)
-        self.add_arc('sym-e9', (6, 24), (7, 26), radius_x=4, sweep=False)
-        self.add_line('sym-e10', (7, 26), (22, 41))
-        self.add_arc('sym-e11', (22, 41), (24, 42), radius_x=3, sweep=False)
-        self.add_arc('sym-e16', (24, 42), (26, 41), radius_x=3, sweep=False)
-        self.add_line('sym-e17', (26, 41), (41, 26))
-        self.add_arc('sym-e18', (41, 26), (42, 24), radius_x=3, sweep=False)
-        self.add_arc('sym-e23', (42, 24), (41, 22), radius_x=3, sweep=False)
-        self.add_line('sym-e24', (41, 22), (26, 7))
-        self.add_arc('sym-e25', (26, 7), (24, 6), radius_x=4, sweep=False)
-        self.add_contour('sym-c0', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e23', 'sym-e24', 'sym-e25', closed=True)
+        # Plan: SQUARE; four equal straight diamond sides replace mismatched tiny corner arcs.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        self.add_polyline('diamond',(24,6),(42,24),(24,42),(6,24),closed=True)

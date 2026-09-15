@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/sports/whistle_c3a5ced3-e720-4af3-8b39-b0
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class WhistleSports(Solo48):
     icon_id = 'whistle-sports'
@@ -19,8 +19,10 @@ class WhistleSports(Solo48):
     keywords = ('whistle', 'sports')
 
     def build(self):
+        # Plan: remove subpixel cubic detours while preserving real contour nodes.
+        # Reference: supplied subject and its existing stroke graph.
         self.add_line('e0', (40, 6), (42, 13))
         self.add_line('e1', (42, 13), (31, 22))
         self.add_line('e2', (13, 17), (40, 6))
-        self.add_bezier('e3', (31, 22), ((31.982, 24.741), (33.106, 26.929), (32.795, 29.883)), ((32.125, 36.338), (26.569, 41.992), (19.893, 41.992)), ((19.716, 41.992), (19.546, 42), (19.369, 42)), ((19.367, 42), (19.364, 42), (19.361, 42)), ((12.39, 42), (6.008, 35.831), (6.008, 28.778)), ((6.008, 28.601), (6, 28.432), (6, 28.255)), ((6, 28.252), (6, 28.249), (6, 28.246)), ((6, 24.196), (7.98, 20.31), (11.253, 17.921)), ((11.891, 17.446), (12.255, 17.303), (13, 17)))
+        self.add_bezier('e3', (31, 22), ((31.982, 24.741), (33.106, 26.929), (32.795, 29.883)), ((32.125, 36.338), (26.569, 41.992), (19.893, 41.992)), ((19.716, 41.992), (19.546, 42), (19.369, 42)), ((12.39, 42), (6.008, 35.831), (6.008, 28.778)), ((6.008, 28.601), (6, 28.432), (6, 28.255)), ((6, 24.196), (7.98, 20.31), (11.253, 17.921)), ((11.891, 17.446), (12.255, 17.303), (13, 17)))
         self.add_contour('c0', 'e0', 'e1', 'e3', 'e2', closed=True)

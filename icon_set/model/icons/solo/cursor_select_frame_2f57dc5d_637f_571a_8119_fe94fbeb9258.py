@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/cursor select frame_2
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class CursorSelectFrame(Solo48):
     icon_id = 'cursor-select-frame'
@@ -19,19 +19,17 @@ class CursorSelectFrame(Solo48):
     keywords = ('cursor', 'select', 'frame', 'interface-essential')
 
     def build(self):
-        self.add_line('sym-e0', (6, 16), (6, 8))
-        self.add_arc('sym-e2', (6, 8), (8, 6), radius_x=2)
-        self.add_line('sym-e5', (8, 6), (17, 6))
-        self.add_line('sym-e6', (31, 6), (40, 6))
-        self.add_arc('sym-e8', (40, 6), (42, 8), radius_x=2)
-        self.add_line('sym-e11', (42, 8), (42, 16))
-        self.add_line('sym-e12', (6, 32), (6, 40))
-        self.add_arc('sym-e14', (6, 40), (8, 42), radius_x=2, sweep=False)
-        self.add_line('sym-e17', (8, 42), (17, 42))
-        self.add_line('sym-e18', (31, 42), (40, 42))
-        self.add_arc('sym-e20', (40, 42), (42, 40), radius_x=2, sweep=False)
-        self.add_line('sym-e23', (42, 40), (42, 32))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e2', 'sym-e5')
-        self.add_contour('sym-c1', 'sym-e6', 'sym-e8', 'sym-e11')
-        self.add_contour('sym-c2', 'sym-e12', 'sym-e14', 'sym-e17')
-        self.add_contour('sym-c3', 'sym-e18', 'sym-e20', 'sym-e23')
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('sym-e0', (6, 16), (6, 6))
+        self.add_line('sym-e5', (6, 6), (17, 6))
+        self.add_line('sym-e6', (31, 6), (42, 6))
+        self.add_line('sym-e11', (42, 6), (42, 16))
+        self.add_line('sym-e12', (6, 32), (6, 42))
+        self.add_line('sym-e17', (6, 42), (17, 42))
+        self.add_line('sym-e18', (31, 42), (42, 42))
+        self.add_line('sym-e23', (42, 42), (42, 32))
+        self.add_contour('sym-c0', 'sym-e0', 'sym-e5', closed=False)
+        self.add_contour('sym-c1', 'sym-e6', 'sym-e11', closed=False)
+        self.add_contour('sym-c2', 'sym-e12', 'sym-e17', closed=False)
+        self.add_contour('sym-c3', 'sym-e18', 'sym-e23', closed=False)

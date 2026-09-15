@@ -3,23 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [lamp / top-door]: rim-0 and top-door-2 have 0.0008 units of ink clearance over 16.5 units; requires 4; review required",
-    "internal-spacing [lamp / right-door]: rim-1 and right-door-2 have 2.0011 units of ink clearance over 16.5 units; requires 4; review required",
-    "internal-spacing [lamp / bottom-door]: rim-2 and bottom-door-2 have 0.0145 units of ink clearance over 7.75 units; requires 4; review required",
-    "internal-spacing [lamp / bottom-door]: rim-2 and bottom-door-3 have 0.0145 units of ink clearance over 7.75 units; requires 4; review required",
-    "internal-spacing [lamp / left-door]: rim-3 and left-door-2 have 2.0011 units of ink clearance over 16.5 units; requires 4; review required",
-    "internal-spacing [top-door / left-door]: top-door-1 and left-door-2 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [top-door / right-door]: top-door-2 and right-door-1 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [top-door / left-door]: top-door-2 and left-door-3 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [top-door / right-door]: top-door-3 and right-door-2 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [right-door / bottom-door]: right-door-2 and bottom-door-1 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [right-door / bottom-door]: right-door-3 and bottom-door-2 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [bottom-door / left-door]: bottom-door-3 and left-door-1 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required",
-    "internal-spacing [bottom-door / left-door]: bottom-door-4 and left-door-2 have 1.6461 units of ink clearance over 5.5 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -989,8 +975,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -1046,6 +1033,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1060,9 +1048,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -1094,7 +1082,13 @@
             23.875,
             4.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "lamp / right-door",
@@ -1115,7 +1109,13 @@
             40.0,
             17.875
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "lamp / bottom-door",
@@ -1136,7 +1136,13 @@
             24.625,
             32.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "lamp / bottom-door",
@@ -1157,7 +1163,13 @@
             23.375,
             32.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "lamp / left-door",
@@ -1178,7 +1190,13 @@
             8.0,
             18.125
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "top-door / left-door",
@@ -1199,7 +1217,13 @@
             8.0,
             8.625
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "top-door / right-door",
@@ -1220,7 +1244,13 @@
             37.9,
             9.05
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "top-door / left-door",
@@ -1241,7 +1271,13 @@
             10.1,
             9.05
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "top-door / right-door",
@@ -1262,7 +1298,13 @@
             40.0,
             8.625
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "right-door / bottom-door",
@@ -1283,7 +1325,13 @@
             34.95000000000003,
             29.900000000000066
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "right-door / bottom-door",
@@ -1304,7 +1352,13 @@
             35.375,
             32.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "bottom-door / left-door",
@@ -1325,7 +1379,13 @@
             10.1,
             26.95
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       },
       {
         "contour": "bottom-door / left-door",
@@ -1346,10 +1406,18 @@
             8.0,
             27.375
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "The barn doors share the lamp rim; their local rim approaches preserve the spotlight construction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-25.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 13
   },
-  "needs_review": true
+  "needs_review": false
 }

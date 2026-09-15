@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/navigation next_c508d
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class NavigationNext(Solo48):
     icon_id = 'navigation-next'
@@ -19,22 +19,21 @@ class NavigationNext(Solo48):
     keywords = ('navigation', 'next', 'interface-essential')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (37, 8), (42, 14))
         self.add_line('e1', (42, 14), (44, 16))
         self.add_line('e2', (26, 16), (44, 16))
         self.add_line('e3', (37, 25), (44, 16))
-        self.add_line('e4', (25, 8), (5, 8))
-        self.add_line('e5', (4, 10), (4, 38))
-        self.add_line('e6', (6, 40), (25, 40))
-        self.add_line('e7', (28, 38), (28, 26))
-        self.add_arc('e8', (18, 31), (26, 16), radius_x=11)
-        self.add_arc('e9', (5, 8), (4, 10), radius_x=3, sweep=False)
-        self.add_arc('e10', (4, 38), (6, 40), radius_x=2, sweep=False)
-        self.add_line('e11', (25, 40), (28, 38))
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('c1', 'e8', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4', 'e9', 'e5', 'e10', 'e6', 'e11', 'e7')
+        self.add_line('e4', (25, 8), (4, 8))
+        self.add_line('e5', (4, 8), (4, 40))
+        self.add_line('e6', (4, 40), (28, 40))
+        self.add_line('e7', (28, 40), (28, 26))
+        self.add_arc('e8', (18, 31), (26, 16), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', 'e1', closed=False)
+        self.add_contour('c1', 'e8', 'e2', closed=False)
+        self.add_contour('c2', 'e3', closed=False)
+        self.add_contour('c3', 'e4', 'e5', 'e6', 'e7', closed=False)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

@@ -1,0 +1,32 @@
+"""Left curve (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '62e93f7b-2502-4010-ba27-890bc85e4bce'
+SOURCE_PATH = 'pictographic-primitives/transportation/left curve_62e93f7b-2502-4010-ba27-890bc85e4bce.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
+class LeftCurve(Solo48):
+    icon_id = 'left-curve'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'transportation'
+    aliases = ()
+    keywords = ('left', 'curve', 'transportation')
+
+    def build(self):
+        self.add_line('e0', (19, 4), (8, 11))
+        self.add_line('e1', (19, 19), (8, 11))
+        self.add_line('e2', (40, 44), (40, 19))
+        self.add_line('e3', (29, 11), (8, 11))
+        self.add_arc('e4', (40, 19), (29, 11), radius_x=11, sweep=False)
+        self.add_contour('c0', 'e0')
+        self.add_contour('c1', 'e1')
+        self.add_contour('c2', 'e2', 'e4', 'e3')
+        self.relate('connect', 'c0', 'c1')
+        self.relate('connect', 'c0', 'c2')
+        self.relate('connect', 'c1', 'c2')

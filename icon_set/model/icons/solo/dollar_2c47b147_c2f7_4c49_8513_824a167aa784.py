@@ -1,4 +1,4 @@
-"""Dollar (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""dollar: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/dollar_2c47b147-c2f7-4c49-8513-824
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Dollar(Solo48):
     icon_id = 'dollar'
@@ -19,11 +19,22 @@ class Dollar(Solo48):
     keywords = ('dollar', 'symbol')
 
     def build(self):
-        self.add_line('e0', (29, 25), (21, 24))
-        self.add_line('e1', (24, 8), (24, 4))
-        self.add_line('e2', (24, 44), (24, 8))
-        self.add_bezier('e3', (8, 33), ((9.68, 36.927), (13.632, 39.327), (20.64, 40.182)), ((21.664, 40.3), (22.896, 40.564), (23.936, 40.555)), ((24.752, 40.555), (25.664, 40.391), (26.48, 40.309)), ((27.984, 40.155), (29.744, 40.045), (31.152, 39.673)), ((35.824, 38.427), (40, 35.409), (40, 32.364)), ((40, 32.363), (40, 32.362), (40, 32.361)), ((40, 32.298), (40, 32.244), (40, 32.182)), ((40, 32.045), (39.984, 31.909), (39.984, 31.773)), ((39.984, 28.255), (34.792, 25.655), (29, 25)))
-        self.add_bezier('e4', (21, 24), ((14.84, 23.3), (8.016, 20.718), (8.016, 16.782)), ((8.016, 16.636), (8, 16.5), (8, 16.364)), ((8, 15.327), (8.8, 14.191), (9.568, 13.273)), ((12.816, 9.355), (17.2, 9.018), (24, 8)))
-        self.add_bezier('e5', (24, 8), ((26.336, 8.282), (29.104, 8.173), (31.168, 8.927)), ((35.424, 10.464), (37.216, 13.245), (38, 16)))
-        self.add_contour('c0', 'e3', 'e0', 'e4', 'e1')
-        self.add_contour('c1', 'e2', 'e5')
+        # Plan: VRECT_L; one tangent-continuous S, paired bowls, exact intersections at three shared stem nodes.
+        # Reference: Lucide dollar-sign: coherent bowl and stem geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        path('s',(38,14),[('C',(36,10),(30,8),(24,8)),('C',(15,8),(8,10),(8,16)),
+         ('C',(8,22),(16,23),(24,24)),('C',(32,25),(40,26),(40,32)),
+         ('C',(40,38),(33,40),(24,40)),('C',(18,40),(12,38),(10,34))])
+        self.add_polyline('stem',(24,4),(24,8),(24,24),(24,40),(24,44));self.relate('connect','stem','s')

@@ -21,6 +21,38 @@ and scenes. Reuse shared head radii and body parameters for equivalent figures
 at the same visual scale. Adapt pose and family geometry deliberately; do not
 scale a finished icon between families or copy fractional reference coordinates.
 
+## Stick-figure head alignment
+
+When translating a human reference into a stick figure, identify the body line
+before placing the head: locate the hip and shoulder/neck junctions, then extend
+the torso centerline from the hip through the shoulder toward the head. Place
+the head center on this extended axis, beyond the shoulder, so the head follows
+the torso's lean. For a bent or curved torso, use the upper torso's direction
+at the neck rather than a line through the entire body. Do not use an arm,
+raised hand, or the canvas vertical axis as the body axis.
+
+Keep the head close to its own shoulders using the exact detached-head gap
+below. For stick figures, establish that gap at the actual upper torso/neck
+junction; an arm passing closer to the head does not satisfy this placement
+requirement. Do not raise an arm to manufacture the required gap while leaving
+the head farther from the torso. Check clearance to the arms separately.
+Solve alignment and clearance together; do not slide the head sideways
+or farther away just to clear a raised arm or fit the keyshape. Rebalance the
+pose within the reference's action if necessary. Only depart from the torso
+axis when the reference clearly shows a deliberate neck bend or head offset;
+preserve that anatomical relationship, not an accidental floating head.
+
+For example, in `football-player-kicking-ball-sports`, a torso that extends
+upward to the right needs its head along that same continuation, not displaced
+to the left while the body leans the other way. A correct minimum gap alone
+does not establish correct head placement.
+
+Balance head size and torso curvature together with placement. A slightly
+larger circular head and a smooth upper torso can preserve the reference's
+action while making the head read as part of the figure. Choose proportions
+by native-size review; do not impose one head radius on every pose or increase
+the visible gap to accommodate an undersized head.
+
 ## Head-to-body gap
 
 For the avatar skill within `solo`, the current rule is **head ink touching body
@@ -50,11 +82,46 @@ Use geometry whose exact separation can be certified; if the checker cannot
 prove it, report the unresolved check instead of claiming a pass. Keep the
 profile, stroke, grid, and all other validation thresholds unchanged.
 
+### Approved placement example: approaching-ball player
+
+`football-player-approaching-ball` is the user-approved visual example for
+this repair. Inspect its [comparison preview](../../work/approaching-ball-head-alignment/approved-comparison.png)
+and [Python geometry](../../model/icons/solo/football_player_approaching_ball_419b465d_04b5_589e_924d_0688dd309d6c.py)
+when applying this construction to a similar action pose.
+
+The head center is `(29, 11)`, its centerline radius is `5`, and the actual
+torso junction is `(24, 23)`. The curved torso's tangent at that junction
+points toward the head. The junction is the nearest torso point to the head:
+
+```text
+head center to torso junction = sqrt(5² + 12²) = 13
+head outline to torso stroke centerline = 13 - 5 = 8
+visible ink gap = 8 - 2 - 2 = 4
+```
+
+The head's center point is not the head stroke's centerline. For a circular
+head of radius `r`, use `distance(head_center, torso_junction) = r + 8`
+only when that junction is the nearest body point; verify that no other torso
+or arm segment comes closer. For a curved torso, align with its tangent at
+the junction rather than forcing the head, shoulder, and hip onto one line.
+
+This example has visual approval and an exact geometric spacing calculation,
+but its diagonal head/body distance still produces an automated `review`
+warning. Record both facts separately. An approximate reading such as
+`8.00002` is not itself proof of exact clearance; retain the analytical
+calculation and nearest-point justification. Visual approval does not change
+the checker result or release requirements.
+
 ## Review
 
 Record the human reference paths and the shared head/body parameters in the
 module. Confirm the actual emitted head-to-body gap (not just a named constant),
 then compare the result with the selected reference at native size in both
-themes. Check head shape, relative head size, shoulder/limb construction, and
-the avatar contact (or detached 4-unit gap for other human subjects). A generic MIC pass only proves a minimum; it does not
-enforce this exact human spacing rule or visual consistency.
+themes. For stick figures, extend the upper torso axis visually through the
+shoulder and check that the head center follows it on the head side; record any
+reference-supported neck bend or offset. Check head shape, relative head size,
+shoulder/limb construction, and the avatar contact (or detached 4-unit gap at
+the actual torso junction for stick figures). A generic MIC pass only proves
+a minimum; it does not enforce this exact human spacing rule or visual
+consistency. Report visual approval, analytical spacing evidence, and automated
+validation status separately.

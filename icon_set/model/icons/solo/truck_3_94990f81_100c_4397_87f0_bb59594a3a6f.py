@@ -1,4 +1,4 @@
-"""Truck 3 (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""truck-3: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/transportation/truck 3_94990f81-100c-4397
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Truck3(Solo48):
     icon_id = 'truck-3'
@@ -19,23 +19,24 @@ class Truck3(Solo48):
     keywords = ('truck', 'transportation')
 
     def build(self):
-        self.add_line('e0', (9, 34), (4, 34))
-        self.add_line('e1', (4, 34), (4, 23))
-        self.add_line('e2', (9, 14), (19, 14))
-        self.add_line('e3', (18, 34), (30, 34))
-        self.add_line('e4', (39, 34), (44, 34))
-        self.add_line('e5', (44, 34), (44, 8))
-        self.add_line('e6', (44, 8), (19, 8))
-        self.add_line('e7', (19, 8), (19, 34))
-        self.add_arc('e8-top', (8, 34), (18, 34), radius_x=5, radius_y=6)
-        self.add_arc('e8-bottom', (18, 34), (8, 34), radius_x=5, radius_y=6)
-        self.add_arc('e9-top', (30, 34), (40, 34), radius_x=5, radius_y=6)
-        self.add_arc('e9-bottom', (40, 34), (30, 34), radius_x=5, radius_y=6)
-        self.add_arc('e10', (4, 23), (9, 14), radius_x=11)
-        self.add_contour('c0', 'e0', 'e1', 'e10', 'e2')
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4', 'e5', 'e6', 'e7')
-        self.add_contour('e9', 'e9-top', 'e9-bottom', closed=True)
-        self.add_contour('e8', 'e8-top', 'e8-bottom', closed=True)
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c2', 'c1')
+        # Plan: HRECT_L; equal round wheels with chassis rails stopping exactly at their extremes; a tangent cab corner and shared cargo seam.
+        # Reference: No exact inspected Lucide truck match; matched wheel definition and exact axle-height contacts.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        for name,cx in [('front',13),('back',35)]:oval(name,cx,35,5)
+        path('cab',(8,35),[('L',(7,35)),('A',(4,32),3,3,True),('L',(4,23)),('C',(4,18),(7,14),(12,14)),('L',(20,14))])
+        path('cargo',(20,21),[('L',(20,14)),('L',(20,8)),('L',(44,8)),('L',(44,32)),('A',(41,35),3,3,True),('L',(40,35))])
+        self.add_polyline('chassis',(18,35),(20,35),(30,35))
+        self.relate('connect','cab','cargo');self.relate('connect','cab','front');self.relate('connect','cargo','back')
+        self.relate('connect','chassis','front');self.relate('connect','chassis','back')

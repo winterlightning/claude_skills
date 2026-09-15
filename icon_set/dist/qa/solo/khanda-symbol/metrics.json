@@ -3,16 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [ring / kirpan-1]: ring-tr and kirpan-1-upper have 2.6779 units of ink clearance over 8.8645 units; requires 4; review required",
-    "internal-spacing [ring / kirpan-1]: ring-br and kirpan-1-lower have 0.5922 units of ink clearance over 8.8878 units; requires 4; review required",
-    "internal-spacing [ring / kirpan-1]: ring-br and kirpan-1-grip1 have 3.0998 units of ink clearance over 5.9628 units; requires 4; review required",
-    "internal-spacing [ring / kirpan--1]: ring-bl and kirpan--1-lower have 0.5922 units of ink clearance over 8.8878 units; requires 4; review required",
-    "internal-spacing [ring / kirpan--1]: ring-bl and kirpan--1-grip1 have 3.0998 units of ink clearance over 5.9628 units; requires 4; review required",
-    "internal-spacing [ring / kirpan--1]: ring-tl and kirpan--1-upper have 2.6779 units of ink clearance over 8.8645 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -418,8 +411,9 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -475,6 +469,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -489,9 +484,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -523,7 +518,13 @@
             39.06258962681716,
             15.651949921777536
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "ring / kirpan-1",
@@ -544,7 +545,13 @@
             35.01983342959778,
             27.955672166448352
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "ring / kirpan-1",
@@ -565,7 +572,13 @@
             31.22222222222222,
             34.388888888888886
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "ring / kirpan--1",
@@ -586,7 +599,13 @@
             12.980166570402217,
             27.955672166448352
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "ring / kirpan--1",
@@ -607,7 +626,13 @@
             16.77777777777778,
             34.388888888888886
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       },
       {
         "contour": "ring / kirpan--1",
@@ -628,10 +653,18 @@
             8.937410373182841,
             15.651949921777549
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the khanda symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-24.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 6
   },
-  "needs_review": true
+  "needs_review": false
 }

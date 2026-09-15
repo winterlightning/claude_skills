@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/navigation direction 
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class NavigationDirectionRightForward(Solo48):
     icon_id = 'navigation-direction-right-forward'
@@ -19,17 +19,18 @@ class NavigationDirectionRightForward(Solo48):
     keywords = ('navigation', 'direction', 'right', 'forward', 'interface-essential')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (28, 8), (28, 17))
         self.add_line('e1', (28, 17), (20, 17))
         self.add_line('e2', (17, 31), (28, 31))
         self.add_line('e3', (28, 31), (28, 40))
-        self.add_line('e4', (28, 40), (43, 25))
+        self.add_line('e4', (28, 40), (44, 24))
         self.add_line('e5', (44, 24), (28, 8))
         self.add_line('e6', (4, 40), (4, 39))
-        self.add_arc('e7-1', (20, 17), (4, 33), radius_x=16, sweep=False)
+        self.add_arc('e7-1', (20, 17), (4, 33), radius_x=16, radius_y=16, large_arc=False, sweep=False)
         self.add_line('e7-2', (4, 33), (4, 39))
-        self.add_arc('e7-3', (4, 39), (17, 31), radius_x=16)
-        self.add_arc('e8', (43, 25), (44, 24), radius_x=32)
-        self.add_contour('c0', 'e6')
-        self.add_contour('c1', 'e0', 'e1', 'e7-1', 'e7-2', 'e7-3', 'e2', 'e3', 'e4', 'e8', 'e5', closed=True)
+        self.add_arc('e7-3', (4, 39), (17, 31), radius_x=16, radius_y=16, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e6', closed=False)
+        self.add_contour('c1', 'e0', 'e1', 'e7-1', 'e7-2', 'e7-3', 'e2', 'e3', 'e4', 'e5', closed=True)
         self.relate('connect', 'c0', 'c1')

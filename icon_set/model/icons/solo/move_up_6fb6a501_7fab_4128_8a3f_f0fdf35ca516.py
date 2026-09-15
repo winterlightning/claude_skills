@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/move up_6fb6a501-7fab
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class MoveUp(Solo48):
     icon_id = 'move-up'
@@ -19,21 +19,19 @@ class MoveUp(Solo48):
     keywords = ('move', 'up', 'interface-essential')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (18, 10), (24, 4))
         self.add_line('e1', (24, 24), (24, 4))
         self.add_line('e2', (30, 10), (24, 4))
-        self.add_line('e3', (8, 34), (8, 42))
-        self.add_line('e4', (10, 44), (38, 44))
-        self.add_line('e5', (40, 42), (40, 34))
-        self.add_line('e6', (39, 32), (9, 32))
-        self.add_arc('e7', (8, 42), (10, 44), radius_x=2, sweep=False)
-        self.add_arc('e8', (38, 44), (40, 42), radius_x=2, sweep=False)
-        self.add_line('e9', (40, 34), (39, 32))
-        self.add_line('e10', (9, 32), (8, 34))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3', 'e7', 'e4', 'e8', 'e5', 'e9', 'e6', 'e10', closed=True)
+        self.add_line('e3', (8, 32), (8, 44))
+        self.add_line('e4', (8, 44), (40, 44))
+        self.add_line('e5', (40, 44), (40, 32))
+        self.add_line('e6', (40, 32), (8, 32))
+        self.add_contour('c0', 'e0', closed=False)
+        self.add_contour('c1', 'e1', closed=False)
+        self.add_contour('c2', 'e2', closed=False)
+        self.add_contour('c3', 'e3', 'e4', 'e5', 'e6', closed=True)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

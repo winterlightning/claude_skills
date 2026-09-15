@@ -1,0 +1,32 @@
+"""Smile (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '867b755e-d579-49ac-9614-01fa36936a14'
+SOURCE_PATH = 'pictographic-primitives/smileys/smile_867b755e-d579-49ac-9614-01fa36936a14.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
+class Smile867b755e(Solo48):
+    icon_id = 'smile-867b755e'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'smileys'
+    aliases = ()
+    keywords = ('smile', 'smileys')
+
+    def build(self):
+        self.add_line('e0', (14, 20), (15, 19))
+        self.add_arc('e1-top', (4, 24), (44, 24), radius_x=20)
+        self.add_arc('e1-bottom', (44, 24), (4, 24), radius_x=20)
+        self.add_arc('e2-1', (15, 19), (18, 17), radius_x=3)
+        self.add_arc('e2-2', (18, 17), (20, 20), radius_x=3)
+        self.add_arc('e3', (28, 19), (34, 19), radius_x=3)
+        self.add_arc('e4', (14, 29), (34, 29), radius_x=12, sweep=False)
+        self.add_contour('c0', 'e0', 'e2-1', 'e2-2')
+        self.add_contour('c1', 'e3')
+        self.add_contour('c2', 'e4')
+        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)

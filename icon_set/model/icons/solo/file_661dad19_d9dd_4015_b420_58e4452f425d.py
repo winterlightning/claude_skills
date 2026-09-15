@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/files/file_661dad19-d9dd-4015-b420-58e445
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class FileFiles(Solo48):
     icon_id = 'file-files'
@@ -19,13 +19,12 @@ class FileFiles(Solo48):
     keywords = ('file', 'files')
 
     def build(self):
-        self.add_line('e0', (10, 4), (32, 4))
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (8, 4), (32, 4))
         self.add_line('e1', (32, 4), (39, 12))
-        self.add_line('e2', (40, 13), (40, 42))
-        self.add_line('e3', (38, 44), (10, 44))
-        self.add_line('e4', (8, 42), (8, 5))
+        self.add_line('e2', (40, 13), (40, 44))
+        self.add_line('e3', (40, 44), (8, 44))
+        self.add_line('e4', (8, 44), (8, 4))
         self.add_line('e5', (39, 12), (40, 13))
-        self.add_arc('e6', (40, 42), (38, 44), radius_x=2)
-        self.add_arc('e7', (10, 44), (8, 42), radius_x=2)
-        self.add_line('e8', (8, 5), (10, 4))
-        self.add_contour('c0', 'e0', 'e1', 'e5', 'e2', 'e6', 'e3', 'e7', 'e4', 'e8', closed=True)
+        self.add_contour('c0', 'e0', 'e1', 'e5', 'e2', 'e3', 'e4', closed=True)

@@ -1,4 +1,4 @@
-"""Angry face (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""angry-face-symbol: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/angry face_f4917663-09f9-4afa-aaa6
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class AngryFaceSymbol(Solo48):
     icon_id = 'angry-face-symbol'
@@ -19,30 +19,22 @@ class AngryFaceSymbol(Solo48):
     keywords = ('angry', 'face', 'symbol')
 
     def build(self):
-        self.add_line('sym-e0', (30, 13), (42, 6))
-        self.add_line('sym-e1', (36, 20), (39, 18))
-        self.add_line('sym-e2', (39, 18), (36, 20))
-        self.add_line('sym-e3', (39, 18), (39, 18))
-        self.add_arc('sym-e4', (24, 26), (37, 33), radius_x=16)
-        self.add_line('sym-e5', (37, 33), (40, 42))
-        self.add_line('sym-e6', (18, 13), (6, 6))
-        self.add_line('sym-e7', (12, 20), (9, 18))
-        self.add_line('sym-e8', (9, 18), (12, 20))
-        self.add_line('sym-e9', (9, 18), (9, 18))
-        self.add_arc('sym-e10', (24, 26), (11, 33), radius_x=16, sweep=False)
-        self.add_line('sym-e11', (11, 33), (8, 42))
-        self.add_contour('sym-c0', 'sym-e0')
-        self.add_contour('sym-c1', 'sym-e1', 'sym-e2', closed=True)
-        self.add_contour('sym-c2', 'sym-e3', closed=True)
-        self.add_contour('sym-c3', 'sym-e4', 'sym-e5')
-        self.add_contour('sym-c4', 'sym-e6')
-        self.add_contour('sym-c5', 'sym-e7', 'sym-e8', closed=True)
-        self.add_contour('sym-c6', 'sym-e9', closed=True)
-        self.add_contour('sym-c7', 'sym-e10', 'sym-e11')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7')
-        self.relate('connect', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c2')
+        # Plan: SQUARE; each eye is drawn once; mirrored brows and a smooth continuous frown replace retraced eyes and kinked mouth joins.
+        # Reference: Shared human_ref/user.svg: simple clean facial vocabulary; this icon has no head/body pair.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # Detached expression only: no head/body proportions to alter.
+        self.add_line('brow-left',(6,6),(18,13));self.add_line('brow-right',(42,6),(30,13))
+        self.add_line('eye-left',(9,18),(12,20));self.add_line('eye-right',(39,18),(36,20))
+        path('frown',(8,42),[('C',(11,33),(12,26),(24,26)),('C',(36,26),(37,33),(40,42))])

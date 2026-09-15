@@ -1,4 +1,4 @@
-"""Smile (smileys), converted from the icons-json construction graph by json_to_solo --mode bezier. CIRCLE keyshape; curves kept as cubic beziers."""
+"""smile-smileys: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/smileys/smile_30210e0a-3bb8-5382-9fce-a73
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SmileSmileys(Solo48):
     icon_id = 'smile-smileys'
@@ -19,17 +19,22 @@ class SmileSmileys(Solo48):
     keywords = ('smile', 'smileys')
 
     def build(self):
-        self.add_arc('sym-e0', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('sym-e1', (44, 24), (4, 24), radius_x=20)
-        self.add_bezier('sym-e2', (14, 20), ((14.082, 19.491), (13.773, 19.473), (14, 19)))
-        self.add_bezier('sym-e3', (14, 19), ((14.927, 17.118), (17.845, 17.164), (19, 19)))
-        self.add_bezier('sym-e4', (19, 19), ((19.364, 19.582), (18.918, 19.345), (19, 20)))
-        self.add_bezier('sym-e5', (13, 28), ((15.386, 32.318), (19.447, 34.951), (24, 35)))
-        self.add_bezier('sym-e6', (24, 35), ((28.553, 34.951), (32.614, 32.318), (35, 28)))
-        self.add_bezier('sym-e7', (34, 20), ((33.918, 19.491), (34.227, 19.473), (34, 19)))
-        self.add_bezier('sym-e8', (34, 19), ((33.073, 17.118), (30.155, 17.164), (29, 19)))
-        self.add_bezier('sym-e9', (29, 19), ((28.636, 19.582), (29.082, 19.345), (29, 20)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c2', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9')
+        # Plan: CIRCLE; identical smooth closed-eye arches and one symmetric smile; remove tiny loops, retraced cubics and asymmetric eye ends.
+        # Reference: Shared human_ref/user.svg: circular head vocabulary; supplied expression has no body.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        oval('face',24,24,20)
+        for name,cx in [('left',16),('right',32)]:
+         path(name+'-eye',(cx-3,20),[('A',(cx+3,20),3,3,True)])
+        path('smile',(14,29),[('C',(16,33),(20,35),(24,35)),('C',(28,35),(32,33),(34,29))])

@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/sports/soccer ball_3551c0d1-57e5-4543-b76
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class SoccerBall(Solo48):
     icon_id = 'soccer-ball'
@@ -19,29 +19,33 @@ class SoccerBall(Solo48):
     keywords = ('soccer', 'ball', 'sports')
 
     def build(self):
+        # Plan: exact integer circle attachments; split the receiving arcs at the real nodes.
+        # Reference: circle geometry and the supplied subject.
         self.add_line('e0', (24, 4), (24, 14))
         self.add_line('e1', (19, 32), (29, 32))
         self.add_line('e2', (19, 32), (15, 21))
-        self.add_line('e3', (19, 32), (13, 40))
-        self.add_line('e4', (29, 32), (35, 40))
+        self.add_line('e3', (19, 32), (12, 40))
+        self.add_line('e4', (29, 32), (36, 40))
         self.add_line('e5', (29, 32), (33, 21))
         self.add_line('e6', (43, 19), (33, 21))
         self.add_line('e7', (33, 21), (24, 14))
         self.add_line('e8', (5, 19), (15, 21))
         self.add_line('e9', (15, 21), (24, 14))
-        self.add_arc('e10-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e10-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('c6', 'e6')
-        self.add_contour('c7', 'e7')
-        self.add_contour('c8', 'e8')
-        self.add_contour('c9', 'e9')
-        self.add_contour('e10', 'e10-top', 'e10-bottom', closed=True)
+        self.add_arc('e10-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('e10-bottom-node-0', (44, 24), (36, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('e10-bottom-node-1', (36, 40), (12, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_arc('e10-bottom-node-2', (12, 40), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', closed=False)
+        self.add_contour('c1', 'e1', closed=False)
+        self.add_contour('c2', 'e2', closed=False)
+        self.add_contour('c3', 'e3', closed=False)
+        self.add_contour('c4', 'e4', closed=False)
+        self.add_contour('c5', 'e5', closed=False)
+        self.add_contour('c6', 'e6', closed=False)
+        self.add_contour('c7', 'e7', closed=False)
+        self.add_contour('c8', 'e8', closed=False)
+        self.add_contour('c9', 'e9', closed=False)
+        self.add_contour('e10', 'e10-top', 'e10-bottom-node-0', 'e10-bottom-node-1', 'e10-bottom-node-2', closed=True)
         self.relate('connect', 'c0', 'c7')
         self.relate('connect', 'c0', 'c9')
         self.relate('connect', 'c7', 'c9')

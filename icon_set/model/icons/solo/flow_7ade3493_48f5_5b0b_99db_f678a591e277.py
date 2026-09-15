@@ -1,4 +1,4 @@
-"""Flow (diagrams), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""flow: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/diagrams/flow_7ade3493-48f5-5b0b-99db-f67
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Flow(Solo48):
     icon_id = 'flow'
@@ -19,30 +19,25 @@ class Flow(Solo48):
     keywords = ('flow', 'diagrams')
 
     def build(self):
-        self.add_line('e0', (14, 12), (22, 12))
-        self.add_line('e1', (22, 35), (9, 35))
-        self.add_line('e2', (9, 35), (13, 40))
-        self.add_line('e3', (13, 30), (9, 35))
-        self.add_arc('e4-top', (22, 35), (32, 35), radius_x=5, radius_y=4)
-        self.add_arc('e4-bottom', (32, 35), (22, 35), radius_x=5, radius_y=4)
-        self.add_arc('e5-top', (22, 12), (32, 12), radius_x=5, radius_y=4)
-        self.add_arc('e5-bottom', (32, 12), (22, 12), radius_x=5, radius_y=4)
-        self.add_arc('e6-top', (4, 12), (14, 12), radius_x=5, radius_y=4)
-        self.add_arc('e6-bottom', (14, 12), (4, 12), radius_x=5, radius_y=4)
-        self.add_line('e7', (13, 11), (14, 12))
-        self.add_arc('e8-1', (31, 12), (40, 15), radius_x=13)
-        self.add_arc('e8-2', (40, 15), (43, 19), radius_x=10)
-        self.add_line('e8-3', (43, 19), (44, 24))
-        self.add_arc('e8-4', (44, 24), (31, 35), radius_x=12)
-        self.add_contour('c0', 'e7', 'e0')
-        self.add_contour('c1', 'e8-1', 'e8-2', 'e8-3', 'e8-4')
-        self.add_contour('c2', 'e1', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('e6', 'e6-top', 'e6-bottom', closed=True)
-        self.add_contour('e4', 'e4-top', 'e4-bottom', closed=True)
-        self.add_contour('e5', 'e5-top', 'e5-bottom', closed=True)
-        self.relate('connect', 'c0', 'e6')
-        self.relate('connect', 'c0', 'e5')
-        self.relate('connect', 'c1', 'e5')
-        self.relate('connect', 'c1', 'e4')
-        self.relate('connect', 'c2', 'e4')
+        # Plan: HRECT_L; three equal circular nodes, tangent return bend and exact boundary contacts; stray tip and inward hooks removed.
+        # Reference: Lucide git-compare-arrows: clean circular nodes and coherent connector runs.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # Three equal nodes and a smooth return path with exact circle contacts.
+        for name,cx,cy in [('start',9,13),('top',27,13),('bottom',27,35)]:oval(name,cx,cy,5)
+        self.add_line('forward',(14,13),(22,13));self.relate('connect','forward','start');self.relate('connect','forward','top')
+        path('return',(32,13),[('C',(39,13),(44,17),(44,24)),('C',(44,31),(39,35),(32,35))])
+        self.relate('connect','return','top');self.relate('connect','return','bottom')
+        self.add_line('back',(22,35),(8,35));self.add_polyline('arrowhead',(13,30),(8,35),(13,40))
+        self.relate('connect','back','bottom');self.relate('connect','back','arrowhead')

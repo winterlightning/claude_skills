@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/transportation/hill_05b90623-0dc3-40f3-b8
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Hill(Solo48):
     icon_id = 'hill'
@@ -19,11 +19,12 @@ class Hill(Solo48):
     keywords = ('hill', 'transportation')
 
     def build(self):
-        self.add_line('e0', (4, 39), (4, 9))
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (4, 40), (4, 9))
         self.add_line('e1', (6, 8), (43, 38))
-        self.add_line('e2', (43, 40), (5, 40))
+        self.add_line('e2', (43, 40), (4, 40))
         self.add_line('e3', (4, 9), (6, 8))
-        self.add_arc('e4-1', (43, 38), (44, 39), radius_x=1)
-        self.add_arc('e4-2', (44, 39), (43, 40), radius_x=1)
-        self.add_arc('e5', (5, 40), (4, 39), radius_x=1)
-        self.add_contour('c0', 'e0', 'e3', 'e1', 'e4-1', 'e4-2', 'e2', 'e5', closed=True)
+        self.add_arc('e4-1', (43, 38), (44, 39), radius_x=1, radius_y=1, large_arc=False, sweep=True)
+        self.add_arc('e4-2', (44, 39), (43, 40), radius_x=1, radius_y=1, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', 'e3', 'e1', 'e4-1', 'e4-2', 'e2', closed=True)

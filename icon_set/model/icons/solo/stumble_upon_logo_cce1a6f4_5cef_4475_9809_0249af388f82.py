@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/logos/stumble upon logo_cce1a6f4-5cef-447
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class StumbleUponLogo(Solo48):
     icon_id = 'stumble-upon-logo'
@@ -19,16 +19,17 @@ class StumbleUponLogo(Solo48):
     keywords = ('stumble', 'upon', 'logo', 'logos')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (4, 40), (19, 40))
-        self.add_line('e1', (16, 21), (28, 21))
-        self.add_line('e2', (31, 24), (31, 35))
+        self.add_line('e1', (16, 21), (31, 21))
+        self.add_line('e2', (31, 21), (31, 35))
         self.add_line('e3', (44, 35), (44, 8))
-        self.add_arc('e4-1', (19, 40), (23, 35), radius_x=5, sweep=False)
-        self.add_arc('e4-2', (23, 35), (21, 31), radius_x=5, sweep=False)
+        self.add_arc('e4-1', (19, 40), (23, 35), radius_x=5, radius_y=5, large_arc=False, sweep=False)
+        self.add_arc('e4-2', (23, 35), (21, 31), radius_x=5, radius_y=5, large_arc=False, sweep=False)
         self.add_line('e4-3', (21, 31), (13, 29))
-        self.add_arc('e4-4', (13, 29), (12, 23), radius_x=5)
-        self.add_arc('e4-5', (12, 23), (16, 21), radius_x=5)
-        self.add_arc('e5', (28, 21), (31, 24), radius_x=4)
-        self.add_arc('e6-1', (31, 35), (37, 40), radius_x=7, sweep=False)
-        self.add_arc('e6-2', (37, 40), (44, 35), radius_x=8, sweep=False)
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5', 'e1', 'e5', 'e2', 'e6-1', 'e6-2', 'e3')
+        self.add_arc('e4-4', (13, 29), (12, 23), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('e4-5', (12, 23), (16, 21), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('e6-1', (31, 35), (37, 40), radius_x=7, radius_y=7, large_arc=False, sweep=False)
+        self.add_arc('e6-2', (37, 40), (44, 35), radius_x=8, radius_y=8, large_arc=False, sweep=False)
+        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5', 'e1', 'e2', 'e6-1', 'e6-2', 'e3', closed=False)

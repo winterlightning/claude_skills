@@ -634,7 +634,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             known = {row['uuid'] for row in self.primitives_catalog()['rows']}
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                 result = set_status(connection, data.get('uuids'), data.get('status'), data.get('reason'),
-                                    data.get('note', ''), user=user, record=record_activity, known=known)
+                                    data.get('note', ''), user=user, record=record_activity, known=known,
+                                    **{key: data[key] for key in ('combination_brief', 'main_brief', 'sub_brief', 'sub_position') if key in data})
                 statuses = load_status(connection)
             result['decisions'] = {uid.strip().lower(): statuses.get(uid.strip().lower()) for uid in data['uuids']}
             return self.json_response(result)

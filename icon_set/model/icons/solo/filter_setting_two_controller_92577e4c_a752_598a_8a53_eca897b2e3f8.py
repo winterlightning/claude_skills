@@ -1,4 +1,4 @@
-"""Filter setting two controller (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""filter-setting-two-controller: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/interface-essential/filter setting two co
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class FilterSettingTwoController(Solo48):
     icon_id = 'filter-setting-two-controller'
@@ -19,21 +19,22 @@ class FilterSettingTwoController(Solo48):
     keywords = ('filter', 'setting', 'two', 'controller', 'interface-essential')
 
     def build(self):
-        self.add_line('e0', (21, 13), (44, 13))
-        self.add_line('e1', (12, 13), (4, 13))
-        self.add_line('e2', (37, 35), (44, 35))
-        self.add_line('e3', (28, 35), (4, 35))
-        self.add_arc('e4-top', (27, 35), (37, 35), radius_x=5)
-        self.add_arc('e4-bottom', (37, 35), (27, 35), radius_x=5)
-        self.add_arc('e5-top', (12, 13), (22, 13), radius_x=5)
-        self.add_arc('e5-bottom', (22, 13), (12, 13), radius_x=5)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('e4', 'e4-top', 'e4-bottom', closed=True)
-        self.add_contour('e5', 'e5-top', 'e5-bottom', closed=True)
-        self.relate('connect', 'c0', 'e5')
-        self.relate('connect', 'c1', 'e5')
-        self.relate('connect', 'c2', 'e4')
-        self.relate('connect', 'c3', 'e4')
+        # Plan: Shared circular knobs with exact rail endpoints; no intrusions or misaligned one-unit caps.
+        # Reference: Lucide sliders-horizontal: one owning definition for each rail and knob.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        for i,(cx,cy) in enumerate([(17, 13), (32, 35)]):
+         oval(f'knob-{i}',cx,cy,5)
+         self.add_line(f'left-{i}',(4,cy),(cx-5,cy));self.add_line(f'right-{i}',(cx+5,cy),(44,cy))
+         self.relate('connect',f'left-{i}',f'knob-{i}');self.relate('connect',f'right-{i}',f'knob-{i}')

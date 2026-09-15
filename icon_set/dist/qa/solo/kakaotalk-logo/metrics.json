@@ -13,7 +13,7 @@
     "mic [a]: a and l are 4 apart on centerlines nearest (27, 28)<->(31, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
     "mic [a-bar]: a-bar and l are 6 apart on centerlines nearest (25, 24)<->(31, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
     "mic [l]: l and k-stem are 4 apart on centerlines nearest (35, 28)<->(39, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
-    "holes/pinches: 2 undersized holes; 0 pinches"
+    "holes/pinches: 2 undersized holes; 1 pinches"
   ],
   "warnings": [
     "mic [bubble]: bubble and a are 8 apart on centerlines nearest (19, 36)<->(19, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
@@ -1846,7 +1846,7 @@
     "raster_artifact_count": 0,
     "hole_count": 3,
     "failed_hole_count": 2,
-    "pinch_count": 0,
+    "pinch_count": 1,
     "holes": [
       {
         "hole": 1,
@@ -1945,13 +1945,33 @@
         "equivalent_diameter_at_authored_stroke_design_u": -0.7654
       }
     ],
-    "pinches": [],
+    "pinches": [
+      {
+        "pinch": 1,
+        "center_viewbox": [
+          22.9844,
+          22.3906
+        ],
+        "bbox_viewbox": [
+          22.0938,
+          20.7188,
+          1.8125,
+          2.2812
+        ],
+        "trapped_area_design_u2": 2.1387,
+        "trapped_radius_design_u": 0.6179,
+        "closure_margin_design_u": 0.3984,
+        "minimum_fill_depth_design_u": 1.0,
+        "status": "fail"
+      }
+    ],
     "exception_count": 0,
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -2007,6 +2027,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -2021,7 +2042,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

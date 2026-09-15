@@ -1,4 +1,4 @@
-"""Happy (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""happy-smileys: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/smileys/happy_fe9912fd-c956-571c-b48d-048
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class HappySmileys(Solo48):
     icon_id = 'happy-smileys'
@@ -19,17 +19,22 @@ class HappySmileys(Solo48):
     keywords = ('happy', 'smileys')
 
     def build(self):
-        self.add_arc('sym-e0', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('sym-e1', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('sym-e2', (14, 20), (15, 19), radius_x=5)
-        self.add_arc('sym-e3', (15, 19), (19, 18), radius_x=3)
-        self.add_line('sym-e4', (19, 18), (19, 20))
-        self.add_arc('sym-e5', (14, 29), (24, 35), radius_x=10, sweep=False)
-        self.add_arc('sym-e6', (24, 35), (34, 29), radius_x=10, sweep=False)
-        self.add_arc('sym-e7', (34, 20), (33, 19), radius_x=5, sweep=False)
-        self.add_arc('sym-e8', (33, 19), (29, 18), radius_x=3, sweep=False)
-        self.add_line('sym-e9', (29, 18), (29, 20))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c2', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9')
+        # Plan: CIRCLE; identical smooth closed-eye arches and one symmetric smile; remove tiny loops, retraced cubics and asymmetric eye ends.
+        # Reference: Shared human_ref/user.svg: circular head vocabulary; supplied expression has no body.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        oval('face',24,24,20)
+        for name,cx in [('left',16),('right',32)]:
+         path(name+'-eye',(cx-3,20),[('A',(cx+3,20),3,3,True)])
+        path('smile',(14,29),[('C',(16,33),(20,35),(24,35)),('C',(28,35),(32,33),(34,29))])

@@ -129,7 +129,42 @@ def stage_failures(staged: Path, published: Path, folders: list[str], target: Pa
                                           encoding='utf-8')
 
 
-def stage_primitives(target: Path, records: list[dict], failed_records: list[dict]) -> None:
+def remap_categories(records: list[dict], catalog: dict) -> None:
+    """Use the primitives page's identity links, not generated category guesses.
+
+    Native containers and geometric primitives retain their own categories.
+    The small alias list covers authored icons with no original primitive ID.
+    Ambiguous source reuse is left alone instead of choosing an arbitrary row.
+    """
+    categories = {}
+    for row in catalog['rows']:
+        for icon_id in row.get('models', []):
+            categories.setdefault(icon_id, set()).add(row['category'])
+    aliases = {
+        'objects/clothing': 'clothes', 'objects/drink': 'drinks',
+        'nature/animals': 'animals', 'animals/mammals': 'animals',
+        'objects/sports': 'sports', 'people/sports': 'sports',
+        'objects/tool': 'tools', 'objects/organization': 'business',
+        'objects/communication': 'messages', 'objects/transport': 'transportation',
+        'objects/baby': 'babies', 'places/landmarks': 'landmarks',
+        'objects/nature': 'nature', 'people/users': 'users',
+        'people/occupations': 'avatars', 'objects/media': 'audio',
+    }
+    valid = set(catalog['categories'])
+    for record in records:
+        candidates = categories.get(record['icon_id'])
+        if candidates is None:
+            candidates = categories.get(record.get('variant_root'))
+        if candidates:
+            if len(candidates) == 1:
+                record['category'] = next(iter(candidates))
+        else:
+            category = aliases.get(record.get('category'))
+            if category in valid:
+                record['category'] = category
+
+
+def stage_primitives(target: Path, records: list[dict], failed_records: list[dict]) -> dict:
     """The Primitives tab: every original primitive and whether it has been remade."""
     from icon_set.scripts.primitives_catalog import write_catalog
     catalog = write_catalog(target / 'primitives.json',
@@ -137,6 +172,7 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
                             {record['icon_id']: record for record in failed_records})
     if catalog['warning']:
         print('Primitives page: ' + catalog['warning'])
+    return catalog
 
 
 def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
@@ -205,6 +241,8 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     from icon_set.scripts.failure_report import FOCUS_FAMILIES
     stage_failures(staged, published, folders, target,
                    passed=sum(record['family'] in FOCUS_FAMILIES for record in records))
+    catalog = stage_primitives(target, records, failed_records)
+    remap_categories(records + failed_records, catalog)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
@@ -212,6 +250,5 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     for asset in ("home.html", "login.html", "site.css", "site.js", "icons.html", "approved-icons.js", "reference-picker.js",
                   "primitives.html"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
-    stage_primitives(target, records, failed_records)
     stage_laboratory(target)
     return target

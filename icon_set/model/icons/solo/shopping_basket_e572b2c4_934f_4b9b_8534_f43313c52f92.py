@@ -1,4 +1,4 @@
-"""Shopping basket (shopping), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""shopping-basket-e572b2c4: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/shopping/shopping basket_e572b2c4-934f-4b
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class ShoppingBasketE572b2c4(Solo48):
     icon_id = 'shopping-basket-e572b2c4'
@@ -19,24 +19,22 @@ class ShoppingBasketE572b2c4(Solo48):
     keywords = ('shopping', 'basket')
 
     def build(self):
-        self.add_line('e0', (4, 18), (44, 18))
-        self.add_line('e1', (39, 18), (38, 35))
-        self.add_line('e2', (29, 40), (13, 40))
-        self.add_line('e3', (9, 35), (7, 18))
-        self.add_line('e4', (39, 18), (36, 11))
-        self.add_line('e5', (32, 8), (16, 8))
-        self.add_line('e6', (12, 11), (9, 18))
-        self.add_line('e7-1', (38, 35), (36, 39))
-        self.add_line('e7-2', (36, 39), (30, 40))
-        self.add_arc('e7-3', (30, 40), (29, 40), radius_x=31, sweep=False)
-        self.add_arc('e8', (13, 40), (9, 35), radius_x=5)
-        self.add_arc('e9', (36, 11), (32, 8), radius_x=5, sweep=False)
-        self.add_line('e10-1', (16, 8), (13, 9))
-        self.add_line('e10-2', (13, 9), (12, 11))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e7-1', 'e7-2', 'e7-3', 'e2', 'e8', 'e3')
-        self.add_contour('c2', 'e4', 'e9', 'e5', 'e10-1', 'e10-2', 'e6')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c2', 'c0')
+        # Plan: HRECT_L; mirrored basket sides, tangent bottom corners and a smooth shared handle; no mismatched fitted corner pieces.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        self.add_polyline('rim',(4,18),(8,18),(40,18),(44,18))
+        path('basket',(8,18),[('L',(10,35)),('C',(10+4/17,37),(12,40),(16,40)),('L',(32,40)),('C',(36,40),(38-4/17,37),(38,35)),('L',(40,18))])
+        path('handle',(8,18),[('C',(11,12),(12,8),(18,8)),('L',(30,8)),('C',(36,8),(37,12),(40,18))])
+        self.relate('connect','basket','rim');self.relate('connect','handle','rim');self.relate('connect','basket','handle')

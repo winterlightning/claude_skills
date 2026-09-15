@@ -18,8 +18,8 @@ function approvedIcons(catalog, reviews) {
     for(const icon of visible){
       const card=document.createElement('article');card.className='approved-card';
       const preview=document.createElement('div');preview.className='approved-preview';
-      const img=document.createElement('img');img.src=icon.preview_url;img.alt=icon.name;img.loading='lazy';img.width=64;img.height=64;preview.append(img);
-      const name=document.createElement('h2');name.textContent=icon.name;
+      const img=document.createElement('img');img.src=icon.preview_url;img.alt=icon.name;img.loading='lazy';img.width=32;img.height=32;preview.append(img);
+      const name=document.createElement('h2');name.textContent=icon.name;name.title=icon.name;
       const download=document.createElement('a');download.className='site-button approved-download';download.href=icon.preview_url;download.download=icon.icon_id+'.svg';download.title='Download SVG';download.setAttribute('aria-label','Download '+icon.name+' SVG');
       const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');for(const [key,value] of Object.entries({viewBox:'0 0 24 24',width:'20',height:'20',fill:'none',stroke:'currentColor','stroke-width':'1.8','stroke-linecap':'round','stroke-linejoin':'round','aria-hidden':'true'}))svg.setAttribute(key,value);
       const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d','M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5');svg.append(path);download.append(svg);

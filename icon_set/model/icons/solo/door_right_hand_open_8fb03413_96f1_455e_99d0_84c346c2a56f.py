@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/building/door right hand open_8fb03413-96
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class DoorRightHandOpen(Solo48):
     icon_id = 'door-right-hand-open'
@@ -19,21 +19,22 @@ class DoorRightHandOpen(Solo48):
     keywords = ('door', 'right', 'hand', 'open', 'building')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (6, 42), (10, 42))
-        self.add_line('e1', (10, 42), (10, 8))
-        self.add_line('e2', (12, 6), (36, 6))
+        self.add_line('e1', (10, 42), (10, 6))
+        self.add_line('e2', (10, 6), (36, 6))
         self.add_line('e3', (38, 8), (38, 42))
         self.add_line('e4', (42, 42), (38, 42))
         self.add_line('e5', (36, 6), (26, 13))
         self.add_line('e6', (26, 13), (26, 39))
         self.add_line('e7', (26, 39), (32, 41))
-        self.add_arc('e8', (10, 8), (12, 6), radius_x=2)
-        self.add_arc('e9', (36, 6), (38, 8), radius_x=3)
+        self.add_arc('e9', (36, 6), (38, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
         self.add_line('e10-1', (32, 41), (37, 42))
         self.add_line('e10-2', (37, 42), (38, 42))
-        self.add_contour('c0', 'e0', 'e1', 'e8', 'e2', 'e9', 'e3')
-        self.add_contour('c1', 'e4')
-        self.add_contour('c2', 'e5', 'e6', 'e7', 'e10-1', 'e10-2')
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e9', 'e3', closed=False)
+        self.add_contour('c1', 'e4', closed=False)
+        self.add_contour('c2', 'e5', 'e6', 'e7', 'e10-1', 'e10-2', closed=False)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

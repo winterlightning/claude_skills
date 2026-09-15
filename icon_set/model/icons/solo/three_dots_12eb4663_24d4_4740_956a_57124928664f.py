@@ -19,16 +19,13 @@ class ThreeDots(Solo48):
     keywords = ('three', 'dots', 'state')
 
     def build(self):
-        # Plan: VRECT_L; straight parallel walls, matching corners and centered repeated dots.
-        # Reference: Geometric rounded rectangle.
-        def box(name,l,t,r,b,corner):
-            points=[(l+corner,t),(r-corner,t),(r,t+corner),(r,b-corner),(r-corner,b),(l+corner,b),(l,b-corner),(l,t+corner)]
-            members=[]
-            for i,a in enumerate(points):
-                z=points[(i+1)%8];eid=f'{name}-{i}';members.append(eid)
-                if i%2:self.add_arc(eid,a,z,radius_x=corner)
-                else:self.add_line(eid,a,z)
-            self.add_contour(name,*members,closed=True)
-
-        box('frame',8,4,40,44,3)
-        for y in (13,24,35):self.add_dot('dot-'+str(y),(24,y))
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('frame-0', (8, 4), (40, 4))
+        self.add_line('frame-2', (40, 4), (40, 44))
+        self.add_line('frame-4', (40, 44), (8, 44))
+        self.add_line('frame-6', (8, 44), (8, 4))
+        self.add_line('dot-13', (24, 13), (24, 13))
+        self.add_line('dot-24', (24, 24), (24, 24))
+        self.add_line('dot-35', (24, 35), (24, 35))
+        self.add_contour('frame', 'frame-0', 'frame-2', 'frame-4', 'frame-6', closed=True)

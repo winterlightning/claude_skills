@@ -41,6 +41,14 @@ The distance engine can certify exact axis separation using rational enclosing
 bounds for unrotated cardinal quarter/half ellipses and Bézier control hulls.
 Unsupported curves retain the conservative check; no threshold is relaxed.
 
+For an exact diagonal human head/body gap, record the analytical distance and
+why the measured torso point is the nearest point, alongside the unmodified
+checker warning. See the [approved approaching-ball placement example](human-reference.md#approved-placement-example-approaching-ball-player).
+Distinguish a proven 4-unit ink gap and visual approval from an automated pass;
+the icon remains `review` until the checker can certify it. Do not enlarge the
+human gap, move an arm to substitute for the torso junction, or add a false
+connection to clear that warning.
+
 ## Small-circle hole exception
 
 Build-time hole QA accepts complete circles whose **centerline diameter** is

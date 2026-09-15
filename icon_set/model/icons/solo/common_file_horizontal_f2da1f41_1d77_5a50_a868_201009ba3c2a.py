@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/files/common file horizontal_f2da1f41-1d7
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class CommonFileHorizontal(Solo48):
     icon_id = 'common-file-horizontal'
@@ -19,14 +19,11 @@ class CommonFileHorizontal(Solo48):
     keywords = ('common', 'file', 'horizontal', 'files')
 
     def build(self):
-        self.add_line('e0', (4, 38), (4, 11))
-        self.add_line('e1', (6, 8), (35, 8))
-        self.add_line('e2', (44, 18), (44, 37))
-        self.add_line('e3', (42, 40), (7, 40))
-        self.add_arc('e4-1', (7, 40), (5, 40), radius_x=4, sweep=False)
-        self.add_arc('e4-2', (5, 40), (4, 38), radius_x=4)
-        self.add_line('e5-1', (4, 11), (5, 8))
-        self.add_arc('e5-2', (5, 8), (6, 8), radius_x=1, sweep=False)
-        self.add_arc('e6', (35, 8), (44, 18), radius_x=19)
-        self.add_arc('e7', (44, 37), (42, 40), radius_x=4)
-        self.add_contour('c0', 'e4-1', 'e4-2', 'e0', 'e5-1', 'e5-2', 'e1', 'e6', 'e2', 'e7', 'e3', closed=True)
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (4, 40), (4, 8))
+        self.add_line('e1', (4, 8), (35, 8))
+        self.add_line('e2', (44, 18), (44, 40))
+        self.add_line('e3', (44, 40), (4, 40))
+        self.add_arc('e6', (35, 8), (44, 18), radius_x=19, radius_y=19, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', 'e1', 'e6', 'e2', 'e3', closed=True)

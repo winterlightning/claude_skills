@@ -1,4 +1,4 @@
-"""Trash (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""trash-symbol: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/trash_65adbc02-2e53-460d-8ac2-44fa
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class TrashSymbol(Solo48):
     icon_id = 'trash-symbol'
@@ -19,37 +19,23 @@ class TrashSymbol(Solo48):
     keywords = ('trash', 'symbol')
 
     def build(self):
-        self.add_line('e0', (8, 13), (11, 13))
-        self.add_line('e1', (40, 13), (37, 13))
-        self.add_line('e2', (37, 13), (34, 44))
-        self.add_line('e3', (34, 44), (15, 44))
-        self.add_line('e4', (15, 44), (11, 13))
-        self.add_line('e5', (37, 13), (30, 13))
-        self.add_line('e6', (11, 13), (18, 13))
-        self.add_line('e7', (18, 13), (18, 8))
-        self.add_line('e8', (30, 11), (30, 13))
-        self.add_line('e9', (18, 13), (30, 13))
-        self.add_line('e10-1', (18, 8), (19, 5))
-        self.add_line('e10-2', (19, 5), (23, 4))
-        self.add_arc('e10-3', (23, 4), (26, 4), radius_x=22, sweep=False)
-        self.add_arc('e10-4', (26, 4), (29, 6), radius_x=4)
-        self.add_arc('e10-5', (29, 6), (30, 11), radius_x=12)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e3', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e6')
-        self.add_contour('c5', 'e7', 'e10-1', 'e10-2', 'e10-3', 'e10-4', 'e10-5', 'e8')
-        self.add_contour('c6', 'e9')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c5', 'c6')
+        # Plan: VRECT_L; equal bucket slopes and a tangent rounded handle attached exactly to a straight lid.
+        # Reference: Lucide trash-2: shared lid/handle nodes and matched corner radii.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # One mirrored bucket, one lid, one radius-four handle.
+        self.add_polyline('bucket',(12,14),(16,44),(32,44),(36,14))
+        self.add_polyline('lid',(8,14),(12,14),(18,14),(30,14),(36,14),(40,14))
+        path('handle',(18,14),[('L',(18,8)),('A',(22,4),4,4,True),('L',(26,4)),('A',(30,8),4,4,True),('L',(30,14))])
+        self.relate('connect','bucket','lid');self.relate('connect','handle','lid')

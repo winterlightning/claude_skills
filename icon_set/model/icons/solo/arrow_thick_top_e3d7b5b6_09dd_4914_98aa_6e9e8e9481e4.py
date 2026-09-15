@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/symbol/arrow thick top_e3d7b5b6-09dd-4914
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class ArrowThickTopSymbol(Solo48):
     icon_id = 'arrow-thick-top-symbol'
@@ -19,13 +19,14 @@ class ArrowThickTopSymbol(Solo48):
     keywords = ('arrow', 'thick', 'top', 'symbol')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (8, 24), (24, 4))
         self.add_line('e1', (24, 4), (38, 22))
         self.add_line('e2', (38, 22), (40, 24))
         self.add_line('e3', (40, 24), (32, 24))
-        self.add_line('e4', (32, 24), (32, 42))
-        self.add_line('e5', (31, 44), (16, 44))
+        self.add_line('e4', (32, 24), (32, 44))
+        self.add_line('e5', (32, 44), (16, 44))
         self.add_line('e6', (16, 44), (16, 24))
         self.add_line('e7', (16, 24), (8, 24))
-        self.add_arc('e8', (32, 42), (31, 44), radius_x=2)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e8', 'e5', 'e6', 'e7', closed=True)
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', closed=True)

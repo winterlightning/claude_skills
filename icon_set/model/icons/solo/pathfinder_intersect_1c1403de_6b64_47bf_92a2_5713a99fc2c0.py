@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/design/pathfinder intersect_1c1403de-6b64
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class PathfinderIntersect(Solo48):
     icon_id = 'pathfinder-intersect'
@@ -19,27 +19,20 @@ class PathfinderIntersect(Solo48):
     keywords = ('pathfinder', 'intersect', 'design')
 
     def build(self):
-        self.add_line('e0', (18, 31), (18, 19))
-        self.add_line('e1', (20, 17), (31, 17))
-        self.add_line('e2', (31, 17), (31, 29))
-        self.add_line('e3', (28, 31), (18, 31))
-        self.add_line('e4', (18, 31), (18, 40))
-        self.add_line('e5', (20, 42), (40, 42))
-        self.add_line('e6', (42, 40), (42, 19))
-        self.add_line('e7', (40, 17), (31, 17))
-        self.add_line('e8', (31, 17), (31, 8))
-        self.add_line('e9', (28, 6), (8, 6))
-        self.add_line('e10', (6, 8), (6, 29))
-        self.add_line('e11', (8, 31), (18, 31))
-        self.add_line('e12', (18, 19), (20, 17))
-        self.add_line('e13', (31, 29), (28, 31))
-        self.add_line('e14', (18, 40), (20, 42))
-        self.add_arc('e15', (40, 42), (42, 40), radius_x=2, sweep=False)
-        self.add_line('e16', (42, 19), (40, 17))
-        self.add_line('e17', (31, 8), (28, 6))
-        self.add_arc('e18', (8, 6), (6, 8), radius_x=2, sweep=False)
-        self.add_line('e19', (6, 29), (8, 31))
-        self.add_contour('c0', 'e0', 'e12', 'e1', 'e2', 'e13', 'e3', closed=True)
-        self.add_contour('c1', 'e4', 'e14', 'e5', 'e15', 'e6', 'e16', 'e7', 'e8', 'e17', 'e9', 'e18', 'e10', 'e19', 'e11', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
+        self.add_line('e0', (18, 31), (18, 17))
+        self.add_line('e1', (18, 17), (31, 17))
+        self.add_line('e2', (31, 17), (31, 31))
+        self.add_line('e3', (31, 31), (18, 31))
+        self.add_line('e4', (18, 31), (18, 42))
+        self.add_line('e5', (18, 42), (42, 42))
+        self.add_line('e6', (42, 42), (42, 17))
+        self.add_line('e7', (42, 17), (31, 17))
+        self.add_line('e8', (31, 17), (31, 6))
+        self.add_line('e9', (31, 6), (6, 6))
+        self.add_line('e10', (6, 6), (6, 31))
+        self.add_line('e11', (6, 31), (18, 31))
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', closed=True)
+        self.add_contour('c1', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', closed=True)
         self.relate('connect', 'c0', 'c1')

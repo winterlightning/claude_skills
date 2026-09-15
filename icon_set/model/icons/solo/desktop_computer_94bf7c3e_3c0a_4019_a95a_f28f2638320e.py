@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/computers/batch-02/desktop computer_94bf7
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Batch02DesktopComputerComputers(Solo48):
     icon_id = 'batch-02-desktop-computer-computers'
@@ -19,25 +19,22 @@ class Batch02DesktopComputerComputers(Solo48):
     keywords = ('batch', 'desktop', 'computer', 'computers')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (6, 25), (42, 25))
         self.add_line('e1', (14, 42), (34, 42))
         self.add_line('e2', (17, 33), (17, 42))
         self.add_line('e3', (31, 33), (31, 42))
-        self.add_line('e4', (6, 8), (6, 31))
-        self.add_line('e5', (8, 33), (40, 33))
-        self.add_line('e6', (42, 31), (42, 8))
-        self.add_line('e7', (40, 6), (8, 6))
-        self.add_arc('e8', (42, 25), (40, 25), radius_x=47)
-        self.add_line('e9', (8, 6), (6, 8))
-        self.add_line('e10', (6, 31), (8, 33))
-        self.add_line('e11', (40, 33), (42, 31))
-        self.add_line('e12', (42, 8), (40, 6))
-        self.add_contour('c0', 'e0', 'e8')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e9', 'e4', 'e10', 'e5', 'e11', 'e6', 'e12', 'e7', closed=True)
-        self.relate('connect', 'c0', 'c4')
+        self.add_line('e4', (6, 6), (6, 33))
+        self.add_line('e5', (6, 33), (42, 33))
+        self.add_line('e6', (42, 33), (42, 6))
+        self.add_line('e7', (42, 6), (6, 6))
+        self.add_arc('e8', (42, 25), (40, 25), radius_x=47, radius_y=47, large_arc=False, sweep=True)
+        self.add_contour('c0', 'e0', 'e8', closed=False)
+        self.add_contour('c1', 'e1', closed=False)
+        self.add_contour('c2', 'e2', closed=False)
+        self.add_contour('c3', 'e3', closed=False)
+        self.add_contour('c4', 'e4', 'e5', 'e6', 'e7', closed=True)
         self.relate('connect', 'c0', 'c4')
         self.relate('connect', 'c2', 'c4')
         self.relate('connect', 'c2', 'c1')

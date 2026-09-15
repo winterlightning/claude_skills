@@ -1,4 +1,4 @@
-"""Unity logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""unity-logo: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/logos/unity logo_1733b53e-4294-44b5-83c1-
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class UnityLogo(Solo48):
     icon_id = 'unity-logo'
@@ -19,34 +19,26 @@ class UnityLogo(Solo48):
     keywords = ('unity', 'logo', 'logos')
 
     def build(self):
-        self.add_line('e0', (26, 12), (40, 8))
-        self.add_line('e1', (16, 15), (4, 24))
-        self.add_line('e2', (16, 32), (4, 24))
-        self.add_line('e3', (27, 36), (40, 40))
-        self.add_line('e4', (44, 29), (41, 38))
-        self.add_line('e5', (41, 38), (40, 40))
-        self.add_line('e6', (44, 21), (40, 8))
-        self.add_line('e7', (40, 40), (29, 24))
-        self.add_line('e8', (40, 8), (29, 24))
-        self.add_line('e9', (29, 24), (4, 24))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4', 'e5')
-        self.add_contour('c5', 'e6')
-        self.add_contour('c6', 'e7')
-        self.add_contour('c7', 'e8')
-        self.add_contour('c8', 'e9')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c8')
-        self.relate('connect', 'c2', 'c8')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c6', 'c8')
-        self.relate('connect', 'c7', 'c8')
+        # Plan: HRECT_L; symmetric upper/lower facets, straight sides and shared central spoke node; kinked two-piece side removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        # Both right corners derive from reflection about y=24.
+        self.add_polyline('left-tip',(16,16),(4,24),(16,32))
+        self.add_polyline('top-tip',(26,12),(40,8),(44,20))
+        self.add_polyline('bottom-tip',(26,36),(40,40),(44,28))
+        self.add_polyline('spokes',(40,8),(29,24),(40,40))
+        self.add_line('left-spoke',(4,24),(29,24))
+        for tip in ['top-tip','bottom-tip']:self.relate('connect',tip,'spokes')
+        self.relate('connect','left-spoke','spokes');self.relate('connect','left-spoke','left-tip')

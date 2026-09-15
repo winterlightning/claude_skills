@@ -7,7 +7,7 @@ SOURCE_PATH = 'pictographic-primitives/apps/ui columns_87c9b933-0954-4c85-b549-2
 AUTHOR = 'gpt-6'
 ORIGINAL_AUTHOR = 'json_to_solo'
 REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class UiColumns(Solo48):
     icon_id = 'ui-columns'
@@ -19,6 +19,8 @@ class UiColumns(Solo48):
     keywords = ('ui', 'columns', 'apps')
 
     def build(self):
+        # Plan: restore exact straight junctions; remove short fitted corner detours.
+        # Reference: existing subject and its ideal straight-edge intersections.
         self.add_line('e0', (28, 23), (44, 23))
         self.add_line('e1', (28, 23), (28, 40))
         self.add_line('e2', (28, 40), (44, 40))
@@ -26,21 +28,14 @@ class UiColumns(Solo48):
         self.add_line('e4', (28, 23), (28, 8))
         self.add_line('e5', (28, 8), (44, 8))
         self.add_line('e6', (44, 8), (44, 23))
-        self.add_line('e7', (5, 8), (19, 8))
-        self.add_line('e8', (20, 9), (20, 39))
-        self.add_line('e9', (19, 40), (5, 40))
-        self.add_line('e10', (4, 39), (4, 9))
-        self.add_arc('e11', (4, 9), (5, 8), radius_x=1)
-        self.add_arc('e12', (19, 8), (20, 9), radius_x=1)
-        self.add_arc('e13', (20, 39), (19, 40), radius_x=1)
-        self.add_arc('e14', (5, 40), (4, 39), radius_x=1)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e2', 'e3')
-        self.add_contour('c2', 'e4', 'e5', 'e6')
-        self.add_contour('c3', 'e11', 'e7', 'e12', 'e8', 'e13', 'e9', 'e14', 'e10', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        self.add_line('e7', (4, 8), (20, 8))
+        self.add_line('e8', (20, 8), (20, 40))
+        self.add_line('e9', (20, 40), (4, 40))
+        self.add_line('e10', (4, 40), (4, 8))
+        self.add_contour('c0', 'e0', closed=False)
+        self.add_contour('c1', 'e1', 'e2', 'e3', closed=False)
+        self.add_contour('c2', 'e4', 'e5', 'e6', closed=False)
+        self.add_contour('c3', 'e7', 'e8', 'e9', 'e10', closed=True)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')
