@@ -90,7 +90,8 @@ class SymmetryTests(unittest.TestCase):
         self.assertEqual(row['symmetry']['status'], 'fail')
         self.assertEqual(row['status'], 'fail')
         self.assertTrue(any(e.startswith('symmetry [sym-e12-1]') for e in row['errors']))
-        self.assertIn('symmetry', row['rules'])
+        self.assertIn('rules', row['symmetry'])
+        self.assertIn('symmetry_rules_sha256', row)
 
     def test_missing_checker_never_passes(self):
         from icon_set.validation.library_qa import inspect_icon

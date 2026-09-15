@@ -221,10 +221,13 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         rules = {'profile': asdict(icon.profile.spec), 'stroke_width': STROKE_WIDTH,
                  'negative_space': negative_space_rules(), 'internal_spacing': INTERNAL_RULES,
                  'pinch_measurement': 'authored-stroke-v1',
-                 'internal_parallel_straight': PARALLEL_STRAIGHT_RULES,
-                 'symmetry': SYMMETRY_RULES}
+                 'internal_parallel_straight': PARALLEL_STRAIGHT_RULES}
         row['rules'] = rules
         row['rules_sha256'] = _hash(json.dumps(rules, sort_keys=True, separators=(',', ':')).encode('utf-8'))
+        # Spacing reviews are bound to the existing spacing/hole rule identity.
+        # Symmetry has its own identity and is never excused by those reviews.
+        row['symmetry_rules_sha256'] = _hash(json.dumps(
+            SYMMETRY_RULES, sort_keys=True, separators=(',', ':')).encode('utf-8'))
         row['checks_run'].append('symmetry')
         row['symmetry'] = analyze_symmetry(icon, drawing=drawing, document=document)
         if row['symmetry']['status'] == 'fail':
