@@ -208,6 +208,36 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/feedback', {}, {'Content-Type': 'application/json', 'Origin': 'https://elsewhere.example'})[0], 403)
         self.assertEqual(self.request('POST', '/api/feedback', {}, {'Content-Type': 'text/plain'})[0], 415)
 
+    def test_validation_evidence_runs_qa_overlays_on_the_served_svg(self):
+        svg = self.dist / 'sub32/square.svg'
+        svg.write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none" '
+                       'stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">'
+                       '<path d="M6 6L26 6L26 26L6 26Z"/></svg>')
+        code, body = self.request('GET', '/api/qa-evidence?icon=sub%2Fsquare')
+        self.assertEqual(code, 200, body)
+        data = json.loads(body)
+        import hashlib
+        self.assertEqual(data['svg_sha256'], hashlib.sha256(svg.read_bytes()).hexdigest())
+        self.assertIsNone(data['library'])
+        qa = data['qa_overlays']
+        self.assertEqual(qa['script'], 'qa_overlays.py')
+        self.assertFalse(qa['cached'])
+        self.assertTrue(qa['distance']['distance_passed'])
+        self.assertEqual(qa['distance']['lowest_distance'], 20.0)
+        self.assertEqual(qa['holes']['negative_space_status'], 'pass')
+        self.assertEqual(qa['holes']['hole_count'], 1)
+        self.assertEqual(set(qa['images']), {'distance', 'holes'})
+        for url in qa['images'].values():
+            code, image = self.request('GET', url)
+            self.assertEqual(code, 200)
+            self.assertTrue(image.startswith(b'\x89PNG'))
+        self.assertTrue(json.loads(self.request('GET', '/api/qa-evidence?icon=sub%2Fsquare')[1])['qa_overlays']['cached'])
+        # Evidence is cached beside the database, never inside the served dist.
+        self.assertTrue(any((self.database.parent / 'qa-evidence').rglob('*_distance_debug.png')))
+        self.assertFalse(any(self.dist.rglob('*_debug.png')))
+        self.assertEqual(self.request('GET', '/api/qa-evidence?icon=sub%2Fmissing')[0], 404)
+        self.assertEqual(self.request('GET', '/api/qa-evidence/image?icon=sub%2Fsquare&kind=../x')[0], 404)
+
     def test_private_files_and_directory_listings_are_not_served(self):
         (self.root / 'secret.json').write_text('{"private": true}')
         (self.dist / 'escape.json').symlink_to(self.root / 'secret.json')

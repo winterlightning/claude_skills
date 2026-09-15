@@ -29,11 +29,13 @@ if __package__:
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from .discard_icon import discard_many
+    from .qa_evidence import EvidenceStore
 else:
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from discard_icon import discard_many
+    from qa_evidence import EvidenceStore
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
@@ -254,6 +256,25 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.send_header('Content-Type', mime)
             self.send_header('Content-Length', str(len(content)))
             self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+            self.end_headers()
+            self.wfile.write(content)
+            return
+        if parsed.path in ('/api/qa-evidence', '/api/qa-evidence/image'):
+            query = parse_qs(parsed.query)
+            key = query.get('icon', [''])[0]
+            try:
+                if parsed.path == '/api/qa-evidence':
+                    return self.json_response(self.server.evidence.evidence(key))
+                content = self.server.evidence.image(key, query.get('kind', [''])[0])
+            except KeyError:
+                return self.json_response({'error': 'Unknown icon'}, 404)
+            except (FileNotFoundError, ValueError) as error:
+                return self.json_response({'error': str(error) or 'Evidence image unavailable.'}, 404)
+            except Exception as error:  # a checker crash must surface, never read as a pass
+                return self.json_response({'error': f'Validation evidence failed: {error}'}, 500)
+            self.send_response(200)
+            self.send_header('Content-Type', 'image/png')
+            self.send_header('Content-Length', str(len(content)))
             self.end_headers()
             self.wfile.write(content)
             return
@@ -653,6 +674,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000):
     init_database(database)
     server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
     server.references = ReferenceStore(database.parent / 'reference-images')
+    server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
     return server
 
