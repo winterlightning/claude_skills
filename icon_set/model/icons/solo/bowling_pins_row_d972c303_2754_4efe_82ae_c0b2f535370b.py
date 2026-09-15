@@ -31,29 +31,21 @@ class BowlingPinsRow(Solo48):
         self.add_polyline(n, *points, closed=closed)
 
     def build(self):
-        # Plan: Three repeated bowling pins: small circular heads, clear narrow necks and smooth broader bodies; preserve the row and circular head exception.
-
-        # Each path owns a coherent stroke; control points preserve smooth tangents.
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, c in enumerate(commands):
-                k, end, *args = c
-                name = f'{n}-{j}'
-                if k == 'L': self.add_line(name, here, end)
-                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
-        def circle(n, x, y, r):
-            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
-        def box(n, l, t, r, b, rad=4):
-            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate('connect',a,b)
-        for j,x in enumerate((8,24,40)):
-         path(f'head-{j}',(x,8), [('A',(x,14),3,3,True),('A',(x,8),3,3,True)],True)
-         path(f'body-{j}',(x,22), [('A',(x,40),4,9,True),('A',(x,22),4,9,True)],True)
-         line(f'neck-{j}',(x,14),(x,22));join(f'neck-{j}',f'head-{j}');join(f'neck-{j}',f'body-{j}')
+        """Rebuild all three pins from one wider head and neck definition; equal16-unit spacing preserves4-unit ink gaps."""
+        front = False
+        for j, cx in enumerate((8, 24, 40)):
+            n = 'pin-' + str(j)
+            lower = front and j == 1
+            y = 12 if lower else 8
+            belly = 4
+            base = 36 if front and (not lower) else 40
+            rx = belly - 3
+            self.add_arc(n + '-head', (cx - 4, y + 4), (cx + 4, y + 4), radius_x=4)
+            self.add_line(n + '-neck-r', (cx + 4, y + 4), (cx + 3, 20))
+            self.add_arc(n + '-upper-r', (cx + 3, 20), (cx + belly, 29), radius_x=rx, radius_y=9)
+            self.add_arc(n + '-lower-r', (cx + belly, 29), (cx + 3, base), radius_x=rx, radius_y=base - 29)
+            self.add_line(n + '-base', (cx + 3, base), (cx - 3, base))
+            self.add_arc(n + '-lower-l', (cx - 3, base), (cx - belly, 29), radius_x=rx, radius_y=base - 29)
+            self.add_arc(n + '-upper-l', (cx - belly, 29), (cx - 3, 20), radius_x=rx, radius_y=9)
+            self.add_line(n + '-neck-l', (cx - 3, 20), (cx - 4, y + 4))
+            self.add_contour(n, *[n + '-' + part for part in ('head', 'neck-r', 'upper-r', 'lower-r', 'base', 'lower-l', 'upper-l', 'neck-l')], closed=True)

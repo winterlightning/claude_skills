@@ -29,7 +29,9 @@ HELP='''
         join = lambda a,b: self.relate('connect',a,b)
 '''
 def replace(name,shape,plan,body):
- i=next(i for i in A if i['icon_id']==name);p=Path(i['source_path']);old=p.read_text();backup=W/'originals'/p.name;backup.parent.mkdir(exist_ok=True)
+ i=next(i for i in A if i['icon_id']==name)
+ if i['audit_status'].startswith(('held-', 'blocked-', 'removed-')): return
+ p=Path(i['source_path']);old=p.read_text();backup=W/'originals'/p.name;backup.parent.mkdir(exist_ok=True)
  if not backup.exists():backup.write_text(old)
  prefix=old[:old.index('    def build(')]
  prefix=re.sub(r'keyshape = Keyshape\.\w+',f'keyshape = Keyshape.{shape}',prefix)
@@ -393,7 +395,7 @@ for side in (-1,1):
 ''')
 i=next(i for i in A if i['icon_id']=='jet-ski-motion');p=Path(i['source_path']);backup=W/'originals'/p.name
 if not backup.exists():backup.write_text(p.read_text())
-p.write_text(backup.read_text().replace('(12,10)','(12,6)'));i['audit_status']='reconstructed';i['plan']='Broaden the hull band by raising the upper bow station; preserve the handle, speed marks and wave.'
+p.write_text(backup.read_text().replace('(12,10)','(12,6)').replace('(22,26)','(22,28)').replace('(30,22)','(32,22)'));i['audit_status']='reconstructed';i['plan']='Broaden the hull band by raising the upper bow station; preserve the handle, speed marks and wave.'
 (W/'audit.json').write_text(json.dumps(A,indent=2))
 for name in ('bowling-pins-row','bowling-pins-three'):
  replace(name,'HRECT_L','Three repeated bowling pins: small circular heads, clear narrow necks and smooth broader bodies; preserve the row and circular head exception.', '''
