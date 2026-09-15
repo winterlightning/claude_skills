@@ -15,37 +15,24 @@ class PairOfTeardropEarrings(Solo48):
     aliases = ()
     keywords = ('pair', 'of', 'teardrop', 'earrings')
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_9_10 = (9, 10)
-        p_17_10 = (17, 10)
-        p_13_14 = (13, 14)
-        p_13_22 = (13, 22)
-        p_6_35 = (6, 35)
-        p_20_35 = (20, 35)
-        p_31_10 = (31, 10)
-        p_39_10 = (39, 10)
-        p_35_14 = (35, 14)
-        p_35_22 = (35, 22)
-        p_28_35 = (28, 35)
-        p_42_35 = (42, 35)
-        self.add_arc('left-stud-top', p_9_10, p_17_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('left-stud-bottom', p_17_10, p_9_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('left-post', p_13_14, p_13_22)
-        self.add_line('left-sides-0', p_6_35, p_13_22)
-        self.add_line('left-sides-1', p_13_22, p_20_35)
-        self.add_arc('left-base', p_20_35, p_6_35, radius_x=7, radius_y=7, sweep=True, large_arc=False)
-        self.add_arc('right-stud-top', p_31_10, p_39_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('right-stud-bottom', p_39_10, p_31_10, radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('right-post', p_35_14, p_35_22)
-        self.add_line('right-sides-0', p_28_35, p_35_22)
-        self.add_line('right-sides-1', p_35_22, p_42_35)
-        self.add_arc('right-base', p_42_35, p_28_35, radius_x=7, radius_y=7, sweep=True, large_arc=False)
-        self.add_contour('left-stud', 'left-stud-top', 'left-stud-bottom', closed=True)
-        self.add_contour('left-drop', 'left-sides-0', 'left-sides-1', 'left-base', closed=True)
-        self.add_contour('right-stud', 'right-stud-top', 'right-stud-bottom', closed=True)
-        self.add_contour('right-drop', 'right-sides-0', 'right-sides-1', 'right-base', closed=True)
-        self.relate('connect', 'left-stud', 'left-post')
-        self.relate('connect', 'left-drop', 'left-post')
-        self.relate('connect', 'right-stud', 'right-post')
-        self.relate('connect', 'right-drop', 'right-post')
+    def build(self):
+        # Enlarged both matching top rings and kept balanced teardrops.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        for side,x in [('left',13),('right',35)]:
+         ellipse(side+'-stud',x,10,4,4)
+         line(side+'-link',(x,14),(x,22))
+         path(side+'-drop',(x,22),[('L',(x+7,36)),('A',(x,42),7,6,True),('A',(x-7,36),7,6,True),('L',(x,22))],True)
+         join(side+'-stud',side+'-link');join(side+'-link',side+'-drop')

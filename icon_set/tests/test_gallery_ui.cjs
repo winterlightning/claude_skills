@@ -41,6 +41,31 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const removal = page('gallery');
+  removal.run(`feedbackRows=[{id:1,icon:'solo/a',feedback:'Round it'},{id:2,icon:'solo/a',feedback:'Keep'}];
+    renderFeedback=()=>{};loadFeedback=async()=>{};loadPendingFeedback=async()=>{};
+    feedbackRemover(feedbackRows[0],$('removeActions'));`);
+  let removePosts=0;
+  removal.context.window.confirm=()=>false;
+  removal.context.fetch=async()=>{removePosts++;throw Error('Unexpected request');};
+  await removal.run("$('removeActions').children[0].onclick()");
+  assert.equal(removePosts,0,'Cancelling removal never sends a request');
+  removal.context.window.confirm=()=>true;
+  removal.context.fetch=async(url,options)=>{
+    removePosts++;
+    assert.equal(url,'../api/feedback/delete');
+    assert.deepEqual(JSON.parse(options.body),{id:1,previous_feedback:'Round it',previous_edited_at:null});
+    return {ok:false,json:async()=>({error:'Feedback changed. Refresh before removing it.'})};
+  };
+  await removal.run("$('removeActions').children[0].onclick()");
+  assert.equal(removal.run('feedbackRows.length'),2,'Failure keeps feedback visible');
+  assert.equal(removal.run("$('removeActions').children[0].disabled"),false,'Failure allows retry');
+  assert.match(removal.run("$('removeActions').children[1].textContent"),/Feedback changed/);
+  removal.context.fetch=async()=>({ok:true,json:async()=>({deleted:true,id:1})});
+  await removal.run("$('removeActions').children[0].onclick()");
+  assert.equal(removal.run('feedbackRows.map(row=>row.id).join()'),'2','Only the selected feedback disappears');
+  assert.equal(removal.run("$('feedbackNotice').textContent"),'Feedback removed.');
+
   const categories = page('gallery');
   categories.run(`icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'}, {key:'solo/b',family:'solo',icon_id:'b',name:'B',category:'tools'}, {key:'sub/c',family:'sub',icon_id:'c',name:'C',category:'tools'}, {key:'solo/d',family:'solo',icon_id:'d',name:'D',category:'tools'}];reviews={'solo/d':'rejected'};$('family').value='solo';$('category').value='animals';`);
   assert.equal(categories.run("categoryCounts().get('animals')"),1);
@@ -95,6 +120,8 @@ async function main() {
   assert.equal(authors.run('filteredIcons().length'),3,'All authors and missing author metadata remain visible');
   authors.run("reviewsLoaded=true;reviews={'solo/a':'approve','solo/b':'approve'};showSection('final');");
   assert.equal(authors.run('filteredIcons().length'),2,'Approved collection does not filter authors');
+  assert.equal(authors.run('section'),'icons','Old Final links open Icons');
+  assert.equal(authors.run('reviewFilter'),'approve','Old Final links select Approved');
   const approvers = page('gallery');
   approvers.run(`icons=[
     {key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'},
@@ -116,6 +143,14 @@ async function main() {
   assert.equal(approvers.run('filteredIcons().length'), 0);
   approvers.run("$('approvedBy').value='';");
   assert.equal(approvers.run('filteredIcons().length'), 3, 'Anyone restores normal version grouping');
+  const stableTabs = page('gallery');
+  stableTabs.run("icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A'}];reviewsLoaded=true;pendingFeedbackLoaded=true;render();");
+  const reviewButtons = [...stableTabs.document.getElementById('reviewTabs').children];
+  for (const status of ['pending','approve','rejected','ready']) {
+    stableTabs.run(`reviewFilter='${status}';render();`);
+    assert.ok(reviewButtons.every((button,index)=>button===stableTabs.document.getElementById('reviewTabs').children[index]),'Review buttons retain their identity and keyboard focus');
+    assert.equal(stableTabs.document.getElementById('pendingFeedback').disabled,status!=='pending');
+  }
   const selection = page('gallery');
   selection.run(`icons=Array.from({length:53},(_,n)=>({key:'solo/icon-'+n,family:'solo',icon_id:'icon-'+n,name:'Icon '+n}));reviewsLoaded=true;setIconView('generated');pageSize=48;render();$('selectAll').checked=true;$('selectAll').onchange();`);
   assert.equal(selection.run('selectedKeys.size'), 48, 'Select all is limited to the visible page');
@@ -176,6 +211,43 @@ async function main() {
   assert.equal(generate.document.getElementById('notice').textContent, 'Build failed');
   assert.equal(generate.run('pendingGridJob'), '');
   assert.equal(generate.navigations.length, 1, 'Failed build stays on Generate');
+
+  // Queue navigation combines status, type and search before pagination.
+  const queue = page('generate');
+  queue.run(`jobRows=Array.from({length:23},(_,n)=>({id:'run-'+n,name:'Document '+n,prompt:'Folded paper',mode:n%2?'fix':'generate',status:n<13?'candidate':n<18?'running':'accepted',candidate:{key:'solo/doc-'+n,icon_id:'doc-'+n,family:'solo'}}));renderPage();`);
+  assert.equal(queue.document.getElementById('jobs').children.length,10);
+  const queueButtons = [...queue.document.getElementById('jobFilters').children];
+  queue.run('renderPage();');
+  assert.ok(queueButtons.every((button,index)=>button===queue.document.getElementById('jobFilters').children[index]),'Queue filtering and polling preserve focused buttons');
+  queue.run("jobFilter='candidate';$('jobsMode').value='fix';changePage(1);");
+  assert.equal(queue.run('filteredJobs().length'),6);
+  queue.run("$('jobsSearch').value='document 11';$('jobsSearch').oninput();");
+  assert.equal(queue.run('filteredJobs()[0].id'),'run-11');
+  queue.run("$('jobsSearch').value='no match';$('jobsSearch').oninput();");
+  assert.equal(queue.document.getElementById('jobs').children[0].className,'queue-empty');
+  queue.run("$('jobsSearch').value='';$('jobsMode').value='';jobFilter='candidate';changePage(2);");
+  assert.equal(queue.document.getElementById('jobs').children.length,3);
+  queue.run("jobFilter='accepted';changePage(8);");
+  assert.equal(queue.run('page'),1,'Filters clamp the page to the matching results');
+  queue.run(`location.search='?status=running&q=paper&mode=fix&page_size=25';readPages();`);
+  assert.equal(queue.run('jobFilter'),'running');
+  assert.equal(queue.run('pageSize'),25);
+  assert.equal(queue.run('filteredJobs().length'),3);
+  assert.equal(queue.run("matchesJobStatus({status:'accepting'},'running')"),true);
+  // Retrying a failed new icon restores the brief without starting another paid run.
+  queue.run(`render([{id:'failed',name:'Paper',prompt:'Fold the corner',family:'solo',model:'test-model',mode:'generate',status:'failed'}]);`);
+  const retry=queue.document.getElementById('jobs').children[0].children.find(el=>el.className==='job-actions').children.find(el=>el.textContent==='Edit brief & retry');
+  retry.onclick();
+  assert.equal(queue.document.getElementById('name').value,'Paper');
+  assert.equal(queue.document.getElementById('prompt').value,'Fold the corner');
+  assert.equal(queue.document.getElementById('family').value,'solo');
+  // Direct result links escape existing filters and land on the right page.
+  queue.context.location.hash='#job-run-17';
+  queue.context.fetch=async()=>({ok:true,headers:{get:()=> 'application/json'},json:async()=>JSON.parse(queue.run('JSON.stringify(jobRows)'))});
+  queue.run("locateHash=true;pageSize=10;jobFilter='candidate';");
+  await queue.run('refresh()');
+  assert.equal(queue.run('jobFilter'),'all');
+  assert.equal(queue.run('page'),2);
 
   // Reference images: feedback keeps them, Regenerate carries them into the fix, and both forms send ids.
   const refs = [{id:'a'.repeat(64),kind:'png',name:'shape.png'}];

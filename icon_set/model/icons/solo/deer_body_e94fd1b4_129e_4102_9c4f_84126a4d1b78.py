@@ -39,7 +39,7 @@ class StandingStag(Solo48):
         line = self.add_line
         poly = self.add_polyline
         join = lambda a,b: self.relate('connect',a,b)
-        path('body',(6,42), [('L',(6,34)),('L',(6,30)),('A',(12,24),6,6,True),('L',(26,24)),('L',(30,16)),('L',(38,16)),('L',(42,22)),('L',(36,26)),('L',(36,42))])
-        path('belly',(6,34), [('L',(20,34)),('A',(28,42),8,8,True)]);join('body','belly')
+        path('body',(6,42), [('L',(6,34)),('L',(6,30)),('A',(12,24),6,6,True),('L',(26,24)),('L',(30,16)),('L',(38,16)),('L',(42,22)),('L',(36,26)),('L',(36,34)),('L',(36,42))])
+        path('belly',(6,34), [('L',(36,34))]);join('body','belly')
         line('tail',(12,24),(6,18));join('tail','body')
         poly('antler',(38,16),(34,8),(34,6));poly('tine',(26,6),(28,8),(34,8),(42,6));join('antler','tine');join('antler','body')

@@ -12,7 +12,7 @@ AUTHOR = 'gpt-6'
 
 class SeleneAstrologicalSymbol(Solo48):
     icon_id = 'selene-astrological-symbol'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'culture'
@@ -21,13 +21,21 @@ class SeleneAstrologicalSymbol(Solo48):
 
     # Symbol plan: retain the subject and shared attachment stations;
     # fit the current keyshape by adjusting the owning cap, base or repeat.
-    def build(self) -> None:
-        self.add_arc('upper-tip', (8, 8), (24, 4), radius_x=16, radius_y=4)
-        self.add_arc('upper', (24, 4), (40, 20), radius_x=16)
-        self.add_arc('lower', (40, 20), (24, 36), radius_x=16)
-        self.add_arc('lower-tip', (24, 36), (8, 32), radius_x=16, radius_y=4)
-        self.add_contour('moon', 'upper-tip', 'upper', 'lower', 'lower-tip')
-        self.add_polyline('stem', (24, 36), (24, 40), (24, 44))
-        self.add_polyline('crossbar', (17, 40), (24, 40), (31, 40))
-        self.relate('connect', 'moon', 'stem')
-        self.relate('connect', 'stem', 'crossbar')
+    def build(self):
+        # The moon is now an exact half circle above a clearly separated cross.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('moon',(24,4),[('A',(36,16),12,12,True),('A',(24,28),12,12,True)])
+        poly('stem',(24,28),(24,36),(24,44));poly('crossbar',(16,36),(24,36),(32,36));join('moon','stem');join('stem','crossbar')

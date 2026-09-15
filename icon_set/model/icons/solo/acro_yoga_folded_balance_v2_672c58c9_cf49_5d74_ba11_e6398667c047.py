@@ -1,5 +1,5 @@
-"""Two people in a folded supporting balance; shared hand/foot contacts form the acro pose while each head is paired with its actual torso.
-References: Shared full_body_ref.png and supplied two-person folded balance.
+"""A folded upper person balances at the supporting hand of a seated lower person. Each head follows its own neck direction; broad open limb shapes replace the cramped angular loops.
+References: Shared full_body_ref.png and supplied two-person folded acro-yoga pose.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,12 +19,12 @@ class AcroYogaFoldedBalanceVariant2(Solo48):
     keywords = ('acro', 'yoga', 'folded', 'balance')
 
     def build(self):
-        # Symbol plan: Two people in a folded supporting balance; shared hand/foot contacts form the acro pose while each head is paired with its actual torso.
+        # Symbol plan: A folded upper person balances at the supporting hand of a seated lower person. Each head follows its own neck direction; broad open limb shapes replace the cramped angular loops.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,11 +36,11 @@ class AcroYogaFoldedBalanceVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        circle('lower-head',10,36,4)
-        line('lower-torso',(22,36),(34,36));self.mark_human_figure('base-person',head='lower-head',torso='lower-torso',torso_junction='start')
-        poly('lower-legs',(34,36),(42,30),(42,42));join('lower-legs','lower-torso')
-        poly('base-arm',(22,36),(22,22),(30,22));join('base-arm','lower-torso')
-        circle('upper-head',36,10,4)
-        line('upper-torso',(24,10),(12,10));self.mark_human_figure('flyer',head='upper-head',torso='upper-torso',torso_junction='start')
-        poly('folded-legs',(12,10),(6,18),(18,22));join('folded-legs','upper-torso')
-        poly('flyer-arm',(24,10),(22,22),(30,22));join('flyer-arm','upper-torso');join('flyer-arm','base-arm')
+        circle('lower-head',10,38,4)
+        line('lower-torso',(22,38),(34,38));self.mark_human_figure('base-person',head='lower-head',torso='lower-torso',torso_junction='start')
+        path('lower-legs',(34,38),[('L',(38,38)),('A',(42,34),4,4,False),('L',(42,32))]);join('lower-legs','lower-torso')
+        line('supporting-arm',(22,38),(22,22));join('supporting-arm','lower-torso')
+        circle('upper-head',34,22,4)
+        self.add_bezier('upper-torso',(22,22),((14,22),(22,14),(22,6)))
+        self.mark_human_figure('flyer',head='upper-head',torso='upper-torso',torso_junction='start')
+        poly('folded-leg',(22,6),(6,14),(6,22));join('folded-leg','upper-torso');join('supporting-arm','upper-torso')

@@ -1,4 +1,4 @@
-"""A broad flaring monument with one tall pointed arch, restoring the source proportions and avoiding a crowded nested arch.
+"""Broad flaring stone piers frame a tall pointed arch; widened piers avoid narrow interior slivers.
 References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class AzadiTowerVariant2(Solo48):
     keywords = ('azadi', 'tower')
 
     def build(self):
-        # Symbol plan: A broad flaring monument with one tall pointed arch, restoring the source proportions and avoiding a crowded nested arch.
+        # Symbol plan: Broad flaring stone piers frame a tall pointed arch; widened piers avoid narrow interior slivers.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,4 +36,4 @@ class AzadiTowerVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('tower',(14,8),[('L',(34,8)),('C',(44,40),(34,22),(39,35)),('L',(32,40)),('C',(24,20),(32,30),(28,24)),('C',(16,40),(20,24),(16,30)),('L',(4,40)),('C',(14,8),(9,35),(14,22))],True)
+        path('tower',(14,8),[('L',(34,8)),('C',(44,40),(34,22),(39,35)),('L',(30,40)),('C',(24,22),(30,30),(27,25)),('C',(18,40),(21,25),(18,30)),('L',(4,40)),('C',(14,8),(9,35),(14,22))],True)

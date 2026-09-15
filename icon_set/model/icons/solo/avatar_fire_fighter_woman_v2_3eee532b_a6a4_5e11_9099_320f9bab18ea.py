@@ -38,7 +38,7 @@ class AvatarFireFighterWomanVariant2(Solo48):
         self.add_arc('face', (34, 16), (14, 16), radius_x=10, radius_y=10)
         self.relate('connect', 'face', 'brim')
         for side, sign in [('left', -1), ('right', 1)]:
-            self.add_bezier('hair-' + side, (cx + sign * 10, 16), ((cx + sign * 10, 20), (cx + sign * 13, 24), (cx + sign * 15, 26)))
+            self.add_bezier('hair-' + side, (cx + sign * 10, 16), ((cx + sign * 10, 20), (cx + sign * 13, 22), (cx + sign * 15, 24)))
             self.relate('connect', 'hair-' + side, 'face')
             self.relate('connect', 'hair-' + side, 'brim')
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP

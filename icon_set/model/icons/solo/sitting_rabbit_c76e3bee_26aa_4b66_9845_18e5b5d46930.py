@@ -15,26 +15,26 @@ class SittingRabbit(Solo48):
     keywords = ('rabbit', 'bunny', 'sitting', 'ears', 'hare', 'animal', 'pet', 'easter')
 
     def build(self):
-        self.add_polyline('left-ear',(12, 20),(12, 8),closed=False)
+        self.add_polyline('left-ear',(12, 24),(12, 8),closed=False)
         self.add_arc('left-tip',(12, 8),(20, 8),radius_x=4,radius_y=4,sweep=True)
-        self.add_line('left-inner',(20, 8),(20, 17))
+        self.add_line('left-inner',(20, 8),(20, 21))
         self.contours = [c for c in self.contours if c.contour_id != 'left-ear']
         self.add_contour('ear-left','left-ear-1','left-tip','left-inner',closed=False)
-        self.add_polyline('right-inner',(28, 17),(28, 8),closed=False)
+        self.add_polyline('right-inner',(28, 21),(28, 8),closed=False)
         self.add_arc('right-tip',(28, 8),(36, 8),radius_x=4,radius_y=4,sweep=True)
-        self.add_line('right-ear',(36, 8),(36, 20))
+        self.add_line('right-ear',(36, 8),(36, 24))
         self.contours = [c for c in self.contours if c.contour_id != 'right-inner']
         self.add_contour('ear-right','right-inner-1','right-tip','right-ear',closed=False)
-        self.add_arc('crown-left',(12, 20),(24, 16),radius_x=12,radius_y=4,sweep=True)
-        self.add_arc('crown-right',(24, 16),(36, 20),radius_x=12,radius_y=4,sweep=True)
-        self.add_polyline('face-right',(36, 20),(38, 28),(32, 32),(40, 40),closed=False)
+        self.add_arc('crown-left',(12, 24),(24, 20),radius_x=12,radius_y=4,sweep=True)
+        self.add_arc('crown-right',(24, 20),(36, 24),radius_x=12,radius_y=4,sweep=True)
+        self.add_polyline('face-right',(36, 24),(38, 30),(32, 34),(40, 40),closed=False)
         self.add_arc('foot-right',(40, 40),(36, 44),radius_x=4,radius_y=4,sweep=True)
         self.add_line('bottom',(36, 44),(12, 44))
         self.add_arc('foot-left',(12, 44),(8, 40),radius_x=4,radius_y=4,sweep=True)
-        self.add_polyline('face-left',(8, 40),(16, 32),(10, 28),(12, 20),closed=False)
+        self.add_polyline('face-left',(8, 40),(16, 34),(10, 30),(12, 24),closed=False)
         self.contours = [c for c in self.contours if c.contour_id != 'face-right']
         self.contours = [c for c in self.contours if c.contour_id != 'face-left']
         self.add_contour('body','crown-left','crown-right','face-right-1','face-right-2','face-right-3','foot-right','bottom','foot-left','face-left-1','face-left-2','face-left-3',closed=True)
         self.relate('connect','body','ear-left')
         self.relate('connect','body','ear-right')
-        self.add_dot('nose',(24, 26))
+        self.add_dot('nose',(24, 30))

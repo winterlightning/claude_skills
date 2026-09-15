@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class HydroelectricDam(Solo48):
     icon_id = 'hydroelectric-dam'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/landmarks'
@@ -15,12 +15,22 @@ class HydroelectricDam(Solo48):
     keywords = ('dam', 'hydroelectric', 'water', 'reservoir', 'spillway', 'power', 'energy', 'infrastructure')
 
     def build(self):
-        self.add_polyline('left-pier',(4, 28),(4, 8),(12, 8),(12, 16),(12, 28),closed=True)
-        self.add_polyline('right-pier',(36, 28),(36, 16),(36, 8),(44, 8),(44, 28),closed=True)
-        self.add_line('crest',(12, 16),(36, 16))
-        self.relate('connect','crest','left-pier')
-        self.relate('connect','crest','right-pier')
-        self.add_line('flow',(24, 24),(24, 28))
-        self.add_arc('wave-left',(4, 37),(24, 37),radius_x=10,radius_y=3,sweep=False)
-        self.add_arc('wave-right',(24, 37),(44, 37),radius_x=10,radius_y=3,sweep=False)
-        self.add_contour('water','wave-left','wave-right',closed=False)
+        # Three curved water strokes form one continuous lower wave; the straight stream is removed.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('left-pier',(4,24),(4,8),(12,8),(12,16),(12,24),closed=True)
+        poly('right-pier',(36,24),(36,16),(36,8),(44,8),(44,24),closed=True)
+        line('crest',(12,16),(36,16));join('crest','left-pier');join('crest','right-pier')
+        path('water',(4,37),[('A',(18,37),7,3,False),('A',(30,37),6,3,False),('A',(44,37),7,3,False)])

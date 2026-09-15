@@ -14,18 +14,22 @@ class FaceWearingRoundGlasses(Solo48):
     aliases = ()
     keywords = ('face', 'glasses', 'spectacles', 'smile', 'avatar', 'person', 'eyewear', 'portrait')
 
-    def build(self) -> None:
-        # CIRCLE envelope: center (24,24), centerline radius 20, visible radius 22.
-        # Shared cardinal nodes keep concentric geometry and attachments exact.
-        def circle(name, cx, cy, radius):
-            points = [(cx + radius, cy), (cx, cy + radius), (cx - radius, cy), (cx, cy - radius)]
-            for i in range(4):
-                self.add_arc(f'{name}-{i}', points[i], points[(i + 1) % 4], radius_x=radius)
-            self.add_contour(name, *[f'{name}-{i}' for i in range(4)], closed=True)
-        circle('face', 24, 24, 20)
-        for side in (-1, 1):
-            circle('lens-left' if side < 0 else 'lens-right', 24 + side * 8, 21, 3)
-        self.add_line('bridge', (19, 21), (29, 21))
-        self.relate('connect', 'bridge', 'lens-left')
-        self.relate('connect', 'bridge', 'lens-right')
-        self.add_arc('smile', (18, 33), (30, 33), radius_x=10, sweep=False)
+    def build(self):
+        # Large equal circular glasses meet at the bridge and join the round head at true shared nodes; Lucide glasses and circle construction.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('face',(4,24),[('A',(24,4),20,20,True),('A',(44,24),20,20,True),('A',(24,44),20,20,True),('A',(4,24),20,20,True)],True)
+        ellipse('left',14,24,10,10);ellipse('right',34,24,10,10)
+        join('left','right');join('face','left');join('face','right')

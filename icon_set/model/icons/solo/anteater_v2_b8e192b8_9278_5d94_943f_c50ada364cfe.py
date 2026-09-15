@@ -1,4 +1,4 @@
-"""Long forward snout, sloping shoulders, bushy tail and two clear legs preserve the anteater profile. Eye is included as requested.
+"""An elongated low snout, domed back, large trailing tail and two broad legs preserve the anteater silhouette.
 References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class AnteaterVariant2(Solo48):
     keywords = ('anteater',)
 
     def build(self):
-        # Symbol plan: Long forward snout, sloping shoulders, bushy tail and two clear legs preserve the anteater profile. Eye is included as requested.
+        # Symbol plan: An elongated low snout, domed back, large trailing tail and two broad legs preserve the anteater silhouette.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,5 +36,5 @@ class AnteaterVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('animal',(4,28),[('C',(12,16),(6,24),(8,20)),('C',(28,8),(17,10),(21,8)),('C',(40,20),(35,8),(40,12)),('L',(44,32)),('C',(32,28),(40,34),(36,32)),('L',(32,40)),('L',(24,40)),('L',(24,28)),('L',(20,28)),('L',(16,40)),('L',(8,40)),('L',(12,26)),('L',(4,28))],True)
+        path('animal',(4,24),[('C',(16,14),(8,21),(12,17)),('C',(28,8),(20,10),(23,8)),('C',(40,20),(35,8),(40,12)),('L',(44,32)),('C',(34,28),(40,34),(37,31)),('L',(34,40)),('L',(26,40)),('L',(26,28)),('L',(18,28)),('L',(16,40)),('L',(6,40)),('L',(10,24)),('L',(4,24))],True)
         dot('eye',(24,18))

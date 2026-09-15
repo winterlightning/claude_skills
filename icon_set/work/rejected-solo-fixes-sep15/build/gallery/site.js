@@ -1,5 +1,9 @@
 (async()=>{
   const nav=document.querySelector('.site-nav');
+  if(nav&&!nav.querySelector('a[href="concept-dictionary.html"]')){
+    const dictionary=document.createElement('a');dictionary.href='concept-dictionary.html';dictionary.textContent='Concept dictionary';
+    nav.insertBefore(dictionary,nav.querySelector('#siteAuth'));
+  }
   const page=location.pathname.split('/').pop();
   const current=['generate.html','login.html'].includes(page)?'index.html':page;
   nav?.querySelectorAll('a').forEach(a=>{if(a.getAttribute('href')===current)a.setAttribute('aria-current','page');});

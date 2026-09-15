@@ -23,6 +23,6 @@ class RubberDuck(Solo48):
         self.add_arc('body-right',(44, 26),(32, 40),radius_x=12,radius_y=14,sweep=True)
         self.add_line('belly',(32, 40),(22, 40))
         self.add_arc('body-left',(22, 40),(10, 28),radius_x=12,radius_y=12,sweep=True)
-        self.add_polyline('bill',(10, 28),(13, 26),(4, 26),(4, 18),(10, 18),closed=False)
-        self.contours = [c for c in self.contours if c.contour_id != 'bill']
-        self.add_contour('body','head-top','head-back','neck','back','tail','body-right','belly','body-left','bill-1','bill-2','bill-3','bill-4',closed=True)
+        self.add_line('bill-base',(10,28),(10,26))
+        self.add_arc('bill-curve',(10,26),(10,18),radius_x=6,radius_y=4,sweep=True)
+        self.add_contour('body','head-top','head-back','neck','back','tail','body-right','belly','body-left','bill-base','bill-curve',closed=True)

@@ -23,7 +23,7 @@ class DiskPlatterWithDriveSlots(Solo48):
                 self.add_arc(f'{name}-{i}', points[i], points[(i + 1) % 4], radius_x=radius)
             self.add_contour(name, *[f'{name}-{i}' for i in range(4)], closed=True)
         circle('rim', 24, 24, 20)
-        circle('hub', 24, 24, 2)
+        self.add_dot('hub', (24,24))
         self.add_line('slot-top', (23, 13), (25, 13))
         for side in (-1, 1):
             self.add_line('slot-left' if side < 0 else 'slot-right', (24 + side * 10, 28), (24 + side * 9, 30))

@@ -1,5 +1,5 @@
-"""A fire with a rising plume: one coherent flame outline and one separate smoke curve. The damaged source is a lone stroke; reconstruct the named subject.
-References: Lucide flame and cloud: coherent curved silhouette; source is incomplete.
+"""One recognizable flame with a pointed rising tongue and a curved inset lick. The partial source is completed into the named fire subject.
+References: Lucide flame original and atomic-debug; supplied name and incomplete source.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,12 +19,12 @@ class AirPollutionFireVariant2(Solo48):
     keywords = ('air', 'pollution', 'fire')
 
     def build(self):
-        # Symbol plan: A fire with a rising plume: one coherent flame outline and one separate smoke curve. The damaged source is a lone stroke; reconstruct the named subject.
+        # Symbol plan: One recognizable flame with a pointed rising tongue and a curved inset lick. The partial source is completed into the named fire subject.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,5 +36,4 @@ class AirPollutionFireVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('flame',(24,18),[('C',(40,32),(24,25),(40,23)),('A',(8,32),16,12,True),('C',(14,22),(8,27),(10,24)),('C',(24,18),(16,33),(26,29))],True)
-        path('smoke',(20,10),[('C',(30,4),(14,4),(27,4))])
+        path('flame',(24,4),[('C',(40,28),(24,16),(40,18)),('A',(8,28),16,16,True),('C',(16,16),(8,22),(12,18)),('C',(20,28),(14,22),(16,26)),('C',(24,4),(26,23),(26,12))],True)

@@ -1,4 +1,4 @@
-"""A 45-degree chevron with equal arms; kept as SOLO48 by user request.
+"""A centered chevron with equal arms; kept as SOLO48 by user request.
 References: Lucide chevron-right: a single coherent two-arm stroke.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class ArrowAngleRightVariant2(Solo48):
     keywords = ('arrow', 'angle', 'right')
 
     def build(self):
-        # Symbol plan: A 45-degree chevron with equal arms; kept as SOLO48 by user request.
+        # Symbol plan: A centered chevron with equal arms; kept as SOLO48 by user request.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))

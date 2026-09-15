@@ -1,4 +1,4 @@
-"""A broad walker tray, hanging seat and rounded base with two wheels. Shared left/right frame posts support the tray.
+"""A broad tray and hanging seat supported by two curved wheeled legs. Open lower construction keeps the wheels distinct.
 References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class BabyWalkerVariant2(Solo48):
     keywords = ('baby', 'walker')
 
     def build(self):
-        # Symbol plan: A broad walker tray, hanging seat and rounded base with two wheels. Shared left/right frame posts support the tray.
+        # Symbol plan: A broad tray and hanging seat supported by two curved wheeled legs. Open lower construction keeps the wheels distinct.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -37,10 +37,7 @@ class BabyWalkerVariant2(Solo48):
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
         box('tray',4,8,44,16,3)
-        path('seat',(16,16),[('L',(16,20)),('A',(32,20),8,8,False),('L',(32,16))]);join('tray','seat')
-        for side,x in [('left',8),('right',40)]:
-         line('post-'+side,(x,16),(x,32));join('tray','post-'+side)
-        poly('base',(8,32),(40,32));join('base','post-left');join('base','post-right')
-        for j,x in enumerate((12,36)):
-         circle(f'wheel-{j}',x,37,3)
-         line(f'wheel-link-{j}',(x,32),(x,34));join('base',f'wheel-link-{j}');join(f'wheel-{j}',f'wheel-link-{j}')
+        path('seat',(16,16),[('L',(16,24)),('A',(32,24),8,5,False),('L',(32,16))]);join('tray','seat')
+        for j,(x,c) in enumerate(((8,12),(40,36))):
+         poly(f'leg-{j}',(x,16),(x,30),(c,34));join('tray',f'leg-{j}')
+         circle(f'wheel-{j}',c,37,3);join(f'leg-{j}',f'wheel-{j}')

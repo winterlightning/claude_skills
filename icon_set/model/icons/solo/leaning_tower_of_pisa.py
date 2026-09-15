@@ -39,5 +39,4 @@ class LeaningTowerOfPisa(Solo48):
         poly = self.add_polyline
         join = lambda a,b: self.relate('connect',a,b)
         poly('shaft',(19,6),(35,10),(32,22),(30,30),(27,42),(10,42),(14,26),(16,18),closed=True)
-        line('floor-upper',(16,18),(32,22));line('floor-lower',(14,26),(30,30));join('floor-upper','shaft');join('floor-lower','shaft')
         poly('ground',(6,42),(10,42),(27,42),(42,42));join('ground','shaft')

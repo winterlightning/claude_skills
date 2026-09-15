@@ -15,44 +15,22 @@ class SittingPenguin(Solo48):
     aliases = ()
     keywords = ('penguin', 'sitting', 'tux', 'linux', 'mascot', 'bird', 'flippers', 'antarctic')
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_11_14 = (11, 14)
-        p_37_14 = (37, 14)
-        p_37_20 = (37, 20)
-        p_34_33 = (34, 33)
-        p_14_33 = (14, 33)
-        p_11_20 = (11, 20)
-        p_20_39 = (20, 39)
-        p_14_44 = (14, 44)
-        p_8_39 = (8, 39)
-        p_40_39 = (40, 39)
-        p_34_44 = (34, 44)
-        p_28_39 = (28, 39)
-        p_20_14 = (20, 14)
-        p_28_14 = (28, 14)
-        p_24_23 = (24, 23)
-        self.add_arc('crown', p_11_14, p_37_14, radius_x=13, radius_y=10, sweep=True, large_arc=False)
-        self.add_line('neck-right', p_37_14, p_37_20)
-        self.add_arc('body-right', p_37_20, p_34_33, radius_x=25, radius_y=27, sweep=False, large_arc=False)
-        self.add_arc('body-left', p_14_33, p_11_20, radius_x=25, radius_y=27, sweep=False, large_arc=False)
-        self.add_line('neck-left', p_11_20, p_11_14)
-        self.add_arc('left-foot-top-right', p_14_33, p_20_39, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('left-foot-bottom-right', p_20_39, p_14_44, radius_x=6, radius_y=5, sweep=True, large_arc=False)
-        self.add_arc('left-foot-bottom-left', p_14_44, p_8_39, radius_x=6, radius_y=5, sweep=True, large_arc=False)
-        self.add_arc('left-foot-top-left', p_8_39, p_14_33, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('right-foot-top-right', p_34_33, p_40_39, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_arc('right-foot-bottom-right', p_40_39, p_34_44, radius_x=6, radius_y=5, sweep=True, large_arc=False)
-        self.add_arc('right-foot-bottom-left', p_34_44, p_28_39, radius_x=6, radius_y=5, sweep=True, large_arc=False)
-        self.add_arc('right-foot-top-left', p_28_39, p_34_33, radius_x=6, radius_y=6, sweep=True, large_arc=False)
-        self.add_line('belly', p_20_39, p_28_39)
-        self.add_line('eye-left', p_20_14, p_20_14)
-        self.add_line('eye-right', p_28_14, p_28_14)
-        self.add_line('beak', p_24_23, p_24_23)
-        self.add_contour('body', 'body-left', 'neck-left', 'crown', 'neck-right', 'body-right', closed=False)
-        self.add_contour('left-foot', 'left-foot-top-right', 'left-foot-bottom-right', 'left-foot-bottom-left', 'left-foot-top-left', closed=True)
-        self.add_contour('right-foot', 'right-foot-top-right', 'right-foot-bottom-right', 'right-foot-bottom-left', 'right-foot-top-left', closed=True)
-        self.relate('connect', 'body', 'left-foot')
-        self.relate('connect', 'body', 'right-foot')
-        self.relate('connect', 'belly', 'left-foot')
-        self.relate('connect', 'belly', 'right-foot')
+    def build(self):
+        # An oval body replaces the pinched waist; paired eyes and a beak preserve the penguin face.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        ellipse('body',24,24,16,20)
+        dot('eye-left',(20,17));dot('eye-right',(28,17));dot('beak',(24,26))
+        poly('feet',(8,44),(24,44),(40,44));join('body','feet')

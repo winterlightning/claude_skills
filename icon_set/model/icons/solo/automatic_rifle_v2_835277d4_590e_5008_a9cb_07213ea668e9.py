@@ -1,4 +1,4 @@
-"""A recognizable horizontal rifle with a long muzzle, rear stock, magazine and grip. Reduce mechanical detail to preserve silhouette.
+"""A long horizontal rifle barrel projects from a stock and receiver with a broad magazine. The raised carrying handle is open and simple.
 References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class AutomaticRifleVariant2(Solo48):
     keywords = ('automatic', 'rifle')
 
     def build(self):
-        # Symbol plan: A recognizable horizontal rifle with a long muzzle, rear stock, magazine and grip. Reduce mechanical detail to preserve silhouette.
+        # Symbol plan: A long horizontal rifle barrel projects from a stock and receiver with a broad magazine. The raised carrying handle is open and simple.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,5 +36,6 @@ class AutomaticRifleVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        poly('rifle',(4,22),(12,22),(18,16),(32,16),(32,24),(44,24),(44,32),(32,32),(34,40),(24,40),(22,32),(16,32),(8,38),(4,38),closed=True)
-        line('sight',(32,16),(32,8));join('rifle','sight')
+        poly('body',(4,20),(12,20),(12,16),(32,16),(32,24),(28,24),(28,40),(20,40),(18,28),(12,28),(4,36),closed=True)
+        line('barrel',(32,20),(44,20));join('barrel','body')
+        poly('handle',(16,16),(20,8),(28,8),(32,16));join('handle','body')

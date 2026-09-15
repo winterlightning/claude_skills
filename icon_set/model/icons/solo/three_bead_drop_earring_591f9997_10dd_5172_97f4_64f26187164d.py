@@ -19,16 +19,22 @@ class ThreeBeadDropEarring(Solo48):
     aliases = ()
     keywords = ('earring', 'bead', 'drop', 'pearl', 'jewellery', 'jewelry', 'circle', 'accessory')
 
-    def build(self) -> None:
-        # SQUARE (6,6)-(42,42). Diagonal chain preserves three round beads;
-        # a shared circular definition and two true attachment nodes control links.
-        for name,cx,cy in [('stud',9,9),('drop',39,39)]:
-            self.add_arc(name+'-right',(cx,cy-3),(cx,cy+3),radius_x=3)
-            self.add_arc(name+'-left',(cx,cy+3),(cx,cy-3),radius_x=3)
-            self.add_contour(name,name+'-right',name+'-left',closed=True)
-        points=((16,18),(30,16),(32,30),(18,32),(16,18))
-        for i,(a,b) in enumerate(zip(points,points[1:])):self.add_arc(f'main-{i}',a,b,radius_x=10)
-        self.add_contour('main',*[f'main-{i}' for i in range(4)],closed=True)
-        self.add_line('upper-link',(9,12),(16,18))
-        self.add_line('lower-link',(32,30),(39,36))
-        for a,b in [('stud','upper-link'),('main','upper-link'),('main','lower-link'),('drop','lower-link')]:self.relate('connect',a,b)
+    def build(self):
+        # Increased the top and bottom beads and rebalanced the middle bead for clear diagonal spacing.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        ellipse('stud',10,10,4,4);ellipse('middle',24,24,7,7);ellipse('drop',38,38,4,4)
+        line('upper-link',(14,10),(24,17));line('lower-link',(24,31),(34,38))
+        for a,b in [('stud','upper-link'),('middle','upper-link'),('middle','lower-link'),('drop','lower-link')]:join(a,b)

@@ -1,5 +1,5 @@
-"""A tapered airship with tail fin and attached gondola above a cloud. Keep a flat underside for an exact physical gondola join.
-References: Lucide cloud: broad lobes; supplied airship silhouette.
+"""An elongated airship with a tail fin and a clear gondola above a compact lobed cloud. The staggered sky scene gives both subjects room at 48 pixels.
+References: Lucide cloud original and atomic-debug; supplied airship/gondola scene.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,12 +19,12 @@ class AirshipOverCloudVariant2(Solo48):
     keywords = ('airship', 'over', 'cloud')
 
     def build(self):
-        # Symbol plan: A tapered airship with tail fin and attached gondola above a cloud. Keep a flat underside for an exact physical gondola join.
+        # Symbol plan: An elongated airship with a tail fin and a clear gondola above a compact lobed cloud. The staggered sky scene gives both subjects room at 48 pixels.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -36,7 +36,7 @@ class AirshipOverCloudVariant2(Solo48):
             path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('airship',(12,8),[('L',(32,8)),('A',(32,18),12,5,True),('L',(12,18)),('L',(12,8))],True)
-        poly('tail',(12,8),(4,8),(8,13),(4,18),(12,18));join('tail','airship')
-        poly('gondola',(20,18),(22,26),(30,26),(32,18));join('gondola','airship')
-        path('cloud',(12,40),[('A',(20,35),8,5,True),('A',(28,40),8,5,True),('L',(12,40))],True)
+        path('airship',(12,8),[('L',(36,8)),('A',(36,20),8,6,True),('L',(12,20)),('L',(12,8))],True)
+        poly('tail',(4,8),(12,14),(4,20));join('tail','airship')
+        poly('gondola',(28,20),(28,28),(36,28),(36,20));join('gondola','airship')
+        path('cloud',(8,32),[('A',(4,36),4,4,False),('A',(8,40),4,4,False),('L',(16,40)),('A',(20,36),4,4,False),('C',(8,32),(20,28),(10,28))],True)

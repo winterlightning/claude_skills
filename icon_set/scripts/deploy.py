@@ -469,7 +469,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -528,6 +528,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.save_primitive_status(data, user)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data, user)
+            if route == '/api/feedback/delete':
+                return self.delete_feedback(data, user)
             if route == '/api/feedback/edit':
                 return self.edit_feedback(data, user)
             key, feedback = data.get('icon'), data.get('feedback')
@@ -680,6 +682,26 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'flag': flag, 'updated_by': user if flag else None, 'updated_at': now if flag else None})
         except (OSError, ValueError, sqlite3.Error):
             return self.json_response({'error': 'Could not save icon flag. Please retry.'}, 503)
+
+    def delete_feedback(self, data, user):
+        feedback_id, previous = data.get('id'), data.get('previous_feedback')
+        edited_at = data.get('previous_edited_at')
+        if (type(feedback_id) is not int or feedback_id <= 0 or not isinstance(previous, str)
+                or (edited_at is not None and not isinstance(edited_at, str))):
+            return self.json_response({'error': 'Choose a feedback entry to remove.'}, 400)
+        try:
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                connection.execute('BEGIN IMMEDIATE')
+                row = connection.execute('SELECT icon,feedback,edited_at FROM feedback WHERE id=?', (feedback_id,)).fetchone()
+                if not row:
+                    return self.json_response({'error': 'Feedback not found. Refresh the page.'}, 404)
+                if (row[1], row[2]) != (previous, edited_at):
+                    return self.json_response({'error': 'Feedback changed. Refresh before removing it.'}, 409)
+                connection.execute('DELETE FROM feedback WHERE id=?', (feedback_id,))
+                record_activity(connection, user, 'feedback_delete', row[0], feedback_id=feedback_id)
+            return self.json_response({'deleted': True, 'id': feedback_id, 'icon': row[0]})
+        except sqlite3.Error:
+            return self.json_response({'error': 'Could not remove feedback. Please retry.'}, 503)
 
     def edit_feedback(self, data, user):
         feedback_id, feedback, previous = data.get('id'), data.get('feedback'), data.get('previous_feedback')

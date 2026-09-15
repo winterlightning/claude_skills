@@ -1,5 +1,5 @@
-"""A true circular baby face with no ears and a single curved hair stroke, matching the saved feedback. Shared horizontal eye axis and a simple smile.
-References: Lucide user-round for circular face; saved explicit circular baby-head feedback.
+"""A circular baby face without ears, one curved hair stroke and an open smile, matching the saved feedback.
+References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,12 +19,12 @@ class BabyHeadVariant2(Solo48):
     keywords = ('baby', 'head')
 
     def build(self):
-        # Symbol plan: A true circular baby face with no ears and a single curved hair stroke, matching the saved feedback. Shared horizontal eye axis and a simple smile.
+        # Symbol plan: A circular baby face without ears, one curved hair stroke and an open smile, matching the saved feedback.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -37,6 +37,6 @@ class BabyHeadVariant2(Solo48):
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
         circle('head',24,24,20)
-        path('hair',(24,4),[('C',(20,14),(30,4),(30,14))]);join('head','hair')
+        path('hair',(20,15),[('C',(28,15),(22,13),(26,13))])
         dot('eye-left',(16,24));dot('eye-right',(32,24))
         self.add_arc('smile',(20,33),(28,33),radius_x=6,radius_y=3,sweep=False)

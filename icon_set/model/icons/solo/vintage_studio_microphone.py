@@ -29,11 +29,6 @@ class VintageStudioMicrophone(Solo48):
         self.add_arc('sw',(cx,32),(left,22),radius_x=10)
         self.add_line('left',(left,22),(left,14))
         self.add_contour('capsule','nw','ne','right','se','sw','left',closed=True)
-        for y in (14,22):
-            for side,a,b in [('left',left,20),('right',28,right)]:
-                name=f'grille-{side}-{y}'
-                self.add_line(name,(a,y),(b,y))
-                self.relate('connect','capsule',name)
         self.add_line('stem',(cx,32),(cx,44))
         self.add_polyline('base',(8,44),(cx,44),(40,44))
         self.relate('connect','capsule','stem')

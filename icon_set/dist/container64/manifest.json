@@ -42860,7 +42860,7 @@
       "primitives": [
         {
           "kind": "line",
-          "element_id": "board-top",
+          "element_id": "board-0",
           "start": [
             28,
             2
@@ -42872,7 +42872,7 @@
         },
         {
           "kind": "arc",
-          "element_id": "board-ne",
+          "element_id": "board-1",
           "start": [
             56,
             2
@@ -42888,7 +42888,7 @@
         },
         {
           "kind": "line",
-          "element_id": "board-right",
+          "element_id": "board-2",
           "start": [
             62,
             8
@@ -42900,7 +42900,7 @@
         },
         {
           "kind": "arc",
-          "element_id": "board-se",
+          "element_id": "board-3",
           "start": [
             62,
             48
@@ -42916,7 +42916,7 @@
         },
         {
           "kind": "line",
-          "element_id": "board-bottom",
+          "element_id": "board-4",
           "start": [
             56,
             54
@@ -42928,10 +42928,26 @@
         },
         {
           "kind": "arc",
-          "element_id": "head-top",
+          "element_id": "head-0",
           "start": [
             6,
             11
+          ],
+          "end": [
+            15,
+            2
+          ],
+          "radius_x": 9,
+          "radius_y": 9,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-1",
+          "start": [
+            15,
+            2
           ],
           "end": [
             24,
@@ -42944,10 +42960,26 @@
         },
         {
           "kind": "arc",
-          "element_id": "head-bottom",
+          "element_id": "head-2",
           "start": [
             24,
             11
+          ],
+          "end": [
+            15,
+            20
+          ],
+          "radius_x": 9,
+          "radius_y": 9,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "head-3",
+          "start": [
+            15,
+            20
           ],
           "end": [
             6,
@@ -42959,84 +42991,68 @@
           "sweep": true
         },
         {
-          "kind": "arc",
-          "element_id": "shoulders",
-          "start": [
-            2,
-            40
-          ],
-          "end": [
-            28,
-            40
-          ],
-          "radius_x": 13,
-          "radius_y": 13,
-          "large_arc": false,
-          "sweep": true
-        },
-        {
           "kind": "line",
-          "element_id": "torso-right",
+          "element_id": "torso",
           "start": [
-            28,
-            40
+            15,
+            28
           ],
           "end": [
-            28,
+            15,
             46
           ]
         },
         {
           "kind": "line",
-          "element_id": "torso-bottom",
+          "element_id": "legs-1",
           "start": [
+            2,
+            62
+          ],
+          "end": [
+            15,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "legs-2",
+          "start": [
+            15,
+            46
+          ],
+          "end": [
             28,
-            46
-          ],
-          "end": [
-            2,
-            46
-          ]
-        },
-        {
-          "kind": "line",
-          "element_id": "torso-left",
-          "start": [
-            2,
-            46
-          ],
-          "end": [
-            2,
-            40
-          ]
-        },
-        {
-          "kind": "line",
-          "element_id": "leg-left",
-          "start": [
-            7,
-            46
-          ],
-          "end": [
-            7,
             62
           ]
         },
         {
           "kind": "line",
-          "element_id": "leg-right",
+          "element_id": "arms-1",
           "start": [
-            23,
-            46
+            2,
+            40
           ],
           "end": [
-            23,
-            62
+            15,
+            28
           ]
         },
         {
           "kind": "line",
-          "element_id": "presenting-arm",
+          "element_id": "arms-2",
+          "start": [
+            15,
+            28
+          ],
+          "end": [
+            28,
+            40
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "arms-3",
           "start": [
             28,
             40
@@ -43051,31 +43067,40 @@
         {
           "contour_id": "board",
           "members": [
-            "board-top",
-            "board-ne",
-            "board-right",
-            "board-se",
-            "board-bottom"
+            "board-0",
+            "board-1",
+            "board-2",
+            "board-3",
+            "board-4"
           ],
           "closed": false
         },
         {
           "contour_id": "head",
           "members": [
-            "head-top",
-            "head-bottom"
+            "head-0",
+            "head-1",
+            "head-2",
+            "head-3"
           ],
           "closed": true
         },
         {
-          "contour_id": "torso",
+          "contour_id": "legs",
           "members": [
-            "shoulders",
-            "torso-right",
-            "torso-bottom",
-            "torso-left"
+            "legs-1",
+            "legs-2"
           ],
-          "closed": true
+          "closed": false
+        },
+        {
+          "contour_id": "arms",
+          "members": [
+            "arms-1",
+            "arms-2",
+            "arms-3"
+          ],
+          "closed": false
         }
       ],
       "anchors": {
@@ -43096,27 +43121,30 @@
         {
           "kind": "connect",
           "members": [
-            "torso",
-            "leg-left"
+            "legs",
+            "torso"
           ]
         },
         {
           "kind": "connect",
           "members": [
-            "torso",
-            "leg-right"
-          ]
-        },
-        {
-          "kind": "connect",
-          "members": [
-            "torso",
-            "presenting-arm"
+            "arms",
+            "torso"
           ]
         }
       ],
+      "human_figures": [
+        {
+          "figure_id": "teacher",
+          "head": "head",
+          "torso": "torso",
+          "torso_junction": "start",
+          "centerline_gap": 8,
+          "ink_gap": 4
+        }
+      ],
       "svg_path": "dist/container64/teacher-presenting-at-whiteboard.svg",
-      "svg_sha256": "03cb98a2c3e76ef56c87b7444f56224abacfbbb024dc40fa65dfe24a22a52202",
+      "svg_sha256": "ed8c3fe6225e09c5a7c5030f00336b5ec1c5adad228a4dd6c493313496b2ef18",
       "validation": {
         "status": "valid",
         "checks_run": [
@@ -43165,41 +43193,11 @@
               "inscribed_radius_design_u": 6.8653,
               "minimum_radius_design_u": 1.0,
               "status": "pass"
-            },
-            {
-              "hole": 2,
-              "center_viewbox": [
-                14.6406,
-                36.4844
-              ],
-              "bbox_viewbox": [
-                4.0,
-                29.0,
-                22.0,
-                15.0
-              ],
-              "bbox_ship_px": [
-                22.0,
-                15.0
-              ],
-              "bbox_design_u": [
-                22.0,
-                15.0
-              ],
-              "area_ship_px2": 278.0801,
-              "equivalent_diameter_ship_px": 18.8165,
-              "equivalent_diameter_design_u": 18.8165,
-              "inscribed_diameter_ship_px": 15.0,
-              "inscribed_diameter_design_u": 15.0,
-              "inscribed_radius_ship_px": 7.5,
-              "inscribed_radius_design_u": 7.5,
-              "minimum_radius_design_u": 1.0,
-              "status": "pass"
             }
           ],
-          "authored_hole_count": 2,
+          "authored_hole_count": 1,
           "raster_artifact_count": 0,
-          "hole_count": 2,
+          "hole_count": 1,
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 0,

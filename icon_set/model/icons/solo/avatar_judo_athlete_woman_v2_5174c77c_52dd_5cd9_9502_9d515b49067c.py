@@ -14,7 +14,7 @@ SOURCE_PATH = 'pictographic-primitives/avatars/avatar judo athlete woman_5174c77
 SOURCE_HEAD_ICON_ID = 'avatar-judo-athlete-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 23
+HEAD_BOTTOM = 22
 
 class AvatarJudoAthleteWomanVariant2(Solo48):
     icon_id = 'avatar-judo-athlete-woman-v2'
@@ -33,13 +33,13 @@ class AvatarJudoAthleteWomanVariant2(Solo48):
         for side, sign in [('left', -1), ('right', 1)]:
             pt = lambda x, y: (cx + sign * x, y)
             self.add_arc('hair-' + side, (cx, 4), pt(16, 14), radius_x=16, radius_y=10, sweep=sign > 0)
-            self.add_bezier('tip-' + side, pt(16, 14), (pt(16, 18), pt(12, 21), pt(16, 24)))
+            self.add_bezier('tip-' + side, pt(16, 14), (pt(16, 17), pt(16, 19), pt(16, 20)))
             self.add_contour('outer-' + side, 'hair-' + side, 'tip-' + side)
-            self.add_arc('fringe-' + side, (cx, 4), pt(9, 14), radius_x=9, radius_y=10, sweep=sign < 0)
+            self.add_arc('fringe-' + side, (cx, 4), pt(8, 14), radius_x=8, radius_y=10, sweep=sign < 0)
             self.relate('connect', 'outer-' + side, 'fringe-' + side)
         self.relate('connect', 'outer-left', 'outer-right')
         self.relate('connect', 'fringe-left', 'fringe-right')
-        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=9)
+        self.add_arc('face', (32, 14), (16, 14), radius_x=8, radius_y=8)
         for side in ['left', 'right']:
             self.relate('connect', 'face', 'fringe-' + side)
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP

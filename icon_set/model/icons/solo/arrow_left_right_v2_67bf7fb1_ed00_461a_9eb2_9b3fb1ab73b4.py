@@ -1,4 +1,4 @@
-"""One centered shaft and matched 45-degree heads; square envelope avoids shallow stretched arrowheads.
+"""One centered shaft and matched 45-degree heads; matched heads preserve clear direction.
 References: Lucide move-horizontal: one shaft and matching heads.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class ArrowLeftRightVariant2(Solo48):
     keywords = ('arrow', 'left', 'right')
 
     def build(self):
-        # Symbol plan: One centered shaft and matched 45-degree heads; square envelope avoids shallow stretched arrowheads.
+        # Symbol plan: One centered shaft and matched 45-degree heads; matched heads preserve clear direction.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))

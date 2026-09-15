@@ -23,6 +23,6 @@ class CompactDiscWithSheenArcs(Solo48):
                 self.add_arc(f'{name}-{i}', points[i], points[(i + 1) % 4], radius_x=radius)
             self.add_contour(name, *[f'{name}-{i}' for i in range(4)], closed=True)
         circle('rim', 24, 24, 20)
-        circle('hub', 24, 24, 2)
+        self.add_dot('hub', (24,24))
         self.add_arc('sheen-upper', (24, 13), (35, 24), radius_x=11)
         self.add_arc('sheen-lower', (24, 35), (13, 24), radius_x=11)

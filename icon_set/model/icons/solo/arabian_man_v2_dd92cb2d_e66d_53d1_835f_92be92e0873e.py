@@ -24,7 +24,7 @@ class ArabianManVariant2(Solo48):
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -37,8 +37,8 @@ class ArabianManVariant2(Solo48):
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
         path('cloth',(8,26),[('L',(8,16)),('A',(40,16),16,12,True),('L',(40,26))])
-        poly('band',(8,16),(14,16),(34,16),(40,16));join('cloth','band')
-        self.add_arc('face',(34,16),(14,16),radius_x=10);join('face','band');bottom=26
+        poly('band',(8,16),(16,16),(32,16),(40,16));join('cloth','band')
+        self.add_arc('face',(32,16),(16,16),radius_x=8);join('face','band');bottom=24
 
         top=bottom+4
         path('body',(8,44),[('L',(8,42)),('A',(18,top),10,42-top,True),('L',(24,top)),('L',(30,top)),('A',(40,42),10,42-top,True),('L',(40,44))])

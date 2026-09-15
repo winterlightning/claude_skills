@@ -5,7 +5,7 @@ Circular face; head and shoulder ink touch with zero visible gap.
 References: human_ref/user.svg for head/body proportions and open shoulders;
 Lucide original/user-round.svg and atomic-debug/user-round.svg for cardinal
 arcs; Lucide shirt for garment edges and sleeve construction. Retain the source hair/headwear silhouette;
-omit facial microdetails at 48. Body: curved uniform shoulders and a broad V tie.
+omit facial microdetails at 48. Body: curved uniform shoulders and a simple uniform front.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
@@ -51,8 +51,8 @@ class AvatarPoliceWoman1Variant2(Solo48):
         self.relate('connect', 'body-left', 'body-top')
         self.relate('connect', 'body-top', 'body-top-right')
         self.relate('connect', 'body-top-right', 'body-right')
-        self.add_polyline('body-tie', (16, top), (24, 44), (32, top))
-        self.relate('connect', 'body-tie', 'body-top')
-        self.relate('connect', 'body-tie', 'body-top-right')
         self.relate('connect', 'face', 'body-top')
         self.relate('connect', 'face', 'body-top-right')
+        self.add_line('body-front', (24, top), (24, 44))
+        self.relate('connect', 'body-front', 'body-top')
+        self.relate('connect', 'body-front', 'body-top-right')

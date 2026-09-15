@@ -1,4 +1,4 @@
-"""A long constant-width sloping barrel touches the top of a wheel at one exact node. The wheel remains clear inside, with two carriage supports.
+"""A sloping parallel-sided barrel on a circular wheel and two outward carriage supports.
 References: Supplied original; shared geometric construction principles.
 Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
@@ -19,12 +19,12 @@ class ArtilleryFieldGunVariant2(Solo48):
     keywords = ('artillery', 'field', 'gun')
 
     def build(self):
-        # Symbol plan: A long constant-width sloping barrel touches the top of a wheel at one exact node. The wheel remains clear inside, with two carriage supports.
+        # Symbol plan: A sloping parallel-sided barrel on a circular wheel and two outward carriage supports.
 
         def path(n, start, commands, closed=False):
             here=start; members=[]
             for j,c in enumerate(commands):
-                kind,end,*args=c; ident=f'{n}-{j}'
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
                 if kind=='L': self.add_line(ident,here,end)
                 elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
                 elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
@@ -39,4 +39,4 @@ class ArtilleryFieldGunVariant2(Solo48):
         poly('barrel',(10,16),(34,8),(37,17),(13,25),closed=True)
         circle('wheel',13,33,7);join('wheel','barrel')
         line('rear-trail',(20,33),(44,40));join('wheel','rear-trail')
-        line('left-foot',(4,40),(13,40));join('wheel','left-foot')
+        line('left-foot',(6,33),(4,40));join('wheel','left-foot')

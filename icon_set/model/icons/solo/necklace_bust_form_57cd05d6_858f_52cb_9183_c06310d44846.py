@@ -15,24 +15,21 @@ class NecklaceBustForm(Solo48):
     aliases = ()
     keywords = ('necklace', 'bust', 'form', 'display', 'mannequin', 'jewellery', 'jewelry', 'torso', 'stand')
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_16_4 = (16, 4)
-        p_32_4 = (32, 4)
-        p_35_11 = (35, 11)
-        p_40_13 = (40, 13)
-        p_33_44 = (33, 44)
-        p_15_44 = (15, 44)
-        p_8_13 = (8, 13)
-        p_13_11 = (13, 11)
-        self.add_line('neck-top', p_16_4, p_32_4)
-        self.add_arc('neck-right-top', p_32_4, p_35_11, radius_x=8, radius_y=9, sweep=False, large_arc=False)
-        self.add_arc('neck-right-bottom', p_35_11, p_40_13, radius_x=8, radius_y=9, sweep=False, large_arc=False)
-        self.add_line('base-1', p_40_13, p_33_44)
-        self.add_line('base-2', p_33_44, p_15_44)
-        self.add_line('base-3', p_15_44, p_8_13)
-        self.add_arc('neck-left-bottom', p_8_13, p_13_11, radius_x=8, radius_y=9, sweep=False, large_arc=False)
-        self.add_arc('neck-left-top', p_13_11, p_16_4, radius_x=8, radius_y=9, sweep=False, large_arc=False)
-        self.add_arc('necklace', p_13_11, p_35_11, radius_x=11, radius_y=17, sweep=False, large_arc=False)
-        self.add_contour('form', 'neck-top', 'neck-right-top', 'neck-right-bottom', 'base-1', 'base-2', 'base-3', 'neck-left-bottom', 'neck-left-top', closed=True)
-        self.relate('connect', 'form', 'necklace')
+    def build(self):
+        # Widened the bust base and shortened the necklace drop to open the side and bottom gaps.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('form',(16,4),[('L',(32,4)),('C',(40,16),(32,12),(36,16)),('L',(36,44)),('L',(12,44)),('L',(8,16)),('C',(16,4),(12,16),(16,12))],True)
+        path('necklace',(16,4),[('C',(24,28),(16,20),(18,28)),('C',(32,4),(30,28),(32,20))]);join('form','necklace')

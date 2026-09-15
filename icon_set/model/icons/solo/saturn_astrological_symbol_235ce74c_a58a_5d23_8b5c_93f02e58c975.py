@@ -23,9 +23,9 @@ class SaturnAstrologicalSymbol(Solo48):
     # fit the current keyshape by adjusting the owning cap, base or repeat.
     def build(self) -> None:
         self.add_line('stem-top', (16, 4), (16, 10))
-        self.add_line('stem-bottom', (16, 10), (16, 22))
+        self.add_line('stem-bottom', (16, 10), (16, 26))
         self.add_polyline('crossbar', (8, 10), (16, 10), (28, 10))
-        self.add_arc('shoulder', (16, 22), (40, 22), radius_x=12, radius_y=7)
-        self.add_arc('sickle', (40, 22), (16, 44), radius_x=24, radius_y=22)
+        self.add_arc('shoulder', (16, 26), (40, 26), radius_x=12, radius_y=7)
+        self.add_arc('sickle', (40, 26), (16, 44), radius_x=24, radius_y=18)
         self.add_contour('saturn', 'stem-top', 'stem-bottom', 'shoulder', 'sickle')
         self.relate('connect', 'saturn', 'crossbar')

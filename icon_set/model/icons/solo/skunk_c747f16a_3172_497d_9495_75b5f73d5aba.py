@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class Skunk(Solo48):
     icon_id = 'skunk'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
@@ -16,8 +16,19 @@ class Skunk(Solo48):
     keywords = ('skunk', 'tail', 'bushy', 'stripe', 'animal', 'wildlife', 'spray', 'nocturnal')
 
     def build(self):
-        self.add_arc('tail-top',(4, 18),(24, 18),radius_x=10,radius_y=10,sweep=True)
-        self.add_arc('tail-turn',(24, 18),(20, 24),radius_x=10,radius_y=10,sweep=True)
-        self.add_polyline('body',(20, 24),(32, 24),(36, 16),(44, 24),(44, 32),(40, 32),(40, 40),(32, 40),(32, 32),(20, 32),(20, 40),(12, 40),(12, 30),(12, 24),(4, 18),closed=False)
-        self.contours = [c for c in self.contours if c.contour_id != 'body']
-        self.add_contour('outline','tail-top','tail-turn','body-1','body-2','body-3','body-4','body-5','body-6','body-7','body-8','body-9','body-10','body-11','body-12','body-13','body-14',closed=True)
+        # Enlarged and curved the torso and rounded the head while retaining the bushy curled tail.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('outline',(4,18),[('A',(24,18),10,10,True),('A',(20,24),10,10,True),('C',(34,20),(26,24),(28,20)),('L',(36,16)),('C',(44,24),(40,16),(44,20)),('L',(44,32)),('L',(40,32)),('L',(40,40)),('L',(32,40)),('L',(32,32)),('L',(20,32)),('L',(20,40)),('L',(12,40)),('L',(12,24)),('L',(4,18))],True)

@@ -8,21 +8,28 @@ AUTHOR = 'gpt-6'
 
 class PawPrint(Solo48):
     icon_id = 'paw-print'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ()
     keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
 
-    def build(self) -> None:
-        for name, cx, cy, radius in (('inner-left', 15, 10, 4), ('inner-right', 33, 10, 4), ('outer-left', 9, 24, 3), ('outer-right', 39, 24, 3)):
-            self.add_arc(name + '-top', (cx - radius, cy), (cx + radius, cy), radius_x=radius)
-            self.add_arc(name + '-bottom', (cx + radius, cy), (cx - radius, cy), radius_x=radius)
-            self.add_contour(name, name + '-top', name + '-bottom', closed=True)
-        self.add_arc('pad-crown', (16, 38), (32, 38), radius_x=8, radius_y=10)
-        self.add_arc('pad-right', (32, 38), (28, 42), radius_x=4)
-        self.add_arc('pad-notch-right', (28, 42), (24, 42), radius_x=6, sweep=False)
-        self.add_arc('pad-notch-left', (24, 42), (20, 42), radius_x=6, sweep=False)
-        self.add_arc('pad-left', (20, 42), (16, 38), radius_x=4)
-        self.add_contour('pad', 'pad-crown', 'pad-right', 'pad-notch-right', 'pad-notch-left', 'pad-left', closed=True)
+    def build(self):
+        # Made all four toes equally large circles and replaced the angular pad with a rounded oval; Lucide paw-print informs the separated pads.
+
+        def path(n, start, commands, closed=False):
+            names=[];here=start
+            for j,(kind,end,*args) in enumerate(commands):
+                ident=f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                names.append(ident);here=end
+            self.add_contour(n,*names,closed=closed)
+        def ellipse(n,x,y,rx,ry):
+            path(n,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        for name,x,y in [('upper-left',16,8),('upper-right',32,8),('outer-left',12,24),('outer-right',36,24)]:ellipse(name,x,y,4,4)
+        ellipse('pad',24,39,7,5)

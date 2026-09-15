@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove processed feedback for 139 changed icons and put their new versions in Ready.
+"""Remove processed feedback for 140 verified icons and set their reviewed versions Ready.
 Run after deploying the updated icons. Newer feedback and review decisions are kept.
 """
 import argparse
@@ -12,8 +12,10 @@ from pathlib import Path
 
 PACKAGE = Path(__file__).resolve().parents[1]
 PROCESSED_AT = '2026-09-15T22:55:53.393007+07:00'
-# Changed icon IDs; hashes ensure we only mark the actual fixed drawings.
+# Fixed or visually verified icon IDs; hashes identify the exact reviewed drawings.
 CHANGED_ICONS = {
+    # Feedback #190: the current canoe already has a smooth curved bottom.
+    'solo/canoe': '0db3b6e2ec79e083e4f4a0997b0e0376ea1124688555648f466e14d540e03caf',
     'container/hexagonal-molecular-structure': '6dcf16cea10a97fcc11f6bb7acab5e36d8a76d300f4dc099d4a617d9c4bff4f6',
     'container/fringed-area-rug': '0d830c810ac3f78ec1d172eafb60626ec58bb7eb9a5e33732ec2c4ef35da8b3e',
     'container/clipboard': 'e8b53934e732262ad4e18c7cbb3f644d1a419f69cfe43ee195a1ecc65fb2cf31',
@@ -169,8 +171,9 @@ ICON_ALIASES = {
     'container/hexagonal-molecular-structure-v2': 'container/hexagonal-molecular-structure',
 }
 
-# Completion times for the additional fixes; earlier icons keep their original cutoff.
+# Completion times for additional fixes or visual reviews; earlier cutoffs stay unchanged.
 PROCESSED_TIMES = {
+    'solo/canoe': '2026-09-15T17:06:21.912019+00:00',
     'solo/anteater': '2026-09-15T16:52:25.357440+00:00',
     'container/clipboard': '2026-09-15T16:52:25.357440+00:00',
     'container/fringed-area-rug': '2026-09-15T16:52:25.357440+00:00',
