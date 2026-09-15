@@ -579,6 +579,12 @@ from before each fix or visual review are reset for these verified icons. Newer 
 newer review decisions, and active combination splits for retained icons are preserved. The script
 prints the updated and skipped IDs.
 
+If production reports **Newer review decision** and you want this verified batch
+reset to Ready, rerun with `--reset-review-status`. This overrides later review
+statuses only for the listed icons with matching deployed SVGs. Newer feedback
+and active splits still block cleanup. Existing Ready or re-generated statuses
+do not block older feedback cleanup, regardless of their timestamp.
+
 ### Review grid and approval
 
 Each icon card shows its category and review status, with an **Approve** button.

@@ -326,7 +326,7 @@ def remove_discarded_records(db, dist, records, result):
         result['discarded'].append(key)
 
 
-def mark_processed(database, dist):
+def mark_processed(database, dist, *, reset_review_status=False):
     database, dist = Path(database).resolve(), Path(dist).resolve()
     if not database.is_file():
         raise ValueError(f'Database not found: {database}')
@@ -358,12 +358,15 @@ def mark_processed(database, dist):
                 result['skipped'][key] = 'Active combination split'
                 continue
             rejection_times = db.execute("SELECT updated_at FROM reviews WHERE status='rejected' AND icon IN ("+placeholders+')',names)
-            if any(as_utc(at) > as_utc(processed_at) for (at,) in rejection_times):
+            if not reset_review_status and any(as_utc(at) > as_utc(processed_at) for (at,) in rejection_times):
                 result['skipped'][key] = 'Newer rejection needs review'
                 continue
             current = db.execute('SELECT status,updated_at FROM reviews WHERE icon=? AND svg_sha256=?',(key,expected_hash)).fetchone()
-            if current and as_utc(current[1]) > as_utc(processed_at):
-                result['skipped'][key] = 'Newer review decision'
+            # Ready is already the requested outcome; regeneration also awaits review.
+            # Neither status should prevent removing the verified older feedback.
+            if (not reset_review_status and current and current[0] not in ('ready', 're-generated')
+                    and as_utc(current[1]) > as_utc(processed_at)):
+                result['skipped'][key] = f'Newer review decision ({current[0]} at {current[1]}); use --reset-review-status to reset this batch'
                 continue
             feedback_times = db.execute('SELECT COALESCE(edited_at,created_at) FROM feedback WHERE icon IN ('+placeholders+')',names)
             if any(as_utc(at) > as_utc(processed_at) for (at,) in feedback_times):
@@ -391,9 +394,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--database',type=Path,default=PACKAGE/'data/feedback.sqlite3')
     parser.add_argument('--dist',type=Path,default=PACKAGE/'dist')
+    parser.add_argument('--reset-review-status', action='store_true',
+                        help='Reset later review statuses for the verified batch to Ready; keep newer feedback, active splits, and SVG version checks')
     args = parser.parse_args()
     try:
-        result = mark_processed(args.database,args.dist)
+        result = mark_processed(args.database,args.dist,reset_review_status=args.reset_review_status)
     except (OSError,ValueError,KeyError,sqlite3.Error) as error:
         parser.exit(1,f'{error}\n')
     print(f"Ready: {len(result['updated'])}; already ready: {len(result['already_ready'])}; feedback deleted: {result['feedback_deleted']}; discarded: {len(result['discarded'])}; skipped: {len(result['skipped'])}")

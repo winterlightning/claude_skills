@@ -1,7 +1,7 @@
 """Fitted Short-Sleeved Collared Shirt.
 
 Plan: Mirrored sleeve and body shapes share neck and hem dimensions; inward waist arcs retain the fitted silhouette. Centerline extremes (4,8)-(44,40).
-Reduction: Small seam and collar-flap details removed; the defining fitted waist and pointed opening remains.
+Reduction: Buttons and small seams removed; folded collar flaps retained. The defining fitted waist and pointed opening remains.
 Construction reference: Lucide shirt.
 """
 from ...keyshapes import Keyshape
@@ -58,15 +58,22 @@ class FittedShortSleevedCollaredShirt(Solo48):
     keywords = ('fitted', 'short-sleeved', 'collared', 'shirt')
 
     def build(self):
-        self.add_polyline('left-upper',(16,8),(8,12),(4,24),(12,24))
-        self.add_arc('left-waist',(12,24),(12,38),radius_x=3,radius_y=7)
+        self.add_polyline('left-upper',(16,8),(8,12),(4,28),(12,28))
+        self.add_arc('left-waist',(12,28),(12,38),radius_x=3,radius_y=5)
         self.add_arc('hem',(12,38),(36,38),radius_x=12,radius_y=2,sweep=False)
-        self.add_arc('right-waist',(36,38),(36,24),radius_x=3,radius_y=7)
-        self.add_polyline('right-upper',(36,24),(44,24),(40,12),(32,8))
+        self.add_arc('right-waist',(36,38),(36,28),radius_x=3,radius_y=5)
+        self.add_polyline('right-upper',(36,28),(44,28),(40,12),(32,8))
         self.relate('connect','left-upper','left-waist')
         self.relate('connect','left-waist','hem')
         self.relate('connect','hem','right-waist')
         self.relate('connect','right-waist','right-upper')
-        self.add_polyline('neckline',(32,8),(24,18),(16,8))
+        self.add_polyline('neckline',(32,8),(24,20),(16,8))
         self.relate('connect','neckline','left-upper')
         self.relate('connect','neckline','right-upper')
+        self.add_polyline('collar-left',(16,8),(12,16),(24,20))
+        self.add_polyline('collar-right',(24,20),(36,16),(32,8))
+        self.relate('connect','collar-left','neckline')
+        self.relate('connect','collar-right','neckline')
+        self.relate('connect','collar-left','left-upper')
+        self.relate('connect','collar-right','right-upper')
+        self.relate('connect','collar-left','collar-right')

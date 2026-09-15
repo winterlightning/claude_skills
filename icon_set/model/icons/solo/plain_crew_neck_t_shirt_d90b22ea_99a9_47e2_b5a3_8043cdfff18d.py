@@ -1,7 +1,7 @@
 """Plain Crew-Neck T-Shirt.
 
 Plan: Mirrored sleeve and body shapes share neck and hem dimensions; rounded hem corners and a circular crew opening. Centerline extremes (4,8)-(44,40).
-Reduction: Small seam and collar-flap details removed; the defining crew neckline remains.
+Reduction: Small seam details removed; the defining crew neckline remains.
 Construction reference: Lucide shirt.
 """
 from ...keyshapes import Keyshape

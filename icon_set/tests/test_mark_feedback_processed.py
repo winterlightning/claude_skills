@@ -74,6 +74,43 @@ class MarkProcessedTests(unittest.TestCase):
                 self.assertIn('solo/castle',script.mark_processed(self.database,self.dist)['skipped'])
                 self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/castle'").fetchone()[0],status)
 
+    def test_later_ready_and_regenerated_do_not_block_processed_feedback(self):
+        for status in ('ready', 're-generated'):
+            with self.subTest(status=status):
+                with self.db:
+                    self.db.execute("DELETE FROM reviews WHERE icon='solo/castle'")
+                    self.db.execute("INSERT INTO reviews VALUES ('solo/castle', ?, ?, '2026-09-16T00:00:00+00:00', 'human')", (self.sha, status))
+                    self.db.execute("INSERT OR REPLACE INTO feedback(id,icon,feedback,svg_sha256,created_at) VALUES (987,'solo/castle','Widen it','old','2026-09-14T12:00:00+00:00')")
+                result = script.mark_processed(self.database, self.dist)
+                self.assertEqual(result['skipped'], {})
+                self.assertEqual(result['feedback_deleted'], 1)
+                self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/castle'").fetchone()[0], 'ready')
+
+    def test_explicit_status_reset_handles_later_reviews_and_old_svg_rejections(self):
+        for status in ('approve', 'pending', 'rejected'):
+            with self.subTest(status=status):
+                with self.db:
+                    self.db.execute("DELETE FROM reviews WHERE icon='solo/castle'")
+                    self.db.execute("INSERT INTO reviews VALUES ('solo/castle', ?, ?, '2026-09-16T00:00:00+00:00', 'human')", (self.sha, status))
+                    self.db.execute("INSERT INTO reviews VALUES ('solo/castle', 'old', 'rejected', '2026-09-16T00:00:00+00:00', 'human')")
+                result = script.mark_processed(self.database, self.dist, reset_review_status=True)
+                self.assertEqual(result['skipped'], {})
+                self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/castle' AND svg_sha256=?", (self.sha,)).fetchone()[0], 'ready')
+                self.assertEqual(self.db.execute("SELECT count(*) FROM reviews WHERE icon='solo/castle' AND status='rejected'").fetchone()[0], 0)
+                self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/unrelated'").fetchone()[0], 'approve')
+
+    def test_status_reset_keeps_new_feedback_and_requires_deployed_svg(self):
+        with self.db:
+            self.db.execute("UPDATE feedback SET edited_at='2026-09-16T00:00:00+00:00'")
+            self.db.execute("INSERT INTO reviews VALUES ('solo/castle', ?, 'approve', '2026-09-16T00:00:00+00:00', 'human')", (self.sha,))
+        result = script.mark_processed(self.database, self.dist, reset_review_status=True)
+        self.assertEqual(result['skipped']['solo/castle'], 'Newer feedback needs review')
+        self.assertEqual(self.db.execute('SELECT id FROM feedback').fetchone()[0], 987)
+        self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/castle'").fetchone()[0], 'approve')
+        (self.dist/'solo48/castle.svg').write_bytes(b'old')
+        result = script.mark_processed(self.database, self.dist, reset_review_status=True)
+        self.assertEqual(result['skipped']['solo/castle'], 'Updated icon has not been deployed')
+
     def test_newer_feedback_in_other_timezone_is_preserved(self):
         with self.db:self.db.execute("UPDATE feedback SET edited_at='2026-09-15T10:00:00-04:00'")
         self.assertIn('solo/castle',script.mark_processed(self.database,self.dist)['skipped'])
