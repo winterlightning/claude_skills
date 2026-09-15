@@ -10,10 +10,18 @@ cohort=json.loads((ROOT/'icon_set/work/intersection-review-977/cohort.json').rea
 baseline={r['id']:r for r in json.loads((HERE/'before.json').read_text())}
 changes={r['id']:r for r in json.loads((HERE/'changes.json').read_text())}
 remaining_ids={r['id'] for r in json.loads((HERE/'residual-pass/baseline.json').read_text())}
-latest={r['id'] for r in json.loads((HERE/'residual-pass/changes.json').read_text())}
+latest={r['id'] for r in json.loads((HERE/'construction-pass/all-changes.json').read_text())}
 validations={r['id']:r for r in json.loads((HERE/'validation.json').read_text())}
 def geometry(icon):
- return dict(svg=icon.to_svg(),paths=[dict(id=p.element_id,d=_move_to(p)+_segment(p),start=p.start.as_tuple(),end=p.end.as_tuple()) for p in icon.primitives],strokes=len(ET.fromstring(icon.to_svg()).findall("{http://www.w3.org/2000/svg}path")),segments=sum(max(1,len(getattr(p,"segments",()))) for p in icon.primitives),primitives=len(icon.primitives),curve_segments=sum(len(getattr(p,'segments',())) for p in icon.primitives))
+ paths=[]
+ for p in icon.primitives:
+  nodes=[p.start.as_tuple()];handles=[]
+  if getattr(p,'segments',()):
+   for start,c1,c2,end in p.cubics():
+    nodes.append(end);handles.extend([(start,c1),(end,c2)])
+  else:nodes.append(p.end.as_tuple())
+  paths.append(dict(id=p.element_id,d=_move_to(p)+_segment(p),start=p.start.as_tuple(),end=p.end.as_tuple(),nodes=nodes,handles=handles))
+ return dict(svg=icon.to_svg(),paths=paths,strokes=len(ET.fromstring(icon.to_svg()).findall("{http://www.w3.org/2000/svg}path")),segments=sum(max(1,len(getattr(p,"segments",()))) for p in icon.primitives),primitives=len(icon.primitives),curve_segments=sum(len(getattr(p,'segments',())) for p in icon.primitives))
 release=json.loads((ROOT/'icon_set/dist/solo48/manifest.json').read_text())
 published={r['icon_id']:r for r in release['icons']}
 assert all(r['icon_id'] in published for r in cohort)
@@ -29,7 +37,7 @@ for row in cohort:
   r.update(before=geometry(original),plan=changes[id]['plan'],reference=changes[id]['reference'],validation=validations[id],before_sha256=baseline[id]['sha256'])
  else:r.update(plan='Retained after the renewed stroke and balance review with centerlines.',before_sha256=baseline[id]['sha256'])
  rows.append(r)
-out=dict(latest_reconstructed=len(latest),remaining_reviewed=898,total=len(rows),reconstructed=len(changes),retained=len(rows)-len(changes),scope='Original fixed 977-icon json_to_solo cohort',review='The remaining 898 icons were inspected again enlarged with centerlines, ordered by segment count. All reconstructed icons were also inspected at native 48 px in both themes.',checks=json.loads((HERE/'geometry-checks.json').read_text()),rows=rows)
+out=dict(latest_reconstructed=len(latest),remaining_reviewed=898,total=len(rows),reconstructed=len(changes),retained=len(rows)-len(changes),scope='Original fixed 977-icon json_to_solo cohort',review='All 977 stroke constructions were examined, including internal cubic knots, retraced edges, tiny fragments and approximate boundary contacts. Enlarged drawings, thin centerlines and native-size previews support the visual review. Candidate flags require geometric interpretation; an intentional corner is not a broken curve.',checks=json.loads((HERE/'geometry-checks.json').read_text()),rows=rows)
 (HERE/'report.json').write_text(json.dumps(out,indent=2))
 template=(HERE/'report-template.html').read_text();html=template.replace('__REPORT_DATA__',json.dumps(out,separators=(',',':')).replace('</','<\\/'))
 (HERE/'index.html').write_text(html)

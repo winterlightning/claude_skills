@@ -1,4 +1,4 @@
-"""Navigation direction right forward (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""navigation-direction-right-forward: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,18 +19,27 @@ class NavigationDirectionRightForward(Solo48):
     keywords = ('navigation', 'direction', 'right', 'forward', 'interface-essential')
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('e0', (28, 8), (28, 17))
-        self.add_line('e1', (28, 17), (20, 17))
-        self.add_line('e2', (17, 31), (28, 31))
-        self.add_line('e3', (28, 31), (28, 40))
-        self.add_line('e4', (28, 40), (44, 24))
-        self.add_line('e5', (44, 24), (28, 8))
-        self.add_line('e6', (4, 40), (4, 39))
-        self.add_arc('e7-1', (20, 17), (4, 33), radius_x=16, radius_y=16, large_arc=False, sweep=False)
-        self.add_line('e7-2', (4, 33), (4, 39))
-        self.add_arc('e7-3', (4, 39), (17, 31), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e6', closed=False)
-        self.add_contour('c1', 'e0', 'e1', 'e7-1', 'e7-2', 'e7-3', 'e2', 'e3', 'e4', 'e5', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # Plan: HRECT_L; one coherent closed arrow with a smooth return and no extra one-unit tail.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        path('arrow',(28,8),[('L',(28,17)),('L',(20,17)),('A',(4,33),16,16,False),('L',(4,40)),
+         ('C',(7,33),(12,31),(20,31)),('L',(28,31)),('L',(28,40)),('L',(44,24)),('L',(28,8))],True)

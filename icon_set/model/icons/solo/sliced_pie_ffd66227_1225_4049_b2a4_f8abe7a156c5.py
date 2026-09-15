@@ -1,4 +1,4 @@
-"""Sliced pie (business), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""sliced-pie: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,24 +19,28 @@ class SlicedPie(Solo48):
     keywords = ('sliced', 'pie', 'business')
 
     def build(self):
-        # Plan: exact integer circle attachments; split the receiving arcs at the real nodes.
-        # Reference: circle geometry and the supplied subject.
-        self.add_line('e0', (31, 24), (44, 24))
-        self.add_line('e1', (12, 40), (19, 29))
-        self.add_line('e2', (24, 17), (24, 4))
-        self.add_arc('e3-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e3-bottom-node-0', (44, 24), (12, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e3-bottom-node-1', (12, 40), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e4-top', (17, 24), (31, 24), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_arc('e4-bottom', (31, 24), (17, 24), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e2', closed=False)
-        self.add_contour('e3', 'e3-top', 'e3-bottom-node-0', 'e3-bottom-node-1', closed=True)
-        self.add_contour('e4', 'e4-top', 'e4-bottom', closed=True)
-        self.relate('connect', 'c0', 'e4')
-        self.relate('connect', 'c0', 'e3')
-        self.relate('connect', 'c1', 'e3')
-        self.relate('connect', 'c1', 'e4')
-        self.relate('connect', 'c2', 'e4')
-        self.relate('connect', 'c2', 'e3')
+        # Plan: CIRCLE; concentric rings and an exactly radial lower spoke with shared circle nodes.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        circle_nodes('outer',24,24,20,[(12,40)]);circle_nodes('inner',24,24,5,[(21,28)])
+        for name,a,b in [('top',(24,4),(24,19)),('right',(29,24),(44,24)),('lower',(21,28),(12,40))]:
+         self.add_line(name,a,b);self.relate('connect',name,'outer');self.relate('connect',name,'inner')

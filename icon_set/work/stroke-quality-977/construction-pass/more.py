@@ -33,7 +33,7 @@ patch('virtual-coin-crypto-waves','''
 self.add_polyline('diamond',(24,6),(42,24),(24,42),(6,24),closed=True)
 ''','SQUARE; four equal straight diamond sides replace mismatched tiny corner arcs.')
 patch('pen','''
-self.add_polyline('barrel',(6,42),(11,31),(35,6),(42,13),(17,38),closed=True)
+self.add_polyline('barrel',(6,42),(11,30),(35,6),(42,13),(17,38),closed=True)
 # The seam ends on the exact diagonal barrel edges.
 self.add_line('seam',(26,15),(33,22));self.relate('connect','seam','barrel')
 ''','SQUARE; straight barrel sides and exact cap seam; the tip has two clean deliberate edges.','Lucide pencil: coherent barrel and shared seam endpoints.')

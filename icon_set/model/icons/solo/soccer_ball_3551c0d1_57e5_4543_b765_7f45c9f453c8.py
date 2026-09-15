@@ -1,4 +1,4 @@
-"""Soccer ball (sports), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""soccer-ball: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,50 +19,33 @@ class SoccerBall(Solo48):
     keywords = ('soccer', 'ball', 'sports')
 
     def build(self):
-        # Plan: exact integer circle attachments; split the receiving arcs at the real nodes.
-        # Reference: circle geometry and the supplied subject.
-        self.add_line('e0', (24, 4), (24, 14))
-        self.add_line('e1', (19, 32), (29, 32))
-        self.add_line('e2', (19, 32), (15, 21))
-        self.add_line('e3', (19, 32), (12, 40))
-        self.add_line('e4', (29, 32), (36, 40))
-        self.add_line('e5', (29, 32), (33, 21))
-        self.add_line('e6', (43, 19), (33, 21))
-        self.add_line('e7', (33, 21), (24, 14))
-        self.add_line('e8', (5, 19), (15, 21))
-        self.add_line('e9', (15, 21), (24, 14))
-        self.add_arc('e10-top', (4, 24), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e10-bottom-node-0', (44, 24), (36, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e10-bottom-node-1', (36, 40), (12, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e10-bottom-node-2', (12, 40), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e2', closed=False)
-        self.add_contour('c3', 'e3', closed=False)
-        self.add_contour('c4', 'e4', closed=False)
-        self.add_contour('c5', 'e5', closed=False)
-        self.add_contour('c6', 'e6', closed=False)
-        self.add_contour('c7', 'e7', closed=False)
-        self.add_contour('c8', 'e8', closed=False)
-        self.add_contour('c9', 'e9', closed=False)
-        self.add_contour('e10', 'e10-top', 'e10-bottom-node-0', 'e10-bottom-node-1', 'e10-bottom-node-2', closed=True)
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c0', 'c9')
-        self.relate('connect', 'c7', 'c9')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c2', 'c8')
-        self.relate('connect', 'c2', 'c9')
-        self.relate('connect', 'c8', 'c9')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c0', 'e10')
-        self.relate('connect', 'c3', 'e10')
-        self.relate('connect', 'c4', 'e10')
-        self.relate('connect', 'c6', 'e10')
-        self.relate('connect', 'c8', 'e10')
+        # Plan: CIRCLE; reflected pentagonal panel and five seams ending on real circle nodes, without uneven edge intrusions.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        flip=True
+        def pt(p):return (p[0],48-p[1]) if flip else p
+        vertices=[(19,18),(29,18),(32,28),(24,34),(16,28)]
+        outer=[(12,8),(36,8),(40,36),(24,44),(8,36)]
+        circle_nodes('ball',24,24,20,[pt(p) for p in outer])
+        self.add_polyline('panel',*[pt(p) for p in vertices],closed=True)
+        for i,(a,b) in enumerate(zip(vertices,outer)):
+         self.add_line(f'seam-{i}',pt(a),pt(b));self.relate('connect',f'seam-{i}','panel');self.relate('connect',f'seam-{i}','ball')

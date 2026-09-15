@@ -1,4 +1,4 @@
-"""Ecology leaf (ecology), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""ecology-leaf: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,15 +19,29 @@ class EcologyLeaf(Solo48):
     keywords = ('ecology', 'leaf')
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_line('e0', (4, 37), (8, 34))
-        self.add_line('e1', (34, 12), (23, 12))
-        self.add_bezier('e2', (27, 22), ((19.945, 24.779), (13.436, 28.964), (8, 34)))
-        self.add_bezier('e3', (23, 12), ((20.618, 12), (18.127, 13.288), (16.082, 14.333)), ((13.891, 15.461), (11.836, 16.851), (10.191, 18.619)), ((6.373, 22.728), (4.518, 29.154), (7.636, 34.105)), ((9.809, 37.566), (14.836, 39.992), (19.127, 39.992)), ((19.27, 39.992), (19.405, 40), (19.548, 40)), ((19.845, 40), (20.127, 39.992), (20.418, 39.992)), ((23.391, 39.992), (26.464, 38.973), (29.064, 37.718)), ((38.836, 33.002), (43.991, 24.573), (43.991, 14.459)), ((43.991, 14.326), (44, 14.194), (44, 14.061)), ((44, 13.575), (43.991, 13.095), (43.991, 12.615)), ((43.991, 11.554), (43.909, 10.493), (43.818, 9.44)), ((43.773, 8.96), (43.736, 8.48), (43.691, 8)), ((43.533, 8), (41.436, 9.496), (40.855, 9.844)), ((38.909, 11.015), (36.373, 12), (34, 12)))
-        self.add_contour('c0', 'e2', closed=False)
-        self.add_contour('c1', 'e0', closed=False)
-        self.add_contour('c2', 'e1', 'e3', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c2')
+        # Plan: HRECT_L; a small set of continuous leaf curves owns the outline, with an exact vein/stem junction.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        path('outline',(44,8),[('C',(44,24),(39,35),(27,39)),('C',(25,40),(22,40),(20,40)),
+         ('C',(14,40),(10,38),(8,34)),('C',(2,24),(13,12),(23,12)),('L',(32,12)),('C',(38,12),(41,10),(44,8))],True)
+        path('vein',(4,38),[('L',(8,34)),('C',(14,28),(20,24),(27,21))])
+        self.relate('connect','vein','outline')

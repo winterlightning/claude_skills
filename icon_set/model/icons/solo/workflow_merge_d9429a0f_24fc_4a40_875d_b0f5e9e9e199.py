@@ -1,4 +1,4 @@
-"""Workflow merge (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""workflow-merge-interface-essential: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,33 +19,33 @@ class WorkflowMergeInterfaceEssential(Solo48):
     keywords = ('workflow', 'merge', 'interface-essential')
 
     def build(self):
-        # Plan: exact integer ellipse attachments; split the receiving arcs at the real nodes.
-        # Reference: circle geometry and the supplied subject.
-        self.add_line('e0', (24, 14), (24, 19))
-        self.add_arc('e1-top-node-0', (30, 39), (35, 34), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e1-top-node-1', (35, 34), (40, 39), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e1-bottom', (40, 39), (30, 39), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e2-top-node-0', (8, 39), (13, 34), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e2-top-node-1', (13, 34), (18, 39), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e2-bottom', (18, 39), (8, 39), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e3-top', (19, 9), (29, 9), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e3-bottom-node-0', (29, 9), (24, 14), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e3-bottom-node-1', (24, 14), (19, 9), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e4-1', (35, 34), (33, 25), radius_x=11, radius_y=11, large_arc=False, sweep=False)
-        self.add_arc('e4-2', (33, 25), (28, 23), radius_x=9, radius_y=9, large_arc=False, sweep=False)
-        self.add_line('e4-3', (28, 23), (24, 19))
-        self.add_arc('e5-1', (13, 34), (15, 25), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('e5-2', (15, 25), (20, 23), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('e5-3', (20, 23), (24, 19), radius_x=7, radius_y=7, large_arc=False, sweep=False)
-        self.add_contour('c0', 'e4-1', 'e4-2', 'e4-3', closed=False)
-        self.add_contour('c1', 'e5-1', 'e5-2', 'e5-3', closed=False)
-        self.add_contour('c2', 'e0', closed=False)
-        self.add_contour('e2', 'e2-top-node-0', 'e2-top-node-1', 'e2-bottom', closed=True)
-        self.add_contour('e1', 'e1-top-node-0', 'e1-top-node-1', 'e1-bottom', closed=True)
-        self.add_contour('e3', 'e3-top', 'e3-bottom-node-0', 'e3-bottom-node-1', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'e1')
-        self.relate('connect', 'c1', 'e2')
-        self.relate('connect', 'c2', 'e3')
+        # Plan: VRECT_L; identical round nodes and mirrored continuous branches; tiny stem arc and mismatched bends removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        oval('top',24,9,5);oval('left',13,39,5);oval('right',35,39,5)
+        self.add_line('stem',(24,14),(24,20))
+        path('left-branch',(24,20),[('C',(24,26),(13,24),(13,34))])
+        path('right-branch',(24,20),[('C',(24,26),(35,24),(35,34))])
+        self.relate('connect','stem','top')
+        for side in ['left','right']:
+         self.relate('connect',side+'-branch',side);self.relate('connect',side+'-branch','stem')
+        self.relate('connect','left-branch','right-branch')

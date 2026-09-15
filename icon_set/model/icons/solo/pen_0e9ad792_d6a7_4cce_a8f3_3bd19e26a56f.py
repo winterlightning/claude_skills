@@ -34,6 +34,6 @@ class Pen(Solo48):
             ry=rx if ry is None else ry
             path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
 
-        self.add_polyline('barrel',(6,42),(11,31),(35,6),(42,13),(17,38),closed=True)
+        self.add_polyline('barrel',(6,42),(11,30),(35,6),(42,13),(17,38),closed=True)
         # The seam ends on the exact diagonal barrel edges.
         self.add_line('seam',(26,15),(33,22));self.relate('connect','seam','barrel')

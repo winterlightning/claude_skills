@@ -1,4 +1,4 @@
-"""Earth (maps), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""earth: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,27 +19,29 @@ class Earth(Solo48):
     keywords = ('earth', 'maps')
 
     def build(self):
-        # Plan: exact integer ellipse attachments; split the receiving arcs at the real nodes.
-        # Reference: circle geometry and the supplied subject.
-        self.add_arc('e0-top-node-0', (4, 24), (8, 12), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e0-top-node-1', (8, 12), (36, 8), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e0-top-node-2', (36, 8), (44, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e0-bottom-node-0', (44, 24), (12, 40), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e0-bottom-node-1', (12, 40), (4, 24), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e1-1', (12, 40), (21, 28), radius_x=9, radius_y=9, large_arc=False, sweep=False)
-        self.add_line('e1-2', (21, 28), (15, 26))
-        self.add_arc('e1-3', (15, 26), (13, 24), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('e1-4', (13, 24), (15, 16))
-        self.add_arc('e1-5', (15, 16), (8, 12), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_arc('e2-1', (43, 29), (34, 27), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('e2-2', (34, 27), (33, 22))
-        self.add_line('e2-3', (33, 22), (27, 18))
-        self.add_arc('e2-4', (27, 18), (27, 15), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e2-5', (27, 15), (36, 8), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e1-1', 'e1-2', 'e1-3', 'e1-4', 'e1-5', closed=False)
-        self.add_contour('c1', 'e2-1', 'e2-2', 'e2-3', 'e2-4', 'e2-5', closed=False)
-        self.add_contour('e0', 'e0-top-node-0', 'e0-top-node-1', 'e0-top-node-2', 'e0-bottom-node-0', 'e0-bottom-node-1', closed=True)
-        self.relate('connect', 'c0', 'e0')
-        self.relate('connect', 'c0', 'e0')
-        self.relate('connect', 'c1', 'e0')
-        self.relate('connect', 'c1', 'e0')
+        # Plan: CIRCLE; clean continent curves end exactly on the globe; fitted corner detours and partial contacts removed.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        circle_nodes('globe',24,24,20,[(8,12),(12,40),(36,8),(40,36)])
+        path('west',(8,12),[('C',(10,12),(13,14),(15,16)),('L',(13,24)),('C',(13,26),(18,27),(21,28)),('C',(21,34),(18,39),(12,40))])
+        path('east',(36,8),[('C',(30,9),(27,12),(27,16)),('C',(27,18),(31,20),(33,22)),('L',(34,29)),('C',(36,33),(37,35),(40,36))])
+        self.relate('connect','west','globe');self.relate('connect','east','globe')

@@ -1,4 +1,4 @@
-"""Planting (outdoors), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""planting: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,22 +19,30 @@ class Planting(Solo48):
     keywords = ('planting', 'outdoors')
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_line('e0', (25, 26), (25, 32))
-        self.add_line('e1', (25, 18), (27, 14))
-        self.add_line('e2', (30, 20), (25, 20))
-        self.add_line('e3', (25, 18), (25, 26))
-        self.add_line('e4', (10, 44), (40, 44))
-        self.add_bezier('e5', (25, 18), ((24.343, 16.036), (23.579, 13.536), (22.602, 11.727)), ((20.227, 7.336), (16.253, 4.018), (11.394, 4.018)), ((10.947, 4.018), (10.493, 4), (10.046, 4)), ((9.464, 4), (8.909, 4.009), (8.354, 4.009)), ((8.253, 4.018), (8.143, 4.018), (8.042, 4.018)), ((8.025, 4.718), (8.017, 5.418), (8, 6.118)), ((8, 6.23), (8.009, 6.329), (8.017, 6.436)), ((8.017, 11.055), (10.501, 15.9), (14.021, 18.482)), ((14.703, 18.991), (15.419, 19.482), (16.16, 19.873)), ((17.76, 20.718), (19.52, 21.127), (21.069, 22.1)), ((22.535, 23.018), (23.821, 24.718), (25, 26)))
-        self.add_bezier('e6', (27, 14), ((27.219, 13.536), (27.057, 13.109), (27.284, 12.645)), ((27.579, 12.045), (27.815, 11.418), (28.152, 10.836)), ((29.684, 8.145), (32.109, 6.191), (34.863, 5.209)), ((35.613, 4.936), (39.478, 4.391), (39.924, 4.709)), ((40, 4.764), (39.992, 5.509), (39.992, 5.636)), ((39.992, 5.782), (40, 5.918), (40, 6.064)), ((40, 6.273), (39.992, 6.482), (39.992, 6.691)), ((39.992, 11.427), (37.086, 15.882), (33.566, 18.427)), ((32.547, 19.164), (31.305, 20), (30, 20)))
-        self.add_bezier('e7', (40, 44), ((38.728, 36.682), (31.267, 32.355), (24.842, 32.182)), ((19.183, 32.027), (13.491, 35.409), (10.754, 40.8)), ((10.257, 41.8), (10.286, 42.918), (10, 44)))
-        self.add_contour('c0', 'e5', 'e0', closed=False)
-        self.add_contour('c1', 'e1', 'e6', 'e2', closed=False)
-        self.add_contour('c2', 'e3', closed=False)
-        self.add_contour('c3', 'e4', 'e7', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: VRECT_L; paired smooth leaves and a symmetric mound with an explicit stem node.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        path('left-leaf',(24,22),[('C',(13,22),(8,14),(8,4)),('C',(18,4),(24,12),(24,22))],True)
+        path('right-leaf',(24,22),[('C',(24,12),(30,4),(40,4)),('C',(40,14),(35,22),(24,22))],True)
+        self.add_line('stem',(24,22),(24,32))
+        path('soil',(8,44),[('C',(10,37),(16,32),(24,32)),('C',(32,32),(38,37),(40,44)),('L',(8,44))],True)
+        self.relate('connect','stem','soil');self.relate('connect','stem','left-leaf');self.relate('connect','stem','right-leaf');self.relate('connect','left-leaf','right-leaf')

@@ -1,4 +1,4 @@
-"""Duster (wayfinding), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""duster: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,12 +19,31 @@ class Duster(Solo48):
     keywords = ('duster', 'wayfinding')
 
     def build(self):
-        # Plan: absorb microscopic detours into neighboring cubics; retain the true extremes.
-        # Reference: original stroke graph and contour extremes.
-        self.add_line('e0', (6, 42), (20, 28))
-        self.add_line('e1', (40, 12), (36, 8))
-        self.add_bezier('e2', (20, 28), ((20.27, 28), (20.73, 28), (21, 28)))
-        self.add_bezier('e3', (36, 8), ((35.452, 7.452), (33.573, 6.0), (32.779, 6)), ((32.689, 6), (32.599, 6.016), (32.509, 6.016)), ((30.987, 6.016), (29.228, 8.07), (28.827, 9.395)), ((28.713, 9.764), (28.655, 10.132), (28.623, 10.516)), ((28.598, 10.754), (28.574, 10.991), (28.549, 11.228)), ((28.541, 11.236), (27.485, 11.22), (27.183, 11.261)), ((26.348, 11.384), (25.563, 11.744), (24.9, 12.251)), ((24.041, 12.905), (23.411, 13.855), (23.182, 14.91)), ((23.133, 15.123), (23.035, 16.808), (23.026, 16.816)), ((22.994, 16.849), (22.028, 16.833), (21.734, 16.874)), ((20.915, 16.996), (20.122, 17.283), (19.443, 17.749)), ((16.98, 19.426), (16.645, 22.887), (18.215, 25.301)), ((18.87, 26.315), (19.901, 27.232), (20.727, 28.091)), ((21.603, 28.999), (22.519, 30.202), (23.632, 30.815)), ((26.013, 32.133), (29.122, 31.167), (30.619, 28.966)), ((31.085, 28.279), (31.396, 27.387), (31.462, 26.561)), ((31.486, 26.307), (31.429, 25.366), (31.56, 25.235)), ((31.748, 25.227), (31.936, 25.211), (32.125, 25.203)), ((32.509, 25.186), (32.902, 25.121), (33.278, 25.015)), ((34.44, 24.679), (35.479, 23.967), (36.158, 22.961)), ((36.584, 22.339), (36.813, 21.595), (36.878, 20.85)), ((36.895, 20.645), (36.829, 19.827), (36.944, 19.721)), ((37.107, 19.696), (37.263, 19.68), (37.426, 19.655)), ((37.885, 19.598), (38.31, 19.5), (38.744, 19.345)), ((40.11, 18.845), (42.0, 17.012999999999998), (42, 15.466)), ((42, 15.344), (41.984, 15.221), (41.984, 15.106)), ((41.984, 14.305), (40.507, 12.507), (40, 12)))
-        self.add_contour('c0', 'e0', 'e2', closed=False)
-        self.add_contour('c1', 'e1', 'e3', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # Plan: SQUARE; a smooth scalloped duster head and a single exact handle junction replace fragmented fitted curves.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        self.add_line('handle',(6,42),(21,27))
+        path('head',(21,27),[('C',(17,23),(17,18),(23,17)),('C',(23,13),(25,11),(29,11)),
+         ('C',(29,8),(30,6),(33,6)),('C',(35,6),(40,11),(42,14)),
+         ('C',(42,17),(40,19),(37,19)),('C',(37,23),(34,25),(31,25)),
+         ('C',(31,32),(25,31),(21,27))],True)
+        self.relate('connect','handle','head')

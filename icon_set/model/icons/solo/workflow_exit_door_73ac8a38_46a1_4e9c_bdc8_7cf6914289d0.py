@@ -1,4 +1,4 @@
-"""Workflow exit door (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""workflow-exit-door: reconstructed stroke graph on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -19,26 +19,30 @@ class WorkflowExitDoor(Solo48):
     keywords = ('workflow', 'exit', 'door', 'interface-essential')
 
     def build(self):
-        # Plan: exact integer ellipse attachments; split the receiving arcs at the real nodes.
-        # Reference: circle geometry and the supplied subject.
-        self.add_line('e0', (13, 4), (14, 10))
-        self.add_line('e1', (13, 44), (14, 20))
-        self.add_line('e2', (35, 30), (34, 19))
-        self.add_line('e3', (30, 15), (20, 15))
-        self.add_arc('e4-top-node-0', (30, 35), (35, 30), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e4-top-node-1', (35, 30), (40, 35), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e4-bottom', (40, 35), (30, 35), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e5-top-node-0', (8, 15), (14, 10), radius_x=6, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e5-top-node-1', (14, 10), (20, 15), radius_x=6, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e5-bottom-node-0', (20, 15), (14, 20), radius_x=6, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e5-bottom-node-1', (14, 20), (8, 15), radius_x=6, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e6', (34, 19), (30, 15), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_contour('c0', 'e0', closed=False)
-        self.add_contour('c1', 'e1', closed=False)
-        self.add_contour('c2', 'e2', 'e6', 'e3', closed=False)
-        self.add_contour('e4', 'e4-top-node-0', 'e4-top-node-1', 'e4-bottom', closed=True)
-        self.add_contour('e5', 'e5-top-node-0', 'e5-top-node-1', 'e5-bottom-node-0', 'e5-bottom-node-1', closed=True)
-        self.relate('connect', 'c0', 'e5')
-        self.relate('connect', 'c1', 'e5')
-        self.relate('connect', 'c2', 'e4')
-        self.relate('connect', 'c2', 'e5')
+        # Plan: VRECT_L; equal circular nodes, truly vertical rails and one tangent radius-four elbow.
+        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
+        def path(name,start,commands,closed=False):
+            members=[];previous=start
+            for i,cmd in enumerate(commands):
+                eid=f'{name}-{i}';members.append(eid)
+                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
+                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
+                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
+                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
+            self.add_contour(name,*members,closed=closed)
+        def oval(name,cx,cy,rx,ry=None):
+            ry=rx if ry is None else ry
+            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
+
+        def circle_nodes(name,cx,cy,r,nodes=()):
+            import math
+            pts=set(nodes)|{(cx-r,cy),(cx+r,cy),(cx,cy-r),(cx,cy+r)}
+            assert all((x-cx)**2+(y-cy)**2==r*r for x,y in pts)
+            pts=sorted(pts,key=lambda p:math.atan2(p[1]-cy,p[0]-cx))
+            path(name,pts[0],[('A',pt,r,r,True) for pt in pts[1:]+pts[:1]],True)
+
+        oval('left',13,15,5);oval('right',35,35,5)
+        self.add_line('above',(13,4),(13,10));self.add_line('below',(13,20),(13,44))
+        path('branch',(18,15),[('L',(31,15)),('A',(35,19),4,4,True),('L',(35,30))])
+        for s in ['above','below','branch']:self.relate('connect',s,'left')
+        self.relate('connect','branch','right')
