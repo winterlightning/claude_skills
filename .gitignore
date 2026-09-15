@@ -6,8 +6,10 @@
 __pycache__/
 *.pyc
 
-# Server feedback is persistent local data, not build output.
-/icon_set/data/
+# Server data is local, except the review database, which is shared so
+# approve/reject/pending status follows the repo to other machines.
+/icon_set/data/*
+!/icon_set/data/feedback.sqlite3
 /icons-json
 /head
 
