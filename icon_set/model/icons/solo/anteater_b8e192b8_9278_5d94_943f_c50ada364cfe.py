@@ -1,4 +1,4 @@
-"""Anteater with long downturned snout and domed back; centerline extremes (6,11)-(42,37). Overlapping far legs omitted. No useful Lucide match; natural profile asymmetry retained."""
+"""Anteater with long downturned snout and domed back; centerline extremes (4,8)-(44,40). Feedback 79/153: simplify the silhouette and add one eye dot. Lower the inner throat to reserve full eye clearance. Overlapping far legs omitted. No useful Lucide match; natural profile asymmetry retained."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b8e192b8-9278-5d94-943f-c50ada364cfe'
@@ -37,4 +37,5 @@ class Anteater(Solo48):
         line = self.add_line
         poly = self.add_polyline
         join = lambda a,b: self.relate('connect',a,b)
-        path('animal',(4,32), [('L',(4,18)),('A',(24,8),20,10,True),('C',(44,30),(40,8),(44,16)),('L',(44,40)),('L',(36,40)),('L',(36,34)),('C',(28,28),(36,30),(32,28)),('L',(28,40)),('L',(20,40)),('L',(20,26)),('C',(12,26),(20,18),(12,18)),('L',(12,32)),('A',(4,32),4,4,True)],True)
+        path('animal',(4,32), [('L',(4,18)),('A',(24,8),20,10,True),('C',(44,30),(40,8),(44,16)),('L',(44,40)),('L',(36,40)),('L',(36,34)),('C',(28,28),(36,30),(32,28)),('L',(28,40)),('L',(20,40)),('L',(20,30)),('C',(12,30),(20,26),(12,26)),('L',(12,32)),('A',(4,32),4,4,True)],True)
+        line('eye', (18,18), (18,18))

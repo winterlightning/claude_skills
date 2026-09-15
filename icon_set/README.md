@@ -565,13 +565,16 @@ After deploying the updated icons, run this once on the production computer:
 python3 icon_set/scripts/mark_feedback_processed_sep15.py --database /persistent/path/feedback.sqlite3
 ```
 
-The script contains the 135 changed icon IDs. It deletes their processed feedback
+The script contains 139 fixed icon IDs, including all three container icons covered
+by the four container briefs. Older v2/v3 feedback IDs map to the fixed originals. It deletes their processed feedback
 records and sets the matching deployed versions to **Ready** for another review.
 It saves a database backup beside the original before making changes; deletion
 and the Ready status are applied in one transaction. Unrelated records stay intact.
 No export/import steps or automatic startup changes.
-Use `--dist /path/to/dist` if your build is elsewhere. Existing approval/rejection
-and newer feedback are preserved; the script prints the updated and skipped IDs.
+Use `--dist /path/to/dist` if your build is elsewhere. Approval/rejection decisions
+from before the fix are reset for these confirmed fixed icons. Newer feedback,
+newer review decisions, and active combination splits are preserved. The script
+prints the updated and skipped IDs.
 
 ### Review grid and approval
 

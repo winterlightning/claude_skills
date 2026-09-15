@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Remove processed feedback for 135 changed icons and put their new versions in Ready.
+"""Remove processed feedback for 139 changed icons and put their new versions in Ready.
 Run after deploying the updated icons. Newer feedback and review decisions are kept.
 """
 import argparse
@@ -14,6 +14,10 @@ PACKAGE = Path(__file__).resolve().parents[1]
 PROCESSED_AT = '2026-09-15T22:55:53.393007+07:00'
 # Changed icon IDs; hashes ensure we only mark the actual fixed drawings.
 CHANGED_ICONS = {
+    'container/hexagonal-molecular-structure': '6dcf16cea10a97fcc11f6bb7acab5e36d8a76d300f4dc099d4a617d9c4bff4f6',
+    'container/fringed-area-rug': '0d830c810ac3f78ec1d172eafb60626ec58bb7eb9a5e33732ec2c4ef35da8b3e',
+    'container/clipboard': 'e8b53934e732262ad4e18c7cbb3f644d1a419f69cfe43ee195a1ecc65fb2cf31',
+    'solo/anteater': 'c96f679fb822f9374ce29e2ec446596cb966fd6ad73e8c535d051fdb41978d1e',
     'solo/abyssinian-cat-face': '0bdcde6002836c0429824a42c3e2f495c9fdeba54d9d2142617e4a4a38e6aa39',
     'solo/action-camera-on-mount': 'ab34c19fab16a7d31de2d91a69bf13a3d6e260d2610cfa2f567a68e04e9ce535',
     'solo/aiming-rifle-shooter': 'c55b9d2e916698e35487ddf99bf6356fa1023d5c0afaca587b448732ef2699a2',
@@ -150,7 +154,29 @@ CHANGED_ICONS = {
     'solo/windmill': '4b82891448d0b9122b708112866139bdeb102b7d4602f7bdea273c102dd078d1',
     'solo/wolf-head': 'b69bb1af93407fa61fdfd97b8bdd59138f529f3c3203da791efa0c1f8ed3cc71',
 }
-ICON_ALIASES = {'solo/diaper-change-v2': 'solo/diaper-change'}
+ICON_ALIASES = {
+    'solo/crocodile-in-water-v2': 'solo/crocodile-in-water',
+    'solo/swan-on-water-v2': 'solo/swan-on-water',
+    'solo/analogue-wristwatch-v2': 'solo/analogue-wristwatch',
+    'solo/diaper-change-v2': 'solo/diaper-change',
+    'solo/grand-canyon-with-river-v2': 'solo/grand-canyon-with-river',
+    'solo/baby-girl-face-v2': 'solo/baby-girl-face',
+    'solo/leaping-dolphin-v2': 'solo/leaping-dolphin',
+    'solo/leaping-rabbit-v2': 'solo/leaping-rabbit',
+    'solo/baby-head-v3': 'solo/baby-head',
+    'solo/baby-figure-v2': 'solo/baby-figure',
+    'container/fringed-area-rug-v2': 'container/fringed-area-rug',
+    'container/hexagonal-molecular-structure-v2': 'container/hexagonal-molecular-structure',
+}
+
+# Completion times for the additional fixes; earlier icons keep their original cutoff.
+PROCESSED_TIMES = {
+    'solo/anteater': '2026-09-15T16:52:25.357440+00:00',
+    'container/clipboard': '2026-09-15T16:52:25.357440+00:00',
+    'container/fringed-area-rug': '2026-09-15T16:52:25.357440+00:00',
+    'container/hexagonal-molecular-structure': '2026-09-15T16:52:25.357440+00:00',
+}
+PROFILE_FOLDERS = {'solo': 'solo48', 'container': 'container64', 'sub': 'sub32'}
 
 def as_utc(value):
     parsed = datetime.fromisoformat(value.replace('Z', '+00:00'))
@@ -175,8 +201,9 @@ def mark_processed(database, dist):
     with closing(sqlite3.connect(database, timeout=30)) as db, db:
         db.execute('BEGIN IMMEDIATE')
         for key, expected_hash in CHANGED_ICONS.items():
-            icon_id = key.split('/')[1]
-            svg = dist / 'solo48' / (icon_id + '.svg')
+            family, icon_id = key.split('/')
+            processed_at = PROCESSED_TIMES.get(key, PROCESSED_AT)
+            svg = dist / PROFILE_FOLDERS[family] / (icon_id + '.svg')
             if (key not in records or records[key]['svg_sha256'] != expected_hash or
                     not svg.is_file() or hashlib.sha256(svg.read_bytes()).hexdigest() != expected_hash):
                 result['skipped'][key] = 'Updated icon has not been deployed'
@@ -184,26 +211,34 @@ def mark_processed(database, dist):
             aliases = [old for old,new in ICON_ALIASES.items() if new == key]
             names = [key, *aliases]
             placeholders = ','.join('?' for _ in names)
-            if db.execute("SELECT 1 FROM reviews WHERE status='rejected' AND icon IN ("+placeholders+')',names).fetchone() or db.execute('SELECT 1 FROM split_requests WHERE active=1 AND icon IN ('+placeholders+')',names).fetchone():
-                result['skipped'][key] = 'Rejected icon or combination'
+            if db.execute('SELECT 1 FROM split_requests WHERE active=1 AND icon IN ('+placeholders+')',names).fetchone():
+                result['skipped'][key] = 'Active combination split'
+                continue
+            rejection_times = db.execute("SELECT updated_at FROM reviews WHERE status='rejected' AND icon IN ("+placeholders+')',names)
+            if any(as_utc(at) > as_utc(processed_at) for (at,) in rejection_times):
+                result['skipped'][key] = 'Newer rejection needs review'
                 continue
             current = db.execute('SELECT status,updated_at FROM reviews WHERE icon=? AND svg_sha256=?',(key,expected_hash)).fetchone()
-            if current and (current[0] == 'approve' or as_utc(current[1]) > as_utc(PROCESSED_AT)):
-                result['skipped'][key] = 'Existing approval or newer review'
+            if current and as_utc(current[1]) > as_utc(processed_at):
+                result['skipped'][key] = 'Newer review decision'
                 continue
             feedback_times = db.execute('SELECT COALESCE(edited_at,created_at) FROM feedback WHERE icon IN ('+placeholders+')',names)
-            if any(as_utc(at) > as_utc(PROCESSED_AT) for (at,) in feedback_times):
+            if any(as_utc(at) > as_utc(processed_at) for (at,) in feedback_times):
                 result['skipped'][key] = 'Newer feedback needs review'
                 continue
             result['feedback_deleted'] += db.execute(
                 'DELETE FROM feedback WHERE icon IN ('+placeholders+')',names).rowcount
+            # The app treats rejection on ANY old SVG as an icon-wide block.
+            # Match its restore behavior before setting the fixed version Ready.
+            db.execute("UPDATE reviews SET status='pending',updated_at=?,updated_by='feedback-script' "
+                       "WHERE status='rejected' AND icon IN ("+placeholders+')',[processed_at,*names])
             if current and current[0] == 'ready':
                 result['already_ready'].append(key)
                 continue
             db.execute("""INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by)
                 VALUES (?,?,'ready',?,'feedback-script')
                 ON CONFLICT(icon,svg_sha256) DO UPDATE SET status=excluded.status,
-                updated_at=excluded.updated_at,updated_by=excluded.updated_by""",(key,expected_hash,PROCESSED_AT))
+                updated_at=excluded.updated_at,updated_by=excluded.updated_by""",(key,expected_hash,processed_at))
             result['updated'].append(key)
     return result
 
