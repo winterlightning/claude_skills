@@ -1,12 +1,15 @@
-'video-e80765f4: independent smooth-curve repair.\n\nConstruction: Video camera with four equal body corners and a horizontally symmetric lens housing.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/video.svg and atomic-debug/video.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""video-e80765f4: approved original model.
+
+Construction: Video camera with a compact body and a tall tapered lens hood; keep a clear horizontal viewing direction.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: video from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'e80765f4-90c9-40bf-aed4-9fbc533d28fb'
 SOURCE_PATH = 'pictographic-primitives/symbol/video_e80765f4-90c9-40bf-aed4-9fbc533d28fb.svg'
 AUTHOR = 'gpt-6'
-
 
 class VideoE80765f4(Solo48):
     icon_id = 'video-e80765f4'
@@ -18,6 +21,6 @@ class VideoE80765f4(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        box(self,'body',4,8,32,40,6,ys=(18,30))
-        poly(self,'lens',(32,18),(44,12),(44,36),(32,30))
+        box(self, 'body', 4, 14, 30, 34, 4, ys=(20, 28))
+        poly(self, 'lens', (30, 20), (44, 8), (44, 40), (30, 28))
         contacts(self)

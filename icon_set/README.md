@@ -557,6 +557,22 @@ For an internet-facing server, run it behind a reverse proxy providing HTTPS,
 access control if needed, and request limits; preserve the original `Host`
 header. Use a service manager to keep the process running.
 
+### Mark this batch's feedback processed on production
+
+After deploying the updated icons, run this once on the production computer:
+
+```bash
+python3 icon_set/scripts/mark_feedback_processed_sep15.py --database /persistent/path/feedback.sqlite3
+```
+
+The script contains the 135 changed icon IDs. It deletes their processed feedback
+records and sets the matching deployed versions to **Ready** for another review.
+It saves a database backup beside the original before making changes; deletion
+and the Ready status are applied in one transaction. Unrelated records stay intact.
+No export/import steps or automatic startup changes.
+Use `--dist /path/to/dist` if your build is elsewhere. Existing approval/rejection
+and newer feedback are preserved; the script prints the updated and skipped IDs.
+
 ### Review grid and approval
 
 Each icon card shows its category and review status, with an **Approve** button.

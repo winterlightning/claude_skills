@@ -1,12 +1,15 @@
-'helmet-protection: independent smooth-curve repair.\n\nConstruction: Protective helmet with a smooth dome and narrow center ridge; broad brim. Simplified redundant ridge walls to one centerline.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/hard-hat.svg and atomic-debug/hard-hat.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""helmet-protection: approved original model.
+
+Construction: Protective helmet with a flat central crest and two straight reinforcing ribs joined to the brim; round shoulders flank the crest.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: hard-hat from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '25ee09f6-fd7a-43d2-abe9-d8c92772aab7'
 SOURCE_PATH = 'pictographic-primitives/protection/helmet_25ee09f6-fd7a-43d2-abe9-d8c92772aab7.svg'
 AUTHOR = 'gpt-6'
-
 
 class HelmetProtection(Solo48):
     icon_id = 'helmet-protection'
@@ -18,7 +21,8 @@ class HelmetProtection(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        path(self,'dome',(8,30),('L',(8,24)),('A',16,16,True,(24,8)),('A',16,16,True,(40,24)),('L',(40,30)))
-        box(self,'brim',4,30,44,40,3,xs=(8,40))
-        line(self,'ridge',(24,8),(24,24))
+        path(self, 'dome', (8, 30), ('L', (8, 20)), ('A', 12, 12, True, (20, 8)), ('L', (28, 8)), ('A', 12, 12, True, (40, 20)), ('L', (40, 30)))
+        box(self, 'brim', 4, 30, 44, 40, 3, xs=(8, 20, 28, 40))
+        line(self, 'left-rib', (20, 8), (20, 30))
+        line(self, 'right-rib', (28, 8), (28, 30))
         contacts(self)

@@ -15,32 +15,48 @@
         "elementId": "envelope",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 8 L 40 8 A 4 4 0 0 1 44 12 L 44 16 L 44 36 A 4 4 0 0 1 40 40 L 8 40 A 4 4 0 0 1 4 36 L 4 16 L 4 12 A 4 4 0 0 1 8 8 Z",
+        "pathData": "M 10 6 L 24 6 L 38 6 A 4 4 0 0 1 42 10 L 42 38 A 4 4 0 0 1 38 42 L 24 42 L 10 42 A 4 4 0 0 1 6 38 L 6 10 A 4 4 0 0 1 10 6 Z",
         "bounds": [
-          4.0,
-          8.0,
-          44.0,
-          40.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ],
         "segmentCount": 263,
         "approximationError": 0.00030119642430268906,
         "hasCurves": true
       },
       {
-        "id": "flap:subpath-1",
-        "elementId": "flap",
+        "id": "fold:subpath-1",
+        "elementId": "fold",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 16 L 20 27 C 22 28.375 26 28.375 28 27 L 44 16",
+        "pathData": "M 6 10 L 24 24 L 42 10",
         "bounds": [
-          4.0,
-          16.0,
-          44.0,
-          28.03125
+          6.0,
+          10.0,
+          42.0,
+          24.0
         ],
-        "segmentCount": 66,
-        "approximationError": 0.0005473101718886842,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "seam:subpath-1",
+        "elementId": "seam",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 24 24 L 24 42",
+        "bounds": [
+          24.0,
+          24.0,
+          24.0,
+          42.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
@@ -48,21 +64,24 @@
         "id": "component-1",
         "memberIds": [
           "envelope:subpath-1",
-          "flap:subpath-1"
+          "fold:subpath-1",
+          "seam:subpath-1"
         ],
         "contourIds": [
           "envelope:subpath-1",
-          "flap:subpath-1"
+          "fold:subpath-1",
+          "seam:subpath-1"
         ],
         "elementIds": [
           "envelope",
-          "flap"
+          "fold",
+          "seam"
         ],
         "bounds": [
-          4.0,
-          8.0,
-          44.0,
-          40.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
@@ -71,12 +90,34 @@
       {
         "contourIds": [
           "envelope:subpath-1",
-          "flap:subpath-1"
+          "fold:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          4.0,
-          16.0
+          6.0,
+          10.0
+        ]
+      },
+      {
+        "contourIds": [
+          "envelope:subpath-1",
+          "seam:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          42.0
+        ]
+      },
+      {
+        "contourIds": [
+          "fold:subpath-1",
+          "seam:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          24.0
         ]
       }
     ],
@@ -84,19 +125,57 @@
       {
         "contourIds": [
           "envelope:subpath-1",
-          "flap:subpath-1"
+          "fold:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "envelope:subpath-1",
-            "flap:subpath-1"
+            "fold:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            4.0,
-            16.0
+            6.0,
+            10.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "envelope:subpath-1",
+          "seam:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "envelope:subpath-1",
+            "seam:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            42.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "fold:subpath-1",
+          "seam:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "fold:subpath-1",
+            "seam:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            24.0
           ]
         }
       }
@@ -116,9 +195,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 16,
-      "flattenedSegments": 329,
-      "adaptiveNodes": 635,
+      "commands": 17,
+      "flattenedSegments": 266,
+      "adaptiveNodes": 508,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -131,67 +210,97 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9844,
-          17.7969
+          24.0156,
+          13.9219
         ],
         "bbox_viewbox": [
-          6.0,
-          10.0,
-          36.0,
-          16.0312
+          8.1875,
+          8.0,
+          31.625,
+          13.4688
         ],
         "bbox_ship_px": [
-          36.0,
-          16.0312
+          31.625,
+          13.4688
         ],
         "bbox_design_u": [
-          36.0,
-          16.0312
+          31.625,
+          13.4688
         ],
-        "area_ship_px2": 396.2725,
-        "equivalent_diameter_ship_px": 22.4622,
-        "equivalent_diameter_design_u": 22.4622,
-        "inscribed_diameter_ship_px": 15.5781,
-        "inscribed_diameter_design_u": 15.5781,
-        "inscribed_radius_ship_px": 7.7891,
-        "inscribed_radius_design_u": 7.7891,
+        "area_ship_px2": 230.2002,
+        "equivalent_diameter_ship_px": 17.1202,
+        "equivalent_diameter_design_u": 17.1202,
+        "inscribed_diameter_ship_px": 11.873,
+        "inscribed_diameter_design_u": 11.873,
+        "inscribed_radius_ship_px": 5.9365,
+        "inscribed_radius_design_u": 5.9365,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
       {
         "hole": 2,
         "center_viewbox": [
-          12.2344,
-          31.7344
+          14.9844,
+          28.4219
         ],
         "bbox_viewbox": [
-          6.0,
-          19.8125,
-          36.0,
-          18.1875
+          8.0,
+          14.0938,
+          14.0,
+          25.9062
         ],
         "bbox_ship_px": [
-          36.0,
-          18.1875
+          14.0,
+          25.9062
         ],
         "bbox_design_u": [
-          36.0,
-          18.1875
+          14.0,
+          25.9062
         ],
-        "area_ship_px2": 438.9072,
-        "equivalent_diameter_ship_px": 23.6397,
-        "equivalent_diameter_design_u": 23.6397,
-        "inscribed_diameter_ship_px": 12.5,
-        "inscribed_diameter_design_u": 12.5,
-        "inscribed_radius_ship_px": 6.25,
-        "inscribed_radius_design_u": 6.25,
+        "area_ship_px2": 285.6855,
+        "equivalent_diameter_ship_px": 19.0721,
+        "equivalent_diameter_design_u": 19.0721,
+        "inscribed_diameter_ship_px": 14.0,
+        "inscribed_diameter_design_u": 14.0,
+        "inscribed_radius_ship_px": 7.0,
+        "inscribed_radius_design_u": 7.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          33.0156,
+          28.4219
+        ],
+        "bbox_viewbox": [
+          26.0,
+          14.0938,
+          14.0,
+          25.9062
+        ],
+        "bbox_ship_px": [
+          14.0,
+          25.9062
+        ],
+        "bbox_design_u": [
+          14.0,
+          25.9062
+        ],
+        "area_ship_px2": 285.6377,
+        "equivalent_diameter_ship_px": 19.0705,
+        "equivalent_diameter_design_u": 19.0705,
+        "inscribed_diameter_ship_px": 14.0,
+        "inscribed_diameter_design_u": 14.0,
+        "inscribed_radius_ship_px": 7.0,
+        "inscribed_radius_design_u": 7.0,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
     ],
-    "authored_hole_count": 2,
+    "authored_hole_count": 3,
     "raster_artifact_count": 0,
-    "hole_count": 2,
+    "hole_count": 3,
     "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
@@ -199,65 +308,97 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          17.7656
+          13.9219
         ],
         "bbox_viewbox": [
-          4.5,
-          8.5,
-          39.0,
-          19.0312
+          6.5,
+          6.5,
+          35.0,
+          16.8438
         ],
         "bbox_ship_px": [
-          39.0,
-          19.0312
+          35.0,
+          16.8438
         ],
         "bbox_design_u": [
-          39.0,
-          19.0312
+          35.0,
+          16.8438
         ],
-        "area_ship_px2": 533.8398,
-        "equivalent_diameter_ship_px": 26.0712,
-        "equivalent_diameter_design_u": 26.0712,
-        "inscribed_diameter_ship_px": 18.5625,
-        "inscribed_diameter_design_u": 18.5625,
-        "inscribed_radius_ship_px": 9.2812,
-        "inscribed_radius_design_u": 9.2812,
+        "area_ship_px2": 346.876,
+        "equivalent_diameter_ship_px": 21.0156,
+        "equivalent_diameter_design_u": 21.0156,
+        "inscribed_diameter_ship_px": 14.8615,
+        "inscribed_diameter_design_u": 14.8615,
+        "inscribed_radius_ship_px": 7.4307,
+        "inscribed_radius_design_u": 7.4307,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 7.7812,
-        "equivalent_diameter_at_authored_stroke_design_u": 15.5624
+        "equivalent_radius_at_authored_stroke_design_u": 5.9307,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.8614
       },
       {
         "hole": 2,
         "center_viewbox": [
-          12.2344,
-          31.7656
+          14.9844,
+          28.4219
         ],
         "bbox_viewbox": [
-          4.5,
-          16.9688,
-          39.0,
-          22.5312
+          6.5,
+          11.0312,
+          17.0,
+          30.4688
         ],
         "bbox_ship_px": [
-          39.0,
-          22.5312
+          17.0,
+          30.4688
         ],
         "bbox_design_u": [
-          39.0,
-          22.5312
+          17.0,
+          30.4688
         ],
-        "area_ship_px2": 618.6738,
-        "equivalent_diameter_ship_px": 28.0663,
-        "equivalent_diameter_design_u": 28.0663,
-        "inscribed_diameter_ship_px": 15.5,
-        "inscribed_diameter_design_u": 15.5,
-        "inscribed_radius_ship_px": 7.75,
-        "inscribed_radius_design_u": 7.75,
+        "area_ship_px2": 403.1035,
+        "equivalent_diameter_ship_px": 22.655,
+        "equivalent_diameter_design_u": 22.655,
+        "inscribed_diameter_ship_px": 17.0,
+        "inscribed_diameter_design_u": 17.0,
+        "inscribed_radius_ship_px": 8.5,
+        "inscribed_radius_design_u": 8.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 6.25,
-        "equivalent_diameter_at_authored_stroke_design_u": 12.5
+        "equivalent_radius_at_authored_stroke_design_u": 7.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.0
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          33.0156,
+          28.4219
+        ],
+        "bbox_viewbox": [
+          24.5,
+          11.0312,
+          17.0,
+          30.4688
+        ],
+        "bbox_ship_px": [
+          17.0,
+          30.4688
+        ],
+        "bbox_design_u": [
+          17.0,
+          30.4688
+        ],
+        "area_ship_px2": 403.0957,
+        "equivalent_diameter_ship_px": 22.6547,
+        "equivalent_diameter_design_u": 22.6547,
+        "inscribed_diameter_ship_px": 17.0,
+        "inscribed_diameter_design_u": 17.0,
+        "inscribed_radius_ship_px": 8.5,
+        "inscribed_radius_design_u": 8.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 7.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.0
       }
     ],
     "pinches": [],
@@ -276,7 +417,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.9997480870681755,
+        "ink_iou": 0.9997760182876357,
         "ink_symmetric": true,
         "status": "pass",
         "mismatches": [],
@@ -285,7 +426,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.6831425427926598,
+        "ink_iou": 0.603015903972653,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -321,7 +462,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "55c231c746c11a81d61fd44c7900e19f3aeedd1dcbaf1221fa038a4cc278b306",
+  "svg_sha256": "0060bb8e65ca84b3cdcb26c041cc97ce68f7bbf1c2193e4c41f0bb13d4611576",
   "rules": {
     "profile": {
       "canvas_size": 48,

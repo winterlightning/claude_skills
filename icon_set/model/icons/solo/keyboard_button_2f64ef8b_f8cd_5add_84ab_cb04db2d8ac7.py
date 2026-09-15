@@ -1,12 +1,15 @@
-'keyboard-button: independent smooth-curve repair.\n\nConstruction: A regular rounded square; its panel structure uses shared centerlines and four equal corners.\nKeyshape: SQUARE; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/layout-grid.svg and atomic-debug/layout-grid.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""keyboard-button: approved original model.
+
+Construction: Keyboard keycap with a lower bevel line, making the key depth visible.
+Keyshape: SQUARE; exact SOLO48 envelope.
+Construction reference: layout-grid from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '2f64ef8b-f8cd-5add-84ab-cb04db2d8ac7'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/keyboard button_2f64ef8b-f8cd-5add-84ab-cb04db2d8ac7.svg'
 AUTHOR = 'gpt-6'
-
 
 class KeyboardButton(Solo48):
     icon_id = 'keyboard-button'
@@ -18,5 +21,6 @@ class KeyboardButton(Solo48):
     keyshape = Keyshape.SQUARE
 
     def build(self):
-        box(self,'frame',6,6,42,42,4,xs=(24,),ys=(24,))
+        box(self, 'keycap', 6, 6, 42, 42, 4, ys=(30,))
+        line(self, 'bevel', (6, 30), (42, 30))
         contacts(self)

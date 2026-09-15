@@ -1,12 +1,15 @@
-'trash-ea5cd0b4: independent smooth-curve repair.\n\nConstruction: Wastebasket with a broad lid and matched rounded lower corners.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/trash-2.svg and atomic-debug/trash-2.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""trash-ea5cd0b4: approved original model.
+
+Construction: Waste bin with an arched handle and two vertical ribs; separate it from the plain bin with a stem handle.
+Keyshape: VRECT_L; exact SOLO48 envelope.
+Construction reference: trash-2 from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'ea5cd0b4-3531-4186-80b3-cc38fb176b7b'
 SOURCE_PATH = 'pictographic-primitives/symbol/trash_ea5cd0b4-3531-4186-80b3-cc38fb176b7b.svg'
 AUTHOR = 'gpt-6'
-
 
 class TrashEa5cd0b4(Solo48):
     icon_id = 'trash-ea5cd0b4'
@@ -18,6 +21,9 @@ class TrashEa5cd0b4(Solo48):
     keyshape = Keyshape.VRECT_L
 
     def build(self):
-        path(self,'bin',(10,14),('L',(10,39)),('A',5,5,False,(15,44)),('L',(33,44)),('A',5,5,False,(38,39)),('L',(38,14)))
-        line(self,'lid',(8,14),(40,14));line(self,'knob',(24,4),(24,14))
+        path(self, 'bin', (10, 14), ('L', (10, 39)), ('A', 5, 5, False, (15, 44)), ('L', (33, 44)), ('A', 5, 5, False, (38, 39)), ('L', (38, 14)))
+        line(self, 'lid', (8, 14), (40, 14))
+        path(self, 'handle', (18, 14), ('L', (18, 9)), ('A', 5, 5, True, (23, 4)), ('L', (25, 4)), ('A', 5, 5, True, (30, 9)), ('L', (30, 14)))
+        for x in (20, 28):
+            line(self, f'rib-{x}', (x, 24), (x, 34))
         contacts(self)

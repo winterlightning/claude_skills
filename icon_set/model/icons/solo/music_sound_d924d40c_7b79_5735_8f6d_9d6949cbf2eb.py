@@ -1,12 +1,15 @@
-'music-sound: independent smooth-curve repair.\n\nConstruction: Centered waveform: shared horizontal axis and matched outer bars, with deliberate rhythmic height steps.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/audio-lines.svg and atomic-debug/audio-lines.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""music-sound: approved original model.
+
+Construction: Music sound represented by two beamed notes at staggered heights; preserve the symbol's intentional asymmetry.
+Keyshape: VRECT_L; exact SOLO48 envelope.
+Construction reference: audio-lines from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'd924d40c-7b79-5735-8f6d-9d6949cbf2eb'
 SOURCE_PATH = 'pictographic-primitives/audio/music sound_d924d40c-7b79-5735-8f6d-9d6949cbf2eb.svg'
 AUTHOR = 'gpt-6'
-
 
 class MusicSound(Solo48):
     icon_id = 'music-sound'
@@ -18,6 +21,7 @@ class MusicSound(Solo48):
     keyshape = Keyshape.VRECT_L
 
     def build(self):
-        for i,(x,half) in enumerate(((8,4),(16,14),(24,20),(32,12),(40,4))):
-            line(self,f'bar-{i}',(x,24-half),(x,24+half))
+        ellipse(self, 'left-note', 14, 38, 6)
+        ellipse(self, 'right-note', 34, 30, 6)
+        poly(self, 'beam', (20, 38), (20, 10), (40, 4), (40, 30))
         contacts(self)

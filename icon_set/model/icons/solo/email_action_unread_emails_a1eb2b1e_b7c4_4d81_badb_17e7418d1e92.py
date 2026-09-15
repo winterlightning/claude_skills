@@ -1,12 +1,15 @@
-'email-action-unread-emails: independent smooth-curve repair.\n\nConstruction: Rounded envelope with a single gently curved flap; mirrored cubic controls preserve the central fold. Removed cramped redundant lower diagonals.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/mail.svg and atomic-debug/mail.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""email-action-unread-emails: approved original model.
+
+Construction: Unread emails shown as two overlapping envelopes with an exposed rear top and right edge; actual shared junctions.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: mail from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'a1eb2b1e-b7c4-4d81-badb-17e7418d1e92'
 SOURCE_PATH = 'pictographic-primitives/emails/email action unread_a1eb2b1e-b7c4-4d81-badb-17e7418d1e92.svg'
 AUTHOR = 'gpt-6'
-
 
 class EmailActionUnreadEmails(Solo48):
     icon_id = 'email-action-unread-emails'
@@ -18,6 +21,7 @@ class EmailActionUnreadEmails(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        box(self,'envelope',4,8,44,40,4,ys=(16,))
-        path(self,'flap',(4,16),('L',(20,27)),('C',(22,28.375),(26,28.375),(28,27)),('L',(44,16)))
+        box(self, 'front', 4, 18, 36, 40, 4, ys=(22, 30), xs=(12,))
+        poly(self, 'flap', (4, 22), (20, 32), (36, 22))
+        path(self, 'back', (12, 18), ('L', (12, 12)), ('A', 4, 4, True, (16, 8)), ('L', (40, 8)), ('A', 4, 4, True, (44, 12)), ('L', (44, 26)), ('A', 4, 4, True, (40, 30)), ('L', (36, 30)))
         contacts(self)

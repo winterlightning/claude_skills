@@ -15,10 +15,10 @@
         "elementId": "stem",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 42 L 24 34",
+        "pathData": "M 24 42 L 24 24",
         "bounds": [
           24.0,
-          34.0,
+          24.0,
           24.0,
           42.0
         ],
@@ -27,36 +27,20 @@
         "hasCurves": false
       },
       {
-        "id": "branch-left:subpath-1",
-        "elementId": "branch-left",
+        "id": "branches:subpath-1",
+        "elementId": "branches",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 34 C 24 24 14 12 6 6",
+        "pathData": "M 6 6 L 24 24 L 42 6",
         "bounds": [
           6.0,
-          6.0,
-          24.0,
-          34.0
-        ],
-        "segmentCount": 100,
-        "approximationError": 0.0009952165644042034,
-        "hasCurves": true
-      },
-      {
-        "id": "branch-right:subpath-1",
-        "elementId": "branch-right",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 24 34 C 24 24 34 12 42 6",
-        "bounds": [
-          24.0,
           6.0,
           42.0,
-          34.0
+          24.0
         ],
-        "segmentCount": 100,
-        "approximationError": 0.0009952165655410718,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "left-head:subpath-1",
@@ -96,22 +80,19 @@
         "id": "component-1",
         "memberIds": [
           "stem:subpath-1",
-          "branch-left:subpath-1",
-          "branch-right:subpath-1",
+          "branches:subpath-1",
           "left-head:subpath-1",
           "right-head:subpath-1"
         ],
         "contourIds": [
           "stem:subpath-1",
-          "branch-left:subpath-1",
-          "branch-right:subpath-1",
+          "branches:subpath-1",
           "left-head:subpath-1",
           "right-head:subpath-1"
         ],
         "elementIds": [
           "stem",
-          "branch-left",
-          "branch-right",
+          "branches",
           "left-head",
           "right-head"
         ],
@@ -128,39 +109,17 @@
       {
         "contourIds": [
           "stem:subpath-1",
-          "branch-left:subpath-1"
+          "branches:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          34.0
+          24.0
         ]
       },
       {
         "contourIds": [
-          "stem:subpath-1",
-          "branch-right:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          24.0,
-          34.0
-        ]
-      },
-      {
-        "contourIds": [
-          "branch-left:subpath-1",
-          "branch-right:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          24.0,
-          34.0
-        ]
-      },
-      {
-        "contourIds": [
-          "branch-left:subpath-1",
+          "branches:subpath-1",
           "left-head:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -171,7 +130,7 @@
       },
       {
         "contourIds": [
-          "branch-right:subpath-1",
+          "branches:subpath-1",
           "right-head:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -185,38 +144,19 @@
       {
         "contourIds": [
           "stem:subpath-1",
-          "branch-left:subpath-1"
+          "branches:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "stem:subpath-1",
-            "branch-left:subpath-1"
+            "branches:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            34.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "stem:subpath-1",
-          "branch-right:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "stem:subpath-1",
-            "branch-right:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            24.0,
-            34.0
+            24.0
           ]
         }
       },
@@ -240,33 +180,14 @@
       },
       {
         "contourIds": [
-          "branch-left:subpath-1",
-          "branch-right:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "branch-left:subpath-1",
-            "branch-right:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            24.0,
-            34.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "branch-left:subpath-1",
+          "branches:subpath-1",
           "left-head:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "branch-left:subpath-1",
+            "branches:subpath-1",
             "left-head:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -278,32 +199,14 @@
       },
       {
         "contourIds": [
-          "branch-left:subpath-1",
-          "right-head:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "branch-right:subpath-1",
-          "left-head:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "branch-right:subpath-1",
+          "branches:subpath-1",
           "right-head:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "branch-right:subpath-1",
+            "branches:subpath-1",
             "right-head:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -338,9 +241,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 12,
-      "flattenedSegments": 205,
-      "adaptiveNodes": 398,
+      "commands": 11,
+      "flattenedSegments": 7,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -372,16 +275,16 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.9998218197593928,
+        "ink_iou": 0.9997472794027579,
         "ink_symmetric": true,
         "status": "pass",
         "mismatches": [],
-        "max_sampled_distance": 0.0
+        "max_sampled_distance": 7.32410687763558e-15
       },
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.04456698270761098,
+        "ink_iou": 0.03607899594976543,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -417,7 +320,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "da08004c92c580549869f99e3694a5beb0bfe2dc893908a80fd70a9c6b946178",
+  "svg_sha256": "9e117b0fdbbd0438d0ab6127300223f68c28588c51eb87171a4d8de74d4a5ca9",
   "rules": {
     "profile": {
       "canvas_size": 48,

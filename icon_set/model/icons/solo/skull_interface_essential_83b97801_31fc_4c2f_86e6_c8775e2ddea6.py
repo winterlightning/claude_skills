@@ -1,12 +1,15 @@
-'skull-interface-essential: independent smooth-curve repair.\n\nConstruction: Skull with circular crown and smooth cheeks; eye dots stay separate and the jaw has a central tooth notch.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/skull.svg and atomic-debug/skull.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""skull-interface-essential: approved original model.
+
+Construction: Skull with an elliptical cranium, rounded jaw and two hollow circular eye sockets; broad cheeks keep the openings clear.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: skull from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '83b97801-31fc-4c2f-86e6-c8775e2ddea6'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/skull_83b97801-31fc-4c2f-86e6-c8775e2ddea6.svg'
 AUTHOR = 'gpt-6'
-
 
 class SkullInterfaceEssential(Solo48):
     icon_id = 'skull-interface-essential'
@@ -18,7 +21,8 @@ class SkullInterfaceEssential(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        path(self,'skull',(24,8),('C',(12,8),(4,17),(4,25)),('C',(4,30),(12,29),(12,34)),('L',(12,36)),('A',4,4,False,(16,40)),('L',(24,40)),('L',(32,40)),('A',4,4,False,(36,36)),('L',(36,34)),('C',(36,29),(44,30),(44,25)),('C',(44,17),(36,8),(24,8)),closed=True)
-        self.add_dot('eye-left',(16,23));self.add_dot('eye-right',(32,23))
-        line(self,'tooth',(24,33),(24,40))
+        path(self, 'skull', (4, 24), ('A', 20, 16, True, (24, 8)), ('A', 20, 16, True, (44, 24)), ('L', (44, 30)), ('A', 4, 4, True, (40, 34)), ('L', (36, 34)), ('L', (36, 36)), ('A', 4, 4, True, (32, 40)), ('L', (16, 40)), ('A', 4, 4, True, (12, 36)), ('L', (12, 34)), ('L', (8, 34)), ('A', 4, 4, True, (4, 30)), ('L', (4, 24)), closed=True)
+        ellipse(self, 'eye-left', 16, 23, 3)
+        ellipse(self, 'eye-right', 32, 23, 3)
+        line(self, 'tooth', (24, 32), (24, 40))
         contacts(self)

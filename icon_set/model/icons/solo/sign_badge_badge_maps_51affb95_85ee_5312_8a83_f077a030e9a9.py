@@ -1,12 +1,15 @@
-'sign-badge-badge-maps: independent smooth-curve repair.\n\nConstruction: Shield with a smooth domed top and a coherent curved lower bowl; centered detail kept spacious.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/shield.svg and atomic-debug/shield.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""sign-badge-badge-maps: approved original model.
+
+Construction: Flat-top map badge with rounded shoulders and a smooth pointed lower bowl, distinct from the domed shield.
+Keyshape: VRECT_L; exact SOLO48 envelope.
+Construction reference: shield from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '51affb95-85ee-5312-8a83-f077a030e9a9'
 SOURCE_PATH = 'pictographic-primitives/maps/sign badge badge_51affb95-85ee-5312-8a83-f077a030e9a9.svg'
 AUTHOR = 'gpt-6'
-
 
 class SignBadgeBadgeMaps(Solo48):
     icon_id = 'sign-badge-badge-maps'
@@ -18,5 +21,5 @@ class SignBadgeBadgeMaps(Solo48):
     keyshape = Keyshape.VRECT_L
 
     def build(self):
-        path(self,'shield',(8,9),('C',(17,2.333333333),(31,2.333333333),(40,9)),('L',(40,23)),('C',(40,34),(32,41),(24,44)),('C',(16,41),(8,34),(8,23)),('L',(8,9)),closed=True)
+        path(self, 'badge', (12, 4), ('L', (36, 4)), ('A', 4, 4, True, (40, 8)), ('L', (40, 24)), ('C', (40, 34), (32, 40), (24, 44)), ('C', (16, 40), (8, 34), (8, 24)), ('L', (8, 8)), ('A', 4, 4, True, (12, 4)), closed=True)
         contacts(self)

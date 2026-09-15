@@ -7,52 +7,36 @@
   "errors": [],
   "warnings": [],
   "spacing": {
-    "ok": true,
+    "ok": false,
     "status": "pass",
     "contours": [
       {
-        "id": "airplane:subpath-1",
-        "elementId": "airplane",
+        "id": "plane:subpath-1",
+        "elementId": "plane",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 38 26 L 29 26 L 22 42 L 12 42 L 19 26 L 12 26 L 6 14 L 14 14 L 19 18 L 32 18 L 38 18 A 4 4 0 0 1 38 26 Z",
+        "pathData": "M 6 14 L 14 16 L 18 16 L 14 6 L 24 6 L 32 16 L 38 16 A 4 4 0 0 1 38 24 L 32 24 L 24 32 L 14 32 L 18 24 L 14 24 L 6 26 L 10 20 L 6 14 Z",
         "bounds": [
           6.0,
-          14.0,
+          6.0,
           42.0,
-          42.0
+          32.0
         ],
-        "segmentCount": 139,
+        "segmentCount": 143,
         "approximationError": 0.00030167326144078956,
         "hasCurves": true
-      },
-      {
-        "id": "upper-wing:subpath-1",
-        "elementId": "upper-wing",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 32 18 L 22 6",
-        "bounds": [
-          22.0,
-          6.0,
-          32.0,
-          18.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
       },
       {
         "id": "strut:subpath-1",
         "elementId": "strut",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 38 26 L 38 35",
+        "pathData": "M 38 24 L 39 36",
         "bounds": [
           38.0,
-          26.0,
-          38.0,
-          35.0
+          24.0,
+          39.0,
+          36.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -62,13 +46,13 @@
         "id": "wheel:subpath-1",
         "elementId": "wheel",
         "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 38 35 A 3 3 0 0 1 38 41 A 3 3 0 0 1 38 35 Z",
+        "componentId": "component-2",
+        "pathData": "M 36 39 A 3 3 0 0 1 42 39 A 3 3 0 0 1 36 39 Z",
         "bounds": [
-          35.0,
-          35.0,
-          41.0,
-          41.0
+          36.0,
+          36.0,
+          42.0,
+          42.0
         ],
         "segmentCount": 129,
         "approximationError": 0.0009039468988974386,
@@ -79,154 +63,185 @@
       {
         "id": "component-1",
         "memberIds": [
-          "airplane:subpath-1",
-          "upper-wing:subpath-1",
-          "strut:subpath-1",
-          "wheel:subpath-1"
+          "plane:subpath-1",
+          "strut:subpath-1"
         ],
         "contourIds": [
-          "airplane:subpath-1",
-          "upper-wing:subpath-1",
-          "strut:subpath-1",
-          "wheel:subpath-1"
+          "plane:subpath-1",
+          "strut:subpath-1"
         ],
         "elementIds": [
-          "airplane",
-          "upper-wing",
-          "strut",
-          "wheel"
+          "plane",
+          "strut"
         ],
         "bounds": [
           6.0,
           6.0,
           42.0,
+          36.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "wheel:subpath-1"
+        ],
+        "contourIds": [
+          "wheel:subpath-1"
+        ],
+        "elementIds": [
+          "wheel"
+        ],
+        "bounds": [
+          36.0,
+          36.0,
+          42.0,
           42.0
         ]
       }
     ],
-    "pairs": [],
+    "pairs": [
+      {
+        "closestContours": [
+          "strut:subpath-1",
+          "wheel:subpath-1"
+        ],
+        "centerlineDistance": 0.0,
+        "inkClearance": 0.0,
+        "signedInkClearance": -4.0,
+        "lowerBound": 0.0,
+        "upperBound": 0.0009039468988974387,
+        "inkClearanceLowerBound": 0.0,
+        "inkClearanceUpperBound": 0.0,
+        "approximationError": 0.0009039468988974387,
+        "nearestPoints": [
+          [
+            39.0,
+            36.0
+          ],
+          [
+            39.0,
+            36.0
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "review",
+        "reason": "A possible curved connection between these components is not proved; do not silently merge or approve them.",
+        "ambiguousContact": true,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "plane:subpath-1",
+            "strut:subpath-1"
+          ],
+          [
+            "wheel:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "plane:subpath-1",
+              "wheel:subpath-1"
+            ],
+            "centerlineDistance": 12.026365253427166,
+            "inkClearance": 8.026365253427166,
+            "signedInkClearance": 8.026365253427166,
+            "lowerBound": 12.025159633266824,
+            "upperBound": 12.027570873587505,
+            "inkClearanceLowerBound": 8.025159633266824,
+            "inkClearanceUpperBound": 8.027570873587505,
+            "approximationError": 0.001205620160338228,
+            "nearestPoints": [
+              [
+                38.19627069730967,
+                23.99518182482069
+              ],
+              [
+                38.852796977017746,
+                36.00361363138448
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "strut:subpath-1",
+              "wheel:subpath-1"
+            ],
+            "centerlineDistance": 0.0,
+            "inkClearance": 0.0,
+            "signedInkClearance": -4.0,
+            "lowerBound": 0.0,
+            "upperBound": 0.0009039468988974387,
+            "inkClearanceLowerBound": 0.0,
+            "inkClearanceUpperBound": 0.0,
+            "approximationError": 0.0009039468988974386,
+            "nearestPoints": [
+              [
+                39.0,
+                36.0
+              ],
+              [
+                39.0,
+                36.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "review",
+            "reason": "Possible curve-interior contact is not a proved centerline connection; inspect/redesign before accepting.",
+            "ambiguousContact": true
+          }
+        ],
+        "exemption": "declared connect relationship"
+      }
+    ],
     "connectedPairs": [
       {
         "contourIds": [
-          "airplane:subpath-1",
-          "upper-wing:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          32.0,
-          18.0
-        ]
-      },
-      {
-        "contourIds": [
-          "airplane:subpath-1",
+          "plane:subpath-1",
           "strut:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           38.0,
-          26.0
-        ]
-      },
-      {
-        "contourIds": [
-          "strut:subpath-1",
-          "wheel:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          38.0,
-          35.0
+          24.0
         ]
       }
     ],
     "excludedPairs": [
       {
         "contourIds": [
-          "airplane:subpath-1",
-          "upper-wing:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "airplane:subpath-1",
-            "upper-wing:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            32.0,
-            18.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "airplane:subpath-1",
+          "plane:subpath-1",
           "strut:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "airplane:subpath-1",
+            "plane:subpath-1",
             "strut:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             38.0,
-            26.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "airplane:subpath-1",
-          "wheel:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "upper-wing:subpath-1",
-          "strut:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "upper-wing:subpath-1",
-          "wheel:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "strut:subpath-1",
-          "wheel:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "strut:subpath-1",
-            "wheel:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            38.0,
-            35.0
+            24.0
           ]
         }
       }
     ],
-    "errors": [],
+    "errors": [
+      "component-1 / component-2: A possible curved connection between these components is not proved; do not silently merge or approve them."
+    ],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -237,17 +252,17 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": null,
-    "minimumInkClearance": null,
-    "reason": "No disconnected centerline components to compare.",
+    "minimumCenterlineDistance": 0.0,
+    "minimumInkClearance": 0.0,
+    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 270,
+      "commands": 23,
+      "flattenedSegments": 273,
       "adaptiveNodes": 509,
-      "distanceTests": 0,
+      "distanceTests": 125,
       "connectionTests": 0
     },
-    "raw_status": "pass",
+    "raw_status": "review",
     "canvas": 48
   },
   "negative_space": {
@@ -256,42 +271,42 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9844,
-          23.5156
+          24.9531,
+          19.8594
         ],
         "bbox_viewbox": [
-          9.25,
-          16.0,
-          30.75,
-          24.0
+          10.5625,
+          8.0,
+          29.4375,
+          22.0
         ],
         "bbox_ship_px": [
-          30.75,
-          24.0
+          29.4375,
+          22.0
         ],
         "bbox_design_u": [
-          30.75,
-          24.0
+          29.4375,
+          22.0
         ],
-        "area_ship_px2": 224.2236,
-        "equivalent_diameter_ship_px": 16.8965,
-        "equivalent_diameter_design_u": 16.8965,
-        "inscribed_diameter_ship_px": 7.0403,
-        "inscribed_diameter_design_u": 7.0403,
-        "inscribed_radius_ship_px": 3.5202,
-        "inscribed_radius_design_u": 3.5202,
+        "area_ship_px2": 262.7227,
+        "equivalent_diameter_ship_px": 18.2896,
+        "equivalent_diameter_design_u": 18.2896,
+        "inscribed_diameter_ship_px": 11.7249,
+        "inscribed_diameter_design_u": 11.7249,
+        "inscribed_radius_ship_px": 5.8625,
+        "inscribed_radius_design_u": 5.8625,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
       {
         "hole": 2,
         "center_viewbox": [
-          37.9844,
-          37.9844
+          38.9844,
+          38.9844
         ],
         "bbox_viewbox": [
-          37.0,
-          37.0,
+          38.0,
+          38.0,
           2.0,
           2.0
         ],
@@ -317,8 +332,8 @@
           "rule": "small-circle-hole",
           "element_id": "wheel",
           "center": [
-            38.0,
-            38.0
+            39.0,
+            39.0
           ],
           "centerline_diameter": 6.0,
           "reason": "User-approved 4x4 or 6x6 circular contour"
@@ -334,44 +349,44 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9844,
-          23.4844
+          24.9531,
+          19.8281
         ],
         "bbox_viewbox": [
-          6.8125,
-          14.5,
-          34.6875,
-          27.0
+          7.1562,
+          6.5,
+          34.3438,
+          25.0
         ],
         "bbox_ship_px": [
-          34.6875,
-          27.0
+          34.3438,
+          25.0
         ],
         "bbox_design_u": [
-          34.6875,
-          27.0
+          34.3438,
+          25.0
         ],
-        "area_ship_px2": 388.0518,
-        "equivalent_diameter_ship_px": 22.228,
-        "equivalent_diameter_design_u": 22.228,
-        "inscribed_diameter_ship_px": 10.0,
-        "inscribed_diameter_design_u": 10.0,
-        "inscribed_radius_ship_px": 5.0,
-        "inscribed_radius_design_u": 5.0,
+        "area_ship_px2": 427.2412,
+        "equivalent_diameter_ship_px": 23.3234,
+        "equivalent_diameter_design_u": 23.3234,
+        "inscribed_diameter_ship_px": 14.7066,
+        "inscribed_diameter_design_u": 14.7066,
+        "inscribed_radius_ship_px": 7.3533,
+        "inscribed_radius_design_u": 7.3533,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 3.5,
-        "equivalent_diameter_at_authored_stroke_design_u": 7.0
+        "equivalent_radius_at_authored_stroke_design_u": 5.8533,
+        "equivalent_diameter_at_authored_stroke_design_u": 11.7066
       },
       {
         "hole": 2,
         "center_viewbox": [
-          37.9844,
-          37.9844
+          38.9844,
+          38.9844
         ],
         "bbox_viewbox": [
-          35.5,
-          35.5,
+          36.5,
+          36.5,
           5.0,
           5.0
         ],
@@ -399,8 +414,8 @@
           "rule": "small-circle-hole",
           "element_id": "wheel",
           "center": [
-            38.0,
-            38.0
+            39.0,
+            39.0
           ],
           "centerline_diameter": 6.0,
           "reason": "User-approved 4x4 or 6x6 circular contour"
@@ -423,7 +438,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.30280057889937945,
+        "ink_iou": 0.3125921746782254,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -431,7 +446,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.22683193574286425,
+        "ink_iou": 0.20648751298225201,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -467,7 +482,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "788f57e4c8e17365a8b616bdfed278f37b0380d98903f473d2a76a3368d46cb6",
+  "svg_sha256": "0a6e77e218d6f99058c2492af0a75311f1dec8028b7023f8fe4b4b2ca0a8f598",
   "rules": {
     "profile": {
       "canvas_size": 48,

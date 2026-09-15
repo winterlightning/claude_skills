@@ -1,12 +1,15 @@
-'microsoft-outlook-logo: independent smooth-curve repair.\n\nConstruction: Rounded envelope with a single gently curved flap; mirrored cubic controls preserve the central fold. Removed cramped redundant lower diagonals.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/mail.svg and atomic-debug/mail.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""microsoft-outlook-logo: approved original model.
+
+Construction: Outlook logo reduced to its recognizable O tile in front of an exposed envelope; preserve the intentional left-right asymmetry.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: mail from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'dbcd5360-6234-437a-ae47-ddae4e90f952'
 SOURCE_PATH = 'pictographic-primitives/logos/microsoft outlook logo_dbcd5360-6234-437a-ae47-ddae4e90f952.svg'
 AUTHOR = 'gpt-6'
-
 
 class MicrosoftOutlookLogo(Solo48):
     icon_id = 'microsoft-outlook-logo'
@@ -18,6 +21,8 @@ class MicrosoftOutlookLogo(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        box(self,'envelope',4,8,44,40,4,ys=(16,))
-        path(self,'flap',(4,16),('L',(20,27)),('C',(22,28.375),(26,28.375),(28,27)),('L',(44,16)))
+        box(self, 'tile', 4, 8, 30, 40, 3, ys=(12, 20))
+        ellipse(self, 'letter-o', 17, 24, 4, 7)
+        path(self, 'mail', (30, 12), ('L', (40, 12)), ('A', 4, 4, True, (44, 16)), ('L', (44, 36)), ('A', 4, 4, True, (40, 40)), ('L', (30, 40)))
+        poly(self, 'flap', (30, 20), (37, 27), (44, 20))
         contacts(self)

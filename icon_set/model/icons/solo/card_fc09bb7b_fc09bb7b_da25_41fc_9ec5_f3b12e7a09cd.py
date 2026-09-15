@@ -1,12 +1,15 @@
-'card-fc09bb7b: independent smooth-curve repair.\n\nConstruction: Card with four equal quarter-circle corners and a horizontal band.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/credit-card.svg and atomic-debug/credit-card.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""card-fc09bb7b: approved original model.
+
+Construction: Payment card with a lower stripe and two upper identification dots; rounded corners remain consistent.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: credit-card from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = 'fc09bb7b-da25-41fc-9ec5-f3b12e7a09cd'
 SOURCE_PATH = 'pictographic-primitives/business/card_fc09bb7b-da25-41fc-9ec5-f3b12e7a09cd.svg'
 AUTHOR = 'gpt-6'
-
 
 class CardFc09bb7b(Solo48):
     icon_id = 'card-fc09bb7b'
@@ -18,6 +21,8 @@ class CardFc09bb7b(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        box(self,'card',4,8,44,40,4,ys=(20,))
-        line(self,'stripe',(4,20),(44,20))
+        box(self, 'card', 4, 8, 44, 40, 4, ys=(28,))
+        line(self, 'stripe', (4, 28), (44, 28))
+        self.add_dot('id-left', (14, 18))
+        self.add_dot('id-right', (24, 18))
         contacts(self)

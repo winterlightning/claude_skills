@@ -1,12 +1,15 @@
-'shop-shopping: independent smooth-curve repair.\n\nConstruction: Store awning with three broad smooth scallops above a joined shopfront. Reduce five cramped scallops to three.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/store.svg and atomic-debug/store.svg (geometric construction).\nOriginal source and parent geometry preserved.'
+"""shop-shopping: approved original model.
+
+Construction: Shopfront with a striped flat valance and a divided lower window; retain a single recognizable shop.
+Keyshape: HRECT_L; exact SOLO48 envelope.
+Construction reference: store from the previously inspected Lucide original and atomic-debug library.
+Approved design replaces the original model; previous revisions are archived."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._symmetry_curves import path, ellipse, box, line, poly, contacts
-
 SOURCE_ICON_ID = '36560de1-1707-4464-8a11-ce1847210523'
 SOURCE_PATH = 'pictographic-primitives/shopping/shop_36560de1-1707-4464-8a11-ce1847210523.svg'
 AUTHOR = 'gpt-6'
-
 
 class ShopShopping(Solo48):
     icon_id = 'shop-shopping'
@@ -18,6 +21,9 @@ class ShopShopping(Solo48):
     keyshape = Keyshape.HRECT_L
 
     def build(self):
-        path(self,'awning',(4,20),('L',(8,8)),('L',(40,8)),('L',(44,20)),('C',(44,23),(42,25),(40,25)),('C',(36,25),(33,23),(31,20)),('C',(29,26),(19,26),(17,20)),('C',(15,23),(12,25),(8,25)),('C',(6,25),(4,23),(4,20)),closed=True)
-        poly(self,'shopfront',(8,25),(8,40),(40,40),(40,25))
+        box(self, 'valance', 4, 8, 44, 20, 3, xs=(8, 14, 24, 34, 40))
+        for x in (14, 24, 34):
+            line(self, f'stripe-{x}', (x, 8), (x, 20))
+        poly(self, 'shopfront', (8, 20), (8, 40), (40, 40), (40, 20))
+        line(self, 'divider', (24, 20), (24, 40))
         contacts(self)
