@@ -260,9 +260,9 @@
             "centerlineDistance": 14.000123360485285,
             "inkClearance": 10.000123360485285,
             "signedInkClearance": 10.000123360485285,
-            "lowerBound": 13.999670850594029,
+            "lowerBound": 14.0,
             "upperBound": 14.000575870376542,
-            "inkClearanceLowerBound": 9.999670850594029,
+            "inkClearanceLowerBound": 10.0,
             "inkClearanceUpperBound": 10.000575870376542,
             "approximationError": 0.00045250989125349047,
             "nearestPoints": [
@@ -278,7 +278,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -492,9 +492,9 @@
             "centerlineDistance": 12.439132783340114,
             "inkClearance": 8.439132783340114,
             "signedInkClearance": 8.439132783340114,
-            "lowerBound": 12.438680273448858,
+            "lowerBound": 12.439088914585774,
             "upperBound": 12.43958529323137,
-            "inkClearanceLowerBound": 8.438680273448858,
+            "inkClearanceLowerBound": 8.439088914585774,
             "inkClearanceUpperBound": 8.43958529323137,
             "approximationError": 0.00045250989125349047,
             "nearestPoints": [
@@ -510,7 +510,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -1073,12 +1073,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/security-officer-with-desk-camera/icon.svg",
+    "holes": "solo/security-officer-with-desk-camera/holes.png",
+    "spacing": "solo/security-officer-with-desk-camera/spacing.png",
+    "spacing_svg": "solo/security-officer-with-desk-camera/spacing.svg",
+    "internal-spacing": "solo/security-officer-with-desk-camera/internal-spacing.png",
+    "internal_spacing_svg": "solo/security-officer-with-desk-camera/internal-spacing.svg",
     "metrics": "solo/security-officer-with-desk-camera/metrics.json"
   },
   "checks_run": [
@@ -1130,6 +1136,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1144,7 +1151,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -20,25 +20,30 @@ class PoodleHead(Solo48):
     keywords = ('dog', 'poodle', 'head', 'breed', 'topknot', 'groomed', 'pet')
 
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        axis=24
-        def mirror(p): return (2 * axis - p[0], p[1])
-        arc('top-left',(6,18),(18,18),6,8)
-        arc('top-middle',(18,10),mirror((18,10)),6,4)
-        arc('top-right',mirror((18,18)),mirror((6,18)),6,8)
-        line('top-join-left',(18,18),(18,10))
-        line('top-join-right',mirror((18,10)),mirror((18,18)))
-        contour('topknot','top-left','top-join-left','top-middle','top-join-right','top-right')
-        line('right-side',mirror((6,18)),mirror((6,34)))
-        arc('right-ear',mirror((6,34)),mirror((16,34)),5,8)
-        line('left-inner',(16,34),(16,24))
-        line('right-inner',mirror((16,24)),mirror((16,34)))
-        arc('left-ear',(16,34),(6,34),5,8)
-        line('left-side',(6,34),(6,18))
-        self.relate('connect','topknot','right-side')
-        self.relate('connect','topknot','left-side')
-        contour('ear-left','left-inner')
-        self.add_polyline('face',(16,24),(20,40),mirror((20,40)),mirror((16,24)))
-        for a,b in [('right-side','right-ear'),('right-ear','right-inner'),('left-ear','left-side'),('left-ear','ear-left'),('ear-left','face'),('right-inner','face')]:self.relate('connect',a,b)
+        # Plan: Trace the original poodle haircut: three broad crown puffs above a long face and paired ears. Shared roots preserve the silhouette and open facial counter.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('hair',(15,20), [('C',(6,18),(10,24),(6,23)),('C',(16,12),(6,12),(10,10)),('C',(24,6),(16,8),(20,6)),('C',(32,12),(28,6),(32,8)),('C',(42,18),(38,10),(42,12)),('C',(33,20),(42,23),(38,24)),('C',(24,22),(30,24),(28,24)),('C',(15,20),(20,24),(18,24))],True)
+        path('face',(15,20), [('L',(15,33)),('A',(33,33),9,9,False),('L',(33,20))]);join('face','hair')
+        path('left-ear',(6,18), [('L',(6,36)),('C',(15,36),(6,44),(15,44)),('L',(15,33))]);join('left-ear','hair');join('left-ear','face')
+        path('right-ear',(42,18), [('L',(42,36)),('C',(33,36),(42,44),(33,44)),('L',(33,33))]);join('right-ear','hair');join('right-ear','face')
+        self.add_dot('nose',(24,32))

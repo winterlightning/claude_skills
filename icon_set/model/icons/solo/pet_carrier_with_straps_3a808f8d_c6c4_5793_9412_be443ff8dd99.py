@@ -20,15 +20,30 @@ class PetCarrierWithStraps(Solo48):
     keywords = ('pet-carrier', 'carrier', 'crate', 'travel', 'cat', 'basket', 'transport')
 
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        axis=24
-        def mirror(point): return (2 * axis - point[0], point[1])
-        arc('handle',(16,14),mirror((16,14)),8)
-        self.add_polyline('body',(16,14),(10,14),(6,42),mirror((6,42)),mirror((10,14)),mirror((16,14)),(16,14))
-        self.relate('connect','handle','body')
+        # Plan: Broad rounded carrier with parallel straps at shared rim/base stations; Lucide bag corner construction.
 
-        for i,x in enumerate((axis-8,axis+8)):
-         line(f'strap-{i}',(x,14),(x,42))
-         self.relate('connect','body',f'strap-{i}')
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('body',(10,18), [('L',(16,18)),('L',(32,18)),('L',(38,18)),('A',(42,22),4,4,True),('L',(42,38)),('A',(38,42),4,4,True),('L',(32,42)),('L',(16,42)),('L',(10,42)),('A',(6,38),4,4,True),('L',(6,22)),('A',(10,18),4,4,True)],True)
+        path('handle',(16,18), [('L',(16,14)),('A',(32,14),8,8,True),('L',(32,18))])
+        join('handle','body')
+        for x in (16,32):
+         line(f'strap-{x}',(x,18),(x,42));join(f'strap-{x}','body');join(f'strap-{x}','handle')

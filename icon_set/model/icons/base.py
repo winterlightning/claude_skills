@@ -16,6 +16,7 @@ from ..primitives import (
     Arc,
     Bezier,
     Contour,
+    HumanFigure,
     Line,
     Point,
     Primitive,
@@ -84,6 +85,7 @@ class Icon:
         self.contours: list[Contour] = list(contours)
         self.anchors: dict[str, Point] = {}
         self.relationships: list[Relationship] = list(relationships)
+        self.human_figures: list[HumanFigure] = []
 
     # -- authoring ---------------------------------------------------------
 
@@ -183,6 +185,36 @@ class Icon:
         self.relationships.append(Relationship(kind, tuple(members)))
         return self
 
+    def mark_human_figure(
+        self,
+        figure_id: str,
+        *,
+        head: str,
+        torso: str,
+        torso_junction: Literal["start", "end"],
+    ) -> "Icon":
+        """Flag a detached head and its own upper torso for future validation.
+
+        Call after creating geometry. Head may name a primitive or contour;
+        torso names the upper line/arc/Bezier primitive, with the neck endpoint
+        identified explicitly. This metadata neither connects nor moves ink
+        and does not certify the required 8-centerline / 4-ink gap.
+        """
+        if not figure_id or any(f.figure_id == figure_id for f in self.human_figures):
+            raise ValueError("human figure ID must be nonempty and unique")
+        if torso_junction not in ("start", "end"):
+            raise ValueError("torso_junction must be 'start' or 'end'")
+        primitives = {p.element_id for p in self.primitives}
+        contours = {c.contour_id: c for c in self.contours}
+        if head not in primitives and head not in contours:
+            raise ValueError(f"unknown human head: {head!r}")
+        if torso not in primitives:
+            raise ValueError(f"human torso must name an upper torso primitive: {torso!r}")
+        if head == torso or (head in contours and torso in contours[head].members):
+            raise ValueError("detached head and torso must be distinct geometry")
+        self.human_figures.append(HumanFigure(figure_id, head, torso, torso_junction))
+        return self
+
     # -- resolution --------------------------------------------------------
 
     def keyshape_bounds(self) -> tuple[int, int, int, int]:
@@ -197,6 +229,7 @@ class Icon:
             tuple(self.contours),
             tuple(self.anchors.items()),
             tuple(self.relationships),
+            human_figures=tuple(self.human_figures),
         )
 
     # -- artifacts ---------------------------------------------------------
@@ -302,6 +335,13 @@ class Icon:
                 for relation in drawing.relationships
             ],
         }
+        if drawing.human_figures:
+            record["human_figures"] = [
+                {"figure_id": f.figure_id, "head": f.head, "torso": f.torso,
+                 "torso_junction": f.torso_junction,
+                 "centerline_gap": f.centerline_gap, "ink_gap": f.ink_gap}
+                for f in drawing.human_figures
+            ]
         if self.variant_of:
             record["variant_of"] = self.variant_of
             record["variant_label"] = self.variant_label

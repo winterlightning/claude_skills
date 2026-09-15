@@ -77,7 +77,9 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         # Check the actual exported ink too; a size correction alone cannot
         # preserve that topology. Keep the same threshold and circle exceptions.
         authored_ink = engine.render_ink_mask(path, canvas, canvas, samples, 0)
-        pinches = engine.find_pinches(path, authored_ink, view, samples, fill, 0, canvas)
+        pinches = engine.find_pinches(path, authored_ink, view, samples, fill, 0, canvas,
+                                      circle_closures=circle_candidates(document, drawing),
+                                      circle_rule=rules['circle_hole_exception'], authored_stroke=STROKE_WIDTH)
         authored_labels, authored_ids = engine.enclosed_components(authored_ink)
         authored_holes = engine.measure_holes(
             authored_labels, authored_ids, view, samples,

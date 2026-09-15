@@ -87,7 +87,29 @@ def _run(first, second, required):
 
 def _avatar_tangent_contact(icon, first, second, first_node, second_node, drawing):
     """Accept only the avatar's analytically verified circle/shoulder ink tangency."""
-    if icon.family != 'solo' or icon.category != 'avatars':
+    if icon.family != 'solo' or (icon.category != 'avatars'
+                                 and getattr(icon, 'human_construction', None) != 'bust'):
+        return False
+    if isinstance(first, Arc) and isinstance(second, Arc):
+        # A circular jaw above a curved shoulder arch can intentionally touch
+        # in ink. Extrema prove that ALL points remain on opposite sides of
+        # two horizontal support lines, exactly one stroke width apart.
+        # This accepts the bust contact without waiving any other edge pair.
+        from .envelope import centerline_bounds
+        for face, shoulder in ((first, second), (second, first)):
+            if face.radius_x != face.radius_y:
+                continue
+            head = arc_geometry(face)
+            body = arc_geometry(shoulder)
+            bottom = centerline_bounds([face])[3]
+            top = centerline_bounds([shoulder])[1]
+            if (abs(head.center_x - body.center_x) < 1e-9
+                    and abs(bottom - head.center_y - head.radius_y) < 1e-9
+                    and abs(top - body.center_y + body.radius_y) < 1e-9
+                    and abs(top - bottom - STROKE_WIDTH) < 1e-9):
+                return any(r.kind == 'connect'
+                           and {first_node, second_node}.issubset(r.members)
+                           for r in drawing.relationships)
         return False
     arc, line = (first, second) if isinstance(first, Arc) else (second, first)
     if not isinstance(arc, Arc) or not isinstance(line, Line):

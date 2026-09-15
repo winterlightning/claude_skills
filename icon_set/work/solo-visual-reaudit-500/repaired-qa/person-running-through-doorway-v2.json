@@ -3,16 +3,14 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "mic [person-head]: person-head and person-arms are 7.71425 apart on centerlines nearest (22.1236, 21.9028)<->(20.4501, 29.4334); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "review",
+  "errors": [],
   "warnings": [
     "internal-spacing [person-arms / person-legs]: person-arms-3 and person-legs-2 have 1.2778 units of ink clearance over 6.2113 units; requires 4; review required"
   ],
   "spacing": {
-    "ok": false,
-    "status": "fail",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "person-head:subpath-1",
@@ -51,7 +49,7 @@
         "elementId": "person-arms",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 6 28 L 14 28 L 23 30 L 34 32 L 42 32",
+        "pathData": "M 6 28 L 14 30 L 23 30 L 34 32 L 42 32",
         "bounds": [
           6.0,
           28.0,
@@ -180,30 +178,30 @@
       {
         "closestContours": [
           "person-head:subpath-1",
-          "person-arms:subpath-1"
+          "person-body:subpath-1"
         ],
-        "centerlineDistance": 7.714254617113846,
-        "inkClearance": 3.7142546171138457,
-        "signedInkClearance": 3.7142546171138457,
-        "lowerBound": 7.714244722207432,
-        "upperBound": 7.714556290374833,
-        "inkClearanceLowerBound": 3.7142447222074324,
-        "inkClearanceUpperBound": 3.7145562903748326,
-        "approximationError": 0.00030167326098684555,
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 8.0,
+        "upperBound": 8.000301673260989,
+        "inkClearanceLowerBound": 4.0,
+        "inkClearanceUpperBound": 4.000301673260989,
+        "approximationError": 0.0012886723719803877,
         "nearestPoints": [
           [
-            22.12359503937252,
-            21.902808520154114
+            23.0,
+            22.0
           ],
           [
-            20.450138253552332,
-            29.433364056344963
+            23.0,
+            30.0
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "fail",
-        "reason": "At least one disconnected contour pair is provably closer than the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -255,28 +253,28 @@
               "person-head:subpath-1",
               "person-arms:subpath-1"
             ],
-            "centerlineDistance": 7.714254617113846,
-            "inkClearance": 3.7142546171138457,
-            "signedInkClearance": 3.7142546171138457,
-            "lowerBound": 7.714244722207432,
-            "upperBound": 7.714556290374833,
-            "inkClearanceLowerBound": 3.7142447222074324,
-            "inkClearanceUpperBound": 3.7145562903748326,
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000301673260989,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000301673260989,
             "approximationError": 0.0003016732609860585,
             "nearestPoints": [
               [
-                22.12359503937252,
-                21.902808520154114
+                23.0,
+                22.0
               ],
               [
-                20.450138253552332,
-                29.433364056344963
+                23.0,
+                30.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "fail",
-            "reason": "Even the conservative distance upper bound is below the minimum.",
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -695,9 +693,7 @@
         "directConnection": null
       }
     ],
-    "errors": [
-      "component-1 / component-2: At least one disconnected contour pair is provably closer than the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -708,17 +704,17 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 7.714254617113846,
-    "minimumInkClearance": 3.7142546171138457,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 21,
       "flattenedSegments": 311,
       "adaptiveNodes": 595,
-      "distanceTests": 178,
+      "distanceTests": 109,
       "connectionTests": 0
     },
-    "raw_status": "fail",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
@@ -815,7 +811,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "6a28912017fae1bcc843b284cfa4258d25b5f8df9c318d4a1a35d2068d651b4d",
+  "svg_sha256": "3fd1b68c95af1ccce404396e979dabfe6a37c85217eb14a2d6a144e6371c955d",
   "rules": {
     "profile": {
       "canvas_size": 48,

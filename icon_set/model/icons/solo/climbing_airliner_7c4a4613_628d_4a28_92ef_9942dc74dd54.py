@@ -30,8 +30,8 @@ class ClimbingAirliner(Solo48):
           ids.append(part)
          runs[name] = ids
         # HRECT_L extremes (6,8)-(42,40); nose arc is tangent to diagonal fuselage runs.
-        run('body',(42,20),(34,24),(27,40),(17,40),(21,29),(12,34),(4,25),(8,18),(15,23),(19,21),(29,16),(36,12))
+        run('body',(42,20),(34,24),(27,40),(17,40),(21,29),(12,34),(4,25),(8,18),(15,23),(23,19),(33,14),(36,12))
         self.add_arc('nose',(36,12),(42,20),radius_x=5)
         self.add_contour('outline',*runs['body'],'nose',closed=True)
-        self.add_polyline('far-wing',(19,21),(8,10),(17,8),(29,16))
+        self.add_polyline('far-wing',(23,19),(10,8),(24,8),(33,14))
         self.relate('connect','outline','far-wing')

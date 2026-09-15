@@ -15,15 +15,15 @@
         "elementId": "outline",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 6 A 12 12 0 0 1 30 18 L 28 24 L 42 36 A 6 6 0 0 1 36 42 L 24 28 L 18 30 A 12 12 0 0 1 6 18 L 6 10 L 14 18 L 20 12 L 12 6 L 18 6 Z",
+        "pathData": "M 22 6 A 16 16 0 0 1 38 22 L 36 30 L 42 36 A 6 6 0 0 1 36 42 L 30 36 L 22 38 A 16 16 0 0 1 6 22 L 6 14 L 14 22 L 22 14 L 14 6 L 22 6 Z",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 202,
-        "approximationError": 0.0009035892706343304,
+        "segmentCount": 330,
+        "approximationError": 0.0004517946359992781,
         "hasCurves": true
       }
     ],
@@ -66,8 +66,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 14,
-      "flattenedSegments": 202,
-      "adaptiveNodes": 381,
+      "flattenedSegments": 330,
+      "adaptiveNodes": 637,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -80,30 +80,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          21.2031,
-          21.2031
+          25.8281,
+          25.7969
         ],
         "bbox_viewbox": [
           8.0,
           8.0,
-          31.9062,
-          31.9062
+          31.9375,
+          31.9375
         ],
         "bbox_ship_px": [
-          31.9062,
-          31.9062
+          31.9375,
+          31.9375
         ],
         "bbox_design_u": [
-          31.9062,
-          31.9062
+          31.9375,
+          31.9375
         ],
-        "area_ship_px2": 264.3506,
-        "equivalent_diameter_ship_px": 18.3462,
-        "equivalent_diameter_design_u": 18.3462,
-        "inscribed_diameter_ship_px": 10.6228,
-        "inscribed_diameter_design_u": 10.6228,
-        "inscribed_radius_ship_px": 5.3114,
-        "inscribed_radius_design_u": 5.3114,
+        "area_ship_px2": 510.8594,
+        "equivalent_diameter_ship_px": 25.5038,
+        "equivalent_diameter_design_u": 25.5038,
+        "inscribed_diameter_ship_px": 17.9266,
+        "inscribed_diameter_design_u": 17.9266,
+        "inscribed_radius_ship_px": 8.9633,
+        "inscribed_radius_design_u": 8.9633,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -117,8 +117,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          21.2344,
-          21.2031
+          25.8281,
+          25.8281
         ],
         "bbox_viewbox": [
           6.5,
@@ -134,17 +134,17 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 451.833,
-        "equivalent_diameter_ship_px": 23.9852,
-        "equivalent_diameter_design_u": 23.9852,
-        "inscribed_diameter_ship_px": 13.6208,
-        "inscribed_diameter_design_u": 13.6208,
-        "inscribed_radius_ship_px": 6.8104,
-        "inscribed_radius_design_u": 6.8104,
+        "area_ship_px2": 704.4121,
+        "equivalent_diameter_ship_px": 29.948,
+        "equivalent_diameter_design_u": 29.948,
+        "inscribed_diameter_ship_px": 20.9622,
+        "inscribed_diameter_design_u": 20.9622,
+        "inscribed_radius_ship_px": 10.4811,
+        "inscribed_radius_design_u": 10.4811,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 5.3104,
-        "equivalent_diameter_at_authored_stroke_design_u": 10.6208
+        "equivalent_radius_at_authored_stroke_design_u": 8.9811,
+        "equivalent_diameter_at_authored_stroke_design_u": 17.9622
       }
     ],
     "pinches": [],
@@ -159,6 +159,11 @@
   },
   "artifacts": {
     "svg": "solo/crescent-head-wrench/icon.svg",
+    "holes": "solo/crescent-head-wrench/holes.png",
+    "spacing": "solo/crescent-head-wrench/spacing.png",
+    "spacing_svg": "solo/crescent-head-wrench/spacing.svg",
+    "internal-spacing": "solo/crescent-head-wrench/internal-spacing.png",
+    "internal_spacing_svg": "solo/crescent-head-wrench/internal-spacing.svg",
     "metrics": "solo/crescent-head-wrench/metrics.json"
   },
   "checks_run": [
@@ -171,7 +176,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "68225503809b44ecf8651682e969ac4b1099333f0c0c9cd18cd88e8f382cf0ae",
+  "svg_sha256": "f435d93525e388c56c94ef51d13ab3fb51afde4ed4f97904ae6e929e8a4d5ab8",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -227,7 +232,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -239,92 +244,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "outline",
-        "elements": [
-          "crown",
-          "jaw-4"
-        ],
-        "status": "review",
-        "sustained_length": 3.7202,
-        "centerline_distance": 4.4773,
-        "ink_gap": 0.4773,
-        "nearest_points": [
-          [
-            19.607202211660166,
-            6.108762761614513
-          ],
-          [
-            16.920815541037463,
-            9.690611655778097
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the crescent head wrench silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      },
-      {
-        "contour": "outline",
-        "elements": [
-          "outer-2",
-          "inner-1"
-        ],
-        "status": "review",
-        "sustained_length": 14.4523,
-        "centerline_distance": 5.8117,
-        "ink_gap": 1.8117,
-        "nearest_points": [
-          [
-            28.851351351351354,
-            24.72972972972973
-          ],
-          [
-            24.438791732909404,
-            28.511923688394305
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the crescent head wrench silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      },
-      {
-        "contour": "outline",
-        "elements": [
-          "jaw-2",
-          "jaw-4"
-        ],
-        "status": "review",
-        "sustained_length": 6.0,
-        "centerline_distance": 7.1595,
-        "ink_gap": 3.1595,
-        "nearest_points": [
-          [
-            7.437499999999988,
-            11.437499999999988
-          ],
-          [
-            12.5,
-            6.375
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the crescent head wrench silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 3
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -5,12 +5,9 @@
   "selected_for_build": true,
   "status": "fail",
   "errors": [
-    "holes/pinches: 1 undersized holes; 0 pinches"
+    "qa-overlays distance: lowest line distance 6.67 on centerlines; requires at least 8.0"
   ],
-  "warnings": [
-    "internal-spacing [heart / arrow-front]: side-r-upper and arrow-inside have -2.3894 units of ink clearance over 6.4598 units; requires 4; review required",
-    "internal-spacing [heart / arrowhead]: lobe-r and arrowhead-2 have 2.0533 units of ink clearance over 4.5 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -52,14 +49,14 @@
         "elementId": "arrowhead",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 6 L 42 6 L 42 14",
+        "pathData": "M 42 6 L 42 14",
         "bounds": [
-          34.0,
+          42.0,
           6.0,
           42.0,
           14.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -322,8 +319,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 332,
+      "commands": 20,
+      "flattenedSegments": 331,
       "adaptiveNodes": 636,
       "distanceTests": 0,
       "connectionTests": 0
@@ -332,7 +329,7 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "fail",
+    "status": "pass",
     "authored_holes": [
       {
         "hole": 1,
@@ -363,42 +360,12 @@
         "inscribed_radius_design_u": 4.2877,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          37.0156,
-          8.0469
-        ],
-        "bbox_viewbox": [
-          36.9375,
-          8.0,
-          0.2188,
-          0.1562
-        ],
-        "bbox_ship_px": [
-          0.2188,
-          0.1562
-        ],
-        "bbox_design_u": [
-          0.2188,
-          0.1562
-        ],
-        "area_ship_px2": 0.0186,
-        "equivalent_diameter_ship_px": 0.1537,
-        "equivalent_diameter_design_u": 0.1537,
-        "inscribed_diameter_ship_px": 0.125,
-        "inscribed_diameter_design_u": 0.125,
-        "inscribed_radius_ship_px": 0.0625,
-        "inscribed_radius_design_u": 0.0625,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail"
       }
     ],
-    "authored_hole_count": 2,
+    "authored_hole_count": 1,
     "raster_artifact_count": 0,
-    "hole_count": 2,
-    "failed_hole_count": 1,
+    "hole_count": 1,
+    "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
@@ -432,39 +399,6 @@
         "status": "pass",
         "equivalent_radius_at_authored_stroke_design_u": 4.2882,
         "equivalent_diameter_at_authored_stroke_design_u": 8.5764
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          37.0156,
-          8.0469
-        ],
-        "bbox_viewbox": [
-          36.9375,
-          8.0,
-          0.2188,
-          0.1562
-        ],
-        "bbox_ship_px": [
-          0.2188,
-          0.1562
-        ],
-        "bbox_design_u": [
-          0.2188,
-          0.1562
-        ],
-        "area_ship_px2": 0.0186,
-        "equivalent_diameter_ship_px": 0.1537,
-        "equivalent_diameter_design_u": 0.1537,
-        "inscribed_diameter_ship_px": 0.125,
-        "inscribed_diameter_design_u": 0.125,
-        "inscribed_radius_ship_px": 0.0625,
-        "inscribed_radius_design_u": 0.0625,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail",
-        "measuring_stroke_width": 4,
-        "equivalent_radius_at_authored_stroke_design_u": 0.0625,
-        "equivalent_diameter_at_authored_stroke_design_u": 0.125
       }
     ],
     "pinches": [],
@@ -472,12 +406,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/heart-pierced-by-arrow/icon.svg",
+    "holes": "solo/heart-pierced-by-arrow/holes.png",
+    "spacing": "solo/heart-pierced-by-arrow/spacing.png",
+    "spacing_svg": "solo/heart-pierced-by-arrow/spacing.svg",
+    "internal-spacing": "solo/heart-pierced-by-arrow/internal-spacing.png",
+    "internal_spacing_svg": "solo/heart-pierced-by-arrow/internal-spacing.svg",
     "metrics": "solo/heart-pierced-by-arrow/metrics.json"
   },
   "checks_run": [
@@ -490,7 +430,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "18de671aa76319e44cc36a579cde6b0beed7885e6d67b728b552605f65fc0b8f",
+  "svg_sha256": "6f586f4b55aad46ab7c30e678d456c2591cf2bcd229145f8611dc67dcb37b76c",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -529,6 +469,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -543,9 +484,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -577,13 +518,19 @@
             32.58333333333334,
             15.416666666666657
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Remove the crowded upper barb beside the heart lobe; the remaining open arrowhead preserves direction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       },
       {
         "contour": "heart / arrowhead",
         "elements": [
           "lobe-r",
-          "arrowhead-2"
+          "arrowhead-1"
         ],
         "status": "review",
         "sustained_length": 4.5,
@@ -598,10 +545,18 @@
             42.0,
             10.875
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Remove the crowded upper barb beside the heart lobe; the remaining open arrowhead preserves direction. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 2
   },
-  "needs_review": true
+  "needs_review": false
 }

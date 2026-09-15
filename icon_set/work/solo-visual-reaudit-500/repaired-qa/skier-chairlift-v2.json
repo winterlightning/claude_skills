@@ -6,7 +6,7 @@
   "status": "review",
   "errors": [],
   "warnings": [
-    "internal-spacing [rider / ski]: rider-2 and ski-1 have 2.7594 units of ink clearance over 6.75 units; requires 4; review required"
+    "internal-spacing [ski / rider-section-1]: ski-1 and rider-2 have 2.7594 units of ink clearance over 6.75 units; requires 4; review required"
   ],
   "spacing": {
     "ok": true,
@@ -33,16 +33,32 @@
         "elementId": "rider",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 12 22 C 12 25.359999999999999 13.5 29.5 14 32 L 29 32 L 33 38",
+        "pathData": "M 12 22 C 12 25.359999999999999 13.5 29.5 14 32",
         "bounds": [
           12.0,
           22.0,
+          14.0,
+          32.0
+        ],
+        "segmentCount": 33,
+        "approximationError": 0.000930789450807222,
+        "hasCurves": true
+      },
+      {
+        "id": "rider-section-1:subpath-1",
+        "elementId": "rider-section-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 14 32 L 29 32 L 33 38",
+        "bounds": [
+          14.0,
+          32.0,
           33.0,
           38.0
         ],
-        "segmentCount": 35,
-        "approximationError": 0.000930789450807222,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "arm:subpath-1",
@@ -132,6 +148,7 @@
         "id": "component-2",
         "memberIds": [
           "rider:subpath-1",
+          "rider-section-1:subpath-1",
           "arm:subpath-1",
           "suspension:subpath-1",
           "seat:subpath-1",
@@ -139,6 +156,7 @@
         ],
         "contourIds": [
           "rider:subpath-1",
+          "rider-section-1:subpath-1",
           "arm:subpath-1",
           "suspension:subpath-1",
           "seat:subpath-1",
@@ -146,6 +164,7 @@
         ],
         "elementIds": [
           "rider",
+          "rider-section-1",
           "arm",
           "suspension",
           "seat",
@@ -198,6 +217,7 @@
           ],
           [
             "rider:subpath-1",
+            "rider-section-1:subpath-1",
             "arm:subpath-1",
             "suspension:subpath-1",
             "seat:subpath-1",
@@ -226,6 +246,35 @@
               [
                 12.0,
                 22.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "rider-section-1:subpath-1"
+            ],
+            "centerlineDistance": 18.09085995359039,
+            "inkClearance": 14.090859953590389,
+            "signedInkClearance": 14.090859953590389,
+            "lowerBound": 18.09072203437452,
+            "upperBound": 18.091161626851154,
+            "inkClearanceLowerBound": 14.090722034374519,
+            "inkClearanceUpperBound": 14.091161626851154,
+            "approximationError": 0.0003016732607604612,
+            "nearestPoints": [
+              [
+                12.392068561318244,
+                13.980738906688787
+              ],
+              [
+                14.0,
+                32.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -357,6 +406,17 @@
       {
         "contourIds": [
           "rider:subpath-1",
+          "rider-section-1:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          32.0
+        ]
+      },
+      {
+        "contourIds": [
+          "rider:subpath-1",
           "arm:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -378,7 +438,18 @@
       },
       {
         "contourIds": [
-          "rider:subpath-1",
+          "rider-section-1:subpath-1",
+          "seat:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          32.0
+        ]
+      },
+      {
+        "contourIds": [
+          "rider-section-1:subpath-1",
           "ski:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -400,6 +471,25 @@
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "rider:subpath-1",
+          "rider-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rider:subpath-1",
+            "rider-section-1:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            32.0
+          ]
+        }
+      },
       {
         "contourIds": [
           "rider:subpath-1",
@@ -454,9 +544,55 @@
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "rider-section-1:subpath-1",
+          "arm:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "rider-section-1:subpath-1",
+          "suspension:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "rider-section-1:subpath-1",
+          "seat:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "rider:subpath-1",
+            "rider-section-1:subpath-1",
+            "seat:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            32.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "rider-section-1:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "rider-section-1:subpath-1",
             "ski:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -546,10 +682,10 @@
     "minimumInkClearance": 4.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 19,
+      "commands": 20,
       "flattenedSegments": 299,
       "adaptiveNodes": 575,
-      "distanceTests": 130,
+      "distanceTests": 137,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -649,7 +785,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "3aa9d697c3f9378ef0c2b63fb8dc0b7a88272b6cfa5061739c05b70caa6827e9",
+  "svg_sha256": "3e485f450317b9dd150bac297b00c54620f79bfe5019b322abb9506425c80baf",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -719,10 +855,10 @@
     },
     "findings": [
       {
-        "contour": "rider / ski",
+        "contour": "ski / rider-section-1",
         "elements": [
-          "rider-2",
-          "ski-1"
+          "ski-1",
+          "rider-2"
         ],
         "status": "review",
         "sustained_length": 6.75,
@@ -730,12 +866,12 @@
         "ink_gap": 2.7594,
         "nearest_points": [
           [
-            28.375,
-            32.0
-          ],
-          [
             29.639770240700308,
             38.64004376367613
+          ],
+          [
+            28.375,
+            32.0
           ]
         ]
       }

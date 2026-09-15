@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 4.99 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": false,
@@ -416,9 +418,9 @@
             "centerlineDistance": 12.81189204049671,
             "inkClearance": 8.81189204049671,
             "signedInkClearance": 8.81189204049671,
-            "lowerBound": 12.81098809359781,
+            "lowerBound": 12.811388300841896,
             "upperBound": 12.812795987395612,
-            "inkClearanceLowerBound": 8.81098809359781,
+            "inkClearanceLowerBound": 8.811388300841896,
             "inkClearanceUpperBound": 8.812795987395612,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -434,7 +436,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -474,9 +476,9 @@
             "centerlineDistance": 9.083504491711569,
             "inkClearance": 5.083504491711569,
             "signedInkClearance": 5.083504491711569,
-            "lowerBound": 9.082600544812669,
+            "lowerBound": 9.08304597359457,
             "upperBound": 9.08440843861047,
-            "inkClearanceLowerBound": 5.082600544812669,
+            "inkClearanceLowerBound": 5.0830459735945706,
             "inkClearanceUpperBound": 5.08440843861047,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -492,7 +494,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -532,9 +534,9 @@
             "centerlineDistance": 9.083504491711569,
             "inkClearance": 5.083504491711569,
             "signedInkClearance": 5.083504491711569,
-            "lowerBound": 9.082600544812669,
+            "lowerBound": 9.08304597359457,
             "upperBound": 9.08440843861047,
-            "inkClearanceLowerBound": 5.082600544812669,
+            "inkClearanceLowerBound": 5.0830459735945706,
             "inkClearanceUpperBound": 5.08440843861047,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -550,7 +552,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -1420,6 +1422,11 @@
   },
   "artifacts": {
     "svg": "solo/hand-selecting-person/icon.svg",
+    "holes": "solo/hand-selecting-person/holes.png",
+    "spacing": "solo/hand-selecting-person/spacing.png",
+    "spacing_svg": "solo/hand-selecting-person/spacing.svg",
+    "internal-spacing": "solo/hand-selecting-person/internal-spacing.png",
+    "internal_spacing_svg": "solo/hand-selecting-person/internal-spacing.svg",
     "metrics": "solo/hand-selecting-person/metrics.json"
   },
   "checks_run": [

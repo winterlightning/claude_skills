@@ -147,11 +147,11 @@
         "centerlineDistance": 11.422207174153156,
         "inkClearance": 7.422207174153156,
         "signedInkClearance": 7.422207174153156,
-        "lowerBound": 11.421303227254255,
+        "lowerBound": 11.422205101855956,
         "upperBound": 11.423111121052056,
-        "inkClearanceLowerBound": 7.4213032272542545,
+        "inkClearanceLowerBound": 7.4222051018559565,
         "inkClearanceUpperBound": 7.423111121052056,
-        "approximationError": 0.0009039468989016086,
+        "approximationError": 0.0009039468988998323,
         "nearestPoints": [
           [
             30.333289300941193,
@@ -191,9 +191,9 @@
             "centerlineDistance": 11.422207174153156,
             "inkClearance": 7.422207174153156,
             "signedInkClearance": 7.422207174153156,
-            "lowerBound": 11.421303227254255,
+            "lowerBound": 11.422205101855956,
             "upperBound": 11.423111121052056,
-            "inkClearanceLowerBound": 7.4213032272542545,
+            "inkClearanceLowerBound": 7.4222051018559565,
             "inkClearanceUpperBound": 7.423111121052056,
             "approximationError": 0.0009039468988983267,
             "nearestPoints": [
@@ -209,7 +209,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -220,9 +220,9 @@
             "centerlineDistance": 11.422207174153156,
             "inkClearance": 7.422207174153156,
             "signedInkClearance": 7.422207174153156,
-            "lowerBound": 11.421303227254255,
+            "lowerBound": 11.422205101855956,
             "upperBound": 11.423111121052056,
-            "inkClearanceLowerBound": 7.4213032272542545,
+            "inkClearanceLowerBound": 7.4222051018559565,
             "inkClearanceUpperBound": 7.423111121052056,
             "approximationError": 0.0009039468988983267,
             "nearestPoints": [
@@ -238,7 +238,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -249,9 +249,9 @@
             "centerlineDistance": 25.01844222033752,
             "inkClearance": 21.01844222033752,
             "signedInkClearance": 21.01844222033752,
-            "lowerBound": 25.017538273438614,
+            "lowerBound": 25.017851452243796,
             "upperBound": 25.01934616723642,
-            "inkClearanceLowerBound": 21.017538273438614,
+            "inkClearanceLowerBound": 21.017851452243796,
             "inkClearanceUpperBound": 21.01934616723642,
             "approximationError": 0.0009039468988983267,
             "nearestPoints": [
@@ -267,7 +267,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -296,7 +296,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -547,12 +547,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/stooped-standing-person/icon.svg",
+    "holes": "solo/stooped-standing-person/holes.png",
+    "spacing": "solo/stooped-standing-person/spacing.png",
+    "spacing_svg": "solo/stooped-standing-person/spacing.svg",
+    "internal-spacing": "solo/stooped-standing-person/internal-spacing.png",
+    "internal_spacing_svg": "solo/stooped-standing-person/internal-spacing.svg",
     "metrics": "solo/stooped-standing-person/metrics.json"
   },
   "checks_run": [
@@ -604,6 +610,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -618,7 +625,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

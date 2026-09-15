@@ -291,9 +291,9 @@
             "centerlineDistance": 15.697718021495106,
             "inkClearance": 11.697718021495106,
             "signedInkClearance": 11.697718021495106,
-            "lowerBound": 15.697416348234116,
+            "lowerBound": 15.697715603592208,
             "upperBound": 15.698019694756098,
-            "inkClearanceLowerBound": 11.697416348234116,
+            "inkClearanceLowerBound": 11.697715603592208,
             "inkClearanceUpperBound": 11.698019694756098,
             "approximationError": 0.0003016732609878349,
             "nearestPoints": [
@@ -309,7 +309,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -320,9 +320,9 @@
             "centerlineDistance": 14.973684197800353,
             "inkClearance": 10.973684197800353,
             "signedInkClearance": 10.973684197800353,
-            "lowerBound": 14.97338252453936,
+            "lowerBound": 14.973665961010273,
             "upperBound": 14.973985871061343,
-            "inkClearanceLowerBound": 10.97338252453936,
+            "inkClearanceLowerBound": 10.973665961010273,
             "inkClearanceUpperBound": 10.973985871061343,
             "approximationError": 0.0003016732609878349,
             "nearestPoints": [
@@ -338,7 +338,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -413,7 +413,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -453,9 +453,9 @@
             "centerlineDistance": 22.07682130852847,
             "inkClearance": 18.07682130852847,
             "signedInkClearance": 18.07682130852847,
-            "lowerBound": 22.076519635267477,
+            "lowerBound": 22.076809620810593,
             "upperBound": 22.077122981789465,
-            "inkClearanceLowerBound": 18.076519635267477,
+            "inkClearanceLowerBound": 18.076809620810593,
             "inkClearanceUpperBound": 18.077122981789465,
             "approximationError": 0.0003016732609878349,
             "nearestPoints": [
@@ -471,7 +471,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -1215,12 +1215,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/desk-worker-with-dog/icon.svg",
+    "holes": "solo/desk-worker-with-dog/holes.png",
+    "spacing": "solo/desk-worker-with-dog/spacing.png",
+    "spacing_svg": "solo/desk-worker-with-dog/spacing.svg",
+    "internal-spacing": "solo/desk-worker-with-dog/internal-spacing.png",
+    "internal_spacing_svg": "solo/desk-worker-with-dog/internal-spacing.svg",
     "metrics": "solo/desk-worker-with-dog/metrics.json"
   },
   "checks_run": [
@@ -1272,6 +1278,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1286,7 +1293,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

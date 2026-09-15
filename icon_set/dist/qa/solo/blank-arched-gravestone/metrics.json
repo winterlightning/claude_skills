@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [walls / base]: walls-2 and base-1 have -4 units of ink clearance over 23 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -29,18 +27,34 @@
         "hasCurves": true
       },
       {
-        "id": "walls:subpath-1",
-        "elementId": "walls",
+        "id": "wall-right:subpath-1",
+        "elementId": "wall-right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 16 L 36 36 L 12 36 L 12 16",
+        "pathData": "M 36 16 L 36 36",
         "bounds": [
-          12.0,
+          36.0,
           16.0,
           36.0,
           36.0
         ],
-        "segmentCount": 3,
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "walls:subpath-1",
+        "elementId": "walls",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 12 36 L 12 16",
+        "bounds": [
+          12.0,
+          16.0,
+          12.0,
+          36.0
+        ],
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -49,14 +63,14 @@
         "elementId": "base",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 36 L 40 36 L 40 44 L 8 44 L 8 36 Z",
+        "pathData": "M 8 36 L 12 36 L 36 36 L 40 36 L 40 44 L 8 44 L 8 36 Z",
         "bounds": [
           8.0,
           36.0,
           40.0,
           44.0
         ],
-        "segmentCount": 5,
+        "segmentCount": 7,
         "approximationError": 0.0,
         "hasCurves": false
       }
@@ -66,16 +80,19 @@
         "id": "component-1",
         "memberIds": [
           "arch:subpath-1",
+          "wall-right:subpath-1",
           "walls:subpath-1",
           "base:subpath-1"
         ],
         "contourIds": [
           "arch:subpath-1",
+          "wall-right:subpath-1",
           "walls:subpath-1",
           "base:subpath-1"
         ],
         "elementIds": [
           "arch",
+          "wall-right",
           "walls",
           "base"
         ],
@@ -92,6 +109,17 @@
       {
         "contourIds": [
           "arch:subpath-1",
+          "wall-right:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          36.0,
+          16.0
+        ]
+      },
+      {
+        "contourIds": [
+          "arch:subpath-1",
           "walls:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -102,17 +130,47 @@
       },
       {
         "contourIds": [
+          "wall-right:subpath-1",
+          "base:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          36.0,
+          36.0
+        ]
+      },
+      {
+        "contourIds": [
           "walls:subpath-1",
           "base:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
-          36.0,
+          12.0,
           36.0
         ]
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "arch:subpath-1",
+          "wall-right:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "arch:subpath-1",
+            "wall-right:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            36.0,
+            16.0
+          ]
+        }
+      },
       {
         "contourIds": [
           "arch:subpath-1",
@@ -143,6 +201,34 @@
       },
       {
         "contourIds": [
+          "wall-right:subpath-1",
+          "walls:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "wall-right:subpath-1",
+          "base:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "wall-right:subpath-1",
+            "base:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            36.0,
+            36.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
           "walls:subpath-1",
           "base:subpath-1"
         ],
@@ -153,9 +239,9 @@
             "walls:subpath-1",
             "base:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
-            36.0,
+            12.0,
             36.0
           ]
         }
@@ -176,11 +262,11 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 12,
-      "flattenedSegments": 136,
+      "commands": 14,
+      "flattenedSegments": 137,
       "adaptiveNodes": 255,
       "distanceTests": 0,
-      "connectionTests": 1
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -325,12 +411,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/blank-arched-gravestone/icon.svg",
+    "holes": "solo/blank-arched-gravestone/holes.png",
+    "spacing": "solo/blank-arched-gravestone/spacing.png",
+    "spacing_svg": "solo/blank-arched-gravestone/spacing.svg",
+    "internal-spacing": "solo/blank-arched-gravestone/internal-spacing.png",
+    "internal_spacing_svg": "solo/blank-arched-gravestone/internal-spacing.svg",
     "metrics": "solo/blank-arched-gravestone/metrics.json"
   },
   "checks_run": [
@@ -343,7 +435,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "c2e63a14d47e0b1e10cacde48564d26bf0da0e81c7a4baf6a0ab10611639140c",
+  "svg_sha256": "c4c106b5abcb19cc2522140a4520049537d4a18fedbc7f2640962c1062283053",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -382,6 +474,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -396,9 +489,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -410,30 +503,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "walls / base",
-        "elements": [
-          "walls-2",
-          "base-1"
-        ],
-        "status": "review",
-        "sustained_length": 23.0,
-        "centerline_distance": 0.0,
-        "ink_gap": -4.0,
-        "nearest_points": [
-          [
-            35.375,
-            36.0
-          ],
-          [
-            35.375,
-            36.0
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

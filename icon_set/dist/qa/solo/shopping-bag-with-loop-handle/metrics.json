@@ -15,15 +15,15 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 11 16 L 14 16 L 34 16 L 37 16 L 40 40 A 4 4 0 0 1 36 44 L 12 44 A 4 4 0 0 1 8 40 L 11 16 Z",
+        "pathData": "M 12 16 L 14 16 L 34 16 L 36 16 C 36 24 40 32 40 40 A 4 4 0 0 1 36 44 L 12 44 A 4 4 0 0 1 8 40 C 8 32 12 24 12 16 Z",
         "bounds": [
           8.0,
           16.0,
           40.0,
           44.0
         ],
-        "segmentCount": 135,
-        "approximationError": 0.00030119642430268906,
+        "segmentCount": 245,
+        "approximationError": 0.0009663610977681312,
         "hasCurves": true
       },
       {
@@ -31,14 +31,14 @@
         "elementId": "handle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 14 22 L 14 16 L 14 14 A 10 10 0 0 1 34 14 L 34 16 L 34 22",
+        "pathData": "M 14 16 L 14 14 A 10 10 0 0 1 34 14 L 34 16",
         "bounds": [
           14.0,
           4.0,
           34.0,
-          22.0
+          16.0
         ],
-        "segmentCount": 132,
+        "segmentCount": 130,
         "approximationError": 0.0007541831517848016,
         "hasCurves": true
       }
@@ -116,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 16,
-      "flattenedSegments": 267,
-      "adaptiveNodes": 509,
+      "commands": 14,
+      "flattenedSegments": 375,
+      "adaptiveNodes": 731,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -161,8 +161,8 @@
       {
         "hole": 2,
         "center_viewbox": [
-          23.9844,
-          30.7656
+          23.8281,
+          29.9844
         ],
         "bbox_viewbox": [
           10.0,
@@ -178,13 +178,13 @@
           28.0,
           24.0
         ],
-        "area_ship_px2": 568.9023,
-        "equivalent_diameter_ship_px": 26.9137,
-        "equivalent_diameter_design_u": 26.9137,
-        "inscribed_diameter_ship_px": 22.4941,
-        "inscribed_diameter_design_u": 22.4941,
-        "inscribed_radius_ship_px": 11.2471,
-        "inscribed_radius_design_u": 11.2471,
+        "area_ship_px2": 588.6191,
+        "equivalent_diameter_ship_px": 27.3761,
+        "equivalent_diameter_design_u": 27.3761,
+        "inscribed_diameter_ship_px": 24.0,
+        "inscribed_diameter_design_u": 24.0,
+        "inscribed_radius_ship_px": 12.0,
+        "inscribed_radius_design_u": 12.0,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -230,8 +230,8 @@
       {
         "hole": 2,
         "center_viewbox": [
-          23.9844,
-          30.7656
+          23.7969,
+          29.9844
         ],
         "bbox_viewbox": [
           8.5,
@@ -247,17 +247,17 @@
           31.0,
           27.0
         ],
-        "area_ship_px2": 750.7363,
-        "equivalent_diameter_ship_px": 30.9171,
-        "equivalent_diameter_design_u": 30.9171,
-        "inscribed_diameter_ship_px": 25.4933,
-        "inscribed_diameter_design_u": 25.4933,
-        "inscribed_radius_ship_px": 12.7467,
-        "inscribed_radius_design_u": 12.7467,
+        "area_ship_px2": 739.3496,
+        "equivalent_diameter_ship_px": 30.6817,
+        "equivalent_diameter_design_u": 30.6817,
+        "inscribed_diameter_ship_px": 27.0,
+        "inscribed_diameter_design_u": 27.0,
+        "inscribed_radius_ship_px": 13.5,
+        "inscribed_radius_design_u": 13.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 11.2467,
-        "equivalent_diameter_at_authored_stroke_design_u": 22.4934
+        "equivalent_radius_at_authored_stroke_design_u": 12.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 24.0
       }
     ],
     "pinches": [],
@@ -272,6 +272,11 @@
   },
   "artifacts": {
     "svg": "solo/shopping-bag-with-loop-handle/icon.svg",
+    "holes": "solo/shopping-bag-with-loop-handle/holes.png",
+    "spacing": "solo/shopping-bag-with-loop-handle/spacing.png",
+    "spacing_svg": "solo/shopping-bag-with-loop-handle/spacing.svg",
+    "internal-spacing": "solo/shopping-bag-with-loop-handle/internal-spacing.png",
+    "internal_spacing_svg": "solo/shopping-bag-with-loop-handle/internal-spacing.svg",
     "metrics": "solo/shopping-bag-with-loop-handle/metrics.json"
   },
   "checks_run": [
@@ -284,7 +289,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "f5e56a579a6417eb168d387271ac2e0bf1e26997e208b205527c9de2a0c5a45f",
+  "svg_sha256": "2da92a76719028d472779e3cf39e4f3750a4029c41d5642c0551a47dbdec90f8",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -340,7 +345,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -352,65 +357,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "body / handle",
-        "elements": [
-          "right",
-          "handle-right-lower"
-        ],
-        "status": "review",
-        "sustained_length": 4.987,
-        "centerline_distance": 3.0773,
-        "ink_gap": -0.9227,
-        "nearest_points": [
-          [
-            37.077319587628864,
-            16.618556701030926
-          ],
-          [
-            34.0,
-            16.618556701030926
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The loop handle joins the bag side at its intended receiver. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
-        }
-      },
-      {
-        "contour": "body / handle",
-        "elements": [
-          "left",
-          "handle-left-lower"
-        ],
-        "status": "review",
-        "sustained_length": 4.987,
-        "centerline_distance": 3.0773,
-        "ink_gap": -0.9227,
-        "nearest_points": [
-          [
-            10.922680412371134,
-            16.618556701030926
-          ],
-          [
-            14.0,
-            16.618556701030926
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The loop handle joins the bag side at its intended receiver. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

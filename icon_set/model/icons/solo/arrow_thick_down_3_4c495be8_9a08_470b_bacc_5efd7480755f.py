@@ -15,41 +15,26 @@ class ArrowThickDown3(Solo48):
     keywords = ('arrow', 'thick', 'down', 'arrows')
 
     def build(self):
-        runs = [{'start': (19, 6), 'steps': [('L', 29, 6), ('L', 29, 27), ('L', 36, 20), ('L', 42, 26), ('L', 24, 42), ('L', 6, 26), ('L', 12, 20), ('L', 19, 27)], 'closed': True}]
-        rotation = 0
+        # Plan: Preserve the downward outlined arrow, broadening its shaft and paired diagonal head bands about the vertical axis.
 
-        def point(x, y):
-            for _ in range(rotation):
-                x, y = (48 - y, x)
-            return (x, y)
-        contacts = []
-        for ri, run in enumerate(runs):
-            start = point(*run['start'])
-            previous = start
-            members, nodes = ([], {start})
-            for si, step in enumerate(run['steps']):
-                end = point(step[1], step[2])
-                if previous == end:
-                    continue
-                name = f'run-{ri}-{si}'
-                if step[0] == 'L':
-                    self.add_line(name, previous, end)
-                else:
-                    rx, ry = step[3:5]
-                    if rotation % 2:
-                        rx, ry = (ry, rx)
-                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
                 members.append(name)
-                nodes.add(end)
-                previous = end
-            if run['closed'] and previous != start:
-                name = f'run-{ri}-close'
-                self.add_line(name, previous, start)
-                members.append(name)
-            contour = f'outline-{ri}'
-            self.add_contour(contour, *members, closed=run['closed'])
-            contacts.append((contour, nodes))
-        for j, (a, points_a) in enumerate(contacts):
-            for b, points_b in contacts[j + 1:]:
-                if points_a & points_b:
-                    self.relate('connect', a, b)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('arrow',(18,6),(30,6),(30,24),(36,18),(42,26),(24,42),(6,26),(12,18),(18,24),closed=True)

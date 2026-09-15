@@ -22,7 +22,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `abdominal-muscles`, `abdominal-torso`, `abyssinian-cat-face`, `academic-graduation-cap`, `account-profile-card` |
+| Existing icons to imitate | `a-frame-church`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo`, `abyssinian-cat-face`, `academic-graduation-cap` |
 
 A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on a short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
@@ -47,6 +47,7 @@ For any human subject or human part in a scene, first read
 `icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
 `icon_set/references/human_ref/`. These own human proportions and construction;
 detached heads require exactly 4 units of visible head-to-body clearance.
+For each stick figure, call `self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")` after creating those parts. The head flag names its outline primitive or contour; the torso flag names the upper torso primitive, with `start` or `end` identifying its actual neck junction. Use a unique figure ID for each person. The required gap is exactly 8 units between stroke centerlines / 4 units between ink edges. See the shared human reference for the full example and measurement rules. These flags support future validation; they do not certify spacing or declare contact.
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this

@@ -1,7 +1,10 @@
-'Beading wire with beads.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The VRECT_L visible envelope is (6, 2, 42, 46).\nThe parent remains available for comparison.'
+"""Beading wire with beads.
+
+Symbol plan: shared integer nodes preserve contour order, repeated stations and real
+attachments. The VRECT_L visible envelope is (6, 2, 42, 46).
+The parent remains available for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '908acf0d-8561-4efe-bb3d-9ae2e877dcdc'
 SOURCE_PATH = 'pictographic-primitives/accessories/batch-05/diy bead_908acf0d-8561-4efe-bb3d-9ae2e877dcdc.svg'
 AUTHOR = 'gpt-6'
@@ -16,7 +19,7 @@ class BeadingWireWithBeads(Solo48):
     keywords = ('bead', 'beading', 'diy', 'jewellery', 'jewelry', 'craft', 'wire', 'making', 'handmade')
 
     def build(self) -> None:
-        # Shared nodes are reused by every touching member.
+        """Centerline review: preserve the silhouette; remove duplicated ink and split real attachments into shared nodes."""
         p_10_15 = (10, 15)
         p_15_15 = (15, 15)
         p_17_18 = (17, 18)
@@ -66,7 +69,8 @@ class BeadingWireWithBeads(Solo48):
         self.add_arc('right-bead-5', p_33_17, p_31_14, radius_x=2, radius_y=3, sweep=True, large_arc=False)
         self.add_line('right-bead-6', p_31_14, p_31_7)
         self.add_arc('right-bead-7', p_31_7, p_33_4, radius_x=2, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('low-bead-0', p_25_31, p_31_31)
+        self.add_line('low-bead-0', p_25_31, p_28_31)
+        self.add_line('low-bead-0b', p_28_31, p_31_31)
         self.add_arc('low-bead-1', p_31_31, p_33_34, radius_x=2, radius_y=3, sweep=True, large_arc=False)
         self.add_line('low-bead-2', p_33_34, p_33_41)
         self.add_arc('low-bead-3', p_33_41, p_31_44, radius_x=2, radius_y=3, sweep=True, large_arc=False)
@@ -78,7 +82,7 @@ class BeadingWireWithBeads(Solo48):
         self.add_arc('wire-b', p_36_23, p_28_31, radius_x=7, radius_y=8, sweep=True, large_arc=False)
         self.add_contour('left-bead', 'left-bead-0', 'left-bead-1', 'left-bead-2', 'left-bead-3', 'left-bead-4', 'left-bead-5', 'left-bead-6', 'left-bead-7', closed=True)
         self.add_contour('right-bead', 'right-bead-0', 'right-bead-1', 'right-bead-2', 'right-bead-3', 'right-bead-4', 'right-bead-5', 'right-bead-6', 'right-bead-7', closed=True)
-        self.add_contour('low-bead', 'low-bead-0', 'low-bead-1', 'low-bead-2', 'low-bead-3', 'low-bead-4', 'low-bead-5', 'low-bead-6', 'low-bead-7', closed=True)
+        self.add_contour('low-bead', 'low-bead-0', 'low-bead-0b', 'low-bead-1', 'low-bead-2', 'low-bead-3', 'low-bead-4', 'low-bead-5', 'low-bead-6', 'low-bead-7', closed=True)
         self.add_contour('right-wire', 'wire-a', 'wire-b', closed=False)
         self.relate('connect', 'left-bead', 'left-top')
         self.relate('connect', 'left-bead', 'left-tail')

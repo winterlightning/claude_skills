@@ -229,7 +229,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -240,9 +240,9 @@
             "centerlineDistance": 22.238860790882086,
             "inkClearance": 18.238860790882086,
             "signedInkClearance": 18.238860790882086,
-            "lowerBound": 22.237956843983184,
+            "lowerBound": 22.23885892824792,
             "upperBound": 22.23976473778099,
-            "inkClearanceLowerBound": 18.237956843983184,
+            "inkClearanceLowerBound": 18.23885892824792,
             "inkClearanceUpperBound": 18.23976473778099,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -258,7 +258,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -269,9 +269,9 @@
             "centerlineDistance": 19.84757601209435,
             "inkClearance": 15.84757601209435,
             "signedInkClearance": 15.84757601209435,
-            "lowerBound": 19.846672065195445,
+            "lowerBound": 19.847319317591722,
             "upperBound": 19.848479958993252,
-            "inkClearanceLowerBound": 15.846672065195445,
+            "inkClearanceLowerBound": 15.847319317591722,
             "inkClearanceUpperBound": 15.848479958993252,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -287,7 +287,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -316,7 +316,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -327,9 +327,9 @@
             "centerlineDistance": 14.691955876374251,
             "inkClearance": 10.691955876374251,
             "signedInkClearance": 10.691955876374251,
-            "lowerBound": 14.69105192947535,
+            "lowerBound": 14.691806012954132,
             "upperBound": 14.692859823273151,
-            "inkClearanceLowerBound": 10.69105192947535,
+            "inkClearanceLowerBound": 10.691806012954132,
             "inkClearanceUpperBound": 10.692859823273151,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -345,7 +345,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -736,12 +736,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/person-using-a-telescope/icon.svg",
+    "holes": "solo/person-using-a-telescope/holes.png",
+    "spacing": "solo/person-using-a-telescope/spacing.png",
+    "spacing_svg": "solo/person-using-a-telescope/spacing.svg",
+    "internal-spacing": "solo/person-using-a-telescope/internal-spacing.png",
+    "internal_spacing_svg": "solo/person-using-a-telescope/internal-spacing.svg",
     "metrics": "solo/person-using-a-telescope/metrics.json"
   },
   "checks_run": [
@@ -793,6 +799,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -807,7 +814,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -19,20 +19,29 @@ class PersonalWatercraft(Solo48):
     aliases = ()
     keywords = ('personal', 'watercraft')
 
-    def build(self) -> None:
-        self.add_line('upper-1', (4, 29), (16, 8))
-        self.add_line('upper-2', (16, 8), (24, 8))
-        self.add_contour('upper', 'upper-1', 'upper-2', closed=False)
-        self.add_line('seat-1', (11, 18), (19, 18))
-        self.add_line('seat-2', (19, 18), (24, 25))
-        self.add_line('seat-3', (24, 25), (36, 25))
-        self.add_arc('stern', (36, 25), (44, 33), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('tail', (44, 33), (42, 40))
-        self.add_contour('seat-shell', 'seat-1', 'seat-2', 'seat-3', 'stern', 'tail', closed=False)
-        self.relate("connect", 'upper', 'seat-shell')
-        self.add_line('hull-1', (4, 29), (12, 40))
-        self.add_contour('hull', 'hull-1', closed=False)
-        self.relate("connect", 'upper', 'hull')
-        self.add_line('deck', (4, 29), (44, 33))
-        self.relate("connect", 'deck', 'upper')
-        self.relate("connect", 'deck', 'seat-shell')
+    def build(self):
+        # Plan: A broad deck band, smooth stern and exact seat/post attachment replace the pinched diagonal deck; preserve the raised handle and open hull ends.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('post',(4,36),(12,20),(18,8),(24,8))
+        path('shell',(12,20), [('L',(20,20)),('L',(26,26)),('L',(36,26)),('A',(44,34),8,8,True),('L',(44,36)),('C',(42,40),(44,38),(43,39))]);join('post','shell')
+        line('deck',(4,36),(44,36));line('hull',(4,36),(12,40));join('deck','post');join('deck','shell');join('hull','post');join('hull','deck')

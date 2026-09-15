@@ -53,6 +53,36 @@ action while making the head read as part of the figure. Choose proportions
 by native-size review; do not impose one head radius on every pose or increase
 the visible gap to accommodate an undersized head.
 
+### Python flags for detached stick figures
+
+After building each stick figure, explicitly pair its head and upper torso:
+
+```python
+self.add_arc("head-top", (20, 10), (28, 10), radius_x=4)
+self.add_arc("head-bottom", (28, 10), (20, 10), radius_x=4)
+self.add_contour("head", "head-top", "head-bottom", closed=True)
+self.add_line("torso", (24, 22), (24, 32))
+self.mark_human_figure(
+    "person", head="head", torso="torso", torso_junction="start",
+)
+```
+
+This is a construction fragment, not a complete keyshape-fitting icon. Use one
+unique figure ID per person. `head` identifies the head outline primitive or
+contour; `torso` identifies the actual upper torso line, arc, or Bezier primitive,
+never an arm or a whole body contour. For a segmented torso, flag the segment
+next to the neck. `torso_junction` selects that primitive's `start` or `end`
+endpoint at the neck, so later validation can recover the upper torso direction.
+
+The model retains these flags in `draw().human_figures` and the JSON graph's
+`human_figures` records, with exact targets `centerline_gap=8` and `ink_gap=4`.
+The centerline gap is measured from the **head outline**, not its center point:
+in this example, `22 - (10 + 4) = 8`, leaving `8 - 2 - 2 = 4` visible units.
+These are authoring targets for future validation/repair, not measured results.
+Flags do not move geometry, waive MIC, or create a `connect` relationship.
+Continue checking the actual spacing and alignment described here. Do not use
+these detached-head flags for avatars with touching head/body ink.
+
 ## Head-to-body gap
 
 For the avatar skill within `solo`, the current rule is **head ink touching body
@@ -64,7 +94,17 @@ Face/jaw outlines use circular arcs with equal radii, never oval or flattened
 face geometry. Hair/headwear can retain their identifying outlines. The avatar
 rule supersedes the detached layout in user.svg and the generic rule below.
 
-For a detached user/person head in other families, require **exactly 4 units of visible ink
+A standalone portrait bust in another subject category (for example, a deity
+wearing a helmet) can declare `human_construction = "bust"` on its Python
+class. This identifies the same touching-ink construction without changing its
+subject category. Curved shoulder contact is accepted only when a circular jaw
+and shoulder arc have aligned vertical extrema exactly 4u apart on centerlines,
+and their actual paths have a direct scoped `connect`. Analytic support bounds
+prove the zero-ink-gap contact; the declaration does not excuse overlap,
+offset contact, oval faces, or crowding elsewhere.
+
+
+For a detached user/person head, including solo stick figures, require **exactly 4 units of visible ink
 clearance** to its own body/shoulders, measured between the nearest painted
 edges. With stroke 4 this is **8 units between centerlines**, not 4. For a
 frontal bust, derive `body_top = head_cy + head_radius + stroke_width + 4`.

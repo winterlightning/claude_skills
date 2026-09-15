@@ -118,6 +118,45 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertIn("icon_id = 'square'", archived[0].read_text())
         self.assertEqual(self.request('POST', '/api/icons/discard', payload)[0], 404)
 
+    def test_failed_icon_can_be_discarded_without_rejecting_it(self):
+        source_root = self.root / 'repo'
+        family = source_root / 'icon_set/model/icons/sub'
+        family.mkdir(parents=True)
+        model = family / 'broken.py'
+        model.write_text("from ._base import Sub32\nclass Broken(Sub32):\n    icon_id = 'broken'\n")
+        catalog = self.dist / 'gallery/icons.json'
+        data = json.loads(catalog.read_text())
+        failed = dict(data['icons'][0], key='sub/broken', icon_id='broken', name='broken',
+                      build_failed=True, preview_url='../failed/sub32/broken.svg',
+                      python_source={'path': 'icon_set/model/icons/sub/broken.py', 'family': 'sub', 'class_name': 'Broken'})
+        data['failed_icons'] = [failed]
+        catalog.write_text(json.dumps(data))
+        directory = self.dist / 'failed/sub32'
+        directory.mkdir(parents=True)
+        (directory/'broken.svg').write_text('<svg/>')
+        (directory/'manifest.json').write_text(json.dumps({'icons':[failed], 'count':1}))
+        self.enterContext(patch('icon_set.scripts.deploy.PACKAGE_ROOT', source_root/'icon_set'))
+        self.assertEqual(self.request('POST', '/api/icons/discard', {'icon':'sub/broken', 'svg_sha256':'stale'})[0],409)
+        self.assertTrue(model.exists())
+        note = {'icon':'sub/broken','svg_sha256':'abc','feedback':'Widen the opening and straighten the tail.'}
+        self.assertEqual(self.request('POST','/api/feedback',dict(note,svg_sha256='stale'))[0],409)
+        self.assertEqual(self.request('POST','/api/feedback',note)[0],201)
+        code, history = self.request('GET','/api/feedback?icon=sub%2Fbroken')
+        self.assertEqual(code,200)
+        self.assertEqual(json.loads(history)[0]['feedback'],note['feedback'])
+        self.assertEqual(json.loads(self.request('GET','/api/reviews')[1])['sub/broken'],'pending')
+        self.assertEqual(self.request('POST','/api/reviews',dict(note,status='approve'))[0],404)
+        code, body = self.request('POST','/api/icons/discard',{'icon':'sub/broken','svg_sha256':'abc'})
+        self.assertEqual(code,200,body)
+        self.assertFalse(model.exists())
+        self.assertFalse((directory/'broken.svg').exists())
+        self.assertEqual(json.loads((directory/'manifest.json').read_text())['icons'],[])
+        current = json.loads(catalog.read_text())
+        self.assertEqual(current['failed_icons'],[])
+        self.assertEqual(len(current['icons']),1)
+        self.assertTrue(list((self.root/'discarded-icons').glob('*-sub-broken.py')))
+        self.assertEqual(self.request('POST','/api/icons/discard',{'icon':'sub/broken','svg_sha256':'abc'})[0],404)
+
     def test_batch_discard_removes_eligible_icons_and_reports_the_rest(self):
         source_root = self.root / 'repo'
         family = source_root / 'icon_set/model/icons/sub'

@@ -7,31 +7,30 @@ retain intentional asymmetry; repeated letters share construction parameters.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'eaca60f6-1764-4315-b59f-730ecf0e7458'
 SOURCE_PATH = 'pictographic-primitives/symbol/90s_eaca60f6-1764-4315-b59f-730ecf0e7458.svg'
 AUTHOR = 'gpt-6'
 
-
 class NinetiesLabel(Solo48):
     icon_id = 'nineties-label'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'symbols/labels'
     aliases = ()
     keywords = ('90s', 'nineties', 'decade', 'retro', 'era', 'vintage', 'label', 'text')
 
     def build(self) -> None:
+        """Start the nine descender at the bowl endpoint so its right wall is drawn once."""
         self.add_arc('nine-head-top', (4, 12), (12, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('nine-head-right', (12, 12), (12, 20))
         self.add_arc('nine-head-bottom', (12, 20), (4, 20), radius_x=4, radius_y=4, sweep=True)
         self.add_line('nine-head-left', (4, 20), (4, 12))
         self.add_contour('nine-head', 'nine-head-top', 'nine-head-right', 'nine-head-bottom', 'nine-head-left', closed=True)
-        self.add_line('nine-stem', (12, 16), (12, 36))
+        self.add_line('nine-stem', (12, 20), (12, 36))
         self.add_arc('nine-tail', (12, 36), (4, 36), radius_x=4, radius_y=4, sweep=True)
         self.add_contour('nine-descender', 'nine-stem', 'nine-tail')
-        self.relate("connect", 'nine-head', 'nine-descender')
+        self.relate('connect', 'nine-head', 'nine-descender')
         self.add_arc('zero-top', (21, 12), (29, 12), radius_x=4, radius_y=4, sweep=True)
         self.add_line('zero-right', (29, 12), (29, 36))
         self.add_arc('zero-bottom', (29, 36), (21, 36), radius_x=4, radius_y=4, sweep=True)

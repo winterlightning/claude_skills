@@ -15,22 +15,28 @@ class FoldingPocketKnife(Solo48):
     aliases = ()
     keywords = ('pocket knife', 'knife', 'folding', 'blade', 'penknife', 'camping', 'outdoor', 'tool')
 
-    def build(self) -> None:
+    def build(self):
+        # Plan: A single smooth cutting edge bows away from the blade back; both blade roots share the rounded handle rim.
 
-        def box(n,x,y,w,h,r=0):
-            if not r:
-                self.add_polyline(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                a,b=pts[j],pts[(j+1)%8]
-                if j%2:self.add_arc(n+str(j),a,b,radius_x=r)
-                else:self.add_line(n+str(j),a,b)
-            self.add_contour(n,*[n+str(j) for j in range(8)],closed=True)
-
-        box('handle',6,30,36,12,6)
-        self.add_line('blade-back',(36,30),(16,6))
-        self.add_arc('blade-edge',(16,6),(20,22),radius_x=18,sweep=False)
-        self.add_line('blade-heel',(20,22),(28,30))
-        self.add_contour('blade','blade-back','blade-edge','blade-heel')
-        self.relate('connect','blade','handle')
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('handle',(12,30), [('L',(24,30)),('L',(36,30)),('A',(42,36),6,6,True),('A',(36,42),6,6,True),('L',(12,42)),('A',(6,36),6,6,True),('A',(12,30),6,6,True)],True)
+        path('blade',(36,30), [('L',(12,6)),('C',(24,30),(12,18),(12,22))]);join('blade','handle')

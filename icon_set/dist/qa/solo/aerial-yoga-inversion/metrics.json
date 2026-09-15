@@ -166,11 +166,11 @@
         "centerlineDistance": 9.333599710407643,
         "inkClearance": 5.333599710407643,
         "signedInkClearance": 5.333599710407643,
-        "lowerBound": 9.332695763508742,
+        "lowerBound": 9.33288287465668,
         "upperBound": 9.334503657306543,
-        "inkClearanceLowerBound": 5.332695763508742,
+        "inkClearanceLowerBound": 5.332882874656679,
         "inkClearanceUpperBound": 5.334503657306543,
-        "approximationError": 0.0009039468989016086,
+        "approximationError": 0.0009039468988998323,
         "nearestPoints": [
           [
             22.989330439823338,
@@ -229,7 +229,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -258,7 +258,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -287,7 +287,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -298,9 +298,9 @@
             "centerlineDistance": 9.333599710407643,
             "inkClearance": 5.333599710407643,
             "signedInkClearance": 5.333599710407643,
-            "lowerBound": 9.332695763508742,
+            "lowerBound": 9.33288287465668,
             "upperBound": 9.334503657306543,
-            "inkClearanceLowerBound": 5.332695763508742,
+            "inkClearanceLowerBound": 5.332882874656679,
             "inkClearanceUpperBound": 5.334503657306543,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -316,7 +316,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -327,9 +327,9 @@
             "centerlineDistance": 9.333599710407643,
             "inkClearance": 5.333599710407643,
             "signedInkClearance": 5.333599710407643,
-            "lowerBound": 9.332695763508742,
+            "lowerBound": 9.33288287465668,
             "upperBound": 9.334503657306543,
-            "inkClearanceLowerBound": 5.332695763508742,
+            "inkClearanceLowerBound": 5.332882874656679,
             "inkClearanceUpperBound": 5.334503657306543,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -345,7 +345,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -695,12 +695,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/aerial-yoga-inversion/icon.svg",
+    "holes": "solo/aerial-yoga-inversion/holes.png",
+    "spacing": "solo/aerial-yoga-inversion/spacing.png",
+    "spacing_svg": "solo/aerial-yoga-inversion/spacing.svg",
+    "internal-spacing": "solo/aerial-yoga-inversion/internal-spacing.png",
+    "internal_spacing_svg": "solo/aerial-yoga-inversion/internal-spacing.svg",
     "metrics": "solo/aerial-yoga-inversion/metrics.json"
   },
   "checks_run": [
@@ -752,6 +758,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -766,7 +773,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

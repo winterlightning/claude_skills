@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 5.59 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": false,
@@ -491,9 +493,9 @@
             "centerlineDistance": 14.083850298684107,
             "inkClearance": 10.083850298684107,
             "signedInkClearance": 10.083850298684107,
-            "lowerBound": 14.08309611553232,
+            "lowerBound": 14.083189157584588,
             "upperBound": 14.084604481835894,
-            "inkClearanceLowerBound": 10.08309611553232,
+            "inkClearanceLowerBound": 10.083189157584588,
             "inkClearanceUpperBound": 10.084604481835894,
             "approximationError": 0.0007541831517848016,
             "nearestPoints": [
@@ -509,7 +511,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -1307,6 +1309,11 @@
   },
   "artifacts": {
     "svg": "solo/two-woman-busts/icon.svg",
+    "holes": "solo/two-woman-busts/holes.png",
+    "spacing": "solo/two-woman-busts/spacing.png",
+    "spacing_svg": "solo/two-woman-busts/spacing.svg",
+    "internal-spacing": "solo/two-woman-busts/internal-spacing.png",
+    "internal_spacing_svg": "solo/two-woman-busts/internal-spacing.svg",
     "metrics": "solo/two-woman-busts/metrics.json"
   },
   "checks_run": [

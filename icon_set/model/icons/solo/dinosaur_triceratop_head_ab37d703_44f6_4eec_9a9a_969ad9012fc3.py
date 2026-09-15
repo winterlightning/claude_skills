@@ -20,8 +20,8 @@ class TriceratopsHeadSide(Solo48):
         self.add_arc('frill',(31,6),(42,23),radius_x=12,radius_y=21)
         self.add_bezier('rear-head', (42, 23), *(((42, 33.11497493), (34.10096577, 41.4676421), (24, 42)),))
         self.add_line('jaw',(24,42),(13,40))
-        self.add_polyline('beak',(13,40),(6,36),(10,32),(6,30))
-        self.add_arc('nose',(6,30),(9,23),radius_x=10)
+        self.add_line('beak',(13,40),(6,36))
+        self.add_arc('nose',(6,28),(9,23),radius_x=10)
         self.add_bezier('nose-horn', (9, 23), *(((6.91000584, 20.09586881), (6, 16.57500539), (6, 13)),))
         self.add_line('nose-horn-return',(6,13),(15,23))
         self.add_line('forehead',(15,23),(25,23))
@@ -32,6 +32,6 @@ class TriceratopsHeadSide(Solo48):
         self.relate('connect','head','beak')
         self.add_contour('front','nose','nose-horn','nose-horn-return','forehead','brow-horn','brow-horn-return','frill-notch')
         self.relate('connect','front','head')
-        self.relate('connect','front','beak')
+        # The beak is open: the two lips have genuine clearance.
         self.add_bezier('neck', (24, 42), *(((26.62364472, 42), (29.37635528, 42), (32, 42)),))
         self.relate('connect','head','neck')

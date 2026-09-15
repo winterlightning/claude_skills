@@ -3,16 +3,14 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "mic [head]: head and arms are 7.95873 apart on centerlines nearest (13.2943, 15.9892)<->(13.9552, 23.9204); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-  ],
+  "status": "review",
+  "errors": [],
   "warnings": [
-    "internal-spacing [body / arms]: body-2 and arms-1 have 2.0188 units of ink clearance over 6.3894 units; requires 4; review required"
+    "internal-spacing [arms / body-section-1]: arms-1 and body-2 have 1.9724 units of ink clearance over 8.5 units; requires 4; review required"
   ],
   "spacing": {
-    "ok": false,
-    "status": "fail",
+    "ok": true,
+    "status": "pass",
     "contours": [
       {
         "id": "head:subpath-1",
@@ -35,23 +33,39 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 13 24 C 13 26.561249694973139 10 27.75 9 29 L 21 32 L 26 40",
+        "pathData": "M 13 24 C 13 26.561249694973139 10 27.75 9 29",
         "bounds": [
           9.0,
           24.0,
+          13.0,
+          29.0
+        ],
+        "segmentCount": 48,
+        "approximationError": 0.0009088195615743691,
+        "hasCurves": true
+      },
+      {
+        "id": "body-section-1:subpath-1",
+        "elementId": "body-section-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 9 29 L 21 32 L 26 40",
+        "bounds": [
+          9.0,
+          29.0,
           26.0,
           40.0
         ],
-        "segmentCount": 50,
-        "approximationError": 0.0009088195615743691,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "arms:subpath-1",
         "elementId": "arms",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 13 24 L 25 23 L 32 19 L 44 19",
+        "pathData": "M 13 24 L 25 24 L 32 19 L 44 19",
         "bounds": [
           13.0,
           19.0,
@@ -118,18 +132,21 @@
         "id": "component-2",
         "memberIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "arms:subpath-1",
           "ski:subpath-1",
           "water:subpath-1"
         ],
         "contourIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "arms:subpath-1",
           "ski:subpath-1",
           "water:subpath-1"
         ],
         "elementIds": [
           "body",
+          "body-section-1",
           "arms",
           "ski",
           "water"
@@ -146,30 +163,30 @@
       {
         "closestContours": [
           "head:subpath-1",
-          "arms:subpath-1"
+          "body:subpath-1"
         ],
-        "centerlineDistance": 7.958729983636104,
-        "inkClearance": 3.958729983636104,
-        "signedInkClearance": 3.958729983636104,
-        "lowerBound": 7.958549098938555,
-        "upperBound": 7.959031656896866,
-        "inkClearanceLowerBound": 3.9585490989385548,
-        "inkClearanceUpperBound": 3.959031656896866,
-        "approximationError": 0.0003016732607621364,
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 8.0,
+        "upperBound": 8.000301673260763,
+        "inkClearanceLowerBound": 4.0,
+        "inkClearanceUpperBound": 4.000301673260763,
+        "approximationError": 0.0012104928223348303,
         "nearestPoints": [
           [
-            13.29425825439867,
-            15.98916182671476
+            13.0,
+            16.0
           ],
           [
-            13.95519480491608,
-            23.92040043292366
+            13.0,
+            24.0
           ]
         ],
         "requiredCenterline": 8.0,
         "requiredInkClearance": 4.0,
-        "status": "fail",
-        "reason": "At least one disconnected contour pair is provably closer than the required minimum.",
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
         "ambiguousContact": false,
         "componentIds": [
           "component-1",
@@ -181,6 +198,7 @@
           ],
           [
             "body:subpath-1",
+            "body-section-1:subpath-1",
             "arms:subpath-1",
             "ski:subpath-1",
             "water:subpath-1"
@@ -219,30 +237,59 @@
           {
             "closestContours": [
               "head:subpath-1",
-              "arms:subpath-1"
+              "body-section-1:subpath-1"
             ],
-            "centerlineDistance": 7.958729983636104,
-            "inkClearance": 3.958729983636104,
-            "signedInkClearance": 3.958729983636104,
-            "lowerBound": 7.958549098938555,
-            "upperBound": 7.959031656896866,
-            "inkClearanceLowerBound": 3.9585490989385548,
-            "inkClearanceUpperBound": 3.959031656896866,
+            "centerlineDistance": 13.46451281326063,
+            "inkClearance": 9.46451281326063,
+            "signedInkClearance": 9.46451281326063,
+            "lowerBound": 13.464249196572979,
+            "upperBound": 13.464814486521393,
+            "inkClearanceLowerBound": 9.464249196572979,
+            "inkClearanceUpperBound": 9.464814486521393,
             "approximationError": 0.0003016732607604612,
             "nearestPoints": [
               [
-                13.29425825439867,
-                15.98916182671476
+                12.111084859552737,
+                15.899837546995023
               ],
               [
-                13.95519480491608,
-                23.92040043292366
+                9.0,
+                29.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
-            "status": "fail",
-            "reason": "Even the conservative distance upper bound is below the minimum.",
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "arms:subpath-1"
+            ],
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000301673260763,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000301673260763,
+            "approximationError": 0.0003016732607604612,
+            "nearestPoints": [
+              [
+                13.0,
+                16.0
+              ],
+              [
+                13.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -310,6 +357,17 @@
       {
         "contourIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          9.0,
+          29.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
           "arms:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -320,7 +378,7 @@
       },
       {
         "contourIds": [
-          "body:subpath-1",
+          "body-section-1:subpath-1",
           "ski:subpath-1"
         ],
         "reason": "exact original straight-segment intersection",
@@ -342,6 +400,25 @@
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "body-section-1:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            9.0,
+            29.0
+          ]
+        }
+      },
       {
         "contourIds": [
           "body:subpath-1",
@@ -368,9 +445,36 @@
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "water:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "arms:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "ski:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "body:subpath-1",
+            "body-section-1:subpath-1",
             "ski:subpath-1"
           ],
           "reason": "exact original straight-segment intersection",
@@ -382,7 +486,7 @@
       },
       {
         "contourIds": [
-          "body:subpath-1",
+          "body-section-1:subpath-1",
           "water:subpath-1"
         ],
         "componentId": "component-2",
@@ -427,9 +531,7 @@
         }
       }
     ],
-    "errors": [
-      "component-1 / component-2: At least one disconnected contour pair is provably closer than the required minimum."
-    ],
+    "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
     "strokeWidth": 4,
@@ -440,17 +542,17 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 7.958729983636104,
-    "minimumInkClearance": 3.958729983636104,
-    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
+    "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 17,
+      "commands": 18,
       "flattenedSegments": 313,
       "adaptiveNodes": 605,
-      "distanceTests": 74,
+      "distanceTests": 59,
       "connectionTests": 1
     },
-    "raw_status": "fail",
+    "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
@@ -547,7 +649,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "27414946af252760945725ecdbee6e9a42fa2f8446cfd63d95af2cf4d2e643b4",
+  "svg_sha256": "1c6adbbfa177772016d5cb5425fd6def1b9b71506a24030ad3b544b955bdcd46",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -617,23 +719,23 @@
     },
     "findings": [
       {
-        "contour": "body / arms",
+        "contour": "arms / body-section-1",
         "elements": [
-          "body-2",
-          "arms-1"
+          "arms-1",
+          "body-2"
         ],
         "status": "review",
-        "sustained_length": 6.3894,
-        "centerline_distance": 6.0188,
-        "ink_gap": 2.0188,
+        "sustained_length": 8.5,
+        "centerline_distance": 5.9724,
+        "ink_gap": 1.9724,
         "nearest_points": [
           [
-            12.152460984393777,
-            29.788115246098446
+            13.625,
+            24.0
           ],
           [
-            13.612244897959183,
-            23.948979591836732
+            12.176470588235315,
+            29.79411764705883
           ]
         ]
       }

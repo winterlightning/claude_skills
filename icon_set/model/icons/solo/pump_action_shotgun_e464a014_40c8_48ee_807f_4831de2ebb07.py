@@ -17,25 +17,27 @@ class PumpActionShotgun(Solo48):
     keywords = ('shotgun', 'pump', 'barrel', 'grip', 'trigger', 'weapon')
 
     def build(self):
+        # Plan: Broaden the pump assembly and expose its two exact attachment nodes on the barrel; preserve the diagonal stock and long muzzle.
 
-        def L(n,a,b): self.add_line(n,a,b)
-        def P(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def A(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def C(n,x,y,r):
-            A(n+'a',(x-r,y),(x+r,y),r)
-            A(n+'b',(x+r,y),(x-r,y),r)
-            self.add_contour(n,n+'a',n+'b',closed=True)
-        def J(a,b): self.relate('connect',a,b)
-        def R(n,x,y,w,h,r=4):
-            L(n+'t',(x+r,y),(x+w-r,y))
-            A(n+'tr',(x+w-r,y),(x+w,y+r),r)
-            L(n+'r',(x+w,y+r),(x+w,y+h-r))
-            A(n+'br',(x+w,y+h-r),(x+w-r,y+h),r)
-            L(n+'b',(x+w-r,y+h),(x+r,y+h))
-            A(n+'bl',(x+r,y+h),(x,y+h-r),r)
-            L(n+'l',(x,y+h-r),(x,y+r))
-            A(n+'tl',(x,y+r),(x+r,y),r)
-            self.add_contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-
-        P('gun',(10,42),(6,30),(12,23),(38,6),(42,12),(16,30),(18,38),(10,42))
-        P('pump',(23,25),(28,30),(36,25),(34,17));J('pump','gun')
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('gun',(10,42),(6,30),(10,22),(36,6),(42,12),(36,16),(20,27),(16,30),(18,38),closed=True)
+        poly('pump',(20,27),(28,34),(38,27),(36,16));join('pump','gun')

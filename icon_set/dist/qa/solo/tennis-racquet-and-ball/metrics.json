@@ -220,9 +220,9 @@
             "centerlineDistance": 19.60004317636007,
             "inkClearance": 15.60004317636007,
             "signedInkClearance": 15.60004317636007,
-            "lowerBound": 19.59913922946185,
+            "lowerBound": 19.599999999999998,
             "upperBound": 19.600947123258294,
-            "inkClearanceLowerBound": 15.599139229461851,
+            "inkClearanceLowerBound": 15.599999999999998,
             "inkClearanceUpperBound": 15.600947123258294,
             "approximationError": 0.0009039468982153175,
             "nearestPoints": [
@@ -238,7 +238,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -249,9 +249,9 @@
             "centerlineDistance": 12.033868991125422,
             "inkClearance": 8.033868991125422,
             "signedInkClearance": 8.033868991125422,
-            "lowerBound": 12.032965044227202,
+            "lowerBound": 12.033296378372908,
             "upperBound": 12.03477293802364,
-            "inkClearanceLowerBound": 8.032965044227202,
+            "inkClearanceLowerBound": 8.033296378372908,
             "inkClearanceUpperBound": 8.03477293802364,
             "approximationError": 0.0009039468982153175,
             "nearestPoints": [
@@ -267,7 +267,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -278,9 +278,9 @@
             "centerlineDistance": 19.521830960900697,
             "inkClearance": 15.521830960900697,
             "signedInkClearance": 15.521830960900697,
-            "lowerBound": 19.520927014002478,
+            "lowerBound": 19.521812631289137,
             "upperBound": 19.52273490779892,
-            "inkClearanceLowerBound": 15.520927014002478,
+            "inkClearanceLowerBound": 15.521812631289137,
             "inkClearanceUpperBound": 15.52273490779892,
             "approximationError": 0.0009039468982153175,
             "nearestPoints": [
@@ -296,7 +296,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -837,12 +837,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/tennis-racquet-and-ball/icon.svg",
+    "holes": "solo/tennis-racquet-and-ball/holes.png",
+    "spacing": "solo/tennis-racquet-and-ball/spacing.png",
+    "spacing_svg": "solo/tennis-racquet-and-ball/spacing.svg",
+    "internal-spacing": "solo/tennis-racquet-and-ball/internal-spacing.png",
+    "internal_spacing_svg": "solo/tennis-racquet-and-ball/internal-spacing.svg",
     "metrics": "solo/tennis-racquet-and-ball/metrics.json"
   },
   "checks_run": [
@@ -894,6 +900,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -908,7 +915,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -215,9 +215,9 @@
         "centerlineDistance": 8.416436542697971,
         "inkClearance": 4.416436542697971,
         "signedInkClearance": 4.416436542697971,
-        "lowerBound": 8.416059451122075,
+        "lowerBound": 8.416407864998737,
         "upperBound": 8.416813634273868,
-        "inkClearanceLowerBound": 4.416059451122075,
+        "inkClearanceLowerBound": 4.416407864998737,
         "inkClearanceUpperBound": 4.416813634273868,
         "approximationError": 0.0003770915758973814,
         "nearestPoints": [
@@ -257,9 +257,9 @@
             "centerlineDistance": 8.416436542697971,
             "inkClearance": 4.416436542697971,
             "signedInkClearance": 4.416436542697971,
-            "lowerBound": 8.416059451122075,
+            "lowerBound": 8.416407864998737,
             "upperBound": 8.416813634273868,
-            "inkClearanceLowerBound": 4.416059451122075,
+            "inkClearanceLowerBound": 4.416407864998737,
             "inkClearanceUpperBound": 4.416813634273868,
             "approximationError": 0.000377091575893289,
             "nearestPoints": [
@@ -275,7 +275,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -286,9 +286,9 @@
             "centerlineDistance": 12.617489215953057,
             "inkClearance": 8.617489215953057,
             "signedInkClearance": 8.617489215953057,
-            "lowerBound": 12.617112124377162,
+            "lowerBound": 12.617486236344252,
             "upperBound": 12.617866307528955,
-            "inkClearanceLowerBound": 8.617112124377162,
+            "inkClearanceLowerBound": 8.617486236344252,
             "inkClearanceUpperBound": 8.617866307528955,
             "approximationError": 0.000377091575893289,
             "nearestPoints": [
@@ -304,7 +304,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -317,11 +317,11 @@
         "centerlineDistance": 8.928392034668645,
         "inkClearance": 4.928392034668645,
         "signedInkClearance": 4.928392034668645,
-        "lowerBound": 8.928014943092068,
+        "lowerBound": 8.92838827718412,
         "upperBound": 8.928769126245221,
-        "inkClearanceLowerBound": 4.928014943092068,
+        "inkClearanceLowerBound": 4.928388277184119,
         "inkClearanceUpperBound": 4.928769126245221,
-        "approximationError": 0.0003770915765777261,
+        "approximationError": 0.0003770915765759497,
         "nearestPoints": [
           [
             31.335036005826304,
@@ -359,9 +359,9 @@
             "centerlineDistance": 8.928392034668645,
             "inkClearance": 4.928392034668645,
             "signedInkClearance": 4.928392034668645,
-            "lowerBound": 8.928014943092068,
+            "lowerBound": 8.92838827718412,
             "upperBound": 8.928769126245221,
-            "inkClearanceLowerBound": 4.928014943092068,
+            "inkClearanceLowerBound": 4.928388277184119,
             "inkClearanceUpperBound": 4.928769126245221,
             "approximationError": 0.00037709157657363364,
             "nearestPoints": [
@@ -377,7 +377,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -388,9 +388,9 @@
             "centerlineDistance": 11.312490235483114,
             "inkClearance": 7.312490235483114,
             "signedInkClearance": 7.312490235483114,
-            "lowerBound": 11.312113143906538,
+            "lowerBound": 11.31248725587431,
             "upperBound": 11.312867327059692,
-            "inkClearanceLowerBound": 7.312113143906538,
+            "inkClearanceLowerBound": 7.312487255874309,
             "inkClearanceUpperBound": 7.312867327059692,
             "approximationError": 0.00037709157657363364,
             "nearestPoints": [
@@ -406,7 +406,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -672,12 +672,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/rifle-and-targets/icon.svg",
+    "holes": "solo/rifle-and-targets/holes.png",
+    "spacing": "solo/rifle-and-targets/spacing.png",
+    "spacing_svg": "solo/rifle-and-targets/spacing.svg",
+    "internal-spacing": "solo/rifle-and-targets/internal-spacing.png",
+    "internal_spacing_svg": "solo/rifle-and-targets/internal-spacing.svg",
     "metrics": "solo/rifle-and-targets/metrics.json"
   },
   "checks_run": [
@@ -729,6 +735,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -743,7 +750,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

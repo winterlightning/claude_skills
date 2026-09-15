@@ -15,7 +15,7 @@
         "elementId": "plane",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 22 L 16 22 L 24 8 L 31 8 L 27 22 L 37 22 L 44 13",
+        "pathData": "M 4 22 L 13 22 L 21 8 L 31 8 L 27 22 L 37 22 L 44 13",
         "bounds": [
           4.0,
           8.0,
@@ -256,7 +256,7 @@
       "commands": 17,
       "flattenedSegments": 14,
       "adaptiveNodes": 0,
-      "distanceTests": 13,
+      "distanceTests": 12,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -347,6 +347,11 @@
   },
   "artifacts": {
     "svg": "solo/aircraft-releasing-bomb/icon.svg",
+    "holes": "solo/aircraft-releasing-bomb/holes.png",
+    "spacing": "solo/aircraft-releasing-bomb/spacing.png",
+    "spacing_svg": "solo/aircraft-releasing-bomb/spacing.svg",
+    "internal-spacing": "solo/aircraft-releasing-bomb/internal-spacing.png",
+    "internal_spacing_svg": "solo/aircraft-releasing-bomb/internal-spacing.svg",
     "metrics": "solo/aircraft-releasing-bomb/metrics.json"
   },
   "checks_run": [
@@ -359,7 +364,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "6f940c21d50f227794380154cf77650e069c1e1fd798bcf3099a1daca86641e9",
+  "svg_sha256": "162f16b049007d9ae37c53d1cca54ee4f0da1dcfa7a869fcae0eb972d623370a",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -415,7 +420,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -427,38 +432,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "plane",
-        "elements": [
-          "plane-2",
-          "plane-4"
-        ],
-        "status": "review",
-        "sustained_length": 4.7133,
-        "centerline_distance": 6.8786,
-        "ink_gap": 2.8786,
-        "nearest_points": [
-          [
-            23.692307692307693,
-            8.538461538461537
-          ],
-          [
-            30.306240928882413,
-            10.428156748911556
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The tapered aircraft wing retains a readable opening and flat tip; preserve its silhouette.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-1.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

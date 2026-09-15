@@ -1,0 +1,13 @@
+from repair import *
+save(393,"""self.ring('head',37,17,5)
+self.add_bezier('torso',(25,22),((21.4,23.5),(20,25),(20,27)))
+self.branches([('raised-arm',[(25,22),(14,20),(22,6)]),('left-leg',[(20,27),(12,34)]),('right-leg',[(20,27),(24,38)]),('board',[(6,32),(12,34),(24,38),(30,40)])])
+for p in ['raised-arm-0','left-leg-0','right-leg-0']:self.relate('connect','torso',p)
+self.add_arc('tip',(30,40),(42,40),radius_x=6,radius_y=2,sweep=False)
+self.relate('connect','board-2','tip')
+""",'Snowboarding: establish a torso and real hip rather than attaching every limb at one point. Radius5 head(37,17), shoulder(25,22), squared distance169 and exact4 painted gap; upper torso follows the horizontal lean. Keep the raised arm and two legs on the upturned board; the far arm is hidden by this side pose. Original and full_body_ref.png inspected.','SQUARE')
+save(127,"""self.branches([('wing',[(4,8),(44,14),(27,18),(10,22),(4,8)]),('harness',[(27,18),(27,27)]),('arm',[(27,27),(27,38),(42,40)]),('leg',[(20,34),(8,40)])])
+self.ring('head',38,27,3)
+self.add_bezier('torso',(27,27),((24,27),(22,30),(20,34)))
+for p in ['harness-0','arm-0','leg-0']:self.relate('connect','torso',p)
+""",'Hang-glider pilot: move the harness to the actual chest and give the prone torso a horizontal tangent toward the head. Radius3 head(38,27), shoulder(27,27), exact11 center distance and4 painted clearance. The arm descends from that shoulder and extends forward; the leg trails behind. Source prone pilot and full_body_ref.png inspected; the wing retains its deliberate triangular asymmetry.','HRECT_L')

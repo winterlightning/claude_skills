@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class HandmadeBag(Solo48):
     icon_id = 'handmade-bag'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'hobbies'
@@ -15,24 +15,28 @@ class HandmadeBag(Solo48):
     keywords = ('handmade', 'bag', 'hobbies')
 
     def build(self):
-        self.add_line('sym-e0', (15, 23), (15, 13))
-        self.add_arc('sym-e1', (15, 13), (16, 12), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_arc('sym-e2', (16, 12), (23, 6), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('sym-e3', (23, 6), (24, 6))
-        self.add_arc('sym-e6', (24, 6), (25, 6), radius_x=51, radius_y=51, large_arc=False, sweep=False)
-        self.add_arc('sym-e7', (25, 6), (32, 12), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_arc('sym-e8', (32, 12), (33, 13), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_line('sym-e9', (33, 13), (33, 23))
-        self.add_line('sym-e10', (9, 18), (39, 18))
-        self.add_arc('sym-e12', (39, 18), (40, 20), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('sym-e13', (40, 20), (42, 35))
-        self.add_line('sym-e14-1', (42, 35), (42, 39))
-        self.add_arc('sym-e16', (42, 39), (37, 42), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_line('sym-e17', (37, 42), (12, 42))
-        self.add_arc('sym-e20', (12, 42), (11, 42), radius_x=22, radius_y=22, large_arc=False, sweep=False)
-        self.add_arc('sym-e21', (11, 42), (6, 39), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_line('sym-e22', (6, 39), (6, 35))
-        self.add_line('sym-e24', (6, 35), (8, 20))
-        self.add_arc('sym-e25', (8, 20), (9, 18), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', closed=False)
-        self.add_contour('sym-c1', 'sym-e10', 'sym-e12', 'sym-e13', 'sym-e14-1', 'sym-e16', 'sym-e17', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e24', 'sym-e25', closed=True)
+        # Plan: Lucide shopping-bag: rounded body and symmetric dome handle joined at the rim; remove cramped dangling handle ends.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('body',(12,16), [('L',(14,16)),('L',(34,16)),('L',(36,16)),('A',(40,20),4,4,True),('L',(40,40)),('A',(36,44),4,4,True),('L',(12,44)),('A',(8,40),4,4,True),('L',(8,20)),('A',(12,16),4,4,True)],True)
+        path('handle',(14,16), [('L',(14,14)),('A',(34,14),10,10,True),('L',(34,16))])
+        join('body','handle')

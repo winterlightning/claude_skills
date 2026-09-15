@@ -50,4 +50,4 @@ class PyupLogo(Solo48):
         poly = self.add_polyline
         join = lambda a,b: self.relate("connect",a,b)
         poly('outside',(16,40),(8,36),(8,15),(24,4),(40,15),(40,34),(25,44))
-        poly('inside',(16,40),(16,29),(16,19),(24,15),(31,20),(31,29),(24,35),(16,29));join('inside','outside')
+        poly('inside',(16,40),(16,29),(16,20),(24,16),(31,21),(31,29),(24,35),(16,29));join('inside','outside')

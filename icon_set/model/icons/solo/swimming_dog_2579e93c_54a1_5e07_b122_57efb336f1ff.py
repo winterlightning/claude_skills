@@ -20,15 +20,29 @@ class SwimmingDog(Solo48):
     keywords = ('dog', 'swimming', 'water', 'waves', 'pet', 'summer', 'paddle')
 
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,rx,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=rx,radius_y=ry or rx,sweep=sweep)
-        def contour(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        arc('head',(12,20),(28,20),8,12)
-        self.add_polyline('muzzle',(12,20),(4,20),(4,26),(14,27))
-        line('back',(28,20),(38,20))
-        arc('rump',(38,20),(44,26),6)
-        self.relate('connect','head','muzzle')
-        self.relate('connect','head','back')
-        self.relate('connect','back','rump')
-        for i in range(4):arc(f'wave-{i}',(4+10*i,36),(14+10*i,36),5,4,False)
-        contour('water',*(f'wave-{i}' for i in range(4)))
+        # Plan: A domed head and smooth rump rise above four equal waves. Deepen the muzzle to provide a full eight-unit opening.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('head',(12,20), [('A',(28,20),8,12,True)])
+        poly('muzzle',(12,20),(4,20),(4,28),(14,28));join('muzzle','head')
+        path('back',(28,20), [('L',(38,20)),('A',(44,26),6,6,True)]);join('back','head')
+        path('water',(4,37), [('A',(14,37),5,3,False),('A',(24,37),5,3,False),('A',(34,37),5,3,False),('A',(44,37),5,3,False)])

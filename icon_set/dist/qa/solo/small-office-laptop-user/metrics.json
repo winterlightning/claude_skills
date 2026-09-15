@@ -171,9 +171,9 @@
             "centerlineDistance": 8.86239430569799,
             "inkClearance": 4.86239430569799,
             "signedInkClearance": 4.86239430569799,
-            "lowerBound": 8.862092632437,
+            "lowerBound": 8.862393885688162,
             "upperBound": 8.862695978958978,
-            "inkClearanceLowerBound": 4.862092632436999,
+            "inkClearanceLowerBound": 4.862393885688162,
             "inkClearanceUpperBound": 4.862695978958978,
             "approximationError": 0.0003016732609860585,
             "nearestPoints": [
@@ -189,7 +189,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -229,9 +229,9 @@
             "centerlineDistance": 9.892744152182484,
             "inkClearance": 5.892744152182484,
             "signedInkClearance": 5.892744152182484,
-            "lowerBound": 9.892442478921495,
+            "lowerBound": 9.892443989449804,
             "upperBound": 9.893045825443474,
-            "inkClearanceLowerBound": 5.892442478921495,
+            "inkClearanceLowerBound": 5.892443989449804,
             "inkClearanceUpperBound": 5.893045825443474,
             "approximationError": 0.0003016732609860585,
             "nearestPoints": [
@@ -247,7 +247,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -428,12 +428,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/small-office-laptop-user/icon.svg",
+    "holes": "solo/small-office-laptop-user/holes.png",
+    "spacing": "solo/small-office-laptop-user/spacing.png",
+    "spacing_svg": "solo/small-office-laptop-user/spacing.svg",
+    "internal-spacing": "solo/small-office-laptop-user/internal-spacing.png",
+    "internal_spacing_svg": "solo/small-office-laptop-user/internal-spacing.svg",
     "metrics": "solo/small-office-laptop-user/metrics.json"
   },
   "checks_run": [
@@ -485,6 +491,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -499,7 +506,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

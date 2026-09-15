@@ -220,9 +220,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(content)
 
-    def catalog(self):
+    def catalog(self, *, include_failed=False):
         data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
-        return {item['key']: item for item in data['icons']}
+        rows = data['icons'] + (data.get('failed_icons', []) if include_failed else [])
+        return {item['key']: item for item in rows}
 
     def primitives_catalog(self):
         """gallery/primitives.json, reparsed only when a build or refresh replaces it."""
@@ -375,7 +376,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Feedback is temporarily unavailable'}, 503)
         if parsed.path == '/api/reviews':
             try:
-                catalog = self.catalog()
+                catalog = self.catalog(include_failed=True)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     rows = connection.execute('SELECT icon, svg_sha256, status FROM reviews').fetchall()
                     # Preserve an explicit restore until the next review or feedback action.
@@ -416,7 +417,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/feedback':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
-                if key not in self.catalog():
+                if key not in self.catalog(include_failed=True):
                     return self.json_response({'error': 'Unknown icon'}, 404)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     connection.row_factory = sqlite3.Row
@@ -530,10 +531,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 status = 'pending'
             elif status not in ('ready', 'pending', 're-generated', 'approve', 'rejected'):
                 raise ValueError()
-            icon = self.catalog().get(key)
+            icon = self.catalog(include_failed=route == '/api/feedback').get(key)
             if icon is None:
                 return self.json_response({'error': 'Unknown icon'}, 404)
-            if data.get('svg_sha256') != icon['svg_sha256']:
+            sha = icon.get('svg_sha256') or ''
+            if (data.get('svg_sha256') or '') != sha:
                 return self.json_response({'error': 'Icon changed; reload the gallery before submitting'}, 409)
         except (ValueError, UnicodeError):
             return self.json_response({'error': 'Invalid feedback or review status'}, 400)
@@ -543,10 +545,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                 if route == '/api/reviews' and connection.execute(
                     'SELECT 1 FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1',
-                    (key, icon['svg_sha256']),
+                    (key, sha),
                 ).fetchone():
                     return self.json_response({'error': 'This combined icon is rejected. Restore it before changing its review status.'}, 409)
-                if self.is_rejected(connection, key, icon['svg_sha256']):
+                if self.is_rejected(connection, key, sha):
                     if route == '/api/feedback':
                         status = 'rejected'
                     elif status != 'rejected':
@@ -555,17 +557,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if route == '/api/feedback':
                     feedback_id = connection.execute(
                         'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images, author) VALUES (?, ?, ?, ?, ?, ?)',
-                        (key, feedback.strip(), icon['svg_sha256'], now, json.dumps(references), user),
+                        (key, feedback.strip(), sha, now, json.dumps(references), user),
                     ).lastrowid
                     record_activity(connection, user, 'feedback', key, feedback_id=feedback_id, status=status,
                                     reference_images=[ref['id'] for ref in references])
                 else:
-                    record_activity(connection, user, 'review', key, status=status, svg_sha256=icon['svg_sha256'])
+                    record_activity(connection, user, 'review', key, status=status, svg_sha256=sha)
                 connection.execute(
                     '''INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)
                        ON CONFLICT(icon, svg_sha256) DO UPDATE SET
                        status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
-                    (key, icon['svg_sha256'], status, now, user),
+                    (key, sha, status, now, user),
                 )
             return self.json_response({'saved': True, 'status': status}, 201)
         except sqlite3.Error:
@@ -602,15 +604,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': f'Choose between 1 and {MAX_DISCARD_BATCH} icons to discard.'}, 400)
         with DISCARD_LOCK:
             try:
-                catalog = self.catalog()
+                catalog = self.catalog(include_failed=True)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     icons, failed = [], []
                     for item in requests:
                         key, icon = item['icon'], catalog.get(item['icon'])
                         error = ('Unknown icon' if icon is None else
-                                 'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon['svg_sha256'] else
+                                 'Icon changed. Refresh before discarding.' if item.get('svg_sha256') != icon.get('svg_sha256') else
                                  'Only rejected icons can be discarded. Reject it first.'
-                                 if not self.is_rejected(connection, key, icon['svg_sha256']) else None)
+                                 if not icon.get('build_failed') and not self.is_rejected(connection, key, icon.get('svg_sha256')) else None)
                         if error:
                             failed.append({'icon': key, 'name': icon['name'] if icon else key, 'error': error})
                         elif all(existing['key'] != key for existing in icons):
@@ -622,7 +624,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                                           archive=self.database.parent / 'discarded-icons',
                                           connection=connection, user=user)
                     for row in result['discarded']:
-                        record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']]['svg_sha256'],
+                        record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']].get('svg_sha256'),
                                         source=row['source'], archive=row['archive'])
                     result['failed'] = failed + result['failed']
                 if not batch and result['failed']:

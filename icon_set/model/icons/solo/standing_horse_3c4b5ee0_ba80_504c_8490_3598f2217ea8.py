@@ -12,23 +12,35 @@ AUTHOR = 'gpt-6'
 
 class StandingHorse(Solo48):
     icon_id = 'standing-horse'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ()
     keywords = ('horse', 'pony', 'stallion', 'equine', 'animal', 'farm', 'riding', 'profile')
 
-    def build(self) -> None:
-        self.add_polyline('head', (18, 6), (14, 12), (6, 17), (6, 22), (10, 25), (16, 22), (16, 31), (13, 42), closed=False)
-        self.add_polyline('back-neck', (18, 6), (23, 20), (35, 20), closed=False)
-        self.add_arc('rump', (35, 20), (40, 25), radius_x=5, radius_y=5, sweep=True)
-        self.add_line('rear-leg', (40, 25), (39, 42))
-        self.add_contour('rear', 'rump', 'rear-leg', closed=False)
-        self.add_polyline('belly', (13, 42), (20, 42), (23, 32), (32, 32), (32, 42), (39, 42), closed=False)
-        self.add_polyline('tail', (40, 25), (42, 28), (42, 36), closed=False)
-        self.relate('connect', 'head', 'back-neck')
-        self.relate('connect', 'back-neck', 'rear')
-        self.relate('connect', 'head', 'belly')
-        self.relate('connect', 'rear', 'belly')
-        self.relate('connect', 'tail', 'rear')
+    def build(self):
+        # Plan: Horse silhouette retains pointed ear, muzzle, two clear legs and curved tail. Paired leg widths share eight-unit spacing; directional stance remains asymmetric.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('horse',(4,18),(12,14),(16,8),(20,20),(36,20),(36,40),(28,40),(28,28),(20,28),(20,40),(12,40),(12,28),(4,24),closed=True)
+        path('tail',(36,20), [('C',(44,32),(44,20),(44,24))]);join('tail','horse')

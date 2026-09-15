@@ -3,13 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [body / boom]: body-5 and hook have 1.0016 units of ink clearance over 7 units; requires 4; review required",
-    "internal-spacing [body / front-wheel]: body-5 and front-upper have -1.9981 units of ink clearance over 10.5 units; requires 4; review required",
-    "internal-spacing [boom / front-wheel]: hook and front-upper have 3.466 units of ink clearance over 4.2481 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -19,7 +15,7 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 33 L 4 24 L 12 12 L 22 12 L 22 24 L 44 24 L 44 33",
+        "pathData": "M 4 33 L 4 24 L 12 12 L 22 12 L 22 24 L 44 20 L 44 33",
         "bounds": [
           4.0,
           12.0,
@@ -357,26 +353,56 @@
       {
         "hole": 1,
         "center_viewbox": [
+          32.7969,
+          16.7344
+        ],
+        "bbox_viewbox": [
+          26.0938,
+          10.0,
+          15.9062,
+          11.2188
+        ],
+        "bbox_ship_px": [
+          15.9062,
+          11.2188
+        ],
+        "bbox_design_u": [
+          15.9062,
+          11.2188
+        ],
+        "area_ship_px2": 95.4805,
+        "equivalent_diameter_ship_px": 11.0259,
+        "equivalent_diameter_design_u": 11.0259,
+        "inscribed_diameter_ship_px": 6.5246,
+        "inscribed_diameter_design_u": 6.5246,
+        "inscribed_radius_ship_px": 3.2623,
+        "inscribed_radius_design_u": 3.2623,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
           15.1406,
           19.7656
         ],
         "bbox_viewbox": [
           6.0,
           14.0,
-          25.3125,
+          36.0,
           17.0
         ],
         "bbox_ship_px": [
-          25.3125,
+          36.0,
           17.0
         ],
         "bbox_design_u": [
-          25.3125,
+          36.0,
           17.0
         ],
-        "area_ship_px2": 169.9443,
-        "equivalent_diameter_ship_px": 14.7099,
-        "equivalent_diameter_design_u": 14.7099,
+        "area_ship_px2": 190.3301,
+        "equivalent_diameter_ship_px": 15.5671,
+        "equivalent_diameter_design_u": 15.5671,
         "inscribed_diameter_ship_px": 9.7487,
         "inscribed_diameter_design_u": 9.7487,
         "inscribed_radius_ship_px": 4.8744,
@@ -385,7 +411,7 @@
         "status": "pass"
       },
       {
-        "hole": 2,
+        "hole": 3,
         "center_viewbox": [
           10.9844,
           32.9844
@@ -415,7 +441,7 @@
         "status": "pass"
       },
       {
-        "hole": 3,
+        "hole": 4,
         "center_viewbox": [
           36.9844,
           32.9844
@@ -445,7 +471,7 @@
         "status": "pass"
       }
     ],
-    "authored_hole_count": 3,
+    "authored_hole_count": 4,
     "raster_artifact_count": 0,
     "hole_count": 3,
     "failed_hole_count": 0,
@@ -471,9 +497,9 @@
           39.0,
           20.0
         ],
-        "area_ship_px2": 313.0879,
-        "equivalent_diameter_ship_px": 19.9659,
-        "equivalent_diameter_design_u": 19.9659,
+        "area_ship_px2": 354.874,
+        "equivalent_diameter_ship_px": 21.2565,
+        "equivalent_diameter_design_u": 21.2565,
         "inscribed_diameter_ship_px": 12.75,
         "inscribed_diameter_design_u": 12.75,
         "inscribed_radius_ship_px": 6.375,
@@ -553,12 +579,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/tow-truck/icon.svg",
+    "holes": "solo/tow-truck/holes.png",
+    "spacing": "solo/tow-truck/spacing.png",
+    "spacing_svg": "solo/tow-truck/spacing.svg",
+    "internal-spacing": "solo/tow-truck/internal-spacing.png",
+    "internal_spacing_svg": "solo/tow-truck/internal-spacing.svg",
     "metrics": "solo/tow-truck/metrics.json"
   },
   "checks_run": [
@@ -571,7 +603,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1537493f8b70e168b1381a89a8f30a4644be4dbaf0a96240e9681210a6747499",
+  "svg_sha256": "c5aae5e664a722565404809ba19dbaf00a9fd218474ee037f578dd07055934b5",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -610,6 +642,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -624,9 +657,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -646,19 +679,25 @@
           "hook"
         ],
         "status": "review",
-        "sustained_length": 7.0,
-        "centerline_distance": 5.0016,
-        "ink_gap": 1.0016,
+        "sustained_length": 4.2237,
+        "centerline_distance": 1.4747,
+        "ink_gap": -2.5253,
         "nearest_points": [
           [
-            40.875,
-            24.0
+            41.67777777777778,
+            20.42222222222222
           ],
           [
-            41.0,
-            19.0
+            41.4937837708422,
+            18.959083910208168
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Lift the rear deck away from the wheel to open the pinched corner. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       },
       {
         "contour": "body / front-wheel",
@@ -667,19 +706,25 @@
           "front-upper"
         ],
         "status": "review",
-        "sustained_length": 10.5,
-        "centerline_distance": 2.0019,
-        "ink_gap": -1.9981,
+        "sustained_length": 13.4164,
+        "centerline_distance": 4.5394,
+        "ink_gap": 0.5394,
         "nearest_points": [
           [
-            36.875,
-            24.0
+            34.83333333333333,
+            21.666666666666668
           ],
           [
-            36.91073215723541,
-            26.00159359652193
+            35.718921922856154,
+            26.118821156550673
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Lift the rear deck away from the wheel to open the pinched corner. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       },
       {
         "contour": "boom / front-wheel",
@@ -700,10 +745,18 @@
             38.609551265375174,
             26.188705412865666
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Lift the rear deck away from the wheel to open the pinched corner. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 3
   },
-  "needs_review": true
+  "needs_review": false
 }

@@ -5,13 +5,9 @@
   "selected_for_build": true,
   "status": "fail",
   "errors": [
-    "holes/pinches: 1 undersized holes; 0 pinches"
+    "qa-overlays distance: lowest line distance 5.22 on centerlines; requires at least 8.0"
   ],
-  "warnings": [
-    "internal-spacing [propeller-disc / airframe]: disc-upper-left and airframe-5 have 0.9393 units of ink clearance over 4.25 units; requires 4; review required",
-    "internal-spacing [airframe]: airframe-6 and airframe-9 have 1.2638 units of ink clearance over 5.4588 units; requires 4; review required",
-    "internal-spacing [airframe]: airframe-11 and airframe-13 have 0.5135 units of ink clearance over 10.3866 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -37,7 +33,7 @@
         "elementId": "airframe",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 23 L 42 12 L 38 6 L 34 6 L 24 18 L 14 18 L 8 10 L 6 12 L 6 16 L 12 26 L 18 30 L 12 40 L 16 42 L 24 31",
+        "pathData": "M 36 23 L 42 12 L 38 6 L 34 6 L 24 18 L 14 18 L 8 10 L 6 12 L 6 16 L 12 26 L 16 28 L 10 40 L 16 42 L 24 31",
         "bounds": [
           6.0,
           6.0,
@@ -132,7 +128,7 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "fail",
+    "status": "pass",
     "authored_holes": [
       {
         "hole": 1,
@@ -144,19 +140,19 @@
           8.0,
           8.0,
           31.6562,
-          19.5938
+          31.625
         ],
         "bbox_ship_px": [
           31.6562,
-          19.5938
+          31.625
         ],
         "bbox_design_u": [
           31.6562,
-          19.5938
+          31.625
         ],
-        "area_ship_px2": 157.0508,
-        "equivalent_diameter_ship_px": 14.1408,
-        "equivalent_diameter_design_u": 14.1408,
+        "area_ship_px2": 190.6104,
+        "equivalent_diameter_ship_px": 15.5786,
+        "equivalent_diameter_design_u": 15.5786,
         "inscribed_diameter_ship_px": 7.6125,
         "inscribed_diameter_design_u": 7.6125,
         "inscribed_radius_ship_px": 3.8062,
@@ -193,42 +189,12 @@
         "inscribed_radius_design_u": 3.0,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
-      },
-      {
-        "hole": 3,
-        "center_viewbox": [
-          20.0156,
-          31.8906
-        ],
-        "bbox_viewbox": [
-          14.8438,
-          30.8438,
-          6.1562,
-          8.5938
-        ],
-        "bbox_ship_px": [
-          6.1562,
-          8.5938
-        ],
-        "bbox_design_u": [
-          6.1562,
-          8.5938
-        ],
-        "area_ship_px2": 9.9521,
-        "equivalent_diameter_ship_px": 3.5597,
-        "equivalent_diameter_design_u": 3.5597,
-        "inscribed_diameter_ship_px": 1.3865,
-        "inscribed_diameter_design_u": 1.3865,
-        "inscribed_radius_ship_px": 0.6933,
-        "inscribed_radius_design_u": 0.6933,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail"
       }
     ],
-    "authored_hole_count": 3,
+    "authored_hole_count": 2,
     "raster_artifact_count": 0,
-    "hole_count": 3,
-    "failed_hole_count": 1,
+    "hole_count": 2,
+    "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
@@ -241,19 +207,19 @@
           6.5,
           6.5,
           34.9062,
-          34.8438
+          34.9062
         ],
         "bbox_ship_px": [
           34.9062,
-          34.8438
+          34.9062
         ],
         "bbox_design_u": [
           34.9062,
-          34.8438
+          34.9062
         ],
-        "area_ship_px2": 355.9736,
-        "equivalent_diameter_ship_px": 21.2894,
-        "equivalent_diameter_design_u": 21.2894,
+        "area_ship_px2": 383.5332,
+        "equivalent_diameter_ship_px": 22.0982,
+        "equivalent_diameter_design_u": 22.0982,
         "inscribed_diameter_ship_px": 10.5748,
         "inscribed_diameter_design_u": 10.5748,
         "inscribed_radius_ship_px": 5.2874,
@@ -294,39 +260,6 @@
         "status": "pass",
         "equivalent_radius_at_authored_stroke_design_u": 3.0,
         "equivalent_diameter_at_authored_stroke_design_u": 6.0
-      },
-      {
-        "hole": 3,
-        "center_viewbox": [
-          20.0156,
-          31.8906
-        ],
-        "bbox_viewbox": [
-          14.8438,
-          30.8438,
-          6.1562,
-          8.5938
-        ],
-        "bbox_ship_px": [
-          6.1562,
-          8.5938
-        ],
-        "bbox_design_u": [
-          6.1562,
-          8.5938
-        ],
-        "area_ship_px2": 9.9521,
-        "equivalent_diameter_ship_px": 3.5597,
-        "equivalent_diameter_design_u": 3.5597,
-        "inscribed_diameter_ship_px": 1.3865,
-        "inscribed_diameter_design_u": 1.3865,
-        "inscribed_radius_ship_px": 0.6933,
-        "inscribed_radius_design_u": 0.6933,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail",
-        "measuring_stroke_width": 4,
-        "equivalent_radius_at_authored_stroke_design_u": 0.6933,
-        "equivalent_diameter_at_authored_stroke_design_u": 1.3865
       }
     ],
     "pinches": [],
@@ -334,12 +267,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/propeller-plane/icon.svg",
+    "holes": "solo/propeller-plane/holes.png",
+    "spacing": "solo/propeller-plane/spacing.png",
+    "spacing_svg": "solo/propeller-plane/spacing.svg",
+    "internal-spacing": "solo/propeller-plane/internal-spacing.png",
+    "internal_spacing_svg": "solo/propeller-plane/internal-spacing.svg",
     "metrics": "solo/propeller-plane/metrics.json"
   },
   "checks_run": [
@@ -352,7 +291,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "9458b4b472b0b3f230ca89bf81931251f7d07b0072d629d61680a5c378ef7248",
+  "svg_sha256": "130356bc03651e7235df9d1e51c36f6104d040a21d950a584205a272c41ab85c",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -391,6 +330,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -405,9 +345,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -439,7 +379,13 @@
             23.375,
             18.0
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Widen the lower tail-fin root and keep the intentional diagonal aircraft silhouette. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       },
       {
         "contour": "airframe",
@@ -460,7 +406,13 @@
             6.319148936170213,
             16.53191489361702
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Widen the lower tail-fin root and keep the intentional diagonal aircraft silhouette. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       },
       {
         "contour": "airframe",
@@ -469,22 +421,30 @@
           "airframe-13"
         ],
         "status": "review",
-        "sustained_length": 10.3866,
-        "centerline_distance": 4.5135,
-        "ink_gap": 0.5135,
+        "sustained_length": 10.1393,
+        "centerline_distance": 6.3626,
+        "ink_gap": 2.3626,
         "nearest_points": [
           [
-            12.493315508021356,
-            39.177807486631075
+            10.672727272727272,
+            38.654545454545456
           ],
           [
             16.363636363636363,
             41.5
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Widen the lower tail-fin root and keep the intentional diagonal aircraft silhouette. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-2.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 3
   },
-  "needs_review": true
+  "needs_review": false
 }

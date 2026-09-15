@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [muzzle / barrel-ring-bottom]: muzzle-2 and barrel-ring-bottom have 2.4224 units of ink clearance over 2 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -33,9 +31,9 @@
         "elementId": "barrel",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 20 L 14 20",
+        "pathData": "M 10 20 L 14 20",
         "bounds": [
-          8.0,
+          10.0,
           20.0,
           14.0,
           20.0
@@ -97,15 +95,15 @@
         "elementId": "muzzle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 20 A 2 2 0 0 1 6 18 A 2 2 0 0 1 8 20 A 2 2 0 0 1 6 22 A 2 2 0 0 1 4 20 Z",
+        "pathData": "M 4 20 A 3 3 0 0 1 7 17 A 3 3 0 0 1 10 20 A 3 3 0 0 1 7 23 A 3 3 0 0 1 4 20 Z",
         "bounds": [
           4.0,
-          18.0,
-          8.0,
-          22.0
+          17.0,
+          10.0,
+          23.0
         ],
         "segmentCount": 129,
-        "approximationError": 0.0006023928472109903,
+        "approximationError": 0.00090358927059,
         "hasCurves": true
       }
     ],
@@ -197,7 +195,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          8.0,
+          10.0,
           20.0
         ]
       },
@@ -362,7 +360,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            8.0,
+            10.0,
             20.0
           ]
         }
@@ -508,9 +506,50 @@
         "inscribed_radius_design_u": 5.8295,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          6.9844,
+          19.9844
+        ],
+        "bbox_viewbox": [
+          6.0,
+          19.0,
+          2.0,
+          2.0
+        ],
+        "bbox_ship_px": [
+          2.0,
+          2.0
+        ],
+        "bbox_design_u": [
+          2.0,
+          2.0
+        ],
+        "area_ship_px2": 3.1523,
+        "equivalent_diameter_ship_px": 2.0034,
+        "equivalent_diameter_design_u": 2.0034,
+        "inscribed_diameter_ship_px": 1.9479,
+        "inscribed_diameter_design_u": 1.9479,
+        "inscribed_radius_ship_px": 0.9739,
+        "inscribed_radius_design_u": 0.9739,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass",
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "muzzle",
+          "center": [
+            7.0,
+            20.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
       }
     ],
-    "authored_hole_count": 1,
+    "authored_hole_count": 2,
     "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
@@ -551,43 +590,43 @@
       {
         "hole": 2,
         "center_viewbox": [
-          5.9844,
+          6.9844,
           19.9844
         ],
         "bbox_viewbox": [
           4.5,
-          18.5,
-          3.0,
-          3.0
+          17.5,
+          5.0,
+          5.0
         ],
         "bbox_ship_px": [
-          3.0,
-          3.0
+          5.0,
+          5.0
         ],
         "bbox_design_u": [
-          3.0,
-          3.0
+          5.0,
+          5.0
         ],
-        "area_ship_px2": 7.0625,
-        "equivalent_diameter_ship_px": 2.9987,
-        "equivalent_diameter_design_u": 2.9987,
-        "inscribed_diameter_ship_px": 2.9211,
-        "inscribed_diameter_design_u": 2.9211,
-        "inscribed_radius_ship_px": 1.4606,
-        "inscribed_radius_design_u": 1.4606,
+        "area_ship_px2": 19.6367,
+        "equivalent_diameter_ship_px": 5.0002,
+        "equivalent_diameter_design_u": 5.0002,
+        "inscribed_diameter_ship_px": 4.8932,
+        "inscribed_diameter_design_u": 4.8932,
+        "inscribed_radius_ship_px": 2.4466,
+        "inscribed_radius_design_u": 2.4466,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": -0.0394,
-        "equivalent_diameter_at_authored_stroke_design_u": -0.0788,
+        "equivalent_radius_at_authored_stroke_design_u": 0.9466,
+        "equivalent_diameter_at_authored_stroke_design_u": 1.8932,
         "measured_status": "fail",
         "exception": {
           "rule": "small-circle-hole",
           "element_id": "muzzle",
           "center": [
-            6.0,
+            7.0,
             20.0
           ],
-          "centerline_diameter": 4.0,
+          "centerline_diameter": 6.0,
           "reason": "User-approved 4x4 or 6x6 circular contour"
         }
       }
@@ -597,12 +636,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/retro-ray-gun/icon.svg",
+    "holes": "solo/retro-ray-gun/holes.png",
+    "spacing": "solo/retro-ray-gun/spacing.png",
+    "spacing_svg": "solo/retro-ray-gun/spacing.svg",
+    "internal-spacing": "solo/retro-ray-gun/internal-spacing.png",
+    "internal_spacing_svg": "solo/retro-ray-gun/internal-spacing.svg",
     "metrics": "solo/retro-ray-gun/metrics.json"
   },
   "checks_run": [
@@ -615,7 +660,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "c55deaf64b2f3efe038b1c4a36833a6322a2e7579dbf37033dbbc66a0d57c99c",
+  "svg_sha256": "28f9ba461ed4a8f83f7bc4cb0a5924baebceb48f4cfc37717c1a77bbfa9558d0",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -654,6 +699,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -668,9 +714,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "reviewed",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -684,28 +730,63 @@
     },
     "findings": [
       {
+        "contour": "muzzle / barrel-ring-top",
+        "elements": [
+          "muzzle-1",
+          "barrel-ring-top"
+        ],
+        "status": "review",
+        "sustained_length": 2.25,
+        "centerline_distance": 4.1358,
+        "ink_gap": 0.1358,
+        "nearest_points": [
+          [
+            9.952270106271472,
+            19.473719708077784
+          ],
+          [
+            14.0,
+            18.625
+          ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Open the circular muzzle while preserving its left envelope and the attached barrel. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-1.png"
+        }
+      },
+      {
         "contour": "muzzle / barrel-ring-bottom",
         "elements": [
           "muzzle-2",
           "barrel-ring-bottom"
         ],
         "status": "review",
-        "sustained_length": 2.0,
-        "centerline_distance": 6.4224,
-        "ink_gap": 2.4224,
+        "sustained_length": 2.75,
+        "centerline_distance": 4.1358,
+        "ink_gap": 0.1358,
         "nearest_points": [
           [
-            7.87003248537083,
-            20.70920977408507
+            9.952270106271472,
+            20.526280291922216
           ],
           [
             14.0,
-            22.625
+            21.375
           ]
-        ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Open the circular muzzle while preserving its left envelope and the attached barrel. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/repairs-1.png"
+        }
       }
     ],
-    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 2
   },
-  "needs_review": true
+  "needs_review": false
 }

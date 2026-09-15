@@ -101,6 +101,19 @@ def python_sources() -> dict[str, dict]:
     return result
 
 
+def stage_preview(target: Path, records: list[dict]) -> None:
+    """Ship lightweight library metadata for the editable usage examples."""
+    icons = [{key: row.get(key, '') for key in
+              ('icon_id', 'name', 'family', 'preview_url', 'category')}
+             for row in records]
+    (target / 'preview-icons.json').write_text(
+        json.dumps({'icons': icons}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+    templates = Path(__file__).with_name('templates')
+    for name in ('preview.html', 'preview.css', 'preview.js', 'preview-scene.html',
+                 'preview-scene.css', 'preview-scene.js', 'preview-editor.js', 'preview-editor.css', 'preview-library.js', 'preview-more.js', 'preview-more.css'):
+        shutil.copyfile(templates / name, target / name)
+
+
 def stage_laboratory(target: Path) -> None:
     """Publish the learning page with the same contracts used by the builder."""
     from icon_set.model import contracts
@@ -251,4 +264,5 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
                   "primitives.html"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
     stage_laboratory(target)
+    stage_preview(target, records)
     return target

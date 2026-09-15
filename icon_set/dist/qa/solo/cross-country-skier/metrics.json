@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 7.57 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -166,11 +168,11 @@
         "centerlineDistance": 8.402578540085923,
         "inkClearance": 4.402578540085923,
         "signedInkClearance": 4.402578540085923,
-        "lowerBound": 8.401674593187476,
+        "lowerBound": 8.40175425099138,
         "upperBound": 8.403482486984368,
-        "inkClearanceLowerBound": 4.401674593187476,
+        "inkClearanceLowerBound": 4.401754250991379,
         "inkClearanceUpperBound": 4.403482486984368,
-        "approximationError": 0.0009039468984468613,
+        "approximationError": 0.0009039468984450849,
         "nearestPoints": [
           [
             31.901795912098816,
@@ -211,9 +213,9 @@
             "centerlineDistance": 10.37688995612306,
             "inkClearance": 6.37688995612306,
             "signedInkClearance": 6.37688995612306,
-            "lowerBound": 10.375986009224613,
+            "lowerBound": 10.376889641115689,
             "upperBound": 10.377793903021505,
-            "inkClearanceLowerBound": 6.375986009224613,
+            "inkClearanceLowerBound": 6.376889641115689,
             "inkClearanceUpperBound": 6.377793903021505,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -229,7 +231,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -240,9 +242,9 @@
             "centerlineDistance": 11.212674646721116,
             "inkClearance": 7.212674646721116,
             "signedInkClearance": 7.212674646721116,
-            "lowerBound": 11.21177069982267,
+            "lowerBound": 11.212670403551895,
             "upperBound": 11.213578593619562,
-            "inkClearanceLowerBound": 7.2117706998226705,
+            "inkClearanceLowerBound": 7.212670403551895,
             "inkClearanceUpperBound": 7.213578593619562,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -258,7 +260,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -269,9 +271,9 @@
             "centerlineDistance": 18.023796646064675,
             "inkClearance": 14.023796646064675,
             "signedInkClearance": 14.023796646064675,
-            "lowerBound": 18.022892699166224,
+            "lowerBound": 18.023796041628636,
             "upperBound": 18.02470059296312,
-            "inkClearanceLowerBound": 14.022892699166224,
+            "inkClearanceLowerBound": 14.023796041628636,
             "inkClearanceUpperBound": 14.024700592963121,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -287,7 +289,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -298,9 +300,9 @@
             "centerlineDistance": 8.402578540085923,
             "inkClearance": 4.402578540085923,
             "signedInkClearance": 4.402578540085923,
-            "lowerBound": 8.401674593187476,
+            "lowerBound": 8.40175425099138,
             "upperBound": 8.403482486984368,
-            "inkClearanceLowerBound": 4.401674593187476,
+            "inkClearanceLowerBound": 4.401754250991379,
             "inkClearanceUpperBound": 4.403482486984368,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -316,7 +318,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -327,9 +329,9 @@
             "centerlineDistance": 28.781184230482225,
             "inkClearance": 24.781184230482225,
             "signedInkClearance": 24.781184230482225,
-            "lowerBound": 28.780280283583778,
+            "lowerBound": 28.780497164141405,
             "upperBound": 28.782088177380675,
-            "inkClearanceLowerBound": 24.780280283583778,
+            "inkClearanceLowerBound": 24.780497164141405,
             "inkClearanceUpperBound": 24.782088177380675,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -345,7 +347,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -660,6 +662,11 @@
   },
   "artifacts": {
     "svg": "solo/cross-country-skier/icon.svg",
+    "holes": "solo/cross-country-skier/holes.png",
+    "spacing": "solo/cross-country-skier/spacing.png",
+    "spacing_svg": "solo/cross-country-skier/spacing.svg",
+    "internal-spacing": "solo/cross-country-skier/internal-spacing.png",
+    "internal_spacing_svg": "solo/cross-country-skier/internal-spacing.svg",
     "metrics": "solo/cross-country-skier/metrics.json"
   },
   "checks_run": [

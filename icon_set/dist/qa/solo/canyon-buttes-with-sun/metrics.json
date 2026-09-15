@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [buttes / ground]: buttes-4 and ground have -4 units of ink clearance over 6 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -17,14 +15,30 @@
         "elementId": "buttes",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 42 L 7 17 L 17 17 L 22 42 L 29 42 L 33 28 L 41 28 L 42 42",
+        "pathData": "M 6 42 L 7 17 L 17 17 L 22 42",
         "bounds": [
           6.0,
           17.0,
+          22.0,
+          42.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "right-butte:subpath-1",
+        "elementId": "right-butte",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 29 42 L 33 28 L 41 28 L 42 42",
+        "bounds": [
+          29.0,
+          28.0,
           42.0,
           42.0
         ],
-        "segmentCount": 7,
+        "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -33,14 +47,14 @@
         "elementId": "ground",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 42 L 42 42",
+        "pathData": "M 6 42 L 22 42 L 29 42 L 42 42",
         "bounds": [
           6.0,
           42.0,
           42.0,
           42.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -66,14 +80,17 @@
         "id": "component-1",
         "memberIds": [
           "buttes:subpath-1",
+          "right-butte:subpath-1",
           "ground:subpath-1"
         ],
         "contourIds": [
           "buttes:subpath-1",
+          "right-butte:subpath-1",
           "ground:subpath-1"
         ],
         "elementIds": [
           "buttes",
+          "right-butte",
           "ground"
         ],
         "bounds": [
@@ -105,15 +122,15 @@
     "pairs": [
       {
         "closestContours": [
-          "buttes:subpath-1",
+          "right-butte:subpath-1",
           "sun:subpath-1"
         ],
         "centerlineDistance": 12.0,
         "inkClearance": 8.0,
         "signedInkClearance": 8.0,
-        "lowerBound": 11.999622908423422,
+        "lowerBound": 12.0,
         "upperBound": 12.000377091576578,
-        "inkClearanceLowerBound": 7.999622908423422,
+        "inkClearanceLowerBound": 8.0,
         "inkClearanceUpperBound": 8.000377091576578,
         "approximationError": 0.0003770915765777261,
         "nearestPoints": [
@@ -138,6 +155,7 @@
         "memberIds": [
           [
             "buttes:subpath-1",
+            "right-butte:subpath-1",
             "ground:subpath-1"
           ],
           [
@@ -150,12 +168,41 @@
               "buttes:subpath-1",
               "sun:subpath-1"
             ],
+            "centerlineDistance": 12.088312762902083,
+            "inkClearance": 8.088312762902083,
+            "signedInkClearance": 8.088312762902083,
+            "lowerBound": 12.08800749063506,
+            "upperBound": 12.08868985447866,
+            "inkClearanceLowerBound": 8.08800749063506,
+            "inkClearanceUpperBound": 8.08868985447866,
+            "approximationError": 0.00037709157657541,
+            "nearestPoints": [
+              [
+                17.0,
+                17.0
+              ],
+              [
+                28.330847140868837,
+                12.78820602070734
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "right-butte:subpath-1",
+              "sun:subpath-1"
+            ],
             "centerlineDistance": 12.0,
             "inkClearance": 8.0,
             "signedInkClearance": 8.0,
-            "lowerBound": 11.999622908423422,
+            "lowerBound": 12.0,
             "upperBound": 12.000377091576578,
-            "inkClearanceLowerBound": 7.999622908423422,
+            "inkClearanceLowerBound": 8.0,
             "inkClearanceUpperBound": 8.000377091576578,
             "approximationError": 0.00037709157657541,
             "nearestPoints": [
@@ -171,7 +218,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -200,7 +247,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -217,9 +264,29 @@
           6.0,
           42.0
         ]
+      },
+      {
+        "contourIds": [
+          "right-butte:subpath-1",
+          "ground:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          29.0,
+          42.0
+        ]
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "buttes:subpath-1",
+          "right-butte:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
       {
         "contourIds": [
           "buttes:subpath-1",
@@ -235,6 +302,25 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             6.0,
+            42.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "right-butte:subpath-1",
+          "ground:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "right-butte:subpath-1",
+            "ground:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            29.0,
             42.0
           ]
         }
@@ -255,10 +341,10 @@
     "minimumInkClearance": 8.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 14,
-      "flattenedSegments": 265,
+      "commands": 16,
+      "flattenedSegments": 266,
       "adaptiveNodes": 510,
-      "distanceTests": 113,
+      "distanceTests": 124,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -466,12 +552,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/canyon-buttes-with-sun/icon.svg",
+    "holes": "solo/canyon-buttes-with-sun/holes.png",
+    "spacing": "solo/canyon-buttes-with-sun/spacing.png",
+    "spacing_svg": "solo/canyon-buttes-with-sun/spacing.svg",
+    "internal-spacing": "solo/canyon-buttes-with-sun/internal-spacing.png",
+    "internal_spacing_svg": "solo/canyon-buttes-with-sun/internal-spacing.svg",
     "metrics": "solo/canyon-buttes-with-sun/metrics.json"
   },
   "checks_run": [
@@ -484,7 +576,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "5426a296629aec52cac8652813a7ebc915375fc12a7b69364cc423548972e299",
+  "svg_sha256": "0728e4edc8986ac681463aea87d26406b6a2c4816928720f0af2ec98ba7d1ee9",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -523,6 +615,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -537,9 +630,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -551,30 +644,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "buttes / ground",
-        "elements": [
-          "buttes-4",
-          "ground"
-        ],
-        "status": "review",
-        "sustained_length": 6.0,
-        "centerline_distance": 0.0,
-        "ink_gap": -4.0,
-        "nearest_points": [
-          [
-            22.625,
-            42.0
-          ],
-          [
-            22.625,
-            42.0
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

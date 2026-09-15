@@ -166,9 +166,9 @@
         "centerlineDistance": 8.294524264645153,
         "inkClearance": 4.294524264645153,
         "signedInkClearance": 4.294524264645153,
-        "lowerBound": 8.293620317746708,
+        "lowerBound": 8.294185260108636,
         "upperBound": 8.2954282115436,
-        "inkClearanceLowerBound": 4.293620317746708,
+        "inkClearanceLowerBound": 4.294185260108636,
         "inkClearanceUpperBound": 4.2954282115436,
         "approximationError": 0.0009039468984468613,
         "nearestPoints": [
@@ -211,9 +211,9 @@
             "centerlineDistance": 8.704753598839392,
             "inkClearance": 4.7047535988393925,
             "signedInkClearance": 4.7047535988393925,
-            "lowerBound": 8.703849651940946,
+            "lowerBound": 8.704699910719624,
             "upperBound": 8.705657545737838,
-            "inkClearanceLowerBound": 4.703849651940946,
+            "inkClearanceLowerBound": 4.704699910719624,
             "inkClearanceUpperBound": 4.705657545737838,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -229,7 +229,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -240,9 +240,9 @@
             "centerlineDistance": 8.294524264645153,
             "inkClearance": 4.294524264645153,
             "signedInkClearance": 4.294524264645153,
-            "lowerBound": 8.293620317746708,
+            "lowerBound": 8.294185260108636,
             "upperBound": 8.2954282115436,
-            "inkClearanceLowerBound": 4.293620317746708,
+            "inkClearanceLowerBound": 4.294185260108636,
             "inkClearanceUpperBound": 4.2954282115436,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -258,7 +258,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -269,9 +269,9 @@
             "centerlineDistance": 11.422207174153156,
             "inkClearance": 7.422207174153156,
             "signedInkClearance": 7.422207174153156,
-            "lowerBound": 11.42130322725471,
+            "lowerBound": 11.422205101855956,
             "upperBound": 11.423111121051601,
-            "inkClearanceLowerBound": 7.421303227254709,
+            "inkClearanceLowerBound": 7.4222051018559565,
             "inkClearanceUpperBound": 7.423111121051601,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -287,7 +287,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -821,12 +821,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/child-playing-with-toy-car/icon.svg",
+    "holes": "solo/child-playing-with-toy-car/holes.png",
+    "spacing": "solo/child-playing-with-toy-car/spacing.png",
+    "spacing_svg": "solo/child-playing-with-toy-car/spacing.svg",
+    "internal-spacing": "solo/child-playing-with-toy-car/internal-spacing.png",
+    "internal_spacing_svg": "solo/child-playing-with-toy-car/internal-spacing.svg",
     "metrics": "solo/child-playing-with-toy-car/metrics.json"
   },
   "checks_run": [
@@ -878,6 +884,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -892,7 +899,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

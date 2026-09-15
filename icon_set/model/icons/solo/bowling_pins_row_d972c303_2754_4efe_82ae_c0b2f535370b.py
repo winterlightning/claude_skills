@@ -4,47 +4,56 @@ SOLO48 HRECT_L; live visible envelope (2, 6, 46, 42).
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
-SOURCE_ICON_ID='d972c303-2754-4efe-82ae-c0b2f535370b'
-SOURCE_PATH='pictographic-primitives/symbol/three bowlings_d972c303-2754-4efe-82ae-c0b2f535370b.svg'
-AUTHOR='gpt-6'
+SOURCE_ICON_ID = 'd972c303-2754-4efe-82ae-c0b2f535370b'
+SOURCE_PATH = 'pictographic-primitives/symbol/three bowlings_d972c303-2754-4efe-82ae-c0b2f535370b.svg'
+AUTHOR = 'gpt-6'
 
 class BowlingPinsRow(Solo48):
-    icon_id='bowling-pins-row'
-    keyshape=Keyshape.HRECT_L
-    semantic_role="MAIN"
-    semantic_kind="noun"
-    category="objects/symbols"
-    aliases=()
-    keywords=('bowling', 'pins', 'skittles', 'sport', 'game', 'alley', 'strike', 'leisure')
+    icon_id = 'bowling-pins-row'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/symbols'
+    aliases = ()
+    keywords = ('bowling', 'pins', 'skittles', 'sport', 'game', 'alley', 'strike', 'leisure')
 
-    def oval(self,n,cx,cy,rx,ry=None):
-        ry=rx if ry is None else ry
-        self.add_arc(n+'-top',(cx-rx,cy),(cx+rx,cy),radius_x=rx,radius_y=ry)
-        self.add_arc(n+'-bottom',(cx+rx,cy),(cx-rx,cy),radius_x=rx,radius_y=ry)
-        self.add_contour(n,n+'-top',n+'-bottom',closed=True)
+    def oval(self, n, cx, cy, rx, ry=None):
+        ry = rx if ry is None else ry
+        self.add_arc(n + '-top', (cx - rx, cy), (cx + rx, cy), radius_x=rx, radius_y=ry)
+        self.add_arc(n + '-bottom', (cx + rx, cy), (cx - rx, cy), radius_x=rx, radius_y=ry)
+        self.add_contour(n, n + '-top', n + '-bottom', closed=True)
 
-    def raw(self,n,points):
-        for j,(a,b) in enumerate(zip(points,points[1:]),1):self.add_line(n+'-'+str(j),a,b)
+    def raw(self, n, points):
+        for j, (a, b) in enumerate(zip(points, points[1:]), 1):
+            self.add_line(n + '-' + str(j), a, b)
 
-    def path(self,n,points,closed=False):
-        self.add_polyline(n,*points,closed=closed)
+    def path(self, n, points, closed=False):
+        self.add_polyline(n, *points, closed=closed)
 
     def build(self):
-        front=False
+        # Plan: Three repeated bowling pins: small circular heads, clear narrow necks and smooth broader bodies; preserve the row and circular head exception.
 
-        for j,cx in enumerate((7,24,41)):
-            n='pin-'+str(j);lower=front and j==1
-            y=12 if lower else 8
-            belly=4 if lower else 3
-            base=36 if front and not lower else 40
-            rx=belly-2
-            self.add_arc(n+'-head',(cx-3,y+3),(cx+3,y+3),radius_x=3)
-            self.add_line(n+'-neck-r',(cx+3,y+3),(cx+2,18))
-            self.add_arc(n+'-upper-r',(cx+2,18),(cx+belly,29),radius_x=rx,radius_y=11)
-            self.add_arc(n+'-lower-r',(cx+belly,29),(cx+2,base),radius_x=rx,radius_y=base-29)
-            self.add_line(n+'-base',(cx+2,base),(cx-2,base))
-            self.add_arc(n+'-lower-l',(cx-2,base),(cx-belly,29),radius_x=rx,radius_y=base-29)
-            self.add_arc(n+'-upper-l',(cx-belly,29),(cx-2,18),radius_x=rx,radius_y=11)
-            self.add_line(n+'-neck-l',(cx-2,18),(cx-3,y+3))
-            self.add_contour(n,*[n+'-'+part for part in ('head','neck-r','upper-r','lower-r','base','lower-l','upper-l','neck-l')],closed=True)
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        for j,x in enumerate((8,24,40)):
+         path(f'head-{j}',(x,8), [('A',(x,14),3,3,True),('A',(x,8),3,3,True)],True)
+         path(f'body-{j}',(x,22), [('A',(x,40),4,9,True),('A',(x,22),4,9,True)],True)
+         line(f'neck-{j}',(x,14),(x,22));join(f'neck-{j}',f'head-{j}');join(f'neck-{j}',f'body-{j}')

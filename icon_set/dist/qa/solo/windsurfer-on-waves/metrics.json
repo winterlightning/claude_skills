@@ -181,9 +181,9 @@
         "centerlineDistance": 10.369317127362955,
         "inkClearance": 6.3693171273629545,
         "signedInkClearance": 6.3693171273629545,
-        "lowerBound": 10.368714496096718,
+        "lowerBound": 10.36931687685298,
         "upperBound": 10.369919758629193,
-        "inkClearanceLowerBound": 6.368714496096718,
+        "inkClearanceLowerBound": 6.369316876852981,
         "inkClearanceUpperBound": 6.369919758629193,
         "approximationError": 0.0006026312662381628,
         "nearestPoints": [
@@ -254,9 +254,9 @@
             "centerlineDistance": 17.84998201860396,
             "inkClearance": 13.84998201860396,
             "signedInkClearance": 13.84998201860396,
-            "lowerBound": 17.84937938733772,
+            "lowerBound": 17.849433241279208,
             "upperBound": 17.850584649870203,
-            "inkClearanceLowerBound": 13.84937938733772,
+            "inkClearanceLowerBound": 13.849433241279208,
             "inkClearanceUpperBound": 13.850584649870203,
             "approximationError": 0.0006026312662347906,
             "nearestPoints": [
@@ -272,7 +272,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -283,9 +283,9 @@
             "centerlineDistance": 10.369317127362955,
             "inkClearance": 6.3693171273629545,
             "signedInkClearance": 6.3693171273629545,
-            "lowerBound": 10.368714496096718,
+            "lowerBound": 10.36931687685298,
             "upperBound": 10.369919758629193,
-            "inkClearanceLowerBound": 6.368714496096718,
+            "inkClearanceLowerBound": 6.369316876852981,
             "inkClearanceUpperBound": 6.369919758629193,
             "approximationError": 0.0006026312662347906,
             "nearestPoints": [
@@ -301,7 +301,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -330,7 +330,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -564,7 +564,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -940,12 +940,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/windsurfer-on-waves/icon.svg",
+    "holes": "solo/windsurfer-on-waves/holes.png",
+    "spacing": "solo/windsurfer-on-waves/spacing.png",
+    "spacing_svg": "solo/windsurfer-on-waves/spacing.svg",
+    "internal-spacing": "solo/windsurfer-on-waves/internal-spacing.png",
+    "internal_spacing_svg": "solo/windsurfer-on-waves/internal-spacing.svg",
     "metrics": "solo/windsurfer-on-waves/metrics.json"
   },
   "checks_run": [
@@ -997,6 +1003,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1011,7 +1018,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

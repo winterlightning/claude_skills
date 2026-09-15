@@ -11,7 +11,7 @@
     "parent": "jet-ski-rider-with-extended-leg-v2",
     "icon_id": "jet-ski-rider-with-extended-leg-v3",
     "file": "icon_set/model/icons/solo/jet_ski_rider_with_extended_leg_v3_6b86716b_ec83_45ca_bdbc_587a83956fb4.py",
-    "reason": "Jet ski: replace the disconnected zigzag with an identifiable shoulder, curved torso, one planted leg and one rearward extended leg. Radius5 head (22,11), shoulder (22,24), exact4 ink gap; upper torso vertical tangent. Original jet-ski pose and full_body_ref.png inspected; coherent Lucide sailboat hull construction supports equipment simplification."
+    "reason": "Jet-ski rider: reconstruct a complete hull, actual handlebar grip, planted foot and visibly extended rear leg. Radius5 head (19,11), shoulder(24,23), squared separation169 gives exact4 painted clearance. Upper torso tangent follows the forward lean. Source extended-leg rider and updated full_body_ref.png inspected; omit secondary water marks to give the craft and rider room instead of collapsing the limbs. Lucide sailboat informs coherent hull joins."
   },
   {
     "number": 14,
@@ -25,14 +25,14 @@
     "parent": "kayak-cockpit-paddle",
     "icon_id": "kayak-cockpit-paddle-v2",
     "file": "icon_set/model/icons/solo/kayak_cockpit_paddle_v2_a056c9dc_e8dd_5493_9902_c9d72635972e.py",
-    "reason": "Reconstruct the pointed kayak with mirrored hull curves and two matching rounded paddle blades. Paddle moved alongside to preserve both blades and the cockpit counter at SOLO48. Source kayak inspected; Lucide sailboat informs a coherent hull, with deliberate equipment asymmetry."
+    "reason": "Diagonal kayak and matching teardrop paddle blades reconstructed from the original source and the inspected Lucide kayak original/atomic-debug. Shared bow/stern and shaft nodes preserve exact contacts. The cockpit variant uses a larger elliptical opening and shows the shaft outside the raised cockpit rim; the center portion is occluded by the seat. Deliberate diagonal orientation fits the complete subject on SQUARE without broken paddle tips."
   },
   {
     "number": 16,
     "parent": "kayak-with-paddle",
     "icon_id": "kayak-with-paddle-v2",
     "file": "icon_set/model/icons/solo/kayak_with_paddle_v2_7a66c4e2_1e93_4712_9eb5_ab0c546777d9.py",
-    "reason": "Reconstruct the pointed kayak with mirrored hull curves and two matching rounded paddle blades. Paddle moved alongside to preserve both blades and the cockpit counter at SOLO48. Source kayak inspected; Lucide sailboat informs a coherent hull, with deliberate equipment asymmetry."
+    "reason": "Diagonal kayak and matching teardrop paddle blades reconstructed from the original source and the inspected Lucide kayak original/atomic-debug. Shared bow/stern and shaft nodes preserve exact contacts. The cockpit variant uses a larger elliptical opening and shows the shaft outside the raised cockpit rim; the center portion is occluded by the seat. Deliberate diagonal orientation fits the complete subject on SQUARE without broken paddle tips."
   },
   {
     "number": 17,
@@ -61,6 +61,13 @@
     "icon_id": "person-crossing-street-v2",
     "file": "icon_set/model/icons/solo/person_crossing_street_v2_3af2c4d0_47ca_42c6_bcb8_48e30924c79d.py",
     "reason": "Reconstruct person crossing street using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+  },
+  {
+    "number": 45,
+    "parent": "person-directing-box-carrier",
+    "icon_id": "person-directing-box-carrier-v2",
+    "file": "icon_set/model/icons/solo/person_directing_box_carrier_v2_18bef7d9_966c_46ce_9638_fea7a1c81585.py",
+    "reason": "Center each radius4 head over its own shoulder at y22, with head centers y10 and exact4 painted clearance. The pointing person and box carrier remain distinct. Original scene and full_body_ref.png inspected; both heads share radius and vertical spacing. Curve the carrier upper torso so its tangent aligns with its own head."
   },
   {
     "number": 46,
@@ -126,6 +133,13 @@
     "reason": "Reconstruct person walking down slope using its inspected source pose and full_body_ref.png. Head radius 5, center (27, 11), actual torso junction (22, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
   },
   {
+    "number": 59,
+    "parent": "politician-at-podium",
+    "icon_id": "politician-at-podium-v2",
+    "file": "icon_set/model/icons/solo/politician_at_podium_v2_49936d88_84dd_409f_9fb1_0754fd6ca144.py",
+    "reason": "Keep the podium and sash/microphone construction. Place the centered head at (24, 11) with radius5, exactly4 painted units above the existing shoulders. Shared full_body_ref.png bust vocabulary; preserve equipment asymmetry."
+  },
+  {
     "number": 60,
     "parent": "pool-jump",
     "icon_id": "pool-jump-v2",
@@ -133,11 +147,32 @@
     "reason": "Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
   },
   {
+    "number": 64,
+    "parent": "protester-carrying-flag",
+    "icon_id": "protester-carrying-flag-v2",
+    "file": "icon_set/model/icons/solo/protester_carrying_flag_v2_0f3f951b_efd9_4984_97c6_cd6a6f95b6fd.py",
+    "reason": "Flag protester: give the head clearance from the flag and pole as well as its own shoulder. Radius4 head (24,18), torso (24,30), exact4 ink gap. Hands meet the pole at (12,24); retain the source walking stance and full_body_ref.png vocabulary."
+  },
+  {
+    "number": 69,
+    "parent": "ribbon-gymnast-circle",
+    "icon_id": "ribbon-gymnast-circle-v2",
+    "file": "icon_set/model/icons/solo/ribbon_gymnast_circle_v2_f8bb3c70_137a_40bf_96f2_7de841464ca6.py",
+    "reason": "Ribbon gymnast: an open circular ribbon sweeps from the left hand past the head; its free right end stays separate from the right hand. Radius4 head (24,19), torso(24,31), exact4 gap. Preserve the dancing legs, with deliberate asymmetry from the source."
+  },
+  {
     "number": 75,
     "parent": "runner-starting-crouch",
     "icon_id": "runner-starting-crouch-v2",
     "file": "icon_set/model/icons/solo/runner_starting_crouch_v2_af50935b_1a94_494c_83f9_bc75b2269903.py",
     "reason": "Reconstruct runner starting crouch using its inspected source pose and full_body_ref.png. Head radius 5, center (11, 11), actual torso junction (23, 16): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+  },
+  {
+    "number": 78,
+    "parent": "sashed-speaker-at-podium",
+    "icon_id": "sashed-speaker-at-podium-v2",
+    "file": "icon_set/model/icons/solo/sashed_speaker_at_podium_v2_f701cb6e_f3f6_46f0_b896_7436b770c007.py",
+    "reason": "Centered radius5 head (24,9), shoulder top22: exact4 painted gap. Smooth shared shoulder curves preserve the sashed podium speaker and VRECT_L envelope."
   },
   {
     "number": 86,
@@ -151,7 +186,7 @@
     "parent": "seated-sauna-bather",
     "icon_id": "seated-sauna-bather-v2",
     "file": "icon_set/model/icons/solo/seated_sauna_bather_v2_69ae7a1c_75de_43c9_b54f_3baeb9173095.py",
-    "reason": "Reconstruct seated sauna bather using its inspected source pose and full_body_ref.png. Head radius 5, center (14, 11), actual torso junction (14, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+    "reason": "Seated bather: radius5 head (14,11), shoulder (14,24), exact4 gap. Arm at24, lap32 and bench40 each leave8 centerline units; preserve the bent legs and heat wisps."
   },
   {
     "number": 94,
@@ -180,6 +215,27 @@
     "icon_id": "snow-scooter-rider-v2",
     "file": "icon_set/model/icons/solo/snow_scooter_rider_v2_87213404_4655_52bf_a1d8_6be4687cfea8.py",
     "reason": "Reconstruct snow scooter rider using its inspected source pose and full_body_ref.png. Head radius 5, center (25, 11), actual torso junction (20, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+  },
+  {
+    "number": 101,
+    "parent": "snowboard-jump",
+    "icon_id": "snowboard-jump-v2",
+    "file": "icon_set/model/icons/solo/snowboard_jump_v2_b8a4c620_274c_490b_adc6_1f6dfce51d92.py",
+    "reason": "Preserve the snowboard and ramp/jump action; rebuild the raised arms as two clear shoulder branches. Head center(23, 11), radius5, torso(23, 24), exact4 painted gap. Full-body reference and the original action drawing inspected."
+  },
+  {
+    "number": 102,
+    "parent": "snowboarder-ramp",
+    "icon_id": "snowboarder-ramp-v2",
+    "file": "icon_set/model/icons/solo/snowboarder_ramp_v2_d1f1c485_e629_4a34_8fe1_118e92f26c93.py",
+    "reason": "Snowboarder on ramp: VRECT_L gives the lifted board a full8-unit separation from the curved ramp. Radius4 head(20,8), shoulder(20,20), exact4 painted gap. Two spread legs preserve the landing stance; the source raised arm remains clear."
+  },
+  {
+    "number": 103,
+    "parent": "speaker-at-podium",
+    "icon_id": "speaker-at-podium-v2",
+    "file": "icon_set/model/icons/solo/speaker_at_podium_v2_19c41b2e_4c85_4d3e_96b1_758a202d8967.py",
+    "reason": "Radius6 head (27,12), shoulders top26: exact4 painted clearance. Keep the microphone and podium, with a symmetric shoulder arch beneath the centered head."
   },
   {
     "number": 110,
@@ -217,6 +273,13 @@
     "reason": "Reconstruct tree pose using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
   },
   {
+    "number": 127,
+    "parent": "triangular-hang-glider-v2",
+    "icon_id": "triangular-hang-glider-v3",
+    "file": "icon_set/model/icons/solo/triangular_hang_glider_v3_46124d39_e8cc_47e1_a905_ab2eb126c524.py",
+    "reason": "Hang-glider pilot: move the harness to the actual chest and give the prone torso a horizontal tangent toward the head. Radius3 head(38,27), shoulder(27,27), exact11 center distance and4 painted clearance. The arm descends from that shoulder and extends forward; the leg trails behind. Source prone pilot and full_body_ref.png inspected; the wing retains its deliberate triangular asymmetry."
+  },
+  {
     "number": 135,
     "parent": "walking-stick-figure-with-raised-knee",
     "icon_id": "walking-stick-figure-with-raised-knee-v2",
@@ -242,14 +305,21 @@
     "parent": "adult-and-child-walking-in-park",
     "icon_id": "adult-and-child-walking-in-park-v2",
     "file": "icon_set/model/icons/solo/adult_and_child_walking_in_park_v2_1a7cb03f_21bf_4ab8_a038_43f1f09b9abc.py",
-    "reason": "Reconstruct adult and child walking in park using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 12), actual torso junction (12, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+    "reason": "Adult and child walking in a park: replace the tiny filled child head with an outlined circle and connect their hands intentionally. Adult radius4 head(8,12), shoulder(8,24); child radius3 head(28,20), shoulder(28,31): both exact4 ink gaps. A smaller background tree preserves the park setting. Original and full_body_ref.png inspected."
   },
   {
     "number": 168,
     "parent": "canoe-paddler",
     "icon_id": "canoe-paddler-v2",
     "file": "icon_set/model/icons/solo/canoe_paddler_v2_fc6689dd_a028_5cb2_b326_1fe893e5518c.py",
-    "reason": "Reconstruct canoe paddler using its inspected source pose and full_body_ref.png. Head radius 4, center (17, 12), actual torso junction (17, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+    "reason": "Canoe paddler: move the hand onto the real paddle node (31,20), and seat the torso on the gunwale at (12,32). Split the receiver at that exact contact. Radius4 head (17,12), shoulder (17,24), exact4 ink gap."
+  },
+  {
+    "number": 173,
+    "parent": "children-on-seesaw",
+    "icon_id": "children-on-seesaw-v2",
+    "file": "icon_set/model/icons/solo/children_on_seesaw_v2_e5a65a59_3ada_4acf_99fb_4a0e4440ea37.py",
+    "reason": "Children on seesaw: give both seated figures an actual torso attached to the beam. Shared radius3 heads at(8,17) and(36,11), shoulders(8,28) and(36,22), exact4 painted gaps. Keep the unequal beam heights and central fulcrum; omit the broad ground bar to clear the dangling feet. Source and full_body_ref.png inspected."
   },
   {
     "number": 186,
@@ -277,7 +347,7 @@
     "parent": "inline-skater",
     "icon_id": "inline-skater-v2",
     "file": "icon_set/model/icons/solo/inline_skater_v2_630e00b6_b3a3_4ec4_9e34_5b14d7140829.py",
-    "reason": "Reconstruct inline skater using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+    "reason": "Inline skater: a curved leaning back, one pushing leg and one planted skate replace the parallel arm/thigh crowding. Radius4 head(29,10), shoulder(29,22), exact4 gap. Keep paired skate wheels and the source skating action."
   },
   {
     "number": 235,
@@ -308,11 +378,18 @@
     "reason": "Reconstruct person tripping over rock using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
   },
   {
+    "number": 274,
+    "parent": "person-with-bindle",
+    "icon_id": "person-with-bindle-v2",
+    "file": "icon_set/model/icons/solo/person_with_bindle_v2_cabc5985_10ec_4ff6_97df_f2868406a44f.py",
+    "reason": "Reconstruct person with bindle using its inspected source pose and full_body_ref.png. Head radius 6, center (34, 10), actual torso junction (34, 24): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+  },
+  {
     "number": 303,
     "parent": "seated-pregnant-person",
     "icon_id": "seated-pregnant-person-v2",
     "file": "icon_set/model/icons/solo/seated_pregnant_person_v2_b434cf9b_f41d_4638_b3cb_9a9525e6c187.py",
-    "reason": "Reconstruct seated pregnant person using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+    "reason": "Seated pregnant figure: radius4 head (18,8), shoulder (18,20), exact4 gap. Rebuild the belly as a smooth outward curve with no bulge toward the head; preserve the chair and bent lap."
   },
   {
     "number": 340,
@@ -326,7 +403,7 @@
     "parent": "water-skier",
     "icon_id": "water-skier-v2",
     "file": "icon_set/model/icons/solo/water_skier_v2_a0a86c5e_f6ab_4aef_80ad_0ea729f25840.py",
-    "reason": "Reconstruct water skier using its inspected source pose and full_body_ref.png. Head radius 4, center (15, 12), actual torso junction (15, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+    "reason": "Water skier: radius4 head (15,12), shoulder (15,24), exact4 gap. Lower the raised knee to open the trapped recess under the towing arm; retain both upturned ski curves."
   },
   {
     "number": 347,
@@ -341,6 +418,13 @@
     "icon_id": "snowboarder-balancing-v2",
     "file": "icon_set/model/icons/solo/snowboarder_balancing_v2_0a6543da_6660_4cf0_a837_4d651dbe574a.py",
     "reason": "Reconstruct snowboarder balancing using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+  },
+  {
+    "number": 393,
+    "parent": "snowboarding",
+    "icon_id": "snowboarding-v2",
+    "file": "icon_set/model/icons/solo/snowboarding_v2_6bd421c1_b45f_42f7_bc55_f1a7d00409df.py",
+    "reason": "Snowboarding: establish a torso and real hip rather than attaching every limb at one point. Radius5 head(37,17), shoulder(25,22), squared distance169 and exact4 painted gap; upper torso follows the horizontal lean. Keep the raised arm and two legs on the upturned board; the far arm is hidden by this side pose. Original and full_body_ref.png inspected."
   },
   {
     "number": 396,
@@ -368,21 +452,42 @@
     "parent": "person-climbing-stairs",
     "icon_id": "person-climbing-stairs-v2",
     "file": "icon_set/model/icons/solo/person_climbing_stairs_v2_317da08d_c0ee_4af0_b5d9_a57e3f5420c2.py",
-    "reason": "Reconstruct person climbing stairs using its inspected source pose and full_body_ref.png. Head radius 5, center (23, 11), actual torso junction (18, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+    "reason": "Stair climber: radius4 head (18,10), shoulder (18,22), exact4 gap. Lift the leading hand above the raised knee to open the triangular recess; preserve the foot on the actual step."
   },
   {
     "number": 426,
     "parent": "person-riding-handcycle",
     "icon_id": "person-riding-handcycle-v2",
     "file": "icon_set/model/icons/solo/person_riding_handcycle_v2_6f954029_c6f4_4eea_8610_b9a1827cde85.py",
-    "reason": "Reconstruct person riding handcycle using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 12), actual torso junction (16, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."
+    "reason": "Handcycle rider: re-author both wheels at radius6, leaving a full curved torso and8 centerline units between the arm and frame. Radius4 head(18,10), shoulder(18,22), exact4 gap. Hands meet the crank; source handcycle and full_body_ref.png inspected."
+  },
+  {
+    "number": 431,
+    "parent": "seated-meditation-curved-arms",
+    "icon_id": "seated-meditation-curved-arms-v2",
+    "file": "icon_set/model/icons/solo/seated_meditation_curved_arms_v2_ded0b984_4a7d_5b44_8214_e8c48cf563e0.py",
+    "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions."
+  },
+  {
+    "number": 432,
+    "parent": "seated-prayer-pose",
+    "icon_id": "seated-prayer-pose-v2",
+    "file": "icon_set/model/icons/solo/seated_prayer_pose_v2_a24a87c9_e913_450e_89fa_1364d53ddeea.py",
+    "reason": "Seated prayer: draw a real shoulder junction and torso behind two bent arms whose palms meet at(24,26). Radius4 head(24,8), actual shoulder(24,20), exact4 painted clearance; the palms do not substitute for the shoulder. VRECT_L gives both arm counters room above the crossed legs. Original prayer source and full_body_ref.png inspected."
+  },
+  {
+    "number": 437,
+    "parent": "sumo-wrestler",
+    "icon_id": "sumo-wrestler-v2",
+    "file": "icon_set/model/icons/solo/sumo_wrestler_v2_9ed19462_8339_482a_a209_2c66f9e595f9.py",
+    "reason": "Sumo wrestler: retain the topknot, broad belly, loincloth and squat. Radius5 head(24,13); shoulder edges(19,25) and(29,25) are each exactly13 from the center, leaving4 painted clearance. Both body edges lead away from the head. Source and full_body_ref.png inspected; mirror the stance about x24."
   },
   {
     "number": 447,
     "parent": "horse-rider",
     "icon_id": "horse-rider-v2",
     "file": "icon_set/model/icons/solo/horse_rider_v2_932e176d_8abb_4412_94f0_22f2542b288a.py",
-    "reason": "Reconstruct horse rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."
+    "reason": "Horse rider: lower the saddle/back as one owner to open the arm-to-horse counter; give the torso and rider leg real length. Radius5 head(24,9), shoulder(19,21), exact13 center distance and4 painted clearance. The torso tangent follows the forward lean. Source horse rider and full_body_ref.png inspected. VRECT_L gives room for the horse legs."
   },
   {
     "number": 490,

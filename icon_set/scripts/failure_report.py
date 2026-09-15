@@ -190,6 +190,7 @@ def collect(failed_manifests: list[tuple[Path, str]], *, total: int | None = Non
             paths, attributes = _svg_paths(document)
             icons.append({
                 "id": record["icon_id"], "family": record["family"], "profile": record.get("profile"),
+                "svg_sha256": record.get("svg_sha256"),
                 "status": record.get("status"), "canvas": record.get("canvas_size") or 48,
                 "paths": paths, "svg": attributes, "issues": issues,
                 "svgUrl": url_prefix + record["svg"] if record.get("svg") and paths is not None else None,

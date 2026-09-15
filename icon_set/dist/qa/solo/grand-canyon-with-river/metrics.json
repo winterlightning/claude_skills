@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 4.59 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -408,9 +410,9 @@
         "centerlineDistance": 28.01134446587282,
         "inkClearance": 24.01134446587282,
         "signedInkClearance": 24.01134446587282,
-        "lowerBound": 28.01044051897392,
+        "lowerBound": 28.01112147556766,
         "upperBound": 28.012248412771726,
-        "inkClearanceLowerBound": 24.01044051897392,
+        "inkClearanceLowerBound": 24.01112147556766,
         "inkClearanceUpperBound": 24.012248412771726,
         "approximationError": 0.0009039468989051613,
         "nearestPoints": [
@@ -449,9 +451,9 @@
             "centerlineDistance": 28.01134446587282,
             "inkClearance": 24.01134446587282,
             "signedInkClearance": 24.01134446587282,
-            "lowerBound": 28.01044051897392,
+            "lowerBound": 28.01112147556766,
             "upperBound": 28.012248412771726,
-            "inkClearanceLowerBound": 24.01044051897392,
+            "inkClearanceLowerBound": 24.01112147556766,
             "inkClearanceUpperBound": 24.012248412771726,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -467,7 +469,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -624,9 +626,9 @@
         "centerlineDistance": 8.402578540085921,
         "inkClearance": 4.402578540085921,
         "signedInkClearance": 4.402578540085921,
-        "lowerBound": 8.401674593187021,
+        "lowerBound": 8.40175425099138,
         "upperBound": 8.403482486984823,
-        "inkClearanceLowerBound": 4.401674593187021,
+        "inkClearanceLowerBound": 4.401754250991379,
         "inkClearanceUpperBound": 4.403482486984823,
         "approximationError": 0.0009039468989016086,
         "nearestPoints": [
@@ -665,9 +667,9 @@
             "centerlineDistance": 8.402578540085921,
             "inkClearance": 4.402578540085921,
             "signedInkClearance": 4.402578540085921,
-            "lowerBound": 8.401674593187021,
+            "lowerBound": 8.40175425099138,
             "upperBound": 8.403482486984823,
-            "inkClearanceLowerBound": 4.401674593187021,
+            "inkClearanceLowerBound": 4.401754250991379,
             "inkClearanceUpperBound": 4.403482486984823,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -683,7 +685,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -827,7 +829,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -1038,6 +1040,11 @@
   },
   "artifacts": {
     "svg": "solo/grand-canyon-with-river/icon.svg",
+    "holes": "solo/grand-canyon-with-river/holes.png",
+    "spacing": "solo/grand-canyon-with-river/spacing.png",
+    "spacing_svg": "solo/grand-canyon-with-river/spacing.svg",
+    "internal-spacing": "solo/grand-canyon-with-river/internal-spacing.png",
+    "internal_spacing_svg": "solo/grand-canyon-with-river/internal-spacing.svg",
     "metrics": "solo/grand-canyon-with-river/metrics.json"
   },
   "checks_run": [

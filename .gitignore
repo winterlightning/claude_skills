@@ -6,10 +6,9 @@
 __pycache__/
 *.pyc
 
-# Server data is local, except the review database, which is shared so
-# approve/reject/pending status follows the repo to other machines.
+# Server data is local, including the review database (feedback.sqlite3):
+# never commit it.
 /icon_set/data/*
-!/icon_set/data/feedback.sqlite3
 /icons-json
 /head
 

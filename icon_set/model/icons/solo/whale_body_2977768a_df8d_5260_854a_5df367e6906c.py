@@ -16,20 +16,29 @@ class WhaleWithSpout(Solo48):
     aliases = ()
     keywords = ('whale', 'spout', 'water', 'sea', 'ocean', 'marine', 'tail', 'mammal')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_bezier('back', (6, 31), *(((6, 25.50920143), (9.85418684, 20.56542937), (16, 19)),))
-        self.add_arc('saddle', (16, 19), (35, 24), radius_x=18, radius_y=18, large_arc=False, sweep=False)
-        self.add_line('tail-neck', (35, 24), (36, 16))
-        self.add_arc('tail-left', (36, 16), (34, 6), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_line('fluke-1', (34, 6), (40, 11))
-        self.add_line('fluke-2', (40, 11), (42, 6))
-        self.add_bezier('tail-right', (42, 6), *(((42, 10.28124692), (42, 14.71875308), (42, 19)),))
-        self.add_arc('rump', (42, 19), (25, 42), radius_x=27, radius_y=27, large_arc=False, sweep=True)
-        self.add_arc('belly', (25, 42), (6, 31), radius_x=23, radius_y=15, large_arc=False, sweep=True)
-        self.add_line('eye', (15, 29), (15, 29))
-        self.add_bezier('spray-left', (8, 6), *(((11.2325716, 6), (14.39737339, 7.16125546), (16, 10)),))
-        self.add_bezier('spray-right', (16, 10), *(((17.60262661, 7.16125546), (20.7674284, 6), (24, 6)),))
-        self.add_contour('whale', *('back', 'saddle', 'tail-neck', 'tail-left', 'fluke-1', 'fluke-2', 'tail-right', 'rump', 'belly'), closed=True)
-        self.add_contour('spout', *('spray-left', 'spray-right'), closed=False)
+    def build(self):
+        # Plan: Trace the original whale: smooth rounded body, a broad raised tail throat and a separate water spout. Preserve natural directional asymmetry.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('whale',(6,30), [('C',(16,20),(6,24),(10,20)),('C',(32,24),(24,20),(32,32)),('L',(32,16)),('A',(34,6),12,12,True),('L',(40,11)),('L',(42,6)),('L',(42,19)),('C',(24,42),(42,33),(34,42)),('C',(6,30),(14,42),(6,38))],True)
+        self.add_dot('eye',(15,30))
+        path('spout',(8,6), [('C',(16,10),(12,6),(14,7)),('C',(24,6),(18,7),(20,6))])

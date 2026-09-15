@@ -15,48 +15,32 @@ class TextFlowRows(Solo48):
     aliases = ()
     keywords = ('text', 'flow', 'rows', 'interface-essential')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (30, 19), (35, 18))
-        self.add_line('e1', (35, 18), (40, 18))
-        self.add_line('e2', (42, 15), (42, 8))
-        self.add_line('e3', (40, 6), (32, 6))
-        self.add_line('e4', (31, 8), (31, 13))
-        self.add_line('e5', (31, 13), (30, 19))
-        self.add_line('e6', (30, 19), (17, 32))
-        self.add_line('e7', (16, 30), (8, 30))
-        self.add_line('e8', (6, 32), (6, 40))
-        self.add_line('e9', (8, 42), (15, 42))
-        self.add_line('e10', (17, 40), (17, 31))
-        self.add_line('e11', (31, 12), (17, 12))
-        self.add_line('e12', (17, 36), (42, 36))
-        self.add_line('e13', (42, 36), (37, 41))
-        self.add_line('e14', (37, 32), (42, 36))
-        self.add_line('e15', (16, 6), (8, 6))
-        self.add_line('e16', (6, 8), (6, 16))
-        self.add_line('e17', (8, 18), (16, 18))
-        self.add_line('e18', (17, 16), (17, 8))
-        self.add_arc('e19-1', (40, 18), (42, 17), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e19-2', (42, 17), (42, 15), radius_x=10, radius_y=10, large_arc=False, sweep=True)
-        self.add_arc('e20', (42, 8), (40, 6), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e21', (32, 6), (31, 8), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e22', (17, 31), (16, 30), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e23', (8, 30), (6, 32), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e24', (6, 40), (8, 42), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e25', (15, 42), (17, 40), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_line('e26', (17, 8), (16, 6))
-        self.add_arc('e27', (8, 6), (6, 8), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e28', (6, 16), (8, 18), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e29', (16, 18), (17, 16), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_contour('c0', *('e0', 'e1', 'e19-1', 'e19-2', 'e2', 'e20', 'e3', 'e21', 'e4', 'e5'), closed=True)
-        self.add_contour('c1', *('e6',), closed=False)
-        self.add_contour('c2', *('e22', 'e7', 'e23', 'e8', 'e24', 'e9', 'e25', 'e10'), closed=False)
-        self.add_contour('c3', *('e11',), closed=False)
-        self.add_contour('c4', *('e12', 'e13'), closed=False)
-        self.add_contour('c5', *('e14',), closed=False)
-        self.add_contour('c6', *('e26', 'e15', 'e27', 'e16', 'e28', 'e17', 'e29', 'e18'), closed=True)
-        self.relate('connect', *('c0', 'c1'))
-        self.relate('connect', *('c3', 'c0'))
-        self.relate('connect', *('c3', 'c6'))
-        self.relate('connect', *('c4', 'c2'))
+    def build(self):
+        # Plan: Three equal rounded text nodes and a clear stepped flow; all links meet explicit nodes, with separated turns and one output arrow.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        def node(n,l,t):
+         path(n,(l+2,t), [('L',(l+6,t)),('L',(l+10,t)),('A',(l+12,t+2),2,2,True),('L',(l+12,t+4)),('L',(l+12,t+6)),('A',(l+10,t+8),2,2,True),('L',(l+6,t+8)),('L',(l+2,t+8)),('A',(l,t+6),2,2,True),('L',(l,t+4)),('L',(l,t+2)),('A',(l+2,t),2,2,True)],True)
+        node('first',6,6);node('second',30,6);node('third',6,34)
+        line('first-link',(18,10),(30,10));join('first-link','first');join('first-link','second')
+        poly('return-link',(36,14),(36,24),(12,24),(12,34));join('return-link','second');join('return-link','third')
+        line('output',(18,38),(42,38));poly('arrow',(36,34),(42,38),(36,42));join('output','third');join('output','arrow')

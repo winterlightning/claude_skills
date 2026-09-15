@@ -249,6 +249,7 @@ def find_pinches(
     min_fill_depth_design_u: float,
     base_retreat_view_units: float = 0.0,
     design_canvas: float=DESIGN_CANVAS,
+    circle_closures=None, circle_rule=None, authored_stroke=4,
 ) -> list[dict]:
     """Report regions that are solid only because parts were squeezed together.
 
@@ -327,6 +328,18 @@ def find_pinches(
                 "status": "fail",
             }
         )
+    if circle_closures and circle_rule:
+        # An approved complete circle can fill its own center at authored width.
+        # That is intrinsic circle paint, not a pocket squeezed between parts.
+        # Require the WHOLE retreat pocket to match its disk; crossed/clipped
+        # circles and nearby junction pockets must continue to fail.
+        from .circle_exceptions import apply_circle_exceptions
+        candidates = [c for c in circle_closures if c['centerline_diameter'] <= authored_stroke]
+        apply_circle_exceptions(found, labels, list(range(1, count)), candidates,
+                                rule=circle_rule, samples=samples_per_unit,
+                                measuring_stroke=authored_stroke - 2 * (base_retreat_view_units + retreat))
+        found = [p for p in found if 'exception' not in p]
+        for number, pinch in enumerate(found, 1): pinch['pinch'] = number
     return found
 
 

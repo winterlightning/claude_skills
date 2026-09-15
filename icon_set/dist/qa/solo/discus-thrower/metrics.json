@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 7.02 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -15,15 +17,15 @@
         "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 10 A 4 4 0 0 1 28 10 A 4 4 0 0 1 20 10 Z",
+        "pathData": "M 19 11 A 5 5 0 0 1 29 11 A 5 5 0 0 1 19 11 Z",
         "bounds": [
-          20.0,
+          19.0,
           6.0,
-          28.0,
-          14.0
+          29.0,
+          16.0
         ],
         "segmentCount": 257,
-        "approximationError": 0.0003016732609878349,
+        "approximationError": 0.00037709157612066265,
         "hasCurves": true
       },
       {
@@ -47,27 +49,27 @@
         "elementId": "torso-0",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 22 25 L 22 32",
+        "pathData": "M 24 24 C 24 27.29848450049413 22.5 30 22 32",
         "bounds": [
           22.0,
-          25.0,
-          22.0,
+          24.0,
+          24.0,
           32.0
         ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 37,
+        "approximationError": 0.0009360548898822869,
+        "hasCurves": true
       },
       {
         "id": "holding-arm:subpath-1",
         "elementId": "holding-arm",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 22 25 L 12 29 L 9 23",
+        "pathData": "M 24 24 L 12 29 L 9 23",
         "bounds": [
           9.0,
           23.0,
-          22.0,
+          24.0,
           29.0
         ],
         "segmentCount": 2,
@@ -79,12 +81,12 @@
         "elementId": "extended-arm-0",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 22 25 L 42 16",
+        "pathData": "M 24 24 L 42 24",
         "bounds": [
-          22.0,
-          16.0,
+          24.0,
+          24.0,
           42.0,
-          25.0
+          24.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -136,10 +138,10 @@
           "head"
         ],
         "bounds": [
-          20.0,
+          19.0,
           6.0,
-          28.0,
-          14.0
+          29.0,
+          16.0
         ]
       },
       {
@@ -170,7 +172,7 @@
         ],
         "bounds": [
           6.0,
-          16.0,
+          17.0,
           42.0,
           42.0
         ]
@@ -180,24 +182,24 @@
       {
         "closestContours": [
           "head:subpath-1",
-          "extended-arm-0:subpath-1"
+          "torso-0:subpath-1"
         ],
-        "centerlineDistance": 8.858156192853459,
-        "inkClearance": 4.858156192853459,
-        "signedInkClearance": 4.858156192853459,
-        "lowerBound": 8.857854519592467,
-        "upperBound": 8.858457866114449,
-        "inkClearanceLowerBound": 4.8578545195924665,
-        "inkClearanceUpperBound": 4.858457866114449,
-        "approximationError": 0.0003016732609921746,
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 8.0,
+        "upperBound": 8.000377091576123,
+        "inkClearanceLowerBound": 4.0,
+        "inkClearanceUpperBound": 4.000377091576123,
+        "approximationError": 0.0013131464660029496,
         "nearestPoints": [
           [
-            25.62096525601996,
-            13.656839022814122
+            24.0,
+            16.0
           ],
           [
-            29.256039663828364,
-            21.734782151277237
+            24.0,
+            24.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -228,109 +230,22 @@
               "head:subpath-1",
               "discus:subpath-1"
             ],
-            "centerlineDistance": 11.027762637712204,
-            "inkClearance": 7.027762637712204,
-            "signedInkClearance": 7.027762637712204,
-            "lowerBound": 11.02655701755277,
-            "upperBound": 11.028968257871636,
-            "inkClearanceLowerBound": 7.02655701755277,
-            "inkClearanceUpperBound": 7.028968257871636,
-            "approximationError": 0.0012056201594305262,
+            "centerlineDistance": 9.49285723247278,
+            "inkClearance": 5.49285723247278,
+            "signedInkClearance": 5.49285723247278,
+            "lowerBound": 9.491576193998213,
+            "upperBound": 9.494138270947344,
+            "inkClearanceLowerBound": 5.491576193998213,
+            "inkClearanceUpperBound": 5.494138270947344,
+            "approximationError": 0.0012810384745633539,
             "nearestPoints": [
               [
-                20.67412155078982,
-                12.222280932078409
+                19.71135694999864,
+                13.570513720966108
               ],
               [
-                11.494408836907635,
-                18.333289300941193
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "head:subpath-1",
-              "torso-0:subpath-1"
-            ],
-            "centerlineDistance": 11.133002141074375,
-            "inkClearance": 7.133002141074375,
-            "signedInkClearance": 7.133002141074375,
-            "lowerBound": 11.132700467813383,
-            "upperBound": 11.133303814335365,
-            "inkClearanceLowerBound": 7.1327004678133825,
-            "inkClearanceUpperBound": 7.133303814335365,
-            "approximationError": 0.0003016732609878349,
-            "nearestPoints": [
-              [
-                23.49828731595709,
-                13.968278838186277
-              ],
-              [
-                22.0,
-                25.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "head:subpath-1",
-              "holding-arm:subpath-1"
-            ],
-            "centerlineDistance": 11.133002141074375,
-            "inkClearance": 7.133002141074375,
-            "signedInkClearance": 7.133002141074375,
-            "lowerBound": 11.132700467813383,
-            "upperBound": 11.133303814335365,
-            "inkClearanceLowerBound": 7.1327004678133825,
-            "inkClearanceUpperBound": 7.133303814335365,
-            "approximationError": 0.0003016732609878349,
-            "nearestPoints": [
-              [
-                23.49828731595709,
-                13.968278838186277
-              ],
-              [
-                22.0,
-                25.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "head:subpath-1",
-              "extended-arm-0:subpath-1"
-            ],
-            "centerlineDistance": 8.858156192853459,
-            "inkClearance": 4.858156192853459,
-            "signedInkClearance": 4.858156192853459,
-            "lowerBound": 8.857854519592467,
-            "upperBound": 8.858457866114449,
-            "inkClearanceLowerBound": 4.8578545195924665,
-            "inkClearanceUpperBound": 4.858457866114449,
-            "approximationError": 0.0003016732609878349,
-            "nearestPoints": [
-              [
-                25.62096525601996,
-                13.656839022814122
-              ],
-              [
-                29.256039663828364,
-                21.734782151277237
+                11.573185830000817,
+                18.457691767420336
               ]
             ],
             "requiredCenterline": 8.0,
@@ -342,20 +257,107 @@
           {
             "closestContours": [
               "head:subpath-1",
-              "rear-leg:subpath-1"
+              "torso-0:subpath-1"
             ],
-            "centerlineDistance": 18.090859953590385,
-            "inkClearance": 14.090859953590385,
-            "signedInkClearance": 14.090859953590385,
-            "lowerBound": 18.090558280329393,
-            "upperBound": 18.09116162685138,
-            "inkClearanceLowerBound": 14.090558280329393,
-            "inkClearanceUpperBound": 14.091161626851381,
-            "approximationError": 0.0003016732609878349,
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.001313146466005,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.001313146466005,
+            "approximationError": 0.0013131464660029496,
             "nearestPoints": [
               [
-                23.607931438681756,
-                13.980738906688789
+                24.0,
+                16.0
+              ],
+              [
+                24.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "holding-arm:subpath-1"
+            ],
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000377091576123,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000377091576123,
+            "approximationError": 0.00037709157612066265,
+            "nearestPoints": [
+              [
+                24.0,
+                16.0
+              ],
+              [
+                24.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "extended-arm-0:subpath-1"
+            ],
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000377091576123,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000377091576123,
+            "approximationError": 0.00037709157612066265,
+            "nearestPoints": [
+              [
+                24.0,
+                16.0
+              ],
+              [
+                24.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "rear-leg:subpath-1"
+            ],
+            "centerlineDistance": 16.09505714784037,
+            "inkClearance": 12.095057147840372,
+            "signedInkClearance": 12.095057147840372,
+            "lowerBound": 16.095023109728984,
+            "upperBound": 16.095434239416495,
+            "inkClearanceLowerBound": 12.095023109728984,
+            "inkClearanceUpperBound": 12.095434239416495,
+            "approximationError": 0.00037709157612066265,
+            "nearestPoints": [
+              [
+                23.509914298352196,
+                15.975923633360985
               ],
               [
                 22.0,
@@ -365,7 +367,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -373,18 +375,18 @@
               "head:subpath-1",
               "front-leg:subpath-1"
             ],
-            "centerlineDistance": 18.090859953590385,
-            "inkClearance": 14.090859953590385,
-            "signedInkClearance": 14.090859953590385,
-            "lowerBound": 18.090558280329393,
-            "upperBound": 18.09116162685138,
-            "inkClearanceLowerBound": 14.090558280329393,
-            "inkClearanceUpperBound": 14.091161626851381,
-            "approximationError": 0.0003016732609878349,
+            "centerlineDistance": 16.09505714784037,
+            "inkClearance": 12.095057147840372,
+            "signedInkClearance": 12.095057147840372,
+            "lowerBound": 16.095023109728984,
+            "upperBound": 16.095434239416495,
+            "inkClearanceLowerBound": 12.095023109728984,
+            "inkClearanceUpperBound": 12.095434239416495,
+            "approximationError": 0.00037709157612066265,
             "nearestPoints": [
               [
-                23.607931438681756,
-                13.980738906688789
+                23.509914298352196,
+                15.975923633360985
               ],
               [
                 22.0,
@@ -394,7 +396,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -419,8 +421,8 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          22.0,
-          25.0
+          24.0,
+          24.0
         ]
       },
       {
@@ -430,8 +432,8 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          22.0,
-          25.0
+          24.0,
+          24.0
         ]
       },
       {
@@ -463,8 +465,8 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          22.0,
-          25.0
+          24.0,
+          24.0
         ]
       },
       {
@@ -549,8 +551,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            22.0,
-            25.0
+            24.0,
+            24.0
           ]
         }
       },
@@ -568,8 +570,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            22.0,
-            25.0
+            24.0,
+            24.0
           ]
         }
       },
@@ -625,8 +627,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            22.0,
-            25.0
+            24.0,
+            24.0
           ]
         }
       },
@@ -697,14 +699,14 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 8.858156192853459,
-    "minimumInkClearance": 4.858156192853459,
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 21,
-      "flattenedSegments": 394,
-      "adaptiveNodes": 764,
-      "distanceTests": 361,
+      "flattenedSegments": 430,
+      "adaptiveNodes": 837,
+      "distanceTests": 152,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -717,29 +719,29 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          9.9844
+          10.9844
         ],
         "bbox_viewbox": [
-          22.0,
+          21.0,
           8.0,
-          4.0,
-          4.0
+          6.0,
+          6.0
         ],
         "bbox_ship_px": [
-          4.0,
-          4.0
+          6.0,
+          6.0
         ],
         "bbox_design_u": [
-          4.0,
-          4.0
+          6.0,
+          6.0
         ],
-        "area_ship_px2": 12.5898,
-        "equivalent_diameter_ship_px": 4.0037,
-        "equivalent_diameter_design_u": 4.0037,
-        "inscribed_diameter_ship_px": 3.9071,
-        "inscribed_diameter_design_u": 3.9071,
-        "inscribed_radius_ship_px": 1.9535,
-        "inscribed_radius_design_u": 1.9535,
+        "area_ship_px2": 28.293,
+        "equivalent_diameter_ship_px": 6.002,
+        "equivalent_diameter_design_u": 6.002,
+        "inscribed_diameter_ship_px": 5.8919,
+        "inscribed_diameter_design_u": 5.8919,
+        "inscribed_radius_ship_px": 2.9459,
+        "inscribed_radius_design_u": 2.9459,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
@@ -795,33 +797,33 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          9.9844
+          10.9844
         ],
         "bbox_viewbox": [
-          20.5,
+          19.5,
           6.5,
-          7.0,
-          7.0
+          9.0,
+          9.0
         ],
         "bbox_ship_px": [
-          7.0,
-          7.0
+          9.0,
+          9.0
         ],
         "bbox_design_u": [
-          7.0,
-          7.0
+          9.0,
+          9.0
         ],
-        "area_ship_px2": 38.4922,
-        "equivalent_diameter_ship_px": 7.0007,
-        "equivalent_diameter_design_u": 7.0007,
-        "inscribed_diameter_ship_px": 6.853,
-        "inscribed_diameter_design_u": 6.853,
-        "inscribed_radius_ship_px": 3.4265,
-        "inscribed_radius_design_u": 3.4265,
+        "area_ship_px2": 63.6377,
+        "equivalent_diameter_ship_px": 9.0014,
+        "equivalent_diameter_design_u": 9.0014,
+        "inscribed_diameter_ship_px": 8.8253,
+        "inscribed_diameter_design_u": 8.8253,
+        "inscribed_radius_ship_px": 4.4126,
+        "inscribed_radius_design_u": 4.4126,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 1.9265,
-        "equivalent_diameter_at_authored_stroke_design_u": 3.853
+        "equivalent_radius_at_authored_stroke_design_u": 2.9126,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.8252
       },
       {
         "hole": 2,
@@ -879,6 +881,11 @@
   },
   "artifacts": {
     "svg": "solo/discus-thrower/icon.svg",
+    "holes": "solo/discus-thrower/holes.png",
+    "spacing": "solo/discus-thrower/spacing.png",
+    "spacing_svg": "solo/discus-thrower/spacing.svg",
+    "internal-spacing": "solo/discus-thrower/internal-spacing.png",
+    "internal_spacing_svg": "solo/discus-thrower/internal-spacing.svg",
     "metrics": "solo/discus-thrower/metrics.json"
   },
   "checks_run": [
@@ -891,7 +898,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "7a83e444c2e6e0d7874f71a5295d92f129cbf573d8a5a8d6bd8d395649d8b3dd",
+  "svg_sha256": "2f55799e8278afcef1607065f39fc81dee37f607fccc3be74081b2b64abb5ad8",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -967,24 +974,24 @@
           "holding-arm-0"
         ],
         "status": "review",
-        "sustained_length": 5.1404,
-        "centerline_distance": 6.4722,
-        "ink_gap": 2.4722,
+        "sustained_length": 5.25,
+        "centerline_distance": 6.4632,
+        "ink_gap": 2.4632,
         "nearest_points": [
           [
             10.205086273958909,
             22.747319979965173
           ],
           [
-            12.568181818181818,
-            28.772727272727273
+            12.576923076923077,
+            28.759615384615383
           ]
         ],
         "visual_review": {
           "decision": "retain",
           "reviewer": "gpt-6",
-          "reason": "Preserve the discus thrower silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-10.png"
+          "reason": "Reconstruct discus thrower using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
+          "evidence": "icon_set/work/solo-visual-reaudit-500/new-4.png"
         }
       },
       {
@@ -994,13 +1001,13 @@
           "rear-leg-0"
         ],
         "status": "review",
-        "sustained_length": 5.25,
-        "centerline_distance": 6.6618,
-        "ink_gap": 2.6618,
+        "sustained_length": 5.0,
+        "centerline_distance": 6.7692,
+        "ink_gap": 2.7692,
         "nearest_points": [
           [
-            19.025862068965534,
-            26.189655172413786
+            18.896449704142075,
+            26.126479289940804
           ],
           [
             21.5,
@@ -1010,8 +1017,8 @@
         "visual_review": {
           "decision": "retain",
           "reviewer": "gpt-6",
-          "reason": "Preserve the discus thrower silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-10.png"
+          "reason": "Reconstruct discus thrower using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
+          "evidence": "icon_set/work/solo-visual-reaudit-500/new-4.png"
         }
       }
     ],

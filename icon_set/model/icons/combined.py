@@ -14,7 +14,7 @@ from typing import Iterable
 from .. import contracts
 from ..keyshapes import FreeKeyshapeSpec, Keyshape
 from ..position import PlacedIcon, Position
-from ..primitives import Contour, Point, Relationship, ResolvedDrawing, translate
+from ..primitives import Contour, HumanFigure, Point, Relationship, ResolvedDrawing, translate
 from ..profiles import Profile
 from .base import Icon
 
@@ -82,11 +82,17 @@ class CombinedIcon(Icon):
         contours = list(parent.contours)
         anchors = list(parent.anchors)
         relationships = list(parent.relationships)
+        human_figures = list(parent.human_figures)
         owners = []
 
         for index, child in enumerate(self._children):
             prefix = f"{index}:{child.icon.icon_id}:"
             drawing = child.icon.draw()
+            human_figures.extend(
+                HumanFigure(prefix + f.figure_id, prefix + f.head, prefix + f.torso,
+                            f.torso_junction)
+                for f in drawing.human_figures
+            )
             owners.extend((prefix + p.element_id, index) for p in drawing.primitives)
             owners.extend((prefix + c.contour_id, index) for c in drawing.contours)
             primitives.extend(
@@ -129,6 +135,7 @@ class CombinedIcon(Icon):
             tuple(anchors),
             tuple(relationships),
             tuple(owners),
+            tuple(human_figures),
         )
 
     def to_record(self) -> dict:

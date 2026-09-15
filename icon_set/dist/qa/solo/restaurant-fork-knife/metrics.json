@@ -11,46 +11,46 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "fork:subpath-1",
+        "elementId": "fork",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 4 L 15 19",
+        "pathData": "M 8 4 L 8 16 A 8 8 0 0 0 16 24 A 8 8 0 0 0 24 16 L 24 4",
         "bounds": [
-          15.0,
+          8.0,
+          4.0,
+          24.0,
+          24.0
+        ],
+        "segmentCount": 130,
+        "approximationError": 0.0006023928472411361,
+        "hasCurves": true
+      },
+      {
+        "id": "middle:subpath-1",
+        "elementId": "middle",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 16 4 L 16 24",
+        "bounds": [
+          16.0,
           4.0,
           16.0,
-          19.0
+          24.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
+        "id": "fork-handle:subpath-1",
+        "elementId": "fork-handle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 4 L 8 12 A 9 9 0 0 0 15 19",
+        "pathData": "M 16 24 L 16 44",
         "bounds": [
-          8.0,
-          4.0,
-          15.0,
-          19.0
-        ],
-        "segmentCount": 65,
-        "approximationError": 0.00037255624816604545,
-        "hasCurves": true
-      },
-      {
-        "id": "c2:subpath-1",
-        "elementId": "c2",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 16 44 L 15 19",
-        "bounds": [
-          15.0,
-          19.0,
+          16.0,
+          24.0,
           16.0,
           44.0
         ],
@@ -59,27 +59,27 @@
         "hasCurves": false
       },
       {
-        "id": "c3:subpath-1",
-        "elementId": "c3",
+        "id": "blade:subpath-1",
+        "elementId": "blade",
         "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 23 4 L 23 12 A 9 9 0 0 1 15 19",
+        "componentId": "component-2",
+        "pathData": "M 32 8 A 4 4 0 0 1 40 8 L 40 28 L 32 28 L 32 8 Z",
         "bounds": [
-          15.0,
+          32.0,
           4.0,
-          23.0,
-          19.0
+          40.0,
+          28.0
         ],
-        "segmentCount": 65,
-        "approximationError": 0.00043848310940375497,
+        "segmentCount": 132,
+        "approximationError": 0.00030167326144169406,
         "hasCurves": true
       },
       {
-        "id": "c4:subpath-1",
-        "elementId": "c4",
+        "id": "knife-handle:subpath-1",
+        "elementId": "knife-handle",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 32 44 L 32 28",
+        "pathData": "M 32 28 L 32 44",
         "bounds": [
           32.0,
           28.0,
@@ -89,65 +89,46 @@
         "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
-      },
-      {
-        "id": "c5:subpath-1",
-        "elementId": "c5",
-        "subpathIndex": 1,
-        "componentId": "component-2",
-        "pathData": "M 32 4 L 32 28 L 39 28 L 40 24 A 26 26 0 0 1 40 22 L 39 15 A 10 10 0 0 0 32 4 Z",
-        "bounds": [
-          32.0,
-          4.0,
-          40.0,
-          28.0
-        ],
-        "segmentCount": 77,
-        "approximationError": 0.0006155541159252969,
-        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1",
-          "c1:subpath-1",
-          "c2:subpath-1",
-          "c3:subpath-1"
+          "fork:subpath-1",
+          "middle:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1",
-          "c2:subpath-1",
-          "c3:subpath-1"
+          "fork:subpath-1",
+          "middle:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "elementIds": [
-          "c0",
-          "c1",
-          "c2",
-          "c3"
+          "fork",
+          "middle",
+          "fork-handle"
         ],
         "bounds": [
           8.0,
           4.0,
-          23.0,
+          24.0,
           44.0
         ]
       },
       {
         "id": "component-2",
         "memberIds": [
-          "c4:subpath-1",
-          "c5:subpath-1"
+          "blade:subpath-1",
+          "knife-handle:subpath-1"
         ],
         "contourIds": [
-          "c4:subpath-1",
-          "c5:subpath-1"
+          "blade:subpath-1",
+          "knife-handle:subpath-1"
         ],
         "elementIds": [
-          "c4",
-          "c5"
+          "blade",
+          "knife-handle"
         ],
         "bounds": [
           32.0,
@@ -160,25 +141,25 @@
     "pairs": [
       {
         "closestContours": [
-          "c3:subpath-1",
-          "c5:subpath-1"
+          "fork:subpath-1",
+          "blade:subpath-1"
         ],
-        "centerlineDistance": 9.0,
-        "inkClearance": 5.0,
-        "signedInkClearance": 5.0,
-        "lowerBound": 8.99894596277467,
-        "upperBound": 9.00105403722533,
-        "inkClearanceLowerBound": 4.99894596277467,
-        "inkClearanceUpperBound": 5.00105403722533,
-        "approximationError": 0.0010540372253302621,
+        "centerlineDistance": 8.0,
+        "inkClearance": 4.0,
+        "signedInkClearance": 4.0,
+        "lowerBound": 8.0,
+        "upperBound": 8.000904066108685,
+        "inkClearanceLowerBound": 4.0,
+        "inkClearanceUpperBound": 4.000904066108685,
+        "approximationError": 0.0009040661086849866,
         "nearestPoints": [
           [
-            23.0,
-            4.0
+            24.0,
+            8.0
           ],
           [
             32.0,
-            4.0
+            8.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -192,34 +173,120 @@
         ],
         "memberIds": [
           [
-            "c0:subpath-1",
-            "c1:subpath-1",
-            "c2:subpath-1",
-            "c3:subpath-1"
+            "fork:subpath-1",
+            "middle:subpath-1",
+            "fork-handle:subpath-1"
           ],
           [
-            "c4:subpath-1",
-            "c5:subpath-1"
+            "blade:subpath-1",
+            "knife-handle:subpath-1"
           ]
         ],
         "contourPairs": [
           {
             "closestContours": [
-              "c0:subpath-1",
-              "c4:subpath-1"
+              "fork:subpath-1",
+              "blade:subpath-1"
             ],
-            "centerlineDistance": 19.235384061671343,
-            "inkClearance": 15.235384061671343,
-            "signedInkClearance": 15.235384061671343,
-            "lowerBound": 19.235384061671343,
-            "upperBound": 19.235384061671347,
-            "inkClearanceLowerBound": 15.235384061671343,
-            "inkClearanceUpperBound": 15.235384061671347,
+            "centerlineDistance": 8.0,
+            "inkClearance": 4.0,
+            "signedInkClearance": 4.0,
+            "lowerBound": 8.0,
+            "upperBound": 8.000904066108685,
+            "inkClearanceLowerBound": 4.0,
+            "inkClearanceUpperBound": 4.000904066108685,
+            "approximationError": 0.0009040661086828301,
+            "nearestPoints": [
+              [
+                24.0,
+                8.0
+              ],
+              [
+                32.0,
+                8.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "fork:subpath-1",
+              "knife-handle:subpath-1"
+            ],
+            "centerlineDistance": 12.000191893399359,
+            "inkClearance": 8.000191893399359,
+            "signedInkClearance": 8.000191893399359,
+            "lowerBound": 11.999589500552116,
+            "upperBound": 12.000794286246604,
+            "inkClearanceLowerBound": 7.999589500552116,
+            "inkClearanceUpperBound": 8.000794286246604,
+            "approximationError": 0.0006023928472411361,
+            "nearestPoints": [
+              [
+                22.42566025184516,
+                20.765594435939466
+              ],
+              [
+                32.0,
+                28.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "middle:subpath-1",
+              "blade:subpath-1"
+            ],
+            "centerlineDistance": 16.0,
+            "inkClearance": 12.0,
+            "signedInkClearance": 12.0,
+            "lowerBound": 16.0,
+            "upperBound": 16.000301673261447,
+            "inkClearanceLowerBound": 12.0,
+            "inkClearanceUpperBound": 12.000301673261447,
+            "approximationError": 0.00030167326144169406,
+            "nearestPoints": [
+              [
+                16.0,
+                8.0
+              ],
+              [
+                32.0,
+                8.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "middle:subpath-1",
+              "knife-handle:subpath-1"
+            ],
+            "centerlineDistance": 16.492422502470642,
+            "inkClearance": 12.492422502470642,
+            "signedInkClearance": 12.492422502470642,
+            "lowerBound": 16.49242250247064,
+            "upperBound": 16.492422502470642,
+            "inkClearanceLowerBound": 12.492422502470639,
+            "inkClearanceUpperBound": 12.492422502470642,
             "approximationError": 0.0,
             "nearestPoints": [
               [
-                15.0,
-                19.0
+                16.0,
+                24.0
               ],
               [
                 32.0,
@@ -234,95 +301,37 @@
           },
           {
             "closestContours": [
-              "c0:subpath-1",
-              "c5:subpath-1"
+              "fork-handle:subpath-1",
+              "blade:subpath-1"
             ],
             "centerlineDistance": 16.0,
             "inkClearance": 12.0,
             "signedInkClearance": 12.0,
-            "lowerBound": 15.999384445884074,
-            "upperBound": 16.000615554115928,
-            "inkClearanceLowerBound": 11.999384445884074,
-            "inkClearanceUpperBound": 12.000615554115928,
-            "approximationError": 0.0006155541159252969,
+            "lowerBound": 16.0,
+            "upperBound": 16.000301673261447,
+            "inkClearanceLowerBound": 12.0,
+            "inkClearanceUpperBound": 12.000301673261447,
+            "approximationError": 0.00030167326144169406,
             "nearestPoints": [
               [
                 16.0,
-                4.0
+                24.0
               ],
               [
                 32.0,
-                4.0
+                24.0
               ]
             ],
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
             "ambiguousContact": false
           },
           {
             "closestContours": [
-              "c1:subpath-1",
-              "c4:subpath-1"
-            ],
-            "centerlineDistance": 19.235384061671343,
-            "inkClearance": 15.235384061671343,
-            "signedInkClearance": 15.235384061671343,
-            "lowerBound": 19.235011505423174,
-            "upperBound": 19.235756617919517,
-            "inkClearanceLowerBound": 15.235011505423174,
-            "inkClearanceUpperBound": 15.235756617919517,
-            "approximationError": 0.00037255624816604545,
-            "nearestPoints": [
-              [
-                15.0,
-                19.0
-              ],
-              [
-                32.0,
-                28.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "c1:subpath-1",
-              "c5:subpath-1"
-            ],
-            "centerlineDistance": 17.0,
-            "inkClearance": 13.0,
-            "signedInkClearance": 13.0,
-            "lowerBound": 16.999011889635906,
-            "upperBound": 17.000988110364094,
-            "inkClearanceLowerBound": 12.999011889635906,
-            "inkClearanceUpperBound": 13.000988110364094,
-            "approximationError": 0.0009881103640913423,
-            "nearestPoints": [
-              [
-                15.0,
-                19.0
-              ],
-              [
-                32.0,
-                19.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "c2:subpath-1",
-              "c4:subpath-1"
+              "fork-handle:subpath-1",
+              "knife-handle:subpath-1"
             ],
             "centerlineDistance": 16.0,
             "inkClearance": 12.0,
@@ -347,93 +356,6 @@
             "status": "pass",
             "reason": "Exact straight-segment spacing meets the minimum.",
             "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "c2:subpath-1",
-              "c5:subpath-1"
-            ],
-            "centerlineDistance": 16.626703953130576,
-            "inkClearance": 12.626703953130576,
-            "signedInkClearance": 12.626703953130576,
-            "lowerBound": 16.626088399014645,
-            "upperBound": 16.627319507246504,
-            "inkClearanceLowerBound": 12.626088399014645,
-            "inkClearanceUpperBound": 12.627319507246504,
-            "approximationError": 0.0006155541159252969,
-            "nearestPoints": [
-              [
-                15.386581469648561,
-                28.664536741214057
-              ],
-              [
-                32.0,
-                28.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "c3:subpath-1",
-              "c4:subpath-1"
-            ],
-            "centerlineDistance": 16.278422581002758,
-            "inkClearance": 12.278422581002758,
-            "signedInkClearance": 12.278422581002758,
-            "lowerBound": 16.27798409789335,
-            "upperBound": 16.278861064112164,
-            "inkClearanceLowerBound": 12.277984097893349,
-            "inkClearanceUpperBound": 12.278861064112164,
-            "approximationError": 0.00043848310940375497,
-            "nearestPoints": [
-              [
-                20.534406592641933,
-                16.444602579623336
-              ],
-              [
-                32.0,
-                28.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
-            "ambiguousContact": false
-          },
-          {
-            "closestContours": [
-              "c3:subpath-1",
-              "c5:subpath-1"
-            ],
-            "centerlineDistance": 9.0,
-            "inkClearance": 5.0,
-            "signedInkClearance": 5.0,
-            "lowerBound": 8.99894596277467,
-            "upperBound": 9.00105403722533,
-            "inkClearanceLowerBound": 4.99894596277467,
-            "inkClearanceUpperBound": 5.00105403722533,
-            "approximationError": 0.0010540372253290517,
-            "nearestPoints": [
-              [
-                23.0,
-                4.0
-              ],
-              [
-                32.0,
-                4.0
-              ]
-            ],
-            "requiredCenterline": 8.0,
-            "requiredInkClearance": 4.0,
-            "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
-            "ambiguousContact": false
           }
         ]
       }
@@ -441,74 +363,41 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "fork:subpath-1",
+          "middle:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          15.0,
-          19.0
+          16.0,
+          24.0
         ]
       },
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c2:subpath-1"
+          "fork:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          15.0,
-          19.0
+          16.0,
+          24.0
         ]
       },
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c3:subpath-1"
+          "middle:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          15.0,
-          19.0
+          16.0,
+          24.0
         ]
       },
       {
         "contourIds": [
-          "c1:subpath-1",
-          "c2:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          15.0,
-          19.0
-        ]
-      },
-      {
-        "contourIds": [
-          "c1:subpath-1",
-          "c3:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          15.0,
-          19.0
-        ]
-      },
-      {
-        "contourIds": [
-          "c2:subpath-1",
-          "c3:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          15.0,
-          19.0
-        ]
-      },
-      {
-        "contourIds": [
-          "c4:subpath-1",
-          "c5:subpath-1"
+          "blade:subpath-1",
+          "knife-handle:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -520,129 +409,72 @@
     "excludedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "fork:subpath-1",
+          "middle:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c1:subpath-1"
+            "fork:subpath-1",
+            "middle:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            15.0,
-            19.0
+            16.0,
+            24.0
           ]
         }
       },
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c2:subpath-1"
+          "fork:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c2:subpath-1"
+            "fork:subpath-1",
+            "fork-handle:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            15.0,
-            19.0
+            16.0,
+            24.0
           ]
         }
       },
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c3:subpath-1"
+          "middle:subpath-1",
+          "fork-handle:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c3:subpath-1"
+            "middle:subpath-1",
+            "fork-handle:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            15.0,
-            19.0
+            16.0,
+            24.0
           ]
         }
       },
       {
         "contourIds": [
-          "c1:subpath-1",
-          "c2:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "c1:subpath-1",
-            "c2:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            15.0,
-            19.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "c1:subpath-1",
-          "c3:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "c1:subpath-1",
-            "c3:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            15.0,
-            19.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "c2:subpath-1",
-          "c3:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "c2:subpath-1",
-            "c3:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            15.0,
-            19.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "c4:subpath-1",
-          "c5:subpath-1"
+          "blade:subpath-1",
+          "knife-handle:subpath-1"
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c4:subpath-1",
-            "c5:subpath-1"
+            "blade:subpath-1",
+            "knife-handle:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -663,14 +495,14 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 9.0,
-    "minimumInkClearance": 5.0,
+    "minimumCenterlineDistance": 8.0,
+    "minimumInkClearance": 4.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 20,
-      "flattenedSegments": 210,
-      "adaptiveNodes": 396,
-      "distanceTests": 39,
+      "commands": 17,
+      "flattenedSegments": 265,
+      "adaptiveNodes": 509,
+      "distanceTests": 24,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -683,25 +515,25 @@
         "hole": 1,
         "center_viewbox": [
           35.9844,
-          21.9844
+          8.1094
         ],
         "bbox_viewbox": [
           34.0,
-          7.25,
+          6.0,
           4.0,
-          18.75
+          20.0
         ],
         "bbox_ship_px": [
           4.0,
-          18.75
+          20.0
         ],
         "bbox_design_u": [
           4.0,
-          18.75
+          20.0
         ],
-        "area_ship_px2": 57.7617,
-        "equivalent_diameter_ship_px": 8.5758,
-        "equivalent_diameter_design_u": 8.5758,
+        "area_ship_px2": 78.2949,
+        "equivalent_diameter_ship_px": 9.9844,
+        "equivalent_diameter_design_u": 9.9844,
         "inscribed_diameter_ship_px": 4.0,
         "inscribed_diameter_design_u": 4.0,
         "inscribed_radius_ship_px": 2.0,
@@ -720,25 +552,25 @@
         "hole": 1,
         "center_viewbox": [
           35.9844,
-          21.8906
+          8.1719
         ],
         "bbox_viewbox": [
           32.5,
-          4.7188,
+          4.5,
           7.0,
-          22.7812
+          23.0
         ],
         "bbox_ship_px": [
           7.0,
-          22.7812
+          23.0
         ],
         "bbox_design_u": [
           7.0,
-          22.7812
+          23.0
         ],
-        "area_ship_px2": 130.3057,
-        "equivalent_diameter_ship_px": 12.8806,
-        "equivalent_diameter_design_u": 12.8806,
+        "area_ship_px2": 155.75,
+        "equivalent_diameter_ship_px": 14.0822,
+        "equivalent_diameter_design_u": 14.0822,
         "inscribed_diameter_ship_px": 7.0,
         "inscribed_diameter_design_u": 7.0,
         "inscribed_radius_ship_px": 3.5,
@@ -761,6 +593,11 @@
   },
   "artifacts": {
     "svg": "solo/restaurant-fork-knife/icon.svg",
+    "holes": "solo/restaurant-fork-knife/holes.png",
+    "spacing": "solo/restaurant-fork-knife/spacing.png",
+    "spacing_svg": "solo/restaurant-fork-knife/spacing.svg",
+    "internal-spacing": "solo/restaurant-fork-knife/internal-spacing.png",
+    "internal_spacing_svg": "solo/restaurant-fork-knife/internal-spacing.svg",
     "metrics": "solo/restaurant-fork-knife/metrics.json"
   },
   "checks_run": [
@@ -773,7 +610,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "4a63f36f22f844ce2116845a35fd253fbcee2c32ef37930a96807d7168915af5",
+  "svg_sha256": "fcb3edaf63c16b0a254bd8cde6d25aaacc675b1aa9fad92160d6435c019c0d08",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -829,7 +666,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -841,119 +678,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "c0 / c1",
-        "elements": [
-          "e0",
-          "e1"
-        ],
-        "status": "review",
-        "sustained_length": 7.147,
-        "centerline_distance": 7.5,
-        "ink_gap": 3.5,
-        "nearest_points": [
-          [
-            15.5,
-            11.5
-          ],
-          [
-            8.0,
-            11.5
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the restaurant fork knife silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-22.png"
-        }
-      },
-      {
-        "contour": "c0 / c3",
-        "elements": [
-          "e0",
-          "e3"
-        ],
-        "status": "review",
-        "sustained_length": 7.147,
-        "centerline_distance": 7.041,
-        "ink_gap": 3.041,
-        "nearest_points": [
-          [
-            15.959016393442624,
-            4.614754098360656
-          ],
-          [
-            23.0,
-            4.614754098360656
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the restaurant fork knife silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-22.png"
-        }
-      },
-      {
-        "contour": "c5",
-        "elements": [
-          "e5",
-          "e10-1"
-        ],
-        "status": "review",
-        "sustained_length": 3.153,
-        "centerline_distance": 7.1471,
-        "ink_gap": 3.1471,
-        "nearest_points": [
-          [
-            32.0,
-            27.411764705882355
-          ],
-          [
-            39.14705882352941,
-            27.411764705882355
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the restaurant fork knife silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-22.png"
-        }
-      },
-      {
-        "contour": "c5",
-        "elements": [
-          "e5",
-          "e7"
-        ],
-        "status": "review",
-        "sustained_length": 6.0957,
-        "centerline_distance": 7.0862,
-        "ink_gap": 3.0862,
-        "nearest_points": [
-          [
-            32.0,
-            15.603448275862068
-          ],
-          [
-            39.08620689655173,
-            15.603448275862068
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the restaurant fork knife silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-22.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 4
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

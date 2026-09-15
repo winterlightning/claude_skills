@@ -15,42 +15,30 @@ class BathrobeWithTiedBelt(Solo48):
     aliases = ('bathrobe', 'robe', 'dressing-gown')
     keywords = ('bathrobe', 'robe', 'spa', 'bath', 'hotel', 'garment', 'clothing', 'belt')
 
-    def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_15_40 = (15, 40)
-        p_15_22 = (15, 22)
-        p_12_19 = (12, 19)
-        p_8_10 = (8, 10)
-        p_18_4 = (18, 4)
-        p_30_4 = (30, 4)
-        p_40_10 = (40, 10)
-        p_36_19 = (36, 19)
-        p_33_22 = (33, 22)
-        p_33_40 = (33, 40)
-        p_31_44 = (31, 44)
-        p_17_44 = (17, 44)
-        p_24_30 = (24, 30)
-        p_15_30 = (15, 30)
-        p_33_30 = (33, 30)
-        self.add_line('robe-upper-0', p_15_40, p_15_22)
-        self.add_line('robe-upper-1', p_15_22, p_12_19)
-        self.add_line('robe-upper-2', p_12_19, p_8_10)
-        self.add_line('robe-upper-3', p_8_10, p_18_4)
-        self.add_line('robe-upper-4', p_18_4, p_30_4)
-        self.add_line('robe-upper-5', p_30_4, p_40_10)
-        self.add_line('robe-upper-6', p_40_10, p_36_19)
-        self.add_line('robe-upper-7', p_36_19, p_33_22)
-        self.add_line('robe-upper-8', p_33_22, p_33_40)
-        self.add_arc('hem-right', p_33_40, p_31_44, radius_x=3, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('hem-base', p_31_44, p_17_44)
-        self.add_arc('hem-left', p_17_44, p_15_40, radius_x=3, radius_y=4, sweep=True, large_arc=False)
-        self.add_line('wrap-left', p_18_4, p_24_30)
-        self.add_line('wrap-right', p_30_4, p_24_30)
-        self.add_line('waist-belt', p_15_30, p_33_30)
-        self.add_contour('robe-outline', 'robe-upper-0', 'robe-upper-1', 'robe-upper-2', 'robe-upper-3', 'robe-upper-4', 'robe-upper-5', 'robe-upper-6', 'robe-upper-7', 'robe-upper-8', 'hem-right', 'hem-base', 'hem-left', closed=True)
-        self.relate('connect', 'robe-outline', 'wrap-left')
-        self.relate('connect', 'robe-outline', 'wrap-right')
-        self.relate('connect', 'robe-outline', 'waist-belt')
-        self.relate('connect', 'wrap-left', 'wrap-right')
-        self.relate('connect', 'wrap-left', 'waist-belt')
-        self.relate('connect', 'wrap-right', 'waist-belt')
+    def build(self):
+        # Plan: Lucide shirt: balanced shoulders and sleeves, broad wrap panels and tangent rounded hem; belt and tie share one waist node.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('robe',(13,40), [('L',(13,30)),('L',(13,22)),('L',(12,19)),('L',(8,10)),('L',(18,4)),('L',(30,4)),('L',(40,10)),('L',(36,19)),('L',(35,22)),('L',(35,30)),('L',(35,40)),('A',(31,44),4,4,True),('L',(17,44)),('A',(13,40),4,4,True)],True)
+        poly('wrap',(18,4),(24,30),(30,4));join('wrap','robe')
+        poly('belt',(13,30),(24,30),(35,30));join('belt','robe');join('belt','wrap')
+        line('tie',(24,30),(24,36));join('tie','belt');join('tie','wrap')

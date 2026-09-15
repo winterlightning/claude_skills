@@ -11,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class ThreeEngineSpacecraft(Solo48):
     icon_id = 'three-engine-spacecraft'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/science"
@@ -29,10 +29,29 @@ class ThreeEngineSpacecraft(Solo48):
         self.add_contour(name, *(f'{name}-{i}' for i in range(4)), closed=True)
 
     def build(self):
-        self.add_arc('cabin',(12,20),(36,20),radius_x=12,radius_y=12)
-        self.segments('body',(36,20),(44,24),(44,32),(43,32),(37,32),(27,32),(21,32),(11,32),(5,32),(4,32),(4,24),(12,20))
-        self.add_contour('hull','cabin',*(f'body-{i}' for i in range(1,12)),closed=True)
-        self.circle('window',24,20,3)
-        for i,x in enumerate((8,24,40)):
-            self.add_polyline(f'nozzle-{i}',(x-3,32),(x-4,40),(x+4,40),(x+3,32))
-            self.relate('connect','hull',f'nozzle-{i}')
+        # Plan: Symmetric arched cabin, circular window and three equal eight-unit engine openings; replace narrow flared nozzle necks.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('hull',(12,20), [('A',(36,20),12,12,True),('L',(44,24)),('L',(44,32)),('L',(36,32)),('L',(28,32)),('L',(20,32)),('L',(12,32)),('L',(4,32)),('L',(4,24)),('L',(12,20))],True)
+        circle('window',24,20,3)
+        for j,x in enumerate((8,24,40)):
+         poly(f'engine-{j}',(x-4,32),(x-4,40),(x+4,40),(x+4,32));join(f'engine-{j}','hull')

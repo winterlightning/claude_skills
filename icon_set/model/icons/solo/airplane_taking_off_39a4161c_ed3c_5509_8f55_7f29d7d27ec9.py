@@ -30,9 +30,9 @@ class AirplaneTakingOff(Solo48):
           ids.append(part)
          runs[name] = ids
         # SQUARE extremes (6,6)-(42,42); near wing and ground are separated by9.
-        run('body',(40,15),(33,19),(26,33),(16,33),(20,23),(13,27),(6,20),(10,13),(16,17),(24,13),(34,7))
+        run('body',(40,15),(33,19),(26,33),(16,33),(20,23),(13,27),(6,20),(10,13),(16,17),(28,12),(34,7))
         self.add_arc('nose',(34,7),(40,15),radius_x=5)
         self.add_contour('airplane',*runs['body'],'nose',closed=True)
-        self.add_line('far-wing',(24,13),(14,6))
+        self.add_line('far-wing',(28,12),(14,6))
         self.relate('connect','airplane','far-wing')
         self.add_line('ground',(6,42),(42,42))

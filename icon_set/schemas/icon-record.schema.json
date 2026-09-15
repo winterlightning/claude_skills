@@ -214,6 +214,23 @@
         }
       }
     },
+    "human_figures": {
+      "type": "array",
+      "description": "Explicit detached head/upper torso flags and exact gap targets; not measured validation results.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["figure_id", "head", "torso", "torso_junction", "centerline_gap", "ink_gap"],
+        "properties": {
+          "figure_id": {"type": "string", "minLength": 1},
+          "head": {"type": "string", "minLength": 1},
+          "torso": {"type": "string", "minLength": 1},
+          "torso_junction": {"enum": ["start", "end"]},
+          "centerline_gap": {"const": 8},
+          "ink_gap": {"const": 4}
+        }
+      }
+    },
     "anchors": {
       "type": "object",
       "additionalProperties": {

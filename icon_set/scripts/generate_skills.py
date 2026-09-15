@@ -369,7 +369,7 @@ mirror only the parts where it helps the drawing read clearly.
 For any human subject or human part in a scene, first read
 `{SHARED}/human-reference.md` and inspect the relevant files in
 `icon_set/references/human_ref/`. These own human proportions and construction;
-{('avatar heads touch the body with zero visible gap and use circular face arcs.' if family == 'avatar' else 'detached heads require exactly 4 units of visible head-to-body clearance.')}
+{('avatar heads touch the body with zero visible gap and use circular face arcs.' if family == 'avatar' else 'detached heads require exactly 4 units of visible head-to-body clearance.')}{(chr(10) + 'For each stick figure, call `self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")` after creating those parts. The head flag names its outline primitive or contour; the torso flag names the upper torso primitive, with `start` or `end` identifying its actual neck junction. Use a unique figure ID for each person. The required gap is exactly 8 units between stroke centerlines / 4 units between ink edges. See the shared human reference for the full example and measurement rules. These flags support future validation; they do not certify spacing or declare contact.' if family == 'solo' else '')}
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this

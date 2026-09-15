@@ -234,9 +234,9 @@
             "centerlineDistance": 10.000008534408092,
             "inkClearance": 6.000008534408092,
             "signedInkClearance": 6.000008534408092,
-            "lowerBound": 9.999104587509647,
+            "lowerBound": 10.0,
             "upperBound": 10.000912481306539,
-            "inkClearanceLowerBound": 5.999104587509647,
+            "inkClearanceLowerBound": 6.0,
             "inkClearanceUpperBound": 6.000912481306539,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -252,7 +252,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -281,7 +281,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -426,9 +426,9 @@
         "centerlineDistance": 10.153002833117045,
         "inkClearance": 6.1530028331170445,
         "signedInkClearance": 6.1530028331170445,
-        "lowerBound": 10.1520988862186,
+        "lowerBound": 10.152946437965905,
         "upperBound": 10.153906780015491,
-        "inkClearanceLowerBound": 6.1520988862185995,
+        "inkClearanceLowerBound": 6.152946437965905,
         "inkClearanceUpperBound": 6.153906780015491,
         "approximationError": 0.0009039468984468613,
         "nearestPoints": [
@@ -467,9 +467,9 @@
             "centerlineDistance": 10.153002833117045,
             "inkClearance": 6.1530028331170445,
             "signedInkClearance": 6.1530028331170445,
-            "lowerBound": 10.1520988862186,
+            "lowerBound": 10.152946437965905,
             "upperBound": 10.153906780015491,
-            "inkClearanceLowerBound": 6.1520988862185995,
+            "inkClearanceLowerBound": 6.152946437965905,
             "inkClearanceUpperBound": 6.153906780015491,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -485,7 +485,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -750,12 +750,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/action-camera-on-mount/icon.svg",
+    "holes": "solo/action-camera-on-mount/holes.png",
+    "spacing": "solo/action-camera-on-mount/spacing.png",
+    "spacing_svg": "solo/action-camera-on-mount/spacing.svg",
+    "internal-spacing": "solo/action-camera-on-mount/internal-spacing.png",
+    "internal_spacing_svg": "solo/action-camera-on-mount/internal-spacing.svg",
     "metrics": "solo/action-camera-on-mount/metrics.json"
   },
   "checks_run": [
@@ -807,6 +813,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -821,7 +828,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

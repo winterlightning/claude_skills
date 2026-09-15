@@ -15,18 +15,26 @@ class Anteater(Solo48):
     keywords = ('anteater', 'animal', 'mammal', 'snout', 'wildlife', 'zoo', 'silhouette', 'nose')
 
     def build(self):
-        # Long sloping snout, domed back and tapering tail identify a left-facing anteater. Two broad legs preserve open negative space. No useful Lucide anteater match; natural profile asymmetry is intentional.
-        self.add_arc('back', (18, 20), (36, 20), radius_x=9, radius_y=12, sweep=True)
-        self.add_line('tail-top', (36, 20), (44, 32))
-        self.add_line('tail-bottom', (44, 32), (34, 30))
-        self.add_line('hind-leg', (34, 30), (34, 40))
-        self.add_line('hind-foot', (34, 40), (26, 40))
-        self.add_line('hind-inner', (26, 40), (26, 30))
-        self.add_line('belly', (26, 30), (18, 30))
-        self.add_line('fore-inner', (18, 30), (18, 40))
-        self.add_line('fore-foot', (18, 40), (10, 40))
-        self.add_line('fore-front', (10, 40), (12, 26))
-        self.add_line('snout-lower', (12, 26), (4, 30))
-        self.add_line('snout-tip', (4, 30), (4, 24))
-        self.add_line('snout-top', (4, 24), (18, 20))
-        self.add_contour('animal', 'back', 'tail-top', 'tail-bottom', 'hind-leg', 'hind-foot', 'hind-inner', 'belly', 'fore-inner', 'fore-foot', 'fore-front', 'snout-lower', 'snout-tip', 'snout-top', closed=True)
+        # Plan: Trace the original long downward snout and domed back, replacing the angular ghost-like head; the snout and two legs have shared eight-unit bands.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('animal',(4,32), [('L',(4,18)),('A',(24,8),20,10,True),('C',(44,30),(40,8),(44,16)),('L',(44,40)),('L',(36,40)),('L',(36,34)),('C',(28,28),(36,30),(32,28)),('L',(28,40)),('L',(20,40)),('L',(20,26)),('C',(12,26),(20,18),(12,18)),('L',(12,32)),('A',(4,32),4,4,True)],True)

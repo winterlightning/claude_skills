@@ -15,41 +15,30 @@ class Airchair(Solo48):
     keywords = ('airchair', 'symbol', 'solo-ai-first50')
 
     def build(self):
-        # Plan: A shared vertical axis controls the arched back, continuous arm-and-seat outline, and paired legs. Removed traced dents.
-        # Reference: Lucide original/armchair.svg and atomic-debug/armchair.svg.
+        # Plan: Lucide armchair: shared arched back and two rounded arms; broad eight-unit seat band and aligned legs.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
             here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
                 here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line = self.add_line
         poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('back',(12,21), [('L',(12,16)),('A',(36,16),12,12,True),('L',(36,21))])
-        poly('seat',(12,21),(8,21),(10,36),(12,36),(36,36),(38,36),(40,21),(36,21),(32,21),(32,28),(16,28),(16,21),(12,21),closed=True)
+        join = lambda a,b: self.relate('connect',a,b)
+        path('seat',(8,20), [('A',(12,16),4,4,True),('A',(16,20),4,4,True),('L',(16,28)),('L',(32,28)),('L',(32,20)),('A',(36,16),4,4,True),('A',(40,20),4,4,True),('L',(40,32)),('A',(36,36),4,4,True),('L',(12,36)),('A',(8,32),4,4,True),('L',(8,20))],True)
+        path('back',(12,16), [('A',(36,16),12,12,True)])
+        join('back','seat')
         for x in (12,36):
-         line(f'leg-{x}',(x,36),(x-2 if x<24 else x+2,44));join(f'leg-{x}','seat')
-        join('seat','back')
-
+         line(f'leg-{x}',(x,36),(x,44));join(f'leg-{x}','seat')

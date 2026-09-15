@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 0.8 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -162,11 +164,11 @@
         "centerlineDistance": 9.18090202283578,
         "inkClearance": 5.180902022835779,
         "signedInkClearance": 5.180902022835779,
-        "lowerBound": 9.180299391569994,
+        "lowerBound": 9.180339887498947,
         "upperBound": 9.181504654101563,
-        "inkClearanceLowerBound": 5.180299391569994,
+        "inkClearanceLowerBound": 5.180339887498947,
         "inkClearanceUpperBound": 5.181504654101563,
-        "approximationError": 0.0006026312657851918,
+        "approximationError": 0.0006026312657834154,
         "nearestPoints": [
           [
             19.872162434084196,
@@ -204,9 +206,9 @@
             "centerlineDistance": 9.18090202283578,
             "inkClearance": 5.180902022835779,
             "signedInkClearance": 5.180902022835779,
-            "lowerBound": 9.180299391569994,
+            "lowerBound": 9.180339887498947,
             "upperBound": 9.181504654101563,
-            "inkClearanceLowerBound": 5.180299391569994,
+            "inkClearanceLowerBound": 5.180339887498947,
             "inkClearanceUpperBound": 5.181504654101563,
             "approximationError": 0.0006026312657809314,
             "nearestPoints": [
@@ -222,7 +224,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -233,9 +235,9 @@
             "centerlineDistance": 16.027777359513742,
             "inkClearance": 12.027777359513742,
             "signedInkClearance": 12.027777359513742,
-            "lowerBound": 16.027174728247953,
+            "lowerBound": 16.027756377319946,
             "upperBound": 16.028379990779527,
-            "inkClearanceLowerBound": 12.027174728247953,
+            "inkClearanceLowerBound": 12.027756377319946,
             "inkClearanceUpperBound": 12.028379990779527,
             "approximationError": 0.0006026312657809314,
             "nearestPoints": [
@@ -251,7 +253,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -353,7 +355,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -729,12 +731,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/jet-ski-rider-jumping-a-wave/icon.svg",
+    "holes": "solo/jet-ski-rider-jumping-a-wave/holes.png",
+    "spacing": "solo/jet-ski-rider-jumping-a-wave/spacing.png",
+    "spacing_svg": "solo/jet-ski-rider-jumping-a-wave/spacing.svg",
+    "internal-spacing": "solo/jet-ski-rider-jumping-a-wave/internal-spacing.png",
+    "internal_spacing_svg": "solo/jet-ski-rider-jumping-a-wave/internal-spacing.svg",
     "metrics": "solo/jet-ski-rider-jumping-a-wave/metrics.json"
   },
   "checks_run": [
@@ -786,6 +794,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -800,7 +809,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

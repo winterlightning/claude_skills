@@ -21,16 +21,34 @@ class StarFireworks(Solo48):
     aliases = ()
     keywords = ('fireworks', 'star', 'burst', 'celebration', 'wedding', 'festival')
 
-    def build(self) -> None:
-        def star(n,cx,top):
-            self.add_polyline(n,(cx,top),(cx+2,top+4),(cx+6,top+4),(cx+3,top+8),(cx+4,top+12),(cx,top+10),(cx-4,top+12),(cx-3,top+8),(cx-6,top+4),(cx-2,top+4),closed=True)
-        axis=24
-        star('upper-star',axis,8)
-        star('left-star',axis-14,24)
-        star('right-star',axis+14,24)
-        self.add_line('central-trail',(24,18),(24,40))
-        self.relate('connect','upper-star','central-trail')
-        self.add_arc('left-trail',(10,34),(14,40),radius_x=20,sweep=True)
-        self.add_arc('right-trail',(38,34),(34,40),radius_x=20,sweep=False)
-        self.relate('connect','left-star','left-trail')
-        self.relate('connect','right-star','right-trail')
+    def build(self):
+        # Plan: Three symmetric open starbursts replace tiny filled star outlines; genuine shared ray centres own the trails.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        from itertools import combinations
+        for j,(x,y) in enumerate(((24,14),(10,30),(38,30))):
+         centre=(x,y);ends=[(x-6,y-4),(x+6,y-4),(x-6,y+4),(x+6,y+4),(x,y-6)]
+         names=[]
+         for k,end in enumerate(ends):
+          n=f'burst-{j}-{k}';line(n,centre,end);names.append(n)
+         trail=f'trail-{j}';line(trail,centre,(x,40));names.append(trail)
+         for a,b in combinations(names,2):join(a,b)

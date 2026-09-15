@@ -15,39 +15,29 @@ class AirplaneOther(Solo48):
     keywords = ('solo-ai-refine', 'solo-ai-first50', 'airplane-other')
 
     def build(self):
-        # Plan: A front-to-back axis owns a round nose, broad swept wings, and a distinct tailplane. Mirrored coordinates make a second airplane design; deliberate upright orientation.
-        # Reference: Lucide plane: original and atomic-debug geometry.
+        # Plan: An upright aircraft constructed about one axis: broaden swept wing bands and the tailplane, with a rounded nose and exact mirrored nodes.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
             here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
                 here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
         line = self.add_line
         poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        right=[(28,10),(28,18),(42,28),(42,36),(28,28),(28,35),(34,39),(34,42),(24,40)]
+        join = lambda a,b: self.relate('connect',a,b)
+        right=[(28,10),(28,12),(42,20),(42,30),(28,22),(28,32),(36,42),(24,42)]
         mirror=lambda p:(48-p[0],p[1])
         commands=[('L',p) for p in right[1:]]+[('L',mirror(p)) for p in reversed(right[:-1])]+[('A',(28,10),4,4,True)]
         path('airframe',right[0],commands,True)

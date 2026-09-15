@@ -179,16 +179,29 @@ class EvidenceBuildTests(unittest.TestCase):
 
 
 class SmallCircleExceptionTests(unittest.TestCase):
-    def test_circle_hole_exceptions_do_not_waive_pinched_closed_disks(self):
+    def test_approved_circles_do_not_fail_for_their_own_filled_center(self):
         for radius in (2, 3):
             with self.subTest(radius=radius):
                 row = qa.measure_negative_space(circle_svg(radius), 32)
-                self.assertEqual(row['status'], 'fail' if radius == 2 else 'pass')
-                self.assertEqual(row['pinch_count'], 1 if radius == 2 else 0)
+                self.assertEqual(row['status'], 'pass')
+                self.assertEqual(row['pinch_count'], 0)
                 self.assertEqual(row['exception_count'], 1)
                 hole = row['holes'][0]
                 self.assertEqual(hole['measured_status'], 'fail')
                 self.assertEqual(hole['exception']['centerline_diameter'], radius * 2)
+
+    def test_filled_circle_does_not_hide_an_unrelated_pinch(self):
+        document = circle_svg(2).replace('stroke-width="4"', 'stroke-width="4" stroke-linecap="round" stroke-linejoin="round"').replace('cx="16" cy="16"', 'cx="24" cy="24"').replace('</svg>', '<path d="M8 8L6 16L10 16"/><path d="M10 8L10 16L10 20"/></svg>')
+        row = qa.measure_negative_space(document, 32)
+        self.assertEqual(row['status'], 'fail')
+        self.assertGreater(row['pinch_count'], 0)
+        self.assertEqual(row['exception_count'], 1)
+
+    def test_crossed_four_unit_circle_is_not_a_whole_circle_exception(self):
+        document = circle_svg(2).replace('</svg>', '<path d="M14 16L18 16"/></svg>')
+        row = qa.measure_negative_space(document, 32)
+        self.assertEqual(row['status'], 'fail')
+        self.assertEqual(row['exception_count'], 0)
 
     def test_five_unit_circle_is_not_exempt(self):
         row = qa.measure_negative_space(circle_svg(2.5), 32)

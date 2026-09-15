@@ -668,7 +668,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -697,7 +697,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -737,9 +737,9 @@
             "centerlineDistance": 22.68341018066852,
             "inkClearance": 18.68341018066852,
             "signedInkClearance": 18.68341018066852,
-            "lowerBound": 22.68310850740753,
+            "lowerBound": 22.683328128252665,
             "upperBound": 22.683711853929516,
-            "inkClearanceLowerBound": 18.68310850740753,
+            "inkClearanceLowerBound": 18.683328128252665,
             "inkClearanceUpperBound": 18.683711853929516,
             "approximationError": 0.0003016732609869467,
             "nearestPoints": [
@@ -755,7 +755,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -2251,12 +2251,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/mine-worker-woman-1-avatar/icon.svg",
+    "holes": "solo/mine-worker-woman-1-avatar/holes.png",
+    "spacing": "solo/mine-worker-woman-1-avatar/spacing.png",
+    "spacing_svg": "solo/mine-worker-woman-1-avatar/spacing.svg",
+    "internal-spacing": "solo/mine-worker-woman-1-avatar/internal-spacing.png",
+    "internal_spacing_svg": "solo/mine-worker-woman-1-avatar/internal-spacing.svg",
     "metrics": "solo/mine-worker-woman-1-avatar/metrics.json"
   },
   "checks_run": [
@@ -2308,6 +2314,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -2322,7 +2329,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

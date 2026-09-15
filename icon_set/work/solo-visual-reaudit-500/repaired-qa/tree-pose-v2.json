@@ -97,16 +97,32 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 24 24 C 24 26 24 27.75 24 29 L 24 44",
+        "pathData": "M 24 24 C 24 26 24 27.75 24 29",
         "bounds": [
           24.0,
           24.0,
           24.0,
-          44.0
+          29.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 2.2737367544323206e-13,
         "hasCurves": true
+      },
+      {
+        "id": "body-section-1:subpath-1",
+        "elementId": "body-section-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 24 29 L 24 44",
+        "bounds": [
+          24.0,
+          29.0,
+          24.0,
+          44.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "bent-leg:subpath-1",
@@ -152,6 +168,7 @@
           "arms-right:subpath-1",
           "right-arm:subpath-1",
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "bent-leg:subpath-1"
         ],
         "contourIds": [
@@ -160,6 +177,7 @@
           "arms-right:subpath-1",
           "right-arm:subpath-1",
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "bent-leg:subpath-1"
         ],
         "elementIds": [
@@ -168,6 +186,7 @@
           "arms-right",
           "right-arm",
           "body",
+          "body-section-1",
           "bent-leg"
         ],
         "bounds": [
@@ -221,6 +240,7 @@
             "arms-right:subpath-1",
             "right-arm:subpath-1",
             "body:subpath-1",
+            "body-section-1:subpath-1",
             "bent-leg:subpath-1"
           ]
         ],
@@ -373,6 +393,35 @@
           {
             "closestContours": [
               "head:subpath-1",
+              "body-section-1:subpath-1"
+            ],
+            "centerlineDistance": 13.0,
+            "inkClearance": 9.0,
+            "signedInkClearance": 9.0,
+            "lowerBound": 13.0,
+            "upperBound": 13.000377091576123,
+            "inkClearanceLowerBound": 9.0,
+            "inkClearanceUpperBound": 9.000377091576123,
+            "approximationError": 0.00037709157612066265,
+            "nearestPoints": [
+              [
+                24.0,
+                16.0
+              ],
+              [
+                24.0,
+                29.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
               "bent-leg:subpath-1"
             ],
             "centerlineDistance": 13.0,
@@ -461,6 +510,28 @@
       {
         "contourIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          29.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "bent-leg:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          29.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
           "bent-leg:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -512,6 +583,15 @@
         "contourIds": [
           "left-arm:subpath-1",
           "body:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "left-arm:subpath-1",
+          "body-section-1:subpath-1"
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
@@ -576,6 +656,15 @@
       {
         "contourIds": [
           "arms:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "arms:subpath-1",
           "bent-leg:subpath-1"
         ],
         "componentId": "component-2",
@@ -623,6 +712,15 @@
       {
         "contourIds": [
           "arms-right:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "arms-right:subpath-1",
           "bent-leg:subpath-1"
         ],
         "componentId": "component-2",
@@ -641,11 +739,39 @@
       {
         "contourIds": [
           "right-arm:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "right-arm:subpath-1",
           "bent-leg:subpath-1"
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
         "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "body-section-1:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            29.0
+          ]
+        }
       },
       {
         "contourIds": [
@@ -657,6 +783,25 @@
         "directConnection": {
           "contourIds": [
             "body:subpath-1",
+            "bent-leg:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            29.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "bent-leg:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body-section-1:subpath-1",
             "bent-leg:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -682,10 +827,10 @@
     "minimumInkClearance": 4.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 20,
+      "commands": 21,
       "flattenedSegments": 393,
       "adaptiveNodes": 765,
-      "distanceTests": 32,
+      "distanceTests": 34,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -847,7 +992,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "0713d6eef3f2535ac783123595a52a053b084dffce57c76eb8085a8c26cb9553",
+  "svg_sha256": "1ed586bd00eabfc74ffec55c86e58e80927ad7e4f4214b2728c1f24f8a3b16d4",
   "rules": {
     "profile": {
       "canvas_size": 48,

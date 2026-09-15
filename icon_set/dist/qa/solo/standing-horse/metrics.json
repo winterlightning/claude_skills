@@ -11,66 +11,18 @@
     "status": "pass",
     "contours": [
       {
-        "id": "head:subpath-1",
-        "elementId": "head",
+        "id": "horse:subpath-1",
+        "elementId": "horse",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 6 L 14 12 L 6 17 L 6 22 L 10 25 L 16 22 L 16 31 L 13 42",
+        "pathData": "M 4 18 L 12 14 L 16 8 L 20 20 L 36 20 L 36 40 L 28 40 L 28 28 L 20 28 L 20 40 L 12 40 L 12 28 L 4 24 L 4 18 Z",
         "bounds": [
-          6.0,
-          6.0,
-          18.0,
-          42.0
+          4.0,
+          8.0,
+          36.0,
+          40.0
         ],
-        "segmentCount": 7,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "back-neck:subpath-1",
-        "elementId": "back-neck",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 18 6 L 23 20 L 35 20",
-        "bounds": [
-          18.0,
-          6.0,
-          35.0,
-          20.0
-        ],
-        "segmentCount": 2,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "rear:subpath-1",
-        "elementId": "rear",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 35 20 A 5 5 0 0 1 40 25 L 39 42",
-        "bounds": [
-          35.0,
-          20.0,
-          40.0,
-          42.0
-        ],
-        "segmentCount": 65,
-        "approximationError": 0.00037649553015098086,
-        "hasCurves": true
-      },
-      {
-        "id": "belly:subpath-1",
-        "elementId": "belly",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 13 42 L 20 42 L 23 32 L 32 32 L 32 42 L 39 42",
-        "bounds": [
-          13.0,
-          32.0,
-          39.0,
-          42.0
-        ],
-        "segmentCount": 5,
+        "segmentCount": 14,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -79,47 +31,38 @@
         "elementId": "tail",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 40 25 L 42 28 L 42 36",
+        "pathData": "M 36 20 C 44 20 44 24 44 32",
         "bounds": [
-          40.0,
-          25.0,
-          42.0,
-          36.0
+          36.0,
+          20.0,
+          44.0,
+          32.0
         ],
-        "segmentCount": 2,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 98,
+        "approximationError": 0.0009919502512928168,
+        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "head:subpath-1",
-          "back-neck:subpath-1",
-          "rear:subpath-1",
-          "belly:subpath-1",
+          "horse:subpath-1",
           "tail:subpath-1"
         ],
         "contourIds": [
-          "head:subpath-1",
-          "back-neck:subpath-1",
-          "rear:subpath-1",
-          "belly:subpath-1",
+          "horse:subpath-1",
           "tail:subpath-1"
         ],
         "elementIds": [
-          "head",
-          "back-neck",
-          "rear",
-          "belly",
+          "horse",
           "tail"
         ],
         "bounds": [
-          6.0,
-          6.0,
-          42.0,
-          42.0
+          4.0,
+          8.0,
+          44.0,
+          40.0
         ]
       }
     ],
@@ -127,200 +70,35 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "head:subpath-1",
-          "back-neck:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          18.0,
-          6.0
-        ]
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "belly:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          13.0,
-          42.0
-        ]
-      },
-      {
-        "contourIds": [
-          "back-neck:subpath-1",
-          "rear:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          35.0,
-          20.0
-        ]
-      },
-      {
-        "contourIds": [
-          "rear:subpath-1",
-          "belly:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          39.0,
-          42.0
-        ]
-      },
-      {
-        "contourIds": [
-          "rear:subpath-1",
+          "horse:subpath-1",
           "tail:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          40.0,
-          25.0
+          36.0,
+          20.0
         ]
       }
     ],
     "excludedPairs": [
       {
         "contourIds": [
-          "head:subpath-1",
-          "back-neck:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "head:subpath-1",
-            "back-neck:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            18.0,
-            6.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "rear:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "belly:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "head:subpath-1",
-            "belly:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            13.0,
-            42.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "head:subpath-1",
-          "tail:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "back-neck:subpath-1",
-          "rear:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "back-neck:subpath-1",
-            "rear:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            35.0,
-            20.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "back-neck:subpath-1",
-          "belly:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "back-neck:subpath-1",
-          "tail:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "rear:subpath-1",
-          "belly:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "rear:subpath-1",
-            "belly:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            39.0,
-            42.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "rear:subpath-1",
+          "horse:subpath-1",
           "tail:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "rear:subpath-1",
+            "horse:subpath-1",
             "tail:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            40.0,
-            25.0
+            36.0,
+            20.0
           ]
         }
-      },
-      {
-        "contourIds": [
-          "belly:subpath-1",
-          "tail:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
       }
     ],
     "errors": [],
@@ -338,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 23,
-      "flattenedSegments": 81,
-      "adaptiveNodes": 127,
+      "commands": 17,
+      "flattenedSegments": 112,
+      "adaptiveNodes": 195,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -353,30 +131,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          33.7031,
-          26.1406
+          13.2031,
+          20.9844
         ],
         "bbox_viewbox": [
-          8.0,
-          10.4375,
-          30.0,
-          29.5625
+          6.0,
+          12.5312,
+          28.0,
+          25.4688
         ],
         "bbox_ship_px": [
-          30.0,
-          29.5625
+          28.0,
+          25.4688
         ],
         "bbox_design_u": [
-          30.0,
-          29.5625
+          28.0,
+          25.4688
         ],
-        "area_ship_px2": 306.043,
-        "equivalent_diameter_ship_px": 19.74,
-        "equivalent_diameter_design_u": 19.74,
-        "inscribed_diameter_ship_px": 8.3125,
-        "inscribed_diameter_design_u": 8.3125,
-        "inscribed_radius_ship_px": 4.1562,
-        "inscribed_radius_design_u": 4.1562,
+        "area_ship_px2": 265.5781,
+        "equivalent_diameter_ship_px": 18.3887,
+        "equivalent_diameter_design_u": 18.3887,
+        "inscribed_diameter_ship_px": 9.4243,
+        "inscribed_diameter_design_u": 9.4243,
+        "inscribed_radius_ship_px": 4.7122,
+        "inscribed_radius_design_u": 4.7122,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -390,34 +168,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          33.7656,
-          26.1719
+          13.2344,
+          20.9844
         ],
         "bbox_viewbox": [
-          6.5,
-          7.125,
-          33.0,
-          34.375
+          4.5,
+          9.1562,
+          31.0,
+          30.3438
         ],
         "bbox_ship_px": [
-          33.0,
-          34.375
+          31.0,
+          30.3438
         ],
         "bbox_design_u": [
-          33.0,
-          34.375
+          31.0,
+          30.3438
         ],
-        "area_ship_px2": 510.3838,
-        "equivalent_diameter_ship_px": 25.492,
-        "equivalent_diameter_design_u": 25.492,
-        "inscribed_diameter_ship_px": 11.3397,
-        "inscribed_diameter_design_u": 11.3397,
-        "inscribed_radius_ship_px": 5.6699,
-        "inscribed_radius_design_u": 5.6699,
+        "area_ship_px2": 455.377,
+        "equivalent_diameter_ship_px": 24.0791,
+        "equivalent_diameter_design_u": 24.0791,
+        "inscribed_diameter_ship_px": 12.3953,
+        "inscribed_diameter_design_u": 12.3953,
+        "inscribed_radius_ship_px": 6.1976,
+        "inscribed_radius_design_u": 6.1976,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 4.1699,
-        "equivalent_diameter_at_authored_stroke_design_u": 8.3398
+        "equivalent_radius_at_authored_stroke_design_u": 4.6976,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.3952
       }
     ],
     "pinches": [],
@@ -432,6 +210,11 @@
   },
   "artifacts": {
     "svg": "solo/standing-horse/icon.svg",
+    "holes": "solo/standing-horse/holes.png",
+    "spacing": "solo/standing-horse/spacing.png",
+    "spacing_svg": "solo/standing-horse/spacing.svg",
+    "internal-spacing": "solo/standing-horse/internal-spacing.png",
+    "internal_spacing_svg": "solo/standing-horse/internal-spacing.svg",
     "metrics": "solo/standing-horse/metrics.json"
   },
   "checks_run": [
@@ -444,7 +227,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "07ab049a31c6c1d890f16b1b58676bb87108b833add32e5509a9b452a5d25177",
+  "svg_sha256": "3d86a12dda8ce2ff5741d412b10d994b9fe9dac005bc2f0dbc053f67f905aaaa",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -500,7 +283,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -512,92 +295,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "head / belly",
-        "elements": [
-          "head-7",
-          "belly-2"
-        ],
-        "status": "review",
-        "sustained_length": 8.4517,
-        "centerline_distance": 6.769,
-        "ink_gap": 2.769,
-        "nearest_points": [
-          [
-            13.648076923076921,
-            39.62371794871796
-          ],
-          [
-            20.17857142857143,
-            41.404761904761905
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the standing horse silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      },
-      {
-        "contour": "rear / belly",
-        "elements": [
-          "rear-leg",
-          "belly-4"
-        ],
-        "status": "review",
-        "sustained_length": 9.1317,
-        "centerline_distance": 7.0362,
-        "ink_gap": 3.0362,
-        "nearest_points": [
-          [
-            39.03623188405797,
-            41.38405797101449
-          ],
-          [
-            32.0,
-            41.38405797101449
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the standing horse silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      },
-      {
-        "contour": "rear / tail",
-        "elements": [
-          "rear-leg",
-          "tail-2"
-        ],
-        "status": "review",
-        "sustained_length": 7.1573,
-        "centerline_distance": 2.2101,
-        "ink_gap": -1.7899,
-        "nearest_points": [
-          [
-            39.789855072463766,
-            28.57246376811594
-          ],
-          [
-            42.0,
-            28.57246376811594
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the standing horse silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-20.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 3
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

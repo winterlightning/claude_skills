@@ -189,7 +189,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -200,9 +200,9 @@
             "centerlineDistance": 12.000191893399359,
             "inkClearance": 8.000191893399359,
             "signedInkClearance": 8.000191893399359,
-            "lowerBound": 11.999588546877838,
+            "lowerBound": 12.0,
             "upperBound": 12.000795239920881,
-            "inkClearanceLowerBound": 7.999588546877838,
+            "inkClearanceLowerBound": 8.0,
             "inkClearanceUpperBound": 8.000795239920881,
             "approximationError": 0.0006033465215191461,
             "nearestPoints": [
@@ -218,7 +218,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -229,9 +229,9 @@
             "centerlineDistance": 12.000191893399359,
             "inkClearance": 8.000191893399359,
             "signedInkClearance": 8.000191893399359,
-            "lowerBound": 11.999588546877836,
+            "lowerBound": 12.0,
             "upperBound": 12.00079523992088,
-            "inkClearanceLowerBound": 7.9995885468778365,
+            "inkClearanceLowerBound": 8.0,
             "inkClearanceUpperBound": 8.00079523992088,
             "approximationError": 0.0006033465215191461,
             "nearestPoints": [
@@ -247,7 +247,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -511,12 +511,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/avatar-judo-athlete-man/icon.svg",
+    "holes": "solo/avatar-judo-athlete-man/holes.png",
+    "spacing": "solo/avatar-judo-athlete-man/spacing.png",
+    "spacing_svg": "solo/avatar-judo-athlete-man/spacing.svg",
+    "internal-spacing": "solo/avatar-judo-athlete-man/internal-spacing.png",
+    "internal_spacing_svg": "solo/avatar-judo-athlete-man/internal-spacing.svg",
     "metrics": "solo/avatar-judo-athlete-man/metrics.json"
   },
   "checks_run": [
@@ -568,6 +574,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -582,7 +589,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

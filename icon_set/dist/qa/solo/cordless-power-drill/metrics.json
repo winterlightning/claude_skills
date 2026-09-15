@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [grip / battery]: grip-2 and battery0 have -4 units of ink clearance over 11 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -49,14 +47,30 @@
         "elementId": "grip",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 14 22 L 10 32 L 22 32 L 26 22",
+        "pathData": "M 14 22 L 10 32",
         "bounds": [
           10.0,
+          22.0,
+          14.0,
+          32.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "grip-right:subpath-1",
+        "elementId": "grip-right",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 22 32 L 26 22",
+        "bounds": [
+          22.0,
           22.0,
           26.0,
           32.0
         ],
-        "segmentCount": 3,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -84,18 +98,21 @@
           "motor:subpath-1",
           "bit:subpath-1",
           "grip:subpath-1",
+          "grip-right:subpath-1",
           "battery:subpath-1"
         ],
         "contourIds": [
           "motor:subpath-1",
           "bit:subpath-1",
           "grip:subpath-1",
+          "grip-right:subpath-1",
           "battery:subpath-1"
         ],
         "elementIds": [
           "motor",
           "bit",
           "grip",
+          "grip-right",
           "battery"
         ],
         "bounds": [
@@ -124,6 +141,17 @@
           "motor:subpath-1",
           "grip:subpath-1"
         ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          14.0,
+          22.0
+        ]
+      },
+      {
+        "contourIds": [
+          "motor:subpath-1",
+          "grip-right:subpath-1"
+        ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           26.0,
@@ -138,6 +166,17 @@
         "reason": "exact original straight-segment intersection",
         "point": [
           10.0,
+          32.0
+        ]
+      },
+      {
+        "contourIds": [
+          "grip-right:subpath-1",
+          "battery:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          22.0,
           32.0
         ]
       }
@@ -174,6 +213,25 @@
             "motor:subpath-1",
             "grip:subpath-1"
           ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            14.0,
+            22.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "motor:subpath-1",
+          "grip-right:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "motor:subpath-1",
+            "grip-right:subpath-1"
+          ],
           "reason": "shared original drawn-command endpoint",
           "point": [
             26.0,
@@ -202,7 +260,25 @@
       {
         "contourIds": [
           "bit:subpath-1",
+          "grip-right:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "bit:subpath-1",
           "battery:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "grip:subpath-1",
+          "grip-right:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -226,6 +302,25 @@
             32.0
           ]
         }
+      },
+      {
+        "contourIds": [
+          "grip-right:subpath-1",
+          "battery:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "grip-right:subpath-1",
+            "battery:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            22.0,
+            32.0
+          ]
+        }
       }
     ],
     "errors": [],
@@ -244,10 +339,10 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 26,
-      "flattenedSegments": 398,
+      "flattenedSegments": 397,
       "adaptiveNodes": 760,
       "distanceTests": 0,
-      "connectionTests": 2
+      "connectionTests": 4
     },
     "raw_status": "pass",
     "canvas": 48
@@ -454,12 +549,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/cordless-power-drill/icon.svg",
+    "holes": "solo/cordless-power-drill/holes.png",
+    "spacing": "solo/cordless-power-drill/spacing.png",
+    "spacing_svg": "solo/cordless-power-drill/spacing.svg",
+    "internal-spacing": "solo/cordless-power-drill/internal-spacing.png",
+    "internal_spacing_svg": "solo/cordless-power-drill/internal-spacing.svg",
     "metrics": "solo/cordless-power-drill/metrics.json"
   },
   "checks_run": [
@@ -472,7 +573,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "ec637116e99bae60e849c8a0ad39adf94c1dd6ad43c72a97bc9f5e2f29837a84",
+  "svg_sha256": "908b68612a20faa7e0e7f58b5271182958bcf3bd335a4a900e2748ba4c130445",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -511,6 +612,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -525,9 +627,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -539,30 +641,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "grip / battery",
-        "elements": [
-          "grip-2",
-          "battery0"
-        ],
-        "status": "review",
-        "sustained_length": 11.0,
-        "centerline_distance": 0.0,
-        "ink_gap": -4.0,
-        "nearest_points": [
-          [
-            10.625,
-            32.0
-          ],
-          [
-            10.625,
-            32.0
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

@@ -15,28 +15,31 @@ class CurledRaccoon(Solo48):
     aliases = ()
     keywords = ('raccoon', 'curled', 'tail', 'stripes', 'mask', 'animal', 'wildlife', 'nocturnal')
 
-    def build(self) -> None:
-        self.add_line('nose-top', (6, 14), (10, 14))
-        self.add_arc('forehead', (10, 14), (24, 6), radius_x=14, radius_y=8)
-        self.add_arc('back', (24, 6), (42, 24), radius_x=18)
-        self.add_arc('tail-outer', (42, 24), (24, 42), radius_x=18)
-        self.add_line('tail-base', (24, 42), (14, 42))
-        self.add_arc('tail-round', (14, 42), (6, 34), radius_x=8)
-        self.add_line('tail-tip-rise', (6, 34), (6, 28))
-        self.add_line('tail-tip', (6, 28), (10, 28))
-        self.add_line('tail-inner-left', (10, 28), (16, 32))
-        self.add_line('tail-inner-mid', (16, 32), (24, 34))
-        self.add_arc('tail-inner-turn', (24, 34), (34, 24), radius_x=10, sweep=False)
-        self.add_contour('outline', 'nose-top', 'forehead', 'back', 'tail-outer', 'tail-base', 'tail-round', 'tail-tip-rise', 'tail-tip', 'tail-inner-left', 'tail-inner-mid', 'tail-inner-turn')
-        self.add_line('nose-front', (6, 14), (6, 19))
-        self.add_arc('muzzle', (6, 19), (12, 25), radius_x=6, sweep=False)
-        self.add_line('cheek', (12, 25), (22, 25))
-        self.add_contour('face', 'nose-front', 'muzzle', 'cheek')
-        self.relate('connect', 'face', 'outline')
-        self.add_line('ear', (24, 6), (24, 10))
-        self.relate('connect', 'ear', 'outline')
-        self.add_line('stripe-one', (14, 42), (16, 32))
-        self.add_line('stripe-two', (24, 42), (24, 34))
-        self.relate('connect', 'stripe-one', 'outline')
-        self.relate('connect', 'stripe-two', 'outline')
-        self.add_dot('eye', (18, 16))
+    def build(self):
+        # Plan: Open the face-to-tail gap, retain a clear eye and coherent circular back, and put two stripes on the broadest parts of the curl.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('outline',(6,14), [('L',(10,14)),('A',(24,6),14,8,True),('A',(42,24),18,18,True),('A',(24,42),18,18,True),('L',(14,42)),('A',(6,34),8,8,True),('L',(6,32)),('L',(10,32)),('L',(16,34)),('L',(24,34)),('A',(34,24),10,10,False)])
+        path('face',(6,14), [('L',(6,19)),('A',(12,24),6,5,False),('L',(22,24))]);join('face','outline')
+        line('ear',(24,6),(24,8));join('ear','outline')
+        line('stripe-lower',(24,42),(24,34));line('stripe-side',(42,24),(34,24));join('stripe-lower','outline');join('stripe-side','outline')
+        self.add_dot('eye',(20,15))

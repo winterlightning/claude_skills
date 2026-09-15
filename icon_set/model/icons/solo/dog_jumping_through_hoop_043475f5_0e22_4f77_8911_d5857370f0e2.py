@@ -26,7 +26,7 @@ class DogJumpingThroughHoop(Solo48):
         arc('hoop-upper',(4,24),(20,8),16,16)
         arc('hoop-lower',(20,40),(4,24),16,16)
         self.add_polyline('back',(4,24),(30,16),(34,8),(38,16),(44,20),(40,24),(32,24))
-        self.add_polyline('legs',(32,24),(40,32),(34,34),(26,28),(16,30),(12,40))
+        self.add_polyline('legs',(32,24),(40,32),(34,38),(24,28),(16,30),(12,40))
         self.relate('connect','back','legs')
         self.relate('connect','hoop-upper','back')
         self.relate('connect','hoop-lower','back')

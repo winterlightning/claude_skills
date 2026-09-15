@@ -15,7 +15,7 @@
         "elementId": "brain",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 12 16 A 10 10 0 0 1 32 16 A 10 10 0 0 1 42 26 A 10 10 0 0 1 32 36 L 34 42 L 26 42 L 22 34 L 12 34 A 6 10 0 0 1 6 24 A 6 8 0 0 1 12 16 Z",
+        "pathData": "M 12 16 A 10 10 0 0 1 32 16 A 10 10 0 0 1 42 26 A 10 8 0 0 1 32 34 L 32 42 L 24 42 L 20 34 L 12 34 A 6 10 0 0 1 6 24 A 6 8 0 0 1 12 16 Z",
         "bounds": [
           6.0,
           6.0,
@@ -187,8 +187,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          30.4219,
-          26.0156
+          30.1719,
+          25.0156
         ],
         "bbox_viewbox": [
           8.0,
@@ -204,13 +204,13 @@
           32.0,
           32.0
         ],
-        "area_ship_px2": 553.4453,
-        "equivalent_diameter_ship_px": 26.5456,
-        "equivalent_diameter_design_u": 26.5456,
-        "inscribed_diameter_ship_px": 16.5178,
-        "inscribed_diameter_design_u": 16.5178,
-        "inscribed_radius_ship_px": 8.2589,
-        "inscribed_radius_design_u": 8.2589,
+        "area_ship_px2": 550.5459,
+        "equivalent_diameter_ship_px": 26.476,
+        "equivalent_diameter_design_u": 26.476,
+        "inscribed_diameter_ship_px": 14.6163,
+        "inscribed_diameter_design_u": 14.6163,
+        "inscribed_radius_ship_px": 7.3081,
+        "inscribed_radius_design_u": 7.3081,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -224,8 +224,8 @@
       {
         "hole": 1,
         "center_viewbox": [
-          30.4531,
-          26.0156
+          30.2031,
+          25.0156
         ],
         "bbox_viewbox": [
           6.5,
@@ -241,17 +241,17 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 759.7109,
-        "equivalent_diameter_ship_px": 31.1014,
-        "equivalent_diameter_design_u": 31.1014,
-        "inscribed_diameter_ship_px": 19.5661,
-        "inscribed_diameter_design_u": 19.5661,
-        "inscribed_radius_ship_px": 9.783,
-        "inscribed_radius_design_u": 9.783,
+        "area_ship_px2": 754.876,
+        "equivalent_diameter_ship_px": 31.0022,
+        "equivalent_diameter_design_u": 31.0022,
+        "inscribed_diameter_ship_px": 17.6645,
+        "inscribed_diameter_design_u": 17.6645,
+        "inscribed_radius_ship_px": 8.8323,
+        "inscribed_radius_design_u": 8.8323,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 8.283,
-        "equivalent_diameter_at_authored_stroke_design_u": 16.566
+        "equivalent_radius_at_authored_stroke_design_u": 7.3323,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.6646
       }
     ],
     "pinches": [],
@@ -266,6 +266,11 @@
   },
   "artifacts": {
     "svg": "solo/brain-side-view-with-stem/icon.svg",
+    "holes": "solo/brain-side-view-with-stem/holes.png",
+    "spacing": "solo/brain-side-view-with-stem/spacing.png",
+    "spacing_svg": "solo/brain-side-view-with-stem/spacing.svg",
+    "internal-spacing": "solo/brain-side-view-with-stem/internal-spacing.png",
+    "internal_spacing_svg": "solo/brain-side-view-with-stem/internal-spacing.svg",
     "metrics": "solo/brain-side-view-with-stem/metrics.json"
   },
   "checks_run": [
@@ -278,7 +283,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "9c85f49df92f959b359d5eeafb576f51eb3761882f40b210d91a99a0cd393625",
+  "svg_sha256": "58c784d1df2bb98f245b5d6e0dc5e49a09036132a19b1bb55cd2a84aa8a7b5bf",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -334,7 +339,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -346,38 +351,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "brain",
-        "elements": [
-          "stem-1",
-          "stem-3"
-        ],
-        "status": "review",
-        "sustained_length": 2.4845,
-        "centerline_distance": 7.6773,
-        "ink_gap": 3.6773,
-        "nearest_points": [
-          [
-            33.00555555555553,
-            39.016666666666595
-          ],
-          [
-            25.72222222222222,
-            41.44444444444444
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The short brain stem narrows below the brain; preserve the broad brain silhouette and stem cue.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-2.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

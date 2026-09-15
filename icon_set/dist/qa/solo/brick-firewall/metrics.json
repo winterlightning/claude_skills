@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "holes/pinches: 1 undersized holes; 0 pinches"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -45,8 +43,8 @@
         "hasCurves": false
       },
       {
-        "id": "upper-joint-16:subpath-1",
-        "elementId": "upper-joint-16",
+        "id": "upper-16:subpath-1",
+        "elementId": "upper-16",
         "subpathIndex": 1,
         "componentId": "component-1",
         "pathData": "M 16 24 L 16 32",
@@ -61,8 +59,8 @@
         "hasCurves": false
       },
       {
-        "id": "upper-joint-32:subpath-1",
-        "elementId": "upper-joint-32",
+        "id": "upper-32:subpath-1",
+        "elementId": "upper-32",
         "subpathIndex": 1,
         "componentId": "component-1",
         "pathData": "M 32 24 L 32 32",
@@ -77,8 +75,8 @@
         "hasCurves": false
       },
       {
-        "id": "lower-joint:subpath-1",
-        "elementId": "lower-joint",
+        "id": "lower:subpath-1",
+        "elementId": "lower",
         "subpathIndex": 1,
         "componentId": "component-1",
         "pathData": "M 24 32 L 24 40",
@@ -97,15 +95,15 @@
         "elementId": "flame",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 24 A 10 10 0 0 1 14 18 L 18 12 L 20 16 L 28 8 L 28 20 L 36 12 A 10 10 0 0 1 32 24",
+        "pathData": "M 16 24 C 8 18 24 14 24 8 C 24 15 42 17 32 24",
         "bounds": [
-          14.0,
+          13.760467529296875,
           8.0,
-          36.65152766355716,
+          35.02447509765625,
           24.0
         ],
-        "segmentCount": 101,
-        "approximationError": 0.0005723149259889963,
+        "segmentCount": 255,
+        "approximationError": 0.000998592447612432,
         "hasCurves": true
       }
     ],
@@ -115,25 +113,25 @@
         "memberIds": [
           "wall:subpath-1",
           "course:subpath-1",
-          "upper-joint-16:subpath-1",
-          "upper-joint-32:subpath-1",
-          "lower-joint:subpath-1",
+          "upper-16:subpath-1",
+          "upper-32:subpath-1",
+          "lower:subpath-1",
           "flame:subpath-1"
         ],
         "contourIds": [
           "wall:subpath-1",
           "course:subpath-1",
-          "upper-joint-16:subpath-1",
-          "upper-joint-32:subpath-1",
-          "lower-joint:subpath-1",
+          "upper-16:subpath-1",
+          "upper-32:subpath-1",
+          "lower:subpath-1",
           "flame:subpath-1"
         ],
         "elementIds": [
           "wall",
           "course",
-          "upper-joint-16",
-          "upper-joint-32",
-          "lower-joint",
+          "upper-16",
+          "upper-32",
+          "lower",
           "flame"
         ],
         "bounds": [
@@ -160,7 +158,7 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "upper-joint-16:subpath-1"
+          "upper-16:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -171,7 +169,7 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "upper-joint-32:subpath-1"
+          "upper-32:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -182,7 +180,7 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "lower-joint:subpath-1"
+          "lower:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -204,7 +202,7 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "upper-joint-16:subpath-1"
+          "upper-16:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -215,7 +213,7 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "upper-joint-32:subpath-1"
+          "upper-32:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -226,7 +224,7 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "lower-joint:subpath-1"
+          "lower:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -236,7 +234,7 @@
       },
       {
         "contourIds": [
-          "upper-joint-16:subpath-1",
+          "upper-16:subpath-1",
           "flame:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -247,7 +245,7 @@
       },
       {
         "contourIds": [
-          "upper-joint-32:subpath-1",
+          "upper-32:subpath-1",
           "flame:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -280,14 +278,14 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "upper-joint-16:subpath-1"
+          "upper-16:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "wall:subpath-1",
-            "upper-joint-16:subpath-1"
+            "upper-16:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -299,14 +297,14 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "upper-joint-32:subpath-1"
+          "upper-32:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "wall:subpath-1",
-            "upper-joint-32:subpath-1"
+            "upper-32:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -318,14 +316,14 @@
       {
         "contourIds": [
           "wall:subpath-1",
-          "lower-joint:subpath-1"
+          "lower:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "wall:subpath-1",
-            "lower-joint:subpath-1"
+            "lower:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -356,14 +354,14 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "upper-joint-16:subpath-1"
+          "upper-16:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "course:subpath-1",
-            "upper-joint-16:subpath-1"
+            "upper-16:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -375,14 +373,14 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "upper-joint-32:subpath-1"
+          "upper-32:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "course:subpath-1",
-            "upper-joint-32:subpath-1"
+            "upper-32:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -394,14 +392,14 @@
       {
         "contourIds": [
           "course:subpath-1",
-          "lower-joint:subpath-1"
+          "lower:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "course:subpath-1",
-            "lower-joint:subpath-1"
+            "lower:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -421,8 +419,8 @@
       },
       {
         "contourIds": [
-          "upper-joint-16:subpath-1",
-          "upper-joint-32:subpath-1"
+          "upper-16:subpath-1",
+          "upper-32:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -430,8 +428,8 @@
       },
       {
         "contourIds": [
-          "upper-joint-16:subpath-1",
-          "lower-joint:subpath-1"
+          "upper-16:subpath-1",
+          "lower:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -439,14 +437,14 @@
       },
       {
         "contourIds": [
-          "upper-joint-16:subpath-1",
+          "upper-16:subpath-1",
           "flame:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "upper-joint-16:subpath-1",
+            "upper-16:subpath-1",
             "flame:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -458,8 +456,8 @@
       },
       {
         "contourIds": [
-          "upper-joint-32:subpath-1",
-          "lower-joint:subpath-1"
+          "upper-32:subpath-1",
+          "lower:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -467,14 +465,14 @@
       },
       {
         "contourIds": [
-          "upper-joint-32:subpath-1",
+          "upper-32:subpath-1",
           "flame:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "upper-joint-32:subpath-1",
+            "upper-32:subpath-1",
             "flame:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -486,7 +484,7 @@
       },
       {
         "contourIds": [
-          "lower-joint:subpath-1",
+          "lower:subpath-1",
           "flame:subpath-1"
         ],
         "componentId": "component-1",
@@ -509,9 +507,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 30,
-      "flattenedSegments": 118,
-      "adaptiveNodes": 190,
+      "commands": 25,
+      "flattenedSegments": 272,
+      "adaptiveNodes": 508,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -519,70 +517,40 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "fail",
+    "status": "pass",
     "authored_holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          23.3281,
-          19.3281
+          24.0469,
+          18.0469
         ],
         "bbox_viewbox": [
-          16.0312,
-          12.8438,
-          11.7188,
-          9.1562
+          15.75,
+          12.6562,
+          17.2812,
+          9.3438
         ],
         "bbox_ship_px": [
-          11.7188,
-          9.1562
+          17.2812,
+          9.3438
         ],
         "bbox_design_u": [
-          11.7188,
-          9.1562
+          17.2812,
+          9.3438
         ],
-        "area_ship_px2": 55.4385,
-        "equivalent_diameter_ship_px": 8.4016,
-        "equivalent_diameter_design_u": 8.4016,
-        "inscribed_diameter_ship_px": 5.375,
-        "inscribed_diameter_design_u": 5.375,
-        "inscribed_radius_ship_px": 2.6875,
-        "inscribed_radius_design_u": 2.6875,
+        "area_ship_px2": 97.3828,
+        "equivalent_diameter_ship_px": 11.1352,
+        "equivalent_diameter_design_u": 11.1352,
+        "inscribed_diameter_ship_px": 7.9375,
+        "inscribed_diameter_design_u": 7.9375,
+        "inscribed_radius_ship_px": 3.9688,
+        "inscribed_radius_design_u": 3.9688,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
       {
         "hole": 2,
-        "center_viewbox": [
-          31.9844,
-          20.1719
-        ],
-        "bbox_viewbox": [
-          28.25,
-          16.2188,
-          6.375,
-          5.7812
-        ],
-        "bbox_ship_px": [
-          6.375,
-          5.7812
-        ],
-        "bbox_design_u": [
-          6.375,
-          5.7812
-        ],
-        "area_ship_px2": 10.7188,
-        "equivalent_diameter_ship_px": 3.6943,
-        "equivalent_diameter_design_u": 3.6943,
-        "inscribed_diameter_ship_px": 1.8873,
-        "inscribed_diameter_design_u": 1.8873,
-        "inscribed_radius_ship_px": 0.9436,
-        "inscribed_radius_design_u": 0.9436,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail"
-      },
-      {
-        "hole": 3,
         "center_viewbox": [
           7.9844,
           27.9844
@@ -612,7 +580,7 @@
         "status": "pass"
       },
       {
-        "hole": 4,
+        "hole": 3,
         "center_viewbox": [
           19.9844,
           27.9844
@@ -642,7 +610,7 @@
         "status": "pass"
       },
       {
-        "hole": 5,
+        "hole": 4,
         "center_viewbox": [
           35.9844,
           27.9844
@@ -672,7 +640,7 @@
         "status": "pass"
       },
       {
-        "hole": 6,
+        "hole": 5,
         "center_viewbox": [
           7.9844,
           35.9844
@@ -702,7 +670,7 @@
         "status": "pass"
       },
       {
-        "hole": 7,
+        "hole": 6,
         "center_viewbox": [
           27.9844,
           35.9844
@@ -732,43 +700,43 @@
         "status": "pass"
       }
     ],
-    "authored_hole_count": 7,
+    "authored_hole_count": 6,
     "raster_artifact_count": 0,
-    "hole_count": 7,
-    "failed_hole_count": 1,
+    "hole_count": 6,
+    "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          23.3281,
-          19.3281
+          24.0469,
+          18.0469
         ],
         "bbox_viewbox": [
-          14.5,
-          9.2188,
-          21.6562,
-          14.2812
+          14.25,
+          10.0625,
+          20.2812,
+          13.4375
         ],
         "bbox_ship_px": [
-          21.6562,
-          14.2812
+          20.2812,
+          13.4375
         ],
         "bbox_design_u": [
-          21.6562,
-          14.2812
+          20.2812,
+          13.4375
         ],
-        "area_ship_px2": 167.8916,
-        "equivalent_diameter_ship_px": 14.6207,
-        "equivalent_diameter_design_u": 14.6207,
-        "inscribed_diameter_ship_px": 8.3623,
-        "inscribed_diameter_design_u": 8.3623,
-        "inscribed_radius_ship_px": 4.1811,
-        "inscribed_radius_design_u": 4.1811,
+        "area_ship_px2": 168.9111,
+        "equivalent_diameter_ship_px": 14.6651,
+        "equivalent_diameter_design_u": 14.6651,
+        "inscribed_diameter_ship_px": 10.9375,
+        "inscribed_diameter_design_u": 10.9375,
+        "inscribed_radius_ship_px": 5.4688,
+        "inscribed_radius_design_u": 5.4688,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.6811,
-        "equivalent_diameter_at_authored_stroke_design_u": 5.3622
+        "equivalent_radius_at_authored_stroke_design_u": 3.9688,
+        "equivalent_diameter_at_authored_stroke_design_u": 7.9376
       },
       {
         "hole": 2,
@@ -929,39 +897,6 @@
         "status": "pass",
         "equivalent_radius_at_authored_stroke_design_u": 2.0,
         "equivalent_diameter_at_authored_stroke_design_u": 4.0
-      },
-      {
-        "hole": 7,
-        "center_viewbox": [
-          31.9844,
-          20.1719
-        ],
-        "bbox_viewbox": [
-          28.25,
-          16.2188,
-          6.375,
-          5.7812
-        ],
-        "bbox_ship_px": [
-          6.375,
-          5.7812
-        ],
-        "bbox_design_u": [
-          6.375,
-          5.7812
-        ],
-        "area_ship_px2": 10.7188,
-        "equivalent_diameter_ship_px": 3.6943,
-        "equivalent_diameter_design_u": 3.6943,
-        "inscribed_diameter_ship_px": 1.8873,
-        "inscribed_diameter_design_u": 1.8873,
-        "inscribed_radius_ship_px": 0.9436,
-        "inscribed_radius_design_u": 0.9436,
-        "minimum_radius_design_u": 1.0,
-        "status": "fail",
-        "measuring_stroke_width": 4,
-        "equivalent_radius_at_authored_stroke_design_u": 0.9436,
-        "equivalent_diameter_at_authored_stroke_design_u": 1.8873
       }
     ],
     "pinches": [],
@@ -969,12 +904,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/brick-firewall/icon.svg",
+    "holes": "solo/brick-firewall/holes.png",
+    "spacing": "solo/brick-firewall/spacing.png",
+    "spacing_svg": "solo/brick-firewall/spacing.svg",
+    "internal-spacing": "solo/brick-firewall/internal-spacing.png",
+    "internal_spacing_svg": "solo/brick-firewall/internal-spacing.svg",
     "metrics": "solo/brick-firewall/metrics.json"
   },
   "checks_run": [
@@ -987,7 +928,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "6e32296eac9dcf5330880ed90a03589ef07dd50f5e0b05cd2b7470bea1d5a055",
+  "svg_sha256": "6c6baff2e439c936c013c2f053a529e74476a9632170bac82ceecabb1ec542ed",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -1026,6 +967,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1040,7 +982,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

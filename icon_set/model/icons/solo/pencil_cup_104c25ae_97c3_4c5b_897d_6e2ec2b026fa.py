@@ -7,7 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='104c25ae-97c3-4c5b-897d-6e2ec2b026fa'
 SOURCE_PATH='pictographic-primitives/symbol/stationary_104c25ae-97c3-4c5b-897d-6e2ec2b026fa.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
 
 class PencilCup(Solo48):
     icon_id='pencil-cup'
@@ -31,14 +31,28 @@ class PencilCup(Solo48):
         self.add_polyline(n,*points,closed=closed)
 
     def build(self):
+        # Plan: Two upright tools share the cup rim. Equal-width pencil shaft avoids tapered crowding; cup has tangent rounded corners.
 
-        self.raw('rim',[(8,24),(12,24),(20,24),(30,24),(40,24)])
-        self.add_line('right',(40,24),(40,38))
-        self.add_arc('br',(40,38),(34,44),radius_x=6)
-        self.add_line('base',(34,44),(14,44))
-        self.add_arc('bl',(14,44),(8,38),radius_x=6)
-        self.add_line('left',(8,38),(8,24))
-        self.add_contour('cup',*['rim-'+str(i) for i in range(1,5)],'right','br','base','bl','left',closed=True)
-        self.path('pencil',[(12,24),(8,12),(12,4),(16,10),(20,24)],True)
-        self.path('ruler',[(30,24),(30,4),(40,4),(40,24)],True)
-        self.relate('connect','pencil','cup');self.relate('connect','ruler','cup')
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('cup',(8,24), [('L',(18,24)),('L',(30,24)),('L',(40,24)),('L',(40,38)),('A',(34,44),6,6,True),('L',(14,44)),('A',(8,38),6,6,True),('L',(8,24))],True)
+        poly('pencil',(8,24),(8,12),(13,4),(18,12),(18,24));join('pencil','cup')
+        poly('ruler',(30,24),(30,4),(40,4),(40,24));join('ruler','cup')

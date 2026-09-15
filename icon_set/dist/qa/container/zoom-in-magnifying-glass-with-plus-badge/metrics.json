@@ -233,9 +233,9 @@
             "centerlineDistance": 19.757008936055932,
             "inkClearance": 15.757008936055932,
             "signedInkClearance": 15.757008936055932,
-            "lowerBound": 19.756028497958287,
+            "lowerBound": 19.756678708318397,
             "upperBound": 19.757989374153574,
-            "inkClearanceLowerBound": 15.756028497958287,
+            "inkClearanceLowerBound": 15.756678708318397,
             "inkClearanceUpperBound": 15.757989374153574,
             "approximationError": 0.0009804380976398087,
             "nearestPoints": [
@@ -251,7 +251,7 @@
             "requiredCenterline": 6.0,
             "requiredInkClearance": 2.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -686,12 +686,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "container/zoom-in-magnifying-glass-with-plus-badge/icon.svg",
+    "holes": "container/zoom-in-magnifying-glass-with-plus-badge/holes.png",
+    "spacing": "container/zoom-in-magnifying-glass-with-plus-badge/spacing.png",
+    "spacing_svg": "container/zoom-in-magnifying-glass-with-plus-badge/spacing.svg",
+    "internal-spacing": "container/zoom-in-magnifying-glass-with-plus-badge/internal-spacing.png",
+    "internal_spacing_svg": "container/zoom-in-magnifying-glass-with-plus-badge/internal-spacing.svg",
     "metrics": "container/zoom-in-magnifying-glass-with-plus-badge/metrics.json"
   },
   "checks_run": [
@@ -743,6 +749,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -757,7 +764,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "7113b5891345f3a1b0586740c05e6a821d4451b13065da35580006221ddbfca7",
+  "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

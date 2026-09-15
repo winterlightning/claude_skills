@@ -31,12 +31,30 @@ class PencilMarkingBallot(Solo48):
         self.add_contour(name+'-shoulders',name+'-sl',name+'-sr')
         self.relate('connect',name+'-head',name+'-shoulders')
 
-    def build(self) -> None:
-        # Bounds are derived from the live SOLO48 contract, not the stale skill table.
+    def build(self):
+        # Plan: Use one straight eight-unit pencil shaft and a centred tip; preserve the two ballot boxes and their cross mark.
 
-        self.add_polyline('empty-box',(6,6),(14,6),(14,14),(6,14),closed=True)
-        self.add_polyline('marked-box',(6,22),(26,22),(26,42),(6,42),closed=True)
-        self.add_line('cross-a',(14,30),(18,34))
-        self.add_line('cross-b',(14,34),(18,30))
-        self.relate('connect','cross-a','cross-b')
-        self.add_polyline('pencil',(37,26),(33,17),(34,6),(42,8),(40,19),closed=True)
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('empty-box',(6,6),(14,6),(14,14),(6,14),closed=True)
+        poly('marked-box',(6,22),(26,22),(26,42),(6,42),closed=True)
+        line('cross-a',(14,30),(18,34));line('cross-b',(14,34),(18,30));join('cross-a','cross-b')
+        poly('pencil',(34,6),(42,6),(42,18),(38,26),(34,18),closed=True)

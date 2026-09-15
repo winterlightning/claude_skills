@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 7.61 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -308,7 +310,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -423,11 +425,11 @@
         "centerlineDistance": 21.083349325862596,
         "inkClearance": 17.083349325862596,
         "signedInkClearance": 17.083349325862596,
-        "lowerBound": 21.08244537896369,
+        "lowerBound": 21.083189157584588,
         "upperBound": 21.084253272761497,
-        "inkClearanceLowerBound": 17.08244537896369,
+        "inkClearanceLowerBound": 17.083189157584588,
         "inkClearanceUpperBound": 17.084253272761497,
-        "approximationError": 0.0009039468989051613,
+        "approximationError": 0.0009039468989016086,
         "nearestPoints": [
           [
             16.0,
@@ -464,9 +466,9 @@
             "centerlineDistance": 21.083349325862596,
             "inkClearance": 17.083349325862596,
             "signedInkClearance": 17.083349325862596,
-            "lowerBound": 21.08244537896369,
+            "lowerBound": 21.083189157584588,
             "upperBound": 21.084253272761497,
-            "inkClearanceLowerBound": 17.08244537896369,
+            "inkClearanceLowerBound": 17.083189157584588,
             "inkClearanceUpperBound": 17.084253272761497,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -482,7 +484,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -657,7 +659,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -668,9 +670,9 @@
             "centerlineDistance": 9.806553684061532,
             "inkClearance": 5.806553684061532,
             "signedInkClearance": 5.806553684061532,
-            "lowerBound": 9.805649737162632,
+            "lowerBound": 9.806248474865697,
             "upperBound": 9.807457630960434,
-            "inkClearanceLowerBound": 5.805649737162632,
+            "inkClearanceLowerBound": 5.806248474865697,
             "inkClearanceUpperBound": 5.8074576309604335,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -686,7 +688,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -974,12 +976,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/person-reclining-with-floating-panels/icon.svg",
+    "holes": "solo/person-reclining-with-floating-panels/holes.png",
+    "spacing": "solo/person-reclining-with-floating-panels/spacing.png",
+    "spacing_svg": "solo/person-reclining-with-floating-panels/spacing.svg",
+    "internal-spacing": "solo/person-reclining-with-floating-panels/internal-spacing.png",
+    "internal_spacing_svg": "solo/person-reclining-with-floating-panels/internal-spacing.svg",
     "metrics": "solo/person-reclining-with-floating-panels/metrics.json"
   },
   "checks_run": [
@@ -1031,6 +1039,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1045,7 +1054,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

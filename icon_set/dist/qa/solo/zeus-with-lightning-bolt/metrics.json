@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 6.68 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -209,7 +211,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -220,9 +222,9 @@
             "centerlineDistance": 18.08355933183015,
             "inkClearance": 14.083559331830148,
             "signedInkClearance": 14.083559331830148,
-            "lowerBound": 18.083106821939115,
+            "lowerBound": 18.083189157584588,
             "upperBound": 18.08401184172118,
-            "inkClearanceLowerBound": 14.083106821939115,
+            "inkClearanceLowerBound": 14.083189157584588,
             "inkClearanceUpperBound": 14.084011841721178,
             "approximationError": 0.0004525098910261168,
             "nearestPoints": [
@@ -238,7 +240,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -249,9 +251,9 @@
             "centerlineDistance": 9.26478676076133,
             "inkClearance": 5.26478676076133,
             "signedInkClearance": 5.26478676076133,
-            "lowerBound": 9.2643342508703,
+            "lowerBound": 9.264337522473747,
             "upperBound": 9.265239270652359,
-            "inkClearanceLowerBound": 5.2643342508703,
+            "inkClearanceLowerBound": 5.264337522473747,
             "inkClearanceUpperBound": 5.2652392706523585,
             "approximationError": 0.0004525098910261168,
             "nearestPoints": [
@@ -267,7 +269,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -634,6 +636,11 @@
   },
   "artifacts": {
     "svg": "solo/zeus-with-lightning-bolt/icon.svg",
+    "holes": "solo/zeus-with-lightning-bolt/holes.png",
+    "spacing": "solo/zeus-with-lightning-bolt/spacing.png",
+    "spacing_svg": "solo/zeus-with-lightning-bolt/spacing.svg",
+    "internal-spacing": "solo/zeus-with-lightning-bolt/internal-spacing.png",
+    "internal_spacing_svg": "solo/zeus-with-lightning-bolt/internal-spacing.svg",
     "metrics": "solo/zeus-with-lightning-bolt/metrics.json"
   },
   "checks_run": [

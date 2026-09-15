@@ -29,4 +29,4 @@ class OutlinedLambda(Solo48):
         self.add_contour(name, *(f'{name}-{i}' for i in range(4)), closed=True)
 
     def build(self):
-        self.add_polyline('lambda',(12,6),(22,6),(38,34),(42,34),(42,42),(32,42),(24,28),(16,42),(6,42),(20,20),(16,14),(12,14),closed=True)
+        self.add_polyline('lambda',(12,6),(22,6),(38,34),(42,34),(42,42),(32,42),(24,28),(16,42),(6,42),(18,20),(16,14),(12,14),closed=True)

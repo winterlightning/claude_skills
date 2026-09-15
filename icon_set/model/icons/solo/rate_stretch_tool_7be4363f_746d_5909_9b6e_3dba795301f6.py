@@ -8,32 +8,37 @@ AUTHOR = 'gpt-6'
 
 class RateStretchTool(Solo48):
     icon_id = 'rate-stretch-tool'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'arrows'
     aliases = ()
     keywords = ('rate', 'stretch', 'tool', 'arrows')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (9, 8), (4, 13))
-        self.add_line('e1', (9, 18), (4, 13))
-        self.add_line('e2', (4, 13), (20, 13))
-        self.add_line('e3', (25, 16), (25, 21))
-        self.add_line('e4', (25, 30), (25, 35))
-        self.add_line('e5', (29, 39), (44, 39))
-        self.add_line('e6', (39, 40), (44, 39))
-        self.add_line('e7', (44, 39), (39, 31))
-        self.add_arc('e8', (20, 13), (25, 16), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('e9', (25, 35), (29, 39), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e1', 'e2', 'e8', 'e3'), closed=False)
-        self.add_contour('c2', *('e4', 'e9', 'e5'), closed=False)
-        self.add_contour('c3', *('e6',), closed=False)
-        self.add_contour('c4', *('e7',), closed=False)
-        self.relate('connect', *('c0', 'c1'))
-        self.relate('connect', *('c2', 'c3'))
-        self.relate('connect', *('c2', 'c4'))
-        self.relate('connect', *('c3', 'c4'))
+    def build(self):
+        # Plan: Two mirrored rounded turns with open arrowheads replace folded duplicate segments; separate their inner endpoints by ten units.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('upper',(6,12), [('L',(18,12)),('A',(24,18),6,6,True),('L',(24,19))])
+        poly('upper-arrow',(12,6),(6,12),(12,18));join('upper','upper-arrow')
+        path('lower',(42,36), [('L',(30,36)),('A',(24,30),6,6,True),('L',(24,29))])
+        poly('lower-arrow',(36,42),(42,36),(36,30));join('lower','lower-arrow')

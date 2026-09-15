@@ -98,7 +98,11 @@ class EvidenceStore:
         self.cache = Path(cache).resolve()
 
     def _run(self, icon: dict, svg_bytes: bytes, gate):
-        script_sha = _hash(QA_OVERLAYS.read_bytes())
+        if __package__:
+            from .qa_fingerprint import checker_fingerprint
+        else:
+            from qa_fingerprint import checker_fingerprint
+        script_sha = checker_fingerprint()
         folder = self.cache / _hash(svg_bytes + script_sha.encode() + repr(gate).encode())[:40]
         result_file = folder / 'evidence.json'
         if result_file.is_file():

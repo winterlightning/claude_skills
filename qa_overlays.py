@@ -486,6 +486,8 @@ def process(svg_path, src_metrics=None, hole_metrics=None, out_dir=None,
     # Ties the result to this exact drawing: build.py only applies a verdict
     # whose hash matches the SVG it is publishing.
     metrics["svg_sha256"] = _file_sha256(svg_path)
+    from icon_set.scripts.qa_fingerprint import checker_fingerprint
+    metrics["checker_fingerprint"] = checker_fingerprint()
     if hole_metrics:
         metrics.update(hole_metrics)
 
@@ -588,6 +590,9 @@ def existing_metrics(svg_path, out_dir=None, gate=None):
     if not isinstance(m, dict) or m.get("svg_sha256") != current:
         return None
     if gate is not None and m.get("distance_gate") != gate:
+        return None
+    from icon_set.scripts.qa_fingerprint import checker_fingerprint
+    if m.get("checker_fingerprint") != checker_fingerprint():
         return None
     needed = []
     if m.get("canvas") is not None:

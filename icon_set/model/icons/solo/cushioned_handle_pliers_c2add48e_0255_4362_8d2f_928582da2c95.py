@@ -17,7 +17,7 @@ class CushionedHandlePliers(Solo48):
 
     def build(self) -> None:
         self.add_polyline('jaw',(6,6),(18,6),(26,14),(24,22),(16,24),(8,16),(6,6))
-        self.add_polyline('upper-handle',(26,14),(42,24),(38,32),(24,22))
+        self.add_polyline('upper-handle',(26,14),(42,24),(38,34),(24,22))
         self.add_polyline('lower-handle',(16,24),(24,42),(32,38),(24,22))
         self.relate('connect','upper-handle','jaw')
         self.relate('connect','lower-handle','jaw')

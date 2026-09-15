@@ -9,7 +9,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 import io
 
-from icon_set.scripts.gallery import remap_categories, stage_gallery
+from icon_set.scripts.gallery import remap_categories, stage_gallery, stage_preview
 from icon_set.scripts.deploy import create_server, init_database
 
 
@@ -23,6 +23,23 @@ def manifest(root, family, folder, name):
 
 
 class GalleryTests(unittest.TestCase):
+    def test_preview_catalog_contains_full_library_with_only_public_fields(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp)
+            row = {'icon_id': 'folder', 'name': 'Folder', 'family': 'solo',
+                   'preview_url': '../solo48/folder.svg', 'primitives': ['large payload']}
+            stage_preview(target, [row, dict(row, icon_id='unrelated')])
+            icons = json.loads((target / 'preview-icons.json').read_text())['icons']
+            self.assertEqual([i['icon_id'] for i in icons], ['folder', 'unrelated'])
+            self.assertEqual(icons[0], {key: row.get(key, '') for key in
+                                       ('icon_id', 'name', 'family', 'preview_url', 'category')})
+            for asset in ('preview.html', 'preview.css', 'preview.js',
+                          'preview-scene.html', 'preview-scene.css', 'preview-scene.js',
+                          'preview-editor.js', 'preview-editor.css', 'preview-library.js', 'preview-more.js', 'preview-more.css'):
+                self.assertTrue((target / asset).is_file())
+            stage_preview(target, [])
+            self.assertEqual(json.loads((target / 'preview-icons.json').read_text())['icons'], [])
+
     def test_categories_follow_source_identity_including_variants_and_failures(self):
         catalog = {'categories': {'animals': {}, 'pets': {}, 'clothes': {}}, 'rows': [
             {'models': ['bird'], 'category': 'animals'},

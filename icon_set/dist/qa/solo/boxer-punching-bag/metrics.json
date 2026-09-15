@@ -249,7 +249,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -278,7 +278,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -289,9 +289,9 @@
             "centerlineDistance": 19.203842119337796,
             "inkClearance": 15.203842119337796,
             "signedInkClearance": 15.203842119337796,
-            "lowerBound": 19.202938172439577,
+            "lowerBound": 19.203603311174515,
             "upperBound": 19.20474606623602,
-            "inkClearanceLowerBound": 15.202938172439577,
+            "inkClearanceLowerBound": 15.203603311174515,
             "inkClearanceUpperBound": 15.20474606623602,
             "approximationError": 0.0009039468982153175,
             "nearestPoints": [
@@ -307,7 +307,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -318,9 +318,9 @@
             "centerlineDistance": 19.203842119337796,
             "inkClearance": 15.203842119337796,
             "signedInkClearance": 15.203842119337796,
-            "lowerBound": 19.202938172439577,
+            "lowerBound": 19.203603311174515,
             "upperBound": 19.20474606623602,
-            "inkClearanceLowerBound": 15.202938172439577,
+            "inkClearanceLowerBound": 15.203603311174515,
             "inkClearanceUpperBound": 15.20474606623602,
             "approximationError": 0.0009039468982153175,
             "nearestPoints": [
@@ -336,7 +336,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -394,7 +394,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -851,12 +851,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/boxer-punching-bag/icon.svg",
+    "holes": "solo/boxer-punching-bag/holes.png",
+    "spacing": "solo/boxer-punching-bag/spacing.png",
+    "spacing_svg": "solo/boxer-punching-bag/spacing.svg",
+    "internal-spacing": "solo/boxer-punching-bag/internal-spacing.png",
+    "internal_spacing_svg": "solo/boxer-punching-bag/internal-spacing.svg",
     "metrics": "solo/boxer-punching-bag/metrics.json"
   },
   "checks_run": [
@@ -908,6 +914,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -922,7 +929,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

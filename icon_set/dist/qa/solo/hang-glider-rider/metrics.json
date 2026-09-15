@@ -128,11 +128,11 @@
         "centerlineDistance": 9.225468706224044,
         "inkClearance": 5.225468706224044,
         "signedInkClearance": 5.225468706224044,
-        "lowerBound": 9.224564759325142,
+        "lowerBound": 9.22514410841916,
         "upperBound": 9.226372653122944,
-        "inkClearanceLowerBound": 5.224564759325142,
+        "inkClearanceLowerBound": 5.22514410841916,
         "inkClearanceUpperBound": 5.226372653122944,
-        "approximationError": 0.0009039468989016086,
+        "approximationError": 0.0009039468988998323,
         "nearestPoints": [
           [
             28.887928491621857,
@@ -171,9 +171,9 @@
             "centerlineDistance": 10.86433829624966,
             "inkClearance": 6.8643382962496595,
             "signedInkClearance": 6.8643382962496595,
-            "lowerBound": 10.86343434935076,
+            "lowerBound": 10.863621460498695,
             "upperBound": 10.865242243148561,
-            "inkClearanceLowerBound": 6.86343434935076,
+            "inkClearanceLowerBound": 6.863621460498695,
             "inkClearanceUpperBound": 6.865242243148561,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -189,7 +189,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -200,9 +200,9 @@
             "centerlineDistance": 9.225468706224044,
             "inkClearance": 5.225468706224044,
             "signedInkClearance": 5.225468706224044,
-            "lowerBound": 9.224564759325142,
+            "lowerBound": 9.22514410841916,
             "upperBound": 9.226372653122944,
-            "inkClearanceLowerBound": 5.224564759325142,
+            "inkClearanceLowerBound": 5.22514410841916,
             "inkClearanceUpperBound": 5.226372653122944,
             "approximationError": 0.0009039468988974386,
             "nearestPoints": [
@@ -218,7 +218,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -512,12 +512,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/hang-glider-rider/icon.svg",
+    "holes": "solo/hang-glider-rider/holes.png",
+    "spacing": "solo/hang-glider-rider/spacing.png",
+    "spacing_svg": "solo/hang-glider-rider/spacing.svg",
+    "internal-spacing": "solo/hang-glider-rider/internal-spacing.png",
+    "internal_spacing_svg": "solo/hang-glider-rider/internal-spacing.svg",
     "metrics": "solo/hang-glider-rider/metrics.json"
   },
   "checks_run": [
@@ -569,6 +575,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -583,7 +590,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -244,3 +244,50 @@ class AvatarContactTests(unittest.TestCase):
         icon = create('football-player-avatar')
         icon.category = 'test-other'
         self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])
+
+
+class CurvedBustContactTests(unittest.TestCase):
+    class Bust(Solo48):
+        icon_id = 'curved-bust-contact-fixture'
+        keyshape = Keyshape.SQUARE
+        category = 'culture/religion'
+        human_construction = 'bust'
+
+        def build(self):
+            self.add_arc('face', (34,19), (14,19), radius_x=10)
+            self.add_arc('shoulders', (8,40), (40,40), radius_x=16, radius_y=7)
+            self.relate('connect', 'face', 'shoulders')
+
+    def test_declared_circular_jaw_touches_curved_shoulders_exactly(self):
+        icon = self.Bust()
+        self.assertEqual(analyze_internal_spacing(icon, icon.draw())['findings'], [])
+
+    def test_bust_tag_does_not_accept_overlap_near_contact_or_offset(self):
+        from dataclasses import replace
+        from icon_set.model.primitives import Point
+        for dx, dy in ((0,-1), (0,1), (1,0)):
+            with self.subTest(dx=dx, dy=dy):
+                icon = self.Bust()
+                icon.primitives = [replace(p, start=Point(p.start.x+dx,p.start.y+dy),
+                                           end=Point(p.end.x+dx,p.end.y+dy))
+                                   if p.element_id == 'shoulders' else p
+                                   for p in icon.primitives]
+                self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])
+
+    def test_untyped_curves_and_oval_faces_keep_normal_review(self):
+        from dataclasses import replace
+        icon = self.Bust()
+        icon.human_construction = 'outlined-body'
+        self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])
+        icon = self.Bust()
+        icon.primitives = [replace(p, radius_y=9) if p.element_id == 'face' else p
+                           for p in icon.primitives]
+        self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])
+
+    def test_tangency_requires_a_direct_scoped_connection(self):
+        from icon_set.validation.internal_spacing import _avatar_tangent_contact
+        icon = self.Bust()
+        icon.relationships = []
+        face, shoulders = icon.primitives
+        self.assertFalse(_avatar_tangent_contact(icon, face, shoulders,
+                                                'face', 'shoulders', icon.draw()))

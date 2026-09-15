@@ -90,9 +90,9 @@
         "centerlineDistance": 11.155870861613534,
         "inkClearance": 7.1558708616135345,
         "signedInkClearance": 7.1558708616135345,
-        "lowerBound": 11.155493770037413,
+        "lowerBound": 11.15549442140351,
         "upperBound": 11.156247953189657,
-        "inkClearanceLowerBound": 7.155493770037413,
+        "inkClearanceLowerBound": 7.15549442140351,
         "inkClearanceUpperBound": 7.1562479531896575,
         "approximationError": 0.0003770915761229787,
         "nearestPoints": [
@@ -131,9 +131,9 @@
             "centerlineDistance": 11.155870861613534,
             "inkClearance": 7.1558708616135345,
             "signedInkClearance": 7.1558708616135345,
-            "lowerBound": 11.155493770037413,
+            "lowerBound": 11.15549442140351,
             "upperBound": 11.156247953189657,
-            "inkClearanceLowerBound": 7.155493770037413,
+            "inkClearanceLowerBound": 7.15549442140351,
             "inkClearanceUpperBound": 7.1562479531896575,
             "approximationError": 0.0003770915761188863,
             "nearestPoints": [
@@ -149,7 +149,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -321,12 +321,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/person-with-angular-heart-torso/icon.svg",
+    "holes": "solo/person-with-angular-heart-torso/holes.png",
+    "spacing": "solo/person-with-angular-heart-torso/spacing.png",
+    "spacing_svg": "solo/person-with-angular-heart-torso/spacing.svg",
+    "internal-spacing": "solo/person-with-angular-heart-torso/internal-spacing.png",
+    "internal_spacing_svg": "solo/person-with-angular-heart-torso/internal-spacing.svg",
     "metrics": "solo/person-with-angular-heart-torso/metrics.json"
   },
   "checks_run": [
@@ -378,6 +384,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -392,7 +399,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

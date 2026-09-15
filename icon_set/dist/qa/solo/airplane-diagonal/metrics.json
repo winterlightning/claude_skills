@@ -15,7 +15,7 @@
         "elementId": "airframe",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 6 A 8 8 0 0 1 42 14 L 34 24 L 40 36 L 36 40 L 26 30 L 20 36 L 22 42 L 16 42 L 12 34 L 6 30 L 6 24 L 14 26 L 20 20 L 8 12 L 12 8 L 26 14 L 34 6 Z",
+        "pathData": "M 34 6 A 8 8 0 0 1 42 14 L 34 24 L 42 34 L 34 42 L 26 30 L 20 36 L 22 42 L 12 42 L 12 36 L 6 34 L 6 24 L 14 26 L 20 20 L 6 12 L 12 6 L 26 14 L 34 6 Z",
         "bounds": [
           6.0,
           6.0,
@@ -97,9 +97,9 @@
           31.9688,
           31.9375
         ],
-        "area_ship_px2": 397.7236,
-        "equivalent_diameter_ship_px": 22.5033,
-        "equivalent_diameter_design_u": 22.5033,
+        "area_ship_px2": 473.7578,
+        "equivalent_diameter_ship_px": 24.5603,
+        "equivalent_diameter_design_u": 24.5603,
         "inscribed_diameter_ship_px": 10.7147,
         "inscribed_diameter_design_u": 10.7147,
         "inscribed_radius_ship_px": 5.3574,
@@ -134,9 +134,9 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 627.082,
-        "equivalent_diameter_ship_px": 28.2564,
-        "equivalent_diameter_design_u": 28.2564,
+        "area_ship_px2": 723.8223,
+        "equivalent_diameter_ship_px": 30.3579,
+        "equivalent_diameter_design_u": 30.3579,
         "inscribed_diameter_ship_px": 13.7753,
         "inscribed_diameter_design_u": 13.7753,
         "inscribed_radius_ship_px": 6.8876,
@@ -159,6 +159,11 @@
   },
   "artifacts": {
     "svg": "solo/airplane-diagonal/icon.svg",
+    "holes": "solo/airplane-diagonal/holes.png",
+    "spacing": "solo/airplane-diagonal/spacing.png",
+    "spacing_svg": "solo/airplane-diagonal/spacing.svg",
+    "internal-spacing": "solo/airplane-diagonal/internal-spacing.png",
+    "internal_spacing_svg": "solo/airplane-diagonal/internal-spacing.svg",
     "metrics": "solo/airplane-diagonal/metrics.json"
   },
   "checks_run": [
@@ -171,7 +176,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "1782706fbd4512270a1ffa1087f8bb4c475d88c2af405184eff750a330aeaa16",
+  "svg_sha256": "ad6e921d39bd842c58cb1231ff2a759d382a22821b11f662d5b1f563374df864",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -227,7 +232,7 @@
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -239,119 +244,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "airframe",
-        "elements": [
-          "outline-2",
-          "outline-4"
-        ],
-        "status": "review",
-        "sustained_length": 6.9567,
-        "centerline_distance": 5.8533,
-        "ink_gap": 1.8533,
-        "nearest_points": [
-          [
-            39.72222222222222,
-            35.44444444444444
-          ],
-          [
-            35.583333333333336,
-            39.583333333333336
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the airplane diagonal silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
-      },
-      {
-        "contour": "airframe",
-        "elements": [
-          "outline-6",
-          "outline-8"
-        ],
-        "status": "review",
-        "sustained_length": 3.4783,
-        "centerline_distance": 5.7799,
-        "ink_gap": 1.7799,
-        "nearest_points": [
-          [
-            21.205555555555563,
-            39.61666666666669
-          ],
-          [
-            15.722222222222221,
-            41.44444444444444
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the airplane diagonal silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
-      },
-      {
-        "contour": "airframe",
-        "elements": [
-          "outline-9",
-          "outline-11"
-        ],
-        "status": "review",
-        "sustained_length": 5.9678,
-        "centerline_distance": 6.0299,
-        "ink_gap": 2.0299,
-        "nearest_points": [
-          [
-            6.517241379310345,
-            30.344827586206897
-          ],
-          [
-            7.979716024340812,
-            24.494929006085204
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the airplane diagonal silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
-      },
-      {
-        "contour": "airframe",
-        "elements": [
-          "outline-13",
-          "outline-15"
-        ],
-        "status": "review",
-        "sustained_length": 12.4849,
-        "centerline_distance": 5.6607,
-        "ink_gap": 1.6607,
-        "nearest_points": [
-          [
-            9.433795712484256,
-            12.955863808322835
-          ],
-          [
-            12.573770491803279,
-            8.245901639344261
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the airplane diagonal silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 4
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

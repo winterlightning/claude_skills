@@ -180,9 +180,9 @@
             "centerlineDistance": 18.00002528712811,
             "inkClearance": 14.00002528712811,
             "signedInkClearance": 14.00002528712811,
-            "lowerBound": 17.999421940606588,
+            "lowerBound": 18.0,
             "upperBound": 18.000628633649637,
-            "inkClearanceLowerBound": 13.999421940606588,
+            "inkClearanceLowerBound": 14.0,
             "inkClearanceUpperBound": 14.000628633649637,
             "approximationError": 0.0006033465215173697,
             "nearestPoints": [
@@ -198,7 +198,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -402,12 +402,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/person-bust-with-strap/icon.svg",
+    "holes": "solo/person-bust-with-strap/holes.png",
+    "spacing": "solo/person-bust-with-strap/spacing.png",
+    "spacing_svg": "solo/person-bust-with-strap/spacing.svg",
+    "internal-spacing": "solo/person-bust-with-strap/internal-spacing.png",
+    "internal_spacing_svg": "solo/person-bust-with-strap/internal-spacing.svg",
     "metrics": "solo/person-bust-with-strap/metrics.json"
   },
   "checks_run": [
@@ -459,6 +465,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -473,7 +480,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

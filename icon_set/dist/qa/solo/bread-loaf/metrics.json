@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [loaf / slice]: loaf-3 and slice-0 have -3.834 units of ink clearance over 2.75 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -17,14 +15,14 @@
         "elementId": "loaf",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 40 L 10 22 C 6 22 4 19 4 16 C 4 10 8 8 14 8 L 34 8 C 40 8 44 10 44 16 C 44 19 42 22 38 22 L 40 40 L 8 40 Z",
+        "pathData": "M 8 40 L 10 22 C 6 22 4 19 4 16 C 4 10 8 8 14 8 L 26 8 L 34 8 C 40 8 44 10 44 16 C 44 19 42 22 38 22 L 40 40 L 30 40 L 8 40 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 323,
+        "segmentCount": 325,
         "approximationError": 0.0009989713173570712,
         "hasCurves": true
       },
@@ -75,10 +73,10 @@
           "loaf:subpath-1",
           "slice:subpath-1"
         ],
-        "reason": "exact original straight-segment intersection",
+        "reason": "shared original drawn-command endpoint",
         "point": [
-          30.0,
-          40.0
+          26.0,
+          8.0
         ]
       }
     ],
@@ -95,10 +93,10 @@
             "loaf:subpath-1",
             "slice:subpath-1"
           ],
-          "reason": "exact original straight-segment intersection",
+          "reason": "shared original drawn-command endpoint",
           "point": [
-            30.0,
-            40.0
+            26.0,
+            8.0
           ]
         }
       }
@@ -118,11 +116,11 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 13,
-      "flattenedSegments": 452,
+      "commands": 15,
+      "flattenedSegments": 454,
       "adaptiveNodes": 887,
       "distanceTests": 0,
-      "connectionTests": 1
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -267,12 +265,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/bread-loaf/icon.svg",
+    "holes": "solo/bread-loaf/holes.png",
+    "spacing": "solo/bread-loaf/spacing.png",
+    "spacing_svg": "solo/bread-loaf/spacing.svg",
+    "internal-spacing": "solo/bread-loaf/internal-spacing.png",
+    "internal_spacing_svg": "solo/bread-loaf/internal-spacing.svg",
     "metrics": "solo/bread-loaf/metrics.json"
   },
   "checks_run": [
@@ -285,7 +289,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "aec15d28f613fda39bb23847200611e8a2252b290371f0d59bc31784247b3c8c",
+  "svg_sha256": "23f03fc298df4dedb694ba87f82209f024ced89211e7de275cb70e6bebfa4a5b",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -324,6 +328,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -338,9 +343,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -352,30 +357,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "loaf / slice",
-        "elements": [
-          "loaf-3",
-          "slice-0"
-        ],
-        "status": "review",
-        "sustained_length": 2.75,
-        "centerline_distance": 0.166,
-        "ink_gap": -3.834,
-        "nearest_points": [
-          [
-            26.625,
-            8.0
-          ],
-          [
-            26.57892571059968,
-            8.15943328383432
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

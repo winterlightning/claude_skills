@@ -177,11 +177,11 @@
         "centerlineDistance": 0.48528137423857226,
         "inkClearance": 0.0,
         "signedInkClearance": -3.514718625761428,
-        "lowerBound": 0.48467802771659824,
+        "lowerBound": 0.48528137423856954,
         "upperBound": 0.48588472076054623,
         "inkClearanceLowerBound": 0.0,
         "inkClearanceUpperBound": 0.0,
-        "approximationError": 0.0006033465219740242,
+        "approximationError": 0.0006033465219739687,
         "nearestPoints": [
           [
             37.656854249492376,
@@ -218,7 +218,7 @@
             "centerlineDistance": 0.48528137423857226,
             "inkClearance": 0.0,
             "signedInkClearance": -3.514718625761428,
-            "lowerBound": 0.48467802771659824,
+            "lowerBound": 0.48528137423856954,
             "upperBound": 0.48588472076054623,
             "inkClearanceLowerBound": 0.0,
             "inkClearanceUpperBound": 0.0,
@@ -250,7 +250,7 @@
         "centerlineDistance": 0.485281374238571,
         "inkClearance": 0.0,
         "signedInkClearance": -3.514718625761429,
-        "lowerBound": 0.484678027716597,
+        "lowerBound": 0.48528137423856954,
         "upperBound": 0.485884720760545,
         "inkClearanceLowerBound": 0.0,
         "inkClearanceUpperBound": 0.0,
@@ -291,7 +291,7 @@
             "centerlineDistance": 0.485281374238571,
             "inkClearance": 0.0,
             "signedInkClearance": -3.514718625761429,
-            "lowerBound": 0.484678027716597,
+            "lowerBound": 0.48528137423856954,
             "upperBound": 0.485884720760545,
             "inkClearanceLowerBound": 0.0,
             "inkClearanceUpperBound": 0.0,
@@ -323,7 +323,7 @@
         "centerlineDistance": 0.24623821949266608,
         "inkClearance": 0.0,
         "signedInkClearance": -3.753761780507334,
-        "lowerBound": 0.24563487297069217,
+        "lowerBound": 0.2462112512353194,
         "upperBound": 0.24684156601464002,
         "inkClearanceLowerBound": 0.0,
         "inkClearanceUpperBound": 0.0,
@@ -365,7 +365,7 @@
             "centerlineDistance": 0.24623821949266608,
             "inkClearance": 0.0,
             "signedInkClearance": -3.753761780507334,
-            "lowerBound": 0.24563487297069217,
+            "lowerBound": 0.2462112512353194,
             "upperBound": 0.24684156601464002,
             "inkClearanceLowerBound": 0.0,
             "inkClearanceUpperBound": 0.0,
@@ -394,9 +394,9 @@
             "centerlineDistance": 8.259677553377077,
             "inkClearance": 4.259677553377077,
             "signedInkClearance": 4.259677553377077,
-            "lowerBound": 8.259074206855102,
+            "lowerBound": 8.259657763564253,
             "upperBound": 8.260280899899055,
-            "inkClearanceLowerBound": 4.259074206855102,
+            "inkClearanceLowerBound": 4.2596577635642525,
             "inkClearanceUpperBound": 4.260280899899055,
             "approximationError": 0.0006033465219738934,
             "nearestPoints": [
@@ -412,7 +412,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ],
@@ -899,12 +899,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/circinus-state/icon.svg",
+    "holes": "solo/circinus-state/holes.png",
+    "spacing": "solo/circinus-state/spacing.png",
+    "spacing_svg": "solo/circinus-state/spacing.svg",
+    "internal-spacing": "solo/circinus-state/internal-spacing.png",
+    "internal_spacing_svg": "solo/circinus-state/internal-spacing.svg",
     "metrics": "solo/circinus-state/metrics.json"
   },
   "checks_run": [
@@ -956,6 +962,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -970,7 +977,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

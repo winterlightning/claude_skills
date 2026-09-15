@@ -129,6 +129,24 @@ class Contour:
 
 
 @dataclass(frozen=True)
+class HumanFigure:
+    """Detached stick-figure parts; gap values are targets, not measurements."""
+
+    figure_id: str
+    head: str
+    torso: str
+    torso_junction: Literal["start", "end"]
+
+    @property
+    def centerline_gap(self) -> int:
+        return 8
+
+    @property
+    def ink_gap(self) -> int:
+        return 4
+
+
+@dataclass(frozen=True)
 class ResolvedDrawing:
     primitives: tuple[Primitive, ...]
     contours: tuple[Contour, ...]
@@ -136,6 +154,7 @@ class ResolvedDrawing:
     relationships: tuple[Relationship, ...]
     # Explicit ownership of flattened primitives and contours, assigned by composition.
     owners: tuple[tuple[str, int], ...] = ()
+    human_figures: tuple[HumanFigure, ...] = ()
 
     def by_id(self) -> dict[str, Primitive]:
         return {primitive.element_id: primitive for primitive in self.primitives}

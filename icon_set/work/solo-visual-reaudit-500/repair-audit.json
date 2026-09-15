@@ -2,10 +2,8 @@
   {
     "number": 7,
     "icon_id": "hiker-backpack-pole-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and pack are 7.96921 apart on centerlines nearest (26.7519, 15.4661)<->(23.188, 22.594); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [front-leg / arm]: front-leg-1 and arm-1 have 2.846 units of ink clearance over 3.4757 units; requires 4; review required"
     ],
@@ -18,8 +16,9 @@
     "status": "review",
     "errors": [],
     "warnings": [
-      "internal-spacing [arm / hull]: arm-1 and hull-0 have 0.1515 units of ink clearance over 7.2467 units; requires 4; review required",
-      "internal-spacing [leg-extended / hull]: leg-extended-0 and hull-2 have 0.7781 units of ink clearance over 7.2467 units; requires 4; review required"
+      "internal-spacing [deck / torso]: deck-0 and torso have 2.2707 units of ink clearance over 3.25 units; requires 4; review required",
+      "internal-spacing [deck / torso]: deck-1 and torso have 1.1793 units of ink clearance over 3.3984 units; requires 4; review required",
+      "internal-spacing [deck / extended-leg-0]: deck-1 and extended-leg-0 have 1.2778 units of ink clearance over 6.2113 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -36,14 +35,9 @@
   {
     "number": 15,
     "icon_id": "kayak-cockpit-paddle-v2",
-    "status": "fail",
-    "errors": [
-      "mic [cockpit]: parallel straight edges cockpit-r and cockpit-l are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)"
-    ],
-    "warnings": [
-      "mic [hull]: hull and cockpit are 7.99888 apart on centerlines nearest (25.6484, 31.28)<->(18.6458, 27.4142); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
-      "internal-spacing [cockpit]: cockpit-r and cockpit-l have 2 units of ink clearance over 3 units; requires 4; review required"
-    ],
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
     "holes": 0,
     "pinches": 0
   },
@@ -92,21 +86,30 @@
   {
     "number": 44,
     "icon_id": "person-crossing-street-v2",
-    "status": "fail",
-    "errors": [
-      "mic [person-head]: person-head and person-arms are 7.85439 apart on centerlines nearest (27.7851, 15.8502)<->(25.8801, 23.47); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [person-arms / person-legs]: person-arms-2 and person-legs-2 have 2.5748 units of ink clearance over 3.488 units; requires 4; review required"
     ],
-    "warnings": [],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 45,
+    "icon_id": "person-directing-box-carrier-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [carrier / carrying-arm]: carrier-2 and carrying-arm have 3.0691 units of ink clearance over 2.9848 units; requires 4; review required"
+    ],
     "holes": 0,
     "pinches": 0
   },
   {
     "number": 46,
     "icon_id": "person-kicking-ball-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and arm-front are 7.99179 apart on centerlines nearest (27.2005, 15.665)<->(24.3944, 23.1479); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [leg-back / leg-front]: leg-back-1 and leg-front-2 have 3.4 units of ink clearance over 3.4783 units; requires 4; review required"
     ],
@@ -116,10 +119,8 @@
   {
     "number": 47,
     "icon_id": "person-leaning-over-toilet-v2",
-    "status": "fail",
-    "errors": [
-      "mic [person-head]: person-head and person-arm are 7.99179 apart on centerlines nearest (19.2005, 17.665)<->(16.3944, 25.1479); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [toilet / bowl]: toilet-4 and bowl have 2.046 units of ink clearance over 6.75 units; requires 4; review required"
     ],
@@ -132,8 +133,8 @@
     "status": "review",
     "errors": [],
     "warnings": [
-      "internal-spacing [body / far-arm]: body-2 and far-arm have 3.8423 units of ink clearance over 3.25 units; requires 4; review required",
-      "internal-spacing [rear-leg / mop-head]: rear-leg-1 and mop-head-3 have -0.9639 units of ink clearance over 2.7359 units; requires 4; review required"
+      "internal-spacing [rear-leg / mop-head]: rear-leg-1 and mop-head-3 have -0.9639 units of ink clearance over 2.7359 units; requires 4; review required",
+      "internal-spacing [body-section-1 / far-arm]: body-2 and far-arm have 3.8423 units of ink clearance over 3.25 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -163,10 +164,8 @@
   {
     "number": 51,
     "icon_id": "person-running-through-doorway-v2",
-    "status": "fail",
-    "errors": [
-      "mic [person-head]: person-head and person-arms are 7.71425 apart on centerlines nearest (22.1236, 21.9028)<->(20.4501, 29.4334); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [person-arms / person-legs]: person-arms-3 and person-legs-2 have 1.2778 units of ink clearance over 6.2113 units; requires 4; review required"
     ],
@@ -188,12 +187,10 @@
   {
     "number": 53,
     "icon_id": "person-slipping-backward-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and arm-right are 7.374 apart on centerlines nearest (28.6322, 15.9865)<->(28.0198, 23.335); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [body-leg / leg-left]: body-leg-2 and leg-left-2 have 3.0113 units of ink clearance over 4.2426 units; requires 4; review required"
+      "internal-spacing [leg-left / body-leg-section-1]: leg-left-2 and body-leg-2 have 3.0113 units of ink clearance over 4.2426 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -210,15 +207,45 @@
     "pinches": 0
   },
   {
+    "number": 59,
+    "icon_id": "politician-at-podium-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [shoulders / sash]: shoulder-left and sash have 3.0473 units of ink clearance over 3.4495 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
     "number": 60,
     "icon_id": "pool-jump-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and body are 7.98003 apart on centerlines nearest (31.2923, 19.6844)<->(23.7672, 22.3404); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [body]: body-2 and body-4 have 2.7986 units of ink clearance over 3.1821 units; requires 4; review required",
-      "internal-spacing [body / arm]: body-3 and arm have 2.2902 units of ink clearance over 9.4219 units; requires 4; review required"
+      "internal-spacing [body / body-section-2]: body-1 and body-3 have 2.5468 units of ink clearance over 3.2138 units; requires 4; review required",
+      "internal-spacing [body-section-1 / body-section-2]: body-2 and body-4 have 2.7986 units of ink clearance over 3.1821 units; requires 4; review required",
+      "internal-spacing [body-section-2 / arm]: body-3 and arm have 2.2902 units of ink clearance over 9.4219 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 64,
+    "icon_id": "protester-carrying-flag-v2",
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 69,
+    "icon_id": "ribbon-gymnast-circle-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [right-arm-0 / right-leg-0]: right-arm-0 and right-leg-0 have -0.144 units of ink clearance over 8.4699 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -229,8 +256,18 @@
     "status": "review",
     "errors": [],
     "warnings": [
-      "mic [head]: head and arm are 7.99995 apart on centerlines nearest (15.6194, 12.9134)<->(22.9871, 16.0305); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
-      "internal-spacing [bent-leg / arm]: bent-leg-1 and arm have 2.2594 units of ink clearance over 6.6494 units; requires 4; review required"
+      "internal-spacing [bent-leg / arm]: bent-leg-1 and arm have 1.7147 units of ink clearance over 7.6345 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 78,
+    "icon_id": "sashed-speaker-at-podium-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [body / sash]: shoulder-left and sash have 2.0292 units of ink clearance over 9.237 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -249,14 +286,9 @@
   {
     "number": 89,
     "icon_id": "seated-sauna-bather-v2",
-    "status": "fail",
-    "errors": [
-      "mic [arm]: parallel straight edges arm and person-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)"
-    ],
-    "warnings": [
-      "mic [person]: person and bench are 8 apart on centerlines nearest (14, 31)<->(14, 39); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
-      "internal-spacing [person / arm]: person-2 and arm have 3 units of ink clearance over 10 units; requires 4; review required"
-    ],
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
     "holes": 0,
     "pinches": 0
   },
@@ -266,7 +298,7 @@
     "status": "review",
     "errors": [],
     "warnings": [
-      "internal-spacing [rider / ski]: rider-2 and ski-1 have 2.7594 units of ink clearance over 6.75 units; requires 4; review required"
+      "internal-spacing [ski / rider-section-1]: ski-1 and rider-2 have 2.7594 units of ink clearance over 6.75 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -296,12 +328,46 @@
   {
     "number": 100,
     "icon_id": "snow-scooter-rider-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and arms are 7.91207 apart on centerlines nearest (23.6664, 15.8189)<->(21.4928, 23.4265); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [stem / runner]: stem-2 and runner-4 have 1.6402 units of ink clearance over 6.9879 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 101,
+    "icon_id": "snowboard-jump-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [torso / left-arm]: torso-2 and left-arm-0 have 0.2419 units of ink clearance over 3.4394 units; requires 4; review required",
+      "internal-spacing [torso / right-arm]: torso-2 and right-arm-0 have 1.4985 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [rear-leg / board]: rear-leg-1 and board-2 have 3.3511 units of ink clearance over 2.2274 units; requires 4; review required",
+      "internal-spacing [board / right-arm]: board-3 and right-arm-0 have 2.9877 units of ink clearance over 2.5 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 102,
+    "icon_id": "snowboarder-ramp-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [right-arm / right-leg-0]: right-arm-0 and right-leg-0 have 3.0272 units of ink clearance over 2.4866 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 103,
+    "icon_id": "speaker-at-podium-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [podium / shoulders]: podium-2 and shoulders have 0.1208 units of ink clearance over 16.7994 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -320,13 +386,12 @@
   {
     "number": 112,
     "icon_id": "surfer-on-board-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and arms are 7.91827 apart on centerlines nearest (27.5355, 17.3504)<->(23.6901, 24.2723); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [arms / body]: arms-3 and body-2 have 2.1197 units of ink clearance over 6.4183 units; requires 4; review required",
-      "internal-spacing [body / surfboard]: body-2 and board-1 have 0.6729 units of ink clearance over 7.6961 units; requires 4; review required"
+      "internal-spacing [arms / body-section-1]: arms-2 and body-2 have 1.6808 units of ink clearance over 2.2344 units; requires 4; review required",
+      "internal-spacing [arms / body-section-1]: arms-3 and body-2 have 2.1197 units of ink clearance over 6.4183 units; requires 4; review required",
+      "internal-spacing [surfboard / body-section-1]: board-1 and body-2 have 0.6729 units of ink clearance over 7.6961 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -379,12 +444,10 @@
   {
     "number": 138,
     "icon_id": "water-skier-holding-tow-line-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and arms are 7.95873 apart on centerlines nearest (13.2943, 15.9892)<->(13.9552, 23.9204); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [body / arms]: body-2 and arms-1 have 2.0188 units of ink clearance over 6.3894 units; requires 4; review required"
+      "internal-spacing [arms / body-section-1]: arms-1 and body-2 have 1.9724 units of ink clearance over 8.5 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -392,16 +455,12 @@
   {
     "number": 142,
     "icon_id": "wheelchair-user-holding-a-flag-v2",
-    "status": "fail",
-    "errors": [
-      "canvas/keyshape bounds: visible ink (7.1225, 4, 44, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [3.1225, 0.0, 0.0, 0.0], tolerance 0.0)",
-      "mic [head]: head and arm are 7.96952 apart on centerlines nearest (16.2943, 14.9892)<->(16.8621, 22.9384); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
-      "holes/pinches: 1 undersized holes; 0 pinches"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [person / arm]: person-2 and arm-1 have 3.0439 units of ink clearance over 13.0507 units; requires 4; review required"
+      "internal-spacing [wheel / person]: wheel-left and person-2 have 2.7212 units of ink clearance over 4.7372 units; requires 4; review required"
     ],
-    "holes": 1,
+    "holes": 0,
     "pinches": 0
   },
   {
@@ -410,7 +469,8 @@
     "status": "review",
     "errors": [],
     "warnings": [
-      "internal-spacing [adult-arms / adult-legs]: adult-arms-2 and adult-legs-2 have 1.8744 units of ink clearance over 4.4329 units; requires 4; review required"
+      "internal-spacing [adult-legs / adult-right-arm-0]: adult-legs-1 and adult-right-arm-0 have 3.3499 units of ink clearance over 2.2136 units; requires 4; review required",
+      "internal-spacing [child-legs / child-right-arm-0]: child-legs-1 and child-right-arm-0 have 0.072 units of ink clearance over 6.7031 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0
@@ -418,25 +478,28 @@
   {
     "number": 168,
     "icon_id": "canoe-paddler-v2",
-    "status": "fail",
-    "errors": [
-      "holes/pinches: 1 undersized holes; 0 pinches"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
-      "internal-spacing [paddler / gunwale]: paddler-2 and gunwale have 3.2715 units of ink clearance over 6 units; requires 4; review required",
-      "internal-spacing [paddler / paddle]: paddler-3 and paddle-1 have -3.1071 units of ink clearance over 5.7349 units; requires 4; review required",
-      "internal-spacing [paddler / paddle]: paddler-3 and paddle-2 have -2.4618 units of ink clearance over 6.7138 units; requires 4; review required"
+      "internal-spacing [paddler-section-1 / gunwale]: paddler-2 and gunwale-1 have 3.2715 units of ink clearance over 6 units; requires 4; review required"
     ],
-    "holes": 1,
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 173,
+    "icon_id": "children-on-seesaw-v2",
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
+    "holes": 0,
     "pinches": 0
   },
   {
     "number": 186,
     "icon_id": "discus-thrower-v2",
-    "status": "fail",
-    "errors": [
-      "mic [head]: head and extended-arm-0 are 6.87955 apart on centerlines nearest (26.0262, 15.571)<->(28.8203, 21.8577); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
-    ],
+    "status": "review",
+    "errors": [],
     "warnings": [
       "internal-spacing [discus / holding-arm]: discus-right and holding-arm-0 have 2.4632 units of ink clearance over 5.25 units; requires 4; review required",
       "internal-spacing [holding-arm / rear-leg]: holding-arm-0 and rear-leg-0 have 2.7692 units of ink clearance over 5 units; requires 4; review required"
@@ -452,6 +515,289 @@
     "warnings": [
       "internal-spacing [ball / table]: ball-br and table-1 have 2.046 units of ink clearance over 6.5 units; requires 4; review required",
       "internal-spacing [ball / table]: ball-bl and table-0 have 2.0246 units of ink clearance over 3.6958 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 230,
+    "icon_id": "horse-skijoring-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [horse]: horse-4 and horse-8 have -0.0076 units of ink clearance over 7 units; requires 4; review required",
+      "internal-spacing [horse]: horse-5 and horse-7 have 2.2223 units of ink clearance over 4.6731 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 232,
+    "icon_id": "inline-skater-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [left-arm / front-leg]: left-arm-0 and front-leg-0 have 1.1974 units of ink clearance over 7.4896 units; requires 4; review required",
+      "internal-spacing [left-arm / back-leg]: left-arm-0 and back-leg-0 have 1.2143 units of ink clearance over 6.347 units; requires 4; review required",
+      "internal-spacing [right-arm / front-leg]: right-arm-0 and front-leg-0 have 3.2996 units of ink clearance over 2.4267 units; requires 4; review required",
+      "internal-spacing [front-leg / skate]: front-leg-0 and skate-0 have 0.6248 units of ink clearance over 2 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 235,
+    "icon_id": "kneeling-person-with-raised-hands-v3",
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 263,
+    "icon_id": "pair-of-runners-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [left-front-leg / left-back-leg-0]: left-front-leg-1 and left-back-leg-0 have 3.0819 units of ink clearance over 2.6758 units; requires 4; review required",
+      "internal-spacing [right-back-arm / right-body-0]: right-back-arm-1 and right-body-0 have 0.8788 units of ink clearance over 2.249 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 270,
+    "icon_id": "person-descending-stairs-v3",
+    "status": "pass",
+    "errors": [],
+    "warnings": [],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 273,
+    "icon_id": "person-tripping-over-rock-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [person-torso / person-arms]: person-torso-1 and person-arms-1 have 2.3387 units of ink clearance over 5.4905 units; requires 4; review required",
+      "internal-spacing [person-arms / person-legs]: person-arms-1 and person-legs-1 have 1.7733 units of ink clearance over 2.7452 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 274,
+    "icon_id": "person-with-bindle-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [torso / arm]: torso-1 and arm-2 have 1.4798 units of ink clearance over 3.9982 units; requires 4; review required",
+      "internal-spacing [torso / arm]: torso-2 and arm-2 have -0.8434 units of ink clearance over 5.4705 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 303,
+    "icon_id": "seated-pregnant-person-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [abdomen / back-and-leg-section-1]: belly and back-and-leg-3 have 3.1436 units of ink clearance over 3.5408 units; requires 4; review required",
+      "internal-spacing [abdomen / back-and-leg-section-1]: front-leg and back-and-leg-3 have 0.1961 units of ink clearance over 9.4248 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 340,
+    "icon_id": "wakeboarder-v3",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [board / rider-section-2]: board-top-2 and rider-3 have 1.3914 units of ink clearance over 6.5 units; requires 4; review required",
+      "internal-spacing [rider / rider-section-2]: rider-1 and rider-3 have 1.3914 units of ink clearance over 6.5 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 342,
+    "icon_id": "water-skier-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [arm / body-section-1]: arm-1 and body-2 have 2.5881 units of ink clearance over 2.4431 units; requires 4; review required",
+      "internal-spacing [arm / body-section-1]: arm-2 and body-2 have 3.1475 units of ink clearance over 7 units; requires 4; review required",
+      "internal-spacing [ski / body-section-1]: ski-left and body-2 have 3.142 units of ink clearance over 2.0629 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 347,
+    "icon_id": "windsurfer-holding-sail-v3",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [sail / board]: sail-foot and board-3 have 1.5322 units of ink clearance over 7.7234 units; requires 4; review required",
+      "internal-spacing [rider / rider-section-2]: rider-2 and rider-4 have 0.8686 units of ink clearance over 6.5 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 392,
+    "icon_id": "snowboarder-balancing-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [arms / leg-right]: arms-2 and leg-right-1 have 3.1668 units of ink clearance over 2.2385 units; requires 4; review required",
+      "internal-spacing [arms / leg-right]: arms-3 and leg-right-1 have 1.9307 units of ink clearance over 8.1795 units; requires 4; review required",
+      "internal-spacing [leg-left / board]: leg-left-1 and board-3 have 1.7487 units of ink clearance over 4.8534 units; requires 4; review required",
+      "internal-spacing [leg-right / board]: leg-right-1 and board-3 have 3.8426 units of ink clearance over 3.4885 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 396,
+    "icon_id": "stationary-bike-rider-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [arms / rider-section-1]: arms-1 and rider-2 have 0.5629 units of ink clearance over 6.432 units; requires 4; review required",
+      "internal-spacing [base / rider]: top-1 and rider-1 have 3.2817 units of ink clearance over 2.5661 units; requires 4; review required",
+      "internal-spacing [base / rider-section-1]: top-1 and rider-2 have 1.0023 units of ink clearance over 8.75 units; requires 4; review required",
+      "internal-spacing [base / rider-section-1]: top-2 and rider-2 have 0.15 units of ink clearance over 3.216 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 397,
+    "icon_id": "surfer-beside-breaking-wave-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [arms / board]: arms-1 and board-1 have 1.0877 units of ink clearance over 10.1724 units; requires 4; review required",
+      "internal-spacing [arms / body-section-1]: arms-1 and body-2 have -0.697 units of ink clearance over 3.6647 units; requires 4; review required",
+      "internal-spacing [arms / board]: arms-2 and board-1 have 2.5313 units of ink clearance over 2.9414 units; requires 4; review required",
+      "internal-spacing [arms / board]: arms-2 and board-2 have 2.7407 units of ink clearance over 5.4819 units; requires 4; review required",
+      "internal-spacing [arms / body-section-1]: arms-2 and body-2 have 0.8389 units of ink clearance over 5.6377 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 421,
+    "icon_id": "horseback-rider-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [arm / horse]: arm-1 and horse-4 have 2.1515 units of ink clearance over 7.2467 units; requires 4; review required",
+      "internal-spacing [arm / rider-section-1]: arm-1 and rider-2 have 2.1515 units of ink clearance over 7.2467 units; requires 4; review required",
+      "internal-spacing [horse / belly]: horse-3 and belly have 2.1923 units of ink clearance over 5.3515 units; requires 4; review required",
+      "internal-spacing [horse]: horse-5 and horse-10 have 0.9075 units of ink clearance over 5.8738 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 425,
+    "icon_id": "person-climbing-stairs-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [person-legs / stairs]: person-legs-2 and stairs-2 have 3.4255 units of ink clearance over 5.75 units; requires 4; review required",
+      "internal-spacing [person-legs / forward-arm]: person-legs-2 and forward-arm-0 have 2.061 units of ink clearance over 7.1084 units; requires 4; review required",
+      "internal-spacing [person-legs / person-arms-1]: person-legs-2 and person-arms-1 have 1.8705 units of ink clearance over 3.6768 units; requires 4; review required",
+      "internal-spacing [person-legs / stairs]: person-legs-3 and stairs-2 have 2.2778 units of ink clearance over 3.4783 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 426,
+    "icon_id": "person-riding-handcycle-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [rear / torso]: rear-tr and torso have 0.1114 units of ink clearance over 2.0086 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 431,
+    "icon_id": "seated-meditation-curved-arms-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [shoulders / arm-l]: shoulder-l and arm-l-2 have 2.2275 units of ink clearance over 5.3964 units; requires 4; review required",
+      "internal-spacing [shoulders / arm-r]: shoulder-r and arm-r-2 have 2.2275 units of ink clearance over 5.3964 units; requires 4; review required",
+      "internal-spacing [arm-l / leg-l]: arm-l-2 and leg-l-1 have -1 units of ink clearance over 7.2261 units; requires 4; review required",
+      "internal-spacing [arm-l / leg-r]: arm-l-2 and leg-r-2 have 3.2943 units of ink clearance over 3.5 units; requires 4; review required",
+      "internal-spacing [arm-r / leg-l]: arm-r-2 and leg-l-2 have 3.2943 units of ink clearance over 3.5 units; requires 4; review required",
+      "internal-spacing [arm-r / leg-r]: arm-r-2 and leg-r-1 have -1 units of ink clearance over 7.2261 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 432,
+    "icon_id": "seated-prayer-pose-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [prayer-arms / leg-l]: prayer-arms-2 and leg-l-1 have -0.0574 units of ink clearance over 13.7047 units; requires 4; review required",
+      "internal-spacing [prayer-arms / leg-r]: prayer-arms-2 and leg-r-2 have 0.6695 units of ink clearance over 7.1567 units; requires 4; review required",
+      "internal-spacing [prayer-arms / leg-l]: prayer-arms-3 and leg-l-2 have 0.6695 units of ink clearance over 7.1567 units; requires 4; review required",
+      "internal-spacing [prayer-arms / leg-r]: prayer-arms-3 and leg-r-1 have -0.0574 units of ink clearance over 13.7047 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 437,
+    "icon_id": "sumo-wrestler-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [body / left-arm-0]: body-1 and left-arm-0 have 1.837 units of ink clearance over 5 units; requires 4; review required",
+      "internal-spacing [body / right-arm-0]: body-3 and right-arm-0 have 1.837 units of ink clearance over 5 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 447,
+    "icon_id": "horse-rider-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [horse]: horse-1 and horse-5 have -0.3584 units of ink clearance over 5.3705 units; requires 4; review required"
+    ],
+    "holes": 0,
+    "pinches": 0
+  },
+  {
+    "number": 490,
+    "icon_id": "racing-cyclist-v2",
+    "status": "review",
+    "errors": [],
+    "warnings": [
+      "internal-spacing [wheel-rear / rider-section-1]: wheel-rear-a and rider-2 have 3.2522 units of ink clearance over 6.1445 units; requires 4; review required",
+      "internal-spacing [wheel-rear / rider-section-1]: wheel-rear-a and rider-3 have -0.6381 units of ink clearance over 2.9547 units; requires 4; review required",
+      "internal-spacing [wheel-rear / frame]: wheel-rear-a and frame have 1.3088 units of ink clearance over 2.48 units; requires 4; review required",
+      "internal-spacing [wheel-rear / frame]: wheel-rear-b and frame have 1.2419 units of ink clearance over 2.728 units; requires 4; review required",
+      "internal-spacing [wheel-front / fork]: wheel-front-a and fork have 1.2817 units of ink clearance over 2.48 units; requires 4; review required",
+      "internal-spacing [wheel-front / arms]: wheel-front-b and arms-2 have 1.7839 units of ink clearance over 5.3748 units; requires 4; review required",
+      "internal-spacing [wheel-front / rider-section-1]: wheel-front-b and rider-3 have 2.8959 units of ink clearance over 6.8942 units; requires 4; review required",
+      "internal-spacing [wheel-front / fork]: wheel-front-b and fork have 1.2697 units of ink clearance over 2.728 units; requires 4; review required",
+      "internal-spacing [arms / rider-section-1]: arms-1 and rider-2 have 0.9793 units of ink clearance over 2.4845 units; requires 4; review required"
     ],
     "holes": 0,
     "pinches": 0

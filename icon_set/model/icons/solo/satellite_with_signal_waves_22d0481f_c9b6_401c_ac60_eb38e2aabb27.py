@@ -38,19 +38,31 @@ class SatelliteWithSignalWaves(Solo48):
         self.add_contour(name,*members,closed=True)
 
     def build(self):
+        # Plan: Mirrored solar panels connect at their nearest corners to a small circular bus; longer rods replace cramped face attachments. Preserve the broadcast arc.
 
-        # Diagonal paired solar panels, circular bus, two broadcast ripples.
-        # Centerline extremes (6,6)-(42,42).
-        self.add_polyline('panel-a',(6,14),(14,6),(22,14),(18,18),(14,22),closed=True)
-        self.add_polyline('panel-b',(26,34),(30,30),(34,26),(42,34),(34,42),closed=True)
-        self.add_arc('bus-a',(22,19),(28,27),radius_x=5)
-        self.add_arc('bus-b',(28,27),(22,19),radius_x=5)
-        self.add_contour('bus','bus-a','bus-b',closed=True)
-        self.add_line('strut-a',(18,18),(22,19))
-        self.add_line('strut-b',(28,27),(30,30))
-        self.relate('connect','panel-a','strut-a')
-        self.relate('connect','bus','strut-a')
-        self.relate('connect','bus','strut-b')
-        self.relate('connect','panel-b','strut-b')
-        
-        self.add_arc('wave-outer',(6,28),(20,42),radius_x=14,sweep=False)
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('panel-a',(6,12),(12,6),(18,12),(12,18),closed=True)
+        poly('panel-b',(30,36),(36,30),(42,36),(36,42),closed=True)
+        path('bus',(24,21), [('A',(24,27),3,3,True),('A',(24,21),3,3,True)],True)
+        line('strut-a',(18,12),(24,21));line('strut-b',(24,27),(30,36))
+        join('strut-a','panel-a');join('strut-a','bus');join('strut-b','bus');join('strut-b','panel-b')
+        path('wave',(6,28), [('A',(20,42),14,14,False)])

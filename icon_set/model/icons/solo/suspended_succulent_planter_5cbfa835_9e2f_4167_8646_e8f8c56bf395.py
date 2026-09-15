@@ -15,11 +15,28 @@ class SuspendedSucculentPlanter(Solo48):
     keywords = ('planter', 'hanging', 'succulent', 'leaves', 'cord', 'bowl', 'plant')
 
     def build(self):
-        self.add_polyline('suspension',(8, 32),(8, 24),(24, 4),(40, 24),(40, 32),closed=False)
-        self.add_polyline('rim',(8, 32),(16, 32),(32, 32),(40, 32),closed=False)
-        self.add_arc('bowl',(40, 32),(8, 32),radius_x=16,radius_y=12,sweep=True)
-        self.contours = [c for c in self.contours if c.contour_id != 'rim']
-        self.add_contour('pot','rim-1','rim-2','rim-3','bowl',closed=True)
-        self.add_polyline('leaf',(16, 32),(16, 26),(24, 18),(32, 26),(32, 32),closed=False)
-        self.relate('connect','suspension','pot')
-        self.relate('connect','leaf','pot')
+        # Plan: Raise the suspension shoulders and rebuild the succulent leaf as two coherent curves; preserve the wide elliptical bowl.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('suspension',(8,32),(8,16),(24,4),(40,16),(40,32))
+        path('pot',(8,32), [('L',(16,32)),('L',(32,32)),('L',(40,32)),('A',(8,32),16,12,True)],True);join('suspension','pot')
+        path('leaf',(16,32), [('C',(24,20),(16,26),(20,23)),('C',(32,32),(28,23),(32,26))]);join('leaf','pot')

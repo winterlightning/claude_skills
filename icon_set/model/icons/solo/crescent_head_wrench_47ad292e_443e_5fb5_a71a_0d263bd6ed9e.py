@@ -15,17 +15,27 @@ class CrescentHeadWrench(Solo48):
     aliases = ()
     keywords = ('wrench', 'crescent wrench', 'spanner', 'adjustable', 'repair', 'mechanic', 'hardware', 'tool')
 
-    def build(self) -> None:
-        self.add_arc('crown',(18,6),(30,18),radius_x=12)
-        self.add_line('outer-1',(30, 18),(28, 24))
-        self.add_line('outer-2',(28, 24),(42, 36))
-        self.add_arc('butt',(42,36),(36,42),radius_x=6)
-        self.add_line('inner-1',(36, 42),(24, 28))
-        self.add_line('inner-2',(24, 28),(18, 30))
-        self.add_arc('chin',(18,30),(6,18),radius_x=12)
-        self.add_line('jaw-1',(6, 18),(6, 10))
-        self.add_line('jaw-2',(6, 10),(14, 18))
-        self.add_line('jaw-3',(14, 18),(20, 12))
-        self.add_line('jaw-4',(20, 12),(12, 6))
-        self.add_line('jaw-5',(12, 6),(18, 6))
-        self.add_contour('outline','crown','outer-1','outer-2','butt','inner-1','inner-2','chin','jaw-1','jaw-2','jaw-3','jaw-4','jaw-5',closed=True)
+    def build(self):
+        # Plan: Broaden the diagonal shaft at its owning neck; retain crescent jaws and the rounded handle end.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('outline',(22,6), [('A',(38,22),16,16,True),('L',(36,30)),('L',(42,36)),('A',(36,42),6,6,True),('L',(30,36)),('L',(22,38)),('A',(6,22),16,16,True),('L',(6,14)),('L',(14,22)),('L',(22,14)),('L',(14,6)),('L',(22,6))],True)

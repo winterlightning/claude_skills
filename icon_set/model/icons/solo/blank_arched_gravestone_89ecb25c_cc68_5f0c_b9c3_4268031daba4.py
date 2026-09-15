@@ -17,7 +17,7 @@ class BlankArchedGravestone(Solo48):
     keywords = ('gravestone', 'grave', 'tombstone', 'memorial', 'cemetery', 'stone')
 
     def build(self):
-        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        """Centerline review: preserve the silhouette; remove duplicated ink and split real attachments into shared nodes."""
 
         def L(n, a, b):
             self.add_line(n, a, b)
@@ -47,7 +47,10 @@ class BlankArchedGravestone(Solo48):
             A(n + 'tl', (x, y + r), (x + r, y), r)
             self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
         A('arch', (12, 16), (36, 16), 12)
-        P('walls', (36, 16), (36, 36), (12, 36), (12, 16))
+        L('wall-right', (36, 16), (36, 36))
+        L('walls', (12, 36), (12, 16))
+        J('wall-right', 'arch')
+        J('wall-right', 'base')
         J('walls', 'arch')
-        P('base', (8, 36), (40, 36), (40, 44), (8, 44), closed=True)
+        P('base', (8, 36), (12, 36), (36, 36), (40, 36), (40, 44), (8, 44), closed=True)
         J('base', 'walls')

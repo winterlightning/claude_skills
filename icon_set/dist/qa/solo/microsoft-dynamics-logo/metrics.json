@@ -3,8 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "holes/pinches: 0 undersized holes; 1 pinches",
+    "qa-overlays distance: lowest line distance 1.99 on centerlines; requires at least 8.0",
+    "qa-overlays holes/pinches: 0 undersized holes; 1 pinches"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -126,7 +130,7 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "pass",
+    "status": "fail",
     "authored_holes": [
       {
         "hole": 1,
@@ -163,7 +167,7 @@
     "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
-    "pinch_count": 0,
+    "pinch_count": 1,
     "holes": [
       {
         "hole": 1,
@@ -198,17 +202,42 @@
         "equivalent_diameter_at_authored_stroke_design_u": 3.3
       }
     ],
-    "pinches": [],
+    "pinches": [
+      {
+        "pinch": 1,
+        "center_viewbox": [
+          15.7656,
+          38.9844
+        ],
+        "bbox_viewbox": [
+          15.75,
+          38.9688,
+          0.0312,
+          0.0312
+        ],
+        "trapped_area_design_u2": 0.001,
+        "trapped_radius_design_u": 0.0312,
+        "closure_margin_design_u": 1.0,
+        "minimum_fill_depth_design_u": 1.0,
+        "status": "fail"
+      }
+    ],
     "exception_count": 0,
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/microsoft-dynamics-logo/icon.svg",
+    "holes": "solo/microsoft-dynamics-logo/holes.png",
+    "spacing": "solo/microsoft-dynamics-logo/spacing.png",
+    "spacing_svg": "solo/microsoft-dynamics-logo/spacing.svg",
+    "internal-spacing": "solo/microsoft-dynamics-logo/internal-spacing.png",
+    "internal_spacing_svg": "solo/microsoft-dynamics-logo/internal-spacing.svg",
     "metrics": "solo/microsoft-dynamics-logo/metrics.json"
   },
   "checks_run": [
@@ -260,6 +289,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -274,7 +304,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

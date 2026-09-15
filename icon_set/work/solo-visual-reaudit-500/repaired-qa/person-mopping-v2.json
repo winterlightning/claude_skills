@@ -6,8 +6,8 @@
   "status": "review",
   "errors": [],
   "warnings": [
-    "internal-spacing [body / far-arm]: body-2 and far-arm have 3.8423 units of ink clearance over 3.25 units; requires 4; review required",
-    "internal-spacing [rear-leg / mop-head]: rear-leg-1 and mop-head-3 have -0.9639 units of ink clearance over 2.7359 units; requires 4; review required"
+    "internal-spacing [rear-leg / mop-head]: rear-leg-1 and mop-head-3 have -0.9639 units of ink clearance over 2.7359 units; requires 4; review required",
+    "internal-spacing [body-section-1 / far-arm]: body-2 and far-arm have 3.8423 units of ink clearance over 3.25 units; requires 4; review required"
   ],
   "spacing": {
     "ok": true,
@@ -34,16 +34,32 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 30 23 C 28.798423126783593 25.883784495719379 26.25 27.5 25 29 L 31 34 L 35 42",
+        "pathData": "M 30 23 C 28.798423126783593 25.883784495719379 26.25 27.5 25 29",
         "bounds": [
           25.0,
           23.0,
+          30.0,
+          29.0
+        ],
+        "segmentCount": 40,
+        "approximationError": 0.0009283285419949636,
+        "hasCurves": true
+      },
+      {
+        "id": "body-section-1:subpath-1",
+        "elementId": "body-section-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 25 29 L 31 34 L 35 42",
+        "bounds": [
+          25.0,
+          29.0,
           35.0,
           42.0
         ],
-        "segmentCount": 42,
-        "approximationError": 0.0009283285419949636,
-        "hasCurves": true
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "rear-leg:subpath-1",
@@ -165,6 +181,7 @@
         "id": "component-2",
         "memberIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "rear-leg:subpath-1",
           "arm:subpath-1",
           "mop-shaft:subpath-1",
@@ -174,6 +191,7 @@
         ],
         "contourIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1",
           "rear-leg:subpath-1",
           "arm:subpath-1",
           "mop-shaft:subpath-1",
@@ -183,6 +201,7 @@
         ],
         "elementIds": [
           "body",
+          "body-section-1",
           "rear-leg",
           "arm",
           "mop-shaft",
@@ -237,6 +256,7 @@
           ],
           [
             "body:subpath-1",
+            "body-section-1:subpath-1",
             "rear-leg:subpath-1",
             "arm:subpath-1",
             "mop-shaft:subpath-1",
@@ -267,6 +287,35 @@
               [
                 30.0,
                 23.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "body-section-1:subpath-1"
+            ],
+            "centerlineDistance": 15.591488780018846,
+            "inkClearance": 11.591488780018846,
+            "signedInkClearance": 11.591488780018846,
+            "lowerBound": 15.591260281973998,
+            "upperBound": 15.591865871595425,
+            "inkClearanceLowerBound": 11.591260281973998,
+            "inkClearanceUpperBound": 11.591865871595425,
+            "approximationError": 0.00037709157657541,
+            "nearestPoints": [
+              [
+                32.53550903885108,
+                15.350434955543557
+              ],
+              [
+                25.0,
+                29.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -456,6 +505,17 @@
       {
         "contourIds": [
           "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          25.0,
+          29.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body:subpath-1",
           "rear-leg:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -488,7 +548,18 @@
       },
       {
         "contourIds": [
-          "body:subpath-1",
+          "body-section-1:subpath-1",
+          "rear-leg:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          25.0,
+          29.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
           "foot:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -532,6 +603,25 @@
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "body-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "body-section-1:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            25.0,
+            29.0
+          ]
+        }
+      },
       {
         "contourIds": [
           "body:subpath-1",
@@ -614,9 +704,73 @@
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "rear-leg:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "body:subpath-1",
+            "body-section-1:subpath-1",
+            "rear-leg:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            25.0,
+            29.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "arm:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "mop-shaft:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "mop-head:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "far-arm:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-section-1:subpath-1",
+          "foot:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body-section-1:subpath-1",
             "foot:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
@@ -807,11 +961,11 @@
     "minimumInkClearance": 4.0000177800046846,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 29,
+      "commands": 30,
       "flattenedSegments": 566,
       "adaptiveNodes": 1097,
-      "distanceTests": 308,
-      "connectionTests": 0
+      "distanceTests": 378,
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
@@ -869,9 +1023,9 @@
           10.375,
           10.0625
         ],
-        "area_ship_px2": 44.9648,
-        "equivalent_diameter_ship_px": 7.5664,
-        "equivalent_diameter_design_u": 7.5664,
+        "area_ship_px2": 44.959,
+        "equivalent_diameter_ship_px": 7.5659,
+        "equivalent_diameter_design_u": 7.5659,
         "inscribed_diameter_ship_px": 5.9667,
         "inscribed_diameter_design_u": 5.9667,
         "inscribed_radius_ship_px": 2.9833,
@@ -1002,7 +1156,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "69c2a90705d2fa279d7ba7fadde5968108351d79f3c066b2fb02cbf8b0e45070",
+  "svg_sha256": "268b0a1b6618dfd2ec7277e2dfe535261232911acb05d109e368f1df223e252b",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -1072,27 +1226,6 @@
     },
     "findings": [
       {
-        "contour": "body / far-arm",
-        "elements": [
-          "body-2",
-          "far-arm"
-        ],
-        "status": "review",
-        "sustained_length": 3.25,
-        "centerline_distance": 7.8423,
-        "ink_gap": 3.8423,
-        "nearest_points": [
-          [
-            25.479508196721312,
-            29.399590163934427
-          ],
-          [
-            30.5,
-            23.375
-          ]
-        ]
-      },
-      {
         "contour": "rear-leg / mop-head",
         "elements": [
           "rear-leg-1",
@@ -1110,6 +1243,27 @@
           [
             17.74006497074166,
             39.41841954817014
+          ]
+        ]
+      },
+      {
+        "contour": "body-section-1 / far-arm",
+        "elements": [
+          "body-2",
+          "far-arm"
+        ],
+        "status": "review",
+        "sustained_length": 3.25,
+        "centerline_distance": 7.8423,
+        "ink_gap": 3.8423,
+        "nearest_points": [
+          [
+            25.479508196721312,
+            29.399590163934427
+          ],
+          [
+            30.5,
+            23.375
           ]
         ]
       }

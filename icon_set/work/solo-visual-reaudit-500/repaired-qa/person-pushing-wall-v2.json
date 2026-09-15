@@ -33,16 +33,32 @@
         "elementId": "body-back-leg",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 22 26 C 20.600000000000001 29.359999999999999 17.5 32 16 34 L 6 42",
+        "pathData": "M 22 26 C 20.600000000000001 29.359999999999999 17.5 32 16 34",
         "bounds": [
-          6.0,
+          16.0,
           26.0,
           22.0,
-          42.0
+          34.0
         ],
-        "segmentCount": 39,
+        "segmentCount": 38,
         "approximationError": 0.0009820563855666262,
         "hasCurves": true
+      },
+      {
+        "id": "body-back-leg-section-1:subpath-1",
+        "elementId": "body-back-leg-section-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 16 34 L 6 42",
+        "bounds": [
+          6.0,
+          34.0,
+          16.0,
+          42.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "arm:subpath-1",
@@ -116,18 +132,21 @@
         "id": "component-2",
         "memberIds": [
           "body-back-leg:subpath-1",
+          "body-back-leg-section-1:subpath-1",
           "arm:subpath-1",
           "front-leg:subpath-1",
           "wall:subpath-1"
         ],
         "contourIds": [
           "body-back-leg:subpath-1",
+          "body-back-leg-section-1:subpath-1",
           "arm:subpath-1",
           "front-leg:subpath-1",
           "wall:subpath-1"
         ],
         "elementIds": [
           "body-back-leg",
+          "body-back-leg-section-1",
           "arm",
           "front-leg",
           "wall"
@@ -179,6 +198,7 @@
           ],
           [
             "body-back-leg:subpath-1",
+            "body-back-leg-section-1:subpath-1",
             "arm:subpath-1",
             "front-leg:subpath-1",
             "wall:subpath-1"
@@ -206,6 +226,35 @@
               [
                 22.0,
                 26.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "head:subpath-1",
+              "body-back-leg-section-1:subpath-1"
+            ],
+            "centerlineDistance": 17.82579986758276,
+            "inkClearance": 13.82579986758276,
+            "signedInkClearance": 13.82579986758276,
+            "lowerBound": 17.825424421026653,
+            "upperBound": 17.826176959158886,
+            "inkClearanceLowerBound": 13.825424421026653,
+            "inkClearanceUpperBound": 13.826176959158886,
+            "approximationError": 0.00037709157612066265,
+            "nearestPoints": [
+              [
+                24.595311420479128,
+                18.383349830898606
+              ],
+              [
+                16.0,
+                34.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -308,6 +357,17 @@
       {
         "contourIds": [
           "body-back-leg:subpath-1",
+          "body-back-leg-section-1:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          16.0,
+          34.0
+        ]
+      },
+      {
+        "contourIds": [
+          "body-back-leg:subpath-1",
           "arm:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
@@ -329,6 +389,17 @@
       },
       {
         "contourIds": [
+          "body-back-leg-section-1:subpath-1",
+          "front-leg:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          16.0,
+          34.0
+        ]
+      },
+      {
+        "contourIds": [
           "arm:subpath-1",
           "wall:subpath-1"
         ],
@@ -340,6 +411,25 @@
       }
     ],
     "excludedPairs": [
+      {
+        "contourIds": [
+          "body-back-leg:subpath-1",
+          "body-back-leg-section-1:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body-back-leg:subpath-1",
+            "body-back-leg-section-1:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            16.0,
+            34.0
+          ]
+        }
+      },
       {
         "contourIds": [
           "body-back-leg:subpath-1",
@@ -381,6 +471,43 @@
       {
         "contourIds": [
           "body-back-leg:subpath-1",
+          "wall:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-back-leg-section-1:subpath-1",
+          "arm:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "body-back-leg-section-1:subpath-1",
+          "front-leg:subpath-1"
+        ],
+        "componentId": "component-2",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body-back-leg-section-1:subpath-1",
+            "front-leg:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            16.0,
+            34.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "body-back-leg-section-1:subpath-1",
           "wall:subpath-1"
         ],
         "componentId": "component-2",
@@ -440,10 +567,10 @@
     "minimumInkClearance": 4.0000177800046846,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 16,
+      "commands": 17,
       "flattenedSegments": 302,
       "adaptiveNodes": 585,
-      "distanceTests": 173,
+      "distanceTests": 184,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -543,7 +670,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "29dbd83eacb4c31182e5907be1819cda9ba8d0eeba07a80a71dc6754dc335c5e",
+  "svg_sha256": "1d4696a998f54543142c2e721fc7e48181e2952ac44fe006519ef7e17cfab5aa",
   "rules": {
     "profile": {
       "canvas_size": 48,

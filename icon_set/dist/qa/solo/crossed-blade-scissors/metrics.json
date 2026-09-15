@@ -286,9 +286,9 @@
             "centerlineDistance": 14.596093651836515,
             "inkClearance": 10.596093651836515,
             "signedInkClearance": 10.596093651836515,
-            "lowerBound": 14.59571656025994,
+            "lowerBound": 14.596014227003042,
             "upperBound": 14.596470743413093,
-            "inkClearanceLowerBound": 10.59571656025994,
+            "inkClearanceLowerBound": 10.596014227003042,
             "inkClearanceUpperBound": 10.596470743413093,
             "approximationError": 0.00037709157657363364,
             "nearestPoints": [
@@ -304,7 +304,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ],
@@ -360,9 +360,9 @@
             "centerlineDistance": 14.596093651836519,
             "inkClearance": 10.596093651836519,
             "signedInkClearance": 10.596093651836519,
-            "lowerBound": 14.595716560259941,
+            "lowerBound": 14.596014227003042,
             "upperBound": 14.596470743413095,
-            "inkClearanceLowerBound": 10.595716560259941,
+            "inkClearanceLowerBound": 10.596014227003042,
             "inkClearanceUpperBound": 10.596470743413095,
             "approximationError": 0.00037709157657363364,
             "nearestPoints": [
@@ -378,7 +378,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -615,12 +615,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/crossed-blade-scissors/icon.svg",
+    "holes": "solo/crossed-blade-scissors/holes.png",
+    "spacing": "solo/crossed-blade-scissors/spacing.png",
+    "spacing_svg": "solo/crossed-blade-scissors/spacing.svg",
+    "internal-spacing": "solo/crossed-blade-scissors/internal-spacing.png",
+    "internal_spacing_svg": "solo/crossed-blade-scissors/internal-spacing.svg",
     "metrics": "solo/crossed-blade-scissors/metrics.json"
   },
   "checks_run": [
@@ -672,6 +678,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -686,7 +693,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

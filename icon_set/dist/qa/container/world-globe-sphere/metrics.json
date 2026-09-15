@@ -1348,12 +1348,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "container/world-globe-sphere/icon.svg",
+    "holes": "container/world-globe-sphere/holes.png",
+    "spacing": "container/world-globe-sphere/spacing.png",
+    "spacing_svg": "container/world-globe-sphere/spacing.svg",
+    "internal-spacing": "container/world-globe-sphere/internal-spacing.png",
+    "internal_spacing_svg": "container/world-globe-sphere/internal-spacing.svg",
     "metrics": "container/world-globe-sphere/metrics.json"
   },
   "checks_run": [
@@ -1405,6 +1411,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1419,7 +1426,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "7113b5891345f3a1b0586740c05e6a821d4451b13065da35580006221ddbfca7",
+  "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

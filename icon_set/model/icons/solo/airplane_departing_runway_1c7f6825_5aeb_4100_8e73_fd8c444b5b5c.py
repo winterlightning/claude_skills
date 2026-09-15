@@ -30,9 +30,9 @@ class AirplaneDepartingRunway(Solo48):
           ids.append(part)
          runs[name] = ids
         # SQUARE extremes (6,6)-(42,42); airplane and runway are distinct scene parts.
-        run('plane-body',(40,15),(17,25),(10,23),(6,14),(14,12),(18,16),(24,12),(34,7))
+        run('plane-body',(40,15),(17,25),(10,23),(6,14),(14,12),(18,14),(30,10),(34,7))
         self.add_arc('nose',(34,7),(40,15),radius_x=5)
         self.add_contour('plane',*runs['plane-body'],'nose',closed=True)
-        self.add_line('far-wing',(24,12),(14,6))
+        self.add_line('far-wing',(30,10),(22,6))
         self.relate('connect','plane','far-wing')
         self.add_polyline('runway',(10,34),(38,34),(42,42),(6,42),closed=True)

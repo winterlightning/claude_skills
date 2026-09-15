@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 7.77 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -223,7 +225,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -234,9 +236,9 @@
             "centerlineDistance": 15.974501236979396,
             "inkClearance": 11.974501236979396,
             "signedInkClearance": 11.974501236979396,
-            "lowerBound": 15.973597290080951,
+            "lowerBound": 15.973665961010273,
             "upperBound": 15.975405183877843,
-            "inkClearanceLowerBound": 11.973597290080951,
+            "inkClearanceLowerBound": 11.973665961010273,
             "inkClearanceUpperBound": 11.975405183877843,
             "approximationError": 0.0009039468984435794,
             "nearestPoints": [
@@ -252,7 +254,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -281,7 +283,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -902,6 +904,11 @@
   },
   "artifacts": {
     "svg": "solo/occupant-side-airbag/icon.svg",
+    "holes": "solo/occupant-side-airbag/holes.png",
+    "spacing": "solo/occupant-side-airbag/spacing.png",
+    "spacing_svg": "solo/occupant-side-airbag/spacing.svg",
+    "internal-spacing": "solo/occupant-side-airbag/internal-spacing.png",
+    "internal_spacing_svg": "solo/occupant-side-airbag/internal-spacing.svg",
     "metrics": "solo/occupant-side-airbag/metrics.json"
   },
   "checks_run": [

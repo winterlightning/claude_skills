@@ -265,12 +265,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/picker/icon.svg",
+    "holes": "solo/picker/holes.png",
+    "spacing": "solo/picker/spacing.png",
+    "spacing_svg": "solo/picker/spacing.svg",
+    "internal-spacing": "solo/picker/internal-spacing.png",
+    "internal_spacing_svg": "solo/picker/internal-spacing.svg",
     "metrics": "solo/picker/metrics.json"
   },
   "checks_run": [
@@ -322,6 +328,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -336,7 +343,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

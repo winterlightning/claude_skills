@@ -16,23 +16,28 @@ class LeverTapWithDroplet(Solo48):
     keywords = ('tap', 'faucet', 'water', 'drop', 'lever', 'plumbing')
 
     def build(self):
-        # Exact shared contact nodes; continuous shapes remain coherent contours.
-        self.add_line('body-1', (8, 44), (8, 16))
-        self.add_line('body-2', (8, 16), (18, 16))
-        self.add_line('body-3', (18, 16), (18, 18))
-        self.add_line('body-4', (18, 18), (36, 18))
-        self.add_line('body-5', (36, 18), (36, 26))
-        self.add_line('body-6', (36, 26), (18, 26))
-        self.add_line('body-7', (18, 26), (18, 44))
-        self.add_line('body-8', (18, 44), (8, 44))
-        self.add_line('lever-1', (8, 16), (8, 12))
-        self.add_line('lever-2', (8, 12), (36, 4))
-        self.add_line('lever-3', (36, 4), (40, 8))
-        self.add_line('lever-4', (40, 8), (18, 16))
-        self.add_line('drop-sides-1', (30, 40), (34, 35))
-        self.add_line('drop-sides-2', (34, 35), (38, 40))
-        self.add_arc('drop-base', (38, 40), (30, 40), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_contour('body', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', 'body-8', closed=True)
-        self.add_contour('lever', 'lever-1', 'lever-2', 'lever-3', 'lever-4', closed=False)
-        self.add_contour('drop', 'drop-sides-1', 'drop-sides-2', 'drop-base', closed=True)
-        self.relate('connect', 'lever', 'body')
+        # Plan: A clean single-stroke operating lever replaces the narrow outlined blade; broad tap body and rounded drop retain identity.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('body',(8,44),(8,16),(36,16),(36,26),(18,26),(18,44),closed=True)
+        poly('lever',(8,16),(8,8),(40,4));join('lever','body')
+        path('drop',(30,40), [('L',(34,35)),('L',(38,40)),('A',(30,40),4,4,True)],True)

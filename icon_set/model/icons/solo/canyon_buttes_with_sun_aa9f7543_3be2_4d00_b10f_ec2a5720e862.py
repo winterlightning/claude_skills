@@ -19,8 +19,11 @@ class CanyonButtesWithSun(Solo48):
     keywords = ('canyon', 'butte', 'mesa', 'rock', 'desert', 'usa', 'landscape', 'nature', 'sun')
 
     def build(self) -> None:
-        self.add_polyline('buttes', (6, 42), (7, 17), (17, 17), (22, 42), (29, 42), (33, 28), (41, 28), (42, 42))
-        self.add_line('ground', (6, 42), (42, 42))
+        """Centerline review: preserve the silhouette; remove duplicated ink and split real attachments into shared nodes."""
+        self.add_polyline('buttes', (6, 42), (7, 17), (17, 17), (22, 42))
+        self.add_polyline('right-butte', (29, 42), (33, 28), (41, 28), (42, 42))
+        self.add_polyline('ground', (6, 42), (22, 42), (29, 42), (42, 42))
+        self.relate('connect', 'right-butte', 'ground')
         self.relate('connect', 'buttes', 'ground')
         self.add_arc('sun-top', (28, 11), (38, 11), radius_x=5, sweep=True)
         self.add_arc('sun-bottom', (38, 11), (28, 11), radius_x=5, sweep=True)

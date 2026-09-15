@@ -371,9 +371,9 @@
         "centerlineDistance": 18.360837521725873,
         "inkClearance": 14.360837521725873,
         "signedInkClearance": 14.360837521725873,
-        "lowerBound": 18.36053584846511,
+        "lowerBound": 18.360679774997894,
         "upperBound": 18.36113919498664,
-        "inkClearanceLowerBound": 14.360535848465108,
+        "inkClearanceLowerBound": 14.360679774997894,
         "inkClearanceUpperBound": 14.361139194986642,
         "approximationError": 0.00030167326076835366,
         "nearestPoints": [
@@ -413,9 +413,9 @@
             "centerlineDistance": 18.360837521725873,
             "inkClearance": 14.360837521725873,
             "signedInkClearance": 14.360837521725873,
-            "lowerBound": 18.36053584846511,
+            "lowerBound": 18.360679774997894,
             "upperBound": 18.36113919498664,
-            "inkClearanceLowerBound": 14.360535848465108,
+            "inkClearanceLowerBound": 14.360679774997894,
             "inkClearanceUpperBound": 14.361139194986642,
             "approximationError": 0.0003016732607604612,
             "nearestPoints": [
@@ -431,7 +431,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -473,9 +473,9 @@
         "centerlineDistance": 18.360837521725873,
         "inkClearance": 14.360837521725873,
         "signedInkClearance": 14.360837521725873,
-        "lowerBound": 18.360535848464426,
+        "lowerBound": 18.360679774997894,
         "upperBound": 18.361139194987324,
-        "inkClearanceLowerBound": 14.360535848464426,
+        "inkClearanceLowerBound": 14.360679774997894,
         "inkClearanceUpperBound": 14.361139194987324,
         "approximationError": 0.0003016732614504747,
         "nearestPoints": [
@@ -515,9 +515,9 @@
             "centerlineDistance": 18.360837521725873,
             "inkClearance": 14.360837521725873,
             "signedInkClearance": 14.360837521725873,
-            "lowerBound": 18.360535848464426,
+            "lowerBound": 18.360679774997894,
             "upperBound": 18.361139194987324,
-            "inkClearanceLowerBound": 14.360535848464426,
+            "inkClearanceLowerBound": 14.360679774997894,
             "inkClearanceUpperBound": 14.361139194987324,
             "approximationError": 0.00030167326144258223,
             "nearestPoints": [
@@ -533,7 +533,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -1187,12 +1187,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/pair-of-teardrop-earrings/icon.svg",
+    "holes": "solo/pair-of-teardrop-earrings/holes.png",
+    "spacing": "solo/pair-of-teardrop-earrings/spacing.png",
+    "spacing_svg": "solo/pair-of-teardrop-earrings/spacing.svg",
+    "internal-spacing": "solo/pair-of-teardrop-earrings/internal-spacing.png",
+    "internal_spacing_svg": "solo/pair-of-teardrop-earrings/internal-spacing.svg",
     "metrics": "solo/pair-of-teardrop-earrings/metrics.json"
   },
   "checks_run": [
@@ -1244,6 +1250,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -1258,7 +1265,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

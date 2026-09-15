@@ -15,17 +15,27 @@ class MagicWand(Solo48):
     keywords = ('magic', 'wand', 'design')
 
     def build(self):
-        self.add_line('e0', (28, 19), (31, 26))
-        self.add_line('e1', (31, 26), (34, 20))
-        self.add_line('e2', (34, 20), (42, 20))
-        self.add_line('e4', (42, 20), (36, 14))
-        self.add_line('e5', (36, 14), (40, 7))
-        self.add_line('e6', (40, 7), (32, 10))
-        self.add_line('e7', (31, 10), (26, 6))
-        self.add_line('e8', (26, 6), (27, 13))
-        self.add_line('e9', (27, 13), (21, 17))
-        self.add_line('e10', (21, 17), (28, 19))
-        self.add_line('e11', (6, 42), (28, 19))
-        self.add_line('e12', (32, 10), (31, 10))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e4', 'e5', 'e6', 'e12', 'e7', 'e8', 'e9', 'e10', closed=True)
-        self.add_contour('c1', 'e11', closed=False)
+        # Plan: A larger regular five-point head has a broad central counter; the wand joins one exact lower point.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        poly('star',(30,6),(34,14),(42,14),(36,20),(38,30),(30,24),(22,30),(24,20),(18,14),(26,14),closed=True)
+        line('wand',(6,42),(22,30));join('wand','star')

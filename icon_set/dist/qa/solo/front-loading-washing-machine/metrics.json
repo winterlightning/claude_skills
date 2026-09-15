@@ -374,11 +374,11 @@
         "centerlineDistance": 9.156021457935246,
         "inkClearance": 5.156021457935246,
         "signedInkClearance": 5.156021457935246,
-        "lowerBound": 9.155493529728858,
+        "lowerBound": 9.15549442140351,
         "upperBound": 9.156549386141632,
-        "inkClearanceLowerBound": 5.155493529728858,
+        "inkClearanceLowerBound": 5.15549442140351,
         "inkClearanceUpperBound": 5.1565493861416325,
-        "approximationError": 0.0005279282063881396,
+        "approximationError": 0.0005279282063863633,
         "nearestPoints": [
           [
             21.39978819552338,
@@ -415,9 +415,9 @@
             "centerlineDistance": 9.156021457935246,
             "inkClearance": 5.156021457935246,
             "signedInkClearance": 5.156021457935246,
-            "lowerBound": 9.155493529728858,
+            "lowerBound": 9.15549442140351,
             "upperBound": 9.156549386141632,
-            "inkClearanceLowerBound": 5.155493529728858,
+            "inkClearanceLowerBound": 5.15549442140351,
             "inkClearanceUpperBound": 5.1565493861416325,
             "approximationError": 0.0005279282063845419,
             "nearestPoints": [
@@ -433,7 +433,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -446,11 +446,11 @@
         "centerlineDistance": 9.156021457935248,
         "inkClearance": 5.156021457935248,
         "signedInkClearance": 5.156021457935248,
-        "lowerBound": 9.15549352972886,
+        "lowerBound": 9.15549442140351,
         "upperBound": 9.156549386141634,
-        "inkClearanceLowerBound": 5.15549352972886,
+        "inkClearanceLowerBound": 5.15549442140351,
         "inkClearanceUpperBound": 5.156549386141634,
-        "approximationError": 0.0005279282063881396,
+        "approximationError": 0.0005279282063863633,
         "nearestPoints": [
           [
             26.60021180447662,
@@ -487,9 +487,9 @@
             "centerlineDistance": 9.156021457935248,
             "inkClearance": 5.156021457935248,
             "signedInkClearance": 5.156021457935248,
-            "lowerBound": 9.15549352972886,
+            "lowerBound": 9.15549442140351,
             "upperBound": 9.156549386141634,
-            "inkClearanceLowerBound": 5.15549352972886,
+            "inkClearanceLowerBound": 5.15549442140351,
             "inkClearanceUpperBound": 5.156549386141634,
             "approximationError": 0.0005279282063845419,
             "nearestPoints": [
@@ -505,7 +505,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -749,12 +749,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/front-loading-washing-machine/icon.svg",
+    "holes": "solo/front-loading-washing-machine/holes.png",
+    "spacing": "solo/front-loading-washing-machine/spacing.png",
+    "spacing_svg": "solo/front-loading-washing-machine/spacing.svg",
+    "internal-spacing": "solo/front-loading-washing-machine/internal-spacing.png",
+    "internal_spacing_svg": "solo/front-loading-washing-machine/internal-spacing.svg",
     "metrics": "solo/front-loading-washing-machine/metrics.json"
   },
   "checks_run": [
@@ -806,6 +812,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -820,7 +827,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

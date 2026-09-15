@@ -110,7 +110,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
     discarded, removed_ids, removed_keys = [], {}, set()
     for icon, plan in plans:
         key, icon_id, path = icon['key'], icon['icon_id'], plan['path']
-        folder = icon['preview_url'].split('/')[1]
+        folder = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64'}[icon['family']]
         text = current.get(path, plan['text'])
         stem = f"{now.strftime('%Y%m%dT%H%M%SZ')}-{icon['family']}-{icon_id}"
         feedback = [dict(zip(('id', 'feedback', 'svg_sha256', 'created_at', 'author'), row)) for row in connection.execute(
@@ -128,6 +128,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
         else:
             path.unlink()
         for artifact in (dist / folder / f'{icon_id}.svg',
+                         dist / 'failed' / folder / f'{icon_id}.svg',
                          source_root / 'icon_set' / 'assets' / 'previews-png' / folder / f'{icon_id}.png'):
             artifact.unlink(missing_ok=True)
         removed_ids.setdefault(folder, set()).add(icon_id)
@@ -138,14 +139,22 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
                           'shared_module': shared, 'archive': f'{stem}.py', 'removed_rows': rows})
 
     targets = [(dist / folder / 'manifest.json', 'icon_id', ids) for folder, ids in removed_ids.items()]
+    targets += [(dist / 'failed' / folder / 'manifest.json', 'icon_id', ids) for folder, ids in removed_ids.items()]
     targets.append((dist / 'gallery' / 'icons.json', 'key', removed_keys))
     for path, field, values in targets:
         if path.is_file():
             data = json.loads(path.read_text(encoding='utf-8'))
+            if 'failed_icons' in data:
+                data['failed_icons'] = [row for row in data['failed_icons'] if row.get(field) not in values]
+                _write_atomic(path, json.dumps(data, ensure_ascii=False, indent=2) + '\n')
             kept = [row for row in data['icons'] if row.get(field) not in values]
             if len(kept) != len(data['icons']):
                 data['icons'] = kept
                 if 'count' in data:
                     data['count'] = len(kept)
                 _write_atomic(path, json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+    if discarded:
+        from icon_set.scripts.gallery import stage_failures
+        catalog = json.loads((dist / 'gallery' / 'icons.json').read_text())
+        stage_failures(dist, dist, ['solo48', 'sub32', 'container64'], dist / 'gallery', passed=len(catalog['icons']))
     return {'discarded': discarded, 'failed': failed}

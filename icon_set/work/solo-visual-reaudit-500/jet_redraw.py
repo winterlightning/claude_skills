@@ -1,0 +1,10 @@
+from repair import *
+save(13,"""self.ring('head',19,11,5)
+self.add_bezier('torso',(24,23),((26,27),(29,28),(32,29)))
+self.branches([('arm',[(24,23),(16,26),(6,26)]),('handle',[(6,26),(6,34)]),('planted-leg',[(32,29),(28,34)]),('extended-leg',[(32,29),(42,24)]),('deck',[(6,34),(28,34),(42,34)]),('stern',[(42,34),(42,42),(14,42)])])
+self.add_arc('bow',(14,42),(6,34),radius_x=8)
+self.relate('connect','bow','stern-1')
+self.relate('connect','bow','deck-0')
+self.relate('connect','bow','handle-0')
+for p in ['arm-0','planted-leg-0','extended-leg-0']:self.relate('connect','torso',p)
+""",'Jet-ski rider: reconstruct a complete hull, actual handlebar grip, planted foot and visibly extended rear leg. Radius5 head (19,11), shoulder(24,23), squared separation169 gives exact4 painted clearance. Upper torso tangent follows the forward lean. Source extended-leg rider and updated full_body_ref.png inspected; omit secondary water marks to give the craft and rider room instead of collapsing the limbs. Lucide sailboat informs coherent hull joins.','SQUARE')

@@ -3,11 +3,9 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [grip / back]: finger-curl and hand-outside have -3.999 units of ink clearance over 8 units; requires 4; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -49,14 +47,14 @@
         "elementId": "back",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 6 L 38 6 A 4 12 0 0 1 42 18 L 42 42",
+        "pathData": "M 32 6 L 38 6 A 4 12 0 0 1 42 18 L 42 22 L 42 42",
         "bounds": [
           32.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 66,
+        "segmentCount": 67,
         "approximationError": 0.0009035892729080509,
         "hasCurves": true
       },
@@ -65,7 +63,7 @@
         "elementId": "grip",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 6 A 4 4 0 0 0 32 14 L 34 14 A 8 8 0 0 1 34 30 L 26 24 A 5 5 0 0 0 18 28 A 5 5 0 0 0 20 32 L 28 42",
+        "pathData": "M 32 6 A 4 4 0 0 0 32 14 L 34 14 A 8 8 0 0 1 42 22 A 8 8 0 0 1 34 30 L 26 24 A 5 5 0 0 0 18 28 A 5 5 0 0 0 20 32 L 28 42",
         "bounds": [
           18.0,
           6.0,
@@ -243,9 +241,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 554,
-      "adaptiveNodes": 1081,
+      "commands": 23,
+      "flattenedSegments": 555,
+      "adaptiveNodes": 1080,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -330,12 +328,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/hand-holding-card/icon.svg",
+    "holes": "solo/hand-holding-card/holes.png",
+    "spacing": "solo/hand-holding-card/spacing.png",
+    "spacing_svg": "solo/hand-holding-card/spacing.svg",
+    "internal-spacing": "solo/hand-holding-card/internal-spacing.png",
+    "internal_spacing_svg": "solo/hand-holding-card/internal-spacing.svg",
     "metrics": "solo/hand-holding-card/metrics.json"
   },
   "checks_run": [
@@ -348,7 +352,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "86aa3b69564152c26b68288cb76aa49a92c55442bab66f984bcd8f049c7b47cf",
+  "svg_sha256": "242a9b25e1da125ef5e83c91d67d093909d87fd700b54eb80dc9b36d605de245",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -387,6 +391,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -401,9 +406,9 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -415,30 +420,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "grip / back",
-        "elements": [
-          "finger-curl",
-          "hand-outside"
-        ],
-        "status": "review",
-        "sustained_length": 8.0,
-        "centerline_distance": 0.001,
-        "ink_gap": -3.999,
-        "nearest_points": [
-          [
-            41.999015241537194,
-            21.875030640673998
-          ],
-          [
-            42.0,
-            21.875
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

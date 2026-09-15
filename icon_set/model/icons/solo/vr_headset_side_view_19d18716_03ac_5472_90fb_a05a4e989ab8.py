@@ -15,23 +15,28 @@ class VrHeadsetSideView(Solo48):
     keywords = ('vr', 'headset', 'quest', 'virtual-reality', 'goggles', 'device', 'side')
 
     def build(self):
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,r,ry=None,sweep=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=sweep)
-        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
-        def chain(n,*p):
-            for i,(a,b) in enumerate(zip(p,p[1:]),1): line(f'{n}-{i}',a,b)
-        def contour(n,*m,closed=False): self.add_contour(n,*m,closed=closed)
-        def connect(a,b): self.relate("connect",a,b)
-        def circle(n,x,y,r):
-            arc(n+'a',(x,y-r),(x,y+r),r)
-            arc(n+'b',(x,y+r),(x,y-r),r)
-            contour(n,n+'a',n+'b',closed=True)
-        def box(n,l,t,r,b,rad=4):
-            line(n+'t',(l+rad,t),(r-rad,t)); arc(n+'tr',(r-rad,t),(r,t+rad),rad)
-            line(n+'r',(r,t+rad),(r,b-rad)); arc(n+'br',(r,b-rad),(r-rad,b),rad)
-            line(n+'b',(r-rad,b),(l+rad,b)); arc(n+'bl',(l+rad,b),(l,b-rad),rad)
-            line(n+'l',(l,b-rad),(l,t+rad)); arc(n+'tl',(l,t+rad),(l+rad,t),rad)
-            contour(n,*[n+s for s in ('t','tr','r','br','b','bl','l','tl')],closed=True)
-        box('visor',24,20,44,40,6)
-        arc('head-strap',(8,26),(24,26),8,18);connect('head-strap','visor')
-        poly('rear-strap',(24,26),(8,26),(4,32),(4,40),(10,34),(24,34));connect('rear-strap','visor');connect('rear-strap','head-strap')
+        # Plan: Rebuild the visor with shared strap stations and consistent corner radii; widen the rear folded band and preserve the smooth overhead strap.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('visor',(28,20), [('L',(40,20)),('A',(44,24),4,4,True),('L',(44,36)),('A',(40,40),4,4,True),('L',(28,40)),('A',(24,36),4,4,True),('L',(24,26)),('L',(24,24)),('A',(28,20),4,4,True)],True)
+        path('head-strap',(8,26), [('A',(24,26),8,18,True)]);join('head-strap','visor')
+        poly('rear-strap',(24,26),(8,26),(4,32),(4,40),(12,36),(24,36));join('rear-strap','visor');join('rear-strap','head-strap')

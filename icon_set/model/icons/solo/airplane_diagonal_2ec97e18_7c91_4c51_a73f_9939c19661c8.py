@@ -22,22 +22,27 @@ class AirplaneDiagonal(Solo48):
     aliases = ()
     keywords = ('airplane', 'plane', 'flight', 'travel', 'aircraft', 'airport', 'trip', 'aviation')
 
-    def build(self) -> None:
-        self.add_arc('nose', (34, 6), (42, 14), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('outline-1', (42, 14), (34, 24))
-        self.add_line('outline-2', (34, 24), (40, 36))
-        self.add_line('outline-3', (40, 36), (36, 40))
-        self.add_line('outline-4', (36, 40), (26, 30))
-        self.add_line('outline-5', (26, 30), (20, 36))
-        self.add_line('outline-6', (20, 36), (22, 42))
-        self.add_line('outline-7', (22, 42), (16, 42))
-        self.add_line('outline-8', (16, 42), (12, 34))
-        self.add_line('outline-9', (12, 34), (6, 30))
-        self.add_line('outline-10', (6, 30), (6, 24))
-        self.add_line('outline-11', (6, 24), (14, 26))
-        self.add_line('outline-12', (14, 26), (20, 20))
-        self.add_line('outline-13', (20, 20), (8, 12))
-        self.add_line('outline-14', (8, 12), (12, 8))
-        self.add_line('outline-15', (12, 8), (26, 14))
-        self.add_line('outline-16', (26, 14), (34, 6))
-        self.add_contour('airframe', 'nose', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', 'outline-9', 'outline-10', 'outline-11', 'outline-12', 'outline-13', 'outline-14', 'outline-15', 'outline-16', closed=True)
+    def build(self):
+        # Plan: Lucide plane: widen both wing tips and tail fins coherently; preserve the diagonal fuselage and rounded nose.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('airframe',(34,6), [('A',(42,14),8,8,True),('L',(34,24)),('L',(42,34)),('L',(34,42)),('L',(26,30)),('L',(20,36)),('L',(22,42)),('L',(12,42)),('L',(12,36)),('L',(6,34)),('L',(6,24)),('L',(14,26)),('L',(20,20)),('L',(6,12)),('L',(12,6)),('L',(26,14)),('L',(34,6))],True)

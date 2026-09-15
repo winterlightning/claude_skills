@@ -1,0 +1,761 @@
+{
+  "icon_id": "satellite-ground-station-building",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "dish:subpath-1",
+        "elementId": "dish",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 14 6 A 10 10 0 0 0 10 14 A 10 10 0 0 0 20 24 A 10 10 0 0 0 26 22 L 20 14 L 14 6 Z",
+        "bounds": [
+          10.0,
+          6.0,
+          26.0,
+          24.0
+        ],
+        "segmentCount": 163,
+        "approximationError": 0.0007529910589395096,
+        "hasCurves": true
+      },
+      {
+        "id": "feed:subpath-1",
+        "elementId": "feed",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 20 14 L 28 6",
+        "bounds": [
+          20.0,
+          6.0,
+          28.0,
+          14.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "mast:subpath-1",
+        "elementId": "mast",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 20 24 L 20 26",
+        "bounds": [
+          20.0,
+          24.0,
+          20.0,
+          26.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "building:subpath-1",
+        "elementId": "building",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 6 42 L 6 26 L 20 26 L 30 26 L 30 34 L 38 34 L 42 34 L 42 42 L 22 42 L 14 42 L 6 42 Z",
+        "bounds": [
+          6.0,
+          26.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 11,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "door:subpath-1",
+        "elementId": "door",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 14 42 L 14 34 L 22 34 L 22 42",
+        "bounds": [
+          14.0,
+          34.0,
+          22.0,
+          42.0
+        ],
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "antenna-two:subpath-1",
+        "elementId": "antenna-two",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 42 34 L 42 22",
+        "bounds": [
+          42.0,
+          22.0,
+          42.0,
+          34.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "dish:subpath-1",
+          "feed:subpath-1",
+          "mast:subpath-1",
+          "building:subpath-1",
+          "door:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "contourIds": [
+          "dish:subpath-1",
+          "feed:subpath-1",
+          "mast:subpath-1",
+          "building:subpath-1",
+          "door:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "elementIds": [
+          "dish",
+          "feed",
+          "mast",
+          "building",
+          "door",
+          "antenna-two"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      }
+    ],
+    "pairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "feed:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          20.0,
+          14.0
+        ]
+      },
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "mast:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          20.0,
+          24.0
+        ]
+      },
+      {
+        "contourIds": [
+          "mast:subpath-1",
+          "building:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          20.0,
+          26.0
+        ]
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "door:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          42.0
+        ]
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          42.0,
+          34.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "feed:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "dish:subpath-1",
+            "feed:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            20.0,
+            14.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "mast:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "dish:subpath-1",
+            "mast:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            20.0,
+            24.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "building:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "door:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "dish:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "feed:subpath-1",
+          "mast:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "feed:subpath-1",
+          "building:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "feed:subpath-1",
+          "door:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "feed:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "mast:subpath-1",
+          "building:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "mast:subpath-1",
+            "building:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            20.0,
+            26.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "mast:subpath-1",
+          "door:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "mast:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "door:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "building:subpath-1",
+            "door:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            42.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "building:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "building:subpath-1",
+            "antenna-two:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            42.0,
+            34.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "door:subpath-1",
+          "antenna-two:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": null,
+    "minimumInkClearance": null,
+    "reason": "No disconnected centerline components to compare.",
+    "stats": {
+      "commands": 29,
+      "flattenedSegments": 180,
+      "adaptiveNodes": 317,
+      "distanceTests": 0,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          16.0156,
+          17.0156
+        ],
+        "bbox_viewbox": [
+          12.0,
+          9.0312,
+          11.0312,
+          12.9688
+        ],
+        "bbox_ship_px": [
+          11.0312,
+          12.9688
+        ],
+        "bbox_design_u": [
+          11.0312,
+          12.9688
+        ],
+        "area_ship_px2": 68.8672,
+        "equivalent_diameter_ship_px": 9.364,
+        "equivalent_diameter_design_u": 9.364,
+        "inscribed_diameter_ship_px": 5.9796,
+        "inscribed_diameter_design_u": 5.9796,
+        "inscribed_radius_ship_px": 2.9898,
+        "inscribed_radius_design_u": 2.9898,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          10.6719,
+          30.6719
+        ],
+        "bbox_viewbox": [
+          8.0,
+          28.0,
+          32.0,
+          12.0
+        ],
+        "bbox_ship_px": [
+          32.0,
+          12.0
+        ],
+        "bbox_design_u": [
+          32.0,
+          12.0
+        ],
+        "area_ship_px2": 194.5596,
+        "equivalent_diameter_ship_px": 15.7392,
+        "equivalent_diameter_design_u": 15.7392,
+        "inscribed_diameter_ship_px": 5.375,
+        "inscribed_diameter_design_u": 5.375,
+        "inscribed_radius_ship_px": 2.6875,
+        "inscribed_radius_design_u": 2.6875,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          17.9844,
+          37.9844
+        ],
+        "bbox_viewbox": [
+          16.0,
+          36.0,
+          4.0,
+          4.0
+        ],
+        "bbox_ship_px": [
+          4.0,
+          4.0
+        ],
+        "bbox_design_u": [
+          4.0,
+          4.0
+        ],
+        "area_ship_px2": 16.0,
+        "equivalent_diameter_ship_px": 4.5135,
+        "equivalent_diameter_design_u": 4.5135,
+        "inscribed_diameter_ship_px": 4.0,
+        "inscribed_diameter_design_u": 4.0,
+        "inscribed_radius_ship_px": 2.0,
+        "inscribed_radius_design_u": 2.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 3,
+    "raster_artifact_count": 0,
+    "hole_count": 3,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          15.9844,
+          16.9531
+        ],
+        "bbox_viewbox": [
+          10.5,
+          6.7188,
+          14.7812,
+          16.7812
+        ],
+        "bbox_ship_px": [
+          14.7812,
+          16.7812
+        ],
+        "bbox_design_u": [
+          14.7812,
+          16.7812
+        ],
+        "area_ship_px2": 132.2734,
+        "equivalent_diameter_ship_px": 12.9775,
+        "equivalent_diameter_design_u": 12.9775,
+        "inscribed_diameter_ship_px": 8.9626,
+        "inscribed_diameter_design_u": 8.9626,
+        "inscribed_radius_ship_px": 4.4813,
+        "inscribed_radius_design_u": 4.4813,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.9813,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.9626
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          10.6719,
+          30.6719
+        ],
+        "bbox_viewbox": [
+          6.5,
+          26.5,
+          35.0,
+          15.0
+        ],
+        "bbox_ship_px": [
+          35.0,
+          15.0
+        ],
+        "bbox_design_u": [
+          35.0,
+          15.0
+        ],
+        "area_ship_px2": 357.1553,
+        "equivalent_diameter_ship_px": 21.3247,
+        "equivalent_diameter_design_u": 21.3247,
+        "inscribed_diameter_ship_px": 8.3623,
+        "inscribed_diameter_design_u": 8.3623,
+        "inscribed_radius_ship_px": 4.1811,
+        "inscribed_radius_design_u": 4.1811,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.6811,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.3622
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          17.9844,
+          37.9844
+        ],
+        "bbox_viewbox": [
+          14.5,
+          34.5,
+          7.0,
+          7.0
+        ],
+        "bbox_ship_px": [
+          7.0,
+          7.0
+        ],
+        "bbox_design_u": [
+          7.0,
+          7.0
+        ],
+        "area_ship_px2": 49.0,
+        "equivalent_diameter_ship_px": 7.8987,
+        "equivalent_diameter_design_u": 7.8987,
+        "inscribed_diameter_ship_px": 7.0,
+        "inscribed_diameter_design_u": 7.0,
+        "inscribed_radius_ship_px": 3.5,
+        "inscribed_radius_design_u": 3.5,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 2.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 4.0
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 1.0,
+    "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
+    "samples_per_unit": 32
+  },
+  "artifacts": {},
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "9ec3b0c12b99b8e3c4d8525c9cb9e0b70453b6575402237b37d9ce28851ab2fe",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-authored-topology-v3"
+    },
+    "internal_spacing": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "pinch_measurement": "authored-stroke-v1",
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "internal_spacing": {
+    "status": "reviewed",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "findings": [
+      {
+        "contour": "dish / building",
+        "elements": [
+          "dish-lower",
+          "building-2"
+        ],
+        "status": "review",
+        "sustained_length": 6.0,
+        "centerline_distance": 2.032,
+        "ink_gap": -1.968,
+        "nearest_points": [
+          [
+            19.25269906413576,
+            23.9720379718118
+          ],
+          [
+            19.125,
+            26.0
+          ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the satellite ground station building silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
+        }
+      },
+      {
+        "contour": "dish / building",
+        "elements": [
+          "dish-end",
+          "building-3"
+        ],
+        "status": "review",
+        "sustained_length": 6.5,
+        "centerline_distance": 2.0164,
+        "ink_gap": -1.9836,
+        "nearest_points": [
+          [
+            20.500311593386538,
+            23.987409664215576
+          ],
+          [
+            20.625,
+            26.0
+          ]
+        ],
+        "visual_review": {
+          "decision": "retain",
+          "reviewer": "gpt-6",
+          "reason": "Preserve the satellite ground station building silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
+          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
+        }
+      }
+    ],
+    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
+    "measured_status": "review",
+    "reviewed_finding_count": 2
+  },
+  "needs_review": false
+}

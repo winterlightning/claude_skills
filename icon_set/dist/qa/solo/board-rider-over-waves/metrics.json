@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "qa-overlays distance: lowest line distance 2.94 on centerlines; requires at least 8.0"
+  ],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -200,11 +202,11 @@
         "centerlineDistance": 9.369876029301556,
         "inkClearance": 5.369876029301556,
         "signedInkClearance": 5.369876029301556,
-        "lowerBound": 9.36897208240311,
+        "lowerBound": 9.369814375822608,
         "upperBound": 9.370779976200001,
-        "inkClearanceLowerBound": 5.3689720824031095,
+        "inkClearanceLowerBound": 5.3698143758226085,
         "inkClearanceUpperBound": 5.3707799762000015,
-        "approximationError": 0.0009039468984468613,
+        "approximationError": 0.0009039468984450849,
         "nearestPoints": [
           [
             17.147203022982254,
@@ -245,9 +247,9 @@
             "centerlineDistance": 9.369876029301556,
             "inkClearance": 5.369876029301556,
             "signedInkClearance": 5.369876029301556,
-            "lowerBound": 9.36897208240311,
+            "lowerBound": 9.369814375822608,
             "upperBound": 9.370779976200001,
-            "inkClearanceLowerBound": 5.3689720824031095,
+            "inkClearanceLowerBound": 5.3698143758226085,
             "inkClearanceUpperBound": 5.3707799762000015,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -263,7 +265,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -274,9 +276,9 @@
             "centerlineDistance": 10.89271430011203,
             "inkClearance": 6.892714300112029,
             "signedInkClearance": 6.892714300112029,
-            "lowerBound": 10.891810353213582,
+            "lowerBound": 10.892443989449804,
             "upperBound": 10.893618247010474,
-            "inkClearanceLowerBound": 6.891810353213582,
+            "inkClearanceLowerBound": 6.892443989449804,
             "inkClearanceUpperBound": 6.893618247010474,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -292,7 +294,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -303,9 +305,9 @@
             "centerlineDistance": 12.297060582408259,
             "inkClearance": 8.297060582408259,
             "signedInkClearance": 8.297060582408259,
-            "lowerBound": 12.296156635509814,
+            "lowerBound": 12.297058540778353,
             "upperBound": 12.297964529306705,
-            "inkClearanceLowerBound": 8.296156635509814,
+            "inkClearanceLowerBound": 8.297058540778353,
             "inkClearanceUpperBound": 8.297964529306705,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -321,7 +323,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -332,9 +334,9 @@
             "centerlineDistance": 20.0,
             "inkClearance": 16.0,
             "signedInkClearance": 16.0,
-            "lowerBound": 19.999096053101553,
+            "lowerBound": 20.0,
             "upperBound": 20.000903946898447,
-            "inkClearanceLowerBound": 15.999096053101553,
+            "inkClearanceLowerBound": 16.0,
             "inkClearanceUpperBound": 16.000903946898447,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -350,7 +352,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           },
           {
@@ -361,9 +363,9 @@
             "centerlineDistance": 12.297060582408259,
             "inkClearance": 8.297060582408259,
             "signedInkClearance": 8.297060582408259,
-            "lowerBound": 12.296156635509814,
+            "lowerBound": 12.297058540778353,
             "upperBound": 12.297964529306705,
-            "inkClearanceLowerBound": 8.296156635509814,
+            "inkClearanceLowerBound": 8.297058540778353,
             "inkClearanceUpperBound": 8.297964529306705,
             "approximationError": 0.0009039468984426912,
             "nearestPoints": [
@@ -379,7 +381,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -1062,6 +1064,11 @@
   },
   "artifacts": {
     "svg": "solo/board-rider-over-waves/icon.svg",
+    "holes": "solo/board-rider-over-waves/holes.png",
+    "spacing": "solo/board-rider-over-waves/spacing.png",
+    "spacing_svg": "solo/board-rider-over-waves/spacing.svg",
+    "internal-spacing": "solo/board-rider-over-waves/internal-spacing.png",
+    "internal_spacing_svg": "solo/board-rider-over-waves/internal-spacing.svg",
     "metrics": "solo/board-rider-over-waves/metrics.json"
   },
   "checks_run": [

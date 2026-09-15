@@ -15,44 +15,34 @@ class HangingSpider(Solo48):
     aliases = ()
     keywords = ('spider', 'thread', 'hanging', 'web', 'arachnid', 'legs', 'halloween', 'drop')
 
-    def build(self) -> None:
-        # Thread and oval body with four leg pairs; extremes (8,4)-(40,44).
-        self.add_arc('cap-top', (18, 22), (30, 22), radius_x=6, radius_y=8, sweep=True)
-        self.add_line('side-r1', (30, 22), (30, 29))
-        self.add_line('side-r2', (30, 29), (30, 36))
-        self.add_arc('cap-base', (30, 36), (18, 36), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('side-l1', (18, 36), (18, 29))
-        self.add_line('side-l2', (18, 29), (18, 22))
-        self.add_contour('body', 'cap-top', 'side-r1', 'side-r2', 'cap-base', 'side-l1', 'side-l2', closed=True)
-        self.add_line('thread', (24, 4), (24, 14))
-        self.relate("connect", "thread", "body")
-        self.add_line('l-upper-1', (18, 22), (9, 19))
-        self.add_line('l-upper-2', (9, 19), (8, 11))
-        self.add_contour('l-upper', 'l-upper-1', 'l-upper-2', closed=False)
-        self.add_line('l-middle-1', (18, 29), (8, 26))
-        self.add_contour('l-middle', 'l-middle-1', closed=False)
-        self.add_line('l-lower-1', (18, 36), (9, 36))
-        self.add_line('l-lower-2', (9, 36), (8, 41))
-        self.add_contour('l-lower', 'l-lower-1', 'l-lower-2', closed=False)
-        self.add_line('l-bottom-1', (18, 36), (15, 44))
-        self.add_contour('l-bottom', 'l-bottom-1', closed=False)
-        self.add_line('r-upper-1', (30, 22), (39, 19))
-        self.add_line('r-upper-2', (39, 19), (40, 11))
-        self.add_contour('r-upper', 'r-upper-1', 'r-upper-2', closed=False)
-        self.add_line('r-middle-1', (30, 29), (40, 26))
-        self.add_contour('r-middle', 'r-middle-1', closed=False)
-        self.add_line('r-lower-1', (30, 36), (39, 36))
-        self.add_line('r-lower-2', (39, 36), (40, 41))
-        self.add_contour('r-lower', 'r-lower-1', 'r-lower-2', closed=False)
-        self.add_line('r-bottom-1', (30, 36), (33, 44))
-        self.add_contour('r-bottom', 'r-bottom-1', closed=False)
-        self.relate("connect", 'body', 'l-upper')
-        self.relate("connect", 'body', 'l-middle')
-        self.relate("connect", 'body', 'l-lower')
-        self.relate("connect", 'body', 'l-bottom')
-        self.relate("connect", 'body', 'r-upper')
-        self.relate("connect", 'body', 'r-middle')
-        self.relate("connect", 'body', 'r-lower')
-        self.relate("connect", 'body', 'r-bottom')
-        self.relate("connect", 'l-lower', 'l-bottom')
-        self.relate("connect", 'r-lower', 'r-bottom')
+    def build(self):
+        # Plan: One capsule body owns four equally spaced leg roots per side and a hanging thread; mirrored legs diverge to preserve clearance.
+
+        # Each path owns a coherent stroke; control points preserve smooth tangents.
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, c in enumerate(commands):
+                k, end, *args = c
+                name = f'{n}-{j}'
+                if k == 'L': self.add_line(name, here, end)
+                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+        def circle(n, x, y, r):
+            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
+        def box(n, l, t, r, b, rad=4):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate('connect',a,b)
+        path('body',(18,14), [('A',(24,8),6,6,True),('A',(30,14),6,6,True),('L',(30,22)),('L',(30,30)),('L',(30,38)),('A',(24,44),6,6,True),('A',(18,38),6,6,True),('L',(18,30)),('L',(18,22)),('L',(18,14))],True)
+        line('thread',(24,4),(24,8));join('thread','body')
+        for side in (-1,1):
+         x=24+side*6;outer=24+side*16
+         poly(f'upper-{side}',(x,14),(outer,10),(outer,6));join(f'upper-{side}','body')
+         line(f'middle-{side}',(x,22),(outer,20));join(f'middle-{side}','body')
+         line(f'lower-{side}',(x,30),(outer,32));join(f'lower-{side}','body')
+         line(f'bottom-{side}',(x,38),(24+side*10,44));join(f'bottom-{side}','body')

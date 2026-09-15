@@ -1,7 +1,13 @@
-'An adult and a smaller child walk together with their hands meeting between them. A small tiered evergreen stands above the child, placing the pair within a park scene.\n\nConstruction: Adult and child walk beside a small tree; clothing details omitted. Bounds (4,8)-(44,40).\nLucide: Shared Lucide construction: geometric arcs and coherent contours; no additional subject-specific original used.'
+"""Adult and child walking in a park: replace the tiny filled child head with an outlined circle and connect their hands intentionally. Adult radius4 head(8,12), shoulder(8,24); child radius3 head(28,20), shoulder(28,31): both exact4 ink gaps. A smaller background tree preserves the park setting. Original and full_body_ref.png inspected.
+
+Reconstruct adult and child walking in park using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 12), actual torso junction (12, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
+An adult and a smaller child walk together with their hands meeting between them. A small tiered evergreen stands above the child, placing the pair within a park scene.
+
+Construction: Adult and child walk beside a small tree; clothing details omitted. Bounds (4,8)-(44,40).
+Lucide: Shared Lucide construction: geometric arcs and coherent contours; no additional subject-specific original used."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1a7cb03f-21bf-4ab8-a038-43f1f09b9abc'
 SOURCE_PATH = 'pictographic-primitives/wayfinding/family walk park_1a7cb03f-21bf-4ab8-a038-43f1f09b9abc.svg'
 AUTHOR = 'gpt-6'
@@ -9,41 +15,41 @@ AUTHOR = 'gpt-6'
 class AdultAndChildWalkingInPark(Solo48):
     icon_id = 'adult-and-child-walking-in-park'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
     category = 'objects/wayfinding'
     aliases = ()
     keywords = ('adult', 'child', 'family', 'walking', 'park', 'tree')
 
+    def ring(self, name, x, y, r):
+        self.add_arc(name + '-a', (x - r, y), (x + r, y), radius_x=r)
+        self.add_arc(name + '-b', (x + r, y), (x - r, y), radius_x=r)
+        self.add_contour(name, name + '-a', name + '-b', closed=True)
+
+    def branches(self, branches):
+        parts = []
+        for name, points in branches:
+            members = []
+            for i, (a, b) in enumerate(zip(points, points[1:])):
+                key = f'{name}-{i}'
+                self.add_line(key, a, b)
+                members.append(key)
+                parts.append((key, a, b))
+            if len(members) > 1:
+                self.add_contour(name, *members)
+        for i, (name, a, b) in enumerate(parts):
+            for other, c, d in parts[i + 1:]:
+                if a in (c, d) or b in (c, d):
+                    self.relate('connect', name, other)
+
     def build(self):
-        # Exact shared contact nodes; continuous shapes remain coherent contours.
-        self.add_arc('adult-head-top', (9, 11), (15, 11), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('adult-head-bottom', (15, 11), (9, 11), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('adult-body-1', (12, 23), (12, 30))
-        self.add_line('adult-arms-1', (4, 28), (12, 23))
-        self.add_line('adult-arms-2', (12, 23), (22, 28))
-        self.add_line('adult-legs-1', (6, 40), (12, 30))
-        self.add_line('adult-legs-2', (12, 30), (20, 40))
-        self.add_line('child-head', (30, 26), (30, 26))
-        self.add_line('child-body-1', (32, 35), (32, 37))
-        self.add_line('child-body-2', (32, 37), (28, 40))
-        self.add_line('child-leg-1', (32, 37), (38, 40))
-        self.add_line('child-arms-1', (29, 35), (32, 35))
-        self.add_line('child-arms-2', (32, 35), (38, 34))
-        self.add_arc('tree-crown-top', (32, 14), (44, 14), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('tree-crown-bottom-joint-1', (44, 14), (38, 20), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('tree-crown-bottom-joint-2', (38, 20), (32, 14), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_line('tree-trunk', (38, 20), (38, 26))
-        self.add_contour('adult-head', 'adult-head-top', 'adult-head-bottom', closed=True)
-        self.add_contour('adult-body', 'adult-body-1', closed=False)
-        self.add_contour('adult-arms', 'adult-arms-1', 'adult-arms-2', closed=False)
-        self.add_contour('adult-legs', 'adult-legs-1', 'adult-legs-2', closed=False)
-        self.add_contour('child-body', 'child-body-1', 'child-body-2', closed=False)
-        self.add_contour('child-leg', 'child-leg-1', closed=False)
-        self.add_contour('child-arms', 'child-arms-1', 'child-arms-2', closed=False)
-        self.add_contour('tree-crown', 'tree-crown-top', 'tree-crown-bottom-joint-1', 'tree-crown-bottom-joint-2', closed=True)
-        self.relate('connect', 'adult-body', 'adult-arms')
-        self.relate('connect', 'adult-body', 'adult-legs')
-        self.relate('connect', 'child-body', 'child-leg')
-        self.relate('connect', 'child-body', 'child-arms')
-        self.relate('connect', 'tree-crown', 'tree-trunk')
+        """Adult and child walking in a park: replace the tiny filled child head with an outlined circle and connect their hands intentionally. Adult radius4 head(8,12), shoulder(8,24); child radius3 head(28,20), shoulder(28,31): both exact4 ink gaps. A smaller background tree preserves the park setting. Original and full_body_ref.png inspected."""
+        self.ring('adult-head', 8, 12, 4)
+        self.ring('child-head', 28, 20, 3)
+        self.add_arc('tree-top', (38, 12), (44, 12), radius_x=3)
+        self.add_arc('tree-br', (44, 12), (41, 15), radius_x=3)
+        self.add_arc('tree-bl', (41, 15), (38, 12), radius_x=3)
+        self.add_contour('tree', 'tree-top', 'tree-br', 'tree-bl', closed=True)
+        self.add_line('trunk', (41, 15), (41, 26))
+        self.relate('connect', 'tree', 'trunk')
+        self.branches([('adult-body', [(8, 24), (8, 32)]), ('adult-left-arm', [(8, 24), (4, 29)]), ('adult-right-arm', [(8, 24), (16, 28)]), ('adult-legs', [(4, 40), (8, 32), (16, 40)]), ('child-body', [(28, 31), (28, 35)]), ('child-left-arm', [(28, 31), (20, 31), (16, 28)]), ('child-right-arm', [(28, 31), (36, 33)]), ('child-legs', [(24, 40), (28, 35), (36, 40)])])

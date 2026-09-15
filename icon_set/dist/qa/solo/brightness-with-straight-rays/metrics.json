@@ -158,9 +158,9 @@
         "centerlineDistance": 12.08401112079528,
         "inkClearance": 8.08401112079528,
         "signedInkClearance": 8.08401112079528,
-        "lowerBound": 12.08310610101277,
+        "lowerBound": 12.083189157584588,
         "upperBound": 12.084916140577791,
-        "inkClearanceLowerBound": 8.08310610101277,
+        "inkClearanceLowerBound": 8.083189157584588,
         "inkClearanceUpperBound": 8.084916140577791,
         "approximationError": 0.0009050197825111184,
         "nearestPoints": [
@@ -199,9 +199,9 @@
             "centerlineDistance": 12.08401112079528,
             "inkClearance": 8.08401112079528,
             "signedInkClearance": 8.08401112079528,
-            "lowerBound": 12.08310610101277,
+            "lowerBound": 12.083189157584588,
             "upperBound": 12.084916140577791,
-            "inkClearanceLowerBound": 8.08310610101277,
+            "inkClearanceLowerBound": 8.083189157584588,
             "inkClearanceUpperBound": 8.084916140577791,
             "approximationError": 0.0009050197825069809,
             "nearestPoints": [
@@ -217,7 +217,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -289,7 +289,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -302,11 +302,11 @@
         "centerlineDistance": 12.084011120795283,
         "inkClearance": 8.084011120795283,
         "signedInkClearance": 8.084011120795283,
-        "lowerBound": 12.083106101012772,
+        "lowerBound": 12.083189157584588,
         "upperBound": 12.084916140577793,
-        "inkClearanceLowerBound": 8.083106101012772,
+        "inkClearanceLowerBound": 8.083189157584588,
         "inkClearanceUpperBound": 8.084916140577793,
-        "approximationError": 0.0009050197825111184,
+        "approximationError": 0.000905019782509342,
         "nearestPoints": [
           [
             23.05257252241398,
@@ -343,9 +343,9 @@
             "centerlineDistance": 12.084011120795283,
             "inkClearance": 8.084011120795283,
             "signedInkClearance": 8.084011120795283,
-            "lowerBound": 12.083106101012772,
+            "lowerBound": 12.083189157584588,
             "upperBound": 12.084916140577793,
-            "inkClearanceLowerBound": 8.083106101012772,
+            "inkClearanceLowerBound": 8.083189157584588,
             "inkClearanceUpperBound": 8.084916140577793,
             "approximationError": 0.0009050197825069809,
             "nearestPoints": [
@@ -361,7 +361,7 @@
             "requiredCenterline": 8.0,
             "requiredInkClearance": 4.0,
             "status": "pass",
-            "reason": "The conservative distance lower bound meets the minimum.",
+            "reason": "Exact circle/control-hull separation meets the minimum.",
             "ambiguousContact": false
           }
         ]
@@ -687,12 +687,18 @@
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
     "svg": "solo/brightness-with-straight-rays/icon.svg",
+    "holes": "solo/brightness-with-straight-rays/holes.png",
+    "spacing": "solo/brightness-with-straight-rays/spacing.png",
+    "spacing_svg": "solo/brightness-with-straight-rays/spacing.svg",
+    "internal-spacing": "solo/brightness-with-straight-rays/internal-spacing.png",
+    "internal_spacing_svg": "solo/brightness-with-straight-rays/internal-spacing.svg",
     "metrics": "solo/brightness-with-straight-rays/metrics.json"
   },
   "checks_run": [
@@ -744,6 +750,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -758,7 +765,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

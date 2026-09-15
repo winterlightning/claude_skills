@@ -32,7 +32,7 @@ class JetSkiMotion(Solo48):
 
     def build(self):
 
-        self.path('hull',[(6,14),(22,26),(30,22),(24,18),(12,10)])
+        self.path('hull',[(6,14),(22,26),(30,22),(24,18),(12,6)])
         self.add_line('handle',(24,18),(24,6));self.relate('connect','handle','hull')
         self.add_line('speed-upper',(6,30),(18,38));self.add_line('speed-lower',(6,40),(8,42))
         self.add_arc('wave-up',(28,38),(36,38),radius_x=4)

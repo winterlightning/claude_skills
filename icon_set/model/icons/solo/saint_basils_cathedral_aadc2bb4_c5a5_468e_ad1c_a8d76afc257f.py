@@ -18,7 +18,7 @@ class Landmark(Solo48):
     keywords = ('saint basil', 'moscow', 'russia', 'cathedral', 'onion dome', 'landmark', 'church', 'religion')
 
     def build(self):
-        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        """Widen the two symmetric dome valleys by lowering their connecting shoulders."""
         self.add_polyline('base', (10, 30), (10, 44), (38, 44), (38, 30))
         for side in (-1, 1):
             p = 'left' if side < 0 else 'right'
@@ -29,7 +29,7 @@ class Landmark(Solo48):
             self.add_arc(p + '-outer', pt(8, 24), pt(12, 16), radius_x=10, radius_y=10, sweep=side < 0)
             self.add_arc(p + '-inner', pt(12, 16), pt(16, 24), radius_x=10, radius_y=10, sweep=side < 0)
             self.add_arc(p + '-inner-lower', pt(16, 24), pt(14, 30), radius_x=2, radius_y=6, sweep=side < 0)
-            self.add_polyline(p + '-shoulder', pt(14, 30), pt(20, 24), pt(20, 22))
+            self.add_polyline(p + '-shoulder', pt(14, 30), pt(19, 28), pt(20, 22))
             self.add_arc(p + '-central-lower', pt(20, 22), pt(18, 16), radius_x=2, radius_y=6, sweep=side < 0)
             self.add_arc(p + '-central-top', pt(18, 16), (24, 4), radius_x=15, sweep=side < 0)
             self.add_contour(p + '-central', p + '-central-lower', p + '-central-top')
