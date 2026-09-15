@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5761e51b-6ba1-422a-83d1-966f39538a63'
-SOURCE_PATH = 'icons-json/electronics/zener diode_5761e51b-6ba1-422a-83d1-966f39538a63.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/zener diode_5761e51b-6ba1-422a-83d1-966f39538a63.svg'
 AUTHOR = 'gpt-6'
 
 class ZenerDiode(Solo48):

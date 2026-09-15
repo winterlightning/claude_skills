@@ -1,0 +1,36 @@
+..........F........F....................
+======================================================================
+FAIL: test_hole_gate_catches_a_defect_the_vector_validator_cannot (icon_set.tests.test_library_qa.NegativeSpaceTests.test_hole_gate_catches_a_defect_the_vector_validator_cannot)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_library_qa.py", line 75, in test_hole_gate_catches_a_defect_the_vector_validator_cannot
+    self.assertTrue(icon.validate_icon().ok)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_arc_authored_hierarchy_circles_pass (icon_set.tests.test_library_qa.SmallCircleExceptionTests.test_arc_authored_hierarchy_circles_pass)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_library_qa.py", line 200, in test_arc_authored_hierarchy_circles_pass
+    self.assertEqual(row['status'], 'pass')
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 'review' != 'pass'
+- review
++ pass
+
+
+----------------------------------------------------------------------
+Ran 40 tests in 44.600s
+
+FAILED (failures=2)
+[solo] 2 of 2 icons checked; 0 unchanged since the last build reused
+FAILED BUILD [solo]: 1 of 2 checked icons did not validate -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpqav302ud/dist/failed/solo48
+
+  connected-channel-fixture
+    internal-spacing [outer / inner]: outer-3 and return have 2.0752 units of ink clearance over 23.0653 units; requires 4; review required
+
+Icon gallery -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpqav302ud/dist/gallery/index.html
+[solo] validated and exported 1 SOLO48 icons -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpqav302ud/dist/solo48; 1 failed -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpqav302ud/dist/failed/solo48
+
+1 icon(s) failed validation; their SVGs and errors are in /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpqav302ud/dist/failed and the gallery's Failed build tab.

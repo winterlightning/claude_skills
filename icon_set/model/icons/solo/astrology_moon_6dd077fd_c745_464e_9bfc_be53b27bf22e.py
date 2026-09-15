@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6dd077fd-c745-464e-9bfc-be53b27bf22e'
-SOURCE_PATH = 'icons-json/religion/astrology moon_6dd077fd-c745-464e-9bfc-be53b27bf22e.json'
+SOURCE_PATH = 'pictographic-primitives/religion/astrology moon_6dd077fd-c745-464e-9bfc-be53b27bf22e.svg'
 AUTHOR = 'gpt-6'
 
 class AstrologyMoon(Solo48):

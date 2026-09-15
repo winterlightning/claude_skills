@@ -8,8 +8,8 @@ Body cue: uniform belt. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/police.svg'
+SOURCE_ICON_ID = '37ab5a7a-3b36-4e23-875f-657b67943fc3'
+SOURCE_PATH = 'pictographic-primitives/transportation/police_37ab5a7a-3b36-4e23-875f-657b67943fc3.svg'
 SOURCE_HEAD_ICON_ID = 'police'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

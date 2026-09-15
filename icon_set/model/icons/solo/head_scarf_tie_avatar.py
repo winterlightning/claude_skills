@@ -9,8 +9,8 @@ Clothing cue: diagonally tied scarf. Hair asymmetry follows the reference, face 
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/head-scarf-tie.svg'
+SOURCE_ICON_ID = 'd91b104f-4bd1-4359-bf72-c9162bc1c67b'
+SOURCE_PATH = 'pictographic-primitives/avatars/head scarf tie_d91b104f-4bd1-4359-bf72-c9162bc1c67b.svg'
 SOURCE_HEAD_ICON_ID = 'head-scarf-tie'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

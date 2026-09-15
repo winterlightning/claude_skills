@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd931a080-b0aa-5280-b50e-074e997cbca4'
-SOURCE_PATH = 'icons-json/outdoors/fishing line_d931a080-b0aa-5280-b50e-074e997cbca4.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/fishing line_d931a080-b0aa-5280-b50e-074e997cbca4.svg'
 AUTHOR = 'gpt-6'
 
 class FishingLine(Solo48):

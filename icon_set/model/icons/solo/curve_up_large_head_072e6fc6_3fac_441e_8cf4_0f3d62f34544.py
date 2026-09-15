@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '072e6fc6-3fac-441e-8cf4-0f3d62f34544'
-SOURCE_PATH = 'icons-json/arrows/curve up large head_072e6fc6-3fac-441e-8cf4-0f3d62f34544.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/curve up large head_072e6fc6-3fac-441e-8cf4-0f3d62f34544.svg'
 AUTHOR = 'gpt-6'
 
 class CurveUpLargeHead(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9acf6d75-fd0b-5669-bda9-3051aa82ac0b'
-SOURCE_PATH = 'icons-json/outdoors/beach parasol water_9acf6d75-fd0b-5669-bda9-3051aa82ac0b.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/beach parasol water_9acf6d75-fd0b-5669-bda9-3051aa82ac0b.svg'
 AUTHOR = 'gpt-6'
 
 class BeachParasolWater(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'fd7cd327-9177-528e-8a97-5ea387ee5601'
-SOURCE_PATH = 'icons-json/design/warp fisheye_fd7cd327-9177-528e-8a97-5ea387ee5601.json'
+SOURCE_PATH = 'pictographic-primitives/design/warp fisheye_fd7cd327-9177-528e-8a97-5ea387ee5601.svg'
 AUTHOR = 'gpt-6'
 
 class WarpFisheye(Solo48):

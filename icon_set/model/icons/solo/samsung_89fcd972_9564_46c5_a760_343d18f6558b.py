@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '89fcd972-9564-46c5-a760-343d18f6558b'
-SOURCE_PATH = 'icons-json/phones/samsung_89fcd972-9564-46c5-a760-343d18f6558b.json'
+SOURCE_PATH = 'pictographic-primitives/phones/samsung_89fcd972-9564-46c5-a760-343d18f6558b.svg'
 AUTHOR = 'gpt-6'
 
 class Samsung(Solo48):

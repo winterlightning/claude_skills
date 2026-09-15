@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5b89f261-bd85-4abc-8e75-64ff35cd7b4f'
-SOURCE_PATH = 'icons-json/chat/smile_5b89f261-bd85-4abc-8e75-64ff35cd7b4f.json'
+SOURCE_PATH = 'pictographic-primitives/chat/smile_5b89f261-bd85-4abc-8e75-64ff35cd7b4f.svg'
 AUTHOR = 'gpt-6'
 
 class Smile(Solo48):

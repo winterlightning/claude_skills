@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '69cdd7db-2798-4d20-afc9-176097689ca1'
-SOURCE_PATH = 'icons-json/office/drawer_69cdd7db-2798-4d20-afc9-176097689ca1.json'
+SOURCE_PATH = 'pictographic-primitives/office/drawer_69cdd7db-2798-4d20-afc9-176097689ca1.svg'
 AUTHOR = 'gpt-6'
 
 class Drawer(Solo48):

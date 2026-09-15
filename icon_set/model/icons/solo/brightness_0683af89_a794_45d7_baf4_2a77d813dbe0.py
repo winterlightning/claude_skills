@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0683af89-a794-45d7-baf4-2a77d813dbe0'
-SOURCE_PATH = 'icons-json/interface-essential/brightness_0683af89-a794-45d7-baf4-2a77d813dbe0.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/brightness_0683af89-a794-45d7-baf4-2a77d813dbe0.svg'
 AUTHOR = 'gpt-6'
 
 class Brightness(Solo48):

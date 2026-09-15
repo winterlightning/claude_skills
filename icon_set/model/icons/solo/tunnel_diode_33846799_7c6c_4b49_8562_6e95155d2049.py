@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '33846799-7c6c-4b49-8562-6e95155d2049'
-SOURCE_PATH = 'icons-json/electronics/tunnel diode_33846799-7c6c-4b49-8562-6e95155d2049.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/tunnel diode_33846799-7c6c-4b49-8562-6e95155d2049.svg'
 AUTHOR = 'gpt-6'
 
 class TunnelDiode(Solo48):

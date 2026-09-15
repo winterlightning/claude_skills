@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9b71ccf4-c3c7-5e9b-aeac-e3e75da3d0dc'
-SOURCE_PATH = 'icons-json/smileys/indifferent_9b71ccf4-c3c7-5e9b-aeac-e3e75da3d0dc.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/indifferent_9b71ccf4-c3c7-5e9b-aeac-e3e75da3d0dc.svg'
 AUTHOR = 'gpt-6'
 
 class Indifferent(Solo48):

@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: scrub collar.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/nurse-without-cap-cloth-1.svg'
+SOURCE_ICON_ID = 'e9f99cf7-639c-4331-b034-9ed2bf508b2c'
+SOURCE_PATH = 'pictographic-primitives/avatars/nurse without cap cloth_e9f99cf7-639c-4331-b034-9ed2bf508b2c.svg'
 SOURCE_HEAD_ICON_ID = 'nurse-without-cap-cloth-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 22

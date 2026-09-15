@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '104467b1-f804-420a-a178-c7d9d6634b03'
-SOURCE_PATH = 'icons-json/state/rectangle remove_104467b1-f804-420a-a178-c7d9d6634b03.json'
+SOURCE_PATH = 'pictographic-primitives/state/rectangle remove_104467b1-f804-420a-a178-c7d9d6634b03.svg'
 AUTHOR = 'gpt-6'
 
 class RectangleRemove(Solo48):

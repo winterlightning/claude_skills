@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f20dfd15-62cd-5761-8284-47d3f1972b48'
-SOURCE_PATH = 'icons-json/mobile/do not disturb sleep mode_f20dfd15-62cd-5761-8284-47d3f1972b48.json'
+SOURCE_PATH = 'pictographic-primitives/mobile/do not disturb sleep mode_f20dfd15-62cd-5761-8284-47d3f1972b48.svg'
 AUTHOR = 'gpt-6'
 
 class DoNotDisturbSleepMode(Solo48):

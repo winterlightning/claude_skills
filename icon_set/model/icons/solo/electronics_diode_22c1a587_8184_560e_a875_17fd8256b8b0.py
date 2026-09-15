@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '22c1a587-8184-560e-a875-17fd8256b8b0'
-SOURCE_PATH = 'icons-json/electronics/electronics diode_22c1a587-8184-560e-a875-17fd8256b8b0.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/electronics diode_22c1a587-8184-560e-a875-17fd8256b8b0.svg'
 AUTHOR = 'gpt-6'
 
 class ElectronicsDiode(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5762ca4d-99c2-4016-910c-36aa0e18889f'
-SOURCE_PATH = 'icons-json/wayfinding/arrow_5762ca4d-99c2-4016-910c-36aa0e18889f.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/arrow_5762ca4d-99c2-4016-910c-36aa0e18889f.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowWayfinding(Solo48):

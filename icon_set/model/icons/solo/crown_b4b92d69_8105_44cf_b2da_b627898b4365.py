@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b4b92d69-8105-44cf-b2da-b627898b4365'
-SOURCE_PATH = 'icons-json/symbol/crown_b4b92d69-8105-44cf-b2da-b627898b4365.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/crown_b4b92d69-8105-44cf-b2da-b627898b4365.svg'
 AUTHOR = 'gpt-6'
 
 class Crown(Solo48):

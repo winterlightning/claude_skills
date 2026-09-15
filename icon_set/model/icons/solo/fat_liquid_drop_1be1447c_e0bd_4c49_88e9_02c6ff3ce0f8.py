@@ -1,10 +1,13 @@
-"""Fat liquid drop (drinks), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""fat-liquid-drop: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1be1447c-e0bd-4c49-88e9-02c6ff3ce0f8'
-SOURCE_PATH = 'icons-json/drinks/fat liquid drop_1be1447c-e0bd-4c49-88e9-02c6ff3ce0f8.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/drinks/fat liquid drop_1be1447c-e0bd-4c49-88e9-02c6ff3ce0f8.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class FatLiquidDrop(Solo48):
     icon_id = 'fat-liquid-drop'
@@ -16,18 +19,10 @@ class FatLiquidDrop(Solo48):
     keywords = ('fat', 'liquid', 'drop', 'drinks')
 
     def build(self):
-        self.add_line('sym-e0', (22, 7), (14, 18))
-        self.add_arc('sym-e1', (14, 18), (8, 30), radius_x=31, sweep=False)
-        self.add_line('sym-e2', (8, 30), (8, 31))
-        self.add_arc('sym-e4', (8, 31), (9, 35), radius_x=10, sweep=False)
-        self.add_arc('sym-e5', (9, 35), (23, 44), radius_x=16, sweep=False)
-        self.add_line('sym-e6', (23, 44), (24, 44))
-        self.add_arc('sym-e9', (24, 44), (25, 44), radius_x=29)
-        self.add_arc('sym-e10', (25, 44), (39, 35), radius_x=16, sweep=False)
-        self.add_arc('sym-e11', (39, 35), (40, 31), radius_x=10, sweep=False)
-        self.add_line('sym-e13', (40, 31), (40, 30))
-        self.add_arc('sym-e14', (40, 30), (34, 18), radius_x=30, sweep=False)
-        self.add_line('sym-e15', (34, 18), (26, 7))
-        self.add_line('sym-e16', (26, 7), (24, 4))
-        self.add_line('sym-e17', (24, 4), (22, 7))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e17', closed=True)
+        # Plan: VRECT_L; mirrored shoulders meet a circular bowl with vertical tangents.
+        # Reference: Lucide droplet: a coherent pointed crest and round bowl.
+        axis = 24
+        self.add_bezier('left',(axis,4),((19,11),(8,22),(8,28)))
+        self.add_arc('bowl',(8,28),(40,28),radius_x=16,sweep=False)
+        self.add_bezier('right',(40,28),((40,22),(29,11),(axis,4)))
+        self.add_contour('outline','left','bowl','right',closed=True)

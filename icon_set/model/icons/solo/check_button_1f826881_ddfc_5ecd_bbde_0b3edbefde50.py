@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1f826881-ddfc-5ecd-bbde-0b3edbefde50'
-SOURCE_PATH = 'icons-json/interface-essential/check button_1f826881-ddfc-5ecd-bbde-0b3edbefde50.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/check button_1f826881-ddfc-5ecd-bbde-0b3edbefde50.svg'
 AUTHOR = 'gpt-6'
 
 class CheckButton(Solo48):

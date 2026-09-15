@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9a1ed44e-1143-59a7-813e-101fa7a6d148'
-SOURCE_PATH = 'icons-json/interface-essential/move right_9a1ed44e-1143-59a7-813e-101fa7a6d148.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/move right_9a1ed44e-1143-59a7-813e-101fa7a6d148.svg'
 AUTHOR = 'gpt-6'
 
 class MoveRight(Solo48):

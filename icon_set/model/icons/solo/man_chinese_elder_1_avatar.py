@@ -6,8 +6,8 @@ cardinal arcs. Fine trim and the tiny internal beard detail omitted at 48. Body 
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-chinese-elder-1.svg'
+SOURCE_ICON_ID = 'bc3bae42-c42e-4c1b-af47-3e748a678e13'
+SOURCE_PATH = 'pictographic-primitives/avatars/man chinese elder_bc3bae42-c42e-4c1b-af47-3e748a678e13.svg'
 SOURCE_HEAD_ICON_ID = 'man-chinese-elder-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

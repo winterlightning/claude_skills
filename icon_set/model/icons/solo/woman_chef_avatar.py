@@ -8,8 +8,8 @@ Body cue: chef apron. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-14/references/woman-chef.svg'
+SOURCE_ICON_ID = '479009b2-efa3-5461-b351-7424258ac297'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman chef_479009b2-efa3-5461-b351-7424258ac297.svg'
 SOURCE_HEAD_ICON_ID = 'woman-chef'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '85afe198-8caf-4a8a-b751-b82fbc6bda8c'
-SOURCE_PATH = 'icons-json/finance/virtual coin crypto iota_85afe198-8caf-4a8a-b751-b82fbc6bda8c.json'
+SOURCE_PATH = 'pictographic-primitives/finance/virtual coin crypto iota_85afe198-8caf-4a8a-b751-b82fbc6bda8c.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoIota(Solo48):

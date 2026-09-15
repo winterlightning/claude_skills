@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ab4efcc8-0cf1-4f8d-a402-841966ada655'
-SOURCE_PATH = 'icons-json/arrows/deploy rules_ab4efcc8-0cf1-4f8d-a402-841966ada655.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/deploy rules_ab4efcc8-0cf1-4f8d-a402-841966ada655.svg'
 AUTHOR = 'gpt-6'
 
 class DeployRules(Solo48):

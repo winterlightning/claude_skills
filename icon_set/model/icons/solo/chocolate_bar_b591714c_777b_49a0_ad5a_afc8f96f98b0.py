@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b591714c-777b-49a0-ad5a-afc8f96f98b0'
-SOURCE_PATH = 'icons-json/food/chocolate bar_b591714c-777b-49a0-ad5a-afc8f96f98b0.json'
+SOURCE_PATH = 'pictographic-primitives/food/chocolate bar_b591714c-777b-49a0-ad5a-afc8f96f98b0.svg'
 AUTHOR = 'gpt-6'
 
 class ChocolateBar(Solo48):

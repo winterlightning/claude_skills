@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9c11e411-398a-4857-9680-cf334bf7be9a'
-SOURCE_PATH = 'icons-json/design/shape peg top_9c11e411-398a-4857-9680-cf334bf7be9a.json'
+SOURCE_PATH = 'pictographic-primitives/design/shape peg top_9c11e411-398a-4857-9680-cf334bf7be9a.svg'
 AUTHOR = 'gpt-6'
 
 class ShapePegTop(Solo48):

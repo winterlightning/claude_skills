@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: protective coat with a chest band and cent
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-fire-fighter-woman.svg'
+SOURCE_ICON_ID = '3eee532b-a6a4-5e11-9099-320f9bab18ea'
+SOURCE_PATH = 'pictographic-primitives/avatars/avatar fire fighter woman_3eee532b-a6a4-5e11-9099-320f9bab18ea.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-fire-fighter-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a0e10581-e9da-4ad2-86ee-9fb92f7f28f3'
-SOURCE_PATH = 'icons-json/interface-essential/loading bar 1_a0e10581-e9da-4ad2-86ee-9fb92f7f28f3.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/loading bar 1_a0e10581-e9da-4ad2-86ee-9fb92f7f28f3.svg'
 AUTHOR = 'gpt-6'
 
 class LoadingBar1(Solo48):

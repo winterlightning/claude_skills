@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '673c2bb4-20d5-46ea-9272-e82a19207dfb'
-SOURCE_PATH = 'icons-json/technology/drone 1_673c2bb4-20d5-46ea-9272-e82a19207dfb.json'
+SOURCE_PATH = 'pictographic-primitives/technology/drone 1_673c2bb4-20d5-46ea-9272-e82a19207dfb.svg'
 AUTHOR = 'gpt-6'
 
 class Drone1(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9aef2fa3-a180-440e-8f69-2d6f71b6f2b3'
-SOURCE_PATH = 'icons-json/networks/gpon splitter 1_9aef2fa3-a180-440e-8f69-2d6f71b6f2b3.json'
+SOURCE_PATH = 'pictographic-primitives/networks/gpon splitter 1_9aef2fa3-a180-440e-8f69-2d6f71b6f2b3.svg'
 AUTHOR = 'gpt-6'
 
 class GponSplitter1(Solo48):

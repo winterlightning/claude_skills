@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e2c93d05-2d63-4076-a60c-d4472d3b679a'
-SOURCE_PATH = 'icons-json/design/vectors anchor triangle_e2c93d05-2d63-4076-a60c-d4472d3b679a.json'
+SOURCE_PATH = 'pictographic-primitives/design/vectors anchor triangle_e2c93d05-2d63-4076-a60c-d4472d3b679a.svg'
 AUTHOR = 'gpt-6'
 
 class VectorsAnchorTriangle(Solo48):

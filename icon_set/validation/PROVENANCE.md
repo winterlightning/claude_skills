@@ -14,7 +14,10 @@ The method narrows a 4-unit authored stroke to a 1-unit measuring stroke and
 adds the 1.5-unit retreat to the minimum hole radius. Reports show both measured
 and equivalent authored-stroke diameters. Raster supersampling is 32 samples per
 unit. Hole measurements are raster approximations, not exact vector proofs.
-Pinch checking follows the source's adjusted fill-depth calculation.
+Pinch checking runs on the authored 4-unit ink, using the configured 1-unit
+closure depth without subtracting the hole-measurement retreat. The previous
+adjustment reduced that depth to zero and disabled pinch detection. This adapter
+correction leaves the vendored algorithm and numeric thresholds unchanged.
 
 Spacing continues to use this project's existing `stroke_distance.py` engine,
 including explicit composition ownership and declared-contact exemptions. Debug

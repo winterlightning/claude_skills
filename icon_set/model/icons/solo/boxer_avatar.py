@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: raised boxing gloves and bent forearms.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/boxer.svg'
+SOURCE_ICON_ID = 'c2a64d8a-ca70-53b9-b450-150287c2bfc6'
+SOURCE_PATH = 'pictographic-primitives/avatars/boxer_c2a64d8a-ca70-53b9-b450-150287c2bfc6.svg'
 SOURCE_HEAD_ICON_ID = 'boxer'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

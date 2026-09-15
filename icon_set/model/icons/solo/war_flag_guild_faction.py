@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a677ecd4-20fe-4fb0-b00c-927e74c53dff'
-SOURCE_PATH = 'icons-json/video-games/war flag guild faction_a677ecd4-20fe-4fb0-b00c-927e74c53dff.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/war flag guild faction_a677ecd4-20fe-4fb0-b00c-927e74c53dff.svg'
 AUTHOR = 'gpt-6'
 
 class WarFlagGuildFaction(Solo48):

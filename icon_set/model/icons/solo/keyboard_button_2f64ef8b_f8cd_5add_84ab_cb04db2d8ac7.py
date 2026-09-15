@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2f64ef8b-f8cd-5add-84ab-cb04db2d8ac7'
-SOURCE_PATH = 'icons-json/interface-essential/keyboard button_2f64ef8b-f8cd-5add-84ab-cb04db2d8ac7.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/keyboard button_2f64ef8b-f8cd-5add-84ab-cb04db2d8ac7.svg'
 AUTHOR = 'gpt-6'
 
 class KeyboardButton(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f23c1fcf-345a-4ef4-b844-ecdca619586a'
-SOURCE_PATH = 'icons-json/logos/microsoft visual studio logo_f23c1fcf-345a-4ef4-b844-ecdca619586a.json'
+SOURCE_PATH = 'pictographic-primitives/logos/microsoft visual studio logo_f23c1fcf-345a-4ef4-b844-ecdca619586a.svg'
 AUTHOR = 'gpt-6'
 
 class MicrosoftVisualStudioLogo(Solo48):

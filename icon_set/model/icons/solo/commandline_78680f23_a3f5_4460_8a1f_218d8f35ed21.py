@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '78680f23-a3f5-4460-8a1f-218d8f35ed21'
-SOURCE_PATH = 'icons-json/programing/commandline_78680f23-a3f5-4460-8a1f-218d8f35ed21.json'
+SOURCE_PATH = 'pictographic-primitives/programing/commandline_78680f23-a3f5-4460-8a1f-218d8f35ed21.svg'
 AUTHOR = 'gpt-6'
 
 class Commandline(Solo48):

@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: uniform front ban
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-bellboy-1.svg'
+SOURCE_ICON_ID = 'c204bbb4-18f5-5b91-af1a-c247e0a589d2'
+SOURCE_PATH = 'pictographic-primitives/avatars/man bellboy_c204bbb4-18f5-5b91-af1a-c247e0a589d2.svg'
 SOURCE_HEAD_ICON_ID = 'man-bellboy-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

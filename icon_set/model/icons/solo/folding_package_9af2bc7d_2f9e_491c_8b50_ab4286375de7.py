@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9af2bc7d-2f9e-491c-8b50-ab4286375de7'
-SOURCE_PATH = 'icons-json/health/folding package_9af2bc7d-2f9e-491c-8b50-ab4286375de7.json'
+SOURCE_PATH = 'pictographic-primitives/health/folding package_9af2bc7d-2f9e-491c-8b50-ab4286375de7.svg'
 AUTHOR = 'gpt-6'
 
 class FoldingPackage(Solo48):

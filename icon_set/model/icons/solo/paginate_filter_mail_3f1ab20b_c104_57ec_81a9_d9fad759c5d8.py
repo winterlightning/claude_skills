@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3f1ab20b-c104-57ec-81a9-d9fad759c5d8'
-SOURCE_PATH = 'icons-json/interface-essential/paginate filter mail_3f1ab20b-c104-57ec-81a9-d9fad759c5d8.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/paginate filter mail_3f1ab20b-c104-57ec-81a9-d9fad759c5d8.svg'
 AUTHOR = 'gpt-6'
 
 class PaginateFilterMail(Solo48):

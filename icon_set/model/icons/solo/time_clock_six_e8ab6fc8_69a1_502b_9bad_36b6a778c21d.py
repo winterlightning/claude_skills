@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e8ab6fc8-69a1-502b-9bad-36b6a778c21d'
-SOURCE_PATH = 'icons-json/interface-essential/time clock six_e8ab6fc8-69a1-502b-9bad-36b6a778c21d.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/time clock six_e8ab6fc8-69a1-502b-9bad-36b6a778c21d.svg'
 AUTHOR = 'gpt-6'
 
 class TimeClockSix(Solo48):

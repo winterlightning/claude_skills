@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1f2d1b12-2c74-4b57-91be-a4a84e1da748'
-SOURCE_PATH = 'icons-json/apps/pop up alert_1f2d1b12-2c74-4b57-91be-a4a84e1da748.json'
+SOURCE_PATH = 'pictographic-primitives/apps/pop up alert_1f2d1b12-2c74-4b57-91be-a4a84e1da748.svg'
 AUTHOR = 'gpt-6'
 
 class PopUpAlert(Solo48):

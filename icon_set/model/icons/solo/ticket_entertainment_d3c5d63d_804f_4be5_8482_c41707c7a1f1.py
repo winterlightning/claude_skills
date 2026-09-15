@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd3c5d63d-804f-4be5-8482-c41707c7a1f1'
-SOURCE_PATH = 'icons-json/entertainment/ticket_d3c5d63d-804f-4be5-8482-c41707c7a1f1.json'
+SOURCE_PATH = 'pictographic-primitives/entertainment/ticket_d3c5d63d-804f-4be5-8482-c41707c7a1f1.svg'
 AUTHOR = 'gpt-6'
 
 class Ticket(Solo48):

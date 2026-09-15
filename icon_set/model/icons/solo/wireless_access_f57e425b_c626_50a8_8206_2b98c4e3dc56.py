@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f57e425b-c626-50a8-8206-2b98c4e3dc56'
-SOURCE_PATH = 'icons-json/networks/wireless access_f57e425b-c626-50a8-8206-2b98c4e3dc56.json'
+SOURCE_PATH = 'pictographic-primitives/networks/wireless access_f57e425b-c626-50a8-8206-2b98c4e3dc56.svg'
 AUTHOR = 'gpt-6'
 
 class WirelessAccess(Solo48):

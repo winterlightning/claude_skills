@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ea5bd386-4f06-5935-9cb1-e87243d819f7'
-SOURCE_PATH = 'icons-json/tv/modern tv flat screen_ea5bd386-4f06-5935-9cb1-e87243d819f7.json'
+SOURCE_PATH = 'pictographic-primitives/tv/modern tv flat screen_ea5bd386-4f06-5935-9cb1-e87243d819f7.svg'
 AUTHOR = 'gpt-6'
 
 class ModernTvFlatScreen(Solo48):

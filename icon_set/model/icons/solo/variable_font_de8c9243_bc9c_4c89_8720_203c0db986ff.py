@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'de8c9243-bc9c-4c89-8720-203c0db986ff'
-SOURCE_PATH = 'icons-json/interface-essential/variable font_de8c9243-bc9c-4c89-8720-203c0db986ff.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/variable font_de8c9243-bc9c-4c89-8720-203c0db986ff.svg'
 AUTHOR = 'gpt-6'
 
 class VariableFont(Solo48):

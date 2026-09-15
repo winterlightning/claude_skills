@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '22495c58-f9b2-522e-aaa8-85134643b82b'
-SOURCE_PATH = 'icons-json/drinks/cocktail martini_22495c58-f9b2-522e-aaa8-85134643b82b.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/cocktail martini_22495c58-f9b2-522e-aaa8-85134643b82b.svg'
 AUTHOR = 'gpt-6'
 
 class CocktailMartini(Solo48):

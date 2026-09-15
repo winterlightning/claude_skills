@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9f632c5f-0d4e-502e-9710-3d4446d843c1'
-SOURCE_PATH = 'icons-json/interface-essential/subtract_9f632c5f-0d4e-502e-9710-3d4446d843c1.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/subtract_9f632c5f-0d4e-502e-9710-3d4446d843c1.svg'
 AUTHOR = 'gpt-6'
 
 class SubtractInterfaceEssential(Solo48):

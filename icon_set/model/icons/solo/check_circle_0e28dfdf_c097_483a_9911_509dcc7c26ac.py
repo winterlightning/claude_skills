@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0e28dfdf-c097-483a-9911-509dcc7c26ac'
-SOURCE_PATH = 'icons-json/interface-essential/check circle_0e28dfdf-c097-483a-9911-509dcc7c26ac.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/check circle_0e28dfdf-c097-483a-9911-509dcc7c26ac.svg'
 AUTHOR = 'gpt-6'
 
 class CheckCircle(Solo48):

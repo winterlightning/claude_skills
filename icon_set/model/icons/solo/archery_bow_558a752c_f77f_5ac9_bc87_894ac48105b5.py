@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '558a752c-f77f-5ac9-bc87-894ac48105b5'
-SOURCE_PATH = 'icons-json/sports/archery bow_558a752c-f77f-5ac9-bc87-894ac48105b5.json'
+SOURCE_PATH = 'pictographic-primitives/sports/archery bow_558a752c-f77f-5ac9-bc87-894ac48105b5.svg'
 AUTHOR = 'gpt-6'
 
 class ArcheryBow(Solo48):

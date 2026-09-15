@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cdd85cc2-8ad0-55be-b0b7-722399ebd6d6'
-SOURCE_PATH = 'icons-json/rating/rating half star_cdd85cc2-8ad0-55be-b0b7-722399ebd6d6.json'
+SOURCE_PATH = 'pictographic-primitives/rating/rating half star_cdd85cc2-8ad0-55be-b0b7-722399ebd6d6.svg'
 AUTHOR = 'gpt-6'
 
 class RatingHalfStar(Solo48):

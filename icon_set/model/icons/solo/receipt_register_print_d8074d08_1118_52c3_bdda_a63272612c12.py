@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd8074d08-1118-52c3-bdda-a63272612c12'
-SOURCE_PATH = 'icons-json/shopping/receipt register print_d8074d08-1118-52c3-bdda-a63272612c12.json'
+SOURCE_PATH = 'pictographic-primitives/shopping/receipt register print_d8074d08-1118-52c3-bdda-a63272612c12.svg'
 AUTHOR = 'gpt-6'
 
 class ReceiptRegisterPrint(Solo48):

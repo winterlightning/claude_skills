@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '64e20f3b-99e4-4b3c-9e26-3b813a564c12'
-SOURCE_PATH = 'icons-json/office/clock_64e20f3b-99e4-4b3c-9e26-3b813a564c12.json'
+SOURCE_PATH = 'pictographic-primitives/office/clock_64e20f3b-99e4-4b3c-9e26-3b813a564c12.svg'
 AUTHOR = 'gpt-6'
 
 class Clock64e20f3b(Solo48):

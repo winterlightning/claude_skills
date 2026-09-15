@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a53bd27a-5806-5a97-81ac-1e6b26e8a953'
-SOURCE_PATH = 'icons-json/music/classical piano_a53bd27a-5806-5a97-81ac-1e6b26e8a953.json'
+SOURCE_PATH = 'pictographic-primitives/music/classical piano_a53bd27a-5806-5a97-81ac-1e6b26e8a953.svg'
 AUTHOR = 'gpt-6'
 
 class ClassicalPiano(Solo48):

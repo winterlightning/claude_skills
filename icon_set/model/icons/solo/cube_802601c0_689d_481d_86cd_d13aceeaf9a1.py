@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '802601c0-689d-481d-86cd-d13aceeaf9a1'
-SOURCE_PATH = 'icons-json/symbol/cube_802601c0-689d-481d-86cd-d13aceeaf9a1.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/cube_802601c0-689d-481d-86cd-d13aceeaf9a1.svg'
 AUTHOR = 'gpt-6'
 
 class Cube(Solo48):

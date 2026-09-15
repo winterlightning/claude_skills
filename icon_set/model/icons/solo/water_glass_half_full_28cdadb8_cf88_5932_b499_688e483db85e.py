@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '28cdadb8-cf88-5932-b499-688e483db85e'
-SOURCE_PATH = 'icons-json/drinks/water glass half full_28cdadb8-cf88-5932-b499-688e483db85e.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/water glass half full_28cdadb8-cf88-5932-b499-688e483db85e.svg'
 AUTHOR = 'gpt-6'
 
 class WaterGlassHalfFull(Solo48):

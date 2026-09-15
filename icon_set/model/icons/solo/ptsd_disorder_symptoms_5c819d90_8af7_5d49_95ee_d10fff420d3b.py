@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5c819d90-8af7-5d49-95ee-d10fff420d3b'
-SOURCE_PATH = 'icons-json/health/ptsd disorder symptoms_5c819d90-8af7-5d49-95ee-d10fff420d3b.json'
+SOURCE_PATH = 'pictographic-primitives/health/ptsd disorder symptoms_5c819d90-8af7-5d49-95ee-d10fff420d3b.svg'
 AUTHOR = 'gpt-6'
 
 class PtsdDisorderSymptoms(Solo48):

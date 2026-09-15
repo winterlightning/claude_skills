@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'acd03875-660c-4af9-9378-1461c22875e1'
-SOURCE_PATH = 'icons-json/money/franc circle_acd03875-660c-4af9-9378-1461c22875e1.json'
+SOURCE_PATH = 'pictographic-primitives/money/franc circle_acd03875-660c-4af9-9378-1461c22875e1.svg'
 AUTHOR = 'gpt-6'
 
 class FrancCircle(Solo48):

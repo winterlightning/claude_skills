@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '963feaf1-4aa7-538d-a8ff-72fc466c34e8'
-SOURCE_PATH = 'icons-json/war/bomb explosive_963feaf1-4aa7-538d-a8ff-72fc466c34e8.json'
+SOURCE_PATH = 'pictographic-primitives/war/bomb explosive_963feaf1-4aa7-538d-a8ff-72fc466c34e8.svg'
 AUTHOR = 'gpt-6'
 
 class BombExplosive(Solo48):

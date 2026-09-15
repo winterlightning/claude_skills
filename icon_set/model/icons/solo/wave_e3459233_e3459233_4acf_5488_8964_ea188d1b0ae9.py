@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e3459233-4acf-5488-8964-ea188d1b0ae9'
-SOURCE_PATH = 'icons-json/wayfinding/wave_e3459233-4acf-5488-8964-ea188d1b0ae9.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/wave_e3459233-4acf-5488-8964-ea188d1b0ae9.svg'
 AUTHOR = 'gpt-6'
 
 class WaveE3459233(Solo48):

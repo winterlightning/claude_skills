@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6981ade4-e102-4951-9fe8-81610abcd4ee'
-SOURCE_PATH = 'icons-json/logos/google voice logo_6981ade4-e102-4951-9fe8-81610abcd4ee.json'
+SOURCE_PATH = 'pictographic-primitives/logos/google voice logo_6981ade4-e102-4951-9fe8-81610abcd4ee.svg'
 AUTHOR = 'gpt-6'
 
 class GoogleVoiceLogo(Solo48):

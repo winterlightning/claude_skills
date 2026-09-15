@@ -9,8 +9,8 @@ Clothing cue: fishing coat centre fastening. Hair asymmetry follows the referenc
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/fisherman.svg'
+SOURCE_ICON_ID = 'f9a15952-b44f-40bd-9175-26b5da145274'
+SOURCE_PATH = 'pictographic-primitives/avatars/fisherman_f9a15952-b44f-40bd-9175-26b5da145274.svg'
 SOURCE_HEAD_ICON_ID = 'fisherman'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

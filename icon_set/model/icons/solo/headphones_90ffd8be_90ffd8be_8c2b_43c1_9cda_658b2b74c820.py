@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '90ffd8be-8c2b-43c1-9cda-658b2b74c820'
-SOURCE_PATH = 'icons-json/audio/headphones_90ffd8be-8c2b-43c1-9cda-658b2b74c820.json'
+SOURCE_PATH = 'pictographic-primitives/audio/headphones_90ffd8be-8c2b-43c1-9cda-658b2b74c820.svg'
 AUTHOR = 'gpt-6'
 
 class Headphones90ffd8be(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fc11795e-9c7b-4522-995a-d02107828f81'
-SOURCE_PATH = 'icons-json/arrows/curvy both direction large head_fc11795e-9c7b-4522-995a-d02107828f81.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/curvy both direction large head_fc11795e-9c7b-4522-995a-d02107828f81.svg'
 AUTHOR = 'gpt-6'
 
 class CurvyBothDirectionLargeHead(Solo48):

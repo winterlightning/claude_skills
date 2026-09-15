@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '769934a7-f4c1-53a0-94f4-8cabcbf5384b'
-SOURCE_PATH = 'icons-json/office/stapler_769934a7-f4c1-53a0-94f4-8cabcbf5384b.json'
+SOURCE_PATH = 'pictographic-primitives/office/stapler_769934a7-f4c1-53a0-94f4-8cabcbf5384b.svg'
 AUTHOR = 'gpt-6'
 
 class Stapler(Solo48):

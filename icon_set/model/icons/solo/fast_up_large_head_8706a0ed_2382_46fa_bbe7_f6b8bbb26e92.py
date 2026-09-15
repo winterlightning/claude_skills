@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8706a0ed-2382-46fa-bbe7-f6b8bbb26e92'
-SOURCE_PATH = 'icons-json/arrows/fast up large head_8706a0ed-2382-46fa-bbe7-f6b8bbb26e92.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/fast up large head_8706a0ed-2382-46fa-bbe7-f6b8bbb26e92.svg'
 AUTHOR = 'gpt-6'
 
 class FastUpLargeHead(Solo48):

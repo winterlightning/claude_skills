@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '13b7d462-ded5-5fff-978a-c0240f20bf63'
-SOURCE_PATH = 'icons-json/protection/protection sand bag_13b7d462-ded5-5fff-978a-c0240f20bf63.json'
+SOURCE_PATH = 'pictographic-primitives/protection/protection sand bag_13b7d462-ded5-5fff-978a-c0240f20bf63.svg'
 AUTHOR = 'gpt-6'
 
 class ProtectionSandBag(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '447b2d50-1abc-5da9-852c-420f8701c4d4'
-SOURCE_PATH = 'icons-json/video-games/nintendo switch_447b2d50-1abc-5da9-852c-420f8701c4d4.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/nintendo switch_447b2d50-1abc-5da9-852c-420f8701c4d4.svg'
 AUTHOR = 'gpt-6'
 
 class NintendoSwitch(Solo48):

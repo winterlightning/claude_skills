@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1d6f2522-2f4b-4001-af2d-ea58f858d927'
-SOURCE_PATH = 'icons-json/health/bandaid_1d6f2522-2f4b-4001-af2d-ea58f858d927.json'
+SOURCE_PATH = 'pictographic-primitives/health/bandaid_1d6f2522-2f4b-4001-af2d-ea58f858d927.svg'
 AUTHOR = 'gpt-6'
 
 class Bandaid(Solo48):

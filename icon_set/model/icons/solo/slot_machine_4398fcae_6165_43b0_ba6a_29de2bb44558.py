@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4398fcae-6165-43b0-ba6a-29de2bb44558'
-SOURCE_PATH = 'icons-json/state/slot machine_4398fcae-6165-43b0-ba6a-29de2bb44558.json'
+SOURCE_PATH = 'pictographic-primitives/state/slot machine_4398fcae-6165-43b0-ba6a-29de2bb44558.svg'
 AUTHOR = 'gpt-6'
 
 class SlotMachine(Solo48):

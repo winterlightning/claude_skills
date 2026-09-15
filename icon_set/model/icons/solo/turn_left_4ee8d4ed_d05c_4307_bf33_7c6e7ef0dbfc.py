@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4ee8d4ed-d05c-4307-bf33-7c6e7ef0dbfc'
-SOURCE_PATH = 'icons-json/transportation/turn left_4ee8d4ed-d05c-4307-bf33-7c6e7ef0dbfc.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/turn left_4ee8d4ed-d05c-4307-bf33-7c6e7ef0dbfc.svg'
 AUTHOR = 'gpt-6'
 
 class TurnLeft(Solo48):

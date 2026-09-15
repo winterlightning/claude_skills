@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '18b1c5aa-cd32-5607-b7e3-25fee7ebcc4d'
-SOURCE_PATH = 'icons-json/tools/tools palette spatula_18b1c5aa-cd32-5607-b7e3-25fee7ebcc4d.json'
+SOURCE_PATH = 'pictographic-primitives/tools/tools palette spatula_18b1c5aa-cd32-5607-b7e3-25fee7ebcc4d.svg'
 AUTHOR = 'gpt-6'
 
 class ToolsPaletteSpatula(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '00cb3bd4-7aa4-5664-b6cd-b3deff47dfbf'
-SOURCE_PATH = 'icons-json/interface-essential/add tab_00cb3bd4-7aa4-5664-b6cd-b3deff47dfbf.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/add tab_00cb3bd4-7aa4-5664-b6cd-b3deff47dfbf.svg'
 AUTHOR = 'gpt-6'
 
 class AddTab(Solo48):

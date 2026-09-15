@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '86512d7e-7f89-425c-9c88-cc3440d9dc99'
-SOURCE_PATH = 'icons-json/interface-essential/expand 6_86512d7e-7f89-425c-9c88-cc3440d9dc99.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/expand 6_86512d7e-7f89-425c-9c88-cc3440d9dc99.svg'
 AUTHOR = 'gpt-6'
 
 class Expand6(Solo48):

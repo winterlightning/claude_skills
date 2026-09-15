@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '96421daf-8508-4131-bcb0-05c368fcbc6a'
-SOURCE_PATH = 'icons-json/design/hexagon_96421daf-8508-4131-bcb0-05c368fcbc6a.json'
+SOURCE_PATH = 'pictographic-primitives/design/hexagon_96421daf-8508-4131-bcb0-05c368fcbc6a.svg'
 AUTHOR = 'gpt-6'
 
 class HexagonDesign(Solo48):

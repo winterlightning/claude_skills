@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '39b81aef-5006-5f09-bd89-8a5d46b7dde8'
-SOURCE_PATH = 'icons-json/interface-essential/cursor target_39b81aef-5006-5f09-bd89-8a5d46b7dde8.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/cursor target_39b81aef-5006-5f09-bd89-8a5d46b7dde8.svg'
 AUTHOR = 'gpt-6'
 
 class CursorTarget(Solo48):

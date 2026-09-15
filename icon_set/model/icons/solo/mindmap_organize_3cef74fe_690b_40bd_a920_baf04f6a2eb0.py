@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3cef74fe-690b-40bd-a920-baf04f6a2eb0'
-SOURCE_PATH = 'icons-json/interface-essential/mindmap organize_3cef74fe-690b-40bd-a920-baf04f6a2eb0.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/mindmap organize_3cef74fe-690b-40bd-a920-baf04f6a2eb0.svg'
 AUTHOR = 'gpt-6'
 
 class MindmapOrganize(Solo48):

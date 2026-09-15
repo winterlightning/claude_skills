@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f1a54286-e9bb-5b0c-b184-d01536f22cfa'
-SOURCE_PATH = 'icons-json/interface-essential/increase indent_f1a54286-e9bb-5b0c-b184-d01536f22cfa.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/increase indent_f1a54286-e9bb-5b0c-b184-d01536f22cfa.svg'
 AUTHOR = 'gpt-6'
 
 class IncreaseIndent(Solo48):

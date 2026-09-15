@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ef715132-dcbb-446d-bc2d-8f47ae0978bf'
-SOURCE_PATH = 'icons-json/smileys/cold face frozen_ef715132-dcbb-446d-bc2d-8f47ae0978bf.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/cold face frozen_ef715132-dcbb-446d-bc2d-8f47ae0978bf.svg'
 AUTHOR = 'gpt-6'
 
 class ColdFaceFrozen(Solo48):

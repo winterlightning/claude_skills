@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2cc81fd5-4c06-5fc7-8ad6-30aee42e1323'
-SOURCE_PATH = 'icons-json/drinks/champagne glass_2cc81fd5-4c06-5fc7-8ad6-30aee42e1323.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/champagne glass_2cc81fd5-4c06-5fc7-8ad6-30aee42e1323.svg'
 AUTHOR = 'gpt-6'
 
 class ChampagneGlass(Solo48):

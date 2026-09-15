@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8077f630-37ed-409c-b63e-a8b7f1a3579d'
-SOURCE_PATH = 'icons-json/romance/dating lips_8077f630-37ed-409c-b63e-a8b7f1a3579d.json'
+SOURCE_PATH = 'pictographic-primitives/romance/dating lips_8077f630-37ed-409c-b63e-a8b7f1a3579d.svg'
 AUTHOR = 'gpt-6'
 
 class DatingLips(Solo48):

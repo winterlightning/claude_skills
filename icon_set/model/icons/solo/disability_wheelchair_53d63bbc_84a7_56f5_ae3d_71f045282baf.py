@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '53d63bbc-84a7-56f5-ae3d-71f045282baf'
-SOURCE_PATH = 'icons-json/wayfinding/disability wheelchair_53d63bbc-84a7-56f5-ae3d-71f045282baf.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/disability wheelchair_53d63bbc-84a7-56f5-ae3d-71f045282baf.svg'
 AUTHOR = 'gpt-6'
 
 class DisabilityWheelchair(Solo48):

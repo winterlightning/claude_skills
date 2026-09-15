@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a8df920a-b5e4-42ca-a8cb-d0665fd4de17'
-SOURCE_PATH = 'icons-json/accessories/batch-05/ribbon tie_a8df920a-b5e4-42ca-a8cb-d0665fd4de17.json'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-05/ribbon tie_a8df920a-b5e4-42ca-a8cb-d0665fd4de17.svg'
 AUTHOR = 'gpt-6'
 
 class Batch05RibbonTie(Solo48):

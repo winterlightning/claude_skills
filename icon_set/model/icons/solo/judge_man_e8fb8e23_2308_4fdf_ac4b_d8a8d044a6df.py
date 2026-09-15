@@ -11,7 +11,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'e8fb8e23-2308-4fdf-ac4b-d8a8d044a6df'
-SOURCE_PATH = 'icons-json/avatars/judge man_e8fb8e23-2308-4fdf-ac4b-d8a8d044a6df.json'
+SOURCE_PATH = 'pictographic-primitives/avatars/judge man_e8fb8e23-2308-4fdf-ac4b-d8a8d044a6df.svg'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 22
 

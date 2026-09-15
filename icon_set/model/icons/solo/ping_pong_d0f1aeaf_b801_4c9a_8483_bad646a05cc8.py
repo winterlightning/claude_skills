@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd0f1aeaf-b801-4c9a-8483-bad646a05cc8'
-SOURCE_PATH = 'icons-json/video-games/ping pong_d0f1aeaf-b801-4c9a-8483-bad646a05cc8.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/ping pong_d0f1aeaf-b801-4c9a-8483-bad646a05cc8.svg'
 AUTHOR = 'gpt-6'
 
 class PingPong(Solo48):

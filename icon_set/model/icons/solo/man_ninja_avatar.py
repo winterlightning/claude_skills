@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-06/references/man-ninja.svg'
+SOURCE_ICON_ID = 'a3476abd-0136-4a18-99a9-6d40a287c6a3'
+SOURCE_PATH = 'pictographic-primitives/avatars/man ninja_a3476abd-0136-4a18-99a9-6d40a287c6a3.svg'
 SOURCE_HEAD_ICON_ID = 'man-ninja'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

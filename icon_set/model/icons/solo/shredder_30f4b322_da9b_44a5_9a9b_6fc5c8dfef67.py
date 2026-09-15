@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '30f4b322-da9b-44a5-9a9b-6fc5c8dfef67'
-SOURCE_PATH = 'icons-json/office/shredder_30f4b322-da9b-44a5-9a9b-6fc5c8dfef67.json'
+SOURCE_PATH = 'pictographic-primitives/office/shredder_30f4b322-da9b-44a5-9a9b-6fc5c8dfef67.svg'
 AUTHOR = 'gpt-6'
 
 class Shredder(Solo48):

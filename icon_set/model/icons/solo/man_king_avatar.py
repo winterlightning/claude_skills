@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: royal robe bands.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-king.svg'
+SOURCE_ICON_ID = 'a5228c4d-8b90-4805-9afd-aa85b127ecfa'
+SOURCE_PATH = 'pictographic-primitives/avatars/man king_a5228c4d-8b90-4805-9afd-aa85b127ecfa.svg'
 SOURCE_HEAD_ICON_ID = 'man-king'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

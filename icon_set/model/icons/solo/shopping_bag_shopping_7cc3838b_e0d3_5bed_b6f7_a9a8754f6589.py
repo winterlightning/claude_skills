@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7cc3838b-e0d3-5bed-b6f7-a9a8754f6589'
-SOURCE_PATH = 'icons-json/shopping/shopping bag_7cc3838b-e0d3-5bed-b6f7-a9a8754f6589.json'
+SOURCE_PATH = 'pictographic-primitives/shopping/shopping bag_7cc3838b-e0d3-5bed-b6f7-a9a8754f6589.svg'
 AUTHOR = 'gpt-6'
 
 class ShoppingBagShopping(Solo48):

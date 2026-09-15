@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5802ffd8-7306-4609-a53e-bc51b5281303'
-SOURCE_PATH = 'icons-json/interface-essential/table row selected_5802ffd8-7306-4609-a53e-bc51b5281303.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/table row selected_5802ffd8-7306-4609-a53e-bc51b5281303.svg'
 AUTHOR = 'gpt-6'
 
 class TableRowSelected(Solo48):

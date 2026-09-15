@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9a53e071-bb27-4732-8d3f-37c0d04008f8'
-SOURCE_PATH = 'icons-json/logos/openstack logo_9a53e071-bb27-4732-8d3f-37c0d04008f8.json'
+SOURCE_PATH = 'pictographic-primitives/logos/openstack logo_9a53e071-bb27-4732-8d3f-37c0d04008f8.svg'
 AUTHOR = 'gpt-6'
 
 class OpenstackLogo(Solo48):

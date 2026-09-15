@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6eeb8b64-353f-4d55-afc4-cee5edb7104e'
-SOURCE_PATH = 'icons-json/smileys/drop_6eeb8b64-353f-4d55-afc4-cee5edb7104e.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/drop_6eeb8b64-353f-4d55-afc4-cee5edb7104e.svg'
 AUTHOR = 'gpt-6'
 
 class DropSmileys(Solo48):

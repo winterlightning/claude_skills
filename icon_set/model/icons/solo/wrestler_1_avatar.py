@@ -8,8 +8,8 @@ Mirror mask lobes around x24 and retain broad singlet straps.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-16/references/wrestler-1.svg'
+SOURCE_ICON_ID = 'a8b18c9c-3d81-5936-bc42-db44661794e6'
+SOURCE_PATH = 'pictographic-primitives/avatars/wrestler_a8b18c9c-3d81-5936-bc42-db44661794e6.svg'
 SOURCE_HEAD_ICON_ID = 'wrestler-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 34

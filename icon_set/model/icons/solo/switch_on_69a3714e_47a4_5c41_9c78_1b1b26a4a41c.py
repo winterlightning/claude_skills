@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '69a3714e-47a4-5c41-9c78-1b1b26a4a41c'
-SOURCE_PATH = 'icons-json/interface-essential/switch on_69a3714e-47a4-5c41-9c78-1b1b26a4a41c.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/switch on_69a3714e-47a4-5c41-9c78-1b1b26a4a41c.svg'
 AUTHOR = 'gpt-6'
 
 class SwitchOn(Solo48):

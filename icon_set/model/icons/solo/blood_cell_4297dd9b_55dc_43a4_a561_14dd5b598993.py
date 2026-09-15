@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4297dd9b-55dc-43a4-a561-14dd5b598993'
-SOURCE_PATH = 'icons-json/other/blood cell_4297dd9b-55dc-43a4-a561-14dd5b598993.json'
+SOURCE_PATH = 'pictographic-primitives/other/blood cell_4297dd9b-55dc-43a4-a561-14dd5b598993.svg'
 AUTHOR = 'gpt-6'
 
 class BloodCell(Solo48):

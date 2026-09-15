@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c01e5f8a-e3f9-4323-99b2-ef950a813c63'
-SOURCE_PATH = 'icons-json/symbol/cone_c01e5f8a-e3f9-4323-99b2-ef950a813c63.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/cone_c01e5f8a-e3f9-4323-99b2-ef950a813c63.svg'
 AUTHOR = 'gpt-6'
 
 class Cone(Solo48):

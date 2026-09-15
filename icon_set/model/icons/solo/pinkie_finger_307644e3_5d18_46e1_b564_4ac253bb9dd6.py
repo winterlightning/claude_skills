@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '307644e3-5d18-46e1-b564-4ac253bb9dd6'
-SOURCE_PATH = 'icons-json/wayfinding/pinkie finger_307644e3-5d18-46e1-b564-4ac253bb9dd6.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/pinkie finger_307644e3-5d18-46e1-b564-4ac253bb9dd6.svg'
 AUTHOR = 'gpt-6'
 
 class PinkieFinger(Solo48):

@@ -3,8 +3,10 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "review",
-  "errors": [],
+  "status": "fail",
+  "errors": [
+    "holes/pinches: 0 undersized holes; 1 pinches"
+  ],
   "warnings": [
     "internal-spacing [four-left-arm / four-left-stem]: four-left-arm-1 and four-left-stem-1 have -1.8485 units of ink clearance over 7.2467 units; requires 4; review required"
   ],
@@ -2615,7 +2617,7 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "pass",
+    "status": "fail",
     "authored_holes": [
       {
         "hole": 1,
@@ -2652,7 +2654,7 @@
     "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
-    "pinch_count": 0,
+    "pinch_count": 1,
     "holes": [
       {
         "hole": 1,
@@ -2687,13 +2689,33 @@
         "equivalent_diameter_at_authored_stroke_design_u": 4.0
       }
     ],
-    "pinches": [],
+    "pinches": [
+      {
+        "pinch": 1,
+        "center_viewbox": [
+          8.2656,
+          14.1406
+        ],
+        "bbox_viewbox": [
+          7.2812,
+          8.1875,
+          1.7188,
+          6.8125
+        ],
+        "trapped_area_design_u2": 5.9082,
+        "trapped_radius_design_u": 0.75,
+        "closure_margin_design_u": 0.2734,
+        "minimum_fill_depth_design_u": 1.0,
+        "status": "fail"
+      }
+    ],
     "exception_count": 0,
     "minimum_authored_diameter": 2.0,
     "minimum_measured_diameter": 5.0,
     "configured_fill_depth": 1.0,
-    "effective_fill_depth": 0.0,
+    "effective_fill_depth": 1.0,
     "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
   "artifacts": {
@@ -2749,6 +2771,7 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
+    "pinch_measurement": "authored-stroke-v1",
     "internal_parallel_straight": {
       "version": 2,
       "profiles": "all",
@@ -2763,7 +2786,7 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "internal_spacing": {
     "status": "review",
     "blocking": false,

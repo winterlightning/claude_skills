@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '159051f0-87aa-4c05-9b9f-53abd2ca05ef'
-SOURCE_PATH = 'icons-json/symbol/thumbs up_159051f0-87aa-4c05-9b9f-53abd2ca05ef.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/thumbs up_159051f0-87aa-4c05-9b9f-53abd2ca05ef.svg'
 AUTHOR = 'gpt-6'
 
 class ThumbsUpSymbol(Solo48):

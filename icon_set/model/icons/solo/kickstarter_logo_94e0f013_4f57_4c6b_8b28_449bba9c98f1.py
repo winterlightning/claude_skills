@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '94e0f013-4f57-4c6b-8b28-449bba9c98f1'
-SOURCE_PATH = 'icons-json/logos/kickstarter logo_94e0f013-4f57-4c6b-8b28-449bba9c98f1.json'
+SOURCE_PATH = 'pictographic-primitives/logos/kickstarter logo_94e0f013-4f57-4c6b-8b28-449bba9c98f1.svg'
 AUTHOR = 'gpt-6'
 
 class KickstarterLogo(Solo48):

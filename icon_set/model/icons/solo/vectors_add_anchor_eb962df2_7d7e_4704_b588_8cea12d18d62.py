@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'eb962df2-7d7e-4704-b588-8cea12d18d62'
-SOURCE_PATH = 'icons-json/internet/vectors add anchor_eb962df2-7d7e-4704-b588-8cea12d18d62.json'
+SOURCE_PATH = 'pictographic-primitives/internet/vectors add anchor_eb962df2-7d7e-4704-b588-8cea12d18d62.svg'
 AUTHOR = 'gpt-6'
 
 class VectorsAddAnchor(Solo48):

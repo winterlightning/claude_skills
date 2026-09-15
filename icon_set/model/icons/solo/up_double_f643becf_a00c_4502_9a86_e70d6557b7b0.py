@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f643becf-a00c-4502-9a86-e70d6557b7b0'
-SOURCE_PATH = 'icons-json/arrows/up double_f643becf-a00c-4502-9a86-e70d6557b7b0.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/up double_f643becf-a00c-4502-9a86-e70d6557b7b0.svg'
 AUTHOR = 'gpt-6'
 
 class UpDouble(Solo48):

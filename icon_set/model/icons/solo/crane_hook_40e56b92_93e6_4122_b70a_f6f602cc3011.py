@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '40e56b92-93e6-4122-b70a-f6f602cc3011'
-SOURCE_PATH = 'icons-json/shipping/crane hook_40e56b92-93e6-4122-b70a-f6f602cc3011.json'
+SOURCE_PATH = 'pictographic-primitives/shipping/crane hook_40e56b92-93e6-4122-b70a-f6f602cc3011.svg'
 AUTHOR = 'gpt-6'
 
 class CraneHook(Solo48):

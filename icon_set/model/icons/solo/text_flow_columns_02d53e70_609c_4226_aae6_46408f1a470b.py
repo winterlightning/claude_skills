@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '02d53e70-609c-4226-aae6-46408f1a470b'
-SOURCE_PATH = 'icons-json/interface-essential/text flow columns_02d53e70-609c-4226-aae6-46408f1a470b.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/text flow columns_02d53e70-609c-4226-aae6-46408f1a470b.svg'
 AUTHOR = 'gpt-6'
 
 class TextFlowColumns(Solo48):

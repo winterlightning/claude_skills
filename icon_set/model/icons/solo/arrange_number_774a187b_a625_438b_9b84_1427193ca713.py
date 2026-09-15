@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '774a187b-a625-438b-9b84-1427193ca713'
-SOURCE_PATH = 'icons-json/_uncategorized_04/arrange number_774a187b-a625-438b-9b84-1427193ca713.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/arrange number_774a187b-a625-438b-9b84-1427193ca713.svg'
 AUTHOR = 'gpt-6'
 
 class ArrangeNumber(Solo48):

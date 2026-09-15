@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a6fdd803-e318-450c-9350-15e3faf7e238'
-SOURCE_PATH = 'icons-json/interface-essential/text bar_a6fdd803-e318-450c-9350-15e3faf7e238.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/text bar_a6fdd803-e318-450c-9350-15e3faf7e238.svg'
 AUTHOR = 'gpt-6'
 
 class TextBar(Solo48):

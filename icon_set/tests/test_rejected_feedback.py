@@ -69,7 +69,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/reject-combination/restore', payload)[0], 409)
         payload['svg_sha256'] = 'changed'
         self.assertEqual(self.request('POST', '/api/reject-combination/restore', payload)[0], 200)
-        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'pending')
         self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status='approve'))[0], 201)
         self.assertEqual(source.read_bytes(), before)
         self.assertEqual(json.loads(self.request('GET', '/api/feedback-feed')[1])[0]['feedback'], 'Keep for reference')
@@ -185,7 +185,7 @@ class RejectedFeedbackTests(unittest.TestCase):
 class RejectedGalleryTests(unittest.TestCase):
     def test_rejection_filters_and_brief_downloads(self):
         template = (Path(__file__).resolve().parents[1] / 'scripts/templates/gallery.html').read_text()
-        functions = ['authorSection', 'matchesAuthor', 'iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector',
+        functions = ['authorFilter', 'authorSection', 'matchesAuthor', 'iconState', 'inSection', 'feedbackIconState', 'feedbackBriefFiles', 'syncInspector',
                      'discardMode', 'selectable']
         code = '\n'.join(next(line for line in template.splitlines() if line.startswith('function ' + name + '('))
                          for name in functions)
@@ -199,7 +199,7 @@ const regeneratedVariants=()=>[{}];
 const buildChangeBrief=()=> 'brief';
 """ + code + """
 const rejected={key:'sub/rejected',family:'sub',icon_id:'rejected'};
-const approved={key:'sub/approved',family:'sub',icon_id:'approved'};
+const approved={key:'sub/approved',family:'sub',icon_id:'approved',author:'gpt-6'};
 assert.equal(inSection(rejected),false);
 assert.equal(inSection(approved),true);
 assert.equal(selectable(approved),true);assert.equal(selectable(rejected),false);

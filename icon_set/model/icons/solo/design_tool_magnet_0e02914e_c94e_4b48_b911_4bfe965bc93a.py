@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0e02914e-c94e-4b48-b911-4bfe965bc93a'
-SOURCE_PATH = 'icons-json/design/design tool magnet_0e02914e-c94e-4b48-b911-4bfe965bc93a.json'
+SOURCE_PATH = 'pictographic-primitives/design/design tool magnet_0e02914e-c94e-4b48-b911-4bfe965bc93a.svg'
 AUTHOR = 'gpt-6'
 
 class DesignToolMagnet(Solo48):

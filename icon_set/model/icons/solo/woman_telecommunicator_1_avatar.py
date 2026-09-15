@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-telecommunicator-1.svg'
+SOURCE_ICON_ID = '2b208a3b-47e8-47f4-b99a-2f4763a0e031'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman telecommunicator_2b208a3b-47e8-47f4-b99a-2f4763a0e031.svg'
 SOURCE_HEAD_ICON_ID = 'woman-telecommunicator-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

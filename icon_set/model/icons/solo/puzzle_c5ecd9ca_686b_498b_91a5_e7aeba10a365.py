@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c5ecd9ca-686b-498b-91a5-e7aeba10a365'
-SOURCE_PATH = 'icons-json/state/puzzle_c5ecd9ca-686b-498b-91a5-e7aeba10a365.json'
+SOURCE_PATH = 'pictographic-primitives/state/puzzle_c5ecd9ca-686b-498b-91a5-e7aeba10a365.svg'
 AUTHOR = 'gpt-6'
 
 class Puzzle(Solo48):

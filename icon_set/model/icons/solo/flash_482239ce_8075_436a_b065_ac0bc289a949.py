@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '482239ce-8075-436a-b065-ac0bc289a949'
-SOURCE_PATH = 'icons-json/interface-essential/flash_482239ce-8075-436a-b065-ac0bc289a949.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/flash_482239ce-8075-436a-b065-ac0bc289a949.svg'
 AUTHOR = 'gpt-6'
 
 class Flash(Solo48):

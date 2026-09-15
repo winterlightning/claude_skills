@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4bab5995-9993-44a4-941d-fd5906950e0d'
-SOURCE_PATH = 'icons-json/logos/material ui logo_4bab5995-9993-44a4-941d-fd5906950e0d.json'
+SOURCE_PATH = 'pictographic-primitives/logos/material ui logo_4bab5995-9993-44a4-941d-fd5906950e0d.svg'
 AUTHOR = 'gpt-6'
 
 class MaterialUiLogo(Solo48):

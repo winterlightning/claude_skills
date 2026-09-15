@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '64779290-47a6-5d1a-8219-16cccfc7da32'
-SOURCE_PATH = 'icons-json/transportation/boat_64779290-47a6-5d1a-8219-16cccfc7da32.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/boat_64779290-47a6-5d1a-8219-16cccfc7da32.svg'
 AUTHOR = 'gpt-6'
 
 class Boat(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e11d44d3-4fd3-5274-9254-93508d8a5542'
-SOURCE_PATH = 'icons-json/design/end point none_e11d44d3-4fd3-5274-9254-93508d8a5542.json'
+SOURCE_PATH = 'pictographic-primitives/design/end point none_e11d44d3-4fd3-5274-9254-93508d8a5542.svg'
 AUTHOR = 'gpt-6'
 
 class EndPointNone(Solo48):

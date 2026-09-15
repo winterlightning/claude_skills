@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '94b02a29-f0e3-482a-8b4a-725005a9332e'
-SOURCE_PATH = 'icons-json/symbol/keyhole_94b02a29-f0e3-482a-8b4a-725005a9332e.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/keyhole_94b02a29-f0e3-482a-8b4a-725005a9332e.svg'
 AUTHOR = 'gpt-6'
 
 class Keyhole(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '53be8dfa-bf81-49e6-9db1-47746ac74ee9'
-SOURCE_PATH = 'icons-json/health/oxygen_53be8dfa-bf81-49e6-9db1-47746ac74ee9.json'
+SOURCE_PATH = 'pictographic-primitives/health/oxygen_53be8dfa-bf81-49e6-9db1-47746ac74ee9.svg'
 AUTHOR = 'gpt-6'
 
 class Oxygen(Solo48):

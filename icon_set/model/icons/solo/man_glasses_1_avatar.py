@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: shirt fastening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-glasses-1.svg'
+SOURCE_ICON_ID = '25af2252-94aa-5683-bdb4-b15dc9190e60'
+SOURCE_PATH = 'pictographic-primitives/avatars/man glasses_25af2252-94aa-5683-bdb4-b15dc9190e60.svg'
 SOURCE_HEAD_ICON_ID = 'man-glasses-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 32

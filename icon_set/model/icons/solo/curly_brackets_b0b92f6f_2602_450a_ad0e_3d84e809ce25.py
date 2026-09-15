@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b0b92f6f-2602-450a-ad0e-3d84e809ce25'
-SOURCE_PATH = 'icons-json/programing/curly brackets_b0b92f6f-2602-450a-ad0e-3d84e809ce25.json'
+SOURCE_PATH = 'pictographic-primitives/programing/curly brackets_b0b92f6f-2602-450a-ad0e-3d84e809ce25.svg'
 AUTHOR = 'gpt-6'
 
 class CurlyBrackets(Solo48):

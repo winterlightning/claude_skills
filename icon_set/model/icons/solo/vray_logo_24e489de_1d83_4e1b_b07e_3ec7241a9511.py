@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '24e489de-1d83-4e1b-b07e-3ec7241a9511'
-SOURCE_PATH = 'icons-json/logos/vray logo_24e489de-1d83-4e1b-b07e-3ec7241a9511.json'
+SOURCE_PATH = 'pictographic-primitives/logos/vray logo_24e489de-1d83-4e1b-b07e-3ec7241a9511.svg'
 AUTHOR = 'gpt-6'
 
 class VrayLogo(Solo48):

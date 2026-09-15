@@ -8,8 +8,8 @@ Body cue: wrapped blouse. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-14/references/woman-chinese-1.svg'
+SOURCE_ICON_ID = 'c74508b7-5e91-446d-88e9-08c52d64ab75'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman chinese_c74508b7-5e91-446d-88e9-08c52d64ab75.svg'
 SOURCE_HEAD_ICON_ID = 'woman-chinese-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

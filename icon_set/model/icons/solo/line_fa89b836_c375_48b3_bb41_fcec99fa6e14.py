@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'fa89b836-c375-48b3-bb41-fcec99fa6e14'
-SOURCE_PATH = 'icons-json/diagrams/line_fa89b836-c375-48b3-bb41-fcec99fa6e14.json'
+SOURCE_PATH = 'pictographic-primitives/diagrams/line_fa89b836-c375-48b3-bb41-fcec99fa6e14.svg'
 AUTHOR = 'gpt-6'
 
 class LineDiagrams(Solo48):

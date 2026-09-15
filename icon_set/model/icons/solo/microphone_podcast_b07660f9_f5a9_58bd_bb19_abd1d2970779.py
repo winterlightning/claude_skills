@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b07660f9-f5a9-58bd-bb19-abd1d2970779'
-SOURCE_PATH = 'icons-json/audio/microphone podcast_b07660f9-f5a9-58bd-bb19-abd1d2970779.json'
+SOURCE_PATH = 'pictographic-primitives/audio/microphone podcast_b07660f9-f5a9-58bd-bb19-abd1d2970779.svg'
 AUTHOR = 'gpt-6'
 
 class MicrophonePodcast(Solo48):

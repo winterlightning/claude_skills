@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: tailored blazer with broad lapels and a ce
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-woman-store-clerk-3.svg'
+SOURCE_ICON_ID = '1a6bb88a-8366-58c0-b6a2-58ed57586fb3'
+SOURCE_PATH = 'pictographic-primitives/avatars/avatar woman store clerk_1a6bb88a-8366-58c0-b6a2-58ed57586fb3.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-woman-store-clerk-3'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '03604e35-e3e4-40dd-8693-086f35d62ddf'
-SOURCE_PATH = 'icons-json/_uncategorized_01/Four Square Grid_03604e35-e3e4-40dd-8693-086f35d62ddf.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/Four Square Grid_03604e35-e3e4-40dd-8693-086f35d62ddf.svg'
 AUTHOR = 'gpt-6'
 
 class FourSquareGrid(Solo48):

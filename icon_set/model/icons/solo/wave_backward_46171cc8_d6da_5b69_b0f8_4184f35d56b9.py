@@ -1,10 +1,13 @@
-"""Wave backward (interface-essential), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""wave-backward: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '46171cc8-d6da-5b69-b0f8-4184f35d56b9'
-SOURCE_PATH = 'icons-json/interface-essential/wave backward_46171cc8-d6da-5b69-b0f8-4184f35d56b9.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/wave backward_46171cc8-d6da-5b69-b0f8-4184f35d56b9.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class WaveBackward(Solo48):
     icon_id = 'wave-backward'
@@ -16,15 +19,10 @@ class WaveBackward(Solo48):
     keywords = ('wave', 'backward', 'interface-essential')
 
     def build(self):
-        self.add_bezier('sym-e0', (22, 4), ((13.804, 9.145), (8, 16.236), (8, 23)))
-        self.add_bezier('sym-e1', (8, 23), ((8, 23.2), (8, 23.8), (8, 24)))
-        self.add_bezier('sym-e2', (8, 24), ((8, 24.164), (8, 23.836), (8, 24)))
-        self.add_bezier('sym-e3', (8, 24), ((8, 24.164), (8, 23.836), (8, 24)))
-        self.add_bezier('sym-e4', (8, 24), ((8, 24.2), (8, 24.8), (8, 25)))
-        self.add_bezier('sym-e5', (8, 25), ((8, 31.764), (13.804, 38.855), (22, 44)))
-        self.add_bezier('sym-e6', (30, 24), ((30, 19.177), (33.249, 13.988), (40, 10)))
-        self.add_bezier('sym-e7', (30, 24), ((30, 28.823), (33.249, 34.012), (40, 38)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5')
-        self.add_contour('sym-c1', 'sym-e6')
-        self.add_contour('sym-c2', 'sym-e7')
-        self.relate('connect', 'sym-c1', 'sym-c2')
+        # Plan: VRECT_L; each wave is a single smooth run mirrored about its horizontal axis.
+        # Reference: Geometric mirrored cubic wave construction.
+        mirror = False
+
+        def p(x,y):return (48-x,y) if mirror else (x,y)
+        self.add_bezier('outer',p(22,4),(p(14,9),p(8,16),p(8,24)),(p(8,32),p(14,39),p(22,44)))
+        self.add_bezier('inner',p(40,10),(p(34,14),p(30,19),p(30,24)),(p(30,29),p(34,34),p(40,38)))

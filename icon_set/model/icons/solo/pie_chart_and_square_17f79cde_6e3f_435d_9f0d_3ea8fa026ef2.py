@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '17f79cde-6e3f-435d-9f0d-3ea8fa026ef2'
-SOURCE_PATH = 'icons-json/symbol/pie chart and square_17f79cde-6e3f-435d-9f0d-3ea8fa026ef2.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/pie chart and square_17f79cde-6e3f-435d-9f0d-3ea8fa026ef2.svg'
 AUTHOR = 'gpt-6'
 
 class PieChartAndSquare(Solo48):

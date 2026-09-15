@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3523a4ef-eb15-4b00-a241-c59dc2e09efa'
-SOURCE_PATH = 'icons-json/photography/focus cross_3523a4ef-eb15-4b00-a241-c59dc2e09efa.json'
+SOURCE_PATH = 'pictographic-primitives/photography/focus cross_3523a4ef-eb15-4b00-a241-c59dc2e09efa.svg'
 AUTHOR = 'gpt-6'
 
 class FocusCross(Solo48):

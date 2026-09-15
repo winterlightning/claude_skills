@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '37bc92bd-ae2e-4003-9b96-f31dad785de7'
-SOURCE_PATH = 'icons-json/content/copyright and protecttion_37bc92bd-ae2e-4003-9b96-f31dad785de7.json'
+SOURCE_PATH = 'pictographic-primitives/content/copyright and protecttion_37bc92bd-ae2e-4003-9b96-f31dad785de7.svg'
 AUTHOR = 'gpt-6'
 
 class CopyrightAndProtecttion(Solo48):

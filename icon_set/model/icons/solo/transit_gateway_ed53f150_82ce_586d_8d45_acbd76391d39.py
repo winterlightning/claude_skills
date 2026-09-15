@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ed53f150-82ce-586d-8d45-acbd76391d39'
-SOURCE_PATH = 'icons-json/programing/transit gateway_ed53f150-82ce-586d-8d45-acbd76391d39.json'
+SOURCE_PATH = 'pictographic-primitives/programing/transit gateway_ed53f150-82ce-586d-8d45-acbd76391d39.svg'
 AUTHOR = 'gpt-6'
 
 class TransitGateway(Solo48):

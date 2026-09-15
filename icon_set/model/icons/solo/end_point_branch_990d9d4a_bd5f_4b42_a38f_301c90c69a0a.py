@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '990d9d4a-bd5f-4b42-a38f-301c90c69a0a'
-SOURCE_PATH = 'icons-json/arrows/end point branch_990d9d4a-bd5f-4b42-a38f-301c90c69a0a.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/end point branch_990d9d4a-bd5f-4b42-a38f-301c90c69a0a.svg'
 AUTHOR = 'gpt-6'
 
 class EndPointBranch(Solo48):

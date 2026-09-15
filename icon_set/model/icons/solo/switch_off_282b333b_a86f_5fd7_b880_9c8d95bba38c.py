@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '282b333b-a86f-5fd7-b880-9c8d95bba38c'
-SOURCE_PATH = 'icons-json/furnitures/switch off_282b333b-a86f-5fd7-b880-9c8d95bba38c.json'
+SOURCE_PATH = 'pictographic-primitives/furnitures/switch off_282b333b-a86f-5fd7-b880-9c8d95bba38c.svg'
 AUTHOR = 'gpt-6'
 
 class SwitchOff(Solo48):

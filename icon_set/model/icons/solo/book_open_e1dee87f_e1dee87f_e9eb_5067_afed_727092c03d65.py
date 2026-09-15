@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e1dee87f-e9eb-5067-afed-727092c03d65'
-SOURCE_PATH = 'icons-json/content/book open_e1dee87f-e9eb-5067-afed-727092c03d65.json'
+SOURCE_PATH = 'pictographic-primitives/content/book open_e1dee87f-e9eb-5067-afed-727092c03d65.svg'
 AUTHOR = 'gpt-6'
 
 class BookOpenE1dee87f(Solo48):

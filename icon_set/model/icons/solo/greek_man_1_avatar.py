@@ -9,8 +9,8 @@ Clothing cue: draped diagonal tunic. Hair asymmetry follows the reference, face 
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/greek-man-1.svg'
+SOURCE_ICON_ID = 'e33aedd6-08c0-42a1-817d-78440a289491'
+SOURCE_PATH = 'pictographic-primitives/avatars/greek man_e33aedd6-08c0-42a1-817d-78440a289491.svg'
 SOURCE_HEAD_ICON_ID = 'greek-man-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '18462b77-f609-45c8-904b-db1c5d66a91f'
-SOURCE_PATH = 'icons-json/logos/google photos logo_18462b77-f609-45c8-904b-db1c5d66a91f.json'
+SOURCE_PATH = 'pictographic-primitives/logos/google photos logo_18462b77-f609-45c8-904b-db1c5d66a91f.svg'
 AUTHOR = 'gpt-6'
 
 class GooglePhotosLogo(Solo48):

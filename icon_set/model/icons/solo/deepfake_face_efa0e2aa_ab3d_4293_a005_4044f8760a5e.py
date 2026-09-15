@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'efa0e2aa-ab3d-4293-a005-4044f8760a5e'
-SOURCE_PATH = 'icons-json/artificial-intelligence/deepfake face_efa0e2aa-ab3d-4293-a005-4044f8760a5e.json'
+SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/deepfake face_efa0e2aa-ab3d-4293-a005-4044f8760a5e.svg'
 AUTHOR = 'gpt-6'
 
 class DeepfakeFaceArtificialIntelligence(Solo48):

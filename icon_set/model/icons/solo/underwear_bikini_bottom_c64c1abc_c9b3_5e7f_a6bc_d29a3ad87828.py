@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c64c1abc-c9b3-5e7f-a6bc-d29a3ad87828'
-SOURCE_PATH = 'icons-json/clothes/underwear bikini bottom_c64c1abc-c9b3-5e7f-a6bc-d29a3ad87828.json'
+SOURCE_PATH = 'pictographic-primitives/clothes/underwear bikini bottom_c64c1abc-c9b3-5e7f-a6bc-d29a3ad87828.svg'
 AUTHOR = 'gpt-6'
 
 class UnderwearBikiniBottom(Solo48):

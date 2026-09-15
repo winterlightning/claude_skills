@@ -8,8 +8,8 @@ Body cue: mailbag shoulder strap. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/postman-1.svg'
+SOURCE_ICON_ID = '22ceaec9-c4b5-4740-9c48-54f0e1dec1d2'
+SOURCE_PATH = 'pictographic-primitives/avatars/postman_22ceaec9-c4b5-4740-9c48-54f0e1dec1d2.svg'
 SOURCE_HEAD_ICON_ID = 'postman-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

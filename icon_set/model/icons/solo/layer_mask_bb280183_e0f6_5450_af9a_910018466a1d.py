@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bb280183-e0f6-5450-af9a-910018466a1d'
-SOURCE_PATH = 'icons-json/design/layer mask_bb280183-e0f6-5450-af9a-910018466a1d.json'
+SOURCE_PATH = 'pictographic-primitives/design/layer mask_bb280183-e0f6-5450-af9a-910018466a1d.svg'
 AUTHOR = 'gpt-6'
 
 class LayerMask(Solo48):

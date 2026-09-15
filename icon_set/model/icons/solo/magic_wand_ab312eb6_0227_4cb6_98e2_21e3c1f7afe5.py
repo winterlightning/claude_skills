@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ab312eb6-0227-4cb6-98e2-21e3c1f7afe5'
-SOURCE_PATH = 'icons-json/design/magic wand_ab312eb6-0227-4cb6-98e2-21e3c1f7afe5.json'
+SOURCE_PATH = 'pictographic-primitives/design/magic wand_ab312eb6-0227-4cb6-98e2-21e3c1f7afe5.svg'
 AUTHOR = 'gpt-6'
 
 class MagicWand(Solo48):

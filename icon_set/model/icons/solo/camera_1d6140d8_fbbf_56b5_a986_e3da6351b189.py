@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1d6140d8-fbbf-56b5-a986-e3da6351b189'
-SOURCE_PATH = 'icons-json/photography/camera_1d6140d8-fbbf-56b5-a986-e3da6351b189.json'
+SOURCE_PATH = 'pictographic-primitives/photography/camera_1d6140d8-fbbf-56b5-a986-e3da6351b189.svg'
 AUTHOR = 'gpt-6'
 
 class CameraPhotography(Solo48):

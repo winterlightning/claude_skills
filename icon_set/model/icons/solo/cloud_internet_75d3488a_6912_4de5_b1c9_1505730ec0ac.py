@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '75d3488a-6912-4de5-b1c9-1505730ec0ac'
-SOURCE_PATH = 'icons-json/internet/cloud_75d3488a-6912-4de5-b1c9-1505730ec0ac.json'
+SOURCE_PATH = 'pictographic-primitives/internet/cloud_75d3488a-6912-4de5-b1c9-1505730ec0ac.svg'
 AUTHOR = 'gpt-6'
 
 class CloudInternet(Solo48):

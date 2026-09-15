@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6ad8d7f2-4e39-41a0-bacd-6ee067ae95e2'
-SOURCE_PATH = 'icons-json/arrows/zig zag fall_6ad8d7f2-4e39-41a0-bacd-6ee067ae95e2.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/zig zag fall_6ad8d7f2-4e39-41a0-bacd-6ee067ae95e2.svg'
 AUTHOR = 'gpt-6'
 
 class ZigZagFall(Solo48):

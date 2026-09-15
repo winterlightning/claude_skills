@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b320e1dd-5fff-5392-b1e9-42b786d6d39b'
-SOURCE_PATH = 'icons-json/interface-essential/signal wave_b320e1dd-5fff-5392-b1e9-42b786d6d39b.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/signal wave_b320e1dd-5fff-5392-b1e9-42b786d6d39b.svg'
 AUTHOR = 'gpt-6'
 
 class SignalWave(Solo48):

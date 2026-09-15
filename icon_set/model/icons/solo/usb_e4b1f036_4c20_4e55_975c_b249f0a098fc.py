@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e4b1f036-4c20-4e55-975c-b249f0a098fc'
-SOURCE_PATH = 'icons-json/state/usb_e4b1f036-4c20-4e55-975c-b249f0a098fc.json'
+SOURCE_PATH = 'pictographic-primitives/state/usb_e4b1f036-4c20-4e55-975c-b249f0a098fc.svg'
 AUTHOR = 'gpt-6'
 
 class Usb(Solo48):

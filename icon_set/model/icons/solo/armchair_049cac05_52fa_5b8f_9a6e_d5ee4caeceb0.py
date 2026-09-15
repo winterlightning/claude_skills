@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '049cac05-52fa-5b8f-9a6e-d5ee4caeceb0'
-SOURCE_PATH = 'icons-json/furnitures/armchair_049cac05-52fa-5b8f-9a6e-d5ee4caeceb0.json'
+SOURCE_PATH = 'pictographic-primitives/furnitures/armchair_049cac05-52fa-5b8f-9a6e-d5ee4caeceb0.svg'
 AUTHOR = 'gpt-6'
 
 class Armchair(Solo48):

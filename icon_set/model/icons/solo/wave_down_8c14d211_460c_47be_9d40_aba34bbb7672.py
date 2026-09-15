@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8c14d211-460c-47be-9d40-aba34bbb7672'
-SOURCE_PATH = 'icons-json/arrows/wave down_8c14d211-460c-47be-9d40-aba34bbb7672.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/wave down_8c14d211-460c-47be-9d40-aba34bbb7672.svg'
 AUTHOR = 'gpt-6'
 
 class WaveDown(Solo48):

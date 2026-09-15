@@ -7,8 +7,8 @@ in headwear while the face stays centered.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-06/references/man-napoleon-2.svg'
+SOURCE_ICON_ID = '32bbbbec-8e11-5ec8-9b4b-a2597932a535'
+SOURCE_PATH = 'pictographic-primitives/avatars/man napoleon_32bbbbec-8e11-5ec8-9b4b-a2597932a535.svg'
 SOURCE_HEAD_ICON_ID = 'man-napoleon-2'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

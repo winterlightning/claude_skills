@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '78a70699-5196-5eb3-a804-07f9a0fa90e3'
-SOURCE_PATH = 'icons-json/maps/sign badge bubble message_78a70699-5196-5eb3-a804-07f9a0fa90e3.json'
+SOURCE_PATH = 'pictographic-primitives/maps/sign badge bubble message_78a70699-5196-5eb3-a804-07f9a0fa90e3.svg'
 AUTHOR = 'gpt-6'
 
 class SignBadgeBubbleMessage(Solo48):

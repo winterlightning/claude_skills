@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4906f759-f24c-530d-b8f7-4d1d8a6989b8'
-SOURCE_PATH = 'icons-json/arrows/move bottom_4906f759-f24c-530d-b8f7-4d1d8a6989b8.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/move bottom_4906f759-f24c-530d-b8f7-4d1d8a6989b8.svg'
 AUTHOR = 'gpt-6'
 
 class MoveBottom(Solo48):

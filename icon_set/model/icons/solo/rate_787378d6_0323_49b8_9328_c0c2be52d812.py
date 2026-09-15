@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '787378d6-0323-49b8-9328-c0c2be52d812'
-SOURCE_PATH = 'icons-json/diagrams/rate_787378d6-0323-49b8-9328-c0c2be52d812.json'
+SOURCE_PATH = 'pictographic-primitives/diagrams/rate_787378d6-0323-49b8-9328-c0c2be52d812.svg'
 AUTHOR = 'gpt-6'
 
 class Rate(Solo48):

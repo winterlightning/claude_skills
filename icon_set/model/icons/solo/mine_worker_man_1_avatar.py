@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: work jacket fastening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/mine-worker-man-1.svg'
+SOURCE_ICON_ID = '7090a0db-e312-554b-8e6e-889002dfa2e6'
+SOURCE_PATH = 'pictographic-primitives/avatars/mine worker man_7090a0db-e312-554b-8e6e-889002dfa2e6.svg'
 SOURCE_HEAD_ICON_ID = 'mine-worker-man-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fbfa617c-1e20-4d7c-93b1-4b22ee46208c'
-SOURCE_PATH = 'icons-json/building/door right hand closed_fbfa617c-1e20-4d7c-93b1-4b22ee46208c.json'
+SOURCE_PATH = 'pictographic-primitives/building/door right hand closed_fbfa617c-1e20-4d7c-93b1-4b22ee46208c.svg'
 AUTHOR = 'gpt-6'
 
 class DoorRightHandClosed(Solo48):

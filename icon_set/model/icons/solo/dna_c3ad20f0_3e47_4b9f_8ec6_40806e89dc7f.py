@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c3ad20f0-3e47-4b9f-8ec6-40806e89dc7f'
-SOURCE_PATH = 'icons-json/artificial-intelligence/dna_c3ad20f0-3e47-4b9f-8ec6-40806e89dc7f.json'
+SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/dna_c3ad20f0-3e47-4b9f-8ec6-40806e89dc7f.svg'
 AUTHOR = 'gpt-6'
 
 class DnaArtificialIntelligence(Solo48):

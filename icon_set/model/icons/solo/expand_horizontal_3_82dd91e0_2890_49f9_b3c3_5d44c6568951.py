@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '82dd91e0-2890-49f9-b3c3-5d44c6568951'
-SOURCE_PATH = 'icons-json/interface-essential/expand horizontal 3_82dd91e0-2890-49f9-b3c3-5d44c6568951.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/expand horizontal 3_82dd91e0-2890-49f9-b3c3-5d44c6568951.svg'
 AUTHOR = 'gpt-6'
 
 class ExpandHorizontal3(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ab7112f8-4c6c-4ed5-83c2-c31699018e31'
-SOURCE_PATH = 'icons-json/diagrams/fall down large head_ab7112f8-4c6c-4ed5-83c2-c31699018e31.json'
+SOURCE_PATH = 'pictographic-primitives/diagrams/fall down large head_ab7112f8-4c6c-4ed5-83c2-c31699018e31.svg'
 AUTHOR = 'gpt-6'
 
 class FallDownLargeHead(Solo48):

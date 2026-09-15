@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1ee60825-ac87-5b1d-9d01-a91329eaa168'
-SOURCE_PATH = 'icons-json/electronics/electronics capacitor_1ee60825-ac87-5b1d-9d01-a91329eaa168.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/electronics capacitor_1ee60825-ac87-5b1d-9d01-a91329eaa168.svg'
 AUTHOR = 'gpt-6'
 
 class ElectronicsCapacitor(Solo48):

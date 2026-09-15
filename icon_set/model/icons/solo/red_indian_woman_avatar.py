@@ -8,8 +8,8 @@ Body cue: diagonal garment fold. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/red-indian-woman.svg'
+SOURCE_ICON_ID = '6f074cd0-861a-458d-a17c-6cc25f917743'
+SOURCE_PATH = 'pictographic-primitives/avatars/red indian woman_6f074cd0-861a-458d-a17c-6cc25f917743.svg'
 SOURCE_HEAD_ICON_ID = 'red-indian-woman'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

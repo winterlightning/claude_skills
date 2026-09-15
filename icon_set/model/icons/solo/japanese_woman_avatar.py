@@ -9,8 +9,8 @@ Clothing cue: kimono wrap and short tie. Hair asymmetry follows the reference, f
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/japanese-woman.svg'
+SOURCE_ICON_ID = 'd8f7770b-d9fb-48cc-9814-dcf0af46b402'
+SOURCE_PATH = 'pictographic-primitives/avatars/japanese woman_d8f7770b-d9fb-48cc-9814-dcf0af46b402.svg'
 SOURCE_HEAD_ICON_ID = 'japanese-woman'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 22

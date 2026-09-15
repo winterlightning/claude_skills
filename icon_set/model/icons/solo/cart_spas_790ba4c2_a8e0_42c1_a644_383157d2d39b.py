@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '790ba4c2-a8e0-42c1-a644-383157d2d39b'
-SOURCE_PATH = 'icons-json/spas/cart_790ba4c2-a8e0-42c1-a644-383157d2d39b.json'
+SOURCE_PATH = 'pictographic-primitives/spas/cart_790ba4c2-a8e0-42c1-a644-383157d2d39b.svg'
 AUTHOR = 'gpt-6'
 
 class CartSpas(Solo48):

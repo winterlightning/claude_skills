@@ -1,10 +1,13 @@
-"""Wave backward (interface-essential), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""wave-backward-interface-essential: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e815b395-8c23-4a6c-9b1b-9c6630d6e39f'
-SOURCE_PATH = 'icons-json/interface-essential/wave backward_e815b395-8c23-4a6c-9b1b-9c6630d6e39f.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/wave backward_e815b395-8c23-4a6c-9b1b-9c6630d6e39f.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class WaveBackwardInterfaceEssential(Solo48):
     icon_id = 'wave-backward-interface-essential'
@@ -16,15 +19,10 @@ class WaveBackwardInterfaceEssential(Solo48):
     keywords = ('wave', 'backward', 'interface-essential')
 
     def build(self):
-        self.add_bezier('sym-e0', (22, 4), ((13.627, 9.045), (8, 16.309), (8, 23)))
-        self.add_bezier('sym-e1', (8, 23), ((8, 23.309), (8, 23.691), (8, 24)))
-        self.add_bezier('sym-e2', (8, 24), ((8, 24.021), (8, 23.979), (8, 24)))
-        self.add_bezier('sym-e3', (8, 24), ((8, 24.021), (8, 23.979), (8, 24)))
-        self.add_bezier('sym-e4', (8, 24), ((8, 24.309), (8, 24.691), (8, 25)))
-        self.add_bezier('sym-e5', (8, 25), ((8, 31.691), (13.627, 38.955), (22, 44)))
-        self.add_bezier('sym-e6', (30, 24), ((30, 19.168), (33.317, 13.972), (40, 10)))
-        self.add_bezier('sym-e7', (30, 24), ((30, 28.832), (33.317, 34.028), (40, 38)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5')
-        self.add_contour('sym-c1', 'sym-e6')
-        self.add_contour('sym-c2', 'sym-e7')
-        self.relate('connect', 'sym-c1', 'sym-c2')
+        # Plan: VRECT_L; each wave is a single smooth run mirrored about its horizontal axis.
+        # Reference: Geometric mirrored cubic wave construction.
+        mirror = False
+
+        def p(x,y):return (48-x,y) if mirror else (x,y)
+        self.add_bezier('outer',p(22,4),(p(14,9),p(8,16),p(8,24)),(p(8,32),p(14,39),p(22,44)))
+        self.add_bezier('inner',p(40,10),(p(34,14),p(30,19),p(30,24)),(p(30,29),p(34,34),p(40,38)))

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4dfa1005-cd6a-53e3-8111-12d483169a36'
-SOURCE_PATH = 'icons-json/building/door left hand open_4dfa1005-cd6a-53e3-8111-12d483169a36.json'
+SOURCE_PATH = 'pictographic-primitives/building/door left hand open_4dfa1005-cd6a-53e3-8111-12d483169a36.svg'
 AUTHOR = 'gpt-6'
 
 class DoorLeftHandOpen(Solo48):

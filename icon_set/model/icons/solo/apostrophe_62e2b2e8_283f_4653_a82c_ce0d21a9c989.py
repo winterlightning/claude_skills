@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '62e2b2e8-283f-4653-a82c-ce0d21a9c989'
-SOURCE_PATH = 'icons-json/_uncategorized_03/apostrophe_62e2b2e8-283f-4653-a82c-ce0d21a9c989.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/apostrophe_62e2b2e8-283f-4653-a82c-ce0d21a9c989.svg'
 AUTHOR = 'gpt-6'
 
 class Apostrophe(Solo48):

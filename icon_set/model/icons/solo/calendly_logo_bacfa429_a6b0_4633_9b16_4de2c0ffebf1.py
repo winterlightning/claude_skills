@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bacfa429-a6b0-4633-9b16-4de2c0ffebf1'
-SOURCE_PATH = 'icons-json/_uncategorized_09/calendly logo_bacfa429-a6b0-4633-9b16-4de2c0ffebf1.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_09/calendly logo_bacfa429-a6b0-4633-9b16-4de2c0ffebf1.svg'
 AUTHOR = 'gpt-6'
 
 class CalendlyLogo(Solo48):

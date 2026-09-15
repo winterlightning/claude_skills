@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c255cd70-d42e-428e-90f6-fea19ecba7bb'
-SOURCE_PATH = 'icons-json/wayfinding/information desk man_c255cd70-d42e-428e-90f6-fea19ecba7bb.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/information desk man_c255cd70-d42e-428e-90f6-fea19ecba7bb.svg'
 AUTHOR = 'gpt-6'
 
 class InformationDeskMan(Solo48):

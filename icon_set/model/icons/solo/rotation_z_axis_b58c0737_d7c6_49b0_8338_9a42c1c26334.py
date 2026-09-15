@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b58c0737-d7c6-49b0-8338-9a42c1c26334'
-SOURCE_PATH = 'icons-json/arrows/rotation z axis_b58c0737-d7c6-49b0-8338-9a42c1c26334.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/rotation z axis_b58c0737-d7c6-49b0-8338-9a42c1c26334.svg'
 AUTHOR = 'gpt-6'
 
 class RotationZAxis(Solo48):

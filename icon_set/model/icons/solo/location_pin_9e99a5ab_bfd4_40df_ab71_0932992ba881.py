@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9e99a5ab-bfd4-40df-ab71-0932992ba881'
-SOURCE_PATH = 'icons-json/state/location pin_9e99a5ab-bfd4-40df-ab71-0932992ba881.json'
+SOURCE_PATH = 'pictographic-primitives/state/location pin_9e99a5ab-bfd4-40df-ab71-0932992ba881.svg'
 AUTHOR = 'gpt-6'
 
 class LocationPin(Solo48):

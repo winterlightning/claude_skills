@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd848b1b1-1d68-56ae-8613-80e3f31f5d03'
-SOURCE_PATH = 'icons-json/movies/movies 3 d glasses_d848b1b1-1d68-56ae-8613-80e3f31f5d03.json'
+SOURCE_PATH = 'pictographic-primitives/movies/movies 3 d glasses_d848b1b1-1d68-56ae-8613-80e3f31f5d03.svg'
 AUTHOR = 'gpt-6'
 
 class Movies3DGlasses(Solo48):

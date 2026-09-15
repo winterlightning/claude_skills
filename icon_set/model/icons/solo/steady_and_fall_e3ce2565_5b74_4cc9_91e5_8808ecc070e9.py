@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e3ce2565-5b74-4cc9-91e5-8808ecc070e9'
-SOURCE_PATH = 'icons-json/arrows/steady and fall_e3ce2565-5b74-4cc9-91e5-8808ecc070e9.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/steady and fall_e3ce2565-5b74-4cc9-91e5-8808ecc070e9.svg'
 AUTHOR = 'gpt-6'
 
 class SteadyAndFall(Solo48):

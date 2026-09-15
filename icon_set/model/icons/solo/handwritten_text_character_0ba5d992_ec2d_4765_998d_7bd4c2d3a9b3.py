@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0ba5d992-ec2d-4765-998d-7bd4c2d3a9b3'
-SOURCE_PATH = 'icons-json/interface-essential/handwritten text character_0ba5d992-ec2d-4765-998d-7bd4c2d3a9b3.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/handwritten text character_0ba5d992-ec2d-4765-998d-7bd4c2d3a9b3.svg'
 AUTHOR = 'gpt-6'
 
 class HandwrittenTextCharacter(Solo48):

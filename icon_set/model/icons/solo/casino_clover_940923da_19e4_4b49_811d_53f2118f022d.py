@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '940923da-19e4-4b49-811d-53f2118f022d'
-SOURCE_PATH = 'icons-json/entertainment/casino clover_940923da-19e4-4b49-811d-53f2118f022d.json'
+SOURCE_PATH = 'pictographic-primitives/entertainment/casino clover_940923da-19e4-4b49-811d-53f2118f022d.svg'
 AUTHOR = 'gpt-6'
 
 class CasinoClover(Solo48):

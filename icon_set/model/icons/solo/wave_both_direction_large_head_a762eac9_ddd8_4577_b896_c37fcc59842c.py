@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a762eac9-ddd8-4577-b896-c37fcc59842c'
-SOURCE_PATH = 'icons-json/arrows/wave both direction large head_a762eac9-ddd8-4577-b896-c37fcc59842c.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/wave both direction large head_a762eac9-ddd8-4577-b896-c37fcc59842c.svg'
 AUTHOR = 'gpt-6'
 
 class WaveBothDirectionLargeHead(Solo48):

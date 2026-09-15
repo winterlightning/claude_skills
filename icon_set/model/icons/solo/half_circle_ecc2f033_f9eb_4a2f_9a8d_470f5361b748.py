@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ecc2f033-f9eb-4a2f-9a8d-470f5361b748'
-SOURCE_PATH = 'icons-json/symbol/half circle_ecc2f033-f9eb-4a2f-9a8d-470f5361b748.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/half circle_ecc2f033-f9eb-4a2f-9a8d-470f5361b748.svg'
 AUTHOR = 'gpt-6'
 
 class HalfCircle(Solo48):

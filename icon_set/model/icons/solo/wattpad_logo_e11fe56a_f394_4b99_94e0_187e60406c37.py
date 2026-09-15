@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e11fe56a-f394-4b99-94e0-187e60406c37'
-SOURCE_PATH = 'icons-json/logos/wattpad logo_e11fe56a-f394-4b99-94e0-187e60406c37.json'
+SOURCE_PATH = 'pictographic-primitives/logos/wattpad logo_e11fe56a-f394-4b99-94e0-187e60406c37.svg'
 AUTHOR = 'gpt-6'
 
 class WattpadLogo(Solo48):

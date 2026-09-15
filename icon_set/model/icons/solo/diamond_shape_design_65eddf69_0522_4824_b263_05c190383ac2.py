@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '65eddf69-0522-4824-b263-05c190383ac2'
-SOURCE_PATH = 'icons-json/design/diamond shape_65eddf69-0522-4824-b263-05c190383ac2.json'
+SOURCE_PATH = 'pictographic-primitives/design/diamond shape_65eddf69-0522-4824-b263-05c190383ac2.svg'
 AUTHOR = 'gpt-6'
 
 class DiamondShapeDesign(Solo48):

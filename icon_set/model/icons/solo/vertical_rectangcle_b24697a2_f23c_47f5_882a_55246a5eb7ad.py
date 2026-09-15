@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b24697a2-f23c-47f5-882a-55246a5eb7ad'
-SOURCE_PATH = 'icons-json/symbol/vertical rectangcle_b24697a2-f23c-47f5-882a-55246a5eb7ad.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/vertical rectangcle_b24697a2-f23c-47f5-882a-55246a5eb7ad.svg'
 AUTHOR = 'gpt-6'
 
 class VerticalRectangcle(Solo48):

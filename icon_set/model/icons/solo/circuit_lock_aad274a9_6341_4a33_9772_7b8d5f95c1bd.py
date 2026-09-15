@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'aad274a9-6341-4a33-9772-7b8d5f95c1bd'
-SOURCE_PATH = 'icons-json/products/circuit lock_aad274a9-6341-4a33-9772-7b8d5f95c1bd.json'
+SOURCE_PATH = 'pictographic-primitives/products/circuit lock_aad274a9-6341-4a33-9772-7b8d5f95c1bd.svg'
 AUTHOR = 'gpt-6'
 
 class CircuitLock(Solo48):

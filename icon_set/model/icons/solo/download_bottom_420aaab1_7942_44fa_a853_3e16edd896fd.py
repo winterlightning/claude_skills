@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '420aaab1-7942-44fa-a853-3e16edd896fd'
-SOURCE_PATH = 'icons-json/internet/download bottom_420aaab1-7942-44fa-a853-3e16edd896fd.json'
+SOURCE_PATH = 'pictographic-primitives/internet/download bottom_420aaab1-7942-44fa-a853-3e16edd896fd.svg'
 AUTHOR = 'gpt-6'
 
 class DownloadBottom(Solo48):

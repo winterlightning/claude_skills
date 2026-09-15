@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ca669b8d-03d5-4a83-b8c3-f45526ed6922'
-SOURCE_PATH = 'icons-json/artificial-intelligence/sagemaker_ca669b8d-03d5-4a83-b8c3-f45526ed6922.json'
+SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/sagemaker_ca669b8d-03d5-4a83-b8c3-f45526ed6922.svg'
 AUTHOR = 'gpt-6'
 
 class Sagemaker(Solo48):

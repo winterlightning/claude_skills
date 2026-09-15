@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '38797d19-9b71-4160-9877-96a19b19a579'
-SOURCE_PATH = 'icons-json/symbol/video cross_38797d19-9b71-4160-9877-96a19b19a579.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/video cross_38797d19-9b71-4160-9877-96a19b19a579.svg'
 AUTHOR = 'gpt-6'
 
 class VideoCross(Solo48):

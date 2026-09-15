@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '500a391a-b10e-4295-b94f-b4c317cce2c7'
-SOURCE_PATH = 'icons-json/websites/responsive design expand_500a391a-b10e-4295-b94f-b4c317cce2c7.json'
+SOURCE_PATH = 'pictographic-primitives/websites/responsive design expand_500a391a-b10e-4295-b94f-b4c317cce2c7.svg'
 AUTHOR = 'gpt-6'
 
 class ResponsiveDesignExpand(Solo48):

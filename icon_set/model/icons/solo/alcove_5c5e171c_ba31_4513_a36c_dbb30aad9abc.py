@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5c5e171c-ba31-4513-a36c-dbb30aad9abc'
-SOURCE_PATH = 'icons-json/_uncategorized_01/alcove_5c5e171c-ba31-4513-a36c-dbb30aad9abc.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/alcove_5c5e171c-ba31-4513-a36c-dbb30aad9abc.svg'
 AUTHOR = 'gpt-6'
 
 class Alcove(Solo48):

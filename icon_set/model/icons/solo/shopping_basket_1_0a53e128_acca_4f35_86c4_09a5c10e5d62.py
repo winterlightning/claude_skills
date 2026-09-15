@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0a53e128-acca-4f35-86c4-09a5c10e5d62'
-SOURCE_PATH = 'icons-json/shopping/shopping basket 1_0a53e128-acca-4f35-86c4-09a5c10e5d62.json'
+SOURCE_PATH = 'pictographic-primitives/shopping/shopping basket 1_0a53e128-acca-4f35-86c4-09a5c10e5d62.svg'
 AUTHOR = 'gpt-6'
 
 class ShoppingBasket1(Solo48):

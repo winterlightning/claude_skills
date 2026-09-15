@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4aff3aef-75a6-5746-bf7d-ae18d5b3397e'
-SOURCE_PATH = 'icons-json/interface-essential/keyboard asterisk_4aff3aef-75a6-5746-bf7d-ae18d5b3397e.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/keyboard asterisk_4aff3aef-75a6-5746-bf7d-ae18d5b3397e.svg'
 AUTHOR = 'gpt-6'
 
 class KeyboardAsteriskInterfaceEssential(Solo48):

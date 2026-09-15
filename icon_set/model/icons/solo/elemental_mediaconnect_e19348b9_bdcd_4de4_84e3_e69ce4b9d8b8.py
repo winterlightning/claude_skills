@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e19348b9-bdcd-4de4-84e3-e69ce4b9d8b8'
-SOURCE_PATH = 'icons-json/apps/elemental mediaconnect_e19348b9-bdcd-4de4-84e3-e69ce4b9d8b8.json'
+SOURCE_PATH = 'pictographic-primitives/apps/elemental mediaconnect_e19348b9-bdcd-4de4-84e3-e69ce4b9d8b8.svg'
 AUTHOR = 'gpt-6'
 
 class ElementalMediaconnect(Solo48):

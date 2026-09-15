@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7a5b5f1c-a452-53d7-9ba0-6715c718230c'
-SOURCE_PATH = 'icons-json/programing/deep learning amis_7a5b5f1c-a452-53d7-9ba0-6715c718230c.json'
+SOURCE_PATH = 'pictographic-primitives/programing/deep learning amis_7a5b5f1c-a452-53d7-9ba0-6715c718230c.svg'
 AUTHOR = 'gpt-6'
 
 class DeepLearningAmis(Solo48):

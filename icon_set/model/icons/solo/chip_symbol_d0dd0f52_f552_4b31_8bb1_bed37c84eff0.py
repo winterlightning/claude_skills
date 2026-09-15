@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd0dd0f52-f552-4b31-8bb1-bed37c84eff0'
-SOURCE_PATH = 'icons-json/symbol/chip_d0dd0f52-f552-4b31-8bb1-bed37c84eff0.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/chip_d0dd0f52-f552-4b31-8bb1-bed37c84eff0.svg'
 AUTHOR = 'gpt-6'
 
 class ChipSymbol(Solo48):

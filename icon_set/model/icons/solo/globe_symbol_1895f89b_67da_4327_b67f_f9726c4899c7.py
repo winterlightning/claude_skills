@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1895f89b-67da-4327-b67f-f9726c4899c7'
-SOURCE_PATH = 'icons-json/symbol/globe_1895f89b-67da-4327-b67f-f9726c4899c7.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/globe_1895f89b-67da-4327-b67f-f9726c4899c7.svg'
 AUTHOR = 'gpt-6'
 
 class GlobeSymbol(Solo48):

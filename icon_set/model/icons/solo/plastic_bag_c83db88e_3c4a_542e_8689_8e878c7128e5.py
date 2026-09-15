@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c83db88e-3c4a-542e-8689-8e878c7128e5'
-SOURCE_PATH = 'icons-json/ecology/plastic bag_c83db88e-3c4a-542e-8689-8e878c7128e5.json'
+SOURCE_PATH = 'pictographic-primitives/ecology/plastic bag_c83db88e-3c4a-542e-8689-8e878c7128e5.svg'
 AUTHOR = 'gpt-6'
 
 class PlasticBag(Solo48):

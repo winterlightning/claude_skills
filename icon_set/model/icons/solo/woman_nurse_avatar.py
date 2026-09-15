@@ -8,8 +8,8 @@ Body cue: uniform fastening. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-nurse.svg'
+SOURCE_ICON_ID = 'e365094b-61bd-5f0a-a1d1-1a7c9525470b'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman nurse_e365094b-61bd-5f0a-a1d1-1a7c9525470b.svg'
 SOURCE_HEAD_ICON_ID = 'woman-nurse'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 32

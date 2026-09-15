@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1748248c-ea64-40ed-bc18-c40c4a97032b'
-SOURCE_PATH = 'icons-json/state/thumb_1748248c-ea64-40ed-bc18-c40c4a97032b.json'
+SOURCE_PATH = 'pictographic-primitives/state/thumb_1748248c-ea64-40ed-bc18-c40c4a97032b.svg'
 AUTHOR = 'gpt-6'
 
 class Thumb(Solo48):

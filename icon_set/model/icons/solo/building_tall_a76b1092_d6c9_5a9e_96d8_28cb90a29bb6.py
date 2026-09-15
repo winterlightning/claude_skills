@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a76b1092-d6c9-5a9e-96d8-28cb90a29bb6'
-SOURCE_PATH = 'icons-json/office/building tall_a76b1092-d6c9-5a9e-96d8-28cb90a29bb6.json'
+SOURCE_PATH = 'pictographic-primitives/office/building tall_a76b1092-d6c9-5a9e-96d8-28cb90a29bb6.svg'
 AUTHOR = 'gpt-6'
 
 class BuildingTall(Solo48):

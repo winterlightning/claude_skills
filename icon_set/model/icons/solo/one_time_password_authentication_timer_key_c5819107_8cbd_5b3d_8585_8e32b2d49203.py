@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c5819107-8cbd-5b3d-8585-8e32b2d49203'
-SOURCE_PATH = 'icons-json/apps/one time password authentication timer key_c5819107-8cbd-5b3d-8585-8e32b2d49203.json'
+SOURCE_PATH = 'pictographic-primitives/apps/one time password authentication timer key_c5819107-8cbd-5b3d-8585-8e32b2d49203.svg'
 AUTHOR = 'gpt-6'
 
 class OneTimePasswordAuthenticationTimerKey(Solo48):

@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: rounded costume collar.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-clown-1.svg'
+SOURCE_ICON_ID = '0f991193-97ec-4f8a-8e42-4f4bca8b2446'
+SOURCE_PATH = 'pictographic-primitives/avatars/man clown_0f991193-97ec-4f8a-8e42-4f4bca8b2446.svg'
 SOURCE_HEAD_ICON_ID = 'man-clown-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

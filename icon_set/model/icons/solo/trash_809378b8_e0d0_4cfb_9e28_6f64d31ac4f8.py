@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '809378b8-e0d0-4cfb-9e28-6f64d31ac4f8'
-SOURCE_PATH = 'icons-json/symbol/trash_809378b8-e0d0-4cfb-9e28-6f64d31ac4f8.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/trash_809378b8-e0d0-4cfb-9e28-6f64d31ac4f8.svg'
 AUTHOR = 'gpt-6'
 
 class Trash809378b8(Solo48):

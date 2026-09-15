@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a5e62027-4155-4c3f-9eea-0fcf4e0f687b'
-SOURCE_PATH = 'icons-json/maps/earth model 1_a5e62027-4155-4c3f-9eea-0fcf4e0f687b.json'
+SOURCE_PATH = 'pictographic-primitives/maps/earth model 1_a5e62027-4155-4c3f-9eea-0fcf4e0f687b.svg'
 AUTHOR = 'gpt-6'
 
 class EarthModel1(Solo48):

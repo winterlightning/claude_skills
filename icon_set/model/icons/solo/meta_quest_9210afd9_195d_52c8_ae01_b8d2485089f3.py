@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9210afd9-195d-52c8-ae01-b8d2485089f3'
-SOURCE_PATH = 'icons-json/technology/meta quest_9210afd9-195d-52c8-ae01-b8d2485089f3.json'
+SOURCE_PATH = 'pictographic-primitives/technology/meta quest_9210afd9-195d-52c8-ae01-b8d2485089f3.svg'
 AUTHOR = 'gpt-6'
 
 class MetaQuest(Solo48):

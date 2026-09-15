@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f18957c4-d496-4dcc-baef-4934631bc063'
-SOURCE_PATH = 'icons-json/state/circinus_f18957c4-d496-4dcc-baef-4934631bc063.json'
+SOURCE_PATH = 'pictographic-primitives/state/circinus_f18957c4-d496-4dcc-baef-4934631bc063.svg'
 AUTHOR = 'gpt-6'
 
 class CircinusState(Solo48):

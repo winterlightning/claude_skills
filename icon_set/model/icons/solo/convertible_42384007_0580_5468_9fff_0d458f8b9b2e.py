@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '42384007-0580-5468-9fff-0d458f8b9b2e'
-SOURCE_PATH = 'icons-json/transportation/convertible_42384007-0580-5468-9fff-0d458f8b9b2e.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/convertible_42384007-0580-5468-9fff-0d458f8b9b2e.svg'
 AUTHOR = 'gpt-6'
 
 class Convertible(Solo48):

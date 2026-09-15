@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2b7a921e-0a41-4b3f-b6dd-57df1cbed0b2'
-SOURCE_PATH = 'icons-json/symbol/phone box_2b7a921e-0a41-4b3f-b6dd-57df1cbed0b2.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/phone box_2b7a921e-0a41-4b3f-b6dd-57df1cbed0b2.svg'
 AUTHOR = 'gpt-6'
 
 class PhoneBox(Solo48):

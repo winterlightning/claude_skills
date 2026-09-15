@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: broad draped shawl with turned-back sides.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-muslim-man-outfit.svg'
+SOURCE_ICON_ID = 'ebfdfda3-cd66-462a-9339-bae242892b0f'
+SOURCE_PATH = 'pictographic-primitives/avatars/muslim man outfit_ebfdfda3-cd66-462a-9339-bae242892b0f.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-muslim-man-outfit'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

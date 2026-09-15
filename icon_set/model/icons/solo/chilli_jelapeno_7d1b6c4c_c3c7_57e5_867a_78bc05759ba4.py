@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7d1b6c4c-c3c7-57e5-867a-78bc05759ba4'
-SOURCE_PATH = 'icons-json/food/chilli jelapeno_7d1b6c4c-c3c7-57e5-867a-78bc05759ba4.json'
+SOURCE_PATH = 'pictographic-primitives/food/chilli jelapeno_7d1b6c4c-c3c7-57e5-867a-78bc05759ba4.svg'
 AUTHOR = 'gpt-6'
 
 class ChilliJelapeno(Solo48):

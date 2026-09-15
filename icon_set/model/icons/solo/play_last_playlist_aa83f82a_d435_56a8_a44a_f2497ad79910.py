@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'aa83f82a-d435-56a8-a44a-f2497ad79910'
-SOURCE_PATH = 'icons-json/music/play last playlist_aa83f82a-d435-56a8-a44a-f2497ad79910.json'
+SOURCE_PATH = 'pictographic-primitives/music/play last playlist_aa83f82a-d435-56a8-a44a-f2497ad79910.svg'
 AUTHOR = 'gpt-6'
 
 class PlayLastPlaylist(Solo48):

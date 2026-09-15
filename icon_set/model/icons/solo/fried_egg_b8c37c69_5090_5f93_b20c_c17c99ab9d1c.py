@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b8c37c69-5090-5f93-b20c-c17c99ab9d1c'
-SOURCE_PATH = 'icons-json/food/fried egg_b8c37c69-5090-5f93-b20c-c17c99ab9d1c.json'
+SOURCE_PATH = 'pictographic-primitives/food/fried egg_b8c37c69-5090-5f93-b20c-c17c99ab9d1c.svg'
 AUTHOR = 'gpt-6'
 
 class FriedEgg(Solo48):

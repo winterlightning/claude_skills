@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '50e2631e-8d3a-4df5-902e-0a6b04d1633d'
-SOURCE_PATH = 'icons-json/arrows/end point triangle arrow 2_50e2631e-8d3a-4df5-902e-0a6b04d1633d.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/end point triangle arrow 2_50e2631e-8d3a-4df5-902e-0a6b04d1633d.svg'
 AUTHOR = 'gpt-6'
 
 class EndPointTriangleArrow2(Solo48):

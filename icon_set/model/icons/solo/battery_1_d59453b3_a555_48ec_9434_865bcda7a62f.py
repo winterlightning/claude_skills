@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd59453b3-a555-48ec-9434-865bcda7a62f'
-SOURCE_PATH = 'icons-json/state/battery 1_d59453b3-a555-48ec-9434-865bcda7a62f.json'
+SOURCE_PATH = 'pictographic-primitives/state/battery 1_d59453b3-a555-48ec-9434-865bcda7a62f.svg'
 AUTHOR = 'gpt-6'
 
 class Battery1(Solo48):

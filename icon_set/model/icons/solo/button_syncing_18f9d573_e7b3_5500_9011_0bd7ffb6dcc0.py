@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '18f9d573-e7b3-5500-9011-0bd7ffb6dcc0'
-SOURCE_PATH = 'icons-json/interface-essential/button syncing_18f9d573-e7b3-5500-9011-0bd7ffb6dcc0.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/button syncing_18f9d573-e7b3-5500-9011-0bd7ffb6dcc0.svg'
 AUTHOR = 'gpt-6'
 
 class ButtonSyncing(Solo48):

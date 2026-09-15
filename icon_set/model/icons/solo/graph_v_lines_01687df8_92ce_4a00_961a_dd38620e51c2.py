@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '01687df8-92ce-4a00-961a-dd38620e51c2'
-SOURCE_PATH = 'icons-json/business/graph v lines_01687df8-92ce-4a00-961a-dd38620e51c2.json'
+SOURCE_PATH = 'pictographic-primitives/business/graph v lines_01687df8-92ce-4a00-961a-dd38620e51c2.svg'
 AUTHOR = 'gpt-6'
 
 class GraphVLines(Solo48):

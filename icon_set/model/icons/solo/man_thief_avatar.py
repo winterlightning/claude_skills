@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: striped shirt.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/man-thief.svg'
+SOURCE_ICON_ID = 'c6bef80e-c0fc-405f-b89d-a52e7d929757'
+SOURCE_PATH = 'pictographic-primitives/avatars/man thief_c6bef80e-c0fc-405f-b89d-a52e7d929757.svg'
 SOURCE_HEAD_ICON_ID = 'man-thief'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

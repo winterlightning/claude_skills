@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '97afd5bd-3601-4717-bdb0-129f09ae3a6c'
-SOURCE_PATH = 'icons-json/symbol/arrow up to bracket_97afd5bd-3601-4717-bdb0-129f09ae3a6c.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/arrow up to bracket_97afd5bd-3601-4717-bdb0-129f09ae3a6c.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowUpToBracket(Solo48):

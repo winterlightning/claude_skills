@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2921ecef-6779-4e0d-9ac0-683c2ff1cada'
-SOURCE_PATH = 'icons-json/interface-essential/close quote_2921ecef-6779-4e0d-9ac0-683c2ff1cada.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/close quote_2921ecef-6779-4e0d-9ac0-683c2ff1cada.svg'
 AUTHOR = 'gpt-6'
 
 class CloseQuote(Solo48):

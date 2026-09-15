@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2b5acc96-5847-526f-be84-a3382131402b'
-SOURCE_PATH = 'icons-json/photography/focus square_2b5acc96-5847-526f-be84-a3382131402b.json'
+SOURCE_PATH = 'pictographic-primitives/photography/focus square_2b5acc96-5847-526f-be84-a3382131402b.svg'
 AUTHOR = 'gpt-6'
 
 class FocusSquare(Solo48):

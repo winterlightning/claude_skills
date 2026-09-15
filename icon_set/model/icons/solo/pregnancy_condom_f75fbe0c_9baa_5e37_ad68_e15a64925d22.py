@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f75fbe0c-9baa-5e37-ad68-e15a64925d22'
-SOURCE_PATH = 'icons-json/health/pregnancy condom_f75fbe0c-9baa-5e37-ad68-e15a64925d22.json'
+SOURCE_PATH = 'pictographic-primitives/health/pregnancy condom_f75fbe0c-9baa-5e37-ad68-e15a64925d22.svg'
 AUTHOR = 'gpt-6'
 
 class PregnancyCondom(Solo48):

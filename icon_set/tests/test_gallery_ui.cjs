@@ -41,6 +41,47 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const actions = page('gallery');
+  actions.run("icons=[{key:'solo/example',family:'solo',icon_id:'example',name:'Example'}];reviewsLoaded=true;");
+  for(const [state, expected] of [['ready',['✓ Approve','Pending','Reject']],['pending',['✓ Approve','Reject']],['rejected',['Pending','Discard']]]) {
+    actions.run(`reviews['solo/example']='${state}';reviewFilter='${state}';pendingFeedbackLoaded=true;render();`);
+    const card=actions.document.getElementById('grid').querySelectorAll('.card[data-key]')[0];
+    const footer=card.children.find(child=>child.className==='card-footer');
+    assert.deepEqual(footer.children.slice(1).map(button=>button.textContent),expected, state+' card exposes exactly its allowed actions');
+  }
+  const pending = page('gallery');
+  pending.run(`icons=[
+    {key:'solo/with',family:'solo',icon_id:'with',name:'With feedback'},
+    {key:'solo/without',family:'solo',icon_id:'without',name:'Without feedback'},
+    {key:'solo/ready',family:'solo',icon_id:'ready',name:'Ready'}
+  ];reviews={'solo/with':'pending','solo/without':'pending','solo/ready':'ready'};
+  reviewFilter='pending';render=()=>{};`);
+  pending.context.fetch = async () => ({ok:true,json:async()=>[{icon:'solo/with',svg_sha256:'old-revision'}]});
+  await pending.run('loadPendingFeedback()');
+  pending.run("$('pendingFeedback').value='with';");
+  assert.equal(pending.run('filteredIcons().map(i=>i.key).join()'), 'solo/with', 'Saved feedback from earlier revisions still counts');
+  pending.run("$('pendingFeedback').value='without';");
+  assert.equal(pending.run('filteredIcons().map(i=>i.key).join()'), 'solo/without');
+  pending.run("reviewFilter='ready';");
+  assert.equal(pending.run('filteredIcons().map(i=>i.key).join()'), 'solo/ready', 'Pending-only filter does not affect other statuses');
+  pending.context.fetch = async () => ({ok:false});
+  await pending.run('loadPendingFeedback()');
+  pending.run("reviewFilter='pending';");
+  assert.equal(pending.run('filteredIcons().length'), 0, 'Unavailable feedback must not classify icons as having no feedback');
+  const restored = page('gallery');
+  restored.run("icons=[{key:'solo/rejected',name:'Rejected',svg_sha256:'current'}];reviews={'solo/rejected':'rejected'};selectedKeys.add('solo/rejected');render=()=>{};");
+  const requests=[];
+  restored.context.fetch=async(url,options)=>{requests.push({url,body:JSON.parse(options.body)});return {ok:true,json:async()=>({status:'pending'})};};
+  await restored.run('restoreIcon(icons[0])');
+  assert.equal(requests[0].url, '../api/reject-combination/restore');
+  assert.equal(requests[0].body.svg_sha256, 'current');
+  assert.equal(restored.run("reviews['solo/rejected']"), 'pending');
+  assert.equal(restored.run('selectedKeys.size'), 0);
+  restored.run("reviews['solo/rejected']='rejected';");
+  restored.context.fetch=async()=>({ok:false,json:async()=>({error:'Restore failed'})});
+  await restored.run('restoreIcon(icons[0])');
+  assert.equal(restored.run("reviews['solo/rejected']"), 'rejected', 'Failed restores retain rejected status');
+  assert.equal(restored.run('saving.size'), 0, 'Restore failure allows retry');
   const authors = page('gallery');
   authors.run(`icons=[
     {key:'solo/base',family:'solo',icon_id:'base',name:'Base',author:'json_to_solo'},
@@ -63,12 +104,16 @@ async function main() {
   authors.run("section='icons';setIconView('generated');");
   assert.equal(authors.run('filteredIcons().some(i=>i.build_failed)'), false, 'Failed icons stay out of the exported library');
   authors.run("loadReviews=()=>{};section='icons';reviewFilter='approve';showSection('json');");
-  assert.equal(authors.run('reviewFilter'), '', 'Entering converter tab does not inherit Approved from Icons');
+  assert.equal(authors.run('section'), 'icons', 'Legacy author tabs resolve to the Icons page');
+  assert.equal(authors.run("$('authorFilter').value"), 'json');
+  assert.equal(authors.run('reviewFilter'), 'approve', 'Author and review filters combine');
   assert.equal(authors.document.getElementById('reviewTabs').hidden, false);
-  authors.run("reviewFilter='rejected';showSection('icons');");
-  assert.equal(authors.run('reviewFilter'), 'approve', 'Icons keeps its own review filter');
-  authors.run("showSection('json');");
-  assert.equal(authors.run('reviewFilter'), 'rejected', 'Converter tab remembers its own review filter');
+  authors.run("$('authorFilter').value='ai';$('authorFilter').onchange();reviewsLoaded=true;reviews['solo/base-v2']='approve';");
+  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'AI author filter respects approval status');
+  authors.run("reviewFilter='ready';render();");
+  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base', 'AI author filter respects Ready status');
+  authors.run("showSection('final');");
+  assert.equal(authors.run('filteredIcons().map(i=>i.icon_id).join(",")'), 'base-v2', 'Final icons remain approved AI icons');
   const selection = page('gallery');
   selection.run(`icons=Array.from({length:53},(_,n)=>({key:'solo/icon-'+n,family:'solo',icon_id:'icon-'+n,name:'Icon '+n}));reviewsLoaded=true;setIconView('generated');pageSize=48;render();$('selectAll').checked=true;$('selectAll').onchange();`);
   assert.equal(selection.run('selectedKeys.size'), 48, 'Select all is limited to the visible page');

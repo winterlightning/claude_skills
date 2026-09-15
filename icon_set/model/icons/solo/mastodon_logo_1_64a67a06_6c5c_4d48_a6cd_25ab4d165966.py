@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '64a67a06-6c5c-4d48-a6cd-25ab4d165966'
-SOURCE_PATH = 'icons-json/logos/mastodon logo 1_64a67a06-6c5c-4d48-a6cd-25ab4d165966.json'
+SOURCE_PATH = 'pictographic-primitives/logos/mastodon logo 1_64a67a06-6c5c-4d48-a6cd-25ab4d165966.svg'
 AUTHOR = 'gpt-6'
 
 class MastodonLogo1(Solo48):

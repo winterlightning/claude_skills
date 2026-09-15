@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'df25d2b8-d703-541d-9206-3a94b12492bc'
-SOURCE_PATH = 'icons-json/drinks/fat liquid drop_df25d2b8-d703-541d-9206-3a94b12492bc.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/fat liquid drop_df25d2b8-d703-541d-9206-3a94b12492bc.svg'
 AUTHOR = 'gpt-6'
 
 class FatLiquidDropDrinks(Solo48):

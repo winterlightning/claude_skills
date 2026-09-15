@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6b3bf2aa-46fa-429d-abfa-cd12abb51ff2'
-SOURCE_PATH = 'icons-json/photography/retouch triangle_6b3bf2aa-46fa-429d-abfa-cd12abb51ff2.json'
+SOURCE_PATH = 'pictographic-primitives/photography/retouch triangle_6b3bf2aa-46fa-429d-abfa-cd12abb51ff2.svg'
 AUTHOR = 'gpt-6'
 
 class RetouchTriangle(Solo48):

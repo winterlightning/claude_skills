@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '56c4bb3a-2663-5bb0-8f4d-f5de1cfcafb7'
-SOURCE_PATH = 'icons-json/entertainment/dice_56c4bb3a-2663-5bb0-8f4d-f5de1cfcafb7.json'
+SOURCE_PATH = 'pictographic-primitives/entertainment/dice_56c4bb3a-2663-5bb0-8f4d-f5de1cfcafb7.svg'
 AUTHOR = 'gpt-6'
 
 class DiceEntertainment(Solo48):

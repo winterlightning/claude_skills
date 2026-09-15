@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2e130f83-d8c1-50d3-98ae-5ea5bac53dab'
-SOURCE_PATH = 'icons-json/symbol/airchair_2e130f83-d8c1-50d3-98ae-5ea5bac53dab.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/airchair_2e130f83-d8c1-50d3-98ae-5ea5bac53dab.svg'
 AUTHOR = 'gpt-6'
 
 class Airchair(Solo48):

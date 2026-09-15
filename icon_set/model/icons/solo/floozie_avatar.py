@@ -9,8 +9,8 @@ Clothing cue: rounded dress neckline. Hair asymmetry follows the reference, face
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/floozie.svg'
+SOURCE_ICON_ID = '7540211f-e5ba-413a-834e-e3d0ea28bcc5'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/floozie_7540211f-e5ba-413a-834e-e3d0ea28bcc5.svg'
 SOURCE_HEAD_ICON_ID = 'floozie'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c368d189-0003-5241-889d-bf5b16aa99f6'
-SOURCE_PATH = 'icons-json/construction/lift hook box_c368d189-0003-5241-889d-bf5b16aa99f6.json'
+SOURCE_PATH = 'pictographic-primitives/construction/lift hook box_c368d189-0003-5241-889d-bf5b16aa99f6.svg'
 AUTHOR = 'gpt-6'
 
 class LiftHookBox(Solo48):

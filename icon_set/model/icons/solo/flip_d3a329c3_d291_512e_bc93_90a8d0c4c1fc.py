@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd3a329c3-d291-512e-bc93-90a8d0c4c1fc'
-SOURCE_PATH = 'icons-json/content/flip_d3a329c3-d291-512e-bc93-90a8d0c4c1fc.json'
+SOURCE_PATH = 'pictographic-primitives/content/flip_d3a329c3-d291-512e-bc93-90a8d0c4c1fc.svg'
 AUTHOR = 'gpt-6'
 
 class Flip(Solo48):

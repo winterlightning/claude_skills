@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'acfbd10d-de12-4626-bd35-5e7b02ef616f'
-SOURCE_PATH = 'icons-json/symbol/square brackets_acfbd10d-de12-4626-bd35-5e7b02ef616f.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/square brackets_acfbd10d-de12-4626-bd35-5e7b02ef616f.svg'
 AUTHOR = 'gpt-6'
 
 class SquareBrackets(Solo48):

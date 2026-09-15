@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7df1fbf9-0004-429d-9df8-12600f647ae7'
-SOURCE_PATH = 'icons-json/pets/cat cat ball_7df1fbf9-0004-429d-9df8-12600f647ae7.json'
+SOURCE_PATH = 'pictographic-primitives/pets/cat cat ball_7df1fbf9-0004-429d-9df8-12600f647ae7.svg'
 AUTHOR = 'gpt-6'
 
 class CatCatBall(Solo48):

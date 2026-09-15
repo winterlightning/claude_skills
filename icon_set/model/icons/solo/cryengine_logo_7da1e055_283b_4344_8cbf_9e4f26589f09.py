@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7da1e055-283b-4344-8cbf-9e4f26589f09'
-SOURCE_PATH = 'icons-json/logos/cryengine logo_7da1e055-283b-4344-8cbf-9e4f26589f09.json'
+SOURCE_PATH = 'pictographic-primitives/logos/cryengine logo_7da1e055-283b-4344-8cbf-9e4f26589f09.svg'
 AUTHOR = 'gpt-6'
 
 class CryengineLogo(Solo48):

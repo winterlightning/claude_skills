@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0da7dd89-02ff-406b-bac6-3026293829ce'
-SOURCE_PATH = 'icons-json/pets/cat head_0da7dd89-02ff-406b-bac6-3026293829ce.json'
+SOURCE_PATH = 'pictographic-primitives/pets/cat head_0da7dd89-02ff-406b-bac6-3026293829ce.svg'
 AUTHOR = 'gpt-6'
 
 class CatHead(Solo48):

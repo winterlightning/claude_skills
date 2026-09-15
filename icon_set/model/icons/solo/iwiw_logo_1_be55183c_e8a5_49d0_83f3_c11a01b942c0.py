@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'be55183c-e8a5-49d0-83f3-c11a01b942c0'
-SOURCE_PATH = 'icons-json/logos/iwiw logo 1_be55183c-e8a5-49d0-83f3-c11a01b942c0.json'
+SOURCE_PATH = 'pictographic-primitives/logos/iwiw logo 1_be55183c-e8a5-49d0-83f3-c11a01b942c0.svg'
 AUTHOR = 'gpt-6'
 
 class IwiwLogo1(Solo48):

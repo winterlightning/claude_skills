@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: one shoulder hide
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-caveman-1.svg'
+SOURCE_ICON_ID = '2af6fca3-185d-4326-82d1-3d8aa1f80efc'
+SOURCE_PATH = 'pictographic-primitives/avatars/man caveman_2af6fca3-185d-4326-82d1-3d8aa1f80efc.svg'
 SOURCE_HEAD_ICON_ID = 'man-caveman-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

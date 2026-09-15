@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '59e9292e-ff6a-5b75-a830-230876ee83e5'
-SOURCE_PATH = 'icons-json/design/pathfinder unite_59e9292e-ff6a-5b75-a830-230876ee83e5.json'
+SOURCE_PATH = 'pictographic-primitives/design/pathfinder unite_59e9292e-ff6a-5b75-a830-230876ee83e5.svg'
 AUTHOR = 'gpt-6'
 
 class PathfinderUnite(Solo48):

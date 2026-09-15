@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '221b5783-800f-49b5-82d0-cf19fce26cfc'
-SOURCE_PATH = 'icons-json/arrows/increase_221b5783-800f-49b5-82d0-cf19fce26cfc.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/increase_221b5783-800f-49b5-82d0-cf19fce26cfc.svg'
 AUTHOR = 'gpt-6'
 
 class Increase(Solo48):

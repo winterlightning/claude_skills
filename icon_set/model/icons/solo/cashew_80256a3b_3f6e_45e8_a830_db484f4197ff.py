@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '80256a3b-3f6e-45e8-a830-db484f4197ff'
-SOURCE_PATH = 'icons-json/_uncategorized_10/cashew_80256a3b-3f6e-45e8-a830-db484f4197ff.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_10/cashew_80256a3b-3f6e-45e8-a830-db484f4197ff.svg'
 AUTHOR = 'gpt-6'
 
 class Cashew(Solo48):

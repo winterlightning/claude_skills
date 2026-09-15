@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0cfba690-3851-5e82-ad0a-8e4cb0276eb1'
-SOURCE_PATH = 'icons-json/video-games/pouch_0cfba690-3851-5e82-ad0a-8e4cb0276eb1.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/pouch_0cfba690-3851-5e82-ad0a-8e4cb0276eb1.svg'
 AUTHOR = 'gpt-6'
 
 class Pouch(Solo48):

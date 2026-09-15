@@ -8,8 +8,8 @@ Body cue: uniform belt and fastening. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-09/references/royal-soldier-1.svg'
+SOURCE_ICON_ID = '6af581d6-8faf-4a5c-8467-4df8daf28e28'
+SOURCE_PATH = 'pictographic-primitives/avatars/royal soldier_6af581d6-8faf-4a5c-8467-4df8daf28e28.svg'
 SOURCE_HEAD_ICON_ID = 'royal-soldier-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

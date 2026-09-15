@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7d07f4a9-676f-4b08-ad2a-73d2ff083486'
-SOURCE_PATH = 'icons-json/arrows/curvy both direction_7d07f4a9-676f-4b08-ad2a-73d2ff083486.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/curvy both direction_7d07f4a9-676f-4b08-ad2a-73d2ff083486.svg'
 AUTHOR = 'gpt-6'
 
 class CurvyBothDirection(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '00665be9-93c9-402b-9534-0f4ceba9c3b0'
-SOURCE_PATH = 'icons-json/technology/element reallity kit 1_00665be9-93c9-402b-9534-0f4ceba9c3b0.json'
+SOURCE_PATH = 'pictographic-primitives/technology/element reallity kit 1_00665be9-93c9-402b-9534-0f4ceba9c3b0.svg'
 AUTHOR = 'gpt-6'
 
 class ElementReallityKit1(Solo48):

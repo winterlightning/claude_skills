@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '66b95d3f-a723-4cfd-830c-ed99236a5244'
-SOURCE_PATH = 'icons-json/payments/credit card_66b95d3f-a723-4cfd-830c-ed99236a5244.json'
+SOURCE_PATH = 'pictographic-primitives/payments/credit card_66b95d3f-a723-4cfd-830c-ed99236a5244.svg'
 AUTHOR = 'gpt-6'
 
 class CreditCard(Solo48):

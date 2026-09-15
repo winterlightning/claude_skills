@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'efb3c5db-a644-505f-b7f3-a21fccc2fb30'
-SOURCE_PATH = 'icons-json/design/warp squeeze_efb3c5db-a644-505f-b7f3-a21fccc2fb30.json'
+SOURCE_PATH = 'pictographic-primitives/design/warp squeeze_efb3c5db-a644-505f-b7f3-a21fccc2fb30.svg'
 AUTHOR = 'gpt-6'
 
 class WarpSqueeze(Solo48):

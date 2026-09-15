@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3ef4eaee-f28a-4482-9f13-f7e046f8664c'
-SOURCE_PATH = 'icons-json/interface-essential/megaphone_3ef4eaee-f28a-4482-9f13-f7e046f8664c.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/megaphone_3ef4eaee-f28a-4482-9f13-f7e046f8664c.svg'
 AUTHOR = 'gpt-6'
 
 class Megaphone(Solo48):

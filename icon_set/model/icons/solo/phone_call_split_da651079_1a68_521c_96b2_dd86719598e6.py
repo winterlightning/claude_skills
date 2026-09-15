@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'da651079-1a68-521c-96b2-dd86719598e6'
-SOURCE_PATH = 'icons-json/phones/phone call split_da651079-1a68-521c-96b2-dd86719598e6.json'
+SOURCE_PATH = 'pictographic-primitives/phones/phone call split_da651079-1a68-521c-96b2-dd86719598e6.svg'
 AUTHOR = 'gpt-6'
 
 class PhoneCallSplit(Solo48):

@@ -9,8 +9,8 @@ Clothing cue: sports jersey V collar. Hair asymmetry follows the reference, face
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/football-player.svg'
+SOURCE_ICON_ID = 'f678de75-b4a9-4ef4-b0b6-aa17cdb9100d'
+SOURCE_PATH = 'pictographic-primitives/avatars/football player_f678de75-b4a9-4ef4-b0b6-aa17cdb9100d.svg'
 SOURCE_HEAD_ICON_ID = 'football-player'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

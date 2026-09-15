@@ -9,8 +9,8 @@ Clothing cue: crossed kimono lapel. Hair asymmetry follows the reference, face r
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/japanese-man.svg'
+SOURCE_ICON_ID = 'ef40d73c-791c-43f2-b177-65a95a3f157b'
+SOURCE_PATH = 'pictographic-primitives/avatars/japanese man_ef40d73c-791c-43f2-b177-65a95a3f157b.svg'
 SOURCE_HEAD_ICON_ID = 'japanese-man'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

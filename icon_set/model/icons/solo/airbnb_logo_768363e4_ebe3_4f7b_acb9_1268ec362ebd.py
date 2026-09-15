@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '768363e4-ebe3-4f7b-acb9-1268ec362ebd'
-SOURCE_PATH = 'icons-json/_uncategorized_01/airbnb logo_768363e4-ebe3-4f7b-acb9-1268ec362ebd.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/airbnb logo_768363e4-ebe3-4f7b-acb9-1268ec362ebd.svg'
 AUTHOR = 'gpt-6'
 
 class AirbnbLogo(Solo48):

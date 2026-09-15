@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '08463876-5f43-4cd9-869b-34fbb81d9519'
-SOURCE_PATH = 'icons-json/medias/square play button_08463876-5f43-4cd9-869b-34fbb81d9519.json'
+SOURCE_PATH = 'pictographic-primitives/medias/square play button_08463876-5f43-4cd9-869b-34fbb81d9519.svg'
 AUTHOR = 'gpt-6'
 
 class SquarePlayButton(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3bbd3635-ed19-4db8-953f-adcc7ed97b05'
-SOURCE_PATH = 'icons-json/protection/shield_3bbd3635-ed19-4db8-953f-adcc7ed97b05.json'
+SOURCE_PATH = 'pictographic-primitives/protection/shield_3bbd3635-ed19-4db8-953f-adcc7ed97b05.svg'
 AUTHOR = 'gpt-6'
 
 class Shield3bbd3635(Solo48):

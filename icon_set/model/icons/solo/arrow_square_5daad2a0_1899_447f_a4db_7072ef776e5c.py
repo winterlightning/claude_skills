@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5daad2a0-1899-447f-a4db-7072ef776e5c'
-SOURCE_PATH = 'icons-json/combination/arrow square_5daad2a0-1899-447f-a4db-7072ef776e5c.json'
+SOURCE_PATH = 'pictographic-primitives/combination/arrow square_5daad2a0-1899-447f-a4db-7072ef776e5c.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowSquare(Solo48):

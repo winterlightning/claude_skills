@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bae26537-844f-44bd-bc92-cf5af361e501'
-SOURCE_PATH = 'icons-json/wayfinding/finger point_bae26537-844f-44bd-bc92-cf5af361e501.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/finger point_bae26537-844f-44bd-bc92-cf5af361e501.svg'
 AUTHOR = 'gpt-6'
 
 class FingerPoint(Solo48):

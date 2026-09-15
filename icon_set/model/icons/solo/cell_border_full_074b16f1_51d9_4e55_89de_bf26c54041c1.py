@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '074b16f1-51d9-4e55-89de-bf26c54041c1'
-SOURCE_PATH = 'icons-json/interface-essential/cell border full_074b16f1-51d9-4e55-89de-bf26c54041c1.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/cell border full_074b16f1-51d9-4e55-89de-bf26c54041c1.svg'
 AUTHOR = 'gpt-6'
 
 class CellBorderFull(Solo48):

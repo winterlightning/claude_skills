@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '41f0de58-c686-4c1c-bb67-50e2eae2c9b5'
-SOURCE_PATH = 'icons-json/food/seasoning chilli_41f0de58-c686-4c1c-bb67-50e2eae2c9b5.json'
+SOURCE_PATH = 'pictographic-primitives/food/seasoning chilli_41f0de58-c686-4c1c-bb67-50e2eae2c9b5.svg'
 AUTHOR = 'gpt-6'
 
 class SeasoningChilli(Solo48):

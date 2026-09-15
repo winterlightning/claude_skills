@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ebf78b1f-7ce3-41f6-9566-d46bf42b53ff'
-SOURCE_PATH = 'icons-json/symbol/return arrow_ebf78b1f-7ce3-41f6-9566-d46bf42b53ff.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/return arrow_ebf78b1f-7ce3-41f6-9566-d46bf42b53ff.svg'
 AUTHOR = 'gpt-6'
 
 class ReturnArrow(Solo48):

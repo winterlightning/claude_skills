@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5cea5442-b0ab-4306-aab1-4574e1814623'
-SOURCE_PATH = 'icons-json/office/tape_5cea5442-b0ab-4306-aab1-4574e1814623.json'
+SOURCE_PATH = 'pictographic-primitives/office/tape_5cea5442-b0ab-4306-aab1-4574e1814623.svg'
 AUTHOR = 'gpt-6'
 
 class Tape(Solo48):

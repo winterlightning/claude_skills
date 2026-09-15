@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ab8d76cc-163d-429e-8ba7-e88fde2375f3'
-SOURCE_PATH = 'icons-json/_uncategorized_04/ascot_ab8d76cc-163d-429e-8ba7-e88fde2375f3.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/ascot_ab8d76cc-163d-429e-8ba7-e88fde2375f3.svg'
 AUTHOR = 'gpt-6'
 
 class Ascot(Solo48):

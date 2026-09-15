@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '72946ff1-9da2-454f-9aa9-c78f7dceadf1'
-SOURCE_PATH = 'icons-json/symbol/maltese cross_72946ff1-9da2-454f-9aa9-c78f7dceadf1.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/maltese cross_72946ff1-9da2-454f-9aa9-c78f7dceadf1.svg'
 AUTHOR = 'gpt-6'
 
 class MalteseCross(Solo48):

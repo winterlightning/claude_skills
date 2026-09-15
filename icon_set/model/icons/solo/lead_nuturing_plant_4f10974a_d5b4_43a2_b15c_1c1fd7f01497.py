@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4f10974a-d5b4-43a2-b15c-1c1fd7f01497'
-SOURCE_PATH = 'icons-json/nature/lead nuturing plant_4f10974a-d5b4-43a2-b15c-1c1fd7f01497.json'
+SOURCE_PATH = 'pictographic-primitives/nature/lead nuturing plant_4f10974a-d5b4-43a2-b15c-1c1fd7f01497.svg'
 AUTHOR = 'gpt-6'
 
 class LeadNuturingPlant(Solo48):

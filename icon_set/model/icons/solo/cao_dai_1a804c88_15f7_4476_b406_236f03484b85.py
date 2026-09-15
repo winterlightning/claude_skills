@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1a804c88-15f7-4476-b406-236f03484b85'
-SOURCE_PATH = 'icons-json/religion/cao dai_1a804c88-15f7-4476-b406-236f03484b85.json'
+SOURCE_PATH = 'pictographic-primitives/religion/cao dai_1a804c88-15f7-4476-b406-236f03484b85.svg'
 AUTHOR = 'gpt-6'
 
 class CaoDai(Solo48):

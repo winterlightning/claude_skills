@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c5f3d015-f357-4558-83c4-b1b415b396f9'
-SOURCE_PATH = 'icons-json/video-games/riceball onigiri japanese food_c5f3d015-f357-4558-83c4-b1b415b396f9.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/riceball onigiri japanese food_c5f3d015-f357-4558-83c4-b1b415b396f9.svg'
 AUTHOR = 'gpt-6'
 
 class RiceballOnigiriJapaneseFood(Solo48):

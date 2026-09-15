@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bf3152e7-42f2-5781-929f-90713cc708b9'
-SOURCE_PATH = 'icons-json/interface-essential/multiple tags 1_bf3152e7-42f2-5781-929f-90713cc708b9.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/multiple tags 1_bf3152e7-42f2-5781-929f-90713cc708b9.svg'
 AUTHOR = 'gpt-6'
 
 class MultipleTags1(Solo48):

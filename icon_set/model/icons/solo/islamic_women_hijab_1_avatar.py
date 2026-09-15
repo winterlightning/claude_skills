@@ -9,8 +9,8 @@ Clothing cue: plain long garment. Hair asymmetry follows the reference, face rem
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/islamic-women-hijab-1.svg'
+SOURCE_ICON_ID = '2da10a1c-94d1-53ec-a2db-86f6dd5377fd'
+SOURCE_PATH = 'pictographic-primitives/avatars/islamic women hijab_2da10a1c-94d1-53ec-a2db-86f6dd5377fd.svg'
 SOURCE_HEAD_ICON_ID = 'islamic-women-hijab-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

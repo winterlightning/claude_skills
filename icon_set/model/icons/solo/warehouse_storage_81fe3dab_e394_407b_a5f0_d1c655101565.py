@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '81fe3dab-e394-407b-a5f0-d1c655101565'
-SOURCE_PATH = 'icons-json/shipping/warehouse storage_81fe3dab-e394-407b-a5f0-d1c655101565.json'
+SOURCE_PATH = 'pictographic-primitives/shipping/warehouse storage_81fe3dab-e394-407b-a5f0-d1c655101565.svg'
 AUTHOR = 'gpt-6'
 
 class WarehouseStorage(Solo48):

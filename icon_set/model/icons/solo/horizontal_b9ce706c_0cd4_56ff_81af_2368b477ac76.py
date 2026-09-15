@@ -1,10 +1,13 @@
-"""Horizontal (photography), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""horizontal: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b9ce706c-0cd4-56ff-81af-2368b477ac76'
-SOURCE_PATH = 'icons-json/photography/horizontal_b9ce706c-0cd4-56ff-81af-2368b477ac76.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/photography/horizontal_b9ce706c-0cd4-56ff-81af-2368b477ac76.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Horizontal(Solo48):
     icon_id = 'horizontal'
@@ -16,11 +19,31 @@ class Horizontal(Solo48):
     keywords = ('horizontal', 'photography')
 
     def build(self):
-        self.add_line('e0', (8, 9), (4, 8))
-        self.add_line('e1', (4, 8), (4, 40))
-        self.add_line('e2', (4, 40), (10, 38))
-        self.add_line('e3', (38, 38), (44, 40))
-        self.add_line('e4', (44, 40), (44, 8))
-        self.add_bezier('e5', (44, 8), ((36.509, 11.274), (29.491, 13.206), (21.555, 12.714)), ((16.782, 12.418), (12.609, 10.563), (8, 9)))
-        self.add_bezier('e6', (10, 38), ((11.309, 37.495), (13.055, 36.763), (14.4, 36.455)), ((20.864, 35.003), (27.545, 34.991), (34, 36.542)), ((35.209, 36.825), (36.818, 37.545), (38, 38)))
-        self.add_contour('c0', 'e5', 'e0', 'e1', 'e2', 'e6', 'e3', 'e4', closed=True)
+        # Plan: HRECT_L; opposed bowed rails are exact reflections.
+        # Reference: Shared parabola construction, as in Panoramic.
+        # Plan: HRECT_L (4,8)-(44,40); exact horizontal and vertical symmetry, identical parabolic rails, shared panel nodes.
+        # Reference: No close panorama match; shared-axis geometric construction.
+        # A shared parabola owns both bowed rails and the panel attachments.
+        axis = 24
+        panel_x = (14, 34)
+        knots = (4, *panel_x, 44)
+        for name, reflection in [('top', False), ('bottom', True)]:
+            def point(x, y): return (x, 48-y if reflection else y)
+            for i, (a, b) in enumerate(zip(knots, knots[1:])):
+                ya = 12-(a-axis)**2/100
+                yb = 12-(b-axis)**2/100
+                step = (b-a)/3
+                self.add_bezier(f'{name}-{i}', point(a,round(ya)),
+                    (point(a+step,ya-step*(a-axis)/50),
+                     point(b-step,yb+step*(b-axis)/50),point(b,round(yb))))
+        self.add_line('left',(4,8),(4,40))
+        self.add_line('right',(44,8),(44,40))
+        # Reverse lower rail and left wall for one coherent perimeter.
+        from dataclasses import replace
+        from ...primitives import Bezier
+        for i,p in enumerate(self.primitives):
+            if p.element_id.startswith('bottom'):
+                c1,c2,end=p.segments[0]
+                self.primitives[i]=Bezier(p.element_id,p.end,p.start,((c2,c1,p.start.as_tuple()),))
+            elif p.element_id=='left':self.primitives[i]=replace(p,start=p.end,end=p.start)
+        self.add_contour('outline','top-0','top-1','top-2','right','bottom-2','bottom-1','bottom-0','left',closed=True)

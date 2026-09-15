@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '47c59a46-f46e-420a-b3f5-7db2c1a091f0'
-SOURCE_PATH = 'icons-json/food/chef gear cookie bowl_47c59a46-f46e-420a-b3f5-7db2c1a091f0.json'
+SOURCE_PATH = 'pictographic-primitives/food/chef gear cookie bowl_47c59a46-f46e-420a-b3f5-7db2c1a091f0.svg'
 AUTHOR = 'gpt-6'
 
 class ChefGearCookieBowl(Solo48):

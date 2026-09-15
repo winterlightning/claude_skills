@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a8a2022f-6ae0-41e6-966f-a2ea1e79a09b'
-SOURCE_PATH = 'icons-json/interface-essential/text strike through_a8a2022f-6ae0-41e6-966f-a2ea1e79a09b.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/text strike through_a8a2022f-6ae0-41e6-966f-a2ea1e79a09b.svg'
 AUTHOR = 'gpt-6'
 
 class TextStrikeThrough(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '75340985-f83d-4e1e-ae44-738cb3face8c'
-SOURCE_PATH = 'icons-json/money/diamond shine_75340985-f83d-4e1e-ae44-738cb3face8c.json'
+SOURCE_PATH = 'pictographic-primitives/money/diamond shine_75340985-f83d-4e1e-ae44-738cb3face8c.svg'
 AUTHOR = 'gpt-6'
 
 class DiamondShine(Solo48):

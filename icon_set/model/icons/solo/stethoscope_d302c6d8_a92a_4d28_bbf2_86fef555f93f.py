@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd302c6d8-a92a-4d28-bbf2-86fef555f93f'
-SOURCE_PATH = 'icons-json/symbol/stethoscope_d302c6d8-a92a-4d28-bbf2-86fef555f93f.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/stethoscope_d302c6d8-a92a-4d28-bbf2-86fef555f93f.svg'
 AUTHOR = 'gpt-6'
 
 class Stethoscope(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '166238e9-fe64-4404-9aa2-ae5f4b82de80'
-SOURCE_PATH = 'icons-json/_uncategorized_01/admob logo_166238e9-fe64-4404-9aa2-ae5f4b82de80.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/admob logo_166238e9-fe64-4404-9aa2-ae5f4b82de80.svg'
 AUTHOR = 'gpt-6'
 
 class AdmobLogo(Solo48):

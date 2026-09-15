@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e6f7fecc-a175-5b95-8265-1575fd4ba319'
-SOURCE_PATH = 'icons-json/lamps/standing lamp_e6f7fecc-a175-5b95-8265-1575fd4ba319.json'
+SOURCE_PATH = 'pictographic-primitives/lamps/standing lamp_e6f7fecc-a175-5b95-8265-1575fd4ba319.svg'
 AUTHOR = 'gpt-6'
 
 class StandingLampLamps(Solo48):

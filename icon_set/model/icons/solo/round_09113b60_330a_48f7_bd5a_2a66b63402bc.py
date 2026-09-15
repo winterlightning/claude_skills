@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '09113b60-330a-48f7-bd5a-2a66b63402bc'
-SOURCE_PATH = 'icons-json/arrows/round_09113b60-330a-48f7-bd5a-2a66b63402bc.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/round_09113b60-330a-48f7-bd5a-2a66b63402bc.svg'
 AUTHOR = 'gpt-6'
 
 class Round(Solo48):

@@ -8,8 +8,8 @@ Body cue: rounded tunic neck. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/red-indian-man.svg'
+SOURCE_ICON_ID = 'f115a501-49ed-4291-9f64-42b1086ca5d2'
+SOURCE_PATH = 'pictographic-primitives/avatars/red indian man_f115a501-49ed-4291-9f64-42b1086ca5d2.svg'
 SOURCE_HEAD_ICON_ID = 'red-indian-man'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

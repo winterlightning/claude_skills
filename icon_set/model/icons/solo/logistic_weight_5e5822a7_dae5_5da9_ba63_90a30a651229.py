@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5e5822a7-dae5-5da9-ba63-90a30a651229'
-SOURCE_PATH = 'icons-json/shipping/logistic weight_5e5822a7-dae5-5da9-ba63-90a30a651229.json'
+SOURCE_PATH = 'pictographic-primitives/shipping/logistic weight_5e5822a7-dae5-5da9-ba63-90a30a651229.svg'
 AUTHOR = 'gpt-6'
 
 class LogisticWeight(Solo48):

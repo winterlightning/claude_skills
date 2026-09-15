@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '42448377-6c50-5d98-b128-671d3e0a84dc'
-SOURCE_PATH = 'icons-json/interface-essential/bird house_42448377-6c50-5d98-b128-671d3e0a84dc.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/bird house_42448377-6c50-5d98-b128-671d3e0a84dc.svg'
 AUTHOR = 'gpt-6'
 
 class BirdHouse(Solo48):

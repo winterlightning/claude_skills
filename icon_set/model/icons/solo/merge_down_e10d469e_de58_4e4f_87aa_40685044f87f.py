@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e10d469e-de58-4e4f-87aa-40685044f87f'
-SOURCE_PATH = 'icons-json/arrows/merge down_e10d469e-de58-4e4f-87aa-40685044f87f.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/merge down_e10d469e-de58-4e4f-87aa-40685044f87f.svg'
 AUTHOR = 'gpt-6'
 
 class MergeDown(Solo48):

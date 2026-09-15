@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cee74690-6aad-4510-80ad-577d64d63524'
-SOURCE_PATH = 'icons-json/symbol/bitcoin_cee74690-6aad-4510-80ad-577d64d63524.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/bitcoin_cee74690-6aad-4510-80ad-577d64d63524.svg'
 AUTHOR = 'gpt-6'
 
 class Bitcoin(Solo48):

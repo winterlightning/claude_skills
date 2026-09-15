@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c34a26a2-5f85-5ce3-a379-a263fdfe48bf'
-SOURCE_PATH = 'icons-json/websites/ui scroll down_c34a26a2-5f85-5ce3-a379-a263fdfe48bf.json'
+SOURCE_PATH = 'pictographic-primitives/websites/ui scroll down_c34a26a2-5f85-5ce3-a379-a263fdfe48bf.svg'
 AUTHOR = 'gpt-6'
 
 class UiScrollDown(Solo48):

@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/fishmonger-1.svg'
+SOURCE_ICON_ID = 'd8163b6e-4e57-4510-aeff-b3255e5dc7ee'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_19/fishmonger_d8163b6e-4e57-4510-aeff-b3255e5dc7ee.svg'
 SOURCE_HEAD_ICON_ID = 'fishmonger-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

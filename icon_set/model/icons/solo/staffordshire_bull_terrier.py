@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'df4a92a8-7c60-5ef2-a1d3-1b6549f97e0b'
-SOURCE_PATH = 'icons-json/pets/staffordshire bull terrier_df4a92a8-7c60-5ef2-a1d3-1b6549f97e0b.json'
+SOURCE_PATH = 'pictographic-primitives/pets/staffordshire bull terrier_df4a92a8-7c60-5ef2-a1d3-1b6549f97e0b.svg'
 AUTHOR = 'gpt-6'
 
 class StaffordshireBullTerrier(Solo48):

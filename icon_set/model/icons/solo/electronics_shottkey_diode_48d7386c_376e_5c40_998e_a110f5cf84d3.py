@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '48d7386c-376e-5c40-998e-a110f5cf84d3'
-SOURCE_PATH = 'icons-json/electronics/electronics shottkey diode_48d7386c-376e-5c40-998e-a110f5cf84d3.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/electronics shottkey diode_48d7386c-376e-5c40-998e-a110f5cf84d3.svg'
 AUTHOR = 'gpt-6'
 
 class ElectronicsShottkeyDiode(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '561dcd53-e958-43d1-9e9a-4610ebd0b529'
-SOURCE_PATH = 'icons-json/arrows/lower steady large head_561dcd53-e958-43d1-9e9a-4610ebd0b529.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/lower steady large head_561dcd53-e958-43d1-9e9a-4610ebd0b529.svg'
 AUTHOR = 'gpt-6'
 
 class LowerSteadyLargeHead(Solo48):

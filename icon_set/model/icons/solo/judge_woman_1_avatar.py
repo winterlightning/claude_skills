@@ -9,8 +9,8 @@ Clothing cue: judicial robe bands. Hair asymmetry follows the reference, face re
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/judge-woman-1.svg'
+SOURCE_ICON_ID = '40b98251-aea4-4c5f-93da-0386f9de3967'
+SOURCE_PATH = 'pictographic-primitives/avatars/judge woman_40b98251-aea4-4c5f-93da-0386f9de3967.svg'
 SOURCE_HEAD_ICON_ID = 'judge-woman-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 22

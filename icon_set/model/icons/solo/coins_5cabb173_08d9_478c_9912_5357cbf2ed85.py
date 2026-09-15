@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5cabb173-08d9-478c-9912-5357cbf2ed85'
-SOURCE_PATH = 'icons-json/money/coins_5cabb173-08d9-478c-9912-5357cbf2ed85.json'
+SOURCE_PATH = 'pictographic-primitives/money/coins_5cabb173-08d9-478c-9912-5357cbf2ed85.svg'
 AUTHOR = 'gpt-6'
 
 class Coins(Solo48):

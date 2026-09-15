@@ -9,8 +9,8 @@ Clothing cue: crossed flowing gown. Hair asymmetry follows the reference, face r
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/greek-woman-1.svg'
+SOURCE_ICON_ID = '79364157-f679-4191-9b80-a86b9182f682'
+SOURCE_PATH = 'pictographic-primitives/avatars/greek woman_79364157-f679-4191-9b80-a86b9182f682.svg'
 SOURCE_HEAD_ICON_ID = 'greek-woman-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

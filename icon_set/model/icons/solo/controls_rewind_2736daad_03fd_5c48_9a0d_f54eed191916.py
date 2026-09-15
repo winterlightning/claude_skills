@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2736daad-03fd-5c48-9a0d-f54eed191916'
-SOURCE_PATH = 'icons-json/video/controls rewind_2736daad-03fd-5c48-9a0d-f54eed191916.json'
+SOURCE_PATH = 'pictographic-primitives/video/controls rewind_2736daad-03fd-5c48-9a0d-f54eed191916.svg'
 AUTHOR = 'gpt-6'
 
 class ControlsRewind(Solo48):

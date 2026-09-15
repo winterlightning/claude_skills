@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1fd48bb2-3ac8-46c0-a63f-a618a4f6efc3'
-SOURCE_PATH = 'icons-json/outdoors/outdoors barn bench_1fd48bb2-3ac8-46c0-a63f-a618a4f6efc3.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/outdoors barn bench_1fd48bb2-3ac8-46c0-a63f-a618a4f6efc3.svg'
 AUTHOR = 'gpt-6'
 
 class OutdoorsBarnBench(Solo48):

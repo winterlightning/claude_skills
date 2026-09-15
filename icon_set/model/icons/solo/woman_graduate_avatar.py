@@ -8,8 +8,8 @@ Body cue: gown bands. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-14/references/woman-graduate.svg'
+SOURCE_ICON_ID = '41f44b4e-c542-4e70-ad5b-0876a3323d5c'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman graduate_41f44b4e-c542-4e70-ad5b-0876a3323d5c.svg'
 SOURCE_HEAD_ICON_ID = 'woman-graduate'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 32

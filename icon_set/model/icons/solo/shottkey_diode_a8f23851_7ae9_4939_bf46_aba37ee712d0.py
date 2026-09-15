@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a8f23851-7ae9-4939-bf46-aba37ee712d0'
-SOURCE_PATH = 'icons-json/electronics/shottkey diode_a8f23851-7ae9-4939-bf46-aba37ee712d0.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/shottkey diode_a8f23851-7ae9-4939-bf46-aba37ee712d0.svg'
 AUTHOR = 'gpt-6'
 
 class ShottkeyDiode(Solo48):

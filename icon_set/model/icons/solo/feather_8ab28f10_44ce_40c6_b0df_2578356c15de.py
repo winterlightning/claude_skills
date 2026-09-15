@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8ab28f10-44ce-40c6-b0df-2578356c15de'
-SOURCE_PATH = 'icons-json/symbol/feather_8ab28f10-44ce-40c6-b0df-2578356c15de.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/feather_8ab28f10-44ce-40c6-b0df-2578356c15de.svg'
 AUTHOR = 'gpt-6'
 
 class Feather(Solo48):

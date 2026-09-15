@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7194fac6-980c-5e6a-80f2-7deeb9fede03'
-SOURCE_PATH = 'icons-json/weather/rain umbrella_7194fac6-980c-5e6a-80f2-7deeb9fede03.json'
+SOURCE_PATH = 'pictographic-primitives/weather/rain umbrella_7194fac6-980c-5e6a-80f2-7deeb9fede03.svg'
 AUTHOR = 'gpt-6'
 
 class RainUmbrella(Solo48):

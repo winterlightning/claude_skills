@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0cc06589-edbd-54c6-b5a3-4644d3190fe9'
-SOURCE_PATH = 'icons-json/lamps/ceiling ball chandelier retro_0cc06589-edbd-54c6-b5a3-4644d3190fe9.json'
+SOURCE_PATH = 'pictographic-primitives/lamps/ceiling ball chandelier retro_0cc06589-edbd-54c6-b5a3-4644d3190fe9.svg'
 AUTHOR = 'gpt-6'
 
 class CeilingBallChandelierRetro(Solo48):

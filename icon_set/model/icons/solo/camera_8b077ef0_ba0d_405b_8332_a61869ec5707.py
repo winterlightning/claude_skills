@@ -1,10 +1,10 @@
-"""Camera (photography), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""camera-8b077ef0 — re-authored in place for smooth SOLO48 geometry."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8b077ef0-ba0d-405b-8332-a61869ec5707'
-SOURCE_PATH = 'icons-json/photography/camera_8b077ef0-ba0d-405b-8332-a61869ec5707.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/photography/camera_8b077ef0-ba0d-405b-8332-a61869ec5707.svg'
+AUTHOR = 'gpt-6'
 
 class Camera8b077ef0(Solo48):
     icon_id = 'camera-8b077ef0'
@@ -16,18 +16,21 @@ class Camera8b077ef0(Solo48):
     keywords = ('camera', 'photography')
 
     def build(self):
-        self.add_line('e0', (18, 8), (30, 8))
-        self.add_line('e1', (30, 8), (34, 14))
-        self.add_line('e2', (34, 14), (39, 14))
-        self.add_line('e3', (44, 21), (44, 35))
-        self.add_line('e4', (38, 40), (9, 40))
-        self.add_line('e5', (4, 35), (4, 19))
-        self.add_line('e6', (14, 14), (18, 8))
-        self.add_arc('e7-1', (39, 14), (43, 16), radius_x=5)
-        self.add_line('e7-2', (43, 16), (44, 20))
-        self.add_arc('e7-3', (44, 20), (44, 21), radius_x=26, sweep=False)
-        self.add_arc('e8-1', (44, 35), (42, 39), radius_x=5)
-        self.add_line('e8-2', (42, 39), (38, 40))
-        self.add_arc('e9', (9, 40), (4, 35), radius_x=5)
-        self.add_arc('e10', (4, 19), (14, 14), radius_x=7)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e7-1', 'e7-2', 'e7-3', 'e3', 'e8-1', 'e8-2', 'e4', 'e9', 'e5', 'e10', 'e6', closed=True)
+        # Symmetric camera shell: shared four-unit corner radius, raised prism.
+        # Lucide camera informs matching tangent corners and the circular lens.
+        # HRECT_L extremes: (4,8)-(44,40). Lens restores camera recognition.
+        prism = [(14,14), (18,8), (30,8), (34,14), (40,14)]
+        for i, (start, end) in enumerate(zip(prism, prism[1:]), 1):
+            self.add_line(f'prism-{i}', start, end)
+        self.add_arc('top-right', (40,14), (44,18), radius_x=4)
+        self.add_line('right', (44,18), (44,36))
+        self.add_arc('bottom-right', (44,36), (40,40), radius_x=4)
+        self.add_line('bottom', (40,40), (8,40))
+        self.add_arc('bottom-left', (8,40), (4,36), radius_x=4)
+        self.add_line('left', (4,36), (4,18))
+        self.add_arc('top-left', (4,18), (8,14), radius_x=4)
+        self.add_line('shoulder-left', (8,14), (14,14))
+        self.add_contour('outline', 'prism-1', 'prism-2', 'prism-3', 'prism-4', 'top-right', 'right', 'bottom-right', 'bottom', 'bottom-left', 'left', 'top-left', 'shoulder-left', closed=True)
+        self.add_arc('lens-top', (19,26), (29,26), radius_x=5)
+        self.add_arc('lens-bottom', (29,26), (19,26), radius_x=5)
+        self.add_contour('lens', 'lens-top', 'lens-bottom', closed=True)

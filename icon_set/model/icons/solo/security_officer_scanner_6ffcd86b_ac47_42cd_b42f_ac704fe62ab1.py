@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6ffcd86b-ac47-42cd-b42f-ac704fe62ab1'
-SOURCE_PATH = 'icons-json/travel/security officer scanner_6ffcd86b-ac47-42cd-b42f-ac704fe62ab1.json'
+SOURCE_PATH = 'pictographic-primitives/travel/security officer scanner_6ffcd86b-ac47-42cd-b42f-ac704fe62ab1.svg'
 AUTHOR = 'gpt-6'
 
 class SecurityOfficerScanner(Solo48):

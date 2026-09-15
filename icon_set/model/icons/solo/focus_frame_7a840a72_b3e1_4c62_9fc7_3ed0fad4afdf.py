@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7a840a72-b3e1-4c62-9fc7-3ed0fad4afdf'
-SOURCE_PATH = 'icons-json/photography/focus frame_7a840a72-b3e1-4c62-9fc7-3ed0fad4afdf.json'
+SOURCE_PATH = 'pictographic-primitives/photography/focus frame_7a840a72-b3e1-4c62-9fc7-3ed0fad4afdf.svg'
 AUTHOR = 'gpt-6'
 
 class FocusFrame(Solo48):

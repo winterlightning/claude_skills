@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '83499877-9f6d-4f70-975d-59ade9b78b2f'
-SOURCE_PATH = 'icons-json/_uncategorized_03/anklet_83499877-9f6d-4f70-975d-59ade9b78b2f.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/anklet_83499877-9f6d-4f70-975d-59ade9b78b2f.svg'
 AUTHOR = 'gpt-6'
 
 class Anklet(Solo48):

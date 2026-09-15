@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd58dfd2c-80d5-5864-aea1-9b4d6fb8eec3'
-SOURCE_PATH = 'icons-json/photography/vertical_d58dfd2c-80d5-5864-aea1-9b4d6fb8eec3.json'
+SOURCE_PATH = 'pictographic-primitives/photography/vertical_d58dfd2c-80d5-5864-aea1-9b4d6fb8eec3.svg'
 AUTHOR = 'gpt-6'
 
 class Vertical(Solo48):

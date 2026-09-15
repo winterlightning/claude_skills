@@ -8,8 +8,8 @@ Body cue: rounded garment neckline. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-09/references/tribal-woman.svg'
+SOURCE_ICON_ID = '2ff9b75d-79c3-4a92-b902-1cff6bb77357'
+SOURCE_PATH = 'pictographic-primitives/avatars/tribal woman_2ff9b75d-79c3-4a92-b902-1cff6bb77357.svg'
 SOURCE_HEAD_ICON_ID = 'tribal-woman'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

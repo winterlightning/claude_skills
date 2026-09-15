@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '91a0337e-3cfe-56f5-8b9d-a91954dc8ffc'
-SOURCE_PATH = 'icons-json/electronics/computer chip_91a0337e-3cfe-56f5-8b9d-a91954dc8ffc.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/computer chip_91a0337e-3cfe-56f5-8b9d-a91954dc8ffc.svg'
 AUTHOR = 'gpt-6'
 
 class ComputerChip(Solo48):

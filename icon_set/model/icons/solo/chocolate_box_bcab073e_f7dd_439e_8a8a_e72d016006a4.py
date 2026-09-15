@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bcab073e-f7dd-439e-8a8a-e72d016006a4'
-SOURCE_PATH = 'icons-json/romance/chocolate box_bcab073e-f7dd-439e-8a8a-e72d016006a4.json'
+SOURCE_PATH = 'pictographic-primitives/romance/chocolate box_bcab073e-f7dd-439e-8a8a-e72d016006a4.svg'
 AUTHOR = 'gpt-6'
 
 class ChocolateBox(Solo48):

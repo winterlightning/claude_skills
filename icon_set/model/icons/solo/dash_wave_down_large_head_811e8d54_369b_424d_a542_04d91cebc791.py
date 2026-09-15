@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '811e8d54-369b-424d-a542-04d91cebc791'
-SOURCE_PATH = 'icons-json/arrows/dash wave down large head_811e8d54-369b-424d-a542-04d91cebc791.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/dash wave down large head_811e8d54-369b-424d-a542-04d91cebc791.svg'
 AUTHOR = 'gpt-6'
 
 class DashWaveDownLargeHead(Solo48):

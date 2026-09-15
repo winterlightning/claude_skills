@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a0980517-7981-47f9-b740-8ade748f0d74'
-SOURCE_PATH = 'icons-json/sports/skiing snow scooter_a0980517-7981-47f9-b740-8ade748f0d74.json'
+SOURCE_PATH = 'pictographic-primitives/sports/skiing snow scooter_a0980517-7981-47f9-b740-8ade748f0d74.svg'
 AUTHOR = 'gpt-6'
 
 class SkiingSnowScooter(Solo48):

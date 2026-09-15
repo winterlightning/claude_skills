@@ -1,10 +1,13 @@
-"""Pen (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""pen-50e47373: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '50e47373-cb10-491f-a428-767a767f9cef'
-SOURCE_PATH = 'icons-json/design/pen_50e47373-cb10-491f-a428-767a767f9cef.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/design/pen_50e47373-cb10-491f-a428-767a767f9cef.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Pen50e47373(Solo48):
     icon_id = 'pen-50e47373'
@@ -16,17 +19,20 @@ class Pen50e47373(Solo48):
     keywords = ('pen', 'design')
 
     def build(self):
-        self.add_line('e0', (37, 20), (28, 11))
-        self.add_line('e1', (10, 30), (31, 8))
-        self.add_line('e2', (40, 17), (18, 39))
-        self.add_line('e3', (18, 39), (10, 30))
-        self.add_line('e4', (10, 30), (6, 42))
-        self.add_line('e5', (6, 42), (18, 39))
-        self.add_arc('e6-1', (31, 8), (35, 6), radius_x=5)
-        self.add_arc('e6-2', (35, 6), (42, 13), radius_x=7)
-        self.add_line('e6-3', (42, 13), (40, 17))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e6-1', 'e6-2', 'e6-3', 'e2')
-        self.add_contour('c2', 'e3', 'e4', 'e5', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: SQUARE; diagonal symmetry, smooth rounded cap, parallel barrel, shared nib seam.
+        # Reference: Lucide pencil: cap flow and exact seam contacts.
+        # Plan: SQUARE (6,6)-(42,42); tangent rounded cap, parallel diagonal barrel and seam ending exactly on its sides.
+        # Reference: Lucide pencil: coherent rounded cap and one shared seam.
+        # The cap and the barrel mirror across the diagonal x+y=48.
+        self.add_line('upper-barrel',(12,28),(30,10))
+        self.add_bezier('cap-upper',(30,10),((32,8),(33,6),(36,6)))
+        self.add_arc('cap-round',(36,6),(42,12),radius_x=6)
+        self.add_bezier('cap-lower',(42,12),((42,15),(40,16),(38,18)))
+        self.add_line('lower-barrel',(38,18),(20,36))
+        self.add_line('tip-lower',(20,36),(6,42))
+        self.add_line('tip-upper',(6,42),(12,28))
+        self.add_contour('outline','upper-barrel','cap-upper','cap-round','cap-lower','lower-barrel','tip-lower','tip-upper',closed=True)
+        self.add_line('cap-seam',(26,14),(34,22))
+        self.relate('connect','cap-seam','outline')
+        self.add_line('nib-seam',(12,28),(20,36))
+        self.relate('connect','nib-seam','outline')

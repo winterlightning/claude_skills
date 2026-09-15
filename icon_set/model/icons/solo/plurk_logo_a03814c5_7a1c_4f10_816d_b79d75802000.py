@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a03814c5-7a1c-4f10-816d-b79d75802000'
-SOURCE_PATH = 'icons-json/logos/plurk logo_a03814c5-7a1c-4f10-816d-b79d75802000.json'
+SOURCE_PATH = 'pictographic-primitives/logos/plurk logo_a03814c5-7a1c-4f10-816d-b79d75802000.svg'
 AUTHOR = 'gpt-6'
 
 class PlurkLogoLogos(Solo48):

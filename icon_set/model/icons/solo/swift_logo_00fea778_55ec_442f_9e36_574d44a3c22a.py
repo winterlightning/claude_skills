@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '00fea778-55ec-442f-9e36-574d44a3c22a'
-SOURCE_PATH = 'icons-json/logos/swift logo_00fea778-55ec-442f-9e36-574d44a3c22a.json'
+SOURCE_PATH = 'pictographic-primitives/logos/swift logo_00fea778-55ec-442f-9e36-574d44a3c22a.svg'
 AUTHOR = 'gpt-6'
 
 class SwiftLogo(Solo48):

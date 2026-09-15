@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '76673aeb-4a61-54b9-bad5-6b8be079fdb3'
-SOURCE_PATH = 'icons-json/products/rabbit hat_76673aeb-4a61-54b9-bad5-6b8be079fdb3.json'
+SOURCE_PATH = 'pictographic-primitives/products/rabbit hat_76673aeb-4a61-54b9-bad5-6b8be079fdb3.svg'
 AUTHOR = 'gpt-6'
 
 class RabbitHat(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd7fa3e9a-e0a8-484a-95ee-ba978824d02e'
-SOURCE_PATH = 'icons-json/money/virtual coin crypto basic attention token_d7fa3e9a-e0a8-484a-95ee-ba978824d02e.json'
+SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto basic attention token_d7fa3e9a-e0a8-484a-95ee-ba978824d02e.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoBasicAttentionToken(Solo48):

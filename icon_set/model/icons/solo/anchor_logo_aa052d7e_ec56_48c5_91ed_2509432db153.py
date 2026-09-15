@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'aa052d7e-ec56-48c5-91ed-2509432db153'
-SOURCE_PATH = 'icons-json/_uncategorized_03/anchor logo_aa052d7e-ec56-48c5-91ed-2509432db153.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/anchor logo_aa052d7e-ec56-48c5-91ed-2509432db153.svg'
 AUTHOR = 'gpt-6'
 
 class AnchorLogo(Solo48):

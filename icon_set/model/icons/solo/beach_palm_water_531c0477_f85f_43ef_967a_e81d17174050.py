@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '531c0477-f85f-43ef-967a-e81d17174050'
-SOURCE_PATH = 'icons-json/recreation/beach palm water_531c0477-f85f-43ef-967a-e81d17174050.json'
+SOURCE_PATH = 'pictographic-primitives/recreation/beach palm water_531c0477-f85f-43ef-967a-e81d17174050.svg'
 AUTHOR = 'gpt-6'
 
 class BeachPalmWater(Solo48):

@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: coat fastening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-doctor.svg'
+SOURCE_ICON_ID = '7c323144-b65a-558b-a01d-ac1899c73509'
+SOURCE_PATH = 'pictographic-primitives/avatars/man doctor_7c323144-b65a-558b-a01d-ac1899c73509.svg'
 SOURCE_HEAD_ICON_ID = 'man-doctor'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

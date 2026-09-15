@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '616df8be-e4ab-5a77-b44c-bbf0e82e3e54'
-SOURCE_PATH = 'icons-json/arrows/diagram arrow dash corner point bottom_616df8be-e4ab-5a77-b44c-bbf0e82e3e54.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/diagram arrow dash corner point bottom_616df8be-e4ab-5a77-b44c-bbf0e82e3e54.svg'
 AUTHOR = 'gpt-6'
 
 class DiagramArrowDashCornerPointBottom(Solo48):

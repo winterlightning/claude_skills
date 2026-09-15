@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '51fdabea-6cc2-5690-bbe0-5fc7cf1b4cfd'
-SOURCE_PATH = 'icons-json/holidays/pentecost_51fdabea-6cc2-5690-bbe0-5fc7cf1b4cfd.json'
+SOURCE_PATH = 'pictographic-primitives/holidays/pentecost_51fdabea-6cc2-5690-bbe0-5fc7cf1b4cfd.svg'
 AUTHOR = 'gpt-6'
 
 class Pentecost(Solo48):

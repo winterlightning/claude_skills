@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '324706d7-2d66-4a91-bead-c314dc987a3f'
-SOURCE_PATH = 'icons-json/health/red blood cell strem_324706d7-2d66-4a91-bead-c314dc987a3f.json'
+SOURCE_PATH = 'pictographic-primitives/health/red blood cell strem_324706d7-2d66-4a91-bead-c314dc987a3f.svg'
 AUTHOR = 'gpt-6'
 
 class RedBloodCellStrem(Solo48):

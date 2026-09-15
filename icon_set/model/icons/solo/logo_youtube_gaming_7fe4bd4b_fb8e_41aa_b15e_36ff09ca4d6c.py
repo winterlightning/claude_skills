@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7fe4bd4b-fb8e-41aa-b15e-36ff09ca4d6c'
-SOURCE_PATH = 'icons-json/video-games/logo youtube gaming_7fe4bd4b-fb8e-41aa-b15e-36ff09ca4d6c.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/logo youtube gaming_7fe4bd4b-fb8e-41aa-b15e-36ff09ca4d6c.svg'
 AUTHOR = 'gpt-6'
 
 class LogoYoutubeGaming(Solo48):

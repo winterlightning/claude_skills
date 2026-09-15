@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '538b81e2-4f12-5deb-8847-decaad176f32'
-SOURCE_PATH = 'icons-json/science/astronomy planet pluto_538b81e2-4f12-5deb-8847-decaad176f32.json'
+SOURCE_PATH = 'pictographic-primitives/science/astronomy planet pluto_538b81e2-4f12-5deb-8847-decaad176f32.svg'
 AUTHOR = 'gpt-6'
 
 class AstronomyPlanetPluto(Solo48):

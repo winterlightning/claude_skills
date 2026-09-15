@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9deecb67-fd47-43cd-8740-98dd18fff810'
-SOURCE_PATH = 'icons-json/business/nested pie_9deecb67-fd47-43cd-8740-98dd18fff810.json'
+SOURCE_PATH = 'pictographic-primitives/business/nested pie_9deecb67-fd47-43cd-8740-98dd18fff810.svg'
 AUTHOR = 'gpt-6'
 
 class NestedPie(Solo48):

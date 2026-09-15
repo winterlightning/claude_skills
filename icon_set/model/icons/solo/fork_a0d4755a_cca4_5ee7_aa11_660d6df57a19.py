@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a0d4755a-cca4-5ee7-aa11-660d6df57a19'
-SOURCE_PATH = 'icons-json/food/fork_a0d4755a-cca4-5ee7-aa11-660d6df57a19.json'
+SOURCE_PATH = 'pictographic-primitives/food/fork_a0d4755a-cca4-5ee7-aa11-660d6df57a19.svg'
 AUTHOR = 'gpt-6'
 
 class Fork(Solo48):

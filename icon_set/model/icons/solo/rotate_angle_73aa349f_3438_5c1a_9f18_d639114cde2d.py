@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '73aa349f-3438-5c1a-9f18-d639114cde2d'
-SOURCE_PATH = 'icons-json/arrows/rotate angle_73aa349f-3438-5c1a-9f18-d639114cde2d.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/rotate angle_73aa349f-3438-5c1a-9f18-d639114cde2d.svg'
 AUTHOR = 'gpt-6'
 
 class RotateAngle(Solo48):

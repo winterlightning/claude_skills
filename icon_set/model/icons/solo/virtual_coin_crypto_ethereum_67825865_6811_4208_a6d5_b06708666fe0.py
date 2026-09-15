@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '67825865-6811-4208-a6d5-b06708666fe0'
-SOURCE_PATH = 'icons-json/money/virtual coin crypto ethereum_67825865-6811-4208-a6d5-b06708666fe0.json'
+SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto ethereum_67825865-6811-4208-a6d5-b06708666fe0.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoEthereum(Solo48):

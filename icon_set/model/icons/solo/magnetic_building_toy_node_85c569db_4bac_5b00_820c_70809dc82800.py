@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '85c569db-4bac-5b00-820c-70809dc82800'
-SOURCE_PATH = 'icons-json/internet/magnetic building toy node_85c569db-4bac-5b00-820c-70809dc82800.json'
+SOURCE_PATH = 'pictographic-primitives/internet/magnetic building toy node_85c569db-4bac-5b00-820c-70809dc82800.svg'
 AUTHOR = 'gpt-6'
 
 class MagneticBuildingToyNode(Solo48):

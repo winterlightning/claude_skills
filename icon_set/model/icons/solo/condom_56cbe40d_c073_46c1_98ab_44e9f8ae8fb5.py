@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '56cbe40d-c073-46c1-98ab-44e9f8ae8fb5'
-SOURCE_PATH = 'icons-json/money/condom_56cbe40d-c073-46c1-98ab-44e9f8ae8fb5.json'
+SOURCE_PATH = 'pictographic-primitives/money/condom_56cbe40d-c073-46c1-98ab-44e9f8ae8fb5.svg'
 AUTHOR = 'gpt-6'
 
 class Condom(Solo48):

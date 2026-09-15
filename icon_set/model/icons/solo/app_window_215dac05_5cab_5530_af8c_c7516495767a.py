@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '215dac05-5cab-5530-af8c-c7516495767a'
-SOURCE_PATH = 'icons-json/apps/app window_215dac05-5cab-5530-af8c-c7516495767a.json'
+SOURCE_PATH = 'pictographic-primitives/apps/app window_215dac05-5cab-5530-af8c-c7516495767a.svg'
 AUTHOR = 'gpt-6'
 
 class AppWindow(Solo48):

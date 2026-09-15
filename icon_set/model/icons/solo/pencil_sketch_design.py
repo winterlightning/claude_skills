@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7867b811-86a3-5125-8824-2c83f4113979'
-SOURCE_PATH = 'icons-json/design/pencil sketch_7867b811-86a3-5125-8824-2c83f4113979.json'
+SOURCE_PATH = 'pictographic-primitives/design/pencil sketch_7867b811-86a3-5125-8824-2c83f4113979.svg'
 AUTHOR = 'gpt-6'
 
 class PencilSketchDesign(Solo48):

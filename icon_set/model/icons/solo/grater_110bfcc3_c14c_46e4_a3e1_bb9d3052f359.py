@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '110bfcc3-c14c-46e4-a3e1-bb9d3052f359'
-SOURCE_PATH = 'icons-json/food/grater_110bfcc3-c14c-46e4-a3e1-bb9d3052f359.json'
+SOURCE_PATH = 'pictographic-primitives/food/grater_110bfcc3-c14c-46e4-a3e1-bb9d3052f359.svg'
 AUTHOR = 'gpt-6'
 
 class Grater(Solo48):

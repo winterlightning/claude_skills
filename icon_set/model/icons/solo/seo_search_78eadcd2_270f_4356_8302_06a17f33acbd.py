@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '78eadcd2-270f-4356-8302-06a17f33acbd'
-SOURCE_PATH = 'icons-json/apps/seo search_78eadcd2-270f-4356-8302-06a17f33acbd.json'
+SOURCE_PATH = 'pictographic-primitives/apps/seo search_78eadcd2-270f-4356-8302-06a17f33acbd.svg'
 AUTHOR = 'gpt-6'
 
 class SeoSearch(Solo48):

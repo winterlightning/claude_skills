@@ -8,8 +8,8 @@ Body cue: uniform neck scarf. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-13/references/woman-air-hostess.svg'
+SOURCE_ICON_ID = '22284429-fd82-4a8b-99c0-c7586e3ab52d'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman air hostess_22284429-fd82-4a8b-99c0-c7586e3ab52d.svg'
 SOURCE_HEAD_ICON_ID = 'woman-air-hostess'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

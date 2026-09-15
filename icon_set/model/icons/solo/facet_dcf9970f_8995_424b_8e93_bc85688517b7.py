@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dcf9970f-8995-424b-8e93-bc85688517b7'
-SOURCE_PATH = 'icons-json/_uncategorized_18/facet_dcf9970f-8995-424b-8e93-bc85688517b7.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/facet_dcf9970f-8995-424b-8e93-bc85688517b7.svg'
 AUTHOR = 'gpt-6'
 
 class Facet(Solo48):

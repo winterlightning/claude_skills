@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e4455147-ae67-5549-b790-52ac98346b78'
-SOURCE_PATH = 'icons-json/tv/modern tv curvy edge_e4455147-ae67-5549-b790-52ac98346b78.json'
+SOURCE_PATH = 'pictographic-primitives/tv/modern tv curvy edge_e4455147-ae67-5549-b790-52ac98346b78.svg'
 AUTHOR = 'gpt-6'
 
 class ModernTvCurvyEdgeTv(Solo48):

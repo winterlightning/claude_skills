@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1f61f1a6-7004-4899-8bf1-688257e3f936'
-SOURCE_PATH = 'icons-json/arrows/fast up_1f61f1a6-7004-4899-8bf1-688257e3f936.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/fast up_1f61f1a6-7004-4899-8bf1-688257e3f936.svg'
 AUTHOR = 'gpt-6'
 
 class FastUp(Solo48):

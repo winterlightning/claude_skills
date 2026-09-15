@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '12bd1899-000c-4b67-950e-b0cf9be91bc2'
-SOURCE_PATH = 'icons-json/logos/oculus logo_12bd1899-000c-4b67-950e-b0cf9be91bc2.json'
+SOURCE_PATH = 'pictographic-primitives/logos/oculus logo_12bd1899-000c-4b67-950e-b0cf9be91bc2.svg'
 AUTHOR = 'gpt-6'
 
 class OculusLogo(Solo48):

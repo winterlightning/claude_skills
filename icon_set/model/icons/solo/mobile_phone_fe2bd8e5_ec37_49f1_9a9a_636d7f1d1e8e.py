@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'fe2bd8e5-ec37-49f1-9a9a-636d7f1d1e8e'
-SOURCE_PATH = 'icons-json/mobile/mobile phone_fe2bd8e5-ec37-49f1-9a9a-636d7f1d1e8e.json'
+SOURCE_PATH = 'pictographic-primitives/mobile/mobile phone_fe2bd8e5-ec37-49f1-9a9a-636d7f1d1e8e.svg'
 AUTHOR = 'gpt-6'
 
 class MobilePhoneFe2bd8e5(Solo48):

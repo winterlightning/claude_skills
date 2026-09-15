@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '10c0128c-5afd-482c-b5e5-c79cec5e18b7'
-SOURCE_PATH = 'icons-json/logos/picasa logo_10c0128c-5afd-482c-b5e5-c79cec5e18b7.json'
+SOURCE_PATH = 'pictographic-primitives/logos/picasa logo_10c0128c-5afd-482c-b5e5-c79cec5e18b7.svg'
 AUTHOR = 'gpt-6'
 
 class PicasaLogo(Solo48):

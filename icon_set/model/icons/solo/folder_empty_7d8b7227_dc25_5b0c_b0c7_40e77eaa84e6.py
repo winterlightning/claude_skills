@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7d8b7227-dc25-5b0c-b0c7-40e77eaa84e6'
-SOURCE_PATH = 'icons-json/folders/folder empty_7d8b7227-dc25-5b0c-b0c7-40e77eaa84e6.json'
+SOURCE_PATH = 'pictographic-primitives/folders/folder empty_7d8b7227-dc25-5b0c-b0c7-40e77eaa84e6.svg'
 AUTHOR = 'gpt-6'
 
 class FolderEmpty(Solo48):

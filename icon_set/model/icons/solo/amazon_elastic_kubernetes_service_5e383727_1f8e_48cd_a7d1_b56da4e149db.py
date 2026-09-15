@@ -1,10 +1,13 @@
-"""Amazon elastic kubernetes service (_uncategorized_02), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""amazon-elastic-kubernetes-service: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5e383727-1f8e-48cd-a7d1-b56da4e149db'
-SOURCE_PATH = 'icons-json/_uncategorized_02/amazon elastic kubernetes service_5e383727-1f8e-48cd-a7d1-b56da4e149db.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon elastic kubernetes service_5e383727-1f8e-48cd-a7d1-b56da4e149db.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class AmazonElasticKubernetesService(Solo48):
     icon_id = 'amazon-elastic-kubernetes-service'
@@ -16,23 +19,11 @@ class AmazonElasticKubernetesService(Solo48):
     keywords = ('amazon', 'elastic', 'kubernetes', 'service', '_uncategorized_02')
 
     def build(self):
-        self.add_line('e0', (20, 16), (20, 32))
-        self.add_line('e1', (29, 31), (23, 23))
-        self.add_line('e2', (29, 17), (23, 23))
-        self.add_line('e3', (20, 27), (23, 23))
-        self.add_line('e4', (24, 44), (8, 34))
-        self.add_line('e5', (8, 34), (8, 14))
-        self.add_line('e6', (8, 14), (24, 4))
-        self.add_line('e7', (25, 4), (40, 14))
-        self.add_line('e8', (40, 14), (40, 34))
-        self.add_line('e9', (40, 34), (24, 44))
-        self.add_arc('e10', (24, 4), (25, 4), radius_x=75, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4', 'e5', 'e6', 'e10', 'e7', 'e8', 'e9', closed=True)
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'c0')
+        # Plan: VRECT_L (8,4)-(40,44); six clean sides mirrored around both axes; K arms share one stem node.
+        # Reference: Lucide hexagon: common vertices and equal opposite sides.
+        axis = 24
+        left, right = axis-16, axis+16
+        self.add_polyline('hexagon',(axis,4),(right,14),(right,34),(axis,44),(left,34),(left,14),closed=True)
+        self.add_polyline('stem',(20,16),(20,24),(20,32))
+        self.add_polyline('arms',(28,17),(20,24),(28,31))
+        self.relate('connect','stem','arms')

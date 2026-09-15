@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5b320b4e-ed89-4f2f-be89-6e9fdbbeecce'
-SOURCE_PATH = 'icons-json/office/meeting headphone wireless_5b320b4e-ed89-4f2f-be89-6e9fdbbeecce.json'
+SOURCE_PATH = 'pictographic-primitives/office/meeting headphone wireless_5b320b4e-ed89-4f2f-be89-6e9fdbbeecce.svg'
 AUTHOR = 'gpt-6'
 
 class MeetingHeadphoneWireless(Solo48):

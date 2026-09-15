@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9732cca1-08f4-5392-8a19-cdd38fbb0f4e'
-SOURCE_PATH = 'icons-json/shipping/logistic water proof package umbrella_9732cca1-08f4-5392-8a19-cdd38fbb0f4e.json'
+SOURCE_PATH = 'pictographic-primitives/shipping/logistic water proof package umbrella_9732cca1-08f4-5392-8a19-cdd38fbb0f4e.svg'
 AUTHOR = 'gpt-6'
 
 class LogisticWaterProofPackageUmbrella(Solo48):

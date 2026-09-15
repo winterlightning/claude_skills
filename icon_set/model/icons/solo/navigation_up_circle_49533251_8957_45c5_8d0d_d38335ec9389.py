@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '49533251-8957-45c5-8d0d-d38335ec9389'
-SOURCE_PATH = 'icons-json/interface-essential/navigation up circle_49533251-8957-45c5-8d0d-d38335ec9389.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/navigation up circle_49533251-8957-45c5-8d0d-d38335ec9389.svg'
 AUTHOR = 'gpt-6'
 
 class NavigationUpCircle(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5b62db5b-11c0-5f61-ac0d-e4228668a137'
-SOURCE_PATH = 'icons-json/science/gmo food lab bag_5b62db5b-11c0-5f61-ac0d-e4228668a137.json'
+SOURCE_PATH = 'pictographic-primitives/science/gmo food lab bag_5b62db5b-11c0-5f61-ac0d-e4228668a137.svg'
 AUTHOR = 'gpt-6'
 
 class GmoFoodLabBag(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'eb4d6c32-3a9f-5788-8ea2-e36095e0f764'
-SOURCE_PATH = 'icons-json/wayfinding/pets allow_eb4d6c32-3a9f-5788-8ea2-e36095e0f764.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/pets allow_eb4d6c32-3a9f-5788-8ea2-e36095e0f764.svg'
 AUTHOR = 'gpt-6'
 
 class PetsAllow(Solo48):

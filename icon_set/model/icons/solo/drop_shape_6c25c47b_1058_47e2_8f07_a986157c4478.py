@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6c25c47b-1058-47e2-8f07-a986157c4478'
-SOURCE_PATH = 'icons-json/design/drop shape_6c25c47b-1058-47e2-8f07-a986157c4478.json'
+SOURCE_PATH = 'pictographic-primitives/design/drop shape_6c25c47b-1058-47e2-8f07-a986157c4478.svg'
 AUTHOR = 'gpt-6'
 
 class DropShape(Solo48):

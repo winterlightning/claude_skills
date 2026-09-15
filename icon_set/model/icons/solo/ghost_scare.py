@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd3eaffac-83bd-5771-b93b-97075edcfae5'
-SOURCE_PATH = 'icons-json/smileys/ghost scare_d3eaffac-83bd-5771-b93b-97075edcfae5.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/ghost scare_d3eaffac-83bd-5771-b93b-97075edcfae5.svg'
 AUTHOR = 'gpt-6'
 
 class GhostScare(Solo48):

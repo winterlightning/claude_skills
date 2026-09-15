@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ae13e606-ba68-596f-8e73-43a137d4bfc7'
-SOURCE_PATH = 'icons-json/arrows/arrow left_ae13e606-ba68-596f-8e73-43a137d4bfc7.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/arrow left_ae13e606-ba68-596f-8e73-43a137d4bfc7.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowLeftAe13e606(Solo48):

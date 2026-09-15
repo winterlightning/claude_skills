@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a4bf80e9-a024-41d0-9f6a-7835803dea1e'
-SOURCE_PATH = 'icons-json/health/tooth_a4bf80e9-a024-41d0-9f6a-7835803dea1e.json'
+SOURCE_PATH = 'pictographic-primitives/health/tooth_a4bf80e9-a024-41d0-9f6a-7835803dea1e.svg'
 AUTHOR = 'gpt-6'
 
 class ToothHealth(Solo48):

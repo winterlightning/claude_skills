@@ -1,10 +1,13 @@
-"""Rotation y axis (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""rotation-y-axis: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e7bd2a8a-4fad-494e-95b4-c6de9862f81d'
-SOURCE_PATH = 'icons-json/design/rotation y axis_e7bd2a8a-4fad-494e-95b4-c6de9862f81d.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/design/rotation y axis_e7bd2a8a-4fad-494e-95b4-c6de9862f81d.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class RotationYAxis(Solo48):
     icon_id = 'rotation-y-axis'
@@ -16,29 +19,12 @@ class RotationYAxis(Solo48):
     keywords = ('rotation', 'y', 'axis', 'design')
 
     def build(self):
-        self.add_line('e0', (23, 6), (23, 32))
-        self.add_line('e1', (23, 42), (23, 32))
-        self.add_line('e2', (40, 15), (34, 16))
-        self.add_line('e3', (35, 22), (35, 18))
-        self.add_line('e4', (35, 18), (34, 16))
-        self.add_arc('e5-1', (15, 17), (6, 24), radius_x=10, sweep=False)
-        self.add_arc('e5-2', (6, 24), (11, 30), radius_x=7, sweep=False)
-        self.add_arc('e5-3', (11, 30), (23, 32), radius_x=29, sweep=False)
-        self.add_arc('e6-1', (34, 16), (42, 24), radius_x=10)
-        self.add_arc('e6-2', (42, 24), (34, 31), radius_x=9)
-        self.add_arc('e6-3', (34, 31), (23, 32), radius_x=34)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e5-1', 'e5-2', 'e5-3')
-        self.add_contour('c2', 'e1')
-        self.add_contour('c3', 'e2')
-        self.add_contour('c4', 'e3', 'e4')
-        self.add_contour('c5', 'e6-1', 'e6-2', 'e6-3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
+        # Plan: SQUARE; centered axis and one smooth orbital sweep with intentional arrow gap.
+        # Reference: Geometric ellipse-like orbit and clean attachment.
+        self.add_line('axis',(24,6),(24,42))
+        self.add_bezier('left-turn',(14,17),((9,18),(6,21),(6,24)),((6,30),(15,32),(24,32)))
+        self.add_bezier('right-turn',(24,32),((33,32),(42,30),(42,24)),((42,20),(38,17),(34,16)))
+        self.add_contour('rotation','left-turn','right-turn')
+        self.add_polyline('head',(40,15),(34,16),(35,22))
+        self.relate('connect','axis','rotation')
+        self.relate('connect','head','rotation')

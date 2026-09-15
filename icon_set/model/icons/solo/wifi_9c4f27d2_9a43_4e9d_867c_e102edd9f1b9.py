@@ -1,10 +1,13 @@
-"""Wifi (networks), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""wifi: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9c4f27d2-9a43-4e9d-867c-e102edd9f1b9'
-SOURCE_PATH = 'icons-json/networks/wifi_9c4f27d2-9a43-4e9d-867c-e102edd9f1b9.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/networks/wifi_9c4f27d2-9a43-4e9d-867c-e102edd9f1b9.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Wifi(Solo48):
     icon_id = 'wifi'
@@ -16,19 +19,12 @@ class Wifi(Solo48):
     keywords = ('wifi', 'networks')
 
     def build(self):
-        self.add_line('sym-e0', (24, 40), (24, 40))
-        self.add_arc('sym-e2', (4, 17), (5, 16), radius_x=3)
-        self.add_arc('sym-e3', (5, 16), (10, 12), radius_x=44)
-        self.add_arc('sym-e4', (10, 12), (23, 8), radius_x=25)
-        self.add_arc('sym-e6', (23, 8), (24, 8), radius_x=39, sweep=False)
-        self.add_line('sym-e9', (24, 8), (25, 8))
-        self.add_arc('sym-e11', (25, 8), (38, 12), radius_x=24)
-        self.add_arc('sym-e12', (38, 12), (43, 16), radius_x=44)
-        self.add_line('sym-e13', (43, 16), (44, 17))
-        self.add_arc('sym-e15', (14, 27), (19, 24), radius_x=15)
-        self.add_arc('sym-e16', (19, 24), (24, 23), radius_x=15)
-        self.add_arc('sym-e17', (24, 23), (29, 24), radius_x=15)
-        self.add_arc('sym-e18', (29, 24), (34, 27), radius_x=15)
-        self.add_contour('sym-c0', 'sym-e0', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e6', 'sym-e9', 'sym-e11', 'sym-e12', 'sym-e13')
-        self.add_contour('sym-c2', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18')
+        # Plan: HRECT_L; mirror each crest from one shared definition, retaining two bands.
+        # Reference: Geometric repeated arcs with shared symmetry.
+        def crown(name,left,edge_y,top):
+            right=48-left;half=(right-left)/2
+            self.add_bezier(name,(left,edge_y),((left+half*.35,edge_y-(edge_y-top)*.7),(24-half*.4,top),(24,top)),((24+half*.4,top),(right-half*.35,edge_y-(edge_y-top)*.7),(right,edge_y)))
+
+        crown('outer',4,17,8)
+        crown('inner',14,27,23)
+        self.add_dot('signal',(24,40))

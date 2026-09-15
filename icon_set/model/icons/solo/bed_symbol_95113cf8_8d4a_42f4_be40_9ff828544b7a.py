@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '95113cf8-8d4a-42f4-be40-9ff828544b7a'
-SOURCE_PATH = 'icons-json/symbol/bed_95113cf8-8d4a-42f4-be40-9ff828544b7a.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/bed_95113cf8-8d4a-42f4-be40-9ff828544b7a.svg'
 AUTHOR = 'gpt-6'
 
 class BedSymbol(Solo48):

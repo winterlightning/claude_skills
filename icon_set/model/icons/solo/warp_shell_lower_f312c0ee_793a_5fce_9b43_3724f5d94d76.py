@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f312c0ee-793a-5fce-9b43-3724f5d94d76'
-SOURCE_PATH = 'icons-json/design/warp shell lower_f312c0ee-793a-5fce-9b43-3724f5d94d76.json'
+SOURCE_PATH = 'pictographic-primitives/design/warp shell lower_f312c0ee-793a-5fce-9b43-3724f5d94d76.svg'
 AUTHOR = 'gpt-6'
 
 class WarpShellLower(Solo48):

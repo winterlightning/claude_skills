@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c67d0db4-f1ce-4316-b613-652728c2ba82'
-SOURCE_PATH = 'icons-json/logos/vodafone logo_c67d0db4-f1ce-4316-b613-652728c2ba82.json'
+SOURCE_PATH = 'pictographic-primitives/logos/vodafone logo_c67d0db4-f1ce-4316-b613-652728c2ba82.svg'
 AUTHOR = 'gpt-6'
 
 class VodafoneLogo(Solo48):

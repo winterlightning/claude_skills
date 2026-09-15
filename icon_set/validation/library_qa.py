@@ -18,6 +18,7 @@ from ..model.profiles import STROKE_WIDTH
 from ..renderers.svg import build_paths
 from .path_commands import commands_for_path
 from .internal_spacing import analyze_internal_spacing, internal_overlay, RULES as INTERNAL_RULES
+from .spacing_reviews import apply_spacing_reviews
 from .parallel_straight import RULES as PARALLEL_STRAIGHT_RULES
 from .circle_exceptions import circle_candidates, apply_circle_exceptions
 from .stroke_distance import analyze_paths
@@ -55,7 +56,9 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
     samples = rules['samples_per_unit']
     retreat = (STROKE_WIDTH - rules['measurement_stroke_width']) / 2
     radius = rules['minimum_enclosed_radius'] + retreat
-    fill = max(0.0, rules['minimum_solid_fill_depth'] - retreat)
+    # Closure depth belongs to the authored paint, not the thinned hole mask.
+    # Subtracting the 1.5-unit hole retreat disabled the 1-unit pinch rule.
+    fill = rules['minimum_solid_fill_depth']
     view = (0.0, 0.0, float(canvas), float(canvas))
     with tempfile.TemporaryDirectory(prefix='icon-hole-measure-') as temporary:
         path = Path(temporary) / 'icon.svg'
@@ -63,7 +66,6 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         ink = engine.render_ink_mask(path, canvas, canvas, samples, retreat)
         labels, region_ids = engine.enclosed_components(ink)
         holes = engine.measure_holes(labels, region_ids, view, samples, radius, canvas, canvas)
-        pinches = engine.find_pinches(path, ink, view, samples, fill, retreat, canvas)
         for hole in holes:
             authored_radius = hole['inscribed_radius_design_u'] - retreat
             hole['equivalent_radius_at_authored_stroke_design_u'] = round(authored_radius, 4)
@@ -75,6 +77,7 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         # Check the actual exported ink too; a size correction alone cannot
         # preserve that topology. Keep the same threshold and circle exceptions.
         authored_ink = engine.render_ink_mask(path, canvas, canvas, samples, 0)
+        pinches = engine.find_pinches(path, authored_ink, view, samples, fill, 0, canvas)
         authored_labels, authored_ids = engine.enclosed_components(authored_ink)
         authored_holes = engine.measure_holes(
             authored_labels, authored_ids, view, samples,
@@ -125,7 +128,7 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         if overlay is not None:
             overlay.parent.mkdir(parents=True, exist_ok=True)
             engine.save_overlay(ink, labels, region_ids, holes, pinches, overlay, view, samples)
-            engine.save_overlay(authored_ink, authored_labels, authored_ids, authored_holes, [],
+            engine.save_overlay(authored_ink, authored_labels, authored_ids, authored_holes, pinches,
                                 overlay.with_name('authored-' + overlay.name), view, samples)
         holes.extend(additional_failures)
     return {
@@ -139,6 +142,7 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         'minimum_measured_diameter': radius * 2,
         'configured_fill_depth': rules['minimum_solid_fill_depth'],
         'effective_fill_depth': fill, 'measuring_stroke_width': rules['measurement_stroke_width'],
+        'pinch_measuring_stroke_width': STROKE_WIDTH,
         'samples_per_unit': samples,
     }
 
@@ -211,11 +215,13 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         row['svg_sha256'] = _hash(document.encode('utf-8'))
         rules = {'profile': asdict(icon.profile.spec), 'stroke_width': STROKE_WIDTH,
                  'negative_space': negative_space_rules(), 'internal_spacing': INTERNAL_RULES,
+                 'pinch_measurement': 'authored-stroke-v1',
                  'internal_parallel_straight': PARALLEL_STRAIGHT_RULES}
         row['rules'] = rules
         row['rules_sha256'] = _hash(json.dumps(rules, sort_keys=True, separators=(',', ':')).encode('utf-8'))
         row['spacing'] = measure_spacing(icon, drawing, validation)
-        row['internal_spacing'] = analyze_internal_spacing(icon, drawing)
+        row['internal_spacing'] = apply_spacing_reviews(
+            icon, analyze_internal_spacing(icon, drawing), row['svg_sha256'], row['rules_sha256'])
         row['needs_review'] = row['internal_spacing']['status'] == 'review'
         if row['needs_review']:
             # A sampled finding is not a certified failure, but it must not be
@@ -223,6 +229,8 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
             if row['status'] == 'pass':
                 row['status'] = 'review'
             for finding in row['internal_spacing']['findings']:
+                if 'visual_review' in finding:
+                    continue
                 first, second = finding['elements']
                 row['warnings'].append(
                     f"internal-spacing [{finding['contour']}]: {first} and {second} "
@@ -345,8 +353,13 @@ def html_report(rows, aggregate) -> tuple[str, list[str]]:
         findings = ''.join(f'<li>{esc(message)}</li>' for message in row['errors'] + row['warnings'])
         internal = row.get('internal_spacing', {'status': 'not_run', 'findings': []})
         internal_items = ''.join(f'<li>#{i}: {esc(" ↔ ".join(f["elements"]))}: '
-                                 f'{f["ink_gap"]:g}u gap over ≈{f["sustained_length"]:g}u</li>'
+                                 f'{f["ink_gap"]:g}u gap over ≈{f["sustained_length"]:g}u'
+                                 + (f' · Reviewed: {esc(f["visual_review"]["reason"])}'
+                                    if 'visual_review' in f else '') + '</li>'
                                  for i, f in enumerate(internal['findings'], 1))
+        review_label = ('Visual review recorded for this exact drawing' if internal['status'] == 'reviewed'
+                        else 'Review required before release' if row.get('needs_review')
+                        else 'No unresolved spacing reviews')
         display_status = 'needs-review' if row['status'] == 'pass' and row.get('needs_review') else row['status']
         badge = 'review' if display_status == 'needs-review' else row['status']
         metadata = esc(json.dumps(public_row(row), indent=2))
@@ -358,7 +371,7 @@ def html_report(rows, aggregate) -> tuple[str, list[str]]:
 <p><strong>Holes/pinches: {esc(holes['status'])}</strong><br>{holes.get('hole_count', '—')} holes · {holes.get('failed_hole_count', '—')} undersized · {holes.get('pinch_count', '—')} pinches<br>Required authored diameter: {holes.get('minimum_authored_diameter', '—')}u</p></div>
 <ul class="findings">{findings}</ul>
 <div class="internal"><strong>Connected-edge spacing: {internal['status']}</strong>
-<p>Review required before release · release checks: {esc(row['status'])}. Required gap: {internal.get('required_ink_gap', '—')}u. Negative gaps mean overlapping ink.</p><ul>{internal_items}</ul></div>
+<p>{review_label} · release checks: {esc(row['status'])}. Required gap: {internal.get('required_ink_gap', '—')}u. Negative gaps mean overlapping ink.</p><ul>{internal_items}</ul></div>
 {'<table><thead><tr><th>Hole</th><th>Authored Ø</th><th>Measuring Ø</th><th>Status</th></tr></thead><tbody>' + diameter_rows + '</tbody></table>' if diameter_rows else ''}
 <details><summary>Measurements, thresholds and source hashes</summary><pre>{metadata}</pre></details>
 <a class="metrics" href="{esc(row['artifacts']['metrics'])}">Download metrics JSON</a></article>''')

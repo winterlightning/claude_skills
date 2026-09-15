@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7be4363f-746d-5909-9b6e-3dba795301f6'
-SOURCE_PATH = 'icons-json/arrows/rate stretch tool_7be4363f-746d-5909-9b6e-3dba795301f6.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/rate stretch tool_7be4363f-746d-5909-9b6e-3dba795301f6.svg'
 AUTHOR = 'gpt-6'
 
 class RateStretchTool(Solo48):

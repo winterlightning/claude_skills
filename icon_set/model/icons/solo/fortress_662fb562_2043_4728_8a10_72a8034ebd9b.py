@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '662fb562-2043-4728-8a10-72a8034ebd9b'
-SOURCE_PATH = 'icons-json/protection/fortress_662fb562-2043-4728-8a10-72a8034ebd9b.json'
+SOURCE_PATH = 'pictographic-primitives/protection/fortress_662fb562-2043-4728-8a10-72a8034ebd9b.svg'
 AUTHOR = 'gpt-6'
 
 class Fortress(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '09e1b73f-4483-571c-9e3d-5bc2c49901b9'
-SOURCE_PATH = 'icons-json/programing/amazon lightsail_09e1b73f-4483-571c-9e3d-5bc2c49901b9.json'
+SOURCE_PATH = 'pictographic-primitives/programing/amazon lightsail_09e1b73f-4483-571c-9e3d-5bc2c49901b9.svg'
 AUTHOR = 'gpt-6'
 
 class AmazonLightsail(Solo48):

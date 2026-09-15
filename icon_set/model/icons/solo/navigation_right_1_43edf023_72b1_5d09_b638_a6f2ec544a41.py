@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '43edf023-72b1-5d09-b638-a6f2ec544a41'
-SOURCE_PATH = 'icons-json/interface-essential/navigation right 1_43edf023-72b1-5d09-b638-a6f2ec544a41.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/navigation right 1_43edf023-72b1-5d09-b638-a6f2ec544a41.svg'
 AUTHOR = 'gpt-6'
 
 class NavigationRight1(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '47158bb8-8dc7-4fb9-a22b-2dc867d86ef2'
-SOURCE_PATH = 'icons-json/office/table cabinets_47158bb8-8dc7-4fb9-a22b-2dc867d86ef2.json'
+SOURCE_PATH = 'pictographic-primitives/office/table cabinets_47158bb8-8dc7-4fb9-a22b-2dc867d86ef2.svg'
 AUTHOR = 'gpt-6'
 
 class TableCabinets(Solo48):

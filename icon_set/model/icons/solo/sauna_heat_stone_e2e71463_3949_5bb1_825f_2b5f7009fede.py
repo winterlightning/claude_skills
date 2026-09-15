@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e2e71463-3949-5bb1-825f-2b5f7009fede'
-SOURCE_PATH = 'icons-json/spas/sauna heat stone_e2e71463-3949-5bb1-825f-2b5f7009fede.json'
+SOURCE_PATH = 'pictographic-primitives/spas/sauna heat stone_e2e71463-3949-5bb1-825f-2b5f7009fede.svg'
 AUTHOR = 'gpt-6'
 
 class SaunaHeatStone(Solo48):

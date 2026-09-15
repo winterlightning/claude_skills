@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '20934b59-3187-55bc-ae3d-4a19287367e6'
-SOURCE_PATH = 'icons-json/health/happiness emotions_20934b59-3187-55bc-ae3d-4a19287367e6.json'
+SOURCE_PATH = 'pictographic-primitives/health/happiness emotions_20934b59-3187-55bc-ae3d-4a19287367e6.svg'
 AUTHOR = 'gpt-6'
 
 class HappinessEmotions(Solo48):

@@ -11,35 +11,35 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "head:subpath-1",
+        "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 4 L 8 16",
+        "pathData": "M 8 4 L 8 16 L 18 16",
         "bounds": [
           8.0,
           4.0,
-          8.0,
+          18.0,
           16.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
+        "id": "turn:subpath-1",
+        "elementId": "turn",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 17 16 L 8 16 L 11 13 C 11.404 12.673 12.227 12.509 12.615 12.154999999999999 C 13.305 11.526999999999999 13.903 10.836 14.661 10.308999999999999 C 16.774999999999999 8.8450000000000006 19.283999999999999 7.9820000000000002 21.777000000000001 7.7729999999999997 C 31.696999999999999 6.9550000000000001 39.991999999999997 16.117999999999999 39.991999999999997 26.635999999999999 C 39.991999999999997 26.762 40 26.896000000000001 40 27.021000000000001 C 40 27.023 40 27.024999999999999 40 27.027000000000001 C 40 27.091000000000001 39.991999999999997 27.155000000000001 39.991999999999997 27.227 C 39.991999999999997 34.472999999999999 35.718000000000004 40.718000000000004 30 44",
+        "pathData": "M 8 16 C 12 11 17 8 23 8 C 33 8 40 16 40 27 C 40 34 36 41 30 44",
         "bounds": [
           8.0,
-          7.722315867424011,
+          8.0,
           40.0,
           44.0
         ],
-        "segmentCount": 275,
-        "approximationError": 0.0009961237848504798,
+        "segmentCount": 266,
+        "approximationError": 0.0009939310496941936,
         "hasCurves": true
       }
     ],
@@ -47,16 +47,16 @@
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "turn:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "turn:subpath-1"
         ],
         "elementIds": [
-          "c0",
-          "c1"
+          "head",
+          "turn"
         ],
         "bounds": [
           8.0,
@@ -70,8 +70,8 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "turn:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -83,15 +83,15 @@
     "excludedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "head:subpath-1",
+          "turn:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c1:subpath-1"
+            "head:subpath-1",
+            "turn:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -116,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 13,
-      "flattenedSegments": 276,
-      "adaptiveNodes": 538,
+      "commands": 7,
+      "flattenedSegments": 268,
+      "adaptiveNodes": 529,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -157,7 +157,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "5cd4dcb6aba64280a30baef0c630103ef9c647a40bc79f590e380134618bb90d",
+  "svg_sha256": "0906ff59c7e273e5de6df085b25dc8562ba16dd42246b53a8d3866e730d65359",
   "rules": {
     "profile": {
       "canvas_size": 48,

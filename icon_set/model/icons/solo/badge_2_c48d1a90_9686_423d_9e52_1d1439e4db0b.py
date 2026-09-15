@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c48d1a90-9686-423d-9e52-1d1439e4db0b'
-SOURCE_PATH = 'icons-json/other/badge 2_c48d1a90-9686-423d-9e52-1d1439e4db0b.json'
+SOURCE_PATH = 'pictographic-primitives/other/badge 2_c48d1a90-9686-423d-9e52-1d1439e4db0b.svg'
 AUTHOR = 'gpt-6'
 
 class Badge2(Solo48):

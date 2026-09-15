@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd29473b3-fd58-4d03-b71d-c51e5c3ecb6c'
-SOURCE_PATH = 'icons-json/symbol/nagras sign_d29473b3-fd58-4d03-b71d-c51e5c3ecb6c.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/nagras sign_d29473b3-fd58-4d03-b71d-c51e5c3ecb6c.svg'
 AUTHOR = 'gpt-6'
 
 class NagrasSign(Solo48):

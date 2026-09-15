@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '34931aa4-2ff2-4490-a0da-404a030fd356'
-SOURCE_PATH = 'icons-json/holidays/snowflake_34931aa4-2ff2-4490-a0da-404a030fd356.json'
+SOURCE_PATH = 'pictographic-primitives/holidays/snowflake_34931aa4-2ff2-4490-a0da-404a030fd356.svg'
 AUTHOR = 'gpt-6'
 
 class SnowflakeHolidays(Solo48):

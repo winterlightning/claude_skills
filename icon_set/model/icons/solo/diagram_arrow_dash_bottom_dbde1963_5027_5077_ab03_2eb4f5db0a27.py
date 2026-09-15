@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'dbde1963-5027-5077-ab03-2eb4f5db0a27'
-SOURCE_PATH = 'icons-json/arrows/diagram arrow dash bottom_dbde1963-5027-5077-ab03-2eb4f5db0a27.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/diagram arrow dash bottom_dbde1963-5027-5077-ab03-2eb4f5db0a27.svg'
 AUTHOR = 'gpt-6'
 
 class DiagramArrowDashBottom(Solo48):

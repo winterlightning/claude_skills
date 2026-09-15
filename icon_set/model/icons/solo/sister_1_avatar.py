@@ -8,8 +8,8 @@ Body cue: robe front bands. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-09/references/sister-1.svg'
+SOURCE_ICON_ID = '0f6cf10c-308f-4626-9062-d2b5d14b81bf'
+SOURCE_PATH = 'pictographic-primitives/avatars/sister_0f6cf10c-308f-4626-9062-d2b5d14b81bf.svg'
 SOURCE_HEAD_ICON_ID = 'sister-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

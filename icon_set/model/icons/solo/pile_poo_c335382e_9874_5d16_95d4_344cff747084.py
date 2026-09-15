@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c335382e-9874-5d16-95d4-344cff747084'
-SOURCE_PATH = 'icons-json/smileys/pile poo_c335382e-9874-5d16-95d4-344cff747084.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/pile poo_c335382e-9874-5d16-95d4-344cff747084.svg'
 AUTHOR = 'gpt-6'
 
 class PilePoo(Solo48):

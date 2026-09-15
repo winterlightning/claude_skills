@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c1d5f52e-e959-4a98-8aa2-0ce4e5a583cc'
-SOURCE_PATH = 'icons-json/money/virtual coin crypto digibyte_c1d5f52e-e959-4a98-8aa2-0ce4e5a583cc.json'
+SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto digibyte_c1d5f52e-e959-4a98-8aa2-0ce4e5a583cc.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoDigibyte(Solo48):

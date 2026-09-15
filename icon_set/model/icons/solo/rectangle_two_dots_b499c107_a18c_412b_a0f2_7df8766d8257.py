@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b499c107-a18c-412b-a0f2-7df8766d8257'
-SOURCE_PATH = 'icons-json/state/rectangle two dots_b499c107-a18c-412b-a0f2-7df8766d8257.json'
+SOURCE_PATH = 'pictographic-primitives/state/rectangle two dots_b499c107-a18c-412b-a0f2-7df8766d8257.svg'
 AUTHOR = 'gpt-6'
 
 class RectangleTwoDots(Solo48):

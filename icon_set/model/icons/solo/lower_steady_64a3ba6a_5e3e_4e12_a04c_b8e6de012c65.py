@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '64a3ba6a-5e3e-4e12-a04c-b8e6de012c65'
-SOURCE_PATH = 'icons-json/arrows/lower steady_64a3ba6a-5e3e-4e12-a04c-b8e6de012c65.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/lower steady_64a3ba6a-5e3e-4e12-a04c-b8e6de012c65.svg'
 AUTHOR = 'gpt-6'
 
 class LowerSteady(Solo48):

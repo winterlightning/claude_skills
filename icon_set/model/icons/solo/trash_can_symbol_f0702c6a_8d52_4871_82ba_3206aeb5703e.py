@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f0702c6a-8d52-4871-82ba-3206aeb5703e'
-SOURCE_PATH = 'icons-json/symbol/trash can_f0702c6a-8d52-4871-82ba-3206aeb5703e.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/trash can_f0702c6a-8d52-4871-82ba-3206aeb5703e.svg'
 AUTHOR = 'gpt-6'
 
 class TrashCan(Solo48):

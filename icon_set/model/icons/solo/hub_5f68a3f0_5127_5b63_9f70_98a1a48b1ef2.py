@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5f68a3f0-5127-5b63-9f70-98a1a48b1ef2'
-SOURCE_PATH = 'icons-json/programing/hub_5f68a3f0-5127-5b63-9f70-98a1a48b1ef2.json'
+SOURCE_PATH = 'pictographic-primitives/programing/hub_5f68a3f0-5127-5b63-9f70-98a1a48b1ef2.svg'
 AUTHOR = 'gpt-6'
 
 class Hub(Solo48):

@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: soft sleep shirt with a low curved necklin
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-pajamas-woman.svg'
+SOURCE_ICON_ID = '6972ec9c-e5a0-53f5-9c8e-a492e4824ace'
+SOURCE_PATH = 'pictographic-primitives/avatars/avatar pajamas woman_6972ec9c-e5a0-53f5-9c8e-a492e4824ace.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-pajamas-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

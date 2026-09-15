@@ -1,10 +1,10 @@
-"""Baht (money), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""baht — re-authored in place for smooth SOLO48 geometry."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd48f163d-0715-5aa1-ab17-7c224344ee83'
-SOURCE_PATH = 'icons-json/money/baht_d48f163d-0715-5aa1-ab17-7c224344ee83.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/money/baht_d48f163d-0715-5aa1-ab17-7c224344ee83.svg'
+AUTHOR = 'gpt-6'
 
 class Baht(Solo48):
     icon_id = 'baht'
@@ -16,17 +16,18 @@ class Baht(Solo48):
     keywords = ('baht', 'money')
 
     def build(self):
-        self.add_line('e0', (29, 39), (8, 39))
-        self.add_line('e1', (8, 39), (8, 9))
-        self.add_line('e2', (8, 9), (28, 9))
-        self.add_line('e3', (30, 24), (8, 24))
-        self.add_line('e4', (23, 44), (23, 4))
-        self.add_arc('e5-1', (28, 9), (38, 14), radius_x=12)
-        self.add_arc('e5-2', (38, 14), (30, 24), radius_x=8)
-        self.add_arc('e5-3', (30, 24), (40, 32), radius_x=10)
-        self.add_arc('e5-4', (40, 32), (29, 39), radius_x=9)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e5-1', 'e5-2', 'e5-3', 'e5-4', closed=True)
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c1', 'c0')
+        # Two equal elliptical bowls share a spine and crossbar.
+        # VRECT_L extremes: (8,4)-(40,44); circular/elliptical construction
+        # follows Lucide currency's coherent arc runs, preserving the baht sign.
+        left, bowl_x, stem = 8, 28, 22
+        self.add_line('top', (left, 8), (bowl_x, 8))
+        self.add_arc('upper-bowl', (bowl_x, 8), (bowl_x, 24), radius_x=12, radius_y=8)
+        self.add_arc('lower-bowl', (bowl_x, 24), (bowl_x, 40), radius_x=12, radius_y=8)
+        self.add_line('bottom', (bowl_x, 40), (left, 40))
+        self.add_line('spine', (left, 40), (left, 8))
+        self.add_contour('outline', 'top', 'upper-bowl', 'lower-bowl', 'bottom', 'spine', closed=True)
+        self.add_line('crossbar', (left, 24), (bowl_x, 24))
+        self.add_line('currency-stem', (stem, 4), (stem, 44))
+        self.relate('connect', 'outline', 'crossbar')
+        self.relate('connect', 'outline', 'currency-stem')
+        self.relate('connect', 'crossbar', 'currency-stem')

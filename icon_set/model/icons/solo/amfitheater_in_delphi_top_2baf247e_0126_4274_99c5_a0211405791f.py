@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2baf247e-0126-4274-99c5-a0211405791f'
-SOURCE_PATH = 'icons-json/_uncategorized_03/amfitheater in delphi top_2baf247e-0126-4274-99c5-a0211405791f.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/amfitheater in delphi top_2baf247e-0126-4274-99c5-a0211405791f.svg'
 AUTHOR = 'gpt-6'
 
 class AmfitheaterInDelphiTop(Solo48):

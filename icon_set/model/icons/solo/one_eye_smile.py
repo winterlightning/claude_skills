@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '18e73746-a8ab-59ae-9a0b-eaa957c620bb'
-SOURCE_PATH = 'icons-json/smileys/one eye smile_18e73746-a8ab-59ae-9a0b-eaa957c620bb.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/one eye smile_18e73746-a8ab-59ae-9a0b-eaa957c620bb.svg'
 AUTHOR = 'gpt-6'
 
 class OneEyeSmile(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '172e2c40-be15-5b8d-88e4-a13305156744'
-SOURCE_PATH = 'icons-json/design/shape cylinder_172e2c40-be15-5b8d-88e4-a13305156744.json'
+SOURCE_PATH = 'pictographic-primitives/design/shape cylinder_172e2c40-be15-5b8d-88e4-a13305156744.svg'
 AUTHOR = 'gpt-6'
 
 class ShapeCylinder(Solo48):

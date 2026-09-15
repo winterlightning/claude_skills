@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a839aab1-1953-4a67-aa15-e9ae49616cd4'
-SOURCE_PATH = 'icons-json/mobile/phone flash light_a839aab1-1953-4a67-aa15-e9ae49616cd4.json'
+SOURCE_PATH = 'pictographic-primitives/mobile/phone flash light_a839aab1-1953-4a67-aa15-e9ae49616cd4.svg'
 AUTHOR = 'gpt-6'
 
 class PhoneFlashLight(Solo48):

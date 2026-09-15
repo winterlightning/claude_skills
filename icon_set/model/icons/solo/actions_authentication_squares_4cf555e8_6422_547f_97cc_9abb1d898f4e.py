@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4cf555e8-6422-547f-97cc-9abb1d898f4e'
-SOURCE_PATH = 'icons-json/programing/actions authentication squares_4cf555e8-6422-547f-97cc-9abb1d898f4e.json'
+SOURCE_PATH = 'pictographic-primitives/programing/actions authentication squares_4cf555e8-6422-547f-97cc-9abb1d898f4e.svg'
 AUTHOR = 'gpt-6'
 
 class ActionsAuthenticationSquares(Solo48):

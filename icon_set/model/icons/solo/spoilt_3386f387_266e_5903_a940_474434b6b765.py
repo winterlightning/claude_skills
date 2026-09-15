@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '3386f387-266e-5903-a940-474434b6b765'
-SOURCE_PATH = 'icons-json/smileys/spoilt_3386f387-266e-5903-a940-474434b6b765.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/spoilt_3386f387-266e-5903-a940-474434b6b765.svg'
 AUTHOR = 'gpt-6'
 
 class Spoilt(Solo48):

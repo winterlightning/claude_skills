@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b7cbdd91-293f-5ff3-b1ef-c7df299fdde1'
-SOURCE_PATH = 'icons-json/building/apartment balcony glass_b7cbdd91-293f-5ff3-b1ef-c7df299fdde1.json'
+SOURCE_PATH = 'pictographic-primitives/building/apartment balcony glass_b7cbdd91-293f-5ff3-b1ef-c7df299fdde1.svg'
 AUTHOR = 'gpt-6'
 
 class ApartmentBalconyGlass(Solo48):

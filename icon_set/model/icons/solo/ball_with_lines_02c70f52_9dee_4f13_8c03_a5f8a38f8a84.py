@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '02c70f52-9dee-4f13-8c03-a5f8a38f8a84'
-SOURCE_PATH = 'icons-json/symbol/ball with lines_02c70f52-9dee-4f13-8c03-a5f8a38f8a84.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/ball with lines_02c70f52-9dee-4f13-8c03-a5f8a38f8a84.svg'
 AUTHOR = 'gpt-6'
 
 class BallWithLines(Solo48):

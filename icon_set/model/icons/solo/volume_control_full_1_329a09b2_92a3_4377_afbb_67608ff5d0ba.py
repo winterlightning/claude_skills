@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '329a09b2-92a3-4377-afbb-67608ff5d0ba'
-SOURCE_PATH = 'icons-json/audio/volume control full 1_329a09b2-92a3-4377-afbb-67608ff5d0ba.json'
+SOURCE_PATH = 'pictographic-primitives/audio/volume control full 1_329a09b2-92a3-4377-afbb-67608ff5d0ba.svg'
 AUTHOR = 'gpt-6'
 
 class VolumeControlFull1(Solo48):

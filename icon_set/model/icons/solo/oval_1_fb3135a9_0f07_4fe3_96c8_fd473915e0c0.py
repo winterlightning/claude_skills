@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fb3135a9-0f07-4fe3-96c8-fd473915e0c0'
-SOURCE_PATH = 'icons-json/symbol/oval 1_fb3135a9-0f07-4fe3-96c8-fd473915e0c0.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/oval 1_fb3135a9-0f07-4fe3-96c8-fd473915e0c0.svg'
 AUTHOR = 'gpt-6'
 
 class Oval1(Solo48):

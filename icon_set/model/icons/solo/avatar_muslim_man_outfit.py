@@ -7,8 +7,8 @@ Small facial marks omitted; clothing/headwear carry the intended meaning.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID=None
-SOURCE_PATH='work/head-solo/batch-01/references/avatar-muslim-man-outfit.svg'
+SOURCE_ICON_ID = 'ebfdfda3-cd66-462a-9339-bae242892b0f'
+SOURCE_PATH = 'pictographic-primitives/avatars/muslim man outfit_ebfdfda3-cd66-462a-9339-bae242892b0f.svg'
 AUTHOR='gpt-6'
 
 class AvatarMuslimManOutfit(Solo48):

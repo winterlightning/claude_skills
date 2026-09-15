@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '34da4047-8adb-44d7-8fac-ef87b6b6b4ee'
-SOURCE_PATH = 'icons-json/symbol/paintbrush_34da4047-8adb-44d7-8fac-ef87b6b6b4ee.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/paintbrush_34da4047-8adb-44d7-8fac-ef87b6b6b4ee.svg'
 AUTHOR = 'gpt-6'
 
 class PaintbrushSymbol(Solo48):

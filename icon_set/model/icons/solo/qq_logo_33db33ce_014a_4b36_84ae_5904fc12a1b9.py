@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '33db33ce-014a-4b36-84ae-5904fc12a1b9'
-SOURCE_PATH = 'icons-json/logos/qq logo_33db33ce-014a-4b36-84ae-5904fc12a1b9.json'
+SOURCE_PATH = 'pictographic-primitives/logos/qq logo_33db33ce-014a-4b36-84ae-5904fc12a1b9.svg'
 AUTHOR = 'gpt-6'
 
 class QqLogo(Solo48):

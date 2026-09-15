@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '189fadd8-d9d2-45cd-9147-64e875e83b0b'
-SOURCE_PATH = 'icons-json/interface-essential/logout 1_189fadd8-d9d2-45cd-9147-64e875e83b0b.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/logout 1_189fadd8-d9d2-45cd-9147-64e875e83b0b.svg'
 AUTHOR = 'gpt-6'
 
 class Logout1(Solo48):

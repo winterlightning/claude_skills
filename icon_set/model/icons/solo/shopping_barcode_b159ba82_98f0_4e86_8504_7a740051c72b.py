@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b159ba82-98f0-4e86-8504-7a740051c72b'
-SOURCE_PATH = 'icons-json/products/shopping barcode_b159ba82-98f0-4e86-8504-7a740051c72b.json'
+SOURCE_PATH = 'pictographic-primitives/products/shopping barcode_b159ba82-98f0-4e86-8504-7a740051c72b.svg'
 AUTHOR = 'gpt-6'
 
 class ShoppingBarcode(Solo48):

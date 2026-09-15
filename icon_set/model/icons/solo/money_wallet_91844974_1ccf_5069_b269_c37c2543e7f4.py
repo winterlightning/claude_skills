@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '91844974-1ccf-5069-b269-c37c2543e7f4'
-SOURCE_PATH = 'icons-json/finance/money wallet_91844974-1ccf-5069-b269-c37c2543e7f4.json'
+SOURCE_PATH = 'pictographic-primitives/finance/money wallet_91844974-1ccf-5069-b269-c37c2543e7f4.svg'
 AUTHOR = 'gpt-6'
 
 class MoneyWallet(Solo48):

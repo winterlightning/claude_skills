@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b8695cf4-7b17-5792-8772-9696262aa3c3'
-SOURCE_PATH = 'icons-json/weather/light mode cloudy_b8695cf4-7b17-5792-8772-9696262aa3c3.json'
+SOURCE_PATH = 'pictographic-primitives/weather/light mode cloudy_b8695cf4-7b17-5792-8772-9696262aa3c3.svg'
 AUTHOR = 'gpt-6'
 
 class LightModeCloudy(Solo48):

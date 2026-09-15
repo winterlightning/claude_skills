@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c0411cd9-5038-475a-aa2f-c63811150a34'
-SOURCE_PATH = 'icons-json/electronics/power outlet type g_c0411cd9-5038-475a-aa2f-c63811150a34.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/power outlet type g_c0411cd9-5038-475a-aa2f-c63811150a34.svg'
 AUTHOR = 'gpt-6'
 
 class PowerOutletTypeG(Solo48):

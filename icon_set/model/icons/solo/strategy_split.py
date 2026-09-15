@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c8a64710-b7eb-5217-beec-39744ce7d77c'
-SOURCE_PATH = 'icons-json/arrows/strategy split_c8a64710-b7eb-5217-beec-39744ce7d77c.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/strategy split_c8a64710-b7eb-5217-beec-39744ce7d77c.svg'
 AUTHOR = 'gpt-6'
 
 class StrategySplit(Solo48):

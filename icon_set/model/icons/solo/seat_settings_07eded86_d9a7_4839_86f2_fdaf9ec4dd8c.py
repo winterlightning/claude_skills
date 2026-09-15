@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '07eded86-d9a7-4839-86f2-fdaf9ec4dd8c'
-SOURCE_PATH = 'icons-json/wayfinding/seat settings_07eded86-d9a7-4839-86f2-fdaf9ec4dd8c.json'
+SOURCE_PATH = 'pictographic-primitives/wayfinding/seat settings_07eded86-d9a7-4839-86f2-fdaf9ec4dd8c.svg'
 AUTHOR = 'gpt-6'
 
 class SeatSettings(Solo48):

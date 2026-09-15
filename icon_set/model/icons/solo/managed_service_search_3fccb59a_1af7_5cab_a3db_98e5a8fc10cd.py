@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '3fccb59a-1af7-5cab-a3db-98e5a8fc10cd'
-SOURCE_PATH = 'icons-json/programing/managed service search_3fccb59a-1af7-5cab-a3db-98e5a8fc10cd.json'
+SOURCE_PATH = 'pictographic-primitives/programing/managed service search_3fccb59a-1af7-5cab-a3db-98e5a8fc10cd.svg'
 AUTHOR = 'gpt-6'
 
 class ManagedServiceSearchPrograming(Solo48):

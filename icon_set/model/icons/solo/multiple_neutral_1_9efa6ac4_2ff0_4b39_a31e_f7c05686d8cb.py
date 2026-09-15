@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9efa6ac4-2ff0-4b39-a31e-f7c05686d8cb'
-SOURCE_PATH = 'icons-json/users/multiple neutral 1_9efa6ac4-2ff0-4b39-a31e-f7c05686d8cb.json'
+SOURCE_PATH = 'pictographic-primitives/users/multiple neutral 1_9efa6ac4-2ff0-4b39-a31e-f7c05686d8cb.svg'
 AUTHOR = 'gpt-6'
 
 class MultipleNeutral1(Solo48):

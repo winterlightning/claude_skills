@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1610e3ba-84a5-4d21-aaf5-def7c21e3e28'
-SOURCE_PATH = 'icons-json/health/vaccine bottle_1610e3ba-84a5-4d21-aaf5-def7c21e3e28.json'
+SOURCE_PATH = 'pictographic-primitives/health/vaccine bottle_1610e3ba-84a5-4d21-aaf5-def7c21e3e28.svg'
 AUTHOR = 'gpt-6'
 
 class VaccineBottle(Solo48):

@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: robe bands.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/merlin-1.svg'
+SOURCE_ICON_ID = 'c21f0eb9-2d96-5109-bfbe-e9bed09ca220'
+SOURCE_PATH = 'pictographic-primitives/avatars/merlin_c21f0eb9-2d96-5109-bfbe-e9bed09ca220.svg'
 SOURCE_HEAD_ICON_ID = 'merlin-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

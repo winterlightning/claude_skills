@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f0d4e8d8-2e3e-47b4-82f6-85f8457f25af'
-SOURCE_PATH = 'icons-json/health/psychiatry_f0d4e8d8-2e3e-47b4-82f6-85f8457f25af.json'
+SOURCE_PATH = 'pictographic-primitives/health/psychiatry_f0d4e8d8-2e3e-47b4-82f6-85f8457f25af.svg'
 AUTHOR = 'gpt-6'
 
 class Psychiatry(Solo48):

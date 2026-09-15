@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '90cac3c3-16d4-5ca2-95e6-98d1851e462d'
-SOURCE_PATH = 'icons-json/health/arm flex_90cac3c3-16d4-5ca2-95e6-98d1851e462d.json'
+SOURCE_PATH = 'pictographic-primitives/health/arm flex_90cac3c3-16d4-5ca2-95e6-98d1851e462d.svg'
 AUTHOR = 'gpt-6'
 
 class ArmFlex(Solo48):

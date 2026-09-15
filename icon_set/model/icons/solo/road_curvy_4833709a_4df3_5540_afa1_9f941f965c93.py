@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4833709a-4df3-5540-afa1-9f941f965c93'
-SOURCE_PATH = 'icons-json/transportation/road curvy_4833709a-4df3-5540-afa1-9f941f965c93.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/road curvy_4833709a-4df3-5540-afa1-9f941f965c93.svg'
 AUTHOR = 'gpt-6'
 
 class RoadCurvy(Solo48):

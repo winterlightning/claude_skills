@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '112eab3f-fcce-46df-828b-9f90813d86e3'
-SOURCE_PATH = 'icons-json/emails/envelope sealed_112eab3f-fcce-46df-828b-9f90813d86e3.json'
+SOURCE_PATH = 'pictographic-primitives/emails/envelope sealed_112eab3f-fcce-46df-828b-9f90813d86e3.svg'
 AUTHOR = 'gpt-6'
 
 class EnvelopeSealed(Solo48):

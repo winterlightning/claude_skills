@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9bdeb55d-f637-54d7-ae3a-b56165d08c04'
-SOURCE_PATH = 'icons-json/arrows/arrow badge right 2_9bdeb55d-f637-54d7-ae3a-b56165d08c04.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/arrow badge right 2_9bdeb55d-f637-54d7-ae3a-b56165d08c04.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowBadgeRight2(Solo48):

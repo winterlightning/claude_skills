@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4ee9ecc8-c1c5-4fbd-86bf-4c3aaf9a18f4'
-SOURCE_PATH = 'icons-json/symbol/soap_4ee9ecc8-c1c5-4fbd-86bf-4c3aaf9a18f4.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/soap_4ee9ecc8-c1c5-4fbd-86bf-4c3aaf9a18f4.svg'
 AUTHOR = 'gpt-6'
 
 class Soap(Solo48):

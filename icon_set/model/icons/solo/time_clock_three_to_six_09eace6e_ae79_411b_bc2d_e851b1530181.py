@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '09eace6e-ae79-411b-bc2d-e851b1530181'
-SOURCE_PATH = 'icons-json/interface-essential/time clock three to six_09eace6e-ae79-411b-bc2d-e851b1530181.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/time clock three to six_09eace6e-ae79-411b-bc2d-e851b1530181.svg'
 AUTHOR = 'gpt-6'
 
 class TimeClockThreeToSix(Solo48):

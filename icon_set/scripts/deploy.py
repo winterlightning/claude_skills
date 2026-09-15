@@ -30,12 +30,16 @@ if __package__:
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
+    from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from .primitives_catalog import primitives_root
 else:
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
+    from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from primitives_catalog import primitives_root
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DIST = PACKAGE_ROOT / 'dist'
@@ -103,6 +107,7 @@ def init_database(path: Path) -> None:
             details TEXT NOT NULL DEFAULT '{}', created_at TEXT NOT NULL)''')
         connection.execute('CREATE INDEX IF NOT EXISTS activity_log_user ON activity_log(username, id)')
         connection.execute('CREATE INDEX IF NOT EXISTS activity_log_icon ON activity_log(icon, id)')
+        init_primitive_status(connection)
 
 
 def utc_now():
@@ -217,6 +222,34 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
         return {item['key']: item for item in data['icons']}
 
+    def primitives_catalog(self):
+        """gallery/primitives.json, reparsed only when a build or refresh replaces it."""
+        path = self.root / 'gallery/primitives.json'
+        stamp = path.stat().st_mtime_ns
+        cached = getattr(self.server, 'primitives_cache', None)
+        if not cached or cached[0] != stamp:
+            cached = (stamp, json.loads(path.read_text(encoding='utf-8')))
+            self.server.primitives_cache = cached
+        return cached[1]
+
+    def serve_primitive(self, path):
+        """Original primitive artwork, from outside dist; SVG only, sandboxed like reference images."""
+        base = self.server.primitives_root
+        relative = unquote(path[len('/primitives/'):])
+        parts = Path(relative).parts
+        candidate = (base / relative).resolve()
+        if (not relative or any(part.startswith('.') or part == '..' for part in parts) or
+                not candidate.is_relative_to(base) or candidate.suffix.lower() != '.svg' or not candidate.is_file()):
+            return self.json_response({'error': 'Not found'}, 404)
+        content = candidate.read_bytes()
+        self.send_response(200)
+        self.send_header('Content-Type', 'image/svg+xml')
+        self.send_header('Content-Length', str(len(content)))
+        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+        self.end_headers()
+        if self.command != 'HEAD':
+            self.wfile.write(content)
+
     def is_rejected(self, connection, key, sha):
         return bool(connection.execute(
             "SELECT 1 FROM reviews WHERE icon=? AND status='rejected' "
@@ -259,6 +292,23 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
             return
+        if parsed.path.startswith('/primitives/'):
+            return self.serve_primitive(parsed.path)
+        if parsed.path in ('/api/primitives', '/api/primitives/status', '/api/primitives/summary'):
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    statuses = load_status(connection)
+                if parsed.path == '/api/primitives/status':
+                    return self.json_response(statuses)
+                merged = merge(self.primitives_catalog()['rows'], statuses)
+                if parsed.path == '/api/primitives/summary':
+                    return self.json_response(summarize(merged))
+                query = parse_qs(parsed.query)
+                one = lambda name: query.get(name, [None])[0]  # noqa: E731
+                return self.json_response(list(filter_rows(merged, one('category'), one('status'),
+                                                           one('batch'), one('reason'))))
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Primitive progress is temporarily unavailable'}, 503)
         if parsed.path in ('/api/qa-evidence', '/api/qa-evidence/image'):
             query = parse_qs(parsed.query)
             key = query.get('icon', [''])[0]
@@ -326,6 +376,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 catalog = self.catalog()
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     rows = connection.execute('SELECT icon, svg_sha256, status FROM reviews').fetchall()
+                    # Preserve an explicit restore until the next review or feedback action.
+                    latest_actions = connection.execute("SELECT icon,action,details FROM activity_log WHERE id IN (SELECT MAX(id) FROM activity_log WHERE action IN ('restore','review','feedback') GROUP BY icon)").fetchall()
+                    restored = {key: json.loads(details).get('svg_sha256') for key, action, details in latest_actions if action == 'restore'}
                 statuses = {key: 'ready' for key in catalog}
                 for key, sha, status in rows:
                     if key in catalog and catalog[key]['svg_sha256'] == sha:
@@ -338,7 +391,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     parent = icon.get('variant_of')
                     if parent:
                         key = icon['family'] + '/' + parent
-                        if statuses.get(key) == 'pending':
+                        if statuses.get(key) == 'pending' and restored.get(key) != catalog[key]['svg_sha256']:
                             statuses[key] = 're-generated'
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     rejected = connection.execute('SELECT icon,svg_sha256 FROM split_requests WHERE active=1').fetchall()
@@ -400,7 +453,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -455,6 +508,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icons/discard':
                 return self.discard_icon(data, user)
+            if route == '/api/primitives/status':
+                return self.save_primitive_status(data, user)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data, user)
             if route == '/api/feedback/edit':
@@ -574,6 +629,20 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
+    def save_primitive_status(self, data, user):
+        try:
+            known = {row['uuid'] for row in self.primitives_catalog()['rows']}
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                result = set_status(connection, data.get('uuids'), data.get('status'), data.get('reason'),
+                                    data.get('note', ''), user=user, record=record_activity, known=known)
+                statuses = load_status(connection)
+            result['decisions'] = {uid.strip().lower(): statuses.get(uid.strip().lower()) for uid in data['uuids']}
+            return self.json_response(result)
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except (OSError, sqlite3.Error):
+            return self.json_response({'error': 'Could not save primitive status. Please retry.'}, 503)
+
     def save_icon_flag(self, data, user):
         key, flag = data.get('icon'), data.get('flag')
         if not isinstance(key, str) or flag not in ('', 'container_combination', 'combination', 'other', 'exception'):
@@ -644,11 +713,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if route == '/api/reject-combination/restore':
                     connection.execute('UPDATE split_requests SET active=0, restored_by=?, restored_at=? WHERE icon=? AND svg_sha256=? AND active=1',
                                        (user, now, key, icon['svg_sha256']))
-                    connection.execute("UPDATE reviews SET status='ready', updated_by=?, updated_at=? WHERE icon=? AND status='rejected'", (user, now, key))
+                    connection.execute("UPDATE reviews SET status='pending', updated_by=?, updated_at=? WHERE icon=? AND status='rejected'", (user, now, key))
                     # Explicit restore returns the icon to review, never silently approves it.
-                    connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,'ready',?,?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='ready',updated_at=excluded.updated_at,updated_by=excluded.updated_by", (key,icon['svg_sha256'],now,user))
+                    connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,'pending',?,?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='pending',updated_at=excluded.updated_at,updated_by=excluded.updated_by", (key,icon['svg_sha256'],now,user))
                     record_activity(connection, user, 'restore', key, svg_sha256=icon['svg_sha256'])
-                    return self.json_response({'saved': True, 'status': 'ready'})
+                    return self.json_response({'saved': True, 'status': 'pending'})
                 validate_split(data)
                 sources = icon.get('original_sources', [])
                 reference = sources[0]['source_path'] if sources else ''
@@ -665,7 +734,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not update pending briefs.'}, 503)
 
 
-def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000):
+def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None):
     dist, database = dist.resolve(), database.resolve()
     if not (dist / 'gallery/index.html').is_file() or not (dist / 'gallery/icons.json').is_file():
         raise ValueError('Gallery is missing. Run icon_set/scripts/build.py first.')
@@ -675,6 +744,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000):
     server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
     server.references = ReferenceStore(database.parent / 'reference-images')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
+    server.primitives_root = primitives_root(primitives)
     server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
     return server
 
@@ -686,9 +756,11 @@ def main(argv=None):
     parser.add_argument('--host', default='127.0.0.1')
     parser.add_argument('--port', type=int, default=8000)
     parser.add_argument('--open', action='store_true', help='Open the local browser')
+    parser.add_argument('--primitives', type=Path, help='Original primitives folder for the Primitives page '
+                                                        '(default $PICTOGRAPHIC_PRIMITIVES or icon_simplification/pictographic-primitives)')
     args = parser.parse_args(argv)
     try:
-        server = create_server(args.dist, args.database, args.host, args.port)
+        server = create_server(args.dist, args.database, args.host, args.port, args.primitives)
     except (OSError, ValueError, sqlite3.Error) as error:
         parser.exit(1, f'error: {error}\n')
     port = server.server_address[1]

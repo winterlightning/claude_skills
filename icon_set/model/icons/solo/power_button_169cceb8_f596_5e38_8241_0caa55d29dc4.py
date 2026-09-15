@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '169cceb8-f596-5e38-8241-0caa55d29dc4'
-SOURCE_PATH = 'icons-json/interface-essential/power button_169cceb8-f596-5e38-8241-0caa55d29dc4.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/power button_169cceb8-f596-5e38-8241-0caa55d29dc4.svg'
 AUTHOR = 'gpt-6'
 
 class PowerButton(Solo48):

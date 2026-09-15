@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a48f8360-8910-49af-84ed-897f79bb4330'
-SOURCE_PATH = 'icons-json/interface-essential/lock_a48f8360-8910-49af-84ed-897f79bb4330.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/lock_a48f8360-8910-49af-84ed-897f79bb4330.svg'
 AUTHOR = 'gpt-6'
 
 class LockA48f8360(Solo48):

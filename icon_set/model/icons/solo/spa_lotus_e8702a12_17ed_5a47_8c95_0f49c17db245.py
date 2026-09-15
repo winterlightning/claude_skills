@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e8702a12-17ed-5a47-8c95-0f49c17db245'
-SOURCE_PATH = 'icons-json/spas/spa lotus_e8702a12-17ed-5a47-8c95-0f49c17db245.json'
+SOURCE_PATH = 'pictographic-primitives/spas/spa lotus_e8702a12-17ed-5a47-8c95-0f49c17db245.svg'
 AUTHOR = 'gpt-6'
 
 class SpaLotus(Solo48):

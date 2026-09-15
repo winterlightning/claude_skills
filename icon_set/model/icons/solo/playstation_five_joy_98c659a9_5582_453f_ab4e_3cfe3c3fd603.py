@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '98c659a9-5582-453f-ab4e-3cfe3c3fd603'
-SOURCE_PATH = 'icons-json/video-games/playstation five joy_98c659a9-5582-453f-ab4e-3cfe3c3fd603.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/playstation five joy_98c659a9-5582-453f-ab4e-3cfe3c3fd603.svg'
 AUTHOR = 'gpt-6'
 
 class PlaystationFiveJoy(Solo48):

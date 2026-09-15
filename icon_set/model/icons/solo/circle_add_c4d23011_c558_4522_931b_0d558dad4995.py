@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c4d23011-c558-4522-931b-0d558dad4995'
-SOURCE_PATH = 'icons-json/other/circle add_c4d23011-c558-4522-931b-0d558dad4995.json'
+SOURCE_PATH = 'pictographic-primitives/other/circle add_c4d23011-c558-4522-931b-0d558dad4995.svg'
 AUTHOR = 'gpt-6'
 
 class CircleAdd(Solo48):

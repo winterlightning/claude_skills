@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/pajamas-man.svg'
+SOURCE_ICON_ID = 'd6998285-33cf-4173-8ab9-d0698f42c05d'
+SOURCE_PATH = 'pictographic-primitives/avatars/pajamas man_d6998285-33cf-4173-8ab9-d0698f42c05d.svg'
 SOURCE_HEAD_ICON_ID = 'pajamas-man'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: coat lapel.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-beard.svg'
+SOURCE_ICON_ID = 'd7657eda-3380-49b4-8a00-7f4559273bd0'
+SOURCE_PATH = 'pictographic-primitives/avatars/man beard_d7657eda-3380-49b4-8a00-7f4559273bd0.svg'
 SOURCE_HEAD_ICON_ID = 'man-beard'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

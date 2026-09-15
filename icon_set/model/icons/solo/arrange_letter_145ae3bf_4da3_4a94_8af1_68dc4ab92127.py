@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '145ae3bf-4da3-4a94-8af1-68dc4ab92127'
-SOURCE_PATH = 'icons-json/_uncategorized_04/arrange letter_145ae3bf-4da3-4a94-8af1-68dc4ab92127.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/arrange letter_145ae3bf-4da3-4a94-8af1-68dc4ab92127.svg'
 AUTHOR = 'gpt-6'
 
 class ArrangeLetter(Solo48):

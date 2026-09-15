@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '427e8988-7e0f-4f0e-930b-42ce7a00bd27'
-SOURCE_PATH = 'icons-json/video-games/vr headset_427e8988-7e0f-4f0e-930b-42ce7a00bd27.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/vr headset_427e8988-7e0f-4f0e-930b-42ce7a00bd27.svg'
 AUTHOR = 'gpt-6'
 
 class VrHeadsetVideoGames(Solo48):

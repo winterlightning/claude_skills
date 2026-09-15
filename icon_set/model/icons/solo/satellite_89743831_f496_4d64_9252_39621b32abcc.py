@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '89743831-f496-4d64-9252-39621b32abcc'
-SOURCE_PATH = 'icons-json/tv/satellite_89743831-f496-4d64-9252-39621b32abcc.json'
+SOURCE_PATH = 'pictographic-primitives/tv/satellite_89743831-f496-4d64-9252-39621b32abcc.svg'
 AUTHOR = 'gpt-6'
 
 class Satellite(Solo48):

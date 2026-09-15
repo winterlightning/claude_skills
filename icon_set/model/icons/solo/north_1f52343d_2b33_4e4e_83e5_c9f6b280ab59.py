@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '1f52343d-2b33-4e4e-83e5-c9f6b280ab59'
-SOURCE_PATH = 'icons-json/weather/north_1f52343d-2b33-4e4e-83e5-c9f6b280ab59.json'
+SOURCE_PATH = 'pictographic-primitives/weather/north_1f52343d-2b33-4e4e-83e5-c9f6b280ab59.svg'
 AUTHOR = 'gpt-6'
 
 class North(Solo48):

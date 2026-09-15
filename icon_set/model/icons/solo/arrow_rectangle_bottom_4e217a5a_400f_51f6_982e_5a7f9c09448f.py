@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4e217a5a-400f-51f6-982e-5a7f9c09448f'
-SOURCE_PATH = 'icons-json/arrows/arrow rectangle bottom_4e217a5a-400f-51f6-982e-5a7f9c09448f.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/arrow rectangle bottom_4e217a5a-400f-51f6-982e-5a7f9c09448f.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowRectangleBottom(Solo48):

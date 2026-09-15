@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '83ce31d9-ff6b-5889-a265-021ed54e49b2'
-SOURCE_PATH = 'icons-json/social/love it break_83ce31d9-ff6b-5889-a265-021ed54e49b2.json'
+SOURCE_PATH = 'pictographic-primitives/social/love it break_83ce31d9-ff6b-5889-a265-021ed54e49b2.svg'
 AUTHOR = 'gpt-6'
 
 class LoveItBreak(Solo48):

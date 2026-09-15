@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e709f0a8-cd5c-4a9b-8b47-1734cea8a46a'
-SOURCE_PATH = 'icons-json/holidays/cauldron_e709f0a8-cd5c-4a9b-8b47-1734cea8a46a.json'
+SOURCE_PATH = 'pictographic-primitives/holidays/cauldron_e709f0a8-cd5c-4a9b-8b47-1734cea8a46a.svg'
 AUTHOR = 'gpt-6'
 
 class Cauldron(Solo48):

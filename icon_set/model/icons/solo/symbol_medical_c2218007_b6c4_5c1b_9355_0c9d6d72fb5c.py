@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c2218007-b6c4-5c1b-9355-0c9d6d72fb5c'
-SOURCE_PATH = 'icons-json/protection/symbol medical_c2218007-b6c4-5c1b-9355-0c9d6d72fb5c.json'
+SOURCE_PATH = 'pictographic-primitives/protection/symbol medical_c2218007-b6c4-5c1b-9355-0c9d6d72fb5c.svg'
 AUTHOR = 'gpt-6'
 
 class SymbolMedical(Solo48):

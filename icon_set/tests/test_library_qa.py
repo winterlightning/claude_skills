@@ -24,6 +24,21 @@ def small_hole_icon():
 
 
 class NegativeSpaceTests(unittest.TestCase):
+    def test_authored_pinch_check_survives_hole_stroke_thinning(self):
+        document = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" '
+                    'fill="none" stroke="black" stroke-width="4" '
+                    'stroke-linecap="round" stroke-linejoin="round">'
+                    '<path d="M8 8L6 16L10 16"/><path d="M10 8L10 16L10 20"/></svg>')
+        for measuring_stroke in (1, 4):
+            with self.subTest(measuring_stroke=measuring_stroke):
+                rules = {**qa.negative_space_rules(), 'measurement_stroke_width': measuring_stroke}
+                with patch.object(qa, 'negative_space_rules', return_value=rules):
+                    result = qa.measure_negative_space(document, 48)
+                self.assertEqual(result['status'], 'fail')
+                self.assertGreater(result['pinch_count'], 0)
+                self.assertEqual(result['effective_fill_depth'], 1)
+                self.assertEqual(result['pinch_measuring_stroke_width'], 4)
+
     def test_actual_stroke_pocket_cannot_hide_in_a_larger_thinned_hole(self):
         # The fringe nearly touches the crown, trapping a 0.26-unit pocket
         # at stroke 4 that merges into a large passing region at stroke 1.
@@ -164,11 +179,12 @@ class EvidenceBuildTests(unittest.TestCase):
 
 
 class SmallCircleExceptionTests(unittest.TestCase):
-    def test_exact_four_and_six_unit_circles_pass_with_recorded_exceptions(self):
+    def test_circle_hole_exceptions_do_not_waive_pinched_closed_disks(self):
         for radius in (2, 3):
             with self.subTest(radius=radius):
                 row = qa.measure_negative_space(circle_svg(radius), 32)
-                self.assertEqual(row['status'], 'pass')
+                self.assertEqual(row['status'], 'fail' if radius == 2 else 'pass')
+                self.assertEqual(row['pinch_count'], 1 if radius == 2 else 0)
                 self.assertEqual(row['exception_count'], 1)
                 hole = row['holes'][0]
                 self.assertEqual(hole['measured_status'], 'fail')

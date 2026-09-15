@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-judo-athlete-man.svg'
+SOURCE_ICON_ID = 'c83c8db2-b81d-59b8-9e32-0a97d91dc9fc'
+SOURCE_PATH = 'pictographic-primitives/avatars/avatar judo athlete man_c83c8db2-b81d-59b8-9e32-0a97d91dc9fc.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-judo-athlete-man'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

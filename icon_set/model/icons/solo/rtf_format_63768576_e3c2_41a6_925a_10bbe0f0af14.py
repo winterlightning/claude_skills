@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '63768576-e3c2-41a6-925a-10bbe0f0af14'
-SOURCE_PATH = 'icons-json/state/rtf format_63768576-e3c2-41a6-925a-10bbe0f0af14.json'
+SOURCE_PATH = 'pictographic-primitives/state/rtf format_63768576-e3c2-41a6-925a-10bbe0f0af14.svg'
 AUTHOR = 'gpt-6'
 
 class RtfFormat(Solo48):

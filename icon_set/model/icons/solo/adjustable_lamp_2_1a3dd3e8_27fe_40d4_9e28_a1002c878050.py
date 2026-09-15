@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1a3dd3e8-27fe-40d4-9e28-a1002c878050'
-SOURCE_PATH = 'icons-json/_uncategorized_01/adjustable lamp 2_1a3dd3e8-27fe-40d4-9e28-a1002c878050.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/adjustable lamp 2_1a3dd3e8-27fe-40d4-9e28-a1002c878050.svg'
 AUTHOR = 'gpt-6'
 
 class AdjustableLamp2(Solo48):

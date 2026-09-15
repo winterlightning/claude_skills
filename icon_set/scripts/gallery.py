@@ -129,6 +129,16 @@ def stage_failures(staged: Path, published: Path, folders: list[str], target: Pa
                                           encoding='utf-8')
 
 
+def stage_primitives(target: Path, records: list[dict], failed_records: list[dict]) -> None:
+    """The Primitives tab: every original primitive and whether it has been remade."""
+    from icon_set.scripts.primitives_catalog import write_catalog
+    catalog = write_catalog(target / 'primitives.json',
+                            {record['icon_id']: record for record in records},
+                            {record['icon_id']: record for record in failed_records})
+    if catalog['warning']:
+        print('Primitives page: ' + catalog['warning'])
+
+
 def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     target = staged / 'gallery'
     target.mkdir()
@@ -199,7 +209,9 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
-    for asset in ("home.html", "login.html", "site.css", "site.js", "icons.html", "approved-icons.js", "reference-picker.js"):
+    for asset in ("home.html", "login.html", "site.css", "site.js", "icons.html", "approved-icons.js", "reference-picker.js",
+                  "primitives.html"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
+    stage_primitives(target, records, failed_records)
     stage_laboratory(target)
     return target

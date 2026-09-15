@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '14793eb1-f46c-4236-aed2-de6f5b605156'
-SOURCE_PATH = 'icons-json/symbol/waveform_14793eb1-f46c-4236-aed2-de6f5b605156.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/waveform_14793eb1-f46c-4236-aed2-de6f5b605156.svg'
 AUTHOR = 'gpt-6'
 
 class Waveform(Solo48):

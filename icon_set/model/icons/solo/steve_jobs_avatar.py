@@ -8,8 +8,8 @@ Body cue: rounded high neckline. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-09/references/steve-jobs.svg'
+SOURCE_ICON_ID = 'f78afcb3-566a-5db6-a3d3-b2309ee981b6'
+SOURCE_PATH = 'pictographic-primitives/avatars/steve jobs_f78afcb3-566a-5db6-a3d3-b2309ee981b6.svg'
 SOURCE_HEAD_ICON_ID = 'steve-jobs'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 32

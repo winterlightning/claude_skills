@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '22a874a8-34ca-5cfe-927b-6251ffbae66d'
-SOURCE_PATH = 'icons-json/food/apricot slice_22a874a8-34ca-5cfe-927b-6251ffbae66d.json'
+SOURCE_PATH = 'pictographic-primitives/food/apricot slice_22a874a8-34ca-5cfe-927b-6251ffbae66d.svg'
 AUTHOR = 'gpt-6'
 
 class ApricotSlice(Solo48):

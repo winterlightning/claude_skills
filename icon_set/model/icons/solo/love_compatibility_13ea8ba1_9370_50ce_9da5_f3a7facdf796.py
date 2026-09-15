@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '13ea8ba1-9370-50ce-9da5-f3a7facdf796'
-SOURCE_PATH = 'icons-json/romance/love compatibility_13ea8ba1-9370-50ce-9da5-f3a7facdf796.json'
+SOURCE_PATH = 'pictographic-primitives/romance/love compatibility_13ea8ba1-9370-50ce-9da5-f3a7facdf796.svg'
 AUTHOR = 'gpt-6'
 
 class LoveCompatibility(Solo48):

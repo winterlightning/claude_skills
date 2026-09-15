@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9fd8996a-d599-4790-9409-7653573d27f2'
-SOURCE_PATH = 'icons-json/programing/elastic compute cloud 1_9fd8996a-d599-4790-9409-7653573d27f2.json'
+SOURCE_PATH = 'pictographic-primitives/programing/elastic compute cloud 1_9fd8996a-d599-4790-9409-7653573d27f2.svg'
 AUTHOR = 'gpt-6'
 
 class ElasticComputeCloud1(Solo48):

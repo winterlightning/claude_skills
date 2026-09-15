@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '47a44264-9c90-4733-bd24-6bfdf39290df'
-SOURCE_PATH = 'icons-json/interface-essential/open eyes_47a44264-9c90-4733-bd24-6bfdf39290df.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/open eyes_47a44264-9c90-4733-bd24-6bfdf39290df.svg'
 AUTHOR = 'gpt-6'
 
 class OpenEyes(Solo48):

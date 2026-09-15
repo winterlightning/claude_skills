@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '91cc612c-2da3-5c85-8791-ab1cd23dc432'
-SOURCE_PATH = 'icons-json/interface-essential/time stopwatch half_91cc612c-2da3-5c85-8791-ab1cd23dc432.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/time stopwatch half_91cc612c-2da3-5c85-8791-ab1cd23dc432.svg'
 AUTHOR = 'gpt-6'
 
 class TimeStopwatchHalf(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bff441ab-6cd5-5dc0-9f9a-ca85c1b07235'
-SOURCE_PATH = 'icons-json/maps/style three style pin empty_bff441ab-6cd5-5dc0-9f9a-ca85c1b07235.json'
+SOURCE_PATH = 'pictographic-primitives/maps/style three style pin empty_bff441ab-6cd5-5dc0-9f9a-ca85c1b07235.svg'
 AUTHOR = 'gpt-6'
 
 class StyleThreeStylePinEmpty(Solo48):

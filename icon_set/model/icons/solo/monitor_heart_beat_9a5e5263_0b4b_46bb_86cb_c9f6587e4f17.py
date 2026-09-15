@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9a5e5263-0b4b-46bb-86cb-c9f6587e4f17'
-SOURCE_PATH = 'icons-json/health/monitor heart beat_9a5e5263-0b4b-46bb-86cb-c9f6587e4f17.json'
+SOURCE_PATH = 'pictographic-primitives/health/monitor heart beat_9a5e5263-0b4b-46bb-86cb-c9f6587e4f17.svg'
 AUTHOR = 'gpt-6'
 
 class MonitorHeartBeat(Solo48):

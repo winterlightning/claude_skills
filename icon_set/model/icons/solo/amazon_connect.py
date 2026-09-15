@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '00b02f02-c0d5-4245-8a8e-8f209b070186'
-SOURCE_PATH = 'icons-json/programing/amazon connect_00b02f02-c0d5-4245-8a8e-8f209b070186.json'
+SOURCE_PATH = 'pictographic-primitives/programing/amazon connect_00b02f02-c0d5-4245-8a8e-8f209b070186.svg'
 AUTHOR = 'gpt-6'
 
 class AmazonConnect(Solo48):

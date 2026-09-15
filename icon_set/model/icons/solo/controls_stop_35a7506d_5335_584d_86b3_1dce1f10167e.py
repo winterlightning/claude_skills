@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '35a7506d-5335-584d-86b3-1dce1f10167e'
-SOURCE_PATH = 'icons-json/video/controls stop_35a7506d-5335-584d-86b3-1dce1f10167e.json'
+SOURCE_PATH = 'pictographic-primitives/video/controls stop_35a7506d-5335-584d-86b3-1dce1f10167e.svg'
 AUTHOR = 'gpt-6'
 
 class ControlsStop(Solo48):

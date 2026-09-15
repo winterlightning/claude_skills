@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: protective apron.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/man-welder-1.svg'
+SOURCE_ICON_ID = 'd77c9ec1-da11-4faf-ab9a-877b0ecbbb0e'
+SOURCE_PATH = 'pictographic-primitives/avatars/man welder_d77c9ec1-da11-4faf-ab9a-877b0ecbbb0e.svg'
 SOURCE_HEAD_ICON_ID = 'man-welder-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

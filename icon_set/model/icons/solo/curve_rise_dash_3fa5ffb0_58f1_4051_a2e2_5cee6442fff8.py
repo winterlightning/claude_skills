@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '3fa5ffb0-58f1-4051-a2e2-5cee6442fff8'
-SOURCE_PATH = 'icons-json/arrows/curve rise dash_3fa5ffb0-58f1-4051-a2e2-5cee6442fff8.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/curve rise dash_3fa5ffb0-58f1-4051-a2e2-5cee6442fff8.svg'
 AUTHOR = 'gpt-6'
 
 class CurveRiseDash(Solo48):

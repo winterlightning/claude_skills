@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8f4acbb4-799c-5a89-97d6-f6dbcb05930f'
-SOURCE_PATH = 'icons-json/business/graph line spline_8f4acbb4-799c-5a89-97d6-f6dbcb05930f.json'
+SOURCE_PATH = 'pictographic-primitives/business/graph line spline_8f4acbb4-799c-5a89-97d6-f6dbcb05930f.svg'
 AUTHOR = 'gpt-6'
 
 class GraphLineSpline(Solo48):

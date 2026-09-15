@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dfc9df01-8144-40e0-b66d-be471956d900'
-SOURCE_PATH = 'icons-json/food/corn_dfc9df01-8144-40e0-b66d-be471956d900.json'
+SOURCE_PATH = 'pictographic-primitives/food/corn_dfc9df01-8144-40e0-b66d-be471956d900.svg'
 AUTHOR = 'gpt-6'
 
 class Corn(Solo48):

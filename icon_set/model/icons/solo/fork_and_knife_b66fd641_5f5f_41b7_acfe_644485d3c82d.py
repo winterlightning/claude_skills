@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b66fd641-5f5f-41b7-acfe-644485d3c82d'
-SOURCE_PATH = 'icons-json/symbol/fork and knife_b66fd641-5f5f-41b7-acfe-644485d3c82d.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/fork and knife_b66fd641-5f5f-41b7-acfe-644485d3c82d.svg'
 AUTHOR = 'gpt-6'
 
 class ForkAndKnife(Solo48):

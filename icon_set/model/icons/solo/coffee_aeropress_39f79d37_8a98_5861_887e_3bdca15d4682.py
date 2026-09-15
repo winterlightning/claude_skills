@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '39f79d37-8a98-5861-887e-3bdca15d4682'
-SOURCE_PATH = 'icons-json/drinks/coffee aeropress_39f79d37-8a98-5861-887e-3bdca15d4682.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/coffee aeropress_39f79d37-8a98-5861-887e-3bdca15d4682.svg'
 AUTHOR = 'gpt-6'
 
 class CoffeeAeropress(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f60789d0-083c-4477-bbef-c268ab428e49'
-SOURCE_PATH = 'icons-json/weather/water currents_f60789d0-083c-4477-bbef-c268ab428e49.json'
+SOURCE_PATH = 'pictographic-primitives/weather/water currents_f60789d0-083c-4477-bbef-c268ab428e49.svg'
 AUTHOR = 'gpt-6'
 
 class WaterCurrents(Solo48):

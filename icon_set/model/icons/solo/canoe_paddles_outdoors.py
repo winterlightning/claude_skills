@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '88951f09-c14f-56fa-8f5d-241e2d118cb3'
-SOURCE_PATH = 'icons-json/outdoors/canoe paddles_88951f09-c14f-56fa-8f5d-241e2d118cb3.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/canoe paddles_88951f09-c14f-56fa-8f5d-241e2d118cb3.svg'
 AUTHOR = 'gpt-6'
 
 class CanoePaddlesOutdoors(Solo48):

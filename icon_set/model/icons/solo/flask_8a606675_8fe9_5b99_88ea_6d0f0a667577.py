@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8a606675-8fe9-5b99-88ea-6d0f0a667577'
-SOURCE_PATH = 'icons-json/drinks/flask_8a606675-8fe9-5b99-88ea-6d0f0a667577.json'
+SOURCE_PATH = 'pictographic-primitives/drinks/flask_8a606675-8fe9-5b99-88ea-6d0f0a667577.svg'
 AUTHOR = 'gpt-6'
 
 class Flask(Solo48):

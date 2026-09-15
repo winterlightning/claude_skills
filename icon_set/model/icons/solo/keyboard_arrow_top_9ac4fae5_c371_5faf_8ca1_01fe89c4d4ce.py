@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9ac4fae5-c371-5faf-8ca1-01fe89c4d4ce'
-SOURCE_PATH = 'icons-json/arrows/keyboard arrow top_9ac4fae5-c371-5faf-8ca1-01fe89c4d4ce.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/keyboard arrow top_9ac4fae5-c371-5faf-8ca1-01fe89c4d4ce.svg'
 AUTHOR = 'gpt-6'
 
 class KeyboardArrowTop(Solo48):

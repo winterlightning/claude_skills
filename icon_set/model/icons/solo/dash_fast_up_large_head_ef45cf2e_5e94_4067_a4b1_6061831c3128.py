@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ef45cf2e-5e94-4067-a4b1-6061831c3128'
-SOURCE_PATH = 'icons-json/arrows/dash fast up large head_ef45cf2e-5e94-4067-a4b1-6061831c3128.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/dash fast up large head_ef45cf2e-5e94-4067-a4b1-6061831c3128.svg'
 AUTHOR = 'gpt-6'
 
 class DashFastUpLargeHead(Solo48):

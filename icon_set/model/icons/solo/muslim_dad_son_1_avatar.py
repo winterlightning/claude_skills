@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/muslim-dad-son-1.svg'
+SOURCE_ICON_ID = '0bb8bb81-d201-4d3a-8d27-21a8a54273b5'
+SOURCE_PATH = 'pictographic-primitives/avatars/muslim dad son_0bb8bb81-d201-4d3a-8d27-21a8a54273b5.svg'
 SOURCE_HEAD_ICON_ID = 'muslim-dad-son-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

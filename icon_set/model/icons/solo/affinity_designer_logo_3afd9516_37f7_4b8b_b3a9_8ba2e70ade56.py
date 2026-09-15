@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3afd9516-37f7-4b8b-b3a9-8ba2e70ade56'
-SOURCE_PATH = 'icons-json/_uncategorized_01/affinity designer logo_3afd9516-37f7-4b8b-b3a9-8ba2e70ade56.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/affinity designer logo_3afd9516-37f7-4b8b-b3a9-8ba2e70ade56.svg'
 AUTHOR = 'gpt-6'
 
 class AffinityDesignerLogo(Solo48):

@@ -1,10 +1,13 @@
-"""Hidden (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""hidden: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2f48fc2c-5ebe-4a21-b259-42ee5c3ca129'
-SOURCE_PATH = 'icons-json/symbol/hidden_2f48fc2c-5ebe-4a21-b259-42ee5c3ca129.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/symbol/hidden_2f48fc2c-5ebe-4a21-b259-42ee5c3ca129.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Hidden(Solo48):
     icon_id = 'hidden'
@@ -16,15 +19,16 @@ class Hidden(Solo48):
     keywords = ('hidden', 'symbol')
 
     def build(self):
-        self.add_line('e0', (13, 12), (33, 38))
-        self.add_bezier('e1', (13, 12), ((10.055, 14.105), (7.627, 16.763), (5.673, 20.418)), ((5.404, 20.915), (4, 23.237), (4, 23.767)), ((4, 23.775), (4, 23.783), (4, 23.791)), ((4, 24.431), (6.555, 28.751), (6.982, 29.44)), ((10.918, 35.828), (17.355, 39.988), (23.5, 39.988)), ((23.804, 39.988), (24.109, 40), (24.413, 40)), ((24.418, 40), (24.422, 40), (24.427, 40)), ((24.627, 40), (24.827, 39.988), (25.018, 39.988)), ((27.791, 39.988), (30.464, 39.465), (33, 38)))
-        self.add_bezier('e2', (13, 12), ((16.109, 9.846), (19.8, 8.012), (23.327, 8.012)), ((23.435, 8.012), (23.542, 8), (23.649, 8)), ((23.651, 8), (23.653, 8), (23.655, 8)), ((24.155, 8), (24.655, 8.025), (25.155, 8.025)), ((30.982, 8.025), (36.991, 12.246), (40.864, 17.969)), ((41.382, 18.732), (44, 22.954), (44, 23.815)), ((44, 23.822), (44, 23.829), (44, 23.837)), ((44, 24.331), (42.304, 27.381), (41.991, 27.914)), ((39.573, 32.111), (36.618, 35.846), (33, 38)))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: HRECT_L; mirror all lens quadrants; diagonal terminates on exact curve knots.
+        # Reference: Geometric paired curves and shared nodes.
+        mirror = False
+
+        axis = 24
+        def p(x,y):return (48-x,y) if mirror else (x,y)
+        self.add_bezier('upper-left',p(4,24),(p(7,19),p(10,14),p(14,12)),(p(18,10),p(20,8),p(24,8)))
+        self.add_bezier('upper-right',p(24,8),(p(28,8),p(30,10),p(34,12)),(p(38,14),p(41,19),p(44,24)))
+        self.add_bezier('lower-right',p(44,24),(p(41,29),p(38,34),p(34,36)),(p(30,38),p(28,40),p(24,40)))
+        self.add_bezier('lower-left',p(24,40),(p(20,40),p(18,38),p(14,36)),(p(10,34),p(7,29),p(4,24)))
+        self.add_contour('outline','upper-left','upper-right','lower-right','lower-left',closed=True)
+        self.add_line('slash',p(14,12),p(34,36))
+        self.relate('connect','slash','outline')

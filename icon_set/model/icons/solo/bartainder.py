@@ -7,8 +7,8 @@ Small facial marks omitted; clothing/headwear carry the intended meaning.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID=None
-SOURCE_PATH='work/head-solo/batch-01/references/bartainder.svg'
+SOURCE_ICON_ID = 'f0f62fe9-8adb-58a4-a7f7-c0eeb63723ea'
+SOURCE_PATH = 'pictographic-primitives/avatars/bartainder_f0f62fe9-8adb-58a4-a7f7-c0eeb63723ea.svg'
 AUTHOR='gpt-6'
 
 class Bartainder(Solo48):

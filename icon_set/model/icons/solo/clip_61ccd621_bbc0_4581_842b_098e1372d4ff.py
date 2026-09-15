@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '61ccd621-bbc0-4581-842b-098e1372d4ff'
-SOURCE_PATH = 'icons-json/office/clip_61ccd621-bbc0-4581-842b-098e1372d4ff.json'
+SOURCE_PATH = 'pictographic-primitives/office/clip_61ccd621-bbc0-4581-842b-098e1372d4ff.svg'
 AUTHOR = 'gpt-6'
 
 class Clip(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a941f1ed-7dc8-4f1e-94e1-4069fcc3c70e'
-SOURCE_PATH = 'icons-json/health/cross_a941f1ed-7dc8-4f1e-94e1-4069fcc3c70e.json'
+SOURCE_PATH = 'pictographic-primitives/health/cross_a941f1ed-7dc8-4f1e-94e1-4069fcc3c70e.svg'
 AUTHOR = 'gpt-6'
 
 class CrossA941f1ed(Solo48):

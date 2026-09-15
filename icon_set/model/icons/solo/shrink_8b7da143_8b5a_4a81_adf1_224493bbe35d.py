@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8b7da143-8b5a-4a81-adf1-224493bbe35d'
-SOURCE_PATH = 'icons-json/interface-essential/shrink_8b7da143-8b5a-4a81-adf1-224493bbe35d.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/shrink_8b7da143-8b5a-4a81-adf1-224493bbe35d.svg'
 AUTHOR = 'gpt-6'
 
 class Shrink(Solo48):

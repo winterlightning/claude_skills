@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9fa77f79-8678-4042-bee6-8b1f446df614'
-SOURCE_PATH = 'icons-json/design/grid dot_9fa77f79-8678-4042-bee6-8b1f446df614.json'
+SOURCE_PATH = 'pictographic-primitives/design/grid dot_9fa77f79-8678-4042-bee6-8b1f446df614.svg'
 AUTHOR = 'gpt-6'
 
 class GridDot(Solo48):

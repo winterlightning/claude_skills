@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '39549a2c-f890-5365-b866-44d3f44ceb57'
-SOURCE_PATH = 'icons-json/business/target center_39549a2c-f890-5365-b866-44d3f44ceb57.json'
+SOURCE_PATH = 'pictographic-primitives/business/target center_39549a2c-f890-5365-b866-44d3f44ceb57.svg'
 AUTHOR = 'gpt-6'
 
 class TargetCenter(Solo48):

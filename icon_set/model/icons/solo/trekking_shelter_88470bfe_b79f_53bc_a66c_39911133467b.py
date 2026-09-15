@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '88470bfe-b79f-53bc-a66c-39911133467b'
-SOURCE_PATH = 'icons-json/outdoors/trekking shelter_88470bfe-b79f-53bc-a66c-39911133467b.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/trekking shelter_88470bfe-b79f-53bc-a66c-39911133467b.svg'
 AUTHOR = 'gpt-6'
 
 class TrekkingShelter(Solo48):

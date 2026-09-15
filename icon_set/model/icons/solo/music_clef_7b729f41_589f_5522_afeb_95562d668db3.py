@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7b729f41-589f-5522-afeb-95562d668db3'
-SOURCE_PATH = 'icons-json/music/music clef_7b729f41-589f-5522-afeb-95562d668db3.json'
+SOURCE_PATH = 'pictographic-primitives/music/music clef_7b729f41-589f-5522-afeb-95562d668db3.svg'
 AUTHOR = 'gpt-6'
 
 class MusicClef(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '83e2a7c2-7e92-57f9-a0d4-a9b2bd0095d5'
-SOURCE_PATH = 'icons-json/protection/cracked shield_83e2a7c2-7e92-57f9-a0d4-a9b2bd0095d5.json'
+SOURCE_PATH = 'pictographic-primitives/protection/cracked shield_83e2a7c2-7e92-57f9-a0d4-a9b2bd0095d5.svg'
 AUTHOR = 'gpt-6'
 
 class CrackedShield(Solo48):

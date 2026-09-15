@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '968ebc82-99c6-4e6a-8713-e6c0ea0278cd'
-SOURCE_PATH = 'icons-json/interface-essential/layout 8_968ebc82-99c6-4e6a-8713-e6c0ea0278cd.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/layout 8_968ebc82-99c6-4e6a-8713-e6c0ea0278cd.svg'
 AUTHOR = 'gpt-6'
 
 class Layout8(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0284d3a8-c0bf-450e-8702-f6e30af3b263'
-SOURCE_PATH = 'icons-json/technology/reality vr_0284d3a8-c0bf-450e-8702-f6e30af3b263.json'
+SOURCE_PATH = 'pictographic-primitives/technology/reality vr_0284d3a8-c0bf-450e-8702-f6e30af3b263.svg'
 AUTHOR = 'gpt-6'
 
 class RealityVr(Solo48):

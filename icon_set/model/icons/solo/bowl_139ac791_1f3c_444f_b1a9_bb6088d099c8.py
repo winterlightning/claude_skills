@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '139ac791-1f3c-444f-b1a9-bb6088d099c8'
-SOURCE_PATH = 'icons-json/symbol/bowl_139ac791-1f3c-444f-b1a9-bb6088d099c8.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/bowl_139ac791-1f3c-444f-b1a9-bb6088d099c8.svg'
 AUTHOR = 'gpt-6'
 
 class Bowl(Solo48):

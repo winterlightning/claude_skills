@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '14f11930-2628-4025-a231-22735ffc293e'
-SOURCE_PATH = 'icons-json/science/molecule_14f11930-2628-4025-a231-22735ffc293e.json'
+SOURCE_PATH = 'pictographic-primitives/science/molecule_14f11930-2628-4025-a231-22735ffc293e.svg'
 AUTHOR = 'gpt-6'
 
 class MoleculeScience(Solo48):

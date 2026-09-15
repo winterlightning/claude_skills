@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd68affa5-659e-5b1e-8361-c17d53d111df'
-SOURCE_PATH = 'icons-json/content/notes flip_d68affa5-659e-5b1e-8361-c17d53d111df.json'
+SOURCE_PATH = 'pictographic-primitives/content/notes flip_d68affa5-659e-5b1e-8361-c17d53d111df.svg'
 AUTHOR = 'gpt-6'
 
 class NotesFlip(Solo48):

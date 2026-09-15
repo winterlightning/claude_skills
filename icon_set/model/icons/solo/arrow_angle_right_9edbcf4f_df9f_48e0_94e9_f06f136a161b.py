@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9edbcf4f-df9f-48e0-94e9-f06f136a161b'
-SOURCE_PATH = 'icons-json/symbol/arrow angle right_9edbcf4f-df9f-48e0-94e9-f06f136a161b.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/arrow angle right_9edbcf4f-df9f-48e0-94e9-f06f136a161b.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowAngleRight(Solo48):

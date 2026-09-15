@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '779e76e2-d06e-4791-b0bb-9e964acf6162'
-SOURCE_PATH = 'icons-json/_uncategorized_03/amazon workspaces_779e76e2-d06e-4791-b0bb-9e964acf6162.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/amazon workspaces_779e76e2-d06e-4791-b0bb-9e964acf6162.svg'
 AUTHOR = 'gpt-6'
 
 class AmazonWorkspaces(Solo48):

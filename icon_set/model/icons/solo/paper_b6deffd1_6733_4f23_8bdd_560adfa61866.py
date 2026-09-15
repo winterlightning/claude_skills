@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b6deffd1-6733-4f23-8bdd-560adfa61866'
-SOURCE_PATH = 'icons-json/content/paper_b6deffd1-6733-4f23-8bdd-560adfa61866.json'
+SOURCE_PATH = 'pictographic-primitives/content/paper_b6deffd1-6733-4f23-8bdd-560adfa61866.svg'
 AUTHOR = 'gpt-6'
 
 class Paper(Solo48):

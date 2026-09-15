@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '75943c0b-3805-5cba-a96e-91f74e4d557e'
-SOURCE_PATH = 'icons-json/emails/envelope_75943c0b-3805-5cba-a96e-91f74e4d557e.json'
+SOURCE_PATH = 'pictographic-primitives/emails/envelope_75943c0b-3805-5cba-a96e-91f74e4d557e.svg'
 AUTHOR = 'gpt-6'
 
 class Envelope(Solo48):

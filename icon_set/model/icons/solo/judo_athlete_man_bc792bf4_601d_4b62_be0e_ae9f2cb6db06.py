@@ -11,7 +11,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'bc792bf4-601d-4b62-be0e-ae9f2cb6db06'
-SOURCE_PATH = 'icons-json/avatars/judo athlete man_bc792bf4-601d-4b62-be0e-ae9f2cb6db06.json'
+SOURCE_PATH = 'pictographic-primitives/avatars/judo athlete man_bc792bf4-601d-4b62-be0e-ae9f2cb6db06.svg'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24
 

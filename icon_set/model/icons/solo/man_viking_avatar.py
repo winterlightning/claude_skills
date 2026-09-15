@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: tunic fastening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/man-viking.svg'
+SOURCE_ICON_ID = '0c1ad0af-b27e-4f26-9eff-2971b3f1c849'
+SOURCE_PATH = 'pictographic-primitives/avatars/man viking_0c1ad0af-b27e-4f26-9eff-2971b3f1c849.svg'
 SOURCE_HEAD_ICON_ID = 'man-viking'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

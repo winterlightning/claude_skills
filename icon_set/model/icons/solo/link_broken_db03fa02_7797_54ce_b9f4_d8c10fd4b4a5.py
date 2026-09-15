@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'db03fa02-7797-54ce-b9f4-d8c10fd4b4a5'
-SOURCE_PATH = 'icons-json/interface-essential/link broken_db03fa02-7797-54ce-b9f4-d8c10fd4b4a5.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/link broken_db03fa02-7797-54ce-b9f4-d8c10fd4b4a5.svg'
 AUTHOR = 'gpt-6'
 
 class LinkBroken(Solo48):

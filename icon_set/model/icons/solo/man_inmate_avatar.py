@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: uniform chest stripe.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-inmate.svg'
+SOURCE_ICON_ID = 'a894d3a4-f35b-4f12-bdb2-21459fe032ab'
+SOURCE_PATH = 'pictographic-primitives/avatars/man inmate_a894d3a4-f35b-4f12-bdb2-21459fe032ab.svg'
 SOURCE_HEAD_ICON_ID = 'man-inmate'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

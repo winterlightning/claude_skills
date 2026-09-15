@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'eda91265-1b5e-483f-8919-b0ad768010ea'
-SOURCE_PATH = 'icons-json/symbol/Br_eda91265-1b5e-483f-8919-b0ad768010ea.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/Br_eda91265-1b5e-483f-8919-b0ad768010ea.svg'
 AUTHOR = 'gpt-6'
 
 class Br(Solo48):

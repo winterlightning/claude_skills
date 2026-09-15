@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c8c50287-9505-4d7a-9b3a-91b9a790ffa6'
-SOURCE_PATH = 'icons-json/interface-essential/signature sign_c8c50287-9505-4d7a-9b3a-91b9a790ffa6.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/signature sign_c8c50287-9505-4d7a-9b3a-91b9a790ffa6.svg'
 AUTHOR = 'gpt-6'
 
 class SignatureSignInterfaceEssential(Solo48):

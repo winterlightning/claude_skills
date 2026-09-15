@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-14/references/woman-maid.svg'
+SOURCE_ICON_ID = '4ad15ed0-39d7-5697-9c7a-e38390e6da16'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman maid_4ad15ed0-39d7-5697-9c7a-e38390e6da16.svg'
 SOURCE_HEAD_ICON_ID = 'woman-maid'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

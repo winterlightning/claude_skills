@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: winter jacket.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-beanie-1.svg'
+SOURCE_ICON_ID = 'a04a510f-3d69-41b5-8500-f37570241148'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_26/man beanie 1_a04a510f-3d69-41b5-8500-f37570241148.svg'
 SOURCE_HEAD_ICON_ID = 'man-beanie-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 34

@@ -88,20 +88,32 @@ def discover_sources(folder: Path, global_metadata: dict | None = None) -> list[
     return sorted(rows, key=lambda r: (r['batch'], r['title'], r['identity']))
 
 
+def declared_references(module) -> list[tuple[str | None, str | None]]:
+    """SOURCE_REFERENCES as (uid, path) pairs. Models declare entries as
+    (uid, path) tuples or as dicts keyed source_icon_id/source_path in any case."""
+    pairs = []
+    for entry in getattr(module, 'SOURCE_REFERENCES', None) or ():
+        if isinstance(entry, dict):
+            entry = {str(key).lower(): value for key, value in entry.items()}
+            pairs.append((entry.get('source_icon_id'), entry.get('source_path')))
+        elif isinstance(entry, (tuple, list)) and len(entry) == 2:
+            pairs.append((entry[0], entry[1]))
+    return pairs
+
+
 def model_catalog() -> list[dict]:
     from icon_set.model.icons.registry import factories
     records = []
     for icon_id, factory in factories().items():
         module = sys.modules[factory.__module__]
         source = getattr(module, 'SOURCE_PATH', None)
-        references = getattr(module, 'SOURCE_REFERENCES', ())
         records.append(dict(icon_id=icon_id, factory=factory,
                             source_id=getattr(module, 'SOURCE_ICON_ID', None),
                             source_path=(REPO_ROOT / source).resolve() if source else None,
                             source_references=[
                                 (uid.lower() if uid else None,
                                  (REPO_ROOT / path).resolve() if path else None)
-                                for uid, path in references
+                                for uid, path in declared_references(module)
                             ],
                             module_path=Path(inspect.getfile(factory)).resolve(),
                             family=factory.family))

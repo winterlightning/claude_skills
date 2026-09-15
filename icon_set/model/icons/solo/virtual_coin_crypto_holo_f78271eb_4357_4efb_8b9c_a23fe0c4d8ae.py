@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f78271eb-4357-4efb-8b9c-a23fe0c4d8ae'
-SOURCE_PATH = 'icons-json/finance/virtual coin crypto holo_f78271eb-4357-4efb-8b9c-a23fe0c4d8ae.json'
+SOURCE_PATH = 'pictographic-primitives/finance/virtual coin crypto holo_f78271eb-4357-4efb-8b9c-a23fe0c4d8ae.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoHolo(Solo48):

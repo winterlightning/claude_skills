@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '432b99ac-4502-55ae-b924-896645c9c530'
-SOURCE_PATH = 'icons-json/design/rectangle shape_432b99ac-4502-55ae-b924-896645c9c530.json'
+SOURCE_PATH = 'pictographic-primitives/design/rectangle shape_432b99ac-4502-55ae-b924-896645c9c530.svg'
 AUTHOR = 'gpt-6'
 
 class RectangleShape(Solo48):

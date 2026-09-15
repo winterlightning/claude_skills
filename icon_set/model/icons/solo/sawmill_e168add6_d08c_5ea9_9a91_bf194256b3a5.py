@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e168add6-d08c-5ea9-9a91-bf194256b3a5'
-SOURCE_PATH = 'icons-json/tools/sawmill_e168add6-d08c-5ea9-9a91-bf194256b3a5.json'
+SOURCE_PATH = 'pictographic-primitives/tools/sawmill_e168add6-d08c-5ea9-9a91-bf194256b3a5.svg'
 AUTHOR = 'gpt-6'
 
 class Sawmill(Solo48):

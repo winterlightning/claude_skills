@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '36dab9b9-612f-5996-9e36-283d9015d62a'
-SOURCE_PATH = 'icons-json/audio/equalizer stereo_36dab9b9-612f-5996-9e36-283d9015d62a.json'
+SOURCE_PATH = 'pictographic-primitives/audio/equalizer stereo_36dab9b9-612f-5996-9e36-283d9015d62a.svg'
 AUTHOR = 'gpt-6'
 
 class EqualizerStereo(Solo48):

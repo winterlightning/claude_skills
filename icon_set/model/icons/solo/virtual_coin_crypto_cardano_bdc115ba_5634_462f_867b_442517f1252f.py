@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bdc115ba-5634-462f-867b-442517f1252f'
-SOURCE_PATH = 'icons-json/money/virtual coin crypto cardano_bdc115ba-5634-462f-867b-442517f1252f.json'
+SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto cardano_bdc115ba-5634-462f-867b-442517f1252f.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoCardano(Solo48):

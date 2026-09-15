@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '39f7021c-7064-4587-a19c-afa4eab4412a'
-SOURCE_PATH = 'icons-json/food/delicata squash_39f7021c-7064-4587-a19c-afa4eab4412a.json'
+SOURCE_PATH = 'pictographic-primitives/food/delicata squash_39f7021c-7064-4587-a19c-afa4eab4412a.svg'
 AUTHOR = 'gpt-6'
 
 class DelicataSquash(Solo48):

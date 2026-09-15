@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c5dcd917-db01-4bed-8198-ceda95298504'
-SOURCE_PATH = 'icons-json/money/crypto currency dogecoin_c5dcd917-db01-4bed-8198-ceda95298504.json'
+SOURCE_PATH = 'pictographic-primitives/money/crypto currency dogecoin_c5dcd917-db01-4bed-8198-ceda95298504.svg'
 AUTHOR = 'gpt-6'
 
 class CryptoCurrencyDogecoin(Solo48):

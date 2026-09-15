@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '16f32997-2f4f-492a-88cb-a0d3992154a2'
-SOURCE_PATH = 'icons-json/symbol/bikini_16f32997-2f4f-492a-88cb-a0d3992154a2.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/bikini_16f32997-2f4f-492a-88cb-a0d3992154a2.svg'
 AUTHOR = 'gpt-6'
 
 class Bikini(Solo48):

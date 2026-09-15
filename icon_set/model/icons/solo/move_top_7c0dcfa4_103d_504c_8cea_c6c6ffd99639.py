@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7c0dcfa4-103d-504c-8cea-c6c6ffd99639'
-SOURCE_PATH = 'icons-json/arrows/move top_7c0dcfa4-103d-504c-8cea-c6c6ffd99639.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/move top_7c0dcfa4-103d-504c-8cea-c6c6ffd99639.svg'
 AUTHOR = 'gpt-6'
 
 class MoveTop(Solo48):

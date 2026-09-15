@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '91f652e5-405c-55eb-a732-b57512c93cdb'
-SOURCE_PATH = 'icons-json/health/massage pillow_91f652e5-405c-55eb-a732-b57512c93cdb.json'
+SOURCE_PATH = 'pictographic-primitives/health/massage pillow_91f652e5-405c-55eb-a732-b57512c93cdb.svg'
 AUTHOR = 'gpt-6'
 
 class MassagePillow(Solo48):

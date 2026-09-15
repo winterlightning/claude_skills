@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '57877e05-412a-4ab7-81af-b1b8f5355989'
-SOURCE_PATH = 'icons-json/logos/imessage logo_57877e05-412a-4ab7-81af-b1b8f5355989.json'
+SOURCE_PATH = 'pictographic-primitives/logos/imessage logo_57877e05-412a-4ab7-81af-b1b8f5355989.svg'
 AUTHOR = 'gpt-6'
 
 class ImessageLogo(Solo48):

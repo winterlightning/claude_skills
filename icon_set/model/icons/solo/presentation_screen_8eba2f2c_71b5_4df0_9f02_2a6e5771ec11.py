@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '8eba2f2c-71b5-4df0-9f02-2a6e5771ec11'
-SOURCE_PATH = 'icons-json/office/presentation screen_8eba2f2c-71b5-4df0-9f02-2a6e5771ec11.json'
+SOURCE_PATH = 'pictographic-primitives/office/presentation screen_8eba2f2c-71b5-4df0-9f02-2a6e5771ec11.svg'
 AUTHOR = 'gpt-6'
 
 class PresentationScreen(Solo48):

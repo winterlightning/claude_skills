@@ -8,8 +8,8 @@ Body cue: curved sailor collar. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-09/references/ship-crew-navy-2.svg'
+SOURCE_ICON_ID = 'cba73ce9-9aea-4551-91dd-9549fb2c89f4'
+SOURCE_PATH = 'pictographic-primitives/avatars/ship crew navy_cba73ce9-9aea-4551-91dd-9549fb2c89f4.svg'
 SOURCE_HEAD_ICON_ID = 'ship-crew-navy-2'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

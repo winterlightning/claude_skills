@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b5811619-4d2e-4d0e-bd82-0ceb97f8b687'
-SOURCE_PATH = 'icons-json/programing/elastic load balance circle_b5811619-4d2e-4d0e-bd82-0ceb97f8b687.json'
+SOURCE_PATH = 'pictographic-primitives/programing/elastic load balance circle_b5811619-4d2e-4d0e-bd82-0ceb97f8b687.svg'
 AUTHOR = 'gpt-6'
 
 class ElasticLoadBalanceCircle(Solo48):

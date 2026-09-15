@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9a2353f7-ce0c-428e-b493-5d1e5f75ff8a'
-SOURCE_PATH = 'icons-json/design/pathfinder minus back_9a2353f7-ce0c-428e-b493-5d1e5f75ff8a.json'
+SOURCE_PATH = 'pictographic-primitives/design/pathfinder minus back_9a2353f7-ce0c-428e-b493-5d1e5f75ff8a.svg'
 AUTHOR = 'gpt-6'
 
 class PathfinderMinusBack(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '881f4502-fae5-4c7e-99a9-18cf1f644952'
-SOURCE_PATH = 'icons-json/programing/amazon managed blockchain_881f4502-fae5-4c7e-99a9-18cf1f644952.json'
+SOURCE_PATH = 'pictographic-primitives/programing/amazon managed blockchain_881f4502-fae5-4c7e-99a9-18cf1f644952.svg'
 AUTHOR = 'gpt-6'
 
 class AmazonManagedBlockchain(Solo48):

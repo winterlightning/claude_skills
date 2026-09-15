@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a3c8bc32-4fd0-5a98-8e0a-20f80c3fed92'
-SOURCE_PATH = 'icons-json/electronics/resistor_a3c8bc32-4fd0-5a98-8e0a-20f80c3fed92.json'
+SOURCE_PATH = 'pictographic-primitives/electronics/resistor_a3c8bc32-4fd0-5a98-8e0a-20f80c3fed92.svg'
 AUTHOR = 'gpt-6'
 
 class Resistor(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7dcd1f38-9335-4dd6-ba70-42fa32b33f8a'
-SOURCE_PATH = 'icons-json/logos/mx linux logo_7dcd1f38-9335-4dd6-ba70-42fa32b33f8a.json'
+SOURCE_PATH = 'pictographic-primitives/logos/mx linux logo_7dcd1f38-9335-4dd6-ba70-42fa32b33f8a.svg'
 AUTHOR = 'gpt-6'
 
 class MxLinuxLogo(Solo48):

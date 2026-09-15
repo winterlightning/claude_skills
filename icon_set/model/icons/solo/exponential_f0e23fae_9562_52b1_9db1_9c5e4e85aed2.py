@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f0e23fae-9562-52b1-9db1-9c5e4e85aed2'
-SOURCE_PATH = 'icons-json/interface-essential/exponential_f0e23fae-9562-52b1-9db1-9c5e4e85aed2.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/exponential_f0e23fae-9562-52b1-9db1-9c5e4e85aed2.svg'
 AUTHOR = 'gpt-6'
 
 class ExponentialInterfaceEssential(Solo48):

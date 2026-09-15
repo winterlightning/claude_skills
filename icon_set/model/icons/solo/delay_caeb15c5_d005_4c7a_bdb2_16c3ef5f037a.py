@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'caeb15c5-d005-4c7a-bdb2-16c3ef5f037a'
-SOURCE_PATH = 'icons-json/diagrams/delay_caeb15c5-d005-4c7a-bdb2-16c3ef5f037a.json'
+SOURCE_PATH = 'pictographic-primitives/diagrams/delay_caeb15c5-d005-4c7a-bdb2-16c3ef5f037a.svg'
 AUTHOR = 'gpt-6'
 
 class Delay(Solo48):

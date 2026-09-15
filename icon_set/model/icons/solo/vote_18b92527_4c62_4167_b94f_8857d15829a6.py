@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '18b92527-4c62-4167-b94f-8857d15829a6'
-SOURCE_PATH = 'icons-json/symbol/vote_18b92527-4c62-4167-b94f-8857d15829a6.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/vote_18b92527-4c62-4167-b94f-8857d15829a6.svg'
 AUTHOR = 'gpt-6'
 
 class Vote(Solo48):

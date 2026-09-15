@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a004cae4-ed05-4290-a770-3067f7e07eef'
-SOURCE_PATH = 'icons-json/interface-essential/zoom in_a004cae4-ed05-4290-a770-3067f7e07eef.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/zoom in_a004cae4-ed05-4290-a770-3067f7e07eef.svg'
 AUTHOR = 'gpt-6'
 
 class ZoomIn(Solo48):

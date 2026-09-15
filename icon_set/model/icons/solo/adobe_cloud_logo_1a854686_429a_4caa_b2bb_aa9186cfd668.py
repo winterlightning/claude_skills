@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1a854686-429a-4caa-b2bb-aa9186cfd668'
-SOURCE_PATH = 'icons-json/_uncategorized_01/adobe cloud logo_1a854686-429a-4caa-b2bb-aa9186cfd668.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_01/adobe cloud logo_1a854686-429a-4caa-b2bb-aa9186cfd668.svg'
 AUTHOR = 'gpt-6'
 
 class AdobeCloudLogo(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '84618b8f-5dee-4f44-9380-893ba067f0b2'
-SOURCE_PATH = 'icons-json/money/nagras_84618b8f-5dee-4f44-9380-893ba067f0b2.json'
+SOURCE_PATH = 'pictographic-primitives/money/nagras_84618b8f-5dee-4f44-9380-893ba067f0b2.svg'
 AUTHOR = 'gpt-6'
 
 class NagrasMoney(Solo48):

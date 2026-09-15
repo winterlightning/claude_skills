@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0048393d-1c7b-5fde-b4e1-e018ff09375c'
-SOURCE_PATH = 'icons-json/interface-essential/chinese alphabet_0048393d-1c7b-5fde-b4e1-e018ff09375c.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/chinese alphabet_0048393d-1c7b-5fde-b4e1-e018ff09375c.svg'
 AUTHOR = 'gpt-6'
 
 class ChineseAlphabet(Solo48):

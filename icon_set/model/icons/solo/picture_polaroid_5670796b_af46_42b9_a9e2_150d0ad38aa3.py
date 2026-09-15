@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5670796b-af46-42b9-a9e2-150d0ad38aa3'
-SOURCE_PATH = 'icons-json/photography/picture polaroid_5670796b-af46-42b9-a9e2-150d0ad38aa3.json'
+SOURCE_PATH = 'pictographic-primitives/photography/picture polaroid_5670796b-af46-42b9-a9e2-150d0ad38aa3.svg'
 AUTHOR = 'gpt-6'
 
 class PicturePolaroid(Solo48):

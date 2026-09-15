@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5dc645c5-4bfe-5f4c-b044-794dca019d0a'
-SOURCE_PATH = 'icons-json/sports/kimono_5dc645c5-4bfe-5f4c-b044-794dca019d0a.json'
+SOURCE_PATH = 'pictographic-primitives/sports/kimono_5dc645c5-4bfe-5f4c-b044-794dca019d0a.svg'
 AUTHOR = 'gpt-6'
 
 class Kimono(Solo48):

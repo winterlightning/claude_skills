@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'd05e7aa2-4c1e-43d5-8943-5f63cebcd390'
-SOURCE_PATH = 'icons-json/interface-essential/zoom out_d05e7aa2-4c1e-43d5-8943-5f63cebcd390.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/zoom out_d05e7aa2-4c1e-43d5-8943-5f63cebcd390.svg'
 AUTHOR = 'gpt-6'
 
 class ZoomOut(Solo48):

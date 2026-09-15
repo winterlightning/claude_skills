@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd4337f67-2dcc-4438-9e59-dbeedde31139'
-SOURCE_PATH = 'icons-json/hobbies/chess pawn_d4337f67-2dcc-4438-9e59-dbeedde31139.json'
+SOURCE_PATH = 'pictographic-primitives/hobbies/chess pawn_d4337f67-2dcc-4438-9e59-dbeedde31139.svg'
 AUTHOR = 'gpt-6'
 
 class ChessPawn(Solo48):

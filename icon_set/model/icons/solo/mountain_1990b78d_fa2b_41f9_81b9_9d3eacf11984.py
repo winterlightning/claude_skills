@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1990b78d-fa2b-41f9-81b9-9d3eacf11984'
-SOURCE_PATH = 'icons-json/nature/mountain_1990b78d-fa2b-41f9-81b9-9d3eacf11984.json'
+SOURCE_PATH = 'pictographic-primitives/nature/mountain_1990b78d-fa2b-41f9-81b9-9d3eacf11984.svg'
 AUTHOR = 'gpt-6'
 
 class Mountain(Solo48):

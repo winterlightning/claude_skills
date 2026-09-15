@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8dd8865b-3604-51e7-a9f8-21d3178f09a9'
-SOURCE_PATH = 'icons-json/smileys/wink_8dd8865b-3604-51e7-a9f8-21d3178f09a9.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/wink_8dd8865b-3604-51e7-a9f8-21d3178f09a9.svg'
 AUTHOR = 'gpt-6'
 
 class Wink(Solo48):

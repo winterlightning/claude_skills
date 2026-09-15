@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e5b96ef0-c3b6-540c-beca-5397b83627e0'
-SOURCE_PATH = 'icons-json/arrows/arrow thick corner bottom right_e5b96ef0-c3b6-540c-beca-5397b83627e0.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/arrow thick corner bottom right_e5b96ef0-c3b6-540c-beca-5397b83627e0.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowThickCornerBottomRight(Solo48):

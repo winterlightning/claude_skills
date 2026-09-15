@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '44752e4f-d0f1-4401-8bb4-351d9cd71f62'
-SOURCE_PATH = 'icons-json/programing/scaling auto_44752e4f-d0f1-4401-8bb4-351d9cd71f62.json'
+SOURCE_PATH = 'pictographic-primitives/programing/scaling auto_44752e4f-d0f1-4401-8bb4-351d9cd71f62.svg'
 AUTHOR = 'gpt-6'
 
 class ScalingAuto(Solo48):

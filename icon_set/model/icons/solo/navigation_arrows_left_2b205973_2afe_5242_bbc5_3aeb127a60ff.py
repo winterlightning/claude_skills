@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2b205973-2afe-5242-bbc5-3aeb127a60ff'
-SOURCE_PATH = 'icons-json/interface-essential/navigation arrows left_2b205973-2afe-5242-bbc5-3aeb127a60ff.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/navigation arrows left_2b205973-2afe-5242-bbc5-3aeb127a60ff.svg'
 AUTHOR = 'gpt-6'
 
 class NavigationArrowsLeft(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a9327102-c668-47fb-88c0-07e9b814ac8a'
-SOURCE_PATH = 'icons-json/food/meal can_a9327102-c668-47fb-88c0-07e9b814ac8a.json'
+SOURCE_PATH = 'pictographic-primitives/food/meal can_a9327102-c668-47fb-88c0-07e9b814ac8a.svg'
 AUTHOR = 'gpt-6'
 
 class MealCan(Solo48):

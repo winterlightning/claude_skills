@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9f6e8941-c222-443f-b0ed-ada28a0cb9eb'
-SOURCE_PATH = 'icons-json/symbol/minus bold_9f6e8941-c222-443f-b0ed-ada28a0cb9eb.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/minus bold_9f6e8941-c222-443f-b0ed-ada28a0cb9eb.svg'
 AUTHOR = 'gpt-6'
 
 class MinusBoldSymbol(Solo48):

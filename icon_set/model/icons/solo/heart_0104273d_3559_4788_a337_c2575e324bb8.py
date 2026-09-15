@@ -1,10 +1,13 @@
-"""Heart (romance), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""heart-0104273d: geometric reconstruction on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0104273d-3559-4788-a337-c2575e324bb8'
-SOURCE_PATH = 'icons-json/romance/heart_0104273d-3559-4788-a337-c2575e324bb8.json'
-AUTHOR = 'json_to_solo'
+SOURCE_PATH = 'pictographic-primitives/romance/heart_0104273d-3559-4788-a337-c2575e324bb8.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
 
 class Heart(Solo48):
     icon_id = 'heart-0104273d'
@@ -16,14 +19,15 @@ class Heart(Solo48):
     keywords = ('heart', 'romance')
 
     def build(self):
-        self.add_line('e0', (24, 14), (20, 11))
-        self.add_line('e1', (7, 24), (24, 40))
-        self.add_line('e2', (24, 40), (39, 26))
-        self.add_arc('e3-1', (20, 11), (14, 8), radius_x=11, sweep=False)
-        self.add_arc('e3-2', (14, 8), (4, 18), radius_x=10, sweep=False)
-        self.add_arc('e3-3', (4, 18), (7, 24), radius_x=8, sweep=False)
-        self.add_arc('e4-1', (39, 26), (44, 17), radius_x=11, sweep=False)
-        self.add_arc('e4-2', (44, 17), (40, 10), radius_x=9, sweep=False)
-        self.add_arc('e4-3', (40, 10), (34, 8), radius_x=10, sweep=False)
-        self.add_arc('e4-4', (34, 8), (24, 14), radius_x=13, sweep=False)
-        self.add_contour('c0', 'e0', 'e3-1', 'e3-2', 'e3-3', 'e1', 'e2', 'e4-1', 'e4-2', 'e4-3', 'e4-4', closed=True)
+        # Plan: HRECT_L; paired circular lobes and mirrored point; remove conversion kinks.
+        # Reference: Lucide heart: rounded lobes flow into deliberate pointed base.
+        axis = 24
+        self.add_bezier('left-inner',(axis,13),((21,10),(18,8),(14,8)))
+        self.add_arc('left-lobe',(14,8),(4,18),radius_x=10,sweep=False)
+        self.add_bezier('left-lower',(4,18),((4,23),(6.5,25),(10,28)))
+        self.add_line('left-point',(10,28),(axis,40))
+        self.add_line('right-point',(axis,40),(38,28))
+        self.add_bezier('right-lower',(38,28),((41.5,25),(44,23),(44,18)))
+        self.add_arc('right-lobe',(44,18),(34,8),radius_x=10,sweep=False)
+        self.add_bezier('right-inner',(34,8),((30,8),(27,10),(axis,13)))
+        self.add_contour('outline','left-inner','left-lobe','left-lower','left-point','right-point','right-lower','right-lobe','right-inner',closed=True)

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'a59dce1d-df8f-4b36-a178-738d4288393a'
-SOURCE_PATH = 'icons-json/internet/proton preview_a59dce1d-df8f-4b36-a178-738d4288393a.json'
+SOURCE_PATH = 'pictographic-primitives/internet/proton preview_a59dce1d-df8f-4b36-a178-738d4288393a.svg'
 AUTHOR = 'gpt-6'
 
 class ProtonPreview(Solo48):

@@ -7,8 +7,8 @@ Small facial marks omitted; clothing/headwear carry the intended meaning.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
-SOURCE_ICON_ID=None
-SOURCE_PATH='work/head-solo/batch-01/references/avatar-woman-air-hostess-1.svg'
+SOURCE_ICON_ID = '22284429-fd82-4a8b-99c0-c7586e3ab52d'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman air hostess_22284429-fd82-4a8b-99c0-c7586e3ab52d.svg'
 AUTHOR='gpt-6'
 
 class AvatarWomanAirHostess1(Solo48):

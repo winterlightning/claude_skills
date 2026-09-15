@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e3714f65-499d-4ba7-9ecb-87ecc26acfff'
-SOURCE_PATH = 'icons-json/state/0 text in circle_e3714f65-499d-4ba7-9ecb-87ecc26acfff.json'
+SOURCE_PATH = 'pictographic-primitives/state/0 text in circle_e3714f65-499d-4ba7-9ecb-87ecc26acfff.svg'
 AUTHOR = 'gpt-6'
 
 class Icon0TextInCircle(Solo48):

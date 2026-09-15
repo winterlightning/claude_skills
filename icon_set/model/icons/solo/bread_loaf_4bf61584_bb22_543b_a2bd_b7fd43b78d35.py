@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4bf61584-bb22-543b-a2bd-b7fd43b78d35'
-SOURCE_PATH = 'icons-json/food/bread loaf_4bf61584-bb22-543b-a2bd-b7fd43b78d35.json'
+SOURCE_PATH = 'pictographic-primitives/food/bread loaf_4bf61584-bb22-543b-a2bd-b7fd43b78d35.svg'
 AUTHOR = 'gpt-6'
 
 class BreadLoaf(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ce7bfa1f-3141-47ae-9f87-a6e785f26d0a'
-SOURCE_PATH = 'icons-json/arrows/upload bottom_ce7bfa1f-3141-47ae-9f87-a6e785f26d0a.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/upload bottom_ce7bfa1f-3141-47ae-9f87-a6e785f26d0a.svg'
 AUTHOR = 'gpt-6'
 
 class UploadBottom(Solo48):

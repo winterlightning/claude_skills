@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0368b9b2-c06f-47a3-9fa0-ea39f0be0ef8'
-SOURCE_PATH = 'icons-json/logos/vimeo logo_0368b9b2-c06f-47a3-9fa0-ea39f0be0ef8.json'
+SOURCE_PATH = 'pictographic-primitives/logos/vimeo logo_0368b9b2-c06f-47a3-9fa0-ea39f0be0ef8.svg'
 AUTHOR = 'gpt-6'
 
 class VimeoLogo(Solo48):

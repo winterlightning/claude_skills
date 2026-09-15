@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '234919ff-c70d-4bef-84b0-e2745dfa1825'
-SOURCE_PATH = 'icons-json/health/chemical hexagon_234919ff-c70d-4bef-84b0-e2745dfa1825.json'
+SOURCE_PATH = 'pictographic-primitives/health/chemical hexagon_234919ff-c70d-4bef-84b0-e2745dfa1825.svg'
 AUTHOR = 'gpt-6'
 
 class ChemicalHexagon(Solo48):

@@ -7,8 +7,8 @@ HRECT_L (4,8)-(44,40), SQUARE (6,6)-(42,42).
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
-SOURCE_ICON_ID = ('a68c5ccf-a8ab-5039-b435-ccd14e4ad205', '681b3046-14a4-4a88-9ab2-2d02df009170')
-SOURCE_PATH = ('pictographic-primitives/romance/wedding dress_a68c5ccf-a8ab-5039-b435-ccd14e4ad205.svg', 'pictographic-primitives/romance/wedding fireworks_681b3046-14a4-4a88-9ab2-2d02df009170.svg')
+SOURCE_ICON_ID = 'a68c5ccf-a8ab-5039-b435-ccd14e4ad205'
+SOURCE_PATH = 'pictographic-primitives/romance/wedding dress_a68c5ccf-a8ab-5039-b435-ccd14e4ad205.svg'
 AUTHOR = 'gpt-6'
 
 

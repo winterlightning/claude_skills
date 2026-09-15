@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: tunic fastening.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-indian.svg'
+SOURCE_ICON_ID = 'ec6a97bf-8b79-5217-9903-4d323ef660ad'
+SOURCE_PATH = 'pictographic-primitives/avatars/man indian_ec6a97bf-8b79-5217-9903-4d323ef660ad.svg'
 SOURCE_HEAD_ICON_ID = 'man-indian'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

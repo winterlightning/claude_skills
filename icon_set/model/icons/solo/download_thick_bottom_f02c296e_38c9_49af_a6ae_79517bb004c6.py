@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f02c296e-38c9-49af-a6ae-79517bb004c6'
-SOURCE_PATH = 'icons-json/arrows/download thick bottom_f02c296e-38c9-49af-a6ae-79517bb004c6.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/download thick bottom_f02c296e-38c9-49af-a6ae-79517bb004c6.svg'
 AUTHOR = 'gpt-6'
 
 class DownloadThickBottom(Solo48):

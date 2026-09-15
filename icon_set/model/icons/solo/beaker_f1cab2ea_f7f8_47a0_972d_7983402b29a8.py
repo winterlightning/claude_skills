@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f1cab2ea-f7f8-47a0-972d-7983402b29a8'
-SOURCE_PATH = 'icons-json/symbol/beaker_f1cab2ea-f7f8-47a0-972d-7983402b29a8.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/beaker_f1cab2ea-f7f8-47a0-972d-7983402b29a8.svg'
 AUTHOR = 'gpt-6'
 
 class Beaker(Solo48):

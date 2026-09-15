@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '360fc91b-24b0-485d-863b-30511134cdd1'
-SOURCE_PATH = 'icons-json/state/snowflake 1_360fc91b-24b0-485d-863b-30511134cdd1.json'
+SOURCE_PATH = 'pictographic-primitives/state/snowflake 1_360fc91b-24b0-485d-863b-30511134cdd1.svg'
 AUTHOR = 'gpt-6'
 
 class Snowflake1(Solo48):

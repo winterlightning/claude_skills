@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c74d64ad-377c-4fc3-b4f9-ee7249035374'
-SOURCE_PATH = 'icons-json/websites/ui browser slider_c74d64ad-377c-4fc3-b4f9-ee7249035374.json'
+SOURCE_PATH = 'pictographic-primitives/websites/ui browser slider_c74d64ad-377c-4fc3-b4f9-ee7249035374.svg'
 AUTHOR = 'gpt-6'
 
 class UiBrowserSlider(Solo48):

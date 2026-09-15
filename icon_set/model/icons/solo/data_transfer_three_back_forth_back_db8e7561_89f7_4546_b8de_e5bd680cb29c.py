@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'db8e7561-89f7-4546-b8de-e5bd680cb29c'
-SOURCE_PATH = 'icons-json/networks/data transfer three back forth back_db8e7561-89f7-4546-b8de-e5bd680cb29c.json'
+SOURCE_PATH = 'pictographic-primitives/networks/data transfer three back forth back_db8e7561-89f7-4546-b8de-e5bd680cb29c.svg'
 AUTHOR = 'gpt-6'
 
 class DataTransferThreeBackForthBack(Solo48):

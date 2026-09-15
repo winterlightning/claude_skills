@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4f732af1-71a8-516e-aec3-32b7c620ce19'
-SOURCE_PATH = 'icons-json/building/curtains open_4f732af1-71a8-516e-aec3-32b7c620ce19.json'
+SOURCE_PATH = 'pictographic-primitives/building/curtains open_4f732af1-71a8-516e-aec3-32b7c620ce19.svg'
 AUTHOR = 'gpt-6'
 
 class CurtainsOpen(Solo48):

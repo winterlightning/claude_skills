@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '30e26f6b-4595-560c-bfbe-0115d910a155'
-SOURCE_PATH = 'icons-json/construction/round cap_30e26f6b-4595-560c-bfbe-0115d910a155.json'
+SOURCE_PATH = 'pictographic-primitives/construction/round cap_30e26f6b-4595-560c-bfbe-0115d910a155.svg'
 AUTHOR = 'gpt-6'
 
 class RoundCap(Solo48):

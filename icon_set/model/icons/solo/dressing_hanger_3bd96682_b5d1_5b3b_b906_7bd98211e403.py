@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3bd96682-b5d1-5b3b-b906-7bd98211e403'
-SOURCE_PATH = 'icons-json/furnitures/dressing hanger_3bd96682-b5d1-5b3b-b906-7bd98211e403.json'
+SOURCE_PATH = 'pictographic-primitives/furnitures/dressing hanger_3bd96682-b5d1-5b3b-b906-7bd98211e403.svg'
 AUTHOR = 'gpt-6'
 
 class DressingHanger(Solo48):

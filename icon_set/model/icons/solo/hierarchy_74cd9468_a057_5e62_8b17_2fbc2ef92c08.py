@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '74cd9468-a057-5e62-8b17-2fbc2ef92c08'
-SOURCE_PATH = 'icons-json/programing/hierarchy_74cd9468-a057-5e62-8b17-2fbc2ef92c08.json'
+SOURCE_PATH = 'pictographic-primitives/programing/hierarchy_74cd9468-a057-5e62-8b17-2fbc2ef92c08.svg'
 AUTHOR = 'gpt-6'
 
 class HierarchyPrograming(Solo48):

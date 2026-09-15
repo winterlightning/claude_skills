@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2d966e0b-1e81-4eb6-869a-d5fc9fb91469'
-SOURCE_PATH = 'icons-json/interface-essential/textbox_2d966e0b-1e81-4eb6-869a-d5fc9fb91469.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/textbox_2d966e0b-1e81-4eb6-869a-d5fc9fb91469.svg'
 AUTHOR = 'gpt-6'
 
 class Textbox(Solo48):

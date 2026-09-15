@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '107e54f1-5e5c-40e0-a51b-c1aeca9aed3a'
-SOURCE_PATH = 'icons-json/symbol/funnel_107e54f1-5e5c-40e0-a51b-c1aeca9aed3a.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/funnel_107e54f1-5e5c-40e0-a51b-c1aeca9aed3a.svg'
 AUTHOR = 'gpt-6'
 
 class Funnel(Solo48):

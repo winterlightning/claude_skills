@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3d52a574-2cf8-4bbf-95ef-7eaebf475a4e'
-SOURCE_PATH = 'icons-json/_uncategorized_03/apple vision pro space volume_3d52a574-2cf8-4bbf-95ef-7eaebf475a4e.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/apple vision pro space volume_3d52a574-2cf8-4bbf-95ef-7eaebf475a4e.svg'
 AUTHOR = 'gpt-6'
 
 class AppleVisionProSpaceVolume(Solo48):

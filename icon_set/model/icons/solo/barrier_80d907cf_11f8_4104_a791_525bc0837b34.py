@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '80d907cf-11f8-4104-a791-525bc0837b34'
-SOURCE_PATH = 'icons-json/symbol/barrier_80d907cf-11f8-4104-a791-525bc0837b34.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/barrier_80d907cf-11f8-4104-a791-525bc0837b34.svg'
 AUTHOR = 'gpt-6'
 
 class Barrier(Solo48):

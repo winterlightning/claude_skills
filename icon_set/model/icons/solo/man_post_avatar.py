@@ -7,8 +7,8 @@ Fine facial marks and trim omitted for native-size clarity.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-06/references/man-post.svg'
+SOURCE_ICON_ID = '3d9c4d13-b05d-5385-b082-74a41d0139d5'
+SOURCE_PATH = 'pictographic-primitives/avatars/man post_3d9c4d13-b05d-5385-b082-74a41d0139d5.svg'
 SOURCE_HEAD_ICON_ID = 'man-post'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

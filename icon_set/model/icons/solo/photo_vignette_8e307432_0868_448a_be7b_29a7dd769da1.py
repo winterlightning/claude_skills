@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8e307432-0868-448a-be7b-29a7dd769da1'
-SOURCE_PATH = 'icons-json/photography/photo vignette_8e307432-0868-448a-be7b-29a7dd769da1.json'
+SOURCE_PATH = 'pictographic-primitives/photography/photo vignette_8e307432-0868-448a-be7b-29a7dd769da1.svg'
 AUTHOR = 'gpt-6'
 
 class PhotoVignette(Solo48):

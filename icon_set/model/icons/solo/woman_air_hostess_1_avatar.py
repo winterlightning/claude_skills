@@ -9,8 +9,8 @@ omit facial microdetails at 48. Body: fitted uniform with an asymmetric neck sca
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-woman-air-hostess-1.svg'
+SOURCE_ICON_ID = '22284429-fd82-4a8b-99c0-c7586e3ab52d'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman air hostess_22284429-fd82-4a8b-99c0-c7586e3ab52d.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-woman-air-hostess-1'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

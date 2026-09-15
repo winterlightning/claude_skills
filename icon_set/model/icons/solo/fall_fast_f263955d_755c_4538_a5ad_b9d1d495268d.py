@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f263955d-755c-4538-a5ad-b9d1d495268d'
-SOURCE_PATH = 'icons-json/arrows/fall fast_f263955d-755c-4538-a5ad-b9d1d495268d.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/fall fast_f263955d-755c-4538-a5ad-b9d1d495268d.svg'
 AUTHOR = 'gpt-6'
 
 class FallFast(Solo48):

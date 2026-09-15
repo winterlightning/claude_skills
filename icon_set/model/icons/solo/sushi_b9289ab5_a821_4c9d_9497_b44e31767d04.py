@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b9289ab5-a821-4c9d-9497-b44e31767d04'
-SOURCE_PATH = 'icons-json/food/sushi_b9289ab5-a821-4c9d-9497-b44e31767d04.json'
+SOURCE_PATH = 'pictographic-primitives/food/sushi_b9289ab5-a821-4c9d-9497-b44e31767d04.svg'
 AUTHOR = 'gpt-6'
 
 class Sushi(Solo48):

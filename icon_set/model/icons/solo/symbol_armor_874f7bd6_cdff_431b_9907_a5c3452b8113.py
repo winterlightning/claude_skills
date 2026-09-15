@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '874f7bd6-cdff-431b-9907-a5c3452b8113'
-SOURCE_PATH = 'icons-json/war/symbol armor_874f7bd6-cdff-431b-9907-a5c3452b8113.json'
+SOURCE_PATH = 'pictographic-primitives/war/symbol armor_874f7bd6-cdff-431b-9907-a5c3452b8113.svg'
 AUTHOR = 'gpt-6'
 
 class SymbolArmor(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '68f6dae1-f30e-46ca-8af8-fead1c27b152'
-SOURCE_PATH = 'icons-json/office/task list text_68f6dae1-f30e-46ca-8af8-fead1c27b152.json'
+SOURCE_PATH = 'pictographic-primitives/office/task list text_68f6dae1-f30e-46ca-8af8-fead1c27b152.svg'
 AUTHOR = 'gpt-6'
 
 class TaskListText(Solo48):

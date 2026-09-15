@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2a05303d-ae76-55f0-9b37-fe4f3470f89b'
-SOURCE_PATH = 'icons-json/rewards/award medal_2a05303d-ae76-55f0-9b37-fe4f3470f89b.json'
+SOURCE_PATH = 'pictographic-primitives/rewards/award medal_2a05303d-ae76-55f0-9b37-fe4f3470f89b.svg'
 AUTHOR = 'gpt-6'
 
 class AwardMedal(Solo48):

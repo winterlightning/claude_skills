@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e7537cdc-4cea-48b0-984d-3fbfb720fe25'
-SOURCE_PATH = 'icons-json/symbol/arrow undo left_e7537cdc-4cea-48b0-984d-3fbfb720fe25.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/arrow undo left_e7537cdc-4cea-48b0-984d-3fbfb720fe25.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowUndoLeft(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9bc123ee-6bde-4551-bf5e-c0a7f52704f1'
-SOURCE_PATH = 'icons-json/office/legal scale 2_9bc123ee-6bde-4551-bf5e-c0a7f52704f1.json'
+SOURCE_PATH = 'pictographic-primitives/office/legal scale 2_9bc123ee-6bde-4551-bf5e-c0a7f52704f1.svg'
 AUTHOR = 'gpt-6'
 
 class LegalScale2(Solo48):

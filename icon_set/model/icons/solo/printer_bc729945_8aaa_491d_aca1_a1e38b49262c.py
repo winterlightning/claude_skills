@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bc729945-8aaa-491d-aca1-a1e38b49262c'
-SOURCE_PATH = 'icons-json/devices/printer_bc729945-8aaa-491d-aca1-a1e38b49262c.json'
+SOURCE_PATH = 'pictographic-primitives/devices/printer_bc729945-8aaa-491d-aca1-a1e38b49262c.svg'
 AUTHOR = 'gpt-6'
 
 class Printer(Solo48):

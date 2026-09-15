@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a1bb0d4a-25ef-4c7a-beac-38a58444a803'
-SOURCE_PATH = 'icons-json/artificial-intelligence/robot_a1bb0d4a-25ef-4c7a-beac-38a58444a803.json'
+SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/robot_a1bb0d4a-25ef-4c7a-beac-38a58444a803.svg'
 AUTHOR = 'gpt-6'
 
 class RobotA1bb0d4a(Solo48):

@@ -560,6 +560,41 @@ or access key. `GET /api/feedback-feed` returns requests with the icon family/ID
 requested change, SVG hash, and timestamp. Restart `deploy.py` after updating
 server code; refresh the browser after gallery updates.
 
+### Primitives remake progress
+
+`gallery/primitives.html` (nav: **Primitives**) tracks the remake of every original
+Pictographic primitive. The overview shows totals and a per-category table; opening a
+category filters its primitives by **TODO / SKIP / GENERATED**, by batch (the 40
+`_uncategorized_NN` folders form one *Uncategorized* category with a batch picker),
+by skip reason, and by text. Logged-in users can select tiles and mark them SKIP
+(reason: combination, container, text / number, or other with a note) or back to TODO.
+
+- **Generated** is computed, never stored: a model linked to the primitive's UUID is
+  published in dist. Linked models that only failed their build stay TODO with a
+  *Build failed* badge. A primitive marked SKIP that later gets generated counts as
+  generated and is flagged as a conflict.
+- **SKIP** decisions live in the gallery database (`primitive_status` table) and every
+  change is written to `activity_log`.
+- The catalog `gallery/primitives.json` is rebuilt by every build, or on its own with
+  `python3 icon_set/scripts/primitives_catalog.py`. It reads the original 1024 artwork from
+  `--primitives`, `$PICTOGRAPHIC_PRIMITIVES`, or `../icon_simplification/pictographic-primitives`
+  (not `claude_skills/pictographic-primitives`, which holds 48u conversions). `deploy.py
+  --primitives DIR` serves the originals at `/primitives/...` for the page.
+
+Agents mark skips per category with the CLI, which writes the same database:
+
+```bash
+python3 icon_set/scripts/primitive_status.py summary
+python3 icon_set/scripts/primitive_status.py list --category computers --status todo --format json
+python3 icon_set/scripts/primitive_status.py skip --reason container --note "glyph in a screen" --user agent UUID ...
+python3 icon_set/scripts/primitive_status.py skip --reason text_number --from-file uuids.txt
+python3 icon_set/scripts/primitive_status.py todo UUID ...
+```
+
+Over HTTP: `GET /api/primitives?category=&status=&batch=&reason=`, `GET /api/primitives/summary`,
+`GET /api/primitives/status`, and (logged in) `POST /api/primitives/status` with
+`{"uuids": [...], "status": "skip"|"todo", "reason": "...", "note": "..."}`, at most 500 per call.
+
 ### Preserve versions when applying feedback
 
 **Copy change brief** now instructs an agent to create a separate variant.

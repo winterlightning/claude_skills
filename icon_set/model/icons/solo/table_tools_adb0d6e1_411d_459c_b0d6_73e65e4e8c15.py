@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'adb0d6e1-411d-459c-b0d6-73e65e4e8c15'
-SOURCE_PATH = 'icons-json/interface-essential/table tools_adb0d6e1-411d-459c-b0d6-73e65e4e8c15.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/table tools_adb0d6e1-411d-459c-b0d6-73e65e4e8c15.svg'
 AUTHOR = 'gpt-6'
 
 class TableTools(Solo48):

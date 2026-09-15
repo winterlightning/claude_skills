@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a62fd369-1873-5c25-af42-83eb6dd463a0'
-SOURCE_PATH = 'icons-json/interface-essential/synchronize refresh arrow 1_a62fd369-1873-5c25-af42-83eb6dd463a0.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/synchronize refresh arrow 1_a62fd369-1873-5c25-af42-83eb6dd463a0.svg'
 AUTHOR = 'gpt-6'
 
 class SynchronizeRefreshArrow1InterfaceEssential(Solo48):

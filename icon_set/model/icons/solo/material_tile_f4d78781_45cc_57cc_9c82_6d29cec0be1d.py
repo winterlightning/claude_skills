@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f4d78781-45cc-57cc-9c82-6d29cec0be1d'
-SOURCE_PATH = 'icons-json/construction/material tile_f4d78781-45cc-57cc-9c82-6d29cec0be1d.json'
+SOURCE_PATH = 'pictographic-primitives/construction/material tile_f4d78781-45cc-57cc-9c82-6d29cec0be1d.svg'
 AUTHOR = 'gpt-6'
 
 class MaterialTile(Solo48):

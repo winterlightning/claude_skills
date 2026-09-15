@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5f2ba451-650e-406e-a2e4-faf0686c7ce1'
-SOURCE_PATH = 'icons-json/video-games/explosion sound effect text_5f2ba451-650e-406e-a2e4-faf0686c7ce1.json'
+SOURCE_PATH = 'pictographic-primitives/video-games/explosion sound effect text_5f2ba451-650e-406e-a2e4-faf0686c7ce1.svg'
 AUTHOR = 'gpt-6'
 
 class ExplosionSoundEffectText(Solo48):

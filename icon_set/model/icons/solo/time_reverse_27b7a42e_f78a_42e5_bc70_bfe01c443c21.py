@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '27b7a42e-f78a-42e5-bc70-bfe01c443c21'
-SOURCE_PATH = 'icons-json/interface-essential/time reverse_27b7a42e-f78a-42e5-bc70-bfe01c443c21.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/time reverse_27b7a42e-f78a-42e5-bc70-bfe01c443c21.svg'
 AUTHOR = 'gpt-6'
 
 class TimeReverse(Solo48):

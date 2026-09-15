@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '819c9468-6d6a-52cb-9fcb-9f7eb1f983ee'
-SOURCE_PATH = 'icons-json/interface-essential/monospaced text character_819c9468-6d6a-52cb-9fcb-9f7eb1f983ee.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/monospaced text character_819c9468-6d6a-52cb-9fcb-9f7eb1f983ee.svg'
 AUTHOR = 'gpt-6'
 
 class MonospacedTextCharacter(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c5efa77c-db71-4315-a4b2-2794a901be6f'
-SOURCE_PATH = 'icons-json/symbol/backward_c5efa77c-db71-4315-a4b2-2794a901be6f.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/backward_c5efa77c-db71-4315-a4b2-2794a901be6f.svg'
 AUTHOR = 'gpt-6'
 
 class Backward(Solo48):

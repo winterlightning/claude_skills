@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1c26a9c6-fac8-4352-bc90-e409954efaf5'
-SOURCE_PATH = 'icons-json/interface-essential/bookmark_1c26a9c6-fac8-4352-bc90-e409954efaf5.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/bookmark_1c26a9c6-fac8-4352-bc90-e409954efaf5.svg'
 AUTHOR = 'gpt-6'
 
 class Bookmark(Solo48):

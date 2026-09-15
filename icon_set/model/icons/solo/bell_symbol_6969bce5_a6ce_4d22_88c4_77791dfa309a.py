@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6969bce5-a6ce-4d22-88c4-77791dfa309a'
-SOURCE_PATH = 'icons-json/symbol/bell_6969bce5-a6ce-4d22-88c4-77791dfa309a.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/bell_6969bce5-a6ce-4d22-88c4-77791dfa309a.svg'
 AUTHOR = 'gpt-6'
 
 class BellSymbol(Solo48):

@@ -7,8 +7,8 @@ in headwear while the face stays centered.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-06/references/man-snake-charmer-1.svg'
+SOURCE_ICON_ID = 'a45128b3-9b9f-5483-84f4-3984d1c82ec3'
+SOURCE_PATH = 'pictographic-primitives/avatars/man snake charmer_a45128b3-9b9f-5483-84f4-3984d1c82ec3.svg'
 SOURCE_HEAD_ICON_ID = 'man-snake-charmer-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

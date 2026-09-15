@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '070e2a8a-37c3-4533-b497-d491749afb89'
-SOURCE_PATH = 'icons-json/protection/symbol non specific_070e2a8a-37c3-4533-b497-d491749afb89.json'
+SOURCE_PATH = 'pictographic-primitives/protection/symbol non specific_070e2a8a-37c3-4533-b497-d491749afb89.svg'
 AUTHOR = 'gpt-6'
 
 class SymbolNonSpecific(Solo48):

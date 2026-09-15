@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '180dee8c-f605-55c4-bd03-4306640eb7bc'
-SOURCE_PATH = 'icons-json/romance/lesbian lgbt symbol_180dee8c-f605-55c4-bd03-4306640eb7bc.json'
+SOURCE_PATH = 'pictographic-primitives/romance/lesbian lgbt symbol_180dee8c-f605-55c4-bd03-4306640eb7bc.svg'
 AUTHOR = 'gpt-6'
 
 class LesbianLgbtSymbol(Solo48):

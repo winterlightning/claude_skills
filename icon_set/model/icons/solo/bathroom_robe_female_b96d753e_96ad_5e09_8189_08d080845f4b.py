@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b96d753e-96ad-5e09-8189-08d080845f4b'
-SOURCE_PATH = 'icons-json/spas/bathroom robe female_b96d753e-96ad-5e09-8189-08d080845f4b.json'
+SOURCE_PATH = 'pictographic-primitives/spas/bathroom robe female_b96d753e-96ad-5e09-8189-08d080845f4b.svg'
 AUTHOR = 'gpt-6'
 
 class BathroomRobeFemale(Solo48):

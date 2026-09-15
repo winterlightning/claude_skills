@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '52c0621c-d20e-5335-bc17-eee5dc1d2f26'
-SOURCE_PATH = 'icons-json/outdoors/diving flag buoys_52c0621c-d20e-5335-bc17-eee5dc1d2f26.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/diving flag buoys_52c0621c-d20e-5335-bc17-eee5dc1d2f26.svg'
 AUTHOR = 'gpt-6'
 
 class DivingFlagBuoys(Solo48):

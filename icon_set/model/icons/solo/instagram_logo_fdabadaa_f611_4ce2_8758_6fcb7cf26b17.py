@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fdabadaa-f611-4ce2-8758-6fcb7cf26b17'
-SOURCE_PATH = 'icons-json/logos/instagram logo_fdabadaa-f611-4ce2-8758-6fcb7cf26b17.json'
+SOURCE_PATH = 'pictographic-primitives/logos/instagram logo_fdabadaa-f611-4ce2-8758-6fcb7cf26b17.svg'
 AUTHOR = 'gpt-6'
 
 class InstagramLogo(Solo48):

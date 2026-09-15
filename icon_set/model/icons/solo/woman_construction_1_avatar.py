@@ -8,8 +8,8 @@ Body cue: work apron. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-14/references/woman-construction-1.svg'
+SOURCE_ICON_ID = 'b1ced6e4-7630-4080-99db-c8166728d6de'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_40/woman construction 1_b1ced6e4-7630-4080-99db-c8166728d6de.svg'
 SOURCE_HEAD_ICON_ID = 'woman-construction-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

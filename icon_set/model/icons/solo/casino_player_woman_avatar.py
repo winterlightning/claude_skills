@@ -14,8 +14,8 @@ or hat asymmetry is retained, with mirrored shoulders where appropriate.
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-02/references/casino-player-woman.svg'
+SOURCE_ICON_ID = '9a4e2aa8-72c3-4a5a-bae0-49615e5b8558'
+SOURCE_PATH = 'pictographic-primitives/avatars/casino player woman_9a4e2aa8-72c3-4a5a-bae0-49615e5b8558.svg'
 SOURCE_HEAD_ICON_ID = 'casino-player-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'

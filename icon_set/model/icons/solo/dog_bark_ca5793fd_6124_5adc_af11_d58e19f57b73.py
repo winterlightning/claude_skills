@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ca5793fd-6124-5adc-af11-d58e19f57b73'
-SOURCE_PATH = 'icons-json/pets/dog bark_ca5793fd-6124-5adc-af11-d58e19f57b73.json'
+SOURCE_PATH = 'pictographic-primitives/pets/dog bark_ca5793fd-6124-5adc-af11-d58e19f57b73.svg'
 AUTHOR = 'gpt-6'
 
 class DogBark(Solo48):

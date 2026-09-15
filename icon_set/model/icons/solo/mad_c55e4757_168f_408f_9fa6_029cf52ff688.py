@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c55e4757-168f-408f-9fa6-029cf52ff688'
-SOURCE_PATH = 'icons-json/smileys/mad_c55e4757-168f-408f-9fa6-029cf52ff688.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/mad_c55e4757-168f-408f-9fa6-029cf52ff688.svg'
 AUTHOR = 'gpt-6'
 
 class Mad(Solo48):

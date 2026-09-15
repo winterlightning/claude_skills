@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'f1d00dcf-8aff-5a5b-a65b-4f2e82febf7c'
-SOURCE_PATH = 'icons-json/food/avocado slice_f1d00dcf-8aff-5a5b-a65b-4f2e82febf7c.json'
+SOURCE_PATH = 'pictographic-primitives/food/avocado slice_f1d00dcf-8aff-5a5b-a65b-4f2e82febf7c.svg'
 AUTHOR = 'gpt-6'
 
 class AvocadoSlice(Solo48):

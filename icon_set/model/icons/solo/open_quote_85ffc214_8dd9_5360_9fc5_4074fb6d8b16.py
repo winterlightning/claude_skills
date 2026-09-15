@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '85ffc214-8dd9-5360-9fc5-4074fb6d8b16'
-SOURCE_PATH = 'icons-json/interface-essential/open quote_85ffc214-8dd9-5360-9fc5-4074fb6d8b16.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/open quote_85ffc214-8dd9-5360-9fc5-4074fb6d8b16.svg'
 AUTHOR = 'gpt-6'
 
 class OpenQuote(Solo48):

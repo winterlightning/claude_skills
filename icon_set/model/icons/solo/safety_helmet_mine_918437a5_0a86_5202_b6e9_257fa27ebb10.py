@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '918437a5-0a86-5202-b6e9-257fa27ebb10'
-SOURCE_PATH = 'icons-json/construction/safety helmet mine_918437a5-0a86-5202-b6e9-257fa27ebb10.json'
+SOURCE_PATH = 'pictographic-primitives/construction/safety helmet mine_918437a5-0a86-5202-b6e9-257fa27ebb10.svg'
 AUTHOR = 'gpt-6'
 
 class SafetyHelmetMine(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '04a89f3f-0b74-491b-bdd0-032abf7a2fff'
-SOURCE_PATH = 'icons-json/outdoors/connector to another page_04a89f3f-0b74-491b-bdd0-032abf7a2fff.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/connector to another page_04a89f3f-0b74-491b-bdd0-032abf7a2fff.svg'
 AUTHOR = 'gpt-6'
 
 class ConnectorToAnotherPage(Solo48):

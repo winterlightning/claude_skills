@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '585301af-baa6-48d9-8d71-939943677ad5'
-SOURCE_PATH = 'icons-json/movies/controls movie_585301af-baa6-48d9-8d71-939943677ad5.json'
+SOURCE_PATH = 'pictographic-primitives/movies/controls movie_585301af-baa6-48d9-8d71-939943677ad5.svg'
 AUTHOR = 'gpt-6'
 
 class ControlsMovie(Solo48):

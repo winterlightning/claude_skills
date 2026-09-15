@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e19c45b5-82c3-4520-898b-27160ddd0cc8'
-SOURCE_PATH = 'icons-json/sports/weights_e19c45b5-82c3-4520-898b-27160ddd0cc8.json'
+SOURCE_PATH = 'pictographic-primitives/sports/weights_e19c45b5-82c3-4520-898b-27160ddd0cc8.svg'
 AUTHOR = 'gpt-6'
 
 class Weights(Solo48):

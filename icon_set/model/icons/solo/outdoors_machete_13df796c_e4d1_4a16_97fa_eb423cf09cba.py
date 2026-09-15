@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '13df796c-e4d1-4a16-97fa-eb423cf09cba'
-SOURCE_PATH = 'icons-json/outdoors/outdoors machete_13df796c-e4d1-4a16-97fa-eb423cf09cba.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/outdoors machete_13df796c-e4d1-4a16-97fa-eb423cf09cba.svg'
 AUTHOR = 'gpt-6'
 
 class OutdoorsMachete(Solo48):

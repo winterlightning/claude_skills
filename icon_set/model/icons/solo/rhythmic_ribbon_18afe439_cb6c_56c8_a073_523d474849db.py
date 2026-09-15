@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '18afe439-cb6c-56c8-a073-523d474849db'
-SOURCE_PATH = 'icons-json/sports/rhythmic ribbon_18afe439-cb6c-56c8-a073-523d474849db.json'
+SOURCE_PATH = 'pictographic-primitives/sports/rhythmic ribbon_18afe439-cb6c-56c8-a073-523d474849db.svg'
 AUTHOR = 'gpt-6'
 
 class RhythmicRibbon(Solo48):

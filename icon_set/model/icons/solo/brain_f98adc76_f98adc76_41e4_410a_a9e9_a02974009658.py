@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f98adc76-41e4-410a-a9e9-a02974009658'
-SOURCE_PATH = 'icons-json/artificial-intelligence/brain_f98adc76-41e4-410a-a9e9-a02974009658.json'
+SOURCE_PATH = 'pictographic-primitives/artificial-intelligence/brain_f98adc76-41e4-410a-a9e9-a02974009658.svg'
 AUTHOR = 'gpt-6'
 
 class BrainF98adc76(Solo48):

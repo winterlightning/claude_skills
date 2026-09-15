@@ -9,8 +9,8 @@ Clothing cue: racing silks chest band. Hair asymmetry follows the reference, fac
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-03/references/jockey-woman-1.svg'
+SOURCE_ICON_ID = '2001dc0a-e3ad-4bf3-8035-72945e0f938b'
+SOURCE_PATH = 'pictographic-primitives/avatars/jockey woman_2001dc0a-e3ad-4bf3-8035-72945e0f938b.svg'
 SOURCE_HEAD_ICON_ID = 'jockey-woman-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

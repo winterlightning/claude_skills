@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'be911cd7-5766-5839-916f-fd3eb87581c6'
-SOURCE_PATH = 'icons-json/religion/death coffin_be911cd7-5766-5839-916f-fd3eb87581c6.json'
+SOURCE_PATH = 'pictographic-primitives/religion/death coffin_be911cd7-5766-5839-916f-fd3eb87581c6.svg'
 AUTHOR = 'gpt-6'
 
 class DeathCoffin(Solo48):

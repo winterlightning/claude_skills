@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd2b0b7f2-a11c-4070-ad95-4be975eeef1e'
-SOURCE_PATH = 'icons-json/symbol/one chilli_d2b0b7f2-a11c-4070-ad95-4be975eeef1e.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/one chilli_d2b0b7f2-a11c-4070-ad95-4be975eeef1e.svg'
 AUTHOR = 'gpt-6'
 
 class OneChilli(Solo48):

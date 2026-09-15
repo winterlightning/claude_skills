@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c302c027-d345-469d-98e7-0e924b296946'
-SOURCE_PATH = 'icons-json/outdoors/binoculars_c302c027-d345-469d-98e7-0e924b296946.json'
+SOURCE_PATH = 'pictographic-primitives/outdoors/binoculars_c302c027-d345-469d-98e7-0e924b296946.svg'
 AUTHOR = 'gpt-6'
 
 class Binoculars(Solo48):

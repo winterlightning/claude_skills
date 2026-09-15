@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e2541649-b966-4b29-a54a-a9df8059fb6a'
-SOURCE_PATH = 'icons-json/pets/shibainu_e2541649-b966-4b29-a54a-a9df8059fb6a.json'
+SOURCE_PATH = 'pictographic-primitives/pets/shibainu_e2541649-b966-4b29-a54a-a9df8059fb6a.svg'
 AUTHOR = 'gpt-6'
 
 class Shibainu(Solo48):

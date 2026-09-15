@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ca1b998f-0a5f-47b5-a6aa-2effc22a4f39'
-SOURCE_PATH = 'icons-json/design/color palette sample_ca1b998f-0a5f-47b5-a6aa-2effc22a4f39.json'
+SOURCE_PATH = 'pictographic-primitives/design/color palette sample_ca1b998f-0a5f-47b5-a6aa-2effc22a4f39.svg'
 AUTHOR = 'gpt-6'
 
 class ColorPaletteSample(Solo48):

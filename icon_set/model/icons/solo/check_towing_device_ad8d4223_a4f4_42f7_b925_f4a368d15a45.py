@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ad8d4223-a4f4-42f7-b925-f4a368d15a45'
-SOURCE_PATH = 'icons-json/transportation/check towing device_ad8d4223-a4f4-42f7-b925-f4a368d15a45.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/check towing device_ad8d4223-a4f4-42f7-b925-f4a368d15a45.svg'
 AUTHOR = 'gpt-6'
 
 class CheckTowingDevice(Solo48):

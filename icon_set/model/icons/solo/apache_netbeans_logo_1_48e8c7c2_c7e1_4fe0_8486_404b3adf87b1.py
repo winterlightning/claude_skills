@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '48e8c7c2-c7e1-4fe0-8486-404b3adf87b1'
-SOURCE_PATH = 'icons-json/_uncategorized_03/apache netbeans logo 1_48e8c7c2-c7e1-4fe0-8486-404b3adf87b1.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/apache netbeans logo 1_48e8c7c2-c7e1-4fe0-8486-404b3adf87b1.svg'
 AUTHOR = 'gpt-6'
 
 class ApacheNetbeansLogo1(Solo48):

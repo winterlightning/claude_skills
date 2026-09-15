@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '381a53fe-e831-48d4-935c-597965e99256'
-SOURCE_PATH = 'icons-json/_uncategorized_20/gas_381a53fe-e831-48d4-935c-597965e99256.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_20/gas_381a53fe-e831-48d4-935c-597965e99256.svg'
 AUTHOR = 'gpt-6'
 
 class Gas(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f1582b2e-7e62-55c0-b217-5620ae37d80d'
-SOURCE_PATH = 'icons-json/apps/sidebar dots right_f1582b2e-7e62-55c0-b217-5620ae37d80d.json'
+SOURCE_PATH = 'pictographic-primitives/apps/sidebar dots right_f1582b2e-7e62-55c0-b217-5620ae37d80d.svg'
 AUTHOR = 'gpt-6'
 
 class SidebarDotsRight(Solo48):

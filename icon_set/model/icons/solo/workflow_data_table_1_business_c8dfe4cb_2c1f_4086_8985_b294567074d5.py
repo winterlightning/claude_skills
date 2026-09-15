@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c8dfe4cb-2c1f-4086-8985-b294567074d5'
-SOURCE_PATH = 'icons-json/business/workflow data table 1_c8dfe4cb-2c1f-4086-8985-b294567074d5.json'
+SOURCE_PATH = 'pictographic-primitives/business/workflow data table 1_c8dfe4cb-2c1f-4086-8985-b294567074d5.svg'
 AUTHOR = 'gpt-6'
 
 class WorkflowDataTable1Business(Solo48):

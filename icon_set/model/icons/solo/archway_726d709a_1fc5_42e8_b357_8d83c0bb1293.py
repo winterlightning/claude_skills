@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '726d709a-1fc5-42e8-b357-8d83c0bb1293'
-SOURCE_PATH = 'icons-json/_uncategorized_04/archway_726d709a-1fc5-42e8-b357-8d83c0bb1293.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_04/archway_726d709a-1fc5-42e8-b357-8d83c0bb1293.svg'
 AUTHOR = 'gpt-6'
 
 class Archway(Solo48):

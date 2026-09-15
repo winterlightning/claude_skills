@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e127ddf8-ee9b-5545-b197-daeac78ecea8'
-SOURCE_PATH = 'icons-json/interface-essential/wave forward_e127ddf8-ee9b-5545-b197-daeac78ecea8.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/wave forward_e127ddf8-ee9b-5545-b197-daeac78ecea8.svg'
 AUTHOR = 'gpt-6'
 
 class WaveForwardInterfaceEssential(Solo48):

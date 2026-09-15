@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '30104018-8e47-4b2e-9d72-f1246987add3'
-SOURCE_PATH = 'icons-json/symbol/fire flame curved_30104018-8e47-4b2e-9d72-f1246987add3.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/fire flame curved_30104018-8e47-4b2e-9d72-f1246987add3.svg'
 AUTHOR = 'gpt-6'
 
 class FireFlameCurved(Solo48):

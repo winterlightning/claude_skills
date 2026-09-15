@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4b8d4eae-62c7-4831-876a-5e8fd95eb63b'
-SOURCE_PATH = 'icons-json/beauty/slim waist_4b8d4eae-62c7-4831-876a-5e8fd95eb63b.json'
+SOURCE_PATH = 'pictographic-primitives/beauty/slim waist_4b8d4eae-62c7-4831-876a-5e8fd95eb63b.svg'
 AUTHOR = 'gpt-6'
 
 class SlimWaist(Solo48):

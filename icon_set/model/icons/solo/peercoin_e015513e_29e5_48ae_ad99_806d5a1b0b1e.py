@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e015513e-29e5-48ae-ad99-806d5a1b0b1e'
-SOURCE_PATH = 'icons-json/symbol/peercoin_e015513e-29e5-48ae-ad99-806d5a1b0b1e.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/peercoin_e015513e-29e5-48ae-ad99-806d5a1b0b1e.svg'
 AUTHOR = 'gpt-6'
 
 class Peercoin(Solo48):

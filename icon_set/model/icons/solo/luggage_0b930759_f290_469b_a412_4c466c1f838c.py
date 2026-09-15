@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '0b930759-f290-469b-a412-4c466c1f838c'
-SOURCE_PATH = 'icons-json/state/luggage_0b930759-f290-469b-a412-4c466c1f838c.json'
+SOURCE_PATH = 'pictographic-primitives/state/luggage_0b930759-f290-469b-a412-4c466c1f838c.svg'
 AUTHOR = 'gpt-6'
 
 class Luggage(Solo48):

@@ -8,8 +8,8 @@ Body cue: winter coat collar. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-russian.svg'
+SOURCE_ICON_ID = '8417c04c-fd00-4ec3-9e33-8097b4fe515d'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman russian_8417c04c-fd00-4ec3-9e33-8097b4fe515d.svg'
 SOURCE_HEAD_ICON_ID = 'woman-russian'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

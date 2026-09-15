@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9abd9c20-5510-40da-8f74-a3309483ed6a'
-SOURCE_PATH = 'icons-json/health/blood bag cross_9abd9c20-5510-40da-8f74-a3309483ed6a.json'
+SOURCE_PATH = 'pictographic-primitives/health/blood bag cross_9abd9c20-5510-40da-8f74-a3309483ed6a.svg'
 AUTHOR = 'gpt-6'
 
 class BloodBagCross(Solo48):

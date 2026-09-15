@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dbcd5360-6234-437a-ae47-ddae4e90f952'
-SOURCE_PATH = 'icons-json/logos/microsoft outlook logo_dbcd5360-6234-437a-ae47-ddae4e90f952.json'
+SOURCE_PATH = 'pictographic-primitives/logos/microsoft outlook logo_dbcd5360-6234-437a-ae47-ddae4e90f952.svg'
 AUTHOR = 'gpt-6'
 
 class MicrosoftOutlookLogo(Solo48):

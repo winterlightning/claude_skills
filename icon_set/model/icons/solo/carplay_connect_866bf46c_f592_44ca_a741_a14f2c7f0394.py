@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '866bf46c-f592-44ca-a741-a14f2c7f0394'
-SOURCE_PATH = 'icons-json/mobile/carplay connect_866bf46c-f592-44ca-a741-a14f2c7f0394.json'
+SOURCE_PATH = 'pictographic-primitives/mobile/carplay connect_866bf46c-f592-44ca-a741-a14f2c7f0394.svg'
 AUTHOR = 'gpt-6'
 
 class CarplayConnect(Solo48):

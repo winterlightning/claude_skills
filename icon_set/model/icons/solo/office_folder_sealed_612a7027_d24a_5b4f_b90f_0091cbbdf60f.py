@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '612a7027-d24a-5b4f-b90f-0091cbbdf60f'
-SOURCE_PATH = 'icons-json/office/office folder sealed_612a7027-d24a-5b4f-b90f-0091cbbdf60f.json'
+SOURCE_PATH = 'pictographic-primitives/office/office folder sealed_612a7027-d24a-5b4f-b90f-0091cbbdf60f.svg'
 AUTHOR = 'gpt-6'
 
 class OfficeFolderSealed(Solo48):

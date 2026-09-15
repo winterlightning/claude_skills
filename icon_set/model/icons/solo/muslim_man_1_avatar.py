@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: diagonal robe fold.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/muslim-man-1.svg'
+SOURCE_ICON_ID = 'e730d035-9a68-5080-b4a5-21d53943262b'
+SOURCE_PATH = 'pictographic-primitives/avatars/muslim man_e730d035-9a68-5080-b4a5-21d53943262b.svg'
 SOURCE_HEAD_ICON_ID = 'muslim-man-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

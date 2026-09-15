@@ -6,8 +6,8 @@ Fine trim is omitted for clarity at 48; body cue: soft sleepwear neckline.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-07/references/pajamas.svg'
+SOURCE_ICON_ID = '73e9def9-0b2e-5cf8-9165-59cc0218b7a6'
+SOURCE_PATH = 'pictographic-primitives/avatars/pajamas_73e9def9-0b2e-5cf8-9165-59cc0218b7a6.svg'
 SOURCE_HEAD_ICON_ID = 'pajamas'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

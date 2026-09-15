@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c36f6e2e-cf6c-482e-822f-17cf7a892183'
-SOURCE_PATH = 'icons-json/symbol/poop_c36f6e2e-cf6c-482e-822f-17cf7a892183.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/poop_c36f6e2e-cf6c-482e-822f-17cf7a892183.svg'
 AUTHOR = 'gpt-6'
 
 class PoopSymbol(Solo48):

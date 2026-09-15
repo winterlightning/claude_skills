@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5d51dd05-eb69-498a-8a9c-a2c5b97155a3'
-SOURCE_PATH = 'icons-json/interface-essential/shuffle_5d51dd05-eb69-498a-8a9c-a2c5b97155a3.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/shuffle_5d51dd05-eb69-498a-8a9c-a2c5b97155a3.svg'
 AUTHOR = 'gpt-6'
 
 class Shuffle(Solo48):

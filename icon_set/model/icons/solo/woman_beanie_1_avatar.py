@@ -8,8 +8,8 @@ Body cue: winter sweater neckline. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-13/references/woman-beanie-1.svg'
+SOURCE_ICON_ID = '77748038-0b53-479d-8e23-6b346e859351'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman beanie_77748038-0b53-479d-8e23-6b346e859351.svg'
 SOURCE_HEAD_ICON_ID = 'woman-beanie-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

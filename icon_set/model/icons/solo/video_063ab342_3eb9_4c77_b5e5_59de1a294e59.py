@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '063ab342-3eb9-4c77-b5e5-59de1a294e59'
-SOURCE_PATH = 'icons-json/state/video_063ab342-3eb9-4c77-b5e5-59de1a294e59.json'
+SOURCE_PATH = 'pictographic-primitives/state/video_063ab342-3eb9-4c77-b5e5-59de1a294e59.svg'
 AUTHOR = 'gpt-6'
 
 class Video(Solo48):

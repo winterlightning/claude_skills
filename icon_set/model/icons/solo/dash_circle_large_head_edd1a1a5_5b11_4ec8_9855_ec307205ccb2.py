@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'edd1a1a5-5b11-4ec8-9855-ec307205ccb2'
-SOURCE_PATH = 'icons-json/arrows/dash circle large head_edd1a1a5-5b11-4ec8-9855-ec307205ccb2.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/dash circle large head_edd1a1a5-5b11-4ec8-9855-ec307205ccb2.svg'
 AUTHOR = 'gpt-6'
 
 class DashCircleLargeHead(Solo48):

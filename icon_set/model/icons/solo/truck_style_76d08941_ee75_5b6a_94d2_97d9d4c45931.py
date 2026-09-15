@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '76d08941-ee75-5b6a-94d2-97d9d4c45931'
-SOURCE_PATH = 'icons-json/delivery/truck style_76d08941-ee75-5b6a-94d2-97d9d4c45931.json'
+SOURCE_PATH = 'pictographic-primitives/delivery/truck style_76d08941-ee75-5b6a-94d2-97d9d4c45931.svg'
 AUTHOR = 'gpt-6'
 
 class TruckStyle(Solo48):

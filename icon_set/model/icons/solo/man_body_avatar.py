@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: crew neck shirt.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-body.svg'
+SOURCE_ICON_ID = 'ec641325-b4e9-5cff-8f76-e52195f6e7c1'
+SOURCE_PATH = 'pictographic-primitives/avatars/man body_ec641325-b4e9-5cff-8f76-e52195f6e7c1.svg'
 SOURCE_HEAD_ICON_ID = 'man-body'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24

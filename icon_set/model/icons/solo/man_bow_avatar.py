@@ -6,8 +6,8 @@ cardinal arcs. Fine face/trim details omitted at 48; body cue: wrapped tunic.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-04/references/man-bow.svg'
+SOURCE_ICON_ID = '5b0d6eeb-01ce-5e24-a6b5-c6b878c3f82b'
+SOURCE_PATH = 'pictographic-primitives/avatars/man bow_5b0d6eeb-01ce-5e24-a6b5-c6b878c3f82b.svg'
 SOURCE_HEAD_ICON_ID = 'man-bow'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 32

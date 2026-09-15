@@ -6,8 +6,8 @@ cardinal arcs. Fine trim omitted at 48. Body cue: apron.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-05/references/man-chef-1.svg'
+SOURCE_ICON_ID = 'ca89dca0-33b3-5008-a98d-0d8d4c49fa5a'
+SOURCE_PATH = 'pictographic-primitives/avatars/man chef_ca89dca0-33b3-5008-a98d-0d8d4c49fa5a.svg'
 SOURCE_HEAD_ICON_ID = 'man-chef-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

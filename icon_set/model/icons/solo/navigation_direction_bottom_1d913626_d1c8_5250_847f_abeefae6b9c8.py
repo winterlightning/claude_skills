@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '1d913626-d1c8-5250-847f-abeefae6b9c8'
-SOURCE_PATH = 'icons-json/arrows/navigation direction bottom_1d913626-d1c8-5250-847f-abeefae6b9c8.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/navigation direction bottom_1d913626-d1c8-5250-847f-abeefae6b9c8.svg'
 AUTHOR = 'gpt-6'
 
 class NavigationDirectionBottom(Solo48):

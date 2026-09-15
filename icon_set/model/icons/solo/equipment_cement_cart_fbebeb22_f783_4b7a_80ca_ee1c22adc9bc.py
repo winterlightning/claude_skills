@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'fbebeb22-f783-4b7a-80ca-ee1c22adc9bc'
-SOURCE_PATH = 'icons-json/tools/equipment cement cart_fbebeb22-f783-4b7a-80ca-ee1c22adc9bc.json'
+SOURCE_PATH = 'pictographic-primitives/tools/equipment cement cart_fbebeb22-f783-4b7a-80ca-ee1c22adc9bc.svg'
 AUTHOR = 'gpt-6'
 
 class EquipmentCementCart(Solo48):

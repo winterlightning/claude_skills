@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '97ddca27-a201-4081-8fac-1c56fa33848a'
-SOURCE_PATH = 'icons-json/symbol/moon right_97ddca27-a201-4081-8fac-1c56fa33848a.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/moon right_97ddca27-a201-4081-8fac-1c56fa33848a.svg'
 AUTHOR = 'gpt-6'
 
 class MoonRight(Solo48):

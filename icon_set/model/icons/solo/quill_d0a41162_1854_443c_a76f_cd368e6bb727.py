@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd0a41162-1854-443c-a76f-cd368e6bb727'
-SOURCE_PATH = 'icons-json/design/quill_d0a41162-1854-443c-a76f-cd368e6bb727.json'
+SOURCE_PATH = 'pictographic-primitives/design/quill_d0a41162-1854-443c-a76f-cd368e6bb727.svg'
 AUTHOR = 'gpt-6'
 
 class Quill(Solo48):

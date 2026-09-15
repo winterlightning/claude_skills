@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7a4d7838-471b-4d28-87da-ddd67295cbe7'
-SOURCE_PATH = 'icons-json/symbol/lightning with wrench_7a4d7838-471b-4d28-87da-ddd67295cbe7.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/lightning with wrench_7a4d7838-471b-4d28-87da-ddd67295cbe7.svg'
 AUTHOR = 'gpt-6'
 
 class LightningWithWrench(Solo48):

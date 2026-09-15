@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '79a3dcb5-604e-5b38-a232-b880cd37c9a9'
-SOURCE_PATH = 'icons-json/interface-essential/close eyes_79a3dcb5-604e-5b38-a232-b880cd37c9a9.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/close eyes_79a3dcb5-604e-5b38-a232-b880cd37c9a9.svg'
 AUTHOR = 'gpt-6'
 
 class CloseEyes(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9ee05c5e-5262-4581-b325-c0ad9f515a32'
-SOURCE_PATH = 'icons-json/_uncategorized_02/amazon simple email service_9ee05c5e-5262-4581-b325-c0ad9f515a32.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon simple email service_9ee05c5e-5262-4581-b325-c0ad9f515a32.svg'
 AUTHOR = 'gpt-6'
 
 class AmazonSimpleEmailService(Solo48):

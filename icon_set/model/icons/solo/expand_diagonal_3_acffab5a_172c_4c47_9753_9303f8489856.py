@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'acffab5a-172c-4c47-9753-9303f8489856'
-SOURCE_PATH = 'icons-json/interface-essential/expand diagonal 3_acffab5a-172c-4c47-9753-9303f8489856.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/expand diagonal 3_acffab5a-172c-4c47-9753-9303f8489856.svg'
 AUTHOR = 'gpt-6'
 
 class ExpandDiagonal3(Solo48):

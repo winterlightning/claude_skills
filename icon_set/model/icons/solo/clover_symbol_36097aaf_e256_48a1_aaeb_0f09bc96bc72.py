@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '36097aaf-e256-48a1-aaeb-0f09bc96bc72'
-SOURCE_PATH = 'icons-json/symbol/clover_36097aaf-e256-48a1-aaeb-0f09bc96bc72.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/clover_36097aaf-e256-48a1-aaeb-0f09bc96bc72.svg'
 AUTHOR = 'gpt-6'
 
 class CloverSymbol(Solo48):

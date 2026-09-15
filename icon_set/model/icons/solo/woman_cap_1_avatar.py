@@ -8,8 +8,8 @@ Body cue: casual V neck shirt. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-13/references/woman-cap-1.svg'
+SOURCE_ICON_ID = '7bab8ae5-030d-5dab-b99e-4b476e5948a4'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman cap_7bab8ae5-030d-5dab-b99e-4b476e5948a4.svg'
 SOURCE_HEAD_ICON_ID = 'woman-cap-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26

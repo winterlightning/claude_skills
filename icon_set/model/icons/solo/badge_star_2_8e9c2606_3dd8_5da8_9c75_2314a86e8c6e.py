@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '8e9c2606-3dd8-5da8-9c75-2314a86e8c6e'
-SOURCE_PATH = 'icons-json/protection/badge star 2_8e9c2606-3dd8-5da8-9c75-2314a86e8c6e.json'
+SOURCE_PATH = 'pictographic-primitives/protection/badge star 2_8e9c2606-3dd8-5da8-9c75-2314a86e8c6e.svg'
 AUTHOR = 'gpt-6'
 
 class BadgeStar2(Solo48):

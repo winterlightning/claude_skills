@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b681a1fd-f413-5651-8984-b19bea2f0e24'
-SOURCE_PATH = 'icons-json/construction/projecting cap_b681a1fd-f413-5651-8984-b19bea2f0e24.json'
+SOURCE_PATH = 'pictographic-primitives/construction/projecting cap_b681a1fd-f413-5651-8984-b19bea2f0e24.svg'
 AUTHOR = 'gpt-6'
 
 class ProjectingCap(Solo48):

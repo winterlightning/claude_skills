@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '7bbcbf79-ae40-4fd6-9eb1-99503546fa82'
-SOURCE_PATH = 'icons-json/logos/pyup logo_7bbcbf79-ae40-4fd6-9eb1-99503546fa82.json'
+SOURCE_PATH = 'pictographic-primitives/logos/pyup logo_7bbcbf79-ae40-4fd6-9eb1-99503546fa82.svg'
 AUTHOR = 'gpt-6'
 
 class PyupLogo(Solo48):

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '87416b28-9cd9-4d1f-9509-2f57b7c73823'
-SOURCE_PATH = 'icons-json/state/double comment box_87416b28-9cd9-4d1f-9509-2f57b7c73823.json'
+SOURCE_PATH = 'pictographic-primitives/state/double comment box_87416b28-9cd9-4d1f-9509-2f57b7c73823.svg'
 AUTHOR = 'gpt-6'
 
 class DoubleCommentBox(Solo48):

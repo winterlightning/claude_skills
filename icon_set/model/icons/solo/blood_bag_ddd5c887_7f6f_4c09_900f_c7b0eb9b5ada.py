@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada'
-SOURCE_PATH = 'icons-json/health/blood bag_ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada.json'
+SOURCE_PATH = 'pictographic-primitives/health/blood bag_ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada.svg'
 AUTHOR = 'gpt-6'
 
 class BloodBag(Solo48):

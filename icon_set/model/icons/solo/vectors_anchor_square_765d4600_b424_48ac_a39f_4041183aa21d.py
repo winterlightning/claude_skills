@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '765d4600-b424-48ac-a39f-4041183aa21d'
-SOURCE_PATH = 'icons-json/design/vectors anchor square_765d4600-b424-48ac-a39f-4041183aa21d.json'
+SOURCE_PATH = 'pictographic-primitives/design/vectors anchor square_765d4600-b424-48ac-a39f-4041183aa21d.svg'
 AUTHOR = 'gpt-6'
 
 class VectorsAnchorSquare(Solo48):

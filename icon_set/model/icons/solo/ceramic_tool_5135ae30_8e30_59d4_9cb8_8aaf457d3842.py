@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5135ae30-8e30-59d4-9cb8-8aaf457d3842'
-SOURCE_PATH = 'icons-json/hobbies/ceramic tool_5135ae30-8e30-59d4-9cb8-8aaf457d3842.json'
+SOURCE_PATH = 'pictographic-primitives/hobbies/ceramic tool_5135ae30-8e30-59d4-9cb8-8aaf457d3842.svg'
 AUTHOR = 'gpt-6'
 
 class CeramicTool(Solo48):

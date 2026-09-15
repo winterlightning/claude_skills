@@ -8,8 +8,8 @@ Body cue: flight jacket fastening. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-13/references/woman-aviator.svg'
+SOURCE_ICON_ID = '3d352ad0-cfb8-44b6-bde3-b9670d7ae257'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman aviator_3d352ad0-cfb8-44b6-bde3-b9670d7ae257.svg'
 SOURCE_HEAD_ICON_ID = 'woman-aviator'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

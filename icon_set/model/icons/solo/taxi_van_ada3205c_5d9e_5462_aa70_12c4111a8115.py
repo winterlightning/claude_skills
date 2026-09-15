@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'ada3205c-5d9e-5462-aa70-12c4111a8115'
-SOURCE_PATH = 'icons-json/transportation/taxi van_ada3205c-5d9e-5462-aa70-12c4111a8115.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/taxi van_ada3205c-5d9e-5462-aa70-12c4111a8115.svg'
 AUTHOR = 'gpt-6'
 
 class TaxiVan(Solo48):

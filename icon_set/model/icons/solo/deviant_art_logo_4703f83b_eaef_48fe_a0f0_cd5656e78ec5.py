@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4703f83b-eaef-48fe-a0f0-cd5656e78ec5'
-SOURCE_PATH = 'icons-json/logos/deviant art logo_4703f83b-eaef-48fe-a0f0-cd5656e78ec5.json'
+SOURCE_PATH = 'pictographic-primitives/logos/deviant art logo_4703f83b-eaef-48fe-a0f0-cd5656e78ec5.svg'
 AUTHOR = 'gpt-6'
 
 class DeviantArtLogo(Solo48):

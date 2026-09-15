@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9a852f1f-054d-4c95-a937-f7481512d445'
-SOURCE_PATH = 'icons-json/_uncategorized_03/angle left_9a852f1f-054d-4c95-a937-f7481512d445.json'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_03/angle left_9a852f1f-054d-4c95-a937-f7481512d445.svg'
 AUTHOR = 'gpt-6'
 
 class AngleLeft(Solo48):

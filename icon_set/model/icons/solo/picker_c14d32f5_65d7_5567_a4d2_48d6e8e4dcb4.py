@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c14d32f5-65d7-5567-a4d2-48d6e8e4dcb4'
-SOURCE_PATH = 'icons-json/design/picker_c14d32f5-65d7-5567-a4d2-48d6e8e4dcb4.json'
+SOURCE_PATH = 'pictographic-primitives/design/picker_c14d32f5-65d7-5567-a4d2-48d6e8e4dcb4.svg'
 AUTHOR = 'gpt-6'
 
 class Picker(Solo48):

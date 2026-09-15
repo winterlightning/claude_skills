@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '222af285-7f62-4cb6-b105-310d0892074c'
-SOURCE_PATH = 'icons-json/networks/bluetooth_222af285-7f62-4cb6-b105-310d0892074c.json'
+SOURCE_PATH = 'pictographic-primitives/networks/bluetooth_222af285-7f62-4cb6-b105-310d0892074c.svg'
 AUTHOR = 'gpt-6'
 
 class Bluetooth(Solo48):

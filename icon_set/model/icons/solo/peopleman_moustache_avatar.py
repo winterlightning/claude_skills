@@ -8,8 +8,8 @@ Body cue: shirt fastening. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/peopleman-moustache.svg'
+SOURCE_ICON_ID = 'aad7affb-c237-432d-9b8a-f94d9548fdb7'
+SOURCE_PATH = 'pictographic-primitives/avatars/peopleman moustache_aad7affb-c237-432d-9b8a-f94d9548fdb7.svg'
 SOURCE_HEAD_ICON_ID = 'peopleman-moustache'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

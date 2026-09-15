@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ca7b5490-2619-5117-8383-132ae1d89cd7'
-SOURCE_PATH = 'icons-json/technology/focal of expansion_ca7b5490-2619-5117-8383-132ae1d89cd7.json'
+SOURCE_PATH = 'pictographic-primitives/technology/focal of expansion_ca7b5490-2619-5117-8383-132ae1d89cd7.svg'
 AUTHOR = 'gpt-6'
 
 class FocalOfExpansion(Solo48):

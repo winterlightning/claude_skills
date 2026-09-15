@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'c7cef94c-7b9b-4df7-b935-546150f20188'
-SOURCE_PATH = 'icons-json/symbol/casino chip 1_c7cef94c-7b9b-4df7-b935-546150f20188.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/casino chip 1_c7cef94c-7b9b-4df7-b935-546150f20188.svg'
 AUTHOR = 'gpt-6'
 
 class CasinoChip1(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bdd5c523-073c-40e4-bb23-2bca55ba830d'
-SOURCE_PATH = 'icons-json/interface-essential/redo_bdd5c523-073c-40e4-bb23-2bca55ba830d.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/redo_bdd5c523-073c-40e4-bb23-2bca55ba830d.svg'
 AUTHOR = 'gpt-6'
 
 class Redo(Solo48):

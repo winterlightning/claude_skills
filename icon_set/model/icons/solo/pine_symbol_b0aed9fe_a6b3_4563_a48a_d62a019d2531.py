@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b0aed9fe-a6b3-4563-a48a-d62a019d2531'
-SOURCE_PATH = 'icons-json/symbol/pine_b0aed9fe-a6b3-4563-a48a-d62a019d2531.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/pine_b0aed9fe-a6b3-4563-a48a-d62a019d2531.svg'
 AUTHOR = 'gpt-6'
 
 class PineSymbol(Solo48):

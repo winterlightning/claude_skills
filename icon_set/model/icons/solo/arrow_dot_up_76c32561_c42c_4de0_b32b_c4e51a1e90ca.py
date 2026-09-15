@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '76c32561-c42c-4de0-b32b-c4e51a1e90ca'
-SOURCE_PATH = 'icons-json/arrows/arrow dot up_76c32561-c42c-4de0-b32b-c4e51a1e90ca.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/arrow dot up_76c32561-c42c-4de0-b32b-c4e51a1e90ca.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowDotUp(Solo48):

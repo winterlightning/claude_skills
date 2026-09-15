@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '284b7c04-e252-4531-868f-398d3ef94159'
-SOURCE_PATH = 'icons-json/recreation/diving block weight_284b7c04-e252-4531-868f-398d3ef94159.json'
+SOURCE_PATH = 'pictographic-primitives/recreation/diving block weight_284b7c04-e252-4531-868f-398d3ef94159.svg'
 AUTHOR = 'gpt-6'
 
 class DivingBlockWeight(Solo48):

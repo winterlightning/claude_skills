@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'bdc7edeb-0efe-4644-960d-7671381627e9'
-SOURCE_PATH = 'icons-json/design/warp arch_bdc7edeb-0efe-4644-960d-7671381627e9.json'
+SOURCE_PATH = 'pictographic-primitives/design/warp arch_bdc7edeb-0efe-4644-960d-7671381627e9.svg'
 AUTHOR = 'gpt-6'
 
 class WarpArch(Solo48):

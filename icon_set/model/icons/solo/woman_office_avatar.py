@@ -8,8 +8,8 @@ Body cue: office blouse collar. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-office.svg'
+SOURCE_ICON_ID = 'e065923b-81a0-5585-be2a-952d44fe334f'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman office_e065923b-81a0-5585-be2a-952d44fe334f.svg'
 SOURCE_HEAD_ICON_ID = 'woman-office'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 28

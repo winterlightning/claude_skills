@@ -11,19 +11,35 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "body:subpath-1",
+        "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 34 14 A 10 10 0 0 0 24 4 A 11 11 0 0 0 14 13 L 14 21 A 5 5 0 0 0 8 24 L 8 40 L 9 43 A 3 3 0 0 0 11 44 L 37 44 A 5 5 0 0 0 40 40 L 40 25 A 5 5 0 0 0 37 21 L 14 21",
+        "pathData": "M 12 22 L 36 22 A 4 4 0 0 1 40 26 L 40 40 A 4 4 0 0 1 36 44 L 12 44 A 4 4 0 0 1 8 40 L 8 26 A 4 4 0 0 1 12 22 Z",
         "bounds": [
           8.0,
-          4.0,
+          22.0,
           40.0,
           44.0
         ],
-        "segmentCount": 278,
-        "approximationError": 0.0008545456240845728,
+        "segmentCount": 261,
+        "approximationError": 0.00030119642430268906,
+        "hasCurves": true
+      },
+      {
+        "id": "shackle:subpath-1",
+        "elementId": "shackle",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 14 22 L 14 14 A 10 10 0 0 1 34 14",
+        "bounds": [
+          14.0,
+          4.0,
+          34.0,
+          22.0
+        ],
+        "segmentCount": 129,
+        "approximationError": 0.0007541831517848016,
         "hasCurves": true
       }
     ],
@@ -31,13 +47,16 @@
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1"
+          "body:subpath-1",
+          "shackle:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1"
+          "body:subpath-1",
+          "shackle:subpath-1"
         ],
         "elementIds": [
-          "c0"
+          "body",
+          "shackle"
         ],
         "bounds": [
           8.0,
@@ -48,8 +67,40 @@
       }
     ],
     "pairs": [],
-    "connectedPairs": [],
-    "excludedPairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "shackle:subpath-1"
+        ],
+        "reason": "exact original straight-segment intersection",
+        "point": [
+          14.0,
+          22.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "body:subpath-1",
+          "shackle:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "body:subpath-1",
+            "shackle:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
+          "point": [
+            14.0,
+            22.0
+          ]
+        }
+      }
+    ],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -66,10 +117,10 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 13,
-      "flattenedSegments": 278,
-      "adaptiveNodes": 538,
+      "flattenedSegments": 390,
+      "adaptiveNodes": 763,
       "distanceTests": 0,
-      "connectionTests": 0
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
@@ -80,30 +131,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          19.4844,
-          32.4844
+          18.9844,
+          32.9844
         ],
         "bbox_viewbox": [
           10.0,
-          22.8125,
+          24.0,
           28.0,
-          19.1875
+          18.0
         ],
         "bbox_ship_px": [
           28.0,
-          19.1875
+          18.0
         ],
         "bbox_design_u": [
           28.0,
-          19.1875
+          18.0
         ],
-        "area_ship_px2": 528.3701,
-        "equivalent_diameter_ship_px": 25.9373,
-        "equivalent_diameter_design_u": 25.9373,
-        "inscribed_diameter_ship_px": 19.0,
-        "inscribed_diameter_design_u": 19.0,
-        "inscribed_radius_ship_px": 9.5,
-        "inscribed_radius_design_u": 9.5,
+        "area_ship_px2": 500.5898,
+        "equivalent_diameter_ship_px": 25.2462,
+        "equivalent_diameter_design_u": 25.2462,
+        "inscribed_diameter_ship_px": 18.0,
+        "inscribed_diameter_design_u": 18.0,
+        "inscribed_radius_ship_px": 9.0,
+        "inscribed_radius_design_u": 9.0,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -117,34 +168,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          19.4844,
-          32.4844
+          18.9844,
+          32.9844
         ],
         "bbox_viewbox": [
           8.5,
-          21.3125,
+          22.5,
           31.0,
-          22.1875
+          21.0
         ],
         "bbox_ship_px": [
           31.0,
-          22.1875
+          21.0
         ],
         "bbox_design_u": [
           31.0,
-          22.1875
+          21.0
         ],
-        "area_ship_px2": 671.459,
-        "equivalent_diameter_ship_px": 29.2392,
-        "equivalent_diameter_design_u": 29.2392,
-        "inscribed_diameter_ship_px": 22.0,
-        "inscribed_diameter_design_u": 22.0,
-        "inscribed_radius_ship_px": 11.0,
-        "inscribed_radius_design_u": 11.0,
+        "area_ship_px2": 640.4951,
+        "equivalent_diameter_ship_px": 28.557,
+        "equivalent_diameter_design_u": 28.557,
+        "inscribed_diameter_ship_px": 21.0,
+        "inscribed_diameter_design_u": 21.0,
+        "inscribed_radius_ship_px": 10.5,
+        "inscribed_radius_design_u": 10.5,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 9.5,
-        "equivalent_diameter_at_authored_stroke_design_u": 19.0
+        "equivalent_radius_at_authored_stroke_design_u": 9.0,
+        "equivalent_diameter_at_authored_stroke_design_u": 18.0
       }
     ],
     "pinches": [],
@@ -170,7 +221,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "f68e4e1ea92ee1f6f6382a5cf1b7f0a2de459e0e4d7f336cafc2153f2eba7903",
+  "svg_sha256": "629d7779c4d0b401bf6eeec5a0496679cd7c88375c6d69d6cca85b7a1b620d7f",
   "rules": {
     "profile": {
       "canvas_size": 48,

@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'e785c959-bf19-4703-a2be-ebc0efc0a5e8'
-SOURCE_PATH = 'icons-json/money/virtual coin crypto tether_e785c959-bf19-4703-a2be-ebc0efc0a5e8.json'
+SOURCE_PATH = 'pictographic-primitives/money/virtual coin crypto tether_e785c959-bf19-4703-a2be-ebc0efc0a5e8.svg'
 AUTHOR = 'gpt-6'
 
 class VirtualCoinCryptoTether(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '934292aa-0c19-5266-ac04-c173d576425d'
-SOURCE_PATH = 'icons-json/war/antique axe_934292aa-0c19-5266-ac04-c173d576425d.json'
+SOURCE_PATH = 'pictographic-primitives/war/antique axe_934292aa-0c19-5266-ac04-c173d576425d.svg'
 AUTHOR = 'gpt-6'
 
 class AntiqueAxe(Solo48):

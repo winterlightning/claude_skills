@@ -8,8 +8,8 @@ Body cue: scrub neckline. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-surgeon.svg'
+SOURCE_ICON_ID = '90c71025-c916-45f5-bd6a-cd1c0eddb975'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman surgeon_90c71025-c916-45f5-bd6a-cd1c0eddb975.svg'
 SOURCE_HEAD_ICON_ID = 'woman-surgeon'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

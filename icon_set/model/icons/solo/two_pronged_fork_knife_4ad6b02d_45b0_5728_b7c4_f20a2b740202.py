@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4ad6b02d-45b0-5728-b7c4-f20a2b740202'
-SOURCE_PATH = 'icons-json/food/two pronged fork knife_4ad6b02d-45b0-5728-b7c4-f20a2b740202.json'
+SOURCE_PATH = 'pictographic-primitives/food/two pronged fork knife_4ad6b02d-45b0-5728-b7c4-f20a2b740202.svg'
 AUTHOR = 'gpt-6'
 
 class TwoProngedForkKnife(Solo48):

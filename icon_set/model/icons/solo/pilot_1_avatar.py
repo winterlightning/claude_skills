@@ -8,8 +8,8 @@ Body cue: uniform tie. Hair and feather asymmetry follow the source.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-08/references/pilot-1.svg'
+SOURCE_ICON_ID = '249ec01a-1dfa-4c17-bf97-ee17aac633d5'
+SOURCE_PATH = 'pictographic-primitives/avatars/pilot_249ec01a-1dfa-4c17-bf97-ee17aac633d5.svg'
 SOURCE_HEAD_ICON_ID = 'pilot-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

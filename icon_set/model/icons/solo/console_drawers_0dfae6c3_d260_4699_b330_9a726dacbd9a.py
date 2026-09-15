@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0dfae6c3-d260-4699-b330-9a726dacbd9a'
-SOURCE_PATH = 'icons-json/furnitures/console drawers_0dfae6c3-d260-4699-b330-9a726dacbd9a.json'
+SOURCE_PATH = 'pictographic-primitives/furnitures/console drawers_0dfae6c3-d260-4699-b330-9a726dacbd9a.svg'
 AUTHOR = 'gpt-6'
 
 class ConsoleDrawers(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '326638cb-38f2-5e62-8dca-bfeecd92203f'
-SOURCE_PATH = 'icons-json/lamps/ceiling lamp double_326638cb-38f2-5e62-8dca-bfeecd92203f.json'
+SOURCE_PATH = 'pictographic-primitives/lamps/ceiling lamp double_326638cb-38f2-5e62-8dca-bfeecd92203f.svg'
 AUTHOR = 'gpt-6'
 
 class CeilingLampDouble(Solo48):

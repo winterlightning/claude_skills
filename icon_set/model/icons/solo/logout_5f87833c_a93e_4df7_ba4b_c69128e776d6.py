@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '5f87833c-a93e-4df7-ba4b-c69128e776d6'
-SOURCE_PATH = 'icons-json/interface-essential/logout_5f87833c-a93e-4df7-ba4b-c69128e776d6.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/logout_5f87833c-a93e-4df7-ba4b-c69128e776d6.svg'
 AUTHOR = 'gpt-6'
 
 class Logout(Solo48):

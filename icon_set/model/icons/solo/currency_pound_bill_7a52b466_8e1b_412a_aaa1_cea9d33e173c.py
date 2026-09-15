@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '7a52b466-8e1b-412a-aaa1-cea9d33e173c'
-SOURCE_PATH = 'icons-json/money/currency pound bill_7a52b466-8e1b-412a-aaa1-cea9d33e173c.json'
+SOURCE_PATH = 'pictographic-primitives/money/currency pound bill_7a52b466-8e1b-412a-aaa1-cea9d33e173c.svg'
 AUTHOR = 'gpt-6'
 
 class CurrencyPoundBill(Solo48):

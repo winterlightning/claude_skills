@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'eca91330-e69f-43e9-9dc5-ab0dcb7273fc'
-SOURCE_PATH = 'icons-json/chat/comment box_eca91330-e69f-43e9-9dc5-ab0dcb7273fc.json'
+SOURCE_PATH = 'pictographic-primitives/chat/comment box_eca91330-e69f-43e9-9dc5-ab0dcb7273fc.svg'
 AUTHOR = 'gpt-6'
 
 class CommentBoxChat(Solo48):

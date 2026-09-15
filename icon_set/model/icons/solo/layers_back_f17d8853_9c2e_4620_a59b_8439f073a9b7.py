@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f17d8853-9c2e-4620-a59b-8439f073a9b7'
-SOURCE_PATH = 'icons-json/design/layers back_f17d8853-9c2e-4620-a59b-8439f073a9b7.json'
+SOURCE_PATH = 'pictographic-primitives/design/layers back_f17d8853-9c2e-4620-a59b-8439f073a9b7.svg'
 AUTHOR = 'gpt-6'
 
 class LayersBack(Solo48):

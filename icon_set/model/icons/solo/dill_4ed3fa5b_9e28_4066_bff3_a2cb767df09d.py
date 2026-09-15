@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '4ed3fa5b-9e28-4066-bff3-a2cb767df09d'
-SOURCE_PATH = 'icons-json/food/dill_4ed3fa5b-9e28-4066-bff3-a2cb767df09d.json'
+SOURCE_PATH = 'pictographic-primitives/food/dill_4ed3fa5b-9e28-4066-bff3-a2cb767df09d.svg'
 AUTHOR = 'gpt-6'
 
 class Dill(Solo48):

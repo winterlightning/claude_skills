@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '905f945e-0fed-542d-9949-ef5788bbe6c1'
-SOURCE_PATH = 'icons-json/transportation/bendy bus_905f945e-0fed-542d-9949-ef5788bbe6c1.json'
+SOURCE_PATH = 'pictographic-primitives/transportation/bendy bus_905f945e-0fed-542d-9949-ef5788bbe6c1.svg'
 AUTHOR = 'gpt-6'
 
 class BendyBus(Solo48):

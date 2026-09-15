@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '852d856f-d822-4896-b884-69ab6be018db'
-SOURCE_PATH = 'icons-json/symbol/suitcase_852d856f-d822-4896-b884-69ab6be018db.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/suitcase_852d856f-d822-4896-b884-69ab6be018db.svg'
 AUTHOR = 'gpt-6'
 
 class Suitcase(Solo48):

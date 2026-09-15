@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2a45045f-3140-4253-8ad6-d194ab424293'
-SOURCE_PATH = 'icons-json/symbol/square_2a45045f-3140-4253-8ad6-d194ab424293.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/square_2a45045f-3140-4253-8ad6-d194ab424293.svg'
 AUTHOR = 'gpt-6'
 
 class Square(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6c319a64-cc6e-446f-8ebb-83acb449fdc8'
-SOURCE_PATH = 'icons-json/interface-essential/layout three columns_6c319a64-cc6e-446f-8ebb-83acb449fdc8.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/layout three columns_6c319a64-cc6e-446f-8ebb-83acb449fdc8.svg'
 AUTHOR = 'gpt-6'
 
 class LayoutThreeColumns(Solo48):

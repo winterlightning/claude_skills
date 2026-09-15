@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'fc9f017e-0144-5270-bda1-09dd40335f1e'
-SOURCE_PATH = 'icons-json/maps/real estate dimensions map_fc9f017e-0144-5270-bda1-09dd40335f1e.json'
+SOURCE_PATH = 'pictographic-primitives/maps/real estate dimensions map_fc9f017e-0144-5270-bda1-09dd40335f1e.svg'
 AUTHOR = 'gpt-6'
 
 class RealEstateDimensionsMap(Solo48):

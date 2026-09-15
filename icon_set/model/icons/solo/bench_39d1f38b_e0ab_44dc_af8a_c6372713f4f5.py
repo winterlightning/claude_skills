@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '39d1f38b-e0ab-44dc-af8a-c6372713f4f5'
-SOURCE_PATH = 'icons-json/furnitures/bench_39d1f38b-e0ab-44dc-af8a-c6372713f4f5.json'
+SOURCE_PATH = 'pictographic-primitives/furnitures/bench_39d1f38b-e0ab-44dc-af8a-c6372713f4f5.svg'
 AUTHOR = 'gpt-6'
 
 class Bench(Solo48):

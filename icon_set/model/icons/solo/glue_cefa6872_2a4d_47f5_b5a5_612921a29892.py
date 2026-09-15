@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cefa6872-2a4d-47f5-b5a5-612921a29892'
-SOURCE_PATH = 'icons-json/design/glue_cefa6872-2a4d-47f5-b5a5-612921a29892.json'
+SOURCE_PATH = 'pictographic-primitives/design/glue_cefa6872-2a4d-47f5-b5a5-612921a29892.svg'
 AUTHOR = 'gpt-6'
 
 class Glue(Solo48):

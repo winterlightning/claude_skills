@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e6769cc6-7edd-4638-9a68-d793ea0c3ccc'
-SOURCE_PATH = 'icons-json/symbol/chart_e6769cc6-7edd-4638-9a68-d793ea0c3ccc.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/chart_e6769cc6-7edd-4638-9a68-d793ea0c3ccc.svg'
 AUTHOR = 'gpt-6'
 
 class Chart(Solo48):

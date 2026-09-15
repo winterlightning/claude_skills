@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0a5693af-1a21-4bea-a1f5-a019efe4584e'
-SOURCE_PATH = 'icons-json/arrows/slide right_0a5693af-1a21-4bea-a1f5-a019efe4584e.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/slide right_0a5693af-1a21-4bea-a1f5-a019efe4584e.svg'
 AUTHOR = 'gpt-6'
 
 class SlideRight(Solo48):

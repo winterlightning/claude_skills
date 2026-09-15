@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'adb38709-2d40-4069-b4f6-36531140d2ed'
-SOURCE_PATH = 'icons-json/symbol/charging_adb38709-2d40-4069-b4f6-36531140d2ed.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/charging_adb38709-2d40-4069-b4f6-36531140d2ed.svg'
 AUTHOR = 'gpt-6'
 
 class Charging(Solo48):

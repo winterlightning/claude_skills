@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cba37bed-3b52-500d-a313-087354344c54'
-SOURCE_PATH = 'icons-json/tools/folding pocket knife_cba37bed-3b52-500d-a313-087354344c54.json'
+SOURCE_PATH = 'pictographic-primitives/tools/folding pocket knife_cba37bed-3b52-500d-a313-087354344c54.svg'
 AUTHOR = 'gpt-6'
 
 class FoldingPocketKnifeCba37bed(Solo48):

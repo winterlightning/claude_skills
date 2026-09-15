@@ -8,8 +8,8 @@ Body cue: striped shirt. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-thief.svg'
+SOURCE_ICON_ID = '8036406b-7914-54c1-be92-c2585863d8f4'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman thief_8036406b-7914-54c1-be92-c2585863d8f4.svg'
 SOURCE_HEAD_ICON_ID = 'woman-thief'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

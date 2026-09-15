@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '70038eef-85af-41f4-aad8-09e1441d60a0'
-SOURCE_PATH = 'icons-json/interface-essential/slab serif text character_70038eef-85af-41f4-aad8-09e1441d60a0.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/slab serif text character_70038eef-85af-41f4-aad8-09e1441d60a0.svg'
 AUTHOR = 'gpt-6'
 
 class SlabSerifTextCharacter(Solo48):

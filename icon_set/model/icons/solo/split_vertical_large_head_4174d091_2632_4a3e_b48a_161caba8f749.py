@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4174d091-2632-4a3e-b48a-161caba8f749'
-SOURCE_PATH = 'icons-json/arrows/split vertical large head_4174d091-2632-4a3e-b48a-161caba8f749.json'
+SOURCE_PATH = 'pictographic-primitives/arrows/split vertical large head_4174d091-2632-4a3e-b48a-161caba8f749.svg'
 AUTHOR = 'gpt-6'
 
 class SplitVerticalLargeHead(Solo48):

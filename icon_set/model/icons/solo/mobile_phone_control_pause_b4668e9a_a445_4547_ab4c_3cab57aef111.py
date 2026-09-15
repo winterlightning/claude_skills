@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b4668e9a-a445-4547-ab4c-3cab57aef111'
-SOURCE_PATH = 'icons-json/state/mobile phone control pause_b4668e9a-a445-4547-ab4c-3cab57aef111.json'
+SOURCE_PATH = 'pictographic-primitives/state/mobile phone control pause_b4668e9a-a445-4547-ab4c-3cab57aef111.svg'
 AUTHOR = 'gpt-6'
 
 class MobilePhoneControlPause(Solo48):

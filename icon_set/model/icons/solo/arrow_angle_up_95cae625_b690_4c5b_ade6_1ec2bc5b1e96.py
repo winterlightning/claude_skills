@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '95cae625-b690-4c5b-ade6-1ec2bc5b1e96'
-SOURCE_PATH = 'icons-json/symbol/arrow angle up_95cae625-b690-4c5b-ade6-1ec2bc5b1e96.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/arrow angle up_95cae625-b690-4c5b-ade6-1ec2bc5b1e96.svg'
 AUTHOR = 'gpt-6'
 
 class ArrowAngleUp(Solo48):

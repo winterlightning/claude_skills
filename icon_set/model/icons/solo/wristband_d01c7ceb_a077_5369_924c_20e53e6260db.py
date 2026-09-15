@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'd01c7ceb-a077-5369-924c-20e53e6260db'
-SOURCE_PATH = 'icons-json/events/wristband_d01c7ceb-a077-5369-924c-20e53e6260db.json'
+SOURCE_PATH = 'pictographic-primitives/events/wristband_d01c7ceb-a077-5369-924c-20e53e6260db.svg'
 AUTHOR = 'gpt-6'
 
 class Wristband(Solo48):

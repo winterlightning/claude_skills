@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '31c4ca62-8195-46fe-99ac-62c2b178e43a'
-SOURCE_PATH = 'icons-json/building/window closed_31c4ca62-8195-46fe-99ac-62c2b178e43a.json'
+SOURCE_PATH = 'pictographic-primitives/building/window closed_31c4ca62-8195-46fe-99ac-62c2b178e43a.svg'
 AUTHOR = 'gpt-6'
 
 class WindowClosed(Solo48):

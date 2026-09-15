@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9089549c-1833-5559-89e3-3536fbecfc79'
-SOURCE_PATH = 'icons-json/smileys/dizzy_9089549c-1833-5559-89e3-3536fbecfc79.json'
+SOURCE_PATH = 'pictographic-primitives/smileys/dizzy_9089549c-1833-5559-89e3-3536fbecfc79.svg'
 AUTHOR = 'gpt-6'
 
 class Dizzy(Solo48):

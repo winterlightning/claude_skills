@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '9f3d01e4-e77c-50b4-8411-71fbfa4ca92d'
-SOURCE_PATH = 'icons-json/social/flags_9f3d01e4-e77c-50b4-8411-71fbfa4ca92d.json'
+SOURCE_PATH = 'pictographic-primitives/social/flags_9f3d01e4-e77c-50b4-8411-71fbfa4ca92d.svg'
 AUTHOR = 'gpt-6'
 
 class Flags(Solo48):

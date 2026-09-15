@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'b8a7ef4b-af1c-59bd-bb25-170aedf30b04'
-SOURCE_PATH = 'icons-json/interface-essential/text underline_b8a7ef4b-af1c-59bd-bb25-170aedf30b04.json'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/text underline_b8a7ef4b-af1c-59bd-bb25-170aedf30b04.svg'
 AUTHOR = 'gpt-6'
 
 class TextUnderline(Solo48):

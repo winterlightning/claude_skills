@@ -8,8 +8,8 @@ Body cue: protective vest panels. Shared parameters own mirrored elements.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
-SOURCE_ICON_ID = None
-SOURCE_PATH = 'work/head-solo/batch-15/references/woman-riot-1.svg'
+SOURCE_ICON_ID = 'aa6d8a6d-9d0e-4a63-8555-01eb7a74c594'
+SOURCE_PATH = 'pictographic-primitives/avatars/woman riot_aa6d8a6d-9d0e-4a63-8555-01eb7a74c594.svg'
 SOURCE_HEAD_ICON_ID = 'woman-riot-1'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 30

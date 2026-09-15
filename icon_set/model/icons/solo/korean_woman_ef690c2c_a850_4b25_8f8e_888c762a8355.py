@@ -12,7 +12,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'ef690c2c-a850-4b25-8f8e-888c762a8355'
-SOURCE_PATH = 'icons-json/avatars/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.json'
+SOURCE_PATH = 'pictographic-primitives/avatars/korean woman_ef690c2c-a850-4b25-8f8e-888c762a8355.svg'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 24
 

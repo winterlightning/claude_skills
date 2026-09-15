@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '5bd8438c-94c0-4326-8e22-5188c667350d'
-SOURCE_PATH = 'icons-json/emails/file_5bd8438c-94c0-4326-8e22-5188c667350d.json'
+SOURCE_PATH = 'pictographic-primitives/emails/file_5bd8438c-94c0-4326-8e22-5188c667350d.svg'
 AUTHOR = 'gpt-6'
 
 class FileEmails(Solo48):

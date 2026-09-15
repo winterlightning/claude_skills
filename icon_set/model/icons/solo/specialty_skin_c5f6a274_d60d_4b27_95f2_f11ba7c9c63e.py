@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'c5f6a274-d60d-4b27-95f2-f11ba7c9c63e'
-SOURCE_PATH = 'icons-json/health/specialty skin_c5f6a274-d60d-4b27-95f2-f11ba7c9c63e.json'
+SOURCE_PATH = 'pictographic-primitives/health/specialty skin_c5f6a274-d60d-4b27-95f2-f11ba7c9c63e.svg'
 AUTHOR = 'gpt-6'
 
 class SpecialtySkin(Solo48):

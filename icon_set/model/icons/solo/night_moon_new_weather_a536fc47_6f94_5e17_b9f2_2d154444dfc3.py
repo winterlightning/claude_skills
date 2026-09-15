@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'a536fc47-6f94-5e17-b9f2-2d154444dfc3'
-SOURCE_PATH = 'icons-json/weather/night moon new_a536fc47-6f94-5e17-b9f2-2d154444dfc3.json'
+SOURCE_PATH = 'pictographic-primitives/weather/night moon new_a536fc47-6f94-5e17-b9f2-2d154444dfc3.svg'
 AUTHOR = 'gpt-6'
 
 class NightMoonNewWeather(Solo48):

@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cc627aea-f704-45dd-9d8e-63f8c1e726fd'
-SOURCE_PATH = 'icons-json/symbol/wifi weak_cc627aea-f704-45dd-9d8e-63f8c1e726fd.json'
+SOURCE_PATH = 'pictographic-primitives/symbol/wifi weak_cc627aea-f704-45dd-9d8e-63f8c1e726fd.svg'
 AUTHOR = 'gpt-6'
 
 class WifiWeak(Solo48):

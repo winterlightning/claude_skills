@@ -2,7 +2,7 @@
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '29b5cc6d-0003-4008-aefc-58305cb4d79f'
-SOURCE_PATH = 'icons-json/science/lab flask experiment_29b5cc6d-0003-4008-aefc-58305cb4d79f.json'
+SOURCE_PATH = 'pictographic-primitives/science/lab flask experiment_29b5cc6d-0003-4008-aefc-58305cb4d79f.svg'
 AUTHOR = 'gpt-6'
 
 class LabFlaskExperimentScience(Solo48):

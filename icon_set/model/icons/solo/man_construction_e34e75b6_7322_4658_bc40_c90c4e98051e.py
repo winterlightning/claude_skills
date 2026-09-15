@@ -11,7 +11,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = 'e34e75b6-7322-4658-bc40-c90c4e98051e'
-SOURCE_PATH = 'icons-json/avatars/man construction_e34e75b6-7322-4658-bc40-c90c4e98051e.json'
+SOURCE_PATH = 'pictographic-primitives/avatars/man construction_e34e75b6-7322-4658-bc40-c90c4e98051e.svg'
 AUTHOR = 'gpt-6'
 HEAD_BOTTOM = 26
 
