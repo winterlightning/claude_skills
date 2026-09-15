@@ -1,3 +1,4 @@
+# Repair: Use one clearly visible profile ski with an upturned tip; fit the bent leg between ski and tow arm with full clearance.
 """Water skier: radius4 head (15,12), shoulder (15,24), exact4 gap. Lower the raised knee to open the trapped recess under the towing arm; retain both upturned ski curves.
 
 Reconstruct water skier using its inspected source pose and full_body_ref.png. Head radius 4, center (15, 12), actual torso junction (15, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -44,33 +45,12 @@ class WaterSkier(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Water skier: radius4 head (15,12), shoulder (15,24), exact4 gap. Lower the raised knee to open the trapped recess under the towing arm; retain both upturned ski curves."""
-        self.add_arc('head-a', (11, 12), (19, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('head-b', (19, 12), (11, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_bezier('body-1', (15, 24), *(((15.0, 26.82842712474619), (14.25, 29.25), (14, 31)),))
-        self.add_line('body-2', (14, 31), (22, 32))
-        self.add_line('body-3', (22, 32), (24, 34))
-        self.add_line('arm-1', (6, 27), (15, 24))
-        self.add_line('arm-2', (15, 24), (30, 24))
-        self.add_line('arm-3', (30, 24), (44, 21))
-        self.add_arc('ski-left', (4, 34), (24, 34), radius_x=10, radius_y=6, large_arc=False, sweep=False)
-        self.add_arc('ski-right', (24, 34), (44, 34), radius_x=10, radius_y=6, large_arc=False, sweep=False)
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('arm', *('arm-1', 'arm-2', 'arm-3'), closed=False)
-        self.add_contour('ski', *('ski-left', 'ski-right'), closed=False)
-        self.add_contour('body', *('body-1',), closed=False)
-        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
-        self.relate('connect', *('arm', 'body'))
-        self.relate('connect', *('ski', 'body'))
-        self.relate('connect', *('body-1', 'body-2'))
-        self.relate('connect', *('body-2', 'body-3'))
-        self.relate('connect', *('head-a', 'head-b'))
-        self.relate('connect', *('body-1', 'body-2'))
-        self.relate('connect', *('body-1', 'arm-1'))
-        self.relate('connect', *('body-1', 'arm-2'))
-        self.relate('connect', *('body-2', 'body-3'))
-        self.relate('connect', *('body-3', 'ski-left'))
-        self.relate('connect', *('body-3', 'ski-right'))
-        self.relate('connect', *('arm-1', 'arm-2'))
-        self.relate('connect', *('arm-2', 'arm-3'))
-        self.relate('connect', *('ski-left', 'ski-right'))
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(11,12),('A',4,4,True,(19,12)),('A',4,4,True,(11,12)),closed=True)
+        path(self,'torso',(15,24),('C',(15,27),(14,29),(14,32)))
+        poly(self,'leg',(14,32),(22,32),(24,40))
+        poly(self,'arms',(6,27),(15,24),(30,24),(44,21))
+        path(self,'ski',(4,40),('L',(24,40)),('L',(36,40)),('A',8,8,False,(44,32)))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

@@ -11,19 +11,19 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "garment:subpath-1",
+        "elementId": "garment",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 40 L 28 40 A 45 45 0 0 1 29 32 A 21 21 0 0 1 37 19 L 44 17 L 43 8 L 5 8 L 4 17 L 11 19 A 22 22 0 0 1 19 32 A 45 45 0 0 1 20 40 L 24 40 Z",
+        "pathData": "M 4 8 L 44 8 L 44 16 C 32 16 28 27 28 40 L 20 40 C 20 27 16 16 4 16 L 4 8 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 168,
-        "approximationError": 0.0007071898490090172,
+        "segmentCount": 259,
+        "approximationError": 0.0009891998582816043,
         "hasCurves": true
       }
     ],
@@ -31,13 +31,13 @@
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1"
+          "garment:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1"
+          "garment:subpath-1"
         ],
         "elementIds": [
-          "sym-c0"
+          "garment"
         ],
         "bounds": [
           4.0,
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 13,
-      "flattenedSegments": 168,
-      "adaptiveNodes": 316,
+      "commands": 8,
+      "flattenedSegments": 259,
+      "adaptiveNodes": 506,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -80,30 +80,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9531,
-          18.1094
+          23.9844,
+          17.3281
         ],
         "bbox_viewbox": [
-          6.1875,
+          6.0,
           10.0,
-          35.625,
+          36.0,
           28.0
         ],
         "bbox_ship_px": [
-          35.625,
+          36.0,
           28.0
         ],
         "bbox_design_u": [
-          35.625,
+          36.0,
           28.0
         ],
-        "area_ship_px2": 456.8477,
-        "equivalent_diameter_ship_px": 24.118,
-        "equivalent_diameter_design_u": 24.118,
-        "inscribed_diameter_ship_px": 16.25,
-        "inscribed_diameter_design_u": 16.25,
-        "inscribed_radius_ship_px": 8.125,
-        "inscribed_radius_design_u": 8.125,
+        "area_ship_px2": 404.5039,
+        "equivalent_diameter_ship_px": 22.6943,
+        "equivalent_diameter_design_u": 22.6943,
+        "inscribed_diameter_ship_px": 14.6797,
+        "inscribed_diameter_design_u": 14.6797,
+        "inscribed_radius_ship_px": 7.3398,
+        "inscribed_radius_design_u": 7.3398,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -117,34 +117,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.9531,
-          18.1094
+          23.9844,
+          17.3281
         ],
         "bbox_viewbox": [
-          4.5312,
+          4.5,
           8.5,
-          38.9375,
+          39.0,
           31.0
         ],
         "bbox_ship_px": [
-          38.9375,
+          39.0,
           31.0
         ],
         "bbox_design_u": [
-          38.9375,
+          39.0,
           31.0
         ],
-        "area_ship_px2": 630.3984,
-        "equivalent_diameter_ship_px": 28.331,
-        "equivalent_diameter_design_u": 28.331,
-        "inscribed_diameter_ship_px": 19.25,
-        "inscribed_diameter_design_u": 19.25,
-        "inscribed_radius_ship_px": 9.625,
-        "inscribed_radius_design_u": 9.625,
+        "area_ship_px2": 581.7637,
+        "equivalent_diameter_ship_px": 27.2163,
+        "equivalent_diameter_design_u": 27.2163,
+        "inscribed_diameter_ship_px": 17.6627,
+        "inscribed_diameter_design_u": 17.6627,
+        "inscribed_radius_ship_px": 8.8313,
+        "inscribed_radius_design_u": 8.8313,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 8.125,
-        "equivalent_diameter_at_authored_stroke_design_u": 16.25
+        "equivalent_radius_at_authored_stroke_design_u": 7.3313,
+        "equivalent_diameter_at_authored_stroke_design_u": 14.6626
       }
     ],
     "pinches": [],
@@ -156,6 +156,42 @@
     "measuring_stroke_width": 1.0,
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9998271142572951,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 0.0
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.14846421006765625,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
   },
   "artifacts": {
     "svg": "solo/underwear-bikini-bottom/icon.svg",
@@ -169,9 +205,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "a8d3e490443be44cb3e2f2e6d41396b65064ea79bf1fdf11be8c9bac03149d7e",
+  "svg_sha256": "4971d1e427530f5d4f117e52dd638192b55b0dcaeb7e9c2ca06412ae156da375",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -226,6 +263,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -474,6 +474,42 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 32.0,
+        "ink_iou": 0.99990548104958,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 1.0048591735576161e-14
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 32.0,
+        "ink_iou": 0.33295372173529153,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "container/restaurant-food-cloche/icon.svg",
     "metrics": "container/restaurant-food-cloche/metrics.json"
@@ -486,7 +522,8 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
   "svg_sha256": "4cb9570e078d0d08686bbe54e646e73e9b388800a6c534b4eff1d9227c534c8f",
   "rules": {
@@ -543,6 +580,7 @@
     }
   },
   "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "review",
     "blocking": false,

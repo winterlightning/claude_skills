@@ -1,0 +1,30 @@
+"""@ (state), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '6e799354-211d-4a17-873a-6f0ec808f6e8'
+SOURCE_PATH = 'pictographic-primitives/state/@_6e799354-211d-4a17-873a-6f0ec808f6e8.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
+
+class Icon(Solo48):
+    icon_id = 'icon'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'state'
+    aliases = ()
+    keywords = ('state',)
+
+    def build(self):
+        # Plan: remove subpixel cubic detours while preserving real contour nodes.
+        # Reference: supplied subject and its existing stroke graph.
+        self.add_line('e0', (28, 41), (25, 42))
+        self.add_line('e1', (34, 31), (32, 28))
+        self.add_bezier('e2', (25, 42), ((24.264, 42), (23.345, 41.992), (22.609, 41.992)), ((21.284, 41.992), (19.819, 41.534), (18.559, 41.157)), ((11.408, 39.014), (6.008, 32.215), (6.008, 24.655)), ((6.008, 24.582), (6, 24.502), (6, 24.429)), ((6, 24.082), (6.008, 23.738), (6.008, 23.395)), ((6.008, 21.603), (6.425, 19.762), (6.998, 18.076)), ((9.428, 10.958), (16.301, 6.008), (23.828, 6.008)), ((23.981, 6.008), (24.134, 6), (24.287, 6)), ((24.573, 6), (24.843, 6.008), (25.121, 6.008)), ((33.892, 6.008), (41.992, 13.552), (41.992, 22.445)), ((41.992, 22.518), (42, 22.598), (42, 22.671)), ((42, 23.018), (41.992, 23.354), (41.992, 23.697)), ((41.992, 25.775), (41.386, 29.065), (39.807, 30.521)), ((38.408, 31.814), (35.219, 32.833), (34, 31)))
+        self.add_bezier('e3', (32, 28), ((29.554, 30.651), (28.238, 32.223), (24.515, 32.313)), ((18.232, 32.468), (14.435, 26.062), (16.972, 20.506)), ((19.377, 15.221), (26.847, 14.411), (30.562, 18.764)), ((32.861, 21.455), (32.434, 24.727), (32, 28)))
+        self.add_contour('c0', 'e0', 'e2', 'e1', closed=False)
+        self.add_contour('c1', 'e3', closed=True)
+        self.relate('connect', 'c0', 'c1')

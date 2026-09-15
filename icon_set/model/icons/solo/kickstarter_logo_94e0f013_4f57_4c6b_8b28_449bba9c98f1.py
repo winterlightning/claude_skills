@@ -1,41 +1,22 @@
-"""Kickstarter logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'kickstarter-logo: independent smooth-curve repair.\n\nConstruction: Kickstarter K outline: flowing paired lobes and a straight stem; intentional letter notches remain.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/braces.svg and atomic-debug/braces.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '94e0f013-4f57-4c6b-8b28-449bba9c98f1'
 SOURCE_PATH = 'pictographic-primitives/logos/kickstarter logo_94e0f013-4f57-4c6b-8b28-449bba9c98f1.svg'
 AUTHOR = 'gpt-6'
 
+
 class KickstarterLogo(Solo48):
     icon_id = 'kickstarter-logo'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
     keywords = ('kickstarter', 'logo', 'logos')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (32, 24), (37, 30))
-        self.add_line('sym-e1', (37, 30), (40, 36))
-        self.add_line('sym-e3', (40, 36), (40, 37))
-        self.add_arc('sym-e4', (40, 37), (34, 44), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('sym-e6', (34, 44), (33, 44))
-        self.add_arc('sym-e7', (33, 44), (28, 41), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('sym-e8', (28, 41), (21, 34))
-        self.add_arc('sym-e9', (21, 34), (18, 43), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('sym-e10', (18, 43), (15, 44), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('sym-e13-1', (15, 44), (11, 43))
-        self.add_arc('sym-e13-2', (11, 43), (8, 40), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_line('sym-e14', (8, 40), (8, 8))
-        self.add_arc('sym-e20-1', (8, 8), (11, 5), radius_x=6, radius_y=6, large_arc=False, sweep=False)
-        self.add_line('sym-e20-2', (11, 5), (15, 4))
-        self.add_arc('sym-e23', (15, 4), (18, 5), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('sym-e24', (18, 5), (21, 14), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_line('sym-e25', (21, 14), (28, 7))
-        self.add_arc('sym-e26', (28, 7), (33, 4), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_line('sym-e27', (33, 4), (34, 4))
-        self.add_arc('sym-e29', (34, 4), (40, 11), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_arc('sym-e30', (40, 11), (40, 12), radius_x=21, radius_y=21, large_arc=False, sweep=False)
-        self.add_line('sym-e32', (40, 12), (37, 18))
-        self.add_line('sym-e33', (37, 18), (32, 24))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e3', 'sym-e4', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e13-1', 'sym-e13-2', 'sym-e14', 'sym-e20-1', 'sym-e20-2', 'sym-e23', 'sym-e24', 'sym-e25', 'sym-e26', 'sym-e27', 'sym-e29', 'sym-e30', 'sym-e32', 'sym-e33', closed=True)
+        path(self,'letter',(8,10),('C',(8,6),(10,4),(14,4)),('C',(18,4),(20,7),(20,12)),('L',(20,15)),('L',(29,6)),('C',(31,4),(32,4),(34,4)),('A',6,6,True,(40,10)),('L',(40,12)),('C',(40,16),(34,20),(30,24)),('C',(34,28),(40,32),(40,36)),('L',(40,38)),('A',6,6,True,(34,44)),('C',(32,44),(31,44),(29,42)),('L',(20,33)),('L',(20,36)),('C',(20,41),(18,44),(14,44)),('C',(10,44),(8,42),(8,38)),('L',(8,10)),closed=True)
+        contacts(self)

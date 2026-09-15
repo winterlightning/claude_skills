@@ -1,3 +1,5 @@
+# Refinement: Make the lower neck eight units wide at its narrowest vertical run.
+# Repair: Broaden the horse head and neck without changing the skier-to-horse tether.
 """Reconstruct horse skijoring using its inspected source pose and full_body_ref.png. Head radius 4, center (10, 10), actual torso junction (10, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Reconstruct horse skijoring using its inspected source pose and full_body_ref.png. Head radius 4, center (10, 10), actual torso junction (10, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -53,13 +55,13 @@ class HorseSkijoring(Solo48):
         self.add_line('horse-1', (22, 42), (22, 36))
         self.add_line('horse-2', (22, 36), (22, 28))
         self.add_line('horse-3', (22, 28), (30, 28))
-        self.add_line('horse-4', (30, 28), (34, 16))
-        self.add_line('horse-5', (34, 16), (38, 12))
-        self.add_line('horse-6', (38, 12), (42, 18))
-        self.add_line('horse-7', (42, 18), (36, 22))
-        self.add_line('horse-8', (36, 22), (36, 36))
-        self.add_line('horse-9', (36, 36), (36, 42))
-        self.add_line('belly', (22, 36), (36, 36))
+        self.add_line('horse-4', (30, 28), (30, 16))
+        self.add_line('horse-5', (30, 16), (36, 12))
+        self.add_line('horse-6', (36, 12), (42, 18))
+        self.add_line('horse-7', (42, 18), (38, 22))
+        self.add_line('horse-8', (38, 22), (38, 36))
+        self.add_line('horse-9', (38, 36), (38, 42))
+        self.add_line('belly', (22, 36), (38, 36))
         self.add_contour('skier-head', *('skier-head-a', 'skier-head-b'), closed=True)
         self.add_contour('tether', *('tether-1', 'tether-2'), closed=False)
         self.add_contour('ski', *('ski-1', 'ski-2'), closed=False)
@@ -94,3 +96,4 @@ class HorseSkijoring(Solo48):
         self.relate('connect', 'horse-8', 'horse-9')
         self.relate('connect', 'horse-8', 'belly')
         self.relate('connect', 'horse-9', 'belly')
+        self.mark_human_figure('person', head='skier-head', torso='skier-1', torso_junction='start')

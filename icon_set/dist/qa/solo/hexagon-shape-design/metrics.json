@@ -11,33 +11,33 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "hexagon:subpath-1",
+        "elementId": "hexagon",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 44 A 29 29 0 0 1 25 44 L 38 35 A 4 4 0 0 0 40 32 A 32 32 0 0 1 40 31 L 40 17 A 23 23 0 0 1 40 16 A 4 4 0 0 0 38 13 L 25 4 A 75 75 0 0 1 24 4 A 70 70 0 0 1 23 4 L 10 13 A 4 4 0 0 0 8 16 L 8 32 A 4 4 0 0 0 10 35 L 23 44 A 29 29 0 0 1 24 44 Z",
+        "pathData": "M 24 4 L 40 14 L 40 34 L 24 44 L 8 34 L 8 14 L 24 4 Z",
         "bounds": [
           8.0,
           4.0,
           40.0,
           44.0
         ],
-        "segmentCount": 153,
-        "approximationError": 0.0009766419851456188,
-        "hasCurves": true
+        "segmentCount": 7,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1"
+          "hexagon:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1"
+          "hexagon:subpath-1"
         ],
         "elementIds": [
-          "sym-c0"
+          "hexagon"
         ],
         "bounds": [
           8.0,
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 18,
-      "flattenedSegments": 153,
-      "adaptiveNodes": 282,
+      "commands": 8,
+      "flattenedSegments": 7,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -81,25 +81,25 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          22.9219
+          23.1094
         ],
         "bbox_viewbox": [
           10.0,
-          6.0,
+          6.375,
           28.0,
-          36.0
+          35.25
         ],
         "bbox_ship_px": [
           28.0,
-          36.0
+          35.25
         ],
         "bbox_design_u": [
           28.0,
-          36.0
+          35.25
         ],
-        "area_ship_px2": 750.4893,
-        "equivalent_diameter_ship_px": 30.912,
-        "equivalent_diameter_design_u": 30.912,
+        "area_ship_px2": 742.875,
+        "equivalent_diameter_ship_px": 30.7548,
+        "equivalent_diameter_design_u": 30.7548,
         "inscribed_diameter_ship_px": 28.0,
         "inscribed_diameter_design_u": 28.0,
         "inscribed_radius_ship_px": 14.0,
@@ -118,25 +118,25 @@
         "hole": 1,
         "center_viewbox": [
           23.9844,
-          22.9219
+          23.1094
         ],
         "bbox_viewbox": [
           8.5,
-          4.5,
+          4.5938,
           31.0,
-          39.0
+          38.8125
         ],
         "bbox_ship_px": [
           31.0,
-          39.0
+          38.8125
         ],
         "bbox_design_u": [
           31.0,
-          39.0
+          38.8125
         ],
-        "area_ship_px2": 909.8613,
-        "equivalent_diameter_ship_px": 34.0363,
-        "equivalent_diameter_design_u": 34.0363,
+        "area_ship_px2": 903.1172,
+        "equivalent_diameter_ship_px": 33.9099,
+        "equivalent_diameter_design_u": 33.9099,
         "inscribed_diameter_ship_px": 31.0,
         "inscribed_diameter_design_u": 31.0,
         "inscribed_radius_ship_px": 15.5,
@@ -157,6 +157,43 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9993167778351691,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.32410687763558e-15
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.9999817081671767,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.32410687763558e-15
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/hexagon-shape-design/icon.svg",
     "metrics": "solo/hexagon-shape-design/metrics.json"
@@ -169,9 +206,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "8f3c3e3a9e3341bc00fe5152701da7ce8a179e416c57292692fe040f1dac8ef4",
+  "svg_sha256": "7b57681654f1abe91a02fe87b6f5045018b51ba63605c2620feaba25aca56b59",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -226,6 +264,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

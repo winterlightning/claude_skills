@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.17 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,16 +15,16 @@
         "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 42 18 L 40 6 L 34 14 L 28 14 L 22 18 L 22 24",
+        "pathData": "M 42 18 C 42 12 40 8 40 6 L 34 14 L 28 14 C 24 14 22 18 22 24",
         "bounds": [
           22.0,
           6.0,
           42.0,
           24.0
         ],
-        "segmentCount": 5,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 123,
+        "approximationError": 0.0009951913708940287,
+        "hasCurves": true
       },
       {
         "id": "ball:subpath-1",
@@ -45,20 +43,20 @@
         "hasCurves": true
       },
       {
-        "id": "mouth-leg:subpath-1",
-        "elementId": "mouth-leg",
+        "id": "jaw:subpath-1",
+        "elementId": "jaw",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 22 24 L 30 24 L 30 32 L 22 38 L 30 42 L 36 36 L 42 42",
+        "pathData": "M 22 24 L 30 24 L 30 30 C 30 34 24 34 24 38 C 24 42 30 42 34 38 L 42 42",
         "bounds": [
           22.0,
           24.0,
           42.0,
           42.0
         ],
-        "segmentCount": 6,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 189,
+        "approximationError": 0.0009945722565943055,
+        "hasCurves": true
       }
     ],
     "components": [
@@ -67,17 +65,17 @@
         "memberIds": [
           "head:subpath-1",
           "ball:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "contourIds": [
           "head:subpath-1",
           "ball:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "elementIds": [
           "head",
           "ball",
-          "mouth-leg"
+          "jaw"
         ],
         "bounds": [
           6.0,
@@ -103,7 +101,7 @@
       {
         "contourIds": [
           "head:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -114,7 +112,7 @@
       {
         "contourIds": [
           "ball:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -146,14 +144,14 @@
       {
         "contourIds": [
           "head:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "head:subpath-1",
-            "mouth-leg:subpath-1"
+            "jaw:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -165,14 +163,14 @@
       {
         "contourIds": [
           "ball:subpath-1",
-          "mouth-leg:subpath-1"
+          "jaw:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "ball:subpath-1",
-            "mouth-leg:subpath-1"
+            "jaw:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -197,9 +195,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 17,
-      "flattenedSegments": 268,
-      "adaptiveNodes": 510,
+      "commands": 15,
+      "flattenedSegments": 569,
+      "adaptiveNodes": 1120,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -289,6 +287,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.1617515355369082,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.46382709869346056,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/dog-carrying-ball/icon.svg",
     "metrics": "solo/dog-carrying-ball/metrics.json"
@@ -301,9 +334,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "108b8ac46b2834faf14638018066735e890f9e5f542a8e3b997a2530e55156b6",
+  "svg_sha256": "876cf6c396686b280013919c859f032155d479a794d15904ee4827c4eb392d21",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -358,8 +392,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -371,38 +406,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "mouth-leg",
-        "elements": [
-          "mouth-leg-3",
-          "mouth-leg-5"
-        ],
-        "status": "review",
-        "sustained_length": 6.0,
-        "centerline_distance": 7.1595,
-        "ink_gap": 3.1595,
-        "nearest_points": [
-          [
-            29.5,
-            32.375
-          ],
-          [
-            34.5625,
-            37.4375
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The dog\u2019s angular rear leg tapers toward the paw; the carried ball and body remain readable.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-3.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

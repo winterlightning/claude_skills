@@ -1,0 +1,62 @@
+11 baby-girl-face-v3 {"status": "pass", "errors": [], "warnings": []}
+13 castle-with-gate-tower-v2 {"status": "pass", "errors": [], "warnings": []}
+14 cd-rom-drive-v2 {"status": "pass", "errors": [], "warnings": []}
+17 cologne-cathedral-v2 {"status": "pass", "errors": [], "warnings": []}
+18 columned-gateway-monument-v2 {"status": "pass", "errors": [], "warnings": []}
+21 cracked-compact-disc-v2 {"status": "pass", "errors": [], "warnings": []}
+25 dinosaur-skull-v2 {"status": "fail", "errors": ["mic [skull]: skull and nostril are 7.39795 apart on centerlines nearest (13.7838, 8.7027)<->(15, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"], "warnings": ["mic [skull]: skull and eye are 8 apart on centerlines nearest (31, 24)<->(31, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"]}
+28 floppy-disk-v2 {"status": "pass", "errors": [], "warnings": []}
+31 itsukushima-torii-gate-v2 {"status": "pass", "errors": [], "warnings": []}
+35 merlion-statue-v2 {"status": "pass", "errors": [], "warnings": []}
+53 windmill-v2 {"status": "pass", "errors": [], "warnings": []}
+57 star-labelled-bottle-v2 {"status": "pass", "errors": [], "warnings": []}
+58 sitting-baby-v2 {"status": "review", "errors": [], "warnings": ["internal-spacing [arm-left / leg-left]: arm-left-1 and leg-left-1 have 1.7494 units of ink clearance over 7.8808 units; requires 4; review required", "internal-spacing [arm-right / leg-right]: arm-right-1 and leg-right-1 have 1.7494 units of ink clearance over 7.8808 units; requires 4; review required"]}
+59 simple-gabled-shack-v2 {"status": "pass", "errors": [], "warnings": []}
+71 castle-tower-with-pennant-v2 {"status": "pass", "errors": [], "warnings": []}
+82 beetle-v2 {"status": "review", "errors": [], "warnings": ["internal-spacing [head / shell]: head-1 and shell-0 have -3.997 units of ink clearance over 3.5879 units; requires 4; review required"]}
+83 bird-flock-v2 {"status": "fail", "errors": ["mic [left]: left and right are 4 apart on centerlines nearest (22, 6)<->(26, 6); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"], "warnings": []}
+87 crab-v2 {"status": "review", "errors": [], "warnings": ["internal-spacing [body / claw--1]: body-0 and claw--1-1 have 1.874 units of ink clearance over 6.2024 units; requires 4; review required", "internal-spacing [body / claw-1]: body-0 and claw-1-1 have 1.874 units of ink clearance over 6.2024 units; requires 4; review required"]}
+91 duck-silhouette-v2 {"status": "review", "errors": [], "warnings": ["internal-spacing [duck]: duck-6 and duck-8 have -0.0363 units of ink clearance over 9.5502 units; requires 4; review required"]}
+92 flying-bird-v2 {"status": "pass", "errors": [], "warnings": []}
+93 grizzly-head-profile-v2 {"status": "pass", "errors": [], "warnings": []}
+94 hammerhead-shark-v2 {"status": "pass", "errors": [], "warnings": []}
+95 hippo-head-open-mouth-v2 {"status": "pass", "errors": [], "warnings": []}
+96 howling-wolf-v2 {"status": "pass", "errors": [], "warnings": []}
+99 wolf-head-v2 {"status": "pass", "errors": [], "warnings": []}
+101 cockatoo-v2 {"status": "review", "errors": [], "warnings": ["internal-spacing [head]: head-1 and head-3 have 1.9605 units of ink clearance over 2.5753 units; requires 4; review required"]}
+106 leaping-marlin-v2 {"status": "fail", "errors": ["holes/pinches: 2 undersized holes; 0 pinches"], "warnings": []}
+108 peacock-feather-v2 {"status": "pass", "errors": [], "warnings": []}
+110 penguin-looking-down-v2 {"status": "pass", "errors": [], "warnings": []}
+115 sitting-fox-v2 {"status": "pass", "errors": [], "warnings": []}
+119 slithering-snake-v2 {"status": "pass", "errors": [], "warnings": []}
+121 spider-web-v2 {"status": "pass", "errors": [], "warnings": []}
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/work/feedback-solo-sep15/round2_check.py", line 11, in <module>
+    icon=create(id);qa=inspect_icon(icon);v=icon.validate_icon();V[id]={'status':v.status,'description':v.describe(),'keyshape':icon.keyshape.name,'svg':render_svg(icon)};Q[id]={k:qa.get(k) for k in ['status','errors','warnings']}
+                                                                                                                                                         ~~~~~~~~~~^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/work/feedback-solo-sep15/snapshot/icon_set/renderers/svg.py", line 152, in render_svg
+    paths = build_paths(icon.draw())
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/work/feedback-solo-sep15/snapshot/icon_set/renderers/svg.py", line 86, in build_paths
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: element 'head-new-1' belongs to contours 'head-new' and 'upper'
+123 standing-fox-v2 {"status": "error", "errors": ["element 'head-new-1' belongs to contours 'head-new' and 'upper'"], "warnings": []}
+125 standing-owl-v2 {"status": "pass", "errors": [], "warnings": []}
+128 woolly-sheep-v2 {"status": "pass", "errors": [], "warnings": []}
+131 whale-with-spout-v2 {"status": "pass", "errors": [], "warnings": []}
+132 winged-insect-v2 {"status": "pass", "errors": [], "warnings": []}
+133 winged-lion-v2 {"status": "fail", "errors": ["mic [lion]: parallel straight edges lion-14 and lion-12 are 7.15542 apart on centerlines (ink gap 3.15542); requires at least 8 centerline / 4 ink (midpoint-normal)"], "warnings": ["internal-spacing [lion]: lion-8 and lion-10 have 2.2778 units of ink clearance over 3.9752 units; requires 4; review required", "internal-spacing [lion]: lion-12 and lion-14 have 3.1554 units of ink clearance over 4.4721 units; requires 4; review required"]}
+135 triceratops-head-side-v2 {"status": "pass", "errors": [], "warnings": []}
+144 crescent-moon-v2 {"status": "pass", "errors": [], "warnings": []}
+158 leaping-dolphin-v2 {"status": "pass", "errors": [], "warnings": []}
+161 elephant-head-v2 {"status": "pass", "errors": [], "warnings": []}
+162 hooked-beak-bird-head-v2 {"status": "pass", "errors": [], "warnings": []}
+170 bowling-pins-three-v2 {"status": "review", "errors": [], "warnings": ["mic [left]: left and center are 8 apart on centerlines nearest (12, 22)<->(20, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship", "mic [right]: right and center are 8 apart on centerlines nearest (36, 22)<->(28, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"]}
+171 broad-bladed-sword-v2 {"status": "pass", "errors": [], "warnings": []}
+172 arrow-corner-bottom-v2 {"status": "pass", "errors": [], "warnings": []}
+173 arrow-corner-left-v2 {"status": "pass", "errors": [], "warnings": []}
+174 arrow-corner-right-v2 {"status": "pass", "errors": [], "warnings": []}
+187 bag-1e030fe3-v2 {"status": "pass", "errors": [], "warnings": []}
+207 amfitheater-in-delphi-top-v2 {"status": "pass", "errors": [], "warnings": []}
+223 basketball-ball-v2 {"status": "pass", "errors": [], "warnings": []}

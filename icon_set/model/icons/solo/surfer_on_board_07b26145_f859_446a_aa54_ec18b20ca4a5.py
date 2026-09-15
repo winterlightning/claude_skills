@@ -1,3 +1,5 @@
+# Refinement: Level the upper arm below the head instead of letting it encroach on the exact neck gap.
+# Repair: Rebalance the surfer head and torso above a broad two-foot stance; preserve the upturned board and both arms. Head gap 11-3=8.
 """Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -45,45 +47,13 @@ class SurferOnBoard(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
-        self.add_arc('head-a', (25, 13), (35, 13), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('head-b', (35, 13), (25, 13), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('arms-1', (10, 14), (15, 21))
-        self.add_line('arms-2', (15, 21), (25, 25))
-        self.add_line('arms-3', (25, 25), (38, 31))
-        self.add_bezier('body-1', (25, 25), *(((24.01490396347187, 27.364230487667513), (21.25, 28.0), (20, 29)),))
-        self.add_line('body-2', (20, 29), (28, 34))
-        self.add_line('body-3', (28, 34), (27, 38))
-        self.add_line('rear-leg-1', (20, 29), (14, 34))
-        self.add_line('rear-leg-2', (14, 34), (10, 36))
-        self.add_arc('board-tip', (4, 29), (10, 36), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_line('board-1', (10, 36), (27, 38))
-        self.add_line('board-2', (27, 38), (44, 40))
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('arms', *('arms-1', 'arms-2', 'arms-3'), closed=False)
-        self.add_contour('rear-leg', *('rear-leg-1', 'rear-leg-2'), closed=False)
-        self.add_contour('surfboard', *('board-tip', 'board-1', 'board-2'), closed=False)
-        self.relate('connect', *('arms', 'body'))
-        self.relate('connect', *('rear-leg', 'body'))
-        self.relate('connect', *('surfboard', 'rear-leg'))
-        self.relate('connect', *('surfboard', 'body'))
-        self.add_contour('body', *('body-1',), closed=False)
-        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
-        self.relate('connect', 'body-1', 'body-2')
-        self.relate('connect', 'body-2', 'body-3')
-        self.relate('connect', 'head-a', 'head-b')
-        self.relate('connect', 'arms-1', 'arms-2')
-        self.relate('connect', 'arms-2', 'arms-3')
-        self.relate('connect', 'arms-2', 'body-1')
-        self.relate('connect', 'arms-3', 'body-1')
-        self.relate('connect', 'body-1', 'body-2')
-        self.relate('connect', 'body-1', 'rear-leg-1')
-        self.relate('connect', 'body-2', 'body-3')
-        self.relate('connect', 'body-2', 'rear-leg-1')
-        self.relate('connect', 'body-3', 'board-1')
-        self.relate('connect', 'body-3', 'board-2')
-        self.relate('connect', 'rear-leg-1', 'rear-leg-2')
-        self.relate('connect', 'rear-leg-2', 'board-tip')
-        self.relate('connect', 'rear-leg-2', 'board-1')
-        self.relate('connect', 'board-tip', 'board-1')
-        self.relate('connect', 'board-1', 'board-2')
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(22,11),('A',3,3,True,(28,11)),('A',3,3,True,(22,11)),closed=True)
+        poly(self,'arms',(10,12),(15,22),(25,22),(38,24))
+        path(self,'torso',(25,22),('C',(25,25),(20,28),(18,30)))
+        line(self,'front-leg',(18,30),(27,38))
+        line(self,'rear-leg',(18,30),(10,36))
+        path(self,'board',(4,29),('A',9,9,True,(10,36)),('L',(27,38)),('L',(44,40)))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

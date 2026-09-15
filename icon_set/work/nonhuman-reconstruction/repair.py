@@ -6,6 +6,7 @@ SOURCE_PATH='icon_set/work/nonhuman-reconstruction/audit.json'
 AUTHOR='gpt-6'
 W=Path(__file__).parent
 A=json.loads((W/'audit.json').read_text())
+PROTECTED_DECISIONS={i['icon_id']:dict(i) for i in A if i['audit_status'].startswith(('held-', 'blocked-', 'removed-'))}
 HELP='''
         # Each path owns a coherent stroke; control points preserve smooth tangents.
         def path(n, start, commands, closed=False):
@@ -591,3 +592,12 @@ replace('long-sporting-rifle','SQUARE','Keep the broad diagonal shoulder stock a
 poly('stock',(6,34),(14,42),(24,28),(20,25),(16,22),closed=True)
 line('barrel',(20,25),(42,6));join('barrel','stock')
 ''')
+
+# Final visual decisions take precedence over discarded construction studies.
+for j, item in enumerate(A):
+ if item['icon_id'] in PROTECTED_DECISIONS:
+  decision=PROTECTED_DECISIONS[item['icon_id']];A[j]=decision
+  backup=W/'originals'/Path(decision['source_path']).name
+  if backup.exists() and not decision['audit_status'].startswith('removed-'):
+   Path(decision['source_path']).write_bytes(backup.read_bytes())
+(W/'audit.json').write_text(json.dumps(A,indent=2))

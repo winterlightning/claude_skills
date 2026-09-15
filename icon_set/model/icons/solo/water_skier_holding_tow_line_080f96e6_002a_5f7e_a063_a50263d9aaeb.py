@@ -1,3 +1,5 @@
+# Refinement: Keep the thigh level between the arm and ski, eight units from each.
+# Repair: Lengthen the seated torso to open the arm-to-thigh gap.
 """Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -48,8 +50,8 @@ class WaterSkierHoldingTowLine(Solo48):
         """Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
         self.add_arc('head-a', (9, 12), (17, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('head-b', (17, 12), (9, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_bezier('body-1', (13, 24), *(((13.0, 26.56124969497314), (10.0, 27.75), (9, 29)),))
-        self.add_line('body-2', (9, 29), (21, 32))
+        self.add_bezier('body-1', (13, 24), *(((13.0, 26.56124969497314), (10.0, 27.75), (9, 32)),))
+        self.add_line('body-2', (9, 32), (21, 32))
         self.add_line('body-3', (21, 32), (26, 40))
         self.add_line('arms-1', (13, 24), (25, 24))
         self.add_line('arms-2', (25, 24), (32, 19))
@@ -75,3 +77,4 @@ class WaterSkierHoldingTowLine(Solo48):
         self.relate('connect', 'arms-2', 'arms-3')
         self.relate('connect', 'ski-1', 'ski-2')
         self.relate('connect', 'ski-1', 'water')
+        self.mark_human_figure('person', head='head', torso='body-1', torso_junction='start')

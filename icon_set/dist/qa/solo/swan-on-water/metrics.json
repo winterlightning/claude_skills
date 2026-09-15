@@ -31,14 +31,14 @@
         "elementId": "neck-wing",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 42 15 C 41.484580190000003 9.87098707 37.154780680000002 6 32 6 C 26.845219320000002 6 22.515419810000001 9.87098707 22 15 L 22 18 A 6 6 0 0 1 16 24 C 16 23 16 22 16 21",
+        "pathData": "M 42 15 C 41.484580190000003 9.87098707 37.154780680000002 6 32 6 C 26.845219320000002 6 22.515419810000001 9.87098707 22 15 L 22 18 A 6 6 0 0 1 16 24",
         "bounds": [
           16.0,
           6.0,
           42.0,
           24.0
         ],
-        "segmentCount": 194,
+        "segmentCount": 193,
         "approximationError": 0.000956337437591568,
         "hasCurves": true
       },
@@ -459,10 +459,10 @@
     "minimumInkClearance": 5.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 17,
-      "flattenedSegments": 516,
-      "adaptiveNodes": 1016,
-      "distanceTests": 12,
+      "commands": 16,
+      "flattenedSegments": 515,
+      "adaptiveNodes": 1015,
+      "distanceTests": 11,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -487,6 +487,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.4406573819920033,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.2483748808121143,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/swan-on-water/icon.svg",
     "metrics": "solo/swan-on-water/metrics.json"
@@ -499,9 +534,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "3bd44a1520c2d9e90248322cc7f1462290cd6a4bdf2f839f861bbbe2706c082d",
+  "svg_sha256": "5f0b3fbc38735536a79acbc3f521d245074d6be9fa0e6e78ef21f7ef705faa69",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -556,6 +592,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

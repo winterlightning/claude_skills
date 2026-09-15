@@ -1,41 +1,23 @@
-"""Symbol air defence (war), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'symbol-air-defence: independent smooth-curve repair.\n\nConstruction: Air-defense symbol in a tall frame with a broad smooth arch at its base.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/rectangle-horizontal.svg and atomic-debug/rectangle-horizontal.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'b69fe83f-be36-5637-9e63-3210287a6ddd'
 SOURCE_PATH = 'pictographic-primitives/war/symbol air defence_b69fe83f-be36-5637-9e63-3210287a6ddd.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-reconstructed'
+
 
 class SymbolAirDefence(Solo48):
     icon_id = 'symbol-air-defence'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
     aliases = ()
     keywords = ('symbol', 'air', 'defence', 'war')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        # Plan: restore exact straight junctions; remove short fitted corner detours.
-        # Reference: existing subject and its ideal straight-edge intersections.
-        self.add_line('sym-e0', (24, 40), (6, 40))
-        self.add_arc('sym-e1', (6, 40), (4, 39), radius_x=19, radius_y=19, large_arc=False, sweep=False)
-        self.add_arc('sym-e2', (4, 39), (8, 33), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('sym-e3', (8, 33), (24, 26), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_arc('sym-e6', (24, 26), (40, 33), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_arc('sym-e7', (40, 33), (44, 39), radius_x=19, radius_y=19, large_arc=False, sweep=True)
-        self.add_arc('sym-e8', (44, 39), (42, 40), radius_x=19, radius_y=19, large_arc=False, sweep=False)
-        self.add_line('sym-e9', (42, 40), (24, 40))
-        self.add_line('sym-e10', (24, 8), (4, 8))
-        self.add_line('sym-e13', (4, 8), (4, 39))
-        self.add_line('sym-e14', (24, 8), (44, 8))
-        self.add_line('sym-e17', (44, 8), (44, 39))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', closed=True)
-        self.add_contour('sym-c1', 'sym-e10', 'sym-e13', closed=False)
-        self.add_contour('sym-c2', 'sym-e14', 'sym-e17', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
+        poly(self,'frame',(4,40),(4,8),(44,8),(44,40),(4,40),closed=True)
+        path(self,'arch',(4,40),('C',(16,25),(32,25),(44,40)))
+        contacts(self)

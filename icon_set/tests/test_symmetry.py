@@ -7,7 +7,7 @@ import unittest
 from unittest.mock import patch
 
 from icon_set.model.icons.base import Icon
-from icon_set.model.icons.solo.airmail_055d9bbb_508e_4991_84fd_c6c91f3a1a47 import Airmail
+from icon_set.tests.airmail_fixture import AsymmetricAirmail as Airmail
 from icon_set.model.profiles import Profile
 from icon_set.model.keyshapes import Keyshape
 from icon_set.validation.symmetry import analyze
@@ -100,9 +100,31 @@ class SymmetryTests(unittest.TestCase):
         self.assertEqual(row['status'], 'error')
         self.assertEqual(row['symmetry']['status'], 'error')
 
+    def test_release_build_blocks_airmail_without_debug_or_report(self):
+        from icon_set.scripts import build as builder
+        with TemporaryDirectory() as folder, \
+                patch.object(builder, 'icons_in', return_value=[Airmail()]):
+            target = Path(folder)/'dist'
+            self.assertEqual(builder.build(target, None, write_png=False, only=['solo'],
+                                           debug=False, report=False), 1)
+            self.assertFalse((target/'solo48/airmail.svg').exists())
+            failed = json.loads((target/'failed/solo48/manifest.json').read_text())
+            self.assertIn('sym-e12-1', json.dumps(failed))
+
+    def test_spatial_search_matches_full_search_including_far_points(self):
+        import numpy as np
+        from icon_set.validation.symmetry import _nearest, _nearest_indexed, _spatial_index
+        rng = np.random.default_rng(42)
+        segments = rng.uniform(-10, 10, (30, 2, 2))
+        points = rng.uniform(-30, 30, (100, 2))
+        expected, _ = _nearest(points, segments)
+        actual, _ = _nearest_indexed(points, segments, _spatial_index(segments))
+        np.testing.assert_allclose(actual, expected, atol=1e-12)
+
     def test_cli_saves_evidence_and_returns_failure(self):
         from icon_set.scripts.check_symmetry import main
-        with TemporaryDirectory() as folder:
+        with TemporaryDirectory() as folder, \
+                patch('icon_set.model.icons.registry.factories', return_value={'airmail': Airmail}):
             self.assertEqual(main(['--icon', 'airmail', '--out', folder]), 1)
             report = json.loads((Path(folder)/'results.json').read_text())
             self.assertEqual(report['summary'], {'fail': 1})

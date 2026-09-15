@@ -11,27 +11,11 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "graph:subpath-1",
+        "elementId": "graph",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 39 8 L 44 8 L 44 14",
-        "bounds": [
-          39.0,
-          8.0,
-          44.0,
-          14.0
-        ],
-        "segmentCount": 2,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 44 8 L 27 40 L 16 17 L 4 38",
+        "pathData": "M 4 38 L 16 17 L 28 40 L 44 8",
         "bounds": [
           4.0,
           8.0,
@@ -41,22 +25,38 @@
         "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
+      },
+      {
+        "id": "arrow:subpath-1",
+        "elementId": "arrow",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 34 8 L 44 8 L 44 18",
+        "bounds": [
+          34.0,
+          8.0,
+          44.0,
+          18.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "graph:subpath-1",
+          "arrow:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "graph:subpath-1",
+          "arrow:subpath-1"
         ],
         "elementIds": [
-          "c0",
-          "c1"
+          "graph",
+          "arrow"
         ],
         "bounds": [
           4.0,
@@ -70,8 +70,8 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "graph:subpath-1",
+          "arrow:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
@@ -83,15 +83,15 @@
     "excludedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "graph:subpath-1",
+          "arrow:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c1:subpath-1"
+            "graph:subpath-1",
+            "arrow:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
@@ -144,6 +144,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.07494463808111,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.07510313603752095,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/bitcoin-with-graph/icon.svg",
     "metrics": "solo/bitcoin-with-graph/metrics.json"
@@ -156,9 +191,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "95cf249e5d02ad41d0a99f69d9ddc3a77567de6ea84108a22d900e7f4a6d89c2",
+  "svg_sha256": "d216a25db644492061c14f9fb1c9bc822e2608338929f68506d9dd248ad61cca",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -213,6 +249,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

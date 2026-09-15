@@ -1,31 +1,22 @@
-"""Sign badge badge (maps), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'sign-badge-badge-maps: independent smooth-curve repair.\n\nConstruction: Shield with a smooth domed top and a coherent curved lower bowl; centered detail kept spacious.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/shield.svg and atomic-debug/shield.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '51affb95-85ee-5312-8a83-f077a030e9a9'
 SOURCE_PATH = 'pictographic-primitives/maps/sign badge badge_51affb95-85ee-5312-8a83-f077a030e9a9.svg'
 AUTHOR = 'gpt-6'
 
+
 class SignBadgeBadgeMaps(Solo48):
     icon_id = 'sign-badge-badge-maps'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'maps'
     aliases = ()
     keywords = ('sign', 'badge', 'maps')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (8, 23), (8, 7))
-        self.add_line('sym-e1', (8, 7), (11, 9))
-        self.add_arc('sym-e2', (11, 9), (15, 9), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('sym-e3', (15, 9), (24, 4))
-        self.add_line('sym-e4', (24, 4), (33, 9))
-        self.add_arc('sym-e5', (33, 9), (37, 9), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('sym-e6', (37, 9), (40, 7))
-        self.add_line('sym-e7', (40, 7), (40, 24))
-        self.add_arc('sym-e9', (40, 24), (29, 40), radius_x=25, radius_y=25, large_arc=False, sweep=True)
-        self.add_arc('sym-e10', (29, 40), (24, 44), radius_x=17, radius_y=17, large_arc=False, sweep=True)
-        self.add_arc('sym-e13', (24, 44), (19, 40), radius_x=18, radius_y=18, large_arc=False, sweep=True)
-        self.add_arc('sym-e14', (19, 40), (8, 24), radius_x=25, radius_y=25, large_arc=False, sweep=True)
-        self.add_line('sym-e15', (8, 24), (8, 23))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e9', 'sym-e10', 'sym-e13', 'sym-e14', 'sym-e15', closed=True)
+        path(self,'shield',(8,9),('C',(17,2.333333333),(31,2.333333333),(40,9)),('L',(40,23)),('C',(40,34),(32,41),(24,44)),('C',(16,41),(8,34),(8,23)),('L',(8,9)),closed=True)
+        contacts(self)

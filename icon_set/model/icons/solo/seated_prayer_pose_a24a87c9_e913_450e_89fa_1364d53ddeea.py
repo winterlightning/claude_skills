@@ -1,3 +1,4 @@
+# Repair: Open both prayer-arm counters above broad seated knees; remove the redundant crossing leg stroke to keep the seated prayer readable.
 """Seated prayer: draw a real shoulder junction and torso behind two bent arms whose palms meet at(24,26). Radius4 head(24,8), actual shoulder(24,20), exact4 painted clearance; the palms do not substitute for the shoulder. VRECT_L gives both arm counters room above the crossed legs. Original prayer source and full_body_ref.png inspected.
 
 Seated prayer: radius5 head center(24,11) sits exactly4 painted units above the shoulder/palm junction(24,24). Preserve the prayer gesture and crossed legs; original and full_body_ref.png inspected.
@@ -42,6 +43,12 @@ class SeatedPrayerPose(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Seated prayer: draw a real shoulder junction and torso behind two bent arms whose palms meet at(24,26). Radius4 head(24,8), actual shoulder(24,20), exact4 painted clearance; the palms do not substitute for the shoulder. VRECT_L gives both arm counters room above the crossed legs. Original prayer source and full_body_ref.png inspected."""
-        self.ring('head', 24, 8, 4)
-        self.branches([('torso', [(24, 20), (24, 26), (24, 40)]), ('left-arm', [(24, 20), (8, 26), (18, 30), (24, 26)]), ('right-arm', [(24, 20), (40, 26), (30, 30), (24, 26)]), ('left-leg', [(8, 36), (24, 40), (40, 44)]), ('right-leg', [(40, 36), (24, 40), (8, 44)])])
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(20,8),('A',4,4,True,(28,8)),('A',4,4,True,(20,8)),closed=True)
+        poly(self,'torso',(24,20),(24,30),(24,44))
+        poly(self,'left-arm',(24,20),(8,32),(24,30))
+        poly(self,'right-arm',(24,20),(40,32),(24,30))
+        poly(self,'knees',(8,40),(24,44),(40,40))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 4.38 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,14 +15,14 @@
         "elementId": "outline",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 30 L 7 16 L 14 16 L 16 8 L 28 8 L 30 16 L 34 16 L 36 24 L 40 24 L 44 24 L 44 36",
+        "pathData": "M 4 30 L 8 16 L 14 16 L 16 8 L 28 8 L 30 16 L 34 16 L 36 24 L 44 24 L 44 36",
         "bounds": [
           4.0,
           8.0,
           44.0,
           36.0
         ],
-        "segmentCount": 10,
+        "segmentCount": 9,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -65,28 +63,12 @@
         "elementId": "central-wall",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 24 L 34 34",
+        "pathData": "M 36 24 L 36 36",
         "bounds": [
-          34.0,
+          36.0,
           24.0,
           36.0,
-          34.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "finial:subpath-1",
-        "elementId": "finial",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 40 18 L 40 24",
-        "bounds": [
-          40.0,
-          18.0,
-          40.0,
-          24.0
+          36.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -100,22 +82,19 @@
           "outline:subpath-1",
           "central-roof:subpath-1",
           "terraces:subpath-1",
-          "central-wall:subpath-1",
-          "finial:subpath-1"
+          "central-wall:subpath-1"
         ],
         "contourIds": [
           "outline:subpath-1",
           "central-roof:subpath-1",
           "terraces:subpath-1",
-          "central-wall:subpath-1",
-          "finial:subpath-1"
+          "central-wall:subpath-1"
         ],
         "elementIds": [
           "outline",
           "central-roof",
           "terraces",
-          "central-wall",
-          "finial"
+          "central-wall"
         ],
         "bounds": [
           4.0,
@@ -157,17 +136,6 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           36.0,
-          24.0
-        ]
-      },
-      {
-        "contourIds": [
-          "outline:subpath-1",
-          "finial:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          40.0,
           24.0
         ]
       }
@@ -232,25 +200,6 @@
       },
       {
         "contourIds": [
-          "outline:subpath-1",
-          "finial:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "outline:subpath-1",
-            "finial:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            40.0,
-            24.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
           "central-roof:subpath-1",
           "terraces:subpath-1"
         ],
@@ -269,35 +218,8 @@
       },
       {
         "contourIds": [
-          "central-roof:subpath-1",
-          "finial:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
           "terraces:subpath-1",
           "central-wall:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "terraces:subpath-1",
-          "finial:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
-      },
-      {
-        "contourIds": [
-          "central-wall:subpath-1",
-          "finial:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
@@ -319,8 +241,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 23,
-      "flattenedSegments": 18,
+      "commands": 20,
+      "flattenedSegments": 16,
       "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
@@ -411,6 +333,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.3292215127467964,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.309770217966321,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/potala-palace/icon.svg",
     "metrics": "solo/potala-palace/metrics.json"
@@ -423,9 +380,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "36eac76f2917d91f0dbc8999f2446698bdcf9bc01579f2f226e61c53c0fe3f56",
+  "svg_sha256": "cfba1bbb548726fb228c3401293efa9162f7fe14ee706eed5ad279285fbcd2f9",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -480,8 +438,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -493,38 +452,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "outline / finial",
-        "elements": [
-          "outline-7",
-          "finial"
-        ],
-        "status": "review",
-        "sustained_length": 5.2476,
-        "centerline_distance": 4.1515,
-        "ink_gap": 0.1515,
-        "nearest_points": [
-          [
-            35.848484848484844,
-            23.393939393939394
-          ],
-          [
-            40.0,
-            23.393939393939394
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the potala palace silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-4.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

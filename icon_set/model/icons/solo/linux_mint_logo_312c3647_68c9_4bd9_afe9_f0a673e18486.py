@@ -1,3 +1,5 @@
+# Refinement: Use a smaller lower-left enclosure corner so the LM baseline has full clearance.
+# Repair: Retain the LM monogram, with the L sharing the left stem and baseline. Equal 8-unit m arches fit the enclosing brand shape.
 """A rounded leaf-like square with a notch at its upper left holds the letters lm, the l rising from the notch into a lowercase m.
 
 Symbol plan: Leaf-shaped enclosure with upper-left notch and lm monogram. Extremes (6,6)-(42,42).
@@ -20,35 +22,9 @@ class LinuxMintLogo(Solo48):
     keywords = ('linux-mint', 'linux', 'operating-system', 'lm', 'logo', 'brand', 'open-source')
 
     def build(self):
-
-        def chain(name, *points):
-            for i,(start,end) in enumerate(zip(points,points[1:]),1):
-                self.add_line(f'{name}-{i}',start,end)
-        def ring(name, x, y, r):
-            self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-            self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-        def rounded(name, left, top, right, bottom, r):
-            points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),(right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
-            members=[]
-            for i,start in enumerate(points):
-                end=points[(i+1)%8]; ident=f'{name}-{i}'
-                if start==end: continue
-                if i%2:self.add_arc(ident,start,end,radius_x=r)
-                else:self.add_line(ident,start,end)
-                members.append(ident)
-            self.add_contour(name,*members,closed=True)
-        chain('frame-start',(6,6),(24,6))
-        self.add_arc('frame-round',(24,6),(42,24),radius_x=18)
-        chain('frame-end',(42,24),(42,42),(24,42))
-        self.add_arc('frame-base',(24,42),(12,30),radius_x=12)
-        chain('frame-notch',(12,30),(12,14),(6,14),(6,6))
-        self.add_contour('frame','frame-start-1','frame-round','frame-end-1','frame-end-2','frame-base','frame-notch-1','frame-notch-2','frame-notch-3',closed=True)
-
-        self.add_polyline('l',(16,15),(16,31),(32,31))
-        self.add_arc('m-left',(22,26),(28,26),radius_x=3)
-        self.add_arc('m-right',(28,26),(34,26),radius_x=3)
-        self.add_line('m-left-stem',(22,26),(22,31))
-        self.add_line('m-middle',(28,26),(28,31))
-        self.add_line('m-right-stem',(34,26),(34,31))
-        for a,b in [('m-left','m-right'),('m-left','m-left-stem'),('m-left','m-middle'),('m-right','m-middle'),('m-right','m-right-stem')]:self.relate('connect',a,b)
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+        path(self,'frame',(6,6),('L',(24,6)),('A',18,18,True,(42,24)),('L',(42,42)),('L',(24,42)),('L',(14,42)),('A',8,8,True,(6,34)),('L',(6,24)),('L',(6,6)),closed=True)
+        poly(self,'l',(16,16),(16,24),(16,32),(24,32),(32,32))
+        path(self,'m',(16,32),('L',(16,24)),('A',4,4,True,(24,24)),('A',4,4,True,(32,24)),('L',(32,32)))
+        line(self,'middle',(24,24),(24,32))
+        contacts(self)

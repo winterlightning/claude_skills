@@ -1,27 +1,22 @@
-"""Diamonds card (entertainment), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'diamonds-card: independent smooth-curve repair.\n\nConstruction: A clean centered diamond; intentional directional vertices remain crisp and equal.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/diamond.svg and atomic-debug/diamond.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '4b2293df-f29c-5e96-af65-6cde4a61ca2b'
 SOURCE_PATH = 'pictographic-primitives/entertainment/diamonds card_4b2293df-f29c-5e96-af65-6cde4a61ca2b.svg'
 AUTHOR = 'gpt-6'
 
+
 class DiamondsCard(Solo48):
     icon_id = 'diamonds-card'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'entertainment'
     aliases = ()
     keywords = ('diamonds', 'card', 'entertainment')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (40, 24), (35, 18))
-        self.add_line('sym-e1', (35, 18), (27, 8))
-        self.add_arc('sym-e2', (27, 8), (24, 4), radius_x=11, radius_y=11, large_arc=False, sweep=False)
-        self.add_line('sym-e3', (24, 4), (8, 24))
-        self.add_arc('sym-e5', (8, 24), (12, 29), radius_x=29, radius_y=29, large_arc=False, sweep=False)
-        self.add_line('sym-e6', (12, 29), (24, 44))
-        self.add_line('sym-e7', (24, 44), (27, 40))
-        self.add_line('sym-e8', (27, 40), (35, 30))
-        self.add_line('sym-e9', (35, 30), (40, 24))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', closed=True)
+        poly(self,'diamond',(24,4),(40,24),(24,44),(8,24),closed=True)
+        contacts(self)

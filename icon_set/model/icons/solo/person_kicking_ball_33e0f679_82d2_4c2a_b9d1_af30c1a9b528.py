@@ -1,3 +1,5 @@
+# Refinement: Widen the leg spread without moving the ball or the head.
+# Repair: Open the bend of the kicking knee away from the planted thigh.
 """Reconstruct person kicking ball using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct person kicking ball using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -48,10 +50,10 @@ class PersonKickingBall(Solo48):
         self.add_line('arm-back-2', (14, 20), (8, 26))
         self.add_line('arm-front-1', (24, 23), (31, 26))
         self.add_line('arm-front-2', (31, 26), (42, 20))
-        self.add_line('leg-back-1', (20, 30), (14, 38))
-        self.add_line('leg-back-2', (14, 38), (6, 38))
-        self.add_line('leg-front-1', (20, 30), (26, 34))
-        self.add_line('leg-front-2', (26, 34), (22, 42))
+        self.add_line('leg-back-1', (20, 30), (12, 38))
+        self.add_line('leg-back-2', (12, 38), (6, 38))
+        self.add_line('leg-front-1', (20, 30), (26, 36))
+        self.add_line('leg-front-2', (26, 36), (22, 42))
         self.add_arc('ball-top', (34, 38), (42, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('ball-bottom', (42, 38), (34, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
@@ -64,3 +66,4 @@ class PersonKickingBall(Solo48):
         self.relate('connect', *('body', 'arm-front'))
         self.relate('connect', *('body', 'leg-back'))
         self.relate('connect', *('body', 'leg-front'))
+        self.mark_human_figure('person', head='head', torso='body', torso_junction='start')

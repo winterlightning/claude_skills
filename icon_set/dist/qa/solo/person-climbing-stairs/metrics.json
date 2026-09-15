@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.2 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -33,15 +31,15 @@
         "elementId": "person-body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 18 22 C 17.026991489178961 25.335220425970498 16.5 27.5 16 29",
+        "pathData": "M 18 22 C 18 25 16.5 28.5 16 30",
         "bounds": [
           16.0,
           22.0,
           18.0,
-          29.0
+          30.0
         ],
-        "segmentCount": 13,
-        "approximationError": 0.0006841680380337302,
+        "segmentCount": 32,
+        "approximationError": 0.0009991876048016447,
         "hasCurves": true
       },
       {
@@ -49,12 +47,12 @@
         "elementId": "person-arms-1",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 6 27 L 18 22",
+        "pathData": "M 6 22 L 18 22",
         "bounds": [
           6.0,
           22.0,
           18.0,
-          27.0
+          22.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -65,10 +63,10 @@
         "elementId": "person-legs",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 8 42 L 16 29 L 26 28 L 30 30",
+        "pathData": "M 8 42 L 16 30 L 26 30 L 30 30",
         "bounds": [
           8.0,
-          28.0,
+          30.0,
           30.0,
           42.0
         ],
@@ -81,7 +79,7 @@
         "elementId": "stairs",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 20 42 L 20 36 L 30 36 L 30 30 L 36 30 L 36 24 L 42 24",
+        "pathData": "M 20 42 L 20 38 L 30 38 L 30 30 L 36 30 L 36 24 L 42 24",
         "bounds": [
           20.0,
           24.0,
@@ -172,7 +170,7 @@
         "upperBound": 8.00030167326099,
         "inkClearanceLowerBound": 4.0,
         "inkClearanceUpperBound": 4.00030167326099,
-        "approximationError": 0.0009858412990215652,
+        "approximationError": 0.0013008608657894796,
         "nearestPoints": [
           [
             18.0,
@@ -214,10 +212,10 @@
             "inkClearance": 4.0,
             "signedInkClearance": 4.0,
             "lowerBound": 8.0,
-            "upperBound": 8.000985841299023,
+            "upperBound": 8.001300860865792,
             "inkClearanceLowerBound": 4.0,
-            "inkClearanceUpperBound": 4.000985841299023,
-            "approximationError": 0.0009858412990215652,
+            "inkClearanceUpperBound": 4.001300860865792,
+            "approximationError": 0.0013008608657894796,
             "nearestPoints": [
               [
                 18.0,
@@ -268,22 +266,22 @@
               "person-head:subpath-1",
               "person-legs:subpath-1"
             ],
-            "centerlineDistance": 14.706703639314224,
-            "inkClearance": 10.706703639314224,
-            "signedInkClearance": 10.706703639314224,
-            "lowerBound": 14.706699175947794,
-            "upperBound": 14.707005312575214,
-            "inkClearanceLowerBound": 10.706699175947794,
-            "inkClearanceUpperBound": 10.707005312575214,
+            "centerlineDistance": 16.0,
+            "inkClearance": 12.0,
+            "signedInkClearance": 12.0,
+            "lowerBound": 16.0,
+            "upperBound": 16.000301673260992,
+            "inkClearanceLowerBound": 12.0,
+            "inkClearanceUpperBound": 12.000301673260992,
             "approximationError": 0.0003016732609878349,
             "nearestPoints": [
               [
-                18.392068561318244,
-                13.980738906688787
+                18.0,
+                14.0
               ],
               [
-                19.85544026796967,
-                28.614455973203032
+                18.0,
+                30.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -373,7 +371,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           16.0,
-          29.0
+          30.0
         ]
       },
       {
@@ -445,7 +443,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             16.0,
-            29.0
+            30.0
           ]
         }
       },
@@ -568,9 +566,9 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 22,
-      "flattenedSegments": 282,
-      "adaptiveNodes": 535,
-      "distanceTests": 179,
+      "flattenedSegments": 301,
+      "adaptiveNodes": 573,
+      "distanceTests": 131,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -659,6 +657,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.24720671770142508,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.22273315584109332,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/person-climbing-stairs/icon.svg",
     "metrics": "solo/person-climbing-stairs/metrics.json"
@@ -671,9 +704,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "b7870b312d4c1457f053f2940e63c8bef6a3e3b638c65738dd815a2f545aae60",
+  "svg_sha256": "cdb650dc05d33090407d69419caa00bd980af3713f67d3c264fcdfa37b3d7293",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -728,8 +762,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -741,119 +776,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "person-legs / stairs",
-        "elements": [
-          "person-legs-2",
-          "stairs-2"
-        ],
-        "status": "review",
-        "sustained_length": 5.75,
-        "centerline_distance": 7.4255,
-        "ink_gap": 3.4255,
-        "nearest_points": [
-          [
-            19.88613861386142,
-            28.61138613861386
-          ],
-          [
-            20.625,
-            36.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Stair climber: radius4 head (18,10), shoulder (18,22), exact4 gap. Lift the leading hand above the raised knee to open the triangular recess; preserve the foot on the actual step. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "person-legs / forward-arm",
-        "elements": [
-          "person-legs-2",
-          "forward-arm-0"
-        ],
-        "status": "review",
-        "sustained_length": 7.1084,
-        "centerline_distance": 6.061,
-        "ink_gap": 2.061,
-        "nearest_points": [
-          [
-            25.390243902439025,
-            28.0609756097561
-          ],
-          [
-            25.390243902439025,
-            22.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Stair climber: radius4 head (18,10), shoulder (18,22), exact4 gap. Lift the leading hand above the raised knee to open the triangular recess; preserve the foot on the actual step. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "person-legs / person-arms-1",
-        "elements": [
-          "person-legs-2",
-          "person-arms-1"
-        ],
-        "status": "review",
-        "sustained_length": 3.6768,
-        "centerline_distance": 5.8705,
-        "ink_gap": 1.8705,
-        "nearest_points": [
-          [
-            16.609756097560975,
-            28.9390243902439
-          ],
-          [
-            14.351854524462388,
-            23.520060614807342
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Stair climber: radius4 head (18,10), shoulder (18,22), exact4 gap. Lift the leading hand above the raised knee to open the triangular recess; preserve the foot on the actual step. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "person-legs / stairs",
-        "elements": [
-          "person-legs-3",
-          "stairs-2"
-        ],
-        "status": "review",
-        "sustained_length": 3.4783,
-        "centerline_distance": 6.2778,
-        "ink_gap": 2.2778,
-        "nearest_points": [
-          [
-            29.444444444444443,
-            29.72222222222222
-          ],
-          [
-            29.444444444444443,
-            36.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Stair climber: radius4 head (18,10), shoulder (18,22), exact4 gap. Lift the leading hand above the raised knee to open the triangular recess; preserve the foot on the actual step. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 4
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

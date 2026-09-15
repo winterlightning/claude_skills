@@ -1,3 +1,4 @@
+# Repair: Lower the rear knee one unit to clear the carrying arm.
 """Flag protester: give the head clearance from the flag and pole as well as its own shoulder. Radius4 head (24,18), torso (24,30), exact4 ink gap. Hands meet the pole at (12,24); retain the source walking stance and full_body_ref.png vocabulary.
 
 Flag protester: remove the duplicated line that ran into the head. Radius4 head at (32,16), actual shoulder (32,28), exact4 ink gap. Curved torso and two walking legs preserve the source flag-carrying action. full_body_ref.png owns human proportions.
@@ -44,6 +45,7 @@ class ProtesterCarryingFlag(Solo48):
         """Flag protester: give the head clearance from the flag and pole as well as its own shoulder. Radius4 head (24,18), torso (24,30), exact4 ink gap. Hands meet the pole at (12,24); retain the source walking stance and full_body_ref.png vocabulary."""
         self.ring('head', 24, 18, 4)
         self.add_bezier('torso', (24, 30), ((24, 33), (27, 35), (28, 37)))
-        self.branches([('arm', [(24, 30), (14, 30), (12, 24)]), ('left-leg', [(28, 37), (20, 39), (16, 44)]), ('right-leg', [(28, 37), (35, 40), (39, 44)]), ('pole', [(8, 4), (12, 24), (14, 34)]), ('flag', [(8, 4), (40, 4), (34, 10)])])
+        self.branches([('arm', [(24, 30), (14, 30), (12, 24)]), ('left-leg', [(28, 37), (20, 40), (16, 44)]), ('right-leg', [(28, 37), (35, 40), (39, 44)]), ('pole', [(8, 4), (12, 24), (14, 34)]), ('flag', [(8, 4), (40, 4), (34, 10)])])
         for p in ['arm-0', 'left-leg-0', 'right-leg-0']:
             self.relate('connect', 'torso', p)
+        self.mark_human_figure('person', head='head', torso='torso', torso_junction='start')

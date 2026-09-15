@@ -1,0 +1,33 @@
+"""Replace the blunt rectangular key tip with a stepped tooth and shoulder, preserving the circular bow and diagonal shaft.
+Independent centerline revision; original snapshot preserved."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '7f99ed9d-aefc-4d4a-9237-167f01c21fea'
+SOURCE_PATH = 'pictographic-primitives/symbol/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'
+AUTHOR = 'gpt-6'
+
+class KeyRoundBow(Solo48):
+    icon_id = 'key-round-bow-centerline-v2'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/symbols'
+    aliases = ()
+    keywords = ('key', 'access', 'unlock', 'password', 'security', 'lock', 'login', 'privacy')
+
+    def oval(self, n, cx, cy, rx, ry=None):
+        ry = rx if ry is None else ry
+        self.add_arc(n + '-top', (cx - rx, cy), (cx + rx, cy), radius_x=rx, radius_y=ry)
+        self.add_arc(n + '-bottom', (cx + rx, cy), (cx - rx, cy), radius_x=rx, radius_y=ry)
+        self.add_contour(n, n + '-top', n + '-bottom', closed=True)
+
+    def path(self, n, points, closed=False):
+        self.add_polyline(n, *points, closed=closed)
+
+    def build(self):
+        self.add_arc('bow', (30, 30), (18, 18), radius_x=12, large_arc=True)
+        self.path('shaft', [(18, 18), (30, 6), (42, 6), (42, 14), (36, 14), (36, 24), (30, 30)])
+        self.relate('connect', 'bow', 'shaft')
+        self.oval('hole', 18, 30, 3)
+    variant_of = 'key-round-bow'
+    variant_label = 'Batch 01 centerline repair'

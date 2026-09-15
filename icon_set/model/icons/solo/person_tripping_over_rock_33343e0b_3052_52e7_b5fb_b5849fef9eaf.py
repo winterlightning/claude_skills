@@ -1,3 +1,4 @@
+# Repair: Lift the rear hand clear of the rear thigh during the tripping action.
 """Reconstruct person tripping over rock using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A person pitches forward toward the right with one arm extended and the rear leg stretched behind. A small angular rock sits just ahead of the lowered front foot.
@@ -44,7 +45,7 @@ class PersonTrippingOverRock(Solo48):
         """Reconstruct person tripping over rock using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.ring('person-head', 29, 11, 5)
         self.add_bezier('person-torso-1', (24, 23), *(((22.6, 26.36), (19.5, 28.25), (18, 30)),))
-        self.add_line('person-arms-1', (12, 27), (18, 21))
+        self.add_line('person-arms-1', (10, 23), (18, 21))
         self.add_line('person-arms-2', (18, 21), (24, 23))
         self.add_line('person-arms-3', (24, 23), (34, 29))
         self.add_line('person-legs-1', (6, 37), (18, 30))
@@ -58,3 +59,4 @@ class PersonTrippingOverRock(Solo48):
         self.add_contour('rock', *('rock-1', 'rock-2'), closed=False)
         self.relate('connect', *('person-torso', 'person-arms'))
         self.relate('connect', *('person-torso', 'person-legs'))
+        self.mark_human_figure('person', head='person-head', torso='person-torso-1', torso_junction='start')

@@ -1,3 +1,4 @@
+# Repair: Lift the forward forearm away from the raised knee.
 """Reconstruct walking stick figure with raised knee using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A stick figure steps toward the right with one knee raised and the forward arm bent horizontally. The other arm and leg extend backward beneath the upright torso and circular head.
@@ -46,8 +47,8 @@ class WalkingStickFigureWithRaisedKnee(Solo48):
         self.add_bezier('person-body-1', (24, 21), *(((22.6, 24.36), (22.5, 28.5), (22, 31)),))
         self.add_line('person-arms-1', (8, 29), (14, 21))
         self.add_line('person-arms-2', (14, 21), (24, 21))
-        self.add_line('person-arms-3', (24, 21), (30, 27))
-        self.add_line('person-arms-4', (30, 27), (40, 29))
+        self.add_line('person-arms-3', (24, 21), (31, 25))
+        self.add_line('person-arms-4', (31, 25), (40, 26))
         self.add_line('person-legs-1', (10, 44), (20, 37))
         self.add_line('person-legs-2', (20, 37), (22, 31))
         self.add_line('person-legs-3', (22, 31), (36, 36))
@@ -57,3 +58,4 @@ class WalkingStickFigureWithRaisedKnee(Solo48):
         self.add_contour('person-legs', *('person-legs-1', 'person-legs-2', 'person-legs-3', 'person-legs-4'), closed=False)
         self.relate('connect', *('person-body', 'person-arms'))
         self.relate('connect', *('person-body', 'person-legs'))
+        self.mark_human_figure('person', head='person-head', torso='person-body-1', torso_junction='start')

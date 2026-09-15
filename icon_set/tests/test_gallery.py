@@ -159,6 +159,24 @@ class ServerTests(unittest.TestCase):
         threading.Thread(target=replacement.serve_forever, daemon=True).start()
         self.assertEqual(json.loads(self.request('GET', '/api/feedback?icon=sub%2Fsquare')[1])[0]['feedback'], text)
 
+    def test_static_icons_revalidate_but_api_is_never_cached(self):
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        self.addCleanup(connection.close)
+        connection.request('GET', '/sub32/square.svg')
+        response = connection.getresponse()
+        response.read()
+        self.assertEqual(response.getheader('Cache-Control'), 'no-cache')
+        modified = response.getheader('Last-Modified')
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        self.addCleanup(connection.close)
+        connection.request('GET', '/sub32/square.svg', headers={'If-Modified-Since': modified})
+        self.assertEqual(connection.getresponse().status, 304)
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        self.addCleanup(connection.close)
+        connection.request('GET', '/api/reviews', headers={'Cookie': self.cookie})
+        self.assertEqual(connection.getresponse().getheader('Cache-Control'), 'no-store')
+        self.assertGreaterEqual(self.server.request_queue_size, 128)
+
     def test_review_states_persist_and_new_svg_requires_review(self):
         key = 'sub/square'
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'ready')

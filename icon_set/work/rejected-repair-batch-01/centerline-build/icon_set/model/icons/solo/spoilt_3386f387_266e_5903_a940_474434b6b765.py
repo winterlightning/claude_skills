@@ -1,0 +1,27 @@
+'spoilt: preserve the expression with balanced eyes and a clear mouth; omit redundant tiny eyebrow or blush marks where the three detail rows could not meet MIC4.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '3386f387-266e-5903-a940-474434b6b765'
+SOURCE_PATH = 'pictographic-primitives/smileys/spoilt_3386f387-266e-5903-a940-474434b6b765.svg'
+AUTHOR = 'gpt-6'
+
+class Spoilt(Solo48):
+    icon_id = 'spoilt'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'smileys'
+    aliases = ()
+    keywords = ('spoilt', 'smileys')
+
+    def build(self) -> None:
+        self.add_arc('rim-top', (4,24), (44,24), radius_x=20, radius_y=20)
+        self.add_arc('rim-bottom', (44,24), (4,24), radius_x=20, radius_y=20)
+        self.add_contour('rim', 'rim-top', 'rim-bottom', closed=True)
+        self.add_arc('eye-left',(15,18),(19,16),radius_x=6,sweep=False)
+        self.add_arc('eye-right',(29,16),(33,18),radius_x=6,sweep=False)
+
+        self.add_arc('mouth-top', (20,30), (28,30), radius_x=4, radius_y=4)
+        self.add_arc('mouth-bottom', (28,30), (20,30), radius_x=4, radius_y=4)
+        self.add_contour('mouth', 'mouth-top', 'mouth-bottom', closed=True)

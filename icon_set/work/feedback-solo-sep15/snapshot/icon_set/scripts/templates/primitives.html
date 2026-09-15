@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Primitives · Pictographic</title>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
+<style>
+.prim-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
+.prim-intro{padding:36px 0 8px}.prim-intro h1{font-size:40px;font-weight:600;letter-spacing:-1.8px;margin:0 0 8px}.prim-intro p{color:var(--muted);margin:0;max-width:760px;line-height:1.6}
+.prim-warning{background:#fff1d6;color:#7a5200;border:1px solid #f0d9a8;border-radius:10px;padding:12px 16px;margin:16px 0;font-size:14px}
+.prim-status{font-size:13px;color:var(--muted);min-height:20px;margin:10px 0}
+.prim-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr));gap:12px;margin:18px 0 12px}
+.prim-stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.prim-stat span{display:block;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.prim-stat strong{display:block;font-size:28px;font-weight:650;letter-spacing:-1px;margin-top:4px}.prim-stat small{color:var(--muted);font-size:12px}
+.bar{display:flex;height:12px;border-radius:999px;overflow:hidden;background:#e6ebe4;min-width:80px}.bar>i{display:block;height:100%}
+.bar .generated{background:#2f7a52}.bar .skip{background:#b9a27a}.bar .todo{background:#e6ebe4}
+.legend i.generated{background:#2f7a52}.legend i.skip{background:#b9a27a}.legend i.todo{background:#d5dcd2}.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:12px;color:var(--muted);margin:10px 0 0}.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 13px;font-size:13px;cursor:pointer;color:#34423b}
+.chip[aria-pressed="true"]{background:var(--green);border-color:var(--green);color:#fff}.chip b{font-weight:700;margin-left:4px}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 12px}.toolbar input[type=search]{flex:1;min-width:200px}
+.toolbar input,.toolbar select,.actions input,.actions select{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.table-wrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:12px}
+table.categories{width:100%;border-collapse:collapse;font-size:13px}
+.categories th,.categories td{padding:10px 12px;border-bottom:1px solid #eef1ec;text-align:right;white-space:nowrap}
+.categories th:first-child,.categories td:first-child{text-align:left}.categories td.progress{width:28%;min-width:160px}
+.categories th button{border:0;background:none;font:inherit;font-weight:650;color:#4d5a53;cursor:pointer;padding:0}
+.categories tbody tr{cursor:pointer}.categories tbody tr:hover{background:#f5f8f2}.categories td a{font-weight:600;text-decoration:none}
+.muted{color:var(--muted)}.warn{color:#9a5b00}
+.back{display:inline-block;margin:24px 0 0;font-size:13px}
+.cat-head{display:flex;flex-wrap:wrap;align-items:end;justify-content:space-between;gap:16px;margin-top:8px}.cat-head h2{font-size:30px;margin:6px 0 0;letter-spacing:-1px}
+.actions{position:sticky;top:0;z-index:2;display:flex;flex-wrap:wrap;align-items:center;gap:10px;background:#eef2ec;border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0 0 12px}
+.actions button,.pager button,.toolbar button{border:1px solid var(--line);border-radius:8px;padding:9px 13px;background:#fff;cursor:pointer}
+.actions .primary{background:var(--green);border-color:var(--green);color:#fff}.actions button:disabled{opacity:.5;cursor:not-allowed}
+body.guest .login-only{display:none!important}body:not(.guest) .guest-only{display:none!important}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,180px),1fr));gap:12px}
+.tile{position:relative;background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tile[data-status="generated"]{border-color:#a9d3b8}.tile[data-status="skip"]{background:#fbf8f2}.tile.selected{outline:2px solid var(--green)}
+.tile label.pick{position:absolute;top:8px;left:8px;background:#fffc;border-radius:6px;padding:2px 4px}
+.art{display:grid;grid-template-columns:1fr 1fr;gap:6px}.art figure.placeholder{background:repeating-linear-gradient(45deg,#f7f9f4,#f7f9f4 6px,#eef2ea 6px,#eef2ea 12px)}.art figure.placeholder span{font-size:10px;color:var(--muted);text-align:center;padding:4px}
+.art figure{margin:0;aspect-ratio:1;display:grid;place-items:center;background:#f7f9f4;border-radius:8px;overflow:hidden}
+.art img{width:78%;height:78%;object-fit:contain}.art figcaption{font-size:10px;color:var(--muted);text-align:center}
+.tile h3{font-size:13px;margin:0;line-height:1.35;overflow-wrap:anywhere}.tile p{margin:0;font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.badges{display:flex;flex-wrap:wrap;gap:4px}.badge{font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:2px 7px;background:#eceff0;color:#4b5560;text-transform:uppercase}
+.badge.todo{background:#e8eefb;color:#2f4f8f}.badge.skip{background:#f3e8d4;color:#7a5200}.badge.generated{background:#dff3e4;color:#1f6b35}
+.badge.failed{background:#fae5e1;color:#923b30}.badge.conflict{background:#fde2f0;color:#8d1f5c}
+.pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin:18px 0}
+.empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
+dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);padding:20px}dialog textarea{width:100%;min-height:300px;font:12px ui-monospace,monospace}
+.component-brief{border-top:1px solid var(--line);padding-top:8px;font-size:12px}.component-brief summary{cursor:pointer}.component-brief p{margin:7px 0}.component-brief button,.brief-edit{margin-top:8px;border:1px solid var(--line);border-radius:6px;padding:6px;background:#fff;cursor:pointer}
+#briefDialog{max-height:85vh;overflow:auto}#briefDialog label{display:block;margin:12px 0 5px}#briefDialog input,#briefDialog select,#briefDialog textarea{box-sizing:border-box;width:100%;padding:9px;border:1px solid var(--line);border-radius:6px;font:inherit}#briefDialog textarea{min-height:90px}#briefDialog button{padding:8px 12px;margin:12px 6px 0 0}
+@media(max-width:700px){.prim-main{padding:0 18px 30px}.prim-intro h1{font-size:30px}.categories td.progress{min-width:120px}}
+</style>
+</head>
+<body class="guest">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="primitives.html">Progression</a><a id="siteAuth" href="login.html">Log in</a></nav></header>
+<main class="prim-main">
+  <section class="prim-intro"><p class="eyebrow">REMAKE PROGRESS</p><h1>Primitives</h1>
+    <p>Every original Pictographic primitive and where it stands. <b>Generated</b> means a linked icon is published in the library. <b>Skip</b> marks originals we will not remake (combination, container, text or number). Everything else is <b>TODO</b>.</p></section>
+  <p id="warning" class="prim-warning" hidden></p>
+  <p id="status" class="prim-status" role="status" aria-live="polite">Loading primitives…</p>
+
+  <section id="overview" hidden>
+    <div id="overallStats" class="prim-stats"></div>
+    <div id="overallBar" class="bar" aria-hidden="true"></div>
+    <div id="overallLegend" class="legend"></div>
+    <div class="toolbar"><input id="categorySearch" type="search" placeholder="Search categories" aria-label="Search categories">
+      <label class="muted"><input id="hideDone" type="checkbox"> Hide finished categories</label></div>
+    <div class="table-wrap"><table class="categories"><thead><tr>
+      <th><button data-sort="name">Category</button></th><th><button data-sort="total">Total</button></th><th><button data-sort="todo">TODO</button></th>
+      <th><button data-sort="skip">Skip</button></th><th><button data-sort="generated">Generated</button></th><th><button data-sort="build_failed">Build failed</button></th>
+      <th>Progress</th><th><button data-sort="done">Done</button></th></tr></thead><tbody id="categoryRows"></tbody></table></div>
+  </section>
+
+  <section id="detail" hidden>
+    <a class="back" href="primitives.html">← All categories</a>
+    <div class="cat-head"><div><p class="eyebrow" id="detailEyebrow">CATEGORY</p><h2 id="detailTitle"></h2></div><div id="detailStats" class="muted"></div></div>
+    <div id="detailBar" class="bar" style="margin-top:12px" aria-hidden="true"></div>
+    <div class="toolbar">
+      <div id="statusChips" class="chips" role="group" aria-label="Status filter"></div>
+      <select id="batch" aria-label="Batch"></select>
+      <select id="reasonFilter" aria-label="Skip reason"><option value="">Any skip reason</option></select>
+      <input id="search" type="search" placeholder="Search concept, file or UUID" aria-label="Search primitives">
+      <button id="copyTodo" type="button" title="The TODO primitives in this category and batch, as JSON for an agent">Copy TODO list (JSON)</button>
+    </div>
+    <div class="actions login-only">
+      <label><input id="selectPage" type="checkbox"> Select page</label><span id="selectedCount" class="muted">0 selected</span>
+      <select id="skipReason" aria-label="Skip reason"></select>
+      <input id="skipNote" type="text" maxlength="2000" placeholder="Note (required for Other)" aria-label="Skip note">
+      <button id="markSkip" class="primary" type="button" disabled>Mark SKIP</button>
+      <button id="markTodo" type="button" disabled>Mark TODO</button>
+      <span id="actionMessage" class="muted" role="status"></span>
+    </div>
+    <p class="guest-only muted"><a href="login.html">Log in</a> to mark primitives SKIP or TODO.</p>
+    <div id="grid" class="grid"></div>
+    <div class="pager"><button id="prev" type="button">← Previous</button><span id="pageInfo" class="muted"></span><button id="next" type="button">Next →</button>
+      <select id="pageSize" aria-label="Page size"><option>48</option><option>96</option><option>192</option></select></div>
+  </section>
+</main>
+<dialog id="copyDialog"><p>Copy this for later generation:</p><textarea id="copyText" readonly aria-label="Generation JSON"></textarea><p><button id="closeCopy" type="button">Close</button></p></dialog>
+<dialog id="briefDialog" aria-labelledby="briefTitle"><form id="briefForm">
+  <h2 id="briefTitle">Component brief</h2><p id="briefSource" class="muted"></p>
+  <p>Describe this icon on its own, including what to exclude from the source.</p>
+  <label for="briefFamily">Icon family</label><select id="briefFamily"><option value="container">Container</option><option value="solo">Solo</option><option value="sub">Sub</option></select>
+  <label for="componentName">Icon name</label><input id="componentName" maxlength="200" required>
+  <label for="componentDescription">Generation brief</label><textarea id="componentDescription" maxlength="2000" required></textarea>
+  <p id="briefMessage" role="status"></p><button id="saveBrief" type="submit">Save brief</button><button id="clearBrief" type="button">Clear brief</button><button id="closeBrief" type="button">Cancel</button>
+</form></dialog>
+<footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Primitives remake progress</span></footer>
+<script>
+const $=id=>document.getElementById(id);
+const REASONS={combination:'Combination',container:'Container',text_number:'Text / number',other:'Other'};
+const SUB_POSITIONS=['top-left','top','top-right','left','center','right','bottom-left','bottom','bottom-right'];
+const STATUS_LABEL={todo:'TODO',skip:'Skip',generated:'Generated'};
+let catalog={rows:[]},statuses={},selected=new Set(),sort={key:'name',dir:1},page=1;
+const state={category:'',status:'todo',batch:'',reason:'',q:''};
+
+function pct(part,total){return total?Math.round(part/total*1000)/10:0;}
+function effective(row){return row.state==='generated'?'generated':statuses[row.uuid]?'skip':'todo';}
+function counts(rows){const c={total:0,todo:0,skip:0,generated:0,build_failed:0,conflict:0};for(const k in REASONS)c['skip_'+k]=0;
+  for(const row of rows){const s=effective(row),d=statuses[row.uuid];c.total++;c[s]++;if(row.state==='build_failed')c.build_failed++;if(d&&s==='generated')c.conflict++;if(d&&s==='skip')c['skip_'+d.reason]++;}
+  c.done=pct(c.generated+c.skip,c.total);return c;}
+function bar(el,c){el.replaceChildren();for(const s of ['generated','skip','todo']){const i=document.createElement('i');i.className=s;i.style.width=pct(c[s],c.total)+'%';i.title=`${STATUS_LABEL[s]}: ${c[s].toLocaleString()} (${pct(c[s],c.total)}%)`;el.append(i);}}
+function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+function primitiveURL(path){return '/primitives/'+path.split('/').map(encodeURIComponent).join('/');}
+function categoryRows(name){return catalog.rows.filter(r=>r.category===name);}
+
+function writeURL(){const u=new URL(location.href);u.search='';if(state.category){u.searchParams.set('category',state.category);
+  for(const k of ['status','batch','reason','q'])if(state[k]&&!(k==='status'&&state[k]==='todo'))u.searchParams.set(k,state[k]);if(page>1)u.searchParams.set('page',page);}
+  history.replaceState(null,'',u);}
+function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.status=['todo','skip','generated','all'].includes(p.get('status'))?p.get('status'):'todo';
+  state.batch=p.get('batch')||'';state.reason=REASONS[p.get('reason')]?p.get('reason'):'';state.q=p.get('q')||'';page=Math.max(1,parseInt(p.get('page'))||1);}
+
+function renderOverview(){
+  const all=counts(catalog.rows);
+  const stats=[['Primitives',all.total.toLocaleString(),`${Object.keys(catalog.categories||{}).length} categories`],
+    ['Generated',all.generated.toLocaleString(),pct(all.generated,all.total)+'% of all'],['Skip',all.skip.toLocaleString(),pct(all.skip,all.total)+'% of all'],
+    ['TODO',all.todo.toLocaleString(),`${all.build_failed.toLocaleString()} with a failed build`],['Done',all.done+'%','generated + skip'],
+    ['Remake target',(all.total-all.skip).toLocaleString(),`${pct(all.generated,all.total-all.skip)}% generated`]];
+  $('overallStats').replaceChildren(...stats.map(([k,v,s])=>{const d=node('div','prim-stat');d.append(node('span','',k),node('strong','',v),node('small','',s));return d;}));
+  bar($('overallBar'),all);
+  const legend=[['generated','Generated'],['skip','Skip'],['todo','TODO']].map(([c,l])=>{const s=node('span');s.append(node('i',c),l);return s;});
+  const reasons=Object.entries(REASONS).map(([k,l])=>node('span','',`${l}: ${all['skip_'+k].toLocaleString()}`));
+  if(all.conflict)reasons.push(node('span','warn',`${all.conflict} skipped but generated`));
+  $('overallLegend').replaceChildren(...legend,...reasons);
+  const term=$('categorySearch').value.trim().toLowerCase();
+  let rows=Object.keys(catalog.categories||{}).map(name=>({name,...counts(categoryRows(name))}));
+  rows=rows.filter(r=>(!term||r.name.toLowerCase().includes(term))&&!($('hideDone').checked&&r.todo===0));
+  rows.sort((a,b)=>(sort.key==='name'?a.name.localeCompare(b.name):(a[sort.key]-b[sort.key])||a.name.localeCompare(b.name))*sort.dir);
+  $('categoryRows').replaceChildren(...rows.map(r=>{const tr=node('tr');const link=node('a','',r.name);link.href='?category='+encodeURIComponent(r.name);
+    const first=node('td');first.append(link);const skipTitle=Object.entries(REASONS).map(([k,l])=>`${l}: ${r['skip_'+k]}`).join('\n');
+    const skip=node('td','',r.skip.toLocaleString());skip.title=skipTitle;const progress=node('td','progress');const b=node('div','bar');bar(b,r);progress.append(b);
+    tr.append(first,node('td','',r.total.toLocaleString()),node('td','',r.todo.toLocaleString()),skip,node('td','',r.generated.toLocaleString()),
+      node('td',r.build_failed?'warn':'muted',r.build_failed.toLocaleString()),progress,node('td','',r.done+'%'));
+    tr.onclick=e=>{if(e.target.tagName!=='A'){e.preventDefault();openCategory(r.name);}};link.onclick=e=>{e.preventDefault();openCategory(r.name);};return tr;}));
+}
+
+function detailRows(){const term=state.q.trim().toLowerCase();
+  return categoryRows(state.category).filter(r=>(!state.batch||r.batch===state.batch)
+    &&(state.status==='all'||effective(r)===state.status)
+    &&(!state.reason||(statuses[r.uuid]||{}).reason===state.reason)
+    &&(!term||[r.concept,r.old_concept,r.path,r.uuid,...(r.models||[])].join(' ').toLowerCase().includes(term)));}
+
+function renderDetail(){
+  const rows=categoryRows(state.category),scoped=rows.filter(r=>!state.batch||r.batch===state.batch),c=counts(scoped);
+  $('detailTitle').textContent=state.category;$('detailEyebrow').textContent=state.batch?'CATEGORY · BATCH '+state.batch:'CATEGORY';
+  $('detailStats').textContent=`${c.total.toLocaleString()} primitives · ${c.generated} generated · ${c.skip} skip · ${c.todo} TODO · ${c.done}% done`+(c.build_failed?` · ${c.build_failed} build failed`:'');
+  bar($('detailBar'),c);
+  $('statusChips').replaceChildren(...['todo','skip','generated','all'].map(s=>{const b=node('button','chip',s==='all'?'All':STATUS_LABEL[s]);b.type='button';
+    b.append(node('b','',(s==='all'?c.total:c[s]).toLocaleString()));b.setAttribute('aria-pressed',String(state.status===s));b.onclick=()=>{state.status=s;page=1;selected.clear();renderDetail();};return b;}));
+  const batches=[...new Set(rows.map(r=>r.batch).filter(Boolean))].sort();
+  $('batch').hidden=!batches.length;$('batch').replaceChildren(new Option('All batches',''),...batches.map(b=>new Option((state.category==='Uncategorized'?'Batch ':'')+b,b)));$('batch').value=state.batch;
+  $('reasonFilter').value=state.reason;$('search').value=state.q;
+  const filtered=detailRows(),size=Number($('pageSize').value),pages=Math.max(1,Math.ceil(filtered.length/size));page=Math.min(page,pages);
+  const visible=filtered.slice((page-1)*size,page*size);
+  $('grid').replaceChildren(...(visible.length?visible.map(tile):[node('div','empty','No primitives match these filters.')]));
+  $('pageInfo').textContent=`Page ${page} of ${pages} · ${filtered.length.toLocaleString()} shown`;$('prev').disabled=page<=1;$('next').disabled=page>=pages;
+  const selectable=visible.filter(r=>effective(r)!=='generated');$('selectPage').checked=selectable.length>0&&selectable.every(r=>selected.has(r.uuid));
+  updateSelection();writeURL();
+}
+
+function tile(row){
+  const s=effective(row),d=statuses[row.uuid],el=node('article','tile'+(selected.has(row.uuid)?' selected':''));el.dataset.status=s;
+  if(s!=='generated'){const label=node('label','pick login-only');const box=document.createElement('input');box.type='checkbox';box.checked=selected.has(row.uuid);box.setAttribute('aria-label','Select '+row.concept);
+    box.onchange=()=>{box.checked?selected.add(row.uuid):selected.delete(row.uuid);el.classList.toggle('selected',box.checked);updateSelection();};label.append(box);el.append(label);}
+  const art=node('div','art');const original=node('figure');const img=document.createElement('img');img.loading='lazy';img.alt='';img.src=primitiveURL(row.path);original.append(img);
+  original.append(node('figcaption','','Original'));art.append(original);
+  if(!(row.generated||[]).length){const empty=node('figure','placeholder');empty.append(node('span','',s==='skip'?'Skipped':row.state==='build_failed'?'Build failed':'Not generated'));art.append(empty);}
+  for(const g of (row.generated||[]).slice(0,1)){const fig=node('figure');const a=document.createElement('a');a.href='index.html?q='+encodeURIComponent(g.icon_id);a.title='Open '+g.icon_id+' in the icon grid';
+    const gi=document.createElement('img');gi.loading='lazy';gi.alt=g.icon_id;gi.src=g.preview_url;a.append(gi);fig.append(a,node('figcaption','','Generated'));art.append(fig);}
+  el.append(art,node('h3','',row.concept),node('p','',row.old_concept+(row.batch?' · '+row.batch:'')));
+  const uid=node('p','',row.uuid.slice(0,8)+'…');uid.title=row.uuid+'\n'+row.path;el.append(uid);
+  const badges=node('div','badges');badges.append(node('span','badge '+s,STATUS_LABEL[s]));
+  if(d)badges.append(node('span','badge skip',REASONS[d.reason]||d.reason));
+  if(row.state==='build_failed')badges.append(node('span','badge failed','Build failed'));
+  if(d&&s==='generated')badges.append(node('span','badge conflict','Skipped but generated'));
+  if((row.generated||[]).length>1)badges.append(node('span','badge',row.generated.length+' icons'));
+  el.append(badges);
+  if(d){const note=node('p','',(d.note?'“'+d.note+'” · ':'')+(d.updated_by||'')+(d.updated_at?' · '+d.updated_at.slice(0,10):''));el.append(note);}
+  else if(row.models&&row.models.length&&s!=='generated'){el.append(node('p','warn','Model: '+row.models.join(', ')));}
+  if(d&&['container','combination'].includes(d.reason)){
+    if(d.reason==='combination'){
+      const position=node('section','component-brief');position.append(node('strong','','Sub icon position'),node('p','',d.sub_position||'Not set'),node('p','','Relative to the main icon; bottom-right places the sub icon at the main icon’s lower-right.'));
+      const select=document.createElement('select');select.className='login-only';select.setAttribute('aria-label','Sub icon position for '+row.concept);
+      select.append(new Option('Not set',''),...SUB_POSITIONS.map(p=>new Option(p,p)));select.value=d.sub_position||'';
+      const message=node('p','');message.setAttribute('role','status');
+      select.onchange=async()=>{select.disabled=true;message.textContent='Saving…';try{
+        const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[row.uuid],status:'skip',reason:d.reason,note:d.note,sub_position:select.value||null})});
+        const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save position');statuses[row.uuid]=data.decisions[row.uuid];renderDetail();
+      }catch(error){message.textContent=error.message;select.value=d.sub_position||'';}finally{select.disabled=false;}};
+      position.append(select,message);el.append(position);
+    }
+    for(const field of ['main_brief','sub_brief']){
+      const c=d[field],label=field==='sub_brief'?'Sub icon':(c?.family==='container'||(!c&&d.reason==='container')?'Container icon':'Main icon');
+      const section=node('section','component-brief');section.append(node('strong','',label+' brief'));
+      if(c){section.append(node('p','',c.name+' · '+c.family));const description=node('p','',c.description);section.append(description);
+        const copy=node('button','','Copy '+label.toLowerCase()+' brief');copy.type='button';copy.onclick=()=>{
+          const payload={source_uuid:row.uuid,reference_path:catalog.root_label+'/'+row.path,...c,...(d.sub_position?{sub_position:d.sub_position,position_reference:'Sub icon relative to main icon',generation_scope:'Generate only this component separately.'}:{})};
+          $('copyText').value=JSON.stringify(payload,null,2);$('copyDialog').showModal();$('copyText').select();};section.append(copy);
+      }else{section.append(node('p','','No brief yet'));}
+      const edit=node('button','brief-edit login-only',(c?'Edit ':'Add ')+label.toLowerCase()+' brief');edit.type='button';edit.onclick=()=>openBrief(row,field,label);section.append(edit);el.append(section);
+    }
+  }
+  return el;
+}
+
+let briefRow=null,briefField=null;
+function openBrief(row,field,label){briefRow=row;briefField=field;const c=statuses[row.uuid][field];
+  $('briefTitle').textContent=label+' brief';$('briefSource').textContent=row.concept;
+  $('briefFamily').value=c?.family||(field==='sub_brief'?'sub':statuses[row.uuid].reason==='container'?'container':'solo');
+  for(const option of $('briefFamily').options)option.hidden=field==='sub_brief'?option.value!=='sub':option.value==='sub';
+  $('briefFamily').disabled=field==='sub_brief';
+  $('componentName').value=c?.name||'';$('componentDescription').value=c?.description||'';
+  $('briefMessage').textContent='';$('clearBrief').hidden=!c;$('briefDialog').showModal();
+}
+async function saveBrief(clear=false){const d=statuses[briefRow.uuid];
+  const brief=clear?null:{family:$('briefFamily').value,name:$('componentName').value.trim(),description:$('componentDescription').value.trim()};
+  $('saveBrief').disabled=$('clearBrief').disabled=$('closeBrief').disabled=true;$('briefMessage').textContent='Saving…';
+  try{const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[briefRow.uuid],status:'skip',reason:d.reason,note:d.note,[briefField]:brief})});
+    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save brief');
+    statuses[briefRow.uuid]=data.decisions[briefRow.uuid];$('briefDialog').close();renderDetail();
+  }catch(error){$('briefMessage').textContent=error.message;}
+  finally{$('saveBrief').disabled=$('clearBrief').disabled=$('closeBrief').disabled=false;}
+}
+
+function updateSelection(){$('selectedCount').textContent=selected.size.toLocaleString()+' selected';$('markSkip').disabled=!selected.size;$('markTodo').disabled=!selected.size;}
+
+async function save(status){
+  const uuids=[...selected],reason=$('skipReason').value,note=$('skipNote').value.trim();
+  if(status==='skip'&&reason==='other'&&!note){$('actionMessage').textContent='Add a note to skip as Other.';$('skipNote').focus();return;}
+  $('markSkip').disabled=$('markTodo').disabled=true;$('actionMessage').textContent='Saving…';let changed=0;
+  try{for(let i=0;i<uuids.length;i+=500){const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({uuids:uuids.slice(i,i+500),status,reason:status==='skip'?reason:undefined,note:status==='skip'?note:''})});
+      const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save');changed+=data.changed;
+      for(const [uid,decision] of Object.entries(data.decisions||{})){if(decision)statuses[uid]=decision;else delete statuses[uid];}}
+    selected.clear();$('actionMessage').textContent=`Marked ${changed.toLocaleString()} ${STATUS_LABEL[status]}.`;renderDetail();
+  }catch(error){$('actionMessage').textContent=error.message;updateSelection();}
+}
+
+function openCategory(name){state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';page=1;selected.clear();show();window.scrollTo(0,0);}
+function show(){const inDetail=!!state.category&&!!(catalog.categories||{})[state.category];$('overview').hidden=inDetail;$('detail').hidden=!inDetail;
+  if(inDetail)renderDetail();else{state.category='';writeURL();renderOverview();}}
+
+async function copyTodo(){
+  const rows=categoryRows(state.category).filter(r=>(!state.batch||r.batch===state.batch)&&effective(r)==='todo')
+    .map(r=>({uuid:r.uuid,concept:r.concept,old_concept:r.old_concept,category:r.category,batch:r.batch,path:r.path}));
+  const text=JSON.stringify(rows,null,1);
+  try{await navigator.clipboard.writeText(text);$('actionMessage').textContent=`Copied ${rows.length} TODO primitives.`;}
+  catch{$('copyText').value=text;$('copyDialog').showModal();$('copyText').select();}
+}
+
+for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
+document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
+$('categorySearch').oninput=renderOverview;$('hideDone').onchange=renderOverview;
+$('batch').onchange=()=>{state.batch=$('batch').value;page=1;selected.clear();renderDetail();};
+$('reasonFilter').onchange=()=>{state.reason=$('reasonFilter').value;if(state.reason&&state.status==='todo')state.status='skip';page=1;renderDetail();};
+let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.q=$('search').value;page=1;renderDetail();},200);};
+$('pageSize').onchange=()=>{page=1;renderDetail();};$('prev').onclick=()=>{page--;renderDetail();window.scrollTo(0,0);};$('next').onclick=()=>{page++;renderDetail();window.scrollTo(0,0);};
+$('selectPage').onchange=()=>{const size=Number($('pageSize').value);for(const r of detailRows().slice((page-1)*size,page*size))if(effective(r)!=='generated')$('selectPage').checked?selected.add(r.uuid):selected.delete(r.uuid);renderDetail();};
+$('markSkip').onclick=()=>save('skip');$('markTodo').onclick=()=>save('todo');$('copyTodo').onclick=copyTodo;$('closeCopy').onclick=()=>$('copyDialog').close();
+$('briefForm').onsubmit=e=>{e.preventDefault();saveBrief();};$('clearBrief').onclick=()=>saveBrief(true);$('closeBrief').onclick=()=>$('briefDialog').close();
+document.querySelector('.back').onclick=e=>{e.preventDefault();state.category='';selected.clear();show();};
+window.addEventListener('popstate',()=>{readURL();show();});
+
+(async()=>{
+  readURL();
+  try{const response=await fetch('primitives.json');if(!response.ok)throw Error('primitives.json is missing — run primitives_catalog.py or a build.');catalog=await response.json();}
+  catch(error){$('status').textContent='Could not load primitives: '+error.message;return;}
+  if(catalog.warning){$('warning').textContent=catalog.warning;$('warning').hidden=false;}
+  let note='';
+  try{const response=await fetch('/api/primitives/status');if(!response.ok)throw Error();statuses=await response.json();}
+  catch{note=' · SKIP decisions unavailable (open this page through the gallery server).';}
+  $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`+note;
+  show();
+})();
+</script>
+</body>
+</html>

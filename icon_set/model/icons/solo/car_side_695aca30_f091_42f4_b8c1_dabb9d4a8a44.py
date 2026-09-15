@@ -1,4 +1,8 @@
-"""car-side: Angular side-view car; earlier revisions preserved."""
+"""Replace the front-facing windshield with a recognizable asymmetric side profile.
+Plan: side-facing roof and hood, two equal wheels sharing the body baseline.
+HRECT_L centerline extremes (4,8)-(44,40).
+Lucide: car; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '695aca30-f091-42f4-b8c1-dabb9d4a8a44'
@@ -15,40 +19,35 @@ class CarSide(Solo48):
     keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-side')
 
     def build(self):
-        # Plan: Preserve the original car silhouette with a full lower body, broad round wheels and smooth shoulders. The roof profile and windshield treatment retain this variant’s identity.
-        # Reference: Lucide car: original and atomic-debug geometry.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
+        def path(n, start, commands, closed=False):
             here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
                 here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
         line = self.add_line
         poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('body',(6,34),[('C', (4, 24), (4, 32), (4, 28)), ('C', (10, 18), (4, 20), (6, 18)), ('L', (16, 8)), ('L', (29, 8)), ('L', (37, 18)), ('L', (38, 18)), ('C', (44, 24), (40, 18), (44, 20)), ('C', (42, 34), (44, 28), (44, 32)), ('A', (36, 40), 6, 6, True), ('A', (30, 34), 6, 6, True), ('L', (18, 34)), ('A', (12, 40), 6, 6, True), ('A', (6, 34), 6, 6, True)],True)
-
-        for x in (12,36):
-         path(f'wheel-{x}',(x-6,34),[('A',(x,28),6,6,True),('A',(x+6,34),6,6,True)]);join(f'wheel-{x}','body')
-        poly('windshield-base',*[(10, 18), (38, 18)]);join('windshield-base','body')
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('body', (8, 36), [('L', (4, 32)), ('L', (4, 20)), ('L', (12, 8)), ('L', (24, 8)), ('L', (32, 20)), ('L', (40, 20)), ('A', (44, 24), 4, 4, True), ('L', (44, 32)), ('L', (40, 36))])
+        circle('rear-wheel', 12, 36, 4)
+        circle('front-wheel', 36, 36, 4)
+        line('sill', (16, 36), (32, 36))
+        join('sill', 'rear-wheel')
+        join('sill', 'front-wheel')
+        join('body', 'rear-wheel')
+        join('body', 'front-wheel')
+        line('window-base', (4, 20), (32, 20))
+        join('window-base', 'body')

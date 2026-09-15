@@ -1,7 +1,12 @@
-'Great sphinx.\n\nSymbol plan: shared integer nodes preserve contour order, repeated stations and real\nattachments. The SQUARE visible envelope is (4, 4, 44, 44).\nThe parent remains available for comparison.'
+# Refinement: Lower the forehead edge inside the full headdress arch.
+# Repair: Widen the headdress around a circular jaw and retain the reclining lion body.
+"""Great sphinx.
+
+Symbol plan: shared integer nodes preserve contour order, repeated stations and real
+attachments. The SQUARE visible envelope is (4, 4, 44, 44).
+The parent remains available for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c701c596-0404-4be0-8228-3ddc825a28fa'
 SOURCE_PATH = 'pictographic-primitives/culture/batch-03/sphinx_c701c596-0404-4be0-8228-3ddc825a28fa.svg'
 AUTHOR = 'gpt-6'
@@ -16,29 +21,28 @@ class GreatSphinx(Solo48):
     keywords = ('sphinx', 'egyptian', 'giza', 'pharaoh', 'lion', 'monument', 'ancient', 'mythology')
 
     def build(self) -> None:
-        # Shared nodes are reused by every touching member.
-        p_14_34 = (14, 34)
-        p_6_29 = (6, 29)
-        p_8_18 = (8, 18)
-        p_34_18 = (34, 18)
-        p_35_29 = (35, 29)
-        p_27_34 = (27, 34)
-        p_14_15 = (14, 15)
-        p_27_15 = (27, 15)
+        p_14_34 = (16, 34)
+        p_6_29 = (6, 30)
+        p_8_18 = (6, 20)
+        p_34_18 = (36, 20)
+        p_35_29 = (36, 30)
+        p_27_34 = (28, 34)
+        p_14_15 = (15, 17)
+        p_27_15 = (27, 17)
         p_27_21 = (27, 21)
-        p_14_21 = (14, 21)
+        p_14_21 = (15, 21)
         p_42_36 = (42, 36)
         p_42_42 = (42, 42)
         p_6_42 = (6, 42)
         p_13_34 = (13, 34)
         self.add_line('flap-outer-left', p_14_34, p_6_29)
         self.add_line('headdress-left', p_6_29, p_8_18)
-        self.add_arc('headdress-top', p_8_18, p_34_18, radius_x=13, radius_y=12, sweep=True, large_arc=False)
+        self.add_arc('headdress-top', p_8_18, p_34_18, radius_x=15, radius_y=14, sweep=True, large_arc=False)
         self.add_line('headdress-right', p_34_18, p_35_29)
         self.add_line('flap-outer-right', p_35_29, p_27_34)
         self.add_line('face-top', p_14_15, p_27_15)
         self.add_line('face-right', p_27_15, p_27_21)
-        self.add_arc('chin', p_27_21, p_14_21, radius_x=7, radius_y=8, sweep=True, large_arc=False)
+        self.add_arc('chin', p_27_21, p_14_21, radius_x=6, radius_y=6, sweep=True, large_arc=False)
         self.add_line('face-left', p_14_21, p_14_15)
         self.add_line('flap-left', p_14_21, p_14_34)
         self.add_line('flap-right', p_27_21, p_27_34)

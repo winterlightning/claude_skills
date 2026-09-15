@@ -1,3 +1,6 @@
+# Refinement: Separate the circular discus from the circular head by more than eight units.
+# Refinement: Raise the discus and lower the hip to open clearance on both sides of the throwing arm.
+# Repair: Raise the holding elbow away from the rear thigh, retaining the circular discus.
 """Reconstruct discus thrower using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct discus thrower using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -94,15 +97,15 @@ class DiscusThrower(Solo48):
         """Reconstruct discus thrower using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (24, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
         self.add_arc('head-a', (19, 11), (29, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_arc('head-b', (29, 11), (19, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('discus-right', (9, 17), (9, 23), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('discus-left', (9, 23), (9, 17), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_bezier('torso-0', (24, 24), *(((24.0, 27.29848450049413), (22.5, 30.0), (22, 32)),))
+        self.add_arc('discus-right', (9, 14), (9, 20), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('discus-left', (9, 20), (9, 14), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_bezier('torso-0', (24, 24), *(((24.0, 27.29848450049413), (22.5, 30.0), (22, 34)),))
         self.add_line('holding-arm-0', (24, 24), (12, 29))
-        self.add_line('holding-arm-1', (12, 29), (9, 23))
+        self.add_line('holding-arm-1', (12, 29), (9, 20))
         self.add_line('extended-arm-0', (24, 24), (42, 24))
-        self.add_line('rear-leg-0', (22, 32), (14, 38))
+        self.add_line('rear-leg-0', (22, 34), (14, 38))
         self.add_line('rear-leg-1', (14, 38), (6, 42))
-        self.add_line('front-leg-0', (22, 32), (30, 38))
+        self.add_line('front-leg-0', (22, 34), (30, 38))
         self.add_line('front-leg-1', (30, 38), (28, 42))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('discus', *('discus-right', 'discus-left'), closed=True)
@@ -120,3 +123,4 @@ class DiscusThrower(Solo48):
         self.relate('connect', *('front-leg-0', 'front-leg-1'))
         self.relate('connect', *('holding-arm-1', 'discus-right'))
         self.relate('connect', *('holding-arm-1', 'discus-left'))
+        self.mark_human_figure('person', head='head', torso='torso-0', torso_junction='start')

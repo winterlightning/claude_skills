@@ -1,9 +1,8 @@
-"""Inset the feather hem; joined the paired brows to an open hooked beak to remove crowding. Small closed beak removed.
-
-Keyshape SQUARE: visible bounds (4, 4, 44, 44).
-Reference: bird: coherent head curve and reduced beak; no exact front eagle match.
-"""
-# Independent repair of eagle-head-front; parent preserved.
+"""Give the eagle a centered, recognizable hooked beak and cleaner feather tips.
+Plan: symmetrical eagle head, paired angular brow runs, and a separate hooked beak.
+SQUARE centerline extremes (6,6)-(42,42).
+Lucide: bird; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3e22df15-b9ec-486b-ae4d-8ed0445ebba1'
@@ -19,18 +18,30 @@ class EagleHeadFront(Solo48):
     aliases = ()
     keywords = ('eagle', 'head', 'front', 'beak', 'feathers', 'raptor', 'bird', 'wildlife')
 
-    def build(self) -> None:
-        # SQUARE centerlines (6,6)-(42,42). Mirrored dome and three broad
-        # feather lobes; brows meet a shared angular beak rather than crowd it.
-        axis, shoulder, hem = 24, 24, 38
-        self.add_arc('dome-left',(6,24),(24,6),radius_x=18)
-        self.add_arc('dome-right',(24,6),(42,24),radius_x=18)
-        self.add_line('side-right',(42,24),(42,38))
-        self.add_arc('feather-right',(42,38),(30,38),radius_x=6,radius_y=2)
-        self.add_arc('feather-center',(30,38),(18,38),radius_x=6,radius_y=4)
-        self.add_arc('feather-left',(18,38),(6,38),radius_x=6,radius_y=2)
-        self.add_line('side-left',(6,38),(6,24))
-        self.add_contour('head','dome-left','dome-right','side-right','feather-right','feather-center','feather-left','side-left',closed=True)
-        self.add_polyline('brows',(15,22),(24,26),(33,22))
-        self.add_polyline('beak',(24,26),(27,30),(24,32))
-        self.relate('connect','brows','beak')
+    def build(self):
+
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('head', (6, 24), [('A', (24, 6), 18, 18, True), ('A', (42, 24), 18, 18, True), ('L', (42, 38)), ('L', (32, 36)), ('L', (24, 42)), ('L', (16, 36)), ('L', (6, 38)), ('L', (6, 24))], True)
+        poly('brow-left', (15, 20), (24, 24), (33, 20))
+        path('beak', (24, 24), [('L', (27, 28)), ('A', (24, 31), 3, 3, True)])
+        join('brow-left', 'beak')

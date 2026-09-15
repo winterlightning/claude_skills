@@ -1,7 +1,10 @@
-"""A boxy jigsaw with handle slot, vertical blade and trailing cord; housing seams omitted."""
+"""Separate the cutting blade from the support and make its vertical cutting direction clear.
+Plan: rounded housing with hand slot, central support, forward blade and base shoe.
+HRECT_L centerline extremes (4,8)-(44,40).
+Lucide: drill; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'dc02504c-1fd9-4220-bb74-2ff809f58aba'
 SOURCE_PATH = 'pictographic-primitives/tools/power tools wood cutter_dc02504c-1fd9-4220-bb74-2ff809f58aba.svg'
 AUTHOR = 'gpt-6'
@@ -9,32 +12,44 @@ AUTHOR = 'gpt-6'
 class JigsawPowerTool(Solo48):
     icon_id = 'jigsaw-power-tool'
     keyshape = Keyshape.HRECT_L
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "objects/tools"
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/tools'
     aliases = ()
     keywords = ('jigsaw', 'saw', 'power tool', 'cutting', 'woodworking', 'blade', 'electric', 'tool')
 
-    def build(self) -> None:
+    def build(self):
 
-        def box(n,x,y,w,h,r=0):
-            if not r:
-                self.add_polyline(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
-                return
-            pts=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            for j in range(8):
-                a,b=pts[j],pts[(j+1)%8]
-                if j%2:self.add_arc(n+str(j),a,b,radius_x=r)
-                else:self.add_line(n+str(j),a,b)
-            self.add_contour(n,*[n+str(j) for j in range(8)],closed=True)
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
 
-        box('body',8,8,28,24,7)
-        self.add_line('slot',(18,18),(26,18))
-        self.add_line('blade',(16,32),(16,40))
-        self.relate('connect','blade','body')
-        self.add_line('shoe',(4,40),(32,40))
-        self.relate('connect','shoe','blade')
-        self.add_line('cord-start',(36,24),(39,24))
-        self.add_arc('cord-turn',(39,24),(39,34),radius_x=5)
-        self.add_contour('cord','cord-start','cord-turn')
-        self.relate('connect','cord','body')
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('body', (14, 8), [('L', (30, 8)), ('A', (36, 14), 6, 6, True), ('L', (36, 26)), ('L', (8, 26)), ('L', (8, 14)), ('A', (14, 8), 6, 6, True)], True)
+        line('handle-slot', (18, 17), (26, 17))
+        line('blade', (10, 26), (10, 40))
+        join('body', 'blade')
+        line('support', (28, 26), (28, 40))
+        join('support', 'shoe')
+        join('support', 'body')
+        line('shoe', (4, 40), (38, 40))
+        join('blade', 'shoe')
+        join('support', 'shoe')
+        path('cord', (36, 18), [('L', (40, 18)), ('A', (44, 22), 4, 4, True)])
+        join('cord', 'body')

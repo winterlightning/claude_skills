@@ -47,11 +47,11 @@
         "elementId": "cord",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 34 L 20 42 L 42 42 L 42 24 L 39 18",
+        "pathData": "M 20 34 L 20 42 L 39 42 L 39 24 L 39 18",
         "bounds": [
           20.0,
           18.0,
-          42.0,
+          39.0,
           42.0
         ],
         "segmentCount": 4,
@@ -417,6 +417,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.35715356635206164,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.4042620792059666,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/alarm-bell-with-pull-cord/icon.svg",
     "metrics": "solo/alarm-bell-with-pull-cord/metrics.json"
@@ -429,9 +464,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "be128027447dd4d67c3d672ca980785fa08e6bae61d039a9f4dc7b277c2c195b",
+  "svg_sha256": "4703083a0c15e4247d77fb14cc4a5f5a116f5135fd204dd29b1e6c1413c504bb",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -486,6 +522,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

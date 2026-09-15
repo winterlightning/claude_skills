@@ -1,3 +1,4 @@
+# Repair: Lengthen the racing back and thigh, retain both wheels and connect the hands to the actual fork. Exact 13-5=8 head gap.
 """Reconstruct racing cyclist using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct racing cyclist using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -13,7 +14,7 @@ AUTHOR = 'gpt-6'
 
 class RacingCyclist(Solo48):
     icon_id = 'racing-cyclist'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/sports'
@@ -42,39 +43,14 @@ class RacingCyclist(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Reconstruct racing cyclist using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
-        self.add_arc('head-a', (25, 11), (35, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('head-b', (35, 11), (25, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('wheel-rear-a', (12, 30), (12, 42), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('wheel-rear-b', (12, 42), (12, 30), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('wheel-front-a', (36, 30), (36, 42), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('wheel-front-b', (36, 42), (36, 30), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_bezier('rider-1', (25, 23), *(((23.912143413559157, 25.610855807458023), (19.75, 23.75), (18, 24)),))
-        self.add_line('rider-2', (18, 24), (25, 29))
-        self.add_line('rider-3', (25, 29), (21, 38))
-        self.add_line('arms-1', (25, 23), (29, 25))
-        self.add_line('arms-2', (29, 25), (37, 24))
-        self.add_line('fork', (31, 24), (36, 36))
-        self.add_line('frame', (12, 36), (18, 24))
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('wheel-rear', *('wheel-rear-a', 'wheel-rear-b'), closed=True)
-        self.add_contour('wheel-front', *('wheel-front-a', 'wheel-front-b'), closed=True)
-        self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
-        self.relate('connect', *('rider', 'arms'))
-        self.relate('connect', *('fork', 'arms'))
-        self.relate('connect', *('fork', 'wheel-front'))
-        self.relate('connect', *('frame', 'wheel-rear'))
-        self.relate('connect', *('frame', 'rider'))
-        self.add_contour('rider', *('rider-1',), closed=False)
-        self.add_contour('rider-section-1', *('rider-2', 'rider-3'), closed=False)
-        self.relate('connect', 'rider-1', 'rider-2')
-        self.relate('connect', 'rider-2', 'rider-3')
-        self.relate('connect', 'head-a', 'head-b')
-        self.relate('connect', 'wheel-rear-a', 'wheel-rear-b')
-        self.relate('connect', 'wheel-front-a', 'wheel-front-b')
-        self.relate('connect', 'rider-1', 'rider-2')
-        self.relate('connect', 'rider-1', 'arms-1')
-        self.relate('connect', 'rider-1', 'frame')
-        self.relate('connect', 'rider-2', 'rider-3')
-        self.relate('connect', 'rider-2', 'frame')
-        self.relate('connect', 'arms-1', 'arms-2')
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+        path(self,'head',(24,8),('A',4,4,True,(32,8)),('A',4,4,True,(24,8)),closed=True)
+        ellipse(self,'rear-wheel',12,40,4)
+        ellipse(self,'front-wheel',36,40,4)
+        path(self,'torso',(28,20),('C',(28,24),(20,24),(16,24)))
+        poly(self,'leg',(16,24),(24,28),(24,38))
+        poly(self,'arms',(28,20),(36,24),(36,28))
+        line(self,'fork',(36,28),(36,36))
+        line(self,'frame',(12,36),(16,24))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

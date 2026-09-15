@@ -1,4 +1,8 @@
-'Flamingo: independent spacing revision.\n\nOpen hooked neck and beak; ellipse body and separated supporting/tucked legs.\nNative solo family, VRECT_L keyshape. The original model is preserved.\nDirectional and natural asymmetry follows the supplied subject.\nFinal construction review: bird: simplified body, open supporting limbs. Local Lucide originals and atomic-debug renders were inspected.\n'
+"""Curve the flamingo neck and turn down the beak; preserve the bent standing pose.
+Plan: oval body, continuous curved neck and beak, one vertical and one bent leg.
+VRECT_L centerline extremes (8,4)-(40,44).
+Lucide: bird; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0eedad4e-672e-40c7-9399-bd5db48d8049'
@@ -15,15 +19,32 @@ class Flamingo(Solo48):
     keywords = ('flamingo', 'standing', 'one leg', 'bird', 'pink', 'tropical', 'wading', 'beak')
 
     def build(self):
-        self.add_arc('bodya',(8, 29),(30, 29),radius_x=11,radius_y=5)
-        self.add_arc('bodyb',(30, 29),(8, 29),radius_x=11,radius_y=5)
-        self.add_contour('body','bodya','bodyb',closed=True)
-        self.add_line('neck',(30, 29),(30, 10))
-        self.add_arc('head',(30, 10),(36, 4),radius_x=6,radius_y=6,sweep=True)
-        self.add_line('beak',(36, 4),(40, 4))
-        self.add_contour('neck-head','neck','head','beak',closed=False)
-        self.relate('connect','body','neck-head')
-        self.add_line('leg',(19, 34),(19, 44))
-        self.add_polyline('tucked',(19, 34),(8, 42),closed=False)
-        self.relate('connect','body','leg')
-        self.relate('connect','body','tucked')
+
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('body', (8, 29), [('A', (19, 24), 11, 5, True), ('A', (30, 29), 11, 5, True), ('A', (19, 34), 11, 5, True), ('A', (8, 29), 11, 5, True)], True)
+        path('neck', (30, 29), [('L', (30, 16)), ('C', (34, 4), (30, 10), (28, 4)), ('A', (40, 10), 6, 6, True), ('L', (40, 13))])
+        join('body', 'neck')
+        line('leg', (19, 34), (19, 44))
+        poly('bent-leg', (19, 34), (8, 42))
+        join('body', 'leg')
+        join('body', 'bent-leg')

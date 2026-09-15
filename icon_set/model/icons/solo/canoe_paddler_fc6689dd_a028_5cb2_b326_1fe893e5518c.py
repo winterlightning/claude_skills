@@ -1,3 +1,4 @@
+# Repair: Level the paddling forearm 8 units above the gunwale; keep actual paddle contact.
 """Canoe paddler: move the hand onto the real paddle node (31,20), and seat the torso on the gunwale at (12,32). Split the receiver at that exact contact. Radius4 head (17,12), shoulder (17,24), exact4 ink gap.
 
 Reconstruct canoe paddler using its inspected source pose and full_body_ref.png. Head radius 4, center (17, 12), actual torso junction (17, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -49,8 +50,8 @@ class CanoePaddler(Solo48):
         self.add_arc('head-a', (13, 12), (21, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('head-b', (21, 12), (13, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_bezier('paddler-1', (12, 32), *(((13.25, 28.5), (17.0, 27.124099870362663), (17, 24)),))
-        self.add_line('paddler-2', (17, 24), (25, 25))
-        self.add_line('paddler-3', (25, 25), (31, 20))
+        self.add_line('paddler-2', (17, 24), (25, 24))
+        self.add_line('paddler-3', (25, 24), (31, 20))
         self.add_line('paddle-1', (39, 8), (31, 20))
         self.add_line('paddle-2', (31, 20), (23, 32))
         self.add_line('hull-1', (4, 32), (11, 40))
@@ -79,3 +80,4 @@ class CanoePaddler(Solo48):
         self.relate('connect', 'paddler-3', 'paddle-2')
         self.relate('connect', 'paddle-2', 'gunwale-1')
         self.relate('connect', 'hull-1', 'gunwale-0')
+        self.mark_human_figure('person', head='head', torso='paddler-1', torso_junction='end')

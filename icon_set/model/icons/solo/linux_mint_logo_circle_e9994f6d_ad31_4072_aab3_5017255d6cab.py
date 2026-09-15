@@ -1,3 +1,4 @@
+# Repair: Retain the LM monogram, with the L sharing the left stem and baseline. Equal 8-unit m arches fit the enclosing brand shape.
 """A large circle holds a lowercase m whose left stem rises tall and rounds into the letter base, forming the letters lm.
 
 Symbol plan: Circular enclosure around l and two repeated m arches; radial centerline radius20.
@@ -20,30 +21,9 @@ class LinuxMintLogoCircle(Solo48):
     keywords = ('linux-mint', 'linux', 'operating-system', 'lm', 'logo', 'brand', 'circle')
 
     def build(self):
-
-        def chain(name, *points):
-            for i,(start,end) in enumerate(zip(points,points[1:]),1):
-                self.add_line(f'{name}-{i}',start,end)
-        def ring(name, x, y, r):
-            self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-            self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-        def rounded(name, left, top, right, bottom, r):
-            points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),(right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
-            members=[]
-            for i,start in enumerate(points):
-                end=points[(i+1)%8]; ident=f'{name}-{i}'
-                if start==end: continue
-                if i%2:self.add_arc(ident,start,end,radius_x=r)
-                else:self.add_line(ident,start,end)
-                members.append(ident)
-            self.add_contour(name,*members,closed=True)
-        ring('frame',24,24,20)
-
-        self.add_polyline('l',(16,15),(16,31),(32,31))
-        self.add_arc('m-left',(22,26),(28,26),radius_x=3)
-        self.add_arc('m-right',(28,26),(34,26),radius_x=3)
-        self.add_line('m-left-stem',(22,26),(22,31))
-        self.add_line('m-middle',(28,26),(28,31))
-        self.add_line('m-right-stem',(34,26),(34,31))
-        for a,b in [('m-left','m-right'),('m-left','m-left-stem'),('m-left','m-middle'),('m-right','m-middle'),('m-right','m-right-stem')]:self.relate('connect',a,b)
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+        ellipse(self,'frame',24,24,20)
+        poly(self,'l',(16,16),(16,24),(16,32),(24,32),(32,32))
+        path(self,'m',(16,32),('L',(16,24)),('A',4,4,True,(24,24)),('A',4,4,True,(32,24)),('L',(32,32)))
+        line(self,'middle',(24,24),(24,32))
+        contacts(self)

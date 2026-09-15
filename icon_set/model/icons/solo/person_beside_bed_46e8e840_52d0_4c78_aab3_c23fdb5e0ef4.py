@@ -1,3 +1,5 @@
+# Refinement: Lift the helping hand and mattress edge away from the standing leg.
+# Repair: Shorten the free forearm so it clears the right thigh.
 """Reconstruct person beside bed using its inspected source pose and full_body_ref.png. Head radius 6, center (36, 12), actual torso junction (36, 26): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A standing person stands at the right end of a low bed with a raised pillow. Lucide person-standing and bed-single inform limbs and the bed rail; hands and mattress thickness detail are reduced."""
@@ -47,16 +49,16 @@ class PersonBesideBed(Solo48):
         """Reconstruct person beside bed using its inspected source pose and full_body_ref.png. Head radius 6, center (36, 12), actual torso junction (36, 26): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.ring('head', 36, 12, 6)
         self.add_bezier('torso-1', (36, 26), *(((36.0, 29.2), (36.0, 32.0), (36, 34)),))
-        self.add_line('arms-1', (24, 34), (36, 26))
-        self.add_line('arms-2', (36, 26), (42, 34))
+        self.add_line('arms-1', (24, 32), (36, 26))
+        self.add_line('arms-2', (36, 26), (42, 29))
         self.add_line('legs-1', (32, 42), (36, 34))
         self.add_line('legs-2', (36, 34), (40, 42))
         self.add_line('bed-post-1', (6, 26), (6, 30))
         self.add_line('bed-post-2', (6, 30), (6, 42))
         self.add_line('mattress-1', (6, 30), (14, 30))
-        self.add_line('mattress-2', (14, 30), (18, 34))
-        self.add_line('mattress-3', (18, 34), (24, 34))
-        self.add_line('mattress-4', (24, 34), (24, 42))
+        self.add_line('mattress-2', (14, 30), (18, 32))
+        self.add_line('mattress-3', (18, 32), (24, 32))
+        self.add_line('mattress-4', (24, 32), (24, 42))
         self.add_line('mattress-5', (24, 42), (6, 42))
         self.add_contour('torso', *('torso-1',), closed=False)
         self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
@@ -67,3 +69,4 @@ class PersonBesideBed(Solo48):
         self.relate('connect', *('torso', 'legs'))
         self.relate('connect', *('bed-post', 'mattress'))
         self.relate('connect', *('arms', 'mattress'))
+        self.mark_human_figure('person', head='head', torso='torso-1', torso_junction='start')

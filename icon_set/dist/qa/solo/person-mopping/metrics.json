@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.91 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,11 +47,11 @@
         "elementId": "body-section-1",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 25 29 L 31 34 L 35 42",
+        "pathData": "M 25 29 L 35 36 L 40 42",
         "bounds": [
           25.0,
           29.0,
-          35.0,
+          40.0,
           42.0
         ],
         "segmentCount": 2,
@@ -65,11 +63,11 @@
         "elementId": "rear-leg",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 25 29 L 20 42",
+        "pathData": "M 25 29 L 28 42",
         "bounds": [
-          20.0,
-          29.0,
           25.0,
+          29.0,
+          28.0,
           42.0
         ],
         "segmentCount": 1,
@@ -129,12 +127,12 @@
         "elementId": "far-arm",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 30 23 L 38 29",
+        "pathData": "M 30 23 L 42 28",
         "bounds": [
           30.0,
           23.0,
-          38.0,
-          29.0
+          42.0,
+          28.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -145,9 +143,9 @@
         "elementId": "foot",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 35 42 L 42 42",
+        "pathData": "M 40 42 L 42 42",
         "bounds": [
-          35.0,
+          40.0,
           42.0,
           42.0,
           42.0
@@ -220,24 +218,24 @@
       {
         "closestContours": [
           "head:subpath-1",
-          "body:subpath-1"
+          "far-arm:subpath-1"
         ],
-        "centerlineDistance": 8.000017780004685,
-        "inkClearance": 4.0000177800046846,
-        "signedInkClearance": 4.0000177800046846,
+        "centerlineDistance": 8.000010941553503,
+        "inkClearance": 4.000010941553503,
+        "signedInkClearance": 4.000010941553503,
         "lowerBound": 8.0,
-        "upperBound": 8.000394871581264,
+        "upperBound": 8.000388033130083,
         "inkClearanceLowerBound": 4.0,
-        "inkClearanceUpperBound": 4.000394871581264,
-        "approximationError": 0.0013054201185703736,
+        "inkClearanceUpperBound": 4.000388033130083,
+        "approximationError": 0.00037709157657950243,
         "nearestPoints": [
           [
             33.08658283817455,
             15.619397662556434
           ],
           [
-            30.0,
-            23.0
+            30.009655552961664,
+            23.00402314706736
           ]
         ],
         "requiredCenterline": 8.0,
@@ -444,13 +442,13 @@
               "head:subpath-1",
               "far-arm:subpath-1"
             ],
-            "centerlineDistance": 8.000017780004685,
-            "inkClearance": 4.0000177800046846,
-            "signedInkClearance": 4.0000177800046846,
+            "centerlineDistance": 8.000010941553503,
+            "inkClearance": 4.000010941553503,
+            "signedInkClearance": 4.000010941553503,
             "lowerBound": 8.0,
-            "upperBound": 8.000394871581264,
+            "upperBound": 8.000388033130083,
             "inkClearanceLowerBound": 4.0,
-            "inkClearanceUpperBound": 4.000394871581264,
+            "inkClearanceUpperBound": 4.000388033130083,
             "approximationError": 0.00037709157657541,
             "nearestPoints": [
               [
@@ -458,8 +456,8 @@
                 15.619397662556434
               ],
               [
-                30.0,
-                23.0
+                30.009655552961664,
+                23.00402314706736
               ]
             ],
             "requiredCenterline": 8.0,
@@ -473,21 +471,21 @@
               "head:subpath-1",
               "foot:subpath-1"
             ],
-            "centerlineDistance": 26.0,
-            "inkClearance": 22.0,
-            "signedInkClearance": 22.0,
-            "lowerBound": 26.0,
-            "upperBound": 26.000377091576578,
-            "inkClearanceLowerBound": 22.0,
-            "inkClearanceUpperBound": 22.000377091576578,
+            "centerlineDistance": 26.401011170367195,
+            "inkClearance": 22.401011170367195,
+            "signedInkClearance": 22.401011170367195,
+            "lowerBound": 26.40063693621516,
+            "upperBound": 26.401388261943772,
+            "inkClearanceLowerBound": 22.40063693621516,
+            "inkClearanceUpperBound": 22.401388261943772,
             "approximationError": 0.00037709157657541,
             "nearestPoints": [
               [
-                35.0,
-                16.0
+                35.805984383339066,
+                15.934244230694986
               ],
               [
-                35.0,
+                40.0,
                 42.0
               ]
             ],
@@ -563,7 +561,7 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          35.0,
+          40.0,
           42.0
         ]
       },
@@ -774,7 +772,7 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            35.0,
+            40.0,
             42.0
           ]
         }
@@ -956,15 +954,15 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 8.000017780004685,
-    "minimumInkClearance": 4.0000177800046846,
+    "minimumCenterlineDistance": 8.000010941553503,
+    "minimumInkClearance": 4.000010941553503,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 30,
       "flattenedSegments": 566,
       "adaptiveNodes": 1097,
-      "distanceTests": 378,
-      "connectionTests": 1
+      "distanceTests": 438,
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -1005,36 +1003,6 @@
       {
         "hole": 2,
         "center_viewbox": [
-          19.0469,
-          30.5156
-        ],
-        "bbox_viewbox": [
-          14.0938,
-          26.6562,
-          10.375,
-          10.0625
-        ],
-        "bbox_ship_px": [
-          10.375,
-          10.0625
-        ],
-        "bbox_design_u": [
-          10.375,
-          10.0625
-        ],
-        "area_ship_px2": 44.959,
-        "equivalent_diameter_ship_px": 7.5659,
-        "equivalent_diameter_design_u": 7.5659,
-        "inscribed_diameter_ship_px": 5.9667,
-        "inscribed_diameter_design_u": 5.9667,
-        "inscribed_radius_ship_px": 2.9833,
-        "inscribed_radius_design_u": 2.9833,
-        "minimum_radius_design_u": 1.0,
-        "status": "pass"
-      },
-      {
-        "hole": 3,
-        "center_viewbox": [
           10.1094,
           37.9844
         ],
@@ -1063,7 +1031,7 @@
         "status": "pass"
       }
     ],
-    "authored_hole_count": 3,
+    "authored_hole_count": 2,
     "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
@@ -1144,6 +1112,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.1777970171317537,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.1448372332410311,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/person-mopping/icon.svg",
     "metrics": "solo/person-mopping/metrics.json"
@@ -1156,9 +1159,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "6d64ea0c9b92245c0a0c21147177e1a4c734d168c66319725c0f106810179edb",
+  "svg_sha256": "cc4406595564f0190f2934cade58a7fc47b59d6878be5c3332a1763a99e4dc78",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -1213,8 +1217,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -1226,65 +1231,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "rear-leg / mop-head",
-        "elements": [
-          "rear-leg-1",
-          "mop-head-3"
-        ],
-        "status": "review",
-        "sustained_length": 2.7359,
-        "centerline_distance": 3.0361,
-        "ink_gap": -0.9639,
-        "nearest_points": [
-          [
-            20.580357142857142,
-            40.49107142857143
-          ],
-          [
-            17.74006497074166,
-            39.41841954817014
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-2.png"
-        }
-      },
-      {
-        "contour": "body-section-1 / far-arm",
-        "elements": [
-          "body-2",
-          "far-arm"
-        ],
-        "status": "review",
-        "sustained_length": 3.25,
-        "centerline_distance": 7.8423,
-        "ink_gap": 3.8423,
-        "nearest_points": [
-          [
-            25.479508196721312,
-            29.399590163934427
-          ],
-          [
-            30.5,
-            23.375
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-2.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

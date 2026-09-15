@@ -1,7 +1,10 @@
-"""lab-tube-experiment: reconstructed stroke graph on SOLO48."""
+"""Turn the test tube diagonally to preserve a slender tube and a rounded closed end.
+Plan: diagonal tube with two parallel sides and a radius-8 round base; straight rim.
+SQUARE centerline extremes (6,6)-(42,42).
+Lucide: No useful subject-specific match; supplied original guides the silhouette.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'fb52e379-0f84-4c69-a8bd-3b7fd2c8c58e'
 SOURCE_PATH = 'pictographic-primitives/science/lab tube experiment_fb52e379-0f84-4c69-a8bd-3b7fd2c8c58e.svg'
 AUTHOR = 'gpt-6'
@@ -11,7 +14,7 @@ REVIEW_ACTION = 'geometry-reconstructed'
 
 class LabTubeExperiment(Solo48):
     icon_id = 'lab-tube-experiment'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
@@ -19,22 +22,30 @@ class LabTubeExperiment(Solo48):
     keywords = ('lab', 'tube', 'experiment', 'science')
 
     def build(self):
-        # Plan: VRECT_L; true semicircular tube bottom, parallel walls and matching lip bevels.
-        # Reference: No close Lucide match; reconstruct the supplied subject from its owning geometry.
-        def path(name,start,commands,closed=False):
-            members=[];previous=start
-            for i,cmd in enumerate(commands):
-                eid=f'{name}-{i}';members.append(eid)
-                if cmd[0]=='L':self.add_line(eid,previous,cmd[1])
-                elif cmd[0]=='C':self.add_bezier(eid,previous,tuple(cmd[1:]))
-                elif cmd[0]=='A':self.add_arc(eid,previous,cmd[1],radius_x=cmd[2],radius_y=cmd[3],sweep=cmd[4])
-                previous=cmd[-1] if cmd[0]=='C' else cmd[1]
-            self.add_contour(name,*members,closed=closed)
-        def oval(name,cx,cy,rx,ry=None):
-            ry=rx if ry is None else ry
-            path(name,(cx-rx,cy),[('A',(cx,cy-ry),rx,ry,True),('A',(cx+rx,cy),rx,ry,True),('A',(cx,cy+ry),rx,ry,True),('A',(cx-rx,cy),rx,ry,True)],True)
 
-        path('tube',(10,14),[('L',(10,30)),('A',(24,44),14,14,False),('A',(38,30),14,14,False),('L',(38,14))])
-        self.add_polyline('rim',(10,14),(10,8),(8,4),(40,4),(38,8),(38,14))
-        self.add_line('liquid',(10,14),(38,14))
-        self.relate('connect','tube','rim');self.relate('connect','tube','liquid');self.relate('connect','rim','liquid')
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('tube', (28, 6), [('L', (8, 26)), ('A', (22, 40), 10, 10, False), ('L', (42, 20))])
+        poly('rim', (26, 6), (28, 6), (42, 20), (42, 22))
+        join('rim', 'tube')
+        line('liquid', (20, 14), (34, 28))
+        join('liquid', 'tube')

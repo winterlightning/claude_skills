@@ -1,3 +1,5 @@
+# Refinement: Put the rear skate wheels below the angled pushing foot.
+# Repair: Retain the pushing skating pose with a longer torso and one coherent planted leg; four skate wheels remain.
 """Inline skater: a curved leaning back, one pushing leg and one planted skate replace the parallel arm/thigh crowding. Radius4 head(29,10), shoulder(29,22), exact4 gap. Keep paired skate wheels and the source skating action.
 
 Inline skater: a curved leaning back, one pushing leg and one planted skate replace the parallel arm/thigh crowding. Radius4 head(29,10), shoulder(29,22), exact4 gap. Keep paired skate wheels and the source skating action.
@@ -46,40 +48,15 @@ class InlineSkater(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Inline skater: a curved leaning back, one pushing leg and one planted skate replace the parallel arm/thigh crowding. Radius4 head(29,10), shoulder(29,22), exact4 gap. Keep paired skate wheels and the source skating action."""
-        self.add_arc('head-a', (25, 10), (33, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('head-b', (33, 10), (25, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_bezier('torso', (29, 22), *(((29, 25), (24, 26), (21, 27)),))
-        self.add_line('left-arm-0', (29, 22), (14, 22))
-        self.add_line('left-arm-1', (14, 22), (10, 18))
-        self.add_line('right-arm-0', (29, 22), (36, 24))
-        self.add_line('right-arm-1', (36, 24), (42, 24))
-        self.add_line('front-leg-0', (21, 27), (30, 30))
-        self.add_line('front-leg-1', (30, 30), (28, 34))
-        self.add_line('back-leg-0', (21, 27), (13, 30))
-        self.add_line('back-leg-1', (13, 30), (6, 26))
-        self.add_line('skate-0', (25, 34), (28, 34))
-        self.add_line('skate-1', (28, 34), (33, 34))
-        self.add_line('front-a', (25, 42), (25, 42))
-        self.add_line('front-b', (33, 42), (33, 42))
-        self.add_line('rear-a', (6, 36), (6, 36))
-        self.add_line('rear-b', (14, 39), (14, 39))
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('left-arm', *('left-arm-0', 'left-arm-1'), closed=False)
-        self.add_contour('right-arm', *('right-arm-0', 'right-arm-1'), closed=False)
-        self.add_contour('front-leg', *('front-leg-0', 'front-leg-1'), closed=False)
-        self.add_contour('back-leg', *('back-leg-0', 'back-leg-1'), closed=False)
-        self.add_contour('skate', *('skate-0', 'skate-1'), closed=False)
-        self.relate('connect', *('left-arm-0', 'left-arm-1'))
-        self.relate('connect', *('left-arm-0', 'right-arm-0'))
-        self.relate('connect', *('right-arm-0', 'right-arm-1'))
-        self.relate('connect', *('front-leg-0', 'front-leg-1'))
-        self.relate('connect', *('front-leg-0', 'back-leg-0'))
-        self.relate('connect', *('front-leg-1', 'skate-0'))
-        self.relate('connect', *('front-leg-1', 'skate-1'))
-        self.relate('connect', *('back-leg-0', 'back-leg-1'))
-        self.relate('connect', *('skate-0', 'skate-1'))
-        self.relate('connect', *('torso', 'left-arm-0'))
-        self.relate('connect', *('torso', 'right-arm-0'))
-        self.relate('connect', *('torso', 'front-leg-0'))
-        self.relate('connect', *('torso', 'back-leg-0'))
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(25,10),('A',4,4,True,(33,10)),('A',4,4,True,(25,10)),closed=True)
+        path(self,'torso',(29,22),('C',(29,26),(24,28),(21,30)))
+        poly(self,'left-arm',(29,22),(14,22),(10,18))
+        poly(self,'right-arm',(29,22),(36,24),(42,24))
+        line(self,'front-leg',(21,30),(28,34))
+        poly(self,'back-leg',(21,30),(13,32),(6,26))
+        poly(self,'skate',(25,34),(28,34),(33,34))
+        for i,p in enumerate(((25,42),(33,42),(6,38),(14,40))):self.add_dot(f'wheel-{i}',p)
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

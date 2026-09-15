@@ -1,28 +1,22 @@
-"""Rectangle shape (design), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'rectangle-shape: independent smooth-curve repair.\n\nConstruction: Rounded vertical frame with equal corner radii; centered controls or a shared sidebar divider retain the original panel meaning.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/rectangle-horizontal.svg and atomic-debug/rectangle-horizontal.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '432b99ac-4502-55ae-b924-896645c9c530'
 SOURCE_PATH = 'pictographic-primitives/design/rectangle shape_432b99ac-4502-55ae-b924-896645c9c530.svg'
 AUTHOR = 'gpt-6'
 
+
 class RectangleShape(Solo48):
     icon_id = 'rectangle-shape'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
     aliases = ()
     keywords = ('rectangle', 'shape', 'design')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('e0', (40, 40), (7, 40))
-        self.add_line('e3', (44, 12), (44, 39))
-        self.add_arc('e4-1', (7, 40), (4, 37), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('e4-2', (4, 37), (4, 10))
-        self.add_arc('e5-2', (4, 10), (6, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('e5-3', (6, 8), (42, 8))
-        self.add_arc('e6-1', (42, 8), (44, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('e6-2', (44, 9), (44, 11))
-        self.add_arc('e6-3', (44, 11), (44, 12), radius_x=23, radius_y=23, large_arc=False, sweep=False)
-        self.add_line('e7', (44, 39), (40, 40))
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e5-2', 'e5-3', 'e6-1', 'e6-2', 'e6-3', 'e3', 'e7', closed=True)
+        box(self,'frame',4,8,44,40,4,xs=(32,),ys=(24,))
+        contacts(self)

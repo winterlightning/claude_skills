@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.19 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,15 +47,15 @@
         "elementId": "hand",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 28 L 38 22 A 6 6 0 0 1 44 28 L 34 40 L 12 40 L 4 38",
+        "pathData": "M 32 28 L 38 28 A 6 6 0 0 1 44 32 L 34 40 L 12 40 L 4 38",
         "bounds": [
           4.0,
-          22.0,
+          27.990415922395215,
           44.0,
           40.0
         ],
         "segmentCount": 68,
-        "approximationError": 0.0004517946359992781,
+        "approximationError": 0.0003043828869904439,
         "hasCurves": true
       }
     ],
@@ -180,7 +178,7 @@
       "flattenedSegments": 586,
       "adaptiveNodes": 1144,
       "distanceTests": 0,
-      "connectionTests": 1
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -268,6 +266,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.6062059211004159,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.3027816940471781,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/hand-holding-heart/icon.svg",
     "metrics": "solo/hand-holding-heart/metrics.json"
@@ -280,9 +313,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "ba97b5f904139d6a76a4dea40ea8a4f7202bdb987b332f0be44322a9fddcb235",
+  "svg_sha256": "2685faea0d1caffcedbd34f2e3010426a2858b6e326c6f086a605d69a2e59b57",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -337,8 +371,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -350,38 +385,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "heart / hand",
-        "elements": [
-          "heart-sr",
-          "fingers-upper"
-        ],
-        "status": "review",
-        "sustained_length": 7.6919,
-        "centerline_distance": 5.8073,
-        "ink_gap": 1.8073,
-        "nearest_points": [
-          [
-            33.46808510638298,
-            18.319148936170215
-          ],
-          [
-            37.57446808510638,
-            22.425531914893618
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The fingertips meet the heart\u2019s lower side; preserve the hand supporting the heart.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-5.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

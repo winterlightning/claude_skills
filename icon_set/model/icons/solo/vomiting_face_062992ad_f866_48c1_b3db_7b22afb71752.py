@@ -1,3 +1,4 @@
+# Repair: Replace the pinched vomit puddle zigzags with one smooth widening stream and broad bottom opening.
 """Vomiting Face; independently reconstructed on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -16,11 +17,10 @@ class VomitingFace(Solo48):
     aliases = ()
     keywords = ('vomiting', 'sick', 'nausea', 'throw up', 'face', 'emoji')
 
-    def build(self) -> None:
+    def build(self):
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
 
-        # SQUARE: open lower head with one broad continuous stream and uneven pool.
-        self.add_arc("head",(6,24),(42,24),radius_x=18)
-        for side,sign in (("left",1),("right",-1)):
-            def p(x,y):return (24+sign*(x-24),y)
-            self.add_polyline(f"eye-{side}",p(18,17),p(20,19),p(18,21))
-        self.add_polyline("flow",(16,30),(32,30),(32,35),(40,39),(40,42),(32,40),(24,42),(16,40),(8,42),(8,39),(16,35),closed=True)
+        path(self,'head',(6,24),('A',18,18,True,(42,24)))
+        poly(self,'eye-left',(18,17),(20,19),(18,21))
+        poly(self,'eye-right',(30,17),(28,19),(30,21))
+        path(self,'flow',(16,30),('L',(32,30)),('L',(32,34)),('C',(32,38),(39,39),(40,42)),('L',(8,42)),('C',(9,39),(16,38),(16,34)),('L',(16,30)),closed=True)

@@ -1,4 +1,8 @@
-"""bell-symbol: AI stroke review; parent retained for comparison."""
+"""Add the missing top finial and give the bell a balanced upright silhouette.
+Plan: symmetric dome with continuous sides, top finial and shared rim endpoints.
+VRECT_L centerline extremes (8,4)-(40,44).
+Lucide: bell; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6969bce5-a6ce-4d22-88c4-77791dfa309a'
@@ -7,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class BellSymbol(Solo48):
     icon_id = 'bell-symbol'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
@@ -15,38 +19,30 @@ class BellSymbol(Solo48):
     keywords = ('bell', 'symbol', 'solo-ai-first50')
 
     def build(self):
-        # Plan: A smooth domed bell shares a center axis with its crown and broad base. Equal shoulder radii replace the faceted conversion.
-        # Reference: Lucide original/bell.svg and atomic-debug/bell.svg.
 
-        # Typed path helpers preserve each continuous stroke and its round joins.
-        def path(name, start, commands, closed=False):
-            members = []
+        def path(n, start, commands, closed=False):
             here = start
-            for index, command in enumerate(commands):
-                ident = f"{name}-{index}"
-                kind, end, *args = command
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                elif kind == "A":
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                elif kind == "C":
-                    c1, c2 = args
-                    self.add_bezier(ident, here, (c1, c2, end))
-                members.append(ident)
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
                 here = end
-            self.add_contour(name, *members, closed=closed)
-        def circle(name, cx, cy, r):
-            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
-                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
-                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
-                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
         line = self.add_line
         poly = self.add_polyline
-        join = lambda a,b: self.relate("connect",a,b)
-        path('dome',(8,40), [('L',(8,24)),('A',(24,8),16,16,True),('A',(40,24),16,16,True),('L',(40,40))])
-        poly('base',(4,40),(8,40),(40,40),(44,40));join('base','dome')
-
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('dome', (8, 44), [('L', (8, 28)), ('A', (24, 12), 16, 16, True), ('A', (40, 28), 16, 16, True), ('L', (40, 44))])
+        line('rim', (8, 44), (40, 44))
+        join('rim', 'dome')
+        line('finial', (24, 4), (24, 12))
+        join('finial', 'dome')

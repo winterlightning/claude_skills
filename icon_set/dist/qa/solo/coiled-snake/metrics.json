@@ -11,19 +11,35 @@
     "status": "pass",
     "contours": [
       {
-        "id": "snake:subpath-1",
-        "elementId": "snake",
+        "id": "coil:subpath-1",
+        "elementId": "coil",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 18 38 A 19 19 0 0 1 6 21 A 19 19 0 0 1 24 6 A 19 19 0 0 1 42 21 L 42 29 L 40 40 C 38.542239899999998 41.752209129999997 36.21753356 42 34 42 C 31.78246644 42 29.457760100000002 41.752209129999997 28 40 L 26 29 A 8 8 0 0 1 30 23 A 8 11 0 0 0 24 12 A 11 11 0 0 0 13 23 A 11 11 0 0 0 24 34 A 8 8 0 0 1 18 38 Z",
+        "pathData": "M 18 36 A 12 12 0 0 1 6 24 A 18 18 0 0 1 24 6 A 18 18 0 0 1 42 24 L 42 34 A 8 8 0 0 1 34 42 A 8 8 0 0 1 26 34 L 26 25",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 674,
-        "approximationError": 0.0009545117034224518,
+        "segmentCount": 450,
+        "approximationError": 0.0009035892706343304,
+        "hasCurves": true
+      },
+      {
+        "id": "head:subpath-1",
+        "elementId": "head",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 26 25 A 8 8 0 0 1 34 17 L 39 17",
+        "bounds": [
+          26.0,
+          17.0,
+          39.0,
+          25.0
+        ],
+        "segmentCount": 65,
+        "approximationError": 0.0006023928476959052,
         "hasCurves": true
       }
     ],
@@ -31,13 +47,16 @@
       {
         "id": "component-1",
         "memberIds": [
-          "snake:subpath-1"
+          "coil:subpath-1",
+          "head:subpath-1"
         ],
         "contourIds": [
-          "snake:subpath-1"
+          "coil:subpath-1",
+          "head:subpath-1"
         ],
         "elementIds": [
-          "snake"
+          "coil",
+          "head"
         ],
         "bounds": [
           6.0,
@@ -48,8 +67,40 @@
       }
     ],
     "pairs": [],
-    "connectedPairs": [],
-    "excludedPairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "coil:subpath-1",
+          "head:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          26.0,
+          25.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "coil:subpath-1",
+          "head:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "coil:subpath-1",
+            "head:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            26.0,
+            25.0
+          ]
+        }
+      }
+    ],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -65,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 15,
-      "flattenedSegments": 674,
-      "adaptiveNodes": 1330,
+      "commands": 11,
+      "flattenedSegments": 515,
+      "adaptiveNodes": 1018,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -81,102 +132,39 @@
         "hole": 1,
         "center_viewbox": [
           34.0156,
-          29.7656
+          25.2031
         ],
         "bbox_viewbox": [
-          8.0,
-          8.0,
-          32.0,
-          32.0
+          28.0,
+          19.0,
+          12.0,
+          21.0
         ],
         "bbox_ship_px": [
-          32.0,
-          32.0
+          12.0,
+          21.0
         ],
         "bbox_design_u": [
-          32.0,
-          32.0
+          12.0,
+          21.0
         ],
-        "area_ship_px2": 353.9541,
-        "equivalent_diameter_ship_px": 21.229,
-        "equivalent_diameter_design_u": 21.229,
-        "inscribed_diameter_ship_px": 11.625,
-        "inscribed_diameter_design_u": 11.625,
-        "inscribed_radius_ship_px": 5.8125,
-        "inscribed_radius_design_u": 5.8125,
-        "minimum_radius_design_u": 1.0,
-        "status": "pass"
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          21.3906,
-          20.7969
-        ],
-        "bbox_viewbox": [
-          15.0,
-          14.0,
-          12.9688,
-          18.0625
-        ],
-        "bbox_ship_px": [
-          12.9688,
-          18.0625
-        ],
-        "bbox_design_u": [
-          12.9688,
-          18.0625
-        ],
-        "area_ship_px2": 158.998,
-        "equivalent_diameter_ship_px": 14.2282,
-        "equivalent_diameter_design_u": 14.2282,
-        "inscribed_diameter_ship_px": 11.0774,
-        "inscribed_diameter_design_u": 11.0774,
-        "inscribed_radius_ship_px": 5.5387,
-        "inscribed_radius_design_u": 5.5387,
+        "area_ship_px2": 227.5107,
+        "equivalent_diameter_ship_px": 17.0199,
+        "equivalent_diameter_design_u": 17.0199,
+        "inscribed_diameter_ship_px": 12.0,
+        "inscribed_diameter_design_u": 12.0,
+        "inscribed_radius_ship_px": 6.0,
+        "inscribed_radius_design_u": 6.0,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
     ],
-    "authored_hole_count": 2,
+    "authored_hole_count": 1,
     "raster_artifact_count": 0,
-    "hole_count": 1,
+    "hole_count": 0,
     "failed_hole_count": 0,
     "pinch_count": 0,
-    "holes": [
-      {
-        "hole": 1,
-        "center_viewbox": [
-          34.0156,
-          29.7969
-        ],
-        "bbox_viewbox": [
-          6.5,
-          6.5,
-          35.0,
-          35.0
-        ],
-        "bbox_ship_px": [
-          35.0,
-          35.0
-        ],
-        "bbox_design_u": [
-          35.0,
-          35.0
-        ],
-        "area_ship_px2": 607.4248,
-        "equivalent_diameter_ship_px": 27.81,
-        "equivalent_diameter_design_u": 27.81,
-        "inscribed_diameter_ship_px": 14.6733,
-        "inscribed_diameter_design_u": 14.6733,
-        "inscribed_radius_ship_px": 7.3366,
-        "inscribed_radius_design_u": 7.3366,
-        "minimum_radius_design_u": 2.5,
-        "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 5.8366,
-        "equivalent_diameter_at_authored_stroke_design_u": 11.6732
-      }
-    ],
+    "holes": [],
     "pinches": [],
     "exception_count": 0,
     "minimum_authored_diameter": 2.0,
@@ -186,6 +174,41 @@
     "measuring_stroke_width": 1.0,
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.34320990838920157,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.28186396254578233,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
   },
   "artifacts": {
     "svg": "solo/coiled-snake/icon.svg",
@@ -199,9 +222,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "d9323dfde591a2d73e6266b28a4546a2cde2130dcfde2aa632168d1cb35014ab",
+  "svg_sha256": "b679b98a583b0bb85bb74982d94c7804fcc47e8520f66519ce99c293555509b4",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -256,8 +280,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -269,92 +294,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "snake",
-        "elements": [
-          "snake-1",
-          "snake-12"
-        ],
-        "status": "review",
-        "sustained_length": 18.5565,
-        "centerline_distance": 5.1598,
-        "ink_gap": 1.1598,
-        "nearest_points": [
-          [
-            17.42876784274416,
-            37.762802423181924
-          ],
-          [
-            19.509818538819857,
-            33.04124083599453
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the coiled snake silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      },
-      {
-        "contour": "snake",
-        "elements": [
-          "snake-2",
-          "snake-11"
-        ],
-        "status": "review",
-        "sustained_length": 23.9977,
-        "centerline_distance": 5.9269,
-        "ink_gap": 1.9269,
-        "nearest_points": [
-          [
-            19.44013211571756,
-            6.699008033181826
-          ],
-          [
-            21.073594698766573,
-            12.396408532345614
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the coiled snake silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      },
-      {
-        "contour": "snake",
-        "elements": [
-          "snake-3",
-          "snake-10"
-        ],
-        "status": "review",
-        "sustained_length": 5.9994,
-        "centerline_distance": 6.4027,
-        "ink_gap": 2.4027,
-        "nearest_points": [
-          [
-            27.101375009202393,
-            6.3509625456026875
-          ],
-          [
-            24.518079903039197,
-            12.209416080709147
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the coiled snake silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-19.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 3
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

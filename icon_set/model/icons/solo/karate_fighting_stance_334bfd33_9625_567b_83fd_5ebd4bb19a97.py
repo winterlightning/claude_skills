@@ -1,3 +1,4 @@
+# Repair: Level the guard and open the arm-to-thigh gap while preserving the fighting stance.
 """Karate guard: enlarged radius-5 circular head at (24,11), shoulder (24,24), exactly4 painted clearance. Torso curve starts vertically at shoulder, matching head axis; wide bent knees and raised fist preserve the original fighting stance. Human references full_body_ref.png and approved approaching-ball comparison; Lucide person-standing shared limb joints.
 
 Karate guard: enlarged radius-5 circular head at (24,11), shoulder (24,24), exactly4 painted clearance. Torso arc radius10 starts vertically at shoulder, matching head axis; wide bent knees and raised fist preserve the original fighting stance. Human references full_body_ref.png and approved approaching-ball comparison; Lucide person-standing shared limb joints.
@@ -93,6 +94,7 @@ class KarateFightingStance(Solo48):
         """Karate guard: enlarged radius-5 circular head at (24,11), shoulder (24,24), exactly4 painted clearance. Torso curve starts vertically at shoulder, matching head axis; wide bent knees and raised fist preserve the original fighting stance. Human references full_body_ref.png and approved approaching-ball comparison; Lucide person-standing shared limb joints."""
         self.ring('head', 24, 11, 5)
         self.add_bezier('torso', (24, 24), ((24, 27), (20, 29), (20, 32)))
-        self.branches([('guard-left', [(24, 24), (14, 25), (6, 21)]), ('guard-right', [(24, 24), (36, 26), (39, 17), (42, 17)]), ('leg-left', [(20, 32), (12, 35), (6, 42)]), ('leg-right', [(20, 32), (33, 34), (38, 42)])])
+        self.branches([('guard-left', [(24, 24), (14, 24), (6, 21)]), ('guard-right', [(24, 24), (36, 26), (39, 17), (42, 17)]), ('leg-left', [(20, 32), (12, 35), (6, 42)]), ('leg-right', [(20, 32), (33, 35), (38, 42)])])
         for name in ['guard-left-0', 'guard-right-0', 'leg-left-0', 'leg-right-0']:
             self.relate('connect', 'torso', name)
+        self.mark_human_figure('person', head='head', torso='torso', torso_junction='start')

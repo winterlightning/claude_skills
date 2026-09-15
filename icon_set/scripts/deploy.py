@@ -147,6 +147,11 @@ def feedback_row(row):
     return data
 
 
+class GalleryServer(ThreadingHTTPServer):
+    # The default backlog of 5 drops connections when a page requests hundreds of icons at once.
+    request_queue_size = 256
+
+
 class GalleryHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, directory, database, **kwargs):
         self.root = Path(directory).resolve()
@@ -159,7 +164,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def end_headers(self):
         self.send_header('X-Content-Type-Options', 'nosniff')
-        self.send_header('Cache-Control', 'no-store')
+        # Static files revalidate (Last-Modified -> 304) so a grid of hundreds of SVGs and the
+        # 50 MB icons.json are not refetched on every view; API responses are never cached.
+        self.send_header('Cache-Control', 'no-cache' if self.__dict__.pop('static_file', False) else 'no-store')
         super().end_headers()
 
     def json_response(self, data, status=200):
@@ -457,6 +464,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 candidate.suffix.lower() not in {'.html', '.json', '.svg', '.png', '.css', '.js'}):
             self.send_error(404)
             return None
+        self.static_file = True
         return super().send_head()
 
     def do_POST(self):
@@ -753,7 +761,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
     init_database(database)
     with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
         import_snapshot(connection)
-    server = ThreadingHTTPServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
     server.references = ReferenceStore(database.parent / 'reference-images')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)

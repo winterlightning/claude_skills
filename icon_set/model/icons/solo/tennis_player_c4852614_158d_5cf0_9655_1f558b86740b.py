@@ -1,3 +1,5 @@
+# Refinement: Keep the racket grip clear and move the forward knee away from the elbow.
+# Repair: Raise the racket elbow away from the forward knee.
 """Reconstruct tennis player using its inspected source pose and full_body_ref.png. Head radius 4, center (30, 10), actual torso junction (30, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Reconstruct tennis player using its inspected source pose and full_body_ref.png. Head radius 4, center (30, 10), actual torso junction (30, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -45,14 +47,14 @@ class TennisPlayer(Solo48):
         self.add_arc('head-b', (34, 10), (26, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('racket-a', (11, 10), (11, 22), radius_x=5, radius_y=6, large_arc=False, sweep=True)
         self.add_arc('racket-b', (11, 22), (11, 10), radius_x=5, radius_y=6, large_arc=False, sweep=True)
-        self.add_line('arms-1', (11, 22), (18, 29))
-        self.add_line('arms-2', (18, 29), (30, 22))
+        self.add_line('arms-1', (11, 22), (17, 29))
+        self.add_line('arms-2', (17, 29), (30, 22))
         self.add_line('arms-3', (30, 22), (38, 23))
         self.add_line('arms-4', (38, 23), (42, 31))
         self.add_bezier('body-1', (30, 22), *(((30.0, 25.36), (28.5, 29.5), (28, 32)),))
         self.add_line('body-2', (28, 32), (37, 42))
-        self.add_line('front-leg-1', (28, 32), (20, 36))
-        self.add_line('front-leg-2', (20, 36), (20, 42))
+        self.add_line('front-leg-1', (28, 32), (23, 37))
+        self.add_line('front-leg-2', (23, 37), (23, 42))
         self.add_arc('ball-a', (9, 35), (9, 41), radius_x=3, radius_y=3, large_arc=False, sweep=True)
         self.add_arc('ball-b', (9, 41), (9, 35), radius_x=3, radius_y=3, large_arc=False, sweep=True)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
@@ -80,3 +82,4 @@ class TennisPlayer(Solo48):
         self.relate('connect', 'body-2', 'front-leg-1')
         self.relate('connect', 'front-leg-1', 'front-leg-2')
         self.relate('connect', 'ball-a', 'ball-b')
+        self.mark_human_figure('person', head='head', torso='body-1', torso_junction='start')

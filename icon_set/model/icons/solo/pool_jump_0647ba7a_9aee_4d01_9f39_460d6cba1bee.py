@@ -1,3 +1,4 @@
+# Repair: Open the tuck between the raised arm and bent thigh while keeping the pool-edge clearance.
 """Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -46,9 +47,9 @@ class PoolJump(Solo48):
         self.add_arc('head-a', (31, 18), (41, 18), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_arc('head-b', (41, 18), (31, 18), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_line('body-1', (16, 6), (24, 23))
-        self.add_bezier('body-2', (24, 23), *(((20.64, 24.4), (15.0, 22.25), (12, 22)),))
-        self.add_line('body-3', (12, 22), (23, 30))
-        self.add_line('body-4', (23, 30), (18, 32))
+        self.add_bezier('body-2', (24, 23), *(((20.64, 24.4), (15.0, 22.25), (10, 26)),))
+        self.add_line('body-3', (10, 26), (23, 32))
+        self.add_line('body-4', (23, 32), (20, 32))
         self.add_line('arm', (24, 23), (12, 13))
         self.add_line('edge-1', (6, 42), (14, 42))
         self.add_line('edge-2', (14, 42), (14, 40))
@@ -76,3 +77,4 @@ class PoolJump(Solo48):
         self.relate('connect', 'edge-2', 'edge-3')
         self.relate('connect', 'edge-3', 'water-a')
         self.relate('connect', 'water-a', 'water-b')
+        self.mark_human_figure('person', head='head', torso='body-2', torso_junction='start')

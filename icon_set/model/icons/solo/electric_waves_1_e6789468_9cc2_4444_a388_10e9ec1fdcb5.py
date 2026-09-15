@@ -1,37 +1,24 @@
-"""Electric waves 1 (state), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'electric-waves-1: independent smooth-curve repair.\n\nConstruction: Two concentric signal arches and a centered terminal dot; wide clear gaps.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/wifi.svg and atomic-debug/wifi.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'e6789468-9cc2-4444-a388-10e9ec1fdcb5'
 SOURCE_PATH = 'pictographic-primitives/state/electric waves 1_e6789468-9cc2-4444-a388-10e9ec1fdcb5.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
 
 class ElectricWaves1(Solo48):
     icon_id = 'electric-waves-1'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'state'
     aliases = ()
     keywords = ('electric', 'waves', 'state')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (24, 40), (24, 40))
-        self.add_line('sym-e2', (24, 8), (23, 8))
-        self.add_arc('sym-e3', (23, 8), (4, 16), radius_x=30, sweep=False)
-        self.add_arc('sym-e4', (4, 16), (4, 17), radius_x=1)
-        self.add_arc('sym-e5', (24, 21), (11, 26), radius_x=19, sweep=False)
-        self.add_line('sym-e7', (24, 8), (25, 8))
-        self.add_arc('sym-e8', (25, 8), (44, 16), radius_x=30)
-        self.add_arc('sym-e9', (44, 16), (44, 17), radius_x=1, sweep=False)
-        self.add_arc('sym-e10', (24, 21), (37, 26), radius_x=18)
-        self.add_contour('sym-c0', 'sym-e0', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c2', 'sym-e5')
-        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9')
-        self.add_contour('sym-c4', 'sym-e10')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c4')
+        path(self,'outer',(4,18),('C',(10,12),(17,8),(24,8)),('C',(31,8),(38,12),(44,18)))
+        path(self,'inner',(13,28),('C',(19,20),(29,20),(35,28)))
+        self.add_dot('dot',(24,40))
+        contacts(self)

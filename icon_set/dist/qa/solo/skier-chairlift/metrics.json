@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.13 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,12 +47,12 @@
         "elementId": "rider-section-1",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 14 32 L 29 32 L 33 38",
+        "pathData": "M 14 32 L 29 32 L 35 40",
         "bounds": [
           14.0,
           32.0,
-          33.0,
-          38.0
+          35.0,
+          40.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -113,10 +111,10 @@
         "elementId": "ski",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 12 42 L 33 38 L 42 35",
+        "pathData": "M 12 42 L 35 40 L 42 37",
         "bounds": [
           12.0,
-          35.0,
+          37.0,
           42.0,
           42.0
         ],
@@ -375,22 +373,22 @@
               "head:subpath-1",
               "ski:subpath-1"
             ],
-            "centerlineDistance": 27.43496625471539,
-            "inkClearance": 23.43496625471539,
-            "signedInkClearance": 23.43496625471539,
-            "lowerBound": 27.43483412551919,
-            "upperBound": 27.43526792797616,
-            "inkClearanceLowerBound": 23.43483412551919,
-            "inkClearanceUpperBound": 23.43526792797616,
+            "centerlineDistance": 27.87996040335306,
+            "inkClearance": 23.87996040335306,
+            "signedInkClearance": 23.87996040335306,
+            "lowerBound": 27.87969882226185,
+            "upperBound": 27.88026207661383,
+            "inkClearanceLowerBound": 23.87969882226185,
+            "inkClearanceUpperBound": 23.88026207661383,
             "approximationError": 0.0003016732607604612,
             "nearestPoints": [
               [
-                12.780361288064514,
-                13.923141121612922
+                12.392068561318244,
+                13.980738906688787
               ],
               [
-                17.9137756538752,
-                40.87356654211901
+                14.807298835327705,
+                41.755887057797594
               ]
             ],
             "requiredCenterline": 8.0,
@@ -454,8 +452,8 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          33.0,
-          38.0
+          35.0,
+          40.0
         ]
       },
       {
@@ -597,8 +595,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            33.0,
-            38.0
+            35.0,
+            40.0
           ]
         }
       },
@@ -685,7 +683,7 @@
       "commands": 20,
       "flattenedSegments": 299,
       "adaptiveNodes": 575,
-      "distanceTests": 137,
+      "distanceTests": 103,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -774,6 +772,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.3381205008496741,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.23716638432072315,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/skier-chairlift/icon.svg",
     "metrics": "solo/skier-chairlift/metrics.json"
@@ -786,9 +819,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "e3ec9e88ad5bd293fc2822e6f0f3451fe27ab978202d23c3e0b84b44b683b048",
+  "svg_sha256": "5cf2af21a299172560b4f2d9a83662eab999f46584620159ffb90b9afc88d641",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -843,8 +877,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -856,38 +891,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "ski / rider-section-1",
-        "elements": [
-          "ski-1",
-          "rider-2"
-        ],
-        "status": "review",
-        "sustained_length": 6.75,
-        "centerline_distance": 6.7594,
-        "ink_gap": 2.7594,
-        "nearest_points": [
-          [
-            29.639770240700308,
-            38.64004376367613
-          ],
-          [
-            28.375,
-            32.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct skier chairlift using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 10), actual torso junction (12, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-3.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

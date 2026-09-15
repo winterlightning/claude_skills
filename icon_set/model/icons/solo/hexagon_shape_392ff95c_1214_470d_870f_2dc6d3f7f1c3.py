@@ -1,34 +1,22 @@
-"""Hexagon shape (design), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'hexagon-shape: independent smooth-curve repair.\n\nConstruction: Regular mirrored hexagon; six deliberate corners preserve its geometric identity.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/hexagon.svg and atomic-debug/hexagon.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '392ff95c-1214-470d-870f-2dc6d3f7f1c3'
 SOURCE_PATH = 'pictographic-primitives/design/hexagon shape_392ff95c-1214-470d-870f-2dc6d3f7f1c3.svg'
 AUTHOR = 'gpt-6'
 
+
 class HexagonShape(Solo48):
     icon_id = 'hexagon-shape'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
     aliases = ()
     keywords = ('hexagon', 'shape', 'design')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_arc('sym-e0', (24, 44), (25, 44), radius_x=29, radius_y=29, large_arc=False, sweep=True)
-        self.add_line('sym-e1', (25, 44), (38, 35))
-        self.add_arc('sym-e2', (38, 35), (40, 32), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('sym-e4', (40, 32), (40, 31), radius_x=32, radius_y=32, large_arc=False, sweep=True)
-        self.add_line('sym-e5', (40, 31), (40, 17))
-        self.add_arc('sym-e7', (40, 17), (40, 16), radius_x=23, radius_y=23, large_arc=False, sweep=True)
-        self.add_arc('sym-e9', (40, 16), (38, 13), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e10', (38, 13), (25, 4))
-        self.add_arc('sym-e11', (25, 4), (24, 4), radius_x=75, radius_y=75, large_arc=False, sweep=True)
-        self.add_arc('sym-e12', (24, 4), (23, 4), radius_x=70, radius_y=70, large_arc=False, sweep=True)
-        self.add_line('sym-e13', (23, 4), (10, 13))
-        self.add_arc('sym-e14', (10, 13), (8, 16), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e16', (8, 16), (8, 32))
-        self.add_arc('sym-e21', (8, 32), (10, 35), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e22', (10, 35), (23, 44))
-        self.add_arc('sym-e23', (23, 44), (24, 44), radius_x=29, radius_y=29, large_arc=False, sweep=True)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e4', 'sym-e5', 'sym-e7', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e16', 'sym-e21', 'sym-e22', 'sym-e23', closed=True)
+        poly(self,'hexagon',(24,4),(40,14),(40,34),(24,44),(8,34),(8,14),closed=True)
+        contacts(self)

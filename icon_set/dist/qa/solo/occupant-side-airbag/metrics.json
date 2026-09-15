@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.77 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -33,7 +31,7 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 8 44 L 8 34 L 8 25 L 16 18 L 22 25 L 22 34 L 22 44",
+        "pathData": "M 8 44 L 8 34 L 8 23 L 16 18 L 22 25 L 22 34 L 22 44",
         "bounds": [
           8.0,
           18.0,
@@ -688,30 +686,30 @@
       {
         "hole": 3,
         "center_viewbox": [
-          15.5781,
-          24.0469
+          12.9219,
+          25.3594
         ],
         "bbox_viewbox": [
           10.0,
-          20.8438,
+          20.625,
           8.9688,
-          9.4688
+          9.6875
         ],
         "bbox_ship_px": [
           8.9688,
-          9.4688
+          9.6875
         ],
         "bbox_design_u": [
           8.9688,
-          9.4688
+          9.6875
         ],
-        "area_ship_px2": 38.7773,
-        "equivalent_diameter_ship_px": 7.0266,
-        "equivalent_diameter_design_u": 7.0266,
-        "inscribed_diameter_ship_px": 4.4988,
-        "inscribed_diameter_design_u": 4.4988,
-        "inscribed_radius_ship_px": 2.2494,
-        "inscribed_radius_design_u": 2.2494,
+        "area_ship_px2": 44.9805,
+        "equivalent_diameter_ship_px": 7.5678,
+        "equivalent_diameter_design_u": 7.5678,
+        "inscribed_diameter_ship_px": 5.1678,
+        "inscribed_diameter_design_u": 5.1678,
+        "inscribed_radius_ship_px": 2.5839,
+        "inscribed_radius_design_u": 2.5839,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
@@ -830,34 +828,34 @@
       {
         "hole": 3,
         "center_viewbox": [
-          15.5781,
-          24.0469
+          12.5781,
+          25.5781
         ],
         "bbox_viewbox": [
           8.5,
-          18.7188,
+          18.6562,
           12.75,
-          14.3438
+          14.4062
         ],
         "bbox_ship_px": [
           12.75,
-          14.3438
+          14.4062
         ],
         "bbox_design_u": [
           12.75,
-          14.3438
+          14.4062
         ],
-        "area_ship_px2": 90.333,
-        "equivalent_diameter_ship_px": 10.7245,
-        "equivalent_diameter_design_u": 10.7245,
-        "inscribed_diameter_ship_px": 7.4738,
-        "inscribed_diameter_design_u": 7.4738,
-        "inscribed_radius_ship_px": 3.7369,
-        "inscribed_radius_design_u": 3.7369,
+        "area_ship_px2": 97.9424,
+        "equivalent_diameter_ship_px": 11.1671,
+        "equivalent_diameter_design_u": 11.1671,
+        "inscribed_diameter_ship_px": 8.1388,
+        "inscribed_diameter_design_u": 8.1388,
+        "inscribed_radius_ship_px": 4.0694,
+        "inscribed_radius_design_u": 4.0694,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.2369,
-        "equivalent_diameter_at_authored_stroke_design_u": 4.4738
+        "equivalent_radius_at_authored_stroke_design_u": 2.5694,
+        "equivalent_diameter_at_authored_stroke_design_u": 5.1388
       },
       {
         "hole": 4,
@@ -902,6 +900,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.1443540997106598,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.13959224303903595,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/occupant-side-airbag/icon.svg",
     "metrics": "solo/occupant-side-airbag/metrics.json"
@@ -914,9 +947,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "0d7dcaf1e899bf754fd00e5c5bc2dc3767b6d523d906c80a298536fa1416fa77",
+  "svg_sha256": "1efe1c7303de0fa3eba3532873970f1985e7df0986cf70bf88ae6b08ee1297f0",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -971,8 +1005,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -984,38 +1019,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "body / belt",
-        "elements": [
-          "body-3",
-          "belt"
-        ],
-        "status": "review",
-        "sustained_length": 2.4721,
-        "centerline_distance": 7.6614,
-        "ink_gap": 3.6614,
-        "nearest_points": [
-          [
-            8.465116279069768,
-            24.593023255813954
-          ],
-          [
-            12.608093359079893,
-            31.03765426916293
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the occupant side airbag silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-2.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -1,0 +1,22 @@
+"""Play (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '0b3968b5-326d-4914-af72-39a55b85a974'
+SOURCE_PATH = 'pictographic-primitives/design/play_0b3968b5-326d-4914-af72-39a55b85a974.svg'
+AUTHOR = 'gpt-6'
+
+class Play(Solo48):
+    icon_id = 'play'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'design'
+    aliases = ()
+    keywords = ('play', 'design')
+
+    def build(self):
+        self.add_line('e0', (42, 23), (38, 26))
+        self.add_line('e1', (38, 26), (6, 42))
+        self.add_line('e2', (6, 42), (6, 6))
+        self.add_line('e5', (6, 6), (42, 23))
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e5', closed=True)

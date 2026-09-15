@@ -1,9 +1,8 @@
-"""Used an oval dial to retain eight-unit strap bands inside the upright envelope; retained two hands.
-
-Keyshape VRECT_L: visible bounds (6, 2, 42, 46).
-Reference: watch: centered dial with paired attached straps.
-"""
-# Independent repair of analogue-wristwatch; parent preserved.
+"""Restore a round watch dial; angle the paired straps to preserve readable proportions.
+Plan: circular dial, opposed diagonal straps, and one joined hand stroke.
+SQUARE centerline extremes (6,6)-(42,42).
+Lucide: watch; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6f3e245f-ff22-445c-9c0b-9969d193eb11'
@@ -12,25 +11,39 @@ AUTHOR = 'gpt-6'
 
 class AnalogueWristwatch(Solo48):
     icon_id = 'analogue-wristwatch'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/accessories'
     aliases = ()
     keywords = ('watch', 'wristwatch', 'time', 'clock', 'analogue', 'dial', 'strap', 'accessory')
 
-    def build(self) -> None:
-        # VRECT_L centerlines (8,4)-(40,44). Elliptical dial leaves an
-        # eight-unit strap band; both straps attach at split cardinal nodes.
-        cx, cy, rx, ry = 24, 24, 16, 12
-        for name,a,b in [('ne',(cx,cy-ry),(cx+rx,cy)),
-                         ('se',(cx+rx,cy),(cx,cy+ry)),
-                         ('sw',(cx,cy+ry),(cx-rx,cy)),
-                         ('nw',(cx-rx,cy),(cx,cy-ry))]:
-            self.add_arc(name,a,b,radius_x=rx,radius_y=ry)
-        self.add_contour('face','ne','se','sw','nw',closed=True)
-        self.add_polyline('upper-strap',(24,12),(16,12),(16,4),(32,4),(32,12),(24,12))
-        self.add_polyline('lower-strap',(24,36),(16,36),(16,44),(32,44),(32,36),(24,36))
-        self.relate('connect','upper-strap','face')
-        self.relate('connect','lower-strap','face')
-        self.add_polyline('hands',(20,23),(24,26),(28,22))
+    def build(self):
+
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        circle('dial', 24, 24, 13)
+        poly('upper-strap', (11, 24), (6, 12), (12, 6), (24, 11))
+        poly('lower-strap', (37, 24), (42, 36), (36, 42), (24, 37))
+        join('upper-strap', 'dial')
+        join('lower-strap', 'dial')
+        poly('hands', (24, 20), (24, 24), (28, 24))

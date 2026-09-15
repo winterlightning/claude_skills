@@ -1,39 +1,26 @@
-"""Diode (electronics), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'diode: independent smooth-curve repair.\n\nConstruction: Diode triangle, cathode and leads with exact horizontal symmetry and real endpoint attachments.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/chevrons-right.svg and atomic-debug/chevrons-right.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '5d318b74-8678-4d78-ba8b-db8cb33830b5'
 SOURCE_PATH = 'pictographic-primitives/electronics/diode_5d318b74-8678-4d78-ba8b-db8cb33830b5.svg'
 AUTHOR = 'gpt-6'
 
+
 class Diode(Solo48):
     icon_id = 'diode'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'electronics'
     aliases = ()
     keywords = ('diode', 'electronics')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (4, 24), (13, 24))
-        self.add_line('sym-e1', (13, 24), (13, 38))
-        self.add_arc('sym-e2', (13, 38), (14, 39), radius_x=13, radius_y=13, large_arc=False, sweep=False)
-        self.add_line('sym-e3', (14, 39), (33, 24))
-        self.add_arc('sym-e4', (33, 24), (35, 24), radius_x=37, radius_y=37, large_arc=False, sweep=True)
-        self.add_line('sym-e5', (35, 24), (44, 24))
-        self.add_line('sym-e6', (35, 40), (35, 8))
-        self.add_line('sym-e8', (13, 24), (13, 10))
-        self.add_arc('sym-e9', (13, 10), (14, 9), radius_x=13, radius_y=13, large_arc=False, sweep=True)
-        self.add_line('sym-e10', (14, 9), (33, 24))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', closed=False)
-        self.add_contour('sym-c1', 'sym-e6', closed=False)
-        self.add_contour('sym-c2', 'sym-e8', 'sym-e9', 'sym-e10', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
+        poly(self,'triangle',(14,8),(34,24),(14,40),(14,24),(14,8),closed=True)
+        line(self,'cathode-top',(34,8),(34,24))
+        line(self,'cathode-bottom',(34,24),(34,40))
+        line(self,'lead-left',(4,24),(14,24))
+        line(self,'lead-right',(34,24),(44,24))
+        contacts(self)

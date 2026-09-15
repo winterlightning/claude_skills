@@ -1,59 +1,25 @@
-"""Wristband (events), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'wristband: independent smooth-curve repair.\n\nConstruction: Wristband with an elliptical rear rim and a centered rounded clasp; paired smooth front band sections.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/watch.svg and atomic-debug/watch.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'd01c7ceb-a077-5369-924c-20e53e6260db'
 SOURCE_PATH = 'pictographic-primitives/events/wristband_d01c7ceb-a077-5369-924c-20e53e6260db.svg'
 AUTHOR = 'gpt-6'
 
+
 class Wristband(Solo48):
     icon_id = 'wristband'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'events'
     aliases = ()
     keywords = ('wristband', 'events')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_arc('sym-e0', (31, 38), (28, 40), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('sym-e2', (28, 40), (26, 40))
-        self.add_arc('sym-e3', (26, 40), (24, 40), radius_x=20, radius_y=20, large_arc=False, sweep=False)
-        self.add_arc('sym-e4', (24, 40), (22, 40), radius_x=20, radius_y=20, large_arc=False, sweep=False)
-        self.add_line('sym-e5', (22, 40), (20, 40))
-        self.add_arc('sym-e7', (20, 40), (17, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('sym-e8', (17, 38), (17, 25))
-        self.add_arc('sym-e9', (17, 25), (6, 21), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_arc('sym-e10', (6, 21), (5, 19), radius_x=45, radius_y=45, large_arc=False, sweep=False)
-        self.add_line('sym-e11', (5, 19), (4, 19))
-        self.add_line('sym-e12', (4, 19), (4, 16))
-        self.add_arc('sym-e13', (4, 16), (8, 11), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_arc('sym-e14-1', (8, 11), (14, 9), radius_x=24, radius_y=24, large_arc=False, sweep=True)
-        self.add_line('sym-e14-2', (14, 9), (23, 8))
-        self.add_line('sym-e15', (23, 8), (25, 8))
-        self.add_line('sym-e17-1', (25, 8), (34, 9))
-        self.add_arc('sym-e17-2', (34, 9), (40, 11), radius_x=24, radius_y=24, large_arc=False, sweep=True)
-        self.add_arc('sym-e18', (40, 11), (44, 16), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('sym-e19-1', (44, 16), (44, 19))
-        self.add_line('sym-e20', (44, 19), (43, 19))
-        self.add_arc('sym-e21', (43, 19), (42, 21), radius_x=45, radius_y=45, large_arc=False, sweep=False)
-        self.add_arc('sym-e22', (42, 21), (31, 25), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('sym-e23', (31, 25), (27, 22), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e24', (27, 22), (21, 22))
-        self.add_arc('sym-e26', (21, 22), (17, 25), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e27', (31, 25), (31, 38))
-        self.add_arc('sym-e28', (31, 38), (44, 30), radius_x=12, radius_y=12, large_arc=False, sweep=False)
-        self.add_line('sym-e30', (44, 30), (44, 19))
-        self.add_arc('sym-e31', (17, 38), (4, 30), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_line('sym-e33', (4, 30), (4, 19))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14-1', 'sym-e14-2', 'sym-e15', 'sym-e17-1', 'sym-e17-2', 'sym-e18', 'sym-e19-1', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e23', 'sym-e24', 'sym-e26', closed=False)
-        self.add_contour('sym-c1', 'sym-e27', 'sym-e28', 'sym-e30', closed=False)
-        self.add_contour('sym-c2', 'sym-e31', 'sym-e33', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        path(self,'rim',(18,28),('C',(10,27),(4,24),(4,18)),('A',20,10,True,(24,8)),('A',20,10,True,(44,18)),('C',(44,24),(38,27),(30,28)))
+        box(self,'clasp',18,26,30,40,2)
+        path(self,'left-band',(4,18),('L',(4,29)),('C',(4,35),(10,38),(18,38)))
+        path(self,'right-band',(44,18),('L',(44,29)),('C',(44,35),(38,38),(30,38)))
+        contacts(self)

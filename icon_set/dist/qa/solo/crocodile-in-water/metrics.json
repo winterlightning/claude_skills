@@ -11,42 +11,42 @@
     "status": "pass",
     "contours": [
       {
-        "id": "crocodile:subpath-1",
-        "elementId": "crocodile",
+        "id": "back:subpath-1",
+        "elementId": "back",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 18 L 6 18 L 10 14 L 14 18 L 17 18 A 10 10 0 0 1 37 18 L 44 18 L 44 27 L 35 27",
+        "pathData": "M 4 18 L 8 14 L 12 18 L 18 18",
         "bounds": [
           4.0,
-          8.0,
-          44.0,
-          27.0
+          14.0,
+          18.0,
+          18.0
         ],
-        "segmentCount": 135,
-        "approximationError": 0.000754183151786578,
-        "hasCurves": true
+        "segmentCount": 3,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
-        "id": "water:subpath-1",
-        "elementId": "water",
+        "id": "brow:subpath-1",
+        "elementId": "brow",
         "subpathIndex": 1,
-        "componentId": "component-2",
-        "pathData": "M 4 37 A 5 3 0 0 0 14 37 A 8 3 0 0 0 30 37 A 7 3 0 0 0 44 37",
+        "componentId": "component-1",
+        "pathData": "M 18 18 A 9 10 0 0 1 36 18 L 44 18",
         "bounds": [
-          4.0,
-          37.0,
+          18.0,
+          8.0,
           44.0,
-          40.0
+          18.0
         ],
-        "segmentCount": 384,
-        "approximationError": 0.0006033465234879197,
+        "segmentCount": 129,
+        "approximationError": 0.0007541831518371055,
         "hasCurves": true
       },
       {
         "id": "eye:subpath-1",
         "elementId": "eye",
         "subpathIndex": 1,
-        "componentId": "component-3",
+        "componentId": "component-2",
         "pathData": "M 27 18 L 27 18",
         "bounds": [
           27.0,
@@ -57,47 +57,48 @@
         "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
+      },
+      {
+        "id": "water:subpath-1",
+        "elementId": "water",
+        "subpathIndex": 1,
+        "componentId": "component-3",
+        "pathData": "M 4 37 A 7 3 0 0 0 18 37 A 6 3 0 0 0 30 37 A 7 3 0 0 0 44 37",
+        "bounds": [
+          4.0,
+          37.0,
+          44.0,
+          40.0
+        ],
+        "segmentCount": 384,
+        "approximationError": 0.0005279282080519298,
+        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "crocodile:subpath-1"
+          "back:subpath-1",
+          "brow:subpath-1"
         ],
         "contourIds": [
-          "crocodile:subpath-1"
+          "back:subpath-1",
+          "brow:subpath-1"
         ],
         "elementIds": [
-          "crocodile"
+          "back",
+          "brow"
         ],
         "bounds": [
           4.0,
           8.0,
           44.0,
-          27.0
+          18.0
         ]
       },
       {
         "id": "component-2",
-        "memberIds": [
-          "water:subpath-1"
-        ],
-        "contourIds": [
-          "water:subpath-1"
-        ],
-        "elementIds": [
-          "water"
-        ],
-        "bounds": [
-          4.0,
-          37.0,
-          44.0,
-          40.0
-        ]
-      },
-      {
-        "id": "component-3",
         "memberIds": [
           "eye:subpath-1"
         ],
@@ -113,30 +114,48 @@
           27.0,
           18.0
         ]
+      },
+      {
+        "id": "component-3",
+        "memberIds": [
+          "water:subpath-1"
+        ],
+        "contourIds": [
+          "water:subpath-1"
+        ],
+        "elementIds": [
+          "water"
+        ],
+        "bounds": [
+          4.0,
+          37.0,
+          44.0,
+          40.0
+        ]
       }
     ],
     "pairs": [
       {
         "closestContours": [
-          "crocodile:subpath-1",
-          "water:subpath-1"
+          "brow:subpath-1",
+          "eye:subpath-1"
         ],
-        "centerlineDistance": 10.0,
-        "inkClearance": 6.0,
-        "signedInkClearance": 6.0,
-        "lowerBound": 9.998642470324723,
-        "upperBound": 10.001357529675277,
-        "inkClearanceLowerBound": 5.998642470324723,
-        "inkClearanceUpperBound": 6.001357529675277,
-        "approximationError": 0.0013575296752765809,
+        "centerlineDistance": 8.999451064627491,
+        "inkClearance": 4.9994510646274914,
+        "signedInkClearance": 4.9994510646274914,
+        "lowerBound": 8.998696881475652,
+        "upperBound": 9.0,
+        "inkClearanceLowerBound": 4.998696881475652,
+        "inkClearanceUpperBound": 5.0,
+        "approximationError": 0.0007541831518391717,
         "nearestPoints": [
           [
-            44.0,
-            27.0
+            18.0010978372639,
+            17.900605180575436
           ],
           [
-            44.0,
-            37.0
+            27.0,
+            18.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -150,34 +169,64 @@
         ],
         "memberIds": [
           [
-            "crocodile:subpath-1"
+            "back:subpath-1",
+            "brow:subpath-1"
           ],
           [
-            "water:subpath-1"
+            "eye:subpath-1"
           ]
         ],
         "contourPairs": [
           {
             "closestContours": [
-              "crocodile:subpath-1",
-              "water:subpath-1"
+              "back:subpath-1",
+              "eye:subpath-1"
             ],
-            "centerlineDistance": 10.0,
-            "inkClearance": 6.0,
-            "signedInkClearance": 6.0,
-            "lowerBound": 9.998642470324723,
-            "upperBound": 10.001357529675277,
-            "inkClearanceLowerBound": 5.998642470324723,
-            "inkClearanceUpperBound": 6.001357529675277,
-            "approximationError": 0.0013575296752744977,
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 9.0,
+            "upperBound": 9.0,
+            "inkClearanceLowerBound": 5.0,
+            "inkClearanceUpperBound": 5.0,
+            "approximationError": 0.0,
             "nearestPoints": [
               [
-                44.0,
-                27.0
+                18.0,
+                18.0
               ],
               [
-                44.0,
-                37.0
+                27.0,
+                18.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact straight-segment spacing meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "brow:subpath-1",
+              "eye:subpath-1"
+            ],
+            "centerlineDistance": 8.999451064627491,
+            "inkClearance": 4.9994510646274914,
+            "signedInkClearance": 4.9994510646274914,
+            "lowerBound": 8.998696881475652,
+            "upperBound": 9.000205247779332,
+            "inkClearanceLowerBound": 4.998696881475652,
+            "inkClearanceUpperBound": 5.000205247779332,
+            "approximationError": 0.0007541831518371055,
+            "nearestPoints": [
+              [
+                18.0010978372639,
+                17.900605180575436
+              ],
+              [
+                27.0,
+                18.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -190,25 +239,25 @@
       },
       {
         "closestContours": [
-          "crocodile:subpath-1",
-          "eye:subpath-1"
+          "back:subpath-1",
+          "water:subpath-1"
         ],
-        "centerlineDistance": 9.999247018391442,
-        "inkClearance": 5.999247018391442,
-        "signedInkClearance": 5.999247018391442,
-        "lowerBound": 9.998492835239652,
-        "upperBound": 10.00000120154323,
-        "inkClearanceLowerBound": 5.998492835239652,
-        "inkClearanceUpperBound": 6.000001201543229,
-        "approximationError": 0.0007541831517894337,
+        "centerlineDistance": 19.0,
+        "inkClearance": 15.0,
+        "signedInkClearance": 15.0,
+        "lowerBound": 18.99871788864011,
+        "upperBound": 19.000527928208054,
+        "inkClearanceLowerBound": 14.998717888640108,
+        "inkClearanceUpperBound": 15.000527928208054,
+        "approximationError": 0.0012821113598917577,
         "nearestPoints": [
           [
-            36.19044644107407,
-            14.060376268149584
+            4.0,
+            18.0
           ],
           [
-            27.0,
-            18.0
+            4.0,
+            37.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -222,34 +271,64 @@
         ],
         "memberIds": [
           [
-            "crocodile:subpath-1"
+            "back:subpath-1",
+            "brow:subpath-1"
           ],
           [
-            "eye:subpath-1"
+            "water:subpath-1"
           ]
         ],
         "contourPairs": [
           {
             "closestContours": [
-              "crocodile:subpath-1",
-              "eye:subpath-1"
+              "back:subpath-1",
+              "water:subpath-1"
             ],
-            "centerlineDistance": 9.999247018391442,
-            "inkClearance": 5.999247018391442,
-            "signedInkClearance": 5.999247018391442,
-            "lowerBound": 9.998492835239652,
-            "upperBound": 10.00000120154323,
-            "inkClearanceLowerBound": 5.998492835239652,
-            "inkClearanceUpperBound": 6.000001201543229,
-            "approximationError": 0.000754183151786578,
+            "centerlineDistance": 19.0,
+            "inkClearance": 15.0,
+            "signedInkClearance": 15.0,
+            "lowerBound": 18.999472071791946,
+            "upperBound": 19.000527928208054,
+            "inkClearanceLowerBound": 14.999472071791946,
+            "inkClearanceUpperBound": 15.000527928208054,
+            "approximationError": 0.0005279282080519298,
             "nearestPoints": [
               [
-                36.19044644107407,
-                14.060376268149584
+                4.0,
+                18.0
               ],
               [
-                27.0,
+                4.0,
+                37.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "brow:subpath-1",
+              "water:subpath-1"
+            ],
+            "centerlineDistance": 19.0,
+            "inkClearance": 15.0,
+            "signedInkClearance": 15.0,
+            "lowerBound": 18.99871788864011,
+            "upperBound": 19.00128211135989,
+            "inkClearanceLowerBound": 14.998717888640108,
+            "inkClearanceUpperBound": 15.001282111359892,
+            "approximationError": 0.0012821113598890353,
+            "nearestPoints": [
+              [
+                18.0,
                 18.0
+              ],
+              [
+                18.0,
+                37.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -262,25 +341,25 @@
       },
       {
         "closestContours": [
-          "water:subpath-1",
-          "eye:subpath-1"
+          "eye:subpath-1",
+          "water:subpath-1"
         ],
         "centerlineDistance": 19.235384061671343,
         "inkClearance": 15.235384061671343,
         "signedInkClearance": 15.235384061671343,
-        "lowerBound": 19.234780715147853,
-        "upperBound": 19.235987408194838,
-        "inkClearanceLowerBound": 15.234780715147853,
-        "inkClearanceUpperBound": 15.235987408194838,
-        "approximationError": 0.0006033465234942526,
+        "lowerBound": 19.23485613346329,
+        "upperBound": 19.2359119898794,
+        "inkClearanceLowerBound": 15.234856133463289,
+        "inkClearanceUpperBound": 15.235911989879401,
+        "approximationError": 0.0005279282080579151,
         "nearestPoints": [
-          [
-            30.0,
-            37.0
-          ],
           [
             27.0,
             18.0
+          ],
+          [
+            30.0,
+            37.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -294,34 +373,34 @@
         ],
         "memberIds": [
           [
-            "water:subpath-1"
+            "eye:subpath-1"
           ],
           [
-            "eye:subpath-1"
+            "water:subpath-1"
           ]
         ],
         "contourPairs": [
           {
             "closestContours": [
-              "water:subpath-1",
-              "eye:subpath-1"
+              "eye:subpath-1",
+              "water:subpath-1"
             ],
             "centerlineDistance": 19.235384061671343,
             "inkClearance": 15.235384061671343,
             "signedInkClearance": 15.235384061671343,
-            "lowerBound": 19.234780715147853,
-            "upperBound": 19.235987408194838,
-            "inkClearanceLowerBound": 15.234780715147853,
-            "inkClearanceUpperBound": 15.235987408194838,
-            "approximationError": 0.0006033465234879197,
+            "lowerBound": 19.23485613346329,
+            "upperBound": 19.2359119898794,
+            "inkClearanceLowerBound": 15.234856133463289,
+            "inkClearanceUpperBound": 15.235911989879401,
+            "approximationError": 0.0005279282080519298,
             "nearestPoints": [
-              [
-                30.0,
-                37.0
-              ],
               [
                 27.0,
                 18.0
+              ],
+              [
+                30.0,
+                37.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -333,8 +412,40 @@
         ]
       }
     ],
-    "connectedPairs": [],
-    "excludedPairs": [],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "back:subpath-1",
+          "brow:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          18.0,
+          18.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "back:subpath-1",
+          "brow:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "back:subpath-1",
+            "brow:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            18.0,
+            18.0
+          ]
+        }
+      }
+    ],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -346,14 +457,14 @@
       "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
       "scope": "disconnected centerline components, not spacing inside a connected component"
     },
-    "minimumCenterlineDistance": 9.999247018391442,
-    "minimumInkClearance": 5.999247018391442,
+    "minimumCenterlineDistance": 8.999451064627491,
+    "minimumInkClearance": 4.9994510646274914,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 15,
-      "flattenedSegments": 520,
+      "commands": 13,
+      "flattenedSegments": 517,
       "adaptiveNodes": 1020,
-      "distanceTests": 135,
+      "distanceTests": 68,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -378,6 +489,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.5223577799564791,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.14191501439104165,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/crocodile-in-water/icon.svg",
     "metrics": "solo/crocodile-in-water/metrics.json"
@@ -390,9 +536,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "473f107360adab57f6cd0061ae48783d7ce2e28a94b6ba450252b0f562787736",
+  "svg_sha256": "1da7c246495db4a8daf9d5c4456dd8034d83c9d17e834858dc84a6456c86dea4",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -447,6 +594,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

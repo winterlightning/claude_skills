@@ -1,3 +1,4 @@
+# Repair: Attach the open car body at the tops of two equal circular wheels and retain the heart balloon on a curved tether.
 """A right-facing wedding car tows a heart balloon; side decal, cans and ribbon details omitted.
 
 Construction references: Lucide heart, hand, sprout, balloon, cake, car and users-round as applicable.
@@ -21,32 +22,13 @@ class WeddingCarWithHeartBalloon(Solo48):
     aliases = ()
     keywords = ('car', 'wedding', 'balloon', 'heart', 'vehicle', 'celebration')
 
-    def build(self) -> None:
-        def heart(n,cx,y,r,tip):
-            self.add_arc(n+'-l',(cx,y),(cx-2*r,y),radius_x=r,sweep=False)
-            self.add_arc(n+'-shl',(cx-2*r,y),(cx-2*r+2,y+4),radius_x=5,sweep=False)
-            self.add_line(n+'-sl',(cx-2*r+2,y+4),(cx,tip))
-            self.add_line(n+'-sr',(cx,tip),(cx+2*r-2,y+4))
-            self.add_arc(n+'-shr',(cx+2*r-2,y+4),(cx+2*r,y),radius_x=5,sweep=False)
-            self.add_arc(n+'-r',(cx+2*r,y),(cx,y),radius_x=r,sweep=False)
-            self.add_contour(n,n+'-l',n+'-shl',n+'-sl',n+'-sr',n+'-shr',n+'-r',closed=True)
-
-        heart('balloon',14,10,4,20)
-        self.add_arc('tether',(14,20),(10,28),radius_x=10,sweep=False)
-        self.relate('connect','balloon','tether')
-        self.add_polyline('body',(10,28),(16,28),(20,22),(30,22),(34,28),(38,28),(42,32),(42,38),(40,38))
-        self.relate('connect','body','tether')
-        self.add_line('bumper-left',(8,38),(6,38))
-        self.add_line('rear',(6,38),(6,32))
-        self.add_arc('rear-corner',(6,32),(10,28),radius_x=4)
-        self.add_contour('rear-body','bumper-left','rear','rear-corner')
-        self.relate('connect','rear-body','body')
-        for n,x in [('rear-wheel',12),('front-wheel',36)]:
-            self.add_arc(n+'-a',(x-4,38),(x+4,38),radius_x=4)
-            self.add_arc(n+'-b',(x+4,38),(x-4,38),radius_x=4)
-            self.add_contour(n,n+'-a',n+'-b',closed=True)
-        self.add_line('sill',(16,38),(32,38))
-        self.relate('connect','rear-wheel','rear-body')
-        self.relate('connect','rear-wheel','sill')
-        self.relate('connect','front-wheel','sill')
-        self.relate('connect','front-wheel','body')
+    def build(self):
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+        # Two circular lobes define the tethered heart balloon.
+        path(self,'balloon',(14,10),('A',4,4,False,(6,10)),('L',(14,20)),('L',(22,10)),('A',4,4,False,(14,10)),closed=True)
+        path(self,'tether',(14,20),('A',10,10,False,(12,28)))
+        path(self,'body',(12,36),('L',(12,28)),('L',(16,28)),('L',(23,24)),('L',(31,24)),('L',(34,28)),('L',(38,28)),('L',(42,28)),('L',(42,39)))
+        ellipse(self,'rear-wheel',12,39,3)
+        ellipse(self,'front-wheel',36,39,3)
+        line(self,'sill',(15,39),(33,39))
+        contacts(self)

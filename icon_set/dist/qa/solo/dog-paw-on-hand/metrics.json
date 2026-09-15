@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.1 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,15 +15,15 @@
         "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 26 18 A 8 12 0 0 1 42 18",
+        "pathData": "M 26 16 A 8 10 0 0 1 42 16",
         "bounds": [
           26.0,
           6.0,
           42.0,
-          18.0
+          16.0
         ],
         "segmentCount": 128,
-        "approximationError": 0.0009050197829617283,
+        "approximationError": 0.0007541831524669226,
         "hasCurves": true
       },
       {
@@ -33,10 +31,10 @@
         "elementId": "muzzle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 26 18 L 18 20 L 18 26 L 28 28 L 28 34 L 20 34",
+        "pathData": "M 26 16 L 18 16 L 18 24 L 28 24 L 28 34 L 20 34",
         "bounds": [
           18.0,
-          18.0,
+          16.0,
           28.0,
           34.0
         ],
@@ -49,10 +47,10 @@
         "elementId": "back",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 42 18 L 42 34",
+        "pathData": "M 42 16 L 42 34",
         "bounds": [
           42.0,
-          18.0,
+          16.0,
           42.0,
           34.0
         ],
@@ -65,7 +63,7 @@
         "elementId": "hand",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 30 L 12 30 L 20 34 L 32 34 L 36 38 L 32 42 L 18 42 L 6 36",
+        "pathData": "M 6 30 L 12 30 L 20 34 L 32 34 L 36 38 L 32 42 L 18 42 L 6 40",
         "bounds": [
           6.0,
           30.0,
@@ -116,7 +114,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           26.0,
-          18.0
+          16.0
         ]
       },
       {
@@ -127,7 +125,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           42.0,
-          18.0
+          16.0
         ]
       },
       {
@@ -158,7 +156,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             26.0,
-            18.0
+            16.0
           ]
         }
       },
@@ -177,7 +175,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             42.0,
-            18.0
+            16.0
           ]
         }
       },
@@ -271,6 +269,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.2889199356457986,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.3042683647622108,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/dog-paw-on-hand/icon.svg",
     "metrics": "solo/dog-paw-on-hand/metrics.json"
@@ -283,9 +316,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "55479baafe38059de7bd31823d78ba4bddba003af69ea4133115168a4488a792",
+  "svg_sha256": "eccf0e33178110817f86bb31ebae54341e85d995017c9d01f0714917d5e78523",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -340,8 +374,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -353,146 +388,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "muzzle",
-        "elements": [
-          "muzzle-1",
-          "muzzle-3"
-        ],
-        "status": "review",
-        "sustained_length": 3.2485,
-        "centerline_distance": 6.6858,
-        "ink_gap": 2.6858,
-        "nearest_points": [
-          [
-            19.818181818181817,
-            19.545454545454547
-          ],
-          [
-            18.506993006993042,
-            26.101398601398607
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the dog paw on hand silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
-        }
-      },
-      {
-        "contour": "muzzle",
-        "elements": [
-          "muzzle-3",
-          "muzzle-5"
-        ],
-        "status": "review",
-        "sustained_length": 7.2132,
-        "centerline_distance": 6.122,
-        "ink_gap": 2.122,
-        "nearest_points": [
-          [
-            27.390243902439025,
-            27.878048780487806
-          ],
-          [
-            27.390243902439025,
-            34.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the dog paw on hand silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
-        }
-      },
-      {
-        "contour": "muzzle / hand",
-        "elements": [
-          "muzzle-3",
-          "hand-2"
-        ],
-        "status": "review",
-        "sustained_length": 4.4772,
-        "centerline_distance": 6.4246,
-        "ink_gap": 2.4246,
-        "nearest_points": [
-          [
-            18.609756097560975,
-            26.121951219512194
-          ],
-          [
-            15.736585365853676,
-            31.86829268292684
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the dog paw on hand silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
-        }
-      },
-      {
-        "contour": "muzzle / hand",
-        "elements": [
-          "muzzle-3",
-          "hand-3"
-        ],
-        "status": "review",
-        "sustained_length": 7.2132,
-        "centerline_distance": 6.122,
-        "ink_gap": 2.122,
-        "nearest_points": [
-          [
-            27.390243902439025,
-            27.878048780487806
-          ],
-          [
-            27.390243902439025,
-            34.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the dog paw on hand silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
-        }
-      },
-      {
-        "contour": "hand",
-        "elements": [
-          "hand-1",
-          "hand-7"
-        ],
-        "status": "review",
-        "sustained_length": 3.9752,
-        "centerline_distance": 6.2778,
-        "ink_gap": 2.2778,
-        "nearest_points": [
-          [
-            6.555555555555556,
-            30.0
-          ],
-          [
-            6.555555555555556,
-            36.27777777777778
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the dog paw on hand silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-23.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 5
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -1,36 +1,24 @@
-"""Architecture window (building), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'architecture-window: independent smooth-curve repair.\n\nConstruction: Arched window: a true semicircular crown, straight jambs and shared central mullion.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/house.svg and atomic-debug/house.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'aecf4d3e-720a-5d7f-afaa-a2e827b671ff'
 SOURCE_PATH = 'pictographic-primitives/building/architecture window_aecf4d3e-720a-5d7f-afaa-a2e827b671ff.svg'
 AUTHOR = 'gpt-6'
 
+
 class ArchitectureWindow(Solo48):
     icon_id = 'architecture-window'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
     aliases = ()
     keywords = ('architecture', 'window', 'building')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (40, 26), (8, 26))
-        self.add_line('sym-e1', (8, 26), (8, 19))
-        self.add_line('sym-e2', (8, 19), (9, 15))
-        self.add_arc('sym-e3', (9, 15), (24, 4), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('sym-e5', (24, 4), (24, 44))
-        self.add_line('sym-e6', (24, 44), (40, 44))
-        self.add_line('sym-e7', (40, 44), (40, 19))
-        self.add_line('sym-e9', (40, 19), (39, 15))
-        self.add_arc('sym-e10', (39, 15), (24, 4), radius_x=17, radius_y=17, large_arc=False, sweep=False)
-        self.add_line('sym-e12', (8, 26), (8, 44))
-        self.add_line('sym-e13', (8, 44), (24, 44))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e9', 'sym-e10', closed=False)
-        self.add_contour('sym-c1', 'sym-e12', 'sym-e13', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        path(self,'frame',(8,44),('L',(8,20)),('A',16,16,True,(24,4)),('A',16,16,True,(40,20)),('L',(40,44)),('L',(24,44)),('L',(8,44)),closed=True)
+        line(self,'mullion',(24,4),(24,44))
+        line(self,'crossbar',(8,28),(40,28))
+        contacts(self)

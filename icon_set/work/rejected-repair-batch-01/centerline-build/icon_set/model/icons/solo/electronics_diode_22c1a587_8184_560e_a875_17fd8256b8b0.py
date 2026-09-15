@@ -1,0 +1,27 @@
+'Diode: restore the actual shared triangle-to-cathode junction and straight leads instead of a near-miss gap.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '22c1a587-8184-560e-a875-17fd8256b8b0'
+SOURCE_PATH = 'pictographic-primitives/electronics/electronics diode_22c1a587-8184-560e-a875-17fd8256b8b0.svg'
+AUTHOR = 'gpt-6'
+
+class ElectronicsDiode(Solo48):
+    icon_id = 'electronics-diode'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'electronics'
+    aliases = ()
+    keywords = ('electronics', 'diode')
+
+    def build(self) -> None:
+        # HRECT_L: triangular diode, shared cathode contact, and split leads.
+        self.add_polyline('diode',(14,8),(35,24),(14,40),(14,24),closed=True)
+        self.add_polyline('cathode',(35,8),(35,24),(35,40))
+        self.add_line('lead-left',(4,24),(14,24))
+        self.add_line('lead-right',(35,24),(44,24))
+        self.relate('connect','diode','cathode')
+        self.relate('connect','diode','lead-left')
+        self.relate('connect','cathode','lead-right')
+        self.relate('connect','diode','lead-right')

@@ -378,6 +378,43 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 16.0,
+        "ink_iou": 0.9997169489043971,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 0.0
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 16.0,
+        "ink_iou": 0.9999219089360579,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 0.0
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "sub/dots-vertical/icon.svg",
     "metrics": "sub/dots-vertical/metrics.json"
@@ -390,7 +427,8 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
   "svg_sha256": "9ad9c5df5431b38db9d59bf3610bc352ab7e84dbeb92897e4574e003be34b4ca",
   "rules": {
@@ -447,6 +485,7 @@
     }
   },
   "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

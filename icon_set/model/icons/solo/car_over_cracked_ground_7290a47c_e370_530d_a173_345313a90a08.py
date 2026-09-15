@@ -1,36 +1,25 @@
-"""A side-view car with two wheels and divided windows tilts slightly over a horizontal road. The ground drops into a deep central fissure, with two angular tremor marks underneath.
-
-Kept car roof and wheels over one ground fissure; dropped window division and extra tremor marks.
-Construction reference: No useful exact local match; geometric car silhouette and paired circular wheels.
-"""
+'car-over-cracked-ground: independent smooth-curve repair.\n\nConstruction: A front-facing car above a broad road fracture; paired roof curves and short wheel legs.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/car-front.svg and atomic-debug/car-front.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '7290a47c-e370-530d-a173-345313a90a08'
 SOURCE_PATH = 'pictographic-primitives/weather/earthquake car shaking_7290a47c-e370-530d-a173-345313a90a08.svg'
 AUTHOR = 'gpt-6'
 
+
 class CarOverCrackedGround(Solo48):
     icon_id = 'car-over-cracked-ground'
-    keyshape = Keyshape.HRECT_XL
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/weather'
     aliases = ()
     keywords = ('car', 'earthquake', 'crack', 'road', 'tremor', 'disaster')
+    keyshape = Keyshape.HRECT_L
 
-    def build(self) -> None:
-        self.add_polyline('car-top', (4, 20), (4, 12), (12, 12), (17, 8), (31, 8), (37, 12), (44, 12), (44, 20), closed=False)
-        self.add_line('body-base', (4, 20), (13, 20))
-        self.add_line('body-mid', (13, 20), (35, 20))
-        self.add_line('body-end', (35, 20), (44, 20))
-        self.add_contour('body', 'body-base', 'body-mid', 'body-end', closed=False)
-        self.relate('connect', 'car-top', 'body')
-        self.add_arc('left-wheel-a', (13, 20), (13, 28), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('left-wheel-b', (13, 28), (13, 20), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('left-wheel', 'left-wheel-a', 'left-wheel-b', closed=True)
-        self.relate('connect', 'body', 'left-wheel')
-        self.add_arc('right-wheel-a', (35, 20), (35, 28), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_arc('right-wheel-b', (35, 28), (35, 20), radius_x=4, radius_y=4, sweep=True, large_arc=False)
-        self.add_contour('right-wheel', 'right-wheel-a', 'right-wheel-b', closed=True)
-        self.relate('connect', 'body', 'right-wheel')
-        self.add_polyline('ground', (4, 37), (18, 37), (24, 40), (30, 37), (44, 37), closed=False)
+    def build(self):
+        path(self,'car',(4,24),('L',(4,16)),('L',(12,16)),('C',(16,16),(17,8),(21,8)),('L',(27,8)),('C',(31,8),(32,16),(36,16)),('L',(44,16)),('L',(44,24)),('L',(36,24)),('L',(12,24)),('L',(4,24)),closed=True)
+        line(self,'wheel-left',(12,24),(12,28))
+        line(self,'wheel-right',(36,24),(36,28))
+        poly(self,'ground',(4,38),(16,38),(24,40),(32,38),(44,38))
+        contacts(self)

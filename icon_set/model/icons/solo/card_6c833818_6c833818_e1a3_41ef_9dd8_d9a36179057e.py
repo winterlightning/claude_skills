@@ -1,33 +1,23 @@
-"""Card (business), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'card-6c833818: independent smooth-curve repair.\n\nConstruction: Card with four equal quarter-circle corners and a horizontal band.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/credit-card.svg and atomic-debug/credit-card.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '6c833818-e1a3-41ef-9dd8-d9a36179057e'
 SOURCE_PATH = 'pictographic-primitives/business/card_6c833818-e1a3-41ef-9dd8-d9a36179057e.svg'
 AUTHOR = 'gpt-6'
 
+
 class Card6c833818(Solo48):
     icon_id = 'card-6c833818'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
     aliases = ()
     keywords = ('card', 'business')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (4, 18), (44, 18))
-        self.add_line('sym-e1', (44, 18), (44, 36))
-        self.add_arc('sym-e2-1', (44, 36), (43, 39), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('sym-e2-2', (43, 39), (41, 40), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('sym-e3', (41, 40), (7, 40))
-        self.add_arc('sym-e5-1', (7, 40), (5, 39), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('sym-e5-2', (5, 39), (4, 36), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('sym-e6', (4, 36), (4, 12))
-        self.add_arc('sym-e8-1', (4, 12), (5, 9), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('sym-e8-2', (5, 9), (7, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_line('sym-e9', (7, 8), (41, 8))
-        self.add_arc('sym-e11-1', (41, 8), (43, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_arc('sym-e11-2', (43, 9), (44, 12), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('sym-e12-1', (44, 12), (44, 15), radius_x=25, radius_y=25, large_arc=False, sweep=False)
-        self.add_line('sym-e12-2', (44, 15), (44, 18))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2-1', 'sym-e2-2', 'sym-e3', 'sym-e5-1', 'sym-e5-2', 'sym-e6', 'sym-e8-1', 'sym-e8-2', 'sym-e9', 'sym-e11-1', 'sym-e11-2', 'sym-e12-1', 'sym-e12-2', closed=False)
+        box(self,'card',4,8,44,40,4,ys=(20,))
+        line(self,'stripe',(4,20),(44,20))
+        contacts(self)

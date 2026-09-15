@@ -1,3 +1,4 @@
+# Repair: Reconstruct the horse neck and saddle together; preserve circular rider head, reins and distinct horse/rider legs. Human reference full_body_ref.png; head gap 12-4=8.
 """Horse rider: lower the saddle/back as one owner to open the arm-to-horse counter; give the torso and rider leg real length. Radius5 head(24,9), shoulder(19,21), exact13 center distance and4 painted clearance. The torso tangent follows the forward lean. Source horse rider and full_body_ref.png inspected. VRECT_L gives room for the horse legs.
 
 Reconstruct horse rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -44,9 +45,14 @@ class HorseRider(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Horse rider: lower the saddle/back as one owner to open the arm-to-horse counter; give the torso and rider leg real length. Radius5 head(24,9), shoulder(19,21), exact13 center distance and4 painted clearance. The torso tangent follows the forward lean. Source horse rider and full_body_ref.png inspected. VRECT_L gives room for the horse legs."""
-        self.ring('head', 24, 9, 5)
-        self.add_bezier('torso', (19, 21), ((17, 26), (15, 29), (14, 32)))
-        self.branches([('arms', [(19, 21), (26, 24), (34, 20)]), ('leg', [(14, 32), (22, 35), (20, 43)]), ('horse', [(14, 32), (28, 32), (34, 20), (38, 20), (40, 28), (34, 28), (31, 36), (38, 40), (37, 44)]), ('rear-leg', [(14, 32), (12, 38), (8, 44)]), ('tail', [(8, 35), (8, 33), (14, 32)])])
-        for p in ['arms-0', 'leg-0', 'horse-0', 'rear-leg-0', 'tail-1']:
-            self.relate('connect', 'torso', p)
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(12,8),('A',4,4,True,(20,8)),('A',4,4,True,(12,8)),closed=True)
+        path(self,'torso',(16,20),('C',(16,24),(16,28),(16,30)))
+        poly(self,'arm',(16,20),(24,20),(26,18))
+        path(self,'horse',(8,44),('L',(8,38)),('L',(8,30)),('L',(16,30)),('L',(24,30)),('L',(26,18)),('L',(28,10)),('L',(40,18)),('L',(40,26)),('L',(36,26)),('L',(36,38)),('L',(40,40)),('L',(38,44)))
+        poly(self,'belly',(8,38),(16,38),(36,38))
+        poly(self,'rider-leg',(16,30),(16,38),(16,40))
+        line(self,'tail',(8,30),(8,22))
+        contacts(self)
+        self.mark_human_figure('rider',head='head',torso='torso-1',torso_junction='start')

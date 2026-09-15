@@ -1,27 +1,23 @@
-"""Ello logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'ello-logo: independent smooth-curve repair.\n\nConstruction: Circular smile mark with a smooth half-ellipse mouth.\nKeyshape: CIRCLE; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/circle.svg and atomic-debug/circle.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'ffdc3f61-3f5e-4ec1-ab2c-725ed785dddc'
 SOURCE_PATH = 'pictographic-primitives/logos/ello logo_ffdc3f61-3f5e-4ec1-ab2c-725ed785dddc.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
 
 class ElloLogo(Solo48):
     icon_id = 'ello-logo'
-    keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
     keywords = ('ello', 'logo', 'logos')
+    keyshape = Keyshape.CIRCLE
 
     def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1-1', (14, 26), (20, 34), radius_x=11, sweep=False)
-        self.add_arc('e1-2', (20, 34), (34, 26), radius_x=10, sweep=False)
-        self.add_contour('c0', 'e1-1', 'e1-2')
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
+        ellipse(self,'face',24,24,20)
+        path(self,'smile',(14,25),('A',10,10,False,(34,25)))
+        contacts(self)

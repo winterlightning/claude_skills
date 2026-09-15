@@ -1,3 +1,4 @@
+# Repair: Lengthen the torso so the raised knees clear the rope handles.
 """Reconstruct skipping athlete raised knee using its inspected source pose and full_body_ref.png. Head radius 4, center (24, 10), actual torso junction (24, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A front-facing athlete holds a rope out to both sides while lifting one bent knee. The rope curves downward in a broad loop beneath the suspended feet.
@@ -91,14 +92,14 @@ class SkippingAthleteRaisedKnee(Solo48):
     def build(self):
         """Reconstruct skipping athlete raised knee using its inspected source pose and full_body_ref.png. Head radius 4, center (24, 10), actual torso junction (24, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.ring('head', 24, 10, 4)
-        self.add_bezier('torso-0', (24, 22), *(((24.0, 24.0), (24.0, 25.75), (24, 27)),))
+        self.add_bezier('torso-0', (24, 22), *(((24.0, 24.0), (24.0, 25.75), (24, 30)),))
         self.add_line('left-arm-0', (24, 22), (15, 22))
         self.add_line('left-arm-1', (15, 22), (6, 22))
         self.add_line('right-arm-0', (24, 22), (33, 22))
         self.add_line('right-arm-1', (33, 22), (42, 22))
-        self.add_line('left-leg-0', (24, 27), (20, 32))
-        self.add_line('right-leg-0', (24, 27), (30, 28))
-        self.add_line('right-leg-1', (30, 28), (28, 32))
+        self.add_line('left-leg-0', (24, 30), (20, 34))
+        self.add_line('right-leg-0', (24, 30), (30, 31))
+        self.add_line('right-leg-1', (30, 31), (28, 33))
         self.add_arc('rope', (6, 22), (42, 22), radius_x=18, radius_y=20, large_arc=False, sweep=False)
         self.add_contour('left-arm', *('left-arm-0', 'left-arm-1'), closed=False)
         self.add_contour('right-arm', *('right-arm-0', 'right-arm-1'), closed=False)
@@ -114,3 +115,4 @@ class SkippingAthleteRaisedKnee(Solo48):
         self.relate('connect', *('right-leg-0', 'right-leg-1'))
         self.relate('connect', *('rope', 'left-arm-1'))
         self.relate('connect', *('rope', 'right-arm-1'))
+        self.mark_human_figure('person', head='head', torso='torso-0', torso_junction='start')

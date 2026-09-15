@@ -1,3 +1,5 @@
+# Refinement: Widen the back palm between its outer edge and the front thumb.
+# Repair: Replace the rear hand zigzag with one broad raised finger; use exact shared thumb and palm contacts between the clapping hands.
 """Two overlapping hands clap diagonally upward-right. SQUARE centerlines 6,6–42,42. Related Lucide hand-metal informs rounded fingers; omit small impact rays and merge fingers into readable palms."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -15,17 +17,9 @@ class ClappingHands(Solo48):
     keywords = ('hand', 'clapping', 'applause', 'palm', 'gesture', 'celebration')
 
     def build(self):
-        # Two overlapping, upward-right palms. The rear hand stays open where occluded.
-        self.add_line('front-thumb-out',(15,33),(15,23))
-        self.add_arc('front-thumb-tip',(15,23),(23,23),radius_x=4)
-        self.add_line('front-thumb-in',(23,23),(23,29))
-        self.add_line('front-fingers-left',(23,29),(34,13))
-        self.add_arc('front-fingertips',(34,13),(42,17),radius_x=5)
-        self.add_line('front-fingers-right',(42,17),(34,32))
-        self.add_arc('front-palm-right',(34,32),(24,42),radius_x=10)
-        self.add_arc('front-palm-left',(24,42),(15,33),radius_x=9)
-        self.add_contour('front','front-thumb-out','front-thumb-tip','front-thumb-in','front-fingers-left','front-fingertips','front-fingers-right','front-palm-right','front-palm-left',closed=True)
-        self.add_polyline('rear-fingers',(6,25),(18,6),(22,10),(19,18),(30,10))
-        self.add_arc('rear-palm',(6,25),(15,33),radius_x=12,sweep=False)
-        self.relate('connect','rear-fingers','rear-palm')
-        self.relate('connect','rear-palm','front')
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'front',(15,33),('L',(15,23)),('A',4,4,True,(19,19)),('A',4,4,True,(23,23)),('L',(23,29)),('L',(34,13)),('A',5,5,True,(42,17)),('L',(34,32)),('A',10,10,True,(24,42)),('A',9,9,True,(15,33)),closed=True)
+        poly(self,'rear-fingers',(6,25),(11,6),(26,6),(19,19))
+        path(self,'rear-palm',(6,25),('A',12,12,False,(15,33)))
+        contacts(self)

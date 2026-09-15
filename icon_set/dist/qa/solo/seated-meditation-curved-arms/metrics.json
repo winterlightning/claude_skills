@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 3.33 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,14 +47,14 @@
         "elementId": "arm-l",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 10 28 L 10 32 L 18 32",
+        "pathData": "M 10 28 L 6 34",
         "bounds": [
-          10.0,
+          6.0,
           28.0,
-          18.0,
-          32.0
+          10.0,
+          34.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -65,14 +63,14 @@
         "elementId": "arm-r",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 38 28 L 38 32 L 30 32",
+        "pathData": "M 38 28 L 42 34",
         "bounds": [
-          30.0,
-          28.0,
           38.0,
-          32.0
+          28.0,
+          42.0,
+          34.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -259,22 +257,22 @@
               "head:subpath-1",
               "arm-l:subpath-1"
             ],
-            "centerlineDistance": 16.840554050697495,
-            "inkClearance": 12.840554050697495,
-            "signedInkClearance": 12.840554050697495,
-            "lowerBound": 16.84032966784155,
-            "upperBound": 16.840931142273618,
-            "inkClearanceLowerBound": 12.840329667841551,
-            "inkClearanceUpperBound": 12.840931142273618,
+            "centerlineDistance": 17.022724903652307,
+            "inkClearance": 13.022724903652307,
+            "signedInkClearance": 13.022724903652307,
+            "lowerBound": 17.02271554554524,
+            "upperBound": 17.02310199522843,
+            "inkClearanceLowerBound": 13.022715545545239,
+            "inkClearanceUpperBound": 13.02310199522843,
             "approximationError": 0.00037709157612066265,
             "nearestPoints": [
               [
-                22.66643621262551,
-                15.8188803289772
+                20.828033579181774,
+                14.865052266813684
               ],
               [
-                18.0,
-                32.0
+                10.0,
+                28.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -288,22 +286,22 @@
               "head:subpath-1",
               "arm-r:subpath-1"
             ],
-            "centerlineDistance": 16.840554050697495,
-            "inkClearance": 12.840554050697495,
-            "signedInkClearance": 12.840554050697495,
-            "lowerBound": 16.84032966784155,
-            "upperBound": 16.840931142273618,
-            "inkClearanceLowerBound": 12.840329667841551,
-            "inkClearanceUpperBound": 12.840931142273618,
+            "centerlineDistance": 17.022724903652303,
+            "inkClearance": 13.022724903652303,
+            "signedInkClearance": 13.022724903652303,
+            "lowerBound": 17.02271554554524,
+            "upperBound": 17.023101995228426,
+            "inkClearanceLowerBound": 13.022715545545239,
+            "inkClearanceUpperBound": 13.023101995228426,
             "approximationError": 0.00037709157612066265,
             "nearestPoints": [
               [
-                25.33356378737449,
-                15.8188803289772
+                27.17196642081823,
+                14.865052266813684
               ],
               [
-                30.0,
-                32.0
+                38.0,
+                28.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -434,6 +432,28 @@
         "point": [
           24.0,
           24.0
+        ]
+      },
+      {
+        "contourIds": [
+          "arm-l:subpath-1",
+          "leg-l:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          6.0,
+          34.0
+        ]
+      },
+      {
+        "contourIds": [
+          "arm-r:subpath-1",
+          "leg-r:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          42.0,
+          34.0
         ]
       },
       {
@@ -571,7 +591,17 @@
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
-        "directConnection": null
+        "directConnection": {
+          "contourIds": [
+            "arm-l:subpath-1",
+            "leg-l:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            6.0,
+            34.0
+          ]
+        }
       },
       {
         "contourIds": [
@@ -607,7 +637,17 @@
         ],
         "componentId": "component-2",
         "reason": "same proved connected centerline component",
-        "directConnection": null
+        "directConnection": {
+          "contourIds": [
+            "arm-r:subpath-1",
+            "leg-r:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            42.0,
+            34.0
+          ]
+        }
       },
       {
         "contourIds": [
@@ -682,10 +722,10 @@
     "minimumInkClearance": 4.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 21,
-      "flattenedSegments": 398,
+      "commands": 19,
+      "flattenedSegments": 396,
       "adaptiveNodes": 772,
-      "distanceTests": 223,
+      "distanceTests": 224,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -727,67 +767,67 @@
       {
         "hole": 2,
         "center_viewbox": [
-          19.8281,
-          28.2344
+          17.8594,
+          30.3906
         ],
         "bbox_viewbox": [
-          12.0,
+          9.2812,
           26.0,
-          10.0,
+          12.7188,
           9.5
         ],
         "bbox_ship_px": [
-          10.0,
+          12.7188,
           9.5
         ],
         "bbox_design_u": [
-          10.0,
+          12.7188,
           9.5
         ],
-        "area_ship_px2": 47.959,
-        "equivalent_diameter_ship_px": 7.8143,
-        "equivalent_diameter_design_u": 7.8143,
-        "inscribed_diameter_ship_px": 4.3125,
-        "inscribed_diameter_design_u": 4.3125,
-        "inscribed_radius_ship_px": 2.1562,
-        "inscribed_radius_design_u": 2.1562,
+        "area_ship_px2": 83.416,
+        "equivalent_diameter_ship_px": 10.3058,
+        "equivalent_diameter_design_u": 10.3058,
+        "inscribed_diameter_ship_px": 8.2623,
+        "inscribed_diameter_design_u": 8.2623,
+        "inscribed_radius_ship_px": 4.1312,
+        "inscribed_radius_design_u": 4.1312,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       },
       {
         "hole": 3,
         "center_viewbox": [
-          28.1406,
-          28.2344
+          30.1406,
+          30.3906
         ],
         "bbox_viewbox": [
           26.0,
           26.0,
-          10.0,
+          12.7188,
           9.5
         ],
         "bbox_ship_px": [
-          10.0,
+          12.7188,
           9.5
         ],
         "bbox_design_u": [
-          10.0,
+          12.7188,
           9.5
         ],
-        "area_ship_px2": 47.9863,
-        "equivalent_diameter_ship_px": 7.8165,
-        "equivalent_diameter_design_u": 7.8165,
-        "inscribed_diameter_ship_px": 4.3125,
-        "inscribed_diameter_design_u": 4.3125,
-        "inscribed_radius_ship_px": 2.1562,
-        "inscribed_radius_design_u": 2.1562,
+        "area_ship_px2": 83.4561,
+        "equivalent_diameter_ship_px": 10.3082,
+        "equivalent_diameter_design_u": 10.3082,
+        "inscribed_diameter_ship_px": 8.2623,
+        "inscribed_diameter_design_u": 8.2623,
+        "inscribed_radius_ship_px": 4.1312,
+        "inscribed_radius_design_u": 4.1312,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
     ],
     "authored_hole_count": 3,
     "raster_artifact_count": 0,
-    "hole_count": 1,
+    "hole_count": 3,
     "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
@@ -822,6 +862,70 @@
         "status": "pass",
         "equivalent_radius_at_authored_stroke_design_u": 2.9126,
         "equivalent_diameter_at_authored_stroke_design_u": 5.8252
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.8594,
+          30.3906
+        ],
+        "bbox_viewbox": [
+          6.8438,
+          24.5,
+          16.6562,
+          12.875
+        ],
+        "bbox_ship_px": [
+          16.6562,
+          12.875
+        ],
+        "bbox_design_u": [
+          16.6562,
+          12.875
+        ],
+        "area_ship_px2": 149.8018,
+        "equivalent_diameter_ship_px": 13.8106,
+        "equivalent_diameter_design_u": 13.8106,
+        "inscribed_diameter_ship_px": 11.3115,
+        "inscribed_diameter_design_u": 11.3115,
+        "inscribed_radius_ship_px": 5.6558,
+        "inscribed_radius_design_u": 5.6558,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.1558,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.3116
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          30.1406,
+          30.3906
+        ],
+        "bbox_viewbox": [
+          24.5,
+          24.5,
+          16.6562,
+          12.875
+        ],
+        "bbox_ship_px": [
+          16.6562,
+          12.875
+        ],
+        "bbox_design_u": [
+          16.6562,
+          12.875
+        ],
+        "area_ship_px2": 149.8623,
+        "equivalent_diameter_ship_px": 13.8134,
+        "equivalent_diameter_design_u": 13.8134,
+        "inscribed_diameter_ship_px": 11.3115,
+        "inscribed_diameter_design_u": 11.3115,
+        "inscribed_radius_ship_px": 5.6558,
+        "inscribed_radius_design_u": 5.6558,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.1558,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.3116
       }
     ],
     "pinches": [],
@@ -833,6 +937,42 @@
     "measuring_stroke_width": 1.0,
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9993957692990163,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.32410687763558e-15
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.21071492445671375,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
   },
   "artifacts": {
     "svg": "solo/seated-meditation-curved-arms/icon.svg",
@@ -846,9 +986,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "1f612904a6c9b4a50ff54555f435749b7b1df0a4a7e4efdea9c397cc94789dd1",
+  "svg_sha256": "e6400f52fdb076535e7c49726d84382722e470982264cdbb7af4735c70ba0437",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -903,8 +1044,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -916,173 +1058,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "shoulders / arm-l",
-        "elements": [
-          "shoulder-l",
-          "arm-l-2"
-        ],
-        "status": "review",
-        "sustained_length": 5.3964,
-        "centerline_distance": 6.2275,
-        "ink_gap": 2.2275,
-        "nearest_points": [
-          [
-            12.594565183870014,
-            25.77247434807318
-          ],
-          [
-            12.594565183870014,
-            32.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "shoulders / arm-r",
-        "elements": [
-          "shoulder-r",
-          "arm-r-2"
-        ],
-        "status": "review",
-        "sustained_length": 5.3964,
-        "centerline_distance": 6.2275,
-        "ink_gap": 2.2275,
-        "nearest_points": [
-          [
-            35.40543481612998,
-            25.77247434807319
-          ],
-          [
-            35.40543481612998,
-            32.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "arm-l / leg-l",
-        "elements": [
-          "arm-l-2",
-          "leg-l-1"
-        ],
-        "status": "review",
-        "sustained_length": 7.2261,
-        "centerline_distance": 3.0,
-        "ink_gap": -1.0,
-        "nearest_points": [
-          [
-            10.5,
-            32.0
-          ],
-          [
-            10.5,
-            35.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "arm-l / leg-r",
-        "elements": [
-          "arm-l-2",
-          "leg-r-2"
-        ],
-        "status": "review",
-        "sustained_length": 3.5,
-        "centerline_distance": 7.2943,
-        "ink_gap": 3.2943,
-        "nearest_points": [
-          [
-            17.375,
-            32.0
-          ],
-          [
-            18.957352941176516,
-            39.12058823529411
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "arm-r / leg-l",
-        "elements": [
-          "arm-r-2",
-          "leg-l-2"
-        ],
-        "status": "review",
-        "sustained_length": 3.5,
-        "centerline_distance": 7.2943,
-        "ink_gap": 3.2943,
-        "nearest_points": [
-          [
-            30.625,
-            32.0
-          ],
-          [
-            29.042647058823484,
-            39.12058823529411
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      },
-      {
-        "contour": "arm-r / leg-r",
-        "elements": [
-          "arm-r-2",
-          "leg-r-1"
-        ],
-        "status": "review",
-        "sustained_length": 7.2261,
-        "centerline_distance": 3.0,
-        "ink_gap": -1.0,
-        "nearest_points": [
-          [
-            37.5,
-            32.0
-          ],
-          [
-            37.5,
-            35.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-6.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 6
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

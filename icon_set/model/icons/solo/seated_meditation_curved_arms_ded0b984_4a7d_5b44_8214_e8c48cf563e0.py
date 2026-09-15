@@ -1,3 +1,4 @@
+# Repair: Rest both hands directly on the crossed knees. Preserve the broad smooth shoulders and exact 8-unit head gap.
 """Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions.
 
 Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions.
@@ -42,29 +43,14 @@ class SeatedMeditationCurvedArms(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Meditating figure: radius5 head center(24,11), shoulder(24,24), exact4 painted gap. Preserve crossed legs and two separate curved resting arms; full_body_ref.png proportions."""
-        self.add_arc('head-a', (19, 11), (29, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('head-b', (29, 11), (19, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_bezier('shoulder-l', (10, 28), *(((13, 24), (19, 24), (24, 24)),))
-        self.add_bezier('shoulder-r', (24, 24), *(((29, 24), (35, 24), (38, 28)),))
-        self.add_line('arm-l-1', (10, 28), (10, 32))
-        self.add_line('arm-l-2', (10, 32), (18, 32))
-        self.add_line('arm-r-1', (38, 28), (38, 32))
-        self.add_line('arm-r-2', (38, 32), (30, 32))
-        self.add_line('torso', (24, 24), (24, 38))
-        self.add_line('leg-l-1', (6, 34), (24, 38))
-        self.add_line('leg-l-2', (24, 38), (42, 42))
-        self.add_line('leg-r-1', (42, 34), (24, 38))
-        self.add_line('leg-r-2', (24, 38), (6, 42))
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('shoulders', *('shoulder-l', 'shoulder-r'), closed=False)
-        self.add_contour('arm-l', *('arm-l-1', 'arm-l-2'), closed=False)
-        self.add_contour('arm-r', *('arm-r-1', 'arm-r-2'), closed=False)
-        self.add_contour('leg-l', *('leg-l-1', 'leg-l-2'), closed=False)
-        self.add_contour('leg-r', *('leg-r-1', 'leg-r-2'), closed=False)
-        self.relate('connect', *('shoulders', 'arm-l'))
-        self.relate('connect', *('shoulders', 'arm-r'))
-        self.relate('connect', *('shoulders', 'torso'))
-        self.relate('connect', *('leg-l', 'leg-r'))
-        self.relate('connect', *('torso', 'leg-l'))
-        self.relate('connect', *('torso', 'leg-r'))
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(19,11),('A',5,5,True,(29,11)),('A',5,5,True,(19,11)),closed=True)
+        path(self,'shoulders',(10,28),('C',(13,24),(19,24),(24,24)),('C',(29,24),(35,24),(38,28)))
+        line(self,'arm-l',(10,28),(6,34))
+        line(self,'arm-r',(38,28),(42,34))
+        line(self,'torso',(24,24),(24,38))
+        poly(self,'leg-l',(6,34),(24,38),(42,42))
+        poly(self,'leg-r',(42,34),(24,38),(6,42))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')

@@ -1,30 +1,24 @@
-"""Smile upside down (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+'smile-upside-down: independent smooth-curve repair.\n\nConstruction: Upside-down smile with identical eyes and one true half-ellipse mouth.\nKeyshape: CIRCLE; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/circle.svg and atomic-debug/circle.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'ee72f06c-87a6-550e-be06-374ee3412ed3'
 SOURCE_PATH = 'pictographic-primitives/smileys/smile upside down_ee72f06c-87a6-550e-be06-374ee3412ed3.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
 
 class SmileUpsideDown(Solo48):
     icon_id = 'smile-upside-down'
-    keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'smileys'
     aliases = ()
     keywords = ('smile', 'upside', 'down', 'smileys')
+    keyshape = Keyshape.CIRCLE
 
     def build(self):
-        self.add_line('e0', (30, 27), (30, 30))
-        self.add_line('e1', (18, 28), (18, 30))
-        self.add_arc('e2-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e2-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e3', (13, 20), (35, 20), radius_x=13)
-        self.add_contour('c0', 'e3')
-        self.add_contour('c1', 'e0')
-        self.add_contour('c2', 'e1')
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
+        ellipse(self,'face',24,24,20)
+        path(self,'mouth',(13,20),('A',11,5,True,(35,20)))
+        self.add_dot('eye-left',(18,31));self.add_dot('eye-right',(30,31))
+        contacts(self)

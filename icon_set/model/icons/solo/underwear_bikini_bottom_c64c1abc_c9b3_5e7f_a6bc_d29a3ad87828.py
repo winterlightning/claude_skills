@@ -1,29 +1,22 @@
-"""Underwear bikini bottom (clothes), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'underwear-bikini-bottom: independent smooth-curve repair.\n\nConstruction: Bikini bottom with a straight waistband and two smooth mirrored leg cutouts.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/shirt.svg and atomic-debug/shirt.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'c64c1abc-c9b3-5e7f-a6bc-d29a3ad87828'
 SOURCE_PATH = 'pictographic-primitives/clothes/underwear bikini bottom_c64c1abc-c9b3-5e7f-a6bc-d29a3ad87828.svg'
 AUTHOR = 'gpt-6'
 
+
 class UnderwearBikiniBottom(Solo48):
     icon_id = 'underwear-bikini-bottom'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'clothes'
     aliases = ()
     keywords = ('underwear', 'bikini', 'bottom', 'clothes')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (24, 40), (28, 40))
-        self.add_arc('sym-e1', (28, 40), (29, 32), radius_x=45, radius_y=45, large_arc=False, sweep=True)
-        self.add_arc('sym-e2', (29, 32), (37, 19), radius_x=21, radius_y=21, large_arc=False, sweep=True)
-        self.add_line('sym-e3', (37, 19), (44, 17))
-        self.add_line('sym-e4', (44, 17), (43, 8))
-        self.add_line('sym-e5', (43, 8), (5, 8))
-        self.add_line('sym-e7', (5, 8), (4, 17))
-        self.add_line('sym-e8', (4, 17), (11, 19))
-        self.add_arc('sym-e9', (11, 19), (19, 32), radius_x=22, radius_y=22, large_arc=False, sweep=True)
-        self.add_arc('sym-e10', (19, 32), (20, 40), radius_x=45, radius_y=45, large_arc=False, sweep=True)
-        self.add_line('sym-e11', (20, 40), (24, 40))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', closed=True)
+        path(self,'garment',(4,8),('L',(44,8)),('L',(44,16)),('C',(32,16),(28,27),(28,40)),('L',(20,40)),('C',(20,27),(16,16),(4,16)),('L',(4,8)),closed=True)
+        contacts(self)

@@ -1,3 +1,6 @@
+# Refinement: Lengthen the falling body so the outstretched leg clears the upper arm.
+# Refinement: Separate the falling legs and move the short ground mark beneath the body.
+# Repair: Lift the outstretched leg to separate it from the lower leg.
 """Reconstruct person slipping using its inspected source pose and full_body_ref.png. Head radius 4, center (26, 10), actual torso junction (26, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A person falls backward above a short flat ground line, with both arms raised. The torso tilts diagonally and the bent legs lift leftward away from the floor.
@@ -43,17 +46,18 @@ class PersonSlipping(Solo48):
     def build(self):
         """Reconstruct person slipping using its inspected source pose and full_body_ref.png. Head radius 4, center (26, 10), actual torso junction (26, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.ring('person-head', 26, 10, 4)
-        self.add_bezier('person-torso-1', (26, 22), *(((26.0, 25.36), (21.5, 26.5), (20, 28)),))
-        self.add_line('person-arms-1', (12, 14), (18, 23))
-        self.add_line('person-arms-2', (18, 23), (26, 22))
+        self.add_bezier('person-torso-1', (26, 22), *(((26.0, 25.36), (21.5, 26.5), (20, 31)),))
+        self.add_line('person-arms-1', (12, 14), (17, 22))
+        self.add_line('person-arms-2', (17, 22), (26, 22))
         self.add_line('person-arms-3', (26, 22), (42, 22))
-        self.add_line('person-legs-1', (6, 25), (20, 28))
-        self.add_line('person-legs-2', (20, 28), (14, 34))
-        self.add_line('person-legs-3', (14, 34), (6, 34))
-        self.add_line('ground', (6, 42), (14, 42))
+        self.add_line('person-legs-1', (6, 28), (20, 31))
+        self.add_line('person-legs-2', (20, 31), (14, 39))
+        self.add_line('person-legs-3', (14, 39), (6, 36))
+        self.add_line('ground', (24, 42), (32, 42))
         self.add_contour('person-torso', *('person-torso-1',), closed=False)
         self.add_contour('person-arms', *('person-arms-2', 'person-arms-3'), closed=False)
         self.add_contour('person-legs', *('person-legs-1', 'person-legs-2', 'person-legs-3'), closed=False)
         self.relate('connect', *('person-arms-1', 'person-arms'))
         self.relate('connect', *('person-torso', 'person-arms'))
         self.relate('connect', *('person-torso', 'person-legs'))
+        self.mark_human_figure('person', head='person-head', torso='person-torso-1', torso_junction='start')

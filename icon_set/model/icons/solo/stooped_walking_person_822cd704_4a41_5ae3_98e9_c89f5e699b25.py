@@ -1,3 +1,4 @@
+# Repair: Raise the bent forearm away from the thigh while keeping the stooped torso.
 """Reconstruct stooped walking person using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A person walks toward the right with a rounded back and lowered head. The arms hang forward near the waist, and the legs separate into a short staggered stride.
@@ -44,12 +45,12 @@ class StoopedWalkingPerson(Solo48):
         """Reconstruct stooped walking person using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.ring('person-head', 29, 9, 5)
         self.add_bezier('person-body-1', (24, 21), *(((22.6, 24.36), (19.5, 27.75), (18, 30)),))
-        self.add_line('person-arms-1', (24, 21), (26, 29))
-        self.add_line('person-arms-2', (26, 29), (34, 32))
+        self.add_line('person-arms-1', (24, 21), (29, 26))
+        self.add_line('person-arms-2', (29, 26), (35, 29))
         self.add_line('person-legs-1', (8, 44), (18, 30))
         self.add_line('person-legs-2', (18, 30), (30, 36))
         self.add_line('person-legs-3', (30, 36), (30, 44))
-        self.add_line('person-hand-1', (34, 32), (40, 32))
+        self.add_line('person-hand-1', (35, 29), (40, 29))
         self.add_contour('person-body', *('person-body-1',), closed=False)
         self.add_contour('person-arms', *('person-arms-1', 'person-arms-2'), closed=False)
         self.add_contour('person-legs', *('person-legs-1', 'person-legs-2', 'person-legs-3'), closed=False)
@@ -57,3 +58,4 @@ class StoopedWalkingPerson(Solo48):
         self.relate('connect', *('person-body', 'person-arms'))
         self.relate('connect', *('person-body', 'person-legs'))
         self.relate('connect', *('person-arms', 'person-hand'))
+        self.mark_human_figure('person', head='person-head', torso='person-body-1', torso_junction='start')

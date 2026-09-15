@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.64 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,7 +47,7 @@
         "elementId": "person-arms",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 8 29 L 14 21 L 24 21 L 30 27 L 40 29",
+        "pathData": "M 8 29 L 14 21 L 24 21 L 31 25 L 40 26",
         "bounds": [
           8.0,
           21.0,
@@ -346,7 +344,7 @@
       "commands": 16,
       "flattenedSegments": 298,
       "adaptiveNodes": 575,
-      "distanceTests": 138,
+      "distanceTests": 140,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -435,6 +433,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.2491745921246558,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.19186474533520986,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/walking-stick-figure-with-raised-knee/icon.svg",
     "metrics": "solo/walking-stick-figure-with-raised-knee/metrics.json"
@@ -447,9 +480,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "c18970263a10907c20d3e739fb11e1138990e894231e95b87fd220d31037e2bd",
+  "svg_sha256": "863d1fb7e0c879741492884e98d9c296613d16d9c38278836a14016c6217d673",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -504,8 +538,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -517,65 +552,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "person-arms / person-legs",
-        "elements": [
-          "person-arms-3",
-          "person-legs-3"
-        ],
-        "status": "review",
-        "sustained_length": 2.9948,
-        "centerline_distance": 6.7247,
-        "ink_gap": 2.7247,
-        "nearest_points": [
-          [
-            29.558823529411764,
-            26.558823529411764
-          ],
-          [
-            27.297045515038718,
-            32.89180196965668
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct walking stick figure with raised knee using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-4.png"
-        }
-      },
-      {
-        "contour": "person-arms / person-legs",
-        "elements": [
-          "person-arms-4",
-          "person-legs-3"
-        ],
-        "status": "review",
-        "sustained_length": 7.7107,
-        "centerline_distance": 6.5479,
-        "ink_gap": 2.5479,
-        "nearest_points": [
-          [
-            30.609756097560975,
-            27.121951219512194
-          ],
-          [
-            28.407460545193608,
-            33.288378766140575
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct walking stick figure with raised knee using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-4.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

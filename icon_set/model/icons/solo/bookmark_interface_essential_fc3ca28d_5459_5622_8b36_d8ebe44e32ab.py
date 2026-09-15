@@ -1,28 +1,22 @@
-"""Bookmark (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'bookmark-interface-essential: independent smooth-curve repair.\n\nConstruction: Bookmark with equal rounded top corners and a centered V notch.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/bookmark.svg and atomic-debug/bookmark.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'fc3ca28d-5459-5622-8b36-d8ebe44e32ab'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/bookmark_fc3ca28d-5459-5622-8b36-d8ebe44e32ab.svg'
 AUTHOR = 'gpt-6'
 
+
 class BookmarkInterfaceEssential(Solo48):
     icon_id = 'bookmark-interface-essential'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
     keywords = ('bookmark', 'interface-essential')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (40, 44), (40, 8))
-        self.add_arc('sym-e1', (40, 8), (40, 7), radius_x=1, radius_y=1, large_arc=False, sweep=True)
-        self.add_arc('sym-e2-1', (40, 7), (39, 5), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('sym-e2-2', (39, 5), (36, 4))
-        self.add_line('sym-e3', (36, 4), (12, 4))
-        self.add_line('sym-e5-1', (12, 4), (9, 5))
-        self.add_arc('sym-e5-2', (9, 5), (8, 7), radius_x=3, radius_y=3, large_arc=False, sweep=False)
-        self.add_line('sym-e6', (8, 7), (8, 44))
-        self.add_line('sym-e8', (8, 44), (24, 33))
-        self.add_line('sym-e9', (24, 33), (40, 44))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2-1', 'sym-e2-2', 'sym-e3', 'sym-e5-1', 'sym-e5-2', 'sym-e6', 'sym-e8', 'sym-e9', closed=True)
+        path(self,'bookmark',(8,44),('L',(8,8)),('A',4,4,True,(12,4)),('L',(36,4)),('A',4,4,True,(40,8)),('L',(40,44)),('L',(24,33)),('L',(8,44)),closed=True)
+        contacts(self)

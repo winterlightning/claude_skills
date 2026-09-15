@@ -1,28 +1,23 @@
-"""Layout left (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'layout-left: independent smooth-curve repair.\n\nConstruction: Rounded panel grid; all dividers share exact edge nodes and evenly spaced repeated columns.\nKeyshape: SQUARE; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/layout-grid.svg and atomic-debug/layout-grid.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'e4d2ef1c-4583-47fc-bc76-b5edcb616774'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/layout left_e4d2ef1c-4583-47fc-bc76-b5edcb616774.svg'
 AUTHOR = 'gpt-6'
 
+
 class LayoutLeft(Solo48):
     icon_id = 'layout-left'
-    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
     keywords = ('layout', 'left', 'interface-essential')
+    keyshape = Keyshape.SQUARE
 
     def build(self):
-        self.add_line('sym-e0', (20, 42), (20, 6))
-        self.add_line('sym-e1', (20, 6), (40, 6))
-        self.add_line('sym-e2', (40, 6), (42, 8))
-        self.add_line('sym-e3', (42, 8), (42, 40))
-        self.add_line('sym-e5', (42, 40), (40, 42))
-        self.add_line('sym-e6', (40, 42), (8, 42))
-        self.add_arc('sym-e8', (8, 42), (6, 40), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('sym-e9', (6, 40), (6, 8))
-        self.add_line('sym-e11', (6, 8), (8, 6))
-        self.add_line('sym-e12', (8, 6), (20, 6))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e6', 'sym-e8', 'sym-e9', 'sym-e11', 'sym-e12', closed=False)
+        box(self,'frame',6,6,42,42,4,xs=(18,24,30),ys=(18,24,30))
+        line(self,"sidebar",(18,6),(18,42))
+        contacts(self)

@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.63 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,12 +47,12 @@
         "elementId": "guard-left",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 24 24 L 14 25 L 6 21",
+        "pathData": "M 24 24 L 14 24 L 6 21",
         "bounds": [
           6.0,
           21.0,
           24.0,
-          25.0
+          24.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -97,7 +95,7 @@
         "elementId": "leg-right",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 20 32 L 33 34 L 38 42",
+        "pathData": "M 20 32 L 33 35 L 38 42",
         "bounds": [
           20.0,
           32.0,
@@ -326,22 +324,22 @@
               "head:subpath-1",
               "leg-right:subpath-1"
             ],
-            "centerlineDistance": 16.364106941579074,
-            "inkClearance": 12.364106941579074,
-            "signedInkClearance": 12.364106941579074,
-            "lowerBound": 16.364034387678725,
-            "upperBound": 16.364484033155197,
-            "inkClearanceLowerBound": 12.364034387678725,
-            "inkClearanceUpperBound": 12.364484033155197,
+            "centerlineDistance": 16.377773909621432,
+            "inkClearance": 12.377773909621432,
+            "signedInkClearance": 12.377773909621432,
+            "lowerBound": 16.37755832643195,
+            "upperBound": 16.37815100119756,
+            "inkClearanceLowerBound": 12.377558326431949,
+            "inkClearanceUpperBound": 12.378151001197558,
             "approximationError": 0.00037709157612066265,
             "nearestPoints": [
               [
-                23.266347627723192,
-                15.945882549823905
+                23.02454838991936,
+                15.903926402016152
               ],
               [
-                20.778067603356305,
-                32.11970270820866
+                20.0,
+                32.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -680,6 +678,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.47295003739219915,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.22761045442425532,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/karate-fighting-stance/icon.svg",
     "metrics": "solo/karate-fighting-stance/metrics.json"
@@ -692,9 +725,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "85dbfaf650ba5d520d0855fec0ed77cae8aa2e54d1e6a25385ec90226760b997",
+  "svg_sha256": "bb95005a97f4ae043c5ba8293e76dbd25f4c8f16e136634db5922b648007f1c4",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -749,6 +783,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

@@ -1,3 +1,4 @@
+# Repair: Lengthen the torso and lift the free hand clear of the dancing legs.
 """Ribbon gymnast: an open circular ribbon sweeps from the left hand past the head; its free right end stays separate from the right hand. Radius4 head (24,19), torso(24,31), exact4 gap. Preserve the dancing legs, with deliberate asymmetry from the source.
 
 Ribbon gymnast: separate the open circular ribbon from the arms so it no longer reads as an umbrella. Radius4 head (24,16), torso junction (24,28), exact4 visible gap; preserve the spread arms and dancing legs of the source and full_body_ref.png.
@@ -42,9 +43,10 @@ class RibbonGymnastCircle(Solo48):
     def build(self):
         """Ribbon gymnast: an open circular ribbon sweeps from the left hand past the head; its free right end stays separate from the right hand. Radius4 head (24,19), torso(24,31), exact4 gap. Preserve the dancing legs, with deliberate asymmetry from the source."""
         self.ring('head', 24, 19, 4)
-        self.add_line('torso', (24, 31), (24, 35))
-        self.branches([('left-arm', [(24, 31), (12, 31), (6, 24)]), ('right-arm', [(24, 31), (34, 35)]), ('left-leg', [(24, 35), (18, 42)]), ('right-leg', [(24, 35), (34, 42)])])
+        self.add_line('torso', (24, 31), (24, 39))
+        self.branches([('left-arm', [(24, 31), (12, 31), (6, 24)]), ('right-arm', [(24, 31), (36, 31)]), ('left-leg', [(24, 39), (18, 42)]), ('right-leg', [(24, 39), (34, 42)])])
         for p in ['left-arm-0', 'right-arm-0', 'left-leg-0', 'right-leg-0']:
             self.relate('connect', 'torso', p)
         self.add_arc('ribbon', (6, 24), (42, 24), radius_x=18)
         self.relate('connect', 'ribbon', 'left-arm-1')
+        self.mark_human_figure('person', head='head', torso='torso', torso_junction='start')

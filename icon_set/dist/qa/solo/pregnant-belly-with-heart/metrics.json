@@ -31,15 +31,15 @@
         "elementId": "arm",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 8 A 9 5 0 0 0 17 13 A 15 5 0 0 0 32 8",
+        "pathData": "M 8 8 A 12 5 0 0 0 20 13 A 12 5 0 0 0 32 8",
         "bounds": [
           8.0,
           8.0,
           32.0,
           13.0
         ],
-        "segmentCount": 192,
-        "approximationError": 0.0006776919534532325,
+        "segmentCount": 128,
+        "approximationError": 0.0009035892712709767,
         "hasCurves": true
       },
       {
@@ -217,22 +217,22 @@
               "arm:subpath-1",
               "heart:subpath-1"
             ],
-            "centerlineDistance": 10.041071897941793,
-            "inkClearance": 6.041071897941793,
-            "signedInkClearance": 6.041071897941793,
-            "lowerBound": 10.039839931828135,
-            "upperBound": 10.042303864055452,
-            "inkClearanceLowerBound": 6.039839931828135,
-            "inkClearanceUpperBound": 6.042303864055452,
-            "approximationError": 0.0012319661136560409,
+            "centerlineDistance": 9.93998094018035,
+            "inkClearance": 5.93998094018035,
+            "signedInkClearance": 5.93998094018035,
+            "lowerBound": 9.938523076748874,
+            "upperBound": 9.941438803611828,
+            "inkClearanceLowerBound": 5.938523076748874,
+            "inkClearanceUpperBound": 5.9414388036118275,
+            "approximationError": 0.0014578634314737853,
             "nearestPoints": [
               [
-                19.632974585075562,
-                12.922279002509626
+                20.34747163709181,
+                12.997681070740004
               ],
               [
-                20.233837850081162,
-                22.945356783131864
+                20.5,
+                22.93649167310371
               ]
             ],
             "requiredCenterline": 8.0,
@@ -460,9 +460,9 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 19,
-      "flattenedSegments": 646,
-      "adaptiveNodes": 1272,
-      "distanceTests": 148,
+      "flattenedSegments": 582,
+      "adaptiveNodes": 1144,
+      "distanceTests": 113,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -551,6 +551,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.4833501049359402,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.5105158295929968,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/pregnant-belly-with-heart/icon.svg",
     "metrics": "solo/pregnant-belly-with-heart/metrics.json"
@@ -563,9 +598,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "a93f50d863bba7236fb81ec576af59bde6f20dd0b8498bbd7825b7915d5277ba",
+  "svg_sha256": "df63340d698a95d1a9923e8f055335b9b4aca6d2ec6fdfc9fc1d7c646e0a652d",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -620,6 +656,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

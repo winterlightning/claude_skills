@@ -1,0 +1,46 @@
+Exception ignored from cffi callback <function _make_write_func.<locals>.write_func at 0x1148c0680>:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.13/site-packages/cairocffi/surfaces.py", line 45, in write_func
+    @ffi.callback("cairo_write_func_t", error=constants.STATUS_WRITE_ERROR)
+KeyboardInterrupt: 
+Exception ignored from cffi callback <function _make_write_func.<locals>.write_func at 0x1148a7ba0>:
+Traceback (most recent call last):
+  File "/opt/homebrew/lib/python3.13/site-packages/cairocffi/surfaces.py", line 45, in write_func
+    @ffi.callback("cairo_write_func_t", error=constants.STATUS_WRITE_ERROR)
+KeyboardInterrupt: 
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 648, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 642, in main
+    return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
+                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
+                 qa_overlays=args.qa_overlays)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 609, in build
+    _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
+                ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 520, in _build_selected
+    counts.append(_stage_family(
+                  ~~~~~~~~~~~~~^
+        family, stages[dist], stages.get(png_dir),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        qa_overlays=qa_overlays,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    ))
+    ^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/build.py", line 363, in _stage_family
+    qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/library_qa.py", line 255, in inspect_icon
+    row['negative_space'] = measure_negative_space(document, icon.profile.spec.canvas_size, overlay=overlay, drawing=drawing)
+                            ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/library_qa.py", line 85, in measure_negative_space
+    authored_holes = engine.measure_holes(
+        authored_labels, authored_ids, view, samples,
+        rules['minimum_enclosed_radius'], canvas, canvas)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/hole_geometry.py", line 105, in measure_holes
+    ys, xs = np.where(labels == label)
+             ~~~~~~~~^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

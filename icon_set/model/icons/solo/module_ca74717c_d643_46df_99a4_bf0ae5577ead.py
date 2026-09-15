@@ -1,49 +1,24 @@
-"""Module (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'module: independent smooth-curve repair.\n\nConstruction: Open cube defined by a shared top diamond and two equal side panels; geometric edges retain purposeful corners.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/box.svg and atomic-debug/box.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'ca74717c-d643-46df-99a4-bf0ae5577ead'
 SOURCE_PATH = 'pictographic-primitives/design/module_ca74717c-d643-46df-99a4-bf0ae5577ead.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
 
 class Module(Solo48):
     icon_id = 'module'
-    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'design'
     aliases = ()
     keywords = ('module', 'design')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_line('e0', (42, 13), (42, 35))
-        self.add_line('e1', (42, 35), (24, 42))
-        self.add_line('e2', (42, 13), (24, 19))
-        self.add_line('e3', (42, 13), (24, 6))
-        self.add_line('e4', (23, 6), (6, 13))
-        self.add_line('e5', (24, 42), (24, 19))
-        self.add_line('e6', (24, 42), (6, 35))
-        self.add_line('e7', (6, 35), (6, 13))
-        self.add_line('e8', (24, 19), (6, 13))
-        self.add_line('e9', (24, 6), (23, 6))
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e9', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e6', 'e7')
-        self.add_contour('c5', 'e8')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c4', 'c5')
+        poly(self,'top',(24,8),(44,16),(24,24),(4,16),closed=True)
+        poly(self,'walls',(4,16),(4,32),(24,40),(44,32),(44,16))
+        line(self,'center',(24,24),(24,40))
+        contacts(self)

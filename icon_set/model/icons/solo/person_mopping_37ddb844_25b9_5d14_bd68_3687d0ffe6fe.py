@@ -1,3 +1,6 @@
+# Refinement: Move the rear foot clear of the full rounded mop head.
+# Refinement: Place the rear foot clear of the mop head.
+# Repair: Lift the free hand one unit clear of the bent knee.
 """Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -47,9 +50,9 @@ class PersonMopping(Solo48):
         self.add_arc('head-a', (30, 11), (40, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_arc('head-b', (40, 11), (30, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_bezier('body-1', (30, 23), *(((28.798423126783593, 25.88378449571938), (26.25, 27.5), (25, 29)),))
-        self.add_line('body-2', (25, 29), (31, 34))
-        self.add_line('body-3', (31, 34), (35, 42))
-        self.add_line('rear-leg-1', (25, 29), (20, 42))
+        self.add_line('body-2', (25, 29), (35, 36))
+        self.add_line('body-3', (35, 36), (40, 42))
+        self.add_line('rear-leg-1', (25, 29), (28, 42))
         self.add_line('arm-1', (30, 23), (23, 25))
         self.add_line('arm-2', (23, 25), (17, 25))
         self.add_line('mop-shaft', (17, 25), (10, 34))
@@ -61,8 +64,8 @@ class PersonMopping(Solo48):
         self.add_arc('mop-head-5', (10, 42), (6, 38), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_line('mop-head-6', (6, 38), (6, 38))
         self.add_arc('mop-head-7', (6, 38), (10, 34), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('far-arm', (30, 23), (38, 29))
-        self.add_line('foot', (35, 42), (42, 42))
+        self.add_line('far-arm', (30, 23), (42, 28))
+        self.add_line('foot', (40, 42), (42, 42))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('rear-leg', *('rear-leg-1',), closed=False)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
@@ -100,3 +103,4 @@ class PersonMopping(Solo48):
         self.relate('connect', 'mop-head-5', 'mop-head-6')
         self.relate('connect', 'mop-head-5', 'mop-head-7')
         self.relate('connect', 'mop-head-6', 'mop-head-7')
+        self.mark_human_figure('person', head='head', torso='body-1', torso_junction='start')

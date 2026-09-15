@@ -1,3 +1,4 @@
+# Repair: Preserve the approved head at (29,11) and shoulder (24,23); use a coherent torso curve tangent to the head axis. Gap 13-5=8 centerline units.
 """A running player moves toward a round ball at the lower right. One leg bends backward, the other drops forward, and both arms curve outward to balance the stride.
 
 Forward approach, trailing bent leg and lower-right ball retained.
@@ -51,18 +52,14 @@ class FootballPlayerApproachingBall(Solo48):
                     self.relate('connect', a, b)
 
     def build(self):
-        head_center = (29, 11)
-        head_radius = 5
-        shoulder = (24, 23)
-        hip = (17, 30)
-        self.circle('head', *head_center, head_radius)
-        self.circle('ball', 39, 39, 3)
-        self.add_arc('body', shoulder, hip, radius_x=13)
-        self.skeleton([
-            ('left-arm', [shoulder, (14, 22), (10, 28)]),
-            ('right-arm', [shoulder, (34, 28), (42, 28)]),
-            ('back-leg', [hip, (12, 36), (6, 36)]),
-            ('front-leg', [hip, (28, 36), (26, 42)]),
-        ])
-        for member in ('left-arm-0', 'right-arm-0', 'back-leg-0', 'front-leg-0'):
-            self.relate('connect', 'body', member)
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(24,11),('A',5,5,True,(34,11)),('A',5,5,True,(24,11)),closed=True)
+        ellipse(self,'ball',39,39,3)
+        path(self,'body',(24,23),('C',(22.5,26.6),(18.5,28.25),(17,30)))
+        poly(self,'left-arm',(24,23),(14,22),(8,26))
+        poly(self,'right-arm',(24,23),(34,28),(42,28))
+        poly(self,'back-leg',(17,30),(12,36),(6,36))
+        poly(self,'front-leg',(17,30),(28,36),(26,42))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='body-1',torso_junction='start')

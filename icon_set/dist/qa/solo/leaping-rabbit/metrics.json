@@ -15,14 +15,14 @@
         "elementId": "outline",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 28 A 10 10 0 0 1 16 18 L 26 24 A 6 6 0 0 0 32 18 L 42 18 L 42 30 L 34 30 L 30 34",
+        "pathData": "M 6 28 A 10 10 0 0 1 16 18 L 26 24 A 6 6 0 0 0 32 18 L 36 18 A 6 6 0 0 1 42 24 A 6 6 0 0 1 36 30 L 30 34",
         "bounds": [
           6.0,
           18.0,
           42.0,
           34.0
         ],
-        "segmentCount": 133,
+        "segmentCount": 259,
         "approximationError": 0.0007529910589395368,
         "hasCurves": true
       },
@@ -342,8 +342,8 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 16,
-      "flattenedSegments": 201,
-      "adaptiveNodes": 381,
+      "flattenedSegments": 327,
+      "adaptiveNodes": 635,
       "distanceTests": 10,
       "connectionTests": 0
     },
@@ -369,6 +369,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.2859020739489029,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.265218648390908,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/leaping-rabbit/icon.svg",
     "metrics": "solo/leaping-rabbit/metrics.json"
@@ -381,9 +416,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "a57751d3a5669df5fa47aa2e6e2daad864166e256de32bae44283db2352b314c",
+  "svg_sha256": "9070dfcd64417a7c173e1497fc74403dc086ca56bb5ef3669a5eb18cf618c095",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -438,6 +474,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

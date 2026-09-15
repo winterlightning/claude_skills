@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 4.8 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,7 +15,7 @@
         "elementId": "left",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 44 L 16 34 L 16 16 L 24 4 L 24 30 L 24 34 L 14 44",
+        "pathData": "M 8 44 L 16 34 L 16 16 L 24 4 L 24 30 L 24 34 L 22 44",
         "bounds": [
           8.0,
           4.0,
@@ -33,7 +31,7 @@
         "elementId": "right",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 40 44 L 32 34 L 32 16 L 24 4 L 24 30 L 24 34 L 34 44",
+        "pathData": "M 40 44 L 32 34 L 32 16 L 24 4 L 24 30 L 24 34 L 26 44",
         "bounds": [
           24.0,
           4.0,
@@ -146,6 +144,42 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9998306107790893,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.105427357601002e-15
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.5268879012865257,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/praying-hands/icon.svg",
     "metrics": "solo/praying-hands/metrics.json"
@@ -158,9 +192,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "ecb3e26adbe7616da7f32bb1f48de204f245b95fd56657e9ed5a508a135f89b0",
+  "svg_sha256": "26d8abcf633a5b5a8847ba2fc3e889485039f2952f98b8731de82c9718e08b95",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -215,8 +250,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -228,65 +264,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "left",
-        "elements": [
-          "left-1",
-          "left-6"
-        ],
-        "status": "review",
-        "sustained_length": 8.1876,
-        "centerline_distance": 4.7537,
-        "ink_gap": 0.7537,
-        "nearest_points": [
-          [
-            10.726572528883189,
-            40.59178433889602
-          ],
-          [
-            14.438596491228072,
-            43.56140350877193
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the praying hands silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-15.png"
-        }
-      },
-      {
-        "contour": "right",
-        "elements": [
-          "right-1",
-          "right-6"
-        ],
-        "status": "review",
-        "sustained_length": 8.1876,
-        "centerline_distance": 4.7537,
-        "ink_gap": 0.7537,
-        "nearest_points": [
-          [
-            37.27342747111683,
-            40.59178433889604
-          ],
-          [
-            33.56140350877193,
-            43.56140350877193
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the praying hands silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-15.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -1,0 +1,28 @@
+"""Compass (navigation), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'eac66968-cce1-4ab8-a63e-7e914bd6b63b'
+SOURCE_PATH = 'pictographic-primitives/navigation/compass_eac66968-cce1-4ab8-a63e-7e914bd6b63b.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
+class Compass(Solo48):
+    icon_id = 'compass'
+    keyshape = Keyshape.SQUARE
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'navigation'
+    aliases = ()
+    keywords = ('compass', 'navigation')
+
+    def build(self):
+        self.add_line('e0', (31, 31), (32, 29))
+        self.add_line('e1', (32, 29), (42, 6))
+        self.add_line('e2', (42, 6), (17, 17))
+        self.add_line('e3', (17, 17), (31, 31))
+        self.add_line('e4', (31, 31), (6, 42))
+        self.add_line('e5', (6, 42), (17, 17))
+        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5')

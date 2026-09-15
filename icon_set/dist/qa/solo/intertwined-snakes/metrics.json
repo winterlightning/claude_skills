@@ -15,15 +15,15 @@
         "elementId": "snake-a",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 19 11 L 21 6 L 16 6 A 10 8 0 0 0 6 14 A 8 7 0 0 0 14 21 L 24 24 L 34 27 A 8 7 0 0 1 42 34 A 10 8 0 0 1 32 42",
+        "pathData": "M 22 12 L 18 6 L 16 6 A 10 8 0 0 0 6 14 C 6 20 16 22 24 24 C 32 26 42 28 42 34 A 10 8 0 0 1 32 42",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 260,
-        "approximationError": 0.0007529910596198407,
+        "segmentCount": 298,
+        "approximationError": 0.0009954579260116924,
         "hasCurves": true
       },
       {
@@ -31,15 +31,15 @@
         "elementId": "snake-b",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 6 A 10 8 0 0 1 42 14 A 8 7 0 0 1 34 21 L 24 24 L 14 27 A 8 7 0 0 0 6 34 A 10 8 0 0 0 16 42 L 21 42 L 19 37",
+        "pathData": "M 32 6 A 10 8 0 0 1 42 14 C 42 20 32 22 24 24 C 16 26 6 28 6 34 A 10 8 0 0 0 16 42 L 18 42 L 22 36",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 260,
-        "approximationError": 0.0007529910596198542,
+        "segmentCount": 298,
+        "approximationError": 0.0009954579260116924,
         "hasCurves": true
       }
     ],
@@ -116,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 18,
-      "flattenedSegments": 520,
-      "adaptiveNodes": 1016,
+      "commands": 14,
+      "flattenedSegments": 596,
+      "adaptiveNodes": 1176,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -144,6 +144,42 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.7948114224606314,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.9997808017132006,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 1.0048591735576161e-14
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/intertwined-snakes/icon.svg",
     "metrics": "solo/intertwined-snakes/metrics.json"
@@ -156,9 +192,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "2b15c66e1cc7deff610a5a193f8fafa8d0c25f0f37fa7ee738e77d0caca5464f",
+  "svg_sha256": "0d0631ae53568388e494a1edf75f27308ffd1614df32e7cb1fca6d5c5f30701a",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -213,6 +250,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

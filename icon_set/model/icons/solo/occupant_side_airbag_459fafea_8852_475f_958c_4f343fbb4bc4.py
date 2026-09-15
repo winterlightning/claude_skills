@@ -1,3 +1,4 @@
+# Repair: Lift the rear shoulder edge to open clearance above the diagonal seatbelt.
 """occupant-side-airbag: reconstructed from the supplied transportation reference."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -15,11 +16,10 @@ class OccupantSideAirbag(Solo48):
     keywords = ('side airbag', 'airbag', 'safety', 'occupant', 'seat belt', 'car', 'dashboard', 'srs')
 
     def build(self) -> None:
-        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
         self.add_arc('head-top', (13, 7), (19, 7), radius_x=3)
         self.add_arc('head-bottom', (19, 7), (13, 7), radius_x=3)
         self.add_contour('head', 'head-top', 'head-bottom', closed=True)
-        self.add_polyline('body', (8, 44), (8, 34), (8, 25), (16, 18), (22, 25), (22, 34), (22, 44))
+        self.add_polyline('body', (8, 44), (8, 34), (8, 23), (16, 18), (22, 25), (22, 34), (22, 44))
         self.add_line('belt', (8, 34), (22, 25))
         self.add_line('seat', (8, 34), (22, 34))
         for part in ['body-1', 'body-2', 'body-4', 'body-5']:
@@ -30,3 +30,4 @@ class OccupantSideAirbag(Solo48):
         self.add_arc('airbag-top', (30, 15), (40, 15), radius_x=5, radius_y=10)
         self.add_arc('airbag-bottom', (40, 15), (30, 15), radius_x=5, radius_y=10)
         self.add_contour('airbag', 'airbag-top', 'airbag-bottom', closed=True)
+        self.mark_human_figure('person', head='head', torso='body-3', torso_junction='end')

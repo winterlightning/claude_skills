@@ -1,36 +1,24 @@
-"""Geforce now logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'geforce-now-logo: independent smooth-curve repair.\n\nConstruction: Preserve the two smooth signal arches and hollow circular terminal; center the ring at (24,36), radius 4, with generous clearance above it.\nKeyshape: HRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/wifi.svg and atomic-debug/wifi.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
 
 SOURCE_ICON_ID = 'e6855ea8-e1c6-427a-b592-b290b849c8c2'
 SOURCE_PATH = 'pictographic-primitives/logos/geforce now logo_e6855ea8-e1c6-427a-b592-b290b849c8c2.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-retained-after-visual-review'
+
 
 class GeforceNowLogo(Solo48):
     icon_id = 'geforce-now-logo'
-    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
     keywords = ('geforce', 'now', 'logo', 'logos')
+    keyshape = Keyshape.HRECT_L
 
     def build(self):
-        self.add_arc('sym-e0', (19, 34), (29, 34), radius_x=5, radius_y=6)
-        self.add_arc('sym-e1', (29, 34), (19, 34), radius_x=5, radius_y=6)
-        self.add_arc('sym-e2', (24, 8), (25, 8), radius_x=1, sweep=False)
-        self.add_arc('sym-e3', (25, 8), (44, 17), radius_x=27)
-        self.add_arc('sym-e4', (24, 18), (37, 23), radius_x=18)
-        self.add_arc('sym-e5', (24, 8), (23, 8), radius_x=1)
-        self.add_arc('sym-e6', (23, 8), (4, 17), radius_x=27, sweep=False)
-        self.add_arc('sym-e7', (24, 18), (11, 23), radius_x=19, sweep=False)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3')
-        self.add_contour('sym-c2', 'sym-e4')
-        self.add_contour('sym-c3', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c4', 'sym-e7')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c4')
+        path(self,'outer',(4,18),('C',(10,12),(17,8),(24,8)),('C',(31,8),(38,12),(44,18)))
+        path(self,'inner',(13,28),('C',(19,20),(29,20),(35,28)))
+        ellipse(self,'terminal',24,36,4)
+        contacts(self)

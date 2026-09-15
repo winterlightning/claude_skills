@@ -1,49 +1,25 @@
-"""Layout 15 (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'layout-15: independent smooth-curve repair.\n\nConstruction: Rounded panel grid; all dividers share exact edge nodes and evenly spaced repeated columns.\nKeyshape: SQUARE; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/layout-grid.svg and atomic-debug/layout-grid.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'f9fe05bf-2f0b-4d8e-9c4d-0df06cd7b99b'
 SOURCE_PATH = 'pictographic-primitives/interface-essential/layout 15_f9fe05bf-2f0b-4d8e-9c4d-0df06cd7b99b.svg'
 AUTHOR = 'gpt-6'
 
+
 class Layout15(Solo48):
     icon_id = 'layout-15'
-    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
     keywords = ('layout', 'interface-essential')
+    keyshape = Keyshape.SQUARE
 
     def build(self):
-        self.add_line('sym-e0', (30, 16), (18, 16))
-        self.add_line('sym-e1', (18, 16), (18, 42))
-        self.add_line('sym-e2', (18, 42), (30, 42))
-        self.add_line('sym-e3', (30, 42), (30, 16))
-        self.add_line('sym-e4', (30, 16), (42, 16))
-        self.add_line('sym-e5', (42, 16), (42, 40))
-        self.add_line('sym-e6', (42, 40), (40, 42))
-        self.add_line('sym-e7', (40, 42), (30, 42))
-        self.add_line('sym-e8', (42, 16), (42, 8))
-        self.add_line('sym-e9', (42, 8), (40, 6))
-        self.add_line('sym-e10', (40, 6), (8, 6))
-        self.add_line('sym-e12', (8, 6), (6, 8))
-        self.add_line('sym-e13', (6, 8), (6, 16))
-        self.add_line('sym-e14', (6, 16), (18, 16))
-        self.add_line('sym-e15', (18, 42), (8, 42))
-        self.add_arc('sym-e16', (8, 42), (6, 40), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_line('sym-e17', (6, 40), (6, 16))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', closed=False)
-        self.add_contour('sym-c1', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e12', 'sym-e13', 'sym-e14', closed=False)
-        self.add_contour('sym-c2', 'sym-e15', 'sym-e16', 'sym-e17', closed=False)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        box(self,'frame',6,6,42,42,4,xs=(18,24,30),ys=(18,24,30))
+        line(self,"header",(6,18),(42,18))
+        line(self,"column-a",(18,18),(18,42))
+        line(self,"column-b",(30,18),(30,42))
+        contacts(self)

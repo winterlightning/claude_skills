@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 7.72 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -81,7 +79,7 @@
         "elementId": "leg-back",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 20 30 L 14 38 L 6 38",
+        "pathData": "M 20 30 L 12 38 L 6 38",
         "bounds": [
           6.0,
           30.0,
@@ -97,7 +95,7 @@
         "elementId": "leg-front",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 20 30 L 26 34 L 22 42",
+        "pathData": "M 20 30 L 26 36 L 22 42",
         "bounds": [
           20.0,
           30.0,
@@ -463,22 +461,22 @@
           "leg-front:subpath-1",
           "ball:subpath-1"
         ],
-        "centerlineDistance": 8.64913168880576,
-        "inkClearance": 4.64913168880576,
-        "signedInkClearance": 4.64913168880576,
-        "lowerBound": 8.649110640673516,
-        "upperBound": 8.649433362067203,
-        "inkClearanceLowerBound": 4.649110640673516,
-        "inkClearanceUpperBound": 4.649433362067203,
+        "centerlineDistance": 8.1656571144334,
+        "inkClearance": 4.165657114433399,
+        "signedInkClearance": 4.165657114433399,
+        "lowerBound": 8.165525060596439,
+        "upperBound": 8.165958787694843,
+        "inkClearanceLowerBound": 4.165525060596439,
+        "inkClearanceUpperBound": 4.1659587876948425,
         "approximationError": 0.00030167326144336926,
         "nearestPoints": [
           [
             26.0,
-            34.0
+            36.0
           ],
           [
-            34.201887277627854,
-            36.745273038404434
+            34.05888943044423,
+            37.316152444958796
           ]
         ],
         "requiredCenterline": 8.0,
@@ -624,22 +622,22 @@
               "leg-front:subpath-1",
               "ball:subpath-1"
             ],
-            "centerlineDistance": 8.64913168880576,
-            "inkClearance": 4.64913168880576,
-            "signedInkClearance": 4.64913168880576,
-            "lowerBound": 8.649110640673516,
-            "upperBound": 8.649433362067203,
-            "inkClearanceLowerBound": 4.649110640673516,
-            "inkClearanceUpperBound": 4.649433362067203,
+            "centerlineDistance": 8.1656571144334,
+            "inkClearance": 4.165657114433399,
+            "signedInkClearance": 4.165657114433399,
+            "lowerBound": 8.165525060596439,
+            "upperBound": 8.165958787694843,
+            "inkClearanceLowerBound": 4.165525060596439,
+            "inkClearanceUpperBound": 4.1659587876948425,
             "approximationError": 0.0003016732614408059,
             "nearestPoints": [
               [
                 26.0,
-                34.0
+                36.0
               ],
               [
-                34.201887277627854,
-                36.745273038404434
+                34.05888943044423,
+                37.316152444958796
               ]
             ],
             "requiredCenterline": 8.0,
@@ -889,7 +887,7 @@
       "commands": 22,
       "flattenedSegments": 547,
       "adaptiveNodes": 1069,
-      "distanceTests": 888,
+      "distanceTests": 861,
       "connectionTests": 0
     },
     "raw_status": "pass",
@@ -1040,6 +1038,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.2190531974911674,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.2181867807455619,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/person-kicking-ball/icon.svg",
     "metrics": "solo/person-kicking-ball/metrics.json"
@@ -1052,9 +1085,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "c20c172bf284ed42d942ba6ded385401e78966ab66c328c408071639d1bff900",
+  "svg_sha256": "4fdf1682902821e04fbeb9c65d13ce5580e0a7d1feed2c86a6c7767ead2ccc85",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -1109,8 +1143,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -1122,38 +1157,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "leg-back / leg-front",
-        "elements": [
-          "leg-back-1",
-          "leg-front-2"
-        ],
-        "status": "review",
-        "sustained_length": 3.4783,
-        "centerline_distance": 7.4,
-        "ink_gap": 3.4,
-        "nearest_points": [
-          [
-            19.57999999999995,
-            30.560000000000066
-          ],
-          [
-            25.5,
-            35.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct person kicking ball using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-1.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

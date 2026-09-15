@@ -1,36 +1,22 @@
-"""Plastic bag (ecology), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'plastic-bag: independent smooth-curve repair.\n\nConstruction: Plastic carrier with rounded handles and a broad integrated body; mirrored handle notch.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/shopping-bag.svg and atomic-debug/shopping-bag.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = 'c83db88e-3c4a-542e-8689-8e878c7128e5'
 SOURCE_PATH = 'pictographic-primitives/ecology/plastic bag_c83db88e-3c4a-542e-8689-8e878c7128e5.svg'
 AUTHOR = 'gpt-6'
 
+
 class PlasticBag(Solo48):
     icon_id = 'plastic-bag'
-    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'ecology'
     aliases = ()
     keywords = ('plastic', 'bag', 'ecology')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_line('sym-e0', (29, 17), (19, 17))
-        self.add_line('sym-e2', (19, 17), (17, 15))
-        self.add_line('sym-e3', (17, 15), (17, 8))
-        self.add_line('sym-e5', (17, 8), (14, 6))
-        self.add_line('sym-e7', (14, 6), (10, 6))
-        self.add_line('sym-e8', (10, 6), (8, 8))
-        self.add_line('sym-e9', (8, 8), (6, 35))
-        self.add_line('sym-e10', (6, 35), (6, 38))
-        self.add_arc('sym-e11', (6, 38), (10, 42), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e13', (10, 42), (38, 42))
-        self.add_arc('sym-e16', (38, 42), (42, 38), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('sym-e17', (42, 38), (42, 35), radius_x=37, radius_y=37, large_arc=False, sweep=True)
-        self.add_line('sym-e18', (42, 35), (40, 8))
-        self.add_line('sym-e19', (40, 8), (38, 6))
-        self.add_line('sym-e20', (38, 6), (34, 6))
-        self.add_line('sym-e22', (34, 6), (31, 8))
-        self.add_line('sym-e23', (31, 8), (31, 15))
-        self.add_line('sym-e25', (31, 15), (29, 17))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e13', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e22', 'sym-e23', 'sym-e25', closed=True)
+        path(self,'bag',(8,38),('L',(10,8)),('C',(10,5),(12,4),(15,4)),('L',(18,4)),('L',(18,12)),('A',6,6,False,(24,18)),('A',6,6,False,(30,12)),('L',(30,4)),('L',(33,4)),('C',(36,4),(38,5),(38,8)),('L',(40,38)),('C',(40,42),(37,44),(33,44)),('L',(15,44)),('C',(11,44),(8,42),(8,38)),closed=True)
+        contacts(self)

@@ -1,3 +1,6 @@
+# Refinement: Lower the squat hips and belt together to open both shoulder-to-belly gaps.
+# Refinement: Raise the hands fully above the squat hip line.
+# Repair: Lift both outstretched hands away from the squat thighs symmetrically.
 """Sumo wrestler: retain the topknot, broad belly, loincloth and squat. Radius5 head(24,13); shoulder edges(19,25) and(29,25) are each exactly13 from the center, leaving4 painted clearance. Both body edges lead away from the head. Source and full_body_ref.png inspected; mirror the stance about x24.
 
 Sumo Wrestler, independently authored on SOLO48."""
@@ -44,4 +47,5 @@ class SumoWrestler(Solo48):
         self.add_contour('head', 'head-r', 'head-l', closed=True)
         self.add_line('topknot', (24, 6), (24, 8))
         self.relate('connect', 'head', 'topknot')
-        self.branches([('body', [(19, 25), (14, 32), (20, 32), (28, 32), (34, 32), (29, 25)]), ('left-arm', [(19, 25), (6, 28)]), ('right-arm', [(29, 25), (42, 28)]), ('left-leg', [(14, 32), (10, 37), (10, 42)]), ('right-leg', [(34, 32), (38, 37), (38, 42)]), ('belt', [(20, 32), (20, 40), (28, 40), (28, 32)])])
+        self.branches([('body', [(19, 25), (14, 33), (20, 33), (28, 33), (34, 33), (29, 25)]), ('left-arm', [(19, 25), (6, 22)]), ('right-arm', [(29, 25), (42, 22)]), ('left-leg', [(14, 33), (10, 37), (10, 42)]), ('right-leg', [(34, 33), (38, 37), (38, 42)]), ('belt', [(20, 33), (20, 41), (28, 41), (28, 33)])])
+        self.mark_human_figure('person', head='head', torso='body-0', torso_junction='start')

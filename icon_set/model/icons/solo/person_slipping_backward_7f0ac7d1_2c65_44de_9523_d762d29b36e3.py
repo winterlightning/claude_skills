@@ -1,3 +1,4 @@
+# Repair: Move the backward knee away from the descending front leg.
 """Reconstruct person slipping backward using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct person slipping backward using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
@@ -51,8 +52,8 @@ class PersonSlippingBackward(Solo48):
         self.add_line('arm-left-2', (14, 20), (10, 10))
         self.add_line('arm-right-1', (24, 23), (36, 28))
         self.add_line('arm-right-2', (36, 28), (42, 32))
-        self.add_line('leg-left-1', (20, 32), (12, 32))
-        self.add_line('leg-left-2', (12, 32), (6, 38))
+        self.add_line('leg-left-1', (20, 32), (10, 31))
+        self.add_line('leg-left-2', (10, 31), (6, 38))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arm-left', *('arm-left-1', 'arm-left-2'), closed=False)
         self.add_contour('arm-right', *('arm-right-1', 'arm-right-2'), closed=False)
@@ -73,3 +74,4 @@ class PersonSlippingBackward(Solo48):
         self.relate('connect', 'arm-left-1', 'arm-right-1')
         self.relate('connect', 'arm-right-1', 'arm-right-2')
         self.relate('connect', 'leg-left-1', 'leg-left-2')
+        self.mark_human_figure('person', head='head', torso='body-leg-1', torso_junction='start')

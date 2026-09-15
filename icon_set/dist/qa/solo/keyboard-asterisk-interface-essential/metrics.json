@@ -11,19 +11,19 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "cross:subpath-1",
+        "elementId": "cross",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 28 L 20 40 A 2 2 0 0 0 22 42 A 27 27 0 0 1 23 42 A 27 27 0 0 1 25 42 L 26 42 A 2 2 0 0 0 28 40 L 28 28 L 39 28 A 3 3 0 0 0 42 26 A 28 28 0 0 1 42 25 L 42 23 A 3 3 0 0 0 39 20 L 28 20 L 28 9 A 3 3 0 0 0 25 6 L 24 6 A 47 47 0 0 1 22 6 A 3 3 0 0 0 20 9 L 20 20 L 8 20 A 2 2 0 0 0 6 22 L 6 26 A 2 2 0 0 0 8 28 L 20 28 Z",
+        "pathData": "M 21 6 L 27 6 A 3 3 0 0 1 30 9 L 30 18 L 39 18 A 3 3 0 0 1 42 21 L 42 27 A 3 3 0 0 1 39 30 L 30 30 L 30 39 A 3 3 0 0 1 27 42 L 21 42 A 3 3 0 0 1 18 39 L 18 30 L 9 30 A 3 3 0 0 1 6 27 L 6 21 A 3 3 0 0 1 9 18 L 18 18 L 18 9 A 3 3 0 0 1 21 6 Z",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 289,
-        "approximationError": 0.0009035892710438345,
+        "segmentCount": 269,
+        "approximationError": 0.0009035892710438429,
         "hasCurves": true
       }
     ],
@@ -31,13 +31,13 @@
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1"
+          "cross:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1"
+          "cross:subpath-1"
         ],
         "elementIds": [
-          "sym-c0"
+          "cross"
         ],
         "bounds": [
           6.0,
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 26,
-      "flattenedSegments": 289,
-      "adaptiveNodes": 540,
+      "commands": 22,
+      "flattenedSegments": 269,
+      "adaptiveNodes": 504,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -97,13 +97,13 @@
           32.0,
           32.0
         ],
-        "area_ship_px2": 242.748,
-        "equivalent_diameter_ship_px": 17.5806,
-        "equivalent_diameter_design_u": 17.5806,
-        "inscribed_diameter_ship_px": 7.2248,
-        "inscribed_diameter_design_u": 7.2248,
-        "inscribed_radius_ship_px": 3.6124,
-        "inscribed_radius_design_u": 3.6124,
+        "area_ship_px2": 449.7148,
+        "equivalent_diameter_ship_px": 23.929,
+        "equivalent_diameter_design_u": 23.929,
+        "inscribed_diameter_ship_px": 12.8248,
+        "inscribed_diameter_design_u": 12.8248,
+        "inscribed_radius_ship_px": 6.4124,
+        "inscribed_radius_design_u": 6.4124,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -134,17 +134,17 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 434.5488,
-        "equivalent_diameter_ship_px": 23.522,
-        "equivalent_diameter_design_u": 23.522,
-        "inscribed_diameter_ship_px": 10.1998,
-        "inscribed_diameter_design_u": 10.1998,
-        "inscribed_radius_ship_px": 5.0999,
-        "inscribed_radius_design_u": 5.0999,
+        "area_ship_px2": 638.4805,
+        "equivalent_diameter_ship_px": 28.5121,
+        "equivalent_diameter_design_u": 28.5121,
+        "inscribed_diameter_ship_px": 15.7997,
+        "inscribed_diameter_design_u": 15.7997,
+        "inscribed_radius_ship_px": 7.8999,
+        "inscribed_radius_design_u": 7.8999,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 3.5999,
-        "equivalent_diameter_at_authored_stroke_design_u": 7.1998
+        "equivalent_radius_at_authored_stroke_design_u": 6.3999,
+        "equivalent_diameter_at_authored_stroke_design_u": 12.7998
       }
     ],
     "pinches": [],
@@ -156,6 +156,43 @@
     "measuring_stroke_width": 1.0,
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9999125924777064,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.944109290391274e-15
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.9999113240870533,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.944109290391274e-15
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
   },
   "artifacts": {
     "svg": "solo/keyboard-asterisk-interface-essential/icon.svg",
@@ -169,9 +206,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "7ef9b30ae9ceb7f600fc8ef5ccac8bbab54a2668c5d7fa9c9d71e6a457af3337",
+  "svg_sha256": "102c52002f5e38a45403f33c4afc40a85e8c27d37505218a16a12f043ef44867",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -226,6 +264,7 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,

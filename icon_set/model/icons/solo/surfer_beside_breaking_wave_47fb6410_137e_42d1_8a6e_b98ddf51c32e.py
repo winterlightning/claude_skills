@@ -1,3 +1,4 @@
+# Repair: Give the surfer a real bent leg above a level board, with the breaking wave and water below.
 """Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
@@ -43,37 +44,14 @@ class SurferBesideBreakingWave(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.add_arc('head-a', (12, 11), (22, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('head-b', (22, 11), (12, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('arms-1', (6, 24), (17, 24))
-        self.add_line('arms-2', (17, 24), (27, 25))
-        self.add_bezier('body-1', (17, 24), *(((17.0, 26.0), (14.0, 26.25), (13, 27)),))
-        self.add_line('body-2', (13, 27), (20, 31))
-        self.add_line('board-1', (6, 29), (20, 31))
-        self.add_line('board-2', (20, 31), (29, 33))
-        self.add_arc('wave-crest', (32, 6), (40, 20), radius_x=8, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('wave-wall', (40, 20), (40, 34))
-        self.add_arc('wave-foot', (40, 34), (42, 42), radius_x=2, radius_y=8, large_arc=False, sweep=False)
-        self.add_line('water', (6, 42), (42, 42))
-        self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
-        self.add_contour('board', *('board-1', 'board-2'), closed=False)
-        self.add_contour('breaking-wave', *('wave-crest', 'wave-wall', 'wave-foot'), closed=False)
-        self.relate('connect', *('arms', 'body'))
-        self.relate('connect', *('board', 'body'))
-        self.relate('connect', *('water', 'breaking-wave'))
-        self.add_contour('body', *('body-1',), closed=False)
-        self.add_contour('body-section-1', *('body-2',), closed=False)
-        self.relate('connect', 'body-1', 'body-2')
-        self.relate('connect', 'head-a', 'head-b')
-        self.relate('connect', 'arms-1', 'arms-2')
-        self.relate('connect', 'arms-1', 'body-1')
-        self.relate('connect', 'arms-2', 'body-1')
-        self.relate('connect', 'body-1', 'body-2')
-        self.relate('connect', 'body-2', 'board-1')
-        self.relate('connect', 'body-2', 'board-2')
-        self.relate('connect', 'board-1', 'board-2')
-        self.relate('connect', 'wave-crest', 'wave-wall')
-        self.relate('connect', 'wave-wall', 'wave-foot')
-        self.relate('connect', 'wave-foot', 'water')
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'head',(13,10),('A',4,4,True,(21,10)),('A',4,4,True,(13,10)),closed=True)
+        poly(self,'arms',(6,22),(17,22),(27,23))
+        path(self,'torso',(17,22),('C',(17,25),(14,26),(13,28)))
+        line(self,'leg',(13,28),(20,34))
+        poly(self,'board',(6,34),(20,34),(29,34))
+        path(self,'wave',(32,6),('A',8,14,True,(40,20)),('L',(40,34)),('A',2,8,False,(42,42)))
+        line(self,'water',(6,42),(42,42))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

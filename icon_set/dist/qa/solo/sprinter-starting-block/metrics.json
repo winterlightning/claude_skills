@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 0.74 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,14 +15,14 @@
         "elementId": "leg",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 8 L 35 15 L 39 20 L 30 34 L 23 40",
+        "pathData": "M 24 8 L 35 15 L 39 20 L 39 29",
         "bounds": [
-          23.0,
+          24.0,
           8.0,
           39.0,
-          40.0
+          29.0
         ],
-        "segmentCount": 4,
+        "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -59,22 +57,6 @@
         "segmentCount": 4,
         "approximationError": 0.0,
         "hasCurves": false
-      },
-      {
-        "id": "ground:subpath-1",
-        "elementId": "ground",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 4 40 L 13 40",
-        "bounds": [
-          4.0,
-          40.0,
-          13.0,
-          40.0
-        ],
-        "segmentCount": 1,
-        "approximationError": 0.0,
-        "hasCurves": false
       }
     ],
     "components": [
@@ -83,20 +65,17 @@
         "memberIds": [
           "leg:subpath-1",
           "shoe:subpath-1",
-          "block:subpath-1",
-          "ground:subpath-1"
+          "block:subpath-1"
         ],
         "contourIds": [
           "leg:subpath-1",
           "shoe:subpath-1",
-          "block:subpath-1",
-          "ground:subpath-1"
+          "block:subpath-1"
         ],
         "elementIds": [
           "leg",
           "shoe",
-          "block",
-          "ground"
+          "block"
         ],
         "bounds": [
           4.0,
@@ -111,23 +90,12 @@
       {
         "contourIds": [
           "leg:subpath-1",
-          "shoe:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          23.0,
-          40.0
-        ]
-      },
-      {
-        "contourIds": [
-          "leg:subpath-1",
           "block:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          23.0,
-          40.0
+          39.0,
+          29.0
         ]
       },
       {
@@ -138,17 +106,6 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           23.0,
-          40.0
-        ]
-      },
-      {
-        "contourIds": [
-          "shoe:subpath-1",
-          "ground:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          13.0,
           40.0
         ]
       }
@@ -161,17 +118,7 @@
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "leg:subpath-1",
-            "shoe:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            23.0,
-            40.0
-          ]
-        }
+        "directConnection": null
       },
       {
         "contourIds": [
@@ -187,19 +134,10 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            23.0,
-            40.0
+            39.0,
+            29.0
           ]
         }
-      },
-      {
-        "contourIds": [
-          "leg:subpath-1",
-          "ground:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
       },
       {
         "contourIds": [
@@ -219,34 +157,6 @@
             40.0
           ]
         }
-      },
-      {
-        "contourIds": [
-          "shoe:subpath-1",
-          "ground:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "shoe:subpath-1",
-            "ground:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            13.0,
-            40.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "block:subpath-1",
-          "ground:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
       }
     ],
     "errors": [],
@@ -264,8 +174,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 18,
-      "flattenedSegments": 14,
+      "commands": 15,
+      "flattenedSegments": 12,
       "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
@@ -356,6 +266,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.2943160420514868,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.2879850906718985,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/sprinter-starting-block/icon.svg",
     "metrics": "solo/sprinter-starting-block/metrics.json"
@@ -368,9 +313,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "e775d72b94887645b5afb9583cb7e226fe1c782f5df28e84b0cb299cea206c97",
+  "svg_sha256": "af8360cca85842544c64c5f13ff156625773c1c276e16c30dc5018542326a31f",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -425,8 +371,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -438,38 +385,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "leg / block",
-        "elements": [
-          "leg-3",
-          "block-1"
-        ],
-        "status": "review",
-        "sustained_length": 10.1847,
-        "centerline_distance": 1.2188,
-        "ink_gap": -2.7812,
-        "nearest_points": [
-          [
-            30.33582089552239,
-            33.4776119402985
-          ],
-          [
-            31.026287659844026,
-            34.481927233857235
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the sprinter starting block silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-6.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

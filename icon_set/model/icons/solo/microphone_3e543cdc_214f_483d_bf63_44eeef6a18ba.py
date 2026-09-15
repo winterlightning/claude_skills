@@ -1,39 +1,24 @@
-"""Microphone (audio), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'microphone: independent smooth-curve repair.\n\nConstruction: Microphone capsule, smooth U-shaped cradle and a central stand; wide capsule clearance.\nKeyshape: VRECT_L; exact SOLO48 envelope.\nReference inspected: icon_set/references/lucide/original/mic.svg and atomic-debug/mic.svg (geometric construction).\nOriginal source and parent geometry preserved.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+from ._symmetry_curves import path, ellipse, box, line, poly, contacts
+
 SOURCE_ICON_ID = '3e543cdc-214f-483d-bf63-44eeef6a18ba'
 SOURCE_PATH = 'pictographic-primitives/audio/microphone_3e543cdc-214f-483d-bf63-44eeef6a18ba.svg'
 AUTHOR = 'gpt-6'
 
+
 class Microphone(Solo48):
     icon_id = 'microphone'
-    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'audio'
     aliases = ()
     keywords = ('microphone', 'audio')
+    keyshape = Keyshape.VRECT_L
 
     def build(self):
-        self.add_arc('sym-e0', (40, 24), (40, 25), radius_x=28, radius_y=28, large_arc=False, sweep=False)
-        self.add_arc('sym-e1', (40, 25), (39, 30), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_arc('sym-e2', (39, 30), (24, 38), radius_x=17, radius_y=17, large_arc=False, sweep=True)
-        self.add_arc('sym-e3', (24, 38), (9, 30), radius_x=17, radius_y=17, large_arc=False, sweep=True)
-        self.add_arc('sym-e4', (9, 30), (8, 25), radius_x=10, radius_y=10, large_arc=False, sweep=False)
-        self.add_line('sym-e5', (8, 25), (8, 24))
-        self.add_line('sym-e6', (24, 38), (24, 44))
-        self.add_line('sym-e7', (16, 19), (16, 10))
-        self.add_arc('sym-e8', (16, 10), (16, 9), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_arc('sym-e9', (16, 9), (24, 4), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('sym-e12', (24, 4), (32, 9), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_arc('sym-e13', (32, 9), (32, 10), radius_x=4, radius_y=4, large_arc=False, sweep=False)
-        self.add_line('sym-e14', (32, 10), (32, 19))
-        self.add_arc('sym-e15', (32, 19), (25, 26), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_line('sym-e16', (25, 26), (23, 26))
-        self.add_arc('sym-e18', (23, 26), (16, 19), radius_x=7, radius_y=7, large_arc=False, sweep=True)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', closed=False)
-        self.add_contour('sym-c1', 'sym-e6', closed=False)
-        self.add_contour('sym-c2', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e18', closed=True)
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        box(self,'capsule',18,4,30,28,6)
+        path(self,'cradle',(8,26),('L',(8,28)),('A',16,12,False,(24,40)),('A',16,12,False,(40,28)),('L',(40,26)))
+        line(self,'stand',(24,40),(24,44))
+        contacts(self)

@@ -1,4 +1,8 @@
-'Beetle in coiled shell v2. True twenty-unit shell radius; six legs spaced eight units apart around a compact beetle body, with short antennae.\nOriginal subject geometry is retained and refitted to the current native keyshape. Directional asymmetry is intentional. Construction review: original drawing; sprout or bug principles for the plant and beetle.\n'
+"""Replace the rectangular insect with a curved beetle body and distinct legs.
+Plan: open shell spiral enclosing one oval beetle with three paired leg rows.
+SQUARE centerline extremes (6,6)-(42,42).
+Lucide: bug; geometric contour construction adapted to SOLO48.
+Independent variant; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e6e35530-888b-4ddb-ab14-ab2f3f1591c8'
@@ -7,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class BeetleInCoiledShell(Solo48):
     icon_id = 'beetle-in-coiled-shell'
-    keyshape = Keyshape.CIRCLE
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
@@ -15,26 +19,35 @@ class BeetleInCoiledShell(Solo48):
     keywords = ('insect', 'beetle', 'shell', 'coil', 'spiral', 'cocoon', 'bug', 'nest')
 
     def build(self):
-        self.add_arc('shell-top',(24, 4),(44, 24),radius_x=20,radius_y=20,sweep=True)
-        self.add_arc('shell-bottom',(44, 24),(24, 44),radius_x=20,radius_y=20,sweep=True)
-        self.add_arc('shell-left',(24, 44),(4, 24),radius_x=20,radius_y=20,sweep=True)
-        self.add_contour('shell','shell-top','shell-bottom','shell-left',closed=False)
-        self.add_polyline('body',(20, 16),(28, 16),(28, 24),(28, 32),(20, 32),(20, 24),closed=True)
-        self.add_line('antenna-left',(20, 16),(20, 14))
-        self.add_line('antenna-right',(28, 16),(28, 14))
-        self.add_line('leg-left-top',(20, 16),(17, 16))
-        self.add_line('leg-right-top',(28, 16),(31, 16))
-        self.add_line('leg-left-mid',(20, 24),(14, 24))
-        self.add_line('leg-right-mid',(28, 24),(34, 24))
-        self.add_line('leg-left-bottom',(20, 32),(18, 32))
-        self.add_line('leg-right-bottom',(28, 32),(30, 32))
-        self.relate('connect','body','antenna-left')
-        self.relate('connect','body','antenna-right')
-        self.relate('connect','body','leg-left-top')
-        self.relate('connect','body','leg-right-top')
-        self.relate('connect','body','leg-left-mid')
-        self.relate('connect','body','leg-right-mid')
-        self.relate('connect','body','leg-left-bottom')
-        self.relate('connect','body','leg-right-bottom')
-        self.relate('connect','antenna-left','leg-left-top')
-        self.relate('connect','antenna-right','leg-right-top')
+
+        def path(n, start, commands, closed=False):
+            here = start
+            members = []
+            for j, (kind, end, *args) in enumerate(commands):
+                name = f'{n}-{j}'
+                if kind == 'L':
+                    self.add_line(name, here, end)
+                elif kind == 'A':
+                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
+                elif kind == 'C':
+                    self.add_bezier(name, here, (args[0], args[1], end))
+                here = end
+                members.append(name)
+            self.add_contour(n, *members, closed=closed)
+
+        def circle(n, x, y, r):
+            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        dot = self.add_dot
+        join = lambda a, b: self.relate('connect', a, b)
+        path('shell', (24, 6), [('A', (42, 24), 18, 18, True), ('A', (24, 42), 18, 18, True), ('A', (6, 24), 18, 18, True)])
+        path('beetle', (20, 19), [('A', (28, 19), 4, 4, True), ('L', (28, 28)), ('A', (20, 28), 4, 4, True), ('L', (20, 19))], True)
+        for side, x, ex in [('left', 20, 15), ('right', 28, 31)]:
+            for y in (19, 28):
+                line(f'{side}-leg-{y}', (x, y), (ex, y))
+                join(f'{side}-leg-{y}', 'beetle')
+        line('antenna-left', (20, 19), (17, 12))
+        line('antenna-right', (28, 19), (28, 16))
+        join('antenna-left', 'beetle')
+        join('antenna-right', 'beetle')

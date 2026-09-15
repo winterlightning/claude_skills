@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 5.93 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -33,15 +31,15 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 13 24 C 13 26.561249694973139 10 27.75 9 29",
+        "pathData": "M 13 24 C 13 26.561249694973139 10 27.75 9 32",
         "bounds": [
           9.0,
           24.0,
           13.0,
-          29.0
+          32.0
         ],
-        "segmentCount": 48,
-        "approximationError": 0.0009088195615743691,
+        "segmentCount": 54,
+        "approximationError": 0.0008708433633793648,
         "hasCurves": true
       },
       {
@@ -49,10 +47,10 @@
         "elementId": "body-section-1",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 9 29 L 21 32 L 26 40",
+        "pathData": "M 9 32 L 21 32 L 26 40",
         "bounds": [
           9.0,
-          29.0,
+          32.0,
           26.0,
           40.0
         ],
@@ -172,7 +170,7 @@
         "upperBound": 8.000301673260763,
         "inkClearanceLowerBound": 4.0,
         "inkClearanceUpperBound": 4.000301673260763,
-        "approximationError": 0.0012104928223348303,
+        "approximationError": 0.001172516624139826,
         "nearestPoints": [
           [
             13.0,
@@ -214,10 +212,10 @@
             "inkClearance": 4.0,
             "signedInkClearance": 4.0,
             "lowerBound": 8.0,
-            "upperBound": 8.001210492822336,
+            "upperBound": 8.001172516624141,
             "inkClearanceLowerBound": 4.0,
-            "inkClearanceUpperBound": 4.001210492822336,
-            "approximationError": 0.0012104928223348303,
+            "inkClearanceUpperBound": 4.001172516624141,
+            "approximationError": 0.001172516624139826,
             "nearestPoints": [
               [
                 13.0,
@@ -239,22 +237,22 @@
               "head:subpath-1",
               "body-section-1:subpath-1"
             ],
-            "centerlineDistance": 13.46451281326063,
-            "inkClearance": 9.46451281326063,
-            "signedInkClearance": 9.46451281326063,
-            "lowerBound": 13.464249196572979,
-            "upperBound": 13.464814486521393,
-            "inkClearanceLowerBound": 9.464249196572979,
-            "inkClearanceUpperBound": 9.464814486521393,
+            "centerlineDistance": 16.0,
+            "inkClearance": 12.0,
+            "signedInkClearance": 12.0,
+            "lowerBound": 16.0,
+            "upperBound": 16.000301673260765,
+            "inkClearanceLowerBound": 12.0,
+            "inkClearanceUpperBound": 12.000301673260765,
             "approximationError": 0.0003016732607604612,
             "nearestPoints": [
               [
-                12.111084859552737,
-                15.899837546995023
+                13.0,
+                16.0
               ],
               [
-                9.0,
-                29.0
+                13.0,
+                32.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -362,7 +360,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           9.0,
-          29.0
+          32.0
         ]
       },
       {
@@ -415,7 +413,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             9.0,
-            29.0
+            32.0
           ]
         }
       },
@@ -547,9 +545,9 @@
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
       "commands": 18,
-      "flattenedSegments": 313,
-      "adaptiveNodes": 605,
-      "distanceTests": 59,
+      "flattenedSegments": 319,
+      "adaptiveNodes": 617,
+      "distanceTests": 21,
       "connectionTests": 1
     },
     "raw_status": "pass",
@@ -638,6 +636,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.15865156108525938,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.24491307426076978,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/water-skier-holding-tow-line/icon.svg",
     "metrics": "solo/water-skier-holding-tow-line/metrics.json"
@@ -650,9 +683,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "45d4955ca50c238bc13ddc81bd087db6ed55d3f8f4c1ef5ded877d3f5fe977ec",
+  "svg_sha256": "e826d3bcc90993d2ca843631e69eff76590ca08ad944ea2679b1be6f71004472",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -707,8 +741,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -720,38 +755,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "arms / body-section-1",
-        "elements": [
-          "arms-1",
-          "body-2"
-        ],
-        "status": "review",
-        "sustained_length": 8.5,
-        "centerline_distance": 5.9724,
-        "ink_gap": 1.9724,
-        "nearest_points": [
-          [
-            13.625,
-            24.0
-          ],
-          [
-            12.176470588235315,
-            29.79411764705883
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-4.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

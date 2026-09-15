@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 4.47 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -49,12 +47,12 @@
         "elementId": "person-arms",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 24 21 L 26 29 L 34 32",
+        "pathData": "M 24 21 L 29 26 L 35 29",
         "bounds": [
           24.0,
           21.0,
-          34.0,
-          32.0
+          35.0,
+          29.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -81,12 +79,12 @@
         "elementId": "person-hand",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 34 32 L 40 32",
+        "pathData": "M 35 29 L 40 29",
         "bounds": [
-          34.0,
-          32.0,
+          35.0,
+          29.0,
           40.0,
-          32.0
+          29.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -277,22 +275,22 @@
               "person-head:subpath-1",
               "person-hand:subpath-1"
             ],
-            "centerlineDistance": 18.537352779814462,
-            "inkClearance": 14.537352779814462,
-            "signedInkClearance": 14.537352779814462,
-            "lowerBound": 18.53720459187964,
-            "upperBound": 18.53772987139059,
-            "inkClearanceLowerBound": 14.53720459187964,
-            "inkClearanceUpperBound": 14.537729871390589,
+            "centerlineDistance": 15.880643948476727,
+            "inkClearance": 11.880643948476727,
+            "signedInkClearance": 11.880643948476727,
+            "lowerBound": 15.880613017821098,
+            "upperBound": 15.881021040052852,
+            "inkClearanceLowerBound": 11.880613017821098,
+            "inkClearanceUpperBound": 11.881021040052852,
             "approximationError": 0.00037709157612066265,
             "nearestPoints": [
               [
-                30.09550620078435,
-                13.878510650192641
+                30.45142338627231,
+                13.784701678661044
               ],
               [
-                34.0,
-                32.0
+                35.0,
+                29.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -334,8 +332,8 @@
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          34.0,
-          32.0
+          35.0,
+          29.0
         ]
       }
     ],
@@ -410,8 +408,8 @@
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            34.0,
-            32.0
+            35.0,
+            29.0
           ]
         }
       },
@@ -443,8 +441,8 @@
       "commands": 15,
       "flattenedSegments": 296,
       "adaptiveNodes": 575,
-      "distanceTests": 150,
-      "connectionTests": 1
+      "distanceTests": 164,
+      "connectionTests": 0
     },
     "raw_status": "pass",
     "canvas": 48
@@ -532,6 +530,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.14968093438778296,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.16200701230310263,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/stooped-walking-person/icon.svg",
     "metrics": "solo/stooped-walking-person/metrics.json"
@@ -544,9 +577,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "a5859d778209707f22684c6940a8e033bef505fab68234d5b717c37d9c9dec9d",
+  "svg_sha256": "fafe65f173f4a743f75807721a9ca70e281ba7ce7c0e4cc5460143ce552e2885",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -601,8 +635,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -614,38 +649,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "person-arms / person-legs",
-        "elements": [
-          "person-arms-2",
-          "person-legs-2"
-        ],
-        "status": "review",
-        "sustained_length": 5.8587,
-        "centerline_distance": 4.536,
-        "ink_gap": 0.536,
-        "nearest_points": [
-          [
-            26.57142857142857,
-            29.214285714285715
-          ],
-          [
-            24.542857142857088,
-            33.271428571428544
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Reconstruct stooped walking person using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 9), actual torso junction (24, 21): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Remaining sampled opposing-edge advisories were individually inspected at centerline and native scale; the certified model, enclosed holes and authored-stroke pinch checks pass.",
-          "evidence": "icon_set/work/solo-visual-reaudit-500/new-3.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -1,3 +1,4 @@
+# Repair: Level the skier thigh exactly between the arm and ski; preserve the kite canopy and exact detached head spacing.
 """Kite skier: distinguish the reaching arm from the curved backward-leaning torso and bend both legs into the skiing action. Radius4 head (11,15), shoulder (11,27), exact4 painted clearance and vertical torso tangent. Original reference and full_body_ref.png inspected. Shared kite corner is the real tether attachment; keep its asymmetry.
 
 Kite skier: distinguish the reaching arm from the curved backward-leaning torso and bend both legs into the skiing action. Radius4 head (11,15), shoulder (11,27), exact4 painted clearance and vertical torso tangent. Original reference and full_body_ref.png inspected. Shared kite corner is the real tether attachment; keep its asymmetry.
@@ -90,13 +91,14 @@ class KiteSkier(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Kite skier: distinguish the reaching arm from the curved backward-leaning torso and bend both legs into the skiing action. Radius4 head (11,15), shoulder (11,27), exact4 painted clearance and vertical torso tangent. Original reference and full_body_ref.png inspected. Shared kite corner is the real tether attachment; keep its asymmetry."""
-        self.add_arc('kite-canopy', (26, 6), (42, 22), radius_x=16)
-        self.add_polyline('kite-edges', (42, 22), (26, 22), (26, 6))
-        self.relate('connect', 'kite-canopy', 'kite-edges')
-        self.ring('head', 11, 15, 4)
-        self.add_bezier('torso', (11, 27), ((11, 30), (15, 32), (15, 35)))
-        self.branches([('arm', [(11, 27), (20, 27), (26, 22)]), ('rear-leg', [(15, 35), (10, 42)]), ('front-leg', [(15, 35), (23, 34), (27, 39)]), ('ski', [(6, 42), (10, 42), (26, 42), (31, 38)])])
-        for p in ['arm-0', 'rear-leg-0', 'front-leg-0']:
-            self.relate('connect', 'torso', p)
-        self.relate('connect', 'arm-1', 'kite-edges')
+        from ._symmetry_curves import path, ellipse, line, poly, contacts
+
+        path(self,'kite',(26,6),('A',16,16,True,(42,22)),('L',(26,22)),('L',(26,6)),closed=True)
+        path(self,'head',(7,14),('A',4,4,True,(15,14)),('A',4,4,True,(7,14)),closed=True)
+        path(self,'torso',(11,26),('C',(11,29),(15,31),(15,34)))
+        poly(self,'arm',(11,26),(20,26),(26,22))
+        line(self,'rear-leg',(15,34),(10,42))
+        poly(self,'front-leg',(15,34),(23,34),(27,42))
+        poly(self,'ski',(6,42),(10,42),(27,42),(32,38))
+        contacts(self)
+        self.mark_human_figure('person',head='head',torso='torso-1',torso_junction='start')

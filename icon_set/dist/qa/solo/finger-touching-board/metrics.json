@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 4.8 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,12 +15,12 @@
         "elementId": "board",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 22 L 6 6 L 42 6 L 42 18",
+        "pathData": "M 6 12 L 6 6 L 42 6 L 42 18",
         "bounds": [
           6.0,
           6.0,
           42.0,
-          22.0
+          18.0
         ],
         "segmentCount": 3,
         "approximationError": 0.0,
@@ -33,9 +31,9 @@
         "elementId": "hand",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 24 42 L 14 30 L 16 26 L 24 32 L 24 19 A 4 4 0 0 1 32 19 L 32 28 L 40 30 L 40 42",
+        "pathData": "M 24 42 L 10 29 L 12 20 L 24 27 L 24 19 A 4 4 0 0 1 32 19 L 32 28 L 40 30 L 40 42",
         "bounds": [
-          14.0,
+          10.0,
           15.0,
           40.0,
           42.0
@@ -61,7 +59,7 @@
           6.0,
           6.0,
           42.0,
-          22.0
+          18.0
         ]
       },
       {
@@ -76,7 +74,7 @@
           "hand"
         ],
         "bounds": [
-          14.0,
+          10.0,
           15.0,
           40.0,
           42.0
@@ -202,6 +200,41 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.39477837597595716,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.25802067989200067,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/finger-touching-board/icon.svg",
     "metrics": "solo/finger-touching-board/metrics.json"
@@ -214,9 +247,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "aac3ecffbdf49e830dbfe6895e72306c66f2e5a74734f7b556e9db6dd0fddeb1",
+  "svg_sha256": "e27e94ba6c1700ee1952eed05630c2434cdc8f1854106539bc844f676d3fbe8e",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -271,8 +305,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -284,38 +319,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "hand",
-        "elements": [
-          "hand-left-1",
-          "hand-left-3"
-        ],
-        "status": "review",
-        "sustained_length": 8.4301,
-        "centerline_distance": 4.5429,
-        "ink_gap": 0.5429,
-        "nearest_points": [
-          [
-            14.396825396825397,
-            30.476190476190474
-          ],
-          [
-            17.12253968253967,
-            26.841904761904754
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The diagonal thumb narrows toward the hand outline; retain the touching gesture.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-4.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

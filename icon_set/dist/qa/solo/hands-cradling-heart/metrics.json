@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "qa-overlays distance: lowest line distance 6.85 on centerlines; requires at least 8.0"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -33,7 +31,7 @@
         "elementId": "left",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 11 42 L 11 38 L 6 30 L 6 26 A 4 4 0 0 1 14 26 L 14 30 L 19 36 L 19 42",
+        "pathData": "M 9 42 L 9 38 L 6 30 L 6 26 A 4 4 0 0 1 14 26 L 14 30 L 19 35 L 19 42",
         "bounds": [
           6.0,
           22.0,
@@ -49,7 +47,7 @@
         "elementId": "right",
         "subpathIndex": 1,
         "componentId": "component-3",
-        "pathData": "M 37 42 L 37 38 L 42 30 L 42 26 A 4 4 0 0 0 34 26 L 34 30 L 29 36 L 29 42",
+        "pathData": "M 39 42 L 39 38 L 42 30 L 42 26 A 4 4 0 0 0 34 26 L 34 30 L 29 35 L 29 42",
         "bounds": [
           29.0,
           22.0,
@@ -278,11 +276,11 @@
         "nearestPoints": [
           [
             19.0,
-            36.0
+            35.0
           ],
           [
             29.0,
-            36.0
+            35.0
           ]
         ],
         "requiredCenterline": 8.0,
@@ -319,11 +317,11 @@
             "nearestPoints": [
               [
                 19.0,
-                36.0
+                35.0
               ],
               [
                 29.0,
-                36.0
+                35.0
               ]
             ],
             "requiredCenterline": 8.0,
@@ -444,6 +442,42 @@
     "pinch_measuring_stroke_width": 4,
     "samples_per_unit": 32
   },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9997798455205192,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 7.944109290391274e-15
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.2150132019227509,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
   "artifacts": {
     "svg": "solo/hands-cradling-heart/icon.svg",
     "metrics": "solo/hands-cradling-heart/metrics.json"
@@ -456,9 +490,10 @@
     "keyshape",
     "composition",
     "svg round-trip",
-    "reproducibility"
+    "reproducibility",
+    "symmetry"
   ],
-  "svg_sha256": "705820451b9caf31c372aa1a57f15a9a8bd4eb72f772bdf720e4d64ec8e2c4cc",
+  "svg_sha256": "fcfc1d9ec20bbad995fc9b322a1c5a67a35306e32a0c89a2bc35b27725274258",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -513,8 +548,9 @@
     }
   },
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -526,65 +562,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "left",
-        "elements": [
-          "left-heel",
-          "left-palm"
-        ],
-        "status": "review",
-        "sustained_length": 4.1492,
-        "centerline_distance": 6.8668,
-        "ink_gap": 2.8668,
-        "nearest_points": [
-          [
-            8.567591292134843,
-            34.108146067415746
-          ],
-          [
-            14.390625,
-            30.46875
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the hands cradling heart silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-12.png"
-        }
-      },
-      {
-        "contour": "right",
-        "elements": [
-          "right-heel",
-          "right-palm"
-        ],
-        "status": "review",
-        "sustained_length": 4.1492,
-        "centerline_distance": 6.8668,
-        "ink_gap": 2.8668,
-        "nearest_points": [
-          [
-            39.432408707865115,
-            34.10814606741582
-          ],
-          [
-            33.609375,
-            30.46875
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the hands cradling heart silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-12.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }
