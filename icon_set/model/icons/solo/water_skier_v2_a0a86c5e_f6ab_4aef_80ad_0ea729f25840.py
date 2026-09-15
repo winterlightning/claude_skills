@@ -1,5 +1,7 @@
 """Reconstruct water skier using its inspected source pose and full_body_ref.png. Head radius 4, center (15, 12), actual torso junction (15, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct water skier using its inspected source pose and full_body_ref.png. Head radius 4, center (15, 12), actual torso junction (15, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct water skier using its inspected source pose and full_body_ref.png. Head radius 4, center (15, 12), actual torso junction (15, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Water Skier, independently authored on SOLO48."""
@@ -54,8 +56,21 @@ class WaterSkierVariant2(Solo48):
         self.add_arc('ski-left', (4, 34), (24, 34), radius_x=10, radius_y=6, large_arc=False, sweep=False)
         self.add_arc('ski-right', (24, 34), (44, 34), radius_x=10, radius_y=6, large_arc=False, sweep=False)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body', *('body-1', 'body-2', 'body-3'), closed=False)
         self.add_contour('arm', *('arm-1', 'arm-2', 'arm-3'), closed=False)
         self.add_contour('ski', *('ski-left', 'ski-right'), closed=False)
         self.relate('connect', *('arm', 'body'))
         self.relate('connect', *('ski', 'body'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'arm-1')
+        self.relate('connect', 'body-1', 'arm-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-3', 'ski-left')
+        self.relate('connect', 'body-3', 'ski-right')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-2', 'arm-3')
+        self.relate('connect', 'ski-left', 'ski-right')

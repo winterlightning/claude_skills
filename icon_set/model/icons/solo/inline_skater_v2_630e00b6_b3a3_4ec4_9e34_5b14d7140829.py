@@ -1,5 +1,7 @@
 """Reconstruct inline skater using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct inline skater using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct inline skater using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 11), actual torso junction (25, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Inline skater, authored on SOLO48."""
@@ -60,8 +62,21 @@ class InlineSkaterVariant2(Solo48):
         self.add_line('wheel-rear-b', (14, 39), (14, 39))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arms', *('arms-1', 'arms-2', 'arms-3'), closed=False)
-        self.add_contour('torso', *('torso-1', 'torso-2', 'torso-3'), closed=False)
         self.add_contour('back-leg', *('back-leg-1', 'back-leg-2'), closed=False)
         self.relate('connect', *('arms', 'torso'))
         self.relate('connect', *('back-leg', 'torso'))
         self.relate('connect', *('torso', 'skate-front'))
+        self.add_contour('torso', *('torso-1',), closed=False)
+        self.add_contour('torso-section-1', *('torso-2', 'torso-3'), closed=False)
+        self.relate('connect', 'torso-1', 'torso-2')
+        self.relate('connect', 'torso-2', 'torso-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-1', 'torso-1')
+        self.relate('connect', 'arms-2', 'arms-3')
+        self.relate('connect', 'arms-2', 'torso-1')
+        self.relate('connect', 'torso-1', 'torso-2')
+        self.relate('connect', 'torso-1', 'back-leg-1')
+        self.relate('connect', 'torso-2', 'torso-3')
+        self.relate('connect', 'torso-2', 'back-leg-1')
+        self.relate('connect', 'back-leg-1', 'back-leg-2')

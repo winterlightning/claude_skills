@@ -1,5 +1,7 @@
 """Reconstruct runner starting crouch using its inspected source pose and full_body_ref.png. Head radius 5, center (11, 11), actual torso junction (23, 16): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct runner starting crouch using its inspected source pose and full_body_ref.png. Head radius 5, center (11, 11), actual torso junction (23, 16): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct runner starting crouch using its inspected source pose and full_body_ref.png. Head radius 5, center (11, 11), actual torso junction (23, 16): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Runner in Starting Crouch, independently authored on SOLO48."""
@@ -51,7 +53,15 @@ class RunnerStartingCrouchVariant2(Solo48):
         self.add_line('bent-leg-1', (30, 24), (22, 34))
         self.add_line('bent-leg-2', (22, 34), (30, 42))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('back', *('back-1', 'back-2'), closed=False)
         self.add_contour('bent-leg', *('bent-leg-1', 'bent-leg-2'), closed=False)
         self.relate('connect', *('arm', 'back'))
         self.relate('connect', *('back', 'bent-leg'))
+        self.add_contour('back', *('back-1',), closed=False)
+        self.add_contour('back-section-1', *('back-2',), closed=False)
+        self.relate('connect', 'back-1', 'back-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'back-1', 'back-2')
+        self.relate('connect', 'back-1', 'arm')
+        self.relate('connect', 'back-1', 'bent-leg-1')
+        self.relate('connect', 'back-2', 'bent-leg-1')
+        self.relate('connect', 'bent-leg-1', 'bent-leg-2')

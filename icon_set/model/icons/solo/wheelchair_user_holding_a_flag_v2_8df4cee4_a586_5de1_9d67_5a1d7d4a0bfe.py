@@ -1,4 +1,8 @@
-"""Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 11), actual torso junction (16, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+"""Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 10), actual torso junction (16, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
+Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 10), actual torso junction (16, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
+Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 11), actual torso junction (16, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 11), actual torso junction (16, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
@@ -46,7 +50,7 @@ class WheelchairUserHoldingAFlagVariant2(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 11), actual torso junction (16, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
+        """Reconstruct wheelchair user holding a flag using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 10), actual torso junction (16, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
         self.add_arc('head-a', (12, 11), (20, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('head-b', (20, 11), (12, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('wheel-left', (16, 23), (16, 42), radius_x=10, radius_y=10, large_arc=False, sweep=True)
@@ -64,7 +68,6 @@ class WheelchairUserHoldingAFlagVariant2(Solo48):
         self.add_line('flag-4', (42, 16), (32, 16))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('wheel', *('wheel-left', 'wheel-right'), closed=True)
-        self.add_contour('person', *('person-1', 'person-2', 'person-3', 'person-4'), closed=False)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
         self.add_contour('flag', *('flag-1', 'flag-2', 'flag-3', 'flag-4'), closed=False)
         self.relate('connect', *('wheel', 'person'))
@@ -73,3 +76,25 @@ class WheelchairUserHoldingAFlagVariant2(Solo48):
         self.relate('connect', *('pole', 'arm'))
         self.relate('connect', *('pole', 'flag'))
         self.relate('connect', *('arm', 'flag'))
+        self.add_contour('person', *('person-1',), closed=False)
+        self.add_contour('person-section-1', *('person-2', 'person-3', 'person-4'), closed=False)
+        self.relate('connect', 'person-1', 'person-2')
+        self.relate('connect', 'person-2', 'person-3')
+        self.relate('connect', 'person-3', 'person-4')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'wheel-left', 'wheel-right')
+        self.relate('connect', 'wheel-left', 'person-1')
+        self.relate('connect', 'wheel-left', 'arm-1')
+        self.relate('connect', 'wheel-right', 'person-1')
+        self.relate('connect', 'wheel-right', 'arm-1')
+        self.relate('connect', 'person-1', 'person-2')
+        self.relate('connect', 'person-1', 'arm-1')
+        self.relate('connect', 'person-2', 'person-3')
+        self.relate('connect', 'person-3', 'person-4')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-2', 'pole')
+        self.relate('connect', 'arm-2', 'flag-1')
+        self.relate('connect', 'pole', 'flag-1')
+        self.relate('connect', 'flag-1', 'flag-2')
+        self.relate('connect', 'flag-2', 'flag-3')
+        self.relate('connect', 'flag-3', 'flag-4')

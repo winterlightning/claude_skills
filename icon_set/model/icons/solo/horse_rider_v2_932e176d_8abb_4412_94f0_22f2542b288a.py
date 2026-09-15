@@ -1,5 +1,7 @@
 """Reconstruct horse rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct horse rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct horse rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Horse Rider, independently authored on SOLO48."""
@@ -63,7 +65,6 @@ class HorseRiderVariant2(Solo48):
         self.add_line('tail-1', (6, 32), (8, 27))
         self.add_line('tail-2', (8, 27), (14, 26))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('rider', *('rider-1', 'rider-2', 'rider-3'), closed=False)
         self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
         self.add_contour('horse', *('horse-1', 'horse-2', 'horse-3', 'horse-4', 'horse-5', 'horse-6', 'horse-7', 'horse-8'), closed=False)
         self.add_contour('rear-leg', *('rear-leg-1', 'rear-leg-2'), closed=False)
@@ -76,3 +77,32 @@ class HorseRiderVariant2(Solo48):
         self.relate('connect', *('rider', 'rear-leg'))
         self.relate('connect', *('rider', 'tail'))
         self.relate('connect', *('tail', 'rear-leg'))
+        self.add_contour('rider', *('rider-1',), closed=False)
+        self.add_contour('rider-section-1', *('rider-2', 'rider-3'), closed=False)
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-1', 'arms-1')
+        self.relate('connect', 'rider-1', 'horse-1')
+        self.relate('connect', 'rider-1', 'rear-leg-1')
+        self.relate('connect', 'rider-1', 'tail-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-2', 'horse-1')
+        self.relate('connect', 'rider-2', 'rear-leg-1')
+        self.relate('connect', 'rider-2', 'tail-2')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'horse-2')
+        self.relate('connect', 'arms-2', 'horse-3')
+        self.relate('connect', 'horse-1', 'horse-2')
+        self.relate('connect', 'horse-1', 'rear-leg-1')
+        self.relate('connect', 'horse-1', 'tail-2')
+        self.relate('connect', 'horse-2', 'horse-3')
+        self.relate('connect', 'horse-3', 'horse-4')
+        self.relate('connect', 'horse-4', 'horse-5')
+        self.relate('connect', 'horse-5', 'horse-6')
+        self.relate('connect', 'horse-6', 'horse-7')
+        self.relate('connect', 'horse-7', 'horse-8')
+        self.relate('connect', 'rear-leg-1', 'rear-leg-2')
+        self.relate('connect', 'rear-leg-1', 'tail-2')
+        self.relate('connect', 'tail-1', 'tail-2')

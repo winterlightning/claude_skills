@@ -1,4 +1,6 @@
-"""Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 11), actual torso junction (14, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+"""Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 10), actual torso junction (14, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
+Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 11), actual torso junction (14, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
 Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 11), actual torso junction (14, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
@@ -92,27 +94,23 @@ class PairOfRunnersVariant2(Solo48):
                     self.relate('connect', name, other)
 
     def build(self):
-        """Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 11), actual torso junction (14, 23): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
-        self.add_arc('left-head-a', (10, 11), (18, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('left-head-b', (18, 11), (10, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('right-head-a', (30, 11), (38, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('right-head-b', (38, 11), (30, 11), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_bezier('left-body-0', (14, 23), *(((14.0, 25.8), (14.0, 28.25), (14, 30)),))
-        self.add_line('left-back-arm-0', (14, 23), (6, 23))
-        self.add_line('left-back-arm-1', (6, 23), (6, 28))
-        self.add_line('left-front-arm-0', (14, 23), (20, 26))
+        """Reconstruct pair of runners using its inspected source pose and full_body_ref.png. Head radius 4, center (14, 10), actual torso junction (14, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch."""
+        self.ring('left-head', 14, 10, 4)
+        self.ring('right-head', 34, 10, 4)
+        self.add_bezier('left-body-0', (14, 22), *(((14.0, 25.8), (14.0, 28.25), (14, 30)),))
+        self.add_line('left-back-arm-0', (14, 22), (6, 22))
+        self.add_line('left-back-arm-1', (6, 22), (6, 28))
+        self.add_line('left-front-arm-0', (14, 22), (20, 26))
         self.add_line('left-back-leg-0', (14, 30), (6, 40))
         self.add_line('left-front-leg-0', (14, 30), (18, 36))
         self.add_line('left-front-leg-1', (18, 36), (16, 42))
-        self.add_line('right-body-0', (34, 23), (32, 30))
-        self.add_line('right-front-arm-0', (34, 23), (42, 18))
-        self.add_line('right-back-arm-0', (34, 23), (28, 24))
+        self.add_line('right-body-0', (34, 22), (32, 30))
+        self.add_line('right-front-arm-0', (34, 22), (42, 22))
+        self.add_line('right-back-arm-0', (34, 22), (28, 24))
         self.add_line('right-back-arm-1', (28, 24), (28, 27))
         self.add_line('right-back-leg-0', (32, 30), (26, 40))
         self.add_line('right-front-leg-0', (32, 30), (40, 36))
         self.add_line('right-front-leg-1', (40, 36), (42, 42))
-        self.add_contour('left-head', *('left-head-a', 'left-head-b'), closed=True)
-        self.add_contour('right-head', *('right-head-a', 'right-head-b'), closed=True)
         self.add_contour('left-back-arm', *('left-back-arm-0', 'left-back-arm-1'), closed=False)
         self.add_contour('left-front-leg', *('left-front-leg-0', 'left-front-leg-1'), closed=False)
         self.add_contour('right-back-arm', *('right-back-arm-0', 'right-back-arm-1'), closed=False)

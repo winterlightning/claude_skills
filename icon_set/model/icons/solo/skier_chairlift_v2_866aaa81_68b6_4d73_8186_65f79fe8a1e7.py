@@ -1,5 +1,7 @@
 """Reconstruct skier chairlift using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 10), actual torso junction (12, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct skier chairlift using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 10), actual torso junction (12, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Skier on Chairlift, independently authored on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -41,7 +43,8 @@ class SkierChairliftVariant2(Solo48):
 
     def build(self):
         """Reconstruct skier chairlift using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 10), actual torso junction (12, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 12, 10, 4)
+        self.add_arc('head-a', (8, 10), (16, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-b', (16, 10), (8, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_bezier('rider-1', (12, 22), *(((12.0, 25.36), (13.5, 29.5), (14, 32)),))
         self.add_line('rider-2', (14, 32), (29, 32))
         self.add_line('rider-3', (29, 32), (33, 38))
@@ -52,7 +55,7 @@ class SkierChairliftVariant2(Solo48):
         self.add_line('seat', (6, 32), (14, 32))
         self.add_line('ski-1', (12, 42), (33, 38))
         self.add_line('ski-2', (33, 38), (42, 35))
-        self.add_contour('rider', *('rider-1', 'rider-2', 'rider-3'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
         self.add_contour('suspension', *('suspension-1', 'suspension-2'), closed=False)
         self.add_contour('ski', *('ski-1', 'ski-2'), closed=False)
@@ -60,3 +63,19 @@ class SkierChairliftVariant2(Solo48):
         self.relate('connect', *('arm', 'suspension'))
         self.relate('connect', *('seat', 'rider'))
         self.relate('connect', *('rider', 'ski'))
+        self.add_contour('rider', *('rider-1',), closed=False)
+        self.add_contour('rider-section-1', *('rider-2', 'rider-3'), closed=False)
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-1', 'arm-1')
+        self.relate('connect', 'rider-1', 'seat')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-2', 'seat')
+        self.relate('connect', 'rider-3', 'ski-1')
+        self.relate('connect', 'rider-3', 'ski-2')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-2', 'suspension-2')
+        self.relate('connect', 'suspension-1', 'suspension-2')
+        self.relate('connect', 'ski-1', 'ski-2')

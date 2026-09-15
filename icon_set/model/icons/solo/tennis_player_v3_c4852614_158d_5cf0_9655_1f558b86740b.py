@@ -1,5 +1,7 @@
 """Reconstruct tennis player using its inspected source pose and full_body_ref.png. Head radius 4, center (30, 10), actual torso junction (30, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct tennis player using its inspected source pose and full_body_ref.png. Head radius 4, center (30, 10), actual torso junction (30, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Tennis Player, independently authored on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -41,7 +43,8 @@ class TennisPlayerVariant3(Solo48):
 
     def build(self):
         """Reconstruct tennis player using its inspected source pose and full_body_ref.png. Head radius 4, center (30, 10), actual torso junction (30, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 30, 10, 4)
+        self.add_arc('head-a', (26, 10), (34, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-b', (34, 10), (26, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('racket-a', (11, 10), (11, 22), radius_x=5, radius_y=6, large_arc=False, sweep=True)
         self.add_arc('racket-b', (11, 22), (11, 10), radius_x=5, radius_y=6, large_arc=False, sweep=True)
         self.add_line('arms-1', (11, 22), (18, 29))
@@ -54,11 +57,28 @@ class TennisPlayerVariant3(Solo48):
         self.add_line('front-leg-2', (20, 36), (20, 42))
         self.add_arc('ball-a', (9, 35), (9, 41), radius_x=3, radius_y=3, large_arc=False, sweep=True)
         self.add_arc('ball-b', (9, 41), (9, 35), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('racket', *('racket-a', 'racket-b'), closed=True)
         self.add_contour('arms', *('arms-1', 'arms-2', 'arms-3', 'arms-4'), closed=False)
-        self.add_contour('body', *('body-1', 'body-2'), closed=False)
         self.add_contour('front-leg', *('front-leg-1', 'front-leg-2'), closed=False)
         self.add_contour('ball', *('ball-a', 'ball-b'), closed=True)
         self.relate('connect', *('arms', 'racket'))
         self.relate('connect', *('arms', 'body'))
         self.relate('connect', *('body', 'front-leg'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2',), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'racket-a', 'racket-b')
+        self.relate('connect', 'racket-a', 'arms-1')
+        self.relate('connect', 'racket-b', 'arms-1')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'arms-3')
+        self.relate('connect', 'arms-2', 'body-1')
+        self.relate('connect', 'arms-3', 'arms-4')
+        self.relate('connect', 'arms-3', 'body-1')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'front-leg-1')
+        self.relate('connect', 'body-2', 'front-leg-1')
+        self.relate('connect', 'front-leg-1', 'front-leg-2')
+        self.relate('connect', 'ball-a', 'ball-b')

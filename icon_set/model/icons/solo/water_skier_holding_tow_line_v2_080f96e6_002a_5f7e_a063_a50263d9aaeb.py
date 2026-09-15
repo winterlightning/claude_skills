@@ -1,5 +1,7 @@
 """Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct water skier holding tow line using its inspected source pose and full_body_ref.png. Head radius 4, center (13, 12), actual torso junction (13, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Water Skier. Skier leans back with bent knees against a rightward tow line; simplify doubled arms and water to keep the tow and ski readable.
@@ -58,9 +60,20 @@ class WaterSkierHoldingTowLineVariant2(Solo48):
         self.add_line('ski-2', (30, 40), (36, 36))
         self.add_line('water', (4, 40), (8, 40))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body', *('body-1', 'body-2', 'body-3'), closed=False)
         self.add_contour('arms', *('arms-1', 'arms-2', 'arms-3'), closed=False)
         self.add_contour('ski', *('ski-1', 'ski-2'), closed=False)
         self.relate('connect', *('body', 'arms'))
         self.relate('connect', *('body', 'ski'))
         self.relate('connect', *('water', 'ski'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'arms-1')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'arms-3')
+        self.relate('connect', 'ski-1', 'ski-2')
+        self.relate('connect', 'ski-1', 'water')

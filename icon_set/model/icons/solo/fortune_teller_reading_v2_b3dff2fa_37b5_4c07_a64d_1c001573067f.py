@@ -1,5 +1,7 @@
 """Reconstruct fortune teller reading using its inspected source pose and full_body_ref.png. Head radius 5, center (12, 11), actual torso junction (12, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct fortune teller reading using its inspected source pose and full_body_ref.png. Head radius 5, center (12, 11), actual torso junction (12, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Fortune teller reading.
 
 Symbol plan: shared integer nodes preserve contour order, repeated stations and real
@@ -48,7 +50,8 @@ class FortuneTellerReadingVariant2(Solo48):
 
     def build(self):
         """Reconstruct fortune teller reading using its inspected source pose and full_body_ref.png. Head radius 5, center (12, 11), actual torso junction (12, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 12, 11, 5)
+        self.add_arc('head-a', (7, 11), (17, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('head-b', (17, 11), (7, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_bezier('seated-body-0', (12, 24), *(((12.0, 27.64), (7.5, 31.5), (6, 34)),))
         self.add_line('seated-body-1', (6, 34), (14, 34))
         self.add_line('seated-body-2', (14, 34), (18, 42))
@@ -60,7 +63,7 @@ class FortuneTellerReadingVariant2(Solo48):
         self.add_line('table-0', (29, 34), (34, 34))
         self.add_line('table-1', (34, 34), (42, 34))
         self.add_line('table-leg', (34, 34), (34, 42))
-        self.add_contour('seated-body', *('seated-body-0', 'seated-body-1', 'seated-body-2'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('ball', *('ball-top', 'ball-br', 'ball-bl'), closed=True)
         self.add_contour('table', *('table-0', 'table-1'), closed=False)
         self.relate('connect', *('reaching-arm', 'seated-body'))
@@ -68,3 +71,22 @@ class FortuneTellerReadingVariant2(Solo48):
         self.relate('connect', *('stand', 'table'))
         self.relate('connect', *('table-leg', 'table'))
         self.relate('connect', *('table-leg', 'stand'))
+        self.add_contour('seated-body', *('seated-body-0',), closed=False)
+        self.add_contour('seated-body-section-1', *('seated-body-1', 'seated-body-2'), closed=False)
+        self.relate('connect', 'seated-body-0', 'seated-body-1')
+        self.relate('connect', 'seated-body-1', 'seated-body-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'seated-body-0', 'seated-body-1')
+        self.relate('connect', 'seated-body-0', 'reaching-arm')
+        self.relate('connect', 'seated-body-1', 'seated-body-2')
+        self.relate('connect', 'ball-top', 'ball-br')
+        self.relate('connect', 'ball-top', 'ball-bl')
+        self.relate('connect', 'ball-br', 'ball-bl')
+        self.relate('connect', 'ball-br', 'stand')
+        self.relate('connect', 'ball-bl', 'stand')
+        self.relate('connect', 'stand', 'table-0')
+        self.relate('connect', 'stand', 'table-1')
+        self.relate('connect', 'stand', 'table-leg')
+        self.relate('connect', 'table-0', 'table-1')
+        self.relate('connect', 'table-0', 'table-leg')
+        self.relate('connect', 'table-1', 'table-leg')

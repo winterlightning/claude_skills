@@ -1,5 +1,7 @@
 """Reconstruct stationary bike rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct stationary bike rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct stationary bike rider using its inspected source pose and full_body_ref.png. Head radius 5, center (24, 11), actual torso junction (19, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Stationary Bike Rider, independently authored on SOLO48."""
@@ -58,10 +60,29 @@ class StationaryBikeRiderVariant2(Solo48):
         self.add_line('bottom', (38, 42), (10, 42))
         self.add_arc('left', (10, 42), (10, 34), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('rider', *('rider-1', 'rider-2', 'rider-3'), closed=False)
         self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
         self.add_contour('base', *('top-1', 'top-2', 'top-3', 'right', 'bottom', 'left'), closed=True)
         self.relate('connect', *('rider', 'arms'))
         self.relate('connect', *('arms', 'fork'))
         self.relate('connect', *('fork', 'base'))
         self.relate('connect', *('rider', 'base'))
+        self.add_contour('rider', *('rider-1',), closed=False)
+        self.add_contour('rider-section-1', *('rider-2', 'rider-3'), closed=False)
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-1', 'arms-1')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-3', 'top-1')
+        self.relate('connect', 'rider-3', 'top-2')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'fork')
+        self.relate('connect', 'fork', 'top-2')
+        self.relate('connect', 'fork', 'top-3')
+        self.relate('connect', 'top-1', 'top-2')
+        self.relate('connect', 'top-1', 'left')
+        self.relate('connect', 'top-2', 'top-3')
+        self.relate('connect', 'top-3', 'right')
+        self.relate('connect', 'right', 'bottom')
+        self.relate('connect', 'bottom', 'left')

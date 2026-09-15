@@ -1,5 +1,7 @@
 """Reconstruct person slipping backward using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct person slipping backward using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct person slipping backward using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A person slipping with arms flung out and feet to the lower left. SQUARE extremes (6,6)-(42,42). Lucide person-standing informs the connected stick framework; follow the source image pose rather than mirroring its directional text. Preserve the asymmetric splayed limbs and falling lean."""
@@ -54,10 +56,22 @@ class PersonSlippingBackwardVariant2(Solo48):
         self.add_line('leg-left-1', (20, 32), (12, 32))
         self.add_line('leg-left-2', (12, 32), (6, 38))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body-leg', *('body-leg-1', 'body-leg-2'), closed=False)
         self.add_contour('arm-left', *('arm-left-1', 'arm-left-2'), closed=False)
         self.add_contour('arm-right', *('arm-right-1', 'arm-right-2'), closed=False)
         self.add_contour('leg-left', *('leg-left-1', 'leg-left-2'), closed=False)
         self.relate('connect', *('body-leg', 'arm-left'))
         self.relate('connect', *('body-leg', 'arm-right'))
         self.relate('connect', *('body-leg', 'leg-left'))
+        self.add_contour('body-leg', *('body-leg-1',), closed=False)
+        self.add_contour('body-leg-section-1', *('body-leg-2',), closed=False)
+        self.relate('connect', 'body-leg-1', 'body-leg-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-leg-1', 'body-leg-2')
+        self.relate('connect', 'body-leg-1', 'arm-left-1')
+        self.relate('connect', 'body-leg-1', 'arm-right-1')
+        self.relate('connect', 'body-leg-1', 'leg-left-1')
+        self.relate('connect', 'body-leg-2', 'leg-left-1')
+        self.relate('connect', 'arm-left-1', 'arm-left-2')
+        self.relate('connect', 'arm-left-1', 'arm-right-1')
+        self.relate('connect', 'arm-right-1', 'arm-right-2')
+        self.relate('connect', 'leg-left-1', 'leg-left-2')

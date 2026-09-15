@@ -1,5 +1,7 @@
 """Reconstruct canoe paddler using its inspected source pose and full_body_ref.png. Head radius 4, center (17, 12), actual torso junction (17, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct canoe paddler using its inspected source pose and full_body_ref.png. Head radius 4, center (17, 12), actual torso junction (17, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Canoe Paddler. Seated right-facing paddler with a raised paddle and curved bow; omit decorative waves.
 Keyshape HRECT_L, visible extremes (2, 6, 46, 42); centerline envelope inset by 2.
 Construction: Lucide person-standing: a circular head and sparse articulated limbs. Source establishes the subject and pose.
@@ -44,7 +46,8 @@ class CanoePaddlerVariant2(Solo48):
 
     def build(self):
         """Reconstruct canoe paddler using its inspected source pose and full_body_ref.png. Head radius 4, center (17, 12), actual torso junction (17, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 17, 12, 4)
+        self.add_arc('head-a', (13, 12), (21, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-b', (21, 12), (13, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_bezier('paddler-1', (12, 30), *(((13.25, 28.5), (17.0, 27.124099870362663), (17, 24)),))
         self.add_line('paddler-2', (17, 24), (25, 25))
         self.add_line('paddler-3', (25, 25), (34, 14))
@@ -55,10 +58,23 @@ class CanoePaddlerVariant2(Solo48):
         self.add_line('hull-2', (11, 40), (35, 40))
         self.add_arc('bow', (35, 40), (43, 32), radius_x=8, radius_y=8, large_arc=False, sweep=True)
         self.add_line('tip', (43, 32), (44, 29))
-        self.add_contour('paddler', *('paddler-1', 'paddler-2', 'paddler-3'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('paddle', *('paddle-1', 'paddle-2'), closed=False)
         self.add_contour('canoe', *('hull-1', 'hull-2', 'bow', 'tip'), closed=False)
         self.relate('connect', *('paddler', 'paddle'))
         self.relate('connect', *('paddler', 'gunwale'))
         self.relate('connect', *('paddle', 'gunwale'))
         self.relate('connect', *('canoe', 'gunwale'))
+        self.add_contour('paddler', *('paddler-1',), closed=False)
+        self.add_contour('paddler-section-1', *('paddler-2', 'paddler-3'), closed=False)
+        self.relate('connect', 'paddler-1', 'paddler-2')
+        self.relate('connect', 'paddler-2', 'paddler-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'paddler-1', 'paddler-2')
+        self.relate('connect', 'paddler-2', 'paddler-3')
+        self.relate('connect', 'paddle-1', 'paddle-2')
+        self.relate('connect', 'paddle-2', 'gunwale')
+        self.relate('connect', 'gunwale', 'hull-1')
+        self.relate('connect', 'hull-1', 'hull-2')
+        self.relate('connect', 'hull-2', 'bow')
+        self.relate('connect', 'bow', 'tip')

@@ -1,5 +1,7 @@
 """Reconstruct snow scooter rider using its inspected source pose and full_body_ref.png. Head radius 5, center (25, 11), actual torso junction (20, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct snow scooter rider using its inspected source pose and full_body_ref.png. Head radius 5, center (25, 11), actual torso junction (20, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct snow scooter rider using its inspected source pose and full_body_ref.png. Head radius 5, center (25, 11), actual torso junction (20, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Snow Scooter Rider, independently authored on SOLO48."""
@@ -57,7 +59,6 @@ class SnowScooterRiderVariant2(Solo48):
         self.add_line('runner-3', (30, 42), (36, 42))
         self.add_line('runner-4', (36, 42), (42, 36))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body', *('body-1', 'body-2', 'body-3'), closed=False)
         self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
         self.add_contour('stem', *('stem-1', 'stem-2'), closed=False)
         self.add_contour('runner', *('runner-1', 'runner-2', 'runner-3', 'runner-4'), closed=False)
@@ -65,3 +66,22 @@ class SnowScooterRiderVariant2(Solo48):
         self.relate('connect', *('arms', 'stem'))
         self.relate('connect', *('body', 'runner'))
         self.relate('connect', *('stem', 'runner'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'arms-1')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-3', 'runner-1')
+        self.relate('connect', 'body-3', 'runner-2')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'stem-1')
+        self.relate('connect', 'arms-2', 'stem-2')
+        self.relate('connect', 'stem-1', 'stem-2')
+        self.relate('connect', 'stem-2', 'runner-2')
+        self.relate('connect', 'stem-2', 'runner-3')
+        self.relate('connect', 'runner-1', 'runner-2')
+        self.relate('connect', 'runner-2', 'runner-3')
+        self.relate('connect', 'runner-3', 'runner-4')

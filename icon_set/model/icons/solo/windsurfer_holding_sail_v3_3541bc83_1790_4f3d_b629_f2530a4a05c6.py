@@ -1,5 +1,7 @@
 """Reconstruct windsurfer holding sail using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 13), actual torso junction (12, 25): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct windsurfer holding sail using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 13), actual torso junction (12, 25): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct windsurfer holding sail using its inspected source pose and full_body_ref.png. Head radius 4, center (12, 13), actual torso junction (12, 25): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Windsurfer Holding Sail. A left-leaning windsurfer grips the sail; retain bent knees and sailboard, omit second arm and sail seam.
@@ -64,7 +66,6 @@ class WindsurferHoldingSailVariant3(Solo48):
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('sail-mast', *('sail-mast-1', 'sail-mast-2'), closed=False)
         self.add_contour('sail', *('sail-edge', 'sail-foot'), closed=False)
-        self.add_contour('rider', *('rider-1', 'rider-2', 'rider-3', 'rider-4'), closed=False)
         self.add_contour('board', *('board-1', 'board-2', 'board-3'), closed=False)
         self.relate('connect', *('sail', 'sail-mast'))
         self.relate('connect', *('rider', 'rider-5'))
@@ -73,3 +74,28 @@ class WindsurferHoldingSailVariant3(Solo48):
         self.relate('connect', *('mast-base', 'sail-mast'))
         self.relate('connect', *('mast-base', 'board'))
         self.relate('connect', *('rider', 'board'))
+        self.add_contour('rider', *('rider-1', 'rider-2'), closed=False)
+        self.add_contour('rider-section-1', *('rider-3',), closed=False)
+        self.add_contour('rider-section-2', *('rider-4',), closed=False)
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-3', 'rider-4')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'sail-mast-1', 'sail-mast-2')
+        self.relate('connect', 'sail-mast-1', 'sail-edge')
+        self.relate('connect', 'sail-mast-1', 'rider-5')
+        self.relate('connect', 'sail-mast-2', 'sail-foot')
+        self.relate('connect', 'sail-mast-2', 'rider-5')
+        self.relate('connect', 'sail-mast-2', 'mast-base')
+        self.relate('connect', 'sail-edge', 'sail-foot')
+        self.relate('connect', 'sail-foot', 'mast-base')
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-1', 'board-1')
+        self.relate('connect', 'rider-1', 'board-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-3', 'rider-4')
+        self.relate('connect', 'rider-4', 'rider-5')
+        self.relate('connect', 'board-1', 'board-2')
+        self.relate('connect', 'board-2', 'board-3')
+        self.relate('connect', 'board-2', 'mast-base')
+        self.relate('connect', 'board-3', 'mast-base')

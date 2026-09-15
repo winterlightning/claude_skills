@@ -1,5 +1,7 @@
 """Reconstruct hiker backpack pole using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct hiker backpack pole using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct hiker backpack pole using its inspected source pose and full_body_ref.png. Head radius 5, center (29, 11), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Right-facing hiker with backpack, striding legs and held pole. Lucide person-standing and backpack inform a sparse articulated figure; double body outlines simplified to coherent strokes.
@@ -73,9 +75,7 @@ class HikerBackpackPoleVariant2(Solo48):
         self.add_line('pole-1', (42, 16), (42, 28))
         self.add_line('pole-2', (42, 28), (42, 42))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body', *('body-1', 'body-2'), closed=False)
         self.add_contour('front-leg', *('front-leg-1', 'front-leg-2'), closed=False)
-        self.add_contour('pack', *('pack-1', 'pack-2', 'pack-3', 'pack-4'), closed=True)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
         self.add_contour('pole', *('pole-1', 'pole-2'), closed=False)
         self.relate('connect', *('body', 'front-leg'))
@@ -83,3 +83,35 @@ class HikerBackpackPoleVariant2(Solo48):
         self.relate('connect', *('arm', 'body'))
         self.relate('connect', *('arm', 'pack'))
         self.relate('connect', *('pole', 'arm'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2',), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.add_contour('pack', *('pack-1',), closed=False)
+        self.add_contour('pack-section-1', *('pack-2',), closed=False)
+        self.add_contour('pack-section-2', *('pack-3', 'pack-4'), closed=False)
+        self.relate('connect', 'pack-1', 'pack-2')
+        self.relate('connect', 'pack-2', 'pack-3')
+        self.relate('connect', 'pack-3', 'pack-4')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'front-leg-1')
+        self.relate('connect', 'body-1', 'pack-1')
+        self.relate('connect', 'body-1', 'pack-2')
+        self.relate('connect', 'body-1', 'pack-3')
+        self.relate('connect', 'body-1', 'arm-1')
+        self.relate('connect', 'body-2', 'front-leg-1')
+        self.relate('connect', 'body-2', 'pack-2')
+        self.relate('connect', 'body-2', 'pack-3')
+        self.relate('connect', 'front-leg-1', 'front-leg-2')
+        self.relate('connect', 'front-leg-1', 'pack-2')
+        self.relate('connect', 'front-leg-1', 'pack-3')
+        self.relate('connect', 'pack-1', 'pack-2')
+        self.relate('connect', 'pack-1', 'pack-4')
+        self.relate('connect', 'pack-1', 'arm-1')
+        self.relate('connect', 'pack-2', 'pack-3')
+        self.relate('connect', 'pack-2', 'arm-1')
+        self.relate('connect', 'pack-3', 'pack-4')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-2', 'pole-1')
+        self.relate('connect', 'arm-2', 'pole-2')
+        self.relate('connect', 'pole-1', 'pole-2')

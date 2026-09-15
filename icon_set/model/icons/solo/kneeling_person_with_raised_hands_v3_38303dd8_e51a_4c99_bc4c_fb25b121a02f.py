@@ -1,5 +1,7 @@
 """Reconstruct kneeling person with raised hands using its inspected source pose and full_body_ref.png. Head radius 6, center (28, 10), actual torso junction (28, 24): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct kneeling person with raised hands using its inspected source pose and full_body_ref.png. Head radius 6, center (28, 10), actual torso junction (28, 24): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 A left-facing kneeling worshipper with hands raised before the chest. Keep folded legs, forward arms and head; combine the paired arms into one readable gesture."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -47,7 +49,8 @@ class KneelingPersonWithRaisedHandsVariant3(Solo48):
 
     def build(self):
         """Reconstruct kneeling person with raised hands using its inspected source pose and full_body_ref.png. Head radius 6, center (28, 10), actual torso junction (28, 24): squared distance 196, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 28, 10, 6)
+        self.add_arc('head-a', (22, 10), (34, 10), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('head-b', (34, 10), (22, 10), radius_x=6, radius_y=6, large_arc=False, sweep=True)
         self.add_bezier('back-1', (28, 24), *(((28.0, 27.92), (31.75, 31.5), (33, 34)),))
         self.add_line('back-2', (33, 34), (25, 44))
         self.add_line('back-3', (25, 44), (40, 44))
@@ -56,8 +59,21 @@ class KneelingPersonWithRaisedHandsVariant3(Solo48):
         self.add_line('front-1', (19, 33), (20, 37))
         self.add_line('front-2', (20, 37), (13, 44))
         self.add_line('front-3', (13, 44), (25, 44))
-        self.add_contour('back', *('back-1', 'back-2', 'back-3'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('front', *('front-1', 'front-2', 'front-3'), closed=False)
         self.relate('connect', *('arm', 'forearm'))
         self.relate('connect', *('back', 'arm'))
         self.relate('connect', *('front', 'back'))
+        self.add_contour('back', *('back-1',), closed=False)
+        self.add_contour('back-section-1', *('back-2', 'back-3'), closed=False)
+        self.relate('connect', 'back-1', 'back-2')
+        self.relate('connect', 'back-2', 'back-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'back-1', 'back-2')
+        self.relate('connect', 'back-1', 'arm')
+        self.relate('connect', 'back-2', 'back-3')
+        self.relate('connect', 'back-2', 'front-3')
+        self.relate('connect', 'back-3', 'front-3')
+        self.relate('connect', 'arm', 'forearm')
+        self.relate('connect', 'front-1', 'front-2')
+        self.relate('connect', 'front-2', 'front-3')

@@ -1,5 +1,7 @@
 """Reconstruct horse skijoring using its inspected source pose and full_body_ref.png. Head radius 4, center (10, 10), actual torso junction (10, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct horse skijoring using its inspected source pose and full_body_ref.png. Head radius 4, center (10, 10), actual torso junction (10, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Horse Skijoring, independently authored on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -41,7 +43,8 @@ class HorseSkijoringVariant2(Solo48):
 
     def build(self):
         """Reconstruct horse skijoring using its inspected source pose and full_body_ref.png. Head radius 4, center (10, 10), actual torso junction (10, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('skier-head', 10, 10, 4)
+        self.add_arc('skier-head-a', (6, 10), (14, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('skier-head-b', (14, 10), (6, 10), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_bezier('skier-1', (10, 22), *(((10.0, 24.912043955712207), (8.5, 27.25), (8, 29)),))
         self.add_line('skier-2', (8, 29), (14, 33))
         self.add_line('skier-3', (14, 33), (12, 42))
@@ -59,7 +62,7 @@ class HorseSkijoringVariant2(Solo48):
         self.add_line('horse-8', (36, 22), (36, 36))
         self.add_line('horse-9', (36, 36), (36, 42))
         self.add_line('belly', (22, 36), (36, 36))
-        self.add_contour('skier', *('skier-1', 'skier-2', 'skier-3'), closed=False)
+        self.add_contour('skier-head', *('skier-head-a', 'skier-head-b'), closed=True)
         self.add_contour('tether', *('tether-1', 'tether-2'), closed=False)
         self.add_contour('ski', *('ski-1', 'ski-2'), closed=False)
         self.add_contour('horse', *('horse-1', 'horse-2', 'horse-3', 'horse-4', 'horse-5', 'horse-6', 'horse-7', 'horse-8', 'horse-9'), closed=False)
@@ -67,3 +70,29 @@ class HorseSkijoringVariant2(Solo48):
         self.relate('connect', *('ski', 'skier'))
         self.relate('connect', *('horse', 'tether'))
         self.relate('connect', *('belly', 'horse'))
+        self.add_contour('skier', *('skier-1',), closed=False)
+        self.add_contour('skier-section-1', *('skier-2', 'skier-3'), closed=False)
+        self.relate('connect', 'skier-1', 'skier-2')
+        self.relate('connect', 'skier-2', 'skier-3')
+        self.relate('connect', 'skier-head-a', 'skier-head-b')
+        self.relate('connect', 'skier-1', 'skier-2')
+        self.relate('connect', 'skier-1', 'tether-1')
+        self.relate('connect', 'skier-2', 'skier-3')
+        self.relate('connect', 'skier-3', 'ski-1')
+        self.relate('connect', 'skier-3', 'ski-2')
+        self.relate('connect', 'tether-1', 'tether-2')
+        self.relate('connect', 'tether-2', 'horse-2')
+        self.relate('connect', 'tether-2', 'horse-3')
+        self.relate('connect', 'ski-1', 'ski-2')
+        self.relate('connect', 'horse-1', 'horse-2')
+        self.relate('connect', 'horse-1', 'belly')
+        self.relate('connect', 'horse-2', 'horse-3')
+        self.relate('connect', 'horse-2', 'belly')
+        self.relate('connect', 'horse-3', 'horse-4')
+        self.relate('connect', 'horse-4', 'horse-5')
+        self.relate('connect', 'horse-5', 'horse-6')
+        self.relate('connect', 'horse-6', 'horse-7')
+        self.relate('connect', 'horse-7', 'horse-8')
+        self.relate('connect', 'horse-8', 'horse-9')
+        self.relate('connect', 'horse-8', 'belly')
+        self.relate('connect', 'horse-9', 'belly')

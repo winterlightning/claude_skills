@@ -1,5 +1,7 @@
 """Reconstruct seated pregnant person using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct seated pregnant person using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 A pregnant person sits facing right on a curved-backed seat. The rounded belly projects prominently above the bent thighs, while the lower leg drops in front of the seat.
 
 Construction: Seated profile with rounded abdomen and a simple chair back. Bounds (8,4)-(40,44).
@@ -44,7 +46,8 @@ class SeatedPregnantPersonVariant2(Solo48):
 
     def build(self):
         """Reconstruct seated pregnant person using its inspected source pose and full_body_ref.png. Head radius 4, center (18, 8), actual torso junction (18, 20): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 18, 8, 4)
+        self.add_arc('head-a', (14, 8), (22, 8), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('head-b', (22, 8), (14, 8), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_bezier('back-and-leg-1', (18, 20), *(((18.0, 23.36), (19.5, 29.0), (20, 32)),))
         self.add_line('back-and-leg-2', (20, 32), (32, 32))
         self.add_line('back-and-leg-3', (32, 32), (36, 44))
@@ -52,7 +55,17 @@ class SeatedPregnantPersonVariant2(Solo48):
         self.add_line('front-leg', (40, 34), (40, 44))
         self.add_line('chair-1', (8, 23), (8, 42))
         self.add_line('chair-2', (8, 42), (22, 42))
-        self.add_contour('back-and-leg', *('back-and-leg-1', 'back-and-leg-2', 'back-and-leg-3'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('abdomen', *('belly', 'front-leg'), closed=False)
         self.add_contour('chair', *('chair-1', 'chair-2'), closed=False)
         self.relate('connect', *('back-and-leg', 'abdomen'))
+        self.add_contour('back-and-leg', *('back-and-leg-1',), closed=False)
+        self.add_contour('back-and-leg-section-1', *('back-and-leg-2', 'back-and-leg-3'), closed=False)
+        self.relate('connect', 'back-and-leg-1', 'back-and-leg-2')
+        self.relate('connect', 'back-and-leg-2', 'back-and-leg-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'back-and-leg-1', 'back-and-leg-2')
+        self.relate('connect', 'back-and-leg-1', 'belly')
+        self.relate('connect', 'back-and-leg-2', 'back-and-leg-3')
+        self.relate('connect', 'belly', 'front-leg')
+        self.relate('connect', 'chair-1', 'chair-2')

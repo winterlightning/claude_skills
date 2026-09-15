@@ -1,5 +1,7 @@
 """Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 A person leans forward with staggered legs and both arms reaching toward a long diagonal mop handle. The handle ends in a wide rounded cleaning head resting at the lower-left.
 
 Construction: Circular head, leaning stick figure and long mop handle. Limbs share shoulder and hip nodes; reduced filled clothing outline. Bounds (6,6)-(42,42).
@@ -44,7 +46,8 @@ class PersonMoppingVariant2(Solo48):
 
     def build(self):
         """Reconstruct person mopping using its inspected source pose and full_body_ref.png. Head radius 5, center (35, 11), actual torso junction (30, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 35, 11, 5)
+        self.add_arc('head-a', (30, 11), (40, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('head-b', (40, 11), (30, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_bezier('body-1', (30, 23), *(((28.798423126783593, 25.88378449571938), (26.25, 27.5), (25, 29)),))
         self.add_line('body-2', (25, 29), (31, 34))
         self.add_line('body-3', (31, 34), (35, 42))
@@ -62,7 +65,7 @@ class PersonMoppingVariant2(Solo48):
         self.add_arc('mop-head-7', (6, 38), (10, 34), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_line('far-arm', (30, 23), (38, 29))
         self.add_line('foot', (35, 42), (42, 42))
-        self.add_contour('body', *('body-1', 'body-2', 'body-3'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('rear-leg', *('rear-leg-1',), closed=False)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
         self.add_contour('mop-head', *('mop-head-0', 'mop-head-1', 'mop-head-2', 'mop-head-3', 'mop-head-4', 'mop-head-5', 'mop-head-6', 'mop-head-7'), closed=True)
@@ -72,3 +75,30 @@ class PersonMoppingVariant2(Solo48):
         self.relate('connect', *('mop-shaft', 'mop-head'))
         self.relate('connect', *('body', 'far-arm'))
         self.relate('connect', *('body', 'foot'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'rear-leg-1')
+        self.relate('connect', 'body-1', 'arm-1')
+        self.relate('connect', 'body-1', 'far-arm')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-2', 'rear-leg-1')
+        self.relate('connect', 'body-3', 'foot')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-1', 'far-arm')
+        self.relate('connect', 'arm-2', 'mop-shaft')
+        self.relate('connect', 'mop-shaft', 'mop-head-0')
+        self.relate('connect', 'mop-shaft', 'mop-head-7')
+        self.relate('connect', 'mop-head-0', 'mop-head-1')
+        self.relate('connect', 'mop-head-0', 'mop-head-7')
+        self.relate('connect', 'mop-head-1', 'mop-head-2')
+        self.relate('connect', 'mop-head-1', 'mop-head-3')
+        self.relate('connect', 'mop-head-2', 'mop-head-3')
+        self.relate('connect', 'mop-head-3', 'mop-head-4')
+        self.relate('connect', 'mop-head-4', 'mop-head-5')
+        self.relate('connect', 'mop-head-5', 'mop-head-6')
+        self.relate('connect', 'mop-head-5', 'mop-head-7')
+        self.relate('connect', 'mop-head-6', 'mop-head-7')

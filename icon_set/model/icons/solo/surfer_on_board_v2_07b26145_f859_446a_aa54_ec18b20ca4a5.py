@@ -1,5 +1,7 @@
 """Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct surfer on board using its inspected source pose and full_body_ref.png. Head radius 5, center (30, 13), actual torso junction (25, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Surfer on Board. Crouching surfer extends arms for balance on a right-sloping board; retain upward-curling left tip.
@@ -61,10 +63,29 @@ class SurferOnBoardVariant2(Solo48):
         self.add_line('board-2', (27, 38), (44, 40))
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arms', *('arms-1', 'arms-2', 'arms-3'), closed=False)
-        self.add_contour('body', *('body-1', 'body-2', 'body-3'), closed=False)
         self.add_contour('rear-leg', *('rear-leg-1', 'rear-leg-2'), closed=False)
         self.add_contour('surfboard', *('board-tip', 'board-1', 'board-2'), closed=False)
         self.relate('connect', *('arms', 'body'))
         self.relate('connect', *('rear-leg', 'body'))
         self.relate('connect', *('surfboard', 'rear-leg'))
         self.relate('connect', *('surfboard', 'body'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2', 'body-3'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-2', 'arms-3')
+        self.relate('connect', 'arms-2', 'body-1')
+        self.relate('connect', 'arms-3', 'body-1')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'rear-leg-1')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-2', 'rear-leg-1')
+        self.relate('connect', 'body-3', 'board-1')
+        self.relate('connect', 'body-3', 'board-2')
+        self.relate('connect', 'rear-leg-1', 'rear-leg-2')
+        self.relate('connect', 'rear-leg-2', 'board-tip')
+        self.relate('connect', 'rear-leg-2', 'board-1')
+        self.relate('connect', 'board-tip', 'board-1')
+        self.relate('connect', 'board-1', 'board-2')

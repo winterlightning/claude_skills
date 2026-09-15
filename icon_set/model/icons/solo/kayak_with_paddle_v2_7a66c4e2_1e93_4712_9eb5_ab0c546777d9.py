@@ -1,5 +1,7 @@
 """Reconstruct the pointed kayak with mirrored hull curves and two matching rounded paddle blades. Paddle moved alongside to preserve both blades and the cockpit counter at SOLO48. Source kayak inspected; Lucide sailboat informs a coherent hull, with deliberate equipment asymmetry.
 
+Reconstruct the pointed kayak with mirrored hull curves and two matching rounded paddle blades. Paddle moved alongside to preserve both blades and the cockpit counter at SOLO48. Source kayak inspected; Lucide sailboat informs a coherent hull, with deliberate equipment asymmetry.
+
 Kayak with Paddle, re-authored from its reference on SOLO48."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -42,11 +44,6 @@ class KayakWithPaddleVariant2(Solo48):
     def build(self):
         """Reconstruct the pointed kayak with mirrored hull curves and two matching rounded paddle blades. Paddle moved alongside to preserve both blades and the cockpit counter at SOLO48. Source kayak inspected; Lucide sailboat informs a coherent hull, with deliberate equipment asymmetry."""
         axis = 16
-        self.add_arc('hull-rt', (axis, 8), (28, 24), radius_x=20)
-        self.add_arc('hull-rb', (28, 24), (axis, 40), radius_x=20)
-        self.add_arc('hull-lb', (axis, 40), (4, 24), radius_x=20)
-        self.add_arc('hull-lt', (4, 24), (axis, 8), radius_x=20)
-        self.add_contour('hull', 'hull-rt', 'hull-rb', 'hull-lb', 'hull-lt', closed=True)
         for name, top in [('upper', 8), ('lower', 28)]:
             self.add_arc(name + '-t1', (36, top + 4), (40, top), radius_x=4)
             self.add_arc(name + '-t2', (40, top), (44, top + 4), radius_x=4)
@@ -58,3 +55,8 @@ class KayakWithPaddleVariant2(Solo48):
         self.add_line('shaft', (40, 20), (40, 28))
         self.relate('connect', 'shaft', 'upper')
         self.relate('connect', 'shaft', 'lower')
+        self.add_bezier('hull-rt', (17, 8), ((25, 14), (30, 18), (30, 24)))
+        self.add_bezier('hull-rb', (30, 24), ((30, 30), (25, 34), (17, 40)))
+        self.add_bezier('hull-lb', (17, 40), ((9, 34), (4, 30), (4, 24)))
+        self.add_bezier('hull-lt', (4, 24), ((4, 18), (9, 14), (17, 8)))
+        self.add_contour('hull', 'hull-rt', 'hull-rb', 'hull-lb', 'hull-lt', closed=True)

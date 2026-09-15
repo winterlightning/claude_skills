@@ -1,5 +1,7 @@
 """Reconstruct person leaning over toilet using its inspected source pose and full_body_ref.png. Head radius 5, center (21, 13), actual torso junction (16, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct person leaning over toilet using its inspected source pose and full_body_ref.png. Head radius 5, center (21, 13), actual torso junction (16, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct person leaning over toilet using its inspected source pose and full_body_ref.png. Head radius 5, center (21, 13), actual torso junction (16, 25): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 A person kneels facing right and bends over an open toilet bowl. Both arms reach onto the rim, while the head hangs over the bowl beside its tall rear tank.
@@ -59,9 +61,23 @@ class PersonLeaningOverToiletVariant2(Solo48):
         self.add_line('toilet-4', (44, 18), (44, 40))
         self.add_arc('bowl', (30, 28), (38, 36), radius_x=8, radius_y=8, large_arc=False, sweep=True)
         self.add_contour('person-head', *('person-head-a', 'person-head-b'), closed=True)
-        self.add_contour('person-back', *('person-back-1', 'person-back-2', 'person-back-3'), closed=False)
         self.add_contour('person-arm', *('person-arm-1', 'person-arm-2'), closed=False)
         self.add_contour('toilet', *('toilet-1', 'toilet-2', 'toilet-3', 'toilet-4'), closed=False)
         self.relate('connect', *('person-back', 'person-arm'))
         self.relate('connect', *('bowl', 'toilet'))
         self.relate('connect', *('person-arm', 'toilet'))
+        self.add_contour('person-back', *('person-back-1',), closed=False)
+        self.add_contour('person-back-section-1', *('person-back-2', 'person-back-3'), closed=False)
+        self.relate('connect', 'person-back-1', 'person-back-2')
+        self.relate('connect', 'person-back-2', 'person-back-3')
+        self.relate('connect', 'person-head-a', 'person-head-b')
+        self.relate('connect', 'person-back-1', 'person-back-2')
+        self.relate('connect', 'person-back-1', 'person-arm-1')
+        self.relate('connect', 'person-back-2', 'person-back-3')
+        self.relate('connect', 'person-arm-1', 'person-arm-2')
+        self.relate('connect', 'person-arm-2', 'toilet-1')
+        self.relate('connect', 'person-arm-2', 'bowl')
+        self.relate('connect', 'toilet-1', 'toilet-2')
+        self.relate('connect', 'toilet-1', 'bowl')
+        self.relate('connect', 'toilet-2', 'toilet-3')
+        self.relate('connect', 'toilet-3', 'toilet-4')

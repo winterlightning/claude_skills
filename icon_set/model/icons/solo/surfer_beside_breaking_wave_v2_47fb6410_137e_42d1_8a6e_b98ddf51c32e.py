@@ -1,5 +1,7 @@
 """Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 Surfer Beside Breaking Wave. Surfer balances on a sloping board beside a tall breaking wave; retain one bent leg and simplify the smaller waves to one joined baseline.
 Keyshape SQUARE, visible extremes (4, 4, 44, 44); centerline envelope inset by 2.
 Construction: Lucide person-standing: a circular head and sparse articulated limbs. Source establishes the subject and pose.
@@ -44,7 +46,8 @@ class SurferBesideBreakingWaveVariant2(Solo48):
 
     def build(self):
         """Reconstruct surfer beside breaking wave using its inspected source pose and full_body_ref.png. Head radius 5, center (17, 11), actual torso junction (17, 24): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 17, 11, 5)
+        self.add_arc('head-a', (12, 11), (22, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('head-b', (22, 11), (12, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_line('arms-1', (6, 24), (17, 24))
         self.add_line('arms-2', (17, 24), (27, 25))
         self.add_bezier('body-1', (17, 24), *(((17.0, 26.0), (14.0, 26.25), (13, 27)),))
@@ -55,10 +58,24 @@ class SurferBesideBreakingWaveVariant2(Solo48):
         self.add_line('wave-wall', (40, 20), (40, 34))
         self.add_arc('wave-foot', (40, 34), (42, 42), radius_x=2, radius_y=8, large_arc=False, sweep=False)
         self.add_line('water', (6, 42), (42, 42))
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arms', *('arms-1', 'arms-2'), closed=False)
-        self.add_contour('body', *('body-1', 'body-2'), closed=False)
         self.add_contour('board', *('board-1', 'board-2'), closed=False)
         self.add_contour('breaking-wave', *('wave-crest', 'wave-wall', 'wave-foot'), closed=False)
         self.relate('connect', *('arms', 'body'))
         self.relate('connect', *('board', 'body'))
         self.relate('connect', *('water', 'breaking-wave'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2',), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'arms-1', 'arms-2')
+        self.relate('connect', 'arms-1', 'body-1')
+        self.relate('connect', 'arms-2', 'body-1')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'board-1')
+        self.relate('connect', 'body-2', 'board-2')
+        self.relate('connect', 'board-1', 'board-2')
+        self.relate('connect', 'wave-crest', 'wave-wall')
+        self.relate('connect', 'wave-wall', 'wave-foot')
+        self.relate('connect', 'wave-foot', 'water')

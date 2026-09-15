@@ -1,5 +1,7 @@
 """Reconstruct person riding handcycle using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 12), actual torso junction (16, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct person riding handcycle using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 12), actual torso junction (16, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 A seated rider faces right on a low cycle with two visible round wheels. Both hands reach toward a raised hand crank, and the bent legs extend toward the front wheel.
 
 Construction: Seated rider between two wheels, arms extending toward a raised hand crank. Bounds (4,8)-(44,40).
@@ -44,7 +46,8 @@ class PersonRidingHandcycleVariant2(Solo48):
 
     def build(self):
         """Reconstruct person riding handcycle using its inspected source pose and full_body_ref.png. Head radius 4, center (16, 12), actual torso junction (16, 24): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('person-head', 16, 12, 4)
+        self.add_arc('person-head-a', (12, 12), (20, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('person-head-b', (20, 12), (12, 12), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_arc('rear-wheel-top-joint-1', (4, 33), (11, 26), radius_x=7, radius_y=7, large_arc=False, sweep=True)
         self.add_arc('rear-wheel-top-joint-2', (11, 26), (18, 33), radius_x=7, radius_y=7, large_arc=False, sweep=True)
         self.add_arc('rear-wheel-bottom', (18, 33), (4, 33), radius_x=7, radius_y=7, large_arc=False, sweep=True)
@@ -59,9 +62,9 @@ class PersonRidingHandcycleVariant2(Solo48):
         self.add_line('frame-2', (18, 26), (26, 26))
         self.add_line('frame-3', (26, 26), (37, 26))
         self.add_line('crank', (32, 18), (37, 26))
+        self.add_contour('person-head', *('person-head-a', 'person-head-b'), closed=True)
         self.add_contour('rear-wheel', *('rear-wheel-top-joint-1', 'rear-wheel-top-joint-2', 'rear-wheel-bottom'), closed=True)
         self.add_contour('front-wheel', *('front-wheel-top-joint-1', 'front-wheel-top-joint-2', 'front-wheel-bottom'), closed=True)
-        self.add_contour('person-body', *('person-body-1', 'person-body-2'), closed=False)
         self.add_contour('person-arms', *('person-arms-1', 'person-arms-2'), closed=False)
         self.add_contour('frame', *('frame-1', 'frame-2', 'frame-3'), closed=False)
         self.relate('connect', *('person-body', 'person-arms'))
@@ -70,3 +73,31 @@ class PersonRidingHandcycleVariant2(Solo48):
         self.relate('connect', *('frame', 'person-body'))
         self.relate('connect', *('crank', 'person-arms'))
         self.relate('connect', *('crank', 'frame'))
+        self.add_contour('person-body', *('person-body-1',), closed=False)
+        self.add_contour('person-body-section-1', *('person-body-2',), closed=False)
+        self.relate('connect', 'person-body-1', 'person-body-2')
+        self.relate('connect', 'person-head-a', 'person-head-b')
+        self.relate('connect', 'rear-wheel-top-joint-1', 'rear-wheel-top-joint-2')
+        self.relate('connect', 'rear-wheel-top-joint-1', 'rear-wheel-bottom')
+        self.relate('connect', 'rear-wheel-top-joint-1', 'frame-1')
+        self.relate('connect', 'rear-wheel-top-joint-2', 'rear-wheel-bottom')
+        self.relate('connect', 'rear-wheel-top-joint-2', 'frame-1')
+        self.relate('connect', 'front-wheel-top-joint-1', 'front-wheel-top-joint-2')
+        self.relate('connect', 'front-wheel-top-joint-1', 'front-wheel-bottom')
+        self.relate('connect', 'front-wheel-top-joint-1', 'frame-3')
+        self.relate('connect', 'front-wheel-top-joint-1', 'crank')
+        self.relate('connect', 'front-wheel-top-joint-2', 'front-wheel-bottom')
+        self.relate('connect', 'front-wheel-top-joint-2', 'frame-3')
+        self.relate('connect', 'front-wheel-top-joint-2', 'crank')
+        self.relate('connect', 'person-body-1', 'person-body-2')
+        self.relate('connect', 'person-body-1', 'person-arms-1')
+        self.relate('connect', 'person-body-1', 'frame-1')
+        self.relate('connect', 'person-body-1', 'frame-2')
+        self.relate('connect', 'person-body-2', 'frame-1')
+        self.relate('connect', 'person-body-2', 'frame-2')
+        self.relate('connect', 'person-body-2', 'frame-3')
+        self.relate('connect', 'person-arms-1', 'person-arms-2')
+        self.relate('connect', 'person-arms-2', 'crank')
+        self.relate('connect', 'frame-1', 'frame-2')
+        self.relate('connect', 'frame-2', 'frame-3')
+        self.relate('connect', 'frame-3', 'crank')

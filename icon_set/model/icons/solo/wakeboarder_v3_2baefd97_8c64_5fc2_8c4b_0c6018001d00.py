@@ -1,5 +1,7 @@
 """Reconstruct wakeboarder using its inspected source pose and full_body_ref.png. Head radius 4, center (35, 10), actual torso junction (35, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct wakeboarder using its inspected source pose and full_body_ref.png. Head radius 4, center (35, 10), actual torso junction (35, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct wakeboarder using its inspected source pose and full_body_ref.png. Head radius 4, center (35, 10), actual torso junction (35, 22): squared distance 144, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Wakeboarder. Wakeboarder leans back against a triangular tow handle above a rounded board; reduce the paired legs to one bent leg and omit doubled arms.
@@ -63,9 +65,33 @@ class WakeboarderVariant3(Solo48):
         self.add_line('board-bottom', (38, 42), (18, 42))
         self.add_arc('board-left', (18, 42), (18, 34), radius_x=4, radius_y=4, large_arc=False, sweep=True)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('rider', *('rider-1', 'rider-2', 'rider-3', 'rider-4'), closed=False)
         self.add_contour('handle', *('handle-1', 'handle-2', 'handle-3', 'handle-4'), closed=True)
         self.add_contour('board', *('board-top-1', 'board-top-2', 'board-right', 'board-bottom', 'board-left'), closed=True)
         self.relate('connect', *('rope', 'handle'))
         self.relate('connect', *('handle', 'rider'))
         self.relate('connect', *('board', 'rider'))
+        self.add_contour('rider', *('rider-1',), closed=False)
+        self.add_contour('rider-section-1', *('rider-2',), closed=False)
+        self.add_contour('rider-section-2', *('rider-3', 'rider-4'), closed=False)
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-3', 'rider-4')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'rider-1', 'rider-2')
+        self.relate('connect', 'rider-1', 'handle-2')
+        self.relate('connect', 'rider-1', 'handle-3')
+        self.relate('connect', 'rider-2', 'rider-3')
+        self.relate('connect', 'rider-3', 'rider-4')
+        self.relate('connect', 'rider-4', 'board-top-1')
+        self.relate('connect', 'rider-4', 'board-top-2')
+        self.relate('connect', 'handle-1', 'handle-2')
+        self.relate('connect', 'handle-1', 'handle-4')
+        self.relate('connect', 'handle-1', 'rope')
+        self.relate('connect', 'handle-2', 'handle-3')
+        self.relate('connect', 'handle-3', 'handle-4')
+        self.relate('connect', 'handle-4', 'rope')
+        self.relate('connect', 'board-top-1', 'board-top-2')
+        self.relate('connect', 'board-top-1', 'board-left')
+        self.relate('connect', 'board-top-2', 'board-right')
+        self.relate('connect', 'board-right', 'board-bottom')
+        self.relate('connect', 'board-bottom', 'board-left')

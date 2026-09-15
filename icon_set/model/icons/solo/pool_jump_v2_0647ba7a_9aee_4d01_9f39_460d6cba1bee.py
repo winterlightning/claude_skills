@@ -1,5 +1,7 @@
 """Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
 
+Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance. Adjust the adjoining arm/pack endpoints together so the enlarged head remains clear of every branch.
+
 Reconstruct pool jump using its inspected source pose and full_body_ref.png. Head radius 5, center (36, 18), actual torso junction (24, 23): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
 Pool Jump, independently authored on SOLO48."""
@@ -56,8 +58,23 @@ class PoolJumpVariant2(Solo48):
         self.add_arc('water-a', (30, 40), (36, 40), radius_x=3, radius_y=2, large_arc=False, sweep=True)
         self.add_arc('water-b', (36, 40), (42, 40), radius_x=3, radius_y=2, large_arc=False, sweep=False)
         self.add_contour('head', *('head-a', 'head-b'), closed=True)
-        self.add_contour('body', *('body-1', 'body-2', 'body-3', 'body-4'), closed=False)
         self.add_contour('edge', *('edge-1', 'edge-2', 'edge-3'), closed=False)
         self.add_contour('water', *('water-a', 'water-b'), closed=False)
         self.relate('connect', *('arm', 'body'))
         self.relate('connect', *('edge', 'water'))
+        self.add_contour('body', *('body-1',), closed=False)
+        self.add_contour('body-section-1', *('body-2',), closed=False)
+        self.add_contour('body-section-2', *('body-3', 'body-4'), closed=False)
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-3', 'body-4')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-1', 'body-2')
+        self.relate('connect', 'body-1', 'arm')
+        self.relate('connect', 'body-2', 'body-3')
+        self.relate('connect', 'body-2', 'arm')
+        self.relate('connect', 'body-3', 'body-4')
+        self.relate('connect', 'edge-1', 'edge-2')
+        self.relate('connect', 'edge-2', 'edge-3')
+        self.relate('connect', 'edge-3', 'water-a')
+        self.relate('connect', 'water-a', 'water-b')

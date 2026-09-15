@@ -1,5 +1,7 @@
 """Reconstruct person pushing wall using its inspected source pose and full_body_ref.png. Head radius 5, center (27, 14), actual torso junction (22, 26): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
 
+Reconstruct person pushing wall using its inspected source pose and full_body_ref.png. Head radius 5, center (27, 14), actual torso junction (22, 26): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance.
+
 A leaning person pressing against a wall. SQUARE extremes (6,6)-(42,42). Lucide person-standing informs connected limb construction; no exact pushing match. Preserve the bent knee and right wall, and make the hand contact explicit."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -41,7 +43,8 @@ class PersonPushingWallVariant2(Solo48):
 
     def build(self):
         """Reconstruct person pushing wall using its inspected source pose and full_body_ref.png. Head radius 5, center (27, 14), actual torso junction (22, 26): squared distance 169, centerline clearance8 and painted clearance4. Upper torso tangent follows that axis; preserve the subject's limb action and equipment. Shared Lucide person-standing joints; updated approaching-ball example informs head/body balance."""
-        self.ring('head', 27, 14, 5)
+        self.add_arc('head-a', (22, 14), (32, 14), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_arc('head-b', (32, 14), (22, 14), radius_x=5, radius_y=5, large_arc=False, sweep=True)
         self.add_bezier('body-back-leg-1', (22, 26), *(((20.6, 29.36), (17.5, 32.0), (16, 34)),))
         self.add_line('body-back-leg-2', (16, 34), (6, 42))
         self.add_line('arm-1', (22, 26), (30, 30))
@@ -50,10 +53,23 @@ class PersonPushingWallVariant2(Solo48):
         self.add_line('front-leg-2', (28, 34), (24, 42))
         self.add_line('wall-1', (42, 6), (42, 22))
         self.add_line('wall-2', (42, 22), (42, 42))
-        self.add_contour('body-back-leg', *('body-back-leg-1', 'body-back-leg-2'), closed=False)
+        self.add_contour('head', *('head-a', 'head-b'), closed=True)
         self.add_contour('arm', *('arm-1', 'arm-2'), closed=False)
         self.add_contour('front-leg', *('front-leg-1', 'front-leg-2'), closed=False)
         self.add_contour('wall', *('wall-1', 'wall-2'), closed=False)
         self.relate('connect', *('body-back-leg', 'arm'))
         self.relate('connect', *('body-back-leg', 'front-leg'))
         self.relate('connect', *('arm', 'wall'))
+        self.add_contour('body-back-leg', *('body-back-leg-1',), closed=False)
+        self.add_contour('body-back-leg-section-1', *('body-back-leg-2',), closed=False)
+        self.relate('connect', 'body-back-leg-1', 'body-back-leg-2')
+        self.relate('connect', 'head-a', 'head-b')
+        self.relate('connect', 'body-back-leg-1', 'body-back-leg-2')
+        self.relate('connect', 'body-back-leg-1', 'arm-1')
+        self.relate('connect', 'body-back-leg-1', 'front-leg-1')
+        self.relate('connect', 'body-back-leg-2', 'front-leg-1')
+        self.relate('connect', 'arm-1', 'arm-2')
+        self.relate('connect', 'arm-2', 'wall-1')
+        self.relate('connect', 'arm-2', 'wall-2')
+        self.relate('connect', 'front-leg-1', 'front-leg-2')
+        self.relate('connect', 'wall-1', 'wall-2')
