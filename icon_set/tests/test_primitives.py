@@ -76,7 +76,7 @@ class CatalogTests(unittest.TestCase):
             with patch.dict(os.environ, {'PICTOGRAPHIC_PRIMITIVES': tmp}):
                 self.assertEqual(primitives_root(), root.resolve())
         self.assertEqual(primitives_root('/x/y'), Path('/x/y').resolve())
-        self.assertNotEqual(primitives_root().parent.name, 'claude_skills')
+        self.assertEqual(primitives_root(), (REPO_ROOT / 'pictographic-primitives').resolve())
 
     @unittest.skipUnless(primitives_root().is_dir(), 'original primitives are not available')
     def test_indexed_links_match_category_report_rules_on_real_models(self):

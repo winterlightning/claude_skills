@@ -577,9 +577,9 @@ by skip reason, and by text. Logged-in users can select tiles and mark them SKIP
   change is written to `activity_log`.
 - The catalog `gallery/primitives.json` is rebuilt by every build, or on its own with
   `python3 icon_set/scripts/primitives_catalog.py`. It reads the original 1024 artwork from
-  `--primitives`, `$PICTOGRAPHIC_PRIMITIVES`, or `../icon_simplification/pictographic-primitives`
-  (not `claude_skills/pictographic-primitives`, which holds 48u conversions). `deploy.py
-  --primitives DIR` serves the originals at `/primitives/...` for the page.
+  `--primitives`, `$PICTOGRAPHIC_PRIMITIVES`, or the repository's `pictographic-primitives`
+  folder, which holds the original 1024 artwork (the catalog warns if it finds 48u
+  conversions instead). `deploy.py` serves those originals at `/primitives/...` for the page.
 
 Agents mark skips per category with the CLI, which writes the same database:
 

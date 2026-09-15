@@ -758,7 +758,7 @@ def main(argv=None):
     parser.add_argument('--port', type=int, default=8000)
     parser.add_argument('--open', action='store_true', help='Open the local browser')
     parser.add_argument('--primitives', type=Path, help='Original primitives folder for the Primitives page '
-                                                        '(default $PICTOGRAPHIC_PRIMITIVES or icon_simplification/pictographic-primitives)')
+                                                        '(default $PICTOGRAPHIC_PRIMITIVES or claude_skills/pictographic-primitives)')
     args = parser.parse_args(argv)
     try:
         server = create_server(args.dist, args.database, args.host, args.port, args.primitives)

@@ -45,12 +45,12 @@ _VIEWBOX = re.compile(r'viewBox="([^"]+)"')
 
 
 def primitives_root(explicit: str | Path | None = None) -> Path:
-    """--primitives, then $PICTOGRAPHIC_PRIMITIVES, then the workspace's original artwork.
-    claude_skills/pictographic-primitives is deliberately not a fallback: it holds 48u conversions."""
+    """--primitives, then $PICTOGRAPHIC_PRIMITIVES, then the repository's pictographic-primitives
+    folder, which holds the original 1024 artwork."""
     value = explicit or os.environ.get(ROOT_ENV)
     if value:
         return Path(value).expanduser().resolve()
-    return (REPO_ROOT.parent / 'icon_simplification' / 'pictographic-primitives').resolve()
+    return (REPO_ROOT / 'pictographic-primitives').resolve()
 
 
 def _relative_primitive_path(path: str | Path | None) -> str | None:
@@ -133,7 +133,7 @@ def conversion_warning(root: Path, rows: list[dict], sample: int = 40) -> str | 
         boxes[match[1].split()[-1] if match else None] += 1
     if boxes and boxes.most_common(1)[0][0] in ('48', '48.0'):
         return (f'{root} looks like 48u conversions, not the original artwork; '
-                f'point --primitives at icon_simplification/pictographic-primitives')
+                f'restore the original 1024 artwork or point --primitives at it')
     return None
 
 
@@ -209,7 +209,7 @@ def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = No
         summary[state] += 1
     return {
         'generated_at': datetime.now(timezone.utc).isoformat(timespec='seconds'),
-        'root_label': root.name if root.parent.name != 'icon_simplification' else 'icon_simplification/' + root.name,
+        'root_label': root.name,
         'warning': warning,
         'count': len(rows),
         'categories': {name: dict(counts) for name, counts in categories.items()},
@@ -239,7 +239,7 @@ def write_catalog(target: Path, built: dict, failed: dict, root: Path | None = N
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument('--primitives', type=Path, help=f'Original primitives folder (default ${ROOT_ENV} or '
-                                                        'icon_simplification/pictographic-primitives)')
+                                                        'claude_skills/pictographic-primitives)')
     parser.add_argument('--dist', type=Path, default=DEFAULT_DIST)
     args = parser.parse_args(argv)
     icons_json = args.dist / 'gallery' / 'icons.json'
