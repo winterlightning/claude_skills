@@ -1,10 +1,9 @@
-"""Cup 1 (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""cup-1: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f748c868-065c-4348-8b9f-0e60c63d3e9f'
 SOURCE_PATH = 'icons-json/symbol/cup 1_f748c868-065c-4348-8b9f-0e60c63d3e9f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cup1(Solo48):
     icon_id = 'cup-1'
@@ -13,29 +12,40 @@ class Cup1(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('cup', 'symbol')
+    keywords = ('cup', 'symbol', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (34, 13), (37, 13))
-        self.add_line('e1', (34, 13), (34, 30))
-        self.add_line('e2', (34, 13), (34, 8))
-        self.add_line('e3', (34, 8), (4, 8))
-        self.add_line('e4', (4, 8), (4, 31))
-        self.add_line('e5', (15, 40), (24, 40))
-        self.add_arc('e6-1', (37, 13), (43, 16), radius_x=7)
-        self.add_line('e6-2', (43, 16), (44, 22))
-        self.add_line('e6-3', (44, 22), (43, 26))
-        self.add_arc('e6-4', (43, 26), (40, 29), radius_x=6)
-        self.add_arc('e6-5', (40, 29), (34, 30), radius_x=15)
-        self.add_arc('e7-1', (4, 31), (14, 40), radius_x=11, sweep=False)
-        self.add_arc('e7-2', (14, 40), (15, 40), radius_x=22)
-        self.add_arc('e8', (24, 40), (34, 30), radius_x=10, sweep=False)
-        self.add_contour('c0', 'e0', 'e6-1', 'e6-2', 'e6-3', 'e6-4', 'e6-5')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e3', 'e4', 'e7-1', 'e7-2', 'e5', 'e8')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: Keep the source cup bowl and a full-size handle opening. Rounded base corners and handle radii are coherent; cup depth and handle profile distinguish this version.
+        # Reference: Lucide coffee original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('cup',(4,8),[('L',(32,8)),('L',(32,16)),('L',(32,30)),('C',(20,40),(32,38),(26,40)),('L',(16,40)),('C',(4,30),(8,40),(4,37)),('L',(4,8))],True)
+        poly('handle',(32,16),(40,16),(44,22),(44,28),(40,32),(32,32));join('handle','cup')

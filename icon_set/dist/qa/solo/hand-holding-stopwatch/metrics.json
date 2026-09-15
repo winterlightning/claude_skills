@@ -3,9 +3,16 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [watch / button]: dial-right and button-2 have 0.0145 units of ink clearance over 2.9988 units; requires 4; review required",
+    "internal-spacing [watch / hand]: dial-right and fingers-side have 2.5282 units of ink clearance over 4.75 units; requires 4; review required",
+    "internal-spacing [watch / hand]: dial-right and wrist-slope have -2.7705 units of ink clearance over 5.3852 units; requires 4; review required",
+    "internal-spacing [watch / button]: dial-left and button-1 have 0.0145 units of ink clearance over 2.9988 units; requires 4; review required",
+    "internal-spacing [watch / hand]: dial-left and wrist have 0.5848 units of ink clearance over 5.75 units; requires 4; review required",
+    "internal-spacing [watch / upper-wrist]: dial-left and upper-wrist have -3.7955 units of ink clearance over 2.6758 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -757,6 +764,70 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          28.8594,
+          22.7656
+        ],
+        "bbox_viewbox": [
+          10.0,
+          12.0,
+          24.0,
+          24.0
+        ],
+        "bbox_ship_px": [
+          24.0,
+          24.0
+        ],
+        "bbox_design_u": [
+          24.0,
+          24.0
+        ],
+        "area_ship_px2": 417.2178,
+        "equivalent_diameter_ship_px": 23.0482,
+        "equivalent_diameter_design_u": 23.0482,
+        "inscribed_diameter_ship_px": 10.1325,
+        "inscribed_diameter_design_u": 10.1325,
+        "inscribed_radius_ship_px": 5.0662,
+        "inscribed_radius_design_u": 5.0662,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          37.6406,
+          33.6406
+        ],
+        "bbox_viewbox": [
+          32.5938,
+          26.0,
+          7.4062,
+          10.0
+        ],
+        "bbox_ship_px": [
+          7.4062,
+          10.0
+        ],
+        "bbox_design_u": [
+          7.4062,
+          10.0
+        ],
+        "area_ship_px2": 38.1631,
+        "equivalent_diameter_ship_px": 6.9707,
+        "equivalent_diameter_design_u": 6.9707,
+        "inscribed_diameter_ship_px": 4.7061,
+        "inscribed_diameter_design_u": 4.7061,
+        "inscribed_radius_ship_px": 2.3531,
+        "inscribed_radius_design_u": 2.3531,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -845,15 +916,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -869,21 +941,149 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "watch / button",
+        "elements": [
+          "dial-right",
+          "button-2"
+        ],
+        "status": "review",
+        "sustained_length": 2.9988,
+        "centerline_distance": 4.0145,
+        "ink_gap": 0.0145,
+        "nearest_points": [
+          [
+            22.624516333788172,
+            10.014494384045957
+          ],
+          [
+            22.624516333788172,
+            6.0
+          ]
+        ]
+      },
+      {
+        "contour": "watch / hand",
+        "elements": [
+          "dial-right",
+          "fingers-side"
+        ],
+        "status": "review",
+        "sustained_length": 4.75,
+        "centerline_distance": 6.5282,
+        "ink_gap": 2.5282,
+        "nearest_points": [
+          [
+            35.63364451792425,
+            27.180458370150575
+          ],
+          [
+            42.0,
+            28.625
+          ]
+        ]
+      },
+      {
+        "contour": "watch / hand",
+        "elements": [
+          "dial-right",
+          "wrist-slope"
+        ],
+        "status": "review",
+        "sustained_length": 5.3852,
+        "centerline_distance": 1.2295,
+        "ink_gap": -2.7705,
+        "nearest_points": [
+          [
+            26.991900647747034,
+            37.07920708961994
+          ],
+          [
+            27.43181818181818,
+            38.22727272727273
+          ]
+        ]
+      },
+      {
+        "contour": "watch / button",
+        "elements": [
+          "dial-left",
+          "button-1"
+        ],
+        "status": "review",
+        "sustained_length": 2.9988,
+        "centerline_distance": 4.0145,
+        "ink_gap": 0.0145,
+        "nearest_points": [
+          [
+            21.375483666211824,
+            10.014494384045957
+          ],
+          [
+            21.375483666211824,
+            6.0
+          ]
+        ]
+      },
+      {
+        "contour": "watch / hand",
+        "elements": [
+          "dial-left",
+          "wrist"
+        ],
+        "status": "review",
+        "sustained_length": 5.75,
+        "centerline_distance": 4.5848,
+        "ink_gap": 0.5848,
+        "nearest_points": [
+          [
+            18.537708992240983,
+            37.565122224941106
+          ],
+          [
+            17.375,
+            42.0
+          ]
+        ]
+      },
+      {
+        "contour": "watch / upper-wrist",
+        "elements": [
+          "dial-left",
+          "upper-wrist"
+        ],
+        "status": "review",
+        "sustained_length": 2.6758,
+        "centerline_distance": 0.2045,
+        "ink_gap": -3.7955,
+        "nearest_points": [
+          [
+            8.011961809893178,
+            24.56780151606412
+          ],
+          [
+            7.807692307692308,
+            24.576923076923077
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

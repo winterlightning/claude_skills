@@ -3,9 +3,11 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [body / surfboard]: body-2 and board-1 have 0.6729 units of ink clearance over 7.6961 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -470,6 +472,81 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          27.9844,
+          10.9844
+        ],
+        "bbox_viewbox": [
+          27.0,
+          10.0,
+          2.0,
+          2.0
+        ],
+        "bbox_ship_px": [
+          2.0,
+          2.0
+        ],
+        "bbox_design_u": [
+          2.0,
+          2.0
+        ],
+        "area_ship_px2": 3.1523,
+        "equivalent_diameter_ship_px": 2.0034,
+        "equivalent_diameter_design_u": 2.0034,
+        "inscribed_diameter_ship_px": 1.9479,
+        "inscribed_diameter_design_u": 1.9479,
+        "inscribed_radius_ship_px": 0.9739,
+        "inscribed_radius_design_u": 0.9739,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass",
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "head",
+          "center": [
+            28.0,
+            11.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          20.2656,
+          33.5469
+        ],
+        "bbox_viewbox": [
+          16.2812,
+          31.4688,
+          9.4062,
+          4.3438
+        ],
+        "bbox_ship_px": [
+          9.4062,
+          4.3438
+        ],
+        "bbox_design_u": [
+          9.4062,
+          4.3438
+        ],
+        "area_ship_px2": 19.9707,
+        "equivalent_diameter_ship_px": 5.0426,
+        "equivalent_diameter_design_u": 5.0426,
+        "inscribed_diameter_ship_px": 3.3125,
+        "inscribed_diameter_design_u": 3.3125,
+        "inscribed_radius_ship_px": 1.6562,
+        "inscribed_radius_design_u": 1.6562,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -601,15 +678,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -625,21 +703,44 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "body / surfboard",
+        "elements": [
+          "body-2",
+          "board-1"
+        ],
+        "status": "review",
+        "sustained_length": 7.6961,
+        "centerline_distance": 4.6729,
+        "ink_gap": 0.6729,
+        "nearest_points": [
+          [
+            26.842105263157894,
+            33.276315789473685
+          ],
+          [
+            26.2961199928147,
+            37.91719058738996
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

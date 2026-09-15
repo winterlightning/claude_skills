@@ -1,10 +1,9 @@
-"""Battery 1 (state), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""battery-1: AI stroke review; parent retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd59453b3-a555-48ec-9434-865bcda7a62f'
 SOURCE_PATH = 'icons-json/state/battery 1_d59453b3-a555-48ec-9434-865bcda7a62f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Battery1(Solo48):
     icon_id = 'battery-1'
@@ -13,37 +12,41 @@ class Battery1(Solo48):
     semantic_kind = 'noun'
     category = 'state'
     aliases = ()
-    keywords = ('battery', 'state')
+    keywords = ('battery', 'state', 'solo-ai-first50')
 
     def build(self):
-        self.add_line('e0', (44, 19), (44, 29))
-        self.add_line('e1', (42, 31), (37, 31))
-        self.add_line('e2', (36, 17), (36, 31))
-        self.add_line('e3', (36, 17), (36, 10))
-        self.add_line('e4', (33, 8), (29, 8))
-        self.add_line('e5', (29, 8), (31, 8))
-        self.add_line('e6', (31, 8), (6, 8))
-        self.add_line('e7', (4, 10), (4, 38))
-        self.add_line('e8', (6, 40), (31, 40))
-        self.add_line('e9', (31, 40), (29, 40))
-        self.add_line('e10', (29, 40), (33, 40))
-        self.add_line('e11', (36, 38), (36, 31))
-        self.add_arc('e12', (37, 17), (44, 19), radius_x=5)
-        self.add_arc('e13', (44, 29), (42, 31), radius_x=2)
-        self.add_line('e14', (36, 10), (33, 8))
-        self.add_line('e15', (6, 8), (4, 10))
-        self.add_line('e16', (4, 38), (6, 40))
-        self.add_line('e17', (33, 40), (36, 38))
-        self.add_arc('e18', (36, 17), (37, 17), radius_x=48)
-        self.add_arc('e19', (36, 31), (37, 31), radius_x=37, sweep=False)
-        self.add_contour('c0', 'e12', 'e0', 'e13', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e14', 'e4', 'e5', 'e6', 'e15', 'e7', 'e16', 'e8', 'e9', 'e10', 'e17', 'e11')
-        self.add_contour('c3', 'e18')
-        self.add_contour('c4', 'e19')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c2', 'c4')
+        # Plan: A horizontal cell uses four equal body radii and one centered broad terminal. The terminal reuses split side-wall endpoints.
+        # Reference: Lucide original/battery.svg and atomic-debug/battery.svg.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('body',(8,8), [('L',(32,8)),('A',(36,12),4,4,True),('L',(36,16)),('L',(36,32)),('L',(36,36)),('A',(32,40),4,4,True),('L',(8,40)),('A',(4,36),4,4,True),('L',(4,12)),('A',(8,8),4,4,True)],True)
+        poly('terminal',(36,16),(44,16),(44,32),(36,32));join('terminal','body')
+

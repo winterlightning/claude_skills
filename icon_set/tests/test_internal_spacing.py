@@ -10,6 +10,22 @@ from icon_set.validation.internal_spacing import analyze_internal_spacing
 from icon_set.validation.library_qa import inspect_icon, save_evidence
 
 
+class ConnectedChannel(Solo48):
+    icon_id = 'connected-channel-fixture'
+    keyshape = Keyshape.SQUARE
+    inner_x = 36
+
+    def build(self):
+        self.add_polyline('outer', (6,42), (6,6), (42,6), (42,42))
+        x = self.inner_x
+        self.add_line('join', (42,42), (x,42))
+        self.add_bezier('return', (x,42), ((x-1,34),(x-1,26),(x,18)))
+        self.add_line('inner-top', (x,18), (16,18))
+        self.add_line('inner-left', (16,18), (16,42))
+        self.add_contour('inner','join','return','inner-top','inner-left')
+        self.relate('connect', 'outer', 'inner')
+
+
 # Retired library drawings, pinned here because the assertions below name their
 # element ids and coordinates. Classes outside model/icons are never registered.
 class DressFixture(Solo48):
@@ -86,6 +102,69 @@ def cramped_wrench():
 
 
 class InternalSpacingTests(unittest.TestCase):
+    def test_real_connection_does_not_exempt_distant_crowding(self):
+        icon = ConnectedChannel()
+        self.assertTrue(icon.validate_icon().ok)
+        row = inspect_icon(icon)
+        self.assertEqual(row['status'], 'review')
+        self.assertTrue(any(f['ink_gap'] < 4 for f in row['internal_spacing']['findings']))
+
+        class WideChannel(ConnectedChannel):
+            inner_x = 34
+        row = inspect_icon(WideChannel())
+        self.assertEqual(row['status'], 'pass', row['errors'] + row['warnings'])
+
+    def test_unresolved_spacing_cannot_publish_and_remains_visible(self):
+        import json
+        from unittest.mock import patch
+        from icon_set.scripts import build as builder
+        from icon_set.scripts.failure_report import collect
+
+        class WideChannel(ConnectedChannel):
+            icon_id = 'wide-channel-fixture'
+            inner_x = 34
+
+        with TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            with patch.object(builder, 'icons_in', return_value=[ConnectedChannel(), WideChannel()]):
+                self.assertEqual(builder.build_family('solo', root/'dist', root/'png',
+                                                       write_png=False, report=False), (1,1))
+            manifest = json.loads((root/'dist/solo48/manifest.json').read_text())
+            self.assertEqual([r['icon_id'] for r in manifest['icons']], ['wide-channel-fixture'])
+            failed_path = root/'dist/failed/solo48/manifest.json'
+            failed = json.loads(failed_path.read_text())['icons'][0]
+            self.assertEqual(failed['status'], 'review')
+            self.assertTrue(failed['spacing_pairs'])
+            # An unrelated error must not hide the spacing warning in the gallery.
+            failed['errors'] = ['canvas/keyshape bounds: fixture failure']
+            failed_path.write_text(json.dumps({'icons':[failed]}))
+            report = collect([(failed_path, '')])
+            self.assertEqual({i['rule'] for i in report['icons'][0]['issues']}, {'bounds','spacing'})
+
+    def test_chained_curves_cannot_hide_crowding_or_ship_as_pass(self):
+        class CurvedChannel(Solo48):
+            icon_id = 'curved-channel-fixture'
+            keyshape = Keyshape.SQUARE
+
+            def build(self):
+                points = ((6,42),(6,6),(42,6),(42,42),
+                          (36,42),(36,18),(16,18),(16,42))
+                segments = []
+                for a, b in zip(points, points[1:]):
+                    segments.append((
+                        tuple(a[k] + (b[k]-a[k])/3 for k in (0,1)),
+                        tuple(a[k] + 2*(b[k]-a[k])/3 for k in (0,1)), b))
+                self.add_bezier('channel', points[0], *segments)
+                self.add_contour('outline', 'channel')
+
+        icon = CurvedChannel()
+        result = analyze_internal_spacing(icon, icon.draw())
+        self.assertTrue(result['findings'])
+        self.assertTrue(any(f['ink_gap'] < 4 for f in result['findings']))
+        row = inspect_icon(icon)
+        self.assertNotEqual(row['status'], 'pass')
+        self.assertTrue(any('internal-spacing' in w for w in row['warnings']))
+
     def test_dress_reports_both_closed_shoulder_gaps(self):
         icon = cramped_dress()
         result = analyze_internal_spacing(icon, icon.draw())
@@ -131,10 +210,10 @@ class InternalSpacingTests(unittest.TestCase):
             row['_key']='solo/dress'
             save_evidence([row],root,debug=True,report=True)
             self.assertTrue((root/'solo/dress/internal-spacing.png').exists())
-            html=(root/'index.html').read_text()
-            self.assertIn('Within-contour spacing: review',html)
+            html=(root/'index.html').read_text() + ''.join(p.read_text() for p in (root/'report').glob('*.js'))
+            self.assertIn('Connected-edge spacing: review',html)
             self.assertIn('strap-left-inner',html)
-            self.assertIn('Advisory only',html)
+            self.assertIn('Review required before release',html)
 
     def test_wide_contour_clears_both_qa_and_internal_spacing(self):
         from icon_set.model.keyshapes import Keyshape
@@ -147,3 +226,21 @@ class InternalSpacingTests(unittest.TestCase):
         row = inspect_icon(icon)
         self.assertEqual(row['status'],'pass',row['errors'])
         self.assertFalse(row['needs_review'])
+
+
+class AvatarContactTests(unittest.TestCase):
+    def test_only_exact_declared_avatar_contact_is_accepted(self):
+        from dataclasses import replace
+        from icon_set.model.primitives import Point
+        icon = create('football-player-avatar')
+        self.assertEqual(analyze_internal_spacing(icon, icon.draw())['findings'], [])
+        icon.primitives = [replace(p, start=Point(p.start.x, p.start.y + 1),
+                                  end=Point(p.end.x, p.end.y + 1))
+                           if p.element_id in ('body-top', 'body-top-right') else p
+                           for p in icon.primitives]
+        self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])
+
+    def test_non_avatar_contact_keeps_normal_review(self):
+        icon = create('football-player-avatar')
+        icon.category = 'test-other'
+        self.assertTrue(analyze_internal_spacing(icon, icon.draw())['findings'])

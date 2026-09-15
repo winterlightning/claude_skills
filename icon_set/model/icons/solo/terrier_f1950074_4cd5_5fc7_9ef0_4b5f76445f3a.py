@@ -1,10 +1,9 @@
-"""Terrier (pets), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""terrier: Smooth alert terrier; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f1950074-4cd5-5fc7-9ef0-4b5f76445f3a'
 SOURCE_PATH = 'icons-json/pets/terrier_f1950074-4cd5-5fc7-9ef0-4b5f76445f3a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Terrier(Solo48):
     icon_id = 'terrier'
@@ -13,26 +12,42 @@ class Terrier(Solo48):
     semantic_kind = 'noun'
     category = 'pets'
     aliases = ()
-    keywords = ('terrier', 'pets')
+    keywords = ('solo-ai-full-set', 'terrier')
 
     def build(self):
-        self.add_line('e0', (24, 44), (24, 35))
-        self.add_line('e1', (20, 22), (20, 22))
-        self.add_line('e2', (28, 22), (28, 22))
-        self.add_line('e3', (18, 13), (9, 4))
-        self.add_line('e4', (39, 4), (30, 13))
-        self.add_arc('e5', (30, 13), (18, 13), radius_x=27, sweep=False)
-        self.add_line('e6-1', (9, 4), (8, 9))
-        self.add_arc('e6-2', (8, 9), (12, 20), radius_x=21, sweep=False)
-        self.add_arc('e6-3', (12, 20), (14, 33), radius_x=33, sweep=False)
-        self.add_arc('e6-4', (14, 33), (24, 44), radius_x=13, sweep=False)
-        self.add_line('e6-5', (24, 44), (29, 42))
-        self.add_arc('e6-6', (29, 42), (34, 33), radius_x=36, sweep=False)
-        self.add_arc('e6-7', (34, 33), (36, 20), radius_x=33, sweep=False)
-        self.add_arc('e6-8', (36, 20), (40, 8), radius_x=20, sweep=False)
-        self.add_arc('e6-9', (40, 8), (39, 4), radius_x=10, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e5', 'e3', 'e6-1', 'e6-2', 'e6-3', 'e6-4', 'e6-5', 'e6-6', 'e6-7', 'e6-8', 'e6-9', 'e4', closed=True)
-        self.relate('connect', 'c0', 'c3')
+        # Plan: Preserve pointed ears, broad cheeks and narrow muzzle. Mirror the face but keep the ears tall and open.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('face',(8,4),[('L',(18,14)),('C',(30,14),(22,12),(26,12)),('L',(40,4)),('C',(36,24),(40,13),(39,19)),('C',(24,44),(34,37),(31,42)),('C',(12,24),(17,42),(14,37)),('C',(8,4),(9,19),(8,13))],True)
+        self.add_dot('left-eye',(20,22));self.add_dot('right-eye',(28,22));line('muzzle',(24,36),(24,44));join('muzzle','face')

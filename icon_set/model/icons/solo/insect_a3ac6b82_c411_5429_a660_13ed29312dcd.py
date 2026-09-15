@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class RhinocerosBeetle(Solo48):
     icon_id = 'rhinoceros-beetle'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
@@ -17,7 +17,7 @@ class RhinocerosBeetle(Solo48):
     keywords = ('beetle', 'rhinoceros beetle', 'horn', 'insect', 'bug', 'shell', 'legs', 'nature')
 
     def build(self) -> None:
-        self.add_arc('shell', (6, 33), (32, 33), radius_x=15, radius_y=17, sweep=True)
+        self.add_arc('shell',(6,33),(32,33),radius_x=13,radius_y=12)
         self.add_line('belly-r', (32, 33), (24, 33))
         self.add_line('belly-m', (24, 33), (10, 33))
         self.add_line('belly-l', (10, 33), (6, 33))
@@ -25,7 +25,7 @@ class RhinocerosBeetle(Solo48):
         self.add_arc('horn-back', (32, 33), (42, 6), radius_x=11, radius_y=28, sweep=True)
         self.add_arc('horn-hollow', (42, 6), (42, 23), radius_x=10, radius_y=10, sweep=False)
         self.add_line('head-front', (42, 23), (42, 28))
-        self.add_arc('head-chin', (42, 28), (38, 36), radius_x=8, radius_y=8, sweep=True)
+        self.add_bezier('head-chin', (42, 28), *(((42, 31.2325716), (40.83874454, 34.39737339), (38, 36)),))
         self.add_line('head-base', (38, 36), (32, 33))
         self.add_contour('head', 'horn-back', 'horn-hollow', 'head-front', 'head-chin', 'head-base', closed=False)
         self.relate("connect", 'body', 'head')

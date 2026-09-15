@@ -3,9 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [facade / door]: facade-3 and door-arch have 1.5235 units of ink clearance over 7.9342 units; requires 4; review required",
+    "internal-spacing [facade / door]: facade-4 and door-arch have 1.5235 units of ink clearance over 7.4383 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -615,6 +618,70 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          11.9844,
+          23.9844
+        ],
+        "bbox_viewbox": [
+          8.0,
+          9.1562,
+          32.0,
+          18.8438
+        ],
+        "bbox_ship_px": [
+          32.0,
+          18.8438
+        ],
+        "bbox_design_u": [
+          32.0,
+          18.8438
+        ],
+        "area_ship_px2": 190.2598,
+        "equivalent_diameter_ship_px": 15.5643,
+        "equivalent_diameter_design_u": 15.5643,
+        "inscribed_diameter_ship_px": 8.0,
+        "inscribed_diameter_design_u": 8.0,
+        "inscribed_radius_ship_px": 4.0,
+        "inscribed_radius_design_u": 4.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          23.9844,
+          24.0469
+        ],
+        "bbox_viewbox": [
+          20.0,
+          20.0,
+          8.0,
+          8.0
+        ],
+        "bbox_ship_px": [
+          8.0,
+          8.0
+        ],
+        "bbox_design_u": [
+          8.0,
+          8.0
+        ],
+        "area_ship_px2": 57.1338,
+        "equivalent_diameter_ship_px": 8.5291,
+        "equivalent_diameter_design_u": 8.5291,
+        "inscribed_diameter_ship_px": 7.889,
+        "inscribed_diameter_design_u": 7.889,
+        "inscribed_radius_ship_px": 3.9445,
+        "inscribed_radius_design_u": 3.9445,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -735,15 +802,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -759,21 +827,65 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "facade / door",
+        "elements": [
+          "facade-3",
+          "door-arch"
+        ],
+        "status": "review",
+        "sustained_length": 7.9342,
+        "centerline_distance": 5.5235,
+        "ink_gap": 1.5235,
+        "nearest_points": [
+          [
+            15.19047619047619,
+            16.57142857142857
+          ],
+          [
+            19.421495590801158,
+            20.122204572834356
+          ]
+        ]
+      },
+      {
+        "contour": "facade / door",
+        "elements": [
+          "facade-4",
+          "door-arch"
+        ],
+        "status": "review",
+        "sustained_length": 7.4383,
+        "centerline_distance": 5.5235,
+        "ink_gap": 1.5235,
+        "nearest_points": [
+          [
+            32.80952380952381,
+            16.57142857142857
+          ],
+          [
+            28.57850440919884,
+            20.122204572834356
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

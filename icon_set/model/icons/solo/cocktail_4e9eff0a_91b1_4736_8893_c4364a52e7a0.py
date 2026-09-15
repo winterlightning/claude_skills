@@ -1,10 +1,9 @@
-"""Cocktail (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""cocktail: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4e9eff0a-91b1-4736-8893-c4364a52e7a0'
 SOURCE_PATH = 'icons-json/symbol/cocktail_4e9eff0a-91b1-4736-8893-c4364a52e7a0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cocktail(Solo48):
     icon_id = 'cocktail'
@@ -13,19 +12,41 @@ class Cocktail(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('cocktail', 'symbol')
+    keywords = ('cocktail', 'symbol', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (28, 12), (23, 20))
-        self.add_line('e1', (23, 44), (23, 28))
-        self.add_line('e2', (16, 44), (29, 44))
-        self.add_line('e3', (8, 12), (37, 12))
-        self.add_bezier('e4', (40, 4), ((39.823, 4), (39.638, 4), (39.461, 4)), ((39.116, 4), (38.796, 4.218), (38.459, 4.3)), ((37.903, 4.427), (37.331, 4.518), (36.766, 4.627)), ((35.663, 4.836), (34.568, 5.045), (33.465, 5.273)), ((31.638, 5.655), (31.84, 6.091), (30.745, 7.909)), ((30.4, 8.5), (30.046, 9.082), (29.701, 9.673)), ((29.213, 10.509), (28.514, 11.173), (28, 12)))
-        self.add_bezier('e5', (37, 12), ((37.084, 14.391), (37.28, 16.964), (36.354, 19.173)), ((34.543, 23.445), (30.189, 26.736), (25.954, 27.491)), ((25.044, 27.655), (24.076, 27.627), (23.158, 27.636)), ((15.562, 27.7), (8.008, 21.291), (8.008, 12.709)), ((8.008, 12.527), (8, 12.173), (8, 12)))
-        self.add_contour('c0', 'e4', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3', 'e5', closed=True)
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
+        # Plan: Keep the rounded cocktail bowl, central stem and angled straw, with a wider opening and clean shared lip contact.
+        # Reference: Lucide martini original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bowl',(8,16),[('L',(31,16)),('L',(40,16)),('A',(24,32),16,16,True),('A',(8,16),16,16,True)],True)
+        poly('straw',(24,24),(31,16),(35,6),(40,4));join('straw','bowl')
+        line('stem',(24,32),(24,44));line('foot',(16,44),(32,44));join('stem','bowl');join('stem','foot')

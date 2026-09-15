@@ -1,10 +1,9 @@
-"""Vaccine bottle (health), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""vaccine-bottle: Smooth vaccine vial; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1610e3ba-84a5-4d21-aaf5-def7c21e3e28'
 SOURCE_PATH = 'icons-json/health/vaccine bottle_1610e3ba-84a5-4d21-aaf5-def7c21e3e28.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class VaccineBottle(Solo48):
     icon_id = 'vaccine-bottle'
@@ -13,39 +12,43 @@ class VaccineBottle(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('vaccine', 'bottle', 'health')
+    keywords = ('solo-ai-full-set', 'vaccine-bottle')
 
     def build(self):
-        self.add_line('e0', (14, 4), (34, 4))
-        self.add_line('e1', (30, 4), (30, 9))
-        self.add_line('e2', (31, 9), (35, 11))
-        self.add_line('e3', (40, 16), (40, 24))
-        self.add_line('e4', (18, 4), (18, 9))
-        self.add_line('e5', (17, 9), (12, 11))
-        self.add_line('e6', (8, 17), (8, 23))
-        self.add_line('e7', (22, 23), (26, 25))
-        self.add_line('e8', (38, 25), (40, 24))
-        self.add_line('e9', (8, 23), (8, 40))
-        self.add_line('e10', (14, 44), (35, 44))
-        self.add_line('e11', (40, 40), (40, 24))
-        self.add_arc('e12', (30, 9), (31, 9), radius_x=26)
-        self.add_arc('e13', (35, 11), (40, 16), radius_x=9)
-        self.add_arc('e14', (18, 9), (17, 9), radius_x=10, sweep=False)
-        self.add_arc('e15', (12, 11), (8, 17), radius_x=8, sweep=False)
-        self.add_arc('e16', (8, 23), (22, 23), radius_x=24)
-        self.add_arc('e17', (26, 25), (38, 25), radius_x=19, sweep=False)
-        self.add_arc('e18', (8, 40), (14, 44), radius_x=7, sweep=False)
-        self.add_arc('e19', (35, 44), (40, 40), radius_x=6, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e12', 'e2', 'e13', 'e3')
-        self.add_contour('c2', 'e4', 'e14', 'e5', 'e15', 'e6')
-        self.add_contour('c3', 'e16', 'e7', 'e17', 'e8')
-        self.add_contour('c4', 'e9', 'e18', 'e10', 'e19', 'e11')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c2', 'c0')
+        # Plan: Preserve the neck, broad bottle and liquid surface; use matching shoulders and a coherent waterline.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bottle',(18,4),[('L',(18,13)),('C',(8,18),(12,15),(8,16)),('L',(8,29)),('L',(8,40)),('A',(12,44),4,4,False),('L',(36,44)),('A',(40,40),4,4,False),('L',(40,29)),('L',(40,18)),('C',(30,13),(40,16),(36,15)),('L',(30,4))])
+        path('cap',(14,4),[('L',(18,4)),('L',(30,4)),('L',(34,4))]);join('cap','bottle')
+        path('liquid',(8,29),[('C',(24,29),(14,26),(18,26)),('C',(40,29),(30,32),(34,32))]);join('liquid','bottle')

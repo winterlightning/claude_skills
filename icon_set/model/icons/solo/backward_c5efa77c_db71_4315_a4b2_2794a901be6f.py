@@ -1,10 +1,9 @@
 """Backward (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c5efa77c-db71-4315-a4b2-2794a901be6f'
 SOURCE_PATH = 'icons-json/symbol/backward_c5efa77c-db71-4315-a4b2-2794a901be6f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Backward(Solo48):
     icon_id = 'backward'
@@ -22,6 +21,6 @@ class Backward(Solo48):
         self.add_line('e3', (24, 8), (4, 24))
         self.add_line('e4', (4, 24), (24, 40))
         self.add_line('e5', (24, 40), (24, 8))
-        self.add_contour('c0', 'e0', 'e1', 'e2')
+        self.add_contour('c0', 'e0', 'e1', 'e2', closed=True)
         self.add_contour('c1', 'e3', 'e4', 'e5', closed=True)
         self.relate('connect', 'c0', 'c1')

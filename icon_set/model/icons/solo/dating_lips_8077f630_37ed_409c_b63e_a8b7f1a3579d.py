@@ -1,10 +1,9 @@
-"""Dating lips (romance), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""dating-lips: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8077f630-37ed-409c-b63e-a8b7f1a3579d'
 SOURCE_PATH = 'icons-json/romance/dating lips_8077f630-37ed-409c-b63e-a8b7f1a3579d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DatingLips(Solo48):
     icon_id = 'dating-lips'
@@ -13,29 +12,40 @@ class DatingLips(Solo48):
     semantic_kind = 'noun'
     category = 'romance'
     aliases = ()
-    keywords = ('dating', 'lips', 'romance')
+    keywords = ('dating', 'lips', 'romance', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('sym-e0', (4, 23), (19, 23))
-        self.add_line('sym-e2', (19, 23), (23, 24))
-        self.add_arc('sym-e3', (23, 24), (24, 24), radius_x=2, sweep=False)
-        self.add_arc('sym-e5', (24, 24), (25, 24), radius_x=2, sweep=False)
-        self.add_line('sym-e6', (25, 24), (29, 23))
-        self.add_line('sym-e8', (29, 23), (44, 23))
-        self.add_line('sym-e9', (44, 23), (40, 30))
-        self.add_line('sym-e10', (40, 30), (38, 33))
-        self.add_arc('sym-e11', (38, 33), (25, 40), radius_x=21)
-        self.add_arc('sym-e12', (25, 40), (24, 40), radius_x=27, sweep=False)
-        self.add_line('sym-e17', (24, 40), (23, 40))
-        self.add_arc('sym-e18', (23, 40), (10, 33), radius_x=21)
-        self.add_arc('sym-e19', (10, 33), (8, 30), radius_x=11)
-        self.add_line('sym-e20', (8, 30), (4, 23))
-        self.add_line('sym-e21', (4, 23), (9, 15))
-        self.add_arc('sym-e22', (9, 15), (18, 8), radius_x=17)
-        self.add_line('sym-e24', (18, 8), (22, 10))
-        self.add_arc('sym-e25', (22, 10), (24, 12), radius_x=6, sweep=False)
-        self.add_arc('sym-e26', (24, 12), (26, 10), radius_x=5, sweep=False)
-        self.add_line('sym-e27', (26, 10), (30, 8))
-        self.add_arc('sym-e29', (30, 8), (39, 15), radius_x=16)
-        self.add_line('sym-e30', (39, 15), (44, 23))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e6', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e24', 'sym-e25', 'sym-e26', 'sym-e27', 'sym-e29', 'sym-e30')
+        # Plan: Keep a cupid-bow mouth with a broad lower lip and slight center dip. Mirror the lip halves for a natural balanced smile.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('lips',(4,24),[('C',(18,8),(9,16),(13,8)),('C',(24,11),(21,8),(22,11)),('C',(30,8),(26,11),(27,8)),('C',(44,24),(35,8),(39,16)),('C',(24,40),(39,34),(33,40)),('C',(4,24),(15,40),(9,34))],True)
+        path('mouth',(4,24),[('L',(16,24)),('C',(24,26),(20,24),(20,26)),('C',(32,24),(28,26),(28,24)),('L',(44,24))]);join('mouth','lips')

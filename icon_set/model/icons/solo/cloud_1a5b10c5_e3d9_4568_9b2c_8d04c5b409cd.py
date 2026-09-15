@@ -1,10 +1,9 @@
-"""Cloud (internet), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""cloud: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1a5b10c5-e3d9-4568-9b2c-8d04c5b409cd'
 SOURCE_PATH = 'icons-json/internet/cloud_1a5b10c5-e3d9-4568-9b2c-8d04c5b409cd.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cloud(Solo48):
     icon_id = 'cloud'
@@ -13,9 +12,39 @@ class Cloud(Solo48):
     semantic_kind = 'noun'
     category = 'internet'
     aliases = ()
-    keywords = ('cloud', 'internet')
+    keywords = ('cloud', 'internet', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (11, 40), (36, 40))
-        self.add_bezier('e1', (36, 40), ((40.436, 40), (43.982, 35.28), (43.982, 30.52)), ((43.991, 30.45), (43.991, 30.37), (44, 30.29)), ((44, 30.288), (44, 30.287), (44, 30.285)), ((44, 30.177), (43.991, 30.068), (43.991, 29.96)), ((43.991, 26.5), (42.436, 22.99), (39.673, 21.23)), ((38.718, 20.62), (37.782, 20.28), (36.727, 19.96)), ((36.609, 19.93), (36.064, 19.83), (36, 19.71)), ((35.764, 19.24), (35.7, 18.6), (35.555, 18.08)), ((35.291, 17.14), (34.945, 16.23), (34.536, 15.37)), ((32.718, 11.6), (28.736, 8.01), (24.691, 8.01)), ((24.557, 8.01), (24.431, 8), (24.297, 8)), ((24.295, 8), (24.293, 8), (24.291, 8)), ((24.082, 8), (23.864, 8.01), (23.655, 8.01)), ((19.527, 8.01), (15.618, 11.17), (13.6, 14.97)), ((13.182, 15.76), (12.809, 16.66), (12.545, 17.53)), ((12.355, 18.15), (12.255, 19.08), (11.845, 19.6)), ((11.582, 19.93), (8.745, 20.9), (8, 21.43)), ((5.591, 23.17), (4.018, 26.46), (4.018, 29.63)), ((4.009, 29.72), (4.009, 29.8), (4, 29.89)), ((4, 29.891), (4, 29.893), (4, 29.894)), ((4, 29.982), (4.009, 30.061), (4.009, 30.14)), ((4.009, 34.14), (6.227, 38.36), (9.782, 39.6)), ((10.236, 39.76), (10.518, 40), (11, 40)))
-        self.add_contour('c0', 'e0', 'e1', closed=True)
+        # Plan: Keep the source cloud as a single lobed outline. A high central dome and matched lower corners preserve a soft cloud silhouette.
+        # Reference: Lucide cloud original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('cloud',(14,40),[('C',(4,29),(8,40),(4,35)),('C',(12,18),(4,22),(7,18)),('C',(24,8),(13,11),(17,8)),('C',(36,18),(31,8),(35,11)),('C',(44,29),(41,18),(44,22)),('C',(34,40),(44,35),(40,40)),('L',(14,40))],True)

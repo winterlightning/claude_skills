@@ -1,10 +1,9 @@
-"""Apartment balcony glass (building), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""apartment-balcony-glass: AI stroke review; parent retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b7cbdd91-293f-5ff3-b1ef-c7df299fdde1'
 SOURCE_PATH = 'icons-json/building/apartment balcony glass_b7cbdd91-293f-5ff3-b1ef-c7df299fdde1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ApartmentBalconyGlass(Solo48):
     icon_id = 'apartment-balcony-glass'
@@ -13,35 +12,46 @@ class ApartmentBalconyGlass(Solo48):
     semantic_kind = 'noun'
     category = 'building'
     aliases = ()
-    keywords = ('apartment', 'balcony', 'glass', 'building')
+    keywords = ('apartment', 'balcony', 'glass', 'building', 'solo-ai-first50')
 
     def build(self):
-        self.add_line('e0', (42, 27), (18, 27))
-        self.add_line('e1', (24, 8), (24, 40))
-        self.add_line('e2', (39, 27), (39, 40))
-        self.add_line('e3', (39, 40), (9, 40))
-        self.add_line('e4', (9, 40), (9, 27))
-        self.add_line('e5', (36, 27), (36, 8))
-        self.add_line('e6', (36, 8), (24, 19))
-        self.add_line('e7', (36, 8), (12, 8))
-        self.add_line('e8', (12, 8), (12, 27))
-        self.add_line('e9', (18, 15), (12, 20))
-        self.add_line('e10', (44, 29), (42, 27))
-        self.add_arc('e11-1', (18, 27), (5, 28), radius_x=40, sweep=False)
-        self.add_arc('e11-2', (5, 28), (4, 29), radius_x=1, sweep=False)
-        self.add_line('e12', (12, 20), (12, 19))
-        self.add_contour('c0', 'e10', 'e0', 'e11-1', 'e11-2')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e3', 'e4')
-        self.add_contour('c3', 'e5', 'e6')
-        self.add_contour('c4', 'e7', 'e8')
-        self.add_contour('c5', 'e9', 'e12')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c3', 'c0')
-        self.relate('connect', 'c3', 'c1')
-        self.relate('connect', 'c4', 'c0')
-        self.relate('connect', 'c5', 'c4')
-        self.relate('connect', 'c5', 'c4')
+        # Plan: A centered two-pane window rises above a continuous balcony rail; paired posts share spacing. Omitted small reflection slashes to protect the openings.
+        # Reference: No useful exact Lucide match; geometric construction from the supplied subject.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('window',(12,28),(12,8),(24,8),(36,8),(36,28))
+        line('mullion',(24,8),(24,28));join('mullion','window')
+        poly('rail',(4,28),(12,28),(24,28),(36,28),(44,28))
+        join('rail','window');join('rail','mullion')
+        for x in (12,36):
+         line(f'post-{x}',(x,28),(x,40));join(f'post-{x}','rail')
+        poly('base',(12,40),(36,40));join('base','post-12');join('base','post-36')
+

@@ -1,7 +1,8 @@
 """Korean Woman: asymmetric wrap jacket, with reference curved shoulders.
 
 Plan: head/headwear and curved body on SOLO48 VRECT_L, ink (6,2)-(42,46).
-Circular face and shoulder ink meet with zero visible gap.
+Face center is (24,14), radius 10; shoulder ink touches the face.
+The side bun is reduced to radius 3 to preserve the centered face and keyshape.
 Human reference: icon_set/references/human_ref/user.svg; supporting Lucide
 original/user-round.svg and atomic-debug/user-round.svg supply cardinal arcs.
 Preserve original head identity; omit tiny facial marks and hat trim at 48.
@@ -25,13 +26,14 @@ class KoreanWoman(Solo48):
     keywords = ('korean', 'woman', 'avatars')
 
     def build(self):
-        self.add_arc('crown',(12,14),(32,14),radius_x=10)
-        self.add_arc('jaw',(32,14),(12,14),radius_x=10)
+        cx, cy, radius = 24, 14, 10
+        self.add_arc('crown',(cx-radius,cy),(cx+radius,cy),radius_x=radius)
+        self.add_arc('jaw',(cx+radius,cy),(cx-radius,cy),radius_x=radius)
         self.add_contour('head','crown','jaw',closed=True)
-        self.add_bezier('fringe',(12,14),((18,16),(22,12),(25,9)),((27,12),(30,14),(32,14)))
+        self.add_bezier('fringe',(14,14),((20,16),(24,12),(27,9)),((29,12),(32,14),(34,14)))
         self.relate('connect','head','fringe')
-        self.add_arc('bun-top',(32,14),(40,14),radius_x=4)
-        self.add_arc('bun-bottom',(40,14),(32,14),radius_x=4)
+        self.add_arc('bun-top',(34,14),(40,14),radius_x=3)
+        self.add_arc('bun-bottom',(40,14),(34,14),radius_x=3)
         self.add_contour('side-bun','bun-top','bun-bottom',closed=True)
         self.relate('connect','head','side-bun')
         self.relate('connect','fringe','side-bun')

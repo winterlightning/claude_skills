@@ -31,14 +31,14 @@
         "elementId": "sym-c1",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 20 18 L 24 24 L 28 30",
+        "pathData": "M 20 18 L 28 30",
         "bounds": [
           20.0,
           18.0,
           28.0,
           30.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -47,14 +47,14 @@
         "elementId": "sym-c2",
         "subpathIndex": 1,
         "componentId": "component-2",
-        "pathData": "M 24 40 L 7 40 A 20 20 0 0 0 6 40 L 4 39 L 4 37 L 4 11 L 4 9 L 6 8 L 7 8 L 24 8 L 41 8 L 42 8 L 44 9 A 4 4 0 0 0 44 11 L 44 37 L 44 39 L 42 40 A 41 41 0 0 0 41 40 L 24 40 Z",
+        "pathData": "M 24 40 L 7 40 A 20 20 0 0 0 6 40 L 4 39 L 4 9 L 6 8 L 42 8 L 44 9 A 4 4 0 0 0 44 11 L 44 39 L 42 40 A 41 41 0 0 0 41 40 L 24 40 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 38,
+        "segmentCount": 32,
         "approximationError": 0.0007622329117299815,
         "hasCurves": true
       },
@@ -259,7 +259,7 @@
           "sym-c0:subpath-1",
           "sym-c1:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           24.0,
           24.0
@@ -281,7 +281,7 @@
           "sym-c1:subpath-1",
           "sym-c3:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           24.0,
           24.0
@@ -301,7 +301,7 @@
             "sym-c0:subpath-1",
             "sym-c1:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             24.0,
             24.0
@@ -339,7 +339,7 @@
             "sym-c1:subpath-1",
             "sym-c3:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             24.0,
             24.0
@@ -362,17 +362,51 @@
     "minimumInkClearance": 6.0,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 27,
-      "flattenedSegments": 42,
+      "commands": 20,
+      "flattenedSegments": 35,
       "adaptiveNodes": 41,
-      "distanceTests": 15,
-      "connectionTests": 0
+      "distanceTests": 12,
+      "connectionTests": 2
     },
     "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          13.0469,
+          23.9844
+        ],
+        "bbox_viewbox": [
+          6.0,
+          10.0,
+          36.0,
+          28.0
+        ],
+        "bbox_ship_px": [
+          36.0,
+          28.0
+        ],
+        "bbox_design_u": [
+          36.0,
+          28.0
+        ],
+        "area_ship_px2": 884.3975,
+        "equivalent_diameter_ship_px": 33.5567,
+        "equivalent_diameter_design_u": 33.5567,
+        "inscribed_diameter_ship_px": 14.0806,
+        "inscribed_diameter_design_u": 14.0806,
+        "inscribed_radius_ship_px": 7.0403,
+        "inscribed_radius_design_u": 7.0403,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -433,7 +467,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "26ca9187f656489743e97b55e35ce01b499e3bf2ac76bad6f69dd0501e798441",
+  "svg_sha256": "1abe9a86bb3a9ecded2a16fb6dde917f90228c4947a41e08f7b56029b4284776",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -461,15 +495,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -485,21 +520,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

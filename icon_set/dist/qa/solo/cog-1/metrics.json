@@ -11,33 +11,33 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "gear:subpath-1",
+        "elementId": "gear",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 24 L 6 25 A 2 2 0 0 0 8 27 L 11 29 L 10 35 L 13 38 A 3 3 0 0 0 15 37 L 19 37 L 21 41 A 3 3 0 0 1 23 42 L 24 42 A 33 33 0 0 1 25 42 A 3 3 0 0 1 27 41 L 29 37 L 33 37 A 3 3 0 0 0 35 38 L 38 35 L 37 29 L 40 27 A 2 2 0 0 0 42 25 L 42 24 L 42 23 A 2 2 0 0 0 40 21 L 37 19 L 38 13 L 35 10 A 3 3 0 0 0 33 11 L 29 11 L 27 7 L 25 6 A 33 33 0 0 1 24 6 L 23 6 L 21 7 L 19 11 L 15 11 A 3 3 0 0 0 13 10 L 10 13 L 11 19 L 8 21 A 2 2 0 0 0 6 23 L 6 24 Z",
+        "pathData": "M 24 6 L 28 6 L 30 11 L 34 10 L 38 14 L 37 18 L 42 20 L 42 24 L 42 28 L 37 30 L 38 34 L 34 38 L 30 37 L 28 42 L 24 42 L 20 42 L 18 37 L 14 38 L 10 34 L 11 30 L 6 28 L 6 24 L 6 20 L 11 18 L 10 14 L 14 10 L 18 11 L 20 6 L 24 6 Z",
         "bounds": [
           6.0,
           6.0,
           42.0,
           42.0
         ],
-        "segmentCount": 257,
-        "approximationError": 0.0009470421725638553,
-        "hasCurves": true
+        "segmentCount": 29,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1"
+          "gear:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1"
+          "gear:subpath-1"
         ],
         "elementIds": [
-          "sym-c0"
+          "gear"
         ],
         "bounds": [
           6.0,
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 42,
-      "flattenedSegments": 257,
-      "adaptiveNodes": 444,
+      "commands": 30,
+      "flattenedSegments": 29,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -76,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          23.9844
+        ],
+        "bbox_viewbox": [
+          8.0,
+          8.0,
+          32.0,
+          32.0
+        ],
+        "bbox_ship_px": [
+          32.0,
+          32.0
+        ],
+        "bbox_design_u": [
+          32.0,
+          32.0
+        ],
+        "area_ship_px2": 643.3574,
+        "equivalent_diameter_ship_px": 28.6208,
+        "equivalent_diameter_design_u": 28.6208,
+        "inscribed_diameter_ship_px": 24.2663,
+        "inscribed_diameter_design_u": 24.2663,
+        "inscribed_radius_ship_px": 12.1331,
+        "inscribed_radius_design_u": 12.1331,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -100,17 +134,17 @@
           35.0,
           35.0
         ],
-        "area_ship_px2": 771.877,
-        "equivalent_diameter_ship_px": 31.3494,
-        "equivalent_diameter_design_u": 31.3494,
-        "inscribed_diameter_ship_px": 26.9198,
-        "inscribed_diameter_design_u": 26.9198,
-        "inscribed_radius_ship_px": 13.4599,
-        "inscribed_radius_design_u": 13.4599,
+        "area_ship_px2": 823.7773,
+        "equivalent_diameter_ship_px": 32.3862,
+        "equivalent_diameter_design_u": 32.3862,
+        "inscribed_diameter_ship_px": 27.3136,
+        "inscribed_diameter_design_u": 27.3136,
+        "inscribed_radius_ship_px": 13.6568,
+        "inscribed_radius_design_u": 13.6568,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 11.9599,
-        "equivalent_diameter_at_authored_stroke_design_u": 23.9198
+        "equivalent_radius_at_authored_stroke_design_u": 12.1568,
+        "equivalent_diameter_at_authored_stroke_design_u": 24.3136
       }
     ],
     "pinches": [],
@@ -136,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "699e08ce85ca4b0b14d33acc12d9023a4093a2f6e009994c0ed6b1cf38bded5c",
+  "svg_sha256": "f289601b64a7f20215870bd8c7845acbecde084fab05b642ac1f00b7bc410f15",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -164,15 +198,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -188,21 +223,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

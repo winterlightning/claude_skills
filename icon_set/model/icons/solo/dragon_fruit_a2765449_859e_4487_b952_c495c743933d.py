@@ -1,10 +1,9 @@
-"""Dragon fruit (food), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""dragon-fruit: Crowned fruit — local spacing refinement; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a2765449-859e-4487-b952-c495c743933d'
 SOURCE_PATH = 'icons-json/food/dragon fruit_a2765449-859e-4487-b952-c495c743933d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DragonFruit(Solo48):
     icon_id = 'dragon-fruit'
@@ -13,17 +12,41 @@ class DragonFruit(Solo48):
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
-    keywords = ('dragon', 'fruit', 'food')
+    keywords = ('solo-ai-full-set', 'dragon-fruit')
 
     def build(self):
-        self.add_line('e0', (19, 15), (23, 5))
-        self.add_line('e1', (25, 6), (29, 15))
-        self.add_line('e2', (38, 22), (40, 22))
-        self.add_line('e3', (38, 27), (37, 32))
-        self.add_line('e4', (11, 32), (11, 27))
-        self.add_bezier('e5', (23, 5), ((23.456, 4.705), (24.057, 4), (24.517, 4)), ((24.524, 4), (24.532, 4.005), (24.539, 4)), ((24.64, 4.609), (24.899, 5.391), (25, 6)))
-        self.add_bezier('e6', (29, 15), ((29.665, 13.855), (30.265, 12.818), (30.619, 11.545)), ((30.644, 11.455), (30.669, 11.364), (30.695, 11.273)), ((30.872, 10.709), (31.04, 10.136), (31.217, 9.573)), ((31.301, 9.564), (32.834, 12.709), (33.069, 13.255)), ((34.139, 15.773), (34.846, 18.373), (35.402, 21.073)), ((35.562, 21.855), (35.747, 23.7), (35.789, 23.709)), ((36.177, 23.436), (36.573, 23.155), (36.96, 22.873)), ((37.389, 22.564), (37.52, 22.209), (38, 22)))
-        self.add_bezier('e7', (40, 22), ((39.629, 22.7), (39.158, 23.645), (38.905, 24.436)), ((38.661, 25.173), (38.236, 26.245), (38, 27)))
-        self.add_bezier('e8', (37, 32), ((36.36, 34.064), (35.545, 36.364), (34.509, 38.264)), ((32.488, 41.927), (28.438, 43.991), (24.539, 43.991)), ((24.464, 43.991), (24.398, 44), (24.324, 44)), ((24.322, 44), (24.321, 44), (24.32, 44)), ((24.067, 44), (23.823, 43.991), (23.571, 43.991)), ((22.257, 43.991), (20.867, 43.7), (19.629, 43.236)), ((15.68, 41.773), (13.356, 39.018), (12.051, 34.755)), ((11.798, 33.909), (11.135, 32.873), (11, 32)))
-        self.add_bezier('e9', (11, 27), ((10.806, 25.718), (9.768, 24.255), (9.061, 23.227)), ((8.713, 22.717), (8, 22.216), (8, 21.706)), ((8, 21.698), (8.006, 21.69), (8, 21.682)), ((8.488, 21.764), (8.977, 21.855), (9.465, 21.936)), ((10.114, 22.055), (10.695, 22.3), (11.276, 22.636)), ((11.705, 22.891), (12.143, 23.136), (12.573, 23.391)), ((12.606, 23.036), (12.64, 22.673), (12.674, 22.318)), ((12.741, 21.609), (12.825, 20.909), (12.918, 20.2)), ((13.288, 17.264), (14.333, 14.5), (15.579, 11.873)), ((15.84, 11.327), (16.758, 9.545), (16.783, 9.545)), ((16.851, 9.555), (17.196, 10.918), (17.364, 11.482)), ((17.752, 12.764), (18.343, 13.836), (19, 15)))
-        self.add_contour('c0', 'e0', 'e5', 'e1', 'e6', 'e2', 'e7', 'e3', 'e8', 'e4', 'e9', closed=True)
+        # Plan: Original five-point crown and rounded fruit restored. Moved the two side tips and inner notches slightly.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('fruit',(8,20),[('L',(12,22)),('L',(11,10)),('L',(19,18)),('L',(24,4)),('L',(29,18)),('L',(37,10)),('L',(36,22)),('L',(40,20)),('C',(24,44),(39,36),(35,44)),('C',(8,20),(13,44),(9,36))],True)

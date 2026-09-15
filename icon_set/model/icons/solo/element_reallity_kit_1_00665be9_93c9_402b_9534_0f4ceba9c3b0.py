@@ -1,10 +1,9 @@
 """Element reallity kit 1 (technology), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '00665be9-93c9-402b-9534-0f4ceba9c3b0'
 SOURCE_PATH = 'icons-json/technology/element reallity kit 1_00665be9-93c9-402b-9534-0f4ceba9c3b0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ElementReallityKit1(Solo48):
     icon_id = 'element-reallity-kit-1'
@@ -18,7 +17,6 @@ class ElementReallityKit1(Solo48):
     def build(self):
         self.add_line('e0', (15, 42), (15, 31))
         self.add_line('e1', (15, 42), (6, 37))
-        self.add_line('e2', (6, 36), (6, 26))
         self.add_line('e3', (15, 42), (24, 37))
         self.add_line('e4', (42, 26), (42, 37))
         self.add_line('e5', (42, 37), (33, 42))
@@ -40,27 +38,27 @@ class ElementReallityKit1(Solo48):
         self.add_line('e21', (33, 42), (24, 37))
         self.add_line('e22', (33, 22), (24, 26))
         self.add_line('e23', (24, 26), (24, 16))
-        self.add_line('e24', (6, 37), (6, 36))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e24', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4', 'e5')
-        self.add_contour('c4', 'e6')
-        self.add_contour('c5', 'e7')
-        self.add_contour('c6', 'e8')
-        self.add_contour('c7', 'e9')
-        self.add_contour('c8', 'e10')
-        self.add_contour('c9', 'e11')
-        self.add_contour('c10', 'e12', 'e13')
-        self.add_contour('c11', 'e14')
-        self.add_contour('c12', 'e15')
-        self.add_contour('c13', 'e16')
-        self.add_contour('c14', 'e17')
-        self.add_contour('c15', 'e18', 'e19')
-        self.add_contour('c16', 'e20')
-        self.add_contour('c17', 'e21')
-        self.add_contour('c18', 'e22')
-        self.add_contour('c19', 'e23')
+        self.add_line('e24', (6, 37), (6, 26))
+        self.add_contour('c0', 'e0', closed=False)
+        self.add_contour('c1', 'e1', 'e24', closed=False)
+        self.add_contour('c2', 'e3', closed=False)
+        self.add_contour('c3', 'e4', 'e5', closed=False)
+        self.add_contour('c4', 'e6', closed=False)
+        self.add_contour('c5', 'e7', closed=False)
+        self.add_contour('c6', 'e8', closed=False)
+        self.add_contour('c7', 'e9', closed=False)
+        self.add_contour('c8', 'e10', closed=False)
+        self.add_contour('c9', 'e11', closed=False)
+        self.add_contour('c10', 'e12', 'e13', closed=False)
+        self.add_contour('c11', 'e14', closed=False)
+        self.add_contour('c12', 'e15', closed=False)
+        self.add_contour('c13', 'e16', closed=False)
+        self.add_contour('c14', 'e17', closed=False)
+        self.add_contour('c15', 'e18', 'e19', closed=False)
+        self.add_contour('c16', 'e20', closed=False)
+        self.add_contour('c17', 'e21', closed=False)
+        self.add_contour('c18', 'e22', closed=False)
+        self.add_contour('c19', 'e23', closed=False)
         self.relate('connect', 'c0', 'c1')
         self.relate('connect', 'c0', 'c2')
         self.relate('connect', 'c1', 'c2')

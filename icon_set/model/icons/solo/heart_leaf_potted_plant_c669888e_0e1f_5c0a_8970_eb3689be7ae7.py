@@ -1,4 +1,4 @@
-"""Three heart leaves in a tapered pot. SQUARE (6,6)-(42,42) accommodates spreading foliage. Lucide heart informs paired lobes. Leaf veins omitted."""
+'Rebalanced the plant around one readable heart and two flowing side leaves; eliminated overlapping heart lobes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,34 +17,17 @@ class HeartLeafPottedPlant(Solo48):
     keywords = ('plant', 'heart', 'leaves', 'pot', 'stems', 'foliage', 'decor')
 
     def build(self) -> None:
-        self.add_arc('left-a', (10, 18), (6, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_line('left-b', (6, 18), (10, 28))
-        self.add_line('left-c', (10, 28), (18, 18))
-        self.add_arc('left-d', (18, 18), (10, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_contour('left', 'left-a', 'left-b', 'left-c', 'left-d', closed=True)
-        self.add_line('left-stem', (10, 28), (10, 34))
-        self.relate('connect', 'left', 'left-stem')
-        self.add_arc('centre-a', (24, 6), (16, 6), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_line('centre-b', (16, 6), (24, 16))
-        self.add_line('centre-c', (24, 16), (32, 6))
-        self.add_arc('centre-d', (32, 6), (24, 6), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_contour('centre', 'centre-a', 'centre-b', 'centre-c', 'centre-d', closed=True)
-        self.add_line('centre-stem', (24, 16), (24, 34))
-        self.relate('connect', 'centre', 'centre-stem')
-        self.add_arc('right-a', (38, 18), (30, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_line('right-b', (30, 18), (38, 28))
-        self.add_line('right-c', (38, 28), (42, 18))
-        self.add_arc('right-d', (42, 18), (38, 18), radius_x=4, radius_y=4, sweep=False, large_arc=False)
-        self.add_contour('right', 'right-a', 'right-b', 'right-c', 'right-d', closed=True)
-        self.add_line('right-stem', (38, 28), (38, 34))
-        self.relate('connect', 'right', 'right-stem')
-        self.add_line('pot-top', (7, 34), (41, 34))
-        self.add_line('pot-r', (41, 34), (39, 42))
-        self.add_arc('pot-br', (39, 42), (36, 42), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('pot-b', (36, 42), (12, 42))
-        self.add_arc('pot-bl', (12, 42), (9, 42), radius_x=3, radius_y=3, sweep=True, large_arc=False)
-        self.add_line('pot-l', (9, 42), (7, 34))
-        self.add_contour('pot', 'pot-top', 'pot-r', 'pot-br', 'pot-b', 'pot-bl', 'pot-l', closed=True)
-        self.relate('connect', 'left-stem', 'pot')
-        self.relate('connect', 'centre-stem', 'pot')
-        self.relate('connect', 'right-stem', 'pot')
+        # One generous heart leaf, with a mirrored pair of open lateral leaves.
+        self.add_bezier('heart-left',(24,10),((22,7),(20,6),(17,6)),((12,6),(10,9),(10,14)),((10,20),(20,23),(24,26)))
+        self.add_bezier('heart-right',(24,26),((28,23),(38,20),(38,14)),((38,9),(36,6),(31,6)),((28,6),(26,7),(24,10)))
+        self.add_contour('heart','heart-left','heart-right',closed=True)
+        self.add_line('stem',(24,26),(24,34))
+        self.add_bezier('leaf-left',(6,23),((6,29),(16,34),(24,34)))
+        self.add_bezier('leaf-right',(42,23),((42,29),(32,34),(24,34)))
+        self.add_polyline('pot-top',(7,34),(24,34),(41,34))
+        self.add_polyline('pot-sides',(41,34),(39,42),(9,42),(7,34))
+        self.relate('connect','heart','stem')
+        for part in ('stem','leaf-left','leaf-right','pot-top'):
+         for other in ('stem','leaf-left','leaf-right','pot-top'):
+          if part<other: self.relate('connect',part,other)
+        self.relate('connect','pot-top','pot-sides')

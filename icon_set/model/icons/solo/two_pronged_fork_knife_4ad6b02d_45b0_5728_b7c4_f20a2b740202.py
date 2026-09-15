@@ -1,10 +1,9 @@
-"""Two pronged fork knife (food), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""two-pronged-fork-knife: Clean fork and knife; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4ad6b02d-45b0-5728-b7c4-f20a2b740202'
 SOURCE_PATH = 'icons-json/food/two pronged fork knife_4ad6b02d-45b0-5728-b7c4-f20a2b740202.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TwoProngedForkKnife(Solo48):
     icon_id = 'two-pronged-fork-knife'
@@ -13,20 +12,43 @@ class TwoProngedForkKnife(Solo48):
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
-    keywords = ('two', 'pronged', 'fork', 'knife', 'food')
+    keywords = ('solo-ai-full-set', 'two-pronged-fork-knife')
 
     def build(self):
-        self.add_line('e0', (8, 25), (17, 25))
-        self.add_line('e1', (17, 25), (15, 15))
-        self.add_line('e2', (8, 4), (8, 44))
-        self.add_line('e3', (29, 5), (29, 15))
-        self.add_line('e4', (35, 44), (35, 20))
-        self.add_line('e5', (40, 16), (40, 5))
-        self.add_arc('e6', (15, 15), (8, 4), radius_x=20, sweep=False)
-        self.add_arc('e7', (29, 15), (35, 20), radius_x=5, sweep=False)
-        self.add_arc('e8', (35, 20), (40, 16), radius_x=5, sweep=False)
-        self.add_contour('c0', 'e0', 'e1', 'e6')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e7')
-        self.add_contour('c3', 'e4', 'e8', 'e5')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Preserve the two utensils; split the knife blade and handle at their real join and center the fork stem.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('blade',(8,4),[('C',(16,25),(14,9),(16,18)),('L',(8,25)),('L',(8,4))],True)
+        line('knife-handle',(8,25),(8,44));join('knife-handle','blade')
+        path('fork',(28,4),[('L',(28,14)),('A',(34,20),6,6,False),('A',(40,14),6,6,False),('L',(40,4))]);line('fork-handle',(34,20),(34,44));join('fork-handle','fork')

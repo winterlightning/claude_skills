@@ -1,10 +1,9 @@
-"""Feather (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""feather: Smooth notched feather; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8ab28f10-44ce-40c6-b0df-2578356c15de'
 SOURCE_PATH = 'icons-json/symbol/feather_8ab28f10-44ce-40c6-b0df-2578356c15de.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Feather(Solo48):
     icon_id = 'feather'
@@ -13,14 +12,42 @@ class Feather(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('feather', 'symbol')
+    keywords = ('solo-ai-full-set', 'feather')
 
     def build(self):
-        self.add_line('e0', (8, 44), (13, 37))
-        self.add_line('e1', (13, 37), (31, 14))
-        self.add_bezier('e2', (13, 37), ((12.175, 35.7), (11.298, 34.173), (10.917, 32.755)), ((8.431, 23.409), (18.166, 14.827), (27.385, 9.464)), ((29.969, 7.964), (32.652, 6.573), (35.446, 5.282)), ((35.858, 5.094), (37.999, 4), (38.219, 4)), ((38.222, 4), (38.225, 4), (38.228, 4)), ((38.326, 4.291), (38.437, 4.573), (38.535, 4.864)), ((38.634, 5.155), (38.745, 5.436), (38.843, 5.727)), ((39.508, 7.609), (39.988, 9.655), (39.988, 11.6)), ((39.988, 11.663), (40, 11.734), (40, 11.797)), ((40, 11.798), (40, 11.799), (40, 11.8)), ((40, 12.073), (39.988, 12.336), (39.988, 12.609)), ((39.988, 14.345), (39.311, 18.727), (37.945, 20.073)), ((37.563, 20.445), (36.923, 20.755), (36.406, 21.027)), ((33.662, 22.527), (31.04, 23.855), (28, 25)))
-        self.add_bezier('e3', (36, 24), ((31.323, 31.618), (24.323, 36.218), (13, 37)))
-        self.add_contour('c0', 'e0', 'e2')
-        self.add_contour('c1', 'e3', 'e1')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c1', 'c0')
+        # Plan: Preserve the broad vane, diagonal shaft and one intentional notch; the notch ends at a shared vane node.
+        # Reference: Lucide leaf: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('vane',(13,35),[('C',(8,25),(9,33),(8,29)),('C',(38,4),(8,15),(27,7)),('C',(40,13),(40,7),(40,10)),('C',(29,27),(40,20),(34,24)),('C',(13,35),(29,35),(20,39))],True)
+        path('quill',(8,44),[('L',(13,35)),('L',(25,20))]);join('quill','vane')

@@ -1,10 +1,9 @@
-"""Ceramic (hobbies), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""ceramic: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd9b91a34-6703-4faf-a865-315e9a81c798'
 SOURCE_PATH = 'icons-json/hobbies/ceramic_d9b91a34-6703-4faf-a865-315e9a81c798.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Ceramic(Solo48):
     icon_id = 'ceramic'
@@ -13,25 +12,39 @@ class Ceramic(Solo48):
     semantic_kind = 'noun'
     category = 'hobbies'
     aliases = ()
-    keywords = ('ceramic', 'hobbies')
+    keywords = ('ceramic', 'hobbies', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('sym-e0', (24, 44), (15, 44))
-        self.add_arc('sym-e1', (15, 44), (14, 37), radius_x=11, sweep=False)
-        self.add_line('sym-e2', (14, 37), (11, 32))
-        self.add_arc('sym-e3', (11, 32), (8, 23), radius_x=20)
-        self.add_line('sym-e4', (8, 23), (8, 22))
-        self.add_arc('sym-e6', (8, 22), (10, 16), radius_x=12)
-        self.add_line('sym-e7', (10, 16), (14, 10))
-        self.add_arc('sym-e8', (14, 10), (15, 4), radius_x=8, sweep=False)
-        self.add_line('sym-e9', (15, 4), (24, 4))
-        self.add_line('sym-e10', (24, 4), (33, 4))
-        self.add_arc('sym-e11', (33, 4), (34, 10), radius_x=8, sweep=False)
-        self.add_line('sym-e12', (34, 10), (38, 16))
-        self.add_arc('sym-e13', (38, 16), (40, 22), radius_x=11)
-        self.add_line('sym-e15', (40, 22), (40, 23))
-        self.add_arc('sym-e16', (40, 23), (37, 32), radius_x=20)
-        self.add_line('sym-e17', (37, 32), (34, 37))
-        self.add_arc('sym-e18', (34, 37), (33, 44), radius_x=11, sweep=False)
-        self.add_line('sym-e19', (33, 44), (24, 44))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', closed=True)
+        # Plan: A narrow-necked vase with a broad rounded belly and narrower foot. Mirrored tangents keep both shoulders smooth; foot width preserves the variant.
+        # Reference: Lucide amphora original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('vase',(16,4),[('L',(32,4)),('C',(40,22),(30,10),(40,14)),('C',(32,44),(40,31),(32,35)),('L',(16,44)),('C',(8,22),(16,35),(8,31)),('C',(16,4),(8,14),(18,10))],True)

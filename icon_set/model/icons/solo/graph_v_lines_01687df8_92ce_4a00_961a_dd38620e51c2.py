@@ -1,10 +1,9 @@
-"""Graph v lines (business), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""graph-v-lines: Clear zigzag chart; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '01687df8-92ce-4a00-961a-dd38620e51c2'
 SOURCE_PATH = 'icons-json/business/graph v lines_01687df8-92ce-4a00-961a-dd38620e51c2.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class GraphVLines(Solo48):
     icon_id = 'graph-v-lines'
@@ -13,32 +12,43 @@ class GraphVLines(Solo48):
     semantic_kind = 'noun'
     category = 'business'
     aliases = ()
-    keywords = ('graph', 'v', 'lines', 'business')
+    keywords = ('solo-ai-full-set', 'graph-v-lines')
 
     def build(self):
-        self.add_line('e0', (6, 6), (6, 42))
-        self.add_line('e1', (6, 42), (26, 42))
-        self.add_line('e2', (26, 42), (13, 31))
-        self.add_line('e3', (13, 31), (21, 25))
-        self.add_line('e4', (21, 25), (16, 18))
-        self.add_line('e5', (16, 18), (22, 13))
-        self.add_line('e6', (42, 42), (40, 42))
-        self.add_line('e7', (15, 6), (22, 13))
-        self.add_line('e8', (40, 42), (27, 26))
-        self.add_line('e9', (27, 26), (37, 16))
-        self.add_line('e10', (37, 16), (28, 6))
-        self.add_line('e11', (28, 6), (22, 13))
-        self.add_line('e12', (40, 42), (22, 42))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5')
-        self.add_contour('c1', 'e6')
-        self.add_contour('c2', 'e7')
-        self.add_contour('c3', 'e8', 'e9', 'e10', 'e11')
-        self.add_contour('c4', 'e12')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c4', 'c0')
+        # Plan: Preserve the two zigzag chart traces and axes. Open traces remove the cramped parallel channel while retaining the jagged graph.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('axis',(6,6),(6,42),(28,42),(42,42))
+        poly('left',(16,6),(23,14),(14,24),(28,42));join('left','axis')
+        poly('right',(27,6),(37,14),(28,24),(42,42));join('right','axis')

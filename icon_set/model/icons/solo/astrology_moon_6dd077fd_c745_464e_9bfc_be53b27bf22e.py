@@ -1,10 +1,9 @@
-"""Astrology moon (religion), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""astrology-moon: Smooth crescent silhouette; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6dd077fd-c745-464e-9bfc-be53b27bf22e'
 SOURCE_PATH = 'icons-json/religion/astrology moon_6dd077fd-c745-464e-9bfc-be53b27bf22e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AstrologyMoon(Solo48):
     icon_id = 'astrology-moon'
@@ -13,19 +12,42 @@ class AstrologyMoon(Solo48):
     semantic_kind = 'noun'
     category = 'religion'
     aliases = ()
-    keywords = ('astrology', 'moon', 'religion')
+    keywords = ('solo-ai-full-set', 'astrology-moon')
 
     def build(self):
-        self.add_line('e0', (8, 42), (14, 40))
-        self.add_line('e1', (12, 7), (8, 6))
-        self.add_arc('e2-1', (8, 6), (18, 4), radius_x=33)
-        self.add_arc('e2-2', (18, 4), (31, 8), radius_x=24)
-        self.add_arc('e2-3', (31, 8), (40, 23), radius_x=20)
-        self.add_arc('e2-4', (40, 23), (40, 26), radius_x=43, sweep=False)
-        self.add_arc('e2-5', (40, 26), (38, 32), radius_x=16)
-        self.add_arc('e2-6', (38, 32), (27, 42), radius_x=22)
-        self.add_arc('e2-7', (27, 42), (18, 44), radius_x=22)
-        self.add_arc('e2-8', (18, 44), (8, 42), radius_x=35)
-        self.add_arc('e3-1', (14, 40), (25, 21), radius_x=17, sweep=False)
-        self.add_arc('e3-2', (25, 21), (12, 7), radius_x=18, sweep=False)
-        self.add_contour('c0', 'e2-1', 'e2-2', 'e2-3', 'e2-4', 'e2-5', 'e2-6', 'e2-7', 'e2-8', 'e0', 'e3-1', 'e3-2', 'e1', closed=True)
+        # Plan: Preserve the crescent direction; coherent outer and inner curves replace the broken tip transitions.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        def pt(x,y):return (48-x,y) if False else (x,y)
+        path('moon',pt(8,4),[('C',pt(40,24),pt(27,4),pt(40,12)),('C',pt(8,44),pt(40,36),pt(27,44)),('C',pt(25,24),pt(20,41),pt(25,32)),('C',pt(8,4),pt(25,16),pt(20,7))],True)

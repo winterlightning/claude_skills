@@ -1,10 +1,9 @@
-"""Vodafone logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""vodafone-logo: Smooth circular speech mark; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c67d0db4-f1ce-4316-b613-652728c2ba82'
 SOURCE_PATH = 'icons-json/logos/vodafone logo_c67d0db4-f1ce-4316-b613-652728c2ba82.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class VodafoneLogo(Solo48):
     icon_id = 'vodafone-logo'
@@ -13,20 +12,43 @@ class VodafoneLogo(Solo48):
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
-    keywords = ('vodafone', 'logo', 'logos')
+    keywords = ('solo-ai-full-set', 'vodafone-logo')
 
     def build(self):
-        self.add_line('e0', (21, 15), (19, 15))
-        self.add_line('e1', (27, 8), (32, 6))
-        self.add_arc('e2-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e2-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e3-1', (19, 15), (17, 29), radius_x=15, sweep=False)
-        self.add_arc('e3-2', (17, 29), (27, 34), radius_x=8, sweep=False)
-        self.add_arc('e3-3', (27, 34), (33, 20), radius_x=10, sweep=False)
-        self.add_arc('e3-4', (33, 20), (21, 15), radius_x=10, sweep=False)
-        self.add_arc('e4', (19, 15), (27, 8), radius_x=17)
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e0', closed=True)
-        self.add_contour('c1', 'e4', 'e1')
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c1', 'e2')
+        # Plan: Preserve the inner speech loop and its rising tail; use true circles with exact tail attachment nodes.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('rim',(24,4),[('A',(36,8),20,20,True),('A',(44,24),20,20,True),('A',(24,44),20,20,True),('A',(4,24),20,20,True),('A',(24,4),20,20,True)],True)
+        path('loop',(18,17),[('A',(34,25),10,10,True),('A',(24,35),10,10,True),('A',(14,25),10,10,True),('A',(18,17),10,10,True)],True)
+        path('tail',(18,17),[('C',(36,8),(24,13),(29,8))]);join('tail','loop');join('tail','rim')

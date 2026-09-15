@@ -1,10 +1,9 @@
-"""Calendly logo (_uncategorized), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""calendly-logo: Smooth open C emblem; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bacfa429-a6b0-4633-9b16-4de2c0ffebf1'
 SOURCE_PATH = 'icons-json/_uncategorized_09/calendly logo_bacfa429-a6b0-4633-9b16-4de2c0ffebf1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CalendlyLogo(Solo48):
     icon_id = 'calendly-logo'
@@ -13,8 +12,41 @@ class CalendlyLogo(Solo48):
     semantic_kind = 'noun'
     category = '_uncategorized'
     aliases = ()
-    keywords = ('calendly', 'logo', '_uncategorized')
+    keywords = ('solo-ai-full-set', 'calendly-logo')
 
     def build(self):
-        self.add_bezier('e0', (42, 17), ((41.984, 16.943), (41.975, 17.332), (41.959, 17.275)), ((41.91, 17.095), (41.845, 16.939), (41.771, 16.767)), ((41.55, 16.293), (41.329, 15.81), (41.059, 15.352)), ((40.257, 13.977), (39.259, 12.766), (38.114, 11.654)), ((34.669, 8.307), (29.883, 6.008), (25.023, 6.008)), ((24.918, 6.008), (24.821, 6), (24.717, 6)), ((24.715, 6), (24.713, 6), (24.712, 6)), ((24.548, 6), (24.376, 6.008), (24.213, 6.008)), ((16.579, 6.008), (9.535, 11.015), (7.015, 18.183)), ((6.425, 19.86), (6.008, 21.701), (6.008, 23.493)), ((6.008, 23.557), (6, 23.614), (6, 23.678)), ((6, 23.679), (6, 23.68), (6, 23.681)), ((6, 24.008), (6.008, 24.327), (6.008, 24.655)), ((6.008, 34.015), (14.861, 41.992), (24.025, 41.992)), ((24.089, 41.992), (24.153, 42), (24.218, 42)), ((24.219, 42), (24.22, 42), (24.221, 42)), ((24.515, 42), (24.81, 41.992), (25.105, 41.992)), ((30.676, 41.992), (36.117, 39.014), (39.472, 34.653)), ((40.012, 33.949), (42, 30.783), (42, 29.924)), ((42, 29.318), (40.904, 28.655), (40.454, 28.516)), ((39.3, 28.173), (35.986, 28.328), (35.013, 29.015)), ((34.137, 29.637), (33.671, 30.75), (32.935, 31.519)), ((31.748, 32.763), (30.357, 33.679), (28.778, 34.334)), ((21.619, 37.295), (13.454, 31.945), (13.135, 24.254)), ((12.791, 16.039), (21.701, 10.893), (28.95, 13.789)), ((30.57, 14.435), (32.043, 15.417), (33.254, 16.685)), ((33.925, 17.389), (34.383, 18.379), (35.258, 18.862)), ((36.428, 19.516), (39.136, 19.418), (40.462, 19.132)), ((41.01, 19.017), (42, 18.535), (42, 17.855)), ((42, 17.725), (42, 17.131), (42, 17)))
-        self.add_contour('c0', 'e0', closed=True)
+        # Plan: Preserve the outlined C; give the inner curve a clear, broad opening and balanced terminal tabs.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('mark',(42,17),[('C',(24,6),(37,10),(31,6)),('C',(6,24),(14,6),(6,14)),('C',(24,42),(6,34),(14,42)),('C',(42,31),(31,42),(37,38)),('L',(31,28)),('C',(24,33),(29,31),(28,33)),('C',(15,24),(19,33),(15,29)),('C',(24,15),(15,19),(19,15)),('C',(31,20),(28,15),(29,17)),('L',(42,17))],True)

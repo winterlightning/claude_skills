@@ -1,10 +1,9 @@
-"""Bread (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""bread: Broad bread slice; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8ddeed7d-559d-4b14-9b46-092f255cb54a'
 SOURCE_PATH = 'icons-json/symbol/bread_8ddeed7d-559d-4b14-9b46-092f255cb54a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Bread(Solo48):
     icon_id = 'bread'
@@ -13,21 +12,41 @@ class Bread(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('bread', 'symbol')
+    keywords = ('solo-ai-next50-refine', 'solo-ai-next50', 'bread')
 
     def build(self):
-        self.add_line('e0', (39, 18), (41, 17))
-        self.add_line('e1', (33, 6), (18, 6))
-        self.add_line('e2', (8, 17), (9, 18))
-        self.add_line('e3', (9, 18), (9, 42))
-        self.add_line('e4', (9, 42), (11, 42))
-        self.add_line('e5', (11, 42), (34, 42))
-        self.add_line('e6', (34, 42), (39, 42))
-        self.add_line('e7', (39, 42), (39, 18))
-        self.add_line('e8-1', (41, 17), (42, 13))
-        self.add_arc('e8-2', (42, 13), (34, 6), radius_x=9, sweep=False)
-        self.add_line('e8-3', (34, 6), (33, 6))
-        self.add_line('e9-1', (18, 6), (11, 7))
-        self.add_arc('e9-2', (11, 7), (6, 13), radius_x=7, sweep=False)
-        self.add_line('e9-3', (6, 13), (8, 17))
-        self.add_contour('c0', 'e0', 'e8-1', 'e8-2', 'e8-3', 'e1', 'e9-1', 'e9-2', 'e9-3', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', closed=True)
+        # Plan: A wide slice body retains the original proportion. A low softly domed crown has shallow shoulders, with matching sides and softly rounded bottom corners; no decorative crumbs.
+        # Reference: Original football; exact mirrored panel construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        # Shared axis owns the left and right sides of the slice.
+        right=[('C',(42,14),(38,6),(42,10)),('C',(39,20),(42,17),(40,19)),('L',(39,39)),('A',(36,42),3,3,True),('L',(24,42))]
+        path('slice',(24,6),right+[('L',(12,42)),('A',(9,39),3,3,True),('L',(9,20)),('C',(6,14),(8,19),(6,17)),('C',(24,6),(6,10),(10,6))],True)

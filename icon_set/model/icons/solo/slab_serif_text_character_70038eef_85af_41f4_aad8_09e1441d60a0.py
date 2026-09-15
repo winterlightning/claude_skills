@@ -1,10 +1,9 @@
-"""Slab serif text character (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""slab-serif-text-character: Regular slab-serif M; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '70038eef-85af-41f4-aad8-09e1441d60a0'
 SOURCE_PATH = 'icons-json/interface-essential/slab serif text character_70038eef-85af-41f4-aad8-09e1441d60a0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SlabSerifTextCharacter(Solo48):
     icon_id = 'slab-serif-text-character'
@@ -13,40 +12,43 @@ class SlabSerifTextCharacter(Solo48):
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('slab', 'serif', 'text', 'character', 'interface-essential')
+    keywords = ('solo-ai-full-set', 'slab-serif-text-character')
 
     def build(self):
-        self.add_line('e0', (8, 4), (11, 4))
-        self.add_line('e1', (8, 44), (11, 44))
-        self.add_line('e2', (13, 44), (11, 44))
-        self.add_line('e3', (35, 44), (37, 44))
-        self.add_line('e4', (40, 44), (37, 44))
-        self.add_line('e5', (40, 4), (37, 4))
-        self.add_line('e6', (11, 44), (11, 4))
-        self.add_line('e7', (11, 4), (14, 4))
-        self.add_line('e8', (14, 4), (24, 30))
-        self.add_line('e9', (24, 30), (34, 5))
-        self.add_line('e10', (35, 4), (37, 4))
-        self.add_line('e11', (37, 44), (37, 4))
-        self.add_arc('e12', (34, 5), (35, 4), radius_x=2)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e5')
-        self.add_contour('c6', 'e6')
-        self.add_contour('c7', 'e7', 'e8', 'e9', 'e12', 'e10')
-        self.add_contour('c8', 'e11')
-        self.relate('connect', 'c0', 'c6')
-        self.relate('connect', 'c0', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c6')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c8')
-        self.relate('connect', 'c4', 'c8')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c5', 'c8')
-        self.relate('connect', 'c7', 'c8')
+        # Plan: Preserve the broad M with four serif ends; consolidate the shared vertical stems and serif junctions.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('left',(8,4),[('L',(13,4)),('L',(13,44))]);path('right',(40,4),[('L',(35,4)),('L',(35,44))])
+        path('middle',(13,4),[('L',(24,30)),('L',(35,4))]);join('middle','left');join('middle','right')
+        for name,x in [('left',13),('right',35)]:path(f'base-{name}',(x-4,44),[('L',(x,44)),('L',(x+4,44))]);join(f'base-{name}',name)

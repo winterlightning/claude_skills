@@ -1,10 +1,9 @@
-"""Dentistry tooth chipped (health), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""dentistry-tooth-chipped: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3be1d7f3-7a5d-5505-b530-fef1f4917455'
 SOURCE_PATH = 'icons-json/health/dentistry tooth chipped_3be1d7f3-7a5d-5505-b530-fef1f4917455.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DentistryToothChipped(Solo48):
     icon_id = 'dentistry-tooth-chipped'
@@ -13,14 +12,41 @@ class DentistryToothChipped(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('dentistry', 'tooth', 'chipped', 'health')
+    keywords = ('dentistry', 'tooth', 'chipped', 'health', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (19, 40), (20, 33))
-        self.add_line('e1', (28, 33), (29, 41))
-        self.add_line('e2', (35, 36), (37, 24))
-        self.add_line('e3', (37, 24), (34, 20))
-        self.add_bezier('e4', (34, 20), ((34.69, 19.718), (38.4, 18.755), (38.79, 18.118)), ((39.35, 17.209), (39.99, 13.209), (39.99, 12.082)), ((39.99, 12.037), (40, 11.992), (40, 11.948)), ((40, 11.947), (40, 11.946), (40, 11.945)), ((40, 11.673), (39.99, 11.4), (39.99, 11.118)), ((39.99, 11.045), (39.99, 10.973), (39.99, 10.9)), ((39.99, 10.827), (39.99, 10.755), (39.99, 10.682)), ((39.99, 8.191), (38.23, 5.327), (35.59, 4.4)), ((34.75, 4.109), (33.64, 4.018), (32.75, 4.018)), ((32.65, 4.009), (32.55, 4), (32.45, 4)), ((32.449, 4), (32.447, 4), (32.446, 4)), ((32.367, 4), (32.279, 4.009), (32.2, 4.009)), ((30.14, 4.009), (28.12, 4.736), (26.14, 5.182)), ((25.51, 5.327), (24.78, 5.545), (24.12, 5.527)), ((22.03, 5.473), (19.94, 4.664), (17.93, 4.264)), ((14.36, 4), (9.97, 4.345), (8.65, 7.855)), ((8.35, 8.645), (8.02, 9.564), (8.02, 10.409)), ((8.02, 10.7), (8, 10.982), (8, 11.273)), ((8, 11.277), (8, 11.282), (8, 11.286)), ((8, 11.573), (8.01, 11.859), (8.01, 12.136)), ((8.01, 14.582), (8.71, 17.155), (9.57, 19.455)), ((10.19, 21.1), (10.98, 22.727), (11.37, 24.436)), ((12.34, 28.682), (11.81, 33.109), (13.05, 37.318)), ((13.66, 39.373), (14.44, 41.673), (16.36, 43.036)), ((16.586, 43.197), (17.666, 44), (17.89, 44)), ((17.894, 44), (17.897, 44), (17.9, 44)), ((18.23, 44), (18.96, 40.3), (19, 40)))
-        self.add_bezier('e5', (20, 33), ((20.19, 31.627), (20.73, 29.318), (21.81, 28.3)), ((22.44, 27.7), (23.36, 27.364), (24.26, 27.473)), ((27.05, 27.782), (27.74, 30.882), (28, 33)))
-        self.add_bezier('e6', (29, 41), ((29.1, 41.818), (29.51, 43.027), (29.9, 43.755)), ((29.95, 43.836), (30, 43.918), (30.04, 44)), ((30.39, 43.782), (30.73, 43.564), (31.07, 43.345)), ((31.41, 43.118), (31.69, 42.736), (31.95, 42.445)), ((33.5, 40.755), (34.63, 38.173), (35, 36)))
-        self.add_contour('c0', 'e4', 'e0', 'e5', 'e1', 'e6', 'e2', 'e3', closed=True)
+        # Plan: Keep the broad crown and two long rounded roots. Shared root proportions preserve the tooth identity. A clear notch on the right marks the chipped edge.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('tooth',(24,6),[('C',(34,4),(28,6),(30,4)),('C',(40,13),(39,4),(40,7)),
+        ('L',(38,17)),('L',(34,19)),('L',(39,23)),
+        ('C',(30,44),(35,34),(35,44)),('C',(24,28),(29,44),(31,28)),('C',(18,44),(17,28),(19,44)),('C',(12,27),(13,44),(13,34)),('C',(8,13),(12,22),(8,18)),('C',(14,4),(8,7),(9,4)),('C',(24,6),(18,4),(20,6))],True)

@@ -1,10 +1,9 @@
-"""Computer chip (electronics), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""computer-chip: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '91a0337e-3cfe-56f5-8b9d-a91954dc8ffc'
 SOURCE_PATH = 'icons-json/electronics/computer chip_91a0337e-3cfe-56f5-8b9d-a91954dc8ffc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ComputerChip(Solo48):
     icon_id = 'computer-chip'
@@ -13,84 +12,43 @@ class ComputerChip(Solo48):
     semantic_kind = 'noun'
     category = 'electronics'
     aliases = ()
-    keywords = ('computer', 'chip', 'electronics')
+    keywords = ('computer', 'chip', 'electronics', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('sym-e0', (29, 42), (29, 36))
-        self.add_line('sym-e1', (29, 36), (31, 36))
-        self.add_arc('sym-e2', (31, 36), (36, 32), radius_x=4, sweep=False)
-        self.add_line('sym-e3', (36, 32), (36, 29))
-        self.add_line('sym-e4', (36, 29), (42, 29))
-        self.add_line('sym-e5', (36, 24), (36, 29))
-        self.add_line('sym-e6', (29, 36), (24, 36))
-        self.add_line('sym-e7', (24, 36), (19, 36))
-        self.add_line('sym-e8', (19, 36), (19, 42))
-        self.add_line('sym-e9', (6, 29), (12, 29))
-        self.add_line('sym-e10', (12, 29), (12, 24))
-        self.add_line('sym-e11', (12, 24), (12, 19))
-        self.add_line('sym-e12', (12, 19), (6, 19))
-        self.add_line('sym-e13', (12, 29), (12, 32))
-        self.add_arc('sym-e14', (12, 32), (17, 36), radius_x=4, sweep=False)
-        self.add_line('sym-e15', (17, 36), (19, 36))
-        self.add_line('sym-e16', (29, 6), (29, 12))
-        self.add_line('sym-e17', (29, 12), (31, 12))
-        self.add_arc('sym-e18', (31, 12), (36, 16), radius_x=4)
-        self.add_line('sym-e19', (36, 16), (36, 19))
-        self.add_line('sym-e20', (36, 19), (42, 19))
-        self.add_line('sym-e21', (36, 24), (36, 19))
-        self.add_line('sym-e22', (29, 12), (24, 12))
-        self.add_line('sym-e23', (24, 12), (19, 12))
-        self.add_line('sym-e24', (19, 12), (19, 6))
-        self.add_line('sym-e25', (12, 19), (12, 16))
-        self.add_arc('sym-e26', (12, 16), (17, 12), radius_x=4)
-        self.add_line('sym-e27', (17, 12), (19, 12))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c1', 'sym-e5')
-        self.add_contour('sym-c2', 'sym-e6', 'sym-e7', 'sym-e8')
-        self.add_contour('sym-c3', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12')
-        self.add_contour('sym-c4', 'sym-e13', 'sym-e14', 'sym-e15')
-        self.add_contour('sym-c5', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20')
-        self.add_contour('sym-c6', 'sym-e21')
-        self.add_contour('sym-c7', 'sym-e22', 'sym-e23', 'sym-e24')
-        self.add_contour('sym-c8', 'sym-e25', 'sym-e26', 'sym-e27')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c1', 'sym-c6')
-        self.relate('connect', 'sym-c2', 'sym-c4')
-        self.relate('connect', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c3', 'sym-c8')
-        self.relate('connect', 'sym-c5', 'sym-c7')
-        self.relate('connect', 'sym-c5', 'sym-c6')
-        self.relate('connect', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
-        self.relate('connect', 'sym-c2', 'sym-c3', 'sym-c4')
-        self.relate('connect', 'sym-c5', 'sym-c6', 'sym-c7')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c3', 'sym-c7', 'sym-c8')
+        # Plan: Preserve the square chip with paired leads; each axis uses shared pin spacing and exact body contacts. Corner radius retains this variant identity.
+        # Reference: Lucide microchip original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        rounded('body',14,14,34,34,3)
+
+        for p in (20,28):
+         for k,a,b in [('t',(p,6),(p,14)),('b',(p,34),(p,42)),('l',(6,p),(14,p)),('r',(34,p),(42,p))]:
+          line(f'{k}-{p}',a,b);join(f'{k}-{p}','body')

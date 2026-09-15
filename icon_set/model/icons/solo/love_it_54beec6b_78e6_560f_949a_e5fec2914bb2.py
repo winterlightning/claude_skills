@@ -1,10 +1,9 @@
-"""Love it (social), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""love-it: Balanced flowing heart; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '54beec6b-78e6-560f-949a-e5fec2914bb2'
 SOURCE_PATH = 'icons-json/social/love it_54beec6b-78e6-560f-949a-e5fec2914bb2.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class LoveIt(Solo48):
     icon_id = 'love-it'
@@ -13,25 +12,41 @@ class LoveIt(Solo48):
     semantic_kind = 'noun'
     category = 'social'
     aliases = ()
-    keywords = ('love', 'it', 'social')
+    keywords = ('solo-ai-full-set', 'love-it')
 
     def build(self):
-        self.add_line('sym-e1', (24, 13), (25, 12))
-        self.add_arc('sym-e2', (25, 12), (29, 9), radius_x=10)
-        self.add_line('sym-e3', (29, 9), (33, 8))
-        self.add_line('sym-e4-1', (33, 8), (38, 9))
-        self.add_arc('sym-e4-2', (38, 9), (41, 11), radius_x=10)
-        self.add_arc('sym-e4-3', (41, 11), (44, 17), radius_x=8)
-        self.add_arc('sym-e5', (44, 17), (44, 18), radius_x=25, sweep=False)
-        self.add_arc('sym-e6', (44, 18), (39, 27), radius_x=12)
-        self.add_line('sym-e7', (39, 27), (24, 40))
-        self.add_line('sym-e8', (24, 40), (9, 27))
-        self.add_arc('sym-e9', (9, 27), (4, 18), radius_x=12)
-        self.add_line('sym-e10', (4, 18), (4, 17))
-        self.add_arc('sym-e11-1', (4, 17), (7, 11), radius_x=8)
-        self.add_arc('sym-e11-2', (7, 11), (10, 9), radius_x=10)
-        self.add_line('sym-e11-3', (10, 9), (15, 8))
-        self.add_line('sym-e12', (15, 8), (19, 9))
-        self.add_arc('sym-e13', (19, 9), (23, 12), radius_x=11)
-        self.add_arc('sym-e14', (23, 12), (24, 13), radius_x=29)
-        self.add_contour('sym-c0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4-1', 'sym-e4-2', 'sym-e4-3', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11-1', 'sym-e11-2', 'sym-e11-3', 'sym-e12', 'sym-e13', 'sym-e14', closed=True)
+        # Plan: Matched lobes around the shared center; retain the broad heart and pointed bottom.
+        # Reference: Lucide heart: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('heart',(24,13),[('C',(34,8),(27,10),(29,8)),('C',(44,19),(40,8),(44,12)),('C',(39,27),(44,22),(42,24)),('L',(24,40)),('L',(9,27)),('C',(4,19),(6,24),(4,22)),('C',(14,8),(4,12),(8,8)),('C',(24,13),(19,8),(21,10))],True)

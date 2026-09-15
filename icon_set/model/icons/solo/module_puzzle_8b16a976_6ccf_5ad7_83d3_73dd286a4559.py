@@ -1,10 +1,9 @@
-"""Module puzzle (programing), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""module-puzzle: Smooth puzzle piece; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '8b16a976-6ccf-5ad7-83d3-73dd286a4559'
 SOURCE_PATH = 'icons-json/programing/module puzzle_8b16a976-6ccf-5ad7-83d3-73dd286a4559.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ModulePuzzle(Solo48):
     icon_id = 'module-puzzle'
@@ -13,21 +12,41 @@ class ModulePuzzle(Solo48):
     semantic_kind = 'noun'
     category = 'programing'
     aliases = ()
-    keywords = ('module', 'puzzle', 'programing')
+    keywords = ('solo-ai-full-set', 'module-puzzle')
 
     def build(self):
-        self.add_line('e0', (21, 13), (11, 13))
-        self.add_line('e1', (8, 17), (8, 25))
-        self.add_line('e2', (8, 31), (8, 42))
-        self.add_line('e3', (11, 44), (21, 44))
-        self.add_line('e4', (27, 44), (38, 44))
-        self.add_line('e5', (40, 42), (40, 16))
-        self.add_line('e6', (37, 13), (27, 13))
-        self.add_bezier('e7', (27, 13), ((27.429, 12.018), (28.547, 10.918), (28.699, 9.8)), ((29.103, 6.836), (26.897, 4), (24.076, 4)), ((24.075, 4), (24.074, 4), (24.073, 4)), ((24.006, 4), (23.932, 4.009), (23.865, 4.018)), ((21.044, 4.018), (18.804, 6.9), (19.259, 9.864)), ((19.427, 10.973), (20.537, 12.027), (21, 13)))
-        self.add_bezier('e8', (11, 13), ((9.829, 13), (8.017, 14.255), (8.017, 15.609)), ((8.017, 15.764), (8.008, 15.918), (8.008, 16.064)), ((8.008, 16.145), (8, 16.218), (8, 16.291)), ((8, 16.436), (8, 16.855), (8, 17)))
-        self.add_bezier('e9', (8, 25), ((9.701, 24.118), (11.284, 23.1), (13.229, 23.636)), ((14.223, 23.909), (15.124, 24.618), (15.739, 25.473)), ((18.476, 29.282), (15.453, 33.764), (11.251, 33.009)), ((10.105, 32.8), (8.968, 31.6), (8, 31)))
-        self.add_bezier('e10', (8, 42), ((8.699, 42.882), (9.821, 44), (11, 44)))
-        self.add_bezier('e11', (21, 44), ((20.276, 42.736), (19.857, 41.527), (19.646, 40.027)), ((19.267, 37.309), (21.558, 34.945), (24.017, 34.909)), ((26.122, 34.882), (28.278, 36.636), (28.749, 38.855)), ((29.162, 40.764), (27.8, 42.4), (27, 44)))
-        self.add_bezier('e12', (38, 44), ((38.168, 43.9), (38.669, 43.918), (38.821, 43.809)), ((39.503, 43.355), (39.655, 42.673), (40, 42)))
-        self.add_bezier('e13', (40, 16), ((40, 15.8), (39.992, 15.418), (39.992, 15.227)), ((39.992, 13.927), (38.678, 13.109), (37.608, 13.018)), ((37.272, 12.991), (37.328, 13), (37, 13)))
-        self.add_contour('c0', 'e7', 'e0', 'e8', 'e1', 'e9', 'e2', 'e10', 'e3', 'e11', 'e4', 'e12', 'e5', 'e13', 'e6', closed=True)
+        # Plan: Preserve all three tab and socket features with broad bridges between them.
+        # Reference: Lucide puzzle: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('piece',(19,16),[('L',(8,16)),('L',(8,24)),('C',(14,29),(12,24),(14,25)),('C',(8,34),(14,33),(12,34)),('L',(8,44)),('L',(21,44)),('C',(26,36),(19,40),(21,36)),('C',(31,44),(31,36),(33,40)),('L',(40,44)),('L',(40,16)),('L',(29,16)),('C',(24,4),(34,9),(30,4)),('C',(19,16),(18,4),(14,9))],True)

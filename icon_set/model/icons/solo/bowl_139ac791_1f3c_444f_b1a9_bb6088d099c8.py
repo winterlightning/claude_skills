@@ -1,10 +1,9 @@
-"""Bowl (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""bowl: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '139ac791-1f3c-444f-b1a9-bb6088d099c8'
 SOURCE_PATH = 'icons-json/symbol/bowl_139ac791-1f3c-444f-b1a9-bb6088d099c8.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Bowl(Solo48):
     icon_id = 'bowl'
@@ -13,23 +12,39 @@ class Bowl(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('bowl', 'symbol')
+    keywords = ('bowl', 'symbol', 'solo-ai-next50')
 
     def build(self):
-        self.add_arc('sym-e0', (33, 33), (44, 10), radius_x=30, sweep=False)
-        self.add_line('sym-e1', (44, 10), (44, 9))
-        self.add_arc('sym-e2', (44, 9), (44, 8), radius_x=23)
-        self.add_line('sym-e3', (44, 8), (24, 8))
-        self.add_line('sym-e4', (24, 8), (4, 8))
-        self.add_line('sym-e5', (4, 8), (4, 9))
-        self.add_line('sym-e6', (4, 9), (4, 10))
-        self.add_arc('sym-e7', (4, 10), (15, 33), radius_x=31, sweep=False)
-        self.add_line('sym-e8', (15, 33), (15, 39))
-        self.add_arc('sym-e9', (15, 39), (15, 40), radius_x=3)
-        self.add_arc('sym-e10', (15, 40), (16, 40), radius_x=1)
-        self.add_line('sym-e12', (16, 40), (24, 40))
-        self.add_line('sym-e13', (24, 40), (32, 40))
-        self.add_line('sym-e15', (32, 40), (33, 40))
-        self.add_arc('sym-e16', (33, 40), (33, 39), radius_x=3)
-        self.add_line('sym-e17', (33, 39), (33, 33))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e12', 'sym-e13', 'sym-e15', 'sym-e16', 'sym-e17', closed=True)
+        # Plan: A plain footed bowl keeps a continuous elliptical basin and broad flat foot. One shared axis controls both sides, with no unnecessary steam or utensils.
+        # Reference: Lucide soup original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bowl',(4,8),[('L',(44,8)),('C',(32,32),(44,20),(38,28)),('L',(32,40)),('L',(16,40)),('L',(16,32)),('C',(4,8),(10,28),(4,20))],True)

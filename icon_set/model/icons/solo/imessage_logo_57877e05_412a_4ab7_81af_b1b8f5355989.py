@@ -1,10 +1,9 @@
-"""Imessage logo (logos), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""imessage-logo: Smooth speech bubble; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '57877e05-412a-4ab7-81af-b1b8f5355989'
 SOURCE_PATH = 'icons-json/logos/imessage logo_57877e05-412a-4ab7-81af-b1b8f5355989.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ImessageLogo(Solo48):
     icon_id = 'imessage-logo'
@@ -13,10 +12,41 @@ class ImessageLogo(Solo48):
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
-    keywords = ('imessage', 'logo', 'logos')
+    keywords = ('solo-ai-full-set', 'imessage-logo')
 
     def build(self):
-        self.add_line('e0', (8, 40), (10, 37))
-        self.add_line('e1', (9, 40), (8, 40))
-        self.add_bezier('e2', (10, 37), ((10.582, 36.461), (11.955, 35.427), (11.655, 34.627)), ((11.5, 34.223), (8.691, 32.219), (8.091, 31.621)), ((5.818, 29.373), (4.009, 26.282), (4.009, 23.116)), ((4.009, 23.025), (4, 22.925), (4, 22.834)), ((4, 22.832), (4, 22.831), (4, 22.829)), ((4, 22.602), (4.009, 22.366), (4.009, 22.139)), ((4.009, 20.834), (4.409, 19.478), (4.909, 18.274)), ((7.573, 11.899), (15.836, 8.017), (22.955, 8.017)), ((23.178, 8.017), (23.393, 8), (23.617, 8)), ((23.62, 8), (23.624, 8), (23.627, 8)), ((24.082, 8), (24.545, 8.017), (25, 8.017)), ((32.045, 8.017), (39.918, 11.461), (42.836, 17.642)), ((43.473, 18.998), (43.991, 20.547), (43.991, 22.046)), ((43.991, 22.121), (44, 22.204), (44, 22.279)), ((44, 22.28), (44, 22.281), (44, 22.282)), ((44, 22.594), (43.991, 22.905), (43.991, 23.217)), ((43.991, 24.825), (43.436, 26.476), (42.709, 27.924)), ((39.818, 33.634), (33.027, 36.564), (26.564, 37.255)), ((24.882, 37.432), (23.109, 37.44), (21.427, 37.246)), ((20.973, 37.196), (19.127, 36.842), (18.845, 36.918)), ((18.773, 36.935), (17.182, 38.223), (16.855, 38.417)), ((15.273, 39.335), (13.282, 39.983), (11.4, 39.983)), ((11.327, 39.983), (11.264, 39.992), (11.191, 39.992)), ((11.155, 39.992), (11.127, 40), (11.1, 40)), ((10.555, 40), (9.545, 40), (9, 40)))
-        self.add_contour('c0', 'e0', 'e2', 'e1', closed=True)
+        # Plan: Preserve the broad oval bubble and lower-left tail; use coherent arcs and a clear tail join.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bubble',(12,33),[('C',(4,23),(7,30),(4,28)),('C',(24,8),(4,13),(14,8)),('C',(44,23),(34,8),(44,13)),('C',(24,36),(44,32),(34,36)),('L',(18,35)),('C',(8,40),(15,38),(11,40)),('L',(12,33))],True)

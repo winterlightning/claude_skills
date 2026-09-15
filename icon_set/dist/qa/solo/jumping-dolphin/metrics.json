@@ -3,10 +3,8 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "fail",
-  "errors": [
-    "canvas/keyshape bounds: visible ink (4, 4, 44.0709, 44) does not match the HRECT_XL envelope (2, 6, 46, 42) (deltas [2.0, 2.0, 1.9291, 2.0], tolerance 0.0)"
-  ],
+  "status": "pass",
+  "errors": [],
   "warnings": [],
   "spacing": {
     "ok": true,
@@ -17,15 +15,15 @@
         "elementId": "silhouette",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 24 L 6 17 A 19 19 0 0 1 22 7 L 30 6 L 28 12 A 24 24 0 0 1 40 32 A 6 11 0 0 1 42 42 L 36 39 L 27 42 A 12 12 0 0 1 31 33 A 15 15 0 0 0 18 23 L 20 32 A 10 10 0 0 1 12 27 L 6 30 L 6 24 Z",
+        "pathData": "M 6 24 L 6 17 A 19 19 0 0 1 22 7 L 30 6 L 28 12 A 24 24 0 0 1 40 32 C 41.561157010000002 34.479920640000003 42 38.257729519999998 42 42 L 36 39 L 27 42 A 12 12 0 0 1 31 33 A 15 15 0 0 0 18 23 L 20 32 A 10 10 0 0 1 12 27 L 6 30 L 6 24 Z",
         "bounds": [
           6.0,
           6.0,
-          42.0708975810172,
+          42.0,
           42.0
         ],
-        "segmentCount": 393,
-        "approximationError": 0.0007542830637327527,
+        "segmentCount": 373,
+        "approximationError": 0.0009941148361009668,
         "hasCurves": true
       }
     ],
@@ -44,7 +42,7 @@
         "bounds": [
           6.0,
           6.0,
-          42.0708975810172,
+          42.0,
           42.0
         ]
       }
@@ -68,8 +66,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 16,
-      "flattenedSegments": 393,
-      "adaptiveNodes": 762,
+      "flattenedSegments": 373,
+      "adaptiveNodes": 722,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -78,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          20.5156,
+          15.2656
+        ],
+        "bbox_viewbox": [
+          8.0,
+          8.375,
+          31.8438,
+          30.6875
+        ],
+        "bbox_ship_px": [
+          31.8438,
+          30.6875
+        ],
+        "bbox_design_u": [
+          31.8438,
+          30.6875
+        ],
+        "area_ship_px2": 402.5996,
+        "equivalent_diameter_ship_px": 22.6408,
+        "equivalent_diameter_design_u": 22.6408,
+        "inscribed_diameter_ship_px": 12.1704,
+        "inscribed_diameter_design_u": 12.1704,
+        "inscribed_radius_ship_px": 6.0852,
+        "inscribed_radius_design_u": 6.0852,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -91,20 +123,20 @@
         "bbox_viewbox": [
           6.5,
           6.5938,
-          35.0625,
+          35.0,
           34.6875
         ],
         "bbox_ship_px": [
-          35.0625,
+          35.0,
           34.6875
         ],
         "bbox_design_u": [
-          35.0625,
+          35.0,
           34.6875
         ],
-        "area_ship_px2": 607.6504,
-        "equivalent_diameter_ship_px": 27.8152,
-        "equivalent_diameter_design_u": 27.8152,
+        "area_ship_px2": 606.8623,
+        "equivalent_diameter_ship_px": 27.7971,
+        "equivalent_diameter_design_u": 27.7971,
         "inscribed_diameter_ship_px": 15.1827,
         "inscribed_diameter_design_u": 15.1827,
         "inscribed_radius_ship_px": 7.5913,
@@ -138,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "22c0e74b747712a52e2bfc1dac59610a04249470df69392058ad23ab017740a6",
+  "svg_sha256": "dc6d6d81d8e98004a92a1fb8b3192a7f109633efd61b9406ffbed39a880691c2",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -166,15 +198,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -190,21 +223,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

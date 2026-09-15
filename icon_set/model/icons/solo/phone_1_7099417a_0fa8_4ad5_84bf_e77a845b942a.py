@@ -1,10 +1,9 @@
-"""Phone 1 (state), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""phone-1: Smooth telephone receiver; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7099417a-0fa8-4ad5-84bf-e77a845b942a'
 SOURCE_PATH = 'icons-json/state/phone 1_7099417a-0fa8-4ad5-84bf-e77a845b942a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Phone1(Solo48):
     icon_id = 'phone-1'
@@ -13,11 +12,41 @@ class Phone1(Solo48):
     semantic_kind = 'noun'
     category = 'state'
     aliases = ()
-    keywords = ('phone', 'state')
+    keywords = ('solo-ai-full-set', 'phone-1')
 
     def build(self):
-        self.add_line('e0', (13, 6), (19, 11))
-        self.add_line('e1', (37, 29), (42, 35))
-        self.add_bezier('e2', (42, 35), ((42, 35.646), (42, 35.921), (42, 36.567)), ((42, 37.459), (41.296, 38.13), (40.732, 38.727)), ((39.21, 40.323), (37.14, 41.992), (34.825, 41.992)), ((34.696, 41.992), (34.575, 42), (34.446, 42)), ((34.444, 42), (34.442, 42), (34.44, 42)), ((34.227, 42), (34.023, 41.984), (33.81, 41.984)), ((30.832, 41.984), (27.379, 39.93), (24.925, 38.384)), ((18.715, 34.473), (12.848, 28.565), (9.109, 22.233)), ((7.808, 20.032), (6.016, 16.628), (6.016, 14.01)), ((6.016, 13.801), (6, 13.599), (6, 13.39)), ((6, 13.387), (6, 13.383), (6, 13.38)), ((6, 13.175), (6.016, 12.971), (6.016, 12.775)), ((6.016, 10.705), (7.317, 9.093), (8.618, 7.628)), ((9.093, 7.096), (9.723, 6.393), (10.426, 6.155)), ((10.786, 6.033), (11.335, 6), (11.711, 6)), ((12.259, 6), (12.452, 6), (13, 6)))
-        self.add_bezier('e3', (19, 11), ((19.499, 11.949), (19.983, 12.783), (19.696, 13.887)), ((19.14, 15.99), (17.005, 16.595), (17.111, 19.091)), ((17.176, 20.572), (18.183, 21.807), (19.075, 22.92)), ((21.079, 25.448), (23.476, 27.788), (26.005, 29.793)), ((27.273, 30.799), (29.073, 31.216), (30.57, 30.464)), ((32.37, 29.547), (33.139, 27.854), (35.479, 28.124)), ((36.044, 28.189), (36.615, 28.558), (37, 29)))
-        self.add_contour('c0', 'e2', 'e0', 'e3', 'e1', closed=True)
+        # Plan: Preserve the diagonal receiver; round both earpieces and use a broad continuous inner bend.
+        # Reference: Lucide phone: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('phone',(13,6),[('L',(20,12)),('C',(18,19),(23,15),(19,17)),('C',(29,30),(20,24),(24,28)),('C',(36,28),(32,26),(34,27)),('L',(42,35)),('C',(34,42),(42,39),(38,42)),('C',(6,14),(20,40),(6,26)),('C',(13,6),(6,10),(9,6))],True)

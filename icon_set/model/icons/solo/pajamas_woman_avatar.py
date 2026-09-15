@@ -14,7 +14,7 @@ SOURCE_PATH = 'work/head-solo/batch-01/references/avatar-pajamas-woman.svg'
 SOURCE_HEAD_ICON_ID = 'avatar-pajamas-woman'
 AUTHOR = 'gpt-6'
 HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
-HEAD_BOTTOM = 24
+HEAD_BOTTOM = 22
 
 class PajamasWomanAvatar(Solo48):
     icon_id = 'pajamas-woman-avatar'
@@ -27,16 +27,19 @@ class PajamasWomanAvatar(Solo48):
 
     def build(self):
         cx = 24
-        radius, cy = (10, 14)
-        self.add_arc('wrap-left', (14, cy), (cx, 4), radius_x=radius)
-        self.add_arc('wrap-right', (cx, 4), (34, cy), radius_x=radius)
-        self.add_arc('jaw', (34, cy), (14, cy), radius_x=radius)
-        self.add_contour('head', 'wrap-left', 'wrap-right', 'jaw', closed=True)
-        self.add_bezier('twist', (cx, 4), ((34, 9), (26, 14), (14, 14)))
-        self.relate('connect', 'head', 'twist')
+        for side, sign in [('left', -1), ('right', 1)]:
+            pt = lambda x, y: (cx + sign * x, y)
+            self.add_arc('hair-' + side, (cx, 4), pt(16, 14), radius_x=16, radius_y=10, sweep=sign > 0)
+            self.add_line('tip-' + side, pt(16, 14), pt(16, 18))
+            self.add_contour('outer-' + side, 'hair-' + side, 'tip-' + side)
+            self.add_arc('fringe-' + side, (cx, 4), pt(8, 14), radius_x=8, radius_y=10, sweep=sign < 0)
+            self.relate('connect', 'outer-' + side, 'fringe-' + side)
+        self.relate('connect', 'outer-left', 'outer-right')
+        self.relate('connect', 'fringe-left', 'fringe-right')
+        self.add_arc('face', (32, 14), (16, 14), radius_x=8, radius_y=8)
+        for side in ['left', 'right']:
+            self.relate('connect', 'face', 'fringe-' + side)
 
-        # Broad curved shoulders follow human_ref/user.svg; clothing carries identity.
-        # Body plan: soft sleep shirt with a low curved neckline.
         top = HEAD_BOTTOM + HEAD_BODY_CENTERLINE_GAP
         self.add_line('body-left-side',(8,44),(8,42))
         self.add_arc('body-left-shoulder',(8,42),(18,top),radius_x=10,radius_y=42-top)
@@ -53,5 +56,5 @@ class PajamasWomanAvatar(Solo48):
         self.relate('connect', 'body-neckline', 'body-top')
         self.relate('connect', 'body-neckline', 'body-top-right')
 
-        self.relate('connect','head','body-top')
-        self.relate('connect','head','body-top-right')
+        self.relate('connect','face','body-top')
+        self.relate('connect','face','body-top-right')

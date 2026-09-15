@@ -15,14 +15,14 @@
         "elementId": "sym-c0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 33 24 L 24 24 L 15 24",
+        "pathData": "M 33 24 L 15 24",
         "bounds": [
           15.0,
           24.0,
           33.0,
           24.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -31,14 +31,14 @@
         "elementId": "sym-c1",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 34 L 24 24 L 24 14",
+        "pathData": "M 24 34 L 24 14",
         "bounds": [
           24.0,
           14.0,
           24.0,
           34.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 1,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -1050,7 +1050,7 @@
           "sym-c0:subpath-1",
           "sym-c1:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           24.0,
           24.0
@@ -1070,7 +1070,7 @@
             "sym-c0:subpath-1",
             "sym-c1:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             24.0,
             24.0
@@ -1093,17 +1093,20 @@
     "minimumInkClearance": 9.601470508735444,
     "reason": "All disconnected components meet the required spacing.",
     "stats": {
-      "commands": 22,
-      "flattenedSegments": 140,
+      "commands": 20,
+      "flattenedSegments": 138,
       "adaptiveNodes": 252,
-      "distanceTests": 64,
-      "connectionTests": 0
+      "distanceTests": 52,
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [],
+    "authored_hole_count": 0,
+    "raster_artifact_count": 0,
     "hole_count": 0,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -1131,7 +1134,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "8ee9112926738fe0272eaf90e63244d40e0c41afdf1fb6750a74f2f76b3a63b3",
+  "svg_sha256": "2eb5504a6f8c3e8cc76adbaf63eff375fcfc4c466d4fd4af81b586da3736791b",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -1159,15 +1162,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -1183,21 +1187,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -49,6 +49,8 @@ class AvatarTests(unittest.TestCase):
                 face = [p for p in head if p.element_id in ('face', 'jaw', 'head-bottom')
                         or (icon.icon_id == 'user-avatar' and p.element_id.startswith('head-'))]
                 self.assertTrue(face, icon.icon_id)
+                face_box = centerline_bounds(face)
+                self.assertEqual((face_box[0] + face_box[2]) / 2, 24, icon.icon_id)
                 for arc in face:
                     self.assertIsInstance(arc, Arc)
                     self.assertEqual(arc.radius_x, arc.radius_y, arc.element_id)

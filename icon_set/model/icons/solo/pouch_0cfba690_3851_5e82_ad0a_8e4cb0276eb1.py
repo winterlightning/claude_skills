@@ -1,10 +1,9 @@
-"""Pouch (video-games), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""pouch: Smooth drawstring pouch; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0cfba690-3851-5e82-ad0a-8e4cb0276eb1'
 SOURCE_PATH = 'icons-json/video-games/pouch_0cfba690-3851-5e82-ad0a-8e4cb0276eb1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Pouch(Solo48):
     icon_id = 'pouch'
@@ -13,32 +12,43 @@ class Pouch(Solo48):
     semantic_kind = 'noun'
     category = 'video-games'
     aliases = ()
-    keywords = ('pouch', 'video-games')
+    keywords = ('solo-ai-full-set', 'pouch')
 
     def build(self):
-        self.add_line('e0', (21, 15), (23, 13))
-        self.add_line('e1', (27, 15), (25, 13))
-        self.add_line('e2', (23, 13), (19, 13))
-        self.add_line('e3', (23, 13), (29, 13))
-        self.add_line('e4', (27, 4), (22, 4))
-        self.add_bezier('e5', (19, 20), ((19.472, 18), (19.627, 16.482), (21, 15)))
-        self.add_bezier('e6', (29, 20), ((28.512, 17.891), (28.314, 16.655), (27, 15)))
-        self.add_bezier('e7', (29, 13), ((30.255, 13.709), (31.486, 14.5), (32.564, 15.5)), ((36.606, 19.245), (39.992, 26.464), (39.992, 32.273)), ((39.992, 32.461), (40, 32.657), (40, 32.846)), ((40, 32.849), (40, 32.852), (40, 32.855)), ((40, 33.109), (39.983, 33.364), (39.983, 33.627)), ((39.983, 36.882), (38.577, 40.573), (36, 42.409)), ((34.375, 43.564), (32.194, 43.982), (30.274, 43.982)), ((30.013, 43.982), (29.743, 44), (29.474, 44)), ((29.467, 44), (29.461, 44), (29.455, 44)), ((29.057, 44), (28.667, 43.982), (28.269, 43.982)), ((25.272, 43.982), (22.282, 43.982), (19.284, 43.982)), ((19.082, 43.982), (18.88, 43.991), (18.678, 43.991)), ((18.476, 43.991), (18.274, 43.982), (18.072, 43.982)), ((15.958, 43.982), (13.541, 43.618), (11.773, 42.255)), ((9.356, 40.4), (8.017, 36.782), (8.017, 33.655)), ((8.017, 33.391), (8, 33.136), (8, 32.882)), ((8, 32.879), (8, 32.876), (8, 32.872)), ((8, 32.676), (8.008, 32.488), (8.008, 32.3)), ((8.008, 26.355), (11.267, 19.445), (15.385, 15.591)), ((16.48, 14.573), (17.72, 13.727), (19, 13)))
-        self.add_bezier('e8', (29, 13), ((29.876, 11.473), (31.688, 8.5), (31.983, 6.782)), ((32.236, 5.336), (31.301, 4.018), (29.903, 4.018)), ((29.718, 4.018), (29.533, 4), (29.356, 4)), ((28.691, 4), (27.657, 4), (27, 4)))
-        self.add_bezier('e9', (22, 4), ((21.318, 4), (20.943, 4.018), (20.261, 4.018)), ((19.916, 4.018), (19.571, 4), (19.217, 4)), ((19.015, 4), (18.813, 4.018), (18.602, 4.018)), ((17.869, 4.018), (16.977, 4.236), (16.488, 4.891)), ((15.175, 6.655), (17.002, 9.036), (17.794, 10.591)), ((18.206, 11.4), (18.604, 12.182), (19, 13)))
-        self.add_contour('c0', 'e5', 'e0')
-        self.add_contour('c1', 'e6', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e7')
-        self.add_contour('c5', 'e8', 'e4', 'e9')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c3')
+        # Plan: Preserve the gathered neck and rounded bag; mirror the shoulders and separate the drawstring ends.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bag',(18,14),[('L',(14,4)),('L',(34,4)),('L',(30,14)),('C',(40,34),(36,19),(40,25)),('C',(30,44),(40,41),(37,44)),('L',(18,44)),('C',(8,34),(11,44),(8,41)),('C',(18,14),(8,25),(12,19))],True)
+        path('tie',(18,14),[('L',(24,14)),('L',(30,14))]);join('tie','bag')
+        line('left-tie',(18,14),(17,22));line('right-tie',(30,14),(31,22));join('left-tie','bag');join('right-tie','bag')

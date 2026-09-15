@@ -1,10 +1,9 @@
-"""Chart (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""chart: Smooth double-peaked chart; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e6769cc6-7edd-4638-9a68-d793ea0c3ccc'
 SOURCE_PATH = 'icons-json/symbol/chart_e6769cc6-7edd-4638-9a68-d793ea0c3ccc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Chart(Solo48):
     icon_id = 'chart'
@@ -13,19 +12,41 @@ class Chart(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('chart', 'symbol')
+    keywords = ('solo-ai-full-set', 'chart')
 
     def build(self):
-        self.add_line('e0', (38, 29), (36, 17))
-        self.add_line('e1', (29, 17), (27, 29))
-        self.add_line('e2', (19, 29), (17, 15))
-        self.add_line('e3', (10, 15), (8, 31))
-        self.add_arc('e4', (44, 38), (38, 29), radius_x=8)
-        self.add_arc('e5-1', (36, 17), (32, 8), radius_x=13, sweep=False)
-        self.add_arc('e5-2', (32, 8), (29, 17), radius_x=10, sweep=False)
-        self.add_arc('e6-1', (27, 29), (22, 40), radius_x=14)
-        self.add_arc('e6-2', (22, 40), (19, 29), radius_x=14)
-        self.add_arc('e7-1', (17, 15), (14, 9), radius_x=6, sweep=False)
-        self.add_arc('e7-2', (14, 9), (10, 15), radius_x=6, sweep=False)
-        self.add_arc('e8', (8, 31), (4, 35), radius_x=4)
-        self.add_contour('c0', 'e4', 'e0', 'e5-1', 'e5-2', 'e1', 'e6-1', 'e6-2', 'e2', 'e7-1', 'e7-2', 'e3', 'e8')
+        # Plan: Two coherent peaks and one trough replace narrow uneven segmented bends; retain their different heights.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('wave',(4,35),[('C',(12,10),(9,35),(7,10)),('C',(22,40),(18,10),(16,40)),('C',(32,8),(28,40),(26,8)),('C',(44,38),(39,8),(36,38))])

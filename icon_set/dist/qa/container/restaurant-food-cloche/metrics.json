@@ -2,10 +2,12 @@
   "icon_id": "restaurant-food-cloche",
   "family": "container",
   "profile": "CONTAINER64",
-  "selected_for_build": false,
-  "status": "pass",
+  "selected_for_build": true,
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [cover / tray]: cover-bottom and tray-top have -4 units of ink clearance over 47 units; requires 2; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -267,6 +269,100 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          31.6719,
+          6.9844
+        ],
+        "bbox_viewbox": [
+          24.25,
+          4.0,
+          15.5,
+          6.0
+        ],
+        "bbox_ship_px": [
+          15.5,
+          6.0
+        ],
+        "bbox_design_u": [
+          15.5,
+          6.0
+        ],
+        "area_ship_px2": 68.8633,
+        "equivalent_diameter_ship_px": 9.3637,
+        "equivalent_diameter_design_u": 9.3637,
+        "inscribed_diameter_ship_px": 6.0,
+        "inscribed_diameter_design_u": 6.0,
+        "inscribed_radius_ship_px": 3.0,
+        "inscribed_radius_design_u": 3.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          30.5156,
+          31.9844
+        ],
+        "bbox_viewbox": [
+          10.2812,
+          14.0,
+          43.4375,
+          36.0
+        ],
+        "bbox_ship_px": [
+          43.4375,
+          36.0
+        ],
+        "bbox_design_u": [
+          43.4375,
+          36.0
+        ],
+        "area_ship_px2": 1392.1191,
+        "equivalent_diameter_ship_px": 42.1011,
+        "equivalent_diameter_design_u": 42.1011,
+        "inscribed_diameter_ship_px": 36.0,
+        "inscribed_diameter_design_u": 36.0,
+        "inscribed_radius_ship_px": 18.0,
+        "inscribed_radius_design_u": 18.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          11.8906,
+          56.9844
+        ],
+        "bbox_viewbox": [
+          8.0,
+          54.0,
+          48.0,
+          6.0
+        ],
+        "bbox_ship_px": [
+          48.0,
+          6.0
+        ],
+        "bbox_design_u": [
+          48.0,
+          6.0
+        ],
+        "area_ship_px2": 281.126,
+        "equivalent_diameter_ship_px": 18.9193,
+        "equivalent_diameter_design_u": 18.9193,
+        "inscribed_diameter_ship_px": 6.0,
+        "inscribed_diameter_design_u": 6.0,
+        "inscribed_radius_ship_px": 3.0,
+        "inscribed_radius_design_u": 3.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 3,
+    "raster_artifact_count": 0,
     "hole_count": 3,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -419,15 +515,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -443,21 +540,44 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "6002cfeb8a7ccd396ca3f4765ec21aaea5282b0a45489ff2a5e59acb86dcbadf",
+  "rules_sha256": "7113b5891345f3a1b0586740c05e6a821d4451b13065da35580006221ddbfca7",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 2.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "cover / tray",
+        "elements": [
+          "cover-bottom",
+          "tray-top"
+        ],
+        "status": "review",
+        "sustained_length": 47.0,
+        "centerline_distance": 0.0,
+        "ink_gap": -4.0,
+        "nearest_points": [
+          [
+            55.375,
+            52.0
+          ],
+          [
+            55.375,
+            52.0
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

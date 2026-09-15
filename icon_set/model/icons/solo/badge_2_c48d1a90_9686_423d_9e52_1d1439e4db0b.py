@@ -1,10 +1,9 @@
-"""Badge 2 (other), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""badge-2: Regular eight-lobed badge; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c48d1a90-9686-423d-9e52-1d1439e4db0b'
 SOURCE_PATH = 'icons-json/other/badge 2_c48d1a90-9686-423d-9e52-1d1439e4db0b.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Badge2(Solo48):
     icon_id = 'badge-2'
@@ -13,27 +12,49 @@ class Badge2(Solo48):
     semantic_kind = 'noun'
     category = 'other'
     aliases = ()
-    keywords = ('badge', 'other')
+    keywords = ('solo-ai-full-set', 'badge-2')
 
     def build(self):
-        self.add_bezier('sym-e0', (38, 30), ((38.565, 29.681), (38.517, 29.425), (39, 29)))
-        self.add_bezier('sym-e1', (39, 29), ((40.055, 28.067), (42, 25.448), (42, 24)))
-        self.add_bezier('sym-e2', (42, 24), ((42, 23.952), (42, 24.054), (42, 24)))
-        self.add_bezier('sym-e3', (42, 24), ((42, 23.946), (42, 24.048), (42, 24)))
-        self.add_bezier('sym-e4', (42, 24), ((42, 22.552), (40.055, 19.933), (39, 19)))
-        self.add_bezier('sym-e5', (39, 19), ((38.517, 18.575), (38.565, 18.319), (38, 18)))
-        self.add_bezier('sym-e6', (38, 18), ((39.743, 12.453), (35.58, 8.167), (30, 10)))
-        self.add_bezier('sym-e7', (30, 10), ((28.816, 7.849), (26.605, 6.057), (24, 6)))
-        self.add_bezier('sym-e8', (24, 6), ((21.395, 6.057), (19.184, 7.849), (18, 10)))
-        self.add_bezier('sym-e9', (18, 10), ((12.42, 8.167), (8.257, 12.453), (10, 18)))
-        self.add_bezier('sym-e10', (10, 18), ((9.435, 18.319), (9.483, 18.575), (9, 19)))
-        self.add_bezier('sym-e11', (9, 19), ((7.945, 19.933), (6, 22.552), (6, 24)))
-        self.add_bezier('sym-e12', (6, 24), ((6, 24.048), (6, 23.946), (6, 24)))
-        self.add_bezier('sym-e13', (6, 24), ((6, 24.054), (6, 23.952), (6, 24)))
-        self.add_bezier('sym-e14', (6, 24), ((6, 25.448), (7.945, 28.067), (9, 29)))
-        self.add_bezier('sym-e15', (9, 29), ((9.483, 29.425), (9.435, 29.681), (10, 30)))
-        self.add_bezier('sym-e16', (10, 30), ((8.257, 35.547), (12.42, 39.833), (18, 38)))
-        self.add_bezier('sym-e17', (18, 38), ((19.184, 40.151), (21.395, 41.943), (24, 42)))
-        self.add_bezier('sym-e18', (24, 42), ((26.605, 41.943), (28.816, 40.151), (30, 38)))
-        self.add_bezier('sym-e19', (30, 38), ((35.58, 39.833), (39.743, 35.547), (38, 30)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', closed=True)
+        # Plan: Eight rounded lobes constructed from one quarter-turn definition; retain the original petal count.
+        # Reference: Lucide flower: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        quarter=[('C',(30,10),(27,6),(29,8)),('C',(38,10),(33,8),(36,8)),('C',(38,18),(40,12),(40,15)),('C',(42,24),(40,19),(42,21))]
+        commands=[]
+        def rot(p,n):
+         x,y=p
+         for _ in range(n):x,y=48-y,x
+         return x,y
+        for j in range(4):
+         for _,end,a,b in quarter:commands.append(('C',rot(end,j),rot(a,j),rot(b,j)))
+        path('outline',(24,6),commands,True)

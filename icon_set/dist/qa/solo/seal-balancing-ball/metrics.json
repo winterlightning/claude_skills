@@ -3,9 +3,13 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [ball / seal]: ball-bottom and head have -3.999 units of ink clearance over 3.7324 units; requires 4; review required",
+    "internal-spacing [seal / flipper]: back and flipper have 1.6683 units of ink clearance over 5.3096 units; requires 4; review required",
+    "internal-spacing [seal / flipper]: chest and flipper have 3.1075 units of ink clearance over 2.4933 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -454,12 +458,13 @@
       "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -475,21 +480,86 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "ball / seal",
+        "elements": [
+          "ball-bottom",
+          "head"
+        ],
+        "status": "review",
+        "sustained_length": 3.7324,
+        "centerline_distance": 0.001,
+        "ink_gap": -3.999,
+        "nearest_points": [
+          [
+            14.0,
+            18.0
+          ],
+          [
+            14.0,
+            18.000967493918804
+          ]
+        ]
+      },
+      {
+        "contour": "seal / flipper",
+        "elements": [
+          "back",
+          "flipper"
+        ],
+        "status": "review",
+        "sustained_length": 5.3096,
+        "centerline_distance": 5.6683,
+        "ink_gap": 1.6683,
+        "nearest_points": [
+          [
+            24.85745874486248,
+            33.09250730712819
+          ],
+          [
+            21.713244042040955,
+            37.80882936136064
+          ]
+        ]
+      },
+      {
+        "contour": "seal / flipper",
+        "elements": [
+          "chest",
+          "flipper"
+        ],
+        "status": "review",
+        "sustained_length": 2.4933,
+        "centerline_distance": 7.1075,
+        "ink_gap": 3.1075,
+        "nearest_points": [
+          [
+            15.128510299088795,
+            41.96117286273291
+          ],
+          [
+            19.071048451399832,
+            36.047365634266555
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

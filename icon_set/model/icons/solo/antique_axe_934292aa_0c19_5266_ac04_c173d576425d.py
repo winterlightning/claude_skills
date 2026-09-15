@@ -1,33 +1,52 @@
-"""Antique axe (war), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""antique-axe: Broad blade · rounded grip; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '934292aa-0c19-5266-ac04-c173d576425d'
 SOURCE_PATH = 'icons-json/war/antique axe_934292aa-0c19-5266-ac04-c173d576425d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AntiqueAxe(Solo48):
     icon_id = 'antique-axe'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'war'
     aliases = ()
-    keywords = ('antique', 'axe', 'war')
+    keywords = ('solo-ai-refine', 'solo-ai-first50', 'antique-axe')
 
     def build(self):
-        self.add_line('e0', (29, 22), (23, 15))
-        self.add_line('e1', (23, 15), (29, 8))
-        self.add_line('e2', (29, 8), (34, 14))
-        self.add_line('e3', (34, 8), (31, 10))
-        self.add_line('e4', (44, 19), (42, 22))
-        self.add_line('e5', (4, 40), (25, 17))
-        self.add_arc('e6', (33, 31), (29, 22), radius_x=17, sweep=False)
-        self.add_arc('e7', (34, 14), (44, 18), radius_x=15, sweep=False)
-        self.add_arc('e8', (42, 22), (33, 31), radius_x=15)
-        self.add_contour('c0', 'e6', 'e0', 'e1', 'e2', 'e7')
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4', 'e8')
-        self.add_contour('c3', 'e5')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c3', 'c0')
+        # Plan: A broad curved blade balances an outlined diagonal handle, with exact shared shoulder nodes. The handle has a rounded grip and sufficient interior width; square bounds retain the original diagonal stance.
+        # Reference: Lucide axe: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('head',(18,12),[('L',(24,6)),('L',(32,14)),('L',(42,14)),('C',(30,34),(42,27),(36,34)),('L',(30,24)),('L',(24,18)),('L',(18,12))],True)
+        path('handle',(24,18),[('L',(8,34)),('C',(6,38),(6,36),(6,36)),('A',(10,42),4,4,False),('C',(14,40),(12,42),(13,41)),('L',(30,24))])
+        join('handle','head')

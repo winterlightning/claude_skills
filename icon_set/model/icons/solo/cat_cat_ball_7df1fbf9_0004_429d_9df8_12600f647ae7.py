@@ -1,10 +1,9 @@
-"""Cat cat ball (pets), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""cat-cat-ball: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7df1fbf9-0004-429d-9df8-12600f647ae7'
 SOURCE_PATH = 'icons-json/pets/cat cat ball_7df1fbf9-0004-429d-9df8-12600f647ae7.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CatCatBall(Solo48):
     icon_id = 'cat-cat-ball'
@@ -13,58 +12,43 @@ class CatCatBall(Solo48):
     semantic_kind = 'noun'
     category = 'pets'
     aliases = ()
-    keywords = ('cat', 'ball', 'pets')
+    keywords = ('cat', 'ball', 'pets', 'solo-ai-next100')
 
     def build(self):
-        self.add_arc('sym-e0', (4, 24), (24, 4), radius_x=20)
-        self.add_arc('sym-e1', (24, 4), (44, 24), radius_x=20)
-        self.add_arc('sym-e2', (44, 24), (24, 44), radius_x=20)
-        self.add_arc('sym-e3', (24, 44), (4, 24), radius_x=20)
-        self.add_line('sym-e4', (44, 24), (33, 24))
-        self.add_line('sym-e5', (33, 24), (24, 24))
-        self.add_line('sym-e6', (24, 24), (15, 24))
-        self.add_line('sym-e7', (15, 24), (4, 24))
-        self.add_line('sym-e8', (24, 4), (24, 24))
-        self.add_line('sym-e9', (24, 24), (24, 44))
-        self.add_arc('sym-e10', (33, 24), (38, 10), radius_x=17)
-        self.add_arc('sym-e11', (15, 24), (10, 10), radius_x=17, sweep=False)
-        self.add_arc('sym-e12', (33, 24), (38, 38), radius_x=17, sweep=False)
-        self.add_arc('sym-e13', (15, 24), (10, 38), radius_x=17)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', closed=True)
-        self.add_contour('sym-c1', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7')
-        self.add_contour('sym-c2', 'sym-e8', 'sym-e9')
-        self.add_contour('sym-c3', 'sym-e10')
-        self.add_contour('sym-c4', 'sym-e11')
-        self.add_contour('sym-c5', 'sym-e12')
-        self.add_contour('sym-c6', 'sym-e13')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c3', 'sym-c5')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c4', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c5')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c5')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c4')
-        self.relate('connect', 'sym-c1', 'sym-c6')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c5')
-        self.relate('connect', 'sym-c0', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c4')
-        self.relate('connect', 'sym-c0', 'sym-c6')
+        # Plan: A basketball-like cat ball has a true circular outline and mirrored panel arcs around a centered cross.
+        # Reference: Lucide disc original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('rim',(24,4),[('A',(44,24),20,20,True),('A',(24,44),20,20,True),('A',(4,24),20,20,True),('A',(24,4),20,20,True)],True)
+        poly('horizontal',(4,24),(24,24),(44,24));poly('vertical',(24,4),(24,24),(24,44));join('horizontal','rim');join('vertical','rim');join('horizontal','vertical')
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         path(f'panel-{side}',(x(14),10),[('C',(x(9),24),(x(10),14),(x(9),19)),('C',(x(14),38),(x(9),29),(x(10),34))]);join(f'panel-{side}','rim');join(f'panel-{side}','horizontal')

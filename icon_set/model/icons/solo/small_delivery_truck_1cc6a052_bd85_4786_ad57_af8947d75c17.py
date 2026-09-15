@@ -17,27 +17,46 @@ class SmallDeliveryTruck(Solo48):
     keywords = ('truck', 'delivery', 'lorry', 'cargo', 'shipping', 'logistics', 'transport', 'vehicle')
 
     def build(self) -> None:
-
-        # Long cargo box and a quarter-circle cab nose; equal wheels interrupt the chassis.
-        self.add_polyline('cargo',(8,36),(6,36),(6,8),(26,8),(26,16),(26,36),(16,36))
-
-        self.add_line('cab-roof',(26,16),(32,16))
-        self.add_arc('cab-nose',(32,16),(42,28),radius_x=12)
-        self.add_polyline('cab-bottom',(42,28),(42,36),(40,36))
-        self.add_line('chassis',(26,36),(32,36))
-
-        for side,cx in [('rear',12),('front',36)]:
-            self.add_arc(side+'-top',(cx-4,36),(cx+4,36),radius_x=4)
-            self.add_arc(side+'-bottom',(cx+4,36),(cx-4,36),radius_x=4)
-            self.add_contour(side+'-wheel',side+'-top',side+'-bottom',closed=True)
-        # Declare only genuine shared-endpoint contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
-                    self.relate('connect',a.element_id,b.element_id)
-
-ADDITIONAL_SOURCE_ICON_ID_2 = '7fa4b356-9d73-4875-94fd-29e892bef9d8'
-ADDITIONAL_SOURCE_PATH_2 = 'pictographic-primitives/transportation/truck_7fa4b356-9d73-4875-94fd-29e892bef9d8.svg'
-
-ADDITIONAL_SOURCE_ICON_ID_3 = 'ee45281c-9d60-448b-b6b0-b5db76f72c3b'
-ADDITIONAL_SOURCE_PATH_3 = 'pictographic-primitives/transportation/truck_ee45281c-9d60-448b-b6b0-b5db76f72c3b.svg'
+        # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
+        # Curves reaching an edge use bounded cubic controls, with shared endpoints retained.
+        self.add_line('cargo-1',(6, 36),(4, 36))
+        self.add_line('cargo-2',(4, 36),(4, 8))
+        self.add_line('cargo-3',(4, 8),(24, 8))
+        self.add_line('cargo-4',(24, 8),(24, 16))
+        self.add_line('cargo-5',(24, 16),(24, 36))
+        self.add_line('cargo-6',(24, 36),(16, 36))
+        self.add_line('cab-roof',(24, 16),(32, 16))
+        self.add_bezier('cab-nose',(32, 16),*(((38.79604989, 16.98601184), (44, 22.08104057), (44, 28)),))
+        self.add_line('cab-bottom-1',(44, 28),(44, 36))
+        self.add_line('cab-bottom-2',(44, 36),(42, 36))
+        self.add_line('chassis',(24, 36),(32, 36))
+        self.add_bezier('rear-top',(6, 36),*(((6.5, 33.790861), (8.73857625, 32.0), (11.5, 32.0)), ((14.209139, 32.0), (16.0, 33.790861), (16, 36))))
+        self.add_bezier('rear-bottom',(16, 36),*(((16.0, 38.209139), (14.209139, 40), (11.5, 40)), ((8.73857625, 40), (6.5, 38.209139), (6, 36))))
+        self.add_bezier('front-top',(32, 36),*(((32.0, 33.790861), (33.790861, 32.0), (36.5, 32.0)), ((39.26142375, 32.0), (41.5, 33.790861), (42, 36))))
+        self.add_bezier('front-bottom',(42, 36),*(((41.5, 38.209139), (39.26142375, 40), (36.5, 40)), ((33.790861, 40), (32.0, 38.209139), (32, 36))))
+        self.add_contour('cargo',*('cargo-1', 'cargo-2', 'cargo-3', 'cargo-4', 'cargo-5', 'cargo-6'),closed=False)
+        self.add_contour('cab-bottom',*('cab-bottom-1', 'cab-bottom-2'),closed=False)
+        self.add_contour('rear-wheel',*('rear-top', 'rear-bottom'),closed=True)
+        self.add_contour('front-wheel',*('front-top', 'front-bottom'),closed=True)
+        self.relate('connect',*('cargo-1', 'cargo-2'))
+        self.relate('connect',*('cargo-1', 'rear-top'))
+        self.relate('connect',*('cargo-1', 'rear-bottom'))
+        self.relate('connect',*('cargo-2', 'cargo-3'))
+        self.relate('connect',*('cargo-3', 'cargo-4'))
+        self.relate('connect',*('cargo-4', 'cargo-5'))
+        self.relate('connect',*('cargo-4', 'cab-roof'))
+        self.relate('connect',*('cargo-5', 'cargo-6'))
+        self.relate('connect',*('cargo-5', 'cab-roof'))
+        self.relate('connect',*('cargo-5', 'chassis'))
+        self.relate('connect',*('cargo-6', 'chassis'))
+        self.relate('connect',*('cargo-6', 'rear-top'))
+        self.relate('connect',*('cargo-6', 'rear-bottom'))
+        self.relate('connect',*('cab-roof', 'cab-nose'))
+        self.relate('connect',*('cab-nose', 'cab-bottom-1'))
+        self.relate('connect',*('cab-bottom-1', 'cab-bottom-2'))
+        self.relate('connect',*('cab-bottom-2', 'front-top'))
+        self.relate('connect',*('cab-bottom-2', 'front-bottom'))
+        self.relate('connect',*('chassis', 'front-top'))
+        self.relate('connect',*('chassis', 'front-bottom'))
+        self.relate('connect',*('rear-top', 'rear-bottom'))
+        self.relate('connect',*('front-top', 'front-bottom'))

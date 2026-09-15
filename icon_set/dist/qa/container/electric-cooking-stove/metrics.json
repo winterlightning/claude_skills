@@ -2,7 +2,7 @@
   "icon_id": "electric-cooking-stove",
   "family": "container",
   "profile": "CONTAINER64",
-  "selected_for_build": false,
+  "selected_for_build": true,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -590,6 +590,100 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.6719,
+          19.9844
+        ],
+        "bbox_viewbox": [
+          4.4375,
+          4.0,
+          55.125,
+          32.0
+        ],
+        "bbox_ship_px": [
+          55.125,
+          32.0
+        ],
+        "bbox_design_u": [
+          55.125,
+          32.0
+        ],
+        "area_ship_px2": 1555.6689,
+        "equivalent_diameter_ship_px": 44.5055,
+        "equivalent_diameter_design_u": 44.5055,
+        "inscribed_diameter_ship_px": 32.0,
+        "inscribed_diameter_design_u": 32.0,
+        "inscribed_radius_ship_px": 16.0,
+        "inscribed_radius_design_u": 16.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          9.9844,
+          45.9844
+        ],
+        "bbox_viewbox": [
+          4.0,
+          40.0,
+          56.0,
+          12.0
+        ],
+        "bbox_ship_px": [
+          56.0,
+          12.0
+        ],
+        "bbox_design_u": [
+          56.0,
+          12.0
+        ],
+        "area_ship_px2": 623.9502,
+        "equivalent_diameter_ship_px": 28.1858,
+        "equivalent_diameter_design_u": 28.1858,
+        "inscribed_diameter_ship_px": 12.0,
+        "inscribed_diameter_design_u": 12.0,
+        "inscribed_radius_ship_px": 6.0,
+        "inscribed_radius_design_u": 6.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          14.5156,
+          57.9844
+        ],
+        "bbox_viewbox": [
+          11.25,
+          56.0,
+          41.5,
+          4.0
+        ],
+        "bbox_ship_px": [
+          41.5,
+          4.0
+        ],
+        "bbox_design_u": [
+          41.5,
+          4.0
+        ],
+        "area_ship_px2": 158.125,
+        "equivalent_diameter_ship_px": 14.1891,
+        "equivalent_diameter_design_u": 14.1891,
+        "inscribed_diameter_ship_px": 4.0,
+        "inscribed_diameter_design_u": 4.0,
+        "inscribed_radius_ship_px": 2.0,
+        "inscribed_radius_design_u": 2.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 3,
+    "raster_artifact_count": 0,
     "hole_count": 3,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -742,15 +836,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -766,21 +861,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "6002cfeb8a7ccd396ca3f4765ec21aaea5282b0a45489ff2a5e59acb86dcbadf",
+  "rules_sha256": "7113b5891345f3a1b0586740c05e6a821d4451b13065da35580006221ddbfca7",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 2.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

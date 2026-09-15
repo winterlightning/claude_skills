@@ -15,14 +15,14 @@
         "elementId": "c0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 37 L 4 12 A 4 4 0 0 1 8 8 L 16 8 L 17 8 L 22 13 A 4 4 0 0 0 25 14 L 41 14 A 3 3 0 0 1 44 16 L 44 36 A 5 5 0 0 1 43 39 A 3 3 0 0 1 41 40 L 8 40 A 5 5 0 0 1 5 39 A 3 3 0 0 1 4 37 Z",
+        "pathData": "M 4 37 L 4 12 A 4 4 0 0 1 8 8 L 17 8 L 22 13 A 4 4 0 0 0 25 14 L 41 14 A 3 3 0 0 1 44 16 L 44 36 A 5 5 0 0 1 43 39 A 3 3 0 0 1 41 40 L 8 40 A 5 5 0 0 1 5 39 A 3 3 0 0 1 4 37 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 232,
+        "segmentCount": 231,
         "approximationError": 0.000854545624085461,
         "hasCurves": true
       }
@@ -65,8 +65,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 16,
-      "flattenedSegments": 232,
+      "commands": 15,
+      "flattenedSegments": 231,
       "adaptiveNodes": 441,
       "distanceTests": 0,
       "connectionTests": 0
@@ -76,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          17.6406,
+          26.3594
+        ],
+        "bbox_viewbox": [
+          6.0,
+          10.0,
+          36.0,
+          28.0
+        ],
+        "bbox_ship_px": [
+          36.0,
+          28.0
+        ],
+        "bbox_design_u": [
+          36.0,
+          28.0
+        ],
+        "area_ship_px2": 869.79,
+        "equivalent_diameter_ship_px": 33.2784,
+        "equivalent_diameter_design_u": 33.2784,
+        "inscribed_diameter_ship_px": 23.3051,
+        "inscribed_diameter_design_u": 23.3051,
+        "inscribed_radius_ship_px": 11.6526,
+        "inscribed_radius_design_u": 11.6526,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -136,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "7b316b9ce2d85f0c335b3e9dc288d59cbe12e6bbef6804f7ea8b3654ecb47a9e",
+  "svg_sha256": "c3085944bdd78fe00327f484e3102153e5a17be017ee9af486e2bdd68706412f",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -164,15 +198,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -188,21 +223,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

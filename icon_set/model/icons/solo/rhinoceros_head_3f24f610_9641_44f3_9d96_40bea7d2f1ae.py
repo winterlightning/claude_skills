@@ -1,4 +1,4 @@
-"""Upright-horn rhinoceros profile with blunt low jaw and rear ear. Centerline (8,6)-(40,42). Asymmetry follows profile."""
+'Rebuilt the rhino profile around one broad horn and a flowing jaw; removed cramped secondary notches.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,19 +17,14 @@ class RhinoHeadProfile(Solo48):
     keywords = ('rhino', 'rhinoceros', 'head', 'horn', 'ears', 'profile', 'animal', 'wildlife')
 
     def build(self) -> None:
-        self.add_arc('top-1', (40, 8), (27, 12), radius_x=18, radius_y=12, sweep=True)
-        self.add_line('top-2', (27, 12), (27, 6))
-        self.add_line('top-3', (27, 6), (20, 9))
-        self.add_arc('top-4', (20, 9), (20, 19), radius_x=10, radius_y=10, sweep=False)
-        self.add_line('top-5', (20, 19), (15, 23))
-        self.add_arc('top-6', (15, 23), (8, 6), radius_x=40, radius_y=40, sweep=True)
-        self.add_line('top-7', (8, 6), (8, 17))
-        self.add_arc('top-8', (8, 17), (12, 31), radius_x=4, radius_y=14, sweep=False)
-        self.add_contour('top', 'top-1', 'top-2', 'top-3', 'top-4', 'top-5', 'top-6', 'top-7', 'top-8', closed=False)
-        self.add_arc('jaw-1', (12, 31), (8, 38), radius_x=9, radius_y=9, sweep=False)
-        self.add_arc('jaw-2', (8, 38), (16, 42), radius_x=8, radius_y=8, sweep=False)
-        self.add_line('jaw-3', (16, 42), (29, 42))
-        self.add_arc('jaw-4', (29, 42), (40, 35), radius_x=11, radius_y=11, sweep=False)
-        self.add_contour('jaw', 'jaw-1', 'jaw-2', 'jaw-3', 'jaw-4', closed=False)
-        self.relate("connect", 'top', 'jaw')
-        self.add_dot('eye', (29, 28))
+        # Broad primary horn and an open forehead replace crowded stacked notches.
+        self.add_bezier('forehead',(40,6),((35,12),(30,16),(25,18)))
+        self.add_line('bridge',(25,18),(20,25))
+        self.add_bezier('horn-inner',(20,25),((15,21),(10,12),(8,4)))
+        self.add_line('horn-outer',(8,4),(8,28))
+        self.add_bezier('nose',(8,28),((8,32),(12,32),(12,34)))
+        self.add_bezier('jaw-left',(12,34),((8,34),(8,38),(8,39)),((8,42),(12,44),(16,44)))
+        self.add_line('jaw-bottom',(16,44),(29,44))
+        self.add_bezier('jaw-right',(29,44),((35,44),(39,40),(40,35)))
+        self.add_contour('profile','forehead','bridge','horn-inner','horn-outer','nose','jaw-left','jaw-bottom','jaw-right')
+        self.add_dot('eye',(29,28))

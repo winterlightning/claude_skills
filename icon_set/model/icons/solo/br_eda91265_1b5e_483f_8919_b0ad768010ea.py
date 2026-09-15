@@ -1,10 +1,9 @@
-"""Br (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""br: Regular Br lettering; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'eda91265-1b5e-483f-8919-b0ad768010ea'
 SOURCE_PATH = 'icons-json/symbol/Br_eda91265-1b5e-483f-8919-b0ad768010ea.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Br(Solo48):
     icon_id = 'br'
@@ -13,25 +12,43 @@ class Br(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('br', 'symbol')
+    keywords = ('solo-ai-full-set', 'br')
 
     def build(self):
-        self.add_line('e0', (4, 8), (4, 40))
-        self.add_line('e1', (4, 40), (11, 40))
-        self.add_line('e2', (13, 8), (4, 8))
-        self.add_line('e3', (14, 24), (4, 24))
-        self.add_line('e4', (34, 20), (34, 40))
-        self.add_line('e5-1', (11, 40), (18, 39))
-        self.add_arc('e5-2', (18, 39), (22, 33), radius_x=8, sweep=False)
-        self.add_arc('e5-3', (22, 33), (14, 24), radius_x=8, sweep=False)
-        self.add_arc('e5-4', (14, 24), (20, 12), radius_x=9, sweep=False)
-        self.add_arc('e5-5', (20, 12), (17, 9), radius_x=6, sweep=False)
-        self.add_arc('e5-6', (17, 9), (13, 8), radius_x=9, sweep=False)
-        self.add_arc('e6', (44, 21), (34, 26), radius_x=6, sweep=False)
-        self.add_contour('c0', 'e0', 'e1', 'e5-1', 'e5-2', 'e5-3', 'e5-4', 'e5-5', 'e5-6', 'e2', closed=True)
-        self.add_contour('c1', 'e3')
-        self.add_contour('c2', 'e4')
-        self.add_contour('c3', 'e6')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c3', 'c2')
+        # Plan: Preserve the capital B and lowercase r; use broad rounded bowls and an explicitly joined shoulder.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('upper-b',(4,24),[('L',(4,8)),('L',(12,8)),('C',(20,16),(18,8),(20,11)),('C',(12,24),(20,21),(18,24)),('L',(4,24))],True)
+        path('lower-b',(4,24),[('L',(4,40)),('L',(12,40)),('C',(22,32),(18,40),(22,37)),('C',(12,24),(22,27),(18,24))]);join('lower-b','upper-b')
+        path('r-stem',(32,18),[('L',(32,22)),('L',(32,40))]);path('r-shoulder',(32,22),[('C',(44,20),(35,16),(42,16))]);join('r-stem','r-shoulder')

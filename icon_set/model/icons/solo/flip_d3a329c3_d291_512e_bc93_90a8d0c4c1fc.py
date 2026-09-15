@@ -1,10 +1,9 @@
-"""Flip (content), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""flip: Clean calendar corner; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd3a329c3-d291-512e-bc93-90a8d0c4c1fc'
 SOURCE_PATH = 'icons-json/content/flip_d3a329c3-d291-512e-bc93-90a8d0c4c1fc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Flip(Solo48):
     icon_id = 'flip'
@@ -13,26 +12,43 @@ class Flip(Solo48):
     semantic_kind = 'noun'
     category = 'content'
     aliases = ()
-    keywords = ('flip', 'content')
+    keywords = ('solo-ai-full-set', 'flip')
 
     def build(self):
-        self.add_line('e0', (42, 30), (31, 30))
-        self.add_line('e1', (29, 33), (29, 42))
-        self.add_line('e2', (29, 42), (8, 42))
-        self.add_line('e3', (6, 40), (6, 12))
-        self.add_line('e4', (9, 9), (40, 9))
-        self.add_line('e5', (42, 12), (42, 30))
-        self.add_line('e6', (42, 30), (29, 42))
-        self.add_line('e7', (14, 6), (14, 13))
-        self.add_line('e8', (24, 13), (24, 6))
-        self.add_line('e9', (34, 13), (34, 6))
-        self.add_arc('e10', (31, 30), (29, 33), radius_x=3, sweep=False)
-        self.add_arc('e11', (8, 42), (6, 40), radius_x=2)
-        self.add_arc('e12', (6, 12), (9, 9), radius_x=3)
-        self.add_line('e13', (40, 9), (42, 12))
-        self.add_contour('c0', 'e0', 'e10', 'e1', 'e2', 'e11', 'e3', 'e12', 'e4', 'e13', 'e5', closed=True)
-        self.add_contour('c1', 'e6')
-        self.add_contour('c2', 'e7')
-        self.add_contour('c3', 'e8')
-        self.add_contour('c4', 'e9')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Keep three equal binding marks and the lifted lower corner; every attachment is explicit.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('page',(6,10),[('L',(14,10)),('L',(24,10)),('L',(34,10)),('L',(42,10)),('L',(42,30)),('L',(30,42)),('L',(6,42)),('L',(6,10))],True)
+        path('fold',(42,30),[('L',(30,30)),('L',(30,42))]);join('fold','page')
+        for x in [14,24,34]:path(f'ring-{x}',(x,6),[('L',(x,10)),('L',(x,15))]);join(f'ring-{x}','page')

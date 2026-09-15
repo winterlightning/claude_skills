@@ -1,10 +1,9 @@
-"""Buildings (building), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""buildings: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '72baa0f0-a708-4c35-a415-a2c377a1f8af'
 SOURCE_PATH = 'icons-json/building/buildings_72baa0f0-a708-4c35-a415-a2c377a1f8af.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Buildings(Solo48):
     icon_id = 'buildings'
@@ -13,17 +12,41 @@ class Buildings(Solo48):
     semantic_kind = 'noun'
     category = 'building'
     aliases = ()
-    keywords = ('buildings', 'building')
+    keywords = ('buildings', 'building', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (18, 37), (18, 44))
-        self.add_line('e1', (28, 16), (40, 16))
-        self.add_line('e2', (40, 18), (40, 44))
-        self.add_line('e3', (40, 44), (8, 44))
-        self.add_line('e4', (8, 44), (8, 4))
-        self.add_line('e5', (8, 4), (28, 14))
-        self.add_line('e6', (28, 14), (28, 44))
-        self.add_arc('e7', (40, 16), (40, 18), radius_x=23, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e7', 'e2', 'e3', 'e4', 'e5', 'e6')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Maintain a sloped main roof, lower neighboring block and entrance rooted on their shared baseline.
+        # Reference: Lucide building-2 original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('main',(8,44),(8,4),(28,16),(28,44),(8,44))
+        poly('annex',(28,16),(40,16),(40,44),(28,44));join('main','annex')
+        line('door',(18,44),(18,36));join('door','main')

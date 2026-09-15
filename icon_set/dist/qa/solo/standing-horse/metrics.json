@@ -3,9 +3,13 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [head / belly]: head-7 and belly-2 have 2.769 units of ink clearance over 8.4517 units; requires 4; review required",
+    "internal-spacing [rear / belly]: rear-leg and belly-4 have 3.0362 units of ink clearance over 9.1317 units; requires 4; review required",
+    "internal-spacing [rear / tail]: rear-leg and tail-2 have -1.7899 units of ink clearance over 7.1573 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -349,6 +353,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          33.7031,
+          26.1406
+        ],
+        "bbox_viewbox": [
+          8.0,
+          10.4375,
+          30.0,
+          29.5625
+        ],
+        "bbox_ship_px": [
+          30.0,
+          29.5625
+        ],
+        "bbox_design_u": [
+          30.0,
+          29.5625
+        ],
+        "area_ship_px2": 306.043,
+        "equivalent_diameter_ship_px": 19.74,
+        "equivalent_diameter_design_u": 19.74,
+        "inscribed_diameter_ship_px": 8.3125,
+        "inscribed_diameter_design_u": 8.3125,
+        "inscribed_radius_ship_px": 4.1562,
+        "inscribed_radius_design_u": 4.1562,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -437,15 +475,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -461,21 +500,86 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "head / belly",
+        "elements": [
+          "head-7",
+          "belly-2"
+        ],
+        "status": "review",
+        "sustained_length": 8.4517,
+        "centerline_distance": 6.769,
+        "ink_gap": 2.769,
+        "nearest_points": [
+          [
+            13.648076923076921,
+            39.62371794871796
+          ],
+          [
+            20.17857142857143,
+            41.404761904761905
+          ]
+        ]
+      },
+      {
+        "contour": "rear / belly",
+        "elements": [
+          "rear-leg",
+          "belly-4"
+        ],
+        "status": "review",
+        "sustained_length": 9.1317,
+        "centerline_distance": 7.0362,
+        "ink_gap": 3.0362,
+        "nearest_points": [
+          [
+            39.03623188405797,
+            41.38405797101449
+          ],
+          [
+            32.0,
+            41.38405797101449
+          ]
+        ]
+      },
+      {
+        "contour": "rear / tail",
+        "elements": [
+          "rear-leg",
+          "tail-2"
+        ],
+        "status": "review",
+        "sustained_length": 7.1573,
+        "centerline_distance": 2.2101,
+        "ink_gap": -1.7899,
+        "nearest_points": [
+          [
+            39.789855072463766,
+            28.57246376811594
+          ],
+          [
+            42.0,
+            28.57246376811594
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

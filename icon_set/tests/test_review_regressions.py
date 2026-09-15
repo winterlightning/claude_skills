@@ -90,6 +90,17 @@ class StructuralValidationTests(unittest.TestCase):
 
 
 class BuildIntegrityTests(unittest.TestCase):
+    def test_validation_changes_invalidate_unchanged_drawings(self):
+        import os
+        icon = create('square')
+        source = builder._source_mtime(icon)
+        engine = self.root / 'validation' / 'spacing.py'
+        engine.parent.mkdir()
+        engine.write_text('# revised spacing implementation\n')
+        os.utime(engine, (source + 10, source + 10))
+        with patch.object(builder, 'PACKAGE_ROOT', self.root):
+            self.assertEqual(builder._source_mtime(icon), source + 10)
+
     def setUp(self):
         self.temp = TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)

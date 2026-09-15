@@ -1,10 +1,9 @@
-"""Ceramic tool (hobbies), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""ceramic-tool: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5135ae30-8e30-59d4-9cb8-8aaf457d3842'
 SOURCE_PATH = 'icons-json/hobbies/ceramic tool_5135ae30-8e30-59d4-9cb8-8aaf457d3842.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CeramicTool(Solo48):
     icon_id = 'ceramic-tool'
@@ -13,9 +12,39 @@ class CeramicTool(Solo48):
     semantic_kind = 'noun'
     category = 'hobbies'
     aliases = ()
-    keywords = ('ceramic', 'tool', 'hobbies')
+    keywords = ('ceramic', 'tool', 'hobbies', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (37, 18), (33, 14))
-        self.add_bezier('e1', (33, 14), ((30.67, 11.882), (31.59, 8.736), (33.08, 6.509)), ((33.48, 5.936), (34.38, 4.945), (34.55, 4.345)), ((34.58, 4.236), (34.3, 4.309), (34.17, 4.3)), ((33.73, 4.245), (33.3, 4.191), (32.86, 4.164)), ((30.88, 4.009), (28.88, 4.018), (26.89, 4.018)), ((24.921, 4.018), (22.953, 4), (20.984, 4)), ((20.953, 4), (20.921, 4), (20.89, 4)), ((20.33, 4), (19.76, 4.018), (19.2, 4.018)), ((17.74, 4.018), (16.27, 4.055), (14.82, 4.164)), ((14.34, 4.2), (13.4, 4.282), (13.4, 4.291)), ((13.4, 4.382), (14.84, 6.427), (15.04, 6.755)), ((15.99, 8.227), (16.53, 10.118), (16.06, 11.818)), ((15.23, 14.773), (12.04, 16.318), (10.19, 18.655)), ((9.36, 19.709), (8.7, 20.891), (8.36, 22.155)), ((8.21, 22.727), (8, 23.391), (8, 23.991)), ((8, 23.992), (8, 23.993), (8, 23.994)), ((8, 24.057), (8, 24.119), (8, 24.182)), ((8, 24.445), (8.02, 24.709), (8.02, 24.973)), ((8.02, 29.818), (11.21, 34.936), (13.77, 39.027)), ((14.62, 40.391), (15.64, 42.718), (17.14, 43.564)), ((18.25, 44), (20.97, 43.964), (22.18, 43.982)), ((22.54, 43.982), (22.91, 44), (23.27, 44)), ((23.279, 44), (23.288, 44), (23.297, 44)), ((23.858, 44), (24.429, 43.982), (24.99, 43.982)), ((26.5, 43.945), (29.53, 44), (30.94, 43.5)), ((32.39, 42.745), (33.23, 40.682), (34.02, 39.4)), ((36.13, 35.945), (38.21, 32.527), (39.34, 28.682)), ((39.66, 27.609), (39.99, 26.527), (39.99, 25.409)), ((39.99, 25.257), (40, 25.105), (40, 24.953)), ((40, 24.95), (40, 24.948), (40, 24.945)), ((40, 24.791), (39.99, 24.645), (39.99, 24.5)), ((39.99, 22.445), (38.61, 19.464), (37, 18)))
-        self.add_contour('c0', 'e0', 'e1', closed=True)
+        # Plan: A narrow-necked vase with a broad rounded belly and narrower foot. Mirrored tangents keep both shoulders smooth; foot width preserves the variant.
+        # Reference: Lucide amphora original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('vase',(16,4),[('L',(32,4)),('C',(40,22),(30,10),(40,14)),('C',(35,44),(40,31),(35,35)),('L',(13,44)),('C',(8,22),(13,35),(8,31)),('C',(16,4),(8,14),(18,10))],True)

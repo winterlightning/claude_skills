@@ -1,10 +1,9 @@
-"""Stethoscope (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""stethoscope: Smooth stethoscope loops; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd302c6d8-a92a-4d28-bbf2-86fef555f93f'
 SOURCE_PATH = 'icons-json/symbol/stethoscope_d302c6d8-a92a-4d28-bbf2-86fef555f93f.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Stethoscope(Solo48):
     icon_id = 'stethoscope'
@@ -13,24 +12,43 @@ class Stethoscope(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('stethoscope', 'symbol')
+    keywords = ('solo-ai-full-set', 'stethoscope')
 
     def build(self):
-        self.add_line('e0', (6, 10), (6, 17))
-        self.add_line('e1', (27, 9), (27, 17))
-        self.add_line('e2', (38, 21), (38, 31))
-        self.add_arc('e3-top', (34, 17), (42, 17), radius_x=4)
-        self.add_arc('e3-bottom', (42, 17), (34, 17), radius_x=4)
-        self.add_bezier('e4', (11, 6), ((9.036, 6.695), (6, 7.447), (6, 10)))
-        self.add_bezier('e5', (6, 17), ((6, 17.065), (6.008, 17.585), (6.016, 17.651)), ((6.016, 18.698), (6.344, 19.835), (6.728, 20.801)), ((8.389, 24.949), (12.713, 26.779), (17, 27)))
-        self.add_bezier('e6', (22, 6), ((23.645, 6.524), (27, 6.799), (27, 9)))
-        self.add_bezier('e7', (27, 17), ((27, 17.965), (26.954, 19.451), (26.643, 20.351)), ((25.088, 24.777), (21.549, 26.869), (17, 27)))
-        self.add_bezier('e8', (38, 31), ((38, 36.359), (32.992, 41.992), (27.535, 41.992)), ((27.469, 41.992), (27.404, 42), (27.338, 42)), ((27.337, 42), (27.336, 42), (27.335, 42)), ((27.271, 42), (27.206, 42), (27.142, 42)), ((22.495, 42), (18.355, 38.613), (17.111, 34.211)), ((16.481, 31.961), (16.975, 29.315), (17, 27)))
-        self.add_contour('c0', 'e4', 'e0', 'e5')
-        self.add_contour('c1', 'e6', 'e1', 'e7')
-        self.add_contour('c2', 'e2', 'e8')
-        self.add_contour('e3', 'e3-top', 'e3-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c2', 'e3')
+        # Plan: Preserve the forked ear tubes, hanging hose and circular chestpiece; the hose meets an exact circle endpoint.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('ears',(11,6),[('L',(6,8)),('L',(6,17)),('A',(16,27),10,10,False),('A',(26,17),10,10,False),('L',(26,8)),('L',(21,6))])
+        path('hose',(16,27),[('L',(16,30)),('A',(38,30),11,12,False),('L',(38,19))]);join('hose','ears')
+        path('bell',(38,19),[('A',(34,15),4,4,True),('A',(38,11),4,4,True),('A',(42,15),4,4,True),('A',(38,19),4,4,True)],True);join('bell','hose')

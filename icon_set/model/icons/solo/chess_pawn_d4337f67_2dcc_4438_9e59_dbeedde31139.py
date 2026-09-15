@@ -1,10 +1,9 @@
-"""Chess pawn (hobbies), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""chess-pawn: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'd4337f67-2dcc-4438-9e59-dbeedde31139'
 SOURCE_PATH = 'icons-json/hobbies/chess pawn_d4337f67-2dcc-4438-9e59-dbeedde31139.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ChessPawn(Solo48):
     icon_id = 'chess-pawn'
@@ -13,38 +12,41 @@ class ChessPawn(Solo48):
     semantic_kind = 'noun'
     category = 'hobbies'
     aliases = ()
-    keywords = ('chess', 'pawn', 'hobbies')
+    keywords = ('chess', 'pawn', 'hobbies', 'solo-ai-next100')
 
     def build(self):
-        self.add_arc('sym-e0', (12, 13), (36, 13), radius_x=12, radius_y=9)
-        self.add_arc('sym-e1', (36, 13), (31, 20), radius_x=12, radius_y=9)
-        self.add_arc('sym-e2', (31, 20), (17, 20), radius_x=12, radius_y=9)
-        self.add_arc('sym-e3', (17, 20), (12, 13), radius_x=12, radius_y=9)
-        self.add_line('sym-e4', (34, 35), (14, 35))
-        self.add_line('sym-e5', (14, 35), (17, 22))
-        self.add_line('sym-e6', (17, 22), (17, 20))
-        self.add_line('sym-e7', (24, 44), (8, 44))
-        self.add_line('sym-e8', (8, 44), (8, 41))
-        self.add_arc('sym-e9', (8, 41), (14, 35), radius_x=7)
-        self.add_line('sym-e10', (31, 20), (31, 22))
-        self.add_line('sym-e11', (31, 22), (34, 35))
-        self.add_arc('sym-e12', (34, 35), (40, 41), radius_x=7)
-        self.add_line('sym-e13', (40, 41), (40, 44))
-        self.add_line('sym-e14', (40, 44), (24, 44))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', closed=True)
-        self.add_contour('sym-c1', 'sym-e4', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c2', 'sym-e7', 'sym-e8', 'sym-e9')
-        self.add_contour('sym-c3', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14')
-        self.relate('connect', 'sym-c0', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c3')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        # Plan: A pawn retains its oval head, tapered neck and broad pedestal; true ellipse geometry replaces irregular head segments.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('head',(24,4),[('A',(24,20),12,8,True),('A',(24,4),12,8,True)],True)
+        poly('neck',(18,19),(14,34),(34,34),(30,19));join('neck','head')
+        path('base',(14,34),[('L',(34,34)),('A',(40,40),6,6,True),('L',(40,44)),('L',(8,44)),('L',(8,40)),('A',(14,34),6,6,True)],True);join('base','neck')

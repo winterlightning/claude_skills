@@ -1,10 +1,9 @@
-"""Turn right (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""turn-right: Smooth directional bend; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '782cce06-3af3-4e32-a124-1b46ea9e5b71'
 SOURCE_PATH = 'icons-json/transportation/turn right_782cce06-3af3-4e32-a124-1b46ea9e5b71.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TurnRight(Solo48):
     icon_id = 'turn-right'
@@ -13,19 +12,43 @@ class TurnRight(Solo48):
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('turn', 'right', 'transportation')
+    keywords = ('solo-ai-full-set', 'turn-right')
 
     def build(self):
-        self.add_line('e0', (8, 44), (8, 29))
-        self.add_line('e1', (30, 13), (40, 13))
-        self.add_line('e2', (40, 13), (31, 4))
-        self.add_line('e3', (40, 13), (32, 21))
-        self.add_line('e4-1', (8, 29), (9, 20))
-        self.add_arc('e4-2', (9, 20), (16, 14), radius_x=11)
-        self.add_arc('e4-3', (16, 14), (30, 13), radius_x=70)
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: A quarter-circle bend joins straight runs; preserve direction and the longer upright stem.
+        # Reference: Lucide undo-2: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        def pt(x,y):return (48-x,y) if True else (x,y)
+        path('shaft',pt(8,12),[('L',pt(28,12)),('A',pt(40,24),12,12,False),('L',pt(40,44))])
+        path('head',pt(16,4),[('L',pt(8,12)),('L',pt(16,20))]);join('shaft','head')

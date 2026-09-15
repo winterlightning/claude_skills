@@ -1,21 +1,22 @@
-"""Advisory clearance between sustained opposing edges of one contour.
+"""Review clearance between sustained opposing edges of connected geometry.
 
-Sampled geometry is a review heuristic, not a certified distance gate. Adjacent
+Sampled geometry is a review heuristic, not a certified distance measurement.
+An unresolved finding prevents publication through library_qa. Adjacent
 segments, common endpoints, endpoint neighbourhoods, and complete circular
 contours are excluded. Circle diameter remains the hole check's responsibility.
 """
 import html
 import math
 
-from ..model.primitives import Bezier, Line
+from ..model.primitives import Arc, Bezier, Line, Point
 from ..model.profiles import STROKE_WIDTH
 from .envelope import arc_geometry
 from .circle_exceptions import circle_candidates
 from ..renderers.svg import build_paths
 
-RULES = {'version': 1, 'sample_step': 0.25, 'minimum_run': 2.0,
+RULES = {'version': 2, 'sample_step': 0.25, 'minimum_run': 2.0,
          'endpoint_margin': 0.5, 'maximum_parallel_angle_degrees': 30,
-         'blocking': False}
+         'blocking': False, 'publication_requires_clear_review': True}
 
 
 def _samples(primitive):
@@ -84,22 +85,85 @@ def _run(first, second, required):
     return best
 
 
+def _avatar_tangent_contact(icon, first, second, first_node, second_node, drawing):
+    """Accept only the avatar's analytically verified circle/shoulder ink tangency."""
+    if icon.family != 'solo' or icon.category != 'avatars':
+        return False
+    arc, line = (first, second) if isinstance(first, Arc) else (second, first)
+    if not isinstance(arc, Arc) or not isinstance(line, Line):
+        return False
+    if arc.radius_x != arc.radius_y or line.start.y != line.end.y:
+        return False
+    if not line.element_id.startswith('body-top') and line.element_id != 'shoulder-top':
+        return False
+    geometry = arc_geometry(arc)
+    from .envelope import centerline_bounds
+    bottom = centerline_bounds([arc])[3]
+    if abs(geometry.center_x - 24) > 1e-9 or abs(bottom - geometry.center_y - geometry.radius_y) > 1e-9:
+        return False
+    if abs(line.start.y - bottom - STROKE_WIDTH) > 1e-9:
+        return False
+    if not min(line.start.x, line.end.x) <= 24 <= max(line.start.x, line.end.x):
+        return False
+    return any(r.kind == 'connect' and {first_node, second_node}.issubset(r.members)
+               for r in drawing.relationships)
+
+
 def analyze_internal_spacing(icon, drawing):
     required = float(icon.profile.spec.equal_stroke_centerline_min)
     circular = {c['element_id'] for c in circle_candidates('<svg/>',drawing)}
     by_id = drawing.by_id()
     samples = {}
     findings = []
-    for contour in drawing.contours:
-        if contour.contour_id in circular:
+    # Resolve connected components without treating a contact as permission for
+    # every distant edge of those parts to overlap. Local shared endpoints and
+    # ordinary adjacent contour segments remain excluded.
+    primitive_owner = {m: c.contour_id for c in drawing.contours for m in c.members}
+    nodes = {c.contour_id: list(c.members) for c in drawing.contours}
+    nodes.update({p.element_id: [p.element_id] for p in drawing.primitives
+                  if p.element_id not in primitive_owner})
+    parent = {name: name for name in nodes}
+    def root(name):
+        while parent[name] != name:
+            name = parent[name]
+        return name
+    for relation in drawing.relationships:
+        if relation.kind != 'connect':
             continue
-        members = [by_id[m] for m in contour.members]
-        for i, first in enumerate(members):
-            for j in range(i+2,len(members)):
-                second = members[j]
-                if contour.closed and i == 0 and j == len(members)-1:
+        names = [primitive_owner.get(m, m) for m in relation.members]
+        names = [n for n in names if n in parent]
+        for name in names[1:]:
+            parent[root(name)] = root(names[0])
+    components = {}
+    owners = {}
+    adjacent = set()
+    for node, names in nodes.items():
+        parts = []
+        for name in names:
+            primitive = by_id[name]
+            if isinstance(primitive, Bezier) and len(primitive.segments) > 1:
+                for index, (p0, c1, c2, p3) in enumerate(primitive.cubics()):
+                    key = (name, index)
+                    parts.append(Bezier(key, Point(*p0), Point(*p3), ((c1,c2,p3),)))
+                    owners[key] = name
+            else:
+                parts.append(primitive)
+                owners[primitive.element_id] = name
+        for first, second in zip(parts, parts[1:]):
+            adjacent.add(frozenset((first.element_id, second.element_id)))
+        if any(c.contour_id == node and c.closed for c in drawing.contours) and len(parts) > 1:
+            adjacent.add(frozenset((parts[0].element_id, parts[-1].element_id)))
+        components.setdefault(root(node), []).extend((node,p) for p in parts)
+    for component in components.values():
+        for i, (first_node, first) in enumerate(component):
+            for second_node, second in component[i+1:]:
+                if first_node == second_node and first_node in circular:
+                    continue
+                if frozenset((first.element_id,second.element_id)) in adjacent:
                     continue
                 if {first.start,first.end} & {second.start,second.end}:
+                    continue
+                if _avatar_tangent_contact(icon, first, second, first_node, second_node, drawing):
                     continue
                 for p in (first,second):
                     if p.element_id not in samples:
@@ -112,12 +176,13 @@ def analyze_internal_spacing(icon, drawing):
                 result = max(choices,key=lambda r:r['sustained_length'])
                 if result is reverse:
                     result['nearest_points'].reverse()
-                findings.append({'contour':contour.contour_id,'elements':[first.element_id,second.element_id],
+                label = first_node if first_node == second_node else first_node + ' / ' + second_node
+                findings.append({'contour':label,'elements':[owners[first.element_id],owners[second.element_id]],
                                  'status':'review', **result})
     return {'status':'review' if findings else 'pass', 'blocking':False,
             'required_ink_gap':float(icon.profile.spec.mic), 'rules':RULES,
             'findings':findings,
-            'notice':'Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink.'}
+            'notice':'Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink.'}
 
 
 def internal_overlay(icon,drawing,result):

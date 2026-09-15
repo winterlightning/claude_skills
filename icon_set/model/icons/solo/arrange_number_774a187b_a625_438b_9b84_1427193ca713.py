@@ -1,10 +1,9 @@
-"""Arrange number (_uncategorized_04), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""arrange-number: Clear numeric sorting mark; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '774a187b-a625-438b-9b84-1427193ca713'
 SOURCE_PATH = 'icons-json/_uncategorized_04/arrange number_774a187b-a625-438b-9b84-1427193ca713.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrangeNumber(Solo48):
     icon_id = 'arrange-number'
@@ -13,36 +12,44 @@ class ArrangeNumber(Solo48):
     semantic_kind = 'noun'
     category = '_uncategorized_04'
     aliases = ()
-    keywords = ('arrange', 'number', '_uncategorized_04')
+    keywords = ('solo-ai-full-set', 'arrange-number')
 
     def build(self):
-        self.add_line('e0', (32, 7), (36, 4))
-        self.add_line('e1', (36, 4), (36, 19))
-        self.add_line('e2', (32, 19), (36, 19))
-        self.add_line('e3', (39, 19), (36, 19))
-        self.add_line('e4', (13, 9), (13, 34))
-        self.add_line('e5', (8, 29), (13, 34))
-        self.add_line('e6', (19, 29), (13, 34))
-        self.add_line('e7', (40, 35), (38, 37))
-        self.add_line('e8-1', (32, 43), (34, 44))
-        self.add_arc('e8-2', (34, 44), (40, 38), radius_x=6, sweep=False)
-        self.add_arc('e8-3', (40, 38), (40, 35), radius_x=50)
-        self.add_arc('e9-1', (38, 37), (31, 33), radius_x=5)
-        self.add_arc('e9-2', (31, 33), (35, 28), radius_x=5)
-        self.add_arc('e9-3', (35, 28), (40, 32), radius_x=5)
-        self.add_arc('e9-4', (40, 32), (40, 35), radius_x=35, sweep=False)
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('c5', 'e6')
-        self.add_contour('c6', 'e8-1', 'e8-2', 'e8-3')
-        self.add_contour('c7', 'e7', 'e9-1', 'e9-2', 'e9-3', 'e9-4', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c6', 'c7')
+
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f'{name}-{index}'
+                kind, end, *args = command
+                if kind == 'L':
+                    self.add_line(ident, here, end)
+                elif kind == 'A':
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == 'C':
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+
+        def circle(name, cx, cy, r):
+            path(name, (cx - r, cy), [('A', (cx + r, cy), r, r, True), ('A', (cx - r, cy), r, r, True)], True)
+
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0 + r, y0), [('L', (x1 - r, y0)), ('A', (x1, y0 + r), r, r, True), ('L', (x1, y1 - r)), ('A', (x1 - r, y1), r, r, True), ('L', (x0 + r, y1)), ('A', (x0, y1 - r), r, r, True), ('L', (x0, y0 + r)), ('A', (x0 + r, y0), r, r, True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a, b: self.relate('connect', a, b)
+        line('arrow', (13, 10), (13, 35))
+        path('head', (8, 29), [('L', (13, 35)), ('L', (18, 29))])
+        join('arrow', 'head')
+        # Both digits use a shared 16-unit cap height and the same stroke.
+        digit_height = 16
+        one_top, nine_bottom = 4, 44
+        nine_top = nine_bottom - digit_height
+        poly('one', (32, 7), (36, one_top), (36, one_top + digit_height))
+        circle('nine-bowl', 36, nine_top + 4, 4)
+        path('nine-stem', (40, nine_top + 4), [('L', (40, 42)), ('C', (38, nine_bottom), (40, 43), (39, nine_bottom))])
+        join('nine-bowl', 'nine-stem')

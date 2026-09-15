@@ -1,10 +1,9 @@
-"""Synchronize refresh arrow (interface-essential), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""synchronize-refresh-arrow: Smooth refresh curve; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '291489e2-79f7-5f3b-9d47-fde1ae00f80e'
 SOURCE_PATH = 'icons-json/interface-essential/synchronize refresh arrow_291489e2-79f7-5f3b-9d47-fde1ae00f80e.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SynchronizeRefreshArrow(Solo48):
     icon_id = 'synchronize-refresh-arrow'
@@ -13,11 +12,45 @@ class SynchronizeRefreshArrow(Solo48):
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('synchronize', 'refresh', 'arrow', 'interface-essential')
+    keywords = ('solo-ai-full-set', 'synchronize-refresh-arrow')
 
     def build(self):
-        self.add_line('e0', (9, 26), (4, 21))
-        self.add_line('e1', (9, 26), (14, 21))
-        self.add_bezier('e2', (25, 40), ((25.991, 40), (26.882, 39.983), (27.873, 39.983)), ((28.727, 39.983), (29.673, 39.731), (30.5, 39.554)), ((36.764, 38.206), (42.055, 33.432), (43.527, 27.629)), ((43.745, 26.771), (43.982, 25.869), (43.982, 24.985)), ((43.982, 24.724), (44, 24.455), (44, 24.194)), ((44, 24.189), (44, 24.185), (44, 24.181)), ((44, 23.907), (43.982, 23.625), (43.982, 23.352)), ((43.982, 14.956), (35.418, 8.017), (26.591, 8.017)), ((26.464, 8.008), (26.327, 8.008), (26.2, 8)), ((26.199, 8), (26.198, 8), (26.197, 8)), ((26.125, 8), (26.053, 8.008), (25.982, 8.008)), ((19.436, 8.008), (13.155, 11.705), (10.336, 17.162)), ((8.945, 19.857), (9.218, 23.078), (9, 26)))
-        self.add_contour('c0', 'e2', 'e0')
-        self.add_contour('c1', 'e1')
+        # Plan: Preserve rotation direction and open-ring length; use matching quarter ellipses and a shared arrow point.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        def pt(x,y):return (48-x,y) if False else (x,y)
+        commands=[('A',pt(26,8),18,16,True),('A',pt(44,24),18,16,True),('A',pt(26,40),18,16,True)]
+        if False:commands.append(('C',pt(10,32),pt(19,40),pt(14,37)))
+        path('curve',pt(8,24),commands)
+        path('head',pt(4,19),[('L',pt(8,24)),('L',pt(13,19))]);join('head','curve')

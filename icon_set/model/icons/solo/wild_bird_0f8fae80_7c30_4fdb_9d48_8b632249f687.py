@@ -13,7 +13,7 @@ AUTHOR = 'gpt-6'
 
 class PerchingBird(Solo48):
     icon_id = 'perching-bird'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals/birds"
@@ -22,8 +22,8 @@ class PerchingBird(Solo48):
 
     def build(self) -> None:
         self.add_line('beak', (6, 10), (13, 6))
-        self.add_arc('head-a', (13, 6), (21, 6), radius_x=8, radius_y=4, sweep=True)
-        self.add_arc('head-b', (21, 6), (29, 10), radius_x=8, radius_y=8, sweep=True)
+        self.add_bezier('head-a', (13, 6), *(((15.47520861, 6), (18.52479139, 6), (21, 6)),))
+        self.add_bezier('head-b', (21, 6), *(((24.2325716, 6), (27.39737339, 7.16125546), (29, 10)),))
         self.add_line('back', (29, 10), (42, 38))
         self.add_arc('belly', (42, 38), (35, 40), radius_x=17, radius_y=17, sweep=True)
         self.add_line('underside', (35, 40), (27, 40))
@@ -31,8 +31,7 @@ class PerchingBird(Solo48):
         self.add_line('forehead', (11, 24), (11, 7))
         self.add_contour('body', 'head-a', 'head-b', 'back', 'belly', 'underside', 'breast', 'forehead', closed=False)
         self.relate("connect", 'body', 'beak')
-        self.add_arc('wing', (21, 16), (42, 38), radius_x=22, radius_y=22, sweep=False)
-        self.relate("connect", 'body', 'wing')
+        self.add_bezier('wing',(20,16),((20,23),(22,27),(25,29)))
         self.add_line('tail', (42, 38), (42, 42))
         self.relate("connect", 'body', 'tail')
         self.add_line('leg-left', (27, 40), (24, 42))

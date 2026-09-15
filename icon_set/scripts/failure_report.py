@@ -37,8 +37,8 @@ RULES = {
     },
     "spacing": {
         "title": "Spacing (MIC)",
-        "summary": "Separate strokes need 8u between centerlines (4u of clear ink) unless their contact is declared.",
-        "fix": "Push the marked parts apart to the minimum, join them into one contour, or declare a scoped `connect` if they truly touch.",
+        "summary": "Separate and opposing strokes need 8u between centerlines (4u of clear ink). Genuine joins are checked locally.",
+        "fix": "Widen the marked gap or rebalance the drawing. A connection does not excuse crowded edges elsewhere on those parts.",
     },
     "holes": {
         "title": "Holes & pinches",
@@ -114,6 +114,8 @@ def classify(message: str) -> dict:
                          overlay={"type": "circle", "c": [cx, cy], "ink": radius, "env": allowed})
         else:
             issue["kind"] = "Bounds (unparsed)"
+    elif message.startswith("internal-spacing"):
+        issue.update(rule="spacing", kind="Opposing edges too close (review required)")
     elif message.startswith("mic"):
         issue["rule"] = "spacing"
         if match := PAIR.search(message):
@@ -169,7 +171,7 @@ def collect(failed_manifests: list[tuple[Path, str]], *, total: int | None = Non
             if families is not None and record.get("family") not in families:
                 continue
             issues, seen = [], []
-            for message in record.get("errors") or record.get("warnings") or []:
+            for message in list(record.get("errors") or []) + list(record.get("warnings") or []):
                 # "ValueError: X" repeats the "style/grid: X" that reported the same fault,
                 # and the bounds check re-reports a degenerate arc inside its own message.
                 tail = message.split(":", 1)[-1].strip()

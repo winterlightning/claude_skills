@@ -1,0 +1,43 @@
+"""Trash can (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = 'f0702c6a-8d52-4871-82ba-3206aeb5703e'
+SOURCE_PATH = 'icons-json/symbol/trash can_f0702c6a-8d52-4871-82ba-3206aeb5703e.json'
+AUTHOR = 'gpt-6'
+
+class TrashCan(Solo48):
+    icon_id = 'trash-can-symbol'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'symbol'
+    aliases = ()
+    keywords = ('trash', 'can', 'symbol')
+
+    def build(self):
+        self.add_line('sym-e0', (24, 18), (11, 18))
+        self.add_line('sym-e1', (11, 18), (13, 41))
+        self.add_arc('sym-e2', (13, 41), (16, 44), radius_x=5, radius_y=5, large_arc=False, sweep=False)
+        self.add_line('sym-e3', (16, 44), (32, 44))
+        self.add_arc('sym-e5', (32, 44), (35, 41), radius_x=4, radius_y=4, large_arc=False, sweep=False)
+        self.add_line('sym-e6', (35, 41), (37, 18))
+        self.add_line('sym-e7', (37, 18), (24, 18))
+        self.add_line('sym-e8', (9, 18), (11, 18))
+        self.add_arc('sym-e9', (9, 18), (8, 18), radius_x=10, radius_y=10, large_arc=False, sweep=False)
+        self.add_line('sym-e10', (8, 18), (8, 12))
+        self.add_line('sym-e11', (8, 12), (11, 10))
+        self.add_line('sym-e12', (11, 10), (18, 10))
+        self.add_line('sym-e13', (18, 10), (18, 7))
+        self.add_arc('sym-e14', (18, 7), (20, 4), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('sym-e15', (20, 4), (28, 4))
+        self.add_arc('sym-e17', (28, 4), (30, 7), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('sym-e18', (30, 7), (30, 10))
+        self.add_line('sym-e19', (30, 10), (37, 10))
+        self.add_line('sym-e20', (37, 10), (40, 12))
+        self.add_line('sym-e21', (40, 12), (40, 18))
+        self.add_arc('sym-e22', (40, 18), (39, 18), radius_x=53, radius_y=53, large_arc=False, sweep=False)
+        self.add_line('sym-e23', (39, 18), (37, 18))
+        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e5', 'sym-e6', 'sym-e7', closed=True)
+        self.add_contour('sym-c1', 'sym-e8', closed=False)
+        self.add_contour('sym-c2', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e23', closed=False)
+        self.relate('connect', 'sym-c1', 'sym-c2')

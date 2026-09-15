@@ -1,10 +1,9 @@
-"""Casino clover (entertainment), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""casino-clover: Soft curved shamrock; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '940923da-19e4-4b49-811d-53f2118f022d'
 SOURCE_PATH = 'icons-json/entertainment/casino clover_940923da-19e4-4b49-811d-53f2118f022d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CasinoClover(Solo48):
     icon_id = 'casino-clover'
@@ -13,43 +12,46 @@ class CasinoClover(Solo48):
     semantic_kind = 'noun'
     category = 'entertainment'
     aliases = ()
-    keywords = ('casino', 'clover', 'entertainment')
+    keywords = ('solo-ai-clover-curve', 'solo-ai-next100', 'casino-clover')
 
     def build(self):
-        self.add_line('e0', (29, 20), (31, 18))
-        self.add_line('e1', (19, 20), (17, 18))
-        self.add_line('e2', (18, 31), (24, 28))
-        self.add_line('e3', (24, 38), (24, 28))
-        self.add_arc('e4-1', (31, 18), (38, 16), radius_x=14)
-        self.add_arc('e4-2', (38, 16), (41, 18), radius_x=5)
-        self.add_arc('e4-3', (41, 18), (42, 21), radius_x=5)
-        self.add_arc('e4-4', (42, 21), (40, 25), radius_x=5)
-        self.add_arc('e4-5', (40, 25), (42, 29), radius_x=5)
-        self.add_arc('e4-6', (42, 29), (37, 34), radius_x=5)
-        self.add_arc('e4-7', (37, 34), (24, 28), radius_x=29)
-        self.add_line('e5-1', (17, 18), (10, 16))
-        self.add_arc('e5-2', (10, 16), (7, 18), radius_x=5, sweep=False)
-        self.add_arc('e5-3', (7, 18), (6, 21), radius_x=5, sweep=False)
-        self.add_arc('e5-4', (6, 21), (8, 25), radius_x=6, sweep=False)
-        self.add_arc('e5-5', (8, 25), (6, 29), radius_x=5, sweep=False)
-        self.add_arc('e5-6', (6, 29), (7, 32), radius_x=5, sweep=False)
-        self.add_arc('e5-7', (7, 32), (10, 34), radius_x=4, sweep=False)
-        self.add_arc('e5-8', (10, 34), (18, 31), radius_x=14, sweep=False)
-        self.add_arc('e6-1', (29, 42), (26, 41), radius_x=5)
-        self.add_arc('e6-2', (26, 41), (24, 38), radius_x=4)
-        self.add_arc('e7-1', (18, 19), (15, 9), radius_x=11)
-        self.add_arc('e7-2', (15, 9), (19, 6), radius_x=5)
-        self.add_arc('e7-3', (19, 6), (24, 9), radius_x=6)
-        self.add_arc('e7-4', (24, 9), (28, 6), radius_x=5)
-        self.add_arc('e7-5', (28, 6), (31, 7), radius_x=5)
-        self.add_arc('e7-6', (31, 7), (33, 9), radius_x=5)
-        self.add_arc('e7-7', (33, 9), (30, 19), radius_x=12)
-        self.add_contour('c0', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5', 'e4-6', 'e4-7')
-        self.add_contour('c1', 'e1', 'e5-1', 'e5-2', 'e5-3', 'e5-4', 'e5-5', 'e5-6', 'e5-7', 'e5-8', 'e2')
-        self.add_contour('c2', 'e6-1', 'e6-2', 'e3')
-        self.add_contour('c3', 'e7-1', 'e7-2', 'e7-3', 'e7-4', 'e7-5', 'e7-6', 'e7-7')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c3', 'c1')
-        self.relate('connect', 'c3', 'c0')
+        # Plan: Three broad heart-shaped leaves flow through smooth rounded curves. The two side leaves mirror, with shallow soft notches and a curved stem instead of the prior bumpy corners.
+        # Reference: Lucide clover: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        # One left half owns the complete mirrored leaf outline.
+        left=[('C',(11,36),(20,29),(15,36)),('C',(6,30),(8,36),(6,34)),('C',(8,26),(6,28),(8,28)),('C',(6,22),(8,24),(6,24)),('C',(12,16),(6,18),(8,16)),('C',(16,18),(14,16),(17,19)),('C',(14,12),(15,17),(14,15)),('C',(19,6),(14,8),(16,6)),('C',(24,9),(22,6),(22,9))]
+        commands=list(left)
+        starts=[(24,29)]+[c[1] for c in left[:-1]]
+        mirror=lambda p:(48-p[0],p[1])
+        for start,(kind,end,c1,c2) in reversed(list(zip(starts,left))):commands.append(('C',mirror(start),mirror(c2),mirror(c1)))
+        path('leaves',(24,29),commands,True)
+        path('stem',(24,29),[('C',(30,42),(21,37),(24,42))]);join('stem','leaves')

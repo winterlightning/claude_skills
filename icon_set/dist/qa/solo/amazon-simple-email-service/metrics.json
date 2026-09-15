@@ -3,9 +3,13 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [network / node-9]: network-2 and node-9-top have -0.9662 units of ink clearance over 2.75 units; requires 4; review required",
+    "internal-spacing [network / node-24]: network-2 and node-24-top have -0.9974 units of ink clearance over 6.25 units; requires 4; review required",
+    "internal-spacing [network / node-39]: network-2 and node-39-top have -0.9662 units of ink clearance over 2.5 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -1938,12 +1942,13 @@
       "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -1959,21 +1964,86 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "network / node-9",
+        "elements": [
+          "network-2",
+          "node-9-top"
+        ],
+        "status": "review",
+        "sustained_length": 2.75,
+        "centerline_distance": 3.0338,
+        "ink_gap": -0.9662,
+        "nearest_points": [
+          [
+            9.625,
+            33.0
+          ],
+          [
+            9.24974202531321,
+            36.0104963179354
+          ]
+        ]
+      },
+      {
+        "contour": "network / node-24",
+        "elements": [
+          "network-2",
+          "node-24-top"
+        ],
+        "status": "review",
+        "sustained_length": 6.25,
+        "centerline_distance": 3.0026,
+        "ink_gap": -0.9974,
+        "nearest_points": [
+          [
+            23.875,
+            33.0
+          ],
+          [
+            23.99908248739558,
+            36.00003794860203
+          ]
+        ]
+      },
+      {
+        "contour": "network / node-39",
+        "elements": [
+          "network-2",
+          "node-39-top"
+        ],
+        "status": "review",
+        "sustained_length": 2.5,
+        "centerline_distance": 3.0338,
+        "ink_gap": -0.9662,
+        "nearest_points": [
+          [
+            38.375,
+            33.0
+          ],
+          [
+            38.75025797468678,
+            36.0104963179354
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

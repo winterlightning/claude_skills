@@ -1,10 +1,9 @@
-"""Canoe (outdoors), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""canoe: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2f08daf6-071b-5ac7-9717-2239ffbb2925'
 SOURCE_PATH = 'icons-json/outdoors/canoe_2f08daf6-071b-5ac7-9717-2239ffbb2925.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Canoe(Solo48):
     icon_id = 'canoe'
@@ -13,9 +12,39 @@ class Canoe(Solo48):
     semantic_kind = 'noun'
     category = 'outdoors'
     aliases = ()
-    keywords = ('canoe', 'outdoors')
+    keywords = ('canoe', 'outdoors', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (15, 40), (20, 40))
-        self.add_bezier('e1', (20, 40), ((20.073, 40), (20.5, 39.98), (20.573, 39.98)), ((21.455, 39.98), (22.345, 39.96), (23.227, 39.96)), ((23.464, 39.96), (23.691, 40), (23.927, 40)), ((24.709, 40), (25.5, 39.96), (26.291, 39.96)), ((28.436, 39.96), (30.6, 39.58), (32.745, 39.04)), ((37.891, 37.76), (43.982, 34.76), (43.982, 20.7)), ((43.982, 20.2), (44, 19.7), (44, 19.22)), ((44, 19.21), (44, 19.2), (44, 19.19)), ((44, 18.561), (43.982, 17.95), (43.982, 17.32)), ((43.982, 15.14), (43.6, 12.7), (43.355, 10.6)), ((43.273, 9.96), (43.091, 8.2), (43.045, 8.18)), ((42.955, 8.12), (42.236, 9.38), (41.973, 9.74)), ((40.873, 11.34), (39.755, 12.9), (38.591, 14.28)), ((35.118, 18.34), (31.109, 19.96), (27.227, 20.6)), ((22.064, 21.46), (16.645, 20.36), (11.773, 16.36)), ((10.227, 15.08), (8.618, 13.52), (7.255, 11.46)), ((6.512, 10.318), (5.769, 8), (5.026, 8)), ((5.014, 8), (5.003, 8.018), (4.991, 8)), ((4.809, 9.54), (4.618, 11.06), (4.436, 12.6)), ((4.182, 14.8), (4.018, 17.4), (4.018, 19.7)), ((4.018, 20.015), (4, 20.349), (4, 20.684)), ((4, 20.689), (4, 20.695), (4, 20.7)), ((4.009, 20.86), (4.009, 21.02), (4.018, 21.18)), ((4.018, 30.78), (7.8, 36.24), (11.564, 38.58)), ((12.573, 39.22), (13.609, 39.98), (14.664, 39.98)), ((14.745, 39.98), (14.918, 40), (15, 40)))
-        self.add_contour('c0', 'e0', 'e1', closed=True)
+        # Plan: Preserve the broad canoe with raised ends and a scooped gunwale; both ends share curvature and the hull stays low.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('hull',(4,8),[('C',(24,21),(8,17),(16,21)),('C',(44,8),(32,21),(40,17)),('L',(44,18)),('C',(24,40),(44,36),(38,40)),('C',(4,18),(10,40),(4,36)),('L',(4,8))],True)

@@ -1,10 +1,9 @@
-"""Cauldron (holidays), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""cauldron: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e709f0a8-cd5c-4a9b-8b47-1734cea8a46a'
 SOURCE_PATH = 'icons-json/holidays/cauldron_e709f0a8-cd5c-4a9b-8b47-1734cea8a46a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cauldron(Solo48):
     icon_id = 'cauldron'
@@ -13,29 +12,39 @@ class Cauldron(Solo48):
     semantic_kind = 'noun'
     category = 'holidays'
     aliases = ()
-    keywords = ('cauldron', 'holidays')
+    keywords = ('cauldron', 'holidays', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('sym-e0', (7, 8), (24, 8))
-        self.add_line('sym-e1', (24, 8), (41, 8))
-        self.add_arc('sym-e3', (41, 8), (44, 11), radius_x=3)
-        self.add_arc('sym-e6', (44, 11), (42, 14), radius_x=4)
-        self.add_line('sym-e7', (42, 14), (41, 14))
-        self.add_arc('sym-e8', (41, 14), (40, 15), radius_x=43)
-        self.add_arc('sym-e9', (40, 15), (42, 17), radius_x=27, sweep=False)
-        self.add_line('sym-e10', (42, 17), (44, 22))
-        self.add_line('sym-e11-1', (44, 22), (41, 33))
-        self.add_arc('sym-e11-2', (41, 33), (34, 39), radius_x=15)
-        self.add_line('sym-e12', (34, 39), (29, 40))
-        self.add_line('sym-e14', (29, 40), (24, 40))
-        self.add_line('sym-e15', (24, 40), (19, 40))
-        self.add_line('sym-e17', (19, 40), (14, 39))
-        self.add_arc('sym-e18-1', (14, 39), (7, 33), radius_x=15)
-        self.add_line('sym-e18-2', (7, 33), (4, 22))
-        self.add_arc('sym-e19', (4, 22), (6, 17), radius_x=16)
-        self.add_arc('sym-e20', (6, 17), (8, 15), radius_x=27)
-        self.add_arc('sym-e21', (8, 15), (7, 14), radius_x=43, sweep=False)
-        self.add_line('sym-e22', (7, 14), (6, 14))
-        self.add_arc('sym-e23', (6, 14), (4, 11), radius_x=4)
-        self.add_arc('sym-e26', (4, 11), (7, 8), radius_x=3)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e3', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11-1', 'sym-e11-2', 'sym-e12', 'sym-e14', 'sym-e15', 'sym-e17', 'sym-e18-1', 'sym-e18-2', 'sym-e19', 'sym-e20', 'sym-e21', 'sym-e22', 'sym-e23', 'sym-e26', closed=True)
+        # Plan: A broad round-bellied cauldron has a flared lip and paired shoulders. Preserve the source rounded cooking vessel.
+        # Reference: Lucide cooking-pot original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('pot',(8,8),[('L',(40,8)),('A',(40,16),4,4,True),('L',(44,24)),('C',(24,40),(43,36),(35,40)),('C',(4,24),(13,40),(5,36)),('L',(8,16)),('A',(8,8),4,4,True)],True)

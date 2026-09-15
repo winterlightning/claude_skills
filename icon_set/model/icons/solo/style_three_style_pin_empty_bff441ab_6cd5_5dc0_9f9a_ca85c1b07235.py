@@ -1,10 +1,9 @@
-"""Style three style pin empty (maps), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""style-three-style-pin-empty: Smooth symmetric map pin; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bff441ab-6cd5-5dc0-9f9a-ca85c1b07235'
 SOURCE_PATH = 'icons-json/maps/style three style pin empty_bff441ab-6cd5-5dc0-9f9a-ca85c1b07235.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class StyleThreeStylePinEmpty(Solo48):
     icon_id = 'style-three-style-pin-empty'
@@ -13,23 +12,41 @@ class StyleThreeStylePinEmpty(Solo48):
     semantic_kind = 'noun'
     category = 'maps'
     aliases = ()
-    keywords = ('style', 'three', 'pin', 'empty', 'maps')
+    keywords = ('solo-ai-full-set', 'style-three-style-pin-empty')
 
     def build(self):
-        self.add_bezier('sym-e0', (24, 44), ((17.971, 38.355), (8, 30.509), (8, 21)))
-        self.add_bezier('sym-e1', (8, 21), ((8, 20.782), (8, 20.218), (8, 20)))
-        self.add_bezier('sym-e2', (8, 20), ((8, 19.709), (8, 19.291), (8, 19)))
-        self.add_bezier('sym-e3', (8, 19), ((8, 17.436), (8.453, 16.427), (9, 15)))
-        self.add_bezier('sym-e4', (9, 15), ((11.417, 8.718), (17.676, 4), (24, 4)))
-        self.add_bezier('sym-e5', (24, 4), ((24.067, 4), (23.933, 4), (24, 4)))
-        self.add_bezier('sym-e6', (24, 4), ((24.021, 4), (23.979, 4), (24, 4)))
-        self.add_bezier('sym-e7', (24, 4), ((24.01, 4), (23.99, 4), (24, 4)))
-        self.add_bezier('sym-e8', (24, 4), ((24.01, 4), (23.99, 4), (24, 4)))
-        self.add_bezier('sym-e9', (24, 4), ((24.021, 4), (23.979, 4), (24, 4)))
-        self.add_bezier('sym-e10', (24, 4), ((24.067, 4), (23.933, 4), (24, 4)))
-        self.add_bezier('sym-e11', (24, 4), ((30.324, 4), (36.583, 8.718), (39, 15)))
-        self.add_bezier('sym-e12', (39, 15), ((39.547, 16.427), (40, 17.436), (40, 19)))
-        self.add_bezier('sym-e13', (40, 19), ((40, 19.291), (40, 19.709), (40, 20)))
-        self.add_bezier('sym-e14', (40, 20), ((40, 20.218), (40, 20.782), (40, 21)))
-        self.add_bezier('sym-e15', (40, 21), ((40, 30.509), (30.029, 38.355), (24, 44)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', closed=True)
+        # Plan: Mirrored shoulders and a single flowing taper; keep the original open or inset center.
+        # Reference: Lucide map-pin: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('outline',(8,20),[('A',(40,20),16,16,True),('C',(24,44),(40,29),(30,38)),('C',(8,20),(18,38),(8,29))],True)

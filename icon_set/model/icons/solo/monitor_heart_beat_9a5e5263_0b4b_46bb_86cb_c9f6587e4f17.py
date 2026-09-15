@@ -1,10 +1,9 @@
-"""Monitor heart beat (health), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""monitor-heart-beat: Smooth heart pulse; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9a5e5263-0b4b-46bb-86cb-c9f6587e4f17'
 SOURCE_PATH = 'icons-json/health/monitor heart beat_9a5e5263-0b4b-46bb-86cb-c9f6587e4f17.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class MonitorHeartBeat(Solo48):
     icon_id = 'monitor-heart-beat'
@@ -13,44 +12,42 @@ class MonitorHeartBeat(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('monitor', 'heart', 'beat', 'health')
+    keywords = ('solo-ai-full-set', 'monitor-heart-beat')
 
     def build(self):
-        self.add_line('e0', (6, 27), (10, 27))
-        self.add_line('e1', (42, 27), (39, 27))
-        self.add_line('e2', (8, 22), (10, 27))
-        self.add_line('e3', (39, 27), (31, 27))
-        self.add_line('e4', (31, 27), (30, 24))
-        self.add_line('e5', (30, 24), (26, 33))
-        self.add_line('e6', (26, 33), (20, 18))
-        self.add_line('e7', (20, 18), (17, 27))
-        self.add_line('e8', (17, 27), (10, 27))
-        self.add_line('e9', (39, 27), (35, 32))
-        self.add_line('e10', (13, 31), (10, 27))
-        self.add_arc('e11-1', (39, 27), (42, 16), radius_x=24, sweep=False)
-        self.add_arc('e11-2', (42, 16), (40, 10), radius_x=10, sweep=False)
-        self.add_arc('e11-3', (40, 10), (33, 6), radius_x=9, sweep=False)
-        self.add_line('e11-4', (33, 6), (28, 7))
-        self.add_line('e11-5', (28, 7), (24, 11))
-        self.add_arc('e11-6', (24, 11), (16, 6), radius_x=9, sweep=False)
-        self.add_arc('e11-7', (16, 6), (6, 16), radius_x=10, sweep=False)
-        self.add_arc('e11-8', (6, 16), (8, 22), radius_x=23, sweep=False)
-        self.add_arc('e12-1', (35, 32), (24, 42), radius_x=63)
-        self.add_arc('e12-2', (24, 42), (13, 31), radius_x=51)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e11-1', 'e11-2', 'e11-3', 'e11-4', 'e11-5', 'e11-6', 'e11-7', 'e11-8', 'e2')
-        self.add_contour('c3', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8')
-        self.add_contour('c4', 'e9', 'e12-1', 'e12-2', 'e10')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
+        # Plan: Preserve the heart and single waveform. An open shared baseline and broad central pulse avoid a cramped return along the heart wall.
+        # Reference: Lucide heart-crack: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('heart',(24,10),[('C',(15,6),(21,7),(19,6)),('C',(6,17),(9,6),(6,10)),('C',(10,27),(6,21),(8,24)),('C',(24,42),(14,33),(20,39)),('C',(38,27),(28,39),(34,33)),('C',(42,17),(40,24),(42,21)),('C',(33,6),(42,10),(39,6)),('C',(24,10),(29,6),(27,7))],True)
+        path('pulse',(6,27),[('L',(10,27)),('L',(16,27)),('L',(21,17)),('L',(24,30)),('L',(28,27)),('L',(38,27)),('L',(42,27))]);join('pulse','heart')

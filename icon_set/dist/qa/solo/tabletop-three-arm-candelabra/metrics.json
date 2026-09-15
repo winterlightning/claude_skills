@@ -3,9 +3,17 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [arms / centre-candle]: arm-left and centre-candle have -3.971 units of ink clearance over 3.75 units; requires 4; review required",
+    "internal-spacing [arms / foot]: arm-left and foot have 3.0145 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [arms / table]: arm-left and table have 3.0011 units of ink clearance over 11 units; requires 4; review required",
+    "internal-spacing [arms / centre-candle]: arm-right and centre-candle have -3.971 units of ink clearance over 3.75 units; requires 4; review required",
+    "internal-spacing [arms / foot]: arm-right and foot have 3.0145 units of ink clearance over 5 units; requires 4; review required",
+    "internal-spacing [arms / table]: arm-right and table have 3.0011 units of ink clearance over 11 units; requires 4; review required",
+    "internal-spacing [foot / table]: foot and table have -4 units of ink clearance over 13 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -2329,12 +2337,13 @@
       "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -2350,21 +2359,170 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "arms / centre-candle",
+        "elements": [
+          "arm-left",
+          "centre-candle"
+        ],
+        "status": "review",
+        "sustained_length": 3.75,
+        "centerline_distance": 0.029,
+        "ink_gap": -3.971,
+        "nearest_points": [
+          [
+            23.97115386833165,
+            24.62241863114018
+          ],
+          [
+            24.0,
+            24.625
+          ]
+        ]
+      },
+      {
+        "contour": "arms / foot",
+        "elements": [
+          "arm-left",
+          "foot"
+        ],
+        "status": "review",
+        "sustained_length": 5.0,
+        "centerline_distance": 7.0145,
+        "ink_gap": 3.0145,
+        "nearest_points": [
+          [
+            17.249846336872864,
+            30.995539779598943
+          ],
+          [
+            17.625,
+            38.0
+          ]
+        ]
+      },
+      {
+        "contour": "arms / table",
+        "elements": [
+          "arm-left",
+          "table"
+        ],
+        "status": "review",
+        "sustained_length": 11.0,
+        "centerline_distance": 7.0011,
+        "ink_gap": 3.0011,
+        "nearest_points": [
+          [
+            16.999962991832845,
+            30.99999933933559
+          ],
+          [
+            16.875,
+            38.0
+          ]
+        ]
+      },
+      {
+        "contour": "arms / centre-candle",
+        "elements": [
+          "arm-right",
+          "centre-candle"
+        ],
+        "status": "review",
+        "sustained_length": 3.75,
+        "centerline_distance": 0.029,
+        "ink_gap": -3.971,
+        "nearest_points": [
+          [
+            24.02884613166835,
+            24.62241863114018
+          ],
+          [
+            24.0,
+            24.625
+          ]
+        ]
+      },
+      {
+        "contour": "arms / foot",
+        "elements": [
+          "arm-right",
+          "foot"
+        ],
+        "status": "review",
+        "sustained_length": 5.0,
+        "centerline_distance": 7.0145,
+        "ink_gap": 3.0145,
+        "nearest_points": [
+          [
+            30.750153663127136,
+            30.995539779598943
+          ],
+          [
+            30.375,
+            38.0
+          ]
+        ]
+      },
+      {
+        "contour": "arms / table",
+        "elements": [
+          "arm-right",
+          "table"
+        ],
+        "status": "review",
+        "sustained_length": 11.0,
+        "centerline_distance": 7.0011,
+        "ink_gap": 3.0011,
+        "nearest_points": [
+          [
+            30.999962991832845,
+            30.99999933933559
+          ],
+          [
+            30.875,
+            38.0
+          ]
+        ]
+      },
+      {
+        "contour": "foot / table",
+        "elements": [
+          "foot",
+          "table"
+        ],
+        "status": "review",
+        "sustained_length": 13.0,
+        "centerline_distance": 0.0,
+        "ink_gap": -4.0,
+        "nearest_points": [
+          [
+            17.625,
+            38.0
+          ],
+          [
+            17.625,
+            38.0
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

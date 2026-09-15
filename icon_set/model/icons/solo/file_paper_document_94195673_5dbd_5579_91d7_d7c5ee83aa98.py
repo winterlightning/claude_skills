@@ -1,10 +1,9 @@
-"""File paper document (files), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""file-paper-document: Clean folded document; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '94195673-5dbd-5579-91d7-d7c5ee83aa98'
 SOURCE_PATH = 'icons-json/files/file paper document_94195673-5dbd-5579-91d7-d7c5ee83aa98.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class FilePaperDocument(Solo48):
     icon_id = 'file-paper-document'
@@ -13,22 +12,42 @@ class FilePaperDocument(Solo48):
     semantic_kind = 'noun'
     category = 'files'
     aliases = ()
-    keywords = ('file', 'paper', 'document', 'files')
+    keywords = ('solo-ai-full-set', 'file-paper-document')
 
     def build(self):
-        self.add_line('e0', (40, 15), (29, 4))
-        self.add_line('e1', (40, 15), (40, 41))
-        self.add_line('e2', (37, 44), (11, 44))
-        self.add_line('e3', (8, 41), (8, 6))
-        self.add_line('e4', (10, 4), (29, 4))
-        self.add_line('e5', (29, 4), (29, 11))
-        self.add_line('e6', (32, 15), (40, 15))
-        self.add_line('e7-1', (40, 41), (40, 42))
-        self.add_arc('e7-2', (40, 42), (38, 44), radius_x=2)
-        self.add_line('e7-3', (38, 44), (37, 44))
-        self.add_arc('e8', (11, 44), (8, 41), radius_x=3)
-        self.add_arc('e9', (8, 6), (10, 4), radius_x=2)
-        self.add_arc('e10', (29, 11), (32, 15), radius_x=3, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e7-1', 'e7-2', 'e7-3', 'e2', 'e8', 'e3', 'e9', 'e4', 'e5', 'e10', 'e6', closed=True)
-        self.relate('connect', 'c0', 'c1')
+        # Plan: A regular page with a shared folded-corner node replaces uneven and doubled corner strokes.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('page',(8,4),[('L',(28,4)),('L',(40,16)),('L',(40,44)),('L',(8,44)),('L',(8,4))],True)
+        path('fold',(28,4),[('L',(28,16)),('L',(40,16))]);join('fold','page')

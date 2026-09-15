@@ -1,10 +1,9 @@
-"""Boat (transportation), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""boat: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '64779290-47a6-5d1a-8219-16cccfc7da32'
 SOURCE_PATH = 'icons-json/transportation/boat_64779290-47a6-5d1a-8219-16cccfc7da32.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Boat(Solo48):
     icon_id = 'boat'
@@ -13,23 +12,40 @@ class Boat(Solo48):
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('boat', 'transportation')
+    keywords = ('boat', 'transportation', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('e0', (14, 8), (25, 8))
-        self.add_line('e1', (28, 10), (33, 21))
-        self.add_line('e2', (18, 8), (13, 22))
-        self.add_line('e3', (35, 21), (7, 24))
-        self.add_line('e4', (6, 26), (4, 38))
-        self.add_line('e5', (4, 40), (32, 40))
-        self.add_line('e6', (44, 21), (35, 21))
-        self.add_bezier('e7', (25, 8), ((25.273, 8), (25.455, 8.016), (25.727, 8.016)), ((26.427, 8.016), (27.545, 9.056), (28, 10)))
-        self.add_bezier('e8', (7, 24), ((6.664, 24.528), (6.3, 25.424), (6, 26)))
-        self.add_bezier('e9', (4, 38), ((4, 38.528), (4, 39.472), (4, 40)))
-        self.add_bezier('e10', (32, 40), ((32.073, 40), (32.318, 40), (32.391, 40)), ((33.091, 40), (33.991, 39.2), (34.627, 38.752)), ((38.582, 35.856), (41.209, 29.712), (43.218, 23.28)), ((43.391, 22.704), (43.691, 22.224), (43.855, 21.648)), ((44, 20.08), (43.545, 22.424), (44, 21)))
-        self.add_contour('c0', 'e0', 'e7', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e8', 'e4', 'e9', 'e5', 'e10', 'e6', closed=True)
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: A side-view cabin cruiser retains the source sloping bow and rear cabin. A level gunwale and smooth bow use precise cabin attachments; deliberate travel direction.
+        # Reference: Lucide ship original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('hull',(8,24),[('L',(16,24)),('L',(32,24)),('L',(36,24)),('L',(44,24)),('C',(32,40),(42,32),(38,40)),('L',(4,40)),('L',(8,24))],True)
+        poly('cabin',(16,24),(20,8),(28,8),(36,24));join('cabin','hull')

@@ -1,45 +1,53 @@
-"""Airbnb logo (_uncategorized_01), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""airbnb-logo: Smooth looped travel mark; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '768363e4-ebe3-4f7b-acb9-1268ec362ebd'
 SOURCE_PATH = 'icons-json/_uncategorized_01/airbnb logo_768363e4-ebe3-4f7b-acb9-1268ec362ebd.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class AirbnbLogo(Solo48):
     icon_id = 'airbnb-logo'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = '_uncategorized_01'
     aliases = ()
-    keywords = ('airbnb', 'logo', '_uncategorized_01')
+    keywords = ('solo-ai-full-set', 'airbnb-logo')
 
     def build(self):
-        self.add_arc('sym-e1', (24, 19), (23, 19), radius_x=4)
-        self.add_arc('sym-e2', (23, 19), (21, 20), radius_x=6)
-        self.add_arc('sym-e3', (21, 20), (21, 33), radius_x=8, sweep=False)
-        self.add_arc('sym-e4', (21, 33), (23, 36), radius_x=25, sweep=False)
-        self.add_line('sym-e6', (23, 36), (24, 37))
-        self.add_arc('sym-e7', (24, 37), (22, 38), radius_x=53, sweep=False)
-        self.add_arc('sym-e8', (22, 38), (14, 42), radius_x=12)
-        self.add_line('sym-e11-1', (14, 42), (8, 40))
-        self.add_line('sym-e11-2', (8, 40), (6, 35))
-        self.add_line('sym-e13', (6, 35), (6, 34))
-        self.add_arc('sym-e14', (6, 34), (7, 31), radius_x=6, sweep=False)
-        self.add_line('sym-e15', (7, 31), (19, 9))
-        self.add_arc('sym-e16', (19, 9), (24, 6), radius_x=6)
-        self.add_arc('sym-e17', (24, 6), (29, 9), radius_x=6)
-        self.add_line('sym-e18', (29, 9), (41, 31))
-        self.add_line('sym-e19', (41, 31), (42, 34))
-        self.add_line('sym-e20', (42, 34), (42, 35))
-        self.add_line('sym-e22-1', (42, 35), (40, 40))
-        self.add_line('sym-e22-2', (40, 40), (34, 42))
-        self.add_arc('sym-e25', (34, 42), (26, 38), radius_x=13)
-        self.add_arc('sym-e26', (26, 38), (24, 37), radius_x=53, sweep=False)
-        self.add_line('sym-e27', (24, 37), (25, 36))
-        self.add_arc('sym-e29', (25, 36), (27, 33), radius_x=25, sweep=False)
-        self.add_arc('sym-e30', (27, 33), (27, 20), radius_x=8, sweep=False)
-        self.add_arc('sym-e31', (27, 20), (25, 19), radius_x=6)
-        self.add_arc('sym-e32', (25, 19), (24, 19), radius_x=4)
-        self.add_contour('sym-c0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e11-1', 'sym-e11-2', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e22-1', 'sym-e22-2', 'sym-e25', 'sym-e26', 'sym-e27', 'sym-e29', 'sym-e30', 'sym-e31', 'sym-e32', closed=True)
+        # Plan: Preserve the tall rounded triangular loop and central crossing oval, with mirrored lower lobes.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('outer',(24,4),[('C',(30,9),(27,4),(28,5)),('L',(40,33)),('C',(33,44),(40,40),(37,44)),('C',(24,39),(30,44),(27,42)),('C',(15,44),(21,42),(18,44)),('C',(8,33),(11,44),(8,40)),('L',(18,9)),('C',(24,4),(20,5),(21,4))],True)
+        path('loop',(24,39),[('C',(19,29),(20,35),(19,32)),('A',(29,29),5,5,True),('C',(24,39),(29,32),(28,35))],True);join('loop','outer')

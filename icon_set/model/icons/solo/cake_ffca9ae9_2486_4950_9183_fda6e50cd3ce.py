@@ -1,10 +1,9 @@
-"""Cake (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""cake: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ffca9ae9-2486-4950-9183-fda6e50cd3ce'
 SOURCE_PATH = 'icons-json/symbol/cake_ffca9ae9-2486-4950-9183-fda6e50cd3ce.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cake(Solo48):
     icon_id = 'cake'
@@ -13,19 +12,41 @@ class Cake(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('cake', 'symbol')
+    keywords = ('cake', 'symbol', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (4, 29), (44, 29))
-        self.add_line('e1', (44, 29), (44, 40))
-        self.add_line('e2', (44, 40), (4, 40))
-        self.add_line('e3', (4, 40), (4, 27))
-        self.add_line('e4', (30, 17), (44, 29))
-        self.add_arc('e5-top', (19, 14), (31, 14), radius_x=6)
-        self.add_arc('e5-bottom', (31, 14), (19, 14), radius_x=6)
-        self.add_arc('e6', (4, 27), (19, 13), radius_x=16)
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e6')
-        self.add_contour('c1', 'e4')
-        self.add_contour('e5', 'e5-top', 'e5-bottom', closed=True)
-        self.relate('connect', 'c0', 'e5')
-        self.relate('connect', 'c1', 'e5')
+        # Plan: Keep the wedge of cake and its round cherry; smooth the curved back and preserve a broad lower cake layer.
+        # Reference: Lucide cake-slice original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        circle('cherry',25,13,5)
+        path('cake',(4,30),[('C',(20,13),(4,20),(12,13)),('A',(25,18),5,5,False),('A',(30,13),5,5,False),('L',(44,30)),('L',(44,40)),('L',(4,40)),('L',(4,30))],True)
+        line('layer',(4,30),(44,30));join('layer','cake');join('cake','cherry')

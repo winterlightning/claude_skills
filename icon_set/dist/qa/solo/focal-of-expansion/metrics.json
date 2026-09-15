@@ -15,14 +15,14 @@
         "elementId": "sym-c0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 8 L 24 22 L 24 40 L 20 36",
+        "pathData": "M 24 8 L 24 40 L 20 36",
         "bounds": [
           20.0,
           8.0,
           24.0,
           40.0
         ],
-        "segmentCount": 3,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -47,14 +47,14 @@
         "elementId": "sym-c2",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 22 L 24 22 L 44 22 L 39 18",
+        "pathData": "M 4 22 L 44 22 L 39 18",
         "bounds": [
           4.0,
           18.0,
           44.0,
           22.0
         ],
-        "segmentCount": 3,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       },
@@ -198,7 +198,7 @@
           "sym-c0:subpath-1",
           "sym-c2:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           24.0,
           22.0
@@ -314,7 +314,7 @@
             "sym-c0:subpath-1",
             "sym-c2:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
             24.0,
             22.0
@@ -641,17 +641,20 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 20,
-      "flattenedSegments": 12,
+      "commands": 18,
+      "flattenedSegments": 10,
       "adaptiveNodes": 0,
       "distanceTests": 0,
-      "connectionTests": 0
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [],
+    "authored_hole_count": 0,
+    "raster_artifact_count": 0,
     "hole_count": 0,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -679,7 +682,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "02b7d93ba1b61695846c8f6c2e90aed42ad06b7d6f531925fcf6613b3bb67826",
+  "svg_sha256": "4306c15ff72b5aa00033f3d7ba6454a5b8efb3c87ca5af04fe226f05ba56d0ff",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -707,15 +710,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -731,21 +735,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

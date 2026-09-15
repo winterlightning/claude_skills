@@ -1,4 +1,4 @@
-"""Rooster profile with two-lobed comb and pointed wattle. Lucide bird informs simple head arc and eye. Centerline (6,6)-(42,42); the beak is integrated into the outline to preserve its opening."""
+'Rooster head: smooth crown and comb with a clear eye and beak; the comb meets the head at actual shared endpoints.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,18 +17,14 @@ class RoosterHead(Solo48):
     keywords = ('rooster', 'cockerel', 'head', 'comb', 'wattle', 'beak', 'farm', 'poultry')
 
     def build(self) -> None:
-        self.add_line('head-1', (6, 42), (6, 31))
-        self.add_arc('head-2', (6, 31), (19, 14), radius_x=17, radius_y=17, sweep=True)
-        self.add_arc('head-3', (19, 14), (33, 22), radius_x=17, radius_y=17, sweep=True)
-        self.add_line('head-4', (33, 22), (42, 35))
-        self.add_line('head-5', (42, 35), (36, 35))
-        self.add_arc('head-6', (36, 35), (32, 42), radius_x=7, radius_y=9, sweep=True)
-        self.add_contour('head', 'head-1', 'head-2', 'head-3', 'head-4', 'head-5', 'head-6', closed=False)
-        self.add_arc('comb-1', (14, 16), (12, 8), radius_x=9, radius_y=9, sweep=True)
-        self.add_arc('comb-2', (12, 8), (18, 6), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('comb-3', (18, 6), (24, 8), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('comb-4', (24, 8), (36, 8), radius_x=6, radius_y=6, sweep=True)
-        self.add_arc('comb-5', (36, 8), (32, 18), radius_x=10, radius_y=10, sweep=True)
-        self.add_contour('comb', 'comb-1', 'comb-2', 'comb-3', 'comb-4', 'comb-5', closed=False)
-        self.relate("connect", 'head', 'comb')
-        self.add_dot('eye', (25, 27))
+        self.add_line('left',(6,42),(6,31))
+        self.add_bezier('crown',(6,31),((6,21),(12,15),(19,15)),((26,15),(30,18),(33,22)))
+        self.add_polyline('beak',(33,22),(42,35),(36,35))
+        self.add_bezier('wattle',(36,35),((36,38),(35,41),(32,42)))
+        self.add_contour('head','left','crown')
+        self.relate('connect','head','beak')
+        self.relate('connect','beak','wattle')
+        self.add_bezier('comb',(19,15),((15,15),(11,6),(16,6)),((20,6),(22,6),(24,10)),((26,7),(28,6),(31,6)),((38,6),(38,15),(33,22)))
+        self.relate('connect','head','comb')
+        self.relate('connect','beak','comb')
+        self.add_dot('eye',(25,27))

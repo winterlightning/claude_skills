@@ -1,10 +1,9 @@
-"""Boxing glove (sports), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""boxing-glove: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'dbf91214-8ada-5b30-9a04-1c64d7b7b10a'
 SOURCE_PATH = 'icons-json/sports/boxing glove_dbf91214-8ada-5b30-9a04-1c64d7b7b10a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class BoxingGlove(Solo48):
     icon_id = 'boxing-glove'
@@ -13,36 +12,41 @@ class BoxingGlove(Solo48):
     semantic_kind = 'noun'
     category = 'sports'
     aliases = ()
-    keywords = ('boxing', 'glove', 'sports')
+    keywords = ('boxing', 'glove', 'sports', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('e0', (34, 20), (39, 25))
-        self.add_line('e1', (15, 44), (32, 44))
-        self.add_line('e2', (35, 41), (35, 35))
-        self.add_line('e3', (13, 35), (35, 35))
-        self.add_line('e4', (13, 35), (10, 31))
-        self.add_line('e5', (8, 27), (8, 12))
-        self.add_line('e6', (18, 4), (29, 4))
-        self.add_line('e7', (40, 11), (40, 26))
-        self.add_arc('e8', (28, 27), (34, 20), radius_x=5)
-        self.add_line('e9-1', (39, 25), (40, 26))
-        self.add_line('e9-2', (40, 26), (39, 31))
-        self.add_arc('e9-3', (39, 31), (35, 35), radius_x=11)
-        self.add_arc('e10', (13, 35), (15, 44), radius_x=5, sweep=False)
-        self.add_arc('e11', (32, 44), (35, 41), radius_x=3, sweep=False)
-        self.add_arc('e12', (10, 31), (8, 27), radius_x=12)
-        self.add_arc('e13-1', (8, 12), (9, 9), radius_x=6)
-        self.add_arc('e13-2', (9, 9), (18, 4), radius_x=11)
-        self.add_arc('e14-1', (29, 4), (38, 8), radius_x=13)
-        self.add_line('e14-2', (38, 8), (40, 11))
-        self.add_contour('c0', 'e8', 'e0', 'e9-1', 'e9-2', 'e9-3')
-        self.add_contour('c1', 'e10', 'e1', 'e11', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4', 'e12', 'e5', 'e13-1', 'e13-2', 'e6', 'e14-1', 'e14-2', 'e7')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c3', 'c0')
+        # Plan: A boxing glove has a broad smooth knuckle dome, an inward thumb and a rounded cuff. Preserved the source hand silhouette and removed uneven corners.
+        # Reference: No useful exact Lucide match; supplied boxing glove silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('glove',(16,36),[('C',(8,26),(10,34),(8,31)),('L',(8,16)),('A',(20,4),12,12,True),('L',(28,4)),('A',(40,16),12,12,True),('L',(40,26)),('C',(32,36),(40,32),(36,36)),('L',(16,36))],True)
+        path('thumb',(40,26),[('L',(33,19)),('C',(28,27),(28,17),(24,22))]);join('thumb','glove')
+        path('cuff',(16,36),[('L',(12,36)),('L',(12,40)),('A',(16,44),4,4,False),('L',(32,44)),('A',(36,40),4,4,False),('L',(36,36)),('L',(32,36))]);join('cuff','glove')

@@ -1,33 +1,52 @@
-"""Bird house (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""bird-house: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '42448377-6c50-5d98-b128-671d3e0a84dc'
 SOURCE_PATH = 'icons-json/interface-essential/bird house_42448377-6c50-5d98-b128-671d3e0a84dc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class BirdHouse(Solo48):
     icon_id = 'bird-house'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('bird', 'house', 'interface-essential')
+    keywords = ('bird', 'house', 'interface-essential', 'solo-ai-next50')
 
     def build(self):
-        self.add_arc('sym-e0', (19, 26), (29, 26), radius_x=5)
-        self.add_arc('sym-e1', (29, 26), (19, 26), radius_x=5)
-        self.add_line('sym-e2', (42, 22), (24, 6))
-        self.add_line('sym-e3', (24, 6), (6, 22))
-        self.add_line('sym-e4', (40, 20), (36, 42))
-        self.add_line('sym-e5', (36, 42), (24, 42))
-        self.add_line('sym-e6', (24, 42), (12, 42))
-        self.add_line('sym-e7', (12, 42), (8, 20))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', closed=True)
-        self.add_contour('sym-c1', 'sym-e2', 'sym-e3')
-        self.add_contour('sym-c2', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c1', 'sym-c2')
+        # Plan: A symmetric roof sits over a broader nesting box and a clearly open circular entrance. The opening has nine units of centerline clearance from both side walls.
+        # Reference: Lucide birdhouse original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('roof',(8,20),(10,18),(24,4),(38,18),(40,20))
+        poly('house',(10,18),(10,44),(38,44),(38,18));join('roof','house')
+        circle('entrance',24,28,5)

@@ -1,51 +1,54 @@
-"""Satellite (tv), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""satellite: Smooth satellite dish; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '89743831-f496-4d64-9252-39621b32abcc'
 SOURCE_PATH = 'icons-json/tv/satellite_89743831-f496-4d64-9252-39621b32abcc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Satellite(Solo48):
     icon_id = 'satellite'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'tv'
     aliases = ()
-    keywords = ('satellite', 'tv')
+    keywords = ('solo-ai-full-set', 'satellite')
 
     def build(self):
-        self.add_line('e0', (40, 32), (35, 27))
-        self.add_line('e1', (14, 32), (8, 44))
-        self.add_line('e2', (9, 44), (27, 44))
-        self.add_line('e3', (27, 44), (22, 36))
-        self.add_line('e4', (14, 4), (20, 10))
-        self.add_line('e5', (35, 13), (35, 27))
-        self.add_line('e6', (20, 10), (32, 10))
-        self.add_line('e7', (20, 10), (35, 27))
-        self.add_arc('e8-top', (32, 9), (38, 9), radius_x=3, radius_y=4)
-        self.add_arc('e8-bottom', (38, 9), (32, 9), radius_x=3, radius_y=4)
-        self.add_arc('e9', (15, 31), (40, 32), radius_x=17, sweep=False)
-        self.add_arc('e10', (15, 31), (14, 32), radius_x=19, sweep=False)
-        self.add_arc('e11', (8, 44), (9, 44), radius_x=23)
-        self.add_arc('e12', (15, 31), (14, 4), radius_x=22)
-        self.add_contour('c0', 'e9', 'e0')
-        self.add_contour('c1', 'e10', 'e1', 'e11', 'e2', 'e3')
-        self.add_contour('c2', 'e12', 'e4')
-        self.add_contour('c3', 'e5')
-        self.add_contour('c4', 'e6')
-        self.add_contour('c5', 'e7')
-        self.add_contour('e8', 'e8-top', 'e8-bottom', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c3', 'e8')
-        self.relate('connect', 'c4', 'e8')
+        # Plan: Preserve the diagonal bowl, feed and triangular pedestal. Split the bowl at two exact stand attachments.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('dish',(12,6),[('L',(24,18)),('L',(42,36)),('C',(25,32),(36,36),(31,35)),('C',(14,28),(21,31),(17,30)),('C',(6,20),(9,25),(6,23)),('C',(12,6),(6,14),(8,10))],True)
+        poly('base',(14,28),(6,42),(30,42),(25,32));join('base','dish')
+        line('feed',(24,18),(34,10));path('receiver',(34,10),[('A',(38,6),4,4,True),('A',(42,10),4,4,True),('A',(38,14),4,4,True),('A',(34,10),4,4,True)],True);join('receiver','feed');join('feed','dish')

@@ -1,10 +1,9 @@
-"""Brain (artificial-intelligence), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""brain: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '332132ff-8d97-4a2d-b994-a81128e1dc07'
 SOURCE_PATH = 'icons-json/artificial-intelligence/brain_332132ff-8d97-4a2d-b994-a81128e1dc07.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Brain(Solo48):
     icon_id = 'brain'
@@ -13,77 +12,47 @@ class Brain(Solo48):
     semantic_kind = 'noun'
     category = 'artificial-intelligence'
     aliases = ()
-    keywords = ('brain', 'artificial-intelligence')
+    keywords = ('brain', 'artificial-intelligence', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('e0', (26, 8), (24, 10))
-        self.add_line('e1', (24, 10), (24, 39))
-        self.add_line('e2', (40, 30), (38, 31))
-        self.add_arc('e3-1', (35, 13), (29, 6), radius_x=7, sweep=False)
-        self.add_arc('e3-2', (29, 6), (26, 8), radius_x=4, sweep=False)
-        self.add_arc('e4', (35, 13), (40, 21), radius_x=6)
-        self.add_line('e5', (35, 13), (31, 16))
-        self.add_arc('e6-1', (24, 10), (19, 6), radius_x=6, sweep=False)
-        self.add_arc('e6-2', (19, 6), (13, 13), radius_x=7, sweep=False)
-        self.add_arc('e7', (40, 21), (33, 22), radius_x=6)
-        self.add_arc('e8-1', (40, 21), (42, 25), radius_x=5)
-        self.add_line('e8-2', (42, 25), (40, 30))
-        self.add_arc('e9', (38, 31), (32, 39), radius_x=6)
-        self.add_arc('e10-1', (32, 39), (28, 42), radius_x=5)
-        self.add_arc('e10-2', (28, 42), (24, 39), radius_x=6)
-        self.add_line('e11', (32, 39), (31, 35))
-        self.add_arc('e12-1', (24, 39), (20, 42), radius_x=5)
-        self.add_arc('e12-2', (20, 42), (16, 39), radius_x=5)
-        self.add_arc('e13', (13, 13), (8, 21), radius_x=6, sweep=False)
-        self.add_line('e14', (13, 13), (17, 16))
-        self.add_arc('e15', (16, 39), (10, 31), radius_x=6)
-        self.add_line('e16', (16, 39), (17, 35))
-        self.add_arc('e17-1', (9, 31), (7, 29), radius_x=8, sweep=False)
-        self.add_line('e17-2', (7, 29), (6, 25))
-        self.add_line('e17-3', (6, 25), (8, 21))
-        self.add_arc('e18', (8, 21), (15, 22), radius_x=6, sweep=False)
-        self.add_line('e19', (35, 30), (38, 31))
-        self.add_line('e20', (10, 31), (13, 30))
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e0')
-        self.add_contour('c1', 'e4')
-        self.add_contour('c2', 'e5')
-        self.add_contour('c3', 'e6-1', 'e6-2')
-        self.add_contour('c4', 'e1')
-        self.add_contour('c5', 'e7')
-        self.add_contour('c6', 'e8-1', 'e8-2', 'e2', 'e9')
-        self.add_contour('c7', 'e10-1', 'e10-2')
-        self.add_contour('c8', 'e11')
-        self.add_contour('c9', 'e12-1', 'e12-2')
-        self.add_contour('c10', 'e13')
-        self.add_contour('c11', 'e14')
-        self.add_contour('c12', 'e15')
-        self.add_contour('c13', 'e16')
-        self.add_contour('c14', 'e17-1', 'e17-2', 'e17-3')
-        self.add_contour('c15', 'e18')
-        self.add_contour('c16', 'e19')
-        self.add_contour('c17', 'e20')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c1', 'c6')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c10', 'c11')
-        self.relate('connect', 'c10', 'c3')
-        self.relate('connect', 'c11', 'c3')
-        self.relate('connect', 'c4', 'c7')
-        self.relate('connect', 'c4', 'c9')
-        self.relate('connect', 'c7', 'c9')
-        self.relate('connect', 'c16', 'c6')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c6', 'c8')
-        self.relate('connect', 'c7', 'c8')
-        self.relate('connect', 'c12', 'c13')
-        self.relate('connect', 'c12', 'c9')
-        self.relate('connect', 'c13', 'c9')
-        self.relate('connect', 'c10', 'c14')
-        self.relate('connect', 'c10', 'c15')
-        self.relate('connect', 'c14', 'c15')
+        # Plan: A frontal brain has matching rounded hemispheres and two shallow folds branching from the central fissure. The folds open toward the lobes rather than forming ear-like loops.
+        # Reference: Lucide brain original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        left=[('C',(18,6),(24,8),(22,6)),('C',(12,14),(12,6),(10,10)),('C',(6,24),(8,14),(6,19)),('C',(10,32),(6,28),(6,31)),('C',(18,42),(8,38),(12,42)),('C',(24,36),(22,42),(24,40))]
+        path('left',(24,12),left+[('L',(24,18)),('L',(24,12))],True)
+        mirror=lambda p:(48-p[0],p[1])
+        right=[(k,mirror(e),mirror(a),mirror(b)) for k,e,a,b in left]
+        path('right',(24,12),right+[('L',(24,18)),('L',(24,12))],True);join('left','right')
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         path(f'fold-{side}',(24,18),[('C',(x(8),26),(24,23),(x(4),26))])
+         join(f'fold-{side}','left');join(f'fold-{side}','right')

@@ -1,4 +1,4 @@
-"""Swan with an open round body loop and sweeping neck. Bounds (6,6)-(42,42). Lucide bird: continuous breast curve, omit the eye."""
+'Rebuilt smooth head, neck and hull curves around an open counter; retained the curled wing silhouette.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class LoopedSwan(Solo48):
     icon_id = 'looped-swan'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "animals"
@@ -17,16 +17,14 @@ class LoopedSwan(Solo48):
     keywords = ('swan', 'bird', 'neck', 'curve', 'pond', 'elegant', 'waterfowl', 'loop')
 
     def build(self) -> None:
-        self.add_arc('body-inner',(18,37),(26,29),radius_x=8,sweep=False)
-        self.add_arc('body-top',(26,29),(14,21),radius_x=12,radius_y=8,sweep=False)
-        self.add_arc('body-back',(14,21),(6,29),radius_x=12,radius_y=8,sweep=False)
-        self.add_arc('body-bottom-left',(6,29),(24,42),radius_x=22,radius_y=14,sweep=False)
-        self.add_arc('body-bottom-right',(24,42),(42,31),radius_x=22,radius_y=12,sweep=False)
-        self.add_arc('breast',(42,31),(38,27),radius_x=18,sweep=False)
-        self.add_arc('inner-neck',(38,27),(31,15),radius_x=15,sweep=True)
-        self.add_arc('inner-head',(31,15),(37,15),radius_x=3,radius_y=3,sweep=True)
-        self.add_arc('face',(37,15),(42,20),radius_x=7,sweep=False)
-        self.add_line('beak',(42,20),(42,15))
-        self.add_arc('head-right',(42,15),(34,6),radius_x=10,sweep=False)
-        self.add_arc('head-left',(34,6),(24,15),radius_x=10,sweep=False)
-        self.add_contour('swan','body-inner','body-top','body-back','body-bottom-left','body-bottom-right','breast','inner-neck','inner-head','face','beak','head-right','head-left')
+        self.add_bezier('head-left',(24,17),((24,10),(28,6),(34,6)))
+        self.add_bezier('head-right',(34,6),((39,6),(42,10),(42,15)))
+        self.add_line('beak',(42,15),(34,15))
+        self.add_bezier('neck-inner',(34,15),((32,20),(36,24),(40,28)))
+        self.add_bezier('breast',(40,28),((42,30),(42,32),(42,33)))
+        self.add_bezier('hull-right',(42,33),((42,39),(33,42),(24,42)))
+        self.add_bezier('hull-left',(24,42),((14,42),(6,38),(6,32)))
+        self.add_bezier('wing-back',(6,32),((6,28),(10,24),(15,24)))
+        self.add_bezier('wing-top',(15,24),((21,24),(21,32),(15,32)))
+        self.add_bezier('neck-outer',(15,32),((29,32),(24,24),(24,17)))
+        self.add_contour('outline','head-left','head-right','beak','neck-inner','breast','hull-right','hull-left','wing-back','wing-top','neck-outer',closed=True)

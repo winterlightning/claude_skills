@@ -1,10 +1,9 @@
-"""Love compatibility (romance), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""love-compatibility: Smooth overlapping hearts; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '13ea8ba1-9370-50ce-9da5-f3a7facdf796'
 SOURCE_PATH = 'icons-json/romance/love compatibility_13ea8ba1-9370-50ce-9da5-f3a7facdf796.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class LoveCompatibility(Solo48):
     icon_id = 'love-compatibility'
@@ -13,14 +12,42 @@ class LoveCompatibility(Solo48):
     semantic_kind = 'noun'
     category = 'romance'
     aliases = ()
-    keywords = ('love', 'compatibility', 'romance')
+    keywords = ('solo-ai-full-set', 'love-compatibility')
 
     def build(self):
-        self.add_line('e0', (19, 40), (26, 34))
-        self.add_line('e1', (26, 34), (31, 40))
-        self.add_bezier('e2', (36, 16), ((35.745, 15.09), (35.336, 14.14), (34.927, 13.29)), ((33.518, 10.34), (30.873, 8.01), (27.736, 8.01)), ((27.575, 8.01), (27.414, 8), (27.253, 8)), ((27.251, 8), (27.248, 8), (27.245, 8)), ((27.173, 8), (27.091, 8.01), (27.018, 8.01)), ((25.218, 8.01), (23.355, 8.95), (21.945, 10.12)), ((21.3, 10.65), (20.718, 11.32), (20.155, 11.95)), ((20.045, 12.08), (19.991, 12.34), (19.827, 12.33)), ((19.8, 12.33), (18.673, 11.04), (18.527, 10.88)), ((17.645, 9.96), (16.5, 9.18), (15.373, 8.71)), ((9.764, 8), (4.018, 10.56), (4.018, 17.26)), ((4.018, 17.496), (4, 17.732), (4, 17.969)), ((4, 17.973), (4, 17.976), (4, 17.98)), ((4, 20.95), (5.418, 23.69), (6.927, 26.04)), ((8.836, 29.02), (11.3, 31.56), (13.691, 34.08)), ((15.591, 36.08), (17, 38.14), (19, 40)))
-        self.add_bezier('e3', (31, 40), ((35.427, 36.18), (43.982, 30.03), (43.982, 23.06)), ((43.991, 22.912), (44, 22.765), (44, 22.617)), ((44, 22.615), (44, 22.612), (44, 22.61)), ((43.991, 22.53), (43.991, 22.44), (43.982, 22.36)), ((43.982, 17.72), (39.755, 14.5), (35.818, 16)), ((34.627, 16.45), (33.655, 17.19), (32.736, 18.11)), ((32.418, 18.43), (32.118, 18.98), (31.627, 18.8)), ((31.482, 18.74), (30.109, 17.23), (29.782, 16.97)), ((28.236, 15.76), (26.009, 15.16), (24.145, 15.65)), ((23.082, 15.93), (22.027, 16.7), (21.309, 17.58)), ((20.145, 18.99), (19.491, 20.72), (19.509, 22.64)), ((19.536, 27.5), (23.091, 30.8), (26, 34)))
-        self.add_contour('c0', 'e2', 'e0')
-        self.add_contour('c1', 'e1', 'e3', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Preserve two overlapping hearts at different depths. Keep the rear outline open only where the front heart occludes it.
+        # Reference: Lucide heart-crack: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('front',(31,22),[('C',(38,18),(33,19),(36,18)),('C',(44,25),(42,18),(44,21)),('C',(31,40),(44,31),(36,36)),('C',(18,25),(26,36),(18,31)),('C',(24,18),(18,21),(20,18)),('C',(31,22),(26,18),(29,19))],True)
+        path('rear',(21,34),[('L',(16,40)),('C',(4,20),(10,34),(4,27)),('C',(13,8),(4,12),(8,8)),('C',(21,12),(16,8),(19,10)),('C',(29,8),(23,10),(26,8)),('C',(38,18),(34,8),(38,12))]);join('rear','front')

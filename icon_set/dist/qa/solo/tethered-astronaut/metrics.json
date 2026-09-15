@@ -3,9 +3,14 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [helmet / arm-right]: helmet-2 and arm-right-2 have 0.7289 units of ink clearance over 8.1164 units; requires 4; review required",
+    "internal-spacing [helmet / arm-left]: helmet-3 and arm-left-1 have 2.2845 units of ink clearance over 8.6011 units; requires 4; review required",
+    "internal-spacing [body / arm-right]: body-1 and arm-right-2 have 3.2675 units of ink clearance over 2.4845 units; requires 4; review required",
+    "internal-spacing [leg-right / arm-left]: leg-right-1 and arm-left-1 have 2.5666 units of ink clearance over 2.4575 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -434,6 +439,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          31.9844,
+          13.9844
+        ],
+        "bbox_viewbox": [
+          26.0,
+          8.0,
+          12.0,
+          12.0
+        ],
+        "bbox_ship_px": [
+          12.0,
+          12.0
+        ],
+        "bbox_design_u": [
+          12.0,
+          12.0
+        ],
+        "area_ship_px2": 113.1084,
+        "equivalent_diameter_ship_px": 12.0006,
+        "equivalent_diameter_design_u": 12.0006,
+        "inscribed_diameter_ship_px": 11.7585,
+        "inscribed_diameter_design_u": 11.7585,
+        "inscribed_radius_ship_px": 5.8793,
+        "inscribed_radius_design_u": 5.8793,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -522,15 +561,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -546,21 +586,107 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "helmet / arm-right",
+        "elements": [
+          "helmet-2",
+          "arm-right-2"
+        ],
+        "status": "review",
+        "sustained_length": 8.1164,
+        "centerline_distance": 4.7289,
+        "ink_gap": 0.7289,
+        "nearest_points": [
+          [
+            37.69966173697907,
+            19.612705215239878
+          ],
+          [
+            41.04347826086956,
+            22.956521739130437
+          ]
+        ]
+      },
+      {
+        "contour": "helmet / arm-left",
+        "elements": [
+          "helmet-3",
+          "arm-left-1"
+        ],
+        "status": "review",
+        "sustained_length": 8.6011,
+        "centerline_distance": 6.2845,
+        "ink_gap": 2.2845,
+        "nearest_points": [
+          [
+            26.61043485082754,
+            19.912071337765273
+          ],
+          [
+            22.43877551020408,
+            24.612244897959183
+          ]
+        ]
+      },
+      {
+        "contour": "body / arm-right",
+        "elements": [
+          "body-1",
+          "arm-right-2"
+        ],
+        "status": "review",
+        "sustained_length": 2.4845,
+        "centerline_distance": 7.2675,
+        "ink_gap": 3.2675,
+        "nearest_points": [
+          [
+            31.444444444444443,
+            22.27777777777778
+          ],
+          [
+            36.583333333333385,
+            27.416666666666615
+          ]
+        ]
+      },
+      {
+        "contour": "leg-right / arm-left",
+        "elements": [
+          "leg-right-1",
+          "arm-left-1"
+        ],
+        "status": "review",
+        "sustained_length": 2.4575,
+        "centerline_distance": 6.5666,
+        "ink_gap": 2.5666,
+        "nearest_points": [
+          [
+            21.46428571428574,
+            31.82142857142858
+          ],
+          [
+            23.54081632653061,
+            25.591836734693878
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

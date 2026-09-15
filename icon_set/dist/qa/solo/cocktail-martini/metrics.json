@@ -11,31 +11,31 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "bowl:subpath-1",
+        "elementId": "bowl",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 22 L 24 44 L 17 44",
+        "pathData": "M 8 4 L 40 4 L 24 24 L 8 4",
         "bounds": [
-          17.0,
-          22.0,
-          24.0,
-          44.0
+          8.0,
+          4.0,
+          40.0,
+          24.0
         ],
-        "segmentCount": 2,
+        "segmentCount": 3,
         "approximationError": 0.0,
         "hasCurves": false
       },
       {
-        "id": "sym-c1:subpath-1",
-        "elementId": "sym-c1",
+        "id": "stem:subpath-1",
+        "elementId": "stem",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 44 L 31 44",
+        "pathData": "M 24 24 L 24 44",
         "bounds": [
           24.0,
-          44.0,
-          31.0,
+          24.0,
+          24.0,
           44.0
         ],
         "segmentCount": 1,
@@ -43,39 +43,39 @@
         "hasCurves": false
       },
       {
-        "id": "sym-c2:subpath-1",
-        "elementId": "sym-c2",
+        "id": "foot:subpath-1",
+        "elementId": "foot",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 22 L 25 22 A 6 6 0 0 0 28 19 L 40 4 L 24 4 L 8 4 L 20 19 A 6 6 0 0 0 23 22 L 24 22 Z",
+        "pathData": "M 16 44 L 32 44",
         "bounds": [
-          8.0,
-          4.0,
-          40.0,
-          22.0
+          16.0,
+          44.0,
+          32.0,
+          44.0
         ],
-        "segmentCount": 71,
-        "approximationError": 0.00038257675313556566,
-        "hasCurves": true
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1",
-          "sym-c2:subpath-1"
+          "bowl:subpath-1",
+          "stem:subpath-1",
+          "foot:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1",
-          "sym-c2:subpath-1"
+          "bowl:subpath-1",
+          "stem:subpath-1",
+          "foot:subpath-1"
         ],
         "elementIds": [
-          "sym-c0",
-          "sym-c1",
-          "sym-c2"
+          "bowl",
+          "stem",
+          "foot"
         ],
         "bounds": [
           8.0,
@@ -89,74 +89,74 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
+          "bowl:subpath-1",
+          "stem:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          44.0
+          24.0
         ]
       },
       {
         "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c2:subpath-1"
+          "stem:subpath-1",
+          "foot:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
           24.0,
-          22.0
+          44.0
         ]
       }
     ],
     "excludedPairs": [
       {
         "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
+          "bowl:subpath-1",
+          "stem:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "sym-c0:subpath-1",
-            "sym-c1:subpath-1"
+            "bowl:subpath-1",
+            "stem:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            24.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "bowl:subpath-1",
+          "foot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "stem:subpath-1",
+          "foot:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "stem:subpath-1",
+            "foot:subpath-1"
+          ],
+          "reason": "exact original straight-segment intersection",
           "point": [
             24.0,
             44.0
           ]
         }
-      },
-      {
-        "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c2:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "sym-c0:subpath-1",
-            "sym-c2:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            24.0,
-            22.0
-          ]
-        }
-      },
-      {
-        "contourIds": [
-          "sym-c1:subpath-1",
-          "sym-c2:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": null
       }
     ],
     "errors": [],
@@ -174,17 +174,51 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 15,
-      "flattenedSegments": 74,
-      "adaptiveNodes": 126,
+      "commands": 8,
+      "flattenedSegments": 5,
+      "adaptiveNodes": 0,
       "distanceTests": 0,
-      "connectionTests": 0
+      "connectionTests": 1
     },
     "raw_status": "pass",
     "canvas": 48
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.9844,
+          11.6719
+        ],
+        "bbox_viewbox": [
+          12.1875,
+          6.0,
+          23.625,
+          14.7812
+        ],
+        "bbox_ship_px": [
+          23.625,
+          14.7812
+        ],
+        "bbox_design_u": [
+          23.625,
+          14.7812
+        ],
+        "area_ship_px2": 175.1582,
+        "equivalent_diameter_ship_px": 14.9338,
+        "equivalent_diameter_design_u": 14.9338,
+        "inscribed_diameter_ship_px": 11.3373,
+        "inscribed_diameter_design_u": 11.3373,
+        "inscribed_radius_ship_px": 5.6686,
+        "inscribed_radius_design_u": 5.6686,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -199,19 +233,19 @@
           9.0625,
           4.5,
           29.875,
-          17.0
+          18.6875
         ],
         "bbox_ship_px": [
           29.875,
-          17.0
+          18.6875
         ],
         "bbox_design_u": [
           29.875,
-          17.0
+          18.6875
         ],
-        "area_ship_px2": 278.001,
-        "equivalent_diameter_ship_px": 18.8139,
-        "equivalent_diameter_design_u": 18.8139,
+        "area_ship_px2": 279.8457,
+        "equivalent_diameter_ship_px": 18.8762,
+        "equivalent_diameter_design_u": 18.8762,
         "inscribed_diameter_ship_px": 14.3365,
         "inscribed_diameter_design_u": 14.3365,
         "inscribed_radius_ship_px": 7.1682,
@@ -245,7 +279,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "17187fef4deca34cf2e361470d3cd7817da58b75eeed96deefa3d4da20e9fe3d",
+  "svg_sha256": "fc6f9dceb52779e314779404d290b0557c524b2fd4337e4468b6df84293647e3",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -273,15 +307,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -297,21 +332,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

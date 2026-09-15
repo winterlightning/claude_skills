@@ -1,10 +1,9 @@
-"""Refresh arrow (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""refresh-arrow: True circular refresh; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '3de54200-8263-573f-bf6e-d4818b64ed32'
 SOURCE_PATH = 'icons-json/interface-essential/refresh arrow_3de54200-8263-573f-bf6e-d4818b64ed32.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class RefreshArrow(Solo48):
     icon_id = 'refresh-arrow'
@@ -13,23 +12,42 @@ class RefreshArrow(Solo48):
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('refresh', 'arrow', 'interface-essential')
+    keywords = ('solo-ai-full-set', 'refresh-arrow')
 
     def build(self):
-        self.add_line('e0', (6, 38), (14, 38))
-        self.add_line('e1', (14, 38), (14, 29))
-        self.add_line('e2-1', (21, 41), (26, 42))
-        self.add_arc('e2-2', (26, 42), (34, 39), radius_x=19, sweep=False)
-        self.add_arc('e2-3', (34, 39), (41, 30), radius_x=18, sweep=False)
-        self.add_line('e2-4', (41, 30), (42, 24))
-        self.add_line('e2-5', (42, 24), (41, 18))
-        self.add_arc('e2-6', (41, 18), (39, 14), radius_x=17, sweep=False)
-        self.add_arc('e2-7', (39, 14), (34, 9), radius_x=18, sweep=False)
-        self.add_arc('e2-8', (34, 9), (25, 6), radius_x=18, sweep=False)
-        self.add_arc('e2-9', (25, 6), (24, 6), radius_x=19)
-        self.add_arc('e2-10', (24, 6), (13, 10), radius_x=18, sweep=False)
-        self.add_arc('e2-11', (13, 10), (6, 24), radius_x=19, sweep=False)
-        self.add_arc('e2-12', (6, 24), (13, 38), radius_x=18, sweep=False)
-        self.add_contour('c0', 'e2-1', 'e2-2', 'e2-3', 'e2-4', 'e2-5', 'e2-6', 'e2-7', 'e2-8', 'e2-9', 'e2-10', 'e2-11', 'e2-12')
-        self.add_contour('c1', 'e0', 'e1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Preserve the almost-complete circular arrow and left lower head; use true arcs instead of a segmented fitted ring.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('turn',(24,42),[('A',(42,24),18,18,False),('A',(24,6),18,18,False),('A',(6,24),18,18,False),('A',(13,38),18,18,False)])
+        poly('head',(13,28),(13,38),(6,38));join('head','turn')

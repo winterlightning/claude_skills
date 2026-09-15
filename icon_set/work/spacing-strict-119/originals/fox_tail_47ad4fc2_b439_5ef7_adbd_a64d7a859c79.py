@@ -1,0 +1,33 @@
+"""Seated fox with sharp ear and large curling brush tail; retain source asymmetry and omit crowded facial marks."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '47ad4fc2-b439-5ef7-adbd-a64d7a859c79'
+SOURCE_PATH = 'pictographic-primitives/animals/fox tail_47ad4fc2-b439-5ef7-adbd-a64d7a859c79.svg'
+AUTHOR = 'gpt-6'
+
+
+class SittingFox(Solo48):
+    icon_id = 'sitting-fox'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/animals"
+    aliases = ()
+    keywords = ('sitting', 'fox')
+
+    def build(self) -> None:
+        # Visible keyshape bounds: (3, 0, 45, 48); centerlines inset by 2.
+        self.add_line('ear-back', (6, 19), (15, 6))
+        self.add_line('ear-front', (15, 6), (15, 12))
+        self.add_arc('brow', (15, 12), (24, 21), radius_x=9, radius_y=9, sweep=True)
+        self.add_line('snout', (24, 21), (32, 21))
+        self.add_arc('muzzle', (32, 21), (22, 29), radius_x=10, radius_y=8, sweep=True)
+        self.add_arc('chest', (22, 29), (28, 38), radius_x=15, radius_y=15, sweep=False)
+        self.add_arc('tail-inner', (28, 38), (38, 16), radius_x=23, radius_y=23, sweep=False)
+        self.add_bezier('tail-outer', (38, 16), *(((40.36561609, 17.35063076), (42, 23.24134931), (42, 30)),))
+        self.add_arc('base-right', (42, 30), (27, 42), radius_x=16, radius_y=16, sweep=True)
+        self.add_line('base', (27, 42), (10, 42))
+        self.add_bezier('base-left', (10, 42), *(((8.58489728, 42), (7.12743399, 41.89315455), (6, 41)),))
+        self.add_line('back', (6, 41), (6, 19))
+        self.add_contour('silhouette', 'ear-back', 'ear-front', 'brow', 'snout', 'muzzle', 'chest', 'tail-inner', 'tail-outer', 'base-right', 'base', 'base-left', 'back')

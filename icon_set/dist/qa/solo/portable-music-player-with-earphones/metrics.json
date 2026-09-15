@@ -1,0 +1,604 @@
+{
+  "icon_id": "portable-music-player-with-earphones",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "player:subpath-1",
+        "elementId": "player",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 10 16 L 18 16 L 26 16 A 4 4 0 0 1 30 20 L 30 38 A 4 4 0 0 1 26 42 L 18 42 L 10 42 A 4 4 0 0 1 6 38 L 6 20 A 4 4 0 0 1 10 16 Z",
+        "bounds": [
+          6.0,
+          16.0,
+          30.0,
+          42.0
+        ],
+        "segmentCount": 263,
+        "approximationError": 0.00030119642430268906,
+        "hasCurves": true
+      },
+      {
+        "id": "wheel:subpath-1",
+        "elementId": "wheel",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 15 30 A 3 3 0 0 1 18 27 A 3 3 0 0 1 21 30 A 3 3 0 0 1 18 33 A 3 3 0 0 1 15 30 Z",
+        "bounds": [
+          15.0,
+          27.0,
+          21.0,
+          33.0
+        ],
+        "segmentCount": 129,
+        "approximationError": 0.0009035892705891118,
+        "hasCurves": true
+      },
+      {
+        "id": "cable:subpath-1",
+        "elementId": "cable",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 18 16 L 18 10 A 4 4 0 0 1 22 6 L 34 6 A 8 8 0 0 1 42 14 L 42 28",
+        "bounds": [
+          18.0,
+          6.0,
+          42.0,
+          28.0
+        ],
+        "segmentCount": 131,
+        "approximationError": 0.0006023928476958726,
+        "hasCurves": true
+      },
+      {
+        "id": "earbud:subpath-1",
+        "elementId": "earbud",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 42 28 L 42 34",
+        "bounds": [
+          42.0,
+          28.0,
+          42.0,
+          34.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "player:subpath-1",
+          "cable:subpath-1",
+          "earbud:subpath-1"
+        ],
+        "contourIds": [
+          "player:subpath-1",
+          "cable:subpath-1",
+          "earbud:subpath-1"
+        ],
+        "elementIds": [
+          "player",
+          "cable",
+          "earbud"
+        ],
+        "bounds": [
+          6.0,
+          6.0,
+          42.0,
+          42.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "wheel:subpath-1"
+        ],
+        "contourIds": [
+          "wheel:subpath-1"
+        ],
+        "elementIds": [
+          "wheel"
+        ],
+        "bounds": [
+          15.0,
+          27.0,
+          21.0,
+          33.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "player:subpath-1",
+          "wheel:subpath-1"
+        ],
+        "centerlineDistance": 9.0,
+        "inkClearance": 5.0,
+        "signedInkClearance": 5.0,
+        "lowerBound": 8.998795214305106,
+        "upperBound": 9.001204785694894,
+        "inkClearanceLowerBound": 4.998795214305106,
+        "inkClearanceUpperBound": 5.001204785694894,
+        "approximationError": 0.0012047856948935731,
+        "nearestPoints": [
+          [
+            30.0,
+            30.0
+          ],
+          [
+            21.0,
+            30.0
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "player:subpath-1",
+            "cable:subpath-1",
+            "earbud:subpath-1"
+          ],
+          [
+            "wheel:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "player:subpath-1",
+              "wheel:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.998795214305106,
+            "upperBound": 9.001204785694894,
+            "inkClearanceLowerBound": 4.998795214305106,
+            "inkClearanceUpperBound": 5.001204785694894,
+            "approximationError": 0.0012047856948918009,
+            "nearestPoints": [
+              [
+                30.0,
+                30.0
+              ],
+              [
+                21.0,
+                30.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "cable:subpath-1",
+              "wheel:subpath-1"
+            ],
+            "centerlineDistance": 11.0,
+            "inkClearance": 7.0,
+            "signedInkClearance": 7.0,
+            "lowerBound": 10.998494017881713,
+            "upperBound": 11.001505982118287,
+            "inkClearanceLowerBound": 6.998494017881713,
+            "inkClearanceUpperBound": 7.001505982118287,
+            "approximationError": 0.0015059821182849843,
+            "nearestPoints": [
+              [
+                18.0,
+                16.0
+              ],
+              [
+                18.0,
+                27.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "earbud:subpath-1",
+              "wheel:subpath-1"
+            ],
+            "centerlineDistance": 21.0,
+            "inkClearance": 17.0,
+            "signedInkClearance": 17.0,
+            "lowerBound": 21.0,
+            "upperBound": 21.000903589270592,
+            "inkClearanceLowerBound": 17.0,
+            "inkClearanceUpperBound": 17.000903589270592,
+            "approximationError": 0.0009035892705891118,
+            "nearestPoints": [
+              [
+                42.0,
+                30.0
+              ],
+              [
+                21.0,
+                30.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "player:subpath-1",
+          "cable:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          18.0,
+          16.0
+        ]
+      },
+      {
+        "contourIds": [
+          "cable:subpath-1",
+          "earbud:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          42.0,
+          28.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "player:subpath-1",
+          "cable:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "player:subpath-1",
+            "cable:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            18.0,
+            16.0
+          ]
+        }
+      },
+      {
+        "contourIds": [
+          "player:subpath-1",
+          "earbud:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": null
+      },
+      {
+        "contourIds": [
+          "cable:subpath-1",
+          "earbud:subpath-1"
+        ],
+        "componentId": "component-1",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "cable:subpath-1",
+            "earbud:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            42.0,
+            28.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 9.0,
+    "minimumInkClearance": 5.0,
+    "reason": "All disconnected components meet the required spacing.",
+    "stats": {
+      "commands": 26,
+      "flattenedSegments": 524,
+      "adaptiveNodes": 1014,
+      "distanceTests": 50,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          12.4219,
+          22.4219
+        ],
+        "bbox_viewbox": [
+          8.0,
+          18.0,
+          20.0,
+          22.0
+        ],
+        "bbox_ship_px": [
+          20.0,
+          22.0
+        ],
+        "bbox_design_u": [
+          20.0,
+          22.0
+        ],
+        "area_ship_px2": 358.0225,
+        "equivalent_diameter_ship_px": 21.3506,
+        "equivalent_diameter_design_u": 21.3506,
+        "inscribed_diameter_ship_px": 8.8186,
+        "inscribed_diameter_design_u": 8.8186,
+        "inscribed_radius_ship_px": 4.4093,
+        "inscribed_radius_design_u": 4.4093,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.9844,
+          29.9844
+        ],
+        "bbox_viewbox": [
+          17.0,
+          29.0,
+          2.0,
+          2.0
+        ],
+        "bbox_ship_px": [
+          2.0,
+          2.0
+        ],
+        "bbox_design_u": [
+          2.0,
+          2.0
+        ],
+        "area_ship_px2": 3.1523,
+        "equivalent_diameter_ship_px": 2.0034,
+        "equivalent_diameter_design_u": 2.0034,
+        "inscribed_diameter_ship_px": 1.9479,
+        "inscribed_diameter_design_u": 1.9479,
+        "inscribed_radius_ship_px": 0.9739,
+        "inscribed_radius_design_u": 0.9739,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass",
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "wheel",
+          "center": [
+            18.0,
+            30.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
+    "hole_count": 2,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          12.4219,
+          22.4219
+        ],
+        "bbox_viewbox": [
+          6.5,
+          16.5,
+          23.0,
+          25.0
+        ],
+        "bbox_ship_px": [
+          23.0,
+          25.0
+        ],
+        "bbox_design_u": [
+          23.0,
+          25.0
+        ],
+        "area_ship_px2": 525.999,
+        "equivalent_diameter_ship_px": 25.879,
+        "equivalent_diameter_design_u": 25.879,
+        "inscribed_diameter_ship_px": 11.8164,
+        "inscribed_diameter_design_u": 11.8164,
+        "inscribed_radius_ship_px": 5.9082,
+        "inscribed_radius_design_u": 5.9082,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 4.4082,
+        "equivalent_diameter_at_authored_stroke_design_u": 8.8164
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.9844,
+          29.9844
+        ],
+        "bbox_viewbox": [
+          15.5,
+          27.5,
+          5.0,
+          5.0
+        ],
+        "bbox_ship_px": [
+          5.0,
+          5.0
+        ],
+        "bbox_design_u": [
+          5.0,
+          5.0
+        ],
+        "area_ship_px2": 19.6367,
+        "equivalent_diameter_ship_px": 5.0002,
+        "equivalent_diameter_design_u": 5.0002,
+        "inscribed_diameter_ship_px": 4.8932,
+        "inscribed_diameter_design_u": 4.8932,
+        "inscribed_radius_ship_px": 2.4466,
+        "inscribed_radius_design_u": 2.4466,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 0.9466,
+        "equivalent_diameter_at_authored_stroke_design_u": 1.8932,
+        "measured_status": "fail",
+        "exception": {
+          "rule": "small-circle-hole",
+          "element_id": "wheel",
+          "center": [
+            18.0,
+            30.0
+          ],
+          "centerline_diameter": 6.0,
+          "reason": "User-approved 4x4 or 6x6 circular contour"
+        }
+      }
+    ],
+    "pinches": [],
+    "exception_count": 1,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 0.0,
+    "measuring_stroke_width": 1.0,
+    "samples_per_unit": 32
+  },
+  "artifacts": {
+    "svg": "solo/portable-music-player-with-earphones/icon.svg",
+    "metrics": "solo/portable-music-player-with-earphones/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility"
+  ],
+  "svg_sha256": "bc0ea354c97c92d286dd68f6e46f6b66ee5d3ab7be6f1ba754a5d10573b693a5",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-authored-topology-v3"
+    },
+    "internal_spacing": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

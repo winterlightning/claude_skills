@@ -15,14 +15,14 @@
         "elementId": "c0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 26 43 L 23 44 L 10 35 L 8 32 L 8 31 L 8 16 L 8 15 L 11 12 L 22 5 A 3 3 0 0 1 24 4 A 3 3 0 0 1 26 5 L 38 12 A 4 4 0 0 1 40 15 A 23 23 0 0 0 40 17 L 40 32 L 39 35 L 37 36 L 26 43 Z",
+        "pathData": "M 26 43 L 23 44 L 10 35 L 8 32 L 8 15 L 11 12 L 22 5 A 3 3 0 0 1 24 4 A 3 3 0 0 1 26 5 L 38 12 A 4 4 0 0 1 40 15 A 23 23 0 0 0 40 17 L 40 32 L 39 35 L 37 36 L 26 43 Z",
         "bounds": [
           8.0,
           4.0,
           40.0,
           44.0
         ],
-        "segmentCount": 86,
+        "segmentCount": 84,
         "approximationError": 0.0008545456236298255,
         "hasCurves": true
       }
@@ -65,8 +65,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 19,
-      "flattenedSegments": 86,
+      "commands": 17,
+      "flattenedSegments": 84,
       "adaptiveNodes": 140,
       "distanceTests": 0,
       "connectionTests": 0
@@ -76,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          24.0156,
+          22.8906
+        ],
+        "bbox_viewbox": [
+          10.0,
+          6.0312,
+          28.0,
+          35.75
+        ],
+        "bbox_ship_px": [
+          28.0,
+          35.75
+        ],
+        "bbox_design_u": [
+          28.0,
+          35.75
+        ],
+        "area_ship_px2": 754.5322,
+        "equivalent_diameter_ship_px": 30.9952,
+        "equivalent_diameter_design_u": 30.9952,
+        "inscribed_diameter_ship_px": 28.0,
+        "inscribed_diameter_design_u": 28.0,
+        "inscribed_radius_ship_px": 14.0,
+        "inscribed_radius_design_u": 14.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -136,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "e3db7040dea58d6d10a3de4947aa4433ef4d581553e3cf53379eb3b6cf6faec0",
+  "svg_sha256": "34c11c87cbb1a6c7b2e88b20f16b30d0b3598a1670a20088979a9cf8d3687ee3",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -164,15 +198,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -188,21 +223,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

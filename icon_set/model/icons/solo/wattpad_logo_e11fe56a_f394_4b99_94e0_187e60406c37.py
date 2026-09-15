@@ -1,10 +1,9 @@
-"""Wattpad logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""wattpad-logo: Regular outlined W; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'e11fe56a-f394-4b99-94e0-187e60406c37'
 SOURCE_PATH = 'icons-json/logos/wattpad logo_e11fe56a-f394-4b99-94e0-187e60406c37.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class WattpadLogo(Solo48):
     icon_id = 'wattpad-logo'
@@ -13,21 +12,41 @@ class WattpadLogo(Solo48):
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
-    keywords = ('wattpad', 'logo', 'logos')
+    keywords = ('solo-ai-full-set', 'wattpad-logo')
 
     def build(self):
-        self.add_line('e0', (44, 8), (44, 38))
-        self.add_line('e1', (42, 40), (15, 40))
-        self.add_line('e2', (4, 29), (4, 8))
-        self.add_line('e3', (4, 8), (12, 8))
-        self.add_line('e4', (12, 8), (12, 29))
-        self.add_line('e5', (20, 32), (20, 8))
-        self.add_line('e6', (20, 8), (28, 8))
-        self.add_line('e7', (28, 8), (28, 32))
-        self.add_line('e8', (28, 32), (36, 32))
-        self.add_line('e9', (36, 32), (36, 8))
-        self.add_line('e10', (36, 8), (44, 8))
-        self.add_arc('e11', (44, 38), (42, 40), radius_x=2)
-        self.add_arc('e12', (15, 40), (4, 29), radius_x=12)
-        self.add_arc('e13', (12, 29), (20, 32), radius_x=5, sweep=False)
-        self.add_contour('c0', 'e0', 'e11', 'e1', 'e12', 'e2', 'e3', 'e4', 'e13', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', closed=True)
+        # Plan: Preserve the three upright bars and rounded lower-left return; use consistent slot and stem widths.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('mark',(4,8),[('L',(12,8)),('L',(12,28)),('A',(14,30),2,2,False),('L',(20,30)),('L',(20,8)),('L',(28,8)),('L',(28,30)),('L',(36,30)),('L',(36,8)),('L',(44,8)),('L',(44,40)),('L',(16,40)),('A',(4,28),12,12,True),('L',(4,8))],True)

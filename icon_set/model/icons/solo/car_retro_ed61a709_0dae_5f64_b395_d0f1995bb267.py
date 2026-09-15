@@ -1,10 +1,9 @@
-"""Car retro (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""car-retro: Offset vintage roof; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ed61a709-0dae-5f64-b395-d0f1995bb267'
 SOURCE_PATH = 'icons-json/transportation/car retro_ed61a709-0dae-5f64-b395-d0f1995bb267.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CarRetro(Solo48):
     icon_id = 'car-retro'
@@ -13,45 +12,44 @@ class CarRetro(Solo48):
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('car', 'retro', 'transportation')
+    keywords = ('solo-ai-cars-refine', 'solo-ai-next100', 'car-retro')
 
     def build(self):
-        self.add_line('e0', (39, 34), (42, 34))
-        self.add_line('e1', (38, 19), (17, 19))
-        self.add_line('e2', (17, 19), (19, 13))
-        self.add_line('e3', (24, 8), (31, 8))
-        self.add_line('e4', (30, 34), (17, 34))
-        self.add_line('e5', (30, 19), (30, 8))
-        self.add_arc('e6-top', (30, 34), (40, 34), radius_x=5, radius_y=6)
-        self.add_arc('e6-bottom', (40, 34), (30, 34), radius_x=5, radius_y=6)
-        self.add_arc('e7-top', (7, 34), (17, 34), radius_x=5, radius_y=6)
-        self.add_arc('e7-bottom', (17, 34), (7, 34), radius_x=5, radius_y=6)
-        self.add_line('e8-1', (42, 34), (44, 33))
-        self.add_line('e8-2', (44, 33), (43, 23))
-        self.add_arc('e8-3', (43, 23), (38, 19), radius_x=5, sweep=False)
-        self.add_arc('e9', (19, 13), (24, 8), radius_x=7)
-        self.add_arc('e10', (31, 8), (39, 19), radius_x=10)
-        self.add_arc('e11-1', (20, 19), (8, 21), radius_x=26, sweep=False)
-        self.add_arc('e11-2', (8, 21), (5, 25), radius_x=8, sweep=False)
-        self.add_arc('e11-3', (5, 25), (4, 30), radius_x=15, sweep=False)
-        self.add_arc('e11-4', (4, 30), (5, 33), radius_x=5, sweep=False)
-        self.add_arc('e11-5', (5, 33), (8, 34), radius_x=3, sweep=False)
-        self.add_arc('e12-1', (44, 31), (44, 32), radius_x=34, sweep=False)
-        self.add_arc('e12-2', (44, 32), (44, 33), radius_x=34, sweep=False)
-        self.add_contour('c0', 'e0', 'e8-1', 'e8-2', 'e8-3', 'e1', 'e2', 'e9', 'e3', 'e10')
-        self.add_contour('c1', 'e11-1', 'e11-2', 'e11-3', 'e11-4', 'e11-5')
-        self.add_contour('c2', 'e12-1', 'e12-2')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('e6', 'e6-top', 'e6-bottom', closed=True)
-        self.add_contour('e7', 'e7-top', 'e7-bottom', closed=True)
-        self.relate('connect', 'c0', 'e6')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c1', 'e7')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c3', 'e6')
-        self.relate('connect', 'c3', 'e7')
-        self.relate('connect', 'c4', 'c0')
-        self.relate('connect', 'c4', 'c0')
+        # Plan: Preserve the original car silhouette with a full lower body, broad round wheels and smooth shoulders. The roof profile and windshield treatment retain this variant’s identity.
+        # Reference: Lucide car: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('body',(6,34),[('C', (4, 24), (4, 32), (4, 28)), ('C', (10, 18), (4, 20), (6, 18)), ('L', (14, 18)), ('C', (26, 8), (14, 12), (20, 8)), ('C', (38, 18), (32, 8), (38, 12)), ('C', (44, 24), (40, 18), (44, 20)), ('C', (42, 34), (44, 28), (44, 32)), ('A', (36, 40), 6, 6, True), ('A', (30, 34), 6, 6, True), ('L', (18, 34)), ('A', (12, 40), 6, 6, True), ('A', (6, 34), 6, 6, True)],True)
+
+        for x in (12,36):
+         path(f'wheel-{x}',(x-6,34),[('A',(x,28),6,6,True),('A',(x+6,34),6,6,True)]);join(f'wheel-{x}','body')
+        poly('windshield-base',*[(10, 18), (26, 18), (38, 18)]);join('windshield-base','body')
+        line('pillar',(26,8),(26,18));join('pillar','body');join('pillar','windshield-base')

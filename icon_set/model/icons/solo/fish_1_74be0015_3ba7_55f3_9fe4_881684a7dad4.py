@@ -18,16 +18,16 @@ class ReefFish(Solo48):
 
     def build(self) -> None:
         # Visible keyshape bounds: (0, 0, 48, 48); centerlines inset by 2.
-        self.add_arc('body-upper', (17, 6), (40, 19), radius_x=23, radius_y=17, sweep=True)
+        self.add_bezier('body-upper', (17, 6), *(((27.85802261, 6), (37.44842352, 11.19601141), (40, 19)),))
         self.add_line('snout-upper', (40, 19), (42, 24))
         self.add_line('snout-lower', (42, 24), (40, 29))
-        self.add_arc('body-lower', (40, 29), (17, 42), radius_x=23, radius_y=17, sweep=True)
-        self.add_arc('body-back-low', (17, 42), (12, 24), radius_x=5, radius_y=22, sweep=True)
-        self.add_arc('body-back-high', (12, 24), (17, 6), radius_x=5, radius_y=22, sweep=True)
+        self.add_bezier('body-lower', (40, 29), *(((37.44842352, 36.80398859), (27.85802261, 42), (17, 42)),))
+        self.add_bezier('body-back-low',(17,42),((17,36),(16,29),(16,24)))
+        self.add_bezier('body-back-high',(16,24),((16,19),(17,12),(17,6)))
         self.add_contour('body', 'body-upper', 'snout-upper', 'snout-lower', 'body-lower', 'body-back-low', 'body-back-high')
         self.add_line('fin-top', (17, 6), (10, 6))
         self.add_line('fin-bottom', (17, 42), (10, 42))
         self.relate("connect", 'body', 'fin-top')
         self.relate("connect", 'body', 'fin-bottom')
-        self.add_polyline('tail', (12, 19), (6, 15), (6, 33), (12, 29))
+        self.add_polyline('tail',(16,24),(6,15),(6,33),(16,24))
         self.relate("connect", 'body', 'tail')

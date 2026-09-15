@@ -1,10 +1,9 @@
-"""Wave (wayfinding), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""wave: Three matching flowing waves; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6bcb5f9d-b8d9-4fbd-b76a-79814b145261'
 SOURCE_PATH = 'icons-json/wayfinding/wave_6bcb5f9d-b8d9-4fbd-b76a-79814b145261.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Wave(Solo48):
     icon_id = 'wave'
@@ -13,17 +12,42 @@ class Wave(Solo48):
     semantic_kind = 'noun'
     category = 'wayfinding'
     aliases = ()
-    keywords = ('wave', 'wayfinding')
+    keywords = ('solo-ai-full-set', 'wave')
 
     def build(self):
-        self.add_line('e0', (12, 28), (8, 21))
-        self.add_line('e1', (40, 26), (36, 21))
-        self.add_line('e2', (26, 37), (23, 42))
-        self.add_bezier('e3', (8, 42), ((8.065, 41.959), (8.585, 41.918), (8.643, 41.877)), ((8.708, 41.845), (8.765, 41.812), (8.823, 41.779)), ((8.97, 41.607), (9.027, 41.378), (9.158, 41.19)), ((9.715, 40.339), (10.435, 39.611), (10.925, 38.711)), ((12.39, 36.06), (13.102, 32.771), (12.243, 29.817)), ((12.087, 29.285), (12.27, 28.483), (12, 28)))
-        self.add_bezier('e4', (8, 21), ((7.452, 20.01), (6.016, 17.086), (6.016, 16.015)), ((6.008, 15.878), (6, 15.749), (6, 15.612)), ((6, 15.61), (6, 15.608), (6, 15.605)), ((6, 15.475), (6.016, 15.335), (6.016, 15.196)), ((6.016, 14.329), (6.327, 13.437), (6.597, 12.627)), ((7.497, 9.862), (8.865, 7.972), (11, 6)))
-        self.add_bezier('e5', (38, 42), ((38.106, 41.935), (38.122, 41.869), (38.228, 41.804)), ((38.457, 41.599), (38.58, 41.247), (38.785, 41.002)), ((40.683, 38.727), (41.984, 35.872), (41.984, 32.861)), ((41.992, 32.796), (42, 32.732), (42, 32.668)), ((42, 32.667), (42, 32.666), (42, 32.665)), ((41.992, 32.534), (41.992, 32.403), (41.984, 32.272)), ((41.984, 30.357), (41.137, 27.587), (40, 26)))
-        self.add_bezier('e6', (36, 21), ((35.321, 20.051), (35.25, 18.485), (35.078, 17.356)), ((34.375, 12.676), (36.735, 9.003), (40, 6)))
-        self.add_bezier('e7', (26, 6), ((21.868, 9.747), (19.058, 14.951), (21.742, 20.326)), ((24.098, 25.039), (28.099, 27.6), (27.502, 33.499)), ((27.387, 34.636), (26.646, 36.035), (26, 37)))
-        self.add_contour('c0', 'e3', 'e0', 'e4')
-        self.add_contour('c1', 'e5', 'e1', 'e6')
-        self.add_contour('c2', 'e7', 'e2')
+        # Plan: One coherent S curve repeated at equal spacing; preserve the vertical wave direction.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        for j,dx in enumerate([0,14,28]):
+         path(f'wave-{j}',(12+dx,6),[('C',(6+dx,15),(10+dx,9),(6+dx,11)),('C',(14+dx,33),(6+dx,23),(14+dx,25)),('C',(8+dx,42),(14+dx,37),(10+dx,40))])

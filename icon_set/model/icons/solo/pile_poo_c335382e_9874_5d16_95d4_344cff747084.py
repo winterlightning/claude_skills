@@ -1,10 +1,9 @@
-"""Pile poo (smileys), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""pile-poo: Smooth stacked swirl; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c335382e-9874-5d16-95d4-344cff747084'
 SOURCE_PATH = 'icons-json/smileys/pile poo_c335382e-9874-5d16-95d4-344cff747084.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class PilePoo(Solo48):
     icon_id = 'pile-poo'
@@ -13,25 +12,43 @@ class PilePoo(Solo48):
     semantic_kind = 'noun'
     category = 'smileys'
     aliases = ()
-    keywords = ('pile', 'poo', 'smileys')
+    keywords = ('solo-ai-full-set', 'pile-poo')
 
     def build(self):
-        self.add_line('e0', (35, 42), (13, 42))
-        self.add_line('e1', (13, 29), (31, 29))
-        self.add_line('e2', (26, 19), (16, 19))
-        self.add_bezier('e3', (13, 42), ((12.869, 41.992), (12.284, 41.992), (12.153, 41.984)), ((8.995, 41.984), (6, 38.752), (6, 35.635)), ((6, 35.634), (6, 35.632), (6, 35.631)), ((6, 35.567), (6, 35.494), (6, 35.43)), ((6, 35.225), (6.016, 35.029), (6.016, 34.825)), ((6.016, 30.963), (9.003, 29.065), (12.545, 28.909)), ((12.815, 28.901), (12.73, 29), (13, 29)))
-        self.add_bezier('e4', (31, 29), ((32.244, 29), (33.63, 28.295), (34.669, 27.706)), ((34.865, 27.592), (35.234, 27.297), (35.455, 27.273)), ((35.88, 27.232), (37.115, 27.854), (37.549, 28.058)), ((40.102, 29.294), (41.992, 31.887), (41.992, 34.775)), ((41.992, 34.84), (42, 34.904), (42, 34.969)), ((42, 34.97), (42, 34.971), (42, 34.972)), ((42, 37.925), (40.077, 40.462), (37.418, 41.55)), ((37.132, 41.665), (36.755, 42), (36.436, 42)), ((36.109, 42), (35.327, 42), (35, 42)))
-        self.add_bezier('e5', (35, 27), ((35.532, 26.198), (36.723, 25.579), (37.001, 24.646)), ((37.721, 22.151), (36.625, 19.295), (34.235, 18.125)), ((33.082, 17.569), (32.252, 17.016), (31, 17)))
-        self.add_bezier('e6', (13, 29), ((12.46, 28.19), (11.408, 27.273), (11.089, 26.34)), ((10.377, 24.254), (11.408, 21.881), (12.938, 20.482)), ((13.552, 19.917), (14.272, 19.598), (15.057, 19.336)), ((15.147, 19.304), (15.794, 19.156), (15.818, 19.091)), ((15.769, 18.993), (15.72, 18.903), (15.671, 18.805)), ((15.45, 18.379), (15.221, 17.962), (15.025, 17.528)), ((14.615, 16.628), (14.566, 15.704), (14.902, 14.763)), ((15.974, 11.768), (20.007, 12.063), (21.856, 9.788)), ((22.396, 9.134), (22.666, 8.217), (22.756, 7.391)), ((22.781, 7.145), (22.748, 6), (22.765, 6)), ((22.776, 6), (22.788, 6), (22.799, 6)), ((23.524, 6), (24.248, 6.381), (24.9, 6.663)), ((27.731, 7.857), (30.758, 10.05), (31.085, 13.38)), ((31.216, 14.673), (30.84, 15.45), (30.545, 16.636)), ((30.48, 16.89), (31, 16.746), (31, 17)))
-        self.add_bezier('e7', (30, 17), ((28.822, 18.015), (27.587, 19), (26, 19)))
-        self.add_bezier('e8', (31, 17), ((31, 16.73), (31, 17.27), (31, 17)))
-        self.add_contour('c0', 'e0', 'e3', 'e1', 'e4', closed=True)
-        self.add_contour('c1', 'e5')
-        self.add_contour('c2', 'e6')
-        self.add_contour('c3', 'e7', 'e2')
-        self.add_contour('c4', 'e8')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c2', 'c0')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c2')
-        self.relate('connect', 'c4', 'c2')
+        # Plan: Preserve the three-tier swirl and curled top; use a broad rounded base and draw each shared edge once.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('base',(13,28),[('L',(35,28)),('A',(35,42),7,7,True),('L',(13,42)),('A',(13,28),7,7,True)],True)
+        path('middle',(13,28),[('C',(12,22),(9,27),(9,24)),('C',(19,18),(13,18),(15,18)),('L',(30,18)),('C',(35,28),(36,18),(39,25))]);join('middle','base')
+        path('top',(19,18),[('C',(24,6),(19,14),(29,13)),('C',(33,14),(29,7),(33,9)),('C',(30,18),(33,16),(31,18))]);join('top','middle')

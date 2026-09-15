@@ -77,12 +77,16 @@ def _prune(directory: Path, suffix: str, keep: set[str]) -> list[Path]:
 
 
 def _source_mtime(icon) -> float | None:
-    """Newest authoring file behind an icon: its module and every icon class it inherits.
+    """Newest input to publication, including geometry and validation code.
 
-    Only files under ``model/icons`` count; a change to validators, contracts or
-    renderers is not seen here -- rebuild with ``--all`` after one of those.
+    An unchanged drawing must be rechecked when the rules or their implementation
+    change. Targeted builds still carry unselected icons over explicitly.
     """
-    newest = None
+    inputs = [* (PACKAGE_ROOT / 'validation').rglob('*.py'),
+              * (PACKAGE_ROOT / 'renderers').rglob('*.py'),
+              * (PACKAGE_ROOT / 'model').glob('*.py'),
+              * (PACKAGE_ROOT / 'model' / 'contracts').glob('*.json')]
+    newest = max((path.stat().st_mtime for path in inputs), default=None)
     for cls in type(icon).__mro__:
         try:
             filename = inspect.getsourcefile(cls)
@@ -155,6 +159,9 @@ def _failed_record(icon, family: str, qa: dict, messages: list[str], mtime: floa
               "distance": round(pair["centerlineDistance"], 3)}
              for pair in qa.get('spacing', {}).get('pairs', [])
              if pair.get('status') == 'fail' and pair.get('nearestPoints') and pair.get('centerlineDistance', 0) > 0]
+    pairs.extend({"a": finding['nearest_points'][0], "b": finding['nearest_points'][1],
+                  "distance": finding['centerline_distance'], "status": "review"}
+                 for finding in qa.get('internal_spacing', {}).get('findings', []))
     holes = [hole["bbox_viewbox"] for hole in qa.get('negative_space', {}).get('holes', [])
              if hole.get('status') == 'fail' and hole.get('bbox_viewbox')]
     return {
@@ -330,7 +337,7 @@ def _stage_family(
             record["svg_sha256"] = hashlib.sha256(document.encode("utf-8")).hexdigest()
             record["validation"] = {
                 "status": "valid",
-                "checks_run": qa['checks_run'] + ['holes/pinches'],
+                "checks_run": qa['checks_run'] + ['holes/pinches', 'internal-spacing-review'],
                 "warnings": qa['warnings'],
                 "negative_space": {key: value for key, value in qa['negative_space'].items()
                                    if key not in ('holes', 'pinches')},

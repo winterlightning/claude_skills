@@ -13,7 +13,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 SOURCE_ICON_ID = 'e8fb8e23-2308-4fdf-ac4b-d8a8d044a6df'
 SOURCE_PATH = 'icons-json/avatars/judge man_e8fb8e23-2308-4fdf-ac4b-d8a8d044a6df.json'
 AUTHOR = 'gpt-6'
-HEAD_BOTTOM = 23
+HEAD_BOTTOM = 22
 
 class JudgeMan(Solo48):
     icon_id = 'judge-man'
@@ -31,11 +31,11 @@ class JudgeMan(Solo48):
             self.add_arc('hair-' + side, (cx, 4), pt(16, 14), radius_x=16, radius_y=10, sweep=sign > 0)
             self.add_line('tip-' + side, pt(16, 14), pt(16, 24))
             self.add_contour('outer-' + side, 'hair-' + side, 'tip-' + side)
-            self.add_arc('fringe-' + side, (cx, 4), pt(9, 14), radius_x=9, radius_y=10, sweep=sign < 0)
+            self.add_arc('fringe-' + side, (cx, 4), pt(8, 14), radius_x=8, radius_y=10, sweep=sign < 0)
             self.relate('connect', 'outer-' + side, 'fringe-' + side)
         self.relate('connect', 'outer-left', 'outer-right')
         self.relate('connect', 'fringe-left', 'fringe-right')
-        self.add_arc('face', (33, 14), (15, 14), radius_x=9, radius_y=9)
+        self.add_arc('face', (32, 14), (16, 14), radius_x=8, radius_y=8)
         for side in ['left', 'right']:
             self.relate('connect', 'face', 'fringe-' + side)
 

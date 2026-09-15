@@ -19,10 +19,9 @@ class StandingFox(Solo48):
     def build(self) -> None:
         # SQUARE visible bounds (0, 0, 48, 48); centerlines (2, 2, 46, 46).
         self.add_arc('tail-outer-top', (6, 17), (14, 6), radius_x=12, radius_y=15, sweep=True)
-        self.add_arc('tail-inner', (14, 6), (10, 24), radius_x=27, radius_y=27, sweep=True)
-        self.add_arc('tail-root', (10, 24), (12, 26), radius_x=2, radius_y=2, sweep=False)
-        self.add_arc('tail-outer-low', (6, 32), (6, 17), radius_x=4, radius_y=15, sweep=True)
-        self.add_contour('tail', 'tail-outer-low', 'tail-outer-top', 'tail-inner', 'tail-root')
+        self.add_bezier('tail-inner',(14,6),((20,13),(19,22),(12,26)))
+        self.add_bezier('tail-outer-low', (6, 32), *(((6, 27.35898385), (6, 21.64101615), (6, 17)),))
+        self.add_contour('tail', 'tail-outer-low', 'tail-outer-top', 'tail-inner')
         self.add_arc('hip-top', (12, 26), (16, 24), radius_x=4, radius_y=2, sweep=True)
         self.add_line('back', (16, 24), (26, 24))
         self.add_line('neck', (26, 24), (26, 16))
@@ -30,7 +29,7 @@ class StandingFox(Solo48):
         self.add_line('ear', (32, 8), (32, 16))
         self.add_arc('brow', (32, 16), (40, 24), radius_x=8, radius_y=8, sweep=True)
         self.add_line('muzzle', (40, 24), (42, 24))
-        self.add_arc('jaw', (42, 24), (36, 34), radius_x=10, radius_y=10, sweep=True)
+        self.add_bezier('jaw', (42, 24), *(((42, 28.27520963), (39.93781809, 32.29858844), (36, 34)),))
         self.add_arc('chest', (36, 34), (32, 38), radius_x=4, radius_y=4, sweep=False)
         self.add_line('foreleg', (32, 38), (32, 42))
         self.add_contour('upper', 'hip-top', 'back', 'neck', 'forehead', 'ear', 'brow', 'muzzle', 'jaw', 'chest', 'foreleg')

@@ -3,9 +3,15 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [hands / clasp]: hands-1 and thumb-top have 3.1595 units of ink clearance over 6 units; requires 4; review required",
+    "internal-spacing [hands / clasp]: hands-4 and grip have 0.6888 units of ink clearance over 9 units; requires 4; review required",
+    "internal-spacing [hands / clasp]: hands-9 and thumb-round have 3.8722 units of ink clearance over 3.25 units; requires 4; review required",
+    "internal-spacing [cuff-left / clasp]: cuff-left-3 and thumb-round have 3.8722 units of ink clearance over 3.25 units; requires 4; review required",
+    "internal-spacing [cuff-right / clasp]: cuff-right-3 and grip have 0.6888 units of ink clearance over 9 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -252,6 +258,70 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          23.7969,
+          31.3906
+        ],
+        "bbox_viewbox": [
+          12.0,
+          10.0,
+          19.7188,
+          27.7188
+        ],
+        "bbox_ship_px": [
+          19.7188,
+          27.7188
+        ],
+        "bbox_design_u": [
+          19.7188,
+          27.7188
+        ],
+        "area_ship_px2": 236.4287,
+        "equivalent_diameter_ship_px": 17.3502,
+        "equivalent_diameter_design_u": 17.3502,
+        "inscribed_diameter_ship_px": 10.6373,
+        "inscribed_diameter_design_u": 10.6373,
+        "inscribed_radius_ship_px": 5.3186,
+        "inscribed_radius_design_u": 5.3186,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          28.7969,
+          14.8281
+        ],
+        "bbox_viewbox": [
+          19.875,
+          10.5312,
+          16.125,
+          16.6875
+        ],
+        "bbox_ship_px": [
+          16.125,
+          16.6875
+        ],
+        "bbox_design_u": [
+          16.125,
+          16.6875
+        ],
+        "area_ship_px2": 117.8652,
+        "equivalent_diameter_ship_px": 12.2503,
+        "equivalent_diameter_design_u": 12.2503,
+        "inscribed_diameter_ship_px": 6.7375,
+        "inscribed_diameter_design_u": 6.7375,
+        "inscribed_radius_ship_px": 3.3687,
+        "inscribed_radius_design_u": 3.3687,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -372,15 +442,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -396,21 +467,128 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "hands / clasp",
+        "elements": [
+          "hands-1",
+          "thumb-top"
+        ],
+        "status": "review",
+        "sustained_length": 6.0,
+        "centerline_distance": 7.1595,
+        "ink_gap": 3.1595,
+        "nearest_points": [
+          [
+            17.5,
+            8.375
+          ],
+          [
+            22.56250000000003,
+            13.437499999999975
+          ]
+        ]
+      },
+      {
+        "contour": "hands / clasp",
+        "elements": [
+          "hands-4",
+          "grip"
+        ],
+        "status": "review",
+        "sustained_length": 9.0,
+        "centerline_distance": 4.6888,
+        "ink_gap": 0.6888,
+        "nearest_points": [
+          [
+            38.0,
+            27.375
+          ],
+          [
+            33.64655172413789,
+            29.116379310344733
+          ]
+        ]
+      },
+      {
+        "contour": "hands / clasp",
+        "elements": [
+          "hands-9",
+          "thumb-round"
+        ],
+        "status": "review",
+        "sustained_length": 3.25,
+        "centerline_distance": 7.8722,
+        "ink_gap": 3.8722,
+        "nearest_points": [
+          [
+            10.0,
+            19.125
+          ],
+          [
+            17.872076495528415,
+            19.16743192157461
+          ]
+        ]
+      },
+      {
+        "contour": "cuff-left / clasp",
+        "elements": [
+          "cuff-left-3",
+          "thumb-round"
+        ],
+        "status": "review",
+        "sustained_length": 3.25,
+        "centerline_distance": 7.8722,
+        "ink_gap": 3.8722,
+        "nearest_points": [
+          [
+            10.0,
+            19.125
+          ],
+          [
+            17.872076495528415,
+            19.16743192157461
+          ]
+        ]
+      },
+      {
+        "contour": "cuff-right / clasp",
+        "elements": [
+          "cuff-right-3",
+          "grip"
+        ],
+        "status": "review",
+        "sustained_length": 9.0,
+        "centerline_distance": 4.6888,
+        "ink_gap": 0.6888,
+        "nearest_points": [
+          [
+            38.0,
+            27.375
+          ],
+          [
+            33.64655172413789,
+            29.116379310344733
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

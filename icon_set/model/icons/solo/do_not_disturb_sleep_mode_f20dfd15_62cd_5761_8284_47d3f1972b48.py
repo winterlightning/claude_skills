@@ -1,10 +1,9 @@
-"""Do not disturb sleep mode (mobile), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""do-not-disturb-sleep-mode: Smooth diagonal crescent; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f20dfd15-62cd-5761-8284-47d3f1972b48'
 SOURCE_PATH = 'icons-json/mobile/do not disturb sleep mode_f20dfd15-62cd-5761-8284-47d3f1972b48.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DoNotDisturbSleepMode(Solo48):
     icon_id = 'do-not-disturb-sleep-mode'
@@ -13,8 +12,41 @@ class DoNotDisturbSleepMode(Solo48):
     semantic_kind = 'noun'
     category = 'mobile'
     aliases = ()
-    keywords = ('do', 'not', 'disturb', 'sleep', 'mode', 'mobile')
+    keywords = ('solo-ai-full-set', 'do-not-disturb-sleep-mode')
 
     def build(self):
-        self.add_bezier('e0', (21, 6), ((19.396, 8.594), (17.373, 11.032), (16.808, 14.1)), ((15.646, 20.441), (18.698, 27.076), (24.155, 30.431)), ((27.796, 32.673), (32.01, 33.254), (36.158, 32.305)), ((37.533, 31.994), (38.776, 31.429), (40.045, 30.824)), ((40.486, 30.611), (40.928, 30.39), (41.37, 30.169)), ((41.476, 30.12), (41.575, 30.063), (41.681, 30.014)), ((41.787, 29.956), (41.894, 29.907), (42, 29.85)), ((42, 29.854), (42, 29.858), (42, 29.863)), ((42, 30.181), (40.228, 33.098), (39.905, 33.614)), ((36.772, 38.735), (30.611, 41.992), (24.646, 41.992)), ((24.558, 41.992), (24.469, 42), (24.381, 42)), ((24.379, 42), (24.378, 42), (24.376, 42)), ((24.262, 42), (24.147, 41.992), (24.041, 41.992)), ((14.795, 41.992), (6.016, 33.9), (6.016, 24.475)), ((6.008, 24.401), (6.008, 24.335), (6, 24.262)), ((6, 24.257), (6, 24.252), (6, 24.247)), ((6, 23.933), (6.016, 23.619), (6.016, 23.305)), ((6.016, 17.585), (9.166, 11.932), (13.936, 8.798)), ((15.982, 7.448), (18.652, 6.605), (21, 6)))
-        self.add_contour('c0', 'e0', closed=True)
+        # Plan: Preserve the diagonal moon with its upper-left and lower-right horns; replace the fitted lumps with flowing curves.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('moon',(21,6),[('C',(6,24),(12,8),(6,15)),('C',(24,42),(6,34),(14,42)),('C',(42,32),(32,42),(38,39)),('C',(21,6),(19,41),(10,18))],True)

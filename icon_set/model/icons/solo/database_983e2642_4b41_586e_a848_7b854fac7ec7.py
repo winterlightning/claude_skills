@@ -1,10 +1,9 @@
-"""Database (diagrams), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""database: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '983e2642-4b41-586e-a848-7b854fac7ec7'
 SOURCE_PATH = 'icons-json/diagrams/database_983e2642-4b41-586e-a848-7b854fac7ec7.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Database(Solo48):
     icon_id = 'database'
@@ -13,82 +12,41 @@ class Database(Solo48):
     semantic_kind = 'noun'
     category = 'diagrams'
     aliases = ()
-    keywords = ('database', 'diagrams')
+    keywords = ('database', 'diagrams', 'solo-ai-next100')
 
     def build(self):
-        self.add_bezier('sym-e0', (24, 44), ((24.389, 44), (24.618, 44), (25, 44)))
-        self.add_bezier('sym-e1', (25, 44), ((28.806, 44), (33.514, 43.727), (37, 42)))
-        self.add_bezier('sym-e2', (37, 42), ((38.465, 41.273), (40, 39.964), (40, 38)))
-        self.add_bezier('sym-e3', (40, 38), ((40, 37.855), (40, 37.145), (40, 37)))
-        self.add_bezier('sym-e4', (40, 37), ((40, 36.5), (40, 36.5), (40, 36)))
-        self.add_line('sym-e5', (40, 36), (40, 29))
-        self.add_bezier('sym-e6', (40, 29), ((40, 25.973), (40, 23.027), (40, 20)))
-        self.add_bezier('sym-e7', (40, 20), ((39.571, 20.364), (39.429, 20.636), (39, 21)))
-        self.add_bezier('sym-e8', (39, 21), ((38.966, 21.027), (39.034, 21.973), (39, 22)))
-        self.add_bezier('sym-e9', (39, 22), ((37.333, 23.4), (35.029, 23.564), (33, 24)))
-        self.add_bezier('sym-e10', (33, 24), ((30.467, 24.541), (27.106, 25), (24, 25)))
-        self.add_bezier('sym-e11', (24, 25), ((20.894, 25), (17.533, 24.541), (15, 24)))
-        self.add_bezier('sym-e12', (15, 24), ((12.971, 23.564), (10.667, 23.4), (9, 22)))
-        self.add_bezier('sym-e13', (9, 22), ((8.966, 21.973), (9.034, 21.027), (9, 21)))
-        self.add_bezier('sym-e14', (9, 21), ((8.571, 20.636), (8.429, 20.364), (8, 20)))
-        self.add_bezier('sym-e15', (8, 20), ((8, 23.027), (8, 25.973), (8, 29)))
-        self.add_line('sym-e16', (8, 29), (8, 36))
-        self.add_bezier('sym-e17', (8, 36), ((8, 36.5), (8, 36.5), (8, 37)))
-        self.add_bezier('sym-e18', (8, 37), ((8, 37.145), (8, 37.855), (8, 38)))
-        self.add_bezier('sym-e19', (8, 38), ((8, 39.964), (9.535, 41.273), (11, 42)))
-        self.add_bezier('sym-e20', (11, 42), ((14.486, 43.727), (19.194, 44), (23, 44)))
-        self.add_bezier('sym-e21', (23, 44), ((23.382, 44), (23.611, 44), (24, 44)))
-        self.add_bezier('sym-e22', (40, 29), ((39.629, 29.336), (39.379, 29.664), (39, 30)))
-        self.add_bezier('sym-e23', (39, 30), ((38.949, 30.045), (39.051, 30.955), (39, 31)))
-        self.add_bezier('sym-e24', (39, 31), ((37.509, 32.309), (35.811, 32.391), (34, 33)))
-        self.add_bezier('sym-e25', (34, 33), ((31.475, 33.836), (27.524, 35), (24, 35)))
-        self.add_bezier('sym-e26', (24, 35), ((20.476, 35), (16.525, 33.836), (14, 33)))
-        self.add_bezier('sym-e27', (14, 33), ((12.189, 32.391), (10.491, 32.309), (9, 31)))
-        self.add_bezier('sym-e28', (9, 31), ((8.949, 30.955), (9.051, 30.045), (9, 30)))
-        self.add_bezier('sym-e29', (9, 30), ((8.621, 29.664), (8.371, 29.336), (8, 29)))
-        self.add_bezier('sym-e30', (40, 20), ((40, 19.255), (40, 18.736), (40, 18)))
-        self.add_bezier('sym-e31', (40, 18), ((40, 17.491), (40, 17.509), (40, 17)))
-        self.add_bezier('sym-e32', (40, 17), ((40, 16.791), (40, 16.209), (40, 16)))
-        self.add_bezier('sym-e33', (40, 16), ((40, 14.427), (40, 12.573), (40, 11)))
-        self.add_bezier('sym-e34', (40, 11), ((40, 10.418), (40, 10.573), (40, 10)))
-        self.add_bezier('sym-e35', (40, 10), ((40, 9.936), (40, 9.055), (40, 9)))
-        self.add_bezier('sym-e36', (40, 9), ((40, 7.636), (37.968, 6.482), (37, 6)))
-        self.add_bezier('sym-e37', (37, 6), ((33.505, 4.236), (28.806, 4), (25, 4)))
-        self.add_bezier('sym-e38', (25, 4), ((24.531, 4), (24.468, 4), (24, 4)))
-        self.add_bezier('sym-e39', (24, 4), ((23.532, 4), (23.469, 4), (23, 4)))
-        self.add_bezier('sym-e40', (23, 4), ((19.194, 4), (14.495, 4.236), (11, 6)))
-        self.add_bezier('sym-e41', (11, 6), ((10.032, 6.482), (8, 7.636), (8, 9)))
-        self.add_bezier('sym-e42', (8, 9), ((8, 9.055), (8, 9.936), (8, 10)))
-        self.add_bezier('sym-e43', (8, 10), ((8, 10.573), (8, 10.418), (8, 11)))
-        self.add_bezier('sym-e44', (8, 11), ((8, 12.573), (8, 14.427), (8, 16)))
-        self.add_bezier('sym-e45', (8, 16), ((8, 16.209), (8, 16.791), (8, 17)))
-        self.add_bezier('sym-e46', (8, 17), ((8, 17.509), (8, 17.491), (8, 18)))
-        self.add_bezier('sym-e47', (8, 18), ((8, 18.736), (8, 19.255), (8, 20)))
-        self.add_bezier('sym-e48', (40, 11), ((39.571, 11.327), (39.429, 11.673), (39, 12)))
-        self.add_bezier('sym-e49', (39, 12), ((37.804, 12.9), (36.406, 13.664), (35, 14)))
-        self.add_bezier('sym-e50', (35, 14), ((31.675, 14.795), (27.617, 15), (24, 15)))
-        self.add_bezier('sym-e51', (24, 15), ((20.383, 15), (16.325, 14.795), (13, 14)))
-        self.add_bezier('sym-e52', (13, 14), ((11.594, 13.664), (10.196, 12.9), (9, 12)))
-        self.add_bezier('sym-e53', (9, 12), ((8.571, 11.673), (8.429, 11.327), (8, 11)))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e15', 'sym-e16', 'sym-e17', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21', closed=True)
-        self.add_contour('sym-c1', 'sym-e22', 'sym-e23', 'sym-e24', 'sym-e25', 'sym-e26', 'sym-e27', 'sym-e28', 'sym-e29')
-        self.add_contour('sym-c2', 'sym-e30', 'sym-e31', 'sym-e32', 'sym-e33', 'sym-e34', 'sym-e35', 'sym-e36', 'sym-e37', 'sym-e38', 'sym-e39', 'sym-e40', 'sym-e41', 'sym-e42', 'sym-e43', 'sym-e44', 'sym-e45', 'sym-e46', 'sym-e47')
-        self.add_contour('sym-c3', 'sym-e48', 'sym-e49', 'sym-e50', 'sym-e51', 'sym-e52', 'sym-e53')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c3')
+        # Plan: Preserve the four-layer database with shallow elliptical rings. The rim and repeated layers have ample spacing for consistent strokes.
+        # Reference: Lucide database original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('top',(8,8),[('A',(40,8),16,4,True),('A',(8,8),16,4,True)],True)
+        path('body',(8,8),[('L',(8,42)),('A',(40,42),16,2,False),('L',(40,8))]);join('body','top')
+        for y in (22,32):path(f'ring-{y}',(8,y),[('A',(40,y),16,2,False)]);join(f'ring-{y}','body')

@@ -3,9 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [nw / sw]: nw-2 and sw-1 have 2.938 units of ink clearance over 2.4989 units; requires 4; review required",
+    "internal-spacing [se / ne]: se-2 and ne-1 have 2.938 units of ink clearance over 2.4989 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -804,12 +807,13 @@
       "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -825,21 +829,65 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "d5b45e12b0fb6b40df828ed3653a50c396f0483eb11ba311be0af8aebd224adb",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "nw / sw",
+        "elements": [
+          "nw-2",
+          "sw-1"
+        ],
+        "status": "review",
+        "sustained_length": 2.4989,
+        "centerline_distance": 6.938,
+        "ink_gap": 2.938,
+        "nearest_points": [
+          [
+            8.303030303030303,
+            20.424242424242422
+          ],
+          [
+            6.620320855614931,
+            27.155080213903734
+          ]
+        ]
+      },
+      {
+        "contour": "se / ne",
+        "elements": [
+          "se-2",
+          "ne-1"
+        ],
+        "status": "review",
+        "sustained_length": 2.4989,
+        "centerline_distance": 6.938,
+        "ink_gap": 2.938,
+        "nearest_points": [
+          [
+            39.6969696969697,
+            27.575757575757578
+          ],
+          [
+            41.37967914438508,
+            20.84491978609627
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

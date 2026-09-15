@@ -1,4 +1,4 @@
-"""Drop (smileys), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Droplet: mirrored smooth shoulders and a tangent-continuous round bowl, preserving the pointed tip and curved highlight.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,15 +16,11 @@ class DropSmileys(Solo48):
     keywords = ('drop', 'smileys')
 
     def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_arc('e0', (24, 35), (31, 28), radius_x=8, radius_y=8, large_arc=False, sweep=False)
-        self.add_arc('e1-1', (23, 5), (8, 29), radius_x=38, radius_y=38, large_arc=False, sweep=False)
-        self.add_arc('e1-2', (8, 29), (16, 42), radius_x=15, radius_y=15, large_arc=False, sweep=False)
-        self.add_line('e1-3', (16, 42), (24, 44))
-        self.add_line('e1-4', (24, 44), (32, 42))
-        self.add_arc('e1-5', (32, 42), (40, 29), radius_x=15, radius_y=15, large_arc=False, sweep=False)
-        self.add_arc('e1-6', (40, 29), (24, 4), radius_x=41, radius_y=41, large_arc=False, sweep=False)
-        self.add_line('e1-7', (24, 4), (23, 5))
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e1-1', 'e1-2', 'e1-3', 'e1-4', 'e1-5', 'e1-6', 'e1-7'), closed=True)
+        # Lucide droplet: continuous rounded bowl; retain the deliberate pointed apex.
+        # VRECT_L centerline extremes (8,4)-(40,44).
+        self.add_bezier('left',(24,4),((18,11),(8,21),(8,28)))
+        self.add_bezier('bowl-left',(8,28),((8,37),(15,44),(24,44)))
+        self.add_bezier('bowl-right',(24,44),((33,44),(40,37),(40,28)))
+        self.add_bezier('right',(40,28),((40,21),(30,11),(24,4)))
+        self.add_contour('outline','left','bowl-left','bowl-right','right',closed=True)
+        self.add_arc('highlight',(24,34),(30,28),radius_x=6,sweep=False)

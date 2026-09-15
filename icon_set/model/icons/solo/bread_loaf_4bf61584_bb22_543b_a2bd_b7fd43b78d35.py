@@ -1,10 +1,9 @@
-"""Bread loaf (food), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""bread-loaf: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4bf61584-bb22-543b-a2bd-b7fd43b78d35'
 SOURCE_PATH = 'icons-json/food/bread loaf_4bf61584-bb22-543b-a2bd-b7fd43b78d35.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class BreadLoaf(Solo48):
     icon_id = 'bread-loaf'
@@ -13,21 +12,40 @@ class BreadLoaf(Solo48):
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
-    keywords = ('bread', 'loaf', 'food')
+    keywords = ('bread', 'loaf', 'food', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('e0', (29, 40), (28, 22))
-        self.add_line('e1', (23, 8), (11, 8))
-        self.add_line('e2', (8, 22), (6, 39))
-        self.add_line('e3', (12, 40), (40, 40))
-        self.add_line('e4', (42, 37), (40, 23))
-        self.add_line('e5', (37, 8), (27, 8))
-        self.add_bezier('e6', (28, 22), ((28.564, 21.58), (28.827, 21.19), (29.309, 20.66)), ((32.164, 17.6), (32.2, 13.04), (29.309, 10.01)), ((28.655, 9.33), (27.655, 8), (26.727, 8)), ((25.518, 8), (24.209, 8), (23, 8)))
-        self.add_bezier('e7', (11, 8), ((10.936, 8.01), (11.145, 8.01), (11.082, 8.02)), ((7.682, 8.02), (4.018, 10.95), (4.018, 14.9)), ((4.009, 15.06), (4.009, 15.21), (4, 15.37)), ((4, 15.374), (4, 15.377), (4, 15.381)), ((4, 15.607), (4.018, 15.844), (4.018, 16.07)), ((4.018, 18.78), (6.036, 20.69), (8, 22)))
-        self.add_bezier('e8', (6, 39), ((6.309, 39.28), (6.409, 39.63), (6.791, 39.81)), ((7.491, 40), (9.118, 39.95), (9.845, 39.98)), ((10.273, 39.98), (10.7, 40), (11.127, 40)), ((11.482, 40), (11.645, 40), (12, 40)))
-        self.add_bezier('e9', (40, 40), ((40.1, 39.99), (40.555, 39.99), (40.655, 39.98)), ((42.464, 39.98), (42.191, 38.48), (42, 37)))
-        self.add_bezier('e10', (40, 23), ((39.945, 22.61), (40.136, 21.83), (40.391, 21.46)), ((40.655, 21.06), (41.164, 20.82), (41.518, 20.5)), ((42.682, 19.45), (43.982, 17.71), (43.982, 15.94)), ((43.991, 15.79), (43.991, 15.65), (44, 15.5)), ((44, 15.498), (44, 15.495), (44, 15.493)), ((44, 15.335), (43.991, 15.188), (43.991, 15.03)), ((43.991, 11.68), (41.664, 9.33), (38.964, 8.38)), ((38.645, 8.27), (38.264, 8), (37.927, 8)), ((37.527, 8), (37.4, 8), (37, 8)))
-        self.add_contour('c0', 'e0', 'e6', 'e1', 'e7')
-        self.add_contour('c1', 'e2', 'e8', 'e3', 'e9', 'e4', 'e10', 'e5')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c1', 'c0')
+        # Plan: A loaf in perspective keeps a rounded crown and a single visible slice seam. The right end is deliberately shorter to show depth.
+        # Reference: Lucide sandwich original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('loaf',(8,40),[('L',(10,22)),('C',(4,16),(6,22),(4,19)),('C',(14,8),(4,10),(8,8)),('L',(34,8)),('C',(44,16),(40,8),(44,10)),('C',(38,22),(44,19),(42,22)),('L',(40,40)),('L',(8,40))],True)
+        path('slice',(26,8),[('C',(26,22),(34,10),(34,18)),('L',(30,40))]);join('slice','loaf')

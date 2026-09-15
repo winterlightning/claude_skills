@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class SittingWolf(Solo48):
     icon_id = 'sitting-wolf'
-    keyshape = Keyshape.VRECT_XL
+    keyshape = Keyshape.SQUARE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/animals"
@@ -26,11 +26,11 @@ class SittingWolf(Solo48):
         self.add_arc('haunch', (30, 32), (29, 42), radius_x=10, radius_y=10, sweep=True)
         self.add_line('ground', (29, 42), (10, 42))
         self.add_line('foreleg', (10, 42), (10, 35))
-        self.add_arc('back', (10, 35), (6, 15), radius_x=50, radius_y=50, sweep=True)
+        self.add_bezier('back', (10, 35), *(((7.30664765, 28.67898379), (6, 21.87068894), (6, 15)),))
         self.add_line('ear-back', (6, 15), (6, 6))
         self.add_contour('outline', 'head-1', 'head-2', 'head-3', 'nose', 'jaw', 'chest', 'haunch', 'ground', 'foreleg', 'back', 'ear-back', closed=True)
-        self.add_arc('tail-top', (30, 32), (39, 20), radius_x=13, radius_y=13, sweep=False)
-        self.add_arc('tail-tip', (39, 20), (42, 31), radius_x=4, radius_y=11, sweep=True)
+        self.add_bezier('tail-top',(30,32),((34,28),(34,23),(34,20)))
+        self.add_bezier('tail-tip',(34,20),((39,20),(42,25),(42,31)))
         self.add_arc('tail-bottom', (42, 31), (29, 42), radius_x=14, radius_y=15, sweep=True)
         self.add_contour('tail', 'tail-top', 'tail-tip', 'tail-bottom', closed=False)
         self.relate("connect", 'outline', 'tail')

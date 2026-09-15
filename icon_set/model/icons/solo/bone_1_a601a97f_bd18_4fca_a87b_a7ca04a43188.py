@@ -1,23 +1,50 @@
-"""Bone 1 (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""bone-1: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a601a97f-bd18-4fca-a87b-a7ca04a43188'
 SOURCE_PATH = 'icons-json/symbol/bone 1_a601a97f-bd18-4fca-a87b-a7ca04a43188.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Bone1(Solo48):
     icon_id = 'bone-1'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('bone', 'symbol')
+    keywords = ('bone', 'symbol', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('e0', (33, 26), (17, 31))
-        self.add_line('e1', (15, 22), (31, 17))
-        self.add_bezier('e2', (31, 17), ((30.864, 16.089), (31, 14.868), (31.091, 13.932)), ((31.391, 10.572), (33.782, 8.012), (36.245, 8.012)), ((36.317, 8), (36.38, 8), (36.451, 8)), ((36.452, 8), (36.453, 8), (36.455, 8)), ((36.591, 8), (36.736, 8.012), (36.873, 8.012)), ((39.973, 8.012), (42.745, 12), (42.055, 16.222)), ((41.864, 17.391), (41.436, 18.289), (40.909, 19.225)), ((40.909, 19.225), (41.391, 19.692), (41.418, 19.717)), ((41.809, 20.098), (42.191, 20.492), (42.555, 20.923)), ((43.418, 21.969), (43.991, 23.655), (43.991, 25.243)), ((43.991, 25.413), (44, 25.594), (44, 25.764)), ((44, 25.767), (44, 25.77), (44, 25.772)), ((44, 30.622), (39.291, 33.243), (36.327, 31.643)), ((34.582, 30.695), (33.664, 28.228), (33, 26)))
-        self.add_bezier('e3', (17, 31), ((17.064, 31.972), (16.909, 33.378), (16.782, 34.351)), ((16.336, 37.625), (13.973, 39.975), (11.564, 39.975)), ((11.367, 39.975), (11.179, 40), (10.982, 40)), ((10.979, 40), (10.976, 40), (10.973, 40)), ((8.364, 40), (5.691, 36.898), (5.736, 33.255)), ((5.745, 32.517), (5.864, 31.471), (6.127, 30.806)), ((6.391, 30.154), (6.664, 29.502), (6.927, 28.849)), ((6.836, 28.763), (6.745, 28.677), (6.655, 28.578)), ((6.255, 28.172), (5.845, 27.754), (5.473, 27.286)), ((4.673, 26.289), (4.009, 24.825), (4.009, 23.311)), ((4.009, 23.114), (4, 22.917), (4, 22.72)), ((4, 22.718), (4, 22.717), (4, 22.715)), ((4, 22.618), (4, 22.521), (4.009, 22.412)), ((4.009, 17.182), (9.009, 14.72), (12.073, 16.8)), ((13.591, 17.834), (14.355, 19.969), (15, 22)))
-        self.add_contour('c0', 'e2', 'e0', 'e3', 'e1', closed=True)
+        # Plan: A diagonal bone uses four equal semicircular end lobes and a broad diagonal shaft. Shared lobe radius and half-turn symmetry replace the lumpy traced ends.
+        # Reference: Lucide bone original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bone',(24,12),[('A',(36,12),6,6,True),('A',(36,24),6,6,True),('L',(32,24)),('L',(24,32)),('L',(24,36)),('A',(12,36),6,6,True),('A',(12,24),6,6,True),('L',(16,24)),('L',(24,16)),('L',(24,12))],True)

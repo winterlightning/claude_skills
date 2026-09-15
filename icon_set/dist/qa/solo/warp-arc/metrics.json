@@ -15,14 +15,14 @@
         "elementId": "sym-c0",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 44 14 A 2 2 0 0 1 43 13 A 36 36 0 0 0 25 8 L 24 8 L 23 8 A 36 36 0 0 0 5 13 A 2 2 0 0 1 4 14 L 14 40 L 15 39 L 18 38 A 14 14 0 0 1 24 36 A 14 14 0 0 1 30 38 L 33 39 L 34 40 L 44 14 Z",
+        "pathData": "M 44 14 A 2 2 0 0 1 43 13 A 36 36 0 0 0 25 8 L 23 8 A 36 36 0 0 0 5 13 A 2 2 0 0 1 4 14 L 14 40 L 15 39 L 18 38 A 14 14 0 0 1 24 36 A 14 14 0 0 1 30 38 L 33 39 L 34 40 L 44 14 Z",
         "bounds": [
           4.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 233,
+        "segmentCount": 232,
         "approximationError": 0.0005101023377962408,
         "hasCurves": true
       }
@@ -65,8 +65,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 16,
-      "flattenedSegments": 233,
+      "commands": 15,
+      "flattenedSegments": 232,
       "adaptiveNodes": 442,
       "distanceTests": 0,
       "connectionTests": 0
@@ -76,6 +76,40 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          22.3906,
+          22.1094
+        ],
+        "bbox_viewbox": [
+          6.375,
+          10.0,
+          35.25,
+          26.9062
+        ],
+        "bbox_ship_px": [
+          35.25,
+          26.9062
+        ],
+        "bbox_design_u": [
+          35.25,
+          26.9062
+        ],
+        "area_ship_px2": 677.1465,
+        "equivalent_diameter_ship_px": 29.3627,
+        "equivalent_diameter_design_u": 29.3627,
+        "inscribed_diameter_ship_px": 24.1998,
+        "inscribed_diameter_design_u": 24.1998,
+        "inscribed_radius_ship_px": 12.0999,
+        "inscribed_radius_design_u": 12.0999,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
+    "raster_artifact_count": 0,
     "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -136,7 +170,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "00ceba1dde58f949610a0b8210905fbfe270a0dfdcb2cc90d832f2950a2611fc",
+  "svg_sha256": "bafee2e994a7f8e6d44fd52a706b68ebfb8664b353f84483cd8fc2135199533a",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -164,15 +198,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -188,21 +223,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

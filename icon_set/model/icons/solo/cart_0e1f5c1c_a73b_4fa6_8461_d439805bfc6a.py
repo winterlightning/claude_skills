@@ -1,10 +1,9 @@
-"""Cart (shopping), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""cart: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0e1f5c1c-a73b-4fa6-8461-d439805bfc6a'
 SOURCE_PATH = 'icons-json/shopping/cart_0e1f5c1c-a73b-4fa6-8461-d439805bfc6a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cart(Solo48):
     icon_id = 'cart'
@@ -13,17 +12,40 @@ class Cart(Solo48):
     semantic_kind = 'noun'
     category = 'shopping'
     aliases = ()
-    keywords = ('cart', 'shopping')
+    keywords = ('cart', 'shopping', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (19, 8), (11, 21))
-        self.add_line('e1', (29, 8), (37, 21))
-        self.add_line('e2', (44, 21), (4, 21))
-        self.add_line('e3', (4, 21), (9, 40))
-        self.add_line('e4', (9, 40), (39, 40))
-        self.add_line('e5', (39, 40), (44, 21))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e3', 'e4', 'e5', closed=True)
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: Keep the source hand basket; paired handles share endpoints with its rim. Each basket retains a different taper or handle construction.
+        # Reference: Lucide shopping-basket original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('basket',(4,20),(44,20),(36,40),(12,40),(4,20))
+        poly('handle-left',(12,20),(20,8));poly('handle-right',(28,8),(36,20));join('handle-left','basket');join('handle-right','basket')

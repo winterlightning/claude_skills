@@ -1,10 +1,9 @@
-"""Ball (sports), converted from the icons-json construction graph by json_to_solo --mode bezier. CIRCLE keyshape; curves kept as cubic beziers."""
+"""ball: AI stroke review; parent retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '4be75ff3-2cc9-4492-a406-ef7c11b29925'
 SOURCE_PATH = 'icons-json/sports/ball_4be75ff3-2cc9-4492-a406-ef7c11b29925.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Ball(Solo48):
     icon_id = 'ball'
@@ -13,17 +12,43 @@ class Ball(Solo48):
     semantic_kind = 'noun'
     category = 'sports'
     aliases = ()
-    keywords = ('ball', 'sports')
+    keywords = ('ball', 'sports', 'solo-ai-first50')
 
     def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_bezier('e1', (5, 19), ((8.118, 19.664), (10.309, 22.091), (12.827, 23.936)), ((14.027, 24.818), (15.318, 25.555), (16.482, 26.491)), ((19.2, 28.664), (22.282, 32.355), (23.209, 35.773)), ((23.945, 38.445), (23.836, 41.255), (24, 44)))
-        self.add_bezier('e2', (19, 5), ((19.336, 8.3), (20.482, 10.418), (21.973, 13.282)), ((22.882, 15.045), (23.682, 16.809), (24.827, 18.436)), ((28.773, 24.045), (36.336, 27.773), (43, 29)))
-        self.add_contour('c0', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
-        self.relate('connect', 'c0', 'e0')
-        self.relate('connect', 'c0', 'e0')
-        self.relate('connect', 'c1', 'e0')
-        self.relate('connect', 'c1', 'e0')
+        # Plan: A true circular ball with two smooth sweeping seams. Seams meet the perimeter at exact cardinal nodes; no faceted conversion curves.
+        # Reference: Lucide original/volleyball.svg and atomic-debug/volleyball.svg.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('outline',(4,24), [('A',(24,4),20,20,True),('A',(44,24),20,20,True),('A',(24,44),20,20,True),('A',(4,24),20,20,True)],True)
+        path('seam-top',(24,4), [('C',(44,24),(24,15),(33,24))])
+        path('seam-bottom',(4,24), [('C',(24,44),(15,24),(24,33))])
+        join('seam-top','outline');join('seam-bottom','outline')
+

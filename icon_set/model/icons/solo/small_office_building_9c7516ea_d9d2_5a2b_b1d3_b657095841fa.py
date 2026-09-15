@@ -1,10 +1,9 @@
-"""Small office building (office), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""small-office-building: Balanced office entrance; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '9c7516ea-d9d2-5a2b-b1d3-b657095841fa'
 SOURCE_PATH = 'icons-json/office/small office building_9c7516ea-d9d2-5a2b-b1d3-b657095841fa.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SmallOfficeBuilding(Solo48):
     icon_id = 'small-office-building'
@@ -13,47 +12,44 @@ class SmallOfficeBuilding(Solo48):
     semantic_kind = 'noun'
     category = 'office'
     aliases = ()
-    keywords = ('small', 'office', 'building')
+    keywords = ('solo-ai-full-set', 'small-office-building')
 
     def build(self):
-        self.add_line('sym-e0', (4, 40), (7, 40))
-        self.add_line('sym-e1', (7, 40), (19, 40))
-        self.add_line('sym-e2', (19, 40), (29, 40))
-        self.add_line('sym-e3', (29, 40), (41, 40))
-        self.add_line('sym-e4', (41, 40), (44, 40))
-        self.add_line('sym-e5', (29, 40), (29, 30))
-        self.add_arc('sym-e6', (29, 30), (24, 25), radius_x=4, sweep=False)
-        self.add_arc('sym-e7', (24, 25), (19, 30), radius_x=4, sweep=False)
-        self.add_line('sym-e8', (19, 30), (19, 40))
-        self.add_line('sym-e9', (41, 40), (41, 17))
-        self.add_line('sym-e10', (41, 17), (24, 17))
-        self.add_line('sym-e11', (24, 17), (7, 17))
-        self.add_line('sym-e12', (7, 17), (7, 40))
-        self.add_arc('sym-e13', (41, 17), (44, 14), radius_x=3, sweep=False)
-        self.add_line('sym-e15', (44, 14), (44, 10))
-        self.add_arc('sym-e16', (44, 10), (42, 8), radius_x=2, sweep=False)
-        self.add_line('sym-e18', (42, 8), (24, 8))
-        self.add_line('sym-e19', (24, 8), (6, 8))
-        self.add_arc('sym-e21', (6, 8), (4, 10), radius_x=2, sweep=False)
-        self.add_line('sym-e22', (4, 10), (4, 14))
-        self.add_arc('sym-e24', (4, 14), (7, 17), radius_x=3, sweep=False)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4')
-        self.add_contour('sym-c1', 'sym-e5', 'sym-e6', 'sym-e7', 'sym-e8')
-        self.add_contour('sym-c2', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12')
-        self.add_contour('sym-c3', 'sym-e13', 'sym-e15', 'sym-e16', 'sym-e18', 'sym-e19', 'sym-e21', 'sym-e22', 'sym-e24')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c0', 'sym-c2')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
-        self.relate('connect', 'sym-c2', 'sym-c3')
+        # Plan: Preserve the roof and arched doorway with a clear band above the arch and exact shared wall nodes.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('roof',(4,8),[('L',(44,8)),('L',(44,18)),('L',(40,18)),('L',(8,18)),('L',(4,18)),('L',(4,8))],True)
+        path('base',(4,40),[('L',(8,40)),('L',(18,40)),('L',(30,40)),('L',(40,40)),('L',(44,40))])
+        for x in [8,40]:line(f'wall-{x}',(x,18),(x,40));join(f'wall-{x}','roof');join(f'wall-{x}','base')
+        path('door',(18,40),[('L',(18,33)),('A',(30,33),6,6,True),('L',(30,40))]);join('door','base')

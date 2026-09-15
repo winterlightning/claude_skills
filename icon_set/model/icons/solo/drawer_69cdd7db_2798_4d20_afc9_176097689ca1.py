@@ -1,10 +1,9 @@
 """Drawer (office), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '69cdd7db-2798-4d20-afc9-176097689ca1'
 SOURCE_PATH = 'icons-json/office/drawer_69cdd7db-2798-4d20-afc9-176097689ca1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Drawer(Solo48):
     icon_id = 'drawer'
@@ -27,15 +26,15 @@ class Drawer(Solo48):
         self.add_line('e8', (26, 11), (38, 11))
         self.add_line('e9', (39, 13), (39, 34))
         self.add_line('e10', (14, 29), (21, 34))
-        self.add_arc('e11-1', (37, 34), (42, 35), radius_x=4)
-        self.add_arc('e11-2', (42, 35), (42, 37), radius_x=14, sweep=False)
-        self.add_arc('e12', (42, 40), (40, 42), radius_x=2)
-        self.add_arc('e13', (8, 42), (6, 40), radius_x=2)
-        self.add_arc('e14', (6, 31), (8, 29), radius_x=2)
+        self.add_arc('e11-1', (37, 34), (42, 35), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('e11-2', (42, 35), (42, 37), radius_x=14, radius_y=14, large_arc=False, sweep=False)
+        self.add_arc('e12', (42, 40), (40, 42), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('e13', (8, 42), (6, 40), radius_x=2, radius_y=2, large_arc=False, sweep=True)
+        self.add_arc('e14', (6, 31), (8, 29), radius_x=2, radius_y=2, large_arc=False, sweep=True)
         self.add_line('e15', (8, 8), (10, 6))
         self.add_line('e16', (17, 6), (20, 7))
-        self.add_arc('e17', (23, 9), (26, 11), radius_x=3, sweep=False)
+        self.add_arc('e17', (23, 9), (26, 11), radius_x=3, radius_y=3, large_arc=False, sweep=False)
         self.add_line('e18', (38, 11), (39, 13))
-        self.add_contour('c0', 'e0', 'e10', 'e1', 'e11-1', 'e11-2', 'e2', 'e12', 'e3', 'e13', 'e4', 'e14')
-        self.add_contour('c1', 'e5', 'e15', 'e6', 'e16', 'e7', 'e17', 'e8', 'e18', 'e9')
+        self.add_contour('c0', 'e0', 'e10', 'e1', 'e11-1', 'e11-2', 'e2', 'e12', 'e3', 'e13', 'e4', 'e14', closed=True)
+        self.add_contour('c1', 'e5', 'e15', 'e6', 'e16', 'e7', 'e17', 'e8', 'e18', 'e9', closed=False)
         self.relate('connect', 'c1', 'c0')

@@ -1,10 +1,9 @@
-"""Binoculars (outdoors), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""binoculars: Tapered barrels; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c302c027-d345-469d-98e7-0e924b296946'
 SOURCE_PATH = 'icons-json/outdoors/binoculars_c302c027-d345-469d-98e7-0e924b296946.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Binoculars(Solo48):
     icon_id = 'binoculars'
@@ -13,32 +12,45 @@ class Binoculars(Solo48):
     semantic_kind = 'noun'
     category = 'outdoors'
     aliases = ()
-    keywords = ('binoculars', 'outdoors')
+    keywords = ('solo-ai-next50-refine', 'solo-ai-next50', 'binoculars')
 
     def build(self):
-        self.add_line('e0', (6, 24), (7, 22))
-        self.add_line('e1', (20, 24), (20, 14))
-        self.add_line('e2', (10, 12), (9, 18))
-        self.add_line('e3', (9, 18), (7, 22))
-        self.add_line('e4', (20, 24), (20, 17))
-        self.add_line('e5', (20, 17), (28, 17))
-        self.add_line('e6', (28, 17), (28, 24))
-        self.add_line('e7', (37, 11), (41, 23))
-        self.add_bezier('e8', (20, 24), ((18.855, 23.01), (18.018, 21.83), (16.655, 21.21)), ((13.091, 19.56), (10.464, 20.78), (7, 22)))
-        self.add_bezier('e9', (20, 24), ((20.873, 25.83), (22.118, 27.66), (22.245, 29.76)), ((22.564, 34.92), (18.536, 39.98), (13.727, 39.98)), ((13.664, 39.99), (13.591, 39.99), (13.527, 40)), ((13.526, 40), (13.524, 40), (13.522, 40)), ((13.415, 40), (13.316, 39.99), (13.209, 39.99)), ((8.509, 39.99), (4.009, 36.04), (4.009, 30.62)), ((4.009, 30.541), (4, 30.453), (4, 30.374)), ((4, 30.373), (4, 30.371), (4, 30.37)), ((4, 27.99), (4.982, 26.04), (6, 24)))
-        self.add_bezier('e10', (20, 14), ((20, 11.64), (19.9, 9.51), (17.7, 8.54)), ((17.218, 8.33), (16.627, 8.02), (16.1, 8.02)), ((15.964, 8.01), (15.818, 8.01), (15.682, 8)), ((15.68, 8), (15.677, 8), (15.675, 8)), ((15.532, 8), (15.389, 8.01), (15.255, 8.01)), ((13.1, 8.01), (10.664, 9.82), (10, 12)))
-        self.add_bezier('e11', (28, 24), ((32.018, 21.69), (33.864, 19.97), (38.491, 21.66)), ((39.236, 21.93), (40.891, 22.33), (41.273, 23)), ((42.427, 25.01), (43.982, 27.29), (43.982, 29.79)), ((43.982, 30.03), (44, 30.27), (44, 30.51)), ((44, 30.513), (44, 30.515), (44, 30.518)), ((44, 30.675), (43.991, 30.833), (43.991, 31)), ((43.991, 35.51), (39.636, 39.99), (35.582, 39.99)), ((35.391, 39.99), (35.2, 40), (35.018, 40)), ((34.718, 40), (34.427, 39.98), (34.136, 39.98)), ((29.691, 39.98), (25.873, 35.37), (25.691, 30.64)), ((25.636, 29.16), (25.982, 27.47), (26.627, 26.16)), ((26.936, 25.56), (27.236, 24.96), (27.536, 24.35)), ((27.691, 23.95), (27.555, 23.48), (27.555, 23.04)), ((27.591, 21.02), (27.618, 19.01), (27.636, 17)), ((27.673, 12.99), (26.636, 8.01), (32.009, 8.01)), ((32.073, 8.01), (32.136, 8), (32.209, 8)), ((32.273, 8.01), (32.336, 8.01), (32.409, 8.02)), ((34.445, 8.02), (36.2, 8.88), (37, 11)))
-        self.add_contour('c0', 'e8')
-        self.add_contour('c1', 'e9', 'e0')
-        self.add_contour('c2', 'e1', 'e10', 'e2', 'e3')
-        self.add_contour('c3', 'e4', 'e5', 'e6', 'e11', 'e7')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c3', 'c2')
+        # Plan: Mirrored broad eyepieces taper out to round objectives. Shared lens radii and an upper bridge preserve the original binocular proportions.
+        # Reference: Lucide binoculars: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         circle(f'lens-{side}',x(12),32,8)
+         path(f'barrel-{side}',(x(20),32),[('C',(x(16),14),(x(20),26),(x(16),20)),('C',(x(10),8),(x(16),10),(x(14),8)),('C',(x(4),14),(x(6),8),(x(4),10)),('L',(x(4),18)),('L',(x(4),32))])
+         join(f'barrel-{side}',f'lens-{side}')
+        line('bridge',(20,18),(28,18))
+        join('bridge','barrel--1');join('bridge','barrel-1')

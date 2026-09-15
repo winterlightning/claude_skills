@@ -1,10 +1,9 @@
-"""Chocolate bar (food), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""chocolate-bar: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b591714c-777b-49a0-ad5a-afc8f96f98b0'
 SOURCE_PATH = 'icons-json/food/chocolate bar_b591714c-777b-49a0-ad5a-afc8f96f98b0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ChocolateBar(Solo48):
     icon_id = 'chocolate-bar'
@@ -13,66 +12,40 @@ class ChocolateBar(Solo48):
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
-    keywords = ('chocolate', 'bar', 'food')
+    keywords = ('chocolate', 'bar', 'food', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (35, 21), (23, 29))
-        self.add_line('e1', (18, 30), (8, 27))
-        self.add_line('e2', (35, 21), (24, 21))
-        self.add_line('e3', (35, 21), (38, 21))
-        self.add_line('e4', (10, 12), (38, 12))
-        self.add_line('e5', (10, 12), (10, 21))
-        self.add_line('e6', (10, 12), (10, 5))
-        self.add_line('e7', (11, 4), (24, 4))
-        self.add_line('e8', (24, 21), (24, 4))
-        self.add_line('e9', (24, 21), (10, 21))
-        self.add_line('e10', (38, 12), (38, 21))
-        self.add_line('e11', (38, 12), (38, 5))
-        self.add_line('e12', (37, 4), (24, 4))
-        self.add_line('e13', (8, 22), (8, 27))
-        self.add_line('e14', (8, 27), (8, 41))
-        self.add_line('e15', (11, 44), (37, 44))
-        self.add_line('e16', (40, 41), (40, 22))
-        self.add_arc('e17', (23, 29), (18, 30), radius_x=7)
-        self.add_arc('e18', (10, 5), (11, 4), radius_x=1)
-        self.add_arc('e19', (38, 5), (37, 4), radius_x=1, sweep=False)
-        self.add_line('e20', (10, 21), (8, 22))
-        self.add_arc('e21', (8, 41), (11, 44), radius_x=4, sweep=False)
-        self.add_arc('e22', (37, 44), (40, 41), radius_x=3, sweep=False)
-        self.add_line('e23', (40, 22), (38, 21))
-        self.add_contour('c0', 'e0', 'e17', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('c5', 'e6', 'e18', 'e7')
-        self.add_contour('c6', 'e8')
-        self.add_contour('c7', 'e9')
-        self.add_contour('c8', 'e10')
-        self.add_contour('c9', 'e11', 'e19', 'e12')
-        self.add_contour('c10', 'e20', 'e13')
-        self.add_contour('c11', 'e14', 'e21', 'e15', 'e22', 'e16', 'e23')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c10')
-        self.relate('connect', 'c0', 'c11')
-        self.relate('connect', 'c10', 'c11')
-        self.relate('connect', 'c1', 'c6')
-        self.relate('connect', 'c1', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c11', 'c2')
-        self.relate('connect', 'c11', 'c8')
-        self.relate('connect', 'c2', 'c8')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c3', 'c8')
-        self.relate('connect', 'c3', 'c9')
-        self.relate('connect', 'c8', 'c9')
-        self.relate('connect', 'c10', 'c4')
-        self.relate('connect', 'c10', 'c7')
-        self.relate('connect', 'c4', 'c7')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c5', 'c9')
-        self.relate('connect', 'c6', 'c9')
+        # Plan: Keep the exposed chocolate grid and folded wrapper; broad divisions preserve the food silhouette without tiny squares.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('bar',(12,22),(12,4),(36,4),(36,22));poly('grid',(12,13),(24,13),(36,13));line('divide',(24,4),(24,22));join('grid','bar');join('divide','grid');join('divide','bar')
+        path('wrapper',(8,22),[('L',(16,22)),('L',(24,28)),('L',(40,22)),('L',(40,40)),('A',(36,44),4,4,True),('L',(12,44)),('A',(8,40),4,4,True),('L',(8,22))],True);join('wrapper','bar')

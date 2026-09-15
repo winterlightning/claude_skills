@@ -1,10 +1,9 @@
-"""Blood bag (health), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""blood-bag: next fifty AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada'
 SOURCE_PATH = 'icons-json/health/blood bag_ddd5c887-7f6f-4c09-900f-c7b0eb9b5ada.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class BloodBag(Solo48):
     icon_id = 'blood-bag'
@@ -13,28 +12,39 @@ class BloodBag(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('blood', 'bag', 'health')
+    keywords = ('blood', 'bag', 'health', 'solo-ai-next50')
 
     def build(self):
-        self.add_line('sym-e0', (30, 33), (30, 38))
-        self.add_line('sym-e1', (30, 38), (24, 38))
-        self.add_line('sym-e2', (24, 38), (18, 38))
-        self.add_line('sym-e3', (18, 38), (18, 33))
-        self.add_line('sym-e4', (18, 33), (14, 33))
-        self.add_arc('sym-e5', (14, 33), (8, 26), radius_x=8)
-        self.add_line('sym-e7', (8, 26), (8, 11))
-        self.add_arc('sym-e9', (8, 11), (16, 4), radius_x=9)
-        self.add_line('sym-e10', (16, 4), (17, 4))
-        self.add_line('sym-e11', (17, 4), (24, 4))
-        self.add_line('sym-e12', (24, 4), (31, 4))
-        self.add_line('sym-e13', (31, 4), (32, 4))
-        self.add_arc('sym-e14', (32, 4), (40, 11), radius_x=9)
-        self.add_line('sym-e16', (40, 11), (40, 26))
-        self.add_arc('sym-e18', (40, 26), (34, 33), radius_x=8)
-        self.add_line('sym-e19', (34, 33), (30, 33))
-        self.add_line('sym-e20', (24, 44), (24, 38))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e7', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e16', 'sym-e18', 'sym-e19', closed=True)
-        self.add_contour('sym-c1', 'sym-e20')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
-        self.relate('connect', 'sym-c0', 'sym-c1')
+        # Plan: A smooth IV blood bag has four matching body corners and a broad centered outlet. The empty reservoir preserves the source rather than adding a medical modifier.
+        # Reference: Lucide droplet original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bag',(18,36),[('L',(16,36)),('A',(8,28),8,8,True),('L',(8,12)),('A',(16,4),8,8,True),('L',(32,4)),('A',(40,12),8,8,True),('L',(40,28)),('A',(32,36),8,8,True),('L',(30,36)),('L',(30,44)),('L',(18,44)),('L',(18,36))],True)

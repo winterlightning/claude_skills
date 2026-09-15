@@ -1,10 +1,9 @@
-"""Console drawers (furnitures), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""console-drawers: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '0dfae6c3-d260-4699-b330-9a726dacbd9a'
 SOURCE_PATH = 'icons-json/furnitures/console drawers_0dfae6c3-d260-4699-b330-9a726dacbd9a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ConsoleDrawers(Solo48):
     icon_id = 'console-drawers'
@@ -13,29 +12,40 @@ class ConsoleDrawers(Solo48):
     semantic_kind = 'noun'
     category = 'furnitures'
     aliases = ()
-    keywords = ('console', 'drawers', 'furnitures')
+    keywords = ('console', 'drawers', 'furnitures', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (7, 40), (7, 31))
-        self.add_line('e1', (41, 40), (41, 31))
-        self.add_line('e2', (29, 19), (44, 19))
-        self.add_line('e3', (29, 31), (29, 8))
-        self.add_line('e4', (17, 31), (17, 8))
-        self.add_line('e5', (44, 31), (44, 8))
-        self.add_line('e6', (44, 8), (4, 8))
-        self.add_line('e7', (4, 8), (4, 31))
-        self.add_line('e8', (4, 31), (44, 31))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4')
-        self.add_contour('c5', 'e5', 'e6', 'e7', 'e8', closed=True)
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c5')
+        # Plan: Keep the low console with open left bay and two right drawers. Repeated grid positions keep shelf spacing even.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        poly('cabinet',(4,8),(44,8),(44,34),(4,34),(4,8));line('partition',(24,8),(24,34));line('shelf',(24,21),(44,21));join('partition','cabinet');join('shelf','partition');join('shelf','cabinet')
+        for x in (8,40):line(f'leg-{x}',(x,34),(x,40));join(f'leg-{x}','cabinet')

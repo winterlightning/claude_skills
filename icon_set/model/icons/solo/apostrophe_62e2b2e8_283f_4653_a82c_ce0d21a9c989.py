@@ -1,10 +1,9 @@
-"""Apostrophe (_uncategorized_03), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""apostrophe: Smooth broad comma; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '62e2b2e8-283f-4653-a82c-ce0d21a9c989'
 SOURCE_PATH = 'icons-json/_uncategorized_03/apostrophe_62e2b2e8-283f-4653-a82c-ce0d21a9c989.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Apostrophe(Solo48):
     icon_id = 'apostrophe'
@@ -13,11 +12,41 @@ class Apostrophe(Solo48):
     semantic_kind = 'noun'
     category = '_uncategorized_03'
     aliases = ()
-    keywords = ('apostrophe', '_uncategorized_03')
+    keywords = ('solo-ai-full-set', 'apostrophe')
 
     def build(self):
-        self.add_line('e0', (15, 38), (10, 40))
-        self.add_line('e1', (18, 23), (23, 24))
-        self.add_bezier('e2', (10, 40), ((9.705, 40.373), (9.822, 40.991), (9.698, 41.445)), ((9.354, 42.627), (10.449, 43.982), (12.209, 43.982)), ((12.308, 43.991), (12.406, 43.991), (12.505, 44)), ((12.506, 44), (12.508, 44), (12.509, 44)), ((12.607, 44), (12.715, 44), (12.812, 44)), ((15.422, 44), (20.591, 42.027), (22.831, 41.027)), ((33.428, 36.3), (39.988, 27.782), (39.988, 18.627)), ((39.988, 18.412), (40, 18.189), (40, 17.974)), ((40, 17.97), (40, 17.967), (40, 17.964)), ((40, 17.445), (39.988, 16.918), (39.988, 16.4)), ((39.988, 9.382), (34.338, 4.009), (24.345, 4.009)), ((24.236, 4.009), (24.127, 4), (24.017, 4)), ((24.016, 4), (24.014, 4), (24.012, 4)), ((23.582, 4), (23.163, 4.009), (22.732, 4.009)), ((15.003, 4.009), (8.025, 8.555), (8.025, 14.4)), ((8.012, 14.545), (8.012, 14.7), (8, 14.845)), ((8, 14.85), (8, 14.855), (8, 14.859)), ((8, 15.146), (8.025, 15.441), (8.025, 15.727)), ((8.025, 18.382), (9.908, 21.227), (13.378, 22.236)), ((14.757, 22.645), (16.56, 22.736), (18, 23)))
-        self.add_bezier('e3', (23, 24), ((25.782, 24.518), (25.157, 26.855), (24.505, 28.427)), ((23.102, 31.809), (18.803, 35.891), (15, 38)))
-        self.add_contour('c0', 'e0', 'e2', 'e1', 'e3', closed=True)
+        # Plan: Retain the rounded head and tail; make the inner scoop broad enough to read at native size.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('mark',(12,44),[('C',(40,17),(31,41),(40,31)),('C',(24,4),(40,7),(32,4)),('C',(8,15),(14,4),(8,8)),('C',(24,23),(8,24),(19,21)),('C',(12,44),(31,29),(22,40))],True)

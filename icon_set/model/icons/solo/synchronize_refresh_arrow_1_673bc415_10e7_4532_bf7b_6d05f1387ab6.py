@@ -1,10 +1,9 @@
-"""Synchronize refresh arrow 1 (interface-essential), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""synchronize-refresh-arrow-1: Smooth refresh curve; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '673bc415-10e7-4532-bf7b-6d05f1387ab6'
 SOURCE_PATH = 'icons-json/interface-essential/synchronize refresh arrow 1_673bc415-10e7-4532-bf7b-6d05f1387ab6.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SynchronizeRefreshArrow1(Solo48):
     icon_id = 'synchronize-refresh-arrow-1'
@@ -13,16 +12,45 @@ class SynchronizeRefreshArrow1(Solo48):
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('synchronize', 'refresh', 'arrow', 'interface-essential')
+    keywords = ('solo-ai-full-set', 'synchronize-refresh-arrow-1')
 
     def build(self):
-        self.add_line('e0', (4, 21), (9, 26))
-        self.add_line('e1', (14, 21), (10, 24))
-        self.add_line('e2', (10, 24), (9, 26))
-        self.add_bezier('e3', (25, 40), ((25.282, 40), (25.473, 39.992), (25.755, 39.992)), ((26.036, 39.992), (26.318, 39.992), (26.6, 39.992)), ((26.673, 39.992), (26.745, 40), (26.809, 40)), ((27.045, 40), (27.282, 39.983), (27.518, 39.983)), ((29.055, 39.983), (30.6, 39.579), (32.036, 39.124)), ((38.536, 37.078), (43.991, 31.124), (43.991, 24.573)), ((43.991, 24.448), (44, 24.324), (44, 24.2)), ((44, 24.198), (44, 24.196), (44, 24.194)), ((44, 23.907), (43.991, 23.613), (43.991, 23.326)), ((43.991, 15.251), (35.618, 8.017), (27.009, 8.017)), ((26.839, 8.017), (26.66, 8), (26.49, 8)), ((26.487, 8), (26.485, 8), (26.482, 8)), ((26.1, 8), (25.718, 8.017), (25.336, 8.017)), ((18.718, 8.017), (12.445, 12.379), (9.973, 17.912)), ((8.855, 20.404), (9.173, 23.339), (9, 26)))
-        self.add_contour('c0', 'e3')
-        self.add_contour('c1', 'e0')
-        self.add_contour('c2', 'e1', 'e2')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: Preserve rotation direction and open-ring length; use matching quarter ellipses and a shared arrow point.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        def pt(x,y):return (48-x,y) if False else (x,y)
+        commands=[('A',pt(26,8),18,16,True),('A',pt(44,24),18,16,True),('A',pt(26,40),18,16,True)]
+        if False:commands.append(('C',pt(10,32),pt(19,40),pt(14,37)))
+        path('curve',pt(8,24),commands)
+        path('head',pt(4,19),[('L',pt(8,24)),('L',pt(13,19))]);join('head','curve')

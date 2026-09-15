@@ -217,6 +217,18 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         row['spacing'] = measure_spacing(icon, drawing, validation)
         row['internal_spacing'] = analyze_internal_spacing(icon, drawing)
         row['needs_review'] = row['internal_spacing']['status'] == 'review'
+        if row['needs_review']:
+            # A sampled finding is not a certified failure, but it must not be
+            # published as a pass while the geometry still needs review.
+            if row['status'] == 'pass':
+                row['status'] = 'review'
+            for finding in row['internal_spacing']['findings']:
+                first, second = finding['elements']
+                row['warnings'].append(
+                    f"internal-spacing [{finding['contour']}]: {first} and {second} "
+                    f"have {finding['ink_gap']:g} units of ink clearance over "
+                    f"{finding['sustained_length']:g} units; requires "
+                    f"{row['internal_spacing']['required_ink_gap']:g}; review required")
         overlay = debug_dir / 'holes.png' if debug_dir is not None else None
         row['negative_space'] = measure_negative_space(document, icon.profile.spec.canvas_size, overlay=overlay, drawing=drawing)
         if row['negative_space']['status'] != 'pass':
@@ -345,8 +357,8 @@ def html_report(rows, aggregate) -> tuple[str, list[str]]:
 <p><strong>Spacing: {esc(spacing['status'])}</strong><br>Minimum ink gap: {gap_text}<br>Required ink gap: {spacing.get('requiredInkClearance', '—')}u</p>
 <p><strong>Holes/pinches: {esc(holes['status'])}</strong><br>{holes.get('hole_count', '—')} holes · {holes.get('failed_hole_count', '—')} undersized · {holes.get('pinch_count', '—')} pinches<br>Required authored diameter: {holes.get('minimum_authored_diameter', '—')}u</p></div>
 <ul class="findings">{findings}</ul>
-<div class="internal"><strong>Within-contour spacing: {internal['status']}</strong>
-<p>Advisory only · release checks: {esc(row['status'])}. Required gap: {internal.get('required_ink_gap', '—')}u. Negative gaps mean overlapping ink.</p><ul>{internal_items}</ul></div>
+<div class="internal"><strong>Connected-edge spacing: {internal['status']}</strong>
+<p>Review required before release · release checks: {esc(row['status'])}. Required gap: {internal.get('required_ink_gap', '—')}u. Negative gaps mean overlapping ink.</p><ul>{internal_items}</ul></div>
 {'<table><thead><tr><th>Hole</th><th>Authored Ø</th><th>Measuring Ø</th><th>Status</th></tr></thead><tbody>' + diameter_rows + '</tbody></table>' if diameter_rows else ''}
 <details><summary>Measurements, thresholds and source hashes</summary><pre>{metadata}</pre></details>
 <a class="metrics" href="{esc(row['artifacts']['metrics'])}">Download metrics JSON</a></article>''')
@@ -356,8 +368,8 @@ def html_report(rows, aggregate) -> tuple[str, list[str]]:
 *{box-sizing:border-box}body{margin:0;background:#f4f5f7;color:#18202f;font:15px/1.5 system-ui,sans-serif}header,main{max-width:1500px;margin:auto;padding:32px}header{padding-bottom:12px}h1{font-size:32px;margin:4px 0}h2{font-size:17px;margin:0;overflow-wrap:anywhere}.eyebrow{color:#53657a;font-weight:650;letter-spacing:.1em;text-transform:uppercase;font-size:12px}.intro{max-width:920px;color:#53657a}.summary{display:flex;gap:12px;flex-wrap:wrap}.summary div{background:white;padding:12px 20px;border-radius:10px;min-width:120px}.summary strong{display:block;font-size:26px}.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}input,select{border:1px solid #cbd1dc;border-radius:8px;padding:11px;font:inherit;background:white}input{flex:1;min-width:200px}main{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,390px),1fr));gap:20px}article{background:white;border:1px solid #e1e5eb;border-radius:14px;padding:20px;min-width:0}.heading{display:flex;gap:10px;align-items:start;justify-content:space-between}.badge{font-size:12px;border-radius:20px;padding:3px 10px;text-transform:uppercase}.pass{background:#e2f4ea;color:#146c43}.fail,.error{background:#ffe5e5;color:#a32222}.review{background:#fff0c9;color:#725000}.muted{color:#6d7686;font-size:12px}.images{display:flex;flex-wrap:wrap;gap:10px;align-items:center;min-height:148px}.images>a{text-align:center;font-size:11px;color:#53657a}.images img{width:110px;height:110px;max-width:100%;object-fit:contain}.images .preview{width:110px;height:110px;padding:10px;background:#f7f8fa;border-radius:10px}.measurements{display:flex;gap:16px;font-size:13px}.measurements p{flex:1}.findings{padding-left:20px;color:#a32222;font-size:13px}.internal{font-size:12px;color:#92400e;background:#fffbeb;padding:10px;border-radius:8px;margin:10px 0}.internal ul{padding-left:18px}pre{max-height:350px;overflow:auto;font-size:11px;background:#f6f7f9;padding:10px}summary{cursor:pointer;font-size:12px;color:#53657a}table{border-collapse:collapse;width:100%;font-size:12px;margin-bottom:14px}th,td{text-align:left;padding:7px;border-bottom:1px solid #e8ebef}.metrics{display:inline-block;margin-top:12px;font-size:12px;color:#2457a7}[hidden]{display:none!important}
 </style><header><div class="eyebrow">Pictographic · Quality assurance</div><h1>Icon library validation</h1>
 <p class="intro">Current source drawings, including failures. This is a validation snapshot, not proof of a published release. Spacing measures disconnected centerline components; declared contacts and child ownership exemptions are recorded. Hole diameters are raster measurements translated back to the authored stroke. Numeric checks do not replace visual review.</p>
-<div class="summary">''' + ''.join(f'<div><strong>{value}</strong>{label}</div>' for label, value in [('Icons', len(rows)), ('Advisory reviews', aggregate['advisory_review_count'])] + list(counts.items())) + '''</div>
-<div class="toolbar"><input id="search" type="search" placeholder="Find an icon…" aria-label="Find an icon"><select id="family" aria-label="Family"><option value="">All families</option><option>sub</option><option>solo</option><option>container</option></select><select id="status" aria-label="Status"><option value="">All statuses</option><option value="needs-review">Needs review (advisory)</option><option>pass</option><option>fail</option><option>review</option><option>error</option></select><a href="results.json">All measurements</a></div></header><main></main>''' + ''.join(f'<script src="report/{number:03}.js"></script>' for number in range(1, len(_shards(cards)) + 1)) + '''<script>
+<div class="summary">''' + ''.join(f'<div><strong>{value}</strong>{label}</div>' for label, value in [('Icons', len(rows)), ('Unresolved spacing reviews', aggregate['advisory_review_count'])] + list(counts.items())) + '''</div>
+<div class="toolbar"><input id="search" type="search" placeholder="Find an icon…" aria-label="Find an icon"><select id="family" aria-label="Family"><option value="">All families</option><option>sub</option><option>solo</option><option>container</option></select><select id="status" aria-label="Status"><option value="">All statuses</option><option value="needs-review">Unresolved legacy review</option><option>pass</option><option>fail</option><option>review</option><option>error</option></select><a href="results.json">All measurements</a></div></header><main></main>''' + ''.join(f'<script src="report/{number:03}.js"></script>' for number in range(1, len(_shards(cards)) + 1)) + '''<script>
 const search=document.querySelector('#search'),family=document.querySelector('#family'),status=document.querySelector('#status');
 function filter(){for(const card of document.querySelectorAll('article'))card.hidden=!(card.querySelector('h2').textContent.toLowerCase().includes(search.value.toLowerCase())&&(!family.value||card.dataset.family===family.value)&&(!status.value||card.dataset.status===status.value));}
 for(const control of [search,family,status])control.addEventListener('input',filter);

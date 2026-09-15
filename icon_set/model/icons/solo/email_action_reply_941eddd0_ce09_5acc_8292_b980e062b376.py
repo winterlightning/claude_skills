@@ -1,10 +1,9 @@
-"""Email action reply (emails), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""email-action-reply: Flowing reply arrow; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '941eddd0-ce09-5acc-8292-b980e062b376'
 SOURCE_PATH = 'icons-json/emails/email action reply_941eddd0-ce09-5acc-8292-b980e062b376.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class EmailActionReply(Solo48):
     icon_id = 'email-action-reply'
@@ -13,15 +12,41 @@ class EmailActionReply(Solo48):
     semantic_kind = 'noun'
     category = 'emails'
     aliases = ()
-    keywords = ('email', 'action', 'reply', 'emails')
+    keywords = ('solo-ai-full-set', 'email-action-reply')
 
     def build(self):
-        self.add_line('e0', (20, 28), (20, 38))
-        self.add_line('e1', (20, 38), (4, 23))
-        self.add_line('e2', (4, 23), (20, 8))
-        self.add_line('e3', (20, 8), (20, 17))
-        self.add_line('e4', (20, 17), (27, 17))
-        self.add_line('e5', (43, 34), (44, 40))
-        self.add_arc('e6', (44, 40), (20, 28), radius_x=26, sweep=False)
-        self.add_arc('e7', (27, 17), (43, 34), radius_x=19)
-        self.add_contour('c0', 'e6', 'e0', 'e1', 'e2', 'e3', 'e4', 'e7', 'e5', closed=True)
+        # Plan: Keep the outlined arrow and rising tail; match the two sweeping body curves.
+        # Reference: Lucide undo-2: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('reply',(20,28),[('L',(20,38)),('L',(4,23)),('L',(20,8)),('L',(20,17)),('C',(44,40),(36,17),(44,25)),('C',(20,28),(36,31),(30,28))],True)

@@ -17,12 +17,10 @@ class SwimmingSquid(Solo48):
     keywords = ('squid', 'sea', 'ocean', 'marine', 'cephalopod', 'tentacles', 'swim', 'calamari')
 
     def build(self) -> None:
-        self.add_arc('left-hook',(6,28),(8,34),radius_x=6,sweep=False)
-        self.add_arc('left-arm',(8,34),(22,26),radius_x=18,sweep=False)
-        self.add_line('left-fin-notch',(22,26),(20,24))
-        self.add_arc('mantle-left',(20,24),(42,6),radius_x=32,sweep=True)
+        self.add_bezier('left-hook', (6, 28), *(((6, 30.21753356), (6.24779087, 32.5422399), (8, 34)),))
+        self.add_arc('left-arm',(8,34),(19,25),radius_x=18,sweep=False)
+        self.add_arc('mantle-left',(19,25),(42,6),radius_x=32)
         self.add_arc('mantle-right',(42,6),(30,32),radius_x=38,sweep=True)
-        self.add_line('right-fin-notch',(30,32),(28,30))
-        self.add_arc('right-arm',(28,30),(22,40),radius_x=14,sweep=False)
-        self.add_arc('right-hook',(22,40),(28,42),radius_x=6,sweep=False)
-        self.add_contour('squid','left-hook','left-arm','left-fin-notch','mantle-left','mantle-right','right-fin-notch','right-arm','right-hook')
+        self.add_arc('right-arm',(30,32),(22,40),radius_x=14,sweep=False)
+        self.add_bezier('right-hook', (22, 40), *(((23.4577601, 41.75220913), (25.78246644, 42), (28, 42)),))
+        self.add_contour('squid','left-hook','left-arm','mantle-left','mantle-right','right-arm','right-hook')

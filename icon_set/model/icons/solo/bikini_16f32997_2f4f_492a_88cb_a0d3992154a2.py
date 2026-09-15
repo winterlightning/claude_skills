@@ -1,44 +1,55 @@
-"""Bikini (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""bikini: AI stroke review; parent retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '16f32997-2f4f-492a-88cb-a0d3992154a2'
 SOURCE_PATH = 'icons-json/symbol/bikini_16f32997-2f4f-492a-88cb-a0d3992154a2.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Bikini(Solo48):
     icon_id = 'bikini'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('bikini', 'symbol')
+    keywords = ('bikini', 'symbol', 'solo-ai-first50')
 
     def build(self):
-        self.add_line('e0', (22, 11), (17, 16))
-        self.add_line('e1', (24, 9), (31, 16))
-        self.add_line('e2', (36, 22), (40, 27))
-        self.add_line('e3', (26, 39), (22, 39))
-        self.add_bezier('e4', (17, 8), ((17.663, 7.165), (18.109, 6.008), (19.263, 6.008)), ((19.361, 6.008), (19.451, 6), (19.549, 6)), ((19.55, 6), (19.55, 6), (19.551, 6)), ((19.591, 6), (19.632, 6), (19.672, 6)), ((21.12, 6), (22.2, 7.219), (23.067, 8.209)), ((23.378, 8.561), (23.689, 8.921), (24, 9.273)), ((24, 9.314), (22.245, 10.755), (22, 11)))
-        self.add_bezier('e5', (17, 16), ((14.554, 18.446), (12.882, 21.104), (11, 24)))
-        self.add_bezier('e6', (11, 24), ((14.535, 26.651), (18.085, 29.335), (20.065, 33.425)), ((20.875, 35.103), (21.64, 37.184), (22, 39)))
-        self.add_bezier('e7', (11, 24), ((8.611, 27.076), (6.008, 30.505), (6.008, 34.604)), ((6.008, 34.694), (6, 34.775), (6, 34.865)), ((6, 34.867), (6, 34.868), (6, 34.87)), ((6, 34.958), (6, 35.047), (6, 35.135)), ((6, 38.932), (8.929, 41.992), (12.758, 41.992)), ((12.919, 41.992), (13.088, 42), (13.25, 42)), ((13.252, 42), (13.255, 42), (13.257, 42)), ((13.421, 42), (13.585, 41.984), (13.748, 41.984)), ((16.718, 41.984), (19.725, 40.726), (22, 39)))
-        self.add_bezier('e8', (31, 8), ((30.345, 7.198), (29.875, 6.016), (28.745, 6.016)), ((28.647, 6.008), (28.549, 6.008), (28.451, 6)), ((28.402, 6), (28.353, 6), (28.304, 6.008)), ((26.446, 6.008), (25.072, 7.781), (24, 9)))
-        self.add_bezier('e9', (31, 16), ((32.743, 17.555), (34.675, 20.012), (36, 22)))
-        self.add_bezier('e10', (40, 27), ((41.375, 29.062), (41.992, 32.075), (41.992, 34.579)), ((41.992, 34.668), (42, 34.756), (42, 34.853)), ((42, 34.854), (42, 34.856), (42, 34.857)), ((42, 35.037), (41.992, 35.217), (41.992, 35.397)), ((41.992, 39.218), (38.785, 41.992), (35.078, 41.992)), ((34.915, 41.992), (34.751, 42), (34.579, 42)), ((34.415, 42), (34.244, 41.984), (34.08, 41.984)), ((31.167, 41.984), (28.152, 40.825), (26, 39)))
-        self.add_bezier('e11', (38, 25), ((34.007, 27.831), (29.138, 30.464), (27.289, 35.258)), ((26.864, 36.371), (26.229, 37.838), (26, 39)))
-        self.add_contour('c0', 'e4', 'e0', 'e5')
-        self.add_contour('c1', 'e6')
-        self.add_contour('c2', 'e7')
-        self.add_contour('c3', 'e8', 'e1', 'e9', 'e2', 'e10')
-        self.add_contour('c4', 'e11', 'e3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c0')
-        self.relate('connect', 'c4', 'c3')
+        # Plan: Two mirrored smooth cups have a clear center bridge and crossed shoulder ties. Rebalanced the cups to remove the pinched central opening.
+        # Reference: No useful exact Lucide match; geometric construction from the supplied subject.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         path(f'cup-{side}',(x(14),20), [('C',(x(4),32),(x(8),24),(x(4),27)),('C',(x(12),40),(x(4),38),(x(7),40)),('C',(x(20),32),(x(17),40),(x(20),38)),('C',(x(14),20),(x(20),27),(x(17),22))],True)
+         poly(f'tie-{side}',(x(14),20),(24,8),(x(-6),8));join(f'tie-{side}',f'cup-{side}')
+        line('bridge',(20,32),(28,32));join('bridge','cup--1');join('bridge','cup-1');join('tie--1','tie-1')
+

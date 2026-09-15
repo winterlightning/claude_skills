@@ -1,4 +1,4 @@
-"""Color palette sample (design), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+'Upright palette: replace faceted perimeter with coherent curves and a smooth inward grip. Preserve asymmetric shape and original paint marks.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,25 +16,9 @@ class ColorPaletteSample(Solo48):
     keywords = ('color', 'palette', 'sample', 'design')
 
     def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (19, 21), (21, 22))
-        self.add_line('e1', (28, 13), (28, 17))
-        self.add_line('e2', (19, 33), (22, 32))
-        self.add_line('e3', (37, 23), (34, 26))
-        self.add_line('e4', (32, 31), (32, 36))
-        self.add_line('e5', (34, 26), (32, 31))
-        self.add_arc('e6-1', (32, 36), (24, 44), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_arc('e6-2', (24, 44), (13, 39), radius_x=15, radius_y=15, large_arc=False, sweep=True)
-        self.add_arc('e6-3', (13, 39), (8, 26), radius_x=20, radius_y=20, large_arc=False, sweep=True)
-        self.add_arc('e6-4', (8, 26), (8, 23), radius_x=50, radius_y=50, large_arc=False, sweep=False)
-        self.add_arc('e6-5', (8, 23), (13, 11), radius_x=23, radius_y=23, large_arc=False, sweep=True)
-        self.add_arc('e6-6', (13, 11), (26, 4), radius_x=17, radius_y=17, large_arc=False, sweep=True)
-        self.add_line('e6-7', (26, 4), (34, 6))
-        self.add_arc('e6-8', (34, 6), (38, 10), radius_x=13, radius_y=13, large_arc=False, sweep=True)
-        self.add_line('e6-9', (38, 10), (40, 17))
-        self.add_arc('e6-10', (40, 17), (37, 23), radius_x=8, radius_y=8, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e0',), closed=False)
-        self.add_contour('c1', *('e1',), closed=False)
-        self.add_contour('c2', *('e2',), closed=False)
-        self.add_contour('c3', *('e3', 'e5', 'e4', 'e6-1', 'e6-2', 'e6-3', 'e6-4', 'e6-5', 'e6-6', 'e6-7', 'e6-8', 'e6-9', 'e6-10'), closed=True)
+        # Upright asymmetric palette: shared tangent vectors at the top, side and grip.
+        self.add_bezier('outline',(26,4),((34,4),(40,9),(40,17)),((40,24),(32,25),(32,32)),((32,39),(31,44),(24,44)),((14,44),(8,35),(8,25)),((8,15),(16,4),(26,4)))
+        self.add_contour('body','outline',closed=True)
+        self.add_line('paint-left',(19,21),(21,22))
+        self.add_line('paint-top',(28,13),(28,17))
+        self.add_line('paint-bottom',(19,33),(22,32))

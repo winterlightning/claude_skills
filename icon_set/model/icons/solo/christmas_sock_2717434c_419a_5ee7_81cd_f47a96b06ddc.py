@@ -1,10 +1,9 @@
-"""Christmas sock (holidays), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""christmas-sock: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2717434c-419a-5ee7-81cd-f47a96b06ddc'
 SOURCE_PATH = 'icons-json/holidays/christmas sock_2717434c-419a-5ee7-81cd-f47a96b06ddc.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ChristmasSock(Solo48):
     icon_id = 'christmas-sock'
@@ -13,25 +12,40 @@ class ChristmasSock(Solo48):
     semantic_kind = 'noun'
     category = 'holidays'
     aliases = ()
-    keywords = ('christmas', 'sock', 'holidays')
+    keywords = ('christmas', 'sock', 'holidays', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (37, 13), (37, 31))
-        self.add_line('e1', (29, 41), (17, 44))
-        self.add_line('e2', (20, 21), (20, 13))
-        self.add_line('e3', (21, 13), (36, 13))
-        self.add_line('e4', (37, 4), (20, 4))
-        self.add_arc('e5', (37, 31), (29, 41), radius_x=9)
-        self.add_arc('e6-1', (17, 44), (8, 35), radius_x=9)
-        self.add_arc('e6-2', (8, 35), (10, 29), radius_x=10)
-        self.add_line('e6-3', (10, 29), (17, 25))
-        self.add_arc('e6-4', (17, 25), (20, 21), radius_x=5, sweep=False)
-        self.add_arc('e7-1', (36, 13), (39, 12), radius_x=4, sweep=False)
-        self.add_line('e7-2', (39, 12), (40, 7))
-        self.add_arc('e7-3', (40, 7), (37, 4), radius_x=3, sweep=False)
-        self.add_arc('e8-1', (20, 4), (17, 11), radius_x=5, sweep=False)
-        self.add_arc('e8-2', (17, 11), (21, 13), radius_x=3, sweep=False)
-        self.add_contour('c0', 'e0', 'e5', 'e1', 'e6-1', 'e6-2', 'e6-3', 'e6-4', 'e2')
-        self.add_contour('c1', 'e3', 'e7-1', 'e7-2', 'e7-3', 'e4', 'e8-1', 'e8-2', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Retain a broad stocking cuff, long ankle and left-facing rounded toe. A coherent heel curve replaces the wavering trace.
+        # Reference: Lucide sock original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        rounded('cuff',16,4,40,13,4)
+        path('sock',(20,13),[('L',(20,24)),('L',(12,29)),('C',(8,36),(8,31),(8,33)),('C',(17,44),(8,41),(12,44)),('L',(30,40)),('C',(36,32),(35,39),(36,36)),('L',(36,13))]);join('sock','cuff')

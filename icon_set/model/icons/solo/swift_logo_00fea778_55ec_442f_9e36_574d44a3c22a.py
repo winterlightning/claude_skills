@@ -1,10 +1,9 @@
-"""Swift logo (logos), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""swift-logo: Smooth flying bird emblem; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '00fea778-55ec-442f-9e36-574d44a3c22a'
 SOURCE_PATH = 'icons-json/logos/swift logo_00fea778-55ec-442f-9e36-574d44a3c22a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class SwiftLogo(Solo48):
     icon_id = 'swift-logo'
@@ -13,31 +12,41 @@ class SwiftLogo(Solo48):
     semantic_kind = 'noun'
     category = 'logos'
     aliases = ()
-    keywords = ('swift', 'logo', 'logos')
+    keywords = ('solo-ai-full-set', 'swift-logo')
 
     def build(self):
-        self.add_line('e0', (6, 33), (9, 34))
-        self.add_line('e1', (21, 34), (24, 33))
-        self.add_line('e2', (24, 33), (19, 31))
-        self.add_line('e3', (9, 22), (4, 16))
-        self.add_line('e4', (4, 16), (8, 19))
-        self.add_line('e5', (27, 27), (15, 12))
-        self.add_line('e6', (15, 12), (19, 14))
-        self.add_line('e7', (19, 14), (31, 25))
-        self.add_line('e8', (34, 14), (31, 8))
-        self.add_line('e9', (31, 8), (35, 11))
-        self.add_line('e10', (36, 37), (30, 38))
-        self.add_line('e11', (10, 37), (6, 33))
-        self.add_arc('e12', (9, 34), (21, 34), radius_x=17, sweep=False)
-        self.add_arc('e13', (19, 31), (9, 22), radius_x=44)
-        self.add_arc('e14', (8, 19), (27, 27), radius_x=36, sweep=False)
-        self.add_arc('e15-1', (31, 25), (34, 20), radius_x=4, sweep=False)
-        self.add_arc('e15-2', (34, 20), (34, 14), radius_x=11, sweep=False)
-        self.add_arc('e16-1', (35, 11), (39, 31), radius_x=18)
-        self.add_arc('e16-2', (39, 31), (44, 37), radius_x=7)
-        self.add_arc('e16-3', (44, 37), (44, 40), radius_x=15, sweep=False)
-        self.add_arc('e16-4', (44, 40), (36, 37), radius_x=8, sweep=False)
-        self.add_arc('e17-1', (30, 38), (22, 40), radius_x=42)
-        self.add_line('e17-2', (22, 40), (10, 37))
-        self.add_contour('c0', 'e0', 'e12', 'e1', 'e2', 'e13', 'e3')
-        self.add_contour('c1', 'e4', 'e14', 'e5', 'e6', 'e7', 'e15-1', 'e15-2', 'e8', 'e9', 'e16-1', 'e16-2', 'e16-3', 'e16-4', 'e10', 'e17-1', 'e17-2', 'e11')
+        # Plan: Preserve the swept wings and hooked flying-bird outline; broad returning curves retain the asymmetrical flight gesture.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('bird',(4,16),[('L',(25,28)),('L',(10,8)),('L',(29,21)),('C',(30,8),(36,23),(34,15)),('C',(39,30),(42,17),(40,24)),('C',(44,39),(43,32),(44,35)),('C',(34,36),(40,36),(37,35)),('C',(22,40),(30,38),(27,40)),('C',(4,32),(14,40),(8,36)),('L',(18,31)),('C',(4,16),(12,27),(7,23))],True)

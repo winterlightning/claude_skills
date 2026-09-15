@@ -1,10 +1,9 @@
-"""Drop shape (design), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""drop-shape: Smooth teardrop; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6c25c47b-1058-47e2-8f07-a986157c4478'
 SOURCE_PATH = 'icons-json/design/drop shape_6c25c47b-1058-47e2-8f07-a986157c4478.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class DropShape(Solo48):
     icon_id = 'drop-shape'
@@ -13,21 +12,41 @@ class DropShape(Solo48):
     semantic_kind = 'noun'
     category = 'design'
     aliases = ()
-    keywords = ('drop', 'shape', 'design')
+    keywords = ('solo-ai-full-set', 'drop-shape')
 
     def build(self):
-        self.add_line('sym-e0', (21, 6), (11, 17))
-        self.add_arc('sym-e1', (11, 17), (8, 26), radius_x=16, sweep=False)
-        self.add_line('sym-e2', (8, 26), (8, 27))
-        self.add_line('sym-e3', (8, 27), (8, 28))
-        self.add_arc('sym-e4', (8, 28), (23, 44), radius_x=17, sweep=False)
-        self.add_arc('sym-e5', (23, 44), (24, 44), radius_x=29)
-        self.add_line('sym-e8', (24, 44), (25, 44))
-        self.add_arc('sym-e9', (25, 44), (40, 28), radius_x=17, sweep=False)
-        self.add_line('sym-e10', (40, 28), (40, 27))
-        self.add_arc('sym-e11', (40, 27), (40, 26), radius_x=28)
-        self.add_arc('sym-e12', (40, 26), (37, 17), radius_x=16, sweep=False)
-        self.add_line('sym-e13', (37, 17), (27, 6))
-        self.add_arc('sym-e14', (27, 6), (24, 4), radius_x=7)
-        self.add_arc('sym-e17', (24, 4), (21, 6), radius_x=7)
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3', 'sym-e4', 'sym-e5', 'sym-e8', 'sym-e9', 'sym-e10', 'sym-e11', 'sym-e12', 'sym-e13', 'sym-e14', 'sym-e17', closed=True)
+        # Plan: Symmetric tapered shoulders meet a circular bowl with continuous vertical tangents.
+        # Reference: Lucide droplet: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('drop',(24,4),[('C',(40,28),(29,10),(40,18)),('A',(8,28),16,16,True),('C',(24,4),(8,18),(19,10))],True)

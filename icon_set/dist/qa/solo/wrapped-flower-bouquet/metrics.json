@@ -3,9 +3,13 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [heart / bud]: heart-tip-2 and bud-a have 3.8768 units of ink clearance over 4.4731 units; requires 4; review required",
+    "internal-spacing [bud / wrapper]: bud-b and wrapper-2 have 0.536 units of ink clearance over 12.6614 units; requires 4; review required",
+    "internal-spacing [bud / wrapper]: bud-b and wrapper-3 have -3.9831 units of ink clearance over 6.25 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": false,
     "status": "pass",
@@ -452,6 +456,130 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          17.9844,
+          13.9219
+        ],
+        "bbox_viewbox": [
+          10.0625,
+          6.0,
+          15.875,
+          12.6875
+        ],
+        "bbox_ship_px": [
+          15.875,
+          12.6875
+        ],
+        "bbox_design_u": [
+          15.875,
+          12.6875
+        ],
+        "area_ship_px2": 94.3262,
+        "equivalent_diameter_ship_px": 10.959,
+        "equivalent_diameter_design_u": 10.959,
+        "inscribed_diameter_ship_px": 5.8221,
+        "inscribed_diameter_design_u": 5.8221,
+        "inscribed_radius_ship_px": 2.911,
+        "inscribed_radius_design_u": 2.911,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          34.2031,
+          19.7969
+        ],
+        "bbox_viewbox": [
+          30.2812,
+          16.2812,
+          7.4375,
+          7.4375
+        ],
+        "bbox_ship_px": [
+          7.4375,
+          7.4375
+        ],
+        "bbox_design_u": [
+          7.4375,
+          7.4375
+        ],
+        "area_ship_px2": 21.7051,
+        "equivalent_diameter_ship_px": 5.257,
+        "equivalent_diameter_design_u": 5.257,
+        "inscribed_diameter_ship_px": 3.0248,
+        "inscribed_diameter_design_u": 3.0248,
+        "inscribed_radius_ship_px": 1.5124,
+        "inscribed_radius_design_u": 1.5124,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          23.9531,
+          30.5469
+        ],
+        "bbox_viewbox": [
+          15.0,
+          28.0,
+          18.0,
+          5.625
+        ],
+        "bbox_ship_px": [
+          18.0,
+          5.625
+        ],
+        "bbox_design_u": [
+          18.0,
+          5.625
+        ],
+        "area_ship_px2": 50.9062,
+        "equivalent_diameter_ship_px": 8.0508,
+        "equivalent_diameter_design_u": 8.0508,
+        "inscribed_diameter_ship_px": 5.125,
+        "inscribed_diameter_design_u": 5.125,
+        "inscribed_radius_ship_px": 2.5625,
+        "inscribed_radius_design_u": 2.5625,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 4,
+        "center_viewbox": [
+          23.9844,
+          40.7031
+        ],
+        "bbox_viewbox": [
+          20.8438,
+          38.8438,
+          6.3125,
+          3.1562
+        ],
+        "bbox_ship_px": [
+          6.3125,
+          3.1562
+        ],
+        "bbox_design_u": [
+          6.3125,
+          3.1562
+        ],
+        "area_ship_px2": 10.0605,
+        "equivalent_diameter_ship_px": 3.579,
+        "equivalent_diameter_design_u": 3.579,
+        "inscribed_diameter_ship_px": 2.625,
+        "inscribed_diameter_design_u": 2.625,
+        "inscribed_radius_ship_px": 1.3125,
+        "inscribed_radius_design_u": 1.3125,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 4,
+    "raster_artifact_count": 0,
     "hole_count": 4,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -636,15 +764,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -660,21 +789,86 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "heart / bud",
+        "elements": [
+          "heart-tip-2",
+          "bud-a"
+        ],
+        "status": "review",
+        "sustained_length": 4.4731,
+        "centerline_distance": 7.8768,
+        "ink_gap": 3.8768,
+        "nearest_points": [
+          [
+            24.28787878787879,
+            13.825757575757576
+          ],
+          [
+            30.530313887243278,
+            18.629447447723983
+          ]
+        ]
+      },
+      {
+        "contour": "bud / wrapper",
+        "elements": [
+          "bud-b",
+          "wrapper-2"
+        ],
+        "status": "review",
+        "sustained_length": 12.6614,
+        "centerline_distance": 4.536,
+        "ink_gap": 0.536,
+        "nearest_points": [
+          [
+            34.35435642712851,
+            24.179496765410885
+          ],
+          [
+            36.73684210526316,
+            28.039473684210527
+          ]
+        ]
+      },
+      {
+        "contour": "bud / wrapper",
+        "elements": [
+          "bud-b",
+          "wrapper-3"
+        ],
+        "status": "review",
+        "sustained_length": 6.25,
+        "centerline_distance": 0.0169,
+        "ink_gap": -3.9831,
+        "nearest_points": [
+          [
+            28.624126892395694,
+            25.983117578816948
+          ],
+          [
+            28.625,
+            26.0
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

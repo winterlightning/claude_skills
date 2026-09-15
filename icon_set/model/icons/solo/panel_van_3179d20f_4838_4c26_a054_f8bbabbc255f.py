@@ -1,4 +1,4 @@
-"""panel-van: reconstructed on SOLO48 from the supplied reference."""
+'Unified the van roof and cab, used a sloped windscreen and two equal true circular wheels; Lucide truck informs the round-corner construction.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -17,19 +17,29 @@ class PanelVan(Solo48):
     keywords = ('van', 'panel van', 'delivery van', 'vehicle', 'transport', 'cargo', 'courier', 'side view')
 
     def build(self) -> None:
+        # One continuous van roof, a sloped windscreen and two equal circular wheels.
+        # HRECT_L centerline extremes (4,8)-(44,40); all genuine junctions share endpoints.
+        self.add_line('rear',(4,34),(4,12))
+        self.add_arc('rear-corner',(4,12),(8,8),radius_x=4)
+        self.add_line('roof-panel',(8,8),(26,8))
+        self.add_line('roof-cab',(26,8),(28,8))
+        self.add_bezier('roof-turn',(28,8),((30,8),(31,9),(32,10)))
+        self.add_line('windscreen',(32,10),(42,20))
+        self.add_bezier('nose',(42,20),((44,22),(44,25),(44,28)))
+        self.add_line('front',(44,28),(44,34))
+        self.add_contour('body','rear','rear-corner','roof-panel','roof-cab','roof-turn','windscreen','nose','front')
+        self.add_polyline('cab-window',(26,8),(26,20),(42,20))
+        self.relate('connect','body','cab-window')
+        self.add_line('chassis',(16,34),(32,34))
 
-        # Continuous van body with a lowered front roof; no separate cargo bulkhead.
-        self.add_polyline('body-rear',(8,36),(6,36),(6,8),(26,8),(26,14),(32,14))
-        self.add_arc('nose',(32,14),(42,26),radius_x=12)
-        self.add_polyline('body-front',(42,26),(42,36),(40,36))
-        self.add_line('chassis',(16,36),(32,36))
+        self.add_arc('rear-wheel-top', (4,34), (16,34), radius_x=6, radius_y=6)
+        self.add_arc('rear-wheel-bottom', (16,34), (4,34), radius_x=6, radius_y=6)
+        self.add_contour('rear-wheel', 'rear-wheel-top', 'rear-wheel-bottom', closed=True)
 
-        for side,cx in [('rear',12),('front',36)]:
-            self.add_arc(side+'-top',(cx-4,36),(cx+4,36),radius_x=4)
-            self.add_arc(side+'-bottom',(cx+4,36),(cx-4,36),radius_x=4)
-            self.add_contour(side+'-wheel',side+'-top',side+'-bottom',closed=True)
-        # Declare only genuine shared-endpoint contacts.
-        for i,a in enumerate(self.primitives):
-            for b in self.primitives[i+1:]:
-                if a.start in (b.start,b.end) or a.end in (b.start,b.end):
-                    self.relate('connect',a.element_id,b.element_id)
+        self.add_arc('front-wheel-top', (32,34), (44,34), radius_x=6, radius_y=6)
+        self.add_arc('front-wheel-bottom', (44,34), (32,34), radius_x=6, radius_y=6)
+        self.add_contour('front-wheel', 'front-wheel-top', 'front-wheel-bottom', closed=True)
+
+        for wheel in ('rear-wheel','front-wheel'):
+         self.relate('connect','body',wheel)
+         self.relate('connect','chassis',wheel)

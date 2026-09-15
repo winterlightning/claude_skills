@@ -1,32 +1,51 @@
-"""Cat toy (pets), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""cat-toy: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '6be7fb94-82a9-5934-b611-1bdbeceda224'
 SOURCE_PATH = 'icons-json/pets/cat toy_6be7fb94-82a9-5934-b611-1bdbeceda224.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CatToy(Solo48):
     icon_id = 'cat-toy'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'pets'
     aliases = ()
-    keywords = ('cat', 'toy', 'pets')
+    keywords = ('cat', 'toy', 'pets', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (34, 35), (25, 35))
-        self.add_line('e1', (25, 44), (28, 44))
-        self.add_arc('e2-top', (8, 14), (26, 14), radius_x=9, radius_y=10)
-        self.add_arc('e2-bottom', (26, 14), (8, 14), radius_x=9, radius_y=10)
-        self.add_line('e3-1', (26, 19), (29, 23))
-        self.add_line('e3-2', (29, 23), (38, 26))
-        self.add_arc('e3-3', (38, 26), (40, 30), radius_x=5)
-        self.add_arc('e3-4', (40, 30), (34, 35), radius_x=6)
-        self.add_arc('e4-1', (25, 35), (20, 39), radius_x=4, sweep=False)
-        self.add_arc('e4-2', (20, 39), (24, 44), radius_x=6, sweep=False)
-        self.add_line('e4-3', (24, 44), (25, 44))
-        self.add_contour('c0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e0', 'e4-1', 'e4-2', 'e4-3', 'e1')
-        self.add_contour('e2', 'e2-top', 'e2-bottom', closed=True)
-        self.relate('connect', 'c0', 'e2')
+        # Plan: Keep the round toy and loose string; the open string curls have enough spacing to remain visible at 48 pixels.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        circle('ball',16,16,10)
+        path('string',(24,22),[('C',(42,28),(28,27),(42,23)),('C',(31,33),(42,32),(37,33)),('L',(29,33)),('C',(26,42),(23,33),(23,42)),('L',(30,42))]);join('string','ball')

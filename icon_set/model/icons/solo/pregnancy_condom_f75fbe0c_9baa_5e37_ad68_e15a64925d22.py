@@ -1,10 +1,9 @@
-"""Pregnancy condom (health), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""pregnancy-condom: Smooth condom outline; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'f75fbe0c-9baa-5e37-ad68-e15a64925d22'
 SOURCE_PATH = 'icons-json/health/pregnancy condom_f75fbe0c-9baa-5e37-ad68-e15a64925d22.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class PregnancyCondom(Solo48):
     icon_id = 'pregnancy-condom'
@@ -13,20 +12,42 @@ class PregnancyCondom(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('pregnancy', 'condom', 'health')
+    keywords = ('solo-ai-full-set', 'pregnancy-condom')
 
     def build(self):
-        self.add_line('e0', (17, 40), (8, 31))
-        self.add_line('e1', (8, 31), (26, 13))
-        self.add_line('e2', (37, 20), (17, 40))
-        self.add_line('e3', (17, 40), (19, 42))
-        self.add_line('e4', (6, 29), (8, 31))
-        self.add_arc('e5-1', (26, 13), (29, 10), radius_x=49)
-        self.add_arc('e5-2', (29, 10), (33, 8), radius_x=8)
-        self.add_line('e5-3', (33, 8), (37, 8))
-        self.add_arc('e5-4', (37, 8), (40, 6), radius_x=5)
-        self.add_arc('e5-5', (40, 6), (42, 8), radius_x=2)
-        self.add_arc('e5-6', (42, 8), (40, 15), radius_x=6, sweep=False)
-        self.add_arc('e5-7', (40, 15), (37, 20), radius_x=9)
-        self.add_contour('c0', 'e0', 'e1', 'e5-1', 'e5-2', 'e5-3', 'e5-4', 'e5-5', 'e5-6', 'e5-7', 'e2', 'e3')
-        self.add_contour('c1', 'e4')
+        # Plan: Preserve the diagonal sleeve and rolled rim; use a smooth reservoir shoulder instead of tiny overlapping cap segments.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('body',(8,31),[('L',(27,12)),('C',(36,8),(31,8),(33,8)),('C',(40,6),(38,8),(38,6)),('C',(42,10),(42,6),(42,8)),('C',(36,21),(42,15),(39,18)),('L',(17,40))])
+        path('rim',(6,29),[('L',(8,31)),('L',(17,40)),('L',(19,42))]);join('rim','body')

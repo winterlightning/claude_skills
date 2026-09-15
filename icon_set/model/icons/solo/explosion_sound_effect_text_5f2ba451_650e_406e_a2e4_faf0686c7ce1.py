@@ -1,10 +1,9 @@
-"""Explosion sound effect text (video-games), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""explosion-sound-effect-text: Balanced explosion burst; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5f2ba451-650e-406e-a2e4-faf0686c7ce1'
 SOURCE_PATH = 'icons-json/video-games/explosion sound effect text_5f2ba451-650e-406e-a2e4-faf0686c7ce1.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ExplosionSoundEffectText(Solo48):
     icon_id = 'explosion-sound-effect-text'
@@ -13,20 +12,42 @@ class ExplosionSoundEffectText(Solo48):
     semantic_kind = 'noun'
     category = 'video-games'
     aliases = ()
-    keywords = ('explosion', 'sound', 'effect', 'text', 'video-games')
+    keywords = ('solo-ai-full-set', 'explosion-sound-effect-text')
 
     def build(self):
-        self.add_line('e0', (17, 39), (6, 23))
-        self.add_line('e1', (6, 23), (15, 26))
-        self.add_line('e2', (15, 26), (13, 14))
-        self.add_line('e3', (13, 14), (19, 19))
-        self.add_line('e4', (19, 19), (23, 6))
-        self.add_line('e5', (23, 6), (28, 23))
-        self.add_line('e6', (28, 23), (39, 18))
-        self.add_line('e7', (39, 18), (33, 31))
-        self.add_line('e8', (33, 31), (42, 31))
-        self.add_line('e9', (42, 31), (28, 42))
-        self.add_line('e10', (11, 42), (37, 42))
-        self.add_contour('c0', 'e0', 'e1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9')
-        self.add_contour('c1', 'e10')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Preserve the rising pointed blast and low baseline. Broader asymmetrical rays keep their identity without cramped slivers.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('burst',(14,42),[('L',(6,24)),('L',(17,29)),('L',(15,13)),('L',(24,22)),('L',(28,6)),('L',(33,24)),('L',(42,19)),('L',(35,34)),('L',(31,42))])
+        path('base',(10,42),[('L',(14,42)),('L',(31,42)),('L',(38,42))]);join('base','burst')

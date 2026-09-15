@@ -1,10 +1,9 @@
-"""Lemon (food), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""lemon: Flowing lemon silhouette; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ef084432-9ce9-5dd2-b3e3-d7cd2c4781ef'
 SOURCE_PATH = 'icons-json/food/lemon_ef084432-9ce9-5dd2-b3e3-d7cd2c4781ef.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Lemon(Solo48):
     icon_id = 'lemon'
@@ -13,11 +12,41 @@ class Lemon(Solo48):
     semantic_kind = 'noun'
     category = 'food'
     aliases = ()
-    keywords = ('lemon', 'food')
+    keywords = ('solo-ai-full-set', 'lemon')
 
     def build(self):
-        self.add_line('e0', (18, 8), (13, 12))
-        self.add_line('e1', (12, 36), (20, 42))
-        self.add_bezier('e2', (13, 12), ((12.57, 12.391), (12.24, 13.155), (11.89, 13.609)), ((9.73, 16.427), (8.02, 19.736), (8.02, 23.245)), ((8.02, 23.514), (8, 23.791), (8, 24.06)), ((8, 24.064), (8, 24.068), (8, 24.073)), ((8, 24.282), (8.02, 24.482), (8.02, 24.691)), ((8.02, 27.409), (9.72, 34.191), (12, 36)))
-        self.add_bezier('e3', (20, 42), ((21.11, 42.882), (22.48, 43.991), (24.04, 43.991)), ((24.109, 43.991), (24.188, 44), (24.257, 44)), ((24.258, 44), (24.259, 44), (24.26, 44)), ((24.42, 44), (24.57, 43.991), (24.72, 43.991)), ((27.47, 43.991), (28.87, 41.655), (30.64, 40.164)), ((32.35, 38.736), (34.23, 37.455), (35.74, 35.855)), ((38.2, 33.264), (39.98, 28.609), (39.98, 25.191)), ((39.98, 24.809), (40, 24.427), (40, 24.045)), ((40, 24.041), (40, 24.036), (40, 24.031)), ((40, 23.727), (39.98, 23.432), (39.98, 23.127)), ((39.98, 18.6), (37.71, 14), (34.26, 10.782)), ((33.04, 9.645), (31.62, 8.664), (30.31, 7.609)), ((28.63, 6.245), (27.21, 4), (24.63, 4)), ((24.629, 4), (24.627, 4), (24.626, 4)), ((24.538, 4), (24.459, 4), (24.38, 4)), ((24.29, 4), (24.21, 4.009), (24.13, 4.009)), ((21.35, 4.009), (19.73, 6.427), (18, 8)))
-        self.add_contour('c0', 'e0', 'e2', 'e1', 'e3', closed=True)
+        # Plan: Preserve the lemon tips and fuller middle; mirror the opposing shoulders without changing the upright silhouette.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('fruit',(24,4),[('C',(30,8),(27,4),(27,6)),('C',(40,24),(37,13),(40,18)),('C',(30,40),(40,31),(36,36)),('C',(24,44),(27,42),(27,44)),('C',(18,40),(21,44),(21,42)),('C',(8,24),(12,36),(8,31)),('C',(18,8),(8,18),(11,13)),('C',(24,4),(21,6),(21,4))],True)

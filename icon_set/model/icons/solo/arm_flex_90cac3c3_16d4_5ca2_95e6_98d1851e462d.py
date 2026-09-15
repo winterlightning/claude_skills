@@ -1,10 +1,9 @@
-"""Arm flex (health), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""arm-flex: Smooth flexed arm; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '90cac3c3-16d4-5ca2-95e6-98d1851e462d'
 SOURCE_PATH = 'icons-json/health/arm flex_90cac3c3-16d4-5ca2-95e6-98d1851e462d.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArmFlex(Solo48):
     icon_id = 'arm-flex'
@@ -13,30 +12,41 @@ class ArmFlex(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('arm', 'flex', 'health')
+    keywords = ('solo-ai-full-set', 'arm-flex')
 
     def build(self):
-        self.add_line('e0', (21, 30), (19, 33))
-        self.add_line('e1', (19, 33), (18, 19))
-        self.add_line('e2', (18, 19), (21, 17))
-        self.add_line('e3', (23, 5), (15, 10))
-        self.add_line('e4', (11, 15), (9, 34))
-        self.add_line('e5', (13, 44), (40, 44))
-        self.add_arc('e6-1', (35, 32), (30, 28), radius_x=9, sweep=False)
-        self.add_arc('e6-2', (30, 28), (21, 30), radius_x=9, sweep=False)
-        self.add_arc('e7-1', (21, 17), (30, 12), radius_x=6, sweep=False)
-        self.add_arc('e7-2', (30, 12), (25, 4), radius_x=11, sweep=False)
-        self.add_arc('e7-3', (25, 4), (23, 5), radius_x=3, sweep=False)
-        self.add_arc('e8', (15, 10), (11, 15), radius_x=7, sweep=False)
-        self.add_arc('e9-1', (9, 34), (8, 40), radius_x=37, sweep=False)
-        self.add_arc('e9-2', (8, 40), (11, 44), radius_x=5, sweep=False)
-        self.add_arc('e9-3', (11, 44), (13, 44), radius_x=8)
-        self.add_arc('e10', (21, 17), (22, 13), radius_x=5, sweep=False)
-        self.add_arc('e11', (40, 28), (35, 32), radius_x=7, sweep=False)
-        self.add_contour('c0', 'e6-1', 'e6-2', 'e0', 'e1', 'e2')
-        self.add_contour('c1', 'e7-1', 'e7-2', 'e7-3', 'e3', 'e8', 'e4', 'e9-1', 'e9-2', 'e9-3', 'e5')
-        self.add_contour('c2', 'e10')
-        self.add_contour('c3', 'e11')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: Human reference: full_body_ref.png. Preserve the bent arm and curled fist; keep broad muscle curves and a clear inner forearm.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('arm',(40,44),[('L',(12,44)),('C',(8,38),(8,44),(8,41)),('L',(11,17)),('C',(18,11),(12,14),(15,13)),('L',(29,4)),('C',(35,12),(32,6),(35,9)),('C',(24,20),(35,17),(29,20)),('L',(19,21)),('L',(19,31)),('C',(35,31),(25,30),(30,30)),('C',(40,29),(38,28),(39,29))])

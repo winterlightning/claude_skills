@@ -1,10 +1,9 @@
-"""Casino chip 1 (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""casino-chip-1: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'c7cef94c-7b9b-4df7-b935-546150f20188'
 SOURCE_PATH = 'icons-json/symbol/casino chip 1_c7cef94c-7b9b-4df7-b935-546150f20188.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class CasinoChip1(Solo48):
     icon_id = 'casino-chip-1'
@@ -13,28 +12,41 @@ class CasinoChip1(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('casino', 'chip', 'symbol')
+    keywords = ('casino', 'chip', 'symbol', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (17, 31), (10, 38))
-        self.add_line('e1', (38, 38), (31, 31))
-        self.add_line('e2', (31, 17), (38, 10))
-        self.add_line('e3', (17, 17), (10, 10))
-        self.add_arc('e4-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e4-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e5-top', (14, 24), (34, 24), radius_x=10)
-        self.add_arc('e5-bottom', (34, 24), (14, 24), radius_x=10)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('e4', 'e4-top', 'e4-bottom', closed=True)
-        self.add_contour('e5', 'e5-top', 'e5-bottom', closed=True)
-        self.relate('connect', 'c0', 'e5')
-        self.relate('connect', 'c0', 'e4')
-        self.relate('connect', 'c1', 'e4')
-        self.relate('connect', 'c1', 'e5')
-        self.relate('connect', 'c2', 'e5')
-        self.relate('connect', 'c2', 'e4')
-        self.relate('connect', 'c3', 'e5')
-        self.relate('connect', 'c3', 'e4')
+        # Plan: A circular chip with a centered ring and four diagonal radial sectors; matched sectors keep rotational balance.
+        # Reference: Lucide disc original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        circle('rim',24,24,20);circle('core',24,24,10)
+        for i,(a,b) in enumerate([((10,10),(17,17)),((38,10),(31,17)),((38,38),(31,31)),((10,38),(17,31))]):
+         line(f'sector-{i}',a,b);join(f'sector-{i}','rim');join(f'sector-{i}','core')

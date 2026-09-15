@@ -1,10 +1,9 @@
-"""Cashew (_uncategorized), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""cashew: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '80256a3b-3f6e-45e8-a830-db484f4197ff'
 SOURCE_PATH = 'icons-json/_uncategorized_10/cashew_80256a3b-3f6e-45e8-a830-db484f4197ff.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cashew(Solo48):
     icon_id = 'cashew'
@@ -13,8 +12,39 @@ class Cashew(Solo48):
     semantic_kind = 'noun'
     category = '_uncategorized'
     aliases = ()
-    keywords = ('cashew', '_uncategorized')
+    keywords = ('cashew', '_uncategorized', 'solo-ai-next100')
 
     def build(self):
-        self.add_bezier('e0', (23, 25), ((21.544, 25.908), (20.171, 26.34), (18.42, 26.332)), ((16.792, 26.315), (15.475, 25.718), (13.928, 25.325)), ((11.76, 24.769), (9.355, 25.268), (7.767, 26.896)), ((7.276, 27.395), (6.867, 28.001), (6.581, 28.639)), ((6.245, 29.392), (6.008, 30.243), (6.008, 31.077)), ((6.008, 31.134), (6, 31.19), (6, 31.246)), ((6, 31.247), (6, 31.248), (6, 31.249)), ((6, 31.421), (6.008, 31.601), (6.008, 31.773)), ((6.008, 32.787), (6.311, 33.826), (6.72, 34.743)), ((8.888, 39.644), (15.057, 41.992), (20.114, 41.992)), ((20.17, 41.992), (20.234, 42), (20.291, 42)), ((20.292, 42), (20.293, 42), (20.294, 42)), ((20.588, 42), (20.891, 41.992), (21.185, 41.992)), ((22.486, 41.992), (23.853, 41.763), (25.113, 41.444)), ((32.869, 39.505), (39.03, 33.319), (41.174, 25.628)), ((41.648, 23.926), (41.992, 22.126), (41.992, 20.351)), ((41.992, 20.295), (42, 20.238), (42, 20.182)), ((42, 20.181), (42, 20.18), (42, 20.179)), ((42, 19.827), (41.992, 19.475), (41.992, 19.124)), ((41.992, 14.403), (40.053, 8.774), (35.446, 6.736)), ((34.514, 6.327), (33.45, 6.008), (32.419, 6.008)), ((32.363, 6.008), (32.306, 6), (32.25, 6)), ((32.249, 6), (32.248, 6), (32.247, 6)), ((32.067, 6), (31.895, 6.008), (31.715, 6.008)), ((30.832, 6.008), (29.907, 6.295), (29.114, 6.663)), ((28.394, 6.998), (27.747, 7.456), (27.183, 8.021)), ((25.587, 9.616), (24.982, 11.948), (25.497, 14.125)), ((25.898, 15.818), (26.618, 17.258), (26.504, 19.05)), ((26.356, 21.455), (24.857, 23.552), (23, 25)))
-        self.add_contour('c0', 'e0', closed=True)
+        # Plan: A smooth crescent cashew retains broad rounded tips, a full outer belly and one scooped inner curve.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('nut',(29,6),[('C',(42,20),(38,6),(42,10)),('C',(19,42),(42,34),(33,42)),('C',(6,30),(10,42),(6,37)),('C',(15,25),(6,24),(10,23)),('C',(25,20),(23,29),(28,24)),('C',(23,12),(23,17),(22,15)),('C',(29,6),(23,8),(25,6))],True)

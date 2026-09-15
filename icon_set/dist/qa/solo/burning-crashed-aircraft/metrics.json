@@ -3,9 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [plane / fire]: plane-4 and fire-6 have 2.9884 units of ink clearance over 2.2091 units; requires 4; review required",
+    "internal-spacing [plane / fire]: plane-6 and fire-6 have 0.5793 units of ink clearance over 4.5 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -264,6 +267,70 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          33.2656,
+          18.2344
+        ],
+        "bbox_viewbox": [
+          28.1562,
+          9.7188,
+          9.8438,
+          22.2812
+        ],
+        "bbox_ship_px": [
+          9.8438,
+          22.2812
+        ],
+        "bbox_design_u": [
+          9.8438,
+          22.2812
+        ],
+        "area_ship_px2": 151.7021,
+        "equivalent_diameter_ship_px": 13.898,
+        "equivalent_diameter_design_u": 13.898,
+        "inscribed_diameter_ship_px": 9.5,
+        "inscribed_diameter_design_u": 9.5,
+        "inscribed_radius_ship_px": 4.75,
+        "inscribed_radius_design_u": 4.75,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          22.1406,
+          35.7656
+        ],
+        "bbox_viewbox": [
+          10.0,
+          21.75,
+          28.0,
+          20.25
+        ],
+        "bbox_ship_px": [
+          28.0,
+          20.25
+        ],
+        "bbox_design_u": [
+          28.0,
+          20.25
+        ],
+        "area_ship_px2": 222.0283,
+        "equivalent_diameter_ship_px": 16.8135,
+        "equivalent_diameter_design_u": 16.8135,
+        "inscribed_diameter_ship_px": 8.3018,
+        "inscribed_diameter_design_u": 8.3018,
+        "inscribed_radius_ship_px": 4.1509,
+        "inscribed_radius_design_u": 4.1509,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -384,15 +451,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -408,21 +476,65 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "plane / fire",
+        "elements": [
+          "plane-4",
+          "fire-6"
+        ],
+        "status": "review",
+        "sustained_length": 2.2091,
+        "centerline_distance": 6.9884,
+        "ink_gap": 2.9884,
+        "nearest_points": [
+          [
+            27.944444444444443,
+            33.388888888888886
+          ],
+          [
+            34.367816091954005,
+            36.14176245210733
+          ]
+        ]
+      },
+      {
+        "contour": "plane / fire",
+        "elements": [
+          "plane-6",
+          "fire-6"
+        ],
+        "status": "review",
+        "sustained_length": 4.5,
+        "centerline_distance": 4.5793,
+        "ink_gap": 0.5793,
+        "nearest_points": [
+          [
+            40.0,
+            34.625
+          ],
+          [
+            35.790948275862085,
+            32.82112068965514
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

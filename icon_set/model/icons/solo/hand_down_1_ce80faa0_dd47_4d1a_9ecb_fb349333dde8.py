@@ -1,10 +1,9 @@
-"""Hand down 1 (state), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""hand-down-1: Flowing pointing hand; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ce80faa0-dd47-4d1a-9ecb-fb349333dde8'
 SOURCE_PATH = 'icons-json/state/hand down 1_ce80faa0-dd47-4d1a-9ecb-fb349333dde8.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class HandDown1(Solo48):
     icon_id = 'hand-down-1'
@@ -13,21 +12,41 @@ class HandDown1(Solo48):
     semantic_kind = 'noun'
     category = 'state'
     aliases = ()
-    keywords = ('hand', 'down', 'state')
+    keywords = ('solo-ai-full-set', 'hand-down-1')
 
     def build(self):
-        self.add_line('e0', (44, 16), (39, 21))
-        self.add_line('e1', (39, 21), (27, 38))
-        self.add_line('e2', (23, 40), (15, 40))
-        self.add_line('e3', (11, 33), (19, 20))
-        self.add_line('e4', (19, 20), (9, 23))
-        self.add_line('e5', (4, 23), (4, 21))
-        self.add_line('e6', (23, 11), (27, 11))
-        self.add_line('e7-1', (27, 38), (24, 40))
-        self.add_line('e7-2', (24, 40), (23, 40))
-        self.add_arc('e8', (15, 40), (11, 33), radius_x=5)
-        self.add_arc('e9', (9, 23), (4, 23), radius_x=8)
-        self.add_arc('e10-1', (4, 21), (16, 12), radius_x=26)
-        self.add_arc('e10-2', (16, 12), (23, 11), radius_x=11)
-        self.add_arc('e11', (27, 11), (35, 8), radius_x=14, sweep=False)
-        self.add_contour('c0', 'e0', 'e1', 'e7-1', 'e7-2', 'e2', 'e8', 'e3', 'e4', 'e9', 'e5', 'e10-1', 'e10-2', 'e6', 'e11')
+        # Plan: Human reference: full_body_ref.png. Preserve the downward diagonal finger, tucked thumb and open wrist with smooth, coherent curves.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('hand',(35,8),[('C',(23,12),(31,11),(27,12)),('C',(4,23),(17,12),(8,18)),('C',(17,22),(4,28),(11,24)),('L',(10,33)),('C',(15,40),(7,38),(10,40)),('L',(22,40)),('C',(28,35),(25,40),(26,37)),('L',(44,16))])

@@ -1,10 +1,9 @@
-"""Institution (symbol), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""institution: Balanced flag-topped building; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '2ee457ae-4157-4c6d-bafa-66a532de7822'
 SOURCE_PATH = 'icons-json/symbol/institution_2ee457ae-4157-4c6d-bafa-66a532de7822.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Institution(Solo48):
     icon_id = 'institution'
@@ -13,25 +12,44 @@ class Institution(Solo48):
     semantic_kind = 'noun'
     category = 'symbol'
     aliases = ()
-    keywords = ('institution', 'symbol')
+    keywords = ('solo-ai-full-set', 'institution')
 
     def build(self):
-        self.add_line('e0', (8, 31), (40, 31))
-        self.add_line('e1', (37, 44), (37, 31))
-        self.add_line('e2', (37, 44), (11, 44))
-        self.add_line('e3', (11, 31), (11, 44))
-        self.add_line('e4', (24, 12), (34, 12))
-        self.add_line('e5', (34, 9), (24, 4))
-        self.add_line('e6', (24, 4), (24, 19))
-        self.add_arc('e7-1', (40, 31), (31, 20), radius_x=15, sweep=False)
-        self.add_arc('e7-2', (31, 20), (8, 31), radius_x=17, sweep=False)
-        self.add_arc('e8-1', (34, 12), (36, 11), radius_x=3, sweep=False)
-        self.add_arc('e8-2', (36, 11), (34, 9), radius_x=3, sweep=False)
-        self.add_contour('c0', 'e0', 'e7-1', 'e7-2')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3')
-        self.add_contour('c4', 'e4', 'e8-1', 'e8-2', 'e5', 'e6')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c3', 'c0')
-        self.relate('connect', 'c4', 'c0')
+        # Plan: Preserve the dome and building; a broad rectangular pennant keeps the small flag opening readable.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('roof',(8,33),[('A',(24,20),16,13,True),('A',(40,33),16,13,True),('L',(36,33)),('L',(12,33)),('L',(8,33))],True)
+        path('building',(12,33),[('L',(12,44)),('L',(36,44)),('L',(36,33))]);join('building','roof')
+        path('flag',(24,4),[('L',(36,4)),('L',(36,12)),('L',(24,12)),('L',(24,4))],True)
+        line('pole',(24,12),(24,20));join('pole','roof');join('pole','flag')

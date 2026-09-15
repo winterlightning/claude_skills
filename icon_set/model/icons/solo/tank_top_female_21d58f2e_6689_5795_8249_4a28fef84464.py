@@ -1,10 +1,9 @@
-"""Tank top female (clothes), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""tank-top-female: Balanced sleeveless top; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '21d58f2e-6689-5795-8249-4a28fef84464'
 SOURCE_PATH = 'icons-json/clothes/tank top female_21d58f2e-6689-5795-8249-4a28fef84464.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TankTopFemale(Solo48):
     icon_id = 'tank-top-female'
@@ -13,24 +12,48 @@ class TankTopFemale(Solo48):
     semantic_kind = 'noun'
     category = 'clothes'
     aliases = ()
-    keywords = ('tank', 'top', 'female', 'clothes')
+    keywords = ('solo-ai-full-set', 'tank-top-female')
 
     def build(self):
-        self.add_line('e0', (32, 4), (34, 4))
-        self.add_line('e1', (40, 18), (38, 29))
-        self.add_line('e2', (38, 33), (39, 39))
-        self.add_line('e3', (27, 44), (22, 44))
-        self.add_line('e4', (8, 41), (9, 36))
-        self.add_line('e5', (10, 25), (8, 18))
-        self.add_line('e6', (13, 11), (14, 4))
-        self.add_line('e7', (14, 4), (16, 4))
-        self.add_arc('e8', (24, 19), (32, 4), radius_x=23, sweep=False)
-        self.add_arc('e9', (34, 4), (40, 18), radius_x=18, sweep=False)
-        self.add_line('e10', (38, 29), (38, 33))
-        self.add_line('e11-1', (39, 39), (40, 42))
-        self.add_line('e11-2', (40, 42), (27, 44))
-        self.add_arc('e12', (22, 44), (8, 41), radius_x=38)
-        self.add_arc('e13', (9, 36), (10, 25), radius_x=20, sweep=False)
-        self.add_arc('e14', (8, 18), (13, 11), radius_x=12, sweep=False)
-        self.add_arc('e15', (16, 4), (24, 19), radius_x=22, sweep=False)
-        self.add_contour('c0', 'e8', 'e0', 'e9', 'e1', 'e10', 'e2', 'e11-1', 'e11-2', 'e3', 'e12', 'e4', 'e13', 'e5', 'e14', 'e6', 'e7', 'e15')
+        # Plan: Equal shoulder straps and armholes; preserve the neckline and gently flared source hem.
+        # Reference: Lucide shirt: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        commands=[('L',(20,4))]
+        if 'v'=='round':commands += [('C',(28,4),(20,18),(28,18))]
+        else:commands += [('L',(24,18)),('L',(28,4))]
+        commands += [('L',(36,4)),('C',(40,20),(36,15),(36,16))]
+        if 'curve'=='curve':commands += [('C',(40,42),(37,30),(38,34)),('C',(24,44),(36,44),(30,44)),('C',(8,42),(18,44),(12,44)),('C',(8,20),(10,34),(11,30))]
+        else:commands += [('L',(40,44)),('L',(8,44)),('L',(8,20))]
+        commands += [('C',(12,4),(12,16),(12,15))]
+        path('top',(12,4),commands,True)

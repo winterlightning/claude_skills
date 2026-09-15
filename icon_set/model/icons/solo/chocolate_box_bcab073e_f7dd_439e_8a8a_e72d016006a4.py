@@ -1,10 +1,9 @@
-"""Chocolate box (romance), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""chocolate-box: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'bcab073e-f7dd-439e-8a8a-e72d016006a4'
 SOURCE_PATH = 'icons-json/romance/chocolate box_bcab073e-f7dd-439e-8a8a-e72d016006a4.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ChocolateBox(Solo48):
     icon_id = 'chocolate-box'
@@ -13,47 +12,40 @@ class ChocolateBox(Solo48):
     semantic_kind = 'noun'
     category = 'romance'
     aliases = ()
-    keywords = ('chocolate', 'box', 'romance')
+    keywords = ('chocolate', 'box', 'romance', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (24, 40), (24, 32))
-        self.add_line('e1', (24, 40), (6, 28))
-        self.add_line('e2', (4, 25), (4, 17))
-        self.add_line('e3', (24, 40), (41, 28))
-        self.add_line('e4', (44, 24), (44, 20))
-        self.add_line('e5', (44, 20), (44, 17))
-        self.add_line('e6', (44, 17), (40, 20))
-        self.add_line('e7', (40, 20), (24, 32))
-        self.add_line('e8', (4, 17), (8, 20))
-        self.add_line('e9', (8, 20), (24, 32))
-        self.add_arc('e10', (6, 28), (4, 25), radius_x=4)
-        self.add_arc('e11', (41, 28), (44, 24), radius_x=7, sweep=False)
-        self.add_line('e12-1', (44, 17), (44, 13))
-        self.add_arc('e12-2', (44, 13), (41, 10), radius_x=8, sweep=False)
-        self.add_line('e12-3', (41, 10), (34, 8))
-        self.add_line('e12-4', (34, 8), (28, 9))
-        self.add_arc('e12-5', (28, 9), (25, 11), radius_x=10, sweep=False)
-        self.add_line('e12-6', (25, 11), (24, 12))
-        self.add_arc('e12-7', (24, 12), (20, 9), radius_x=15, sweep=False)
-        self.add_line('e12-8', (20, 9), (14, 8))
-        self.add_arc('e12-9', (14, 8), (7, 10), radius_x=14, sweep=False)
-        self.add_arc('e12-10', (7, 10), (4, 15), radius_x=6, sweep=False)
-        self.add_line('e12-11', (4, 15), (4, 17))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e10', 'e2')
-        self.add_contour('c2', 'e3', 'e11', 'e4', 'e5')
-        self.add_contour('c3', 'e6', 'e7')
-        self.add_contour('c4', 'e12-1', 'e12-2', 'e12-3', 'e12-4', 'e12-5', 'e12-6', 'e12-7', 'e12-8', 'e12-9', 'e12-10', 'e12-11')
-        self.add_contour('c5', 'e8', 'e9')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
+        # Plan: A heart-shaped chocolate box retains broad lobes and a clear lower depth band; symmetric curves meet the heart valley and point.
+        # Reference: No useful exact Lucide match; supplied original silhouette.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('lid',(24,13),[('C',(14,8),(20,10),(18,8)),('C',(4,16),(8,8),(4,10)),('L',(24,28)),('L',(44,16)),('C',(34,8),(44,10),(40,8)),('C',(24,13),(30,8),(28,10))],True)
+        poly('depth',(4,16),(4,28),(24,40),(44,28),(44,16));line('seam',(24,28),(24,40));join('depth','lid');join('seam','depth');join('seam','lid')

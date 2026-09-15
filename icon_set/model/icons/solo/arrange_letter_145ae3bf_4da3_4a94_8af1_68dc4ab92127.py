@@ -1,10 +1,9 @@
-"""Arrange letter (_uncategorized_04), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""arrange-letter: Clear A-to-Z sorting mark; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '145ae3bf-4da3-4a94-8af1-68dc4ab92127'
 SOURCE_PATH = 'icons-json/_uncategorized_04/arrange letter_145ae3bf-4da3-4a94-8af1-68dc4ab92127.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class ArrangeLetter(Solo48):
     icon_id = 'arrange-letter'
@@ -13,36 +12,43 @@ class ArrangeLetter(Solo48):
     semantic_kind = 'noun'
     category = '_uncategorized_04'
     aliases = ()
-    keywords = ('arrange', 'letter', '_uncategorized_04')
+    keywords = ('solo-ai-full-set', 'arrange-letter')
 
     def build(self):
-        self.add_line('e0', (30, 19), (31, 13))
-        self.add_line('e1', (40, 19), (39, 13))
-        self.add_line('e2', (31, 13), (32, 7))
-        self.add_line('e3', (38, 7), (39, 13))
-        self.add_line('e4', (31, 13), (39, 13))
-        self.add_line('e5', (13, 10), (13, 35))
-        self.add_line('e6', (8, 29), (13, 35))
-        self.add_line('e7', (19, 29), (13, 35))
-        self.add_line('e8', (30, 29), (40, 29))
-        self.add_line('e9', (40, 29), (30, 44))
-        self.add_line('e10', (30, 44), (39, 44))
-        self.add_arc('e11-1', (32, 7), (35, 4), radius_x=3)
-        self.add_arc('e11-2', (35, 4), (38, 7), radius_x=3)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2', 'e11-1', 'e11-2', 'e3')
-        self.add_contour('c3', 'e4')
-        self.add_contour('c4', 'e5')
-        self.add_contour('c5', 'e6')
-        self.add_contour('c6', 'e7')
-        self.add_contour('c7', 'e8', 'e9', 'e10')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c5', 'c6')
+        # Plan: Preserve the downward arrow and A/Z letters; enlarge the A counter and share its crossbar nodes.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        line('arrow',(13,10),(13,35));path('head',(8,29),[('L',(13,35)),('L',(18,29))]);join('arrow','head')
+        path('a',(26,18),[('L',(28,14)),('L',(33,4)),('L',(38,14)),('L',(40,18))]);line('bar',(28,14),(38,14));join('bar','a')
+        poly('z',(26,29),(40,29),(26,44),(40,44))

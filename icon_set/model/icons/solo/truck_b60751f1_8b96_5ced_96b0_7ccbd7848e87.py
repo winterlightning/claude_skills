@@ -1,10 +1,9 @@
-"""Truck (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""truck: Balanced delivery truck; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'b60751f1-8b96-5ced-96b0-7ccbd7848e87'
 SOURCE_PATH = 'icons-json/transportation/truck_b60751f1-8b96-5ced-96b0-7ccbd7848e87.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Truck(Solo48):
     icon_id = 'truck'
@@ -13,37 +12,44 @@ class Truck(Solo48):
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('truck', 'transportation')
+    keywords = ('solo-ai-full-set', 'truck')
 
     def build(self):
-        self.add_line('e0', (44, 32), (44, 27))
-        self.add_line('e1', (44, 23), (34, 23))
-        self.add_line('e2', (31, 34), (19, 34))
-        self.add_line('e3', (9, 34), (6, 34))
-        self.add_line('e4', (4, 32), (4, 10))
-        self.add_line('e5', (6, 8), (28, 8))
-        self.add_line('e6', (28, 8), (28, 34))
-        self.add_line('e7', (44, 23), (39, 15))
-        self.add_line('e8', (36, 12), (28, 12))
-        self.add_arc('e9-top', (9, 35), (19, 35), radius_x=5)
-        self.add_arc('e9-bottom', (19, 35), (9, 35), radius_x=5)
-        self.add_arc('e10-top', (31, 35), (41, 35), radius_x=5)
-        self.add_arc('e10-bottom', (41, 35), (31, 35), radius_x=5)
-        self.add_arc('e11', (40, 35), (44, 32), radius_x=4, sweep=False)
-        self.add_arc('e12-1', (44, 27), (44, 25), radius_x=30)
-        self.add_arc('e12-2', (44, 25), (44, 23), radius_x=29)
-        self.add_arc('e13', (6, 34), (4, 32), radius_x=2)
-        self.add_arc('e14', (4, 10), (6, 8), radius_x=2)
-        self.add_arc('e15', (39, 15), (36, 12), radius_x=4, sweep=False)
-        self.add_contour('c0', 'e11', 'e0', 'e12-1', 'e12-2', 'e1')
-        self.add_contour('c1', 'e2')
-        self.add_contour('c2', 'e3', 'e13', 'e4', 'e14', 'e5', 'e6')
-        self.add_contour('c3', 'e7', 'e15', 'e8')
-        self.add_contour('e10', 'e10-top', 'e10-bottom', closed=True)
-        self.add_contour('e9', 'e9-top', 'e9-bottom', closed=True)
-        self.relate('connect', 'c0', 'e10')
-        self.relate('connect', 'c1', 'e10')
-        self.relate('connect', 'c1', 'e9')
-        self.relate('connect', 'c2', 'e9')
-        self.relate('connect', 'c2', 'c1')
-        self.relate('connect', 'c3', 'c2')
+        # Plan: Preserve cargo and cab proportions with full round wheels; curve the body shoulders into the wheel junctions.
+        # Reference: Lucide truck: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        rear=12;front=38;r=5
+        path('body',(4,8),[('L',(25,8)),('L',(25,17)),('L',(37,17)),('L',(44,26)),('C',(front+r,35),(44,30),(front+r,32)),('A',(front-r,35),r,r,True),('L',(25,35)),('L',(rear+r,35)),('A',(rear-r,35),r,r,True),('C',(4,24),(rear-r,31),(4,29)),('L',(4,8))],True)
+        for name,cx in [('rear',rear),('front',front)]:path(name,(cx-r,35),[('A',(cx+r,35),r,r,True)]);join(name,'body')
+        line('cargo',(25,17),(25,35));join('cargo','body')

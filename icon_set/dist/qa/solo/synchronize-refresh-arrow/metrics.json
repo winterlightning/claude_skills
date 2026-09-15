@@ -11,34 +11,34 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "curve:subpath-1",
+        "elementId": "curve",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 25 40 C 25.991 40 26.882000000000001 39.982999999999997 27.873000000000001 39.982999999999997 C 28.727 39.982999999999997 29.672999999999998 39.731000000000002 30.5 39.554000000000002 C 36.764000000000003 38.206000000000003 42.055 33.432000000000002 43.527000000000001 27.629000000000001 C 43.744999999999997 26.771000000000001 43.981999999999999 25.869 43.981999999999999 24.984999999999999 C 43.981999999999999 24.724 44 24.454999999999998 44 24.193999999999999 C 44 24.189 44 24.184999999999999 44 24.181000000000001 C 44 23.907 43.981999999999999 23.625 43.981999999999999 23.352 C 43.981999999999999 14.956 35.417999999999999 8.0169999999999995 26.591000000000001 8.0169999999999995 C 26.463999999999999 8.0079999999999991 26.327000000000002 8.0079999999999991 26.199999999999999 8 C 26.199000000000002 8 26.198 8 26.196999999999999 8 C 26.125 8 26.053000000000001 8.0079999999999991 25.981999999999999 8.0079999999999991 C 19.436 8.0079999999999991 13.154999999999999 11.705 10.336 17.161999999999999 C 8.9450000000000003 19.856999999999999 9.218 23.077999999999999 9 26 L 4 21",
+        "pathData": "M 8 24 A 18 16 0 0 1 26 8 A 18 16 0 0 1 44 24 A 18 16 0 0 1 26 40",
         "bounds": [
-          4.0,
+          8.0,
           8.0,
           44.0,
           40.0
         ],
-        "segmentCount": 345,
-        "approximationError": 0.0009753798867675385,
+        "segmentCount": 384,
+        "approximationError": 0.00033884597690032734,
         "hasCurves": true
       },
       {
-        "id": "c1:subpath-1",
-        "elementId": "c1",
+        "id": "head:subpath-1",
+        "elementId": "head",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 9 26 L 14 21",
+        "pathData": "M 4 19 L 8 24 L 13 19",
         "bounds": [
-          9.0,
-          21.0,
-          14.0,
-          26.0
+          4.0,
+          19.0,
+          13.0,
+          24.0
         ],
-        "segmentCount": 1,
+        "segmentCount": 2,
         "approximationError": 0.0,
         "hasCurves": false
       }
@@ -47,16 +47,16 @@
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "curve:subpath-1",
+          "head:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "curve:subpath-1",
+          "head:subpath-1"
         ],
         "elementIds": [
-          "c0",
-          "c1"
+          "curve",
+          "head"
         ],
         "bounds": [
           4.0,
@@ -70,33 +70,33 @@
     "connectedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "curve:subpath-1",
+          "head:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          9.0,
-          26.0
+          8.0,
+          24.0
         ]
       }
     ],
     "excludedPairs": [
       {
         "contourIds": [
-          "c0:subpath-1",
-          "c1:subpath-1"
+          "curve:subpath-1",
+          "head:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
-            "c0:subpath-1",
-            "c1:subpath-1"
+            "curve:subpath-1",
+            "head:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            9.0,
-            26.0
+            8.0,
+            24.0
           ]
         }
       }
@@ -116,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 17,
-      "flattenedSegments": 346,
-      "adaptiveNodes": 675,
+      "commands": 7,
+      "flattenedSegments": 386,
+      "adaptiveNodes": 765,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -127,6 +127,9 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [],
+    "authored_hole_count": 0,
+    "raster_artifact_count": 0,
     "hole_count": 0,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -154,7 +157,7 @@
     "svg round-trip",
     "reproducibility"
   ],
-  "svg_sha256": "0e84c4f9e9dd9b936d93443bc2f079194a4c35fe1baefccee65782c8f2808c4c",
+  "svg_sha256": "85ed78258163d2a53342562db09eba1b07d0f905685dea0af997e3ada520fde2",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -182,15 +185,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -206,21 +210,22 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

@@ -1,10 +1,9 @@
-"""Cd (electronics), converted from the icons-json construction graph by json_to_solo --mode fit. CIRCLE keyshape; curves fitted to integer lines and arcs."""
+"""cd: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '7e0a4e79-2735-5a14-b83c-a5f3468c7540'
 SOURCE_PATH = 'icons-json/electronics/cd_7e0a4e79-2735-5a14-b83c-a5f3468c7540.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Cd(Solo48):
     icon_id = 'cd'
@@ -13,12 +12,40 @@ class Cd(Solo48):
     semantic_kind = 'noun'
     category = 'electronics'
     aliases = ()
-    keywords = ('cd', 'electronics')
+    keywords = ('cd', 'electronics', 'solo-ai-next100')
 
     def build(self):
-        self.add_arc('e0-top', (4, 24), (44, 24), radius_x=20)
-        self.add_arc('e0-bottom', (44, 24), (4, 24), radius_x=20)
-        self.add_arc('e1-top', (18, 24), (30, 24), radius_x=6)
-        self.add_arc('e1-bottom', (30, 24), (18, 24), radius_x=6)
-        self.add_contour('e0', 'e0-top', 'e0-bottom', closed=True)
-        self.add_contour('e1', 'e1-top', 'e1-bottom', closed=True)
+        # Plan: Preserve the disc and its source hub size. Both boundaries are true concentric circles.
+        # Reference: Lucide disc original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        circle('disc',24,24,20)
+        circle('hub',24,24,5)

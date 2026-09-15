@@ -3,9 +3,12 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
+  "status": "review",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [torso / arm]: torso-1 and arm-2 have 1.4798 units of ink clearance over 3.9982 units; requires 4; review required",
+    "internal-spacing [torso / arm]: torso-2 and arm-2 have 0.3646 units of ink clearance over 4.7245 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -555,6 +558,70 @@
   },
   "negative_space": {
     "status": "pass",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          33.9844,
+          9.9844
+        ],
+        "bbox_viewbox": [
+          30.0,
+          6.0,
+          8.0,
+          8.0
+        ],
+        "bbox_ship_px": [
+          8.0,
+          8.0
+        ],
+        "bbox_design_u": [
+          8.0,
+          8.0
+        ],
+        "area_ship_px2": 50.2598,
+        "equivalent_diameter_ship_px": 7.9995,
+        "equivalent_diameter_design_u": 7.9995,
+        "inscribed_diameter_ship_px": 7.8265,
+        "inscribed_diameter_design_u": 7.8265,
+        "inscribed_radius_ship_px": 3.9132,
+        "inscribed_radius_design_u": 3.9132,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          12.9844,
+          16.3906
+        ],
+        "bbox_viewbox": [
+          10.0312,
+          10.5,
+          5.9375,
+          8.5
+        ],
+        "bbox_ship_px": [
+          5.9375,
+          8.5
+        ],
+        "bbox_design_u": [
+          5.9375,
+          8.5
+        ],
+        "area_ship_px2": 29.3408,
+        "equivalent_diameter_ship_px": 6.1121,
+        "equivalent_diameter_design_u": 6.1121,
+        "inscribed_diameter_ship_px": 5.2053,
+        "inscribed_diameter_design_u": 5.2053,
+        "inscribed_radius_ship_px": 2.6027,
+        "inscribed_radius_design_u": 2.6027,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 2,
+    "raster_artifact_count": 0,
     "hole_count": 2,
     "failed_hole_count": 0,
     "pinch_count": 0,
@@ -675,15 +742,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -699,21 +767,65 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
-    "findings": [],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "findings": [
+      {
+        "contour": "torso / arm",
+        "elements": [
+          "torso-1",
+          "arm-2"
+        ],
+        "status": "review",
+        "sustained_length": 3.9982,
+        "centerline_distance": 5.4798,
+        "ink_gap": 1.4798,
+        "nearest_points": [
+          [
+            33.39393939393939,
+            24.15151515151515
+          ],
+          [
+            36.43356643356645,
+            28.710955710955698
+          ]
+        ]
+      },
+      {
+        "contour": "torso / arm",
+        "elements": [
+          "torso-2",
+          "arm-2"
+        ],
+        "status": "review",
+        "sustained_length": 4.7245,
+        "centerline_distance": 4.3646,
+        "ink_gap": 0.3646,
+        "nearest_points": [
+          [
+            30.431034482758623,
+            27.568965517241377
+          ],
+          [
+            33.51724137931035,
+            30.655172413793103
+          ]
+        ]
+      }
+    ],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true
 }

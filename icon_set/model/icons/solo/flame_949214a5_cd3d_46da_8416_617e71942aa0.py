@@ -1,10 +1,9 @@
-"""Flame (fire), converted from the icons-json construction graph by json_to_solo --mode bezier. VRECT_L keyshape; curves kept as cubic beziers."""
+"""flame: Flowing flame silhouette; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '949214a5-cd3d-46da-8416-617e71942aa0'
 SOURCE_PATH = 'icons-json/fire/flame_949214a5-cd3d-46da-8416-617e71942aa0.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Flame(Solo48):
     icon_id = 'flame'
@@ -13,11 +12,41 @@ class Flame(Solo48):
     semantic_kind = 'noun'
     category = 'fire'
     aliases = ()
-    keywords = ('flame', 'fire')
+    keywords = ('solo-ai-full-set', 'flame')
 
     def build(self):
-        self.add_line('e0', (31, 26), (33, 22))
-        self.add_line('e1', (27, 6), (23, 4))
-        self.add_bezier('e2', (33, 22), ((33.46, 21.173), (33.61, 20.291), (33.76, 19.391)), ((34.49, 14.918), (32.87, 11.482), (29.83, 8.091)), ((29.01, 7.173), (28.18, 6.536), (27, 6)))
-        self.add_bezier('e3', (23, 4), ((23.49, 7.545), (24.09, 10.282), (21.58, 13.418)), ((19.77, 15.673), (16.97, 16.764), (14.6, 18.409)), ((10.87, 21), (8.01, 24.936), (8.01, 29.336)), ((8.01, 29.408), (8, 29.471), (8, 29.542)), ((8, 29.543), (8, 29.544), (8, 29.545)), ((8, 29.782), (8.02, 30.018), (8.02, 30.264)), ((8.02, 37.491), (15.44, 44), (23.35, 44)), ((23.354, 44), (23.358, 44), (23.362, 44)), ((23.608, 44), (23.854, 43.991), (24.09, 43.991)), ((32.14, 43.991), (39.98, 38.118), (39.98, 30.482)), ((39.99, 30.4), (39.99, 30.327), (40, 30.245)), ((40, 30.242), (40, 30.239), (40, 30.237)), ((40, 30.049), (39.98, 29.861), (39.98, 29.664)), ((39.98, 28.218), (39.68, 26.727), (39.46, 25.3)), ((39.4, 24.9), (39.28, 24.1), (39.28, 24.1)), ((39.16, 24.227), (39.05, 24.364), (38.93, 24.5)), ((38.49, 25), (38.04, 25.509), (37.6, 26.018)), ((36.33, 27.464), (34.6, 29.455), (32.28, 28.636)), ((31.86, 28.491), (31.21, 28.082), (31.04, 27.673)), ((30.79, 27.118), (30.96, 26.582), (31, 26)))
-        self.add_contour('c0', 'e0', 'e2', 'e1', 'e3', closed=True)
+        # Plan: Keep the flame curl and lifted right tip; coherent curves preserve the original asymmetric fire shape.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('flame',(24,4),[('C',(31,26),(34,9),(35,18)),('C',(38,22),(29,34),(36,29)),('C',(40,30),(39,25),(40,27)),('C',(24,44),(40,40),(33,44)),('C',(8,31),(14,44),(8,38)),('C',(24,4),(8,17),(29,15))],True)

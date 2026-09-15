@@ -1,4 +1,4 @@
-"""Fried egg (food), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+'Fried egg: smooth asymmetric white with aligned cubic tangents and a circular yolk. Lucide egg-fried informs the broad flowing lobes.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,22 +16,11 @@ class FriedEgg(Solo48):
     keywords = ('fried', 'egg', 'food')
 
     def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (10, 16), (13, 13))
-        self.add_line('e1', (36, 37), (26, 41))
-        self.add_arc('e2-top', (18, 24), (30, 24), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('e2-bottom', (30, 24), (18, 24), radius_x=6, radius_y=6, large_arc=False, sweep=True)
-        self.add_arc('e3-1', (13, 13), (18, 8), radius_x=16, radius_y=16, large_arc=False, sweep=False)
-        self.add_line('e3-2', (18, 8), (24, 6))
-        self.add_arc('e3-3', (24, 6), (34, 12), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_arc('e3-4', (34, 12), (40, 21), radius_x=16, radius_y=16, large_arc=False, sweep=False)
-        self.add_arc('e3-5', (40, 21), (42, 27), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('e3-6', (42, 27), (36, 37), radius_x=12, radius_y=12, large_arc=False, sweep=True)
-        self.add_line('e4-1', (26, 41), (23, 42))
-        self.add_arc('e4-2', (23, 42), (16, 39), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('e4-3', (16, 39), (8, 29), radius_x=23, radius_y=23, large_arc=False, sweep=False)
-        self.add_arc('e4-4', (8, 29), (6, 23), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_arc('e4-5', (6, 23), (10, 16), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_contour('c0', *('e0', 'e3-1', 'e3-2', 'e3-3', 'e3-4', 'e3-5', 'e3-6', 'e1', 'e4-1', 'e4-2', 'e4-3', 'e4-4', 'e4-5'), closed=True)
-        self.add_contour('e2', *('e2-top', 'e2-bottom'), closed=True)
+        # Lucide egg-fried: broad asymmetric lobes, not faceted short segments.
+        # Cardinal knots land exactly on the SQUARE envelope; tangents agree at every join.
+        self.add_bezier('white',(24,6),((31,6),(32,13),(36,17)),((40,21),(42,23),(42,28)),((42,35),(34,36),(29,39)),((26,40.8),(25,42),(22,42)),((16,42),(15,36),(11,33)),((7,30),(6,28),(6,24)),((6,19),(11,17),(14,13)),((17,9),(18,6),(24,6)))
+        self.add_contour('outline','white',closed=True)
+
+        self.add_arc('yolk-top', (19,24), (29,24), radius_x=5, radius_y=5)
+        self.add_arc('yolk-bottom', (29,24), (19,24), radius_x=5, radius_y=5)
+        self.add_contour('yolk', 'yolk-top', 'yolk-bottom', closed=True)

@@ -1,34 +1,57 @@
-"""Airplane (other), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""airplane: Swept wings · diagonal; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '47a78895-0132-42e2-8459-c80e2e317111'
 SOURCE_PATH = 'icons-json/other/airplane_47a78895-0132-42e2-8459-c80e2e317111.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Airplane(Solo48):
     icon_id = 'airplane'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'other'
     aliases = ()
-    keywords = ('airplane', 'other')
+    keywords = ('solo-ai-refine', 'solo-ai-first50', 'airplane')
 
     def build(self):
-        self.add_line('e0', (4, 28), (11, 39))
-        self.add_line('e1', (18, 39), (41, 20))
-        self.add_line('e2', (29, 15), (17, 8))
-        self.add_line('e3', (16, 8), (12, 11))
-        self.add_line('e4', (12, 11), (20, 23))
-        self.add_line('e5', (20, 23), (14, 28))
-        self.add_line('e6', (14, 28), (8, 25))
-        self.add_line('e7', (8, 25), (4, 28))
-        self.add_line('e8-1', (11, 39), (14, 40))
-        self.add_line('e8-2', (14, 40), (18, 39))
-        self.add_line('e9-1', (41, 20), (43, 17))
-        self.add_line('e9-2', (43, 17), (44, 13))
-        self.add_arc('e9-3', (44, 13), (39, 8), radius_x=5, sweep=False)
-        self.add_arc('e9-4', (39, 8), (29, 15), radius_x=19, sweep=False)
-        self.add_line('e10', (17, 8), (16, 8))
-        self.add_contour('c0', 'e0', 'e8-1', 'e8-2', 'e1', 'e9-1', 'e9-2', 'e9-3', 'e9-4', 'e2', 'e10', 'e3', 'e4', 'e5', 'e6', 'e7', closed=True)
+        # Plan: One complete airplane outline mirrors across x+y=48. Both swept wings and both tailplanes are present, with a tangent circular nose. Square bounds keep a generous diagonal wingspan.
+        # Reference: Lucide plane: original and atomic-debug geometry.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        # Half of the plane defines every paired wing and tail coordinate.
+        half=[(24,16),(8,12),(6,16),(18,24),(12,30),(6,28),(6,36),(12,36)]
+        reflect=lambda p:(48-p[1],48-p[0])
+        commands=[('C',half[0],(32,6),(30,10))]
+        commands += [('L',p) for p in half[1:]]
+        commands += [('L',reflect(p)) for p in reversed(half[:-1])]
+        commands += [('C',(42,12),(38,18),(42,16)),('A',(36,6),6,6,False)]
+        path('airframe',(36,6),commands,True)

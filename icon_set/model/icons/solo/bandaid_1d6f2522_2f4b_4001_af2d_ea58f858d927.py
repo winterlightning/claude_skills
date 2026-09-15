@@ -1,10 +1,9 @@
-"""Bandaid (health), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""bandaid: AI stroke review; parent retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1d6f2522-2f4b-4001-af2d-ea58f858d927'
 SOURCE_PATH = 'icons-json/health/bandaid_1d6f2522-2f4b-4001-af2d-ea58f858d927.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Bandaid(Solo48):
     icon_id = 'bandaid'
@@ -13,67 +12,41 @@ class Bandaid(Solo48):
     semantic_kind = 'noun'
     category = 'health'
     aliases = ()
-    keywords = ('bandaid', 'health')
+    keywords = ('bandaid', 'health', 'solo-ai-first50')
 
     def build(self):
-        self.add_line('e0', (13, 24), (24, 35))
-        self.add_line('e1', (13, 24), (8, 30))
-        self.add_line('e2', (18, 40), (24, 35))
-        self.add_line('e3', (13, 24), (24, 13))
-        self.add_line('e4', (13, 24), (8, 18))
-        self.add_line('e5', (18, 8), (24, 13))
-        self.add_line('e6', (24, 35), (30, 40))
-        self.add_line('e7', (40, 30), (35, 24))
-        self.add_line('e8', (24, 35), (35, 24))
-        self.add_line('e9', (35, 24), (24, 13))
-        self.add_line('e10', (35, 24), (40, 18))
-        self.add_line('e11', (30, 8), (24, 13))
-        self.add_arc('e12-1', (8, 30), (7, 31), radius_x=4, sweep=False)
-        self.add_line('e12-2', (7, 31), (6, 35))
-        self.add_arc('e12-3', (6, 35), (10, 41), radius_x=7, sweep=False)
-        self.add_line('e12-4', (10, 41), (14, 42))
-        self.add_arc('e12-5', (14, 42), (18, 40), radius_x=6, sweep=False)
-        self.add_arc('e13-1', (8, 18), (7, 17), radius_x=4)
-        self.add_line('e13-2', (7, 17), (6, 13))
-        self.add_arc('e13-3', (6, 13), (10, 7), radius_x=7)
-        self.add_line('e13-4', (10, 7), (14, 6))
-        self.add_arc('e13-5', (14, 6), (18, 8), radius_x=5)
-        self.add_arc('e14-1', (30, 40), (34, 42), radius_x=6, sweep=False)
-        self.add_arc('e14-2', (34, 42), (42, 34), radius_x=8, sweep=False)
-        self.add_arc('e14-3', (42, 34), (40, 30), radius_x=6, sweep=False)
-        self.add_arc('e15-1', (40, 18), (42, 13), radius_x=8, sweep=False)
-        self.add_line('e15-2', (42, 13), (40, 8))
-        self.add_line('e15-3', (40, 8), (34, 6))
-        self.add_arc('e15-4', (34, 6), (30, 8), radius_x=6, sweep=False)
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1', 'e12-1', 'e12-2', 'e12-3', 'e12-4', 'e12-5', 'e2')
-        self.add_contour('c2', 'e3')
-        self.add_contour('c3', 'e4', 'e13-1', 'e13-2', 'e13-3', 'e13-4', 'e13-5', 'e5')
-        self.add_contour('c4', 'e6', 'e14-1', 'e14-2', 'e14-3', 'e7')
-        self.add_contour('c5', 'e8')
-        self.add_contour('c6', 'e9')
-        self.add_contour('c7', 'e10', 'e15-1', 'e15-2', 'e15-3', 'e15-4', 'e11')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c1', 'c4')
-        self.relate('connect', 'c1', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c6')
-        self.relate('connect', 'c2', 'c7')
-        self.relate('connect', 'c3', 'c6')
-        self.relate('connect', 'c3', 'c7')
-        self.relate('connect', 'c6', 'c7')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c4', 'c6')
-        self.relate('connect', 'c4', 'c7')
-        self.relate('connect', 'c5', 'c6')
-        self.relate('connect', 'c5', 'c7')
-        self.relate('connect', 'c6', 'c7')
+        # Plan: Two crossed bandages form a unified outline with smooth capsule ends and a central diamond pad; all quadrant extrema lie exactly on the square envelope.
+        # Reference: Lucide original/bandage.svg and atomic-debug/bandage.svg.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('cross',(6,12), [('C',(12,6),(6,8),(8,6)),('C',(17,9),(14,6),(15,7)),('L',(24,16)),('L',(31,9)),('C',(36,6),(33,7),(34,6)),('C',(42,12),(40,6),(42,8)),('C',(39,17),(42,14),(41,15)),('L',(32,24)),('L',(39,31)),('C',(42,36),(41,33),(42,34)),('C',(36,42),(42,40),(40,42)),('C',(31,39),(34,42),(33,41)),('L',(24,32)),('L',(17,39)),('C',(12,42),(15,41),(14,42)),('C',(6,36),(8,42),(6,40)),('C',(9,31),(6,34),(7,33)),('L',(16,24)),('L',(9,17)),('C',(6,12),(7,15),(6,14))],True)
+        poly('pad',(24,16),(32,24),(24,32),(16,24),closed=True);join('cross','pad')
+

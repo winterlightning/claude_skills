@@ -1,10 +1,9 @@
-"""Data (diagrams), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+"""data: next hundred AI review; original preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'ae294363-6122-428f-9a27-307296bcea92'
 SOURCE_PATH = 'icons-json/diagrams/data_ae294363-6122-428f-9a27-307296bcea92.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Data(Solo48):
     icon_id = 'data'
@@ -13,15 +12,41 @@ class Data(Solo48):
     semantic_kind = 'noun'
     category = 'diagrams'
     aliases = ()
-    keywords = ('data', 'diagrams')
+    keywords = ('data', 'diagrams', 'solo-ai-next100')
 
     def build(self):
-        self.add_line('e0', (42, 17), (42, 35))
-        self.add_line('e1', (6, 35), (6, 14))
-        self.add_bezier('e2', (42, 25), ((40.47, 26.015), (38.948, 27.011), (37.255, 27.747)), ((31.691, 30.161), (25.17, 30.3), (19.214, 29.727)), ((17.315, 29.547), (15.344, 29.31), (13.519, 28.713)), ((10.762, 27.813), (8.463, 26.505), (6, 25)))
-        self.add_bezier('e3', (42, 14), ((34.015, 18.991), (23.697, 19.631), (14.656, 17.741)), ((12.308, 17.25), (9.993, 16.481), (7.882, 15.335)), ((7.391, 15.074), (6, 14.215), (6, 14.182)), ((6, 13.74), (6.008, 13.29), (6.008, 12.848)), ((6.008, 12.447), (6, 11.817), (6.18, 11.441)), ((6.949, 9.96), (8.585, 8.847), (10.099, 8.25)), ((14.288, 6.589), (19.426, 6.016), (23.918, 6.016)), ((24.115, 6.016), (24.311, 6), (24.507, 6)), ((24.509, 6), (24.511, 6), (24.513, 6)), ((24.642, 6), (24.771, 6.008), (24.892, 6.016)), ((28.958, 6.016), (33.172, 6.695), (37.017, 8.013)), ((38.85, 8.643), (40.781, 9.551), (41.656, 11.408)), ((42, 12.177), (41.984, 14.427), (41.984, 15.295)), ((41.984, 15.556), (42, 15.826), (42, 16.088)), ((42, 16.276), (42, 16.82), (42, 17)))
-        self.add_bezier('e4', (42, 35), ((42, 35.278), (41.984, 35.193), (41.984, 35.471)), ((41.984, 37.32), (39.955, 38.564), (38.531, 39.3)), ((34.816, 41.223), (29.523, 41.984), (25.35, 41.984)), ((24.925, 41.984), (24.491, 42), (24.057, 42)), ((24.049, 42), (24.041, 42), (24.033, 42)), ((23.526, 42), (23.018, 41.984), (22.511, 41.984)), ((18.215, 41.984), (13.585, 41.149), (9.674, 39.39)), ((8.315, 38.785), (6, 36.677), (6, 35)))
-        self.add_contour('c0', 'e2')
-        self.add_contour('c1', 'e3', 'e0', 'e4', 'e1')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Retain the original broad cylindrical database proportions. True elliptical rims and evenly spaced levels replace the irregular tracing.
+        # Reference: Lucide database original and atomic-debug construction.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('top',(6,12),[('A',(42,12),18,6,True),('A',(6,12),18,6,True)],True)
+        path('body',(6,12),[('L',(6,36)),('A',(42,36),18,6,False),('L',(42,12))]);join('body','top')
+        path('ring',(6,24),[('A',(42,24),18,6,False)]);join('ring','body')

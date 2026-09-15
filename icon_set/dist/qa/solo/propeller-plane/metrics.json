@@ -3,9 +3,15 @@
   "family": "solo",
   "profile": "SOLO48",
   "selected_for_build": true,
-  "status": "pass",
-  "errors": [],
-  "warnings": [],
+  "status": "fail",
+  "errors": [
+    "holes/pinches: 1 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "internal-spacing [propeller-disc / airframe]: disc-upper-left and airframe-5 have 0.9393 units of ink clearance over 4.25 units; requires 4; review required",
+    "internal-spacing [airframe]: airframe-6 and airframe-9 have 1.2638 units of ink clearance over 5.4588 units; requires 4; review required",
+    "internal-spacing [airframe]: airframe-11 and airframe-13 have 0.5135 units of ink clearance over 10.3866 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -126,9 +132,103 @@
     "canvas": 48
   },
   "negative_space": {
-    "status": "pass",
-    "hole_count": 2,
-    "failed_hole_count": 0,
+    "status": "fail",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          32.9219,
+          16.3906
+        ],
+        "bbox_viewbox": [
+          8.0,
+          8.0,
+          31.6562,
+          19.5938
+        ],
+        "bbox_ship_px": [
+          31.6562,
+          19.5938
+        ],
+        "bbox_design_u": [
+          31.6562,
+          19.5938
+        ],
+        "area_ship_px2": 157.0508,
+        "equivalent_diameter_ship_px": 14.1408,
+        "equivalent_diameter_design_u": 14.1408,
+        "inscribed_diameter_ship_px": 7.6125,
+        "inscribed_diameter_design_u": 7.6125,
+        "inscribed_radius_ship_px": 3.8062,
+        "inscribed_radius_design_u": 3.8062,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          29.4219,
+          26.9844
+        ],
+        "bbox_viewbox": [
+          22.0,
+          24.0,
+          16.0,
+          6.0
+        ],
+        "bbox_ship_px": [
+          16.0,
+          6.0
+        ],
+        "bbox_design_u": [
+          16.0,
+          6.0
+        ],
+        "area_ship_px2": 72.7734,
+        "equivalent_diameter_ship_px": 9.6259,
+        "equivalent_diameter_design_u": 9.6259,
+        "inscribed_diameter_ship_px": 6.0,
+        "inscribed_diameter_design_u": 6.0,
+        "inscribed_radius_ship_px": 3.0,
+        "inscribed_radius_design_u": 3.0,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          20.0156,
+          31.8906
+        ],
+        "bbox_viewbox": [
+          14.8438,
+          30.8438,
+          6.1562,
+          8.5938
+        ],
+        "bbox_ship_px": [
+          6.1562,
+          8.5938
+        ],
+        "bbox_design_u": [
+          6.1562,
+          8.5938
+        ],
+        "area_ship_px2": 9.9521,
+        "equivalent_diameter_ship_px": 3.5597,
+        "equivalent_diameter_design_u": 3.5597,
+        "inscribed_diameter_ship_px": 1.3865,
+        "inscribed_diameter_design_u": 1.3865,
+        "inscribed_radius_ship_px": 0.6933,
+        "inscribed_radius_design_u": 0.6933,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail"
+      }
+    ],
+    "authored_hole_count": 3,
+    "raster_artifact_count": 0,
+    "hole_count": 3,
+    "failed_hole_count": 1,
     "pinch_count": 0,
     "holes": [
       {
@@ -194,6 +294,39 @@
         "status": "pass",
         "equivalent_radius_at_authored_stroke_design_u": 3.0,
         "equivalent_diameter_at_authored_stroke_design_u": 6.0
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          20.0156,
+          31.8906
+        ],
+        "bbox_viewbox": [
+          14.8438,
+          30.8438,
+          6.1562,
+          8.5938
+        ],
+        "bbox_ship_px": [
+          6.1562,
+          8.5938
+        ],
+        "bbox_design_u": [
+          6.1562,
+          8.5938
+        ],
+        "area_ship_px2": 9.9521,
+        "equivalent_diameter_ship_px": 3.5597,
+        "equivalent_diameter_design_u": 3.5597,
+        "inscribed_diameter_ship_px": 1.3865,
+        "inscribed_diameter_design_u": 1.3865,
+        "inscribed_radius_ship_px": 0.6933,
+        "inscribed_radius_design_u": 0.6933,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail",
+        "measuring_stroke_width": 4,
+        "equivalent_radius_at_authored_stroke_design_u": 0.6933,
+        "equivalent_diameter_at_authored_stroke_design_u": 1.3865
       }
     ],
     "pinches": [],
@@ -247,15 +380,16 @@
         ],
         "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
       },
-      "measurement_revision": "8-connected-background-v2"
+      "measurement_revision": "8-connected-background-authored-topology-v3"
     },
     "internal_spacing": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "internal_parallel_straight": {
       "version": 2,
@@ -271,20 +405,42 @@
       "collinear_overlaps": "separate diagnostic"
     }
   },
-  "rules_sha256": "9aeaff573e4be97ceefdab6dc6283f09c58e25c676ebbb7be8f66d784b181888",
+  "rules_sha256": "0313e28cdec08826595ac2518b96680cd3c47d8be5a4730cfd67b68f3072817f",
   "internal_spacing": {
     "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
-      "version": 1,
+      "version": 2,
       "sample_step": 0.25,
       "minimum_run": 2.0,
       "endpoint_margin": 0.5,
       "maximum_parallel_angle_degrees": 30,
-      "blocking": false
+      "blocking": false,
+      "publication_requires_clear_review": true
     },
     "findings": [
+      {
+        "contour": "propeller-disc / airframe",
+        "elements": [
+          "disc-upper-left",
+          "airframe-5"
+        ],
+        "status": "review",
+        "sustained_length": 4.25,
+        "centerline_distance": 4.9393,
+        "ink_gap": 0.9393,
+        "nearest_points": [
+          [
+            24.785647966205016,
+            22.733545591839224
+          ],
+          [
+            23.375,
+            18.0
+          ]
+        ]
+      },
       {
         "contour": "airframe",
         "elements": [
@@ -328,7 +484,7 @@
         ]
       }
     ],
-    "notice": "Advisory sampled opposing-edge check; ordinary joins and complete circular contours excluded. Negative gap indicates overlapping ink."
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": true
 }

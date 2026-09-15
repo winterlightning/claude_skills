@@ -1,10 +1,9 @@
-"""Trekking shelter (outdoors), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""trekking-shelter: Balanced open shelter; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '88470bfe-b79f-53bc-a66c-39911133467b'
 SOURCE_PATH = 'icons-json/outdoors/trekking shelter_88470bfe-b79f-53bc-a66c-39911133467b.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class TrekkingShelter(Solo48):
     icon_id = 'trekking-shelter'
@@ -13,40 +12,42 @@ class TrekkingShelter(Solo48):
     semantic_kind = 'noun'
     category = 'outdoors'
     aliases = ()
-    keywords = ('trekking', 'shelter', 'outdoors')
+    keywords = ('solo-ai-full-set', 'trekking-shelter')
 
     def build(self):
-        self.add_line('e0', (35, 42), (38, 42))
-        self.add_line('e1', (38, 42), (38, 19))
-        self.add_line('e2', (35, 42), (34, 40))
-        self.add_line('e3', (34, 40), (26, 25))
-        self.add_line('e4', (26, 25), (24, 22))
-        self.add_line('e5', (24, 22), (22, 25))
-        self.add_line('e6', (22, 25), (14, 40))
-        self.add_line('e7', (14, 40), (13, 42))
-        self.add_line('e8', (35, 42), (13, 42))
-        self.add_line('e9', (6, 24), (10, 20))
-        self.add_line('e10', (10, 20), (10, 22))
-        self.add_line('e11', (42, 23), (38, 19))
-        self.add_line('e12', (38, 19), (25, 6))
-        self.add_line('e13', (23, 6), (10, 20))
-        self.add_line('e14-1', (10, 22), (10, 41))
-        self.add_arc('e14-2', (10, 41), (10, 42), radius_x=1, sweep=False)
-        self.add_arc('e14-3', (10, 42), (12, 42), radius_x=7)
-        self.add_arc('e14-4', (12, 42), (13, 42), radius_x=22)
-        self.add_line('e15', (25, 6), (23, 6))
-        self.add_contour('c0', 'e0', 'e1')
-        self.add_contour('c1', 'e2', 'e3', 'e4', 'e5', 'e6', 'e7')
-        self.add_contour('c2', 'e8')
-        self.add_contour('c3', 'e9', 'e10', 'e14-1', 'e14-2', 'e14-3', 'e14-4')
-        self.add_contour('c4', 'e11')
-        self.add_contour('c5', 'e12', 'e15', 'e13')
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c0', 'c4')
-        self.relate('connect', 'c0', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c3')
-        self.relate('connect', 'c2', 'c3')
+        # Plan: Preserve the peaked shelter and inner A frame; align their central axes and shared base points.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('frame',(6,24),[('L',(24,6)),('L',(42,24)),('L',(42,42)),('L',(34,42)),('L',(14,42)),('L',(6,42)),('L',(6,24))],True)
+        path('inside',(14,42),[('L',(24,22)),('L',(34,42))]);join('inside','frame')

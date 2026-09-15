@@ -1,10 +1,9 @@
 """Ice snowflake (weather), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '1ae2009c-069c-5d8b-b45c-7070506d36c5'
 SOURCE_PATH = 'icons-json/weather/ice snowflake_1ae2009c-069c-5d8b-b45c-7070506d36c5.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class IceSnowflake(Solo48):
     icon_id = 'ice-snowflake'
@@ -16,10 +15,7 @@ class IceSnowflake(Solo48):
     keywords = ('ice', 'snowflake', 'weather')
 
     def build(self):
-        self.add_line('sym-e0', (24, 4), (24, 12))
-        self.add_line('sym-e1', (24, 12), (24, 24))
-        self.add_line('sym-e2', (24, 24), (24, 36))
-        self.add_line('sym-e3', (24, 36), (24, 44))
+        self.add_line('sym-e0', (24, 4), (24, 44))
         self.add_line('sym-e4', (24, 36), (30, 40))
         self.add_line('sym-e5', (35, 38), (33, 29))
         self.add_line('sym-e6', (33, 29), (40, 34))
@@ -40,16 +36,16 @@ class IceSnowflake(Solo48):
         self.add_line('sym-e21', (15, 19), (8, 21))
         self.add_line('sym-e22', (8, 14), (15, 19))
         self.add_line('sym-e23', (15, 19), (13, 11))
-        self.add_contour('sym-c0', 'sym-e0', 'sym-e1', 'sym-e2', 'sym-e3')
-        self.add_contour('sym-c1', 'sym-e4')
-        self.add_contour('sym-c2', 'sym-e5', 'sym-e6')
-        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10')
-        self.add_contour('sym-c4', 'sym-e11', 'sym-e12')
-        self.add_contour('sym-c5', 'sym-e13', 'sym-e14')
-        self.add_contour('sym-c6', 'sym-e15')
-        self.add_contour('sym-c7', 'sym-e16', 'sym-e17')
-        self.add_contour('sym-c8', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21')
-        self.add_contour('sym-c9', 'sym-e22', 'sym-e23')
+        self.add_contour('sym-c0', 'sym-e0', closed=False)
+        self.add_contour('sym-c1', 'sym-e4', closed=False)
+        self.add_contour('sym-c2', 'sym-e5', 'sym-e6', closed=False)
+        self.add_contour('sym-c3', 'sym-e7', 'sym-e8', 'sym-e9', 'sym-e10', closed=False)
+        self.add_contour('sym-c4', 'sym-e11', 'sym-e12', closed=False)
+        self.add_contour('sym-c5', 'sym-e13', 'sym-e14', closed=False)
+        self.add_contour('sym-c6', 'sym-e15', closed=False)
+        self.add_contour('sym-c7', 'sym-e16', 'sym-e17', closed=False)
+        self.add_contour('sym-c8', 'sym-e18', 'sym-e19', 'sym-e20', 'sym-e21', closed=False)
+        self.add_contour('sym-c9', 'sym-e22', 'sym-e23', closed=False)
         self.relate('connect', 'sym-c0', 'sym-c5')
         self.relate('connect', 'sym-c0', 'sym-c3', 'sym-c8')
         self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c6')

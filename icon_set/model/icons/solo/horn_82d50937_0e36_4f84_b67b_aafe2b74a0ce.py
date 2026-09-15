@@ -1,10 +1,9 @@
-"""Horn (transportation), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""horn: Balanced horn outline; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '82d50937-0e36-4f84-b67b-aafe2b74a0ce'
 SOURCE_PATH = 'icons-json/transportation/horn_82d50937-0e36-4f84-b67b-aafe2b74a0ce.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Horn(Solo48):
     icon_id = 'horn'
@@ -13,26 +12,42 @@ class Horn(Solo48):
     semantic_kind = 'noun'
     category = 'transportation'
     aliases = ()
-    keywords = ('horn', 'transportation')
+    keywords = ('solo-ai-full-set', 'horn')
 
     def build(self):
-        self.add_line('e0', (29, 40), (21, 40))
-        self.add_line('e1', (15, 33), (15, 25))
-        self.add_line('e2', (32, 17), (15, 17))
-        self.add_line('e3', (13, 17), (4, 8))
-        self.add_line('e4', (4, 8), (4, 34))
-        self.add_line('e5', (4, 34), (14, 25))
-        self.add_line('e6', (14, 25), (36, 25))
-        self.add_line('e7', (44, 34), (44, 9))
-        self.add_arc('e8-1', (33, 25), (34, 35), radius_x=20)
-        self.add_arc('e8-2', (34, 35), (29, 40), radius_x=5)
-        self.add_line('e9-1', (21, 40), (18, 40))
-        self.add_arc('e9-2', (18, 40), (16, 38), radius_x=3)
-        self.add_arc('e9-3', (16, 38), (15, 33), radius_x=13)
-        self.add_arc('e10', (44, 9), (32, 17), radius_x=12)
-        self.add_arc('e11', (15, 17), (13, 17), radius_x=8, sweep=False)
-        self.add_line('e12', (36, 25), (44, 34))
-        self.add_contour('c0', 'e8-1', 'e8-2', 'e0', 'e9-1', 'e9-2', 'e9-3', 'e1')
-        self.add_contour('c1', 'e10', 'e2', 'e11', 'e3', 'e4', 'e5', 'e6', 'e12', 'e7', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+        # Plan: Preserve both flared ends and the U-shaped lower loop; use shared horizontal neck dimensions.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('horn',(4,8),[('L',(14,18)),('L',(34,18)),('L',(44,8)),('L',(44,32)),('L',(34,26)),('L',(14,26)),('L',(4,32)),('L',(4,8))],True)
+        path('loop',(14,26),[('L',(14,36)),('A',(18,40),4,4,False),('L',(30,40)),('A',(34,36),4,4,False),('L',(34,26))]);join('loop','horn')

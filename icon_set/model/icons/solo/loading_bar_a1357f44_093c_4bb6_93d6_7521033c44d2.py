@@ -1,10 +1,9 @@
-"""Loading bar (interface-essential), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+"""loading-bar: Regular curved loading bar; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = 'a1357f44-093c-4bb6-93d6-7521033c44d2'
 SOURCE_PATH = 'icons-json/interface-essential/loading bar_a1357f44-093c-4bb6-93d6-7521033c44d2.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class LoadingBar(Solo48):
     icon_id = 'loading-bar'
@@ -13,19 +12,46 @@ class LoadingBar(Solo48):
     semantic_kind = 'noun'
     category = 'interface-essential'
     aliases = ()
-    keywords = ('loading', 'bar', 'interface-essential')
+    keywords = ('solo-ai-full-set', 'loading-bar')
 
     def build(self):
-        self.add_line('e0', (26, 40), (30, 8))
-        self.add_line('e1', (14, 40), (19, 8))
-        self.add_line('e2', (12, 8), (39, 8))
-        self.add_line('e3', (38, 40), (10, 40))
-        self.add_bezier('e4', (10, 40), ((9.864, 40), (10.082, 40), (9.945, 39.982)), ((7.209, 39.982), (4.809, 35.733), (4.191, 30.667)), ((4, 28.729), (4.018, 26.471), (4.018, 24.516)), ((4.018, 22.933), (4, 21.351), (4, 19.787)), ((4, 19.783), (4, 19.78), (4, 19.777)), ((4, 19.567), (4, 19.357), (4, 19.147)), ((4, 13.973), (6.082, 9.813), (8.509, 8.391)), ((9.182, 8), (10.009, 8.036), (10.709, 8.036)), ((11.2, 8.036), (11.509, 8), (12, 8)))
-        self.add_bezier('e5', (39, 8), ((39.091, 8), (38.727, 8.018), (38.818, 8.018)), ((42.118, 8.018), (43.982, 13.76), (43.982, 19.627)), ((43.982, 21.493), (44, 23.378), (44, 25.244)), ((44, 25.258), (44, 25.272), (44, 25.286)), ((44, 26.161), (43.991, 27.018), (43.991, 27.876)), ((43.991, 33.529), (41.682, 39.982), (38.536, 39.982)), ((38.382, 39.982), (38.236, 40), (38.082, 40)), ((37.936, 40), (38.145, 40), (38, 40)))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e4', 'e2', 'e5', 'e3', closed=True)
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c0', 'c2')
-        self.relate('connect', 'c1', 'c2')
-        self.relate('connect', 'c1', 'c2')
+        # Plan: Matching rounded ends and shared parallel stripe spacing; retain the source stripe count and slant.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        tops=[20, 32]
+        bottoms=[x-5 for x in tops]
+        commands=[('L',(x,8)) for x in tops]+[('L',(38,8)),('C',(44,24),(42,8),(44,14)),('C',(38,40),(44,34),(42,40))]+[('L',(x,40)) for x in reversed(bottoms)]+[('L',(10,40)),('C',(4,24),(6,40),(4,34)),('C',(10,8),(4,14),(6,8))]
+        path('body',(10,8),commands,True)
+        for j,(a,b) in enumerate(zip(tops,bottoms)):
+         line(f'stripe-{j}',(a,8),(b,40));join(f'stripe-{j}','body')

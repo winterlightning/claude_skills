@@ -1,10 +1,9 @@
-"""Kimono (sports), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""kimono: Balanced wrapped kimono; earlier revisions preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
-
 SOURCE_ICON_ID = '5dc645c5-4bfe-5f4c-b044-794dca019d0a'
 SOURCE_PATH = 'icons-json/sports/kimono_5dc645c5-4bfe-5f4c-b044-794dca019d0a.json'
-AUTHOR = 'json_to_solo'
+AUTHOR = 'gpt-6'
 
 class Kimono(Solo48):
     icon_id = 'kimono'
@@ -13,40 +12,43 @@ class Kimono(Solo48):
     semantic_kind = 'noun'
     category = 'sports'
     aliases = ()
-    keywords = ('kimono', 'sports')
+    keywords = ('solo-ai-full-set', 'kimono')
 
     def build(self):
-        self.add_line('e0', (33, 28), (15, 28))
-        self.add_line('e1', (26, 35), (24, 28))
-        self.add_line('e2', (19, 35), (30, 6))
-        self.add_line('e3', (30, 6), (42, 16))
-        self.add_line('e4', (42, 16), (38, 22))
-        self.add_line('e5', (38, 22), (33, 17))
-        self.add_line('e6', (33, 17), (33, 25))
-        self.add_line('e7', (33, 25), (33, 29))
-        self.add_line('e8', (33, 29), (35, 42))
-        self.add_line('e9', (35, 42), (13, 42))
-        self.add_line('e10', (13, 42), (14, 31))
-        self.add_line('e11', (14, 31), (15, 26))
-        self.add_line('e12', (15, 26), (15, 18))
-        self.add_line('e13', (15, 18), (11, 22))
-        self.add_line('e14', (11, 22), (6, 16))
-        self.add_line('e15', (6, 16), (18, 6))
-        self.add_line('e16', (30, 6), (18, 6))
-        self.add_line('e17', (24, 22), (18, 6))
-        self.add_contour('c0', 'e0')
-        self.add_contour('c1', 'e1')
-        self.add_contour('c2', 'e2')
-        self.add_contour('c3', 'e3', 'e4', 'e5', 'e6', 'e7', 'e8', 'e9', 'e10', 'e11', 'e12', 'e13', 'e14', 'e15')
-        self.add_contour('c4', 'e16')
-        self.add_contour('c5', 'e17')
-        self.relate('connect', 'c2', 'c3')
-        self.relate('connect', 'c2', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c4')
-        self.relate('connect', 'c3', 'c5')
-        self.relate('connect', 'c4', 'c5')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c0', 'c3')
-        self.relate('connect', 'c1', 'c0')
-        self.relate('connect', 'c5', 'c2')
+        # Plan: Preserve wide sleeves, crossed lapels and flared skirt. Use a single diagonal wrap across a broad waist.
+        # Reference: Original subject; preserve the distinctive silhouette and proportions.
+
+        # Typed path helpers preserve each continuous stroke and its round joins.
+        def path(name, start, commands, closed=False):
+            members = []
+            here = start
+            for index, command in enumerate(commands):
+                ident = f"{name}-{index}"
+                kind, end, *args = command
+                if kind == "L" and tuple(end) == tuple(here):
+                    continue
+                if kind == "L":
+                    self.add_line(ident, here, end)
+                elif kind == "A":
+                    rx, ry, sweep = args
+                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
+                elif kind == "C":
+                    c1, c2 = args
+                    self.add_bezier(ident, here, (c1, c2, end))
+                members.append(ident)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, cx, cy, r):
+            path(name, (cx-r,cy), [("A",(cx+r,cy),r,r,True), ("A",(cx-r,cy),r,r,True)], True)
+        def rounded(name, x0, y0, x1, y1, r):
+            path(name, (x0+r,y0), [
+                ("L",(x1-r,y0)), ("A",(x1,y0+r),r,r,True),
+                ("L",(x1,y1-r)), ("A",(x1-r,y1),r,r,True),
+                ("L",(x0+r,y1)), ("A",(x0,y1-r),r,r,True),
+                ("L",(x0,y0+r)), ("A",(x0+r,y0),r,r,True)], True)
+        line = self.add_line
+        poly = self.add_polyline
+        join = lambda a,b: self.relate("connect",a,b)
+        path('garment',(6,18),[('L',(18,6)),('L',(30,6)),('L',(42,18)),('L',(37,25)),('L',(32,21)),('L',(32,29)),('L',(35,42)),('L',(13,42)),('L',(16,29)),('L',(16,21)),('L',(11,25)),('L',(6,18))],True)
+        path('lapel',(18,6),[('L',(24,19)),('L',(30,6))]);join('lapel','garment')
+        path('wrap',(24,19),[('L',(24,29)),('L',(32,29))]);join('wrap','lapel');join('wrap','garment');line('belt',(16,29),(24,29));join('belt','wrap');join('belt','garment')
