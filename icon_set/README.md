@@ -535,7 +535,7 @@ to the matching grid view after an output is accepted. Generation and admin logi
 are omitted from the main navigation.
 The grid and interactive design
 rules are public; the generation page, job list, previews, logs, and generation
-actions require an admin session. Log in as `jakes`, `hina`, or `ray`, each with
+actions require an admin session. Log in as `jakes`, `ray`, `phuong`, or `hina`, each with
 password `1`. These requested accounts are defined server-side in `deploy.py`.
 Sessions last 12 hours, use an HttpOnly cookie, and are revoked on logout. Session
 records are stored in the feedback database; only token hashes are persisted.
@@ -546,11 +546,33 @@ The review popup includes an **Icon type** dropdown with `human`, `avatar`, and
 `icon_type` string, or save **No type** to clear it. Types persist in the feedback
 database across rebuilds and restarts; saving requires login and records the reviewer.
 
+The **Reviewers** navigation item opens `gallery/reviewers.html`: daily approval,
+disapproval and rejection totals, a daily chart, a reviewer breakdown, and a CSV
+of daily counts per reviewer. Choose Today, Last 7 days (default), Last 30 days,
+or a custom range of up to 366 days. Dates use Vietnam time by default; UTC and
+the browser's local time zone are also available. Filters are saved in the URL.
+
+`GET /api/reviewer-stats` accepts `start` and `end` (inclusive ISO dates),
+`timezone` (IANA name), and optional `reviewer`. It reads the append-only activity
+log, counting the last decision per icon, reviewer, and local calendar day.
+Repeat clicks on one day count once; another day's review counts again. Restores,
+non-review edits, and comments on already rejected icons do not count. Deleted
+icons retain their historical counts. Reviews before activity logging began are
+not reconstructed from mutable current records; the dashboard shows when history
+starts. The total is a sum of daily reviewer counts; distinct icons are shown
+separately. Historical actors remain selectable alongside current accounts.
+
+The icon review grid has a visible **Reviewer** filter for current decisions.
+It combines with status, category, and other filters; with no status selected it
+shows all three outcomes for that reviewer. Dashboard **View icons** links open
+this filter. Current-state counts can differ from historical dashboard totals.
+Legacy `approved_by` URLs still load; new links use `reviewer`.
+
 `deploy.py` serves the build; it does not upload files or run a build for you.
 It needs only Python 3.10+ and the standard library; build requirements remain
 in `requirements-qa.txt`. Paths default relative to the script, so it works
 from any working directory. For deployment, copy `icon_set/dist/` and
-`icon_set/scripts/deploy.py`, `icon_set/scripts/brief_queue.py` and `icon_set/scripts/discard_icon.py`, preserving that layout.
+`icon_set/scripts/deploy.py`, `icon_set/scripts/reviewer_stats.py`, `icon_set/scripts/brief_queue.py` and `icon_set/scripts/discard_icon.py`, preserving that layout.
 Discard also needs the `icon_set/model/icons/` sources on the server.
 
 Feedback defaults to `icon_set/data/feedback.sqlite3`, outside the public build

@@ -17,10 +17,11 @@ class ReviewWorkflowTests(unittest.TestCase):
     def login(self):
         self.assertEqual(self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})[0], 200)
 
-    def test_disapproval_requires_reason_and_is_exposed_to_developers(self):
+    def test_disapproval_saves_immediately_and_reasons_are_exposed_to_developers(self):
         self.login()
         data = {'icon': 'sub/example', 'svg_sha256': 'version-a', 'status': 'disapprove'}
-        self.assertEqual(self.call('POST', '/api/reviews', data)[0], 400)
+        self.assertEqual(self.call('POST', '/api/reviews', data)[0], 201)
+        self.assertEqual(self.call('GET', '/api/feedback?icon=sub%2Fexample')[1], [])
         for reason in ('bad-stroke', 'meaning', 'other'):
             payload = dict(data, reason=reason)
             if reason == 'other':

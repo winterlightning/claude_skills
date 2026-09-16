@@ -1,5 +1,6 @@
 (async()=>{
   const nav=document.querySelector('.site-nav');
+  if(nav&&!nav.querySelector('a[href="reviewers.html"]')){const link=document.createElement('a');link.href='reviewers.html';link.textContent='Reviewers';const review=nav.querySelector('a[href="index.html"]');if(review)review.after(link);else nav.append(link);}
   const page=location.pathname.split('/').pop();
   const current=['generate.html','login.html'].includes(page)?'index.html':page;
   nav?.querySelectorAll('a').forEach(a=>{if(a.getAttribute('href')===current)a.setAttribute('aria-current','page');});

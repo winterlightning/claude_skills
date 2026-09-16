@@ -61,7 +61,7 @@ window.IconFeedbackReviewer = function({getIcon, getDraft, setDraft, elements, r
         setDraft(state.icon, combined);
         state.message = result.verdict === 'keep'
           ? 'AI suggests keeping this icon. Its feedback is in the form; no decision has been saved.'
-          : 'AI feedback added to the form. Edit it before saving; no decision has been saved.';
+          : 'AI feedback added to the form. Edit it to save automatically; no decision has been saved.';
         if (current(state)) { elements.feedback.value = combined; reveal(); }
       }
     } catch (error) {

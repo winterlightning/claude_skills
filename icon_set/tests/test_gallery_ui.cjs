@@ -12,6 +12,8 @@ class Element {
   closest() { return new Element(); }
   focus() {}
   scrollIntoView() {}
+  after(element) { this.afterElement=element; }
+  remove() { this.removed=true; }
   addEventListener() {}
   querySelector() { return new Element(); }
   querySelectorAll() {
@@ -31,7 +33,7 @@ function page(name) {
   const localStorage = { getItem: k => storage.get(k), setItem: (k,v) => storage.set(k,v), removeItem: k => storage.delete(k) };
   const location = { search: '', href: 'http://localhost/gallery/generate.html', assign: url => navigations.push(url) };
   const context = vm.createContext({document, localStorage, sessionStorage: localStorage, location,
-    window: {addEventListener(type, handler) { listeners.set(type, handler); }}, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console,
+    window: {addEventListener(type, handler) { listeners.set(type, handler); }}, setTimeout, clearTimeout, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console,
     fetch: async () => ({ok: false, json: async () => null})});
   let script = fs.readFileSync(path.join(__dirname, '../scripts/templates', name+'.html'), 'utf8').split('<script>')[1].split('</script>')[0];
   script = name === 'gallery' ? script.slice(0, script.lastIndexOf('(async()=>')) : script.replace('refresh();setInterval(()=>{if(!document.hidden)refresh();},4000);', '');
@@ -70,8 +72,7 @@ async function main() {
     return {ok:true,json:async()=>({...body,updated_by:'jakes'})};
   };
   for(const value of ['human','avatar','']){
-    types.run(`$('iconType').value=${JSON.stringify(value)};$('iconType').onchange();`);
-    await types.run("$('iconTypeForm').onsubmit({preventDefault(){}})");
+    await types.run(`$('iconType').value=${JSON.stringify(value)};$('iconType').onchange();`);
     assert.equal(typePosts.at(-1).icon_type,value);
     assert.equal(types.run('selected.icon_type'),value);
     assert.equal(types.run("$('customIconTypeField').hidden"),true);
@@ -94,46 +95,91 @@ async function main() {
 
   const pendingReason = page('gallery');
   pendingReason.run(`selected={key:'solo/example',icon_id:'example',family:'solo',svg_sha256:'current'};
-    icons=[selected];reviewsLoaded=true;reviews={'solo/example':'ready'};
+    icons=[selected];reviewsLoaded=true;reviews={'solo/example':'ready'};$('detail').open=true;
     render=()=>syncInspector();loadReviewActor=()=>{};loadIconFeedback=()=>{};
     resetPendingReason();syncInspector();`);
-  let reasonPosts=[];
-  pendingReason.context.fetch=async(url,options)=>{
-    reasonPosts.push({url,...JSON.parse(options.body)});
-    return {ok:true,json:async()=>({status:'pending',updated_by:'jakes'})};
+  const reasonPosts=[];
+  const saveResponse = async(url,options)=>{
+    const payload=JSON.parse(options.body);reasonPosts.push({url,...payload});
+    return {ok:true,json:async()=>({id:42,feedback:payload.feedback,status:payload.status||'pending',updated_by:'jakes'})};
   };
-  pendingReason.run("$('reviewState').value='pending';$('reviewState').onchange();");
-  assert.equal(reasonPosts.length,0,'Choosing Pending waits for its reason');
-  assert.equal(pendingReason.run("reviews[selected.key]"),'ready');
-  assert.equal(pendingReason.run("$('pendingReasonField').hidden"),false);
-  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(reasonPosts.length,0,'Other requires written feedback');
-  pendingReason.run("$('pendingReason').value='bad-draw';$('pendingReason').onchange();");
-  assert.equal(pendingReason.run("$('feedback').required"),false);
-  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(reasonPosts.length,1,'Reason and status use a single existing feedback request');
-  assert.equal(reasonPosts[0].url,'../api/feedback');
-  assert.equal(reasonPosts[0].feedback,'Bad stroke drawn');
-  assert.equal(reasonPosts[0].svg_sha256,'current');
+  pendingReason.context.fetch=saveResponse;
+  await pendingReason.run("$('reviewState').value='pending';$('reviewState').onchange();");
+  assert.equal(reasonPosts.length,1,'Disapprove immediately persists its status');
+  assert.equal(reasonPosts[0].url,'../api/reviews');
   assert.equal(pendingReason.run('reviews[selected.key]'),'pending');
+  await pendingReason.run("$('pendingReason').value='bad-draw';$('pendingReason').onchange();");
+  assert.equal(reasonPosts.at(-1).feedback,'Bad stroke drawn','Reason selection saves automatically');
   assert.equal(pendingReason.run('disapprovedBy[selected.key]'),'jakes');
   assert.equal(pendingReason.run('feedbackBy[selected.key].join()'),'jakes');
-  pendingReason.run("$('pendingReason').value='meaning';$('feedback').value='The shape looks like a leaf.';");
+
+  // Fake timers verify debounce deterministically without sleeping.
+  const timers=new Map();let timerId=0;
+  pendingReason.context.setTimeout=fn=>{timers.set(++timerId,fn);return timerId;};
+  pendingReason.context.clearTimeout=id=>timers.delete(id);
+  pendingReason.run("$('feedback').value='Round';$('feedback').oninput();$('feedback').value='Round the base.';$('feedback').oninput();");
+  assert.equal(reasonPosts.length,2,'Typing does not post before debounce');
+  assert.equal(timers.size,1,'Typing resets the debounce timer');
+  [...timers.values()][0]();timers.clear();await pendingReason.run('flushFeedbackSave()');
+  assert.equal(reasonPosts.length,3);
+  assert.equal(reasonPosts.at(-1).feedback_id,42,'Further typing edits the original feedback record');
+  assert.equal(reasonPosts.at(-1).previous_feedback,'Bad stroke drawn');
+  assert.equal(pendingReason.run("$('feedback').value"),'Round the base.','Autosave preserves editable text');
+
+  let finishSave;
+  pendingReason.context.fetch=(url,options)=>new Promise(resolve=>{reasonPosts.push({url,...JSON.parse(options.body)});finishSave=resolve;});
+  pendingReason.run("$('feedback').value='First edit';$('feedback').oninput();");
+  const firstSave=pendingReason.run('flushFeedbackSave()');
+  assert.notEqual(pendingReason.run("$('feedback').disabled"),true,'Typing remains enabled while saving');
+  pendingReason.run("$('feedback').value='Newest edit';$('feedback').oninput();");
+  finishSave({ok:true,json:async()=>({id:42,feedback:'Bad stroke drawn\n\nFirst edit',status:'pending'})});
+  await firstSave;
+  assert.equal(pendingReason.run("$('feedback').value"),'Newest edit','Late responses cannot erase new typing');
+  pendingReason.context.fetch=saveResponse;
+  await pendingReason.run('flushFeedbackSave()');
+  assert.equal(reasonPosts.at(-1).feedback,'Bad stroke drawn\n\nNewest edit');
+  assert.equal(reasonPosts.at(-1).previous_feedback,'Bad stroke drawn\n\nFirst edit');
+
   pendingReason.context.fetch=async()=>({ok:false,json:async()=>({error:'Could not save'})});
-  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(pendingReason.run("$('pendingReason').value"),'meaning','Failed save keeps reason');
-  assert.equal(pendingReason.run("$('feedback').value"),'The shape looks like a leaf.','Failed save keeps details');
-  pendingReason.context.fetch=async(url,options)=>{
-    reasonPosts.push({url,...JSON.parse(options.body)});
-    return {ok:true,json:async()=>({status:'pending'})};
-  };
-  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(reasonPosts.at(-1).feedback,'Does not convey the intended meaning\n\nThe shape looks like a leaf.');
-  pendingReason.run("$('pendingReason').value='other';$('feedback').value='Round the base.';");
-  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(reasonPosts.at(-1).feedback,'Round the base.');
-  pendingReason.run("$('pendingReason').value='bad-draw';resetPendingReason();");
-  assert.equal(pendingReason.run("$('pendingReason').value"),'other','Opening another icon clears the prior reason');
+  pendingReason.run("$('feedback').value='Keep this draft';$('feedback').oninput();");
+  assert.equal(await pendingReason.run('flushFeedbackSave()'),false);
+  assert.equal(pendingReason.run("$('feedback').value"),'Keep this draft');
+  assert.equal(pendingReason.run("$('save').hidden"),false,'A failed autosave exposes retry');
+  pendingReason.context.fetch=saveResponse;
+  await pendingReason.run('flushFeedbackSave()');
+  assert.equal(pendingReason.run("$('save').hidden"),true);
+  pendingReason.run("$('feedback').value='Before approval';$('feedback').oninput();");
+  await pendingReason.run("saveReview(selected,'approve')");
+  assert.equal(reasonPosts.at(-2).feedback,'Bad stroke drawn\n\nBefore approval');
+  assert.equal(reasonPosts.at(-1).status,'approve','Pending feedback finishes before a later review decision');
+  assert.equal(timers.size,0);
+
+  pendingReason.run("$('feedback').value='For the original icon';$('feedback').oninput();selected={key:'solo/another',svg_sha256:'different'};revision++;$('feedback').value='Another draft';");
+  [...timers.values()][0]();timers.clear();
+  await pendingReason.run("flushFeedbackSave(feedbackSessions.get('solo/example:current'))");
+  assert.equal(reasonPosts.at(-1).icon,'solo/example','Debounced writes retain their original icon');
+  assert.equal(pendingReason.run("$('feedback').value"),'Another draft');
+
+  const historyEdits=page('gallery');
+  historyEdits.run("feedbackEditor({id:7,feedback:'Original'},$('historyBody'),$('historyActions'),()=>{});$('historyActions').children.at(-1).onclick();");
+  const editTimers=new Map();let editTimer=0;
+  historyEdits.context.setTimeout=fn=>{editTimers.set(++editTimer,fn);return editTimer;};
+  historyEdits.context.clearTimeout=id=>editTimers.delete(id);
+  const edits=[];
+  historyEdits.context.fetch=async(url,options)=>{const body=JSON.parse(options.body);edits.push(body);return {ok:true,json:async()=>({feedback:body.feedback,edited_by:'jakes'})};};
+  historyEdits.run("var historyForm=$('historyBody').afterElement;var historyInput=historyForm.children[0];historyInput.value='Revised';historyInput.oninput();historyInput.value='Revised feedback';historyInput.oninput();");
+  assert.equal(edits.length,0);
+  assert.equal(editTimers.size,1);
+  await historyEdits.run('flushFeedbackEdits()');
+  assert.equal(edits.length,1);
+  assert.equal(edits[0].previous_feedback,'Original');
+  assert.equal(historyEdits.run('historyInput.value'),'Revised feedback');
+  assert.equal(historyEdits.run('historyForm.removed'),undefined,'Autosaving keeps the editor open');
+  historyEdits.run("historyInput.value='Final feedback';historyInput.oninput();");
+  await historyEdits.run('historyForm.onsubmit({preventDefault(){}})');
+  assert.equal(edits.at(-1).previous_feedback,'Revised feedback');
+  assert.equal(historyEdits.run('feedbackEditFlushers.size'),0);
+  if(process.env.POPUP_ONLY){console.log('Popup actions, debounced feedback, serialized writes, retries, references, and history edits passed.');return;}
 
   const sorting = page('gallery');
   sorting.run(`icons=[
@@ -315,7 +361,16 @@ async function main() {
   approvers.run("$('approvedBy').value='jakes';");
   assert.equal(approvers.run('filteredIcons().length'), 0);
   approvers.run("$('approvedBy').value='';");
-  assert.equal(approvers.run('filteredIcons().length'), 3, 'Anyone restores normal version grouping');
+  assert.equal(approvers.run('filteredIcons().length'), 4, 'Anyone restores normal version grouping');
+  approvers.run("setIconView('generated');reviews['solo/b']='rejected';rejectedBy={'solo/b':'phuong'};disapprovedBy={'solo/c':'phuong'};$('approvedBy').value='phuong';$('approvedBy').onchange();");
+  assert.equal(approvers.run('reviewFilter'), '', 'Reviewer selection keeps all decisions visible');
+  assert.equal(approvers.run('filteredIcons().map(i=>i.key).join()'), 'solo/a,solo/b,solo/c', 'A reviewer matches approved, disapproved and rejected icons');
+  approvers.context.window.location={href:'http://localhost/gallery/index.html?reviewer=phuong&family=',search:'?reviewer=phuong&family='};
+  approvers.context.window.history={replaceState(){},pushState(){}};
+  approvers.run("$('approvedBy').options=[{value:''},{value:'phuong'}];urlReady=true;restoreURL();");
+  assert.equal(approvers.run('filteredIcons().length'), 3, 'Dashboard links restore the reviewer across all outcomes');
+  approvers.run("urlReady=false;reviewFilter='pending';render();");
+  assert.equal(approvers.run('filteredIcons().map(i=>i.key).join()'), 'solo/c', 'Status and reviewer filters combine');
   const rejectors = page('gallery');
   rejectors.run(`icons=[
     {key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'},
@@ -329,7 +384,7 @@ async function main() {
   await rejectors.run('loadReviews()');
   rejectors.run("page=4;selectedKeys.add('solo/a');$('approvedBy').value='ray';$('approvedBy').onchange();");
   assert.equal(rejectors.run('reviewFilter'),'rejected','Changing reviewer must stay on Rejected');
-  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Rejected by');
+  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Reviewer');
   assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/b','Ray matches rejection attribution, not approval');
   assert.equal(rejectors.run('page'),1);
   assert.equal(rejectors.run('selectedKeys.size'),0);
@@ -345,7 +400,7 @@ async function main() {
   assert.equal(rejectors.run('reviewFilter'),'rejected','Shared links retain Rejected');
   assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/b');
   rejectors.run("urlReady=false;reviewFilter='approve';render();");
-  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Approved by');
+  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Reviewer');
   assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/c');
   assert.match(fs.readFileSync(path.join(__dirname,'../scripts/templates/gallery.html'),'utf8'),/<option value="ray">Ray<\/option>/);
   const disapprovers = page('gallery');
@@ -361,7 +416,7 @@ async function main() {
   await disapprovers.run('loadReviews()');
   disapprovers.run("page=4;selectedKeys.add('solo/b');$('approvedBy').value='ray';$('approvedBy').onchange();");
   assert.equal(disapprovers.run('reviewFilter'),'pending','Reviewer selection stays on Disapproved');
-  assert.equal(disapprovers.run("$('reviewerLabel').textContent"),'Disapproved by');
+  assert.equal(disapprovers.run("$('reviewerLabel').textContent"),'Reviewer');
   assert.equal(disapprovers.run('filteredIcons().map(i=>i.key).join()'),'solo/a');
   assert.equal(disapprovers.run('selectedKeys.size'),0);
   assert.equal(disapprovers.run('page'),1);
@@ -504,7 +559,7 @@ async function main() {
   gallery.run("selected=icons[0];feedbackPicker.set(" + JSON.stringify(refs) + ");$('feedback').value='Softer';");
   await gallery.run("$('feedbackForm').onsubmit({preventDefault(){}})");
   assert.deepEqual(posts.at(-1)[1].reference_images, [refs[0].id]);
-  assert.deepEqual(JSON.parse(gallery.run('JSON.stringify(feedbackPicker.ids())')), [], 'Saved feedback clears the picker');
+  assert.deepEqual(JSON.parse(gallery.run('JSON.stringify(feedbackPicker.ids())')), [refs[0].id], 'Autosaved feedback retains references for continued editing');
   gallery.run("inspect=()=>{};addRegenerate(" + JSON.stringify({feedback:'Softer',svg_sha256:'x',reference_images:refs}) + ",Object.assign(icons[0],{python_source:{path:'p.py'}}),$('fixActions'));$('fixActions').children.at(-1).onclick();");
   assert.deepEqual(JSON.parse(gallery.run('JSON.stringify(fixPicker.ids())')), [refs[0].id], 'Regenerate carries feedback references');
   await gallery.run("$('fixForm').onsubmit({preventDefault(){}})");

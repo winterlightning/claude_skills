@@ -23,7 +23,7 @@
     return new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',',2)[1]||'');reader.onerror=()=>reject(Error('Could not read '+file.name+'.'));reader.readAsDataURL(file);});
   }
 
-  function ReferencePicker(container,{id,label='Reference images (optional, SVG or PNG)'}={}){
+  function ReferencePicker(container,{id,label='Reference images (optional, SVG or PNG)',onChange=()=>{}}={}){
     let refs=[],pending=0,epoch=0;
     const wrap=el('div','reference-picker'),input=el('input'),list=el('div','reference-strip'),status=el('p','reference-status');
     input.type='file';input.multiple=true;input.accept='.svg,.png,image/svg+xml,image/png';
@@ -37,7 +37,7 @@
       for(const ref of refs){
         const figure=thumb(ref),remove=el('button','reference-remove','Remove');
         remove.type='button';remove.setAttribute('aria-label','Remove '+ref.name);
-        remove.onclick=()=>{refs=refs.filter(item=>item.id!==ref.id);draw();};
+        remove.onclick=()=>{refs=refs.filter(item=>item.id!==ref.id);draw();onChange();};
         figure.append(remove);list.append(figure);
       }
       input.disabled=refs.length+pending>=MAX;
@@ -59,13 +59,14 @@
           if(started===epoch&&!refs.some(ref=>ref.id===result.id))refs.push(result);
           if(started===epoch)status.textContent='';
         }catch(error){if(started===epoch)status.textContent=error.message;}
-        finally{if(started===epoch){pending--;draw();}}
+        finally{if(started===epoch){pending--;draw();onChange();}}
       }
     };
 
     const picker={
       element:wrap,
       ids:()=>refs.map(ref=>ref.id),
+      items:()=>refs.map(ref=>({...ref})),
       busy:()=>pending>0,
       set(list){epoch++;pending=0;refs=(list||[]).slice(0,MAX);status.textContent='';draw();},
       clear(){picker.set([]);},

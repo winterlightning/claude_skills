@@ -26,6 +26,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
 if __package__:
+    from .reviewer_stats import reviewer_stats
     from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from .generation import GenerationManager
@@ -39,6 +40,7 @@ if __package__:
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
+    from reviewer_stats import reviewer_stats
     from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from generation import GenerationManager
@@ -578,6 +580,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response([feedback_row(row) for row in rows])
             except sqlite3.Error:
                 return self.json_response({'error': 'Feedback is temporarily unavailable'}, 503)
+        if parsed.path == '/api/reviewer-stats':
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    result = reviewer_stats(connection, parse_qs(parsed.query), ADMIN_USERS)
+                return self.json_response(result)
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 400)
+            except sqlite3.Error:
+                return self.json_response({'error': 'Reviewer activity is temporarily unavailable. Try again.'}, 503)
         if parsed.path == '/api/reviews':
             try:
                 catalog = self.catalog(include_failed=True)
@@ -772,7 +783,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             reason = {'bad-draw': 'bad-stroke'}.get(data.get('reason'), data.get('reason', 'other'))
             if not isinstance(key, str):
                 raise ValueError()
-            if route == '/api/reviews' and status == 'pending':
+            if route == '/api/reviews' and status == 'pending' and ('reason' in data or 'feedback' in data):
                 labels = {'bad-stroke': 'Bad stroke drawn', 'meaning': 'Does not convey the intended meaning'}
                 details = data.get('feedback', '')
                 if not isinstance(details, str) or reason not in ('bad-stroke', 'meaning', 'other') or (reason == 'other' and not details.strip()):
@@ -780,6 +791,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 feedback = '\n\n'.join(filter(None, (labels.get(reason), details.strip())))
                 route = '/api/feedback'
             if route == '/api/feedback':
+                if data.get('feedback_id') is not None and (type(data['feedback_id']) is not int or not isinstance(data.get('previous_feedback'), str)):
+                    raise ValueError()
                 if reason not in ('bad-stroke', 'meaning', 'other'):
                     return self.json_response({'error': 'Choose a valid disapproval reason.'}, 400)
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
@@ -815,11 +828,20 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         return self.json_response({'error': 'Restore this rejected icon before changing its review status.'}, 409)
                 now = datetime.now(timezone.utc).isoformat()
                 if route == '/api/feedback':
-                    feedback_id = connection.execute(
-                        'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images, author, reason) VALUES (?, ?, ?, ?, ?, ?, ?)',
-                        (key, feedback.strip(), sha, now, json.dumps(references), user, reason),
-                    ).lastrowid
-                    record_activity(connection, user, 'feedback', key, feedback_id=feedback_id, status=status, reason=reason,
+                    feedback_id = data.get('feedback_id')
+                    if feedback_id is not None:
+                        updated = connection.execute(
+                            '''UPDATE feedback SET feedback=?, reason=?, reference_images=?, edited_by=?, edited_at=?
+                               WHERE id=? AND icon=? AND svg_sha256=? AND feedback=? AND author=?''',
+                            (feedback.strip(), reason, json.dumps(references), user, now, feedback_id, key, sha, data['previous_feedback'], user))
+                        if not updated.rowcount:
+                            return self.json_response({'error': 'Feedback changed. Reopen the icon before editing again.'}, 409)
+                    else:
+                        feedback_id = connection.execute(
+                            'INSERT INTO feedback(icon, feedback, svg_sha256, created_at, reference_images, author, reason) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                            (key, feedback.strip(), sha, now, json.dumps(references), user, reason),
+                        ).lastrowid
+                    record_activity(connection, user, 'feedback_edit' if data.get('feedback_id') is not None else 'feedback', key, feedback_id=feedback_id, status=status, reason=reason,
                                     reference_images=[ref['id'] for ref in references])
                 else:
                     record_activity(connection, user, 'review', key, status=status, svg_sha256=sha)
@@ -829,7 +851,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                        status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
                     (key, sha, status, now, user),
                 )
-            return self.json_response({'saved': True, 'status': status, 'updated_by': user}, 201)
+            result = {'saved': True, 'status': status, 'updated_by': user}
+            if route == '/api/feedback':
+                result.update(id=feedback_id, feedback=feedback.strip())
+            return self.json_response(result, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
 
