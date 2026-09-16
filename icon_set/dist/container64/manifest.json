@@ -3,7 +3,7 @@
   "family": "container",
   "profile": "CONTAINER64",
   "canvas_size": 64,
-  "count": 151,
+  "count": 157,
   "icons": [
     {
       "icon_id": "aiming-reticle",
@@ -1862,6 +1862,309 @@
               "inscribed_diameter_design_u": 46.0,
               "inscribed_radius_ship_px": 23.0,
               "inscribed_radius_design_u": 23.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 2,
+          "raster_artifact_count": 0,
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "closed-hardcover-book",
+      "name": "closed-hardcover-book",
+      "aliases": [
+        "closed-hardcover-book-icon"
+      ],
+      "category": "containers",
+      "keywords": [
+        "closed",
+        "hardcover",
+        "book"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        8,
+        0,
+        56,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "top",
+          "start": [
+            18,
+            2
+          ],
+          "end": [
+            54,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "right-upper",
+          "start": [
+            54,
+            2
+          ],
+          "end": [
+            54,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "right-lower",
+          "start": [
+            54,
+            18
+          ],
+          "end": [
+            54,
+            62
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bottom",
+          "start": [
+            54,
+            62
+          ],
+          "end": [
+            18,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "spine-bottom",
+          "start": [
+            18,
+            62
+          ],
+          "end": [
+            10,
+            54
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "left-lower",
+          "start": [
+            10,
+            54
+          ],
+          "end": [
+            10,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "left-upper",
+          "start": [
+            10,
+            18
+          ],
+          "end": [
+            10,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "spine-top",
+          "start": [
+            10,
+            10
+          ],
+          "end": [
+            18,
+            2
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "page-band",
+          "start": [
+            10,
+            18
+          ],
+          "end": [
+            54,
+            18
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cover",
+          "members": [
+            "top",
+            "right-upper",
+            "right-lower",
+            "bottom",
+            "spine-bottom",
+            "left-lower",
+            "left-upper",
+            "spine-top"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "page-band",
+            "cover"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/closed-hardcover-book.svg",
+      "svg_sha256": "db0dd79c76f0d66e6a33b6491831428e2df2eed475e3b4cbe5df94d25e722c2b",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                18.2656,
+                9.9844
+              ],
+              "bbox_viewbox": [
+                12.0,
+                4.0,
+                40.0,
+                12.0
+              ],
+              "bbox_ship_px": [
+                40.0,
+                12.0
+              ],
+              "bbox_design_u": [
+                40.0,
+                12.0
+              ],
+              "area_ship_px2": 472.2793,
+              "equivalent_diameter_ship_px": 24.5219,
+              "equivalent_diameter_design_u": 24.5219,
+              "inscribed_diameter_ship_px": 12.0,
+              "inscribed_diameter_design_u": 12.0,
+              "inscribed_radius_ship_px": 6.0,
+              "inscribed_radius_design_u": 6.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                31.9844,
+                39.9844
+              ],
+              "bbox_viewbox": [
+                12.0,
+                20.0,
+                40.0,
+                40.0
+              ],
+              "bbox_ship_px": [
+                40.0,
+                40.0
+              ],
+              "bbox_design_u": [
+                40.0,
+                40.0
+              ],
+              "area_ship_px2": 1592.2764,
+              "equivalent_diameter_ship_px": 45.0261,
+              "equivalent_diameter_design_u": 45.0261,
+              "inscribed_diameter_ship_px": 40.0,
+              "inscribed_diameter_design_u": 40.0,
+              "inscribed_radius_ship_px": 20.0,
+              "inscribed_radius_design_u": 20.0,
               "minimum_radius_design_u": 1.0,
               "status": "pass"
             }
@@ -5711,6 +6014,407 @@
           "authored_hole_count": 3,
           "raster_artifact_count": 0,
           "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "desktop-monitor-flared-stand",
+      "name": "desktop-monitor-flared-stand",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "desktop",
+        "monitor",
+        "flared",
+        "stand"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "screen-0",
+          "start": [
+            8,
+            2
+          ],
+          "end": [
+            56,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "screen-1",
+          "start": [
+            56,
+            2
+          ],
+          "end": [
+            62,
+            8
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "screen-2",
+          "start": [
+            62,
+            8
+          ],
+          "end": [
+            62,
+            40
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "screen-3",
+          "start": [
+            62,
+            40
+          ],
+          "end": [
+            56,
+            46
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "screen-4-right",
+          "start": [
+            56,
+            46
+          ],
+          "end": [
+            38,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "screen-4-middle",
+          "start": [
+            38,
+            46
+          ],
+          "end": [
+            26,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "screen-4-left",
+          "start": [
+            26,
+            46
+          ],
+          "end": [
+            8,
+            46
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "screen-5",
+          "start": [
+            8,
+            46
+          ],
+          "end": [
+            2,
+            40
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "screen-6",
+          "start": [
+            2,
+            40
+          ],
+          "end": [
+            2,
+            8
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "screen-7",
+          "start": [
+            2,
+            8
+          ],
+          "end": [
+            8,
+            2
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "stand-left",
+          "start": [
+            26,
+            46
+          ],
+          "end": [
+            18,
+            62
+          ],
+          "segments": [
+            [
+              [
+                26,
+                52
+              ],
+              [
+                23,
+                56
+              ],
+              [
+                18,
+                62
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "foot",
+          "start": [
+            18,
+            62
+          ],
+          "end": [
+            46,
+            62
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "stand-right",
+          "start": [
+            46,
+            62
+          ],
+          "end": [
+            38,
+            46
+          ],
+          "segments": [
+            [
+              [
+                41,
+                56
+              ],
+              [
+                38,
+                52
+              ],
+              [
+                38,
+                46
+              ]
+            ]
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "screen",
+          "members": [
+            "screen-0",
+            "screen-1",
+            "screen-2",
+            "screen-3",
+            "screen-4-right",
+            "screen-4-middle",
+            "screen-4-left",
+            "screen-5",
+            "screen-6",
+            "screen-7"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "stand",
+          "members": [
+            "stand-left",
+            "foot",
+            "stand-right"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "stand",
+            "screen"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/desktop-monitor-flared-stand.svg",
+      "svg_sha256": "163bd0d6e697e3941618bd7c66dff23f385a0eaf156cbd5034bb81069a551107",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                23.9844,
+                23.9844
+              ],
+              "bbox_viewbox": [
+                4.0,
+                4.0,
+                56.0,
+                40.0
+              ],
+              "bbox_ship_px": [
+                56.0,
+                40.0
+              ],
+              "bbox_design_u": [
+                56.0,
+                40.0
+              ],
+              "area_ship_px2": 2226.2598,
+              "equivalent_diameter_ship_px": 53.2406,
+              "equivalent_diameter_design_u": 53.2406,
+              "inscribed_diameter_ship_px": 40.0,
+              "inscribed_diameter_design_u": 40.0,
+              "inscribed_radius_ship_px": 20.0,
+              "inscribed_radius_design_u": 20.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                31.9844,
+                54.4844
+              ],
+              "bbox_viewbox": [
+                22.2188,
+                48.0,
+                19.5625,
+                12.0
+              ],
+              "bbox_ship_px": [
+                19.5625,
+                12.0
+              ],
+              "bbox_design_u": [
+                19.5625,
+                12.0
+              ],
+              "area_ship_px2": 149.8242,
+              "equivalent_diameter_ship_px": 13.8117,
+              "equivalent_diameter_design_u": 13.8117,
+              "inscribed_diameter_ship_px": 11.0222,
+              "inscribed_diameter_design_u": 11.0222,
+              "inscribed_radius_ship_px": 5.5111,
+              "inscribed_radius_design_u": 5.5111,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 2,
+          "raster_artifact_count": 0,
+          "hole_count": 2,
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 0,
@@ -22800,6 +23504,405 @@
       }
     },
     {
+      "icon_id": "open-hand-palm",
+      "name": "open-hand-palm",
+      "aliases": [
+        "raised-hand",
+        "hand-palm-container"
+      ],
+      "category": "containers",
+      "keywords": [
+        "hand",
+        "palm",
+        "human",
+        "greeting",
+        "stop",
+        "attention"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "index-left",
+          "start": [
+            18,
+            28
+          ],
+          "end": [
+            18,
+            13
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "index-tip",
+          "start": [
+            18,
+            13
+          ],
+          "end": [
+            28,
+            13
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "middle-left",
+          "start": [
+            28,
+            13
+          ],
+          "end": [
+            28,
+            7
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "middle-tip",
+          "start": [
+            28,
+            7
+          ],
+          "end": [
+            38,
+            7
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "middle-right",
+          "start": [
+            38,
+            7
+          ],
+          "end": [
+            38,
+            13
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "ring-tip",
+          "start": [
+            38,
+            13
+          ],
+          "end": [
+            48,
+            13
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "ring-right",
+          "start": [
+            48,
+            13
+          ],
+          "end": [
+            48,
+            23
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "little-tip",
+          "start": [
+            48,
+            23
+          ],
+          "end": [
+            58,
+            23
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "palm-right",
+          "start": [
+            58,
+            23
+          ],
+          "end": [
+            58,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "palm-base-right",
+          "start": [
+            58,
+            42
+          ],
+          "end": [
+            38,
+            62
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "palm-base-left",
+          "start": [
+            38,
+            62
+          ],
+          "end": [
+            14,
+            50
+          ],
+          "radius_x": 30,
+          "radius_y": 30,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "thumb-side",
+          "start": [
+            14,
+            50
+          ],
+          "end": [
+            8,
+            42
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "thumb-heel",
+          "start": [
+            8,
+            42
+          ],
+          "end": [
+            6,
+            36
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "thumb-tip",
+          "start": [
+            6,
+            36
+          ],
+          "end": [
+            16,
+            36
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "thumb-web",
+          "start": [
+            16,
+            36
+          ],
+          "end": [
+            22,
+            42
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "finger-crease-28",
+          "start": [
+            28,
+            13
+          ],
+          "end": [
+            28,
+            28
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "finger-crease-38",
+          "start": [
+            38,
+            13
+          ],
+          "end": [
+            38,
+            28
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "finger-crease-48",
+          "start": [
+            48,
+            23
+          ],
+          "end": [
+            48,
+            28
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outline",
+          "members": [
+            "index-left",
+            "index-tip",
+            "middle-left",
+            "middle-tip",
+            "middle-right",
+            "ring-tip",
+            "ring-right",
+            "little-tip",
+            "palm-right",
+            "palm-base-right",
+            "palm-base-left",
+            "thumb-side",
+            "thumb-heel",
+            "thumb-tip",
+            "thumb-web"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "finger-crease-28",
+            "outline"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "finger-crease-38",
+            "outline"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "finger-crease-48",
+            "outline"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/open-hand-palm.svg",
+      "svg_sha256": "d863e085828a88cdfce874d1128298bbd2fd1e168b3a9ddd2e7303cb8a93b522",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [],
+          "authored_hole_count": 0,
+          "raster_artifact_count": 0,
+          "hole_count": 0,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "outdoor-canopy-event-tent",
       "name": "outdoor-canopy-event-tent",
       "aliases": [],
@@ -28508,6 +29611,456 @@
           "authored_hole_count": 0,
           "raster_artifact_count": 0,
           "hole_count": 0,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "restaurant-food-cloche",
+      "name": "restaurant-food-cloche",
+      "aliases": [
+        "serving-cloche",
+        "food-cover"
+      ],
+      "category": "containers",
+      "keywords": [
+        "restaurant",
+        "food",
+        "cloche"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "handle",
+          "start": [
+            22,
+            12
+          ],
+          "end": [
+            42,
+            12
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cover-top-right",
+          "start": [
+            44,
+            12
+          ],
+          "end": [
+            42,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cover-top-middle",
+          "start": [
+            42,
+            12
+          ],
+          "end": [
+            22,
+            12
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cover-top-left",
+          "start": [
+            22,
+            12
+          ],
+          "end": [
+            20,
+            12
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "shoulder-right",
+          "start": [
+            52,
+            20
+          ],
+          "end": [
+            44,
+            12
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "side-right",
+          "start": [
+            56,
+            52
+          ],
+          "end": [
+            52,
+            20
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "side-left",
+          "start": [
+            12,
+            20
+          ],
+          "end": [
+            8,
+            52
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "shoulder-left",
+          "start": [
+            20,
+            12
+          ],
+          "end": [
+            12,
+            20
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-top-left",
+          "start": [
+            6,
+            52
+          ],
+          "end": [
+            8,
+            52
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-top-middle",
+          "start": [
+            8,
+            52
+          ],
+          "end": [
+            56,
+            52
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-top-right",
+          "start": [
+            56,
+            52
+          ],
+          "end": [
+            58,
+            52
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-r",
+          "start": [
+            58,
+            52
+          ],
+          "end": [
+            58,
+            56
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "tray-br",
+          "start": [
+            58,
+            56
+          ],
+          "end": [
+            52,
+            62
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-bottom",
+          "start": [
+            52,
+            62
+          ],
+          "end": [
+            12,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "tray-bl",
+          "start": [
+            12,
+            62
+          ],
+          "end": [
+            6,
+            56
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "tray-l",
+          "start": [
+            6,
+            56
+          ],
+          "end": [
+            6,
+            52
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cover",
+          "members": [
+            "side-right",
+            "shoulder-right",
+            "cover-top-right",
+            "cover-top-middle",
+            "cover-top-left",
+            "shoulder-left",
+            "side-left"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "tray",
+          "members": [
+            "tray-top-left",
+            "tray-top-middle",
+            "tray-top-right",
+            "tray-r",
+            "tray-br",
+            "tray-bottom",
+            "tray-bl",
+            "tray-l"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "handle",
+            "cover"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "cover",
+            "tray"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/restaurant-food-cloche.svg",
+      "svg_sha256": "bbccfa79bb33e7db467d1b191debf548d83ada6cb09ace4342916c0ab0f87fee",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                31.6719,
+                6.9844
+              ],
+              "bbox_viewbox": [
+                24.25,
+                4.0,
+                15.5,
+                6.0
+              ],
+              "bbox_ship_px": [
+                15.5,
+                6.0
+              ],
+              "bbox_design_u": [
+                15.5,
+                6.0
+              ],
+              "area_ship_px2": 68.8633,
+              "equivalent_diameter_ship_px": 9.3637,
+              "equivalent_diameter_design_u": 9.3637,
+              "inscribed_diameter_ship_px": 6.0,
+              "inscribed_diameter_design_u": 6.0,
+              "inscribed_radius_ship_px": 3.0,
+              "inscribed_radius_design_u": 3.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                30.5156,
+                31.9844
+              ],
+              "bbox_viewbox": [
+                10.2812,
+                14.0,
+                43.4375,
+                36.0
+              ],
+              "bbox_ship_px": [
+                43.4375,
+                36.0
+              ],
+              "bbox_design_u": [
+                43.4375,
+                36.0
+              ],
+              "area_ship_px2": 1392.1191,
+              "equivalent_diameter_ship_px": 42.1011,
+              "equivalent_diameter_design_u": 42.1011,
+              "inscribed_diameter_ship_px": 36.0,
+              "inscribed_diameter_design_u": 36.0,
+              "inscribed_radius_ship_px": 18.0,
+              "inscribed_radius_design_u": 18.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 3,
+              "center_viewbox": [
+                11.8906,
+                56.9844
+              ],
+              "bbox_viewbox": [
+                8.0,
+                54.0,
+                48.0,
+                6.0
+              ],
+              "bbox_ship_px": [
+                48.0,
+                6.0
+              ],
+              "bbox_design_u": [
+                48.0,
+                6.0
+              ],
+              "area_ship_px2": 281.126,
+              "equivalent_diameter_ship_px": 18.9193,
+              "equivalent_diameter_design_u": 18.9193,
+              "inscribed_diameter_ship_px": 6.0,
+              "inscribed_diameter_design_u": 6.0,
+              "inscribed_radius_ship_px": 3.0,
+              "inscribed_radius_design_u": 3.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 3,
+          "raster_artifact_count": 0,
+          "hole_count": 3,
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 0,
@@ -35162,6 +36715,313 @@
               "inscribed_diameter_design_u": 36.0,
               "inscribed_radius_ship_px": 18.0,
               "inscribed_radius_design_u": 18.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 2,
+          "raster_artifact_count": 0,
+          "hole_count": 2,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "simple-closed-book",
+      "name": "simple-closed-book",
+      "aliases": [
+        "closed-book"
+      ],
+      "category": "containers",
+      "keywords": [
+        "simple",
+        "closed",
+        "book"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        8,
+        0,
+        56,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "cover-left",
+          "start": [
+            10,
+            48
+          ],
+          "end": [
+            10,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "cover-nw",
+          "start": [
+            10,
+            10
+          ],
+          "end": [
+            18,
+            2
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "cover-top",
+          "start": [
+            18,
+            2
+          ],
+          "end": [
+            54,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "cover-right",
+          "start": [
+            54,
+            2
+          ],
+          "end": [
+            54,
+            48
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "page-recess",
+          "start": [
+            54,
+            48
+          ],
+          "end": [
+            54,
+            62
+          ],
+          "radius_x": 16,
+          "radius_y": 16,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "page-bottom",
+          "start": [
+            54,
+            62
+          ],
+          "end": [
+            18,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "binding",
+          "start": [
+            18,
+            62
+          ],
+          "end": [
+            10,
+            54
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "binding-side",
+          "start": [
+            10,
+            54
+          ],
+          "end": [
+            10,
+            48
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "page-top",
+          "start": [
+            10,
+            48
+          ],
+          "end": [
+            54,
+            48
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "cover",
+          "members": [
+            "cover-left",
+            "cover-nw",
+            "cover-top",
+            "cover-right",
+            "page-recess",
+            "page-bottom",
+            "binding",
+            "binding-side"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "page-top",
+            "cover"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/simple-closed-book.svg",
+      "svg_sha256": "8b0c8eb6e10a2de7a563e4fe9659b3eef5d9d8a5e6c1208295b6c2394c4e7c1d",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                31.9844,
+                23.9844
+              ],
+              "bbox_viewbox": [
+                12.0,
+                4.0,
+                40.0,
+                42.0
+              ],
+              "bbox_ship_px": [
+                40.0,
+                42.0
+              ],
+              "bbox_design_u": [
+                40.0,
+                42.0
+              ],
+              "area_ship_px2": 1672.2793,
+              "equivalent_diameter_ship_px": 46.1434,
+              "equivalent_diameter_design_u": 46.1434,
+              "inscribed_diameter_ship_px": 40.0,
+              "inscribed_diameter_design_u": 40.0,
+              "inscribed_radius_ship_px": 20.0,
+              "inscribed_radius_design_u": 20.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                17.9531,
+                54.9844
+              ],
+              "bbox_viewbox": [
+                12.0,
+                50.0,
+                39.0938,
+                10.0
+              ],
+              "bbox_ship_px": [
+                39.0938,
+                10.0
+              ],
+              "bbox_design_u": [
+                39.0938,
+                10.0
+              ],
+              "area_ship_px2": 378.4902,
+              "equivalent_diameter_ship_px": 21.9524,
+              "equivalent_diameter_design_u": 21.9524,
+              "inscribed_diameter_ship_px": 10.0,
+              "inscribed_diameter_design_u": 10.0,
+              "inscribed_radius_ship_px": 5.0,
+              "inscribed_radius_design_u": 5.0,
               "minimum_radius_design_u": 1.0,
               "status": "pass"
             }
@@ -44213,6 +46073,337 @@
           "authored_hole_count": 1,
           "raster_artifact_count": 0,
           "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "towel-ring",
+      "name": "towel-ring",
+      "aliases": [
+        "circular-towel-ring-hanger"
+      ],
+      "category": "containers",
+      "keywords": [
+        "towel",
+        "ring"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "mount-left",
+          "start": [
+            2,
+            6
+          ],
+          "end": [
+            27,
+            6
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "mount-right",
+          "start": [
+            37,
+            6
+          ],
+          "end": [
+            62,
+            6
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bracket-top",
+          "start": [
+            27,
+            2
+          ],
+          "end": [
+            37,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bracket-right",
+          "start": [
+            37,
+            2
+          ],
+          "end": [
+            37,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "bracket-bottom",
+          "start": [
+            37,
+            10
+          ],
+          "end": [
+            27,
+            10
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "bracket-left",
+          "start": [
+            27,
+            10
+          ],
+          "end": [
+            27,
+            2
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "hanger",
+          "start": [
+            32,
+            15
+          ],
+          "end": [
+            32,
+            24
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "ring-right",
+          "start": [
+            32,
+            24
+          ],
+          "end": [
+            32,
+            62
+          ],
+          "radius_x": 19,
+          "radius_y": 19,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "ring-left",
+          "start": [
+            32,
+            62
+          ],
+          "end": [
+            32,
+            24
+          ],
+          "radius_x": 19,
+          "radius_y": 19,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "bracket",
+          "members": [
+            "bracket-top",
+            "bracket-right",
+            "bracket-bottom",
+            "bracket-left"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "ring",
+          "members": [
+            "ring-right",
+            "ring-left"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "mount-left",
+            "bracket"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "mount-right",
+            "bracket"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hanger",
+            "bracket"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "hanger",
+            "ring"
+          ]
+        }
+      ],
+      "svg_path": "dist/container64/towel-ring.svg",
+      "svg_sha256": "1215d02b637d39ff033931f88680762998ca1088e17e83a48c0f821e8d02d0c2",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                31.9844,
+                6.9844
+              ],
+              "bbox_viewbox": [
+                29.0,
+                4.0,
+                6.0,
+                9.0
+              ],
+              "bbox_ship_px": [
+                6.0,
+                9.0
+              ],
+              "bbox_design_u": [
+                6.0,
+                9.0
+              ],
+              "area_ship_px2": 50.1455,
+              "equivalent_diameter_ship_px": 7.9904,
+              "equivalent_diameter_design_u": 7.9904,
+              "inscribed_diameter_ship_px": 6.0,
+              "inscribed_diameter_design_u": 6.0,
+              "inscribed_radius_ship_px": 3.0,
+              "inscribed_radius_design_u": 3.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                31.9844,
+                42.9844
+              ],
+              "bbox_viewbox": [
+                15.0,
+                26.0,
+                34.0,
+                34.0
+              ],
+              "bbox_ship_px": [
+                34.0,
+                34.0
+              ],
+              "bbox_design_u": [
+                34.0,
+                34.0
+              ],
+              "area_ship_px2": 907.9092,
+              "equivalent_diameter_ship_px": 33.9998,
+              "equivalent_diameter_design_u": 33.9998,
+              "inscribed_diameter_ship_px": 33.3654,
+              "inscribed_diameter_design_u": 33.3654,
+              "inscribed_radius_ship_px": 16.6827,
+              "inscribed_radius_design_u": 16.6827,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 2,
+          "raster_artifact_count": 0,
+          "hole_count": 2,
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 0,

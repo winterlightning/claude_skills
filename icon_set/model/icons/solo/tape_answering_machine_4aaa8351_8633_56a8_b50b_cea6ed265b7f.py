@@ -11,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class TapeAnsweringMachine(Solo48):
     icon_id = 'tape-answering-machine'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/device"

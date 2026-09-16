@@ -1,4 +1,6 @@
-"""Ant with the middle left and right leg lines removed as requested. VRECT_L (8,4)-(40,44). Lucide bug informs mirrored attachments; retained parent antennae, head and abdomen."""
+"""A clear head and broad abdomen linked by a thorax; two mirrored pairs of legs retain the requested removal of the middle pair.
+References: Lucide bug and supplied ant; saved request for four leg strokes.
+Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '4dc29185-dc5f-4ffe-94d4-dbda6690888c'
@@ -10,35 +12,33 @@ class Ant(Solo48):
     keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
     aliases = ()
-    keywords = ('ant', 'insect', 'worker', 'bug', 'colony', 'antennae', 'legs', 'nature')
+    keywords = ('ant',)
 
-    def build(self) -> None:
-        self.add_arc('head-left', (24, 9), (18, 14), radius_x=6, radius_y=5, sweep=False)
-        self.add_arc('head-bottom-left', (18, 14), (24, 20), radius_x=6, radius_y=6, sweep=False)
-        self.add_arc('head-bottom-right', (24, 20), (30, 14), radius_x=6, radius_y=6, sweep=False)
-        self.add_arc('head-right', (30, 14), (24, 9), radius_x=6, radius_y=5, sweep=False)
-        self.add_contour('head', 'head-left', 'head-bottom-left', 'head-bottom-right', 'head-right', closed=True)
-        self.add_line('waist-top', (24, 20), (24, 24))
-        self.add_line('waist-mid', (24, 24), (24, 26))
-        self.add_line('waist-low', (24, 26), (24, 28))
-        self.add_contour('waist', 'waist-top', 'waist-mid', 'waist-low', closed=False)
-        self.relate('connect', 'head', 'waist')
-        self.add_arc('abd-top-left', (24, 28), (16, 36), radius_x=8, radius_y=8, sweep=False)
-        self.add_arc('abd-low-left', (16, 36), (24, 44), radius_x=14, radius_y=14, sweep=False)
-        self.add_arc('abd-low-right', (24, 44), (32, 36), radius_x=14, radius_y=14, sweep=False)
-        self.add_arc('abd-top-right', (32, 36), (24, 28), radius_x=8, radius_y=8, sweep=False)
-        self.add_contour('abdomen', 'abd-top-left', 'abd-low-left', 'abd-low-right', 'abd-top-right', closed=True)
-        self.relate('connect', 'waist', 'abdomen')
-        self.add_polyline('antenna-left', (18, 14), (14, 8), (8, 4), closed=False)
-        self.relate('connect', 'head', 'antenna-left')
-        self.add_arc('leg-low-left', (24, 28), (8, 44), radius_x=19, radius_y=18, sweep=False)
-        self.relate('connect', 'waist', 'leg-low-left')
-        self.relate('connect', 'abdomen', 'leg-low-left')
-        self.add_polyline('antenna-right', (30, 14), (34, 8), (40, 4), closed=False)
-        self.relate('connect', 'head', 'antenna-right')
-        self.add_arc('leg-low-right', (24, 28), (40, 44), radius_x=19, radius_y=18, sweep=True)
-        self.relate('connect', 'waist', 'leg-low-right')
-        self.relate('connect', 'abdomen', 'leg-low-right')
-        self.relate('connect', 'leg-low-left', 'leg-low-right')
+    def build(self):
+        # Symbol plan: A clear head and broad abdomen linked by a thorax; two mirrored pairs of legs retain the requested removal of the middle pair.
+
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        circle('head',24,12,5);circle('abdomen',24,36,8)
+        line('thorax',(24,17),(24,28));join('head','thorax');join('thorax','abdomen')
+        for side in (-1,1):
+         x=lambda d:24+side*d
+         poly(f'antenna-{side}',(x(4),9),(x(9),4),(x(16),4));join('head',f'antenna-{side}')
+         poly(f'front-leg-{side}',(24,28),(x(12),24),(x(16),16));join('thorax',f'front-leg-{side}');join('abdomen',f'front-leg-{side}')
+         line(f'rear-leg-{side}',(x(8),36),(x(16),44));join('abdomen',f'rear-leg-{side}')
+        join('front-leg--1','front-leg-1')

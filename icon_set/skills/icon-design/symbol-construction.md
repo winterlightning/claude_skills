@@ -233,10 +233,12 @@ The canvas is 48×48, centered at `(24, 24)`:
 | `CIRCLE` | 44×44 | (2,2)–(46,46), tested radially | Radius 20 about (24,24) |
 | `SQUARE` | 40×40 | (4,4)–(44,44) | (6,6)–(42,42) |
 | `HRECT_L` | 44×36 | (2,6)–(46,42) | (4,8)–(44,40) |
+| `HRECT_M` | 44×32 | (2,8)–(46,40) | (4,10)–(44,38) |
 | `VRECT_L` | 36×44 | (6,2)–(42,46) | (8,4)–(40,44) |
+| `VRECT_M` | 32×44 | (8,2)–(40,46) | (10,4)–(38,44) |
 
-Other rectangle size suffixes remain compatibility names for the same
-orientation envelope on SOLO48. Use the four choices above for new SOLO48
+The `_XL` and `_S` rectangle size suffixes remain compatibility names for
+the `_L` orientation envelope on SOLO48. Use the six choices above for new SOLO48
 construction. Other families retain their own tables in
 [keyshape-fitting.md](keyshape-fitting.md).
 

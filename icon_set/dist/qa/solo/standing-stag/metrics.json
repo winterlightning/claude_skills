@@ -2,7 +2,7 @@
   "icon_id": "standing-stag",
   "family": "solo",
   "profile": "SOLO48",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -15,14 +15,14 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 42 L 6 34 L 6 30 A 6 6 0 0 1 12 24 L 26 24 L 30 16 L 38 16 L 42 22 L 36 26 L 36 42",
+        "pathData": "M 6 42 L 6 34 L 6 30 A 6 6 0 0 1 12 24 L 26 24 L 30 16 L 38 16 L 42 22 L 36 26 L 36 34 L 36 42",
         "bounds": [
           6.0,
           16.0,
           42.0,
           42.0
         ],
-        "segmentCount": 72,
+        "segmentCount": 73,
         "approximationError": 0.00045179463554633154,
         "hasCurves": true
       },
@@ -31,16 +31,16 @@
         "elementId": "belly",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 6 34 L 20 34 A 8 8 0 0 1 28 42",
+        "pathData": "M 6 34 L 36 34",
         "bounds": [
           6.0,
           34.0,
-          28.0,
-          42.0
+          36.0,
+          34.0
         ],
-        "segmentCount": 65,
-        "approximationError": 0.0006023928476958726,
-        "hasCurves": true
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       },
       {
         "id": "tail:subpath-1",
@@ -318,8 +318,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 22,
-      "flattenedSegments": 143,
-      "adaptiveNodes": 254,
+      "flattenedSegments": 80,
+      "adaptiveNodes": 127,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -328,13 +328,77 @@
   },
   "negative_space": {
     "status": "pass",
-    "authored_holes": [],
-    "authored_hole_count": 0,
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          30.1719,
+          28.1406
+        ],
+        "bbox_viewbox": [
+          8.0,
+          18.0,
+          31.2188,
+          14.0
+        ],
+        "bbox_ship_px": [
+          31.2188,
+          14.0
+        ],
+        "bbox_design_u": [
+          31.2188,
+          14.0
+        ],
+        "area_ship_px2": 214.2539,
+        "equivalent_diameter_ship_px": 16.5166,
+        "equivalent_diameter_design_u": 16.5166,
+        "inscribed_diameter_ship_px": 7.6875,
+        "inscribed_diameter_design_u": 7.6875,
+        "inscribed_radius_ship_px": 3.8438,
+        "inscribed_radius_design_u": 3.8438,
+        "minimum_radius_design_u": 1.0,
+        "status": "pass"
+      }
+    ],
+    "authored_hole_count": 1,
     "raster_artifact_count": 0,
-    "hole_count": 0,
+    "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
-    "holes": [],
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          30.1719,
+          28.1719
+        ],
+        "bbox_viewbox": [
+          6.5,
+          16.5,
+          34.8125,
+          17.0
+        ],
+        "bbox_ship_px": [
+          34.8125,
+          17.0
+        ],
+        "bbox_design_u": [
+          34.8125,
+          17.0
+        ],
+        "area_ship_px2": 344.793,
+        "equivalent_diameter_ship_px": 20.9524,
+        "equivalent_diameter_design_u": 20.9524,
+        "inscribed_diameter_ship_px": 10.6875,
+        "inscribed_diameter_design_u": 10.6875,
+        "inscribed_radius_ship_px": 5.3438,
+        "inscribed_radius_design_u": 5.3438,
+        "minimum_radius_design_u": 2.5,
+        "status": "pass",
+        "equivalent_radius_at_authored_stroke_design_u": 3.8438,
+        "equivalent_diameter_at_authored_stroke_design_u": 7.6876
+      }
+    ],
     "pinches": [],
     "exception_count": 0,
     "minimum_authored_diameter": 2.0,
@@ -351,7 +415,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.15816155978681468,
+        "ink_iou": 0.23348448315860162,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -359,7 +423,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.31011907324338983,
+        "ink_iou": 0.2923767374246584,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -395,7 +459,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "54ee5065ed455629a3448f7098b0fcd01b450fc509f16d6c0748ff0d6de81179",
+  "svg_sha256": "c8b8ee286635a5f6c7af6d3142e9f158b3510ee3a7df4c2298a5184dfbb6b187",
   "rules": {
     "profile": {
       "canvas_size": 48,

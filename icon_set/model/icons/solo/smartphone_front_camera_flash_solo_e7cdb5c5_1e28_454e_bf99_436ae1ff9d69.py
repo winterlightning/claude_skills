@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class SmartphoneFrontCameraFlashSolo(Solo48):
     icon_id = 'smartphone-front-camera-flash-solo'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

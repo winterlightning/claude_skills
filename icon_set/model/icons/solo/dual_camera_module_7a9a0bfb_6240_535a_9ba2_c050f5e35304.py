@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class DualCameraModule(Solo48):
     icon_id = 'dual-camera-module'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

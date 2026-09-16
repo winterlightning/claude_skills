@@ -1,0 +1,269 @@
+{
+  "icon_id": "simple-closed-book-check",
+  "name": "simple-closed-book-check",
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "simple",
+    "closed",
+    "book",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    8,
+    0,
+    56,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:cover-left",
+      "start": [
+        10,
+        48
+      ],
+      "end": [
+        10,
+        10
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-closed-book:cover-nw",
+      "start": [
+        10,
+        10
+      ],
+      "end": [
+        18,
+        2
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:cover-top",
+      "start": [
+        18,
+        2
+      ],
+      "end": [
+        54,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:cover-right",
+      "start": [
+        54,
+        2
+      ],
+      "end": [
+        54,
+        48
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-closed-book:page-recess",
+      "start": [
+        54,
+        48
+      ],
+      "end": [
+        54,
+        62
+      ],
+      "radius_x": 16,
+      "radius_y": 16,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:page-bottom",
+      "start": [
+        54,
+        62
+      ],
+      "end": [
+        18,
+        62
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:simple-closed-book:binding",
+      "start": [
+        18,
+        62
+      ],
+      "end": [
+        10,
+        54
+      ],
+      "radius_x": 8,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:binding-side",
+      "start": [
+        10,
+        54
+      ],
+      "end": [
+        10,
+        48
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:simple-closed-book:page-top",
+      "start": [
+        10,
+        48
+      ],
+      "end": [
+        54,
+        48
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:simple-closed-book:cover",
+      "members": [
+        "0:simple-closed-book:cover-left",
+        "0:simple-closed-book:cover-nw",
+        "0:simple-closed-book:cover-top",
+        "0:simple-closed-book:cover-right",
+        "0:simple-closed-book:page-recess",
+        "0:simple-closed-book:page-bottom",
+        "0:simple-closed-book:binding",
+        "0:simple-closed-book:binding-side"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:simple-closed-book:center": [
+      32,
+      32
+    ],
+    "0:simple-closed-book:content-top-left": [
+      16,
+      16
+    ],
+    "0:simple-closed-book:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:simple-closed-book:page-top",
+        "0:simple-closed-book:cover"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "simple-closed-book",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/container-repair-2026-09-16/compositions/simple-closed-book-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

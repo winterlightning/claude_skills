@@ -26,9 +26,10 @@ touches. This is why a five-point star can use `CIRCLE`: it has no ink at the
 bounding box's corners, and its bbox is not square.
 
 SOLO48 has centered visible-ink envelopes: circle 44×44, square 40×40,
-landscape 44×36 and portrait 36×44 — four keyshapes: `CIRCLE`, `SQUARE`,
-`HRECT_L` and `VRECT_L` (the contract's `keyshape_choices`). The other
-rectangle size tokens exist only so older modules still resolve; on SOLO48 they
+landscape 44×36 (`HRECT_L`) or 44×32 (`HRECT_M`), and portrait 36×44
+(`VRECT_L`) or 32×44 (`VRECT_M`) — six keyshapes including `CIRCLE` and
+`SQUARE` (the contract's `keyshape_choices`). The other
+`_XL` and `_S` rectangle size tokens exist only so older modules still resolve; on SOLO48 they
 give the same bounds as `HRECT_L`/`VRECT_L`. Never choose one for new work.
 SUB32 and CONTAINER64 retain their own tables.
 
@@ -76,7 +77,9 @@ authored, never scaled, because the stroke stays 4 and the grid stays 1.
 | `CIRCLE` | radius 22 about (24,24) | radius 20 |
 | `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
 | `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_M` | (2,8)-(46,40) | (4,10)-(44,38) |
 | `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_M` | (8,2)-(40,46) | (10,4)-(38,44) |
 
 ### `container` — `CONTAINER64`, canvas 64, MIC 4, centerline minimum 8
 
@@ -114,7 +117,8 @@ vertex has to reach `R`. Where an exact alternative exists, prefer it: the
 [authoring.md](authoring.md#spacing). A curve exactly on the minimum returns
 `review`, not `pass`. This bites at 48 in particular: a 4-unit mark between two
 walls needs 16 between the wall centerlines, 17 when a wall is curved, and the
-SOLO48 centerline boxes are only 36×36 (`SQUARE`) or 40×32 (`HRECT_L`/`VRECT_L`).
+SOLO48 centerline boxes are 36×36 (`SQUARE`), 40×32 (`HRECT_L`),
+32×40 (`VRECT_L`), 40×28 (`HRECT_M`), or 28×40 (`VRECT_M`).
 A band that is short cannot be fixed by squeezing; change the keyshape or drop
 the mark.
 

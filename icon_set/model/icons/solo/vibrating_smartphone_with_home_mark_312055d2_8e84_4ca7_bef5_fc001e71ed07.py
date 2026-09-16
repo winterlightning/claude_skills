@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class VibratingSmartphoneWithHomeMark(Solo48):
     icon_id = 'vibrating-smartphone-with-home-mark'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class VerticalTelephoneReceiver(Solo48):
     icon_id = 'vertical-telephone-receiver'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

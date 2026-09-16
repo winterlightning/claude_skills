@@ -22,9 +22,9 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo`, `abyssinian-cat-face`, `academic-graduation-cap` |
+| Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo`, `abyssinian-cat-face` |
 
-A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on a short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
+A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
 **Wrong family? Stop.** If the brief is a small glyph, operator or modifier meant to be hosted, stop and use `$icon-sub`. If it is an enclosure meant to hold a sub icon, use `$icon-container`. A solo icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
@@ -101,7 +101,9 @@ preserve the parent and edit a new file from `create_variant.py`.
 | `CIRCLE` | radius 22 about (24,24) | radius 20 |
 | `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
 | `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_M` | (2,8)-(46,40) | (4,10)-(44,38) |
 | `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_M` | (8,2)-(40,46) | (10,4)-(38,44) |
 
    Ask the model instead of doing arithmetic:
    `Keyshape.HRECT_L.bounds_for(Profile.SOLO48)`.
@@ -166,8 +168,8 @@ preserve the parent and edit a new file from `create_variant.py`.
 
 6. **Family-specific checks.**
 
-- SOLO48 has four keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L` and `VRECT_L`, with the visible-ink bounds in the table above. Older modules may still name `HRECT_XL`/`_M`/`_S` or `VRECT_XL`/`_M`/`_S`; on SOLO48 those resolve to the same bounds as `HRECT_L`/`VRECT_L`, so never choose one for new work. If an upright subject cannot fit, try a recognizable diagonal construction on the integer grid. If it still cannot fit, retain the validation findings and request the gallery's exception flag for manual review; record the reason and attempted fit. The flag is not a validation waiver or permission to leave the 48x48 canvas.
-- Budget before drawing: the centerline box is 36x36 on `SQUARE` and 40x32 on `HRECT_L`/`VRECT_L`, and every gap between distinct parts costs 8 on centerlines. An interior mark between two walls needs a band of 16 between the wall centerlines, 17 if either wall is curved, because the engine cannot certify a curved pair sitting exactly on the minimum. If the band is short, change the keyshape or drop the part; never squeeze.
+- SOLO48 has six keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L`, `HRECT_M`, `VRECT_L` and `VRECT_M`, with the visible-ink bounds in the table above. Older modules may still name `HRECT_XL`/`_S` or `VRECT_XL`/`_S`; on SOLO48 those resolve to the same bounds as `HRECT_L`/`VRECT_L`, so never choose one for new work. The `_M` rectangles reduce only the short visible-ink side by 4: 44x32 horizontal or 32x44 vertical. If an upright subject cannot fit, try a recognizable diagonal construction on the integer grid. If it still cannot fit, retain the validation findings and request the gallery's exception flag for manual review; record the reason and attempted fit. The flag is not a validation waiver or permission to leave the 48x48 canvas.
+- Budget before drawing: centerline boxes are 36x36 on `SQUARE`, 40x32 on `HRECT_L`, 32x40 on `VRECT_L`, 40x28 on `HRECT_M`, and 28x40 on `VRECT_M`. Every gap between distinct parts costs 8 on centerlines. An interior mark between two walls needs a band of 16 between the wall centerlines, 17 if either wall is curved, because the engine cannot certify a curved pair sitting exactly on the minimum. If the band is short, change the keyshape or drop the part; never squeeze.
 - Existing solo modules authored before 2026-09-13 were drawn to full-canvas envelopes (ink 0-48) and MIC 2, and many no longer validate. Run `validate_icon()` on any icon before imitating its coordinates; take construction ideas from a failing one, not numbers.
 - Traced references: render first, then re-author on this grid. Reconstruct the subject, never the source's coordinates. Put arc centres on integer points and pick radii whose apex *is* the endpoint, so the arc reaches the keyshape edge exactly and cannot overshoot it.
 - Split a wall where a part attaches so the two share an endpoint; declare the contact with `relate("connect", ...)`. An arc merely touching a line is not proved as a connection and comes back `review`.

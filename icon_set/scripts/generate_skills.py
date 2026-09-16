@@ -129,22 +129,24 @@ FAMILY_TEXT = {
             "A **solo** icon is one independently readable subject. It is never hosted "
             "and hosts nothing, but it does not own the edge of the 48 canvas: its "
             "keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on "
-            "`SQUARE`, 6 on a short axis). It "
+            "`SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It "
             "is always `semantic_role = \"MAIN\"`, `semantic_kind = \"noun\"`."
         ),
         "specifics": [
-            "SOLO48 has four keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L` and `VRECT_L`, "
+            "SOLO48 has six keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L`, `HRECT_M`, `VRECT_L` and `VRECT_M`, "
             "with the visible-ink bounds in the table above. Older modules may still "
-            "name `HRECT_XL`/`_M`/`_S` or `VRECT_XL`/`_M`/`_S`; on SOLO48 those resolve "
+            "name `HRECT_XL`/`_S` or `VRECT_XL`/`_S`; on SOLO48 those resolve "
             "to the same bounds as `HRECT_L`/`VRECT_L`, so never choose one for new "
-            "work. If an upright "
+            "work. The `_M` rectangles reduce only the short visible-ink side by 4: "
+            "44x32 horizontal or 32x44 vertical. If an upright "
             "subject cannot fit, try a recognizable diagonal construction on "
             "the integer grid. If it still cannot fit, retain the validation "
             "findings and request the gallery's exception flag for manual review; "
             "record the reason and attempted fit. The flag is not a validation "
             "waiver or permission to leave the 48x48 canvas.",
-            "Budget before drawing: the centerline box is 36x36 on `SQUARE` and 40x32 on "
-            "`HRECT_L`/`VRECT_L`, and every gap between distinct parts costs 8 on "
+            "Budget before drawing: centerline boxes are 36x36 on `SQUARE`, 40x32 on "
+            "`HRECT_L`, 32x40 on `VRECT_L`, 40x28 on `HRECT_M`, and 28x40 on "
+            "`VRECT_M`. Every gap between distinct parts costs 8 on "
             "centerlines. An interior mark between two walls needs a band of 16 between "
             "the wall centerlines, 17 if either wall is curved, because the engine cannot "
             "certify a curved pair sitting exactly on the minimum. If the band is short, "
@@ -224,7 +226,7 @@ FAMILY_TEXT = {
         "default_category": "avatars",
         "job": "This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` for the circular head, rounded shoulders, and open bottom. The current avatar rule supersedes its detached layout: head ink touches body ink, with no visible gap.",
         "specifics": [
-            "Avatar is a specialized authoring skill within the solo family, using SOLO48 and its four exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), and `VRECT_L` (36×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
+            "Avatar is a specialized authoring skill within the solo family, using SOLO48 and its six exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), `HRECT_M` (44×32), `VRECT_L` (36×44), and `VRECT_M` (32×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy `_XL` and `_S` rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
             "Center the head/face circle on the canvas vertical axis: head_cx = 24 on SOLO48. Measure the face itself, excluding hair, buns and hats; asymmetric accessories must not shift the face off-axis. Fit accessories within the keyshape by rebalancing them. For tall headwear, shorten the body and simplify clothing while preserving a circular face, curved shoulders and head/body contact.",
             "Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Head ink must touch body ink: {avatar_gap} visible gap, or {avatar_centerline_gap} centerline separation for tangent stroke contact with stroke 4. Declare a scoped `connect` only for the actually touching head/body paths; keep the normal MIC for other separate parts. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.",
             "Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.",

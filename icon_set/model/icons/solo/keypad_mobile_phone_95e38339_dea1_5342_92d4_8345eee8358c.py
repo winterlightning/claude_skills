@@ -11,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class KeypadMobilePhone(Solo48):
     icon_id = 'keypad-mobile-phone'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/device"

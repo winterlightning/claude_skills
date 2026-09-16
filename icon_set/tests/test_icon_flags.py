@@ -45,3 +45,27 @@ class IconFlagTests(unittest.TestCase):
         self.assertEqual(self.request('POST',endpoint,{'icon':'sub/square','flag':'bad'})[0],400)
         self.assertEqual(self.request('POST',endpoint,{'icon':'missing','flag':'other'})[0],404)
         self.assertEqual(self.request('POST',endpoint,{'icon':'sub/square','flag':'other'}, {'Content-Type':'application/json','Origin':'http://elsewhere.test'})[0],403)
+
+
+class IconTypeTests(unittest.TestCase):
+    setUp = test_gallery.ServerTests.setUp
+    request = test_gallery.ServerTests.request
+
+    def test_type_round_trip_and_validation(self):
+        endpoint = '/api/icon-type'
+        query = endpoint + '?icon=sub/square'
+        self.assertEqual(json.loads(self.request('GET', query)[1])['icon_type'], '')
+        for value in ('human', 'avatar', 'custom portrait', ''):
+            self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': value})[0], 200)
+            init_database(self.database)
+            saved = json.loads(self.request('GET', query)[1])
+            self.assertEqual(saved['icon_type'], value)
+            self.assertEqual(saved['updated_by'], 'jakes')
+        for value in (None, 3, [], 'x' * 201):
+            self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': value})[0], 400)
+        self.assertEqual(self.request('POST', endpoint, {'icon': 'missing', 'icon_type': 'human'})[0], 404)
+        self.assertEqual(self.request('GET', endpoint + '?icon=missing')[0], 404)
+        self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': 'human'}, anonymous=True)[0], 401)
+        self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': 'human'},
+                                     {'Content-Type': 'application/json', 'Origin': 'http://elsewhere.test'})[0], 403)
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')

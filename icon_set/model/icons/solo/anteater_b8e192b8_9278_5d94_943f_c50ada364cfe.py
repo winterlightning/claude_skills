@@ -1,4 +1,6 @@
-"""Anteater with long downturned snout and domed back; centerline extremes (4,8)-(44,40). Feedback 79/153: simplify the silhouette and add one eye dot. Lower the inner throat to reserve full eye clearance. Overlapping far legs omitted. No useful Lucide match; natural profile asymmetry retained."""
+"""A long down-sloping snout leads into a low body, while a broad sweeping tail takes up the rear silhouette. Keep two near legs and one eye; omit the far legs and fur texture.
+Reference: Naturalist Journeys giant anteater photograph: long snout, low body and large tail; no close Lucide animal match. https://www.naturalistjourneys.com/tours/2026/02/12/guyana-unspoiled-wilderness
+Authored directly on SOLO48, with prior revision preserved."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'b8e192b8-9278-5d94-943f-c50ada364cfe'
@@ -7,35 +9,29 @@ AUTHOR = 'gpt-6'
 
 class Anteater(Solo48):
     icon_id = 'anteater'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'nature/animals'
+    category = 'animals'
     aliases = ()
-    keywords = ('anteater', 'animal', 'mammal', 'snout', 'wildlife', 'zoo', 'silhouette', 'nose')
+    keywords = ('anteater',)
 
     def build(self):
-        # Plan: Trace the original long downward snout and domed back, replacing the angular ghost-like head; the snout and two legs have shared eight-unit bands.
+        # Symbol plan: A long down-sloping snout leads into a low body, while a broad sweeping tail takes up the rear silhouette. Keep two near legs and one eye; omit the far legs and fur texture.
 
-        # Each path owns a coherent stroke; control points preserve smooth tangents.
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, c in enumerate(commands):
-                k, end, *args = c
-                name = f'{n}-{j}'
-                if k == 'L': self.add_line(name, here, end)
-                elif k == 'A': self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif k == 'C': self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
-        def circle(n, x, y, r):
-            path(n, (x-r,y), [('A',(x+r,y),r,r,True), ('A',(x-r,y),r,r,True)], True)
-        def box(n, l, t, r, b, rad=4):
-            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
-        line = self.add_line
-        poly = self.add_polyline
-        join = lambda a,b: self.relate('connect',a,b)
-        path('animal',(4,32), [('L',(4,18)),('A',(24,8),20,10,True),('C',(44,30),(40,8),(44,16)),('L',(44,40)),('L',(36,40)),('L',(36,34)),('C',(28,28),(36,30),(32,28)),('L',(28,40)),('L',(20,40)),('L',(20,30)),('C',(12,30),(20,26),(12,26)),('L',(12,32)),('A',(4,32),4,4,True)],True)
-        line('eye', (18,18), (18,18))
+        def path(n,start,commands,closed=False):
+            here=start;members=[]
+            for j,c in enumerate(commands):
+                kind,end,*a=c;ident=f'{n}-{j}'
+                if kind=='L':self.add_line(ident,here,end)
+                elif kind=='A':self.add_arc(ident,here,end,radius_x=a[0],radius_y=a[1],sweep=a[2])
+                elif kind=='C':self.add_bezier(ident,here,(a[0],a[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x,y-r),[('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True),('A',(x,y-r),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('animal',(4,24),[('L',(14,18)),('C',(18,12),(16,16),(16,12)),('L',(26,12)),('C',(32,20),(30,12),(32,16)),('C',(38,22),(34,18),(36,18)),('C',(42,32),(40,24),(42,28)),('C',(30,30),(38,34),(34,32)),('L',(18,30)),('L',(12,26)),('L',(4,24))],True)
+        dot('eye',(22,21))
+        line('front-leg',(18,30),(14,38));line('rear-leg',(28,30),(28,38));join('animal','front-leg');join('animal','rear-leg')

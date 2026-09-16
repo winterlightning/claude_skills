@@ -1,14 +1,19 @@
 """A closed book has a rounded lower binding and a recessed page edge.
 
-VRECT_L: visible bounds (8, 0, 56, 64), chosen for the subject proportions.
-Lucide book: semicircular lower spine and horizontal page band; original and atomic-debug inspected.
-Asymmetric binding and concave right page edge preserve the source; no features dropped.
-Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
+VRECT_L fits the upright book: ink (8,0)-(56,64), centerline (10,2)-(54,62).
+Reference: supplied failed SVG; Lucide book original and atomic-debug informed
+rounded spine corners and a horizontal page band. The overlapping inner binding
+curl was simplified into one junction. The binding and recessed right edge
+remain intentionally asymmetric.
+
+Hosting (compose.py): check valid; plus, heart blocked.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+SOURCE_ICON_ID = 'simple-closed-book'
+SOURCE_PATH = 'icon_set/dist/failed/container64/simple-closed-book.svg'
+AUTHOR = 'gpt-6'
 
 
 class SimpleClosedBook(Container64):
@@ -18,14 +23,17 @@ class SimpleClosedBook(Container64):
     keywords = ('simple', 'closed', 'book')
 
     def build(self) -> None:
-        self.add_line('cover-left', (10, 55), (10, 10))
-        self.add_arc('cover-nw', (10, 10), (18, 2), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('cover-top', (18, 2), (54, 2))
-        self.add_line('cover-right', (54, 2), (54, 48))
-        self.add_line('page-top', (54, 48), (17, 48))
-        self.add_arc('binding', (17, 48), (17, 62), radius_x=7, radius_y=7, sweep=False)
-        self.add_line('page-bottom', (17, 62), (54, 62))
-        self.add_arc('page-recess', (54, 62), (54, 48), radius_x=16, radius_y=16, sweep=True)
-        self.add_contour('cover', 'cover-left', 'cover-nw', 'cover-top', 'cover-right', closed=False)
-        self.add_contour('pages', 'page-top', 'binding', 'page-bottom', 'page-recess', closed=False)
-        self.relate("connect", 'cover', 'pages')
+        # Plan: continuous outside binding, bottom page band and recessed fore-edge.
+        # The band joins the spine once, removing the overlapping inner curl.
+        left, right, top, bottom, band_y, radius = 10, 54, 2, 62, 48, 8
+        self.add_line('cover-left', (left, band_y), (left, top + radius))
+        self.add_arc('cover-nw', (left, top + radius), (left + radius, top), radius_x=radius)
+        self.add_line('cover-top', (left + radius, top), (right, top))
+        self.add_line('cover-right', (right, top), (right, band_y))
+        self.add_arc('page-recess', (right, band_y), (right, bottom), radius_x=16, sweep=False)
+        self.add_line('page-bottom', (right, bottom), (left + radius, bottom))
+        self.add_arc('binding', (left + radius, bottom), (left, bottom - radius), radius_x=radius)
+        self.add_line('binding-side', (left, bottom - radius), (left, band_y))
+        self.add_contour('cover', 'cover-left', 'cover-nw', 'cover-top', 'cover-right', 'page-recess', 'page-bottom', 'binding', 'binding-side', closed=True)
+        self.add_line('page-top', (left, band_y), (right, band_y))
+        self.relate('connect', 'page-top', 'cover')

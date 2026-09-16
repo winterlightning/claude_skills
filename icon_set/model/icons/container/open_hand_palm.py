@@ -1,19 +1,21 @@
 """An upright open hand encloses a broad palm below four rounded fingers.
 
-User explicitly selected the container family for this subject.
-VRECT_XL: visible (4,0)-(60,64), centerline extremes (6,2)-(58,62).
-The tall keyshape fits the raised fingers and rounded palm. Lucide hand's
-original and atomic-debug geometry inform semicircular fingertips, connected
-finger creases and a coherent palm contour. The supplied batch_09 reference
-sets the upright thumb, four finger heights and blank palm. All five digits
-retained; no semantic detail removed. Thumb and staggered finger heights are
-intentionally asymmetric. Authored directly on CONTAINER64.
-Hosting measured with compose.py: plus passes, heart does not clear, check passes.
+The existing user-selected container family is retained. VRECT_XL fits raised
+fingers and palm: ink (4,0)-(60,64), centerline (6,2)-(58,62).
+Reference: supplied failed SVG; Lucide hand original and atomic-debug informed
+rounded fingertips, connected finger creases and an open thumb web. All five
+digits remain; staggered finger heights and the thumb are intentionally asymmetric.
+Shared human reference inspected: icon_set/references/human_ref/full_body_ref.png;
+this isolated hand has no head/body proportions or detached-head gap to measure.
+
+Hosting (compose.py): heart valid; plus, check blocked.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+SOURCE_ICON_ID = 'open-hand-palm'
+SOURCE_PATH = 'icon_set/dist/failed/container64/open-hand-palm.svg'
+AUTHOR = 'gpt-6'
 
 
 class OpenHandPalm(Container64):
@@ -26,7 +28,8 @@ class OpenHandPalm(Container64):
     keywords = ("hand", "palm", "human", "greeting", "stop", "attention")
 
     def build(self) -> None:
-        self.add_line('index-left', (18,38), (18,13))
+        # Plan: rounded finger series above an open thumb web and broad palm.
+        self.add_line('index-left', (18,28), (18,13))
         self.add_arc('index-tip', (18,13), (28,13), radius_x=5)
         self.add_line('middle-left', (28,13), (28,7))
         self.add_arc('middle-tip', (28,7), (38,7), radius_x=5)
@@ -42,12 +45,12 @@ class OpenHandPalm(Container64):
         self.add_line('thumb-side', (14,50), (8,42))
         self.add_arc('thumb-heel', (8,42), (6,36), radius_x=10)
         self.add_arc('thumb-tip', (6,36), (16,36), radius_x=5)
-        self.add_line('thumb-web', (16,36), (18,38))
+        self.add_line('thumb-web', (16,36), (22,42))
         self.add_contour(
             'outline', 'index-left', 'index-tip', 'middle-left', 'middle-tip',
             'middle-right', 'ring-tip', 'ring-right', 'little-tip', 'palm-right',
             'palm-base-right', 'palm-base-left', 'thumb-side', 'thumb-heel',
-            'thumb-tip', 'thumb-web', closed=True,
+            'thumb-tip', 'thumb-web', closed=False,
         )
         for x, top in ((28,13), (38,13), (48,23)):
             self.add_line(f'finger-crease-{x}', (x,top), (x,28))

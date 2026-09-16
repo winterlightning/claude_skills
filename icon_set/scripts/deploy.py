@@ -61,6 +61,9 @@ def init_database(path: Path) -> None:
     with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("CREATE TABLE IF NOT EXISTS admin_sessions (token TEXT PRIMARY KEY, username TEXT NOT NULL, expires REAL NOT NULL)")
         init_brief_queue(connection)
+        connection.execute('''CREATE TABLE IF NOT EXISTS icon_types (
+            icon TEXT PRIMARY KEY, icon_type TEXT NOT NULL,
+            updated_at TEXT NOT NULL, updated_by TEXT NOT NULL)''')
         connection.execute("""CREATE TABLE IF NOT EXISTS icon_flags (
             icon TEXT PRIMARY KEY, flag TEXT NOT NULL CHECK(flag IN ('container_combination','combination','other','exception')),
             updated_at TEXT NOT NULL)""")
@@ -338,6 +341,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
             return
+        if parsed.path == '/api/icon-type':
+            key = parse_qs(parsed.query).get('icon', [''])[0]
+            try:
+                if key not in self.catalog():
+                    return self.json_response({'error': 'Unknown icon'}, 404)
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    row = connection.execute('SELECT icon_type, updated_by, updated_at FROM icon_types WHERE icon=?', (key,)).fetchone()
+                return self.json_response({'icon_type': row[0], 'updated_by': row[1], 'updated_at': row[2]} if row
+                                          else {'icon_type': '', 'updated_by': None, 'updated_at': None})
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Could not load icon type.'}, 503)
         if parsed.path == '/api/icon-flag':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             try:
@@ -469,7 +483,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
-        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status'):
+        if route not in ('/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -528,6 +542,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.save_primitive_status(data, user)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data, user)
+            if route == '/api/icon-type':
+                return self.save_icon_type(data, user)
             if route == '/api/feedback/delete':
                 return self.delete_feedback(data, user)
             if route == '/api/feedback/edit':
@@ -662,6 +678,24 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': str(error)}, 400)
         except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not save primitive status. Please retry.'}, 503)
+
+    def save_icon_type(self, data, user):
+        key, icon_type = data.get('icon'), data.get('icon_type')
+        if not isinstance(key, str) or not isinstance(icon_type, str) or len(icon_type) > 200:
+            return self.json_response({'error': 'Enter an icon type of up to 200 characters.'}, 400)
+        icon_type = icon_type.strip()
+        try:
+            if key not in self.catalog():
+                return self.json_response({'error': 'Unknown icon'}, 404)
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                now = utc_now()
+                connection.execute('INSERT INTO icon_types(icon,icon_type,updated_at,updated_by) VALUES (?,?,?,?) '
+                    'ON CONFLICT(icon) DO UPDATE SET icon_type=excluded.icon_type,updated_at=excluded.updated_at,updated_by=excluded.updated_by',
+                    (key, icon_type, now, user))
+                record_activity(connection, user, 'icon_type', key, icon_type=icon_type)
+            return self.json_response({'icon_type': icon_type, 'updated_by': user, 'updated_at': now})
+        except (OSError, ValueError, sqlite3.Error):
+            return self.json_response({'error': 'Could not save icon type. Please retry.'}, 503)
 
     def save_icon_flag(self, data, user):
         key, flag = data.get('icon'), data.get('flag')

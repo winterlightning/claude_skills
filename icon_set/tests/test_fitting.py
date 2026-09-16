@@ -97,6 +97,22 @@ class FittingTests(unittest.TestCase):
         self.assertEqual(circle.report['mode'], 'uniform')
         self.assertAlmostEqual(visible_radial_extent(circle.icon.primitives, (24, 24)), 22)
 
+    def test_slim_rectangles_fit_and_reject_the_larger_envelope(self):
+        for shape, points, expected in (
+            (Keyshape.HRECT_M, ((4, 8), (44, 8), (44, 40), (4, 40)), (2, 8, 46, 40)),
+            (Keyshape.VRECT_M, ((8, 4), (40, 4), (40, 44), (8, 44)), (8, 2, 40, 46)),
+        ):
+            with self.subTest(shape=shape.name):
+                icon = draft().add_polyline("outline", *points, closed=True)
+                icon.keyshape = shape
+                self.assertTrue(any(
+                    "does not match" in error
+                    for error in icon.validate_icon().errors
+                ))
+                result = icon.fit_to_keyshape(shape, force_stretch=True)
+                self.assertEqual(visible_bounds(result.icon.primitives), expected)
+                self.assertEqual(result.report['validation']['status'], 'pass')
+
     def test_force_stretch_rejects_zero_width_or_height(self):
         for start, end in [((2, 24), (46, 24)), ((24, 2), (24, 46))]:
             with self.subTest(start=start), self.assertRaisesRegex(ValueError, 'non-zero width and height'):

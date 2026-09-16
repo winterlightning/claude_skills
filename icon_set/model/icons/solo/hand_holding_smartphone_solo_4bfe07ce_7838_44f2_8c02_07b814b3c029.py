@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class HandHoldingSmartphoneSolo(Solo48):
     icon_id = 'hand-holding-smartphone-solo'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

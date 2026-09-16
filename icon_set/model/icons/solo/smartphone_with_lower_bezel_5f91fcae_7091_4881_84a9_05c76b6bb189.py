@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class SmartphoneWithLowerBezel5F91Fcae(Solo48):
     icon_id = 'smartphone-with-lower-bezel-5f91fcae'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

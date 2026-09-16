@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class VoicemailSymbolA0009082(Solo48):
     icon_id = 'voicemail-symbol-a0009082'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/device'

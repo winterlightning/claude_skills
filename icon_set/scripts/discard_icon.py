@@ -134,7 +134,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
         removed_ids.setdefault(folder, set()).add(icon_id)
         removed_keys.add(key)
         rows = {table: connection.execute(f'DELETE FROM {table} WHERE icon=?', (key,)).rowcount
-                for table in ('reviews', 'icon_flags', 'feedback')}
+                for table in ('reviews', 'icon_flags', 'icon_types', 'feedback')}
         discarded.append({'icon': key, 'name': icon.get('name', icon_id), 'source': str(path.relative_to(source_root)),
                           'shared_module': shared, 'archive': f'{stem}.py', 'removed_rows': rows})
 

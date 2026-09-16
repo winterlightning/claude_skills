@@ -11,7 +11,7 @@ AUTHOR = 'gpt-6'
 
 class LandscapeSmartphoneWithEarpiece(Solo48):
     icon_id = 'landscape-smartphone-with-earpiece'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/device"

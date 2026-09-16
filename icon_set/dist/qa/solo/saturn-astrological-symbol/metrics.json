@@ -2,7 +2,7 @@
   "icon_id": "saturn-astrological-symbol",
   "family": "solo",
   "profile": "SOLO48",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -15,7 +15,7 @@
         "elementId": "saturn",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 4 L 16 10 L 16 22 A 12 7 0 0 1 40 22 A 24 22 0 0 1 16 44",
+        "pathData": "M 16 4 L 16 10 L 16 26 A 12 7 0 0 1 40 26 A 24 18 0 0 1 16 44",
         "bounds": [
           16.0,
           4.0,
@@ -150,7 +150,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.2001213015538236,
+        "ink_iou": 0.2060491825280356,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -158,7 +158,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.15094906676578337,
+        "ink_iou": 0.10782862222113,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -194,7 +194,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "c66645e2c9471e7692aa96649e6c0817097dac0d554b9ff2ed4b3ce9e0e22ebf",
+  "svg_sha256": "bc42d7824bfbfded937fa39f0aaf879291e9904f1856e668ece8dccad386007b",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -251,7 +251,7 @@
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -263,38 +263,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "crossbar / saturn",
-        "elements": [
-          "crossbar-2",
-          "shoulder"
-        ],
-        "status": "review",
-        "sustained_length": 11.0,
-        "centerline_distance": 5.008,
-        "ink_gap": 1.008,
-        "nearest_points": [
-          [
-            27.375,
-            10.0
-          ],
-          [
-            27.49659290372305,
-            15.006540835501395
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the saturn astrological symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-4.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

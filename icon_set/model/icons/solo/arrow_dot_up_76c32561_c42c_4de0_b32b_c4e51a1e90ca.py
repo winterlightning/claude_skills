@@ -1,4 +1,6 @@
-"""Arrow dot up (arrows), converted from the icons-json construction graph by json_to_solo --mode fit. VRECT_L keyshape; curves fitted to integer lines and arcs."""
+"""Two equal short dashes, consistent eight-unit clearances and a 45-degree arrowhead; solo family retained.
+References: Lucide move-horizontal: equal diagonal arrowheads.
+Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '76c32561-c42c-4de0-b32b-c4e51a1e90ca'
@@ -12,44 +14,32 @@ class ArrowDotUp(Solo48):
     semantic_kind = 'noun'
     category = 'arrows'
     aliases = ()
-    keywords = ('arrow', 'dot', 'up', 'arrows')
+    keywords = ('arrow', 'dot', 'up')
 
     def build(self):
-        runs = [{'start': (24, 16), 'steps': [('L', 24, 4)], 'closed': False}, {'start': (24, 4), 'steps': [('L', 8, 11)], 'closed': False}, {'start': (24, 4), 'steps': [('L', 40, 11)], 'closed': False}, {'start': (24, 24), 'steps': [('L', 24, 30)], 'closed': False}, {'start': (24, 38), 'steps': [('L', 24, 44)], 'closed': False}]
-        rotation = 0
+        # Symbol plan: Two equal short dashes, consistent eight-unit clearances and a 45-degree arrowhead; solo family retained.
 
-        def point(x, y):
-            for _ in range(rotation):
-                x, y = (48 - y, x)
-            return (x, y)
-        contacts = []
-        for ri, run in enumerate(runs):
-            start = point(*run['start'])
-            previous = start
-            members, nodes = ([], {start})
-            for si, step in enumerate(run['steps']):
-                end = point(step[1], step[2])
-                if previous == end:
-                    continue
-                name = f'run-{ri}-{si}'
-                if step[0] == 'L':
-                    self.add_line(name, previous, end)
-                else:
-                    rx, ry = step[3:5]
-                    if rotation % 2:
-                        rx, ry = (ry, rx)
-                    self.add_arc(name, previous, end, radius_x=rx, radius_y=ry, sweep=step[5])
-                members.append(name)
-                nodes.add(end)
-                previous = end
-            if run['closed'] and previous != start:
-                name = f'run-{ri}-close'
-                self.add_line(name, previous, start)
-                members.append(name)
-            contour = f'outline-{ri}'
-            self.add_contour(contour, *members, closed=run['closed'])
-            contacts.append((contour, nodes))
-        for j, (a, points_a) in enumerate(contacts):
-            for b, points_b in contacts[j + 1:]:
-                if points_a & points_b:
-                    self.relate('connect', a, b)
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        orient='up'
+        def pt(x,y):
+            if orient=='down':return (x,y)
+            if orient=='up':return (x,48-y)
+            if orient=='left':return (48-y,x)
+            return (y,x)
+        poly('head',pt(8,28),pt(24,44),pt(40,28))
+        line('shaft',pt(24,28),pt(24,44));join('head','shaft')
+        for j,y in enumerate((4,16)):line(f'dash-{j}',pt(24,y),pt(24,y+4))

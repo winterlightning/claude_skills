@@ -77,7 +77,10 @@ class KeyshapeResolutionTests(unittest.TestCase):
         self.assertEqual(count, len(Profile) * len(STANDARD))
 
     def test_solo48_independent_visible_envelopes(self) -> None:
-        expected = {Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40)}
+        expected = {
+            Keyshape.CIRCLE: (44, 44), Keyshape.SQUARE: (40, 40),
+            Keyshape.HRECT_M: (44, 32), Keyshape.VRECT_M: (32, 44),
+        }
         for shape in STANDARD:
             width, height = expected.get(shape, (44, 36) if shape.orientation == 'landscape' else (36, 44))
             self.assertEqual(shape.size_for(Profile.SOLO48), KeyshapeSize(width, height))

@@ -2,7 +2,7 @@
   "icon_id": "selene-astrological-symbol",
   "family": "solo",
   "profile": "SOLO48",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -15,15 +15,15 @@
         "elementId": "moon",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 8 A 16 4 0 0 1 24 4 A 16 16 0 0 1 40 20 A 16 16 0 0 1 24 36 A 16 4 0 0 1 8 32",
+        "pathData": "M 24 4 A 12 12 0 0 1 36 16 A 12 12 0 0 1 24 28",
         "bounds": [
-          8.0,
+          24.0,
           4.0,
-          40.0,
-          36.0
+          36.0,
+          28.0
         ],
-        "segmentCount": 512,
-        "approximationError": 0.00030119642709147557,
+        "segmentCount": 128,
+        "approximationError": 0.0009035892706343141,
         "hasCurves": true
       },
       {
@@ -31,10 +31,10 @@
         "elementId": "stem",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 36 L 24 40 L 24 44",
+        "pathData": "M 24 28 L 24 36 L 24 44",
         "bounds": [
           24.0,
-          36.0,
+          28.0,
           24.0,
           44.0
         ],
@@ -47,12 +47,12 @@
         "elementId": "crossbar",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 17 40 L 24 40 L 31 40",
+        "pathData": "M 16 36 L 24 36 L 32 36",
         "bounds": [
-          17.0,
-          40.0,
-          31.0,
-          40.0
+          16.0,
+          36.0,
+          32.0,
+          36.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -78,9 +78,9 @@
           "crossbar"
         ],
         "bounds": [
-          8.0,
+          16.0,
           4.0,
-          40.0,
+          36.0,
           44.0
         ]
       }
@@ -95,7 +95,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          36.0
+          28.0
         ]
       },
       {
@@ -106,7 +106,7 @@
         "reason": "shared original drawn-command endpoint",
         "point": [
           24.0,
-          40.0
+          36.0
         ]
       }
     ],
@@ -126,7 +126,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            36.0
+            28.0
           ]
         }
       },
@@ -154,7 +154,7 @@
           "reason": "shared original drawn-command endpoint",
           "point": [
             24.0,
-            40.0
+            36.0
           ]
         }
       }
@@ -174,9 +174,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 11,
-      "flattenedSegments": 516,
-      "adaptiveNodes": 1020,
+      "commands": 9,
+      "flattenedSegments": 132,
+      "adaptiveNodes": 254,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -207,8 +207,8 @@
     "axes": [
       {
         "axis": "vertical",
-        "coordinate": 24.0,
-        "ink_iou": 0.35906290363630156,
+        "coordinate": 26.0,
+        "ink_iou": 0.24077088757612627,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -216,7 +216,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.10402083633124344,
+        "ink_iou": 0.09162699879100956,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -252,7 +252,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "1fdd0c65d2ba8fc6e66b50c8d50710dbbf1e48f9e63dd30043864c278fb73fe1",
+  "svg_sha256": "960249b40a8541ac7955051a98f725e7a2725f687d81f463b6e995be1a845e77",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -309,7 +309,7 @@
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -321,65 +321,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "moon / crossbar",
-        "elements": [
-          "lower",
-          "crossbar-2"
-        ],
-        "status": "review",
-        "sustained_length": 6.2209,
-        "centerline_distance": 4.0126,
-        "ink_gap": 0.0126,
-        "nearest_points": [
-          [
-            24.621922021258037,
-            35.98742421707679
-          ],
-          [
-            24.621922021258037,
-            40.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the selene astrological symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
-        }
-      },
-      {
-        "contour": "moon / crossbar",
-        "elements": [
-          "lower-tip",
-          "crossbar-1"
-        ],
-        "status": "review",
-        "sustained_length": 6.0379,
-        "centerline_distance": 4.0031,
-        "ink_gap": 0.0031,
-        "nearest_points": [
-          [
-            23.378077978741963,
-            35.9968560542692
-          ],
-          [
-            23.378077978741963,
-            40.0
-          ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the selene astrological symbol silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-16.png"
-        }
-      }
-    ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 2
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
   "needs_review": false
 }

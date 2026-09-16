@@ -41,6 +41,41 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const types = page('gallery');
+  types.run("selected={key:'solo/example'};revision=1;");
+  types.context.fetch=async()=>({ok:true,json:async()=>({icon_type:'portrait',updated_by:'jakes'})});
+  await types.run('loadIconType(selected,revision)');
+  assert.equal(types.run("$('iconType').value"),'__custom__');
+  assert.equal(types.run("$('customIconType').value"),'portrait');
+  assert.equal(types.run("$('customIconTypeField').hidden"),false);
+  const typePosts=[];
+  types.context.fetch=async(_url,options)=>{
+    const body=JSON.parse(options.body);typePosts.push(body);
+    return {ok:true,json:async()=>({...body,updated_by:'jakes'})};
+  };
+  for(const value of ['human','avatar','']){
+    types.run(`$('iconType').value=${JSON.stringify(value)};$('iconType').onchange();`);
+    await types.run("$('iconTypeForm').onsubmit({preventDefault(){}})");
+    assert.equal(typePosts.at(-1).icon_type,value);
+    assert.equal(types.run('selected.icon_type'),value);
+    assert.equal(types.run("$('customIconTypeField').hidden"),true);
+  }
+  types.run("$('iconType').value='__custom__';$('iconType').onchange();$('customIconType').value='  person outline  ';");
+  await types.run("$('iconTypeForm').onsubmit({preventDefault(){}})");
+  assert.equal(typePosts.at(-1).icon_type,'person outline');
+  types.context.fetch=async()=>({ok:false,json:async()=>({error:'Save failed'})});
+  types.run("$('customIconType').value='keep my draft';");
+  await types.run("$('iconTypeForm').onsubmit({preventDefault(){}})");
+  assert.equal(types.run("$('customIconType').value"),'keep my draft');
+  assert.equal(types.run("$('iconTypeMessage').textContent"),'Save failed');
+  let finishTypeLoad;
+  types.context.fetch=()=>new Promise(resolve=>{finishTypeLoad=resolve;});
+  const typeLoad=types.run('loadIconType(selected,revision)');
+  types.run("revision=2;showIconType('avatar');");
+  finishTypeLoad({ok:true,json:async()=>({icon_type:'human'})});
+  await typeLoad;
+  assert.equal(types.run("$('iconType').value"),'avatar','Stale loads cannot overwrite another icon');
+
   const pendingReason = page('gallery');
   pendingReason.run(`selected={key:'solo/example',icon_id:'example',family:'solo',svg_sha256:'current'};
     icons=[selected];reviewsLoaded=true;reviews={'solo/example':'ready'};

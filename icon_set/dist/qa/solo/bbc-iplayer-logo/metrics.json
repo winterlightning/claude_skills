@@ -2,7 +2,7 @@
   "icon_id": "bbc-iplayer-logo",
   "family": "solo",
   "profile": "SOLO48",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -11,39 +11,39 @@
     "status": "pass",
     "contours": [
       {
-        "id": "c0:subpath-1",
-        "elementId": "c0",
+        "id": "play:subpath-1",
+        "elementId": "play",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 4 L 40 24 L 8 44 L 8 4 Z",
+        "pathData": "M 12 8 L 40 22 A 3 3 0 0 1 40 26 L 12 40 L 12 8 Z",
         "bounds": [
+          12.0,
           8.0,
-          4.0,
-          40.0,
-          44.0
+          40.763932022500214,
+          40.0
         ],
-        "segmentCount": 4,
-        "approximationError": 0.0,
-        "hasCurves": false
+        "segmentCount": 36,
+        "approximationError": 0.0007800328899801934,
+        "hasCurves": true
       }
     ],
     "components": [
       {
         "id": "component-1",
         "memberIds": [
-          "c0:subpath-1"
+          "play:subpath-1"
         ],
         "contourIds": [
-          "c0:subpath-1"
+          "play:subpath-1"
         ],
         "elementIds": [
-          "c0"
+          "play"
         ],
         "bounds": [
+          12.0,
           8.0,
-          4.0,
-          40.0,
-          44.0
+          40.763932022500214,
+          40.0
         ]
       }
     ],
@@ -65,9 +65,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 5,
-      "flattenedSegments": 4,
-      "adaptiveNodes": 0,
+      "commands": 6,
+      "flattenedSegments": 36,
+      "adaptiveNodes": 63,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -80,30 +80,30 @@
       {
         "hole": 1,
         "center_viewbox": [
-          18.9844,
+          21.7969,
           23.9844
         ],
         "bbox_viewbox": [
-          10.0,
-          7.625,
-          26.1875,
-          32.75
+          14.0,
+          11.25,
+          24.75,
+          25.5
         ],
         "bbox_ship_px": [
-          26.1875,
-          32.75
+          24.75,
+          25.5
         ],
         "bbox_design_u": [
-          26.1875,
-          32.75
+          24.75,
+          25.5
         ],
-        "area_ship_px2": 429.8438,
-        "equivalent_diameter_ship_px": 23.3943,
-        "equivalent_diameter_design_u": 23.3943,
-        "inscribed_diameter_ship_px": 18.0,
-        "inscribed_diameter_design_u": 18.0,
-        "inscribed_radius_ship_px": 9.0,
-        "inscribed_radius_design_u": 9.0,
+        "area_ship_px2": 325.6016,
+        "equivalent_diameter_ship_px": 20.361,
+        "equivalent_diameter_design_u": 20.361,
+        "inscribed_diameter_ship_px": 15.5781,
+        "inscribed_diameter_design_u": 15.5781,
+        "inscribed_radius_ship_px": 7.7891,
+        "inscribed_radius_design_u": 7.7891,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
@@ -117,34 +117,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          18.9844,
+          21.7656,
           23.9844
         ],
         "bbox_viewbox": [
-          8.5,
-          4.9062,
-          30.5312,
-          38.1875
+          12.5,
+          8.8125,
+          27.75,
+          30.375
         ],
         "bbox_ship_px": [
-          30.5312,
-          38.1875
+          27.75,
+          30.375
         ],
         "bbox_design_u": [
-          30.5312,
-          38.1875
+          27.75,
+          30.375
         ],
-        "area_ship_px2": 583.5527,
-        "equivalent_diameter_ship_px": 27.2581,
-        "equivalent_diameter_design_u": 27.2581,
-        "inscribed_diameter_ship_px": 20.9955,
-        "inscribed_diameter_design_u": 20.9955,
-        "inscribed_radius_ship_px": 10.4978,
-        "inscribed_radius_design_u": 10.4978,
+        "area_ship_px2": 457.4941,
+        "equivalent_diameter_ship_px": 24.135,
+        "equivalent_diameter_design_u": 24.135,
+        "inscribed_diameter_ship_px": 18.5363,
+        "inscribed_diameter_design_u": 18.5363,
+        "inscribed_radius_ship_px": 9.2682,
+        "inscribed_radius_design_u": 9.2682,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 8.9978,
-        "equivalent_diameter_at_authored_stroke_design_u": 17.9956
+        "equivalent_radius_at_authored_stroke_design_u": 7.7682,
+        "equivalent_diameter_at_authored_stroke_design_u": 15.5364
       }
     ],
     "pinches": [],
@@ -162,8 +162,8 @@
     "axes": [
       {
         "axis": "vertical",
-        "coordinate": 24.0,
-        "ink_iou": 0.08695751115391621,
+        "coordinate": 26.381966011250107,
+        "ink_iou": 0.1416230270169785,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -171,11 +171,11 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.9999834539450686,
+        "ink_iou": 0.9999864499440964,
         "ink_symmetric": true,
         "status": "pass",
         "mismatches": [],
-        "max_sampled_distance": 8.881784197001252e-15
+        "max_sampled_distance": 7.944109290391274e-15
       }
     ],
     "rules": {
@@ -208,7 +208,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "ca14a90379ac78281ceeef7fca4e17f21f0e13b2aa76b4dd2f254a156a48bb3c",
+  "svg_sha256": "fc53f240ef7234729ce6301b75dbc2f17de35b1bfd05e32ba7c8ca6e863a790b",
   "rules": {
     "profile": {
       "canvas_size": 48,

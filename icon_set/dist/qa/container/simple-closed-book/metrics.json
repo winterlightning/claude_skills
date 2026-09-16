@@ -2,12 +2,10 @@
   "icon_id": "simple-closed-book",
   "family": "container",
   "profile": "CONTAINER64",
-  "selected_for_build": false,
-  "status": "review",
+  "selected_for_build": true,
+  "status": "pass",
   "errors": [],
-  "warnings": [
-    "internal-spacing [cover / pages]: cover-left and binding have -3.971 units of ink clearance over 3.75 units; requires 2; review required"
-  ],
+  "warnings": [],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -17,32 +15,32 @@
         "elementId": "cover",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 10 55 L 10 10 A 8 8 0 0 1 18 2 L 54 2 L 54 48",
+        "pathData": "M 10 48 L 10 10 A 8 8 0 0 1 18 2 L 54 2 L 54 48 A 16 16 0 0 0 54 62 L 18 62 A 8 8 0 0 1 10 54 L 10 48 Z",
         "bounds": [
           10.0,
           2.0,
           54.0,
-          55.0
+          62.0
         ],
-        "segmentCount": 67,
-        "approximationError": 0.0006023928472429342,
+        "segmentCount": 198,
+        "approximationError": 0.0006023928476958834,
         "hasCurves": true
       },
       {
-        "id": "pages:subpath-1",
-        "elementId": "pages",
+        "id": "page-top:subpath-1",
+        "elementId": "page-top",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 54 48 L 17 48 A 7 7 0 0 0 17 62 L 54 62 A 16 16 0 0 1 54 48",
+        "pathData": "M 10 48 L 54 48",
         "bounds": [
           10.0,
           48.0,
           54.0,
-          62.0
+          48.0
         ],
-        "segmentCount": 194,
-        "approximationError": 0.0005279282068392893,
-        "hasCurves": true
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
       }
     ],
     "components": [
@@ -50,15 +48,15 @@
         "id": "component-1",
         "memberIds": [
           "cover:subpath-1",
-          "pages:subpath-1"
+          "page-top:subpath-1"
         ],
         "contourIds": [
           "cover:subpath-1",
-          "pages:subpath-1"
+          "page-top:subpath-1"
         ],
         "elementIds": [
           "cover",
-          "pages"
+          "page-top"
         ],
         "bounds": [
           10.0,
@@ -73,11 +71,11 @@
       {
         "contourIds": [
           "cover:subpath-1",
-          "pages:subpath-1"
+          "page-top:subpath-1"
         ],
         "reason": "shared original drawn-command endpoint",
         "point": [
-          54.0,
+          10.0,
           48.0
         ]
       }
@@ -86,18 +84,18 @@
       {
         "contourIds": [
           "cover:subpath-1",
-          "pages:subpath-1"
+          "page-top:subpath-1"
         ],
         "componentId": "component-1",
         "reason": "same proved connected centerline component",
         "directConnection": {
           "contourIds": [
             "cover:subpath-1",
-            "pages:subpath-1"
+            "page-top:subpath-1"
           ],
           "reason": "shared original drawn-command endpoint",
           "point": [
-            54.0,
+            10.0,
             48.0
           ]
         }
@@ -118,9 +116,9 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 10,
-      "flattenedSegments": 261,
-      "adaptiveNodes": 509,
+      "commands": 12,
+      "flattenedSegments": 199,
+      "adaptiveNodes": 381,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -140,19 +138,19 @@
           12.0,
           4.0,
           40.0,
-          43.5
+          42.0
         ],
         "bbox_ship_px": [
           40.0,
-          43.5
+          42.0
         ],
         "bbox_design_u": [
           40.0,
-          43.5
+          42.0
         ],
-        "area_ship_px2": 1674.7109,
-        "equivalent_diameter_ship_px": 46.1769,
-        "equivalent_diameter_design_u": 46.1769,
+        "area_ship_px2": 1672.2793,
+        "equivalent_diameter_ship_px": 46.1434,
+        "equivalent_diameter_design_u": 46.1434,
         "inscribed_diameter_ship_px": 40.0,
         "inscribed_diameter_design_u": 40.0,
         "inscribed_radius_ship_px": 20.0,
@@ -163,7 +161,7 @@
       {
         "hole": 2,
         "center_viewbox": [
-          17.2344,
+          17.9531,
           54.9844
         ],
         "bbox_viewbox": [
@@ -180,9 +178,9 @@
           39.0938,
           10.0
         ],
-        "area_ship_px2": 375.5,
-        "equivalent_diameter_ship_px": 21.8655,
-        "equivalent_diameter_design_u": 21.8655,
+        "area_ship_px2": 378.4902,
+        "equivalent_diameter_ship_px": 21.9524,
+        "equivalent_diameter_design_u": 21.9524,
         "inscribed_diameter_ship_px": 10.0,
         "inscribed_diameter_design_u": 10.0,
         "inscribed_radius_ship_px": 5.0,
@@ -207,19 +205,19 @@
           10.5,
           2.5,
           43.0,
-          48.7188
+          45.0
         ],
         "bbox_ship_px": [
           43.0,
-          48.7188
+          45.0
         ],
         "bbox_design_u": [
           43.0,
-          48.7188
+          45.0
         ],
-        "area_ship_px2": 1930.0312,
-        "equivalent_diameter_ship_px": 49.5721,
-        "equivalent_diameter_design_u": 49.5721,
+        "area_ship_px2": 1922.9355,
+        "equivalent_diameter_ship_px": 49.4809,
+        "equivalent_diameter_design_u": 49.4809,
         "inscribed_diameter_ship_px": 43.0,
         "inscribed_diameter_design_u": 43.0,
         "inscribed_radius_ship_px": 21.5,
@@ -232,7 +230,7 @@
       {
         "hole": 2,
         "center_viewbox": [
-          17.2969,
+          18.0156,
           54.9844
         ],
         "bbox_viewbox": [
@@ -249,9 +247,9 @@
           42.7188,
           13.0
         ],
-        "area_ship_px2": 525.5977,
-        "equivalent_diameter_ship_px": 25.8691,
-        "equivalent_diameter_design_u": 25.8691,
+        "area_ship_px2": 531.6475,
+        "equivalent_diameter_ship_px": 26.0176,
+        "equivalent_diameter_design_u": 26.0176,
         "inscribed_diameter_ship_px": 13.0,
         "inscribed_diameter_design_u": 13.0,
         "inscribed_radius_ship_px": 6.5,
@@ -278,7 +276,7 @@
       {
         "axis": "vertical",
         "coordinate": 32.0,
-        "ink_iou": 0.8687379533685927,
+        "ink_iou": 0.8659557092207134,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -286,7 +284,7 @@
       {
         "axis": "horizontal",
         "coordinate": 32.0,
-        "ink_iou": 0.6610315908970829,
+        "ink_iou": 0.6731115970210327,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -322,7 +320,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "2ae4f5e2944d5aa41b36c900bb36905eb5225aa248a06f353e8f47726bbae0a6",
+  "svg_sha256": "8b0c8eb6e10a2de7a563e4fe9659b3eef5d9d8a5e6c1208295b6c2394c4e7c1d",
   "rules": {
     "profile": {
       "canvas_size": 64,
@@ -379,7 +377,7 @@
   "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "review",
+    "status": "pass",
     "blocking": false,
     "required_ink_gap": 2.0,
     "rules": {
@@ -391,30 +389,8 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [
-      {
-        "contour": "cover / pages",
-        "elements": [
-          "cover-left",
-          "binding"
-        ],
-        "status": "review",
-        "sustained_length": 3.75,
-        "centerline_distance": 0.029,
-        "ink_gap": -3.971,
-        "nearest_points": [
-          [
-            10.0,
-            54.375
-          ],
-          [
-            10.028846131668347,
-            54.377581368859815
-          ]
-        ]
-      }
-    ],
+    "findings": [],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": true
+  "needs_review": false
 }

@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class FilmReelWithHangingTail(Solo48):
     icon_id = 'film-reel-with-hanging-tail'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/media'

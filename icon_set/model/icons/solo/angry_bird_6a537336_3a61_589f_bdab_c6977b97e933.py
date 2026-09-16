@@ -1,4 +1,6 @@
-"""Angry Bird, independently authored on SOLO48."""
+"""A rounded bird with swept crest, paired angry brows and a projecting beak; beak is part of the silhouette rather than a crowded interior hole.
+References: Lucide face-angry for brow direction; supplied bird crest and beak identity.
+Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '6a537336-3a61-589f-bdab-c6977b97e933'
@@ -7,32 +9,30 @@ AUTHOR = 'gpt-6'
 
 class AngryBird(Solo48):
     icon_id = 'angry-bird'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.CIRCLE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/gaming'
+    category = 'video-games'
     aliases = ()
-    keywords = ('bird', 'angry', 'angry birds', 'mobile game', 'character', 'cartoon', 'video game', 'game')
+    keywords = ('angry', 'bird')
 
     def build(self):
-        # Height repair: exact SOLO48 keyshape extremes; original subject and stroke retained.
+        # Symbol plan: A rounded bird with swept crest, paired angry brows and a projecting beak; beak is part of the silhouette rather than a crowded interior hole.
 
-        def circle(name, x, y, r):
-            self.add_arc(name + '-a', (x, y - r), (x, y + r), radius_x=r)
-            self.add_arc(name + '-b', (x, y + r), (x, y - r), radius_x=r)
-            self.add_contour(name, name + '-a', name + '-b', closed=True)
-
-        def arc(name, a, b, r, ry=None, sweep=True):
-            self.add_arc(name, a, b, radius_x=r, radius_y=ry or r, sweep=sweep)
-
-        def poly(name, *pts):
-            for i, (a, b) in enumerate(zip(pts, pts[1:]), 1):
-                self.add_line(f'{name}-{i}', a, b)
-        arc('body-left', (24, 12), (8, 28), 16, sweep=False)
-        arc('body-bottom', (8, 28), (40, 28), 16, sweep=False)
-        arc('body-right', (40, 28), (24, 12), 16, sweep=False)
-        self.add_contour('body', 'body-left', 'body-bottom', 'body-right', closed=True)
-        self.add_polyline('tuft', (24, 12), (20, 4), (29, 4))
-        self.relate('connect', 'tuft', 'body')
-        self.add_polyline('brows', (19, 23), (24, 25), (29, 23))
-        self.add_polyline('beak', (21, 33), (24, 35), (27, 33))
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('bird',(16,10),[('L',(24,4)),('L',(28,8)),('C',(36,20),(33,10),(36,14)),('L',(44,24)),('L',(36,28)),('C',(22,42),(36,36),(30,42)),('C',(7,26),(12,42),(7,36)),('C',(16,10),(7,18),(10,12))],True)
+        poly('brows',(16,23),(23,26),(27,22))

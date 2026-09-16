@@ -1,4 +1,6 @@
-'Automatic rifle v3. Extend stock and barrel to the current horizontal keyshape; preserve the previously cleared sight and magazine.\nOriginal subject geometry is retained and refitted to the current native keyshape. Directional asymmetry is intentional. Construction review: original drawing; sprout or bug principles for the plant and beetle.\n'
+"""A long horizontal rifle barrel projects from a stock and receiver with a broad magazine. The raised carrying handle is open and simple.
+References: Supplied original; shared geometric construction principles.
+Authored directly on SOLO48; original retained for comparison."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '835277d4-590e-5008-a9cb-07213ea668e9'
@@ -7,46 +9,31 @@ AUTHOR = 'gpt-6'
 
 class AutomaticRifle(Solo48):
     icon_id = 'automatic-rifle'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
-    category = 'objects/war'
+    category = 'war'
     aliases = ()
-    keywords = ('rifle', 'automatic', 'magazine', 'stock', 'barrel', 'weapon')
+    keywords = ('automatic', 'rifle')
 
     def build(self):
+        # Symbol plan: A long horizontal rifle barrel projects from a stock and receiver with a broad magazine. The raised carrying handle is open and simple.
 
-        def L(n, a, b):
-            self.add_line(n, a, b)
-
-        def P(n, *p, closed=False):
-            self.add_polyline(n, *p, closed=closed)
-
-        def A(n, a, b, r, ry=None, s=True):
-            self.add_arc(n, a, b, radius_x=r, radius_y=ry or r, sweep=s)
-
-        def C(n, x, y, r):
-            A(n + 'a', (x - r, y), (x + r, y), r)
-            A(n + 'b', (x + r, y), (x - r, y), r)
-            self.add_contour(n, n + 'a', n + 'b', closed=True)
-
-        def J(a, b):
-            self.relate('connect', a, b)
-
-        def R(n, x, y, w, h, r=4):
-            L(n + 't', (x + r, y), (x + w - r, y))
-            A(n + 'tr', (x + w - r, y), (x + w, y + r), r)
-            L(n + 'r', (x + w, y + r), (x + w, y + h - r))
-            A(n + 'br', (x + w, y + h - r), (x + w - r, y + h), r)
-            L(n + 'b', (x + w - r, y + h), (x + r, y + h))
-            A(n + 'bl', (x + r, y + h), (x, y + h - r), r)
-            L(n + 'l', (x, y + h - r), (x, y + r))
-            A(n + 'tl', (x, y + r), (x + r, y), r)
-            self.add_contour(n, *[n + s for s in ('t', 'tr', 'r', 'br', 'b', 'bl', 'l', 'tl')], closed=True)
-        P('body', (4, 19), (15, 19), (19, 13), (32, 13), (32, 21), (40, 21), (40, 29), (14, 29), (4, 35), closed=True)
-        L('barrel', (40, 25), (44, 25))
-        J('barrel', 'body')
-        P('magazine', (31, 29), (33, 40), (23, 40), (21, 29))
-        J('magazine', 'body')
-        L('sight', (40, 21), (40, 8))
-        J('sight', 'body')
+        def path(n, start, commands, closed=False):
+            here=start; members=[]
+            for j,c in enumerate(commands):
+                kind,end,*args=c; ident=('body-top' if j==2 else 'body-top-right') if n=='body' and j in (2,3) else f'{n}-{j}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(n,*members,closed=closed)
+        def circle(n,x,y,r):
+            path(n,(x-r,y), [('A',(x+r,y),r,r,True),('A',(x-r,y),r,r,True)],True)
+        def box(n,l,t,r,b,rad=3):
+            path(n,(l+rad,t), [('L',(r-rad,t)),('A',(r,t+rad),rad,rad,True),('L',(r,b-rad)),('A',(r-rad,b),rad,rad,True),('L',(l+rad,b)),('A',(l,b-rad),rad,rad,True),('L',(l,t+rad)),('A',(l+rad,t),rad,rad,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('body',(4,20),(12,20),(12,16),(32,16),(32,24),(28,24),(28,40),(20,40),(18,28),(12,28),(4,36),closed=True)
+        line('barrel',(32,20),(44,20));join('barrel','body')
+        poly('handle',(16,16),(20,8),(28,8),(32,16));join('handle','body')

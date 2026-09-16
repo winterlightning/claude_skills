@@ -70,7 +70,9 @@
         "CIRCLE",
         "SQUARE",
         "HRECT_L",
-        "VRECT_L"
+        "HRECT_M",
+        "VRECT_L",
+        "VRECT_M"
       ],
       "keyshape_overrides": {
         "CIRCLE": {
@@ -91,7 +93,7 @@
         },
         "HRECT_M": {
           "width": 44,
-          "height": 36
+          "height": 32
         },
         "HRECT_S": {
           "width": 44,
@@ -106,7 +108,7 @@
           "height": 44
         },
         "VRECT_M": {
-          "width": 36,
+          "width": 32,
           "height": 44
         },
         "VRECT_S": {
@@ -137,7 +139,8 @@
     "Profile names are family name plus canvas size. Earlier releases called SOLO48 'MAIN48' and CONTAINER64 'COMPOSITE64'; the numbers are unchanged, only the binding to a family is new.",
     "SQUARE became the full canvas on 2026-09-07: base 32, so 32 at SUB32, 48 at SOLO48 and 64 at CONTAINER64. It was 28 (28/42/56), which left every rectilinear full-bleed subject sitting 2 to 4 units short of the edge while CIRCLE reached it. SQUARE and CIRCLE are now both full-canvas tokens, one rectilinear and one radial, and there is no longer a 28-square envelope: the 33 icons authored on the old one were redrawn to the new bounds, not rescaled.",
     "MIC dropped to 2 on every profile on 2026-09-07 (centerline minimum 6 = 2 + stroke 4), from 3 at SUB32 and 4 at SOLO48 and CONTAINER64. Loosening a clearance rule can never invalidate authored work; it buys room for interior furniture at the small canvases, where the old 7-and-8-unit centerline minimums were the binding constraint on how much an icon could say.",
-    "2026-09-13: SOLO48 supersedes its historical scaled dimensions: visible circle 44x44, square 40x40, landscape 44x36, portrait 36x44; legacy rectangle size tokens resolve to the same orientation envelope. MIC is 4, centerline minimum 8. SUB32 and CONTAINER64 are unchanged."
+    "2026-09-13: SOLO48 supersedes its historical scaled dimensions: visible circle 44x44, square 40x40, landscape 44x36, portrait 36x44; legacy rectangle size tokens resolve to the same orientation envelope. MIC is 4, centerline minimum 8. SUB32 and CONTAINER64 are unchanged.",
+    "2026-09-16: SOLO48 adds HRECT_M (44x32) and VRECT_M (32x44) as slimmer authoring choices, reducing the short side by 4 from the unchanged L rectangles. XL and S remain compatibility names for L. Other profiles, circle, square, stroke and MIC are unchanged."
   ],
   "authoring": {
     "avatar": {

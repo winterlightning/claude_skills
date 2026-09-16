@@ -2,7 +2,7 @@
   "icon_id": "arrow-angle-right",
   "family": "solo",
   "profile": "SOLO48",
-  "selected_for_build": true,
+  "selected_for_build": false,
   "status": "pass",
   "errors": [],
   "warnings": [],
@@ -11,32 +11,16 @@
     "status": "pass",
     "contours": [
       {
-        "id": "sym-c0:subpath-1",
-        "elementId": "sym-c0",
+        "id": "chevron:subpath-1",
+        "elementId": "chevron",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 40 24 L 38 25 L 8 44",
+        "pathData": "M 6 6 L 42 24 L 6 42",
         "bounds": [
-          8.0,
-          24.0,
-          40.0,
-          44.0
-        ],
-        "segmentCount": 2,
-        "approximationError": 0.0,
-        "hasCurves": false
-      },
-      {
-        "id": "sym-c1:subpath-1",
-        "elementId": "sym-c1",
-        "subpathIndex": 1,
-        "componentId": "component-1",
-        "pathData": "M 40 24 L 38 23 L 8 4",
-        "bounds": [
-          8.0,
-          4.0,
-          40.0,
-          24.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ],
         "segmentCount": 2,
         "approximationError": 0.0,
@@ -47,60 +31,25 @@
       {
         "id": "component-1",
         "memberIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
+          "chevron:subpath-1"
         ],
         "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
+          "chevron:subpath-1"
         ],
         "elementIds": [
-          "sym-c0",
-          "sym-c1"
+          "chevron"
         ],
         "bounds": [
-          8.0,
-          4.0,
-          40.0,
-          44.0
+          6.0,
+          6.0,
+          42.0,
+          42.0
         ]
       }
     ],
     "pairs": [],
-    "connectedPairs": [
-      {
-        "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
-        ],
-        "reason": "shared original drawn-command endpoint",
-        "point": [
-          40.0,
-          24.0
-        ]
-      }
-    ],
-    "excludedPairs": [
-      {
-        "contourIds": [
-          "sym-c0:subpath-1",
-          "sym-c1:subpath-1"
-        ],
-        "componentId": "component-1",
-        "reason": "same proved connected centerline component",
-        "directConnection": {
-          "contourIds": [
-            "sym-c0:subpath-1",
-            "sym-c1:subpath-1"
-          ],
-          "reason": "shared original drawn-command endpoint",
-          "point": [
-            40.0,
-            24.0
-          ]
-        }
-      }
-    ],
+    "connectedPairs": [],
+    "excludedPairs": [],
     "errors": [],
     "requiredCenterline": 8.0,
     "requiredInkClearance": 4.0,
@@ -116,8 +65,8 @@
     "minimumInkClearance": null,
     "reason": "No disconnected centerline components to compare.",
     "stats": {
-      "commands": 6,
-      "flattenedSegments": 4,
+      "commands": 3,
+      "flattenedSegments": 2,
       "adaptiveNodes": 0,
       "distanceTests": 0,
       "connectionTests": 0
@@ -150,7 +99,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.06030127049488923,
+        "ink_iou": 0.06432938200733387,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -158,11 +107,11 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.999994980260119,
+        "ink_iou": 0.999994724665972,
         "ink_symmetric": true,
         "status": "pass",
         "mismatches": [],
-        "max_sampled_distance": 7.944109290391274e-15
+        "max_sampled_distance": 1.0658141036401503e-14
       }
     ],
     "rules": {
@@ -195,7 +144,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "8a76c902756fbc7e9607decdebccd4afd285fb7aee59fa0deb3906b0ad00684f",
+  "svg_sha256": "8b72180ddc105a549d3664e149753d11cd75fc5b8eedcc782aa1e16c1c7b923a",
   "rules": {
     "profile": {
       "canvas_size": 48,

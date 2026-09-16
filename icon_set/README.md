@@ -250,7 +250,7 @@ are measured rather than assumed.
 A consequence worth knowing: **full-bleed depends on the profile.** On SUB32
 and CONTAINER64, `SQUARE` and `CIRCLE` both reach the canvas edge (32 and 64).
 SOLO48 does not scale that base: its envelopes are explicit and inset, `SQUARE`
-40×40, `CIRCLE` 44, landscape 44×36 and portrait 36×44.
+40×40, `CIRCLE` 44, landscape 44×36 or 44×32 and portrait 36×44 or 32×44.
 
 ## Validation
 
@@ -359,7 +359,7 @@ A declaration excuses **that pair only**; it is never a global bypass, and
 ## SOLO48 construction rules
 
 The 48×48 profile uses centered visible-ink keyshapes: circle 44×44, square
-40×40, landscape 44×36 and portrait 36×44. Ink clearance is 4 units, or 8
+40×40, landscape 44×36 or 44×32 and portrait 36×44 or 32×44. Ink clearance is 4 units, or 8
 between equal-width stroke centerlines. Rectangle size suffixes are legacy
 names for the same orientation envelope on this profile. Existing drawings
 must be revalidated against these rules before release.
@@ -398,9 +398,9 @@ scaled copy of source geometry, and the model rejects scale transforms.
 - **A 48 canvas holds one feature fewer than you think.** A 4-unit mark with
   the 8-unit minimum on both sides needs a 16-unit band between wall
   centerlines (17 against a curve). SOLO48 centerline boxes are 36×36
-  (`SQUARE`) and 40×32 (`HRECT_L`/`VRECT_L`), and the rectangle size tokens
-  all resolve to that one envelope per orientation, so a short band means
-  dropping a part rather than switching `SQUARE` for a taller rectangle.
+  (`SQUARE`), 40×32 (`HRECT_L`), 32×40 (`VRECT_L`), 40×28 (`HRECT_M`)
+  and 28×40 (`VRECT_M`). The `_M` choices reduce only the short side by 4;
+  budget the interior details for the chosen envelope.
 - **Regular polygons have no integer vertices.** Pentagon and the five-point
   star place vertices on the nearest grid point to the true radius, which the
   circle touch rule accepts. The octagon is authored as a chamfered square
@@ -541,6 +541,10 @@ Sessions last 12 hours, use an HttpOnly cookie, and are revoked on logout. Sessi
 records are stored in the feedback database; only token hashes are persisted.
 Restart the server after updating `deploy.py`. Shared UI templates live in
 `icon_set/scripts/templates/` and are copied into the gallery on every build.
+The review popup includes an **Icon type** dropdown with `human`, `avatar`, and
+**Custom…** text (up to 200 characters). Choose **Save icon type** to store the
+`icon_type` string, or save **No type** to clear it. Types persist in the feedback
+database across rebuilds and restarts; saving requires login and records the reviewer.
 
 `deploy.py` serves the build; it does not upload files or run a build for you.
 It needs only Python 3.10+ and the standard library; build requirements remain

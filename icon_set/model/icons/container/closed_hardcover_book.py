@@ -1,14 +1,19 @@
-"""A closed hardcover book with a rounded spine and top page band. Deliberately asymmetric binding.
+"""A closed hardcover book with a rounded spine and a top page band.
 
-Keyshape VRECT_L; visible bounds (8, 0, 56, 64); centerline extremes (10, 2)-(54, 62).
-Construction reference: Lucide book: rounded binding and horizontal page band, original and atomic-debug inspected.
-Reference identity retained; minor export irregularities simplified.
-Hosting measured with compose.py: plus passes, heart does not clear, check does not clear.
+VRECT_L fits the upright book: ink (8,0)-(56,64), centerline (10,2)-(54,62).
+Reference: supplied failed SVG; Lucide book original and atomic-debug informed
+rounded binding corners and a horizontal page band. The doubled inner spine
+curl was removed so the binding has one clear outline. The binding remains
+intentionally asymmetric.
+
+Hosting (compose.py): plus valid; heart, check blocked.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
 
-AUTHOR = 'astra-chatgpt'
+SOURCE_ICON_ID = 'closed-hardcover-book'
+SOURCE_PATH = 'icon_set/dist/failed/container64/closed-hardcover-book.svg'
+AUTHOR = 'gpt-6'
 
 
 class ClosedHardcoverBook(Container64):
@@ -21,15 +26,17 @@ class ClosedHardcoverBook(Container64):
     keywords = ('closed', 'hardcover', 'book')
 
     def build(self) -> None:
-        self.add_line('top', (20, 2), (54, 2))
-        self.add_line('page-edge', (54, 2), (54, 18))
-        self.add_line('band', (54, 18), (20, 18))
-        self.add_arc('spine-top', (20, 18), (20, 2), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_contour('head', 'top', 'page-edge', 'band', 'spine-top', closed=True)
-        self.add_line('cover-right', (54, 18), (54, 62))
-        self.add_line('cover-bottom', (54, 62), (20, 62))
-        self.add_arc('cover-sw', (20, 62), (10, 52), radius_x=10, radius_y=10, sweep=True, large_arc=False)
-        self.add_line('cover-left', (10, 52), (10, 10))
-        self.add_arc('cover-nw', (10, 10), (20, 2), radius_x=10, radius_y=8, sweep=True, large_arc=False)
-        self.add_contour('cover', 'cover-right', 'cover-bottom', 'cover-sw', 'cover-left', 'cover-nw', closed=False)
-        self.relate("connect", 'cover', 'head')
+        # Plan: one rounded binding outline and a single top page divider.
+        # Shared left/right walls own both divider attachments; no doubled spine.
+        left, right, top, bottom, band_y, radius = 10, 54, 2, 62, 18, 8
+        self.add_line('top', (left + radius, top), (right, top))
+        self.add_line('right-upper', (right, top), (right, band_y))
+        self.add_line('right-lower', (right, band_y), (right, bottom))
+        self.add_line('bottom', (right, bottom), (left + radius, bottom))
+        self.add_arc('spine-bottom', (left + radius, bottom), (left, bottom - radius), radius_x=radius)
+        self.add_line('left-lower', (left, bottom - radius), (left, band_y))
+        self.add_line('left-upper', (left, band_y), (left, top + radius))
+        self.add_arc('spine-top', (left, top + radius), (left + radius, top), radius_x=radius)
+        self.add_contour('cover', 'top', 'right-upper', 'right-lower', 'bottom', 'spine-bottom', 'left-lower', 'left-upper', 'spine-top', closed=True)
+        self.add_line('page-band', (left, band_y), (right, band_y))
+        self.relate('connect', 'page-band', 'cover')
