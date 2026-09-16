@@ -1,0 +1,52 @@
+from contextlib import closing
+import json
+from pathlib import Path
+import sqlite3
+import tempfile
+import unittest
+
+from icon_set.scripts.attribute_legacy_reviews import run
+from icon_set.scripts.reviewer_stats import reviewer_stats
+
+
+class LegacyReviewAttributionTests(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.path = Path(self.tmp.name) / 'feedback.sqlite3'
+        with closing(sqlite3.connect(self.path)) as db, db:
+            db.execute('CREATE TABLE reviews(icon,svg_sha256,status,updated_at,updated_by,PRIMARY KEY(icon,svg_sha256))')
+            db.execute('CREATE TABLE activity_log(id INTEGER PRIMARY KEY,username,action,icon,details,created_at)')
+            db.executemany('INSERT INTO reviews VALUES (?,?,?,?,?)', [
+                ('solo/a', 'v1', 'approve', '2026-09-10T01:00:00Z', None),
+                ('solo/a', 'v2', 'pending', '2026-09-10T02:00:00Z', ''),
+                ('solo/b', 'v1', 'rejected', '2026-09-11T01:00:00Z', '  '),
+                ('solo/c', 'v1', 'approve', '2026-09-11T01:00:00Z', 'jakes'),
+                ('solo/d', 'v1', 'ready', '2026-09-11T01:00:00Z', None),
+            ])
+
+    def test_backup_preserve_names_dates_and_idempotence(self):
+        self.assertFalse(run(self.path)['applied'])
+        result = run(self.path, apply=True)
+        self.assertEqual((result['records'], result['icons']), (3, 2))
+        with closing(sqlite3.connect(result['backup'])) as db:
+            self.assertIsNone(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/a' AND svg_sha256='v1'").fetchone()[0])
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute("SELECT updated_by,updated_at FROM reviews WHERE icon='solo/a' AND svg_sha256='v1'").fetchone(), ('hina', '2026-09-10T01:00:00Z'))
+            self.assertEqual(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/c'").fetchone()[0], 'jakes')
+            self.assertIsNone(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/d'").fetchone()[0])
+            self.assertTrue(json.loads(db.execute('SELECT details FROM activity_log LIMIT 1').fetchone()[0])['legacy_snapshot'])
+            stats = reviewer_stats(db, {'start': ['2026-09-10'], 'end': ['2026-09-11']}, ['hina'])
+            self.assertEqual(stats['totals'], {'total': 2, 'approved': 0, 'disapproved': 1, 'rejected': 1})
+        self.assertEqual(run(self.path, apply=True)['records'], 0)
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM activity_log').fetchone()[0], 3)
+
+    def test_invalid_date_rolls_back_all_changes(self):
+        with closing(sqlite3.connect(self.path)) as db, db:
+            db.execute("UPDATE reviews SET updated_at='unknown' WHERE icon='solo/b'")
+        with self.assertRaises(ValueError):
+            run(self.path, apply=True)
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute('SELECT COUNT(*) FROM activity_log').fetchone()[0], 0)
+            self.assertEqual(db.execute("SELECT COUNT(*) FROM reviews WHERE updated_by='hina'").fetchone()[0], 0)

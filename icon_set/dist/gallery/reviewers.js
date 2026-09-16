@@ -107,7 +107,7 @@
     }
     $('dailyRows').replaceChildren(days);
     $('historyNote').textContent = data.history_since
-      ? 'Activity history starts ' + new Intl.DateTimeFormat('en', {timeZone: data.timezone, dateStyle: 'medium'}).format(new Date(data.history_since)) + '. Reviews made before activity tracking began are not included.'
+      ? 'Available review history starts ' + new Intl.DateTimeFormat('en', {timeZone: data.timezone, dateStyle: 'medium'}).format(new Date(data.history_since)) + '. Includes saved legacy decisions attributed to their reviewer; older or overwritten decisions may be unavailable.'
       : 'No activity history has been recorded yet. New reviews will appear here.';
     $('updatedAt').textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
     const selected = $('reviewer').value;

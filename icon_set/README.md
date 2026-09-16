@@ -562,6 +562,15 @@ not reconstructed from mutable current records; the dashboard shows when history
 starts. The total is a sum of daily reviewer counts; distinct icons are shown
 separately. Historical actors remain selectable alongside current accounts.
 
+Existing unnamed review decisions were confirmed by the owner to belong to Hina.
+To apply this attribution to another deployment, run
+`python3 icon_set/scripts/attribute_legacy_reviews.py --database /persistent/path/feedback.sqlite3 --apply`.
+Omit `--apply` for a dry run. The script backs up the database, changes only missing
+reviewers on approved/disapproved/rejected rows, and records explicit legacy
+activity entries at the original saved review times. Named reviewers, Ready rows,
+feedback authors, and primitive/reference records remain unchanged. Re-running
+makes no further changes. This recovers saved decisions, not overwritten history.
+
 The icon review grid has a visible **Reviewer** filter for current decisions.
 It combines with status, category, and other filters; with no status selected it
 shows all three outcomes for that reviewer. Dashboard **View icons** links open
