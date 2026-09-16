@@ -60,6 +60,40 @@
     });
   }
   function round(n) { return Math.round(n*1e6)/1e6; }
+  function pathPoints(drawing, group) {
+    const points=[];
+    for(const p of drawing.primitives.filter(p=>group.members.includes(p.element_id))){
+      const knots=[['start',p.start],['end',p.end],...(p.segments || []).map((s,i)=>['segment:'+i,s[2]])];
+      for(const [address,position] of knots){
+        const ref=p.element_id+':'+address;
+        let knot=points.find(n=>n.position.every((v,i)=>v===position[i]));
+        if(!knot){knot={id:ref,position:[...position],refs:[]};points.push(knot);}
+        knot.refs.push(ref);
+      }
+    }
+    return points;
+  }
+  function movePathPoint(drawing, group, pointId, destination) {
+    const knot=pathPoints(drawing,group).find(n=>n.refs.includes(pointId));
+    if(!knot)return null;
+    const result=clone(drawing.primitives),same=p=>p.every((v,i)=>v===knot.position[i]);
+    const shift=p=>p.map((v,i)=>round(v+destination[i]-knot.position[i]));
+    for(const p of result.filter(p=>group.members.includes(p.element_id))){
+      // Move both sides of a shared junction, carrying adjacent curve handles with it.
+      if(p.kind==='bezier'){
+        let start=p.start;
+        for(const segment of p.segments){
+          const end=segment[2];
+          if(same(start))segment[0]=shift(segment[0]);
+          if(same(end)){segment[1]=shift(segment[1]);segment[2]=[...destination];}
+          start=end;
+        }
+      }
+      if(same(p.start))p.start=[...destination];
+      if(same(p.end))p.end=[...destination];
+    }
+    return result;
+  }
   // SVG getBBox uses float precision; don't display 31.999998 for a snapped 32.
   function measured(n) { return Math.abs(n-Math.round(n))<1e-5 ? Math.round(n) : round(n); }
   // Snap the visible selection size, not its scale percentage. The stroke stays fixed.
@@ -72,6 +106,7 @@
   let icon = null, strokes = [], offsets = {}, scales = {}, savedOffsets = {}, savedScales = {}, saved = null, baseRevision = 0;
   let selected = '', undo = [], redo = [], drag = null, request = 0, ready = false, busy = false, loaded = false;
   let selectionBounds=null, iconBounds=null;
+  let selectedPoint=null;
   let keyshape='',savedKeyshape='',validation=null,checking=false,override=null,geometry=null,savedGeometry=null;
   const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry)});
   const workingIcon=()=>({...icon,primitives:geometry || icon.primitives});
@@ -129,6 +164,9 @@
     $('strokeX').value = dx; $('strokeY').value = dy;
     $('strokeSelect').value = selected;
     $('strokeSelect').disabled=blocked || !selected || $('strokeScope').value==='icon';
+    const currentPoint=selectedPoint && pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===selectedPoint.group)).find(n=>n.refs.includes(selectedPoint.id));
+    $('strokePointFields').hidden=!currentPoint;
+    for(const [i,id] of ['strokePointX','strokePointY'].entries()){$(id).disabled=blocked || !currentPoint;$(id).value=currentPoint?.position[i] ?? '';}
     $('strokeSave').textContent = busy && !checking ? 'Saving…' : 'Save edits';
   }
   function node(tag, attrs) {
@@ -151,6 +189,7 @@
     const grid = node('g',{'pointer-events':'none',stroke:'#dfe7da','stroke-width':.1});
     for (let i=0;i<=size;i++) grid.append(node('path',{d:`M${i} 0V${size}M0 ${i}H${size}`}));
     canvas.append(grid);
+    if($('strokePoints').checked)canvas.append(node('path',{d:`M${size/2} 0V${size}M0 ${size/2}H${size}`,class:'editor-center-axes'}));
     const guide=window.IconGuides?.envelope(experiment());if(guide)canvas.append(guide);
     $('editingKeyshape').textContent=window.IconGuides?'Keyshape: '+window.IconGuides.label(experiment())+' · dashed orange':'';
     if ($('strokeOriginal').checked) {
@@ -172,7 +211,29 @@
       canvas.append(node('rect',{x:x-pad,y:y-pad,width:right-x+2*pad,height:bottom-y+2*pad,class:'stroke-selection'}));
       canvas.append(node('rect',{x:right+pad-.7,y:bottom+pad-.7,width:1.4,height:1.4,class:'resize-handle','data-resize':'true','aria-label':'Drag to resize selection'}));
     }
+    if($('strokePoints').checked){
+      for(const g of strokes){
+        canvas.append(node('path',{d:pathData(edited,g),class:'editor-centerline','data-stroke':g.id}));
+        if(!targetIds.has(g.id))continue;
+        for(const knot of pathPoints(edited,g)){
+          const active=selectedPoint?.group===g.id && knot.refs.includes(selectedPoint.id);
+          const dot=node('circle',{cx:knot.position[0],cy:knot.position[1],r:.55,class:'editor-path-point'+(active?' is-selected':''),'data-point':knot.id,'data-stroke':g.id});
+          const title=node('title',{});title.textContent=`Path point (${knot.position.join(', ')}) · drag to reshape`;dot.append(title);canvas.append(dot);
+        }
+      }
+      if(selectionBounds){
+        const {cx,cy}=selectionBounds;
+        const center=node('path',{d:`M${cx} ${cy-.8}L${cx+.8} ${cy}L${cx} ${cy+.8}L${cx-.8} ${cy}Z`,class:'editor-center-point','data-center':'true'});
+        const title=node('title',{});title.textContent='Selection center · drag to move selection';center.append(title);canvas.append(center);
+      }
+    }
     controls();
+  }
+  function movePoint(destination,history=true,basis=state()) {
+    if(!ready || busy || !selectedPoint || !destination.every(n=>Number.isFinite(n)&&Math.abs(n)<=4096))return;
+    const drawing=translatedGraph({...icon,primitives:basis.geometry || icon.primitives},strokes,basis.offsets,basis.scales);
+    const primitives=movePathPoint(drawing,strokes.find(g=>g.id===selectedPoint.group),selectedPoint.id,destination);
+    if(primitives)apply(JSON.stringify(primitives)===JSON.stringify(drawing.primitives)?clone(basis):{...clone(basis),geometry:primitives,offsets:{},scales:{}},history);
   }
   function change(next, history = true) {
     if (history) { undo.push(state()); if (undo.length > 100) undo.shift(); redo=[]; }
@@ -241,7 +302,7 @@
     loaded=true; ready=false; busy=false; controls();
     $('strokeStatus').textContent='Loading saved edits…';
     try {
-      strokes=groups(icon); selected=strokes[0]?.id || '';
+      selectedPoint=null;strokes=groups(icon); selected=strokes[0]?.id || '';
       $('strokeSelect').replaceChildren(...strokes.map(g => {const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
       const response = await fetch('../api/stroke-edits?icon='+encodeURIComponent(icon.key));
       if (!(response.headers.get('content-type') || '').includes('application/json')) throw Error('Editing needs the updated gallery server. Restart deploy.py, then reload saved edits.');
@@ -342,6 +403,7 @@
   function validGeometry(value){return value===null || Array.isArray(value) && value.length===icon.primitives.length && value.every((p,i)=>p && p.element_id===icon.primitives[i].element_id && p.kind===icon.primitives[i].kind && [p.start,p.end,...(p.segments || []).flat()].every(point=>Array.isArray(point) && point.length===2 && point.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=4096)));}
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
   function open(next) {
+    selectedPoint=null;
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
     request++;icon=next;geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
@@ -357,10 +419,15 @@
       $(name+'Tab').onclick=()=>tab(name);
       $(name+'Tab').onkeydown=event=>{let index=names.indexOf(name);if(event.key==='ArrowRight')index=(index+1)%3;else if(event.key==='ArrowLeft')index=(index+2)%3;else if(event.key==='Home')index=0;else if(event.key==='End')index=2;else return;event.preventDefault();tab(names[index],true);};
     }
-    $('strokeSelect').onchange=()=>{selected=$('strokeSelect').value;draw();};
+    $('strokeSelect').onchange=()=>{selectedPoint=null;selected=$('strokeSelect').value;draw();};
+    $('strokePoints').onchange=()=>{selectedPoint=null;draw();};
+    for(const id of ['strokePointX','strokePointY'])$(id).onchange=()=>{
+      const step=$('strokeSnap').checked?1:.1;
+      movePoint(['strokePointX','strokePointY'].map(key=>round(Math.round($(key).valueAsNumber/step)*step)));controls();
+    };
     for (const id of ['strokeX','strokeY']) $(id).onchange=()=>{const x=$('strokeX').valueAsNumber,y=$('strokeY').valueAsNumber;if (![x,y].every(n=>Number.isFinite(n)&&Math.abs(n)<=1024)) { $('strokeStatus').textContent='Enter offsets between -1024 and 1024.';controls();return;}move(x,y);};
     $('strokeOriginal').onchange=draw;
-    $('strokeScope').onchange=draw;
+    $('strokeScope').onchange=()=>{selectedPoint=null;draw();};
     $('strokeKeyshape').onchange=()=>{if(!ready || busy)return;apply({...state(),keyshape:$('strokeKeyshape').value});};
     $('strokeForcePass').onchange=()=>{if(!ready || busy)return;override=$('strokeForcePass').checked?{reason:''}:null;renderValidation();controls();remember();};
     $('strokeOverrideReason').oninput=()=>{if(!ready || busy || !override)return;override={reason:$('strokeOverrideReason').value};renderValidation();controls();remember();};
@@ -381,17 +448,19 @@
     $('strokeDownloadSVG').onclick=downloadSVG;$('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
     const canvas=$('strokeCanvas');
     canvas.onpointerdown=event=>{
-      const id=event.target.getAttribute('data-stroke'), sizing=event.target.getAttribute('data-resize');
-      if((!id && !sizing) || !ready || busy || event.button!==0)return;
-      event.preventDefault();if(id && $('strokeScope').value!=='icon')selected=id;draw();
-      drag={pointer:event.pointerId,start:point(event),offset:clone(offsets[activeId()] || [0,0]),scale:clone(scales[activeId()] || [1,1]),before:state(),mode:sizing?'resize':'move',bounds:selectionBounds};
-      canvas.setPointerCapture(event.pointerId);canvas.focus();
+      const id=event.target.getAttribute('data-stroke'), sizing=event.target.getAttribute('data-resize'),pointId=event.target.getAttribute('data-point'),center=event.target.getAttribute('data-center');
+      if((!id && !sizing && !center) || !ready || busy || event.button!==0)return;
+      event.preventDefault();selectedPoint=pointId?{group:id,id:pointId}:null;if(id && $('strokeScope').value!=='icon')selected=id;draw();
+      const knot=selectedPoint && pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===id)).find(n=>n.refs.includes(pointId));
+      drag={pointer:event.pointerId,start:point(event),position:knot?.position,offset:clone(offsets[activeId()] || [0,0]),scale:clone(scales[activeId()] || [1,1]),before:state(),mode:pointId?'point':sizing?'resize':'move',bounds:selectionBounds};
+      canvas.setPointerCapture(event.pointerId);canvas.focus({preventScroll:true});
     };
     canvas.onpointermove=event=>{
-      if(!drag){const id=event.target.getAttribute('data-stroke'),g=strokes.find(g=>g.id===id);$('strokeHover').textContent=g?'Hover: '+g.label+(g.id===selected?' · selected':' · click to select'):'Hover over a stroke to identify it.';return;}
+      if(!drag){const id=event.target.getAttribute('data-stroke'),g=strokes.find(g=>g.id===id);$('strokeHover').textContent=event.target.getAttribute('data-point')?'Path point · drag to reshape':event.target.getAttribute('data-center')?'Selection center · drag to move selection':g?'Hover: '+g.label+(g.id===selected?' · selected':' · click to select'):'Hover over a stroke or point to identify it.';return;}
       if(event.pointerId!==drag.pointer)return;
       const p=point(event), step=$('strokeSnap').checked?1:.1;
-      if(drag.mode==='resize'){
+      if(drag.mode==='point')movePoint(drag.position.map((n,i)=>round(Math.round((n+(i?p.y-drag.start.y:p.x-drag.start.x))/step)*step)),false,drag.before);
+      else if(drag.mode==='resize'){
         const b=drag.bounds;if(!b)return;
         let rx=(p.x-b.cx)/(drag.start.x-b.cx),ry=(p.y-b.cy)/(drag.start.y-b.cy);
         resize(drag.scale[0]*rx,drag.scale[1]*ry,false,drag.before,b);
@@ -403,11 +472,14 @@
     canvas.onpointercancel=event=>{if(!drag || event.pointerId!==drag.pointer)return;const before=drag.before;drag=null;change(before,false);};
     canvas.onkeydown=event=>{
       if(!ready || busy || !selected)return;
+      if(event.key==='Escape' && selectedPoint){event.preventDefault();event.stopPropagation();selectedPoint=null;draw();return;}
       const moves={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}, delta=moves[event.key];
-      if(!delta)return;event.preventDefault();const offset=offsets[activeId()] || [0,0],step=event.shiftKey?.1:1;move(offset[0]+delta[0]*step,offset[1]+delta[1]*step);
+      if(!delta)return;event.preventDefault();const offset=offsets[activeId()] || [0,0],step=event.shiftKey?.1:1;
+      if(selectedPoint){const knot=pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===selectedPoint.group)).find(n=>n.refs.includes(selectedPoint.id));if(knot)movePoint(knot.position.map((n,i)=>round(n+delta[i]*step)));}
+      else move(offset[0]+delta[0]*step,offset[1]+delta[1]*step);
     };
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();
