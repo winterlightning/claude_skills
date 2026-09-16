@@ -563,13 +563,24 @@ starts. The total is a sum of daily reviewer counts; distinct icons are shown
 separately. Historical actors remain selectable alongside current accounts.
 
 Existing unnamed review decisions were confirmed by the owner to belong to Hina.
-To apply this attribution to another deployment, run
-`python3 icon_set/scripts/attribute_legacy_reviews.py --database /persistent/path/feedback.sqlite3 --apply`.
-Omit `--apply` for a dry run. The script backs up the database, changes only missing
-reviewers on approved/disapproved/rejected rows, and records explicit legacy
-activity entries at the original saved review times. Named reviewers, Ready rows,
-feedback authors, and primitive/reference records remain unchanged. Re-running
-makes no further changes. This recovers saved decisions, not overwritten history.
+This is a **one-time startup migration**: deploy the updated server code (including
+`attribute_legacy_reviews.py`) and restart the gallery normally. Startup uses the
+server's configured database, including its existing `--database` override. No
+separate attribution command or transfer of the local SQLite database is needed.
+Production remains the source of truth for its review data.
+
+Migration `2026-09-16-legacy-reviewers-hina-v1` takes a backup beside the live
+database before changing rows, then records its completion atomically in
+`review_data_migrations`. It fills only missing reviewers on saved approved,
+disapproved and rejected decisions dated no later than the original attribution
+request (`2026-09-16T07:40:44.370999+00:00`). Dashboard entries retain their saved
+review times and explicit attribution provenance. Named reviewers, Ready rows,
+feedback authors, later unnamed reviews, and primitive/reference records remain
+unchanged. Restarts do not reapply the migration. Installations already updated
+with the earlier manual script are recognized through their filled attribution
+and do not receive duplicate history. This recovers saved decisions, not
+overwritten history. A failed migration rolls back and prevents startup, so the
+same correction can be retried without partial results.
 
 The icon review grid has a visible **Reviewer** filter for current decisions.
 It combines with status, category, and other filters; with no status selected it
@@ -581,7 +592,7 @@ Legacy `approved_by` URLs still load; new links use `reviewer`.
 It needs only Python 3.10+ and the standard library; build requirements remain
 in `requirements-qa.txt`. Paths default relative to the script, so it works
 from any working directory. For deployment, copy `icon_set/dist/` and
-`icon_set/scripts/deploy.py`, `icon_set/scripts/reviewer_stats.py`, `icon_set/scripts/brief_queue.py` and `icon_set/scripts/discard_icon.py`, preserving that layout.
+`icon_set/scripts/deploy.py`, `icon_set/scripts/attribute_legacy_reviews.py`, `icon_set/scripts/reviewer_stats.py`, `icon_set/scripts/brief_queue.py` and `icon_set/scripts/discard_icon.py`, preserving that layout.
 Discard also needs the `icon_set/model/icons/` sources on the server.
 
 Feedback defaults to `icon_set/data/feedback.sqlite3`, outside the public build

@@ -26,6 +26,7 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
 if __package__:
+    from .attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from .reviewer_stats import reviewer_stats
     from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -40,6 +41,7 @@ if __package__:
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
+    from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from reviewer_stats import reviewer_stats
     from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -136,6 +138,9 @@ def init_database(path: Path) -> None:
         connection.execute('CREATE INDEX IF NOT EXISTS activity_log_icon ON activity_log(icon, id)')
         init_primitive_status(connection)
         init_primitive_briefs(connection)
+    # Data migrations run against this installation's live database after its
+    # schema is committed; no local database copy or manual attribution command.
+    migrate_legacy_reviewers(path)
 
 
 def utc_now():

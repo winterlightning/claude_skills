@@ -5,7 +5,8 @@ import sqlite3
 import tempfile
 import unittest
 
-from icon_set.scripts.attribute_legacy_reviews import run
+from icon_set.scripts.attribute_legacy_reviews import MIGRATION, run
+from icon_set.scripts.deploy import init_database
 from icon_set.scripts.reviewer_stats import reviewer_stats
 
 
@@ -50,3 +51,40 @@ class LegacyReviewAttributionTests(unittest.TestCase):
         with closing(sqlite3.connect(self.path)) as db:
             self.assertEqual(db.execute('SELECT COUNT(*) FROM activity_log').fetchone()[0], 0)
             self.assertEqual(db.execute("SELECT COUNT(*) FROM reviews WHERE updated_by='hina'").fetchone()[0], 0)
+
+    def test_normal_startup_migrates_actual_configured_database_once(self):
+        # Simulate a production database created by the previous server version,
+        # stored somewhere other than the default local data directory.
+        production = Path(self.tmp.name) / 'persistent' / 'production.sqlite3'
+        init_database(production)
+        with closing(sqlite3.connect(self.path)) as source, closing(sqlite3.connect(production)) as db, db:
+            db.execute('DROP TABLE review_data_migrations')
+            db.executemany('INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,?,?,?)',
+                           source.execute('SELECT * FROM reviews').fetchall())
+            db.execute("INSERT INTO reviews VALUES ('solo/later','v1','approve','2026-09-17T00:00:00Z',NULL)")
+        init_database(production)
+        with closing(sqlite3.connect(production)) as db, db:
+            self.assertEqual(db.execute("SELECT count(*) FROM reviews WHERE updated_by='hina'").fetchone()[0], 3)
+            self.assertIsNone(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/later'").fetchone()[0])
+            ledger = json.loads(db.execute('SELECT details FROM review_data_migrations WHERE id=?', (MIGRATION,)).fetchone()[0])
+            self.assertTrue(Path(ledger['backup']).is_file())
+            db.execute("INSERT INTO reviews VALUES ('solo/not-covered','v1','pending','2026-09-10T00:00:00Z',NULL)")
+        init_database(production)
+        with closing(sqlite3.connect(production)) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM activity_log').fetchone()[0], 3)
+            self.assertIsNone(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/not-covered'").fetchone()[0])
+        # Starting production never copied or modified the separate local DB.
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute("SELECT count(*) FROM reviews WHERE updated_by='hina'").fetchone()[0], 0)
+
+    def test_previous_manual_attribution_does_not_duplicate_history(self):
+        run(self.path, apply=True)
+        with closing(sqlite3.connect(self.path)) as db, db:
+            # The first standalone script did not have a migration ledger.
+            db.execute('DROP TABLE review_data_migrations')
+        result = run(self.path, apply=True)
+        self.assertEqual(result['records'], 0)
+        self.assertNotIn('backup', result)
+        with closing(sqlite3.connect(self.path)) as db:
+            self.assertEqual(db.execute('SELECT count(*) FROM activity_log').fetchone()[0], 3)
+            self.assertEqual(db.execute('SELECT count(*) FROM review_data_migrations').fetchone()[0], 1)
