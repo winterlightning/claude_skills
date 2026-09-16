@@ -132,6 +132,15 @@ class ArtworkAPITests(StrokeEditAPITests):
         self.assertEqual(row['artwork_source'],'use_upload')
         self.assertNotEqual(row['svg_sha256'], 'fixture')
         self.assertEqual(row['generated_svg_sha256'],'fixture')
+        import http.client
+        connection = http.client.HTTPConnection('127.0.0.1',self.server.server_port)
+        connection.request('GET','/api/icon-artwork/svg?icon=solo/editor-experiment')
+        response = connection.getresponse()
+        self.assertEqual(response.status,200)
+        self.assertIn('sandbox',response.getheader('Content-Security-Policy'))
+        self.assertEqual(response.read().decode(),saved['choice']['uploaded']['svg'])
+        connection.close()
+
         self.assertEqual(self.call('GET','/api/stroke-edits?icon=solo/editor-experiment')[1]['svg_sha256'],'fixture')
         self.assertEqual(self.call('POST',route,data)[0],409)
         self.assertFalse(list(self.dist.rglob('artwork.json')))

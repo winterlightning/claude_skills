@@ -2,7 +2,9 @@
 """Validate every registered icon, then export SVG, PNG and a manifest per family.
 
 Validate-then-export: nothing reaches a release folder that has not passed the
-full chain. A failing icon still renders -- its SVG and its findings go to
+full chain, unless an explicit persisted human artwork choice overrides it.
+Manual SVG uploads and accepted gallery edits retain their provenance and raw
+validation findings. A failing icon still renders -- its SVG and its findings go to
 ``dist/failed/<family><canvas>/`` and the gallery's Failed build tab, grouped
 by the rule it breaks -- while every passing icon is published to its family
 folder. The exit code is 1 when anything failed. A family where no icon
@@ -391,9 +393,10 @@ def _stage_family(
         document = qa.get('_svg')
         overlay = overlay_failure(icon.icon_id, hashlib.sha256(document.encode('utf-8')).hexdigest()
                                   if document else None)
-        if overlay is not None and not (manual and manual['validation_override']):
+        if overlay is not None:
             qa['errors'].extend(overlay['errors'])
-            if qa['status'] == 'pass':
+            qa['qa_overlays'] = overlay
+            if qa['status'] == 'pass' and not (manual and manual['validation_override']):
                 qa['status'] = 'fail'
         if qa['status'] != 'pass':
             fail(icon, qa, qa['errors'] or qa['warnings'], mtime)
@@ -408,8 +411,9 @@ def _stage_family(
             target.write_text(document, encoding="utf-8")
 
             record = icon.to_record()
+            record['artwork_source'] = 'use_org'
             if manual:
-                record['generated_graph'] = dict(record)
+                record['generated_graph'] = {k: v for k, v in record.items() if k != 'artwork_source'}
                 record['generated_svg_sha256'] = sha(icon.to_svg())
                 if manual['graph']:
                     record.update(manual['graph'])
@@ -423,7 +427,7 @@ def _stage_family(
                 "automatic_status": qa.get('automatic_status', qa['status']),
                 "validation_override": qa.get('validation_override'),
                 "errors": qa['errors'],
-                "checks_run": qa['checks_run'] + ['holes/pinches', 'internal-spacing-review'],
+                "checks_run": qa['checks_run'] + ([] if manual and manual['source_mode']=='use_upload' else ['holes/pinches', 'internal-spacing-review']),
                 "warnings": qa['warnings'],
                 "negative_space": {key: value for key, value in qa['negative_space'].items()
                                    if key not in ('holes', 'pinches')},

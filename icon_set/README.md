@@ -746,6 +746,51 @@ review app rather than writing to a different local queue.
 
 Failed build cards support selecting shown icons and **Discard selected**, with one confirmation for the batch. Refused removals remain selected. **Fix notes** saves instructions to the existing feedback history without clearing build failures; unsaved drafts are kept locally while browsing.
 
+### Manual SVGs and the artwork source
+
+In **Editing**, download **Current SVG** (the selected version) or **Edited SVG**
+(the unsaved gallery geometry, without grid/selection overlays). Edit the SVG in
+your design tool and export it on the same 32/48/64 canvas. Upload it, choose a
+version, and click **Use this version**. The grid and Information/Review preview
+update immediately. The single `source_mode` flag is one of:
+
+- `use_org`: the original Python-generated geometry.
+- `use_upload`: the saved SVG from the design tool.
+- `use_edited`: an accepted snapshot of saved gallery stroke edits.
+
+Switching versions preserves the uploaded SVG and selected edit snapshot. Saving
+more gallery edits does not silently replace the selected snapshot; choose
+**Gallery edited → Use this version** to adopt the new saved revision. Gallery
+edits must pass validation or have a saved human force-pass reason. Choosing an
+upload records the human source selection; its build status is `human-selected`
+and primitive validation is `not-run`, because the old Python graph does not
+describe arbitrary external outlines. Uploads undergo SVG format, canvas, static
+content, and render checks. SVG text must be converted to outlines; scripts,
+external assets, raster images, and unsupported effects are rejected with an error.
+
+The server saves atomic `pictographic.icon-artwork.v1` JSON records under
+`icon-artwork/` **beside its feedback database**, outside `dist`. Each record
+contains the source choice, SVG content, hashes, reviewer/time, and selected
+editor graph/validation snapshot. Python's `build.py` resolves these choices
+before exporting SVG and PNG. Full and incremental builds preserve manual
+selections even if authored Python changes. Manifests retain `generated_graph`
+and `generated_svg_sha256` so the original remains available for editing/restoring.
+
+The default build reads `icon_set/data/icon-artwork`. On a server with a custom
+database location, point builds at that same persistent folder:
+
+```bash
+python3 icon_set/scripts/build.py --artwork-dir /persistent/gallery/icon-artwork
+```
+
+Server-triggered generation acceptance uses the server's storage location.
+Keep `icon-artwork/` and `stroke-edits/` on persistent production storage and back
+them up together with the database. Transfer those folders when moving manual
+choices between local and production; a source-only deployment must not overwrite
+them. Ship `scripts/icon_artwork.py` and the shared SVG/model runtime with the
+server, plus `gallery/icon-artwork.js`. No authored `.py` file is rewritten by
+an upload, and no SVG is converted into invented Python primitives.
+
 ### Popup tabs and saved stroke edits
 
 The icon popup defaults to **Review**. Original and generated previews stay visible
