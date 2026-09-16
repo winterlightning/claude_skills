@@ -546,7 +546,7 @@ The review popup includes an **Icon type** dropdown with `human`, `avatar`, and
 `icon_type` string, or save **No type** to clear it. Types persist in the feedback
 database across rebuilds and restarts; saving requires login and records the reviewer.
 
-The **Reviewers** navigation item opens `gallery/reviewers.html`: daily approval,
+The **Dashboard** subtab in **Icon review** opens `gallery/reviewers.html`: daily approval,
 disapproval and rejection totals, a daily chart, a reviewer breakdown, and a CSV
 of daily counts per reviewer. Choose Today, Last 7 days (default), Last 30 days,
 or a custom range of up to 366 days. Dates use Vietnam time by default; UTC and

@@ -1,13 +1,11 @@
 (async()=>{
   const nav=document.querySelector('.site-nav');
   if(nav){
-    let dashboard=nav.querySelector('a[href="reviewers.html"]');
-    if(!dashboard){dashboard=document.createElement('a');dashboard.href='reviewers.html';const review=nav.querySelector('a[href="index.html"]');if(review)review.after(dashboard);else nav.append(dashboard);}
-    dashboard.textContent='Dashboard';
-    if(!nav.querySelector('a[href="experiment.html"]')){const link=document.createElement('a');link.href='experiment.html';link.textContent='Experiment';dashboard.after(link);}
+    nav.querySelectorAll('a[href="reviewers.html"]').forEach(link=>link.remove());
+    if(!nav.querySelector('a[href="experiment.html"]')){const link=document.createElement('a');link.href='experiment.html';link.textContent='Experiment';const review=nav.querySelector('a[href="index.html"]');if(review)review.after(link);else nav.append(link);}
   }
   const page=location.pathname.split('/').pop();
-  const current=['generate.html','login.html'].includes(page)?'index.html':page;
+  const current=['generate.html','login.html','reviewers.html'].includes(page)?'index.html':page;
   nav?.querySelectorAll('a').forEach(a=>{if(a.getAttribute('href')===current)a.setAttribute('aria-current','page');});
   let auth=document.getElementById('siteAuth');
   if(nav&&!auth){auth=document.createElement('a');auth.id='siteAuth';auth.className='auth-link';auth.href='login.html';nav.append(auth);}
