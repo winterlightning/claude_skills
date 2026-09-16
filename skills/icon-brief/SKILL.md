@@ -1,6 +1,6 @@
 ---
 name: icon-brief
-description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that $icon-sub, $icon-solo, $icon-avatar or $icon-container can be run against. Detect side combinations and copy flagged or uncertain references into a human-review folder; distinguish modifiers from natural multi-object subjects. Save container component briefs for later authoring. The requested family applies to standalone icons; split components use their individual families. Generated from .claude/skills/icon-brief/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
+description: Turn reference SVGs into authoring briefs for the Pictographic icon set. Use when given a folder or file of source SVGs to prepare, triage or catalogue before drawing — renders each one, then writes its name, icon_id, family, description and tags into a brief that $icon-sub, $icon-solo, $icon-avatar or $icon-container can be run against. Detect combinations, distinguish modifiers from natural multi-object subjects, and save later-generation briefs for every skipped source. Preserve review evidence without withholding component briefs. The requested family applies to standalone icons; split components use their individual families. Generated from .claude/skills/icon-brief/SKILL.md by icon_set/scripts/generate_skills.py; edit the source, not this copy.
 ---
 
 # $icon-brief — reference SVGs in, authoring briefs out
@@ -20,10 +20,10 @@ it. Combined references use the separate component-family routing below. See [Fa
 
 Before writing a standalone brief, visually classify the reference using
 `icon_set/skills/icon-design/reference-triage.md`. Do this within `icon-brief`;
-do not defer detection until authoring. Hold side combinations and uncertain
-cases for human review; save split handoffs for clear container combinations
-as described below. This brief-only review hold takes precedence over the
-shared triage guide's immediate splitting step.
+do not defer detection until authoring. Save independent component briefs for clear
+container and side combinations. Preserve uncertain interpretations for review,
+but a SKIP decision must always include a saved brief for later generation.
+Review status may hold generation; it must not hold brief preparation.
 When invoked by `$icon-making`, its chosen family is an explicit input.
 
 ## Detect combinations and save them for later
@@ -37,15 +37,17 @@ filename, number of objects, SVG groups, or position alone.
 - Container combination: a separate glyph inside an enclosure. Write two briefs:
   the empty/standalone enclosure in `container/`, and its isolated content in `sub/`.
 - Side combination: a main subject with a separate adjacent or overlapping
-  action/state modifier. Mark and copy the complete reference for human review
-  using the procedure below. Do not split or queue components yet.
+  action/state modifier. Save independent main and modifier briefs now, plus the
+  complete reference and visual reason using the procedure below. Record the
+  modifier's position relative to the main subject. Do not wait for human review
+  to write these briefs.
 - Uncertain: the render does not clearly establish whether the second element
   is a modifier or part of the subject. Save it for human review with the
   competing interpretations; do not force a combination label.
 - Standalone: continue the ordinary five-field brief in the requested family.
   A coherent subject may contain two or more objects.
 
-### Hold side combinations for human review
+### Preserve side-combination and uncertainty evidence
 
 Save every side combination and uncertain reference under
 `work/combination-review/side/<source-stem>-<digest>/` or
@@ -81,13 +83,14 @@ standalone five-field brief.
 
 Verify the copy's bytes match the source. Reuse an identical review bundle;
 never overwrite human edits. Keep held references out of the standalone manifest
-and authoring handoff, and do not queue them in Pending briefs. Continue briefing
-the clear standalone references. Human review can later confirm a side split
-(main subject in `solo/` or `container/`, modifier in `sub/`) or return a reference
-to standalone briefing. Do not turn a solo subject into a container to fit a
-folder name.
+and whole-reference authoring handoff. Save component briefs beside the review
+evidence even when generation is held for review. Clear side splits use a main
+subject in `solo/` or `container/` and a modifier in `sub/`. For an uncertain
+reference, save a faithful visual draft, known components and explicit open
+questions; do not invent an unsupported split. Do not turn a solo subject into
+a container to fit a folder name.
 
-### Save clear container splits (or human-confirmed side splits)
+### Save clear container and side splits
 
 For these combinations, do not produce one normal authoring brief for the whole
 reference. Write a split JSON handoff with `reference_path`, `combination_type`
@@ -95,8 +98,11 @@ reference. Write a split JSON handoff with `reference_path`, `combination_type`
 component has `name`, `family`, and `description`; include `icon_id` and `tags`
 when known. Descriptions say what to generate and which other component to
 exclude. Preserve the complete supplied source path and UUID. If the reference
-cannot be unambiguously separated into two components, hold it as uncertain
-instead of inventing a two-part split.
+has more than two independent parts, save one brief per identifiable component
+in `components.json` and separate Markdown briefs beside the source copy. The
+two-component helper below cannot accept this case; do not force extra parts
+into one component or leave the entire source without briefs. Record any
+unresolved part as an explicit open question in the saved generation draft.
 
 ```json
 {
@@ -114,7 +120,7 @@ Save each split JSON under `work/pending-brief/requests/` with a unique source-b
 filename, then run:
 
 ```bash
-python3 icon_set/scripts/queue_brief.py --file work/pending-brief/requests/split.json
+python3 icon_set/scripts/queue_brief.py --file work/pending-brief/requests/split.json --files-only
 ```
 
 This copies the unchanged full SVG (or PNG when that is the supplied reference)
@@ -138,15 +144,40 @@ not a generated or cropped component. The brief explains which part to isolate.
 The helper includes a source/revision digest in the folder name to avoid
 collisions, reuses an identical handoff, and refuses to overwrite modified work.
 
-By default it also adds the two components to the review app's Pending briefs.
-Use `--files-only` when only preparing files for later work; use `--out` to choose
-another handoff root, and `--database` if the review app uses a different database.
+The helper adds components to Pending briefs unless `--files-only` is passed.
+Use `--files-only` for brief-only or primitives-review work; omit it only when
+queueing is requested. Use `--out` to choose another handoff root, and `--database`
+if an authorized queue operation uses a different database.
 If queueing fails after saving files, report the saved paths and the queue error
 rather than claiming the items appeared in the app.
 
 Check that each saved source copy matches the original and both briefs name
 their family and excluded component. Report standalone, container-split, side-review, and uncertain-review counts
 and the saved folders. Do not generate either component during a brief-only task.
+
+### Every SKIP needs a saved generation brief
+
+When applying `primitives-review`, SKIP excludes the original from whole-icon
+remaking; it does not remove the obligation to prepare later-generation briefs.
+Save briefs before or together with the status change. A skip reason, position,
+review note or source copy alone is not a generation brief.
+
+- For container/side combinations, save each independent component's name,
+  family, visual description and exclusions; retain the full source UUID/path.
+- For an empty enclosure, save its container brief. For text/number sources,
+  preserve the exact readable content and visual arrangement in a sub brief;
+  identify any separate enclosure independently.
+- For complex or ambiguous sources, save all identifiable component briefs and
+  a visual draft with explicit open questions for unresolved parts. Uncertainty
+  may prevent generation, but never justify an absent brief for a skipped source.
+- Persist main/sub briefs in the gallery's independent component fields where
+  supported. Also save a gallery reference brief containing the complete list
+  of independently generatable components or the unresolved visual draft. Follow
+  `primitives-review`'s gallery-data reference for the existing save helpers;
+  extra components must not be silently dropped to fit the two-field schema.
+- Verify every scoped SKIP has a nonempty saved generation brief and source
+  identity. Keep combined sources out of the standalone manifest. Brief creation
+  does not authorize generation or adding jobs to Pending briefs.
 
 Per standalone icon you produce exactly five fields:
 
@@ -203,7 +234,7 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    so your description does not lean on detail that is not actually there.
 
 3. **Triage before writing briefs.** Save side/uncertain review bundles and
-   split clear container combinations using the procedure above. Keep all of
+   save briefs for clear container and side combinations using the procedure above. Keep all of
    these references out of the standalone authoring handoff. Then **write the standalone manifest** at `<svg folder>/manifest.json` — a JSON array, one
    object per file, `file` matching the SVG filename exactly (including spaces
    and parentheses):
@@ -270,7 +301,9 @@ Lucide. The authoring skill chooses the construction and reviews the result.
    counts, the output paths, and any reference you think is wrong
    for the requested family — briefed as asked, flagged for the requester.
    Name the held references and their visual reasons, and link their review
-   folders. Hand over the first standalone command to run (if any): `$icon-<family> <icon_id> — <one
+   folders. Report skipped sources with saved generation briefs, component brief
+   counts and unresolved questions; never describe a skipped source as complete
+   when its brief is missing. Hand over the first standalone command to run (if any): `$icon-<family> <icon_id> — <one
    sentence>`.
 
 ## Naming
@@ -296,8 +329,8 @@ If it is taken by the same concept in another family, propose the suffixed form
 
 **For standalone references, the requester names the family and it stays fixed
 across that standalone run. Combination detection is the explicit exception:
-hold side/uncertain references for review and save confirmed component briefs
-in their correct families as described above.**
+save component briefs in their correct families for side/container combinations
+and preserve uncertainty as described above.**
 
 - `sub` (SUB32) — 32×32. A small glyph, mark, operator, arrow, chevron, state
   or modifier.

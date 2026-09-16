@@ -182,7 +182,7 @@ def effective_validation_status(document):
     if (override.get('graph_sha256') == digest and
             override.get('source_svg_sha256') == document.get('source_svg_sha256') and
             override.get('reviewed_by') and override.get('reviewed_at') and
-            isinstance(override.get('reason'), str) and override['reason'].strip()):
+            isinstance(override.get('reason'), str)):
         return 'pass'
     report = document.get('validation') or {}
     return report.get('status', 'not-run') if report.get('graph_sha256') == digest else 'not-run'
@@ -279,9 +279,9 @@ class StrokeEditStore:
                 requested = data['validation_override']
                 override = None
                 if requested is not None:
-                    reason = requested.get('reason') if isinstance(requested, dict) else None
-                    if not isinstance(reason, str) or not reason.strip() or len(reason) > 2000:
-                        raise ValueError('Enter a human override reason (1–2000 characters).')
+                    reason = requested.get('reason', '') if isinstance(requested, dict) else None
+                    if not isinstance(reason, str) or len(reason) > 2000:
+                        raise ValueError('The optional human override note must be text of at most 2000 characters.')
                     override = {'reason': reason.strip(), 'reviewed_by': user,
                                 'reviewed_at': datetime.now(timezone.utc).isoformat(),
                                 'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}

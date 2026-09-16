@@ -117,6 +117,31 @@
   let selectionBounds=null, iconBounds=null;
   let selectedPoint=null,deletedStrokes=[],savedDeletedStrokes=[];
   let keyshape='',savedKeyshape='',validation=null,checking=false,override=null,geometry=null,savedGeometry=null;
+  let viewport=null,panMode=false,spacePan=false;
+  const viewZoom=()=>viewport && icon ? (icon.canvas_size+8)/viewport.size : 1;
+  function updateView() {
+    if(!icon)return;
+    viewport ||= {x:-4,y:-4,size:icon.canvas_size+8};
+    const canvas=$('strokeCanvas'),zoom=viewZoom();
+    canvas.setAttribute('viewBox',`${viewport.x} ${viewport.y} ${viewport.size} ${viewport.size}`);
+    canvas.dataset.panMode=String(panMode || spacePan);
+    canvas.dataset.panning=String(drag?.mode==='pan');
+    $('strokeZoomLevel').textContent=Math.round(zoom*100)+'%';
+    $('strokePan').setAttribute('aria-pressed',String(panMode));
+    const blocked=!ready || busy || !!drag;
+    $('strokePan').disabled=blocked;
+    $('strokeZoomFit').disabled=blocked;
+    $('strokeZoomIn').disabled=blocked || zoom>=16;
+    $('strokeZoomOut').disabled=blocked || zoom<=.25;
+  }
+  function zoomView(factor,anchor) {
+    if(!ready || busy || drag)return;
+    updateView();
+    anchor ||= {x:viewport.x+viewport.size/2,y:viewport.y+viewport.size/2};
+    const size=(icon.canvas_size+8)/Math.max(.25,Math.min(16,viewZoom()*factor)),ratio=size/viewport.size;
+    viewport={x:anchor.x+(viewport.x-anchor.x)*ratio,y:anchor.y+(viewport.y-anchor.y)*ratio,size};
+    updateView();
+  }
   const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes)});
   const workingIcon=()=>({...icon,primitives:geometry || icon.primitives});
   const experiment=()=>{
@@ -134,7 +159,7 @@
   const overrideRequest=()=>override ? {reason:override.reason} : null;
   const overrideDirty=()=>JSON.stringify(overrideRequest())!==JSON.stringify(saved?.validation_override ? {reason:saved.validation_override.reason} : null);
   const dirty=()=>geometryDirty() || overrideDirty();
-  const overrideValid=()=>!override || !!override.reason.trim();
+  const validationBlocksSave=()=>validation?.status==='fail' && !override;
   const validationNeedsSave=()=>!!validation && JSON.stringify(validation)!==JSON.stringify(saved?.validation);
   const draftKey = () => 'pictographic-stroke-edit:'+icon.key+':'+icon.svg_sha256;
   function remember() {
@@ -145,10 +170,11 @@
   }
   function controls() {
     const blocked = !ready || busy;
+    updateView();
     for (const id of ['strokeSelect','strokeX','strokeY','strokeScaleX','strokeScaleY','strokeScope','strokeReset']) $(id).disabled = blocked || !selected;
-    $('strokeSave').disabled = blocked || !overrideValid() || (!dirty() && !validationNeedsSave());
+    $('strokeSave').disabled = blocked || validationBlocksSave() || (!dirty() && !validationNeedsSave());
     $('strokeDownloadSVG').disabled=!ready || busy;
-    $('strokeDownload').disabled = !ready || busy || !overrideValid();
+    $('strokeDownload').disabled = !ready || busy;
     $('strokeForcePass').disabled=blocked;
     $('strokeForcePass').checked=!!override;
     $('strokeOverrideReason').disabled=blocked;
@@ -201,7 +227,7 @@
     if(selectedPoint && deletedStrokes.includes(selectedPoint.group))selectedPoint=null;
     $('strokeSelect').replaceChildren(...visible.map(g=>{const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
     const size = icon.canvas_size, width = icon.style?.stroke_width || 4;
-    canvas.setAttribute('viewBox',`-4 -4 ${size+8} ${size+8}`);
+    updateView();
     canvas.append(node('rect',{x:0,y:0,width:size,height:size,fill:'#fff',stroke:'#bdcbbb','stroke-width':.15}));
     const grid = node('g',{'pointer-events':'none',stroke:'#dfe7da','stroke-width':.1});
     for (let i=0;i<=size;i++) grid.append(node('path',{d:`M${i} 0V${size}M0 ${i}H${size}`}));
@@ -340,7 +366,7 @@
     title.textContent=validation ? (labels[validation.status] || validation.status)+' · '+validation.keyshape : message;
     if(override){
       const note=document.createElement('p');
-      note.textContent=applied?`Passed by human override · ${applied.reviewed_by} · ${new Date(applied.reviewed_at).toLocaleString()}. ${applied.reason}`:'Force pass selected · enter a reason and save edits to apply it.';
+      note.textContent=applied?`Passed by human override · ${applied.reviewed_by} · ${new Date(applied.reviewed_at).toLocaleString()}${applied.reason ? '. '+applied.reason : ''}`:'Force pass selected · save edits to apply it. A note is optional.';
       box.append(note);
       title.textContent='Automatic checks: '+title.textContent;
     }
@@ -380,7 +406,7 @@
     finally{if(token===request){busy=false;checking=false;controls();}}
   }
   async function save() {
-    if (!ready || busy || !overrideValid() || (!dirty() && !validationNeedsSave())) return;
+    if (!ready || busy || validationBlocksSave() || (!dirty() && !validationNeedsSave())) return;
     const token=request, body={icon:icon.key,svg_sha256:icon.svg_sha256,revision:baseRevision,offsets:clone(offsets),scales:clone(scales),keyshape:keyshape || undefined,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes),validate:!!validation,validation_override:overrideRequest()};
     busy=true;controls();$('strokeStatus').textContent='Saving edits to this server…';
     try {
@@ -421,6 +447,7 @@
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
   function open(next) {
     selectedPoint=null;
+    viewport=null;panMode=false;spacePan=false;
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
     request++;icon=next;deletedStrokes=[];savedDeletedStrokes=[];geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
@@ -465,9 +492,24 @@
     $('strokeRedo').onclick=()=>{if(!redo.length)return;undo.push(state());change(redo.pop(),false);};
     $('strokeDownloadSVG').onclick=downloadSVG;$('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
     const canvas=$('strokeCanvas');
+    $('strokePan').onclick=()=>{if(!ready || busy || drag)return;panMode=!panMode;updateView();canvas.focus({preventScroll:true});};
+    $('strokeZoomIn').onclick=()=>zoomView(1.25);
+    $('strokeZoomOut').onclick=()=>zoomView(1/1.25);
+    $('strokeZoomFit').onclick=()=>{if(!ready || busy || drag)return;viewport=null;updateView();};
+    canvas.addEventListener('wheel',event=>{
+      if(!ready)return;
+      event.preventDefault();
+      const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?canvas.clientHeight:1);
+      zoomView(Math.exp(-Math.max(-200,Math.min(200,delta))*.002),point(event));
+    },{passive:false});
     canvas.onpointerdown=event=>{
       const id=event.target.getAttribute('data-stroke'), sizing=event.target.getAttribute('data-resize'),pointId=event.target.getAttribute('data-point'),center=event.target.getAttribute('data-center');
-      if((!id && !sizing && !center) || !ready || busy || event.button!==0)return;
+      if(!ready || busy || drag || ![0,1].includes(event.button))return;
+      if(panMode || spacePan || event.button===1 || (!id && !sizing && !center)){
+        event.preventDefault();
+        drag={pointer:event.pointerId,mode:'pan',start:point(event),view:{...viewport},matrix:canvas.getScreenCTM().inverse()};
+        canvas.setPointerCapture(event.pointerId);canvas.focus({preventScroll:true});updateView();return;
+      }
       event.preventDefault();selectedPoint=pointId?{group:id,id:pointId}:null;if(id && $('strokeScope').value!=='icon')selected=id;draw();
       const knot=selectedPoint && pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===id)).find(n=>n.refs.includes(pointId));
       drag={pointer:event.pointerId,start:point(event),position:knot?.position,offset:clone(offsets[activeId()] || [0,0]),scale:clone(scales[activeId()] || [1,1]),before:state(),mode:pointId?'point':sizing?'resize':'move',bounds:selectionBounds};
@@ -476,6 +518,12 @@
     canvas.onpointermove=event=>{
       if(!drag){const id=event.target.getAttribute('data-stroke'),g=strokes.find(g=>g.id===id);$('strokeHover').textContent=event.target.getAttribute('data-point')?'Path point · drag to reshape':event.target.getAttribute('data-center')?'Selection center · drag to move selection':g?'Hover: '+g.label+(g.id===selected?' · selected':' · click to select'):'Hover over a stroke or point to identify it.';return;}
       if(event.pointerId!==drag.pointer)return;
+      if(drag.mode==='pan'){
+        const cursor=canvas.createSVGPoint();cursor.x=event.clientX;cursor.y=event.clientY;
+        const p=cursor.matrixTransform(drag.matrix);
+        viewport={...drag.view,x:drag.view.x+drag.start.x-p.x,y:drag.view.y+drag.start.y-p.y};
+        updateView();return;
+      }
       const p=point(event), step=$('strokeSnap').checked?1:.1;
       if(drag.mode==='point')movePoint(drag.position.map((n,i)=>round(Math.round((n+(i?p.y-drag.start.y:p.x-drag.start.x))/step)*step)),false,drag.before);
       else if(drag.mode==='resize'){
@@ -485,17 +533,21 @@
       }else move(Math.round((drag.offset[0]+p.x-drag.start.x)/step)*step,Math.round((drag.offset[1]+p.y-drag.start.y)/step)*step,false,drag.before);
     };
     canvas.onpointerleave=()=>{if(!drag)$('strokeHover').textContent='Hover over a stroke to identify it.';};
-    const finish=event=>{if(!drag || event.pointerId!==drag.pointer)return;const before=drag.before;drag=null;if(JSON.stringify(before)!==JSON.stringify(state())){undo.push(before);redo=[];}controls();};
+    const finish=event=>{if(!drag || event.pointerId!==drag.pointer)return;const before=drag.before;drag=null;if(before && JSON.stringify(before)!==JSON.stringify(state())){undo.push(before);redo=[];}controls();};
     canvas.onpointerup=finish;canvas.onlostpointercapture=finish;
-    canvas.onpointercancel=event=>{if(!drag || event.pointerId!==drag.pointer)return;const before=drag.before;drag=null;change(before,false);};
+    canvas.onpointercancel=event=>{if(!drag || event.pointerId!==drag.pointer)return;const before=drag.before,view=drag.view;drag=null;if(view){viewport=view;updateView();}else change(before,false);};
     canvas.onkeydown=event=>{
       if(!ready || busy || !selected)return;
+      if(event.code==='Space'){event.preventDefault();spacePan=true;updateView();return;}
+      if(event.key==='Escape' && panMode){event.preventDefault();event.stopPropagation();panMode=false;updateView();return;}
       if(event.key==='Escape' && selectedPoint){event.preventDefault();event.stopPropagation();selectedPoint=null;draw();return;}
       const moves={ArrowLeft:[-1,0],ArrowRight:[1,0],ArrowUp:[0,-1],ArrowDown:[0,1]}, delta=moves[event.key];
       if(!delta)return;event.preventDefault();const offset=offsets[activeId()] || [0,0],step=event.shiftKey?.1:1;
       if(selectedPoint){const knot=pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===selectedPoint.group)).find(n=>n.refs.includes(selectedPoint.id));if(knot)movePoint(knot.position.map((n,i)=>round(n+delta[i]*step)));}
       else move(offset[0]+delta[0]*step,offset[1]+delta[1]*step);
     };
+    window.addEventListener('keyup',event=>{if(event.code==='Space'){spacePan=false;updateView();}});
+    canvas.addEventListener('blur',()=>{spacePan=false;updateView();});
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
   window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};

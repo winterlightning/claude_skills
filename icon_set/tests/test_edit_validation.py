@@ -108,7 +108,7 @@ class EditValidationTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             store, icon = StrokeEditStore(folder), portrait()
             data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'keyshape': 'VRECT_M'}
-            for invalid in ({}, {'reason': '  '}, {'reason': 'x'*2001}, True):
+            for invalid in ({'reason': None}, {'reason': 42}, {'reason': 'x'*2001}, True):
                 with self.assertRaises(ValueError):
                     store.save(icon, data | {'validation_override': invalid}, 'jakes')
             saved = store.save(icon, data | {'validation_override': {
@@ -136,6 +136,22 @@ class EditValidationTests(unittest.TestCase):
             moved = store.save(icon, data | {'revision': 4, 'offsets': {'contour:outline': [1, 0]}}, 'jakes')
             self.assertIsNone(moved['validation_override'])
             self.assertEqual(moved['effective_validation_status'], 'not-run')
+
+    def test_human_override_without_note_is_persisted_and_bound_to_geometry(self):
+        for requested in ({}, {'reason': ''}, {'reason': '  '}):
+            with self.subTest(requested=requested), tempfile.TemporaryDirectory() as folder:
+                store, icon = StrokeEditStore(folder), portrait()
+                data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {},
+                        'keyshape': 'VRECT_M', 'validation_override': requested}
+                saved = store.save(icon, data, 'jakes')
+                self.assertEqual(saved['validation']['status'], 'fail')
+                self.assertEqual(saved['validation_override']['reason'], '')
+                self.assertEqual(saved['validation_override']['reviewed_by'], 'jakes')
+                self.assertEqual(effective_validation_status(store.get(icon['key'], 'fixture')), 'pass')
+                moved = store.save(icon, data | {'revision': 1, 'validation_override': None,
+                                               'offsets': {'contour:outline': [1, 0]}}, 'jakes')
+                self.assertIsNone(moved['validation_override'])
+                self.assertEqual(effective_validation_status(moved), 'not-run')
 
     def test_guitar_circle_size_uses_path_units_and_keeps_spacing_separate(self):
         from icon_set.model.icons.solo.acoustic_guitar_2e3b9013_429e_4cb3_8093_1e76dd0f5307 import AcousticGuitar
