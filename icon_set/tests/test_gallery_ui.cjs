@@ -53,7 +53,9 @@ async function main() {
   // Review refresh may be slow or stalled; the saved pick must appear immediately.
   artwork.context.fetch = () => new Promise(() => {});
   for (const [mode, url] of [['use_edited','edited.svg'],['use_upload','uploaded.svg'],['use_org','original.svg']]) {
-    artwork.dispatch('icon-artwork-saved', {key:'solo/example', artwork_source:mode, preview_url:url});
+    artwork.dispatch('icon-artwork-saved', {key:'solo/example', artwork_source:mode, preview_url:url,review_status:'approve',review_updated_by:'jakes'});
+    assert.equal(artwork.run("reviews['solo/example']"),'approve','A saved pick immediately displays Approved');
+    assert.equal(artwork.run("approvedBy['solo/example']"),'jakes');
     assert.equal(gridImage(), url, 'Grid immediately displays the saved '+mode+' selection');
     artwork.run('render();');
     assert.equal(gridImage(), url, 'Rerender retains the picked artwork');

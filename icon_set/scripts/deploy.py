@@ -882,12 +882,32 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 icon = self.catalog_icon(data.get('icon'))
                 if not icon:
                     return self.json_response({'error': 'Icon not found.'}, 404)
-                self.server.artwork.save(icon, data, user, self.server.stroke_edits)
-                return self.json_response(self.artwork_response(icon))
+                if data.get('action') == 'upload':
+                    self.server.artwork.save(icon, data, user, self.server.stroke_edits)
+                    return self.json_response(self.artwork_response(icon))
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                    connection.execute('BEGIN IMMEDIATE')
+                    if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
+                        return self.json_response({'error': 'Restore this rejected icon before picking and approving its artwork.'}, 409)
+                    self.server.artwork.save(icon, data, user, self.server.stroke_edits)
+                    result = self.artwork_response(icon)
+                    record = result['record']
+                    now = utc_now()
+                    connection.execute(
+                        '''INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'approve', ?, ?)
+                           ON CONFLICT(icon, svg_sha256) DO UPDATE SET
+                           status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
+                        (icon['key'], record['svg_sha256'], now, user))
+                    record_activity(connection, user, 'review', icon['key'], status='approve',
+                                    svg_sha256=record['svg_sha256'], artwork_source=result['source_mode'])
+                    record.update(review_status='approve', review_updated_by=user, review_updated_at=now)
+                return self.json_response(result)
             except EditConflict as error:
                 return self.json_response({'error': str(error)}, 409)
             except (ValueError, TypeError, KeyError) as error:
                 return self.json_response({'error': str(error)}, 400)
+            except sqlite3.Error:
+                return self.json_response({'error': 'Could not save approval. Reload the source choices and try again.'}, 503)
             except (OSError, ImportError):
                 return self.json_response({'error': 'Could not store artwork. Check the persistent storage and SVG rendering dependencies.'}, 503)
 

@@ -17,7 +17,7 @@
     $('artworkMode').disabled=blocked;$('artworkFile').disabled=blocked;
     $('artworkApply').disabled=blocked;$('artworkUpload').disabled=blocked || !file;
     $('artworkReload').disabled=busy;
-    $('artworkApply').textContent=busy?'Saving…':'Display selected version';
+    $('artworkApply').textContent=busy?'Saving…':'Use and approve selected version';
     $('artworkUpload').textContent=busy?'Saving…':'Save manual edit';
     $('artworkUploadName').textContent=file?file.name:uploaded?'Saved: '+uploaded.name:'SVG only · up to 1 MB · keep the original canvas size.';
     $('artworkDownload').href=data?.preview_url || icon?.preview_url || '';
@@ -57,6 +57,8 @@
     if(!uploadOnly && mode==='use_upload' && !data.choice?.uploaded){status.textContent='Upload and save an SVG in Manual Edit first.';return;}
     busy=true;controls();status.textContent=uploadOnly?'Saving manual edit…':'Saving display choice…';
     try{
+      if(!uploadOnly && window.flushIconFeedback && !await window.flushIconFeedback())throw Error('Finish saving feedback before picking this version.');
+      if(request!==token)return;
       const body={icon:icon.key,svg_sha256:data.svg_sha256,revision:data.choice?.revision || 0,source_mode:mode,edit_revision:data.edit_revision};
       if(uploadOnly){body.action='upload';body.svg=await file.text();body.filename=file.name;}
       if(request!==token)return;
@@ -68,7 +70,7 @@
       data=result;
       if(uploadOnly){file=null;$('artworkFile').value='';$('artworkMode').value='use_upload';}
       else $('artworkMode').value=current();
-      status.textContent=uploadOnly?'Manual edit saved. Open Pick to display it.':'Now displaying: '+labels[current()]+'.';
+      status.textContent=uploadOnly?'Manual edit saved. Open Pick to display it.':'Approved and displaying: '+labels[current()]+'.';
     }catch(error){if(request===token)status.textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
   }
@@ -78,7 +80,7 @@
       $(name+'EditTab').onclick=()=>tab(name);
       $(name+'EditTab').onkeydown=event=>{const index=event.key==='ArrowRight'?(i+1)%3:event.key==='ArrowLeft'?(i+2)%3:event.key==='Home'?0:event.key==='End'?2:-1;if(index>=0){event.preventDefault();tab(tabs[index],true);}};
     }
-    for(const mode of Object.keys(labels))$('pick_'+mode).onchange=()=>{$('artworkMode').value=mode;controls();};
+    for(const mode of Object.keys(labels))$('pick_'+mode).onchange=()=>{$('artworkMode').value=mode;controls();return save();};
     $('artworkApply').onclick=()=>save();$('artworkUpload').onclick=()=>save(true);$('artworkReload').onclick=load;
     $('artworkFile').onchange=()=>{
       const selected=$('artworkFile').files?.[0];if(!selected)return;

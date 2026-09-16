@@ -132,6 +132,45 @@ class ArtworkTests(unittest.TestCase):
 
 
 class ArtworkAPITests(StrokeEditAPITests):
+    def test_picking_each_source_approves_its_exact_revision(self):
+        icon = portrait()
+        (self.dist/'gallery/icons.json').write_text(json.dumps({'icons': [icon]}))
+        self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        payload = {'icon': icon['key'], 'svg_sha256': 'fixture', 'revision': 0, 'source_mode': 'use_org'}
+        code, uploaded = self.call('POST', '/api/icon-artwork', dict(payload, action='upload', svg=SVG))
+        self.assertEqual(code, 200, uploaded)
+        self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'ready')
+        edit = self.server.stroke_edits.save(icon, {
+            'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'keyshape': 'VRECT_M',
+            'validate': True, 'validation_override': {'reason': 'Visually accepted proportions'},
+        }, 'jakes')
+        for revision, mode in enumerate(('use_org', 'use_upload', 'use_edited'), start=1):
+            with self.subTest(mode=mode):
+                code, saved = self.call('POST', '/api/icon-artwork', dict(
+                    payload, revision=revision, source_mode=mode, edit_revision=edit['revision']))
+                self.assertEqual(code, 200, saved)
+                self.assertEqual(saved['record']['review_status'], 'approve')
+                self.assertEqual(saved['record']['review_updated_by'], 'jakes')
+                states = self.call('GET', '/api/reviews?include_approvers=1')[1]
+                self.assertEqual(states['statuses'][icon['key']], 'approve')
+                self.assertEqual(states['approved_by'][icon['key']], 'jakes')
+                self.assertEqual(self.call('GET', '/api/review-detail?icon='+icon['key'])[1]['status'], 'approve')
+        # A stale pick cannot change the selected artwork or its approval.
+        self.assertEqual(self.call('POST', '/api/icon-artwork', payload)[0], 409)
+        self.assertEqual(self.server.artwork.get(icon['key'])['source_mode'], 'use_edited')
+        self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'approve')
+
+    def test_picking_rejected_icon_requires_restore(self):
+        icon = portrait()
+        (self.dist/'gallery/icons.json').write_text(json.dumps({'icons': [icon]}))
+        self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        payload = {'icon': icon['key'], 'svg_sha256': 'fixture'}
+        self.assertEqual(self.call('POST', '/api/reviews', dict(payload, status='rejected'))[0], 201)
+        code, result = self.call('POST', '/api/icon-artwork', dict(payload, revision=0, source_mode='use_org'))
+        self.assertEqual(code, 409, result)
+        self.assertIsNone(self.server.artwork.get(icon['key']))
+        self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'rejected')
+
     def test_pick_can_preview_a_saved_browser_edit_before_it_is_selected(self):
         icon = portrait()
         (self.dist/'gallery/icons.json').write_text(json.dumps({'icons':[icon]}))
