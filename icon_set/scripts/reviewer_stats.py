@@ -117,11 +117,12 @@ def reviewer_stats(connection, params, users, catalog, now=None):
     reviewer_daily = {(day, user): dict(date=day, reviewer=user, **empty_counts())
                       for day in daily for user in by_reviewer}
     totals, active_days = empty_counts(), set()
-    for local_day, actor, _, outcome in decided:
+    families = {name: dict(family=name, **empty_counts()) for name in sorted({icon.get('family') or 'other' for icon in catalog.values()})}
+    for local_day, actor, key, outcome in decided:
         day = local_day.isoformat()
         if day not in daily or (reviewer and actor != reviewer):
             continue
-        groups = [totals, daily[day]]
+        groups = [totals, daily[day], families[catalog[key].get('family') or 'other']]
         if actor:
             groups += [by_reviewer[actor], reviewer_daily[(day, actor)]]
             active_days.add((actor, day))
@@ -131,7 +132,7 @@ def reviewer_stats(connection, params, users, catalog, now=None):
         by_reviewer[actor]['active_days'] += 1
     return dict(start=start.isoformat(), end=end.isoformat(), timezone=zone_name,
                 reviewer=reviewer, family=family, available_reviewers=reviewers, totals=totals,
-                unique_icons=totals['total'], daily=list(daily.values()),
+                unique_icons=totals['total'], families=list(families.values()), daily=list(daily.values()),
                 reviewer_daily=list(reviewer_daily.values()),
                 reviewers=sorted(by_reviewer.values(), key=lambda row: (-row['total'], row['reviewer'])),
                 history_since=datetime.combine(first_day, time.min, zone).isoformat() if decided else None,

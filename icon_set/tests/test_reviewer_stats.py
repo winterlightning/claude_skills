@@ -55,6 +55,7 @@ class ReviewerStatsTests(unittest.TestCase):
             self.assertEqual(sum(row[key] for row in everything['reviewers']), sum(row[key] for row in current['reviewers']))
         self.assertEqual(sum(day['total'] for day in everything['reviewer_daily']), 4)
         self.assertEqual([row['family'] for row in current['families']], ['solo', 'sub'])
+        self.assertEqual({row['family']: row['approved'] for row in everything['families']}, dict(solo=1, sub=1))
         sub = self.stats(period='all', family='sub')
         self.assertEqual((sub['totals']['approved'], sub['current']['totals']['total']), (1, 1))
         ray = self.stats(period='all', reviewer='ray')

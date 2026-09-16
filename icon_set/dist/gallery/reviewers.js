@@ -39,6 +39,8 @@
     for (const id of ['timezone', 'period', 'family']) {
       if ([...$(id).options].some(option => option.value === params.get(id))) $(id).value = params.get(id);
     }
+    // Like Icon review: no family in the URL means Solo; an empty family means all.
+    if (!params.has('family')) $('family').value = 'solo';
     const user = params.get('reviewer') || '';
     if (user && ![...$('reviewer').options].some(option => option.value === user)) $('reviewer').add(new Option(name(user), user));
     $('reviewer').value = user;
@@ -50,7 +52,7 @@
   }
   function saveURL() {
     const params = new URLSearchParams();
-    for (const id of ['reviewer', 'family', 'period', 'timezone']) if ($(id).value) params.set(id, $(id).value);
+    for (const id of ['reviewer', 'family', 'period', 'timezone']) if ($(id).value || id === 'family') params.set(id, $(id).value);
     if ($('period').value === 'custom') for (const id of ['start', 'end']) params.set(id, $(id).value);
     history.replaceState(null, '', '?' + params);
   }
@@ -60,18 +62,24 @@
     row.append(element);
     return element;
   }
+  function familyRows(target, rows, keys) {
+    const fragment = document.createDocumentFragment();
+    for (const family of rows) {
+      const row = document.createElement('tr'); cell(row, name(family.family));
+      for (const key of keys) cell(row, family[key]);
+      fragment.append(row);
+    }
+    $(target).replaceChildren(fragment);
+  }
   function drawCurrent(current, reviewer, family) {
+    // Different families are separate sets; never present one combined total.
+    $('currentCards').hidden = !family;
+    $('currentFamilies').hidden = !!family;
     for (const key of ['approved', 'disapproved', 'rejected', 'ready']) $('current' + name(key)).textContent = number(current.totals[key]);
     $('currentReviewed').textContent = number(current.totals.total - current.totals.ready);
     $('currentScope').textContent = (reviewer ? 'By ' + name(reviewer) + ' · ' : '') + number(current.totals.total) + ' icons in catalog';
     $('currentSummary').textContent = `Live from the review database, the same numbers as Icon review${family ? ' filtered to ' + name(family) : ''}, for all time.`;
-    const families = document.createDocumentFragment();
-    for (const family of current.families) {
-      const row = document.createElement('tr'); cell(row, name(family.family));
-      for (const key of ['total', 'approved', 'disapproved', 'rejected', 'ready']) cell(row, family[key]);
-      families.append(row);
-    }
-    $('familyRows').replaceChildren(families);
+    familyRows('familyRows', current.families, ['total', 'approved', 'disapproved', 'rejected', 'ready']);
     const people = document.createDocumentFragment();
     for (const person of current.reviewers) {
       const row = document.createElement('tr'); cell(row, name(person.reviewer));
@@ -82,6 +90,9 @@
   }
   function draw(data) {
     drawCurrent(data.current, data.reviewer, data.family);
+    $('activityCards').hidden = !data.family;
+    $('activityFamilies').hidden = !!data.family;
+    familyRows('activityFamilyRows', data.families, ['total', ...outcomes]);
     for (const key of ['total', ...outcomes]) $(key).textContent = number(data.totals[key]);
     $('uniqueCount').textContent = 'Each icon counted once';
     const reviewed = data.current.totals.total - data.current.totals.ready;
