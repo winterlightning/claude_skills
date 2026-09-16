@@ -20,6 +20,11 @@
 <label>Time zone<select id="timezone"><option value="Asia/Ho_Chi_Minh">Vietnam · UTC+7</option><option value="UTC">UTC</option></select></label>
 <button type="submit" id="refresh">Refresh</button>
 </form>
+<form id="syncForm" class="sync-panel requires-login" hidden>
+<label for="syncSource">Sync reviewing data from production</label>
+<div class="sync-row"><input id="syncSource" type="url" required placeholder="https://….trycloudflare.com" autocomplete="url"><button type="submit" id="syncNow">Sync now</button></div>
+<p id="syncStatus" role="status" aria-live="polite">Replaces this machine's feedback database with the production copy. The current one is backed up first.</p>
+</form>
 <div class="range-line"><h2 id="rangeTitle">Last 7 days</h2><span id="updatedAt"></span></div>
 <p id="dashboardStatus" role="status" aria-live="polite">Loading review activity…</p>
 <div id="dashboardContent" hidden>
@@ -37,14 +42,6 @@
 <div class="table-scroll"><table><thead><tr><th scope="col">Decided by</th><th scope="col">Icons</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th></tr></thead><tbody id="currentReviewerRows"></tbody></table></div>
 </div>
 </section>
-<div class="range-line"><h2>Review activity in the period</h2><span id="periodShare"></span></div>
-<section id="activityCards" class="metrics" aria-label="Review totals">
-<article class="metric metric-total"><span>Icons reviewed</span><strong id="total">0</strong><small id="uniqueCount"></small></article>
-<article class="metric"><span><i class="dot approved"></i>Approved</span><strong id="approved">0</strong><small>Still approved today</small></article>
-<article class="metric"><span><i class="dot disapproved"></i>Disapproved</span><strong id="disapproved">0</strong><small>Still waiting for a fix</small></article>
-<article class="metric"><span><i class="dot rejected"></i>Rejected</span><strong id="rejected">0</strong><small>Still rejected today</small></article>
-</section>
-<section id="activityFamilies" class="dashboard-panel" aria-label="Review activity by family" hidden><div class="table-scroll"><table><thead><tr><th scope="col">Family</th><th scope="col">Reviewed</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th></tr></thead><tbody id="activityFamilyRows"></tbody></table></div></section>
 <section class="dashboard-panel activity-panel" aria-labelledby="activityTitle">
 <div class="panel-heading"><div><h2 id="activityTitle">Daily activity</h2><p id="activitySummary"></p></div><div class="legend"><span><i class="dot approved"></i>Approved</span><span><i class="dot disapproved"></i>Disapproved</span><span><i class="dot rejected"></i>Rejected</span></div></div>
 <p id="emptyActivity" class="empty-state" hidden>No reviews recorded in this period. Try another date range or reviewer.</p>

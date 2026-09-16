@@ -22,6 +22,10 @@ from pathlib import Path
 import sqlite3
 import threading
 import sys
+import os
+import tempfile
+import urllib.error
+import urllib.request
 from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
@@ -70,6 +74,11 @@ SESSION_TTL = 12 * 60 * 60
 # Discards rewrite icons.json and manifests; one at a time.
 DISCARD_LOCK = threading.Lock()
 MAX_DISCARD_BATCH = 500
+# Where the developer machine pulls reviewing data from; the quick tunnel URL changes on restart.
+DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffered-scored-nicole-default.trycloudflare.com')
+MAX_SYNC_BYTES = 1024 * 1024 * 1024
+SYNC_TIMEOUT = 120
+SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
 
 
 def init_database(path: Path) -> None:
@@ -167,6 +176,77 @@ def review_detail(connection, key, sha):
                              (key, sha)).fetchone()
     return {'status': 'ready' if row[0] == 're-generated' else row[0], 'updated_by': row[1], 'updated_at': row[2]} if row else \
         {'status': 'ready', 'updated_by': None, 'updated_at': None}
+
+
+def export_feedback_snapshot(database: Path, target: Path) -> None:
+    """Consistent copy of the live database without login sessions."""
+    with closing(sqlite3.connect(database, timeout=30)) as source, closing(sqlite3.connect(target)) as copy:
+        source.backup(copy)
+        copy.execute('DELETE FROM admin_sessions')
+        copy.commit()
+        copy.execute('VACUUM')
+
+
+def sync_origin(source) -> str:
+    """Reduce any pasted production URL to scheme://host."""
+    parts = urlsplit(source.strip()) if isinstance(source, str) else None
+    if not parts or parts.scheme not in ('http', 'https') or not parts.netloc:
+        raise ValueError('Enter the production URL, for example https://example.trycloudflare.com.')
+    return f'{parts.scheme}://{parts.netloc}'
+
+
+def download_snapshot(origin: str, target: Path) -> str:
+    """Fetch production's export into target; returns its export time."""
+    request = urllib.request.Request(origin + '/api/feedback-db/export', headers={'User-Agent': 'pictographic-sync'})
+    with urllib.request.urlopen(request, timeout=SYNC_TIMEOUT) as response, target.open('wb') as stream:
+        written = 0
+        while chunk := response.read(1024 * 1024):
+            written += len(chunk)
+            if written > MAX_SYNC_BYTES:
+                raise ValueError('The production database is larger than the sync limit.')
+            stream.write(chunk)
+        return response.headers.get('X-Feedback-Exported-At') or ''
+
+
+def replace_feedback_database(database: Path, snapshot: Path, user: str, origin: str, exported_at: str = '') -> dict:
+    """Validate a downloaded snapshot, back up the local database, then copy the snapshot over it."""
+    try:
+        with closing(sqlite3.connect(snapshot.as_uri() + '?mode=rw', uri=True)) as check:
+            ok = check.execute('PRAGMA integrity_check').fetchone()
+            tables = {row[0] for row in check.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+    except sqlite3.DatabaseError:
+        raise ValueError('Production did not send a valid feedback database.')
+    if not ok or ok[0] != 'ok' or not {'feedback', 'reviews'} <= tables:
+        raise ValueError('Production did not send a valid feedback database.')
+    # Bring an older production schema up to this code's schema before it goes live.
+    init_database(snapshot)
+    backups = database.parent / 'feedback-sync-backups'
+    backups.mkdir(parents=True, exist_ok=True)
+    backup = backups / f"feedback.sqlite3.before-sync-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')}.bak"
+    with DISCARD_LOCK:
+        with closing(sqlite3.connect(database, timeout=30)) as live, closing(sqlite3.connect(snapshot, timeout=30)) as incoming:
+            with closing(sqlite3.connect(backup)) as copy:
+                live.backup(copy)
+            # Keep whoever is logged in on this machine logged in.
+            incoming.execute('DELETE FROM admin_sessions')
+            incoming.executemany('INSERT INTO admin_sessions VALUES (?,?,?)',
+                                 live.execute('SELECT token, username, expires FROM admin_sessions').fetchall())
+            record_activity(incoming, user, 'feedback_sync', source=origin, backup=backup.name, exported_at=exported_at)
+            incoming.commit()
+            counts = {table: incoming.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] for table in SYNC_COUNTED_TABLES}
+            incoming.backup(live)
+    return {'synced': True, 'source': origin, 'backup': backup.name, 'exported_at': exported_at, 'counts': counts}
+
+
+def last_sync(connection):
+    row = connection.execute("SELECT username, details, created_at FROM activity_log WHERE action='feedback_sync' ORDER BY id DESC LIMIT 1").fetchone()
+    if not row:
+        return None
+    try:
+        details = json.loads(row[1])
+    except ValueError:
+        details = {}
+    return {'user': row[0], 'created_at': row[2], 'source': details.get('source'), 'backup': details.get('backup')}
 
 
 def feedback_row(row):
@@ -575,6 +655,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response(list_briefs(connection))
             except sqlite3.Error:
                 return self.json_response({'error': 'Pending briefs unavailable'}, 503)
+        if parsed.path == '/api/feedback-db/export':
+            return self.export_feedback_db()
+        if parsed.path == '/api/feedback-db/sync':
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    latest = last_sync(connection)
+                return self.json_response({'default_source': getattr(self.server, 'sync_source', DEFAULT_SYNC_SOURCE), 'last_sync': latest})
+            except sqlite3.Error:
+                return self.json_response({'error': 'Sync status is temporarily unavailable.'}, 503)
         if parsed.path == '/api/feedback-feed':
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -665,7 +754,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         route = urlsplit(self.path).path
         original_route = route
-        if route not in ('/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs'):
+        if route not in ('/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -746,6 +835,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icons/discard':
                 return self.discard_icon(data, user)
+            if route == '/api/feedback-db/sync':
+                return self.sync_feedback(data, user)
             if route == '/api/primitives/briefs':
                 return self.save_primitive_brief(data, user)
             if route == '/api/primitives/status':
@@ -839,6 +930,60 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response(result, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
+
+    def export_feedback_db(self):
+        handle, name = tempfile.mkstemp(prefix='.feedback-export-', suffix='.sqlite3', dir=self.database.parent)
+        os.close(handle)
+        target = Path(name)
+        try:
+            exported_at = utc_now()
+            export_feedback_snapshot(self.database, target)
+            size = target.stat().st_size
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/vnd.sqlite3')
+            self.send_header('Content-Disposition', 'attachment; filename="feedback.sqlite3"')
+            self.send_header('Content-Length', str(size))
+            self.send_header('X-Feedback-Exported-At', exported_at)
+            self.end_headers()
+            if self.command != 'HEAD':
+                with target.open('rb') as stream:
+                    while chunk := stream.read(1024 * 1024):
+                        self.wfile.write(chunk)
+        except (OSError, sqlite3.Error):
+            return self.json_response({'error': 'Could not export the feedback database. Please retry.'}, 503)
+        finally:
+            target.unlink(missing_ok=True)
+
+    def sync_feedback(self, data, user):
+        """Replace this machine's feedback database with production's copy."""
+        try:
+            origin = sync_origin(data.get('source'))
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        if urlsplit(origin).netloc == self.headers.get('Host'):
+            return self.json_response({'error': 'That URL is this server. Enter the production URL to sync from.'}, 400)
+        handle, name = tempfile.mkstemp(prefix='.feedback-sync-', suffix='.sqlite3', dir=self.database.parent)
+        os.close(handle)
+        snapshot = Path(name)
+        try:
+            try:
+                exported_at = download_snapshot(origin, snapshot)
+            except urllib.error.HTTPError as error:
+                return self.json_response({'error': f'Production refused the export (HTTP {error.code}). Is it running the latest deploy.py?'}, 502)
+            except (urllib.error.URLError, TimeoutError, OSError) as error:
+                return self.json_response({'error': f'Could not reach production: {getattr(error, "reason", error)}'}, 502)
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 502)
+            try:
+                result = replace_feedback_database(self.database, snapshot, user, origin, exported_at)
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 502)
+            return self.json_response(result)
+        except (OSError, sqlite3.Error):
+            return self.json_response({'error': 'Could not replace the local feedback database. It was left unchanged or backed up; retry.'}, 503)
+        finally:
+            for suffix in ('', '-journal', '-wal', '-shm'):
+                Path(str(snapshot) + suffix).unlink(missing_ok=True)
 
     def upload_reference(self, data, user):
         encoded = data.get('data')
@@ -1112,7 +1257,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not update pending briefs.'}, 503)
 
 
-def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None):
+def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE):
     dist, database = dist.resolve(), database.resolve()
     if not (dist / 'gallery/index.html').is_file() or not (dist / 'gallery/icons.json').is_file():
         raise ValueError('Gallery is missing. Run icon_set/scripts/build.py first.')
@@ -1127,6 +1272,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
     server.stroke_edits = StrokeEditStore(database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)
+    server.sync_source = sync_source
     server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
     server.ai_feedback = FeedbackReviewManager(server.generation, database.parent / 'ai-feedback-jobs')
     return server
@@ -1141,9 +1287,11 @@ def main(argv=None):
     parser.add_argument('--open', action='store_true', help='Open the local browser')
     parser.add_argument('--primitives', type=Path, help='Original primitives folder for the Primitives page '
                                                         '(default $PICTOGRAPHIC_PRIMITIVES or claude_skills/pictographic-primitives)')
+    parser.add_argument('--sync-source', default=DEFAULT_SYNC_SOURCE,
+                        help='Production gallery to pull reviewing data from (default $PICTOGRAPHIC_SYNC_SOURCE)')
     args = parser.parse_args(argv)
     try:
-        server = create_server(args.dist, args.database, args.host, args.port, args.primitives)
+        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source)
     except (OSError, ValueError, sqlite3.Error) as error:
         parser.exit(1, f'error: {error}\n')
     port = server.server_address[1]

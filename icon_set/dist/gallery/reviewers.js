@@ -90,13 +90,6 @@
   }
   function draw(data) {
     drawCurrent(data.current, data.reviewer, data.family);
-    $('activityCards').hidden = !data.family;
-    $('activityFamilies').hidden = !!data.family;
-    familyRows('activityFamilyRows', data.families, ['total', ...outcomes]);
-    for (const key of ['total', ...outcomes]) $(key).textContent = number(data.totals[key]);
-    $('uniqueCount').textContent = 'Each icon counted once';
-    const reviewed = data.current.totals.total - data.current.totals.ready;
-    $('periodShare').textContent = data.totals.total === reviewed ? 'Matches current status' : `${number(data.totals.total)} of ${number(reviewed)} current decisions were made in this period`;
     $('rangeTitle').textContent = `${data.reviewer ? name(data.reviewer) : 'All reviewers'}${data.family ? ' · ' + name(data.family) : ''} · ${dateLabel(data.start, true)}${data.start === data.end ? '' : ' – ' + dateLabel(data.end, true)}`;
     $('activitySummary').textContent = `${(data.totals.total / data.daily.length).toLocaleString(undefined, {maximumFractionDigits: 1})} reviews per day on average · ${data.timezone.replaceAll('_', ' ')}`;
     $('emptyActivity').hidden = data.totals.total !== 0;
@@ -213,5 +206,40 @@
     const link = document.createElement('a'); link.href = url; link.download = `reviewers-${snapshot.start}-${snapshot.end}.csv`; link.click();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
-  restoreURL(); refresh();
+  // Pull production's reviewing data into this machine's database, then reload the numbers.
+  const SYNC_KEY = 'pictographic-sync-source';
+  const when = stamp => new Date(stamp).toLocaleString([], {dateStyle: 'medium', timeStyle: 'short'});
+  function syncMessage(text, error = false) { $('syncStatus').textContent = text; $('syncStatus').dataset.error = String(error); }
+  async function loadSync() {
+    try {
+      const response = await fetch('../api/feedback-db/sync', {cache: 'no-store'});
+      if (!response.ok) return;
+      const data = await response.json();
+      let saved = '';
+      try { saved = localStorage.getItem(SYNC_KEY) || ''; } catch {}
+      if (!$('syncSource').value) $('syncSource').value = saved || data.default_source || '';
+      if (data.last_sync) syncMessage(`Last synced ${when(data.last_sync.created_at)} by ${name(data.last_sync.user)} from ${data.last_sync.source}.`);
+      $('syncForm').hidden = false;
+    } catch {}
+  }
+  $('syncForm').onsubmit = async event => {
+    event.preventDefault();
+    const source = $('syncSource').value.trim();
+    $('syncNow').disabled = true; $('syncNow').textContent = 'Syncing…';
+    syncMessage('Downloading the production database…');
+    try {
+      const response = await fetch('../api/feedback-db/sync', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify({source})});
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw Error(data.error || 'Sync failed. Please retry.');
+      try { localStorage.setItem(SYNC_KEY, source); } catch {}
+      const counts = data.counts;
+      syncMessage(`Synced from ${data.source}: ${number(counts.feedback)} feedback, ${number(counts.reviews)} reviews, ${number(counts.icon_flags)} flags. Previous database saved as ${data.backup}.`);
+      refresh();
+    } catch (error) {
+      syncMessage(error.message, true);
+    } finally {
+      $('syncNow').disabled = false; $('syncNow').textContent = 'Sync now';
+    }
+  };
+  restoreURL(); refresh(); loadSync();
 })();

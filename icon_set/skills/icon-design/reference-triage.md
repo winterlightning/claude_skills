@@ -46,8 +46,10 @@ Examples to distinguish by their visible relationship:
 
 If either interpretation remains plausible after inspecting the individual
 render, mark the reference uncertain and record both readings. Do not force a
-split. During `icon-brief`, follow its human-review hold procedure for side
-combinations and uncertain cases before any component queueing.
+split. During `icon-brief`, save independent briefs for clear side combinations
+without waiting for human review. Preserve review evidence and unresolved
+questions; if a source is marked SKIP, always save a later-generation brief.
+Preparing briefs does not authorize queueing or generation.
 
 Use the review app's Reject action for a built icon. Before generation, write
 a component JSON handoff and run `icon_set/scripts/queue_brief.py` as described
