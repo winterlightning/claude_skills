@@ -240,13 +240,14 @@
     } catch(error) { if (token===request) { ready=false; $('strokeCanvas').replaceChildren(); $('strokeStatus').textContent=error.message; controls(); } }
   }
   function renderValidation(message='Not checked yet. Run validation on the current edits.') {
-    const box=$('strokeValidation');box.replaceChildren();box.dataset.status=override && !dirty()?'pass':validation?.status || 'not-run';
+    const applied=override && !dirty()?saved?.validation_override:null;
+    const box=$('strokeValidation');box.replaceChildren();box.dataset.status=applied?'pass':validation?.status || 'not-run';
     const title=document.createElement('p');
     const labels={pass:'Passed',fail:'Needs fixes',review:'Needs review',error:'Could not complete validation'};
     title.textContent=validation ? (labels[validation.status] || validation.status)+' · '+validation.keyshape : message;
     if(override){
       const note=document.createElement('p');
-      note.textContent=!dirty()?`Passed by human override · ${override.reviewed_by} · ${new Date(override.reviewed_at).toLocaleString()}. ${override.reason}`:'Force pass selected · enter a reason and save edits to apply it.';
+      note.textContent=applied?`Passed by human override · ${applied.reviewed_by} · ${new Date(applied.reviewed_at).toLocaleString()}. ${applied.reason}`:'Force pass selected · enter a reason and save edits to apply it.';
       box.append(note);
       title.textContent='Automatic checks: '+title.textContent;
     }

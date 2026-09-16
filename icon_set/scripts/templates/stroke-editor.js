@@ -82,6 +82,7 @@
     const blocked = !ready || busy;
     for (const id of ['strokeSelect','strokeX','strokeY','strokeScaleX','strokeScaleY','strokeScope','strokeReset']) $(id).disabled = blocked || !selected;
     $('strokeSave').disabled = blocked || !overrideValid() || (!dirty() && !validationNeedsSave());
+    $('strokeDownloadSVG').disabled=!ready || busy;
     $('strokeDownload').disabled = !ready || busy || !overrideValid();
     $('strokeForcePass').disabled=blocked;
     $('strokeForcePass').checked=!!override;
@@ -296,19 +297,30 @@
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
       saved=data; override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
     } catch(error) { if (token===request) $('strokeStatus').textContent=error.message+' Your draft is still here.'; }
     finally { if (token===request) {busy=false;controls();} }
   }
   function download() {
     if (!ready) return;
-    const document = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:translatedGraph(experiment(),strokes,offsets,scales),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
-    if(dirty()){document.validation_override_request=overrideRequest();document.validation_override=null;document.effective_validation_status='not-run';}
-    const url=URL.createObjectURL(new Blob([JSON.stringify(document,null,2)+'\n'],{type:'application/json'}));
+    const handoff = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:translatedGraph(experiment(),strokes,offsets,scales),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
+    if(dirty()){handoff.validation_override_request=overrideRequest();handoff.validation_override=null;handoff.effective_validation_status='not-run';}
+    const url=URL.createObjectURL(new Blob([JSON.stringify(handoff,null,2)+'\n'],{type:'application/json'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-stroke-edits.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+  }
+  function downloadSVG(){
+    if(!ready || busy)return;
+    const edited=translatedGraph(experiment(),strokes,offsets,scales),size=icon.canvas_size;
+    const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
+    const paths=strokes.map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
+    const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
+    const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
   function open(next) {
+    next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
     request++;icon=next;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
     $('strokeKeyshape').replaceChildren(...(window.IconGuides?.choices(icon) || [{name:keyshape,label:keyshape}]).map(item=>{const option=document.createElement('option');option.value=item.name;option.textContent=item.label;return option;}));
@@ -344,7 +356,7 @@
     $('strokeResetAll').onclick=()=>apply({offsets:{},scales:{},keyshape:icon.keyshape || ''});
     $('strokeUndo').onclick=()=>{if(!undo.length)return;redo.push(state());change(undo.pop(),false);};
     $('strokeRedo').onclick=()=>{if(!redo.length)return;undo.push(state());change(redo.pop(),false);};
-    $('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
+    $('strokeDownloadSVG').onclick=downloadSVG;$('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
     const canvas=$('strokeCanvas');
     canvas.onpointerdown=event=>{
       const id=event.target.getAttribute('data-stroke'), sizing=event.target.getAttribute('data-resize');
@@ -374,6 +386,6 @@
     };
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,groups,pathData,translatedGraph,snappedResize};
+  window.StrokeEditor={open,groups,pathData,translatedGraph,snappedResize,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();

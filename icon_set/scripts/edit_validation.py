@@ -4,14 +4,11 @@ import hashlib
 import json
 
 
-def validate_graph(graph):
+def icon_from_graph(graph):
     from icon_set.model.icons.base import Icon
     from icon_set.model.keyshapes import Keyshape, FreeKeyshapeSpec
     from icon_set.model.profiles import Profile
     from icon_set.model.primitives import primitive_from_dict, Contour, Relationship, Point, HumanFigure
-    from icon_set.validation.library_qa import inspect_icon
-    from icon_set.validation.circle_exceptions import circle_candidates
-    from icon_set.model import contracts
 
     free = graph.get('free_keyshape')
     icon = Icon(graph['icon_id'], Profile[graph['profile']],
@@ -28,6 +25,14 @@ def validate_graph(graph):
             setattr(icon, attribute, graph['style'][field])
     icon.anchors = {name: Point(*point) for name, point in graph.get('anchors', {}).items()}
     icon.human_figures = [HumanFigure(f['figure_id'], f['head'], f['torso'], f['torso_junction']) for f in graph.get('human_figures', [])]
+    return icon
+
+
+def validate_graph(graph):
+    from icon_set.validation.library_qa import inspect_icon
+    from icon_set.validation.circle_exceptions import circle_candidates
+    from icon_set.model import contracts
+    icon = icon_from_graph(graph)
     report = inspect_icon(icon)
     result = {key: report[key] for key in ('status', 'errors', 'warnings', 'checks_run', 'needs_review', 'svg_sha256', 'rules_sha256') if key in report}
     result['checks'] = {key: report.get(key, {}).get('status', 'not_run')

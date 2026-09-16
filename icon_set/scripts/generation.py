@@ -158,7 +158,7 @@ class GenerationManager:
 
     def build(self, workspace, family, log, dist=None, icon=None):
         # Only the candidate's module is checked; the rest of the family keeps its last build.
-        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--icon',str(workspace/icon),'--no-png','--no-report','--dist',str(dist or workspace/'icon_set/dist')],workspace,log)
+        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--icon',str(workspace/icon),'--no-png','--no-report','--dist',str(dist or workspace/'icon_set/dist'),'--artwork-dir',str(self.storage.parent/'icon-artwork' if workspace==self.root else workspace/'icon_set/data/icon-artwork')],workspace,log)
 
     def run(self, row):
         folder=self.folder(row['id']); workspace=folder/'workspace'; log=folder/'run.log'

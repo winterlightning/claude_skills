@@ -6,6 +6,7 @@ class Element {
   append(...values){this.children.push(...values);}
   replaceChildren(...values){this.children=values;}
   focus(){}
+  click(){}
   getAttribute(k){return this.attrs[k];}
   getBBox(){
     // Resize interactions below use straight-sided fixtures; the browser supplies real SVG bounds.
@@ -17,9 +18,10 @@ class Element {
   getScreenCTM(){return {inverse(){return {};}};}
   setPointerCapture(){}
 }
+let downloadedSVG;
 const elements=new Map(), storage=new Map();
 const $=id=>{if(!elements.has(id))elements.set(id,new Element());return elements.get(id);};
-const context=vm.createContext({console,window:{addEventListener(){},confirm:()=>true},
+const context=vm.createContext({console,Blob:class{constructor(parts){downloadedSVG=parts.join('');}},URL:{createObjectURL:()=> 'blob:test',revokeObjectURL(){}},setTimeout:fn=>fn(),window:{addEventListener(){},confirm:()=>true},
   document:{getElementById:$,createElement:()=>new Element(),createElementNS:()=>new Element(),addEventListener:(_event,fn)=>fn()},
   localStorage:{getItem:k=>storage.get(k),setItem:(k,v)=>storage.set(k,v),removeItem:k=>storage.delete(k)},
   fetch:async()=>response({svg_sha256:'sha',edit:null,previous_versions:[]})});
@@ -50,6 +52,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   assert.deepEqual(icon.primitives[0].start,[2,2]);
   editor.open(resizeIcon);assert.equal($('reviewTab').attrs['aria-selected'],'true');assert.equal($('inspectorWorkspace').dataset.tab,'review');$('editingTab').onclick();await tick();
   assert.equal($('strokeX').disabled,false);
+  $('strokeDownloadSVG').onclick();assert.match(downloadedSVG,/viewBox="0 0 32 32"/);assert.match(downloadedSVG,/<path id="outline"/);assert.doesNotMatch(downloadedSVG,/stroke-selection|data-stroke|grid/);
   $('strokeCanvas').onkeydown({key:'ArrowRight',preventDefault(){}});
   assert.equal($('strokeX').value,1);
   $('strokeUndo').onclick();assert.equal($('strokeX').value,0);
@@ -115,12 +118,24 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   assert.equal($('strokeSave').disabled,true,'A reason is required');
   $('strokeOverrideReason').value='Visually reviewed: intentional circle.';$('strokeOverrideReason').oninput();
   assert.equal($('strokeSave').disabled,false);
-  context.fetch=async(_url,options)=>{const body=JSON.parse(options.body);assert.equal(body.validation_override.reason,'Visually reviewed: intentional circle.');return response({...body,revision:2,validation:report,validation_override:{...body.validation_override,reviewed_by:'jakes',reviewed_at:new Date().toISOString()},effective_validation_status:'pass',updated_by:'jakes'});};
+  let forcedDoc;
+  context.fetch=async(_url,options)=>{const body=JSON.parse(options.body);assert.equal(body.validation_override.reason,'Visually reviewed: intentional circle.');forcedDoc={...body,revision:2,validation:report,validation_override:{...body.validation_override,reviewed_by:'jakes',reviewed_at:new Date().toISOString()},effective_validation_status:'pass',updated_by:'jakes'};return response(forcedDoc);};
   await $('strokeSave').onclick();
   assert.equal($('strokeValidation').dataset.status,'pass');
   assert.match($('strokeValidation').children[0].textContent,/Passed by human override/);
   assert.match($('strokeValidation').children[1].textContent,/Automatic checks: Needs fixes/);
   assert.equal($('strokeSave').disabled,true);
+  context.fetch=async()=>response({svg_sha256:'sha',edit:forcedDoc});
+  editor.open({...resizeIcon,keyshape:'VRECT_L'});$('editingTab').onclick();await tick();
+  assert.equal($('strokeForcePass').checked,true);
+  assert.equal($('strokeValidation').dataset.status,'pass');
+  assert.equal($('strokeOverrideReason').value,'Visually reviewed: intentional circle.');
+  $('strokeForcePass').checked=false;$('strokeForcePass').onchange();
+  assert.equal($('strokeValidation').dataset.status,'fail');
+  assert.equal($('strokeSave').disabled,false);
+  $('strokeForcePass').checked=true;$('strokeForcePass').onchange();
+  $('strokeOverrideReason').value='Visually reviewed: intentional circle.';$('strokeOverrideReason').oninput();
+  assert.match($('strokeValidation').children[0].textContent,/jakes/);
   $('strokeCanvas').onkeydown({key:'ArrowRight',preventDefault(){}});
   assert.equal($('strokeForcePass').checked,false);
   assert.equal($('strokeValidation').dataset.status,'not-run');

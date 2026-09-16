@@ -100,6 +100,8 @@ async function main() {
   assert.equal(reasonPosts[0].feedback,'Bad stroke drawn');
   assert.equal(reasonPosts[0].svg_sha256,'current');
   assert.equal(pendingReason.run('reviews[selected.key]'),'pending');
+  assert.equal(pendingReason.run('disapprovedBy[selected.key]'),'jakes');
+  assert.equal(pendingReason.run('feedbackBy[selected.key].join()'),'jakes');
   pendingReason.run("$('pendingReason').value='meaning';$('feedback').value='The shape looks like a leaf.';");
   pendingReason.context.fetch=async()=>({ok:false,json:async()=>({error:'Could not save'})});
   await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
@@ -284,6 +286,49 @@ async function main() {
   assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Approved by');
   assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/c');
   assert.match(fs.readFileSync(path.join(__dirname,'../scripts/templates/gallery.html'),'utf8'),/<option value="ray">Ray<\/option>/);
+  const disapprovers = page('gallery');
+  disapprovers.run(`icons=[
+    {key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'},
+    {key:'solo/a-v2',family:'solo',icon_id:'a-v2',variant_of:'a',name:'A revised',category:'animals'},
+    {key:'solo/b',family:'solo',icon_id:'b',name:'B',category:'tools'}
+  ];reviewFilter='pending';pendingFeedbackLoaded=true;`);
+  disapprovers.context.fetch=async()=>({ok:true,json:async()=>({
+    statuses:{'solo/a':'pending','solo/a-v2':'ready','solo/b':'pending'},approved_by:{},
+    disapproved_by:{'solo/a':'ray','solo/b':'hina'},feedback_by:{'solo/a':['ray','hina'],'solo/b':['hina']}
+  })});
+  await disapprovers.run('loadReviews()');
+  disapprovers.run("page=4;selectedKeys.add('solo/b');$('approvedBy').value='ray';$('approvedBy').onchange();");
+  assert.equal(disapprovers.run('reviewFilter'),'pending','Reviewer selection stays on Disapproved');
+  assert.equal(disapprovers.run("$('reviewerLabel').textContent"),'Disapproved by');
+  assert.equal(disapprovers.run('filteredIcons().map(i=>i.key).join()'),'solo/a');
+  assert.equal(disapprovers.run('selectedKeys.size'),0);
+  assert.equal(disapprovers.run('page'),1);
+  disapprovers.run("$('approvedBy').value='hina';$('approvedBy').onchange();$('iconFeedbackBy').value='ray';$('iconFeedbackBy').onchange();");
+  assert.equal(disapprovers.run('filteredIcons().length'),0,'Disapproval and feedback authors are independent filters');
+  disapprovers.run("$('approvedBy').value='';$('approvedBy').onchange();setIconView('versions');");
+  assert.equal(disapprovers.run('filteredIcons().map(i=>i.key).join()'),'solo/a','Feedback filter does not include siblings without feedback');
+  disapprovers.run("reviews['solo/a']='approve';reviewFilter='approve';render();");
+  assert.equal(disapprovers.run('filteredIcons().map(i=>i.key).join()'),'solo/a','Feedback authors still match approved icons');
+  disapprovers.run("$('iconFeedbackBy').value='';$('iconFeedbackBy').onchange();");
+  assert.equal(disapprovers.run('filteredIcons().length'),2,'Anyone restores normal version grouping');
+  let attributionURL;
+  disapprovers.context.window.location={href:'http://localhost/gallery/index.html?status=pending&approved_by=ray&icon_feedback_by=hina&feedback_by=ray',search:'?status=pending&approved_by=ray&icon_feedback_by=hina&feedback_by=ray'};
+  disapprovers.context.window.history={replaceState(_s,_t,url){attributionURL=url;},pushState(_s,_t,url){attributionURL=url;}};
+  disapprovers.run("for(const id of ['approvedBy','iconFeedbackBy','feedbackAuthor'])$(id).options=[{value:''},{value:'ray'},{value:'hina'}];urlReady=true;restoreURL();");
+  assert.equal(disapprovers.run('reviewFilter'),'pending');
+  assert.equal(disapprovers.run("$('iconFeedbackBy').value"),'hina');
+  assert.equal(disapprovers.run("$('feedbackAuthor').value"),'ray');
+  assert.equal(attributionURL.searchParams.get('icon_feedback_by'),'hina');
+  assert.equal(attributionURL.searchParams.get('feedback_by'),'ray');
+  disapprovers.run(`urlReady=false;section='feedback';feedbackLoaded=true;feedbackRows=[
+    {id:1,icon:'solo/a',author:'ray',feedback:'Round it'},
+    {id:2,icon:'solo/b',author:'hina',edited_by:'ray',feedback:'Keep it'},
+    {id:3,icon:'solo/b',feedback:'Legacy anonymous feedback'}
+  ];feedbackPage=4;$('feedbackAuthor').oninput();`);
+  assert.equal(disapprovers.run('feedbackPage'),1);
+  assert.equal(disapprovers.run("$('feedbackCount').textContent"),'1 feedback requests','Feedback matches its author, not its editor');
+  disapprovers.run("$('feedbackAuthor').value='';$('feedbackAuthor').oninput();");
+  assert.equal(disapprovers.run("$('feedbackCount').textContent"),'3 feedback requests','Anyone includes anonymous feedback');
   const stableTabs = page('gallery');
   stableTabs.run("icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A'}];reviewsLoaded=true;pendingFeedbackLoaded=true;render();");
   const reviewButtons = [...stableTabs.document.getElementById('reviewTabs').children];

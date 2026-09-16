@@ -344,7 +344,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
     for asset in ("home.html", "login.html", "site.css", "site.js", "icons.html", "approved-icons.js", "reference-picker.js",
-                  "primitives.html", "review-workspace.css", "stroke-editor.js", "stroke-editor.css", "icon-guides.js"):
+                  "primitives.html", "review-workspace.css", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
     stage_laboratory(target)
     stage_preview(target, records)

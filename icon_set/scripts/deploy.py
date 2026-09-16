@@ -26,7 +26,8 @@ from urllib.parse import parse_qs, unquote, urlsplit
 import webbrowser
 
 if __package__:
-    from .stroke_edits import StrokeEditStore, EditConflict
+    from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
+    from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from .generation import GenerationManager
     from .brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
@@ -37,7 +38,8 @@ if __package__:
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
-    from stroke_edits import StrokeEditStore, EditConflict
+    from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
+    from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from generation import GenerationManager
     from brief_queue import init_brief_queue, enqueue_split, list_briefs, validate_split, brief_archive
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
@@ -250,7 +252,46 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def catalog(self, *, include_failed=False):
         data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
         rows = data['icons'] + (data.get('failed_icons', []) if include_failed else [])
-        return {item['key']: item for item in rows}
+        return {item['key']: self.artwork_record(item) for item in rows}
+
+    def artwork_record(self, record):
+        from urllib.parse import quote
+        source = baseline(record)
+        choice = self.server.artwork.get(record['key'])
+        result = dict(record)
+        if not choice and record.get('artwork_source', 'use_org') == 'use_org':
+            return result
+        result['generated_graph'] = {k: source[k] for k in GRAPH_FIELDS if k in source}
+        result['generated_svg_sha256'] = source['svg_sha256']
+        result['artwork_source'] = (choice or {}).get('source_mode', 'use_org')
+        # A server choice takes precedence over a previous build's selection.
+        selected = resolve_artwork(source, choice)
+        if selected:
+            if selected['graph']:
+                result.update(selected['graph'])
+            else:
+                result.update(result['generated_graph'])
+            result['svg_sha256'] = selected['svg_sha256']
+            result['validation'] = {'status': 'human-selected' if selected['source_mode']=='use_upload' or selected['validation_override'] else 'valid',
+                                    'automatic_status': selected['automatic_status']}
+        elif record.get('artwork_source', 'use_org') != 'use_org':
+            result.update(result['generated_graph'])
+            result['svg_sha256'] = source['svg_sha256']
+            result['validation'] = {'status': 'original'}
+        if choice or record.get('artwork_source', 'use_org') != 'use_org':
+            result['preview_url'] = '../api/icon-artwork/svg?icon='+quote(record['key'], safe='')+'&v='+result['svg_sha256']
+        result['artwork_revision'] = (choice or {}).get('revision', 0)
+        return result
+
+    def artwork_response(self, icon):
+        from urllib.parse import quote
+        source = baseline(icon)
+        choice = self.server.artwork.get(icon['key'])
+        edit = self.server.stroke_edits.get(icon['key'], source['svg_sha256'])
+        return {'choice': choice, 'svg_sha256': source['svg_sha256'],
+                'edit_revision': (edit or (choice or {}).get('edited') or {}).get('revision'),
+                'preview_url': '../api/icon-artwork/svg?icon='+quote(icon['key'], safe='')+'&v='+str((choice or {}).get('revision', 0)),
+                'record': self.artwork_record(icon)}
 
     def primitives_catalog(self):
         """gallery/primitives.json, reparsed only when a build or refresh replaces it."""
@@ -289,11 +330,44 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path == '/gallery/icons.json':
+            try:
+                data = json.loads((self.root / 'gallery/icons.json').read_text(encoding='utf-8'))
+                for field in ('icons', 'failed_icons'):
+                    data[field] = [self.artwork_record(row) for row in data.get(field, [])]
+                return self.json_response(data)
+            except (OSError, ValueError):
+                return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
+        if parsed.path in ('/api/icon-artwork', '/api/icon-artwork/svg'):
+            key = parse_qs(parsed.query).get('icon', [''])[0]
+            try:
+                icon = self.catalog(include_failed=True).get(key)
+                if not icon:
+                    return self.json_response({'error': 'Icon not found.'}, 404)
+                if parsed.path == '/api/icon-artwork':
+                    return self.json_response(self.artwork_response(icon))
+                variant = parse_qs(parsed.query).get('variant', [None])[0]
+                selected = resolve_artwork(icon, self.server.artwork.get(key), variant=variant)
+                document = selected['svg'] if selected else icon_from_graph(baseline(icon)).to_svg()
+                content = document.encode('utf-8')
+                self.send_response(200)
+                self.send_header('Content-Type', 'image/svg+xml')
+                self.send_header('Content-Length', str(len(content)))
+                self.send_header('Cache-Control', 'no-store')
+                self.send_header('X-Content-Type-Options', 'nosniff')
+                self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+                self.end_headers(); self.wfile.write(content)
+                return
+            except (ValueError, KeyError, TypeError) as error:
+                return self.json_response({'error': str(error)}, 400)
+            except (OSError, ImportError):
+                return self.json_response({'error': 'Artwork is unavailable on this server.'}, 503)
         if parsed.path == '/api/stroke-edits':
             key = parse_qs(parsed.query).get('icon', [''])[0]
             icon = self.catalog(include_failed=True).get(key)
             if not icon:
                 return self.json_response({'error': 'Icon not found.'}, 404)
+            icon = baseline(icon)
             try:
                 return self.json_response({
                     'svg_sha256': icon['svg_sha256'],
@@ -479,8 +553,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     approved_by = {key: actor for key, sha, status, actor in rows
                                    if key in catalog and catalog[key]['svg_sha256'] == sha
                                    and status == 'approve' and statuses[key] == 'approve' and actor}
+                    disapproved_by = {key: actor for key, sha, status, actor in rows
+                                      if key in catalog and catalog[key]['svg_sha256'] == sha
+                                      and status in {'pending', 'disapprove'}
+                                      and statuses[key] in {'pending', 'disapprove'} and actor}
+                    with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                        authors = connection.execute('SELECT DISTINCT icon, author FROM feedback WHERE author IS NOT NULL ORDER BY icon, author').fetchall()
+                    feedback_by = {}
+                    for key, actor in authors:
+                        if key in catalog and actor:
+                            feedback_by.setdefault(key, []).append(actor)
                     return self.json_response({'statuses': statuses, 'approved_by': approved_by,
-                                               'rejected_by': {key: actor for key, actor in rejected_by.items() if actor}})
+                                               'rejected_by': {key: actor for key, actor in rejected_by.items() if actor},
+                                               'disapproved_by': disapproved_by, 'feedback_by': feedback_by})
                 return self.json_response(statuses)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
@@ -538,7 +623,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         route = urlsplit(self.path).path
         original_route = route
-        if route not in ('/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs'):
+        if route not in ('/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs'):
             return self.json_response({'error': 'Not found'}, 404)
         # Every change is attributed to a logged-in user; only logging in is anonymous.
         user = None
@@ -556,13 +641,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        limit = {'/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
+        limit = {'/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
         if self.headers.get('Transfer-Encoding') or not 0 < size <= limit:
             return self.json_response({'error': 'Invalid request size' if route != '/api/reference-images' else 'Reference image is too large.'}, 413)
         try:
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route == '/api/icon-artwork':
+                return self.save_artwork(data, user)
             if route in ('/api/stroke-edits', '/api/stroke-edits/validate'):
                 return self.save_stroke_edits(data, user, validate_only=route.endswith('/validate'))
             if route == '/api/reference-images':
@@ -693,6 +780,21 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not store the reference image. Please retry.'}, 503)
 
+    def save_artwork(self, data, user):
+        with DISCARD_LOCK:
+            try:
+                icon = self.catalog(include_failed=True).get(data.get('icon'))
+                if not icon:
+                    return self.json_response({'error': 'Icon not found.'}, 404)
+                self.server.artwork.save(icon, data, user, self.server.stroke_edits)
+                return self.json_response(self.artwork_response(icon))
+            except EditConflict as error:
+                return self.json_response({'error': str(error)}, 409)
+            except (ValueError, TypeError, KeyError) as error:
+                return self.json_response({'error': str(error)}, 400)
+            except (OSError, ImportError):
+                return self.json_response({'error': 'Could not store artwork. Check the persistent storage and SVG rendering dependencies.'}, 503)
+
     def save_stroke_edits(self, data, user, validate_only=False):
         if not isinstance(data.get('icon'), str):
             return self.json_response({'error': 'An icon key is required.'}, 400)
@@ -701,7 +803,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if not icon:
                 return self.json_response({'error': 'Icon not found.'}, 404)
             try:
-                result = self.server.stroke_edits.validate(icon, data) if validate_only else self.server.stroke_edits.save(icon, data, user)
+                result = self.server.stroke_edits.validate(baseline(icon), data) if validate_only else self.server.stroke_edits.save(baseline(icon), data, user)
                 return self.json_response(result)
             except EditConflict as error:
                 return self.json_response({'error': str(error)}, 409)
@@ -923,6 +1025,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         import_snapshot(connection)
     server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
     server.references = ReferenceStore(database.parent / 'reference-images')
+    server.artwork = ArtworkStore(database.parent / 'icon-artwork')
     server.stroke_edits = StrokeEditStore(database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)

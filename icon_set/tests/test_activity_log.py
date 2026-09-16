@@ -72,6 +72,26 @@ class ActivityLogTests(unittest.TestCase):
         data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
         self.assertEqual(data['rejected_by'], {})
 
+    def test_disapprover_and_feedback_author_filters(self):
+        icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
+        def attribution():
+            return json.loads(self.request('GET', '/api/reviews?include_approvers=1', anonymous=True)[1])
+        for user in ('ray', 'hina', 'hina'):
+            self.request('POST', '/api/auth/login', {'username': user, 'password': '1'}, anonymous=True)
+            self.assertEqual(self.request('POST', '/api/feedback', dict(icon, feedback='Round the corners'))[0], 201)
+            self.assertEqual(attribution()['disapproved_by'], {'sub/square': user})
+        self.assertEqual(attribution()['feedback_by'], {'sub/square': ['hina', 'ray']})
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE reviews SET svg_sha256='old'")
+        self.assertEqual(attribution()['disapproved_by'], {}, 'Old revisions do not supply current disapproval')
+        self.assertEqual(attribution()['feedback_by'], {'sub/square': ['hina', 'ray']}, 'Saved feedback survives revision changes')
+        self.assertEqual(self.request('POST', '/api/reviews', dict(icon, status='approve'))[0], 201)
+        self.assertEqual(attribution()['disapproved_by'], {})
+        self.assertEqual(attribution()['feedback_by'], {'sub/square': ['hina', 'ray']})
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("DELETE FROM feedback WHERE author='ray'")
+        self.assertEqual(attribution()['feedback_by'], {'sub/square': ['hina']}, 'Deleted feedback no longer matches')
+
     def test_actions_record_who_did_them(self):
         icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
         self.assertEqual(self.request('POST', '/api/feedback', dict(icon, feedback='Round it'))[0], 201)

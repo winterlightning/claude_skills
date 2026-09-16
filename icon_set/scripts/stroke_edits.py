@@ -1,7 +1,8 @@
 """Versioned, atomic JSON handoffs from the gallery to Python authoring tools.
 
-These are pending edits, never published geometry. A consumer must validate the
-edited graph and reconcile its anchors/relationships before adopting it.
+These are pending edits, never published geometry. Consumers can check effective
+validation (including a bound human override), then reconcile anchors and
+relationships before adopting the graph.
 """
 from contextlib import contextmanager
 from copy import deepcopy

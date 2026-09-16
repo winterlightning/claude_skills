@@ -49,6 +49,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from icon_set.scripts.icon_artwork import ArtworkStore, DEFAULT_ARTWORK, resolve_artwork, icon_from_graph, sha
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.icons.registry import factories, icons_in, families as registry_families  # noqa: E402
@@ -244,7 +245,7 @@ def _manifest_icons(path: Path) -> dict[str, dict]:
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
-    only: set[str] | None = None, qa_overlays: Path | None = None,
+    only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
@@ -313,8 +314,11 @@ def _stage_family(
     def overlay_failure(icon_id, svg_sha):
         return _qa_overlay_failure(qa_overlays, folder, icon_id, svg_sha)
 
+    artwork_store = ArtworkStore(artwork_dir)
     for icon in icons:
         key = artifact_key(icon)
+        choice = artwork_store.get(key)
+        manual = resolve_artwork(icon.to_record(), choice) if choice else None
         mtime = _source_mtime(icon) if previous is not None else None
         if icon.profile is not profile or icon.family != family:
             qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
@@ -325,9 +329,11 @@ def _stage_family(
                 f"{icon.family!r} on {getattr(icon.profile, 'name', icon.profile)!r}"
             ], mtime)
             continue
-        if previous is not None and only is None:
+        if previous is not None and only is None and manual is None:
             drawing = _drawing_sha(icon)
             record = old_records.get(icon.icon_id)
+            if record and record.get('artwork_source', 'use_org') != 'use_org':
+                record = None
             old_qa = previous.qa_row(key, mtime) if qa_dir is not None else None
             png = preview_dir / f"{icon.icon_id}.png" if preview_dir is not None else None
             overlay = overlay_failure(icon.icon_id, drawing)
@@ -360,13 +366,32 @@ def _stage_family(
                     failed_records.append(stale)
                     reused += 1
                     continue
-        qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
+        if manual and manual['source_mode'] == 'use_upload':
+            # Uploaded outlines are an explicit human-selected source, not a
+            # claim that the original Python primitive graph passed checks.
+            qa = {'icon_id': icon.icon_id, 'family': family, 'profile': profile.name,
+                  'selected_for_build': True, 'status': 'pass', 'automatic_status': 'not-run',
+                  'errors': [], 'warnings': ['Manually selected SVG; Python primitive checks do not describe this artwork.'],
+                  'checks_run': ['SVG import', 'human source selection'], 'artifacts': {},
+                  'spacing': {'status': 'not_run'}, 'negative_space': {'status': 'not_run'},
+                  'symmetry': {'status': 'not_run'}, 'rules_sha256': None,
+                  '_svg': manual['svg'], 'svg_sha256': manual['svg_sha256']}
+        else:
+            qa = inspect_icon(icon_from_graph(manual['graph']) if manual else icon,
+                              debug_dir=qa_dir / key if debug and qa_dir else None)
+        if manual:
+            qa['artwork_source'] = manual['source_mode']
+            qa['human_selection'] = {'by': choice['updated_by'], 'at': choice['updated_at']}
+            if manual['validation_override']:
+                qa['automatic_status'] = qa['status'] if manual['source_mode']=='use_edited' else 'not-run'
+                qa['validation_override'] = manual['validation_override']
+                qa['status'] = 'pass'
         qa['_key'] = key
         qa_rows.append(qa)
         document = qa.get('_svg')
         overlay = overlay_failure(icon.icon_id, hashlib.sha256(document.encode('utf-8')).hexdigest()
                                   if document else None)
-        if overlay is not None:
+        if overlay is not None and not (manual and manual['validation_override']):
             qa['errors'].extend(overlay['errors'])
             if qa['status'] == 'pass':
                 qa['status'] = 'fail'
@@ -383,10 +408,21 @@ def _stage_family(
             target.write_text(document, encoding="utf-8")
 
             record = icon.to_record()
+            if manual:
+                record['generated_graph'] = dict(record)
+                record['generated_svg_sha256'] = sha(icon.to_svg())
+                if manual['graph']:
+                    record.update(manual['graph'])
+                record['artwork_source'] = manual['source_mode']
+                record['artwork_revision'] = choice['revision']
+                record['artwork_review'] = qa.get('human_selection')
             record["svg_path"] = os.path.relpath(published_dist / folder / target.name, PACKAGE_ROOT)
             record["svg_sha256"] = hashlib.sha256(document.encode("utf-8")).hexdigest()
             record["validation"] = {
-                "status": "valid",
+                "status": "human-selected" if manual and (manual['source_mode']=='use_upload' or manual['validation_override']) else "valid",
+                "automatic_status": qa.get('automatic_status', qa['status']),
+                "validation_override": qa.get('validation_override'),
+                "errors": qa['errors'],
                 "checks_run": qa['checks_run'] + ['holes/pinches', 'internal-spacing-review'],
                 "warnings": qa['warnings'],
                 "negative_space": {key: value for key, value in qa['negative_space'].items()
@@ -398,7 +434,13 @@ def _stage_family(
             if preview_dir is not None:
                 preview = preview_dir / f"{icon.icon_id}.png"
                 preview.parent.mkdir(parents=True, exist_ok=True)
-                preview.write_bytes(render_png(icon))
+                if manual:
+                    import cairosvg
+                    preview.write_bytes(cairosvg.svg2png(bytestring=document.encode('utf-8'),
+                                                        output_width=profile.spec.canvas_size,
+                                                        output_height=profile.spec.canvas_size))
+                else:
+                    preview.write_bytes(render_png(icon))
             # Recorded only once every output exists, so a half-exported icon is
             # left out of the manifest and its files are pruned below.
             records.append(record)
@@ -490,7 +532,7 @@ def _sweep_stale_stages(root: Path) -> None:
 
 
 def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
-                    qa_overlays=None):
+                    qa_overlays=None, artwork_dir=DEFAULT_ARTWORK):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -521,7 +563,7 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
                 family, stages[dist], stages.get(png_dir),
                 write_png=write_png, published_dist=dist,
                 qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous, only=only,
-                qa_overlays=qa_overlays,
+                qa_overlays=qa_overlays, artwork_dir=artwork_dir,
             ))
         if qa_dir is not None:
             # A filtered build still shows the complete current library. Only
@@ -571,17 +613,17 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
 
 def build_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool,
-    debug: bool = False, report: bool = True, rebuild_all: bool = False, qa_overlays: Path | None = None,
+    debug: bool = False, report: bool = True, rebuild_all: bool = False, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
 ) -> tuple[int, int]:
     """Publish one family's passing icons; failing icons go to dist/failed and are counted."""
     return _build_selected([family], dist, png_dir, write_png=write_png, debug=debug, report=report,
-                           rebuild_all=rebuild_all, qa_overlays=qa_overlays)
+                           rebuild_all=rebuild_all, qa_overlays=qa_overlays, artwork_dir=artwork_dir)
 
 
 def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
-    rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None,
+    rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -607,7 +649,7 @@ def build(
         # Without --family, build just the families the selected icons belong to.
         families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
-                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays)
+                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir)
     return 1 if failed else 0
 
 
@@ -638,10 +680,12 @@ def main(argv: list[str] | None = None) -> int:
                         help='qa_overlays.py results per family folder (DIR/solo48/...); icons whose saved '
                              'distance or hole check failed on the SVG being published go to the failed build '
                              f'(default: {DEFAULT_QA_OVERLAYS.relative_to(REPO_ROOT)})')
+    parser.add_argument('--artwork-dir', type=Path, default=DEFAULT_ARTWORK,
+                        help='Persistent icon-artwork folder beside the gallery database; manual source choices survive rebuilds')
     args = parser.parse_args(argv)
     return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
                  debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
-                 qa_overlays=args.qa_overlays)
+                 qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir)
 
 
 if __name__ == "__main__":
