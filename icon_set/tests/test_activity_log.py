@@ -35,7 +35,7 @@ class ActivityLogTests(unittest.TestCase):
 
     def test_approver_filter_uses_current_approved_revision(self):
         icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
-        for user in ('phuong', 'hina', 'jakes'):
+        for user in ('phuong', 'hina', 'jakes', 'ray'):
             self.request('POST', '/api/auth/login', {'username': user, 'password': '1'}, anonymous=True)
             status, body = self.request('POST', '/api/reviews', dict(icon, status='approve'))
             self.assertEqual(status, 201)
@@ -55,6 +55,22 @@ class ActivityLogTests(unittest.TestCase):
         data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
         self.assertEqual(data['statuses']['sub/square'], 'rejected')
         self.assertEqual(data['approved_by'], {})
+
+    def test_rejector_filter_tracks_rejection_and_restore(self):
+        icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
+        for user in ('phuong', 'ray'):
+            self.request('POST', '/api/auth/login', {'username': user, 'password': '1'}, anonymous=True)
+            self.assertEqual(self.request('POST', '/api/reviews', dict(icon, status='rejected'))[0], 201)
+            data = json.loads(self.request('GET', '/api/reviews?include_approvers=1', anonymous=True)[1])
+            self.assertEqual(data['rejected_by'], {'sub/square': user})
+            self.assertEqual(data['approved_by'], {})
+        with closing(sqlite3.connect(self.database)) as connection, connection:
+            connection.execute("UPDATE reviews SET svg_sha256='old'")
+        data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
+        self.assertEqual(data['rejected_by'], {'sub/square': 'ray'}, 'Rejection persists across revisions')
+        self.assertEqual(self.request('POST', '/api/reject-combination/restore', icon)[0], 200)
+        data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
+        self.assertEqual(data['rejected_by'], {})
 
     def test_actions_record_who_did_them(self):
         icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
@@ -105,6 +121,8 @@ class ActivityLogTests(unittest.TestCase):
         self.assertEqual({brief['created_by'] for brief in briefs}, {'jakes'})
         detail = json.loads(self.request('GET', '/api/review-detail?icon=sub/square')[1])
         self.assertEqual((detail['status'], detail['updated_by']), ('rejected', 'jakes'))
+        data = json.loads(self.request('GET', '/api/reviews?include_approvers=1')[1])
+        self.assertEqual(data['rejected_by'], {'sub/square': 'jakes'})
         self.assertEqual([action for _, action, _, _ in self.activity()].count('reject_combination'), 1,
                          'A repeated click is not recorded twice')
 

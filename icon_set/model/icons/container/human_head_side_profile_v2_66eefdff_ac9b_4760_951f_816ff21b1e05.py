@@ -1,31 +1,44 @@
-# Variant of human-head-side-profile; parent file remains unchanged.
-"""An open head-profile enclosure facing right, with forehead, nose, chin and neck.
+"""A right-facing head enclosure with a continuous rounded skull and neck.
 
-VRECT_XL: visible bounds (4, 0, 60, 64); chosen for the source proportions.
-Construction reference: No useful local head-outline match found; coherent circular skull and elliptical rear contour; intentional right-facing asymmetry. Independently authored on CONTAINER64.
-Source silhouette and defining details retained; no decorative detail added.
-Hosting measured with compose.py: plus valid, heart blocked, check blocked.
+VRECT_XL: ink (4,0)-(60,64), centerlines (6,2)-(58,62).
+Source preserves forehead, projecting nose, jaw and open neck. The rear neck
+and skull share an exact 3:4:5 tangent; the face is deliberately asymmetric.
+Shared human reference: references/human_ref/full_body_ref.png. An isolated
+head has no detached head/body gap. No useful Lucide side-head match was found.
+Hosting (compose.py): plus blocked; heart blocked; check valid.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
-AUTHOR = 'astra-chatgpt'
+
+SOURCE_ICON_ID = '66eefdff-ac9b-4760-951f-816ff21b1e05'
+SOURCE_PATH = 'container_icons/svg/human-head-side-profile-66eefdff-ac9b-4760-951f-816ff21b1e05.svg'
+AUTHOR = 'gpt-6'
+
 
 class HumanHeadSideProfileVariant2(Container64):
     icon_id = 'human-head-side-profile-v2'
     variant_of = 'human-head-side-profile'
     variant_label = 'Smooth skull and neck transitions'
     keyshape = Keyshape.VRECT_XL
+    category = 'containers'
     aliases = ()
-    keywords = ('human', 'head', 'side', 'profile')
+    keywords = ('human', 'head', 'side', 'profile', 'mind')
 
-    def build(self) -> None:
-        self.add_line('outline-0', (14, 62), (14, 44))
-        self.add_arc('outline-1', (14, 44), (6, 24), radius_x=8, radius_y=20, sweep=True)
-        self.add_arc('outline-2', (6, 24), (50, 24), radius_x=22, radius_y=22, sweep=True)
-        self.add_line('outline-3', (50, 24), (58, 36))
-        self.add_line('outline-4', (58, 36), (52, 36))
-        self.add_line('outline-5', (52, 36), (52, 44))
-        self.add_arc('outline-6', (52, 44), (44, 52), radius_x=8, radius_y=8, sweep=True)
-        self.add_line('outline-7', (44, 52), (40, 52))
-        self.add_line('outline-8', (40, 52), (40, 62))
-        self.add_contour('outline', 'outline-0', 'outline-1', 'outline-2', 'outline-3', 'outline-4', 'outline-5', 'outline-6', 'outline-7', 'outline-8', closed=False)
+    def build(self):
+        # Plan: one open outline; skull circle (26,22), r20 and rear-neck
+        # circle (8,46), r10 meet at (14,38) with parallel 4:3 tangents.
+        skull_radius = 20
+        rear_join, left, right = (14, 38), (6, 22), (46, 22)
+        self.add_line('rear-neck', (18, 62), (18, 46))
+        self.add_arc('nape', (18, 46), rear_join, radius_x=10, sweep=False)
+        self.add_arc('rear-skull', rear_join, left, radius_x=skull_radius)
+        self.add_arc('crown', left, right, radius_x=skull_radius)
+        self.add_line('forehead-nose', right, (58, 38))
+        self.add_line('nose-base', (58, 38), (50, 38))
+        self.add_line('face', (50, 38), (50, 46))
+        self.add_arc('chin', (50, 46), (42, 54), radius_x=8)
+        self.add_arc('front-neck-turn', (42, 54), (38, 58), radius_x=4, sweep=False)
+        self.add_line('front-neck', (38, 58), (38, 62))
+        self.add_contour('outline', 'rear-neck', 'nape', 'rear-skull', 'crown',
+                         'forehead-nose', 'nose-base', 'face', 'chin',
+                         'front-neck-turn', 'front-neck')

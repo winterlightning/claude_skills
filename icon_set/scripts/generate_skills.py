@@ -573,6 +573,8 @@ def write_all(check_only: bool = False, agent: str = "all") -> int:
     if agent in ("all", "codex"):
         making = (SKILLS_DIR / "icon-making" / "SKILL.md").read_text(encoding="utf-8")
         outputs[CODEX_SKILLS_DIR / "icon-making" / "SKILL.md"] = render_codex(making, "icon-making")
+        review = (SKILLS_DIR / "icon-review" / "SKILL.md").read_text(encoding="utf-8")
+        outputs[CODEX_SKILLS_DIR / "icon-review" / "SKILL.md"] = render_codex(review, "icon-review")
         # Portable skills are generated from the same Codex text, not edited separately.
         for target, content in list(outputs.items()):
             if target.parent.parent == CODEX_SKILLS_DIR:

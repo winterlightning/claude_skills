@@ -600,27 +600,35 @@ Modification dates start from the latest source commit, or file modification tim
 for local changes. Matching source and SVG content keeps the saved date across
 rebuilds and deployments; later source or SVG changes update it.
 
-In the icon popup, selecting **Pending** shows a reason dropdown: **Bad draw**,
-**Does not convey the meaning of the icon name**, or **Other**. Save the reason
-as feedback to mark the icon Pending. Preset reasons accept optional details;
-Other requires written feedback. The reason appears in the feedback history and exported briefs.
+The popup opens on **Review**, with original and generated previews always visible
+on both Review and Information. Choose **Ready**, **Approve**, **Disapprove**, or
+**Reject**. Disapprove requires **Bad stroke drawn**, **Does not convey the intended
+meaning**, or **Other** (written feedback required). Preset reasons accept optional
+details. Reasons are stored separately from the feedback text and included in
+feedback history and exported repair briefs. Reject is for prohibited subjects:
+combinations, text, numbers, or other exclusions. Set its exclusion reason under
+Reject. Icon type remains optional and can be human, avatar, or a custom tag.
 
 Each icon card shows its category and review status, with an **Approve** button.
-Use the **Active icons / Ready / Pending / Approved / Rejected** tabs with the category,
+Use the **Active icons / Ready / Disapproved / Approved / Rejected** tabs with the category,
 family, and search filters. Tab counts reflect the current category/search.
-Click a card to inspect it and change its status using the review dropdown.
+Click a card to inspect it and choose a review decision.
 
 - **Ready**: a new icon version awaiting review.
-- **Pending**: needs changes; saving feedback sets this automatically.
+- **Disapproved**: bad but fixable; requires a repair reason. Saving feedback sets this automatically.
 - **Approved**: a reviewer confirmed the icon is OK using **Approve**.
 - **Rejected**: disabled in the review app. Use **Reject icon** on a feedback card or choose **Rejected** in the inspector. It is hidden from Active/Final icons, cannot be approved or regenerated, and is excluded from feedback brief downloads. Its Python source, preview, and feedback remain available for inspection in the Rejected filter. Use **Restore for review** to re-enable it; adding feedback or rebuilding its SVG does not restore it. Generated files remain on disk for review.
 - **Discard**: permanent removal, offered for Rejected icons (card or inspector) and Failed build icons (Discard on each failed card), login required, with a confirmation. To discard in bulk, open the **Rejected** tab: the checkboxes there select rejected icons, and **Discard selected** removes them in one confirmation, reporting any that were refused (those stay selected). The server deletes the icon's Python model (or only its class when the module holds other icons), its SVG, preview PNG, manifest and gallery entries, and its review, flag and feedback rows. It refuses when another module imports the class, a variant points at it, or it has a keyshape exception. The removed source and records are archived in `icon_set/data/discarded-icons/`, and the action is logged. The next build stays consistent because the model no longer exists.
 
 Decisions are shared across visitors and saved in the existing SQLite database.
 They survive restarts and rebuilds of identical SVGs. A changed SVG starts Ready
-and requires a fresh approval. Existing feedback migrates to Pending without
+and requires a fresh approval. Existing feedback migrates to Disapproved without
 overwriting later decisions. Restart `deploy.py` after updating the server code,
-then reload the gallery. API status values are `ready`, `pending`, and `approve`.
+then reload the gallery. The legacy stored/API value `pending` represents Disapproved, preserving existing
+Python consumers. `POST /api/reviews` also accepts `disapprove`, with a reason
+and optional feedback; an Other reason requires feedback. `re-generated` is
+retired: existing records and legacy requests normalize to `ready`. A revised
+SVG or new variant starts Ready; an unchanged parent retains its review decision.
 
 ### Icons, generator feedback, and final icons
 
@@ -737,3 +745,114 @@ the CLI and server; on a remote deployment transfer the JSON handoff or use the
 review app rather than writing to a different local queue.
 
 Failed build cards support selecting shown icons and **Discard selected**, with one confirmation for the batch. Refused removals remain selected. **Fix notes** saves instructions to the existing feedback history without clearing build failures; unsaved drafts are kept locally while browsing.
+
+### Popup tabs and saved stroke edits
+
+The icon popup defaults to **Review**. Original and generated previews stay visible
+on Review and Information while their controls scroll independently. Information
+contains source, metadata, and validation evidence. Review groups the decision,
+repair/exclusion reason, optional icon type, history, and generation controls.
+Gallery cards, generated popup previews, and the editor show the icon's keyshape
+as a dashed orange visible-ink envelope, with its dimensions and profile. Grids
+use the profile's 32, 48, or 64 unit canvas. Standard guides follow the current
+contracts in `laboratory.json`; FREE guides retain the icon's explicit bounds.
+Editing lets you move and resize a contour, an individual ungrouped primitive, or
+the whole icon. Drag the selection corner or enter width/height in visible-ink units to
+resize. Resizing always snaps both dimensions to even units and the selection
+center to the grid. Width and height are independent; the movement snap checkbox
+only controls dragging position. Hovered strokes turn blue and selected
+strokes are green, with a bounding box. Stroke width stays unchanged. It supports grid snapping, original-position overlays,
+undo/redo, resets, and recovery of unsaved browser drafts. Shift + arrow moves 0.1
+units; an unmodified arrow moves 1 unit. It edits whole strokes rather than individual nodes. Arc radii and Bézier
+control points scale with their geometry.
+
+**Keyshape** selects a profile-supported envelope (for example VRECT_L → VRECT_M).
+It changes the guide and the JSON's `edited_graph.keyshape` / `keyshape_bounds`,
+without automatically resizing strokes. **Auto resize to keyshape** scales the
+whole icon independently on each axis and centers it in the selected bounds,
+keeping stroke width unchanged. It runs validation afterward and supports undo;
+geometry and spacing failures still need repair. A circular keyshape also needs
+to pass radial containment, beyond matching its width and height. The selection participates in undo/redo, browser
+recovery, server saves, and JSON downloads; Reset all restores the original shape.
+**Run validation** checks unsaved geometry with the Python build validators,
+including grid, bounds, MIC, symmetry, internal spacing, and holes/pinches. It
+shows pass, needs fixes, needs review, or a checker error, with the findings.
+Circle diagnostics distinguish path diameter from the stroke-inclusive size fields:
+the 4/6-unit path exceptions correspond to 8/10-unit visible diameters at stroke 4.
+They explicitly report when the hole exception applied; separate spacing checks
+can still fail after a body is narrowed.
+**Force pass (human reviewed)** accepts an edited icon despite automatic findings.
+Enter a reason and save edits. The server reruns the checks and records
+`validation_override` with the authenticated reviewer, time, reason, source SVG
+hash, and exact edited graph hash. `effective_validation_status` becomes `pass`;
+`validation.status`, errors, and warnings retain the automatic result. Geometry
+or keyshape changes clear the override, including through older API clients.
+Python consumers should call `effective_validation_status(document)` from
+`scripts.stroke_edits` to verify the binding before accepting a handoff. This is
+an explicit human decision, not a change to the validation rules or gallery review
+status. Saved JSON downloads include it. Unsaved downloads contain only a
+`validation_override_request`; save on the server to apply and attribute that decision.
+
+Changing geometry or keyshape clears the result. Saving a checked draft reruns
+the check on the server and stores that report with the JSON. Checking alone
+never changes the published icon, Python source, or review decision.
+
+The production validation endpoint (`POST /api/stroke-edits/validate`) requires
+`scripts/edit_validation.py`, the shared `model/` modules and contracts (including
+`model/icons/base.py`), `validation/`, `renderers/`, `schemas/`, and dependencies
+from `requirements-qa.txt`. Individual authored icon modules are not executed.
+Deploy those with the updated scripts and gallery assets, then restart the server.
+Missing validation dependencies are reported as unavailable/error, never a pass.
+Keep `gallery/laboratory.json` in sync with the deployed profile contracts.
+
+**Save edits** requires login and writes a JSON handoff on the server running
+`deploy.py`. The folder is `<database parent>/stroke-edits/` (by default,
+`icon_set/data/stroke-edits/`). Files use hashed icon/version names. They live
+outside `dist`, so replacing gallery assets does not erase them. On production,
+keep the directory containing `--database` on persistent storage and back it up
+alongside the feedback database. Do not replace it with a developer machine's
+copy when deploying. Ship `scripts/stroke_edits.py` with `deploy.py`, and ship the
+new `gallery/stroke-editor.js` and `.css` assets; restart the server afterward.
+
+`GET /api/stroke-edits?icon=<family/id>` returns the current version's saved edit
+and a summary of older versions. `POST /api/stroke-edits` accepts `icon`,
+`svg_sha256`, `revision` (0 before the first save), `offsets` mapping stroke IDs
+(`contour:<id>` or `primitive:<id>`) to `[dx, dy]`, and `scales` mapping the same
+IDs to `[sx, sy]` (0.05–20). Scale about the canvas center, then translate;
+`edited_graph` already contains the resulting geometry. The server constructs the edited
+geometry from its own catalog, records the reviewer/time, and atomically writes
+JSON. Concurrent or stale-version saves return 409 without overwriting data.
+Older icon versions retain their separate handoffs.
+
+**Download JSON** downloads either the saved handoff or the current unsaved draft.
+Use this to transfer a production edit to your local Python workflow; browser
+storage is only a recovery copy and does not synchronize servers. Python can read
+a downloaded file or a server-side file directly:
+
+```python
+from icon_set.scripts.stroke_edits import load_edit
+
+edit = load_edit("heart-stroke-edits.json", expected_svg_sha256=current_svg_hash)
+geometry = edit["edited_graph"]
+original = edit["original_graph"]
+stroke_offsets = edit["offsets"]
+```
+
+The `pictographic.stroke-edit.v2` handoff (with backward reading support for v1) includes the icon identity, source SVG
+hash, Python source location, stroke membership, original and edited geometry,
+revision, reviewer, and timestamp. Edits remain pending: they do not change
+published SVGs or automatically rewrite Python models. The consuming Python
+workflow must reconcile anchors/relationships and run validation before building
+an updated icon. Validation evidence in Information describes the published SVG,
+not the pending edit.
+
+### Developer lookup by icon type
+
+`GET /api/icon-types?type=avatar&status=disapprove` returns tagged icons without
+requiring a visual scan. Both filters are optional. Results contain the icon key,
+type, current status (`disapprove` here), source SVG hash, Python file/class,
+latest repair reason/feedback for that version, and tag author/time.
+`GET /api/feedback-feed` includes `reason` and `icon_type` in each row; Copy change
+brief and Download all briefs include them too. Reason codes are `bad-stroke`,
+`meaning`, and `other`. `POST /api/icon-flag` additionally accepts `text` and
+`number`. Restart the updated server to migrate existing data safely.

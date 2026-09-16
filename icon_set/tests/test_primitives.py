@@ -278,6 +278,31 @@ class PrimitivesServerTests(unittest.TestCase):
         summary = json.loads(self.request('GET', '/api/primitives/summary')[1])
         self.assertEqual((summary['overall']['total'], summary['overall']['skip'], summary['overall']['todo']), (4, 1, 3))
 
+    def test_reference_brief_round_trip_preserves_status(self):
+        change = {'uuid': U1, 'family': 'solo', 'brief': 'Concept: Monitor\nDescription: A monitor viewed from the front.'}
+        self.assertEqual(self.request('POST', '/api/primitives/briefs', change)[0], 401)
+        self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        before = json.loads(self.request('GET', '/api/primitives/summary')[1])
+        code, body, _ = self.request('POST', '/api/primitives/briefs', change)
+        self.assertEqual(code, 200, body)
+        saved = json.loads(body)
+        self.assertEqual(saved['brief'], change['brief'])
+        self.assertEqual(saved['updated_by'], 'jakes')
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1], saved)
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/summary')[1]), before)
+        for patch_data in ({'family': ''}, {'family': 'invalid'}, {'brief': ' '}, {'brief': 'x' * 20001},
+                           {'uuid': 'unknown'}, {'brief': {'description': 'not text'}}):
+            with self.subTest(patch_data=str(patch_data)[:100]):
+                self.assertEqual(self.request('POST', '/api/primitives/briefs', {**change, **patch_data})[0], 400)
+                self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1], saved)
+        self.request('POST', '/api/primitives/status', {'uuids': [U1], 'status': 'skip', 'reason': 'container'})
+        self.request('POST', '/api/primitives/status', {'uuids': [U1], 'status': 'todo'})
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1], saved)
+        updated = {**change, 'family': 'avatar', 'brief': 'Updated brief'}
+        self.assertEqual(self.request('POST', '/api/primitives/briefs', updated)[0], 200)
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1]['brief'], 'Updated brief')
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1]['family'], 'avatar')
+
     def test_component_brief_api_round_trip(self):
         change = {'uuids': [U1], 'status': 'skip', 'reason': 'container', 'combination_brief': BRIEF}
         self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 401)

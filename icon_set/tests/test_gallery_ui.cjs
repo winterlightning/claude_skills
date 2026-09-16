@@ -97,7 +97,7 @@ async function main() {
   await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
   assert.equal(reasonPosts.length,1,'Reason and status use a single existing feedback request');
   assert.equal(reasonPosts[0].url,'../api/feedback');
-  assert.equal(reasonPosts[0].feedback,'Bad draw');
+  assert.equal(reasonPosts[0].feedback,'Bad stroke drawn');
   assert.equal(reasonPosts[0].svg_sha256,'current');
   assert.equal(pendingReason.run('reviews[selected.key]'),'pending');
   pendingReason.run("$('pendingReason').value='meaning';$('feedback').value='The shape looks like a leaf.';");
@@ -110,7 +110,7 @@ async function main() {
     return {ok:true,json:async()=>({status:'pending'})};
   };
   await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
-  assert.equal(reasonPosts.at(-1).feedback,'Does not convey the meaning of the icon name\n\nThe shape looks like a leaf.');
+  assert.equal(reasonPosts.at(-1).feedback,'Does not convey the intended meaning\n\nThe shape looks like a leaf.');
   pendingReason.run("$('pendingReason').value='other';$('feedback').value='Round the base.';");
   await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
   assert.equal(reasonPosts.at(-1).feedback,'Round the base.');
@@ -184,7 +184,7 @@ async function main() {
   assert.equal(categories.run("categoryCounts().has('animals')"),false);
   const actions = page('gallery');
   actions.run("icons=[{key:'solo/example',family:'solo',icon_id:'example',name:'Example'}];reviewsLoaded=true;");
-  for(const [state, expected] of [['ready',['✓ Approve','Pending','Reject']],['pending',['✓ Approve','Reject']],['rejected',['Pending','Discard']]]) {
+  for(const [state, expected] of [['ready',['✓ Approve','Disapprove','Reject']],['pending',['✓ Approve','Reject']],['rejected',['Ready','Discard']]]) {
     actions.run(`reviews['solo/example']='${state}';reviewFilter='${state}';pendingFeedbackLoaded=true;render();`);
     const card=actions.document.getElementById('grid').querySelectorAll('.card[data-key]')[0];
     const footer=card.children.find(child=>child.className==='card-footer');
@@ -252,6 +252,38 @@ async function main() {
   assert.equal(approvers.run('filteredIcons().length'), 0);
   approvers.run("$('approvedBy').value='';");
   assert.equal(approvers.run('filteredIcons().length'), 3, 'Anyone restores normal version grouping');
+  const rejectors = page('gallery');
+  rejectors.run(`icons=[
+    {key:'solo/a',family:'solo',icon_id:'a',name:'A',category:'animals'},
+    {key:'solo/b',family:'solo',icon_id:'b',name:'B',category:'tools'},
+    {key:'solo/c',family:'solo',icon_id:'c',name:'C',category:'tools'}
+  ];reviewFilter='rejected';`);
+  rejectors.context.fetch=async()=>({ok:true,json:async()=>({
+    statuses:{'solo/a':'rejected','solo/b':'rejected','solo/c':'approve'},
+    approved_by:{'solo/c':'ray'},rejected_by:{'solo/a':'phuong','solo/b':'ray'}
+  })});
+  await rejectors.run('loadReviews()');
+  rejectors.run("page=4;selectedKeys.add('solo/a');$('approvedBy').value='ray';$('approvedBy').onchange();");
+  assert.equal(rejectors.run('reviewFilter'),'rejected','Changing reviewer must stay on Rejected');
+  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Rejected by');
+  assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/b','Ray matches rejection attribution, not approval');
+  assert.equal(rejectors.run('page'),1);
+  assert.equal(rejectors.run('selectedKeys.size'),0);
+  assert.equal(rejectors.run('categoryCounts().has("animals")'),false);
+  rejectors.run("setIconView('versions');$('approvedBy').value='phuong';$('approvedBy').onchange();");
+  assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/a');
+  rejectors.run("$('approvedBy').value='';$('approvedBy').onchange();");
+  assert.equal(rejectors.run('reviewFilter'),'rejected');
+  assert.equal(rejectors.run('filteredIcons().length'),2,'Anyone shows all rejected icons');
+  rejectors.context.window.location={href:'http://localhost/gallery/index.html?status=rejected&approved_by=ray',search:'?status=rejected&approved_by=ray'};
+  rejectors.context.window.history={replaceState(){},pushState(){}};
+  rejectors.run("$('approvedBy').options=[{value:''},{value:'ray'}];urlReady=true;restoreURL();");
+  assert.equal(rejectors.run('reviewFilter'),'rejected','Shared links retain Rejected');
+  assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/b');
+  rejectors.run("urlReady=false;reviewFilter='approve';render();");
+  assert.equal(rejectors.run("$('reviewerLabel').textContent"),'Approved by');
+  assert.equal(rejectors.run('filteredIcons().map(i=>i.key).join()'),'solo/c');
+  assert.match(fs.readFileSync(path.join(__dirname,'../scripts/templates/gallery.html'),'utf8'),/<option value="ray">Ray<\/option>/);
   const stableTabs = page('gallery');
   stableTabs.run("icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A'}];reviewsLoaded=true;pendingFeedbackLoaded=true;render();");
   const reviewButtons = [...stableTabs.document.getElementById('reviewTabs').children];
@@ -290,8 +322,8 @@ async function main() {
   assert.equal(cards[0].children.at(-1).children.at(-1).textContent, 'Reject');
   gallery.run("$('search').value='';reviewFilter='rejected';render();");
   assert.equal(gallery.run('filteredIcons()[0].icon_id'), 'test-v2', 'Rejected tab retains access');
-  gallery.run("reviewFilter='';reviews['solo/test']='re-generated';reviewFilter='re-generated';render();");
-  assert.equal(gallery.run('filteredIcons().length'), 3, 'Status match brings active siblings into comparison');
+  gallery.run("reviewFilter='';reviews['solo/test']='re-generated';reviewFilter='ready';render();");
+  assert.equal(gallery.run('filteredIcons().length'), 4, 'Legacy regenerated statuses now appear under Ready');
   gallery.run("reviewFilter='';pageSize=1;page=2;render();");
   assert.equal(gallery.run('currentPageIcons().length'), 3, 'Version groups select exactly the versions rendered on the page');
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 3, 'Pagination keeps versions together');

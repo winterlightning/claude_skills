@@ -1,48 +1,51 @@
-# Variant of tnt-detonator-plunger; parent file remains unchanged.
-"""Tnt detonator plunger: independent spacing revision.
+"""A T-handle detonator box with an attached looping cable.
 
-Eight-unit wire/box and wire-loop spacing; preserve T plunger and curling wire.
-Native container family, SQUARE keyshape. The original model is preserved.
-Directional and natural asymmetry follows the supplied subject.
-Final construction review: Original subject render; no exact Lucide match selected.
+SQUARE: ink (0,0)-(64,64), centerlines (2,2)-(62,62).
+Lucide monitor original and atomic-debug informed consistent quarter-circle
+box corners and a centered post. No direct detonator reference was found.
+The source's T plunger, box and cable remain. The wider cable loop has tangent
+joins; intentional right-side asymmetry follows the source.
+Hosting (compose.py): plus blocked; heart valid; check valid.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
+
+SOURCE_ICON_ID = '2ba32171-2b1e-4619-ac1e-b8b912b7fa13'
+SOURCE_PATH = 'container_icons/svg/tnt-detonator-plunger-2ba32171-2b1e-4619-ac1e-b8b912b7fa13.svg'
 AUTHOR = 'gpt-6'
+
 
 class TntDetonatorPlungerVariant2(Container64):
     icon_id = 'tnt-detonator-plunger-v2'
     variant_of = 'tnt-detonator-plunger'
     variant_label = 'Wider cable loop and balanced plunger'
     keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
     category = 'containers'
     aliases = ()
-    keywords = ('tnt', 'detonator', 'plunger')
+    keywords = ('tnt', 'detonator', 'plunger', 'explosive')
 
-    def build(self) -> None:
-        self.add_line('box-top', (5, 20), (37, 20))
-        self.add_arc('box-ne', (37, 20), (40, 23), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('box-right', (40, 23), (40, 59))
-        self.add_arc('box-se', (40, 59), (37, 62), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('box-bottom', (37, 62), (5, 62))
-        self.add_arc('box-sw', (5, 62), (2, 59), radius_x=3, radius_y=3, sweep=True)
-        self.add_line('box-left', (2, 59), (2, 23))
-        self.add_arc('box-nw', (2, 23), (5, 20), radius_x=3, radius_y=3, sweep=True)
-        self.add_contour('box', 'box-top', 'box-ne', 'box-right', 'box-se', 'box-bottom', 'box-sw', 'box-left', 'box-nw', closed=True)
-        self.add_line('plunger', (21, 2), (21, 20))
-        self.add_line('handle', (9, 2), (33, 2))
+    def build(self):
+        # Plan: rounded box owns its centered plunger and cable attachment;
+        # one continuous cable has quarter turns and one semicircular crest.
+        left, right, top, bottom, radius, axis = 2, 38, 24, 62, 6, 20
+        self.add_line('box-top', (left+radius,top), (right-radius,top))
+        self.add_arc('box-ne', (right-radius,top), (right,top+radius), radius_x=radius)
+        self.add_line('box-right', (right,top+radius), (right,bottom-radius))
+        self.add_arc('box-se', (right,bottom-radius), (right-radius,bottom), radius_x=radius)
+        self.add_line('box-bottom', (right-radius,bottom), (left+radius,bottom))
+        self.add_arc('box-sw', (left+radius,bottom), (left,bottom-radius), radius_x=radius)
+        self.add_line('box-left', (left,bottom-radius), (left,top+radius))
+        self.add_arc('box-nw', (left,top+radius), (left+radius,top), radius_x=radius)
+        self.add_contour('box', 'box-top', 'box-ne', 'box-right', 'box-se',
+                         'box-bottom', 'box-sw', 'box-left', 'box-nw', closed=True)
+        self.add_line('plunger', (axis,2), (axis,top))
+        self.add_line('handle', (axis-12,2), (axis+12,2))
         self.relate('connect', 'handle', 'plunger')
         self.relate('connect', 'plunger', 'box')
-        self.add_line('wire-out', (40, 52), (44, 52))
-        self.add_arc('wire-up', (44, 52), (48, 48), radius_x=4, radius_y=4, sweep=False)
-        self.add_line('wire-rise', (48, 48), (48, 38))
-        self.add_arc('wire-crest', (48, 38), (56, 38), radius_x=4, radius_y=4, sweep=True)
-        self.add_line('wire-fall', (56, 38), (56, 58))
-        self.add_arc('wire-foot', (56, 58), (60, 62), radius_x=4, radius_y=4, sweep=False)
-        self.add_line('wire-end', (60, 62), (62, 62))
-        self.add_contour('wire', 'wire-out', 'wire-up', 'wire-rise', 'wire-crest', 'wire-fall', 'wire-foot', 'wire-end', closed=False)
+        self.add_arc('wire-out', (right,50), (46,42), radius_x=8, sweep=False)
+        self.add_line('wire-rise', (46,42), (46,36))
+        self.add_arc('wire-crest', (46,36), (58,36), radius_x=6)
+        self.add_line('wire-fall', (58,36), (58,58))
+        self.add_arc('wire-foot', (58,58), (62,62), radius_x=4, sweep=False)
+        self.add_contour('wire', 'wire-out', 'wire-rise', 'wire-crest', 'wire-fall', 'wire-foot')
         self.relate('connect', 'wire', 'box')
-SOURCE_ICON_ID = None
-SOURCE_PATH = None

@@ -17,9 +17,18 @@ run(fs.readFileSync(path.join(root,'scripts/templates/icon-laboratory.js'),'utf8
 run("contracts=data;icons=fixtureIcons;$('gap').value='2';selectProfile('SOLO48');");
 assert.equal(elements.get('sizeTitle').textContent,'36 × 44');
 assert.equal(elements.get('inspectLink').hidden,false);
-assert.equal(elements.get('atlas').children.length,4);
-assert.equal(elements.get('atlasTitle').textContent,'Four standard envelopes for solo icons.');
+assert.equal(elements.get('atlas').children.length,6);
+assert.equal(elements.get('atlasTitle').textContent,'Six standard envelopes for solo icons.');
 assert.equal(elements.get('ruleCards').children.length,6);
+assert.match(elements.get('envelopeExplanation').textContent,/short side by 4 units/);
+assert.match(elements.get('envelopeExplanation').textContent,/40 × 28 and 28 × 40/);
+for(const [name,visible,centerline] of [['HRECT_M','44 × 32','40 × 28'],['VRECT_M','32 × 44','28 × 40']]) {
+ context.nextShape=name;run('shapeName=nextShape;renderShapes();renderExamples();');
+ assert.equal(elements.get('sizeTitle').textContent,visible);
+ assert.ok(elements.get('measurements').children.some(child=>child.textContent===centerline));
+ assert.equal(elements.get('example').disabled,true);
+}
+run("shapeName='VRECT_L';renderShapes();renderExamples();");
 assert.ok(elements.get('drawing').children[0].children.some(child=>child.tag==='image'));
 run("shapeName='CIRCLE';renderShapes();renderExamples();");
 assert.equal(elements.get('example').value,'reference/big-circle');

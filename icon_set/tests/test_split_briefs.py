@@ -46,7 +46,7 @@ class SplitWorkflowTests(unittest.TestCase):
         self.assertEqual(json.loads(self.request('GET', '/api/pending-briefs')[1])[0]['status'], 'generated')
         self.assertEqual(self.request('POST', '/api/reject-combination/restore', {'icon':'sub/square','svg_sha256':'abc'})[0], 200)
         self.assertEqual(json.loads(self.request('GET', '/api/pending-briefs')[1]), [])
-        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'pending')
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')
 
     def test_bad_split_or_stale_revision_never_creates_queue_rows(self):
         for change, status in [({'components': []},400), ({'svg_sha256':'stale'},409), ({'combination_type':'unknown'},400)]:

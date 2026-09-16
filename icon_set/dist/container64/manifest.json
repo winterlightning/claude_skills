@@ -3,7 +3,7 @@
   "family": "container",
   "profile": "CONTAINER64",
   "canvas_size": 64,
-  "count": 157,
+  "count": 162,
   "icons": [
     {
       "icon_id": "aiming-reticle",
@@ -16400,6 +16400,268 @@
       "relationships": [],
       "svg_path": "dist/container64/human-head-side-profile.svg",
       "svg_sha256": "afcc1fe0d6649ebc2c0f7ec7e043f148efefae590550f483d98ab712334888b9",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [],
+          "authored_hole_count": 0,
+          "raster_artifact_count": 0,
+          "hole_count": 0,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "human-head-side-profile-v2",
+      "name": "human-head-side-profile-v2",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "human",
+        "head",
+        "side",
+        "profile",
+        "mind"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "rear-neck",
+          "start": [
+            18,
+            62
+          ],
+          "end": [
+            18,
+            46
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "nape",
+          "start": [
+            18,
+            46
+          ],
+          "end": [
+            14,
+            38
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "rear-skull",
+          "start": [
+            14,
+            38
+          ],
+          "end": [
+            6,
+            22
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "crown",
+          "start": [
+            6,
+            22
+          ],
+          "end": [
+            46,
+            22
+          ],
+          "radius_x": 20,
+          "radius_y": 20,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "forehead-nose",
+          "start": [
+            46,
+            22
+          ],
+          "end": [
+            58,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "nose-base",
+          "start": [
+            58,
+            38
+          ],
+          "end": [
+            50,
+            38
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "face",
+          "start": [
+            50,
+            38
+          ],
+          "end": [
+            50,
+            46
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "chin",
+          "start": [
+            50,
+            46
+          ],
+          "end": [
+            42,
+            54
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "front-neck-turn",
+          "start": [
+            42,
+            54
+          ],
+          "end": [
+            38,
+            58
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "front-neck",
+          "start": [
+            38,
+            58
+          ],
+          "end": [
+            38,
+            62
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outline",
+          "members": [
+            "rear-neck",
+            "nape",
+            "rear-skull",
+            "crown",
+            "forehead-nose",
+            "nose-base",
+            "face",
+            "chin",
+            "front-neck-turn",
+            "front-neck"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [],
+      "variant_of": "human-head-side-profile",
+      "variant_label": "Smooth skull and neck transitions",
+      "svg_path": "dist/container64/human-head-side-profile-v2.svg",
+      "svg_sha256": "2f79a935d61c27fd4a58b0ecbd6ffe18c78ecd9784be542bc6bfa31332040dc8",
       "validation": {
         "status": "valid",
         "checks_run": [
@@ -39545,6 +39807,1243 @@
       }
     },
     {
+      "icon_id": "smartphone-with-store-awning-v2",
+      "name": "smartphone-with-store-awning-v2",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "smartphone",
+        "store",
+        "awning",
+        "shopping"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_L",
+      "keyshape_bounds": [
+        8,
+        0,
+        56,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "canopy-top",
+          "start": [
+            20,
+            2
+          ],
+          "end": [
+            44,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "canopy-ne",
+          "start": [
+            44,
+            2
+          ],
+          "end": [
+            50,
+            10
+          ],
+          "radius_x": 6,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "canopy-right",
+          "start": [
+            50,
+            10
+          ],
+          "end": [
+            54,
+            18
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-0",
+          "start": [
+            54,
+            18
+          ],
+          "end": [
+            44,
+            18
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-1",
+          "start": [
+            44,
+            18
+          ],
+          "end": [
+            32,
+            18
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-2",
+          "start": [
+            32,
+            18
+          ],
+          "end": [
+            20,
+            18
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-3",
+          "start": [
+            20,
+            18
+          ],
+          "end": [
+            10,
+            18
+          ],
+          "radius_x": 5,
+          "radius_y": 5,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "canopy-left",
+          "start": [
+            10,
+            18
+          ],
+          "end": [
+            14,
+            10
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "canopy-nw",
+          "start": [
+            14,
+            10
+          ],
+          "end": [
+            20,
+            2
+          ],
+          "radius_x": 6,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "awning-rule",
+          "start": [
+            14,
+            10
+          ],
+          "end": [
+            50,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-0",
+          "start": [
+            22,
+            10
+          ],
+          "end": [
+            20,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-1",
+          "start": [
+            32,
+            10
+          ],
+          "end": [
+            32,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-2",
+          "start": [
+            42,
+            10
+          ],
+          "end": [
+            44,
+            18
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            49,
+            23
+          ],
+          "end": [
+            49,
+            56
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-se",
+          "start": [
+            49,
+            56
+          ],
+          "end": [
+            43,
+            62
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-base",
+          "start": [
+            43,
+            62
+          ],
+          "end": [
+            21,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-sw",
+          "start": [
+            21,
+            62
+          ],
+          "end": [
+            15,
+            56
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            15,
+            56
+          ],
+          "end": [
+            15,
+            23
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "bezel",
+          "start": [
+            15,
+            46
+          ],
+          "end": [
+            49,
+            46
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "home",
+          "start": [
+            32,
+            54
+          ],
+          "end": [
+            32,
+            54
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "canopy",
+          "members": [
+            "canopy-top",
+            "canopy-ne",
+            "canopy-right",
+            "lobe-0",
+            "lobe-1",
+            "lobe-2",
+            "lobe-3",
+            "canopy-left",
+            "canopy-nw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-right",
+            "body-se",
+            "body-base",
+            "body-sw",
+            "body-left"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "awning-rule",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-0",
+            "awning-rule"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-0",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-1",
+            "awning-rule"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-1",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-2",
+            "awning-rule"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-2",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "body",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "bezel",
+            "body"
+          ]
+        }
+      ],
+      "variant_of": "smartphone-with-store-awning",
+      "variant_label": "Four balanced awning panels and restored phone bezel",
+      "svg_path": "dist/container64/smartphone-with-store-awning-v2.svg",
+      "svg_sha256": "efeb35239600cdaa61dbfa5033d264d8f0a0705bff8c712de1a4462932adecf9",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                19.9844,
+                5.9844
+              ],
+              "bbox_viewbox": [
+                16.25,
+                4.0,
+                31.5,
+                4.0
+              ],
+              "bbox_ship_px": [
+                31.5,
+                4.0
+              ],
+              "bbox_design_u": [
+                31.5,
+                4.0
+              ],
+              "area_ship_px2": 117.793,
+              "equivalent_diameter_ship_px": 12.2466,
+              "equivalent_diameter_design_u": 12.2466,
+              "inscribed_diameter_ship_px": 4.0,
+              "inscribed_diameter_design_u": 4.0,
+              "inscribed_radius_ship_px": 2.0,
+              "inscribed_radius_design_u": 2.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                15.2969,
+                17.9844
+              ],
+              "bbox_viewbox": [
+                12.0312,
+                12.0,
+                7.4062,
+                9.0
+              ],
+              "bbox_ship_px": [
+                7.4062,
+                9.0
+              ],
+              "bbox_design_u": [
+                7.4062,
+                9.0
+              ],
+              "area_ship_px2": 43.8203,
+              "equivalent_diameter_ship_px": 7.4695,
+              "equivalent_diameter_design_u": 7.4695,
+              "inscribed_diameter_ship_px": 5.3926,
+              "inscribed_diameter_design_u": 5.3926,
+              "inscribed_radius_ship_px": 2.6963,
+              "inscribed_radius_design_u": 2.6963,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 3,
+              "center_viewbox": [
+                26.0781,
+                17.9219
+              ],
+              "bbox_viewbox": [
+                22.0,
+                12.0,
+                8.0,
+                10.0
+              ],
+              "bbox_ship_px": [
+                8.0,
+                10.0
+              ],
+              "bbox_design_u": [
+                8.0,
+                10.0
+              ],
+              "area_ship_px2": 68.2432,
+              "equivalent_diameter_ship_px": 9.3215,
+              "equivalent_diameter_design_u": 9.3215,
+              "inscribed_diameter_ship_px": 7.8141,
+              "inscribed_diameter_design_u": 7.8141,
+              "inscribed_radius_ship_px": 3.9071,
+              "inscribed_radius_design_u": 3.9071,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 4,
+              "center_viewbox": [
+                37.9219,
+                17.9219
+              ],
+              "bbox_viewbox": [
+                34.0,
+                12.0,
+                8.0,
+                10.0
+              ],
+              "bbox_ship_px": [
+                8.0,
+                10.0
+              ],
+              "bbox_design_u": [
+                8.0,
+                10.0
+              ],
+              "area_ship_px2": 68.2432,
+              "equivalent_diameter_ship_px": 9.3215,
+              "equivalent_diameter_design_u": 9.3215,
+              "inscribed_diameter_ship_px": 7.8141,
+              "inscribed_diameter_design_u": 7.8141,
+              "inscribed_radius_ship_px": 3.9071,
+              "inscribed_radius_design_u": 3.9071,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 5,
+              "center_viewbox": [
+                48.7031,
+                17.9844
+              ],
+              "bbox_viewbox": [
+                44.5625,
+                12.0,
+                7.4062,
+                9.0
+              ],
+              "bbox_ship_px": [
+                7.4062,
+                9.0
+              ],
+              "bbox_design_u": [
+                7.4062,
+                9.0
+              ],
+              "area_ship_px2": 43.8203,
+              "equivalent_diameter_ship_px": 7.4695,
+              "equivalent_diameter_design_u": 7.4695,
+              "inscribed_diameter_ship_px": 5.3926,
+              "inscribed_diameter_design_u": 5.3926,
+              "inscribed_radius_ship_px": 2.6963,
+              "inscribed_radius_design_u": 2.6963,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 6,
+              "center_viewbox": [
+                31.9844,
+                34.4844
+              ],
+              "bbox_viewbox": [
+                17.0,
+                23.0938,
+                30.0,
+                20.9062
+              ],
+              "bbox_ship_px": [
+                30.0,
+                20.9062
+              ],
+              "bbox_design_u": [
+                30.0,
+                20.9062
+              ],
+              "area_ship_px2": 572.0166,
+              "equivalent_diameter_ship_px": 26.9873,
+              "equivalent_diameter_design_u": 26.9873,
+              "inscribed_diameter_ship_px": 19.0358,
+              "inscribed_diameter_design_u": 19.0358,
+              "inscribed_radius_ship_px": 9.5179,
+              "inscribed_radius_design_u": 9.5179,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 7,
+              "center_viewbox": [
+                22.9844,
+                53.9844
+              ],
+              "bbox_viewbox": [
+                17.0,
+                48.0,
+                30.0,
+                12.0
+              ],
+              "bbox_ship_px": [
+                30.0,
+                12.0
+              ],
+              "bbox_design_u": [
+                30.0,
+                12.0
+              ],
+              "area_ship_px2": 340.5381,
+              "equivalent_diameter_ship_px": 20.8227,
+              "equivalent_diameter_design_u": 20.8227,
+              "inscribed_diameter_ship_px": 12.0,
+              "inscribed_diameter_design_u": 12.0,
+              "inscribed_radius_ship_px": 6.0,
+              "inscribed_radius_design_u": 6.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 7,
+          "raster_artifact_count": 0,
+          "hole_count": 7,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "smartphone-with-store-awning-v3",
+      "name": "smartphone-with-store-awning-v3",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "smartphone",
+        "store",
+        "awning",
+        "shopping"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "VRECT_XL",
+      "keyshape_bounds": [
+        4,
+        0,
+        60,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "canopy-top",
+          "start": [
+            12,
+            2
+          ],
+          "end": [
+            52,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "canopy-ne",
+          "start": [
+            52,
+            2
+          ],
+          "end": [
+            56,
+            6
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "canopy-right",
+          "start": [
+            56,
+            6
+          ],
+          "end": [
+            58,
+            14
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-0",
+          "start": [
+            58,
+            14
+          ],
+          "end": [
+            46,
+            14
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-1",
+          "start": [
+            46,
+            14
+          ],
+          "end": [
+            32,
+            14
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-2",
+          "start": [
+            32,
+            14
+          ],
+          "end": [
+            18,
+            14
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "lobe-3",
+          "start": [
+            18,
+            14
+          ],
+          "end": [
+            6,
+            14
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "canopy-left",
+          "start": [
+            6,
+            14
+          ],
+          "end": [
+            8,
+            6
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "canopy-nw",
+          "start": [
+            8,
+            6
+          ],
+          "end": [
+            12,
+            2
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-0",
+          "start": [
+            20,
+            2
+          ],
+          "end": [
+            18,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-1",
+          "start": [
+            32,
+            2
+          ],
+          "end": [
+            32,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "panel-seam-2",
+          "start": [
+            44,
+            2
+          ],
+          "end": [
+            46,
+            14
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "body-right",
+          "start": [
+            52,
+            20
+          ],
+          "end": [
+            52,
+            56
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-se",
+          "start": [
+            52,
+            56
+          ],
+          "end": [
+            46,
+            62
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-base",
+          "start": [
+            46,
+            62
+          ],
+          "end": [
+            18,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "body-sw",
+          "start": [
+            18,
+            62
+          ],
+          "end": [
+            12,
+            56
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "body-left",
+          "start": [
+            12,
+            56
+          ],
+          "end": [
+            12,
+            20
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "home",
+          "start": [
+            32,
+            54
+          ],
+          "end": [
+            32,
+            54
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "canopy",
+          "members": [
+            "canopy-top",
+            "canopy-ne",
+            "canopy-right",
+            "lobe-0",
+            "lobe-1",
+            "lobe-2",
+            "lobe-3",
+            "canopy-left",
+            "canopy-nw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "body",
+          "members": [
+            "body-right",
+            "body-se",
+            "body-base",
+            "body-sw",
+            "body-left"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-0",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-1",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "panel-seam-2",
+            "canopy"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "body",
+            "canopy"
+          ]
+        }
+      ],
+      "variant_of": "smartphone-with-store-awning-v2",
+      "variant_label": "Wider screen and open awning panels",
+      "svg_path": "dist/container64/smartphone-with-store-awning-v3.svg",
+      "svg_sha256": "bf64bb55e0fe9829e7199c3cd75420595f3c28ea18141efb5199ce4a72f0b6f2",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                12.0781,
+                13.9219
+              ],
+              "bbox_viewbox": [
+                8.0,
+                4.0,
+                9.625,
+                14.0
+              ],
+              "bbox_ship_px": [
+                9.625,
+                14.0
+              ],
+              "bbox_design_u": [
+                9.625,
+                14.0
+              ],
+              "area_ship_px2": 99.8477,
+              "equivalent_diameter_ship_px": 11.2752,
+              "equivalent_diameter_design_u": 11.2752,
+              "inscribed_diameter_ship_px": 7.8141,
+              "inscribed_diameter_design_u": 7.8141,
+              "inscribed_radius_ship_px": 3.9071,
+              "inscribed_radius_design_u": 3.9071,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                25.0469,
+                13.6719
+              ],
+              "bbox_viewbox": [
+                20.0,
+                4.0,
+                10.0,
+                15.0
+              ],
+              "bbox_ship_px": [
+                10.0,
+                15.0
+              ],
+              "bbox_design_u": [
+                10.0,
+                15.0
+              ],
+              "area_ship_px2": 130.6836,
+              "equivalent_diameter_ship_px": 12.8993,
+              "equivalent_diameter_design_u": 12.8993,
+              "inscribed_diameter_ship_px": 9.9375,
+              "inscribed_diameter_design_u": 9.9375,
+              "inscribed_radius_ship_px": 4.9688,
+              "inscribed_radius_design_u": 4.9688,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 3,
+              "center_viewbox": [
+                38.9531,
+                13.6719
+              ],
+              "bbox_viewbox": [
+                34.0,
+                4.0,
+                10.0,
+                15.0
+              ],
+              "bbox_ship_px": [
+                10.0,
+                15.0
+              ],
+              "bbox_design_u": [
+                10.0,
+                15.0
+              ],
+              "area_ship_px2": 130.6836,
+              "equivalent_diameter_ship_px": 12.8993,
+              "equivalent_diameter_design_u": 12.8993,
+              "inscribed_diameter_ship_px": 9.9375,
+              "inscribed_diameter_design_u": 9.9375,
+              "inscribed_radius_ship_px": 4.9688,
+              "inscribed_radius_design_u": 4.9688,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 4,
+              "center_viewbox": [
+                51.9219,
+                13.9219
+              ],
+              "bbox_viewbox": [
+                46.375,
+                4.0,
+                9.625,
+                14.0
+              ],
+              "bbox_ship_px": [
+                9.625,
+                14.0
+              ],
+              "bbox_design_u": [
+                9.625,
+                14.0
+              ],
+              "area_ship_px2": 99.8477,
+              "equivalent_diameter_ship_px": 11.2752,
+              "equivalent_diameter_design_u": 11.2752,
+              "inscribed_diameter_ship_px": 7.8141,
+              "inscribed_diameter_design_u": 7.8141,
+              "inscribed_radius_ship_px": 3.9071,
+              "inscribed_radius_design_u": 3.9071,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 5,
+              "center_viewbox": [
+                31.9844,
+                36.8906
+              ],
+              "bbox_viewbox": [
+                14.0,
+                19.4688,
+                36.0,
+                40.5312
+              ],
+              "bbox_ship_px": [
+                36.0,
+                40.5312
+              ],
+              "bbox_design_u": [
+                36.0,
+                40.5312
+              ],
+              "area_ship_px2": 1358.5557,
+              "equivalent_diameter_ship_px": 41.5905,
+              "equivalent_diameter_design_u": 41.5905,
+              "inscribed_diameter_ship_px": 30.1915,
+              "inscribed_diameter_design_u": 30.1915,
+              "inscribed_radius_ship_px": 15.0957,
+              "inscribed_radius_design_u": 15.0957,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 5,
+          "raster_artifact_count": 0,
+          "hole_count": 5,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "soft-boiled-egg-in-cup",
       "name": "soft-boiled-egg-in-cup",
       "aliases": [],
@@ -46062,6 +47561,771 @@
               "area_ship_px2": 1291.1523,
               "equivalent_diameter_ship_px": 40.5456,
               "equivalent_diameter_design_u": 40.5456,
+              "inscribed_diameter_ship_px": 34.0,
+              "inscribed_diameter_design_u": 34.0,
+              "inscribed_radius_ship_px": 17.0,
+              "inscribed_radius_design_u": 17.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "tnt-detonator-plunger-v2",
+      "name": "tnt-detonator-plunger-v2",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "tnt",
+        "detonator",
+        "plunger",
+        "explosive"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "box-top",
+          "start": [
+            8,
+            24
+          ],
+          "end": [
+            32,
+            24
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-ne",
+          "start": [
+            32,
+            24
+          ],
+          "end": [
+            38,
+            30
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-right",
+          "start": [
+            38,
+            30
+          ],
+          "end": [
+            38,
+            56
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-se",
+          "start": [
+            38,
+            56
+          ],
+          "end": [
+            32,
+            62
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-bottom",
+          "start": [
+            32,
+            62
+          ],
+          "end": [
+            8,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-sw",
+          "start": [
+            8,
+            62
+          ],
+          "end": [
+            2,
+            56
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-left",
+          "start": [
+            2,
+            56
+          ],
+          "end": [
+            2,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-nw",
+          "start": [
+            2,
+            30
+          ],
+          "end": [
+            8,
+            24
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "plunger",
+          "start": [
+            20,
+            2
+          ],
+          "end": [
+            20,
+            24
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "handle",
+          "start": [
+            8,
+            2
+          ],
+          "end": [
+            32,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "wire-out",
+          "start": [
+            38,
+            50
+          ],
+          "end": [
+            46,
+            42
+          ],
+          "radius_x": 8,
+          "radius_y": 8,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "wire-rise",
+          "start": [
+            46,
+            42
+          ],
+          "end": [
+            46,
+            36
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "wire-crest",
+          "start": [
+            46,
+            36
+          ],
+          "end": [
+            58,
+            36
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "wire-fall",
+          "start": [
+            58,
+            36
+          ],
+          "end": [
+            58,
+            58
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "wire-foot",
+          "start": [
+            58,
+            58
+          ],
+          "end": [
+            62,
+            62
+          ],
+          "radius_x": 4,
+          "radius_y": 4,
+          "large_arc": false,
+          "sweep": false
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "box",
+          "members": [
+            "box-top",
+            "box-ne",
+            "box-right",
+            "box-se",
+            "box-bottom",
+            "box-sw",
+            "box-left",
+            "box-nw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "wire",
+          "members": [
+            "wire-out",
+            "wire-rise",
+            "wire-crest",
+            "wire-fall",
+            "wire-foot"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "handle",
+            "plunger"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "plunger",
+            "box"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "wire",
+            "box"
+          ]
+        }
+      ],
+      "variant_of": "tnt-detonator-plunger",
+      "variant_label": "Wider cable loop and balanced plunger",
+      "svg_path": "dist/container64/tnt-detonator-plunger-v2.svg",
+      "svg_sha256": "1edc592fedf4793a1a59e213097b04be25767229202d0fd98c7ec8ec26eb2add",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                19.9844,
+                41.9844
+              ],
+              "bbox_viewbox": [
+                4.0,
+                26.0,
+                32.0,
+                34.0
+              ],
+              "bbox_ship_px": [
+                32.0,
+                34.0
+              ],
+              "bbox_design_u": [
+                32.0,
+                34.0
+              ],
+              "area_ship_px2": 1074.2598,
+              "equivalent_diameter_ship_px": 36.9836,
+              "equivalent_diameter_design_u": 36.9836,
+              "inscribed_diameter_ship_px": 32.0,
+              "inscribed_diameter_design_u": 32.0,
+              "inscribed_radius_ship_px": 16.0,
+              "inscribed_radius_design_u": 16.0,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "d9a88672f16985c81a7dce285178d66f92e9f01027ffee21c8f3196bbfa3e091",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "tnt-detonator-plunger-v3",
+      "name": "tnt-detonator-plunger-v3",
+      "aliases": [],
+      "category": "containers",
+      "keywords": [
+        "tnt",
+        "detonator",
+        "plunger",
+        "explosive"
+      ],
+      "family": "container",
+      "profile": "CONTAINER64",
+      "canvas_size": 64,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        64,
+        64
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "box-top",
+          "start": [
+            8,
+            16
+          ],
+          "end": [
+            34,
+            16
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-ne",
+          "start": [
+            34,
+            16
+          ],
+          "end": [
+            40,
+            22
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-right",
+          "start": [
+            40,
+            22
+          ],
+          "end": [
+            40,
+            56
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-se",
+          "start": [
+            40,
+            56
+          ],
+          "end": [
+            34,
+            62
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-bottom",
+          "start": [
+            34,
+            62
+          ],
+          "end": [
+            8,
+            62
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-sw",
+          "start": [
+            8,
+            62
+          ],
+          "end": [
+            2,
+            56
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "box-left",
+          "start": [
+            2,
+            56
+          ],
+          "end": [
+            2,
+            22
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "box-nw",
+          "start": [
+            2,
+            22
+          ],
+          "end": [
+            8,
+            16
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "plunger",
+          "start": [
+            21,
+            2
+          ],
+          "end": [
+            21,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "handle",
+          "start": [
+            9,
+            2
+          ],
+          "end": [
+            33,
+            2
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "wire-out",
+          "start": [
+            40,
+            48
+          ],
+          "end": [
+            50,
+            38
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "line",
+          "element_id": "wire-rise",
+          "start": [
+            50,
+            38
+          ],
+          "end": [
+            50,
+            34
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "wire-crest",
+          "start": [
+            50,
+            34
+          ],
+          "end": [
+            62,
+            34
+          ],
+          "radius_x": 6,
+          "radius_y": 6,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "wire-fall",
+          "start": [
+            62,
+            34
+          ],
+          "end": [
+            62,
+            62
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "box",
+          "members": [
+            "box-top",
+            "box-ne",
+            "box-right",
+            "box-se",
+            "box-bottom",
+            "box-sw",
+            "box-left",
+            "box-nw"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "wire",
+          "members": [
+            "wire-out",
+            "wire-rise",
+            "wire-crest",
+            "wire-fall"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          32,
+          32
+        ],
+        "content-top-left": [
+          16,
+          16
+        ],
+        "content-bottom-right": [
+          48,
+          48
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "handle",
+            "plunger"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "plunger",
+            "box"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "wire",
+            "box"
+          ]
+        }
+      ],
+      "variant_of": "tnt-detonator-plunger-v2",
+      "variant_label": "Larger box and more open cable spacing",
+      "svg_path": "dist/container64/tnt-detonator-plunger-v3.svg",
+      "svg_sha256": "edb5e7f30a0188a58c9108542fa91aca755ef1ba2b8a8c34e0090fc517e33e9e",
+      "validation": {
+        "status": "valid",
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                20.9844,
+                34.9844
+              ],
+              "bbox_viewbox": [
+                4.0,
+                18.0,
+                34.0,
+                42.0
+              ],
+              "bbox_ship_px": [
+                34.0,
+                42.0
+              ],
+              "bbox_design_u": [
+                34.0,
+                42.0
+              ],
+              "area_ship_px2": 1414.2598,
+              "equivalent_diameter_ship_px": 42.4346,
+              "equivalent_diameter_design_u": 42.4346,
               "inscribed_diameter_ship_px": 34.0,
               "inscribed_diameter_design_u": 34.0,
               "inscribed_radius_ship_px": 17.0,

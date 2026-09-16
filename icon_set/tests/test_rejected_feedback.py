@@ -56,7 +56,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertEqual(code, 201)
         self.assertEqual(json.loads(body)['status'], 'rejected')
         for status in ('approve', 'pending', 'ready', 're-generated'):
-            self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status=status))[0], 409)
+            self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status=status, reason='bad-stroke'))[0], 409)
         self.assertEqual(self.request('POST', '/api/generation', dict(payload, mode='fix'))[0], 409)
         catalog = self.dist / 'gallery/icons.json'
         data = json.loads(catalog.read_text())
@@ -69,7 +69,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertEqual(self.request('POST', '/api/reject-combination/restore', payload)[0], 409)
         payload['svg_sha256'] = 'changed'
         self.assertEqual(self.request('POST', '/api/reject-combination/restore', payload)[0], 200)
-        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'pending')
+        self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')
         self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status='approve'))[0], 201)
         self.assertEqual(source.read_bytes(), before)
         self.assertEqual(json.loads(self.request('GET', '/api/feedback-feed')[1])[0]['feedback'], 'Keep for reference')
@@ -233,7 +233,8 @@ const assert = require('node:assert/strict');
 let reviews={'sub/rejected':'rejected','sub/approved':'approve'}, reviewsLoaded=true;
 let section='icons',reviewFilter='',selected={key:'sub/rejected'};
 const saving=new Set(), elements={};
-const $=id=>elements[id]||(elements[id]={});
+const $=id=>elements[id]||(elements[id]={setAttribute(){}});
+let pendingStatusKey=null;function updatePendingReason(){}
 const regeneratedVariants=()=>[{}];
 const buildChangeBrief=()=> 'brief';
 """ + code + """
@@ -244,7 +245,7 @@ assert.equal(inSection(approved),true);
 assert.equal(selectable(approved),true);assert.equal(selectable(rejected),false);
 reviewFilter='rejected';assert.equal(inSection(rejected),true);
 assert.equal(selectable(rejected),true);assert.equal(selectable(approved),false);
-section='final';assert.equal(inSection(rejected),false);assert.equal(inSection(approved),true);
+section='final';reviewFilter='';assert.equal(inSection(rejected),false);assert.equal(inSection(approved),true);
 assert.equal(feedbackIconState(rejected),'rejected');
 const files=feedbackBriefFiles([{id:1,icon:rejected.key},{id:2,icon:approved.key}],[rejected,approved]);
 assert.equal(files.length,1);assert.match(files[0].name,/approved/);

@@ -234,9 +234,9 @@ class ServerTests(unittest.TestCase):
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'ready')
         for status in ('pending', 're-generated', 'approve', 'ready', 'approve'):
             self.assertEqual(self.request('POST', '/api/reviews',
-                {'icon': key, 'svg_sha256': 'abc', 'status': status})[0], 201)
+                {'icon': key, 'svg_sha256': 'abc', 'status': status, 'reason': 'bad-stroke'})[0], 201)
             init_database(self.database)  # Startup migration preserves explicit choices.
-            self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], status)
+            self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'ready' if status == 're-generated' else status)
         catalog = self.dist / 'gallery/icons.json'
         data = json.loads(catalog.read_text())
         data['icons'][0]['svg_sha256'] = 'changed'
@@ -256,7 +256,7 @@ class ServerTests(unittest.TestCase):
         init_database(self.database)
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])[key], 'approve')
 
-    def test_published_variant_marks_pending_parent_regenerated(self):
+    def test_published_variant_is_ready_without_overriding_parent_disapproval(self):
         key = 'sub/square'
         self.request('POST', '/api/feedback',
                      {'icon': key, 'svg_sha256': 'abc', 'feedback': 'Round corners'})
@@ -266,7 +266,7 @@ class ServerTests(unittest.TestCase):
                                   icon_id='square-v2', variant_of='square'))
         catalog.write_text(json.dumps(data))
         states = json.loads(self.request('GET', '/api/reviews')[1])
-        self.assertEqual(states[key], 're-generated')
+        self.assertEqual(states[key], 'pending')
         self.assertEqual(states['sub/square-v2'], 'ready')
         self.request('POST', '/api/reviews',
                      {'icon': key, 'svg_sha256': 'abc', 'status': 'approve'})
