@@ -9,7 +9,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 import io
 
-from icon_set.scripts.gallery import add_creation_times, add_modification_times, remap_categories, stage_gallery, stage_preview
+from icon_set.scripts.gallery import add_creation_times, add_modification_times, remap_categories, stage_gallery, stage_preview, stage_review_facets
 from icon_set.scripts.deploy import create_server, init_database
 
 
@@ -23,6 +23,26 @@ def manifest(root, family, folder, name):
 
 
 class GalleryTests(unittest.TestCase):
+    def test_review_facets_require_matching_revision_and_complete_measurements(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            staged, published, target = root / 'stage', root / 'published', root / 'gallery'
+            target.mkdir()
+            records = [{'key': 'solo/a', 'family': 'solo', 'icon_id': 'a', 'svg_sha256': 'current'}]
+            relative = Path('qa/solo/a/metrics.json')
+            metrics = {'svg_sha256': 'current', 'symmetry': {'axes': [
+                {'axis': 'vertical', 'ink_symmetric': True, 'status': 'pass'},
+                {'axis': 'horizontal', 'ink_symmetric': False, 'status': 'not_applicable'}]}}
+            for directory, sha in [(staged, 'old'), (published, 'current')]:
+                (directory / relative).parent.mkdir(parents=True)
+                (directory / relative).write_text(json.dumps({**metrics, 'svg_sha256': sha}))
+            stage_review_facets(records, staged, published, target)
+            self.assertEqual(json.loads((target / 'review-facets.json').read_text()), {
+                'solo/a': {'svg_sha256': 'current', 'axes': ['vertical']}})
+            records[0]['svg_sha256'] = 'changed'
+            stage_review_facets(records, staged, published, target)
+            self.assertEqual(json.loads((target / 'review-facets.json').read_text()), {})
+
     def test_modification_tracks_content_but_not_checkout_timestamps(self):
         import os
         import subprocess

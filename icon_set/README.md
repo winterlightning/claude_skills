@@ -748,11 +748,18 @@ Failed build cards support selecting shown icons and **Discard selected**, with 
 
 ### Manual SVGs and the artwork source
 
-In **Editing**, download **Current SVG** (the selected version) or **Edited SVG**
-(the unsaved gallery geometry, without grid/selection overlays). Edit the SVG in
-your design tool and export it on the same 32/48/64 canvas. Upload it, choose a
-version, and click **Use this version**. The grid and Information/Review preview
-update immediately. The single `source_mode` flag is one of:
+**Editing** has three subtabs:
+
+- **Browser Edit**: move, resize, validate, and save strokes; download the edited SVG or JSON.
+- **Manual Edit**: download the currently displayed SVG, edit it in your design tool,
+  and upload/save the result on the same 32/48/64 canvas.
+- **Pick**: compare Original, Browser Edit, and Manual Edit side by side, then click
+  **Display selected version**. The current display choice is marked.
+
+Saving a manual upload prepares a candidate. It does not change the gallery or
+build output until picked, even when an older manual version is currently used.
+Missing versions show instructions instead of empty or broken previews.
+The single `source_mode` flag is one of:
 
 - `use_org`: the original Python-generated geometry.
 - `use_upload`: the saved SVG from the design tool.
@@ -760,7 +767,7 @@ update immediately. The single `source_mode` flag is one of:
 
 Switching versions preserves the uploaded SVG and selected edit snapshot. Saving
 more gallery edits does not silently replace the selected snapshot; choose
-**Gallery edited → Use this version** to adopt the new saved revision. Gallery
+**Pick → Browser Edit → Display selected version** to adopt the new saved revision. Gallery
 edits must pass validation or have a saved human force-pass reason. Choosing an
 upload records the human source selection; its build status is `human-selected`
 and primitive validation is `not-run`, because the old Python graph does not
@@ -815,7 +822,14 @@ control points scale with their geometry.
 It changes the guide and the JSON's `edited_graph.keyshape` / `keyshape_bounds`,
 without automatically resizing strokes. **Auto resize to keyshape** scales the
 whole icon independently on each axis and centers it in the selected bounds,
-keeping stroke width unchanged. It runs validation afterward and supports undo;
+keeping stroke width unchanged. It then snaps path endpoints, curve knots, and
+arc radii to the integer grid. Bézier handles move with their adjacent knots to
+preserve their tangent directions; fractional control handles remain supported.
+The resulting coordinates are the same in the canvas, validation request, SVG
+and JSON downloads, and saved edits. Auto resize records an optional `geometry`
+base in the v2 handoff, keeping the authored `original_graph` intact; later moves
+and resizes apply on top of that base. Reset restores original coordinates.
+It runs validation afterward and supports undo;
 geometry and spacing failures still need repair. A circular keyshape also needs
 to pass radial containment, beyond matching its width and height. The selection participates in undo/redo, browser
 recovery, server saves, and JSON downloads; Reset all restores the original shape.

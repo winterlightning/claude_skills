@@ -42,6 +42,21 @@ class ArtworkTests(unittest.TestCase):
         with self.assertRaises(EditConflict):
             self.store.save(self.icon, self.data | {'svg_sha256': 'stale'}, 'jakes', self.edits)
 
+    def test_manual_upload_is_saved_separately_from_the_picked_version(self):
+        data = dict(self.data, action='upload')
+        first = self.store.save(self.icon, data, 'jakes', self.edits)
+        self.assertEqual(first['source_mode'], 'use_org')
+        self.assertIsNone(resolve_artwork(self.icon, first))
+        picked = self.store.save(self.icon, dict(self.data, revision=1), 'jakes', self.edits)
+        displayed = resolve_artwork(self.icon, picked)['svg']
+        second = self.store.save(self.icon, dict(data, revision=2, svg=SVG.replace('#123456','#654321')), 'hina', self.edits)
+        self.assertEqual(second['source_mode'], 'use_upload')
+        self.assertEqual(second['selected_by'], 'jakes')
+        self.assertEqual(resolve_artwork(self.icon, second)['svg'], displayed)
+        self.assertNotEqual(resolve_artwork(self.icon, second, variant='use_upload')['svg'], displayed)
+        selected = self.store.save(self.icon, {'svg_sha256': self.icon['svg_sha256'], 'revision':3, 'source_mode':'use_upload'}, 'hina', self.edits)
+        self.assertEqual(resolve_artwork(self.icon, selected)['svg'], second['uploaded']['svg'])
+
     def test_svg_rejects_active_external_empty_or_wrong_canvas(self):
         for content in [SVG.replace('<path ', '<path onclick="alert(1)" '),
                         SVG.replace('<path ', '<image href="https://example.com/x"/><path '),
@@ -117,6 +132,37 @@ class ArtworkTests(unittest.TestCase):
 
 
 class ArtworkAPITests(StrokeEditAPITests):
+    def test_pick_can_preview_a_saved_browser_edit_before_it_is_selected(self):
+        icon = portrait()
+        (self.dist/'gallery/icons.json').write_text(json.dumps({'icons':[icon]}))
+        edit = self.server.stroke_edits.save(icon, {'svg_sha256':'fixture', 'revision':0,
+                         'offsets':{}, 'scales':{'contour:outline':[.875,1]}, 'keyshape':'VRECT_M'}, 'jakes')
+        import http.client
+        connection=http.client.HTTPConnection('127.0.0.1',self.server.server_port)
+        connection.request('GET','/api/icon-artwork/svg?icon=solo/editor-experiment&variant=browser_edit')
+        response=connection.getresponse()
+        self.assertEqual(response.status,200)
+        self.assertEqual(response.read().decode(),icon_from_graph(edit['edited_graph']).to_svg())
+        connection.close()
+        self.assertIsNone(self.server.artwork.get(icon['key']))
+
+    def test_published_manual_svg_still_displays_without_local_choice_store(self):
+        icon = portrait()
+        document = safe_svg(SVG,48)
+        row = dict(icon, artwork_source='use_upload', generated_graph=dict(icon),
+                   generated_svg_sha256='fixture', svg_sha256=sha(document), preview_url='../solo48/editor-experiment.svg')
+        (self.dist/'solo48').mkdir()
+        (self.dist/'solo48/editor-experiment.svg').write_text(document)
+        (self.dist/'gallery/icons.json').write_text(json.dumps({'icons':[row]}))
+        self.assertEqual(self.call('GET','/gallery/icons.json')[1]['icons'][0]['artwork_source'],'use_upload')
+        import http.client
+        connection=http.client.HTTPConnection('127.0.0.1',self.server.server_port)
+        connection.request('GET','/api/icon-artwork/svg?icon=solo/editor-experiment')
+        response=connection.getresponse()
+        self.assertEqual(response.status,200)
+        self.assertEqual(response.read().decode(),document)
+        connection.close()
+
     def test_upload_api_auth_storage_and_live_catalog(self):
         icon = portrait()
         (self.dist/'gallery/icons.json').write_text(json.dumps({'icons':[icon]}))

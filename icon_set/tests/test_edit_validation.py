@@ -19,6 +19,39 @@ def portrait():
 
 
 class EditValidationTests(unittest.TestCase):
+    def test_auto_resize_goggles_snaps_browser_geometry_before_validation_and_save(self):
+        import json
+        import subprocess
+        from icon_set.model.icons.solo.apple_vision_pro_space_volume_3d52a574_2cf8_4bbf_95ef_7eaebf475a4e import AppleVisionProSpaceVolume
+        icon = AppleVisionProSpaceVolume().to_record() | {'key': 'solo/apple-vision-pro-space-volume', 'svg_sha256': 'fixture'}
+        with tempfile.TemporaryDirectory() as folder:
+            store = StrokeEditStore(folder)
+            data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'scales': {'contour:goggles': [1, .875]}, 'keyshape': 'HRECT_M'}
+            before = store.validate(icon, data)
+            self.assertEqual(before['status'], 'fail')
+            self.assertTrue(any('22.25' in error for error in before['errors']))
+            self.assertTrue(any('30.125' in error for error in before['errors']))
+            _, _, raw = store.graph_for(icon, data)
+            # Exercise the real browser snap implementation, then the real Python validator.
+            script = "const fs=require('fs'),vm=require('vm');const c=vm.createContext({window:{},document:{addEventListener(){}}});vm.runInContext(fs.readFileSync('icon_set/scripts/templates/stroke-editor.js','utf8'),c);process.stdout.write(JSON.stringify(c.window.StrokeEditor.snapGeometry(JSON.parse(fs.readFileSync(0,'utf8')),24)));"
+            result = subprocess.run(['node', '-e', script], cwd=Path(__file__).resolve().parents[2], input=json.dumps(raw['primitives']), text=True, capture_output=True, check=True)
+            geometry = json.loads(result.stdout)
+            data.update(scales={}, geometry=geometry, validate=True)
+            report = store.validate(icon, data)
+            self.assertEqual(report['status'], 'pass', report['errors'])
+            self.assertEqual(set(report['checks'].values()), {'pass'})
+            self.assertEqual(geometry[1]['end'][1], 22)
+            self.assertEqual(geometry[3]['end'][1], 30)
+            saved = store.save(icon, data, 'jakes')
+            self.assertEqual(saved['edited_graph']['primitives'], geometry)
+            self.assertEqual(saved['validation']['graph_sha256'], report['graph_sha256'])
+            self.assertIsNone(saved['validation_override'])
+            self.assertEqual(store.get(icon['key'], 'fixture')['geometry'], geometry)
+            # Legacy translation requests preserve the new snapped base as well.
+            legacy = store.save(icon, {k: v for k, v in dict(data, revision=1).items() if k!='geometry'}, 'jakes')
+            self.assertEqual(legacy['validation']['status'], 'pass')
+            self.assertEqual(legacy['edited_graph']['primitives'], geometry)
+
     def test_human_override_is_attributed_and_bound_to_exact_geometry(self):
         with tempfile.TemporaryDirectory() as folder:
             store, icon = StrokeEditStore(folder), portrait()

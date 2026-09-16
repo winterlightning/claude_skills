@@ -1,6 +1,6 @@
 ---
 name: icon-review
-description: Visually review existing Pictographic icons for intended symmetry, proportions, keyshape choice, and profile fit, then write concrete repair briefs. Use for AI design review, missed diagonal or local symmetry, cramped or stretched silhouettes, and profile-aware fix suggestions. Hand-authored; edit this file directly.
+description: Visually review whether Pictographic icons convincingly communicate their intended concepts, then assess symmetry, proportions, keyshape choice, and profile fit. Suggest recognizable concept-specific redesigns and concrete repairs when needed. Use for AI icon review and feedback on meaning or drawing quality. Hand-authored; edit this file directly.
 ---
 
 # Icon review
@@ -51,6 +51,54 @@ The helper records model and full build-QA findings. Treat them as measured
 evidence, separate from the agent's design judgment. A `pass` does not certify
 good design; `not_applicable` from the symmetry checker means only that neither
 of its horizontal/vertical ink-overlap triggers fired.
+
+## Judge whether the drawing communicates the concept
+
+Review meaning before geometric polish for every icon. Establish the intended
+concept from the user's brief or selected concept name, using the icon ID,
+description, aliases and category to resolve context. A source reference shows
+one depiction; it does not override the requested concept. If the available
+names conflict or the concept is ambiguous, state the interpretation and its
+uncertainty instead of silently choosing a different subject.
+
+Separately describe what the rendered drawing actually resembles at native
+size. Mentally set aside its label: name the visible silhouette, parts, pose or
+symbol relationship and the cues that support your interpretation. Do not claim
+this is a blind recognition test or proof of how all users will interpret it.
+Knowing the title must not become evidence that the drawing conveys the title.
+
+Give a concept-match assessment: **convincing**, **weak**, **mismatch**, or
+**uncertain**. Explain which visible cues communicate the concept, which are
+missing or misleading, and any plausible competing reading. Distinguish a
+recognizable broad class from the requested specific concept when that
+distinction matters (a generic string instrument may not clearly read as an
+acoustic guitar). For an abstract concept, assess whether the visual metaphor
+or action/state relationship communicates it in its intended context.
+
+If meaning is weak or wrong, prioritize a concept-specific redesign over merely
+polishing the current paths. Suggest how to draw the requested concept:
+
+- Choose a readable viewpoint, silhouette or visual metaphor and explain why
+  it would distinguish the concept from the current competing reading.
+- Name the minimum identity-bearing features and their relative proportions,
+  positions and connections. State what to retain, replace, add or remove.
+- Give a construction brief with a legal keyshape, major shapes, layout,
+  intended symmetry/asymmetry and a feasible detail/clearance budget for this
+  profile. A different construction may be necessary; do not limit repairs to
+  the existing element arrangement.
+- State the expected visual reading and how to compare it with the current
+  drawing at native size. Treat an unrendered redesign as a recommendation,
+  not a demonstrated improvement.
+
+Do not solve a meaning failure by renaming the icon to match the bad drawing,
+adding a text label that explains it, or introducing a prohibited combination.
+Do not restore every real-world detail: retain only cues that help recognition
+and survive the profile's stroke/spacing rules. Preserve explicit user choices;
+if an omitted feature seems essential, explain that tradeoff and seek another
+construction before proposing to restore it. Existing concept examples do not
+force a defect: if the meaning is convincing, say why and continue the visual
+and profile review. A whole-icon `keep` requires convincing meaning as well as
+acceptable drawing quality; a numeric pass or perfect symmetry is insufficient.
 
 ## Decide what should be symmetric
 
@@ -172,7 +220,8 @@ A concept sketch or coordinate proposal remains unvalidated until implemented.
 ## Deliver the review or carry out requested fixes
 
 Save a concise `review.md` beside the evidence. Include icon/source identity and
-SVG hash, profile/keyshape and its keep/change rationale, visual verdict
+SVG hash, intended concept, observed visual reading, concept-match assessment
+and evidence, profile/keyshape and its keep/change rationale, visual verdict
 (`keep`, `repair`, or `uncertain`),
 symmetry intent/scope/axis/confidence, numeric QA status separately, actionable
 findings, and an executable authoring brief naming the relevant family skill.

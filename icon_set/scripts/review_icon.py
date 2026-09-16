@@ -94,7 +94,8 @@ def run_review(runner, record, document, output):
     result_path = output/'result.json'
     template = runner.root/'icon_set/scripts/templates/review_icon_prompt.md'
     prompt = template.read_text().replace('{{ICON_JSON}}', json.dumps({k: record.get(k) for k in
-        ('key', 'icon_id', 'profile', 'keyshape', 'artwork_source', 'svg_sha256', 'python_source')}, indent=2))
+        ('key', 'icon_id', 'name', 'description', 'aliases', 'keywords', 'category',
+         'semantic_kind', 'profile', 'keyshape', 'artwork_source', 'svg_sha256', 'python_source')}, indent=2))
     (output/'prompt.txt').write_text(prompt)
     args = [os.environ.get('CODEX_BIN', 'codex'), '-a', 'never', 'exec', '--sandbox', 'read-only',
             '--skip-git-repo-check', '-C', str(workspace), '--output-schema', str(schema),
@@ -191,7 +192,9 @@ def main(argv=None):
     from icon_set.model.icons.registry import create
     from icon_set.scripts.icon_artwork import sha
     icon = create(args.icon)
-    record = dict(icon_id=icon.icon_id, key=icon.family+'/'+icon.icon_id, family=icon.family,
+    record = dict(icon_id=icon.icon_id, name=icon.icon_id, aliases=list(icon.aliases),
+                  keywords=list(icon.keywords), category=icon.category, semantic_kind=icon.semantic_kind,
+                  key=icon.family+'/'+icon.icon_id, family=icon.family,
                   canvas_size=icon.profile.spec.canvas_size, profile=icon.profile.name,
                   keyshape=icon.keyshape.name, svg_sha256=sha(icon.to_svg()), artwork_source='use_org')
     runner = GenerationManager(ROOT, ROOT/'icon_set/dist', args.out/'runner')

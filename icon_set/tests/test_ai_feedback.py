@@ -117,7 +117,7 @@ class FeedbackAPITests(unittest.TestCase):
     def test_uploaded_artwork_is_sent_instead_of_python(self):
         from icon_set.scripts.deploy import GalleryHandler
         record = dict(key='sub/square', svg_sha256='uploaded', artwork_source='use_upload')
-        with patch.object(GalleryHandler, 'catalog', return_value={'sub/square': record}), \
+        with patch.object(GalleryHandler, 'catalog_icon', return_value=record), \
              patch('icon_set.scripts.deploy.resolve_artwork', return_value={'svg': '<svg>uploaded</svg>'}), \
              patch.object(self.server.ai_feedback, 'start', return_value={'id': 'a'*32}) as start:
             self.assertEqual(self.request('POST', '/api/ai-feedback', {'icon': record['key'], 'svg_sha256': 'uploaded'})[0], 202)

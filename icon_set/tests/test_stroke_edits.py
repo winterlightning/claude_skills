@@ -75,6 +75,23 @@ class StrokeEditTests(unittest.TestCase):
         path.write_text(json.dumps(legacy))
         self.assertEqual(load_edit(path)['schema'], 'pictographic.stroke-edit.v1')
 
+    def test_geometry_coordinates_cannot_replace_strokes_or_metadata(self):
+        geometry = deepcopy(self.icon['primitives'])
+        geometry[0]['start'] = [3, 2]
+        saved = self.store.save(self.icon, dict(self.data, geometry=geometry), 'jakes')
+        self.assertEqual(saved['edited_graph']['primitives'][0]['start'], [6, 1])
+        for bad in ([], {}, [dict(geometry[0], element_id='replacement')]+geometry[1:],
+                    [dict(geometry[0], start=[float('nan'), 2])]+geometry[1:],
+                    [dict(geometry[0], start=[True, 2])]+geometry[1:],
+                    [dict(geometry[0], start=[4097, 2])]+geometry[1:],
+                    [geometry[0], dict(geometry[1], radius_x=0), geometry[2]],
+                    geometry[:2]+[dict(geometry[2], segments=[])]):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                self.store.save(self.icon, dict(self.data, revision=1, geometry=bad), 'jakes')
+        reset = self.store.save(self.icon, dict(self.data, revision=1, geometry=None, offsets={}), 'jakes')
+        self.assertIsNone(reset['geometry'])
+        self.assertEqual(reset['edited_graph'], reset['original_graph'])
+
     def test_stale_writer_and_changed_icon_do_not_overwrite(self):
         def save():
             try:

@@ -150,12 +150,22 @@ class ArtworkStore(StrokeEditStore):
         mode = data.get('source_mode')
         if mode not in MODES:
             raise ValueError('Choose original, uploaded, or gallery-edited artwork.')
+        upload_only = data.get('action') == 'upload'
+        if upload_only and 'svg' not in data:
+            raise ValueError('Choose an SVG file to save.')
         key = icon['key']
         with self.locked(key):
             old = self.get(key)
             if type(data.get('revision')) is not int or data['revision'] != (old or {}).get('revision', 0):
                 raise EditConflict('Someone changed this artwork. Reload the source choices before saving.')
+            if upload_only:
+                mode = (old or {}).get('source_mode', 'use_org')
             result = deepcopy(old) if old else {'schema': 'pictographic.icon-artwork.v1', 'icon': key}
+            if old:
+                result.setdefault('selected_by', old.get('updated_by'))
+                result.setdefault('selected_at', old.get('updated_at'))
+            if old and old.get('source_mode') == 'use_upload' and not result.get('selected_upload'):
+                result['selected_upload'] = deepcopy(old['uploaded'])
             now = datetime.now(timezone.utc).isoformat()
             if 'svg' in data:
                 document = safe_svg(data['svg'], icon['canvas_size'])
@@ -164,7 +174,7 @@ class ArtworkStore(StrokeEditStore):
                                       'uploaded_by': user, 'uploaded_at': now}
             if mode == 'use_upload' and not result.get('uploaded'):
                 raise ValueError('Upload an SVG before choosing the uploaded version.')
-            if mode == 'use_edited':
+            if mode == 'use_edited' and not upload_only:
                 # Bind selection to the revision the human actually saw.
                 with edits.locked(key):
                     edit = edits.get(key, icon['svg_sha256'])
@@ -176,7 +186,10 @@ class ArtworkStore(StrokeEditStore):
                 result['edited'] = edit
             result.update(source_mode=mode, source_svg_sha256=icon['svg_sha256'],
                           revision=(old or {}).get('revision', 0)+1, updated_by=user, updated_at=now)
-            if mode == 'use_upload':
+            if not upload_only:
+                result.update(selected_by=user, selected_at=now)
+            if mode == 'use_upload' and not upload_only:
+                result['selected_upload'] = deepcopy(result['uploaded'])
                 result['manual_review'] = {'reviewed_by': user, 'reviewed_at': now,
                                            'svg_sha256': result['uploaded']['svg_sha256']}
             temporary = None
@@ -201,7 +214,7 @@ def resolve_artwork(record, choice, *, variant=None):
     if not choice:
         raise ValueError('That artwork version has not been saved.')
     if mode == 'use_upload':
-        uploaded = choice.get('uploaded')
+        uploaded = choice.get('uploaded') if variant else choice.get('selected_upload', choice.get('uploaded'))
         if not uploaded or sha(uploaded['svg']) != uploaded['svg_sha256']:
             raise ValueError('Uploaded SVG is missing or its content changed.')
         return {'svg': uploaded['svg'], 'svg_sha256': uploaded['svg_sha256'], 'source_mode': mode,

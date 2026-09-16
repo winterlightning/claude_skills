@@ -383,7 +383,7 @@ def _stage_family(
                               debug_dir=qa_dir / key if debug and qa_dir else None)
         if manual:
             qa['artwork_source'] = manual['source_mode']
-            qa['human_selection'] = {'by': choice['updated_by'], 'at': choice['updated_at']}
+            qa['human_selection'] = {'by': choice.get('selected_by', choice['updated_by']), 'at': choice.get('selected_at', choice['updated_at'])}
             if manual['validation_override']:
                 qa['automatic_status'] = qa['status'] if manual['source_mode']=='use_edited' else 'not-run'
                 qa['validation_override'] = manual['validation_override']

@@ -14,6 +14,31 @@ from urllib.parse import quote
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
+def stage_review_facets(records: list[dict], staged: Path, published: Path, target: Path) -> None:
+    """Expose small, revision-checked symmetry measurements for gallery filtering."""
+    facets = {}
+    for record in records:
+        relative = Path('qa') / record['family'] / record['icon_id'] / 'metrics.json'
+        for root in (staged, published):
+            try:
+                metrics = json.loads((root / relative).read_text(encoding='utf-8'))
+            except (OSError, ValueError):
+                continue
+            if metrics.get('svg_sha256') != record.get('svg_sha256'):
+                continue
+            axes = metrics.get('symmetry', {}).get('axes', [])
+            if not {'vertical', 'horizontal'} <= {axis.get('axis') for axis in axes}:
+                continue
+            facets[record['key']] = {
+                'svg_sha256': record['svg_sha256'],
+                'axes': [axis['axis'] for axis in axes
+                         if axis.get('ink_symmetric') and axis.get('status') == 'pass'],
+            }
+            break
+    (target / 'review-facets.json').write_text(
+        json.dumps(facets, ensure_ascii=False, sort_keys=True) + '\n', encoding='utf-8')
+
+
 def add_creation_times(records: list[dict], published: Path) -> None:
     """Persist first-known source dates so rebuilding/deploying does not reorder icons."""
     previous = published / 'gallery' / 'icons.json'
@@ -339,6 +364,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     remap_categories(records + failed_records, catalog)
     add_creation_times(records + failed_records, published)
     add_modification_times(records + failed_records, published)
+    stage_review_facets(records, staged, published, target)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')

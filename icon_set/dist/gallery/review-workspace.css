@@ -122,3 +122,28 @@ body.review-page>header p,body.generation-page>header p{margin:0;line-height:1.6
 
 body.review-page>.site-footer,body.generation-page>.site-footer{padding-left:32px;padding-right:32px}
 @media(max-width:750px){body.review-page>.site-footer,body.generation-page>.site-footer{padding-left:22px;padding-right:22px}}
+
+/* Compact, composable filters for the icon review grid. */
+.review-page .review-filter-panel{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding:8px;border:1px solid #dce3db;border-radius:8px;background:#fff;margin-bottom:8px}
+.review-page .filter-search-row,.review-page .filter-refine-row{display:contents}
+.review-page .filter-search-row #search{flex:0 1 220px;width:220px;min-width:140px}
+.review-page .review-filter-panel label{display:flex;align-items:center;gap:5px;margin:0;font-size:12px;white-space:nowrap}
+.review-page .review-filter-panel input,.review-page .review-filter-panel select{font-size:12px;padding:6px 8px;min-height:32px;min-width:0;max-width:100%}
+.review-page .more-filters{margin:0;font-size:12px;color:#66756a}
+.review-page .more-filters summary{width:fit-content;padding:4px 0}
+.review-page .more-filters[open]{flex-basis:100%}
+.review-page .filter-extra-row{display:flex;align-items:center;flex-wrap:wrap;gap:8px 12px;padding-top:6px}
+.review-page #pendingFeedbackControls{flex-wrap:wrap}
+.review-page .filter-summary{display:flex;align-items:center;gap:10px;margin:0;flex-wrap:wrap}
+.review-page .filter-summary:has(#activeFilters[hidden]){display:none}
+.review-page #activeFilters{display:flex;gap:5px;flex-wrap:wrap}
+.review-page .filter-chip{font-size:11px;background:#eff4eb;border-color:#dce5d7;border-radius:5px;padding:4px 6px;text-align:left}
+.review-page #clearFilters{border:0;background:transparent;color:#446d50;font-size:12px;padding:4px 0;white-space:nowrap}
+.review-page .review-tabs{margin-bottom:8px;gap:4px}
+.review-page .review-tabs button{padding:6px 10px}
+.review-page .view-options{margin-bottom:8px}
+.review-page .selection-bar{height:38px;min-height:38px;padding:6px 0;margin-bottom:8px}
+body.review-page>header:not(.site-header){padding-top:18px}
+body.review-page>main{padding-top:14px}
+.review-page .workspace-tabs{margin-bottom:14px!important}
+@media(max-width:600px){.review-page .review-filter-panel{gap:8px}.review-page .filter-search-row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;width:100%}.review-page .filter-search-row #search{width:140px;flex:1;min-width:100px}.review-page .filter-refine-row,.review-page .filter-extra-row{display:flex;align-items:stretch;flex-direction:column;width:100%;gap:8px}.review-page .filter-refine-row label,.review-page .filter-extra-row label{justify-content:space-between;white-space:normal}.review-page .filter-refine-row select,.review-page .filter-extra-row select{max-width:65%}.review-page #pendingFeedbackControls{width:100%}.review-page #pendingFeedbackControls label{width:100%}}

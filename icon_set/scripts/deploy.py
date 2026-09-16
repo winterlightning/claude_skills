@@ -365,7 +365,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response(self.artwork_response(icon))
                 variant = parse_qs(parsed.query).get('variant', [None])[0]
                 choice = self.server.artwork.get(key)
-                selected = resolve_artwork(icon, choice, variant=variant)
+                if variant == 'browser_edit':
+                    edit = self.server.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
+                    if not edit:
+                        raise ValueError('No browser edit has been saved yet.')
+                    selected = {'svg': icon_from_graph(edit['edited_graph']).to_svg()}
+                else:
+                    selected = resolve_artwork(icon, choice, variant=variant)
                 if not choice and variant is None and icon.get('artwork_source', 'use_org') != 'use_org':
                     # A published manual SVG still displays when only dist was copied.
                     # Editing its source choice requires restoring persistent storage.

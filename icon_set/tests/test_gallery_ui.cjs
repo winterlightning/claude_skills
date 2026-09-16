@@ -152,6 +152,52 @@ async function main() {
   sorting.run('urlReady=true;restoreURL();');
   assert.equal(sorting.run("$('iconSort').value"),'modified-newest','Shared URL restores modification sort');
 
+  const facets = page('gallery');
+  facets.run(`icons=[
+    {key:'solo/a',icon_id:'a',name:'A',family:'solo',svg_sha256:'a1',keyshape:'CIRCLE',primitives:[{element_id:'a'},{element_id:'b'},{element_id:'c'}],contours:[{members:['a','b','c']}],original_sources:[{}]},
+    {key:'solo/b',icon_id:'b',name:'B',family:'solo',svg_sha256:'b1',keyshape:'SQUARE',primitives:[{element_id:'a'},{element_id:'b'}],variant_of:'a'},
+    {key:'solo/c',icon_id:'c',name:'C',family:'solo',svg_sha256:'c2'}
+  ];reviewFacets={'solo/a':{svg_sha256:'a1',axes:['vertical','horizontal']},'solo/b':{svg_sha256:'b1',axes:[]},'solo/c':{svg_sha256:'c1',axes:['vertical']}};reviewsLoaded=true;`);
+  assert.equal(facets.run('strokeCount(icons[0])'),1,'A contour is one drawn stroke');
+  facets.run("$('iconSort').value='strokes-desc';");
+  assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),'b,a,c','Unknown counts sort last');
+  facets.run("$('iconSort').value='segments-desc';");
+  assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),'a,b,c','Segments differ from continuous strokes');
+  for(const [symmetry,expected] of [['both','a'],['vertical','a'],['symmetric','a'],['asymmetric','b'],['unknown','c']]){
+    facets.run(`$('symmetryFilter').value='${symmetry}';`);
+    assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),expected,'Symmetry '+symmetry+' ignores stale measurements');
+  }
+  facets.run("$('symmetryFilter').value='';$('strokeFilter').value='1-3';$('keyshapeFilter').value='CIRCLE';");
+  assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),'a','Geometry filters combine');
+  facets.run("$('keyshapeFilter').value='';$('versionFilter').value='variant';");
+  assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),'b');
+  facets.run("$('clearFilters').onclick();$('referenceFilter').value='without';");
+  assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),'b,c');
+  facets.run("$('referenceFilter').value='';reviews={'solo/a':'pending','solo/b':'pending','solo/c':'pending'};render=()=>{};");
+  facets.context.fetch=async()=>({ok:true,json:async()=>[
+    {id:10,icon:'solo/a',svg_sha256:'a1',reason:'meaning'},
+    {id:8,icon:'solo/a',svg_sha256:'a1',reason:'bad-stroke'},
+    {id:11,icon:'solo/c',svg_sha256:'c1',reason:'meaning'},
+    {id:9,icon:'solo/b',svg_sha256:'b1',reason:'bad-draw'}
+  ]});
+  await facets.run('loadPendingFeedback()');
+  for(const [reason,expected] of [['meaning','a'],['bad-stroke','b'],['missing','c']]){
+    facets.run(`$('reasonFilter').value='${reason}';$('reasonFilter').onchange();`);
+    assert.equal(facets.run('reviewFilter'),'pending');
+    assert.equal(facets.run('filteredIcons().map(i=>i.icon_id).join()'),expected,'Latest current revision reason '+reason);
+  }
+  facets.context.window.location={href:'http://localhost/gallery/index.html',search:'?family=solo&symmetry=both&strokes=1-3&sort=strokes-desc'};
+  let facetURL;
+  facets.context.window.history={replaceState(_s,_t,url){facetURL=url;},pushState(_s,_t,url){facetURL=url;}};
+  facets.run(`for(const [id,values] of [['family',['','solo']],['symmetryFilter',['','both']],['strokeFilter',['','1-3']]])$(id).options=values.map(value=>({value}));urlReady=true;loadReviews=()=>{};restoreURL();`);
+  assert.equal(facets.run("$('symmetryFilter').value"),'both');
+  assert.equal(facets.run("$('iconSort').value"),'strokes-desc');
+  assert.equal(facetURL.searchParams.get('strokes'),'1-3','Facets survive URL restoration');
+  facets.run("page=4;selectedKeys.add('solo/a');$('clearFilters').onclick();");
+  assert.equal(facets.run('page'),1);
+  assert.equal(facets.run('selectedKeys.size'),0);
+  assert.equal(facetURL.searchParams.has('symmetry'),false,'Clear removes URL filters');
+
   const removal = page('gallery');
   removal.run(`feedbackRows=[{id:1,icon:'solo/a',feedback:'Round it'},{id:2,icon:'solo/a',feedback:'Keep'}];
     renderFeedback=()=>{};loadFeedback=async()=>{};loadPendingFeedback=async()=>{};

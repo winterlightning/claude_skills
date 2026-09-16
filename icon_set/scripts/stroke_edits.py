@@ -63,7 +63,44 @@ def normalized_scales(icon, scales):
     return result
 
 
-def edited_graph(icon, offsets, scales=None):
+def normalized_geometry(icon, geometry):
+    """Editable coordinates only; profile, IDs, topology and arc flags stay authored."""
+    if geometry is None:
+        return None
+    original = icon['primitives']
+    if not isinstance(geometry, list) or len(geometry) != len(original):
+        raise ValueError('Edited geometry must keep the original strokes.')
+    def number(value, positive=False):
+        if type(value) not in (int, float) or not math.isfinite(value) or abs(value) > 4096 or (positive and value <= 0):
+            raise ValueError('Edited coordinates must be finite and within 4096 units; radii must be positive.')
+        return grid_number(value)
+    def point(value):
+        if not isinstance(value, list) or len(value) != 2:
+            raise ValueError('Edited points must have two coordinates.')
+        return [number(n) for n in value]
+    result = []
+    for source, candidate in zip(original, geometry):
+        coordinates = {'start', 'end'} | ({'segments'} if source['kind']=='bezier' else
+                                         {'radius_x', 'radius_y'} if source['kind']=='arc' else set())
+        if (not isinstance(candidate, dict) or set(candidate) != set(source) or
+                any(candidate[key] != value for key, value in source.items() if key not in coordinates)):
+            raise ValueError('Edited geometry cannot change stroke IDs, kinds, or topology.')
+        primitive = deepcopy(source)
+        primitive.update(start=point(candidate['start']), end=point(candidate['end']))
+        if source['kind']=='bezier':
+            segments = candidate['segments']
+            if not isinstance(segments, list) or len(segments) != len(source['segments']) or any(not isinstance(segment, list) or len(segment)!=3 for segment in segments):
+                raise ValueError('Edited curves must keep their original segments.')
+            primitive['segments'] = [[point(p) for p in segment] for segment in segments]
+            if primitive['segments'][-1][-1] != primitive['end']:
+                raise ValueError('The last curve knot must match its endpoint.')
+        elif source['kind']=='arc':
+            primitive.update(radius_x=number(candidate['radius_x'], True), radius_y=number(candidate['radius_y'], True))
+        result.append(primitive)
+    return result
+
+
+def edited_graph(icon, offsets, scales=None, geometry=None):
     groups = {g['id']: g for g in stroke_groups(icon)}
     if not isinstance(offsets, dict) or not set(offsets) <= groups.keys():
         raise ValueError('Unknown stroke in edit.')
@@ -78,6 +115,9 @@ def edited_graph(icon, offsets, scales=None):
             normalized[key] = offset
             by_member.update({member: offset for member in groups[key]['members']})
     graph = {key: deepcopy(icon[key]) for key in GRAPH_FIELDS if key in icon}
+    geometry = normalized_geometry(icon, geometry)
+    if geometry is not None:
+        graph['primitives'] = geometry
     for primitive in graph['primitives']:
         dx, dy = by_member.get(primitive['element_id'], (0, 0))
         sx, sy = scale_by_member[primitive['element_id']]
@@ -132,7 +172,7 @@ class StrokeEditStore:
             raise EditConflict('The icon changed. Reload before checking or saving edits.')
         old = old or {}
         scales = normalized_scales(icon, data.get('scales', old.get('scales', {})))
-        offsets, graph = edited_graph(icon, data.get('offsets'), scales)
+        offsets, graph = edited_graph(icon, data.get('offsets'), scales, data.get('geometry', old.get('geometry')))
         keyshape = data.get('keyshape', old.get('keyshape', icon.get('keyshape')))
         if keyshape is not None:
             if not isinstance(keyshape, str):
@@ -202,6 +242,7 @@ class StrokeEditStore:
                 raise EditConflict('Someone saved newer edits. Download your draft, then reload saved edits.')
             # Older clients can still translate an edit without erasing its resize.
             offsets, scales, graph = self.graph_for(icon, data, old)
+            geometry = normalized_geometry(icon, data.get('geometry', (old or {}).get('geometry')))
             override = (old or {}).get('validation_override')
             if override and (override.get('graph_sha256') != graph_sha256(graph) or
                              override.get('source_svg_sha256') != sha):
@@ -218,13 +259,13 @@ class StrokeEditStore:
                                 'source_svg_sha256': sha, 'graph_sha256': graph_sha256(graph)}
             validation = {'status': 'not-run', 'note': 'Run validation on these edits before publishing.'}
             if data.get('validate') is True or override:
-                validation = self.validate(icon, dict(data, scales=scales, keyshape=graph.get('keyshape')))
+                validation = self.validate(icon, dict(data, scales=scales, keyshape=graph.get('keyshape'), geometry=geometry))
             document = {
                 'schema': 'pictographic.stroke-edit.v2', 'icon': key,
                 'source_svg_sha256': sha, 'python_source': icon.get('python_source'),
                 'revision': data['revision'] + 1,
                 'updated_at': datetime.now(timezone.utc).isoformat(), 'updated_by': user,
-                'status': 'pending', 'offsets': offsets, 'scales': scales,
+                'status': 'pending', 'offsets': offsets, 'scales': scales, 'geometry': geometry,
                 'scale_origin': [icon['canvas_size'] / 2, icon['canvas_size'] / 2],
                 'stroke_groups': stroke_groups(icon),
                 'original_graph': {k: deepcopy(icon[k]) for k in GRAPH_FIELDS if k in icon},

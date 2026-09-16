@@ -41,6 +41,24 @@
     }
     return result;
   }
+  function snapGeometry(primitives, center) {
+    // Use symmetric tie-breaking around the canvas center, including half units.
+    const snap=value=>center+Math.sign(value-center)*Math.floor(Math.abs(value-center)+.5);
+    const point=p=>p.map(snap), shift=(p,from,to)=>p.map((n,i)=>round(n+to[i]-from[i]));
+    return primitives.map(source=>{
+      const p=clone(source);p.start=point(source.start);p.end=point(source.end);
+      if(p.kind==='bezier'){
+        let from=source.start,to=p.start;
+        p.segments=source.segments.map(([c1,c2,end])=>{
+          const knot=point(end),segment=[shift(c1,from,to),shift(c2,end,knot),knot];
+          from=end;to=knot;return segment;
+        });
+      }else if(p.kind==='arc'){
+        p.radius_x=Math.max(1,Math.round(p.radius_x));p.radius_y=Math.max(1,Math.round(p.radius_y));
+      }
+      return p;
+    });
+  }
   function round(n) { return Math.round(n*1e6)/1e6; }
   // SVG getBBox uses float precision; don't display 31.999998 for a snapped 32.
   function measured(n) { return Math.abs(n-Math.round(n))<1e-5 ? Math.round(n) : round(n); }
@@ -54,10 +72,11 @@
   let icon = null, strokes = [], offsets = {}, scales = {}, savedOffsets = {}, savedScales = {}, saved = null, baseRevision = 0;
   let selected = '', undo = [], redo = [], drag = null, request = 0, ready = false, busy = false, loaded = false;
   let selectionBounds=null, iconBounds=null;
-  let keyshape='',savedKeyshape='',validation=null,checking=false,override=null;
-  const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape});
+  let keyshape='',savedKeyshape='',validation=null,checking=false,override=null,geometry=null,savedGeometry=null;
+  const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry)});
+  const workingIcon=()=>({...icon,primitives:geometry || icon.primitives});
   const experiment=()=>{
-    const result={...icon,keyshape};
+    const result={...workingIcon(),keyshape};
     const spec=window.IconGuides?.resolve(result);
     if(spec?.bounds)result.keyshape_bounds=[...spec.bounds];
     if(keyshape!=='FREE')delete result.free_keyshape;
@@ -65,7 +84,7 @@
   };
   const targets=()=> $('strokeScope').value==='icon'?strokes:strokes.filter(g=>g.id===selected);
   const activeId=()=>targets()[0]?.id;
-  const geometryDirty = () => JSON.stringify(offsets) !== JSON.stringify(savedOffsets) || JSON.stringify(scales)!==JSON.stringify(savedScales) || keyshape!==savedKeyshape;
+  const geometryDirty = () => JSON.stringify(offsets) !== JSON.stringify(savedOffsets) || JSON.stringify(scales)!==JSON.stringify(savedScales) || keyshape!==savedKeyshape || JSON.stringify(geometry)!==JSON.stringify(savedGeometry);
   const overrideRequest=()=>override ? {reason:override.reason} : null;
   const overrideDirty=()=>JSON.stringify(overrideRequest())!==JSON.stringify(saved?.validation_override ? {reason:saved.validation_override.reason} : null);
   const dirty=()=>geometryDirty() || overrideDirty();
@@ -74,7 +93,7 @@
   const draftKey = () => 'pictographic-stroke-edit:'+icon.key+':'+icon.svg_sha256;
   function remember() {
     try {
-      if (dirty()) localStorage.setItem(draftKey(), JSON.stringify({revision:baseRevision,offsets,scales,keyshape,validation_override:overrideRequest()}));
+      if (dirty()) localStorage.setItem(draftKey(), JSON.stringify({revision:baseRevision,offsets,scales,keyshape,geometry,validation_override:overrideRequest()}));
       else localStorage.removeItem(draftKey());
     } catch { $('strokeStatus').textContent = 'Browser backup is unavailable. Save edits or download JSON before leaving.'; }
   }
@@ -91,7 +110,7 @@
     $('strokeOverrideReason').value=override?.reason || '';
     $('strokeUndo').disabled = blocked || !undo.length;
     $('strokeRedo').disabled = blocked || !redo.length;
-    $('strokeResetAll').disabled = blocked || !Object.keys(offsets).length && !Object.keys(scales).length && keyshape===(icon?.keyshape || '');
+    $('strokeResetAll').disabled = blocked || !Object.keys(offsets).length && !Object.keys(scales).length && keyshape===(icon?.keyshape || '') && !geometry;
     $('strokeReload').disabled = busy;
     $('strokeKeyshape').disabled=blocked;
     $('strokeKeyshape').value=keyshape;
@@ -139,7 +158,7 @@
       for (const g of strokes) ghost.append(node('path',{d:pathData(icon,g)}));
       canvas.append(ghost);
     }
-    const edited=translatedGraph(icon,strokes,offsets,scales), bounds=[], allBounds=[];
+    const edited=translatedGraph(workingIcon(),strokes,offsets,scales), bounds=[], allBounds=[];
     const targetIds=new Set(targets().map(g=>g.id));
     for (const g of strokes) {
       const path = node('path',{d:pathData(edited,g),fill:'none',stroke:targetIds.has(g.id)?'#287650':'#24352c','stroke-width':width,'stroke-linecap':icon.style?.line_cap || 'round','stroke-linejoin':icon.style?.line_join || 'round','data-stroke':g.id,'pointer-events':'stroke'});
@@ -157,7 +176,7 @@
   }
   function change(next, history = true) {
     if (history) { undo.push(state()); if (undo.length > 100) undo.shift(); redo=[]; }
-    offsets = next.offsets; scales=next.scales; keyshape=next.keyshape ?? keyshape;override=null;validation=null;renderValidation('Edits changed. Run validation again.');draw(); $('strokeStatus').textContent = dirty() ? 'Unsaved edits · save to keep them on this server.' : 'Matches the saved version.'; remember();
+    offsets = next.offsets; scales=next.scales;geometry=clone(next.geometry ?? null); keyshape=next.keyshape ?? keyshape;override=null;validation=null;renderValidation('Edits changed. Run validation again.');draw(); $('strokeStatus').textContent = dirty() ? 'Unsaved edits · save to keep them on this server.' : 'Matches the saved version.'; remember();
   }
   function apply(next,history=true){if(JSON.stringify(next)!==JSON.stringify(state()))change(next,history);}
   function move(dx,dy,history=true,basis=state()) {
@@ -188,8 +207,10 @@
       if(scale.every(n=>n===1))delete next.scales[g.id];else next.scales[g.id]=scale;
       if(offset.every(n=>n===0))delete next.offsets[g.id];else next.offsets[g.id]=offset;
     }
+    next.geometry=snapGeometry(translatedGraph(workingIcon(),strokes,next.offsets,next.scales).primitives,c);
+    next.offsets={};next.scales={};
     $('strokeScope').value='icon';apply(next);draw();
-    $('strokeStatus').textContent=`Resized to ${w} × ${h} keyshape bounds. Validation checks whether the geometry fits.`;
+    $('strokeStatus').textContent=`Fitted to ${w} × ${h} keyshape bounds and snapped path nodes to the grid. Validation checks the resulting geometry.`;
     await validate();
   }
   function resize(sx,sy,history=true,basis=state(),pivot=selectionBounds) {
@@ -228,12 +249,12 @@
       if (!response.ok) throw Error(data.error || 'Could not load saved edits.');
       if (token!==request) return;
       if (data.svg_sha256 !== icon.svg_sha256) throw Error('The icon changed on this server. Refresh the gallery before editing.');
-      saved=data.edit; override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
+      saved=data.edit;geometry=clone(saved?.geometry || null);savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
       offsets=clone(saved?.offsets || {}); scales=clone(saved?.scales || {});savedOffsets=clone(offsets);savedScales=clone(scales);keyshape=saved?.keyshape || icon.keyshape || '';savedKeyshape=keyshape; undo=[]; redo=[];
       let draft=null;
       try { if (discard) localStorage.removeItem(draftKey()); else draft=JSON.parse(localStorage.getItem(draftKey()) || 'null'); } catch {}
       if (draft && Number.isInteger(draft.revision) && draft.offsets && Object.entries(draft.offsets).every(([id,offset]) => strokes.some(g=>g.id===id) && Array.isArray(offset) && offset.length===2 && offset.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=1024))) {
-        if(validScales(draft.scales || {})){offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
+        if(validScales(draft.scales || {}) && validGeometry(draft.geometry ?? null)){geometry=clone(draft.geometry ?? null);offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
       }
       validation=!geometryDirty() && saved?.validation?.status!=='not-run'?saved?.validation:null;renderValidation();
       ready=true; draw();
@@ -279,7 +300,7 @@
     const token=request, snapshot=JSON.stringify(state());
     busy=true;checking=true;validation=null;renderValidation('Checking current geometry and keyshape…');controls();
     try{
-      const response=await fetch('../api/stroke-edits/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({icon:icon.key,svg_sha256:icon.svg_sha256,offsets:clone(offsets),scales:clone(scales),keyshape})});
+      const response=await fetch('../api/stroke-edits/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({icon:icon.key,svg_sha256:icon.svg_sha256,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry)})});
       if(!(response.headers.get('content-type') || '').includes('application/json'))throw Error('Validation needs the updated gallery server. Restart it and try again.');
       const result=await response.json();if(!response.ok)throw Error(result.error || 'Validation could not run.');
       if(token!==request || snapshot!==JSON.stringify(state()))return;
@@ -289,14 +310,14 @@
   }
   async function save() {
     if (!ready || busy || !overrideValid() || (!dirty() && !validationNeedsSave())) return;
-    const token=request, body={icon:icon.key,svg_sha256:icon.svg_sha256,revision:baseRevision,offsets:clone(offsets),scales:clone(scales),keyshape:keyshape || undefined,validate:!!validation,validation_override:overrideRequest()};
+    const token=request, body={icon:icon.key,svg_sha256:icon.svg_sha256,revision:baseRevision,offsets:clone(offsets),scales:clone(scales),keyshape:keyshape || undefined,geometry:clone(geometry),validate:!!validation,validation_override:overrideRequest()};
     busy=true;controls();$('strokeStatus').textContent='Saving edits to this server…';
     try {
       const response=await fetch('../api/stroke-edits',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
       const data=await response.json();
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
-      saved=data; override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      saved=data;geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
       window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
     } catch(error) { if (token===request) $('strokeStatus').textContent=error.message+' Your draft is still here.'; }
@@ -304,7 +325,7 @@
   }
   function download() {
     if (!ready) return;
-    const handoff = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:translatedGraph(experiment(),strokes,offsets,scales),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
+    const handoff = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:translatedGraph(experiment(),strokes,offsets,scales),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
     if(dirty()){handoff.validation_override_request=overrideRequest();handoff.validation_override=null;handoff.effective_validation_status='not-run';}
     const url=URL.createObjectURL(new Blob([JSON.stringify(handoff,null,2)+'\n'],{type:'application/json'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-stroke-edits.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
@@ -318,11 +339,12 @@
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
+  function validGeometry(value){return value===null || Array.isArray(value) && value.length===icon.primitives.length && value.every((p,i)=>p && p.element_id===icon.primitives[i].element_id && p.kind===icon.primitives[i].kind && [p.start,p.end,...(p.segments || []).flat()].every(point=>Array.isArray(point) && point.length===2 && point.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=4096)));}
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
   function open(next) {
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
-    request++;icon=next;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
+    request++;icon=next;geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
     $('strokeKeyshape').replaceChildren(...(window.IconGuides?.choices(icon) || [{name:keyshape,label:keyshape}]).map(item=>{const option=document.createElement('option');option.value=item.name;option.textContent=item.label;return option;}));
     $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();tab('review');
   }
@@ -352,8 +374,8 @@
       const rx=id==='strokeScaleX'?ratio:1, ry=id==='strokeScaleY'?ratio:1;
       resize(previous[0]*rx,previous[1]*ry);
     };
-    $('strokeReset').onclick=()=>{const next=state();for(const g of targets()){delete next.offsets[g.id];delete next.scales[g.id];}apply(next);};
-    $('strokeResetAll').onclick=()=>apply({offsets:{},scales:{},keyshape:icon.keyshape || ''});
+    $('strokeReset').onclick=()=>{const next=state();for(const g of targets()){delete next.offsets[g.id];delete next.scales[g.id];if(next.geometry)for(const id of g.members){const i=icon.primitives.findIndex(p=>p.element_id===id);next.geometry[i]=clone(icon.primitives[i]);}}if(JSON.stringify(next.geometry)===JSON.stringify(icon.primitives))next.geometry=null;apply(next);};
+    $('strokeResetAll').onclick=()=>apply({offsets:{},scales:{},geometry:null,keyshape:icon.keyshape || ''});
     $('strokeUndo').onclick=()=>{if(!undo.length)return;redo.push(state());change(undo.pop(),false);};
     $('strokeRedo').onclick=()=>{if(!redo.length)return;undo.push(state());change(redo.pop(),false);};
     $('strokeDownloadSVG').onclick=downloadSVG;$('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
@@ -386,6 +408,6 @@
     };
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,groups,pathData,translatedGraph,snappedResize,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();
