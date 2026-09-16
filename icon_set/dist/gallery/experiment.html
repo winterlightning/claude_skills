@@ -1,0 +1,12 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Experiment · Pictographic</title><link rel="stylesheet" href="site.css"><link rel="stylesheet" href="experiment.css"><script src="site.js" defer></script><script src="experiment.js" defer></script></head>
+<body class="guest experiment-page">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="reviewers.html">Dashboard</a><a href="experiment.html" aria-current="page">Experiment</a><a href="primitives.html">Progression</a></nav></header>
+<main class="experiment-main">
+<div class="experiment-heading"><div><h1>Experiment</h1><p>Color and fill studies from the approved icon collection.</p></div><a id="reviewCollection" class="site-button" hidden>Review this collection ↗</a></div>
+<nav class="experiment-tabs" aria-label="Experiment collections"><a href="experiment.html?type=color" data-type="color" aria-current="page">Color icons <span id="colorCount"></span></a><a href="experiment.html?type=fill" data-type="fill">Fill icons <span id="fillCount"></span></a></nav>
+<section class="experiment-controls" aria-label="Experiment controls"><label class="search-label">Find an icon<input id="experimentSearch" type="search" placeholder="Search name or sample number"></label><label>Size<select id="experimentSize"><option value="96">96 px</option><option value="native">Native size</option><option value="24">24 px</option></select></label><p id="experimentStatus" role="status" aria-live="polite">Loading samples…</p></section>
+<section id="experimentGrid" class="experiment-grid" aria-label="Color icons"></section>
+<p id="experimentEmpty" hidden>No samples match your search.</p>
+<nav class="experiment-pagination" aria-label="Sample pages"><button id="previousSamples" disabled>← Previous</button><label>Page<select id="samplePage" aria-label="Sample page"></select></label><span id="pageTotal"></span><button id="nextSamples" disabled>Next →</button></nav>
+</main></body></html>
