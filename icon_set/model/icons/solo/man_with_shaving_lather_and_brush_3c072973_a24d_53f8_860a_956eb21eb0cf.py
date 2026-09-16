@@ -12,6 +12,7 @@ SOURCE_PATH = 'pictographic-primitives/beauty/beard style shave_3c072973-a24d-53
 SOURCE_ICON_IDS = ('3c072973-a24d-53f8-860a-956eb21eb0cf',)
 SOURCE_PATHS = ('pictographic-primitives/beauty/beard style shave_3c072973-a24d-53f8-860a-956eb21eb0cf.svg',)
 AUTHOR = 'gpt-6'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 
 class ManWithShavingLatherAndBrush(Solo48):

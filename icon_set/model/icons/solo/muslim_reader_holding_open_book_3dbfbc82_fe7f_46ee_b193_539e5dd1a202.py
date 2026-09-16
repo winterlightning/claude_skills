@@ -26,19 +26,6 @@ class Drawing(Solo48):
         def path(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
         def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
         def connect(a,b): self.relate('connect',a,b)
-        def circle(n,x,y,r):
-            pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
-            for j in range(4): arc(n+str(j),pts[j],pts[j+1],r)
-            join(n,*(n+str(j) for j in range(4)),closed=True)
-        def box(n,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w//2,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+w//2,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            curves={2,4,7,9}
-            for j in range(10):
-                a,b=pts[j],pts[(j+1)%10]
-                if a==b: continue
-                if j in curves: arc(n+str(j),a,b,r)
-                else: line(n+str(j),a,b)
-            join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
         arc('crown',(16,12),(32,12),8)
         arc('jaw',(32,12),(16,12),8)

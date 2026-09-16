@@ -5,11 +5,92 @@ import inspect
 import re
 import sys
 import shutil
+import subprocess
+from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import quote
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def add_creation_times(records: list[dict], published: Path) -> None:
+    """Persist first-known source dates so rebuilding/deploying does not reorder icons."""
+    previous = published / 'gallery' / 'icons.json'
+    saved = json.loads(previous.read_text()) if previous.is_file() else {}
+    known = {row['key']: row for row in saved.get('icons', []) + saved.get('failed_icons', [])}
+    dates = {}
+    try:
+        history = subprocess.run(
+            ['git', 'log', '--format=@%ct', '--name-only', '--diff-filter=A', '--', 'icon_set/model/icons'],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True, timeout=30).stdout
+        timestamp = None
+        for line in history.splitlines():
+            if line.startswith('@'):
+                timestamp = datetime.fromtimestamp(int(line[1:]), timezone.utc).isoformat()
+            elif line and timestamp:
+                dates[line] = timestamp
+    except (OSError, subprocess.SubprocessError, ValueError):
+        pass  # Existing published dates remain usable without Git on production.
+    for row in records:
+        old = known.get(row['key'], {})
+        if old.get('created_at'):
+            row['created_at'] = old['created_at']
+            row['created_at_source'] = old.get('created_at_source', 'recorded')
+            continue
+        source = (row.get('python_source') or {}).get('path')
+        if source in dates:
+            row['created_at'] = dates[source]
+            row['created_at_source'] = 'source-first-commit'
+        elif source and (REPO_ROOT / source).is_file():
+            stat = (REPO_ROOT / source).stat()
+            birth = getattr(stat, 'st_birthtime', None)
+            row['created_at'] = datetime.fromtimestamp(birth or stat.st_mtime, timezone.utc).isoformat()
+            row['created_at_source'] = 'source-created' if birth else 'source-modified-fallback'
+
+
+def add_modification_times(records: list[dict], published: Path) -> None:
+    """Keep modification dates for identical content, including after a fresh checkout."""
+    previous = published / 'gallery' / 'icons.json'
+    saved = json.loads(previous.read_text()) if previous.is_file() else {}
+    known = {row['key']: row for row in saved.get('icons', []) + saved.get('failed_icons', [])}
+    dates, dirty = {}, set()
+    try:
+        history = subprocess.run(
+            ['git', 'log', '--format=@%ct', '--name-only', '--', 'icon_set/model/icons'],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True, timeout=30).stdout
+        timestamp = None
+        for line in history.splitlines():
+            if line.startswith('@'):
+                timestamp = datetime.fromtimestamp(int(line[1:]), timezone.utc).isoformat()
+            elif line and timestamp:
+                dates.setdefault(line, timestamp)
+        dirty = set(subprocess.run(
+            ['git', 'diff', '--name-only', 'HEAD', '--', 'icon_set/model/icons'],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True, timeout=30).stdout.splitlines())
+    except (OSError, subprocess.SubprocessError, ValueError):
+        dates = {}
+    for row in records:
+        old = known.get(row['key'], {})
+        source = (row.get('python_source') or {}).get('path')
+        path = REPO_ROOT / source if source else None
+        digest = hashlib.sha256(path.read_bytes()).hexdigest() if path and path.is_file() else None
+        if (old.get('modified_at') and old.get('modified_source_sha256') == digest
+                and old.get('svg_sha256') == row.get('svg_sha256')):
+            row['modified_at'] = old['modified_at']
+            row['modified_at_source'] = old.get('modified_at_source', 'recorded')
+        elif (old.get('modified_at') and old.get('modified_source_sha256') == digest
+                and old.get('svg_sha256') != row.get('svg_sha256')):
+            row['modified_at'] = datetime.now(timezone.utc).isoformat()
+            row['modified_at_source'] = 'changed-svg-build'
+        elif source in dates and source not in dirty:
+            row['modified_at'] = dates[source]
+            row['modified_at_source'] = 'source-last-commit'
+        elif digest:
+            row['modified_at'] = datetime.fromtimestamp(path.stat().st_mtime, timezone.utc).isoformat()
+            row['modified_at_source'] = 'source-modified'
+        if digest:
+            row['modified_source_sha256'] = digest
 
 
 def original_sources() -> dict[str, list[Path]]:
@@ -256,6 +337,8 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
                    passed=sum(record['family'] in FOCUS_FAMILIES for record in records))
     catalog = stage_primitives(target, records, failed_records)
     remap_categories(records + failed_records, catalog)
+    add_creation_times(records + failed_records, published)
+    add_modification_times(records + failed_records, published)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')

@@ -1,0 +1,56 @@
+"""Moustached Spy in Notched Hat.
+
+Symbol plan: Notched fedora over a circular face and broad curved moustache; a diagonal lapel identifies the overcoat.
+VRECT_L centerline extremes (8,4)-(40,44); exact envelope selected for the subject's proportions.
+Construction reference: Shared human_ref/user.svg: circular jaw, broad smooth shoulders and zero-ink-gap head/body contact. Supplied reference defines headwear; tiny trim is omitted.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
+SOURCE_ICON_ID = 'fdb61354-d224-4d50-a10a-6f7b6bebc996'
+SOURCE_PATH = 'pictographic-primitives/avatars/police man spy 1_fdb61354-d224-4d50-a10a-6f7b6bebc996.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'moustached-spy-in-notched-hat'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'avatars'
+    aliases = ()
+    keywords = ('spy', 'hat', 'sunglasses', 'person', 'portrait', 'disguise', 'agent', 'detective')
+
+    def build(self) -> None:
+
+        def line(n,a,b): self.add_line(n,a,b)
+        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
+        def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
+        def connect(a,b): self.relate('connect',a,b)
+
+        self.add_bezier('crown',(11,16),((12,10),(14,4),(18,4)),((21,4),(20,8),(24,8)),((28,8),(27,4),(30,4)),((34,4),(36,10),(37,16)))
+
+        arc('face-right',(37,16),(36,21),13)
+        arc('face-lower-right',(36,21),(24,29),13)
+        arc('face-lower-left',(24,29),(12,21),13)
+        arc('face-left',(12,21),(11,16),13)
+        join('face','face-right','face-lower-right','face-lower-left','face-left')
+        connect('face','crown')
+        line('brim-left',(8,16),(11,16));line('brim-right',(37,16),(40,16))
+        connect('brim-left','crown');connect('brim-right','crown');connect('brim-left','face');connect('brim-right','face')
+        arc('moustache-left',(12,21),(24,21),6,2)
+        arc('moustache-right',(24,21),(36,21),6,2)
+        join('moustache','moustache-left','moustache-right');connect('moustache','face')
+        bottom=29
+
+        top = bottom + HEAD_BODY_CENTERLINE_GAP
+        line('body-left-side',(8,44),(8,42))
+        arc('body-left-shoulder',(8,42),(18,top),10,42-top)
+        join('body-left','body-left-side','body-left-shoulder')
+        line('body-top',(18,top),(24,top))
+        line('body-top-right',(24,top),(30,top))
+        arc('body-right-shoulder',(30,top),(40,42),10,42-top)
+        line('body-right-side',(40,42),(40,44))
+        join('body-right','body-right-shoulder','body-right-side')
+        connect('body-left','body-top');connect('body-top','body-top-right');connect('body-top-right','body-right')
+        connect('face','body-top');connect('face','body-top-right')
+
+        line('body-wrap',(30,top),(18,44));connect('body-wrap','body-top-right')

@@ -23,22 +23,7 @@ class Drawing(Solo48):
 
         def line(n,a,b): self.add_line(n,a,b)
         def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def path(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
         def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-        def connect(a,b): self.relate('connect',a,b)
-        def circle(n,x,y,r):
-            pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
-            for j in range(4): arc(n+str(j),pts[j],pts[j+1],r)
-            join(n,*(n+str(j) for j in range(4)),closed=True)
-        def box(n,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w//2,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+w//2,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            curves={2,4,7,9}
-            for j in range(10):
-                a,b=pts[j],pts[(j+1)%10]
-                if a==b: continue
-                if j in curves: arc(n+str(j),a,b,r)
-                else: line(n+str(j),a,b)
-            join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
         arc('wave',(10,8),(10,40),6,16,s=False)
         arc('ear-top',(24,18),(44,18),10)
@@ -46,6 +31,4 @@ class Drawing(Solo48):
         line('ear-neck',(36,30),(36,34))
         arc('ear-lobe',(36,34),(24,34),6)
         join('ear','ear-top','ear-right','ear-neck','ear-lobe')
-        line('fold-top',(33,18),(33,22))
-        arc('fold-turn',(33,22),(29,26),4)
-        join('fold','fold-top','fold-turn')
+        line('fold',(33,18),(31,22))

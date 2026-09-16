@@ -39,9 +39,9 @@ class PerfumeBottleWithSqueezeBulb(Solo48):
             path(name,(x,y-r),[("A",(x,y+r),r,r,True),("A",(x,y-r),r,r,True)],True)
 
         path("bottle",(28,22),[("L",(36,22)),("C",(44,30),(40,22),(44,26)),("C",(40,40),(44,34),(40,38)),("L",(24,40)),("C",(20,30),(24,38),(20,34)),("C",(28,22),(20,26),(24,22))],True)
-        self.add_polyline("atomizer",(28,22),(28,16),(28,8),(36,8),(36,22))
+        self.add_polyline("atomizer",(28,22),(28,13),(28,8),(36,8),(36,22))
         self.relate("connect","bottle","atomizer")
-        path("bulb",(20,16),[("A",(4,16),8,6,True),("A",(20,16),8,6,True)],True)
-        self.add_line("tube",(20,16),(28,16))
+        path("bulb",(20,13),[("A",(4,13),8,5,True),("A",(20,13),8,5,True)],True)
+        self.add_line("tube",(20,13),(28,13))
         self.relate("connect","tube","bulb")
         self.relate("connect","tube","atomizer")

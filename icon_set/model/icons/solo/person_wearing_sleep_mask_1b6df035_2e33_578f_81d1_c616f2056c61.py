@@ -12,6 +12,7 @@ SOURCE_PATH = 'pictographic-primitives/beauty/body care eye mask_1b6df035-2e33-5
 SOURCE_ICON_IDS = ('1b6df035-2e33-578f-81d1-c616f2056c61',)
 SOURCE_PATHS = ('pictographic-primitives/beauty/body care eye mask_1b6df035-2e33-578f-81d1-c616f2056c61.svg',)
 AUTHOR = 'gpt-6'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 
 class PersonWearingSleepMask(Solo48):
@@ -40,5 +41,5 @@ class PersonWearingSleepMask(Solo48):
 
         axis,cy,radius=24,24,18
         path("face",(6,24),[("A",(42,24),radius,radius,True),("A",(6,24),radius,radius,True)],True)
-        path("sleep-mask",(6,24),[("C",(42,24),(6,14),(42,14)),("C",(27,26),(42,34),(32,34)),("C",(21,26),(25,23),(23,23)),("C",(6,24),(16,34),(6,34))],True)
+        path("sleep-mask",(6,24),[("C",(42,24),(6,14),(42,14)),("C",(28,28),(42,34),(32,34)),("C",(20,28),(26,25),(22,25)),("C",(6,24),(16,34),(6,34))],True)
         self.relate("connect","face","sleep-mask")

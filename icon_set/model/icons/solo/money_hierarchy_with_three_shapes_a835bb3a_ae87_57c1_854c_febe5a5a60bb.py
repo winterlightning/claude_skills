@@ -1,7 +1,7 @@
 """Money Hierarchy with Three Shapes.
 
 Symbol plan: Dollar root with a branching connector and circle, square, triangle child nodes. Drop the root coin rim to preserve the monetary sign and three node shapes.
-HRECT_L centerline extremes (4,8)-(44,40); exact envelope selected for the subject's proportions.
+SQUARE centerline extremes (6,6)-(42,42); exact envelope selected for the subject's proportions.
 Construction reference: No useful exact Lucide subject match; reconstruct the supplied silhouette with coherent lines and arcs.
 """
 from ...keyshapes import Keyshape
@@ -12,7 +12,7 @@ AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'money-hierarchy-with-three-shapes'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'business'
@@ -40,15 +40,14 @@ class Drawing(Solo48):
                 else: line(n+str(j),a,b)
             join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
-        arc('dollar-top',(28,8),(24,8),2,s=False)
-        arc('dollar-upper',(24,8),(24,16),4,s=False)
-        arc('dollar-lower',(24,16),(24,24),4)
-        line('dollar-bottom',(24,24),(20,24))
-        join('dollar','dollar-top','dollar-upper','dollar-lower','dollar-bottom')
-        line('stem',(24,8),(24,24));connect('dollar','stem')
-        path('branch',(6,36),(6,24),(20,24),(24,24),(38,24),(38,28))
-        line('middle-stem',(20,24),(20,32))
-        connect('branch','middle-stem');connect('dollar','branch');connect('stem','branch')
-        circle('round-node',6,38,2);connect('round-node','branch')
-        box('square-node',16,32,8,8,1);connect('middle-stem','square-node')
-        path('triangle-node',(32,40),(38,28),(44,40),(32,40),closed=True);connect('branch','triangle-node')
+        line('dollar-top',(28,10),(24,10))
+        arc('dollar-upper',(24,10),(24,18),4,s=False)
+        arc('dollar-lower',(24,18),(24,26),4)
+        join('dollar','dollar-top','dollar-upper','dollar-lower')
+        line('stem',(24,6),(24,10));connect('dollar','stem')
+        path('branch',(8,38),(8,26),(22,26),(24,26),(38,26))
+        line('middle-stem',(22,26),(22,34))
+        connect('branch','middle-stem');connect('dollar','branch')
+        circle('round-node',8,40,2);connect('round-node','branch')
+        box('square-node',18,34,8,8,1);connect('middle-stem','square-node')
+        path('triangle-node',(34,42),(38,26),(42,42),(34,42),closed=True);connect('branch','triangle-node')

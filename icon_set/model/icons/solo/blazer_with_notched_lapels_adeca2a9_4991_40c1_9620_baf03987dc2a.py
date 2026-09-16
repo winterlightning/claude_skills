@@ -2,7 +2,7 @@
 
 Plan: SQUARE centerlines (6,6)-(42,42); mirrored long sleeves and notched lapels converge at one front fastening; one open outline preserves the jacket silhouette.
 Construction references: Lucide shirt: symmetric shoulders, coherent outer garment contour; supplied blazer owns the lapel/notch pattern.
-Reduction: Omitted buttons, pockets and duplicate inner lapel edges.
+Reduction: Omitted buttons, pockets and duplicate inner lapel edges; shortened sleeve seams to keep the lapels clear.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
@@ -43,9 +43,9 @@ class BlazerWithNotchedLapels(Solo48):
         for side in (-1,1):
             point=lambda x,y:(axis+side*x,y)
             k=f"lapel-{side}"
-            self.add_polyline(k,point(6,6),point(10,14),point(4,18),point(8,22),(axis,32))
+            self.add_polyline(k,point(6,6),point(8,14),point(4,18),point(8,22),(axis,32))
             self.relate("connect","jacket",k)
-            self.add_line(f"sleeve-{side}",point(8,24),point(8,42))
+            self.add_line(f"sleeve-{side}",point(8,34),point(8,42))
             self.relate("connect","jacket",f"sleeve-{side}")
         self.relate("connect","lapel--1","lapel-1")
         self.add_line("front-fastening",(axis,32),(axis,38))

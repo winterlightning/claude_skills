@@ -9,7 +9,7 @@ from unittest.mock import patch
 from contextlib import redirect_stdout
 import io
 
-from icon_set.scripts.gallery import remap_categories, stage_gallery, stage_preview
+from icon_set.scripts.gallery import add_creation_times, add_modification_times, remap_categories, stage_gallery, stage_preview
 from icon_set.scripts.deploy import create_server, init_database
 
 
@@ -23,6 +23,58 @@ def manifest(root, family, folder, name):
 
 
 class GalleryTests(unittest.TestCase):
+    def test_modification_tracks_content_but_not_checkout_timestamps(self):
+        import os
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = 'icon_set/model/icons/solo/example.py'
+            path = root / source
+            path.parent.mkdir(parents=True)
+            path.write_text('# original')
+            row = {'key': 'solo/example', 'python_source': {'path': source}, 'svg_sha256': 'svg1'}
+            history = type('History', (), {'stdout': '@200\n'+source+'\n@100\n'+source+'\n'})()
+            clean = type('Diff', (), {'stdout': ''})()
+            with patch('icon_set.scripts.gallery.REPO_ROOT', root), patch('icon_set.scripts.gallery.subprocess.run', side_effect=[history, clean]):
+                add_modification_times([row], root / 'dist')
+            self.assertEqual(row['modified_at'], '1970-01-01T00:03:20+00:00')
+            catalog = root / 'dist/gallery/icons.json'
+            catalog.parent.mkdir(parents=True)
+            catalog.write_text(json.dumps({'icons': [row]}))
+            os.utime(path, (500, 500))
+            rebuilt = {'key': row['key'], 'python_source': row['python_source'], 'svg_sha256': 'svg1'}
+            with patch('icon_set.scripts.gallery.REPO_ROOT', root), patch('icon_set.scripts.gallery.subprocess.run', side_effect=subprocess.CalledProcessError(1, 'git')):
+                add_modification_times([rebuilt], root / 'dist')
+                self.assertEqual(rebuilt['modified_at'], row['modified_at'])
+                rebuilt['svg_sha256'] = 'svg2'
+                add_modification_times([rebuilt], root / 'dist')
+                self.assertEqual(rebuilt['modified_at_source'], 'changed-svg-build')
+                self.assertNotEqual(rebuilt['modified_at'], row['modified_at'])
+                path.write_text('# edited')
+                os.utime(path, (600, 600))
+                add_modification_times([rebuilt], root / 'dist')
+                self.assertEqual(rebuilt['modified_at'], '1970-01-01T00:10:00+00:00')
+
+    def test_creation_dates_survive_rebuild_without_git(self):
+        import subprocess
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            source = 'icon_set/model/icons/solo/example.py'
+            (root / source).parent.mkdir(parents=True)
+            (root / source).write_text('# source')
+            row = {'key': 'solo/example', 'python_source': {'path': source}}
+            history = type('History', (), {'stdout': '@200\n'+source+'\n@100\n'+source+'\n'})()
+            with patch('icon_set.scripts.gallery.REPO_ROOT', root), patch('icon_set.scripts.gallery.subprocess.run', return_value=history):
+                add_creation_times([row], root / 'dist')
+            self.assertEqual(row['created_at'], '1970-01-01T00:01:40+00:00')
+            catalog = root / 'dist/gallery/icons.json'
+            catalog.parent.mkdir(parents=True)
+            catalog.write_text(json.dumps({'icons': [row]}))
+            rebuilt = {'key': row['key'], 'python_source': row['python_source']}
+            with patch('icon_set.scripts.gallery.REPO_ROOT', root), patch('icon_set.scripts.gallery.subprocess.run', side_effect=subprocess.CalledProcessError(1, 'git')):
+                add_creation_times([rebuilt], root / 'dist')
+            self.assertEqual(rebuilt['created_at'], row['created_at'])
+
     def test_preview_catalog_contains_full_library_with_only_public_fields(self):
         with tempfile.TemporaryDirectory() as tmp:
             target = Path(tmp)

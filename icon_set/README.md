@@ -587,6 +587,20 @@ do not block older feedback cleanup, regardless of their timestamp.
 
 ### Review grid and approval
 
+The **Sort** menu orders icons by name, creation time, or modification time (newest or oldest first).
+The choice is saved in the page URL and applies before pagination. Existing dates
+are backfilled from the model source's first Git commit, or local file creation
+time for uncommitted models, then preserved in the gallery catalog across builds.
+These historical dates are estimates when the original generation time was not recorded.
+Modification dates start from the latest source commit, or file modification time
+for local changes. Matching source and SVG content keeps the saved date across
+rebuilds and deployments; later source or SVG changes update it.
+
+In the icon popup, selecting **Pending** shows a reason dropdown: **Bad draw**,
+**Does not convey the meaning of the icon name**, or **Other**. Save the reason
+as feedback to mark the icon Pending. Preset reasons accept optional details;
+Other requires written feedback. The reason appears in the feedback history and exported briefs.
+
 Each icon card shows its category and review status, with an **Approve** button.
 Use the **Active icons / Ready / Pending / Approved / Rejected** tabs with the category,
 family, and search filters. Tab counts reflect the current category/search.

@@ -30,15 +30,6 @@ class Drawing(Solo48):
             pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
             for j in range(4): arc(n+str(j),pts[j],pts[j+1],r)
             join(n,*(n+str(j) for j in range(4)),closed=True)
-        def box(n,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w//2,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+w//2,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            curves={2,4,7,9}
-            for j in range(10):
-                a,b=pts[j],pts[(j+1)%10]
-                if a==b: continue
-                if j in curves: arc(n+str(j),a,b,r)
-                else: line(n+str(j),a,b)
-            join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
         arc('jaw',(32,32),(12,32),10)
         path('brim',(6,32),(12,32),(32,32))
@@ -47,8 +38,8 @@ class Drawing(Solo48):
         arc('hat-crown-l',(6,18),(18,6),12)
         line('hat-top',(18,6),(28,6))
         arc('hat-crown-r',(28,6),(40,18),12)
-        path('hat-fold',(40,18),(32,18),(32,32))
+        line('hat-fold-1',(40,18),(32,18))
+        line('hat-fold-2',(32,18),(32,32))
         join('hat','hat-left','hat-crown-l','hat-top','hat-crown-r','hat-fold-1','hat-fold-2')
-        self.contours=[c for c in self.contours if c.contour_id!='hat-fold']
         connect('hat','brim');connect('hat','jaw')
         circle('pompom',40,20,2);connect('pompom','hat')

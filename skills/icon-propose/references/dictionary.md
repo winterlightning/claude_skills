@@ -62,6 +62,17 @@ The existing page displays proposal placeholders, not generated artwork. Disting
 
 ## Safe edits and validation
 
+### Cross-category reuse in version 1
+
+The current page stores entries inside category lists and keys shortlists by `category/id`; it has no global concept-reference field or related-category UI. Keep the **one canonical icon, multiple categories** rule without claiming those features already exist:
+
+- For an existing source-backed icon, an additional category entry can use `status: "reuse"` and the same verified source UUIDs. Preserve its canonical name and identify the shared icon/model in `why`. This is a category association, not a new drawing.
+- For an existing ungenerated proposal, identify its current `category/id` as the canonical pending proposal. Report the requested association separately; do not duplicate its `proposed` entry under another category or mark it as generated/reusable artwork.
+- Record primary category, related categories, and the reason for the relationship in the brief output or `why` until structured category associations are supported. Use actual catalog category keys when available.
+- Do not migrate the schema, move existing entries, break shortlist identities, or add a category-management interface merely to propose icons. Implement that functionality only when requested.
+
+### Checks
+
 Reload the current file immediately before writing so another task's additions are preserved. Merge by stable category and ID; resolve any collision before writing. Work from the latest content, not a stale full-file copy. If the file changed during preparation, reapply only your additions to the latest version.
 
 Validate:
@@ -70,7 +81,7 @@ Validate:
 2. New IDs and normalized subject names do not duplicate existing entries or each other. Aliases are also checked for the same concept under another name.
 3. Required entry fields are populated, `aliases` and `source_ids` are lists, and status/priority values are supported.
 4. Every referenced UUID resolves to an actual catalog row.
-5. The requested new-proposal count excludes reuse entries and proposals from previous turns.
+5. The requested new-proposal count excludes reuse entries, new category associations, and references to proposals from previous turns or other categories. Count each new canonical subject once.
 6. Source and local preview JSON agree after syncing.
 
 If the user wants proposed drawings emphasized, keep core proposals first, then extended proposals, then reuse candidates; preserve relative ordering inside each group. Otherwise preserve existing ordering and append additions.

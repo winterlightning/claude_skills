@@ -41,6 +41,80 @@ function page(name) {
   return {context, document, navigations, run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const pendingReason = page('gallery');
+  pendingReason.run(`selected={key:'solo/example',icon_id:'example',family:'solo',svg_sha256:'current'};
+    icons=[selected];reviewsLoaded=true;reviews={'solo/example':'ready'};
+    render=()=>syncInspector();loadReviewActor=()=>{};loadIconFeedback=()=>{};
+    resetPendingReason();syncInspector();`);
+  let reasonPosts=[];
+  pendingReason.context.fetch=async(url,options)=>{
+    reasonPosts.push({url,...JSON.parse(options.body)});
+    return {ok:true,json:async()=>({status:'pending',updated_by:'jakes'})};
+  };
+  pendingReason.run("$('reviewState').value='pending';$('reviewState').onchange();");
+  assert.equal(reasonPosts.length,0,'Choosing Pending waits for its reason');
+  assert.equal(pendingReason.run("reviews[selected.key]"),'ready');
+  assert.equal(pendingReason.run("$('pendingReasonField').hidden"),false);
+  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.equal(reasonPosts.length,0,'Other requires written feedback');
+  pendingReason.run("$('pendingReason').value='bad-draw';$('pendingReason').onchange();");
+  assert.equal(pendingReason.run("$('feedback').required"),false);
+  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.equal(reasonPosts.length,1,'Reason and status use a single existing feedback request');
+  assert.equal(reasonPosts[0].url,'../api/feedback');
+  assert.equal(reasonPosts[0].feedback,'Bad draw');
+  assert.equal(reasonPosts[0].svg_sha256,'current');
+  assert.equal(pendingReason.run('reviews[selected.key]'),'pending');
+  pendingReason.run("$('pendingReason').value='meaning';$('feedback').value='The shape looks like a leaf.';");
+  pendingReason.context.fetch=async()=>({ok:false,json:async()=>({error:'Could not save'})});
+  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.equal(pendingReason.run("$('pendingReason').value"),'meaning','Failed save keeps reason');
+  assert.equal(pendingReason.run("$('feedback').value"),'The shape looks like a leaf.','Failed save keeps details');
+  pendingReason.context.fetch=async(url,options)=>{
+    reasonPosts.push({url,...JSON.parse(options.body)});
+    return {ok:true,json:async()=>({status:'pending'})};
+  };
+  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.equal(reasonPosts.at(-1).feedback,'Does not convey the meaning of the icon name\n\nThe shape looks like a leaf.');
+  pendingReason.run("$('pendingReason').value='other';$('feedback').value='Round the base.';");
+  await pendingReason.run("$('feedbackForm').onsubmit({preventDefault(){}})");
+  assert.equal(reasonPosts.at(-1).feedback,'Round the base.');
+  pendingReason.run("$('pendingReason').value='bad-draw';resetPendingReason();");
+  assert.equal(pendingReason.run("$('pendingReason').value"),'other','Opening another icon clears the prior reason');
+
+  const sorting = page('gallery');
+  sorting.run(`icons=[
+    {key:'solo/a',icon_id:'a',name:'A',family:'solo',created_at:'2026-09-14T12:00:00Z'},
+    {key:'solo/b',icon_id:'b',name:'B',family:'solo',created_at:'2026-09-15T13:00:00+07:00'},
+    {key:'solo/c',icon_id:'c',name:'C',family:'solo'},
+    {key:'sub/d',icon_id:'d',name:'D',family:'sub',created_at:'2026-09-16T00:00:00Z'}
+  ];$('family').value='solo';$('iconSort').value='newest';pageSize=1;`);
+  assert.equal(sorting.run('filteredIcons().map(i=>i.icon_id).join()'),'b,a,c','Newest first within filters, unknown dates last');
+  assert.equal(sorting.run('currentPageIcons()[0].icon_id'),'b','Sort applies before pagination');
+  sorting.run("$('iconSort').value='oldest';");
+  assert.equal(sorting.run('filteredIcons().map(i=>i.icon_id).join()'),'a,b,c');
+
+  sorting.context.window.location = {href:'http://localhost/gallery/index.html?sort=oldest',search:'?sort=oldest'};
+  let savedURL;
+  sorting.context.window.history = {replaceState(_state,_title,url){savedURL=url;},pushState(_state,_title,url){savedURL=url;}};
+  sorting.run('urlReady=true;restoreURL();');
+  assert.equal(sorting.run("$('iconSort').value"),'oldest','Shared URL restores creation sort');
+  sorting.run("$('iconSort').value='newest';writeURL();");
+  assert.equal(savedURL.searchParams.get('sort'),'newest','Chosen order is saved in the URL');
+  sorting.run("urlReady=false;$('family').value='solo';");
+  sorting.run("page=3;selectedKeys.add('solo/c');$('iconSort').onchange();");
+  assert.equal(sorting.run('page'),1,'Changing order resets pagination');
+  assert.equal(sorting.run('selectedKeys.size'),0,'Changing order clears bulk selection');
+  sorting.run("$('iconSort').value='name';");
+  assert.equal(sorting.run('filteredIcons().map(i=>i.icon_id).join()'),'a,b,c');
+  sorting.run("icons[0].modified_at='2026-09-16T00:00:00Z';icons[1].modified_at='2026-09-15T00:00:00Z';$('iconSort').value='modified-newest';pageSize=1;");
+  assert.equal(sorting.run('currentPageIcons()[0].icon_id'),'a','Modification sorting differs from creation sorting');
+  sorting.run("$('iconSort').value='modified-oldest';");
+  assert.equal(sorting.run('filteredIcons().map(i=>i.icon_id).join()'),'b,a,c','Unknown modification dates remain last');
+  sorting.context.window.location.search='?sort=modified-newest';
+  sorting.run('urlReady=true;restoreURL();');
+  assert.equal(sorting.run("$('iconSort').value"),'modified-newest','Shared URL restores modification sort');
+
   const removal = page('gallery');
   removal.run(`feedbackRows=[{id:1,icon:'solo/a',feedback:'Round it'},{id:2,icon:'solo/a',feedback:'Keep'}];
     renderFeedback=()=>{};loadFeedback=async()=>{};loadPendingFeedback=async()=>{};
@@ -169,7 +243,7 @@ async function main() {
     {key:'sub/other',family:'sub',icon_id:'other',name:'Other',preview_url:'other.svg'}
   ];reviewsLoaded=true;setIconView('versions');render();`);
   assert.equal(gallery.run('versionGroups(filteredIcons()).length'), 2);
-  assert.equal(gallery.run('versionGroups(filteredIcons())[0].map(iconVersion).join(",")'), 'v1,v2,v3,v12');
+  assert.equal(gallery.run('versionGroups(filteredIcons()).find(group=>versionGroupKey(group[0])==="solo/test").map(iconVersion).join(",")'), 'v1,v2,v3,v12');
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 5);
   gallery.run("$('search').value='test-v3';render();");
   assert.equal(gallery.run('filteredIcons().length'), 4, 'Searching one variant includes all siblings');
@@ -183,10 +257,10 @@ async function main() {
   assert.equal(gallery.run('filteredIcons()[0].icon_id'), 'test-v2', 'Rejected tab retains access');
   gallery.run("reviewFilter='';reviews['solo/test']='re-generated';reviewFilter='re-generated';render();");
   assert.equal(gallery.run('filteredIcons().length'), 3, 'Status match brings active siblings into comparison');
-  gallery.run("reviewFilter='';pageSize=1;page=1;render();");
+  gallery.run("reviewFilter='';pageSize=1;page=2;render();");
   assert.equal(gallery.run('currentPageIcons().length'), 3, 'Version groups select exactly the versions rendered on the page');
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 3, 'Pagination keeps versions together');
-  gallery.run("page=2;render();");
+  gallery.run("page=1;render();");
   assert.equal(gallery.document.getElementById('grid').querySelectorAll().length, 1);
   gallery.run("setIconView('generated');pageSize=48;render();");
   assert.equal(gallery.run('filteredIcons().length'), 4, 'Rejected icons stay hidden in ordinary view');

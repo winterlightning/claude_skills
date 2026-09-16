@@ -12,6 +12,7 @@ SOURCE_PATH = 'pictographic-primitives/beauty/beard style mustache_0c32c222-4af0
 SOURCE_ICON_IDS = ('0c32c222-4af0-55ad-a91f-8d15af99d088',)
 SOURCE_PATHS = ('pictographic-primitives/beauty/beard style mustache_0c32c222-4af0-55ad-a91f-8d15af99d088.svg',)
 AUTHOR = 'gpt-6'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 
 class RoundedBeardWithMoustache(Solo48):

@@ -12,6 +12,7 @@ SOURCE_PATH = 'pictographic-primitives/business/begging hand ask_1ab29135-e724-4
 SOURCE_ICON_IDS = ('1ab29135-e724-4766-8bba-d4d0f8b7b6d5', 'a322931e-aa9b-59e9-8a03-20657747f732')
 SOURCE_PATHS = ('pictographic-primitives/business/begging hand ask_1ab29135-e724-4766-8bba-d4d0f8b7b6d5.svg', 'pictographic-primitives/business/begging hand ask_a322931e-aa9b-59e9-8a03-20657747f732.svg')
 AUTHOR = 'gpt-6'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 
 class CuppedHandFacingRight(Solo48):

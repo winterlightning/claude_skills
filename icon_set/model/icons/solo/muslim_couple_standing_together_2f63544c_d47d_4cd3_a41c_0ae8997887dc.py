@@ -1,8 +1,8 @@
 """Muslim Couple Standing Together.
 
-Symbol plan: Two front-facing people, one pointed headscarf and one round cap, above simple garments. Drop tiny sleeve lines and layered cloth edges. Detached head/body gap is exactly 4 ink units.
+Symbol plan: Two front-facing people in continuous draped clothing, one headscarf and one round cap. Drop tiny sleeve lines and layered cloth edges.
 HRECT_L centerline extremes (4,8)-(44,40); exact envelope selected for the subject's proportions.
-Construction reference: human_ref/user.svg and full_body_ref.png: circular jaws, simple clothing silhouettes and exact detached gap. A two-person scene, not a single centered avatar.
+Construction reference: human_ref/user.svg and full_body_ref.png: circular jaws and simple clothing silhouettes. Continuous clothed figures, not detached stick figures or one centered avatar.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -23,31 +23,18 @@ class Drawing(Solo48):
 
         def line(n,a,b): self.add_line(n,a,b)
         def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def path(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
         def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
         def connect(a,b): self.relate('connect',a,b)
-        def circle(n,x,y,r):
-            pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
-            for j in range(4): arc(n+str(j),pts[j],pts[j+1],r)
-            join(n,*(n+str(j) for j in range(4)),closed=True)
-        def box(n,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w//2,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+w//2,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            curves={2,4,7,9}
-            for j in range(10):
-                a,b=pts[j],pts[(j+1)%10]
-                if a==b: continue
-                if j in curves: arc(n+str(j),a,b,r)
-                else: line(n+str(j),a,b)
-            join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
-        # Heads bottom at24; garment tops at32: centerline gap8, ink gap4.
-        path('hood-top',(4,16),(12,8),(20,16))
-        arc('woman-jaw',(20,16),(4,16),8)
-        join('woman-head','hood-top-1','hood-top-2','woman-jaw',closed=True)
-        self.contours=[c for c in self.contours if c.contour_id!='hood-top']
-        arc('man-crown',(28,16),(44,16),8)
-        arc('man-jaw',(44,16),(28,16),8)
-        join('man-head','man-crown','man-jaw',closed=True)
-        line('cap-brim',(28,16),(44,16));connect('cap-brim','man-head')
-        path('woman-robe',(4,40),(12,32),(20,40),(4,40),closed=True)
-        path('man-robe',(28,40),(28,32),(44,32),(44,40))
+        # The headscarf and long garment form one continuous clothed outline.
+        for n,cx in [('woman',12),('man',36)]:
+            arc(n+'-crown',(cx-8,16),(cx+8,16),8)
+            line(n+'-right',(cx+8,16),(cx+8,38))
+            arc(n+'-hem-r',(cx+8,38),(cx+6,40),2)
+            line(n+'-hem',(cx+6,40),(cx-6,40))
+            arc(n+'-hem-l',(cx-6,40),(cx-8,38),2)
+            line(n+'-left',(cx-8,38),(cx-8,16))
+            join(n+'-outline',n+'-crown',n+'-right',n+'-hem-r',n+'-hem',n+'-hem-l',n+'-left',closed=True)
+            arc(n+'-jaw',(cx+8,16),(cx-8,16),8)
+            connect(n+'-jaw',n+'-outline')
+        line('cap-brim',(28,16),(44,16));connect('cap-brim','man-outline');connect('cap-brim','man-jaw')

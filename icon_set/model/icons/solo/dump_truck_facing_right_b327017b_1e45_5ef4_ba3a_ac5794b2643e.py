@@ -21,7 +21,6 @@ class Drawing(Solo48):
 
     def build(self) -> None:
 
-        def line(n,a,b): self.add_line(n,a,b)
         def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
         def path(n,*pts,closed=False): self.add_polyline(n,*pts,closed=closed)
         def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
@@ -30,15 +29,6 @@ class Drawing(Solo48):
             pts=[(x,y-r),(x+r,y),(x,y+r),(x-r,y),(x,y-r)]
             for j in range(4): arc(n+str(j),pts[j],pts[j+1],r)
             join(n,*(n+str(j) for j in range(4)),closed=True)
-        def box(n,x,y,w,h,r=2):
-            pts=[(x+r,y),(x+w//2,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+w//2,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
-            curves={2,4,7,9}
-            for j in range(10):
-                a,b=pts[j],pts[(j+1)%10]
-                if a==b: continue
-                if j in curves: arc(n+str(j),a,b,r)
-                else: line(n+str(j),a,b)
-            join(n,*(n+str(j) for j in range(10) if pts[j]!=pts[(j+1)%10]),closed=True)
 
         path('bed',(4,8),(28,8),(28,16),(28,24),(8,24),(4,8),closed=True)
         path('cab',(28,16),(36,16),(44,28),(44,32),(36,32),(12,32),(8,32),(8,24))

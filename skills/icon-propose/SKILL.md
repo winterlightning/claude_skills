@@ -46,6 +46,19 @@ For each candidate, ask:
 
 Count **new drawing proposals** separately from reuse candidates. An existing Cookie can supply a tracking alias, but it is not a new drawing. A distinct complete subject extracted from a larger reference can be proposed, with the related source and extraction rationale recorded. A no-match name search means “no match found in the checked names,” not “this icon does not exist.”
 
+## One icon, multiple categories
+
+**One canonical icon may belong to multiple categories for reuse.** Category membership is many-to-many: a category can contain many icons, and an icon can serve many categories while keeping one identity and one drawing.
+
+- Assign a **primary category** based on the subject itself, plus **related categories** where it has a useful direct application or established metaphor. Primary category is an organizational home, not a restriction on reuse.
+- Search existing icons and ungenerated proposals globally before adding a subject. Reuse the canonical name, identity, and drawing brief when the visual subject is the same; add category associations and context-specific aliases instead of another drawing task.
+- For example, Hair claw can belong to Accessories and Beauty; Cookie to Food and Websites. Ring mandrel belongs primarily to Tools and can also be discoverable in Accessories for jewelry fitting.
+- Count a new canonical subject once across the library. Adding another category to an existing icon is **category reuse**, and adding a category to an existing ungenerated proposal is **a reference to that pending proposal**. Neither increases the new-drawing count.
+- Report new drawing proposals and category-reuse opportunities separately. An item need not be exclusive to the requested category to be useful there, but explain its relevance and avoid weak associations.
+- Keep the icon's family unchanged when adding categories. Shared use alone does not require a new variant, model file, source UUID, or generation task.
+
+When presenting proposals, include the primary and related categories. Follow the dictionary's current storage capabilities in the linked reference; do not imply the page implements category associations it does not yet support.
+
 ## Keep the solo boundary
 
 A solo primitive is one natural subject: object, animal, person, tool, device, or other independently recognizable noun. Attached functional parts belong to their object; a head and its own body are one subject.
@@ -69,6 +82,7 @@ Separate:
 - **Name:** what is drawn, such as “Tally counter.”
 - **Meaning:** its intended category use; identify a metaphor where applicable.
 - **Aliases:** likely searches, synonyms, and use contexts.
+- **Categories:** one primary category and any useful related categories; identify an existing canonical icon or pending proposal when reusing it.
 - **Drawing brief:** one complete subject, its silhouette, orientation when important, and the few defining integrated details. Mention exclusions only when they prevent a likely composition mistake.
 - **Rationale:** the coverage gap, distinction from related artwork, and any visual uncertainty.
 - **Priority:** start with broadly useful, recognizable subjects; place niche or exploratory ones later.

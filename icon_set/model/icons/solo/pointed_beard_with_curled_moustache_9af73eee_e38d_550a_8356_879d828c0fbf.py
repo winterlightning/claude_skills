@@ -12,6 +12,7 @@ SOURCE_PATH = 'pictographic-primitives/beauty/beard style mustache_9af73eee-e38d
 SOURCE_ICON_IDS = ('9af73eee-e38d-550a-8356-879d828c0fbf',)
 SOURCE_PATHS = ('pictographic-primitives/beauty/beard style mustache_9af73eee-e38d-550a-8356-879d828c0fbf.svg',)
 AUTHOR = 'gpt-6'
+HUMAN_REFERENCE = 'icon_set/references/human_ref/user.svg'
 
 
 class PointedBeardWithCurledMoustache(Solo48):
