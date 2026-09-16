@@ -27,6 +27,7 @@ const context=vm.createContext({console,Blob:class{constructor(parts){downloaded
   fetch:async()=>response({svg_sha256:'sha',edit:null,previous_versions:[]})});
 function response(body,ok=true){return {ok,headers:{get:()=> 'application/json'},json:async()=>body};}
 const run=code=>vm.runInContext(code,context);
+run(fs.readFileSync(__dirname+'/../scripts/templates/stroke-fit.js','utf8'));
 run(fs.readFileSync(__dirname+'/../scripts/templates/stroke-editor.js','utf8'));
 const icon={key:'sub/test',icon_id:'test',svg_sha256:'sha',canvas_size:32,primitives:[
  {kind:'line',element_id:'a',start:[2,2],end:[8,2]},
@@ -233,5 +234,34 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   editor.open({...resizeIcon,key:'sub/points'});$('editingTab').onclick();await tick();
   $('strokeDownload').onclick();assert.deepEqual(JSON.parse(downloadedSVG).edited_graph.primitives,nodeDoc.edited_graph.primitives);
   $('strokeDownloadSVG').onclick();assert.doesNotMatch(downloadedSVG,/editor-center|editor-path-point/);
+  // Deleting a stroke is reflected in canvas, downloads, validation, and saved drafts.
+  context.fetch=async()=>response({svg_sha256:'sha',edit:null});
+  editor.open({...resizeIcon,key:'sub/deleting'});$('editingTab').onclick();await tick();
+  $('strokeSelect').value='primitive:extra';$('strokeSelect').onchange();
+  assert.equal($('strokeDelete').disabled,false);$('strokeDelete').onclick();
+  assert.equal($('strokeSelect').children.length,1);assert.equal($('strokeSelect').value,'contour:outline');
+  assert.equal($('strokeDelete').disabled,true,'An icon needs at least one stroke');
+  assert.ok(!canvas.children.some(e=>e.attrs['data-stroke']==='primitive:extra'));
+  $('strokeDownload').onclick();const deletedDoc=JSON.parse(downloadedSVG);
+  assert.deepEqual(deletedDoc.deleted_strokes,['primitive:extra']);
+  assert.equal(deletedDoc.edited_graph.primitives.length,4);assert.equal(deletedDoc.original_graph.primitives.length,5);
+  $('strokeDownloadSVG').onclick();assert.doesNotMatch(downloadedSVG,/id="extra"/);
+  $('strokeUndo').onclick();assert.equal($('strokeSelect').children.length,2);
+  $('strokeRedo').onclick();assert.equal($('strokeSelect').children.length,1);
+  editor.open({...resizeIcon,key:'sub/deleting'});$('editingTab').onclick();await tick();
+  assert.equal($('strokeSelect').children.length,1,'Browser backup recovers deletion');
+  let deletedSaved;
+  context.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.deepEqual(body.deleted_strokes,['primitive:extra']);if(url.endsWith('/validate'))return response(report);deletedSaved={...body,edited_graph:deletedDoc.edited_graph,revision:1};return response(deletedSaved);};
+  await $('strokeValidate').onclick();await $('strokeSave').onclick();
+  context.fetch=async()=>response({svg_sha256:'sha',edit:deletedSaved});
+  editor.open({...resizeIcon,key:'sub/deleting'});$('editingTab').onclick();await tick();
+  assert.equal($('strokeSelect').children.length,1);assert.equal($('strokeSave').disabled,true);
+  context.fetch=async()=>response(report);await $('strokeAutoResize').onclick();
+  assert.equal($('strokeScaleX').value,24);assert.equal($('strokeScaleY').value,32);
+  $('strokeDownload').onclick();assert.equal(JSON.parse(downloadedSVG).edited_graph.primitives.length,4,'Auto resize fits remaining strokes without restoring deletions');
+  $('strokeResetAll').onclick();assert.equal($('strokeSelect').children.length,2);assert.equal($('strokeSave').disabled,false);
+  const references={...resizeIcon,relationships:[{kind:'touching',members:['outline','extra']}],human_figures:[{head:'outline',torso:'extra'}]};
+  const remaining=editor.withoutStrokes(references,editor.groups(references),['contour:outline']);
+  assert.equal(remaining.primitives.length,1);assert.equal(remaining.contours.length,0);assert.equal(remaining.relationships.length,0);assert.equal(remaining.human_figures.length,0);
   console.log('Stroke geometry, even-grid typed and dragged resizing, whole-icon resizing, undo/redo, persistence, and stale-response checks passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

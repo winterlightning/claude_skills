@@ -62,12 +62,13 @@
       if(request!==token)return;
       const response=await fetch('../api/icon-artwork',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
       const result=await response.json();if(!response.ok)throw Error(result.error || 'Could not save artwork.');
+      // A completed pick belongs to the gallery even if another inspector is now open.
+      if(!uploadOnly)window.dispatchEvent(new CustomEvent('icon-artwork-saved',{detail:result.record}));
       if(request!==token)return;
       data=result;
       if(uploadOnly){file=null;$('artworkFile').value='';$('artworkMode').value='use_upload';}
       else $('artworkMode').value=current();
       status.textContent=uploadOnly?'Manual edit saved. Open Pick to display it.':'Now displaying: '+labels[current()]+'.';
-      if(!uploadOnly)window.dispatchEvent(new CustomEvent('icon-artwork-saved',{detail:result.record}));
     }catch(error){if(request===token)status.textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
   }

@@ -750,7 +750,7 @@ Failed build cards support selecting shown icons and **Discard selected**, with 
 
 **Editing** has three subtabs:
 
-- **Browser Edit**: move, resize, validate, and save strokes; download the edited SVG or JSON.
+- **Browser Edit**: move points, resize or delete selected strokes, validate, and save; download the edited SVG or JSON. Undo restores deletions, and Reset all restores the original geometry. Keep at least one stroke in each icon.
 - **Manual Edit**: download the currently displayed SVG, edit it in your design tool,
   and upload/save the result on the same 32/48/64 canvas.
 - **Pick**: compare Original, Browser Edit, and Manual Edit side by side, then click
@@ -815,16 +815,21 @@ center to the grid. Width and height are independent; the movement snap checkbox
 only controls dragging position. Hovered strokes turn blue and selected
 strokes are green, with a bounding box. Stroke width stays unchanged. It supports grid snapping, original-position overlays,
 undo/redo, resets, and recovery of unsaved browser drafts. Shift + arrow moves 0.1
-units; an unmodified arrow moves 1 unit. It edits whole strokes rather than individual nodes. Arc radii and Bézier
-control points scale with their geometry.
+units; an unmodified arrow moves 1 unit. White points on the centerlines can be dragged or moved with Point X/Y controls;
+connected segments stay joined. The center diamond moves the selection. Arc radii
+and Bézier control points scale with their geometry.
 
 **Keyshape** selects a profile-supported envelope (for example VRECT_L → VRECT_M).
 It changes the guide and the JSON's `edited_graph.keyshape` / `keyshape_bounds`,
 without automatically resizing strokes. **Auto resize to keyshape** scales the
 whole icon independently on each axis and centers it in the selected bounds,
-keeping stroke width unchanged. It then snaps path endpoints, curve knots, and
-arc radii to the integer grid. Bézier handles move with their adjacent knots to
-preserve their tangent directions; fractional control handles remain supported.
+keeping stroke width unchanged. It measures exact line, arc, and Bézier extrema.
+Cardinal arc radii follow their snapped endpoints so rounded corners retain their
+tangents without growing past the guide. Bézier curves are split at interior
+extrema, then each monotone piece's handles are mapped with its grid-snapped
+knots. Extra cubic pieces remain in the same primitive and contour. The final
+painted bounds must match the target before the edit is accepted; an unsupported
+arc fit leaves the current drawing unchanged with an explanation.
 The resulting coordinates are the same in the canvas, validation request, SVG
 and JSON downloads, and saved edits. Auto resize records an optional `geometry`
 base in the v2 handoff, keeping the authored `original_graph` intact; later moves
@@ -871,7 +876,7 @@ outside `dist`, so replacing gallery assets does not erase them. On production,
 keep the directory containing `--database` on persistent storage and back it up
 alongside the feedback database. Do not replace it with a developer machine's
 copy when deploying. Ship `scripts/stroke_edits.py` with `deploy.py`, and ship the
-new `gallery/stroke-editor.js` and `.css` assets; restart the server afterward.
+new `gallery/stroke-fit.js`, `stroke-editor.js`, and `.css` assets; restart the server afterward.
 
 `GET /api/stroke-edits?icon=<family/id>` returns the current version's saved edit
 and a summary of older versions. `POST /api/stroke-edits` accepts `icon`,
@@ -882,6 +887,8 @@ IDs to `[sx, sy]` (0.05–20). Scale about the canvas center, then translate;
 geometry from its own catalog, records the reviewer/time, and atomically writes
 JSON. Concurrent or stale-version saves return 409 without overwriting data.
 Older icon versions retain their separate handoffs.
+
+Stroke deletions are persisted as `deleted_strokes` (stroke group IDs) in the edit handoff. The `edited_graph` excludes those primitives, their contours, and dependent relationship/human-figure declarations. The authored `original_graph` is preserved. Validation, SVG downloads, and Pick → Browser Edit use the remaining geometry. Older save requests that omit `deleted_strokes` preserve the saved deletions; send an empty list to restore all strokes.
 
 **Download JSON** downloads either the saved handoff or the current unsaved draft.
 Use this to transfer a production edit to your local Python workflow; browser

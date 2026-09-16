@@ -52,6 +52,58 @@ class EditValidationTests(unittest.TestCase):
             self.assertEqual(legacy['validation']['status'], 'pass')
             self.assertEqual(legacy['edited_graph']['primitives'], geometry)
 
+    def test_grid_fit_matches_exact_python_envelope_and_survives_save(self):
+        import json
+        import subprocess
+        from icon_set.model.icons.solo.chevron_marker_board_88cc82e8_6bf8_4a2c_bd7b_cc0bddf04d43 import ChevronMarkerBoard
+        from icon_set.model.icons.solo.acoustic_guitar_2e3b9013_429e_4cb3_8093_1e76dd0f5307 import AcousticGuitar
+        from icon_set.model.icons.solo.apple_vision_pro_space_volume_3d52a574_2cf8_4bbf_95ef_7eaebf475a4e import AppleVisionProSpaceVolume
+        from icon_set.model.primitives import primitive_from_dict
+        from icon_set.validation.envelope import visible_bounds
+        cases = [(ChevronMarkerBoard, 'VRECT_M'), (ChevronMarkerBoard, 'SQUARE'),
+                 (AcousticGuitar, 'VRECT_M'), (AppleVisionProSpaceVolume, 'HRECT_M')]
+        inputs = []
+        for model, shape in cases:
+            icon = model().to_record()
+            inputs.append({'icon': icon, 'target': list(Keyshape[shape].bounds_for(Profile.SOLO48))})
+        script = """const fs=require('fs'),vm=require('vm'),c={window:{}};
+        vm.runInNewContext(fs.readFileSync('icon_set/scripts/templates/stroke-fit.js','utf8'),c);
+        const {fit,bounds}=c.window.StrokeFit;
+        process.stdout.write(JSON.stringify(JSON.parse(fs.readFileSync(0,'utf8')).map(({icon,target})=>{
+          const geometry=fit(icon.primitives,target);
+          const older=JSON.parse(JSON.stringify(geometry));for(const p of older)if(p.kind==='arc')p.radius_x+=1;
+          return {geometry,bounds:bounds(geometry),again:fit(geometry,target),repaired:fit(older,target,4,icon.primitives)};
+        })));"""
+        result = subprocess.run(['node', '-e', script], cwd=Path(__file__).resolve().parents[2],
+                                input=json.dumps(inputs), text=True, capture_output=True, check=True)
+        with tempfile.TemporaryDirectory() as folder:
+            store = StrokeEditStore(folder)
+            for (model, shape), fixture, fitted in zip(cases, inputs, json.loads(result.stdout)):
+                with self.subTest(icon=model.icon_id, shape=shape):
+                    icon = fixture['icon'] | {'key': 'solo/'+model.icon_id+'-'+shape, 'svg_sha256': 'fixture'}
+                    geometry = fitted['geometry']
+                    self.assertEqual(fitted['again'], geometry, 'Auto fit must not drift when repeated')
+                    for actual, target in zip(visible_bounds([primitive_from_dict(p) for p in fitted['repaired']]), fixture['target']):
+                        self.assertAlmostEqual(actual, target, places=5)
+                    bounds = visible_bounds([primitive_from_dict(p) for p in geometry])
+                    for actual, target in zip(bounds, fixture['target']):
+                        self.assertAlmostEqual(actual, target, places=5)
+                    self.assertAlmostEqual(fitted['bounds']['width']+4, bounds[2]-bounds[0], places=5)
+                    self.assertAlmostEqual(fitted['bounds']['height']+4, bounds[3]-bounds[1], places=5)
+                    data = {'svg_sha256': 'fixture', 'revision': 0, 'offsets': {}, 'geometry': geometry,
+                            'keyshape': shape, 'validate': True}
+                    saved = store.save(icon, data, 'jakes')
+                    if model is AcousticGuitar:
+                        # A narrower body still needs real clearance from its sound hole.
+                        self.assertEqual(saved['validation']['status'], 'fail')
+                        self.assertTrue(all(error.startswith('mic ') for error in saved['validation']['errors']))
+                    else:
+                        self.assertEqual(saved['validation']['status'], 'pass', saved['validation']['errors'])
+                    self.assertIsNone(saved['validation_override'])
+                    self.assertEqual(saved['edited_graph']['primitives'], geometry)
+                    self.assertEqual(store.get(icon['key'], 'fixture')['geometry'], geometry)
+                    self.assertEqual(saved['original_graph']['primitives'], fixture['icon']['primitives'])
+
     def test_human_override_is_attributed_and_bound_to_exact_geometry(self):
         with tempfile.TemporaryDirectory() as folder:
             store, icon = StrokeEditStore(folder), portrait()

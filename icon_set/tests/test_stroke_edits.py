@@ -92,6 +92,31 @@ class StrokeEditTests(unittest.TestCase):
         self.assertIsNone(reset['geometry'])
         self.assertEqual(reset['edited_graph'], reset['original_graph'])
 
+    def test_deleted_strokes_remove_contours_and_dependent_declarations(self):
+        self.icon['relationships'] = [{'kind': 'touching', 'members': ['outline', 'c']},
+                                      {'kind': 'touching', 'members': ['a', 'c']}]
+        self.icon['human_figures'] = [{'figure_id': 'person', 'head': 'outline', 'torso': 'c', 'torso_junction': 'start'}]
+        before = deepcopy(self.icon)
+        row = self.store.save(self.icon, self.data | {'deleted_strokes': ['contour:outline']}, 'jakes')
+        self.assertEqual(row['deleted_strokes'], ['contour:outline'])
+        self.assertEqual([p['element_id'] for p in row['edited_graph']['primitives']], ['c'])
+        self.assertEqual(row['edited_graph']['contours'], [])
+        self.assertEqual(row['edited_graph']['relationships'], [])
+        self.assertEqual(row['edited_graph']['human_figures'], [])
+        self.assertEqual(self.icon, before)
+        self.assertEqual(row['original_graph']['primitives'], before['primitives'])
+        self.assertEqual(StrokeEditStore(self.store.root).get(self.icon['key'], 'version-a'), row)
+        # Older clients cannot inadvertently resurrect deleted strokes.
+        legacy = self.store.save(self.icon, self.data | {'revision': 1}, 'jakes')
+        self.assertEqual(legacy['edited_graph'], row['edited_graph'])
+        for invalid in (None, {}, 'contour:outline', ['missing'], [True],
+                        ['primitive:c', 'primitive:c'], ['contour:outline', 'primitive:c']):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                self.store.save(self.icon, self.data | {'revision': 2, 'deleted_strokes': invalid}, 'jakes')
+        restored = self.store.save(self.icon, self.data | {'revision': 2, 'deleted_strokes': []}, 'jakes')
+        self.assertEqual(len(restored['edited_graph']['primitives']), 3)
+        self.assertEqual(restored['edited_graph']['relationships'], before['relationships'])
+
     def test_stale_writer_and_changed_icon_do_not_overwrite(self):
         def save():
             try:
@@ -144,6 +169,27 @@ class StrokeEditAPITests(unittest.TestCase):
         self.assertFalse(list((self.database.parent / 'stroke-edits').rglob('*.json')))
         self.assertEqual(self.call('POST', route, data | {'svg_sha256': 'old'})[0], 409)
         self.assertEqual(self.call('POST', route, data | {'keyshape': 'FREE'})[0], 400)
+
+    def test_delete_save_reload_and_validation_use_the_remaining_geometry(self):
+        from icon_set.tests.test_edit_validation import portrait
+        from icon_set.scripts.stroke_edits import graph_sha256
+        baseline = portrait()
+        icon = deepcopy(baseline)
+        icon['primitives'].append(dict(icon['primitives'][0], element_id='extra', start=[16, 16], end=[32, 16]))
+        (self.dist / 'gallery/icons.json').write_text(json.dumps({'icons': [icon]}))
+        self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
+        data = {'icon': icon['key'], 'svg_sha256': 'fixture', 'offsets': {}, 'revision': 0,
+                'deleted_strokes': ['primitive:extra'], 'validate': True}
+        status, report = self.call('POST', '/api/stroke-edits/validate', data)
+        self.assertEqual(status, 200)
+        self.assertEqual(report['status'], 'pass', report.get('errors'))
+        status, saved = self.call('POST', data=data)
+        self.assertEqual(status, 200)
+        self.assertEqual(saved['edited_graph']['primitives'], baseline['primitives'])
+        self.assertEqual(saved['validation']['graph_sha256'], graph_sha256(saved['edited_graph']))
+        self.assertEqual(saved['validation']['graph_sha256'], report['graph_sha256'])
+        self.server.shutdown(); self.server.server_close(); self.start()
+        self.assertEqual(self.call('GET', '/api/stroke-edits?icon='+icon['key'])[1]['edit'], saved)
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()

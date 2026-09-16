@@ -34,12 +34,12 @@ const tick=()=>new Promise(r=>setImmediate(r));
  unsaved=false;ui.editSaved(original.key,4);
  context.fetch=async(url,options)=>{body=JSON.parse(options.body);return response({error:'Someone changed this artwork.'},false);};
  await $('artworkApply').onclick();assert.equal(body.edit_revision,4);assert.equal(body.svg,undefined);assert.match($('artworkStatus').textContent,/Someone changed/);
- // A late save cannot update a different icon's inspector.
+ // A late save updates the gallery without changing a different icon's inspector.
  let resolve;context.fetch=()=>new Promise(r=>resolve=r);
  const saving=$('artworkApply').onclick();
  const savedResolve=resolve;context.fetch=async()=>response(loaded);
  ui.open({...original,key:'solo/other',icon_id:'other'});await tick();
  savedResolve(response({...loaded,choice:{source_mode:'use_edited'},record:original}));await saving;
- assert.equal(events.length,1);assert.equal($('artworkMode').value,'use_org');
+ assert.equal(events.length,2);assert.equal(events[1].detail.key,original.key);assert.equal($('artworkMode').value,'use_org');
  console.log('Artwork upload, source choice, saved-edit binding, failure recovery, and stale-response UI checks passed.');
 })().catch(e=>{console.error(e);process.exitCode=1;});

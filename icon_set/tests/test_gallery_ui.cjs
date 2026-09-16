@@ -21,7 +21,7 @@ class Element {
   }
 }
 function page(name) {
-  const elements = new Map(), storage = new Map(), navigations = [];
+  const elements = new Map(), storage = new Map(), navigations = [], listeners = new Map();
   const document = {
     body: new Element(),
     getElementById(id) { if (!elements.has(id)) elements.set(id, new Element()); return elements.get(id); },
@@ -31,16 +31,32 @@ function page(name) {
   const localStorage = { getItem: k => storage.get(k), setItem: (k,v) => storage.set(k,v), removeItem: k => storage.delete(k) };
   const location = { search: '', href: 'http://localhost/gallery/generate.html', assign: url => navigations.push(url) };
   const context = vm.createContext({document, localStorage, sessionStorage: localStorage, location,
-    window: {addEventListener() {}}, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console,
+    window: {addEventListener(type, handler) { listeners.set(type, handler); }}, history: {replaceState() {}, pushState() {}}, URL, URLSearchParams, console,
     fetch: async () => ({ok: false, json: async () => null})});
   let script = fs.readFileSync(path.join(__dirname, '../scripts/templates', name+'.html'), 'utf8').split('<script>')[1].split('</script>')[0];
   script = name === 'gallery' ? script.slice(0, script.lastIndexOf('(async()=>')) : script.replace('refresh();setInterval(()=>{if(!document.hidden)refresh();},4000);', '');
   vm.runInContext(fs.readFileSync(path.join(__dirname, '../scripts/templates/reference-picker.js'), 'utf8'), context);
   vm.runInContext('var ReferencePicker=window.ReferencePicker,referenceThumbs=window.referenceThumbs;', context);
   vm.runInContext(script, context);
-  return {context, document, navigations, run: code => vm.runInContext(code, context)};
+  return {context, document, navigations, dispatch: (type, detail) => listeners.get(type)({detail}), run: code => vm.runInContext(code, context)};
 }
 async function main() {
+  const artwork = page('gallery');
+  artwork.run("icons=[{key:'solo/example',family:'solo',icon_id:'example',name:'Example',preview_url:'original.svg'}];reviewsLoaded=true;render();");
+  const gridImage = () => {
+    const visit = node => node.src ? [node.src] : (node.children || []).flatMap(visit);
+    return visit(artwork.document.getElementById('grid'))[0];
+  };
+  assert.equal(gridImage(), 'original.svg');
+  // Review refresh may be slow or stalled; the saved pick must appear immediately.
+  artwork.context.fetch = () => new Promise(() => {});
+  for (const [mode, url] of [['use_edited','edited.svg'],['use_upload','uploaded.svg'],['use_org','original.svg']]) {
+    artwork.dispatch('icon-artwork-saved', {key:'solo/example', artwork_source:mode, preview_url:url});
+    assert.equal(gridImage(), url, 'Grid immediately displays the saved '+mode+' selection');
+    artwork.run('render();');
+    assert.equal(gridImage(), url, 'Rerender retains the picked artwork');
+  }
+
   const types = page('gallery');
   types.run("selected={key:'solo/example'};revision=1;");
   types.context.fetch=async()=>({ok:true,json:async()=>({icon_type:'portrait',updated_by:'jakes'})});

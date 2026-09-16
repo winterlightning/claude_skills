@@ -41,6 +41,15 @@
     }
     return result;
   }
+  function withoutStrokes(drawing, allGroups, deleted) {
+    const result=clone(drawing),removed=new Set(allGroups.filter(g=>deleted.includes(g.id)).flatMap(g=>g.members));
+    for(const c of result.contours || [])if(c.members.some(id=>removed.has(id)))removed.add(c.contour_id);
+    result.primitives=result.primitives.filter(p=>!removed.has(p.element_id));
+    if(result.contours)result.contours=result.contours.filter(c=>!removed.has(c.contour_id));
+    if(result.relationships)result.relationships=result.relationships.filter(r=>!r.members.some(id=>removed.has(id)));
+    if(result.human_figures)result.human_figures=result.human_figures.filter(f=>!removed.has(f.head)&&!removed.has(f.torso));
+    return result;
+  }
   function snapGeometry(primitives, center) {
     // Use symmetric tie-breaking around the canvas center, including half units.
     const snap=value=>center+Math.sign(value-center)*Math.floor(Math.abs(value-center)+.5);
@@ -106,9 +115,9 @@
   let icon = null, strokes = [], offsets = {}, scales = {}, savedOffsets = {}, savedScales = {}, saved = null, baseRevision = 0;
   let selected = '', undo = [], redo = [], drag = null, request = 0, ready = false, busy = false, loaded = false;
   let selectionBounds=null, iconBounds=null;
-  let selectedPoint=null;
+  let selectedPoint=null,deletedStrokes=[],savedDeletedStrokes=[];
   let keyshape='',savedKeyshape='',validation=null,checking=false,override=null,geometry=null,savedGeometry=null;
-  const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry)});
+  const state=()=>({offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes)});
   const workingIcon=()=>({...icon,primitives:geometry || icon.primitives});
   const experiment=()=>{
     const result={...workingIcon(),keyshape};
@@ -117,9 +126,11 @@
     if(keyshape!=='FREE')delete result.free_keyshape;
     return result;
   };
-  const targets=()=> $('strokeScope').value==='icon'?strokes:strokes.filter(g=>g.id===selected);
+  const visibleStrokes=()=>strokes.filter(g=>!deletedStrokes.includes(g.id));
+  const targets=()=> $('strokeScope').value==='icon'?visibleStrokes():visibleStrokes().filter(g=>g.id===selected);
+  const displayGraph=()=>withoutStrokes(translatedGraph(experiment(),strokes,offsets,scales),strokes,deletedStrokes);
   const activeId=()=>targets()[0]?.id;
-  const geometryDirty = () => JSON.stringify(offsets) !== JSON.stringify(savedOffsets) || JSON.stringify(scales)!==JSON.stringify(savedScales) || keyshape!==savedKeyshape || JSON.stringify(geometry)!==JSON.stringify(savedGeometry);
+  const geometryDirty = () => JSON.stringify(offsets) !== JSON.stringify(savedOffsets) || JSON.stringify(scales)!==JSON.stringify(savedScales) || keyshape!==savedKeyshape || JSON.stringify(geometry)!==JSON.stringify(savedGeometry) || JSON.stringify(deletedStrokes)!==JSON.stringify(savedDeletedStrokes);
   const overrideRequest=()=>override ? {reason:override.reason} : null;
   const overrideDirty=()=>JSON.stringify(overrideRequest())!==JSON.stringify(saved?.validation_override ? {reason:saved.validation_override.reason} : null);
   const dirty=()=>geometryDirty() || overrideDirty();
@@ -128,7 +139,7 @@
   const draftKey = () => 'pictographic-stroke-edit:'+icon.key+':'+icon.svg_sha256;
   function remember() {
     try {
-      if (dirty()) localStorage.setItem(draftKey(), JSON.stringify({revision:baseRevision,offsets,scales,keyshape,geometry,validation_override:overrideRequest()}));
+      if (dirty()) localStorage.setItem(draftKey(), JSON.stringify({revision:baseRevision,offsets,scales,keyshape,geometry,deleted_strokes:deletedStrokes,validation_override:overrideRequest()}));
       else localStorage.removeItem(draftKey());
     } catch { $('strokeStatus').textContent = 'Browser backup is unavailable. Save edits or download JSON before leaving.'; }
   }
@@ -145,7 +156,7 @@
     $('strokeOverrideReason').value=override?.reason || '';
     $('strokeUndo').disabled = blocked || !undo.length;
     $('strokeRedo').disabled = blocked || !redo.length;
-    $('strokeResetAll').disabled = blocked || !Object.keys(offsets).length && !Object.keys(scales).length && keyshape===(icon?.keyshape || '') && !geometry;
+    $('strokeResetAll').disabled = blocked || !Object.keys(offsets).length && !Object.keys(scales).length && keyshape===(icon?.keyshape || '') && !geometry && !deletedStrokes.length;
     $('strokeReload').disabled = busy;
     $('strokeKeyshape').disabled=blocked;
     $('strokeKeyshape').value=keyshape;
@@ -162,6 +173,8 @@
     }
     $('strokeReset').textContent=$('strokeScope').value==='icon'?'Reset icon':'Reset stroke';
     $('strokeX').value = dx; $('strokeY').value = dy;
+    $('strokeDelete').disabled=blocked || !selected || $('strokeScope').value==='icon' || visibleStrokes().length<=1;
+    $('strokeDelete').title=visibleStrokes().length<=1?'Keep at least one stroke in the icon.':$('strokeScope').value==='icon'?'Choose Selected stroke to delete a stroke.':'Delete the selected stroke. Undo restores it.';
     $('strokeSelect').value = selected;
     $('strokeSelect').disabled=blocked || !selected || $('strokeScope').value==='icon';
     const currentPoint=selectedPoint && pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===selectedPoint.group)).find(n=>n.refs.includes(selectedPoint.id));
@@ -183,6 +196,10 @@
   function draw() {
     const canvas = $('strokeCanvas'); canvas.replaceChildren();
     if (!icon || !strokes.length) return;
+    const visible=visibleStrokes();
+    if(!visible.some(g=>g.id===selected))selected=visible[0]?.id || '';
+    if(selectedPoint && deletedStrokes.includes(selectedPoint.group))selectedPoint=null;
+    $('strokeSelect').replaceChildren(...visible.map(g=>{const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
     const size = icon.canvas_size, width = icon.style?.stroke_width || 4;
     canvas.setAttribute('viewBox',`-4 -4 ${size+8} ${size+8}`);
     canvas.append(node('rect',{x:0,y:0,width:size,height:size,fill:'#fff',stroke:'#bdcbbb','stroke-width':.15}));
@@ -194,15 +211,15 @@
     $('editingKeyshape').textContent=window.IconGuides?'Keyshape: '+window.IconGuides.label(experiment())+' · dashed orange':'';
     if ($('strokeOriginal').checked) {
       const ghost = node('g',{fill:'none',stroke:'#b5c2ae','stroke-width':width,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.35,'pointer-events':'none'});
-      for (const g of strokes) ghost.append(node('path',{d:pathData(icon,g)}));
+      for (const g of visible) ghost.append(node('path',{d:pathData(icon,g)}));
       canvas.append(ghost);
     }
     const edited=translatedGraph(workingIcon(),strokes,offsets,scales), bounds=[], allBounds=[];
     const targetIds=new Set(targets().map(g=>g.id));
-    for (const g of strokes) {
+    for (const g of visible) {
       const path = node('path',{d:pathData(edited,g),fill:'none',stroke:targetIds.has(g.id)?'#287650':'#24352c','stroke-width':width,'stroke-linecap':icon.style?.line_cap || 'round','stroke-linejoin':icon.style?.line_join || 'round','data-stroke':g.id,'pointer-events':'stroke'});
       const title = node('title',{}); title.textContent = g.label; path.append(title); canvas.append(path);
-      if(path.getBBox){const b=path.getBBox();allBounds.push(b);if(targetIds.has(g.id))bounds.push(b);}
+      let b;try{b=window.StrokeFit.bounds(edited.primitives.filter(p=>g.members.includes(p.element_id)));}catch{b=path.getBBox();}allBounds.push(b);if(targetIds.has(g.id))bounds.push(b);
     }
     iconBounds=unionBounds(allBounds);selectionBounds=unionBounds(bounds);
     if(selectionBounds){
@@ -212,7 +229,7 @@
       canvas.append(node('rect',{x:right+pad-.7,y:bottom+pad-.7,width:1.4,height:1.4,class:'resize-handle','data-resize':'true','aria-label':'Drag to resize selection'}));
     }
     if($('strokePoints').checked){
-      for(const g of strokes){
+      for(const g of visible){
         canvas.append(node('path',{d:pathData(edited,g),class:'editor-centerline','data-stroke':g.id}));
         if(!targetIds.has(g.id))continue;
         for(const knot of pathPoints(edited,g)){
@@ -237,7 +254,7 @@
   }
   function change(next, history = true) {
     if (history) { undo.push(state()); if (undo.length > 100) undo.shift(); redo=[]; }
-    offsets = next.offsets; scales=next.scales;geometry=clone(next.geometry ?? null); keyshape=next.keyshape ?? keyshape;override=null;validation=null;renderValidation('Edits changed. Run validation again.');draw(); $('strokeStatus').textContent = dirty() ? 'Unsaved edits · save to keep them on this server.' : 'Matches the saved version.'; remember();
+    deletedStrokes=clone(next.deleted_strokes || []);offsets = next.offsets; scales=next.scales;geometry=clone(next.geometry ?? null); keyshape=next.keyshape ?? keyshape;override=null;validation=null;renderValidation('Edits changed. Run validation again.');draw(); $('strokeStatus').textContent = dirty() ? 'Unsaved edits · save to keep them on this server.' : 'Matches the saved version.'; remember();
   }
   function apply(next,history=true){if(JSON.stringify(next)!==JSON.stringify(state()))change(next,history);}
   function move(dx,dy,history=true,basis=state()) {
@@ -254,24 +271,17 @@
     if(!ready || busy || !iconBounds)return;
     const spec=window.IconGuides?.resolve(experiment());if(!spec?.bounds)return;
     const [left,top,right,bottom]=spec.bounds,width=icon.style?.stroke_width || 4;
-    const w=right-left,h=bottom-top,b=iconBounds,c=icon.canvas_size/2;
+    const w=right-left,h=bottom-top;
     if(w%2 || h%2){$('strokeStatus').textContent='This custom keyshape has odd dimensions. Choose an even-sized keyshape for grid-snapped resizing.';return;}
-    const ratio=(extent,target)=>extent>1e-6?(target-width)/extent:Math.abs(target-width)<1e-6?1:null;
-    const rx=ratio(b.width,w),ry=ratio(b.height,h);
-    if(rx===null || ry===null || rx<=0 || ry<=0){$('strokeStatus').textContent='This icon has a flat dimension that cannot fill the selected keyshape without adding geometry.';return;}
-    const next=state(),cx=(left+right)/2,cy=(top+bottom)/2;
-    for(const g of strokes){
-      const priorScale=scales[g.id] || [1,1],priorOffset=offsets[g.id] || [0,0];
-      const scale=[priorScale[0]*rx,priorScale[1]*ry];
-      const offset=[measured(cx+rx*(c+priorOffset[0]-b.cx)-c),measured(cy+ry*(c+priorOffset[1]-b.cy)-c)];
-      if(scale.some(n=>!Number.isFinite(n)||n<.05||n>20)||offset.some(n=>!Number.isFinite(n)||Math.abs(n)>1024)){$('strokeStatus').textContent='This keyshape exceeds the supported resize range.';return;}
-      if(scale.every(n=>n===1))delete next.scales[g.id];else next.scales[g.id]=scale;
-      if(offset.every(n=>n===0))delete next.offsets[g.id];else next.offsets[g.id]=offset;
-    }
-    next.geometry=snapGeometry(translatedGraph(workingIcon(),strokes,next.offsets,next.scales).primitives,c);
-    next.offsets={};next.scales={};
-    $('strokeScope').value='icon';apply(next);draw();
-    $('strokeStatus').textContent=`Fitted to ${w} × ${h} keyshape bounds and snapped path nodes to the grid. Validation checks the resulting geometry.`;
+    try {
+      const drawing=translatedGraph(workingIcon(),strokes,offsets,scales),ids=new Set(visibleStrokes().flatMap(g=>g.members));
+      const fitted=window.StrokeFit.fit(drawing.primitives.filter(p=>ids.has(p.element_id)),spec.bounds,width,icon.primitives);
+      const byId=new Map(fitted.map(p=>[p.element_id,p])),next=state();
+      next.geometry=drawing.primitives.map(p=>byId.get(p.element_id) || p);
+      next.offsets={};next.scales={};selectedPoint=null;
+      $('strokeScope').value='icon';apply(next);draw();
+      $('strokeStatus').textContent=`Fitted to ${w} × ${h}. Curve extrema and grid-snapped points were measured before validation.`;
+    } catch(error) {$('strokeStatus').textContent=error.message;return;}
     await validate();
   }
   function resize(sx,sy,history=true,basis=state(),pivot=selectionBounds) {
@@ -310,12 +320,12 @@
       if (!response.ok) throw Error(data.error || 'Could not load saved edits.');
       if (token!==request) return;
       if (data.svg_sha256 !== icon.svg_sha256) throw Error('The icon changed on this server. Refresh the gallery before editing.');
-      saved=data.edit;geometry=clone(saved?.geometry || null);savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
+      saved=data.edit;deletedStrokes=clone(saved?.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(saved?.geometry || null);savedGeometry=clone(geometry); override=clone(saved?.validation_override || null); baseRevision=saved?.revision || 0;
       offsets=clone(saved?.offsets || {}); scales=clone(saved?.scales || {});savedOffsets=clone(offsets);savedScales=clone(scales);keyshape=saved?.keyshape || icon.keyshape || '';savedKeyshape=keyshape; undo=[]; redo=[];
       let draft=null;
       try { if (discard) localStorage.removeItem(draftKey()); else draft=JSON.parse(localStorage.getItem(draftKey()) || 'null'); } catch {}
       if (draft && Number.isInteger(draft.revision) && draft.offsets && Object.entries(draft.offsets).every(([id,offset]) => strokes.some(g=>g.id===id) && Array.isArray(offset) && offset.length===2 && offset.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=1024))) {
-        if(validScales(draft.scales || {}) && validGeometry(draft.geometry ?? null)){geometry=clone(draft.geometry ?? null);offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
+        if(validScales(draft.scales || {}) && validGeometry(draft.geometry ?? null) && validDeleted(draft.deleted_strokes || [])){deletedStrokes=clone(draft.deleted_strokes || []);geometry=clone(draft.geometry ?? null);offsets=draft.offsets;scales=draft.scales || {};keyshape=draft.keyshape || keyshape;baseRevision=draft.revision;override=typeof draft.validation_override?.reason==='string'?{reason:draft.validation_override.reason}:null;}
       }
       validation=!geometryDirty() && saved?.validation?.status!=='not-run'?saved?.validation:null;renderValidation();
       ready=true; draw();
@@ -361,7 +371,7 @@
     const token=request, snapshot=JSON.stringify(state());
     busy=true;checking=true;validation=null;renderValidation('Checking current geometry and keyshape…');controls();
     try{
-      const response=await fetch('../api/stroke-edits/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({icon:icon.key,svg_sha256:icon.svg_sha256,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry)})});
+      const response=await fetch('../api/stroke-edits/validate',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({icon:icon.key,svg_sha256:icon.svg_sha256,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes)})});
       if(!(response.headers.get('content-type') || '').includes('application/json'))throw Error('Validation needs the updated gallery server. Restart it and try again.');
       const result=await response.json();if(!response.ok)throw Error(result.error || 'Validation could not run.');
       if(token!==request || snapshot!==JSON.stringify(state()))return;
@@ -371,14 +381,14 @@
   }
   async function save() {
     if (!ready || busy || !overrideValid() || (!dirty() && !validationNeedsSave())) return;
-    const token=request, body={icon:icon.key,svg_sha256:icon.svg_sha256,revision:baseRevision,offsets:clone(offsets),scales:clone(scales),keyshape:keyshape || undefined,geometry:clone(geometry),validate:!!validation,validation_override:overrideRequest()};
+    const token=request, body={icon:icon.key,svg_sha256:icon.svg_sha256,revision:baseRevision,offsets:clone(offsets),scales:clone(scales),keyshape:keyshape || undefined,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes),validate:!!validation,validation_override:overrideRequest()};
     busy=true;controls();$('strokeStatus').textContent='Saving edits to this server…';
     try {
       const response=await fetch('../api/stroke-edits',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
       const data=await response.json();
       if (!response.ok) throw Error(data.error || 'Could not save edits.');
       if (token!==request) return;
-      saved=data;geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
+      saved=data;deletedStrokes=clone(data.deleted_strokes || []);savedDeletedStrokes=clone(deletedStrokes);geometry=clone(data.geometry || null);savedGeometry=clone(geometry); override=clone(data.validation_override || null); baseRevision=data.revision; savedOffsets=clone(data.offsets);offsets=clone(data.offsets);scales=clone(data.scales || {});savedScales=clone(scales);keyshape=data.keyshape || keyshape;savedKeyshape=keyshape;validation=data.validation?.status!=='not-run'?data.validation:null;renderValidation();remember();
       window.IconArtwork?.editSaved(icon.key,data.revision);
       $('strokeStatus').textContent=`Saved on this server by ${data.updated_by}. Ready for Python to read.`;
     } catch(error) { if (token===request) $('strokeStatus').textContent=error.message+' Your draft is still here.'; }
@@ -386,27 +396,34 @@
   }
   function download() {
     if (!ready) return;
-    const handoff = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:translatedGraph(experiment(),strokes,offsets,scales),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
+    const handoff = !dirty() && saved ? {...saved,validation:validation || saved.validation} : {schema:'pictographic.stroke-edit.v2',icon:icon.key,source_svg_sha256:icon.svg_sha256,python_source:icon.python_source,revision:baseRevision,status:'draft',updated_at:new Date().toISOString(),updated_by:null,offsets:clone(offsets),scales:clone(scales),keyshape,geometry:clone(geometry),deleted_strokes:clone(deletedStrokes),scale_origin:[icon.canvas_size/2,icon.canvas_size/2],stroke_groups:strokes.map(({id,members})=>({id,members})),original_graph:graph(icon),edited_graph:displayGraph(),validation:validation || {status:'not-run',note:'Reconcile anchors and relationships and run Python validation before publishing.'}};
     if(dirty()){handoff.validation_override_request=overrideRequest();handoff.validation_override=null;handoff.effective_validation_status='not-run';}
     const url=URL.createObjectURL(new Blob([JSON.stringify(handoff,null,2)+'\n'],{type:'application/json'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-stroke-edits.json';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function downloadSVG(){
     if(!ready || busy)return;
-    const edited=translatedGraph(experiment(),strokes,offsets,scales),size=icon.canvas_size;
+    const edited=displayGraph(),size=icon.canvas_size;
     const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
-    const paths=strokes.map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
+    const paths=visibleStrokes().map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
     const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }
   function validGeometry(value){return value===null || Array.isArray(value) && value.length===icon.primitives.length && value.every((p,i)=>p && p.element_id===icon.primitives[i].element_id && p.kind===icon.primitives[i].kind && [p.start,p.end,...(p.segments || []).flat()].every(point=>Array.isArray(point) && point.length===2 && point.every(n=>typeof n==='number' && Number.isFinite(n) && Math.abs(n)<=4096)));}
+  function validDeleted(value){return Array.isArray(value) && value.length<strokes.length && new Set(value).size===value.length && value.every(id=>strokes.some(g=>g.id===id));}
+  function deleteStroke(){
+    if(!ready || busy || !selected || $('strokeScope').value==='icon' || visibleStrokes().length<=1)return;
+    const next=state(),name=strokes.find(g=>g.id===selected).label;
+    next.deleted_strokes=strokes.filter(g=>g.id===selected || deletedStrokes.includes(g.id)).map(g=>g.id);
+    selectedPoint=null;apply(next);$('strokeStatus').textContent=`Deleted ${name}. Undo restores it; save edits to keep this change.`;
+  }
   function validScales(values){return values && !Array.isArray(values) && typeof values==='object' && Object.entries(values).every(([id,pair])=>strokes.some(g=>g.id===id) && Array.isArray(pair)&&pair.length===2&&pair.every(n=>typeof n==='number'&&Number.isFinite(n)&&n>=.05&&n<=20));}
   function open(next) {
     selectedPoint=null;
     next={...next,...(next.generated_graph || {}),svg_sha256:next.generated_svg_sha256 || next.svg_sha256};
     if (icon && ready) remember();
-    request++;icon=next;geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
+    request++;icon=next;deletedStrokes=[];savedDeletedStrokes=[];geometry=null;savedGeometry=null;keyshape=icon.keyshape || '';savedKeyshape=keyshape;override=null;validation=null;checking=false;renderValidation();strokes=[];offsets={};scales={};savedOffsets={};savedScales={};saved=null;selected='';selectionBounds=null;iconBounds=null;ready=false;loaded=false;busy=false;drag=null;undo=[];redo=[];
     $('strokeKeyshape').replaceChildren(...(window.IconGuides?.choices(icon) || [{name:keyshape,label:keyshape}]).map(item=>{const option=document.createElement('option');option.value=item.name;option.textContent=item.label;return option;}));
     $('strokeCanvas').replaceChildren();$('strokeSelect').replaceChildren();$('strokeStatus').textContent='';$('strokeScope').value='stroke';controls();tab('review');
   }
@@ -442,7 +459,8 @@
       resize(previous[0]*rx,previous[1]*ry);
     };
     $('strokeReset').onclick=()=>{const next=state();for(const g of targets()){delete next.offsets[g.id];delete next.scales[g.id];if(next.geometry)for(const id of g.members){const i=icon.primitives.findIndex(p=>p.element_id===id);next.geometry[i]=clone(icon.primitives[i]);}}if(JSON.stringify(next.geometry)===JSON.stringify(icon.primitives))next.geometry=null;apply(next);};
-    $('strokeResetAll').onclick=()=>apply({offsets:{},scales:{},geometry:null,keyshape:icon.keyshape || ''});
+    $('strokeDelete').onclick=deleteStroke;
+    $('strokeResetAll').onclick=()=>apply({offsets:{},scales:{},geometry:null,deleted_strokes:[],keyshape:icon.keyshape || ''});
     $('strokeUndo').onclick=()=>{if(!undo.length)return;redo.push(state());change(undo.pop(),false);};
     $('strokeRedo').onclick=()=>{if(!redo.length)return;undo.push(state());change(redo.pop(),false);};
     $('strokeDownloadSVG').onclick=downloadSVG;$('strokeSave').onclick=save;$('strokeDownload').onclick=download;$('strokeReload').onclick=()=>load(true);
@@ -480,6 +498,6 @@
     };
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();

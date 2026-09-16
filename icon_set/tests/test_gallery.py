@@ -154,7 +154,7 @@ class GalleryTests(unittest.TestCase):
             laboratory = json.loads((gallery / 'laboratory.json').read_text())
             self.assertEqual(laboratory['profile'], contracts.icon_profile())
             self.assertEqual(laboratory['keyshapes'], contracts.keyshapes())
-            for asset in ('icon-laboratory.html', 'icon-laboratory.css', 'icon-laboratory.js'):
+            for asset in ('icon-laboratory.html', 'icon-laboratory.css', 'icon-laboratory.js', 'stroke-fit.js'):
                 self.assertTrue((gallery / asset).is_file())
             other = root / 'second'
             other.mkdir()
