@@ -3,6 +3,7 @@ const assert=require('node:assert/strict'), fs=require('node:fs'), vm=require('n
 class Element {
   constructor(){this.value='';this.children=[];this.attrs={};this.dataset={};}
   setAttribute(k,v){this.attrs[k]=v;}
+  addEventListener(event,fn){this['on'+event]=fn;}
   append(...values){this.children.push(...values);}
   replaceChildren(...values){this.children=values;}
   focus(){}
@@ -116,7 +117,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   await $('strokeSave').onclick();assert.equal($('strokeSave').disabled,true);
   // A human decision is saved separately from failed automatic findings.
   $('strokeForcePass').checked=true;$('strokeForcePass').onchange();
-  assert.equal($('strokeSave').disabled,true,'A reason is required');
+  assert.equal($('strokeSave').disabled,false,'The human review note is optional');
   $('strokeOverrideReason').value='Visually reviewed: intentional circle.';$('strokeOverrideReason').oninput();
   assert.equal($('strokeSave').disabled,false);
   let forcedDoc;
@@ -133,7 +134,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   assert.equal($('strokeOverrideReason').value,'Visually reviewed: intentional circle.');
   $('strokeForcePass').checked=false;$('strokeForcePass').onchange();
   assert.equal($('strokeValidation').dataset.status,'fail');
-  assert.equal($('strokeSave').disabled,false);
+  assert.equal($('strokeSave').disabled,true);
   $('strokeForcePass').checked=true;$('strokeForcePass').onchange();
   $('strokeOverrideReason').value='Visually reviewed: intentional circle.';$('strokeOverrideReason').oninput();
   assert.match($('strokeValidation').children[0].textContent,/jakes/);
@@ -165,6 +166,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   await $('strokeAutoResize').onclick();assert.equal($('strokeScaleX').value,20);assert.equal($('strokeScaleY').value,32);
   assert.deepEqual(fitted.geometry,snappedHandoff.edited_graph.primitives,'Repeated auto-fit must not drift');
   let savedFit;
+  $('strokeForcePass').checked=true;$('strokeForcePass').onchange();
   context.fetch=async(_url,options)=>{const body=JSON.parse(options.body);savedFit={...body,edited_graph:snappedHandoff.edited_graph,revision:1,validation:report,updated_by:'jakes'};return response(savedFit);};
   await $('strokeSave').onclick();assert.deepEqual(savedFit.geometry,fitted.geometry);
   context.fetch=async()=>response({svg_sha256:'sha',edit:savedFit});
@@ -252,7 +254,7 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   assert.equal($('strokeSelect').children.length,1,'Browser backup recovers deletion');
   let deletedSaved;
   context.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.deepEqual(body.deleted_strokes,['primitive:extra']);if(url.endsWith('/validate'))return response(report);deletedSaved={...body,edited_graph:deletedDoc.edited_graph,revision:1};return response(deletedSaved);};
-  await $('strokeValidate').onclick();await $('strokeSave').onclick();
+  await $('strokeValidate').onclick();$('strokeForcePass').checked=true;$('strokeForcePass').onchange();await $('strokeSave').onclick();
   context.fetch=async()=>response({svg_sha256:'sha',edit:deletedSaved});
   editor.open({...resizeIcon,key:'sub/deleting'});$('editingTab').onclick();await tick();
   assert.equal($('strokeSelect').children.length,1);assert.equal($('strokeSave').disabled,true);
@@ -263,5 +265,51 @@ const tick=()=>new Promise(resolve=>setImmediate(resolve));
   const references={...resizeIcon,relationships:[{kind:'touching',members:['outline','extra']}],human_figures:[{head:'outline',torso:'extra'}]};
   const remaining=editor.withoutStrokes(references,editor.groups(references),['contour:outline']);
   assert.equal(remaining.primitives.length,1);assert.equal(remaining.contours.length,0);assert.equal(remaining.relationships.length,0);assert.equal(remaining.human_figures.length,0);
-  console.log('Stroke geometry, even-grid typed and dragged resizing, whole-icon resizing, undo/redo, persistence, and stale-response checks passed.');
+  // Curve handles edit only their own controls, keeping endpoints and joins intact.
+  context.fetch=async()=>response({svg_sha256:'sha',edit:null});
+  editor.open({...icon,key:'sub/curve-controls'});$('editingTab').onclick();await tick();
+  $('strokeSelect').value='primitive:c';$('strokeSelect').onchange();
+  const bezierHandle=canvas.children.find(e=>e.attrs['data-point']==='c:control:0:0');
+  assert.ok(bezierHandle,'Bézier tangent handles are rendered');
+  canvas.onpointerdown({target:bezierHandle,button:0,pointerId:20,clientX:4,clientY:8,preventDefault(){}});
+  canvas.onpointermove({pointerId:20,clientX:6,clientY:7});canvas.onpointerup({pointerId:20});
+  $('strokeDownload').onclick();const curveDoc=JSON.parse(downloadedSVG);
+  assert.deepEqual(curveDoc.geometry[2].segments,[[[6,7],[10,8],[12,10]]]);
+  assert.deepEqual(curveDoc.geometry[2].start,[2,10]);assert.deepEqual(curveDoc.geometry[2].end,[12,10]);
+  assert.deepEqual(curveDoc.geometry[1],icon.primitives[1]);
+  $('strokeUndo').onclick();assert.equal($('strokePointX').value,4);
+  $('strokeRedo').onclick();assert.equal($('strokePointX').value,6);
+  $('strokeSelect').value='contour:outline';$('strokeSelect').onchange();
+  const arcHandle=canvas.children.find(e=>e.attrs['data-point']==='b:radius:0');assert.ok(arcHandle);
+  canvas.onpointerdown({target:arcHandle,button:0,pointerId:21,clientX:14,clientY:6,preventDefault(){}});
+  canvas.onpointermove({pointerId:21,clientX:16,clientY:6});canvas.onpointerup({pointerId:21});
+  assert.equal($('strokeArcFields').hidden,false);assert.equal($('strokePointFields').hidden,true);
+  assert.equal($('strokeArcRadiusX').value,6);
+  $('strokeDownload').onclick();const arcDoc=JSON.parse(downloadedSVG);
+  assert.deepEqual(arcDoc.geometry[1],{...icon.primitives[1],radius_x:6});
+  assert.deepEqual(arcDoc.geometry[2],curveDoc.geometry[2]);
+  $('strokeUndo').onclick();assert.equal($('strokeArcRadiusX').value,4);
+  $('strokeRedo').onclick();assert.equal($('strokeArcRadiusX').value,6);
+  $('strokeArcRadiusX').valueAsNumber=7;$('strokeArcRadiusY').valueAsNumber=5;$('strokeArcRadiusX').onchange();
+  assert.equal($('strokeArcRadiusX').value,7);assert.equal($('strokeArcRadiusY').value,5);
+  $('strokeArcRadiusX').valueAsNumber=0;$('strokeArcRadiusX').onchange();assert.equal($('strokeArcRadiusX').value,7);
+  let controlSaved;
+  context.fetch=async(_url,options)=>{controlSaved={...JSON.parse(options.body),revision:1,updated_by:'jakes'};return response(controlSaved);};
+  await $('strokeSave').onclick();assert.equal(controlSaved.geometry[1].radius_y,5);
+  context.fetch=async()=>response({svg_sha256:'sha',edit:controlSaved});
+  editor.open({...icon,key:'sub/curve-controls'});$('editingTab').onclick();await tick();
+  $('strokeDownloadSVG').onclick();assert.match(downloadedSVG,/A7 5/);assert.match(downloadedSVG,/C6 7 10 8 12 10/);
+  assert.doesNotMatch(downloadedSVG,/editor-control/);
+  // Overlapping control/anchor positions retain distinct selection addresses.
+  const coincident={...icon,primitives:[{...icon.primitives[2],segments:[[[2,10],[12,10],[12,10]]]}],contours:[]};
+  const coincidentGroup=editor.groups(coincident)[0];
+  const changed=editor.movePathPoint(coincident,coincidentGroup,'c:control:0:0',[3,9]);
+  assert.deepEqual(JSON.parse(JSON.stringify(changed[0].start)),[2,10]);
+  assert.deepEqual(JSON.parse(JSON.stringify(changed[0].segments[0][0])),[3,9]);
+  // Handles use the rendered ellipse when SVG has to expand authored radii.
+  const undersized={...icon.primitives[1],radius_x:1,radius_y:1};
+  const arcControls=editor.arcControls(undersized);
+  assert.ok(arcControls.every(h=>h.position.every(Number.isFinite)));
+  assert.ok(arcControls[0].radii[0]>1);
+  console.log('Stroke editing, curve controls, arc radii, undo/redo, save/reload, and stale-response checks passed.');
 })().catch(error=>{console.error(error);process.exitCode=1;});

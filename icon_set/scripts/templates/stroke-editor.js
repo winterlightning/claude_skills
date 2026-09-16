@@ -69,6 +69,22 @@
     });
   }
   function round(n) { return Math.round(n*1e6)/1e6; }
+  function arcControls(p) {
+    let rx=Math.abs(p.radius_x),ry=Math.abs(p.radius_y);
+    const dx=(p.start[0]-p.end[0])/2,dy=(p.start[1]-p.end[1])/2;
+    if(!rx || !ry || (!dx && !dy))return [];
+    // Match SVG's endpoint-to-center conversion, including undersized radii.
+    const correction=Math.max(1,Math.sqrt(dx*dx/(rx*rx)+dy*dy/(ry*ry)));
+    rx*=correction;ry*=correction;
+    const denominator=rx*rx*dy*dy+ry*ry*dx*dx;
+    const sign=!!p.large_arc===!!p.sweep?-1:1;
+    const factor=sign*Math.sqrt(Math.max(0,(rx*rx*ry*ry-denominator)/denominator));
+    const center=[factor*rx*dy/ry+(p.start[0]+p.end[0])/2,-factor*ry*dx/rx+(p.start[1]+p.end[1])/2];
+    return [0,1].map(axis=>({id:p.element_id+':radius:'+axis,kind:'arc',primitive:p.element_id,axis,
+      label:axis?'Arc vertical radius':'Arc horizontal radius',anchor:center,
+      // Extend beyond the ellipse so a radius handle does not cover its endpoint.
+      position:center.map((n,i)=>n+(axis===i?(axis?ry:rx)+2:0)),radii:[rx,ry]}));
+  }
   function pathPoints(drawing, group) {
     const points=[];
     for(const p of drawing.primitives.filter(p=>group.members.includes(p.element_id))){
@@ -76,9 +92,21 @@
       for(const [address,position] of knots){
         const ref=p.element_id+':'+address;
         let knot=points.find(n=>n.position.every((v,i)=>v===position[i]));
-        if(!knot){knot={id:ref,position:[...position],refs:[]};points.push(knot);}
+        if(!knot){knot={id:ref,kind:'knot',label:'Path point',position:[...position],refs:[]};points.push(knot);}
         knot.refs.push(ref);
       }
+    }
+    // Handles are independent even when they coincide with knots or other handles.
+    for(const p of drawing.primitives.filter(p=>group.members.includes(p.element_id))){
+      if(p.kind==='bezier')p.segments.forEach((segment,index)=>{
+        for(const control of [0,1]){
+          const id=p.element_id+':control:'+index+':'+control;
+          points.push({id,refs:[id],kind:'bezier',primitive:p.element_id,segment:index,control,
+            label:`Bézier ${index+1} · control ${control+1}`,position:[...segment[control]],
+            anchor:control?segment[2]:index?p.segments[index-1][2]:p.start});
+        }
+      });
+      if(p.kind==='arc')for(const control of arcControls(p))points.push({...control,refs:[control.id]});
     }
     return points;
   }
@@ -86,6 +114,18 @@
     const knot=pathPoints(drawing,group).find(n=>n.refs.includes(pointId));
     if(!knot)return null;
     const result=clone(drawing.primitives),same=p=>p.every((v,i)=>v===knot.position[i]);
+    if(same(destination))return result;
+    if(knot.kind==='bezier'){
+      result.find(p=>p.element_id===knot.primitive).segments[knot.segment][knot.control]=[...destination];
+      return result;
+    }
+    if(knot.kind==='arc'){
+      const p=result.find(p=>p.element_id===knot.primitive),radii=[...knot.radii];
+      radii[knot.axis]=Math.max(.1,round(radii[knot.axis]+destination[knot.axis]-knot.position[knot.axis]));
+      if(radii.some(n=>!Number.isFinite(n) || n>4096))return null;
+      [p.radius_x,p.radius_y]=radii.map(round);
+      return result;
+    }
     const shift=p=>p.map((v,i)=>round(v+destination[i]-knot.position[i]));
     for(const p of result.filter(p=>group.members.includes(p.element_id))){
       // Move both sides of a shared junction, carrying adjacent curve handles with it.
@@ -204,8 +244,17 @@
     $('strokeSelect').value = selected;
     $('strokeSelect').disabled=blocked || !selected || $('strokeScope').value==='icon';
     const currentPoint=selectedPoint && pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),strokes.find(g=>g.id===selectedPoint.group)).find(n=>n.refs.includes(selectedPoint.id));
-    $('strokePointFields').hidden=!currentPoint;
+    const pointOptions=targets().flatMap(g=>pathPoints(translatedGraph(workingIcon(),strokes,offsets,scales),g).map(p=>({...p,group:g.id})));
+    const placeholder=document.createElement('option');placeholder.value='';placeholder.textContent='Select a point or handle…';
+    $('strokePointSelect').replaceChildren(placeholder,...pointOptions.map(p=>{const option=document.createElement('option');option.value=JSON.stringify([p.group,p.id]);option.textContent=p.kind==='knot'?`${p.label} (${p.position.map(measured).join(', ')})`:`${p.primitive} · ${p.label}`;return option;}));
+    $('strokePointSelect').value=currentPoint?JSON.stringify([selectedPoint.group,selectedPoint.id]):'';
+    $('strokePointSelect').disabled=blocked || !$('strokePoints').checked;
+    $('strokePointFields').hidden=!currentPoint || currentPoint.kind==='arc';
+    $('strokePointTitle').textContent=currentPoint?.kind==='bezier'?currentPoint.label:'Selected path point';
     for(const [i,id] of ['strokePointX','strokePointY'].entries()){$(id).disabled=blocked || !currentPoint;$(id).value=currentPoint?.position[i] ?? '';}
+    $('strokeArcFields').hidden=currentPoint?.kind!=='arc';
+    const arc=currentPoint?.kind==='arc'?translatedGraph(workingIcon(),strokes,offsets,scales).primitives.find(p=>p.element_id===currentPoint.primitive):null;
+    for(const [id,key] of [['strokeArcRadiusX','radius_x'],['strokeArcRadiusY','radius_y']]){$(id).disabled=blocked || !arc;$(id).value=arc?.[key] ?? '';}
     $('strokeSave').textContent = busy && !checking ? 'Saving…' : 'Save edits';
   }
   function node(tag, attrs) {
@@ -258,7 +307,17 @@
       for(const g of visible){
         canvas.append(node('path',{d:pathData(edited,g),class:'editor-centerline','data-stroke':g.id}));
         if(!targetIds.has(g.id))continue;
-        for(const knot of pathPoints(edited,g)){
+        const points=pathPoints(edited,g);
+        const controls=points.filter(p=>p.kind!=='knot').sort((a,b)=>Number(a.id===selectedPoint?.id)-Number(b.id===selectedPoint?.id));
+        for(const control of controls){
+          canvas.append(node('line',{x1:control.anchor[0],y1:control.anchor[1],x2:control.position[0],y2:control.position[1],class:'editor-control-line '+(control.kind==='arc'?'is-arc':'')}));
+          const active=selectedPoint?.group===g.id && selectedPoint.id===control.id;
+          const handle=node('rect',{x:control.position[0]-.6,y:control.position[1]-.6,width:1.2,height:1.2,
+            class:'editor-control-point '+(control.kind==='arc'?'is-arc ':'')+(active?'is-selected':''),
+            'data-point':control.id,'data-stroke':g.id,'data-control':control.kind});
+          const title=node('title',{});title.textContent=control.label+' · drag to reshape';handle.append(title);canvas.append(handle);
+        }
+        for(const knot of points.filter(p=>p.kind==='knot')){
           const active=selectedPoint?.group===g.id && knot.refs.includes(selectedPoint.id);
           const dot=node('circle',{cx:knot.position[0],cy:knot.position[1],r:.55,class:'editor-path-point'+(active?' is-selected':''),'data-point':knot.id,'data-stroke':g.id});
           const title=node('title',{});title.textContent=`Path point (${knot.position.join(', ')}) · drag to reshape`;dot.append(title);canvas.append(dot);
@@ -465,6 +524,18 @@
     }
     $('strokeSelect').onchange=()=>{selectedPoint=null;selected=$('strokeSelect').value;draw();};
     $('strokePoints').onchange=()=>{selectedPoint=null;draw();};
+    $('strokePointSelect').onchange=()=>{const value=$('strokePointSelect').value;selectedPoint=value?{group:JSON.parse(value)[0],id:JSON.parse(value)[1]}:null;draw();};
+    for(const id of ['strokeArcRadiusX','strokeArcRadiusY'])$(id).onchange=()=>{
+      if(!ready || busy || !selectedPoint)return;
+      const radii=['strokeArcRadiusX','strokeArcRadiusY'].map(id=>$(id).valueAsNumber);
+      if(radii.some(n=>!Number.isFinite(n) || n<=0 || n>4096)){$('strokeStatus').textContent='Enter positive arc radii up to 4096 units.';controls();return;}
+      const drawing=translatedGraph(workingIcon(),strokes,offsets,scales),g=strokes.find(g=>g.id===selectedPoint.group);
+      const control=pathPoints(drawing,g).find(p=>p.id===selectedPoint.id && p.kind==='arc');
+      if(!control)return;
+      const primitives=clone(drawing.primitives),arc=primitives.find(p=>p.element_id===control.primitive);
+      [arc.radius_x,arc.radius_y]=radii.map(round);
+      if(JSON.stringify(primitives)!==JSON.stringify(drawing.primitives))apply({...state(),geometry:primitives,offsets:{},scales:{}});
+    };
     for(const id of ['strokePointX','strokePointY'])$(id).onchange=()=>{
       const step=$('strokeSnap').checked?1:.1;
       movePoint(['strokePointX','strokePointY'].map(key=>round(Math.round($(key).valueAsNumber/step)*step)));controls();
@@ -516,7 +587,7 @@
       canvas.setPointerCapture(event.pointerId);canvas.focus({preventScroll:true});
     };
     canvas.onpointermove=event=>{
-      if(!drag){const id=event.target.getAttribute('data-stroke'),g=strokes.find(g=>g.id===id);$('strokeHover').textContent=event.target.getAttribute('data-point')?'Path point · drag to reshape':event.target.getAttribute('data-center')?'Selection center · drag to move selection':g?'Hover: '+g.label+(g.id===selected?' · selected':' · click to select'):'Hover over a stroke or point to identify it.';return;}
+      if(!drag){const id=event.target.getAttribute('data-stroke'),g=strokes.find(g=>g.id===id),control=event.target.getAttribute('data-control');$('strokeHover').textContent=control==='arc'?'Arc radius · drag to reshape':control==='bezier'?'Bézier control · drag to reshape':event.target.getAttribute('data-point')?'Path point · drag to reshape':event.target.getAttribute('data-center')?'Selection center · drag to move selection':g?'Hover: '+g.label+(g.id===selected?' · selected':' · click to select'):'Hover over a stroke or point to identify it.';return;}
       if(event.pointerId!==drag.pointer)return;
       if(drag.mode==='pan'){
         const cursor=canvas.createSVGPoint();cursor.x=event.clientX;cursor.y=event.clientY;
@@ -550,6 +621,6 @@
     canvas.addEventListener('blur',()=>{spacePan=false;updateView();});
     window.addEventListener('beforeunload',event=>{if(ready && dirty()){remember();event.preventDefault();event.returnValue='';}});
   }
-  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
+  window.StrokeEditor={open,refresh:()=>{if(ready)draw();},groups,pathData,translatedGraph,snappedResize,snapGeometry,pathPoints,movePathPoint,arcControls,withoutStrokes,hasUnsavedChanges:()=>ready && dirty()};
   document.addEventListener('DOMContentLoaded',init);
 })();
