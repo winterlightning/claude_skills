@@ -36,7 +36,7 @@
   }
   function restoreURL() {
     const params = new URLSearchParams(location.search);
-    for (const id of ['timezone', 'period']) {
+    for (const id of ['timezone', 'period', 'family']) {
       if ([...$(id).options].some(option => option.value === params.get(id))) $(id).value = params.get(id);
     }
     const user = params.get('reviewer') || '';
@@ -50,7 +50,7 @@
   }
   function saveURL() {
     const params = new URLSearchParams();
-    for (const id of ['reviewer', 'period', 'timezone']) if ($(id).value) params.set(id, $(id).value);
+    for (const id of ['reviewer', 'family', 'period', 'timezone']) if ($(id).value) params.set(id, $(id).value);
     if ($('period').value === 'custom') for (const id of ['start', 'end']) params.set(id, $(id).value);
     history.replaceState(null, '', '?' + params);
   }
@@ -60,10 +60,11 @@
     row.append(element);
     return element;
   }
-  function drawCurrent(current, reviewer) {
+  function drawCurrent(current, reviewer, family) {
     for (const key of ['approved', 'disapproved', 'rejected', 'ready']) $('current' + name(key)).textContent = number(current.totals[key]);
     $('currentReviewed').textContent = number(current.totals.total - current.totals.ready);
     $('currentScope').textContent = (reviewer ? 'By ' + name(reviewer) + ' · ' : '') + number(current.totals.total) + ' icons in catalog';
+    $('currentSummary').textContent = `Live from the review database, the same numbers as Icon review${family ? ' filtered to ' + name(family) : ''}, for all time.`;
     const families = document.createDocumentFragment();
     for (const family of current.families) {
       const row = document.createElement('tr'); cell(row, name(family.family));
@@ -80,12 +81,12 @@
     $('currentReviewerRows').replaceChildren(people);
   }
   function draw(data) {
-    drawCurrent(data.current, data.reviewer);
+    drawCurrent(data.current, data.reviewer, data.family);
     for (const key of ['total', ...outcomes]) $(key).textContent = number(data.totals[key]);
     $('uniqueCount').textContent = 'Each icon counted once';
     const reviewed = data.current.totals.total - data.current.totals.ready;
     $('periodShare').textContent = data.totals.total === reviewed ? 'Matches current status' : `${number(data.totals.total)} of ${number(reviewed)} current decisions were made in this period`;
-    $('rangeTitle').textContent = `${data.reviewer ? name(data.reviewer) : 'All reviewers'} · ${dateLabel(data.start, true)}${data.start === data.end ? '' : ' – ' + dateLabel(data.end, true)}`;
+    $('rangeTitle').textContent = `${data.reviewer ? name(data.reviewer) : 'All reviewers'}${data.family ? ' · ' + name(data.family) : ''} · ${dateLabel(data.start, true)}${data.start === data.end ? '' : ' – ' + dateLabel(data.end, true)}`;
     $('activitySummary').textContent = `${(data.totals.total / data.daily.length).toLocaleString(undefined, {maximumFractionDigits: 1})} reviews per day on average · ${data.timezone.replaceAll('_', ' ')}`;
     $('emptyActivity').hidden = data.totals.total !== 0;
     const maximum = Math.max(1, ...data.daily.map(day => day.total));
@@ -119,7 +120,7 @@
       label.append(avatar, document.createTextNode(name(reviewer.reviewer))); identity.append(label);
       for (const key of ['total', ...outcomes, 'active_days']) cell(row, reviewer[key]);
       const link = document.createElement('a'); link.textContent = 'View icons ↗';
-      link.href = 'index.html?' + new URLSearchParams({reviewer: reviewer.reviewer, family: ''});
+      link.href = 'index.html?' + new URLSearchParams({reviewer: reviewer.reviewer, family: data.family});
       link.setAttribute('aria-label', 'View current icons reviewed by ' + name(reviewer.reviewer));
       cell(row, '').append(link); team.append(row);
     }
@@ -160,7 +161,7 @@
     try {
       if ((!$('start').value && $('period').value !== 'all') || !$('end').value) throw Error('Choose a start and end date.');
       const params = new URLSearchParams();
-      for (const key of ['end', 'timezone', 'reviewer']) params.set(key, $(key).value);
+      for (const key of ['end', 'timezone', 'reviewer', 'family']) params.set(key, $(key).value);
       if ($('period').value === 'all') params.set('period', 'all'); else params.set('start', $('start').value);
       saveURL();
       const response = await fetch('../api/reviewer-stats?' + params, {cache: 'no-store'});
@@ -187,7 +188,7 @@
     }
   }
   $('dashboardFilters').onsubmit = event => {event.preventDefault(); refresh();};
-  for (const id of ['reviewer', 'period', 'timezone', 'start', 'end']) $(id).onchange = () => refresh();
+  for (const id of ['reviewer', 'family', 'period', 'timezone', 'start', 'end']) $(id).onchange = () => refresh();
   setInterval(() => { if (!document.hidden) refresh(true); }, AUTO_REFRESH_MS);
   document.addEventListener('visibilitychange', () => {
     if (!document.hidden && Date.now() - loadedAt >= AUTO_REFRESH_MS) refresh(true);

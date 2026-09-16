@@ -55,6 +55,8 @@ class ReviewerStatsTests(unittest.TestCase):
             self.assertEqual(sum(row[key] for row in everything['reviewers']), sum(row[key] for row in current['reviewers']))
         self.assertEqual(sum(day['total'] for day in everything['reviewer_daily']), 4)
         self.assertEqual([row['family'] for row in current['families']], ['solo', 'sub'])
+        sub = self.stats(period='all', family='sub')
+        self.assertEqual((sub['totals']['approved'], sub['current']['totals']['total']), (1, 1))
         ray = self.stats(period='all', reviewer='ray')
         self.assertEqual((ray['totals']['rejected'], ray['current']['totals']['total']), (1, 1))
 
@@ -85,7 +87,7 @@ class ReviewerStatsTests(unittest.TestCase):
         for query in (dict(start='bad'), dict(timezone='invalid'), dict(timezone='/etc/passwd'),
                       dict(start='2026-09-17', end='2026-09-16'), dict(start='2020-01-01'),
                       dict(reviewer='unknown'), dict(end='9999-12-31'),
-                      dict(start='0001-01-01', end='0001-01-01')):
+                      dict(start='0001-01-01', end='0001-01-01'), dict(family='unknown')):
             with self.subTest(query=query), self.assertRaises(ValueError):
                 self.stats(**query)
 

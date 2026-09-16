@@ -81,6 +81,11 @@ def reviewer_stats(connection, params, users, catalog, now=None):
         zone = ZoneInfo(zone_name)
     except (ZoneInfoNotFoundError, ValueError):
         raise ValueError('Choose a valid time zone.') from None
+    family = params.get('family', [''])[0]
+    if family and family not in {icon.get('family') for icon in catalog.values()}:
+        raise ValueError('Choose a known family.')
+    # Filter by family like Icon review does, so both screens show the same numbers.
+    catalog = {key: icon for key, icon in catalog.items() if not family or icon.get('family') == family}
     decisions = current_decisions(connection, catalog)
     decided = []
     for key, (status, actor, stamp) in decisions.items():
@@ -125,7 +130,7 @@ def reviewer_stats(connection, params, users, catalog, now=None):
     for actor, _ in active_days:
         by_reviewer[actor]['active_days'] += 1
     return dict(start=start.isoformat(), end=end.isoformat(), timezone=zone_name,
-                reviewer=reviewer, available_reviewers=reviewers, totals=totals,
+                reviewer=reviewer, family=family, available_reviewers=reviewers, totals=totals,
                 unique_icons=totals['total'], daily=list(daily.values()),
                 reviewer_daily=list(reviewer_daily.values()),
                 reviewers=sorted(by_reviewer.values(), key=lambda row: (-row['total'], row['reviewer'])),
