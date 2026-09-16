@@ -37,7 +37,10 @@ class LegacyReviewAttributionTests(unittest.TestCase):
             self.assertEqual(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/c'").fetchone()[0], 'jakes')
             self.assertIsNone(db.execute("SELECT updated_by FROM reviews WHERE icon='solo/d'").fetchone()[0])
             self.assertTrue(json.loads(db.execute('SELECT details FROM activity_log LIMIT 1').fetchone()[0])['legacy_snapshot'])
-            stats = reviewer_stats(db, {'start': ['2026-09-10'], 'end': ['2026-09-11']}, ['hina'])
+            db.execute('CREATE TABLE split_requests(icon,svg_sha256,created_by,created_at,active)')
+            catalog = {'solo/a': {'svg_sha256': 'v2'}, 'solo/b': {'svg_sha256': 'v1'},
+                       'solo/c': {'svg_sha256': 'v1'}, 'solo/d': {'svg_sha256': 'v1'}}
+            stats = reviewer_stats(db, {'start': ['2026-09-10'], 'end': ['2026-09-11'], 'reviewer': ['hina']}, ['hina'], catalog)
             self.assertEqual(stats['totals'], {'total': 2, 'approved': 0, 'disapproved': 1, 'rejected': 1})
         self.assertEqual(run(self.path, apply=True)['records'], 0)
         with closing(sqlite3.connect(self.path)) as db:

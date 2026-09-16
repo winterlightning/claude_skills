@@ -1,5 +1,4 @@
-"""Historical throughput, local calendar boundaries, and public dashboard integration."""
-from contextlib import closing
+"""Current-decision activity, local calendar boundaries, and public dashboard integration."""
 from datetime import datetime, timezone
 import json
 import sqlite3
@@ -15,14 +14,16 @@ class ReviewerStatsTests(unittest.TestCase):
     def setUp(self):
         self.db = sqlite3.connect(':memory:')
         self.addCleanup(self.db.close)
-        self.db.execute('CREATE TABLE activity_log(id INTEGER PRIMARY KEY, username, action, icon, details, created_at)')
+        self.db.execute('CREATE TABLE reviews(icon, svg_sha256, status, updated_at, updated_by)')
+        self.db.execute('CREATE TABLE split_requests(icon, svg_sha256, created_by, created_at, active)')
+        self.catalog = {}
 
-    def event(self, user='jakes', action='review', icon='solo/a', status='approve', at='2026-09-16T01:00:00+00:00'):
-        self.db.execute('INSERT INTO activity_log(username,action,icon,details,created_at) VALUES (?,?,?,?,?)',
-                        (user, action, icon, json.dumps({'status': status}), at))
+    def review(self, icon='solo/a', status='approve', user='jakes', at='2026-09-16T01:00:00+00:00', sha=None, family='solo'):
+        self.catalog.setdefault(icon, dict(svg_sha256=icon, family=family))
+        self.db.execute('INSERT INTO reviews VALUES (?,?,?,?,?)', (icon, sha or icon, status, at, user))
 
     def stats(self, **params):
-        return reviewer_stats(self.db, {key: [value] for key, value in params.items()}, USERS,
+        return reviewer_stats(self.db, {key: [value] for key, value in params.items()}, USERS, self.catalog,
                               now=datetime(2026, 9, 16, 12, tzinfo=timezone.utc))
 
     def test_empty_period_contains_every_day_and_reviewer(self):
@@ -33,47 +34,50 @@ class ReviewerStatsTests(unittest.TestCase):
         self.assertEqual(len(result['reviewer_daily']), 28)
         self.assertEqual(result['totals']['total'], 0)
 
-    def test_latest_decision_per_icon_reviewer_day_and_preserved_history(self):
-        self.event(status='pending')
-        self.event(status='approve', at='2026-09-16T02:00:00Z')
-        self.event(status='approve', at='2026-09-16T02:00:01Z')  # repeated click
-        self.event(user='hina', status='rejected')  # another reviewer counts independently
-        self.event(at='2026-09-15T02:00:00Z')  # another day counts again
-        self.event(action='restore', status='ready', at='2026-09-16T03:00:00Z')
-        self.event(icon='solo/deleted', action='reject_combination', status=None)
-        result = self.stats()
-        self.assertEqual(result['totals'], dict(total=4, approved=2, disapproved=0, rejected=2))
-        self.assertEqual(result['unique_icons'], 2)
-        self.assertEqual(sum(day['total'] for day in result['daily']), 4)
-        self.assertEqual(sum(day['total'] for day in result['reviewer_daily']), 4)
-        self.assertEqual(sum(row['total'] for row in result['reviewers']), 4)
-        self.assertEqual(result['reviewers'][0]['active_days'], 2)
-        self.assertEqual(self.stats(reviewer='hina')['totals']['total'], 1)
+    def test_only_current_decisions_count_and_all_time_matches_current_status(self):
+        self.review('solo/a', 'approve', at='2026-09-14T01:00:00Z')
+        self.review('solo/regenerated', 'approve', sha='old')  # the catalog now holds another SVG
+        self.review('solo/gone', 'approve')
+        del self.catalog['solo/gone']
+        self.review('solo/b', 'pending', user='hina')
+        self.review('sub/c', 'approve', user='phuong', family='sub', at='2026-09-01T01:00:00Z')
+        self.catalog['solo/d'] = dict(svg_sha256='d', family='solo')
+        self.db.execute("INSERT INTO split_requests VALUES ('solo/d','d','ray','2026-09-15T01:00:00Z',1)")
+        week = self.stats()
+        self.assertEqual(week['totals'], dict(total=3, approved=1, disapproved=1, rejected=1))
+        self.assertEqual(week['current']['totals'], dict(total=5, approved=2, disapproved=1, rejected=1, ready=1))
+        everything = self.stats(period='all')
+        self.assertEqual(everything['start'], '2026-09-01')
+        current = everything['current']
+        self.assertEqual(everything['totals']['total'], current['totals']['total'] - current['totals']['ready'])
+        for key in ('approved', 'disapproved', 'rejected'):
+            self.assertEqual(everything['totals'][key], current['totals'][key])
+            self.assertEqual(sum(row[key] for row in everything['reviewers']), sum(row[key] for row in current['reviewers']))
+        self.assertEqual(sum(day['total'] for day in everything['reviewer_daily']), 4)
+        self.assertEqual([row['family'] for row in current['families']], ['solo', 'sub'])
+        ray = self.stats(period='all', reviewer='ray')
+        self.assertEqual((ray['totals']['rejected'], ray['current']['totals']['total']), (1, 1))
 
-    def test_feedback_routes_and_unrelated_actions(self):
-        self.event(action='feedback', status='pending')
-        self.event(action='feedback_edit', status='pending')  # resubmitted disapproval
-        self.event(icon='solo/b', action='feedback_edit', status='pending')
-        self.event(icon='solo/c', action='feedback', status='rejected')
-        for action in ('login', 'restore', 'feedback_delete', 'flag', 'discard', 'feedback_sync'):
-            self.event(icon='solo/ignored', action=action, status='approve')
-        self.event(icon='solo/ignored', action='feedback_edit', status=None)
-        self.event(icon='solo/ignored', status='ready')
-        self.assertEqual(self.stats()['totals'], dict(total=2, approved=0, disapproved=2, rejected=0))
+    def test_changed_decision_moves_to_its_new_day_and_reviewer(self):
+        self.review('solo/a', 'pending', user='hina', at='2026-09-14T01:00:00Z')
+        self.db.execute("UPDATE reviews SET status='approve', updated_by='phuong', updated_at='2026-09-16T01:00:00Z'")
+        result = self.stats()
+        self.assertEqual(result['totals'], dict(total=1, approved=1, disapproved=0, rejected=0))
+        self.assertEqual([row['reviewer'] for row in result['reviewers'] if row['total']], ['phuong'])
+        self.assertEqual(result['daily'][-1]['total'], 1)
 
     def test_vietnam_midnight_and_end_exclusive(self):
-        self.event(icon='solo/before', at='2026-09-15T16:59:59Z')
-        self.event(icon='solo/start', at='2026-09-15T17:00:00Z')
-        self.event(icon='solo/end', at='2026-09-16T16:59:59Z')
-        self.event(icon='solo/after', at='2026-09-16T17:00:00Z')
-        data = self.stats(start='2026-09-16', end='2026-09-16')
-        self.assertEqual(data['totals']['total'], 2)
+        self.review(icon='solo/before', at='2026-09-15T16:59:59Z')
+        self.review(icon='solo/start', at='2026-09-15T17:00:00Z')
+        self.review(icon='solo/end', at='2026-09-16T16:59:59Z')
+        self.review(icon='solo/after', at='2026-09-16T17:00:00Z')
+        self.assertEqual(self.stats(start='2026-09-16', end='2026-09-16')['totals']['total'], 2)
         self.assertEqual(self.stats(start='2026-09-15', end='2026-09-15', timezone='UTC')['totals']['total'], 2)
 
     def test_daylight_saving_uses_calendar_days(self):
-        self.event(icon='solo/start', at='2026-03-08T05:00:00Z')
-        self.event(icon='solo/end', at='2026-03-09T03:59:59Z')
-        self.event(icon='solo/after', at='2026-03-09T04:00:00Z')
+        self.review(icon='solo/start', at='2026-03-08T05:00:00Z')
+        self.review(icon='solo/end', at='2026-03-09T03:59:59Z')
+        self.review(icon='solo/after', at='2026-03-09T04:00:00Z')
         data = self.stats(start='2026-03-08', end='2026-03-08', timezone='America/New_York')
         self.assertEqual(data['totals']['total'], 2)
 
@@ -85,9 +89,8 @@ class ReviewerStatsTests(unittest.TestCase):
             with self.subTest(query=query), self.assertRaises(ValueError):
                 self.stats(**query)
 
-    def test_bad_legacy_details_do_not_break_counts(self):
-        self.event(user='former-reviewer')
-        self.db.execute("INSERT INTO activity_log VALUES (2,'jakes','review','solo/b','not-json','2026-09-16T01:00:00Z')")
+    def test_former_reviewers_stay_available(self):
+        self.review(user='former-reviewer')
         self.assertIn('former-reviewer', self.stats()['available_reviewers'])
         self.assertEqual(self.stats()['totals']['total'], 1)
 
@@ -96,18 +99,17 @@ class ReviewerStatsAPITests(unittest.TestCase):
     setUp = test_gallery.ServerTests.setUp
     request = test_gallery.ServerTests.request
 
-    def test_dashboard_and_history_survive_current_status_changes(self):
+    def test_activity_follows_current_status(self):
         icon = dict(icon='sub/square', svg_sha256='abc')
+        stats = lambda: json.loads(self.request('GET', '/api/reviewer-stats', anonymous=True)[1])
         self.assertEqual(self.request('POST', '/api/reviews', dict(icon, status='approve'))[0], 201)
+        self.assertEqual(stats()['totals'], dict(total=1, approved=1, disapproved=0, rejected=0))
         self.assertEqual(self.request('POST', '/api/feedback', dict(icon, feedback='Fix the stroke'))[0], 201)
-        status, raw = self.request('GET', '/api/reviewer-stats', anonymous=True)
-        self.assertEqual(status, 200)
-        self.assertEqual(json.loads(raw)['totals'], dict(total=1, approved=0, disapproved=1, rejected=0))
+        data = stats()
+        self.assertEqual(data['totals'], dict(total=1, approved=0, disapproved=1, rejected=0))
+        self.assertEqual(data['current']['totals']['disapproved'], 1)
         self.request('POST', '/api/reviews', dict(icon, status='ready'))
-        with closing(sqlite3.connect(self.database)) as db, db:
-            db.execute('DELETE FROM reviews')
-            db.execute('DELETE FROM feedback')
-        self.assertEqual(json.loads(self.request('GET', '/api/reviewer-stats')[1])['totals']['total'], 1)
+        self.assertEqual(stats()['totals']['total'], 0)
         self.assertEqual(self.request('GET', '/api/reviewer-stats?start=bad')[0], 400)
         for asset in ('reviewers.html', 'reviewers.css', 'reviewers.js'):
             self.assertEqual(self.request('GET', '/gallery/' + asset, anonymous=True)[0], 200)

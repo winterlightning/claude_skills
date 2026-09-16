@@ -27,7 +27,7 @@ import webbrowser
 
 if __package__:
     from .attribute_legacy_reviews import migrate as migrate_legacy_reviewers
-    from .reviewer_stats import reviewer_stats
+    from .reviewer_stats import current_reviews, reviewer_stats
     from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from .generation import GenerationManager
@@ -42,7 +42,7 @@ if __package__:
     from .primitives_catalog import primitives_root
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
-    from reviewer_stats import reviewer_stats
+    from reviewer_stats import current_reviews, reviewer_stats
     from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from generation import GenerationManager
@@ -588,49 +588,26 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/reviewer-stats':
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    result = reviewer_stats(connection, parse_qs(parsed.query), ADMIN_USERS)
+                    result = reviewer_stats(connection, parse_qs(parsed.query), ADMIN_USERS, self.catalog(include_failed=True))
                 return self.json_response(result)
             except ValueError as error:
                 return self.json_response({'error': str(error)}, 400)
-            except sqlite3.Error:
+            except (OSError, sqlite3.Error):
                 return self.json_response({'error': 'Reviewer activity is temporarily unavailable. Try again.'}, 503)
         if parsed.path == '/api/reviews':
             try:
                 catalog = self.catalog(include_failed=True)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    rows = connection.execute('SELECT icon, svg_sha256, status, updated_by FROM reviews ORDER BY updated_at').fetchall()
-                statuses = {key: 'ready' for key in catalog}
-                rejected_by = {}
-                for key, sha, status, actor in rows:
-                    if key in catalog and catalog[key]['svg_sha256'] == sha:
-                        statuses[key] = 'ready' if status == 're-generated' else status
-                for key, sha, status, actor in rows:
-                    if key in catalog and status == 'rejected':
-                        statuses[key] = 'rejected'
-                        rejected_by[key] = actor
-                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    rejected = connection.execute('SELECT icon,svg_sha256,created_by FROM split_requests WHERE active=1').fetchall()
-                for key, sha, actor in rejected:
-                    if key in catalog and catalog[key]['svg_sha256'] == sha:
-                        statuses[key] = 'rejected'
-                        rejected_by[key] = actor
-                if parse_qs(parsed.query).get('include_approvers') == ['1']:
-                    approved_by = {key: actor for key, sha, status, actor in rows
-                                   if key in catalog and catalog[key]['svg_sha256'] == sha
-                                   and status == 'approve' and statuses[key] == 'approve' and actor}
-                    disapproved_by = {key: actor for key, sha, status, actor in rows
-                                      if key in catalog and catalog[key]['svg_sha256'] == sha
-                                      and status in {'pending', 'disapprove'}
-                                      and statuses[key] in {'pending', 'disapprove'} and actor}
-                    with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    statuses, approved_by, disapproved_by, rejected_by = current_reviews(connection, catalog)
+                    if parse_qs(parsed.query).get('include_approvers') == ['1']:
                         authors = connection.execute('SELECT DISTINCT icon, author FROM feedback WHERE author IS NOT NULL ORDER BY icon, author').fetchall()
-                    feedback_by = {}
-                    for key, actor in authors:
-                        if key in catalog and actor:
-                            feedback_by.setdefault(key, []).append(actor)
-                    return self.json_response({'statuses': statuses, 'approved_by': approved_by,
-                                               'rejected_by': {key: actor for key, actor in rejected_by.items() if actor},
-                                               'disapproved_by': disapproved_by, 'feedback_by': feedback_by})
+                        feedback_by = {}
+                        for key, actor in authors:
+                            if key in catalog and actor:
+                                feedback_by.setdefault(key, []).append(actor)
+                        return self.json_response({'statuses': statuses, 'approved_by': approved_by,
+                                                   'rejected_by': rejected_by,
+                                                   'disapproved_by': disapproved_by, 'feedback_by': feedback_by})
                 return self.json_response(statuses)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)

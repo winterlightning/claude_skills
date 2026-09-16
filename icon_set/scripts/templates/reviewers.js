@@ -4,7 +4,8 @@
   const number = value => value.toLocaleString();
   const name = value => value.charAt(0).toUpperCase() + value.slice(1);
   const outcomes = ['approved', 'disapproved', 'rejected'];
-  let request = 0, snapshot = null;
+  const AUTO_REFRESH_MS = 60000;
+  let request = 0, snapshot = null, loading = false, loadedAt = 0;
   const localZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
   if (localZone && ![...$('timezone').options].some(option => option.value === localZone)) {
     $('timezone').add(new Option('Local · ' + localZone.replaceAll('_', ' '), localZone));
@@ -26,7 +27,9 @@
     const custom = $('period').value === 'custom';
     $('startLabel').hidden = $('endLabel').hidden = !custom;
     $('start').required = $('end').required = custom;
-    if (!custom) {
+    if ($('period').value === 'all') {
+      $('end').value = today();
+    } else if (!custom) {
       $('end').value = today();
       $('start').value = shiftDate($('end').value, 1 - Number($('period').value));
     }
@@ -57,9 +60,31 @@
     row.append(element);
     return element;
   }
+  function drawCurrent(current, reviewer) {
+    for (const key of ['approved', 'disapproved', 'rejected', 'ready']) $('current' + name(key)).textContent = number(current.totals[key]);
+    $('currentReviewed').textContent = number(current.totals.total - current.totals.ready);
+    $('currentScope').textContent = (reviewer ? 'By ' + name(reviewer) + ' · ' : '') + number(current.totals.total) + ' icons in catalog';
+    const families = document.createDocumentFragment();
+    for (const family of current.families) {
+      const row = document.createElement('tr'); cell(row, name(family.family));
+      for (const key of ['total', 'approved', 'disapproved', 'rejected', 'ready']) cell(row, family[key]);
+      families.append(row);
+    }
+    $('familyRows').replaceChildren(families);
+    const people = document.createDocumentFragment();
+    for (const person of current.reviewers) {
+      const row = document.createElement('tr'); cell(row, name(person.reviewer));
+      for (const key of ['total', 'approved', 'disapproved', 'rejected']) cell(row, person[key]);
+      people.append(row);
+    }
+    $('currentReviewerRows').replaceChildren(people);
+  }
   function draw(data) {
+    drawCurrent(data.current, data.reviewer);
     for (const key of ['total', ...outcomes]) $(key).textContent = number(data.totals[key]);
-    $('uniqueCount').textContent = number(data.unique_icons) + ' distinct icons across the period';
+    $('uniqueCount').textContent = 'Each icon counted once';
+    const reviewed = data.current.totals.total - data.current.totals.ready;
+    $('periodShare').textContent = data.totals.total === reviewed ? 'Matches current status' : `${number(data.totals.total)} of ${number(reviewed)} current decisions were made in this period`;
     $('rangeTitle').textContent = `${data.reviewer ? name(data.reviewer) : 'All reviewers'} · ${dateLabel(data.start, true)}${data.start === data.end ? '' : ' – ' + dateLabel(data.end, true)}`;
     $('activitySummary').textContent = `${(data.totals.total / data.daily.length).toLocaleString(undefined, {maximumFractionDigits: 1})} reviews per day on average · ${data.timezone.replaceAll('_', ' ')}`;
     $('emptyActivity').hidden = data.totals.total !== 0;
@@ -107,44 +132,66 @@
     }
     $('dailyRows').replaceChildren(days);
     $('historyNote').textContent = data.history_since
-      ? 'Available review history starts ' + new Intl.DateTimeFormat('en', {timeZone: data.timezone, dateStyle: 'medium'}).format(new Date(data.history_since)) + '. Includes saved legacy decisions attributed to their reviewer; older or overwritten decisions may be unavailable.'
-      : 'No activity history has been recorded yet. New reviews will appear here.';
-    $('updatedAt').textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
-    const selected = $('reviewer').value;
-    $('reviewer').replaceChildren(new Option('All reviewers', ''), ...data.available_reviewers.map(user => new Option(name(user), user)));
-    $('reviewer').value = selected;
+      ? 'The oldest current decision was made ' + new Intl.DateTimeFormat('en', {timeZone: data.timezone, dateStyle: 'medium'}).format(new Date(data.history_since)) + '. Legacy decisions keep their original date and are attributed to their reviewer.'
+      : 'No icons have been reviewed yet. New reviews will appear here.';
+    $('updatedAt').textContent = 'Updated ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit', second: '2-digit'}) + ' · refreshes every minute';
+    // Rebuilding an unchanged list would close it while someone is choosing.
+    const known = [...$('reviewer').options].slice(1).map(option => option.value).join();
+    if (known !== data.available_reviewers.join()) {
+      const selected = $('reviewer').value;
+      $('reviewer').replaceChildren(new Option('All reviewers', ''), ...data.available_reviewers.map(user => new Option(name(user), user)));
+      $('reviewer').value = selected;
+    }
   }
-  async function refresh() {
+  // Background refreshes keep the current numbers on screen and never interrupt a manual load.
+  async function refresh(background = false) {
+    if (background && (loading || !snapshot)) return;
     syncDates();
     const current = ++request;
-    snapshot = null;
-    $('dashboardContent').hidden = true;
-    $('updatedAt').textContent = '';
-    $('dashboardStatus').dataset.error = 'false';
-    $('dashboardStatus').textContent = 'Loading review activity…';
-    $('refresh').disabled = true;
+    loading = true;
+    if (!background) {
+      snapshot = null;
+      $('dashboardContent').hidden = true;
+      $('updatedAt').textContent = '';
+      $('dashboardStatus').dataset.error = 'false';
+      $('dashboardStatus').textContent = 'Loading review activity…';
+      $('refresh').disabled = true;
+    }
     try {
-      if (!$('start').value || !$('end').value) throw Error('Choose a start and end date.');
+      if ((!$('start').value && $('period').value !== 'all') || !$('end').value) throw Error('Choose a start and end date.');
       const params = new URLSearchParams();
-      for (const key of ['start', 'end', 'timezone', 'reviewer']) params.set(key, $(key).value);
+      for (const key of ['end', 'timezone', 'reviewer']) params.set(key, $(key).value);
+      if ($('period').value === 'all') params.set('period', 'all'); else params.set('start', $('start').value);
       saveURL();
       const response = await fetch('../api/reviewer-stats?' + params, {cache: 'no-store'});
       const data = await response.json();
       if (!response.ok) throw Error(data.error || 'Could not load reviewer activity.');
       if (current !== request) return;
-      draw(data); snapshot = data;
+      $('start').value = data.start;
+      draw(data); snapshot = data; loadedAt = Date.now();
       $('dashboardContent').hidden = false;
       $('dashboardStatus').textContent = '';
     } catch (error) {
       if (current !== request) return;
+      if (background) {
+        $('updatedAt').textContent = 'Could not refresh at ' + new Date().toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}) + ' · retrying';
+        return;
+      }
       $('dashboardStatus').dataset.error = 'true';
       $('dashboardStatus').textContent = (error.message || 'Could not load reviewer activity.') + ' Use Refresh to try again.';
     } finally {
-      if (current === request) $('refresh').disabled = false;
+      if (current === request) {
+        loading = false;
+        $('refresh').disabled = false;
+      }
     }
   }
   $('dashboardFilters').onsubmit = event => {event.preventDefault(); refresh();};
-  for (const id of ['reviewer', 'period', 'timezone', 'start', 'end']) $(id).onchange = refresh;
+  for (const id of ['reviewer', 'period', 'timezone', 'start', 'end']) $(id).onchange = () => refresh();
+  setInterval(() => { if (!document.hidden) refresh(true); }, AUTO_REFRESH_MS);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && Date.now() - loadedAt >= AUTO_REFRESH_MS) refresh(true);
+  });
   $('exportCsv').onclick = () => {
     if (!snapshot) return;
     const rows = [['Date', 'Reviewer', 'Time zone', 'Reviewed', 'Approved', 'Disapproved', 'Rejected'],
