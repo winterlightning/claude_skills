@@ -23,7 +23,9 @@ import sqlite3
 import threading
 import sys
 import os
+import shutil
 import tempfile
+import zipfile
 import urllib.error
 import urllib.request
 from urllib.parse import parse_qs, unquote, urlsplit
@@ -79,6 +81,9 @@ DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffer
 MAX_SYNC_BYTES = 1024 * 1024 * 1024
 SYNC_TIMEOUT = 120
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
+# Review decisions point at artwork kept beside the database: an approved upload or
+# gallery edit changes the icon's svg_sha256, so these folders travel with the database.
+SYNC_STORES = ('icon-artwork', 'stroke-edits', 'reference-images')
 
 
 def init_database(path: Path) -> None:
@@ -195,9 +200,62 @@ def sync_origin(source) -> str:
     return f'{parts.scheme}://{parts.netloc}'
 
 
-def download_snapshot(origin: str, target: Path) -> str:
-    """Fetch production's export into target; returns its export time."""
-    request = urllib.request.Request(origin + '/api/feedback-db/export', headers={'User-Agent': 'pictographic-sync'})
+def export_review_bundle(database: Path, target: Path) -> None:
+    """Zip the database snapshot with the artwork, stroke-edit and reference folders."""
+    snapshot = target.with_name(target.name + '.sqlite3')
+    try:
+        export_feedback_snapshot(database, snapshot)
+        with zipfile.ZipFile(target, 'w', zipfile.ZIP_DEFLATED) as bundle:
+            bundle.write(snapshot, 'feedback.sqlite3')
+            bundle.writestr('stores.json', json.dumps(list(SYNC_STORES)))
+            for store in SYNC_STORES:
+                root = database.parent / store
+                for path in sorted(root.rglob('*')) if root.is_dir() else ():
+                    relative = path.relative_to(root)
+                    # Skip lock files and half-written temporaries.
+                    if path.is_file() and not any(part.startswith('.') for part in relative.parts) and path.suffix != '.tmp':
+                        bundle.write(path, f'{store}/{relative.as_posix()}')
+    finally:
+        snapshot.unlink(missing_ok=True)
+
+
+def extract_review_bundle(bundle: Path, folder: Path) -> list:
+    """Unpack a downloaded bundle safely; returns the stores it carries."""
+    try:
+        with zipfile.ZipFile(bundle) as archive:
+            names = archive.namelist()
+            stores = json.loads(archive.read('stores.json')) if 'stores.json' in names else []
+            if 'feedback.sqlite3' not in names or not isinstance(stores, list) or not set(stores) <= set(SYNC_STORES):
+                raise ValueError('Production did not send a valid review data bundle.')
+            for name in names:
+                parts = Path(name).parts
+                if name.endswith('/') or name in ('feedback.sqlite3', 'stores.json'):
+                    continue
+                if (name.startswith('/') or '..' in parts or '\\' in name or len(parts) < 2 or parts[0] not in stores):
+                    raise ValueError('Production sent an unsafe file path: ' + name)
+            archive.extractall(folder)
+            return stores
+    except (zipfile.BadZipFile, KeyError, UnicodeDecodeError, json.JSONDecodeError):
+        raise ValueError('Production did not send a valid review data bundle.')
+
+
+def replace_review_stores(data_dir: Path, incoming: Path, stores: list, backup: Path) -> dict:
+    """Move each local store into the backup folder, then move production's copy into place."""
+    counts = {}
+    for store in stores:
+        live, new = data_dir / store, incoming / store
+        if live.exists():
+            backup.mkdir(parents=True, exist_ok=True)
+            live.rename(backup / store)
+        if new.is_dir():
+            new.rename(live)
+        counts[store] = sum(1 for path in live.rglob('*') if path.is_file()) if live.is_dir() else 0
+    return counts
+
+
+def download_snapshot(origin: str, target: Path, route: str = '/api/feedback-db/export') -> str:
+    """Fetch one of production's exports into target; returns its export time."""
+    request = urllib.request.Request(origin + route, headers={'User-Agent': 'pictographic-sync'})
     with urllib.request.urlopen(request, timeout=SYNC_TIMEOUT) as response, target.open('wb') as stream:
         written = 0
         while chunk := response.read(1024 * 1024):
@@ -208,8 +266,9 @@ def download_snapshot(origin: str, target: Path) -> str:
         return response.headers.get('X-Feedback-Exported-At') or ''
 
 
-def replace_feedback_database(database: Path, snapshot: Path, user: str, origin: str, exported_at: str = '') -> dict:
-    """Validate a downloaded snapshot, back up the local database, then copy the snapshot over it."""
+def replace_feedback_database(database: Path, snapshot: Path, user: str, origin: str, exported_at: str = '',
+                              stores_dir: Path = None, stores=()) -> dict:
+    """Validate a downloaded snapshot, back up the local database and stores, then put production's copy in place."""
     try:
         with closing(sqlite3.connect(snapshot.as_uri() + '?mode=rw', uri=True)) as check:
             ok = check.execute('PRAGMA integrity_check').fetchone()
@@ -222,7 +281,8 @@ def replace_feedback_database(database: Path, snapshot: Path, user: str, origin:
     init_database(snapshot)
     backups = database.parent / 'feedback-sync-backups'
     backups.mkdir(parents=True, exist_ok=True)
-    backup = backups / f"feedback.sqlite3.before-sync-{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')}.bak"
+    stamp = datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%S%f')
+    backup = backups / f'feedback.sqlite3.before-sync-{stamp}.bak'
     with DISCARD_LOCK:
         with closing(sqlite3.connect(database, timeout=30)) as live, closing(sqlite3.connect(snapshot, timeout=30)) as incoming:
             with closing(sqlite3.connect(backup)) as copy:
@@ -235,7 +295,9 @@ def replace_feedback_database(database: Path, snapshot: Path, user: str, origin:
             incoming.commit()
             counts = {table: incoming.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] for table in SYNC_COUNTED_TABLES}
             incoming.backup(live)
-    return {'synced': True, 'source': origin, 'backup': backup.name, 'exported_at': exported_at, 'counts': counts}
+        files = replace_review_stores(database.parent, stores_dir, stores, backups / f'stores.before-sync-{stamp}') if stores else {}
+    return {'synced': True, 'source': origin, 'backup': backup.name, 'exported_at': exported_at, 'counts': counts,
+            'stores': files}
 
 
 def last_sync(connection):
@@ -657,6 +719,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Pending briefs unavailable'}, 503)
         if parsed.path == '/api/feedback-db/export':
             return self.export_feedback_db()
+        if parsed.path == '/api/review-data/export':
+            return self.export_feedback_db(bundle=True)
         if parsed.path == '/api/feedback-db/sync':
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -931,17 +995,22 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
 
-    def export_feedback_db(self):
-        handle, name = tempfile.mkstemp(prefix='.feedback-export-', suffix='.sqlite3', dir=self.database.parent)
+    def export_feedback_db(self, bundle=False):
+        handle, name = tempfile.mkstemp(prefix='.feedback-export-', suffix='.zip' if bundle else '.sqlite3', dir=self.database.parent)
         os.close(handle)
         target = Path(name)
         try:
             exported_at = utc_now()
-            export_feedback_snapshot(self.database, target)
+            if bundle:
+                # Artwork saves hold this lock, so the database and folders match.
+                with DISCARD_LOCK:
+                    export_review_bundle(self.database, target)
+            else:
+                export_feedback_snapshot(self.database, target)
             size = target.stat().st_size
             self.send_response(200)
-            self.send_header('Content-Type', 'application/vnd.sqlite3')
-            self.send_header('Content-Disposition', 'attachment; filename="feedback.sqlite3"')
+            self.send_header('Content-Type', 'application/zip' if bundle else 'application/vnd.sqlite3')
+            self.send_header('Content-Disposition', 'attachment; filename="review-data.zip"' if bundle else 'attachment; filename="feedback.sqlite3"')
             self.send_header('Content-Length', str(size))
             self.send_header('X-Feedback-Exported-At', exported_at)
             self.end_headers()
@@ -962,12 +1031,22 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': str(error)}, 400)
         if urlsplit(origin).netloc == self.headers.get('Host'):
             return self.json_response({'error': 'That URL is this server. Enter the production URL to sync from.'}, 400)
-        handle, name = tempfile.mkstemp(prefix='.feedback-sync-', suffix='.sqlite3', dir=self.database.parent)
-        os.close(handle)
-        snapshot = Path(name)
+        work = Path(tempfile.mkdtemp(prefix='.feedback-sync-', dir=self.database.parent))
+        snapshot, stores, warning = work / 'feedback.sqlite3', [], None
         try:
             try:
-                exported_at = download_snapshot(origin, snapshot)
+                try:
+                    exported_at = download_snapshot(origin, work / 'bundle.zip', '/api/review-data/export')
+                    stores = extract_review_bundle(work / 'bundle.zip', work / 'bundle')
+                    (work / 'bundle' / 'feedback.sqlite3').rename(snapshot)
+                    (work / 'bundle.zip').unlink()
+                except urllib.error.HTTPError as error:
+                    if error.code != 404:
+                        raise
+                    # Production predates artwork sync: take the database alone and say so.
+                    exported_at = download_snapshot(origin, snapshot)
+                    warning = ('Production has not been updated, so uploaded and edited artwork was not synced. '
+                               'Icons with that artwork may show different statuses. Update deploy.py on production and sync again.')
             except urllib.error.HTTPError as error:
                 return self.json_response({'error': f'Production refused the export (HTTP {error.code}). Is it running the latest deploy.py?'}, 502)
             except (urllib.error.URLError, TimeoutError, OSError) as error:
@@ -975,15 +1054,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except ValueError as error:
                 return self.json_response({'error': str(error)}, 502)
             try:
-                result = replace_feedback_database(self.database, snapshot, user, origin, exported_at)
+                result = replace_feedback_database(self.database, snapshot, user, origin, exported_at,
+                                                   work / 'bundle', stores)
             except ValueError as error:
                 return self.json_response({'error': str(error)}, 502)
+            if warning:
+                result['warning'] = warning
             return self.json_response(result)
         except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not replace the local feedback database. It was left unchanged or backed up; retry.'}, 503)
         finally:
-            for suffix in ('', '-journal', '-wal', '-shm'):
-                Path(str(snapshot) + suffix).unlink(missing_ok=True)
+            shutil.rmtree(work, ignore_errors=True)
 
     def upload_reference(self, data, user):
         encoded = data.get('data')

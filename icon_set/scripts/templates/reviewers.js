@@ -232,8 +232,9 @@
       const data = await response.json().catch(() => ({}));
       if (!response.ok) throw Error(data.error || 'Sync failed. Please retry.');
       try { localStorage.setItem(SYNC_KEY, source); } catch {}
-      const counts = data.counts;
-      syncMessage(`Synced from ${data.source}: ${number(counts.feedback)} feedback, ${number(counts.reviews)} reviews, ${number(counts.icon_flags)} flags. Previous database saved as ${data.backup}.`);
+      const counts = data.counts, stores = data.stores || {};
+      const artwork = 'icon-artwork' in stores ? ` ${number(stores['icon-artwork'])} artwork files, ${number(stores['stroke-edits'])} stroke edits, ${number(stores['reference-images'])} reference files.` : '';
+      syncMessage(`Synced from ${data.source}: ${number(counts.feedback)} feedback, ${number(counts.reviews)} reviews, ${number(counts.icon_flags)} flags.${artwork} Previous data saved as ${data.backup}.` + (data.warning ? ' ' + data.warning : ''), !!data.warning);
       refresh();
     } catch (error) {
       syncMessage(error.message, true);
