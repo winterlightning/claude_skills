@@ -1,0 +1,202 @@
+{
+  "icon_id": "container-circle-play-triangle-state-95",
+  "name": "Container circle play triangle state 95",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "play",
+    "triangle",
+    "right",
+    "facing",
+    "outlined",
+    "vertical",
+    "left",
+    "edge"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "play",
+    "triangle",
+    "right",
+    "facing",
+    "outlined",
+    "vertical",
+    "left",
+    "edge"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:play-triangle-state-95:play-1",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        42,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:play-triangle-state-95:play-2",
+      "start": [
+        42,
+        32
+      ],
+      "end": [
+        22,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:play-triangle-state-95:play-3",
+      "start": [
+        22,
+        46
+      ],
+      "end": [
+        22,
+        18
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:play-triangle-state-95:play",
+      "members": [
+        "1:play-triangle-state-95:play-1",
+        "1:play-triangle-state-95:play-2",
+        "1:play-triangle-state-95:play-3"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:play-triangle-state-95:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "play-triangle-state-95",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50b-compositions/container-circle-play-triangle-state-95.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

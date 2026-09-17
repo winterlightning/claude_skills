@@ -1,0 +1,220 @@
+{
+  "icon_id": "container-circle-two-offset-crosses",
+  "name": "Container circle two offset crosses",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "offset",
+    "crosses",
+    "upright",
+    "strokes",
+    "have",
+    "short",
+    "horizontal",
+    "crossbars"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "offset",
+    "crosses",
+    "upright",
+    "strokes",
+    "have",
+    "short",
+    "horizontal",
+    "crossbars"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:two-offset-crosses:left-stem",
+      "start": [
+        24,
+        20
+      ],
+      "end": [
+        24,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:two-offset-crosses:left-bar",
+      "start": [
+        18,
+        36
+      ],
+      "end": [
+        30,
+        36
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:two-offset-crosses:right-stem",
+      "start": [
+        40,
+        20
+      ],
+      "end": [
+        40,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:two-offset-crosses:right-bar",
+      "start": [
+        34,
+        28
+      ],
+      "end": [
+        46,
+        28
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:two-offset-crosses:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:two-offset-crosses:left-stem",
+        "1:two-offset-crosses:left-bar"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:two-offset-crosses:right-stem",
+        "1:two-offset-crosses:right-bar"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "two-offset-crosses",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50-compositions/container-circle-two-offset-crosses.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

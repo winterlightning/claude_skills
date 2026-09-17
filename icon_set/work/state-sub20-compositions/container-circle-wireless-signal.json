@@ -1,0 +1,201 @@
+{
+  "icon_id": "container-circle-wireless-signal",
+  "name": "Container circle wireless signal",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "wireless",
+    "signal",
+    "nested",
+    "curved",
+    "arcs",
+    "spread",
+    "tiny",
+    "central"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "wireless",
+    "signal",
+    "nested",
+    "curved",
+    "arcs",
+    "spread",
+    "tiny",
+    "central"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:wireless-signal:outer",
+      "start": [
+        18,
+        30
+      ],
+      "end": [
+        46,
+        30
+      ],
+      "radius_x": 14,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:wireless-signal:inner",
+      "start": [
+        25,
+        34
+      ],
+      "end": [
+        39,
+        34
+      ],
+      "radius_x": 7,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:wireless-signal:signal",
+      "start": [
+        32,
+        42
+      ],
+      "end": [
+        32,
+        42
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:wireless-signal:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "wireless-signal",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub20-compositions/container-circle-wireless-signal.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

@@ -220,6 +220,15 @@ def stage_preview(target: Path, records: list[dict]) -> None:
         shutil.copyfile(templates / name, target / name)
 
 
+def stage_ai_quality_review(target: Path) -> None:
+    """Keep the saved visual audit and its exact artwork evidence across builds."""
+    templates = Path(__file__).with_name('templates')
+    for name in ('ai-review.html', 'ai-review.css', 'ai-review.js'):
+        shutil.copyfile(templates / name, target / name)
+    source = REPO_ROOT / 'icon_set/reviews/approved-quality-50-20260917'
+    shutil.copytree(source, target / 'ai-review-data', dirs_exist_ok=True)
+
+
 def stage_laboratory(target: Path) -> None:
     """Publish the learning page with the same contracts used by the builder."""
     from icon_set.model import contracts
@@ -369,11 +378,18 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
-    for asset in ("upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "icons.html", "approved-icons.js", "reference-picker.js",
+    for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "icons.html", "approved-icons.js", "reference-picker.js",
                   "primitives.html", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
+    stage_ai_quality_review(target)
     stage_laboratory(target)
     stage_preview(target, records)
+    from icon_set.scripts.typeface_gallery import stage_typeface
+    stage_typeface(target, records, registered)
     from icon_set.scripts.experiment_gallery import stage_experiments
     stage_experiments(target)
+    # Keep the saved container review available when a build replaces the gallery.
+    container_review = REPO_ROOT / 'icon_set/work/container-skip-review-20260917'
+    if (container_review / 'index.html').is_file():
+        shutil.copytree(container_review, target / 'container-skip-review', dirs_exist_ok=True)
     return target

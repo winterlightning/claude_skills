@@ -325,6 +325,59 @@ def render(family: str) -> str:
         if family == "avatar" else ""
     )
 
+    reference_fidelity = """
+## Reference fidelity comes first
+
+**Exact resize mode:** If the user explicitly requests the original unchanged,
+only resized, preserve the complete source SVG and change only its root display
+width and height to 32px. Keep its viewBox, geometry, style, and proportional
+stroke unchanged. This explicit request overrides the redraw, typeface reuse,
+fixed-4px stroke, and family-scaling restrictions below. Label the deliverable
+an exact resized original, not a newly authored or validated SUB32 model.
+Check every source/output pair for unchanged SVG content apart from display
+dimensions and identical renders at 32px and an enlarged size. Show the complete
+result as the primary gallery image; retain extracted or simplified earlier
+versions only as superseded comparisons. Never retain a “keep” verdict merely
+because an altered drawing remains recognizable under an exact-match request.
+
+When recreating a supplied original, the deliverable is the **complete original
+composition** unless the user explicitly asks to extract a named component.
+Preserve every visible part: outline circles, frames, badges, secondary symbols,
+text, repeated marks, holes, and their relative positions, directions and counts.
+An enclosing circle can carry meaning; never assume it is decoration.
+
+This rule takes precedence over reduction, family routing, shared reference
+triage, and component-only Pending briefs below. A generated brief saying
+"exclude Circle Frame" is not user authorization to remove it. Reopen the
+original and correct that brief before drawing. Internal decomposition may help
+construction, but the delivered result must recombine every part. Do not count
+several extracted components as several completed original icons.
+
+Before drawing, inventory all source parts. After drawing, compare the whole
+original and result side by side at native and enlarged sizes, checking every
+part, layout, count, opening and directional cue. Use reference-supported
+geometry; do not replace an entire composition with a generic canonical mark.
+Typeface reuse must preserve the original text and its position in the complete
+composition; a text-only export does not replace a text-and-symbol original.
+
+If the complete design cannot meet SUB32 spacing and stroke rules, retain all
+parts in the reference and mark that original SKIP with a specific reason and
+saved review evidence. Keep the requested 32px canvas and 4px stroke; do not
+remove parts, enlarge the canvas or thin strokes to force completion. Continue
+with the next drawable original. Never count a skipped source as generated.
+Record skips by source UUID in the batch audit and primitive status, and flag
+any earlier incomplete generated variants for review without deleting them.
+Do not weaken a validator or label an incomplete output SUB32-compliant.
+A reference copy or lossless re-export can be useful comparison evidence, but
+must be labelled as such, never claimed as a newly redrawn icon.
+
+For review corrections, preserve the earlier variant and provide a new complete
+variant linked to its exact source UUID. Completion requires both profile checks
+for the chosen output and a source-part coverage check; a numeric pass alone
+cannot approve an incomplete recreation.
+
+""" if family == "sub" else ""
+
     return f"""---
 name: icon-{family}
 description: Author a {bound_family}-family {"avatar" if family == "avatar" else "icon"} for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
@@ -334,6 +387,11 @@ argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 # /icon-{family} — one {family} icon on `{row['profile']}`
 
 Request: $ARGUMENTS
+{reference_fidelity}
+**Text and numbers:** follow `{SHARED}/typeface.md` and reuse the existing
+glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
+geometry, including text components in combined icons or Pending briefs.
+This routing rule takes precedence over the primitive-authoring workflow below.
 
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts/icon-profile.v1.json`:

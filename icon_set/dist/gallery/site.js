@@ -1,15 +1,21 @@
 (async()=>{
   const nav=document.querySelector('.site-nav');
+  // Keep every page's tabs, order, and active state in one place.
+  const links=[["home.html", "Home"], ["icon-laboratory.html", "Design Document"], ["icons.html", "Icon"], ["preview.html", "Preview"], ["index.html", "Icon review"], ["experiment.html", "Experiment"], ["ai-review.html", "AI quality review"], ["primitives.html", "Progression"], ["upload.html", "Upload icon"], ["api.html", "API"]];
+  const page=location.pathname.split('/').pop()||'home.html';
+  const current=({'text-combine.html':'experiment.html','generate.html':'index.html','reviewers.html':'index.html','failures.html':'index.html','concept-dictionary.html':'primitives.html'})[page]||page;
   if(nav){
-    nav.querySelectorAll('a[href="reviewers.html"]').forEach(link=>link.remove());
-    if(!nav.querySelector('a[href="experiment.html"]')){const link=document.createElement('a');link.href='experiment.html';link.textContent='Experiment';const review=nav.querySelector('a[href="index.html"]');if(review)review.after(link);else nav.append(link);}
+    nav.replaceChildren(...links.map(([href,label])=>{
+      const link=document.createElement('a');
+      link.href=href;link.textContent=label;
+      if(href===current)link.setAttribute('aria-current','page');
+      return link;
+    }));
   }
-  const page=location.pathname.split('/').pop();
-  const current=['generate.html','login.html','reviewers.html'].includes(page)?'index.html':page;
-  nav?.querySelectorAll('a').forEach(a=>{if(a.getAttribute('href')===current)a.setAttribute('aria-current','page');});
   let auth=document.getElementById('siteAuth');
   if(nav&&!auth){auth=document.createElement('a');auth.id='siteAuth';auth.className='auth-link';auth.href='login.html';nav.append(auth);}
   if(auth){
+    if(page==='login.html')auth.setAttribute('aria-current','page');
     auth.setAttribute('aria-label','Log in');auth.title='Log in';
     auth.replaceChildren();
     const icon=document.createElementNS('http://www.w3.org/2000/svg','svg');

@@ -1,0 +1,242 @@
+{
+  "icon_id": "container-circle-mountain-and-sun",
+  "name": "Container circle mountain and sun",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "mountain",
+    "sun",
+    "angular",
+    "ridge",
+    "descends",
+    "toward",
+    "lower",
+    "right"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "mountain",
+    "sun",
+    "angular",
+    "ridge",
+    "descends",
+    "toward",
+    "lower",
+    "right"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:mountain-and-sun:ridge-1",
+      "start": [
+        18,
+        18
+      ],
+      "end": [
+        28,
+        19
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:mountain-and-sun:ridge-2",
+      "start": [
+        28,
+        19
+      ],
+      "end": [
+        30,
+        30
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:mountain-and-sun:ridge-3",
+      "start": [
+        30,
+        30
+      ],
+      "end": [
+        42,
+        46
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:mountain-and-sun:sun-top",
+      "start": [
+        36,
+        25
+      ],
+      "end": [
+        46,
+        25
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:mountain-and-sun:sun-bottom",
+      "start": [
+        46,
+        25
+      ],
+      "end": [
+        36,
+        25
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:mountain-and-sun:ridge",
+      "members": [
+        "1:mountain-and-sun:ridge-1",
+        "1:mountain-and-sun:ridge-2",
+        "1:mountain-and-sun:ridge-3"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:mountain-and-sun:sun",
+      "members": [
+        "1:mountain-and-sun:sun-top",
+        "1:mountain-and-sun:sun-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:mountain-and-sun:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "mountain-and-sun",
+      "profile": "SUB32",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50-compositions/container-circle-mountain-and-sun.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

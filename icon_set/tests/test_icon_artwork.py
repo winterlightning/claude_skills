@@ -207,7 +207,10 @@ class ArtworkAPITests(StrokeEditAPITests):
         (self.dist/'gallery/icons.json').write_text(json.dumps({'icons':[icon]}))
         route = '/api/icon-artwork'
         data = {'icon': icon['key'], 'svg_sha256':'fixture', 'revision':0, 'source_mode':'use_upload', 'svg':SVG}
-        self.assertEqual(self.call('POST',route,data)[0],401)
+        status, system_saved = self.call('POST',route,data)
+        self.assertEqual(status,200)
+        self.assertEqual(system_saved['choice']['updated_by'],'system')
+        data['revision'] = 1
         self.call('POST','/api/auth/login',{'username':'jakes','password':'1'})
         self.assertEqual(self.call('POST',route,data,origin='https://foreign.example')[0],403)
         status, saved = self.call('POST',route,data)

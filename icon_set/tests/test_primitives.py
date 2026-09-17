@@ -264,7 +264,7 @@ class PrimitivesServerTests(unittest.TestCase):
                 self.assertEqual(self.request('GET', path)[0], 404)
 
         change = {'uuids': [U2], 'status': 'skip', 'reason': 'text_number', 'note': 'letters only'}
-        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 401)
+        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 200)
         self.assertEqual(self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})[0], 200)
         self.assertEqual(self.request('POST', '/api/primitives/status', {**change, 'reason': 'other', 'note': ''})[0], 400)
         self.assertEqual(self.request('POST', '/api/primitives/status', {**change, 'uuids': ['00000000-0000-4000-8000-00000000abcd']})[0], 400)
@@ -272,7 +272,7 @@ class PrimitivesServerTests(unittest.TestCase):
         self.assertEqual(code, 200, body)
         self.assertEqual(json.loads(body)['decisions'][U2]['reason'], 'text_number')
 
-        self.assertEqual(json.loads(self.request('GET', '/api/primitives/status')[1])[U2]['updated_by'], 'jakes')
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/status')[1])[U2]['updated_by'], 'system')
         rows = json.loads(self.request('GET', '/api/primitives?category=Uncategorized&status=skip')[1])
         self.assertEqual([(row['uuid'], row['batch'], row['status']) for row in rows], [(U2, '07', 'skip')])
         summary = json.loads(self.request('GET', '/api/primitives/summary')[1])
@@ -280,14 +280,14 @@ class PrimitivesServerTests(unittest.TestCase):
 
     def test_reference_brief_round_trip_preserves_status(self):
         change = {'uuid': U1, 'family': 'solo', 'brief': 'Concept: Monitor\nDescription: A monitor viewed from the front.'}
-        self.assertEqual(self.request('POST', '/api/primitives/briefs', change)[0], 401)
+        self.assertEqual(self.request('POST', '/api/primitives/briefs', change)[0], 200)
         self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
         before = json.loads(self.request('GET', '/api/primitives/summary')[1])
         code, body, _ = self.request('POST', '/api/primitives/briefs', change)
         self.assertEqual(code, 200, body)
         saved = json.loads(body)
         self.assertEqual(saved['brief'], change['brief'])
-        self.assertEqual(saved['updated_by'], 'jakes')
+        self.assertEqual(saved['updated_by'], 'system')
         self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1])[U1], saved)
         self.assertEqual(json.loads(self.request('GET', '/api/primitives/summary')[1]), before)
         for patch_data in ({'family': ''}, {'family': 'invalid'}, {'brief': ' '}, {'brief': 'x' * 20001},
@@ -305,7 +305,7 @@ class PrimitivesServerTests(unittest.TestCase):
 
     def test_component_brief_api_round_trip(self):
         change = {'uuids': [U1], 'status': 'skip', 'reason': 'container', 'combination_brief': BRIEF}
-        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 401)
+        self.assertEqual(self.request('POST', '/api/primitives/status', change)[0], 200)
         self.request('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
         self.assertEqual(self.request('POST', '/api/primitives/status', {**change, 'combination_brief': {}})[0], 400)
         code, body, _ = self.request('POST', '/api/primitives/status', change)

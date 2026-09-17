@@ -8,6 +8,11 @@ argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 
 Request: $ARGUMENTS
 
+**Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
+glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
+geometry, including text components in combined icons or Pending briefs.
+This routing rule takes precedence over the primitive-authoring workflow below.
+
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 

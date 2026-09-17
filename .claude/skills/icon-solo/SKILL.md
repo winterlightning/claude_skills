@@ -8,6 +8,11 @@ argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 
 Request: $ARGUMENTS
 
+**Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
+glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
+geometry, including text components in combined icons or Pending briefs.
+This routing rule takes precedence over the primitive-authoring workflow below.
+
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
@@ -21,7 +26,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo`, `abyssinian-cat-face` |
+| Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abacus-two-rods-four-beads`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo` |
 
 A **solo** icon is one independently readable subject. It is never hosted and hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 

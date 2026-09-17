@@ -1,0 +1,238 @@
+{
+  "icon_id": "container-circle-uv-text",
+  "name": "Container circle uv text",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "uv",
+    "text",
+    "uppercase",
+    "letters",
+    "stand",
+    "side",
+    "round",
+    "bottomed"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "uv",
+    "text",
+    "uppercase",
+    "letters",
+    "stand",
+    "side",
+    "round",
+    "bottomed"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:uv-text:left",
+      "start": [
+        18,
+        20
+      ],
+      "end": [
+        18,
+        39
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:uv-text:bottom",
+      "start": [
+        18,
+        39
+      ],
+      "end": [
+        28,
+        39
+      ],
+      "radius_x": 5,
+      "radius_y": 5,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "1:uv-text:right",
+      "start": [
+        28,
+        39
+      ],
+      "end": [
+        28,
+        20
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:uv-text:v-1",
+      "start": [
+        36,
+        20
+      ],
+      "end": [
+        41,
+        44
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:uv-text:v-2",
+      "start": [
+        41,
+        44
+      ],
+      "end": [
+        46,
+        20
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:uv-text:u",
+      "members": [
+        "1:uv-text:left",
+        "1:uv-text:bottom",
+        "1:uv-text:right"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:uv-text:v",
+      "members": [
+        "1:uv-text:v-1",
+        "1:uv-text:v-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:uv-text:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "uv-text",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub-next30-compositions/container-circle-uv-text.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

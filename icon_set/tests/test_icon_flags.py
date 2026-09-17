@@ -65,7 +65,7 @@ class IconTypeTests(unittest.TestCase):
             self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': value})[0], 400)
         self.assertEqual(self.request('POST', endpoint, {'icon': 'missing', 'icon_type': 'human'})[0], 404)
         self.assertEqual(self.request('GET', endpoint + '?icon=missing')[0], 404)
-        self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': 'human'}, anonymous=True)[0], 401)
+        self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': 'human'}, anonymous=True)[0], 200)
         self.assertEqual(self.request('POST', endpoint, {'icon': 'sub/square', 'icon_type': 'human'},
                                      {'Content-Type': 'application/json', 'Origin': 'http://elsewhere.test'})[0], 403)
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')

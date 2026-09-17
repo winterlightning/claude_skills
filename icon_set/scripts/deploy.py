@@ -534,6 +534,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path == '/api/combination-refresh':
+            from icon_set.scripts.combination_refresh_job import status
+            return self.json_response(status())
         if parsed.path == '/api/icon-categories':
             try:
                 data = self.catalog_data()
@@ -609,9 +612,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/auth/session':
             return self.json_response({'user': self.current_user()})
         if parsed.path == '/api/ai-feedback':
-            user = self.current_user()
-            if not user:
-                return self.json_response({'error': 'Log in to ask for AI feedback.'}, 401)
+            user = self.current_user() or 'system'
             try:
                 row = self.server.ai_feedback.read(parse_qs(parsed.query).get('id', [''])[0])
                 if row['created_by'] != user:
@@ -626,8 +627,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except OSError:
                 return self.json_response({'error': 'AI feedback is temporarily unavailable.'}, 503)
         if parsed.path.startswith('/api/generation'):
-            if not self.current_user():
-                return self.json_response({'error': 'Log in as an admin to generate icons.'}, 401)
             try:
                 manager = self.server.generation
                 if parsed.path == '/api/generation':
@@ -867,16 +866,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         route = urlsplit(self.path).path
         original_route = route
-        if route not in ('/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
+        if route not in ('/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
-        # Uploads are public; review and editing actions still require a logged-in user.
-        user = None
-        if route not in ('/api/auth/login', '/api/auth/logout'):
-            user = self.current_user()
-            if not user and route != '/api/icons/upload':
-                return self.json_response({'error': 'Log in to make changes.'}, 401)
-            if route == '/api/icons/upload':
-                user = user or 'anonymous'
+        # Login identifies a human reviewer; sessionless API calls are system actions.
+        user = self.current_user() or 'system'
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
                        urlsplit(origin).netloc != self.headers.get('Host')):
@@ -887,13 +880,22 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        limit = {'/api/icons/upload': 2 * 1024 * 1024, '/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
+        limit = {'/api/combination-experiment': 3 * 1024 * 1024, '/api/icons/upload': 2 * 1024 * 1024, '/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
         if self.headers.get('Transfer-Encoding') or not 0 < size <= limit:
             return self.json_response({'error': 'Invalid request size' if route != '/api/reference-images' else 'Reference image is too large.'}, 413)
         try:
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route == '/api/combination-refresh':
+                from icon_set.scripts.combination_refresh_job import start
+                return self.json_response(start(), 202)
+            if route == '/api/combination-experiment':
+                from icon_set.scripts.combination_experiment import render
+                try:
+                    return self.json_response(render(data))
+                except (ValueError, OSError) as error:
+                    return self.json_response({'error': str(error)}, 422)
             if route == '/api/icons/upload':
                 return self.upload_icon(data, user)
             if route == '/api/ai-feedback':

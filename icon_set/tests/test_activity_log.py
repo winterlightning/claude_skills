@@ -21,17 +21,14 @@ class ActivityLogTests(unittest.TestCase):
             return [(user, action, icon, json.loads(details)) for user, action, icon, details in
                     connection.execute('SELECT username, action, icon, details FROM activity_log ORDER BY id')]
 
-    def test_every_action_requires_login(self):
-        for route in ACTION_ROUTES:
-            with self.subTest(route=route):
-                status, body = self.request('POST', route, {'icon': 'sub/square', 'svg_sha256': 'abc'}, anonymous=True)
-                self.assertEqual(status, 401)
-                self.assertIn('Log in', json.loads(body)['error'])
-        self.assertEqual([row[1] for row in self.activity()], ['login'], 'Refused requests record nothing')
-        # Reading stays public.
-        for path in ('/api/reviews', '/api/feedback?icon=sub/square', '/api/icon-flag?icon=sub/square',
-                     '/api/review-detail?icon=sub/square', '/gallery/index.html'):
-            self.assertEqual(self.request('GET', path, anonymous=True)[0], 200, path)
+    def test_system_actions_are_attributed_without_login(self):
+        for status in ('approve', 'disapprove', 'ready'):
+            code, body = self.request('POST', '/api/reviews',
+                {'icon':'sub/square','svg_sha256':'abc','status':status,'updated_by':'hina'}, anonymous=True)
+            self.assertEqual(code,201,body)
+            self.assertEqual(json.loads(body)['updated_by'],'system')
+        actions = [row for row in self.activity() if row[1]=='review']
+        self.assertEqual([row[0] for row in actions], ['system']*3)
 
     def test_approver_filter_uses_current_approved_revision(self):
         icon = {'icon': 'sub/square', 'svg_sha256': 'abc'}
@@ -123,7 +120,7 @@ class ActivityLogTests(unittest.TestCase):
         log = self.activity()
         self.assertEqual([(user, action) for user, action, _, _ in log], [
             ('jakes', 'login'), ('jakes', 'feedback'), ('jakes', 'feedback_edit'), ('jakes', 'flag'), ('jakes', 'unflag'),
-            ('jakes', 'logout'), ('hina', 'login'), ('hina', 'review'), ('hina', 'review'), ('hina', 'restore'),
+            ('jakes', 'logout'), ('hina', 'login'), ('hina', 'review'), ('hina', 'review'), ('hina', 'feedback_resolved'), ('hina', 'restore'),
             ('hina', 'generate'), ('hina', 'generation_discard'),
         ])
         self.assertEqual(log[2][3], {'feedback_id': row['id'], 'previous_feedback': 'Round it'})

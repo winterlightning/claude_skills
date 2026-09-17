@@ -45,7 +45,7 @@ class AdminAuthTests(unittest.TestCase):
         connection.close()
         return result
 
-    def test_guest_cannot_reach_generation_by_page_or_api(self):
+    def test_reviewer_page_login_is_separate_from_system_api(self):
         self.assertEqual(self.request('/')[1]['Location'], '/gallery/home.html')
         for page in ('home', 'login', 'index'):
             self.assertEqual(self.request('/gallery/'+page+'.html')[0], 200)
@@ -54,12 +54,13 @@ class AdminAuthTests(unittest.TestCase):
                 status, headers, _ = self.request(path, method=method)
                 self.assertEqual(status, 302)
                 self.assertEqual(headers['Location'], '/gallery/login.html')
-        for path in ('/api/generation', '/api/generation/preview?id=x', '/api/generation/log?id=x'):
-            self.assertEqual(self.request(path)[0], 401)
-        for path in ('/api/generation', '/api/generation/accept', '/api/generation/discard'):
-            self.assertEqual(self.request(path, {})[0], 401)
-        self.server.generation.start.assert_not_called()
-        self.server.generation.decide.assert_not_called()
+        self.assertEqual(self.request('/api/generation')[0], 200)
+        self.server.generation.start.return_value = {'id':'job', 'mode':'generate', 'name':'Demo'}
+        self.assertEqual(self.request('/api/generation', {'name':'Demo'})[0],202)
+        self.assertEqual(self.server.generation.start.call_args.args[-1], 'system')
+        self.server.generation.decide.return_value = {'id':'job','mode':'generate','name':'Demo'}
+        self.assertEqual(self.request('/api/generation/accept', {'id':'job'})[0],202)
+        self.assertEqual(self.server.generation.decide.call_args.args[-1], 'system')
 
     def test_all_accounts_login_and_logout_revokes_cookie(self):
         for user in ('jakes', 'hina', 'ray', 'phuong'):
@@ -72,7 +73,7 @@ class AdminAuthTests(unittest.TestCase):
             self.assertEqual(self.request('/gallery/generate.html', cookie=cookie)[0], 200)
             self.assertEqual(self.request('/api/generation', cookie=cookie)[0], 200)
             self.assertEqual(self.request('/api/auth/logout', {}, cookie)[0], 200)
-            self.assertEqual(self.request('/api/generation', cookie=cookie)[0], 401)
+            self.assertEqual(self.request('/api/generation', cookie=cookie)[0], 200)
 
     def test_invalid_credentials_expiry_and_cross_origin(self):
         for data in ({'username':'jakes','password':'wrong'}, {'username':'unknown','password':'1'}, {'username':[], 'password':1}):
@@ -84,5 +85,5 @@ class AdminAuthTests(unittest.TestCase):
         with sqlite3.connect(self.db) as db:
             self.assertEqual(db.execute('SELECT token FROM admin_sessions').fetchone()[0], hashlib.sha256(token.encode()).hexdigest())
             db.execute('UPDATE admin_sessions SET expires=0')
-        self.assertEqual(self.request('/api/generation', cookie=cookie)[0], 401)
-        self.assertEqual(self.request('/api/generation', cookie='pictographic_session=forged')[0], 401)
+        self.assertEqual(self.request('/api/generation', cookie=cookie)[0], 200)
+        self.assertEqual(self.request('/api/generation', cookie='pictographic_session=forged')[0], 200)

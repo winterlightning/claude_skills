@@ -119,18 +119,22 @@ class IconUploadTests(unittest.TestCase):
         self.assertEqual([row['category'] for row in catalog if row['key'] in keys],
                          ['manual_upload', 'manual_upload', 'manual_upload', 'Animals'])
 
-    def test_anonymous_upload_is_ready_but_review_still_requires_login(self):
+    def test_sessionless_actions_are_system_and_login_identifies_reviewer(self):
         status, result = self.upload()
         self.assertEqual(status, 201, result)
         icon = result['record']
-        self.assertEqual(icon['author'], 'anonymous')
+        self.assertEqual(icon['author'], 'system')
         self.assertEqual(icon['category'], 'manual_upload')
         self.assertEqual(icon['icon_type'], 'uploaded')
         self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'ready')
         review = dict(icon=icon['key'], svg_sha256=icon['svg_sha256'], status='approve')
-        self.assertEqual(self.call('POST', '/api/reviews', review)[0], 401)
+        status, decision = self.call('POST', '/api/reviews', dict(review, updated_by='jakes'))
+        self.assertEqual(status, 201)
+        self.assertEqual(decision['updated_by'], 'system')
         self.login()
-        self.assertEqual(self.call('POST', '/api/reviews', review)[0], 201)
+        status, decision = self.call('POST', '/api/reviews', review)
+        self.assertEqual(status, 201)
+        self.assertEqual(decision['updated_by'], 'jakes')
 
     def test_optional_validation_default_types_and_failures(self):
         from unittest.mock import patch

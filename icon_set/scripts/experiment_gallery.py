@@ -1,9 +1,65 @@
 """Publish read-only experiment collections without touching review data."""
 import json
+import base64
+import io
+import sys
 import shutil
 from pathlib import Path
+from xml.sax.saxutils import quoteattr
 
 ROOT = Path(__file__).resolve().parents[2]
+
+
+def fitted_preview(document: str) -> str:
+    """Trim only preview whitespace, preserving original aspect ratio and artwork."""
+    import cairosvg
+    from PIL import Image, ImageChops
+    image = Image.open(io.BytesIO(cairosvg.svg2png(
+        bytestring=document.encode(), output_width=384))).convert('RGBA')
+    white = Image.new('RGBA', image.size, 'white')
+    white.alpha_composite(image)
+    rgb = white.convert('RGB')
+    mask = ImageChops.difference(rgb, Image.new('RGB', rgb.size, 'white')).convert('L')
+    bounds = mask.point(lambda value: 255 if value > 32 else 0).getbbox()
+    if bounds:
+        rgb = rgb.crop(bounds)
+    result = io.BytesIO()
+    rgb.save(result, format='PNG')
+    return 'data:image/png;base64,'+base64.b64encode(result.getvalue()).decode('ascii')
+
+
+def typeface_samples(glyphs: list[dict]) -> list[dict]:
+    """Render the exact published paths, with a thin overlay on their centerlines."""
+    from icon_set.model.icons.registry import factories
+    registered = factories()
+    rows = []
+    order = {'uppercase': 0, 'lowercase': 1, 'digit': 2}
+    for number, glyph in enumerate(sorted(glyphs, key=lambda g: (
+            order.get(g['kind'], 3), g['character'], not g['preferred'])), 1):
+        paths = ''.join('<path d='+quoteattr(d)+'/>' for d in glyph['paths'])
+        view_box = ' '.join(str(v) for v in glyph.get('preview_box', [0,0,48,48]))
+        start = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox='+quoteattr(view_box)+' '
+                 'width="48" height="48" fill="none" stroke-linecap="round" stroke-linejoin="round">')
+        outline = start+'<g stroke="#202820" stroke-width="4">'+paths+'</g></svg>'
+        result = (start+'<g stroke="#dce3dc" stroke-width="4">'+paths+'</g>'
+                  '<g stroke="#ce4937" stroke-width="0.65">'+paths+'</g></svg>')
+        label = glyph['character']+' · '+glyph['kind']
+        if not glyph['preferred']:
+            label += ' · large source'
+        factory = registered.get(glyph['icon_id'])
+        source = glyph.get('source_path') if 'source_path' in glyph else (getattr(sys.modules[factory.__module__], 'SOURCE_PATH', None) if factory else None)
+        source_path = Path(source) if source else None
+        if source_path and not source_path.is_absolute():
+            source_path = ROOT / source_path
+        original = source_path.read_text() if source_path and source_path.is_file() else None
+        rows.append(dict(original=original,
+                         original_name=source_path.name if original else None,
+                         original_preview=fitted_preview(original) if original else None,
+                         outline_preview=fitted_preview(outline),
+                         key='solo/'+glyph['icon_id'], number=number,
+                         name=label, icon_id=glyph['icon_id'], canvas_size=48,
+                         outline=outline, result=result))
+    return rows
 
 
 def stage_experiments(target: Path) -> None:
@@ -36,6 +92,29 @@ def stage_experiments(target: Path) -> None:
             elif not output.is_file():
                 output.write_text('{"icons":[]}\n')
         counts[kind] = len(json.loads(output.read_text())['icons'])
+    typeface_path = target / 'typeface.json'
+    glyphs = json.loads(typeface_path.read_text())['glyphs'] if typeface_path.is_file() else []
+    typeface = {'icons': typeface_samples(glyphs)}
+    payload = json.dumps(typeface, ensure_ascii=True).replace('<', '\\u003c')
+    (target / 'experiment-typeface.json').write_text(payload+'\n')
+    counts['typeface'] = len(typeface['icons'])
+    combination = ROOT / 'icon_set/data/combination-pairs.json'
+    if combination.is_file():
+        shutil.copyfile(combination, target / 'experiment-combination.json')
+        counts['combination'] = len(json.loads(combination.read_text())['rows'])
+    shutil.copyfile(Path(__file__).with_name('templates') / 'combination-experiment.js', target / 'combination-experiment.js')
+    preview_cache = ROOT / 'icon_set/data/combination-previews.json'
+    if preview_cache.is_file():
+        results = json.loads(preview_cache.read_text())
+        preview_dir = target / 'combination-previews'
+        preview_dir.mkdir(exist_ok=True)
+        for key, item in results.items():
+            (preview_dir / (key + '.svg')).write_text(item['result']['svg'])
+        (target / 'experiment-combination-results.json').write_text(json.dumps({'results': results}))
+
+    template = (Path(__file__).with_name('templates') / 'experiment.html').read_text()
+    # Embed this small collection so the user's local-file experiment works offline.
+    (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload))
     (target / 'experiments.json').write_text(json.dumps(counts) + '\n')
     # Keep the existing fill review route and its browser feedback key intact.
     fill = ROOT / 'work/fill-review-500'

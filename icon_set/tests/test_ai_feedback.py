@@ -92,8 +92,10 @@ class FeedbackAPITests(unittest.TestCase):
     def test_authorization_revision_and_no_feedback_submission(self):
         payload = {'icon': 'sub/square', 'svg_sha256': 'abc'}
         reviews_before = json.loads(self.request('GET', '/api/reviews')[1])
-        self.assertEqual(self.request('POST', '/api/ai-feedback', payload, anonymous=True)[0], 401)
-        self.assertEqual(self.request('GET', '/api/ai-feedback?id='+'a'*32, anonymous=True)[0], 401)
+        with patch('icon_set.scripts.review_icon.FeedbackReviewManager.start', side_effect=ValueError('test unavailable')) as start:
+            self.assertEqual(self.request('POST', '/api/ai-feedback', payload, anonymous=True)[0], 400)
+            self.assertEqual(start.call_args.args[-1], 'system')
+        self.assertEqual(self.request('GET', '/api/ai-feedback?id='+'a'*32, anonymous=True)[0], 400)
         self.assertEqual(self.request('POST', '/api/ai-feedback', payload,
             {'Content-Type': 'application/json', 'Origin': 'https://elsewhere.test'})[0], 403)
         self.assertEqual(self.request('POST', '/api/ai-feedback', dict(payload, svg_sha256='old'))[0], 409)

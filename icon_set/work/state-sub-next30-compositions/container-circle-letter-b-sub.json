@@ -1,0 +1,289 @@
+{
+  "icon_id": "container-circle-letter-b-sub",
+  "name": "Container circle letter b sub",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "letter",
+    "b",
+    "uppercase",
+    "straight",
+    "upright",
+    "stem",
+    "rounded",
+    "bowls"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "letter",
+    "b",
+    "uppercase",
+    "straight",
+    "upright",
+    "stem",
+    "rounded",
+    "bowls"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:letter-b-sub:stem",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        22,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:letter-b-sub:upper-top",
+      "start": [
+        22,
+        18
+      ],
+      "end": [
+        32,
+        18
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:letter-b-sub:upper-round",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        32
+      ],
+      "radius_x": 10,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:letter-b-sub:upper-bottom",
+      "start": [
+        32,
+        32
+      ],
+      "end": [
+        22,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:letter-b-sub:lower-top",
+      "start": [
+        22,
+        32
+      ],
+      "end": [
+        32,
+        32
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:letter-b-sub:lower-round",
+      "start": [
+        32,
+        32
+      ],
+      "end": [
+        32,
+        46
+      ],
+      "radius_x": 10,
+      "radius_y": 7,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:letter-b-sub:lower-bottom",
+      "start": [
+        32,
+        46
+      ],
+      "end": [
+        22,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:letter-b-sub:upper",
+      "members": [
+        "1:letter-b-sub:upper-top",
+        "1:letter-b-sub:upper-round",
+        "1:letter-b-sub:upper-bottom"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:letter-b-sub:lower",
+      "members": [
+        "1:letter-b-sub:lower-top",
+        "1:letter-b-sub:lower-round",
+        "1:letter-b-sub:lower-bottom"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:letter-b-sub:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:letter-b-sub:stem",
+        "1:letter-b-sub:upper"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:letter-b-sub:stem",
+        "1:letter-b-sub:lower"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:letter-b-sub:upper",
+        "1:letter-b-sub:lower"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "letter-b-sub",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub-next30-compositions/container-circle-letter-b-sub.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

@@ -73,6 +73,16 @@ workspace. Log in to generate, save edits, or make review decisions. The current
 development accounts are `jakes`, `ray`, `phuong`, and `hina`, each with password
 `1`, as defined in `icon_set/scripts/deploy.py`.
 
+## Pipeline API reference
+
+Open **API** in the app navigation or `/gallery/api.html` for the complete
+review pipeline reference. It includes a configurable production/local base URL,
+login instructions, an endpoint explorer with copyable curl requests, reads by
+stage, Ready/Disapproved/Approved/Rejected transitions, feedback, artwork
+revisions, and generation acceptance. The page builds commands without sending
+write requests. All pipeline API calls work without login and are attributed to `system`.
+An optional reviewer session attributes actions to the logged-in reviewer.
+
 ## Generate an icon in the app
 
 1. Ensure Codex is installed and signed in under the account running the server.
@@ -114,7 +124,8 @@ Open **Icon review → Upload icon** and choose an SVG up to 1 MB. No login is
 required for the upload page or `POST /api/icons/upload`. The page shows the full
 production endpoint and a copyable curl example:
 `https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload`. Anonymous uploads are attributed to
-`anonymous`; approval and disapproval still require a logged-in reviewer.
+`system`; an optional login attributes approval, disapproval, and other actions
+to a named reviewer.
 Enter its name and optional category (defaults to `manual_upload`). Every upload
 receives the `uploaded` icon type, including those with a custom category.
 The canvas selects the family automatically
@@ -165,7 +176,8 @@ restart marks interrupted running/accepting jobs as failed.
 
 ### Submit to the running app with authentication
 
-The generation API requires a logged-in session. This example uses `curl` and a
+The generation API supports system actions without login. This example optionally
+identifies a reviewer using `curl` and a
 temporary cookie file. Start the app first; submitting the job starts a Codex
 run under the server account.
 
@@ -198,7 +210,7 @@ For a fix request, use `"mode":"fix"` and include the current `icon` key
 `model`. The current gallery entries are in `/gallery/icons.json`. A stale hash
 is rejected; using the inspector's fix form handles these fields for you.
 
-### Existing submission helper: current limitation
+### Submission helper
 
 The repository also has this shorter wrapper:
 
@@ -209,10 +221,8 @@ bash icon_set/scripts/run_icon_agent.sh generate \
 ```
 
 Its `generate` and `fix` modes delegate to `submit_generation.py`. That script
-currently sends no login cookie and has no login option, so the current server
-responds **401 / Log in to make changes**. Use the authenticated API example
-above or the browser until the helper gains session support. Logging in through
-the browser does not give this shell helper a session.
+sends no login cookie, so its requests are attributed to `system`.
+Use the optional cookie-based example above to attribute requests to a reviewer.
 
 ### Low-level agent execution
 
@@ -624,7 +634,7 @@ the deployed runtime.
 | --- | --- |
 | Missing CairoSVG/NumPy/OpenCV/Pillow or a checker `error` | Activate the intended environment and install `requirements-qa.txt`. If CairoSVG reports a missing native Cairo library, install the platform's Cairo runtime too. |
 | Codex executable not found | Install/sign in under the server account; check its PATH or set `CODEX_BIN` before starting the server. |
-| `Log in to make changes` / HTTP 401 | Log in through the app, or send a valid session cookie for API calls. The short submission helper currently omits it. |
+| HTTP 401 on login | Check the supplied reviewer credentials. Pipeline API calls without a session are attributed to `system`. |
 | Server cannot find gallery assets | Run `build.py` and check that server/build `--dist` values agree. |
 | Port 8000 is already in use | Run `deploy.py --port 8001 --open`, and use that port in API commands. |
 | An edited Python icon does not appear | Check its family folder, public filename, unique ID, and Failed build findings; build its file explicitly. |

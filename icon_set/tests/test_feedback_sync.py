@@ -178,11 +178,11 @@ class FeedbackSyncTests(unittest.TestCase):
         self.assertFalse((self.root / 'escape.txt').exists())
         self.assertEqual(self.rows('SELECT feedback FROM feedback'), [('Local only',)])
 
-    def test_refuses_self_invalid_downloads_and_guests(self):
+    def test_refuses_self_and_invalid_downloads(self):
         before = self.rows('SELECT * FROM feedback')
         self.assertEqual(self.request({'source': 'http://localhost:8000/gallery/'})[0], 400)
         self.assertEqual(self.request({'source': 'ftp://prod.example'})[0], 400)
-        self.assertEqual(self.request({'source': 'https://prod.example'}, user=None)[0], 401)
+        self.assertEqual(self.request({'source': 'ftp://prod.example'}, user=None)[0], 400)
         with self.serve(bundle=b'<html>tunnel offline</html>'):
             self.assertEqual(self.request({'source': 'https://prod.example'})[0], 502)
         with self.serve(bundle=False, database=b'<html>tunnel offline</html>'):

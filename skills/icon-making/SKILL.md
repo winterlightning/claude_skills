@@ -22,6 +22,10 @@ the family authoring workflow below for new icons or substantial redesigns.
 
 ## Inspect and classify before authoring
 
+For letters, text, or numbers, reuse the existing typeface glyphs according to
+`icon_set/skills/icon-design/typeface.md`; do not invent new solo/sub glyphs.
+Apply this before family routing, including text components and Pending briefs.
+
 For any human subject or human part within a scene, carry
 `icon_set/skills/icon-design/human-reference.md` into the family handoff.
 Inspect `icon_set/references/human_ref/user.svg` for busts and

@@ -1,0 +1,254 @@
+{
+  "icon_id": "container-circle-location-pin-sub-state-150",
+  "name": "Container circle location pin sub state 150",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "location",
+    "pin",
+    "map",
+    "rounded",
+    "upper",
+    "body",
+    "tapering",
+    "evenly"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "location",
+    "pin",
+    "map",
+    "rounded",
+    "upper",
+    "body",
+    "tapering",
+    "evenly"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:location-pin-sub-state-150:crown",
+      "start": [
+        21,
+        29
+      ],
+      "end": [
+        43,
+        29
+      ],
+      "radius_x": 11,
+      "radius_y": 11,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:location-pin-sub-state-150:right-taper",
+      "start": [
+        43,
+        29
+      ],
+      "end": [
+        32,
+        46
+      ],
+      "radius_x": 24,
+      "radius_y": 24,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:location-pin-sub-state-150:left-taper",
+      "start": [
+        32,
+        46
+      ],
+      "end": [
+        21,
+        29
+      ],
+      "radius_x": 24,
+      "radius_y": 24,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:location-pin-sub-state-150:hole-top",
+      "start": [
+        28,
+        29
+      ],
+      "end": [
+        36,
+        29
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:location-pin-sub-state-150:hole-bottom",
+      "start": [
+        36,
+        29
+      ],
+      "end": [
+        28,
+        29
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": true
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:location-pin-sub-state-150:outline",
+      "members": [
+        "1:location-pin-sub-state-150:crown",
+        "1:location-pin-sub-state-150:right-taper",
+        "1:location-pin-sub-state-150:left-taper"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:location-pin-sub-state-150:hole",
+      "members": [
+        "1:location-pin-sub-state-150:hole-top",
+        "1:location-pin-sub-state-150:hole-bottom"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:location-pin-sub-state-150:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "location-pin-sub-state-150",
+      "profile": "SUB32",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50c-compositions/container-circle-location-pin-sub-state-150.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

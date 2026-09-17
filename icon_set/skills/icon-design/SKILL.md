@@ -6,6 +6,9 @@ description: Design a new icon for the Pictographic icon set from a text brief, 
 # Designing an icon
 
 Use `icon-making` as the routing entry point when the family is not yet chosen.
+For letters, text, or numbers, follow [typeface.md](typeface.md): reuse existing
+typeface glyphs instead of authoring new letter/number geometry. This routing
+rule takes precedence over the primitive-authoring workflow below.
 Before authoring a supplied reference, apply [reference-triage.md](reference-triage.md).
 Combined references must become two Pending component briefs rather than one
 primitive. For existing-icon feedback, preserve the old version using

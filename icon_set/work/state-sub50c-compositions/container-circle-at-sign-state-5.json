@@ -1,0 +1,275 @@
+{
+  "icon_id": "container-circle-at-sign-state-5",
+  "name": "Container circle at sign state 5",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "sign",
+    "rounded",
+    "central",
+    "bowl",
+    "connects",
+    "smaller",
+    "return",
+    "right"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "sign",
+    "rounded",
+    "central",
+    "bowl",
+    "connects",
+    "smaller",
+    "return",
+    "right"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:at-sign-state-5:bowl-top",
+      "start": [
+        26,
+        32
+      ],
+      "end": [
+        38,
+        32
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:at-sign-state-5:bowl-bottom",
+      "start": [
+        38,
+        32
+      ],
+      "end": [
+        26,
+        32
+      ],
+      "radius_x": 6,
+      "radius_y": 6,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:at-sign-state-5:join",
+      "start": [
+        38,
+        32
+      ],
+      "end": [
+        42,
+        36
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:at-sign-state-5:return",
+      "start": [
+        42,
+        36
+      ],
+      "end": [
+        46,
+        32
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:at-sign-state-5:outer-upper",
+      "start": [
+        46,
+        32
+      ],
+      "end": [
+        18,
+        32
+      ],
+      "radius_x": 14,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:at-sign-state-5:outer-lower",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        32,
+        46
+      ],
+      "radius_x": 14,
+      "radius_y": 14,
+      "large_arc": false,
+      "sweep": false
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:at-sign-state-5:bowl",
+      "members": [
+        "1:at-sign-state-5:bowl-top",
+        "1:at-sign-state-5:bowl-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:at-sign-state-5:outer",
+      "members": [
+        "1:at-sign-state-5:join",
+        "1:at-sign-state-5:return",
+        "1:at-sign-state-5:outer-upper",
+        "1:at-sign-state-5:outer-lower"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:at-sign-state-5:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:at-sign-state-5:bowl",
+        "1:at-sign-state-5:outer"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "at-sign-state-5",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50c-compositions/container-circle-at-sign-state-5.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

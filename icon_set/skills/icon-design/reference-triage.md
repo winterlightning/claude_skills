@@ -4,6 +4,11 @@ Before authoring a referenced primitive, visually inspect the reference and
 classify it as standalone, container combination, or side combination. Use the
 `icon-making` skill in the repository skill folders as the routing entry point.
 
+Text/number components follow [typeface.md](typeface.md): preserve their exact
+content and reference existing typeface glyph IDs in a reuse/layout brief,
+instead of generating new letter/number primitives. Apply this exception to
+the component-authoring instructions below.
+
 A container combination is an independently meaningful enclosure hosting a
 separate icon. A side combination is a main noun/enclosure with a separate
 modifier beside it. Neither should become one new primitive. Reject the

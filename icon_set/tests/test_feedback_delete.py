@@ -82,8 +82,8 @@ class FeedbackDeleteTests(unittest.TestCase):
                 self.assertEqual(self.request()[0], 409)
                 self.assertEqual(self.db.execute('SELECT COUNT(*) FROM feedback').fetchone()[0], 2)
 
-    def test_requires_login_same_origin_and_valid_id(self):
-        self.assertEqual(self.request(user=None)[0], 401)
+    def test_system_action_still_requires_same_origin_and_valid_id(self):
+        self.assertEqual(self.request({'id': 1}, user=None)[0], 400)
         self.assertEqual(self.request(origin='https://elsewhere.test')[0], 403)
         for id in (True, '1', 0, -1, None):
             self.assertEqual(self.request(dict(self.payload, id=id))[0], 400)

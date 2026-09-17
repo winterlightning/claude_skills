@@ -160,7 +160,7 @@ class StrokeEditAPITests(unittest.TestCase):
         (self.dist / 'gallery/icons.json').write_text(json.dumps({'icons': [icon]}))
         data = {'icon': icon['key'], 'svg_sha256': 'fixture', 'offsets': {}, 'keyshape': 'VRECT_M'}
         route = '/api/stroke-edits/validate'
-        self.assertEqual(self.call('POST', route, data)[0], 401)
+        self.assertEqual(self.call('POST', route, data)[0], 200)
         self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})
         self.assertEqual(self.call('POST', route, data, origin='https://foreign.example')[0], 403)
         status, report = self.call('POST', route, data)
@@ -227,7 +227,10 @@ class StrokeEditAPITests(unittest.TestCase):
 
     def test_authenticated_round_trip_on_server_without_python_models(self):
         data = {'icon': 'sub/example', 'svg_sha256': 'version-a', 'revision': 0, 'offsets': {'primitive:c': [1, 0]}}
-        self.assertEqual(self.call('POST', data=data)[0], 401)
+        status, system_edit = self.call('POST', data=data)
+        self.assertEqual(status, 200)
+        self.assertEqual(system_edit['updated_by'], 'system')
+        data['revision'] = 1
         self.assertEqual(self.call('POST', '/api/auth/login', {'username': 'jakes', 'password': '1'})[0], 200)
         self.assertEqual(self.call('POST', data=data, origin='https://foreign.example')[0], 403)
         status, row = self.call('POST', data=data)

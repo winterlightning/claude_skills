@@ -1,0 +1,275 @@
+{
+  "icon_id": "container-circle-trash-bin-sub-state-284",
+  "name": "Container circle trash bin sub state 284",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "trash",
+    "bin",
+    "upright",
+    "open",
+    "bodied",
+    "straight",
+    "sides",
+    "rounded"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "trash",
+    "bin",
+    "upright",
+    "open",
+    "bodied",
+    "straight",
+    "sides",
+    "rounded"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "line",
+      "element_id": "1:trash-bin-sub-state-284:lid",
+      "start": [
+        18,
+        24
+      ],
+      "end": [
+        46,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:trash-bin-sub-state-284:knob",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        24
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:trash-bin-sub-state-284:left",
+      "start": [
+        22,
+        24
+      ],
+      "end": [
+        22,
+        42
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:trash-bin-sub-state-284:left-corner",
+      "start": [
+        22,
+        42
+      ],
+      "end": [
+        26,
+        46
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "1:trash-bin-sub-state-284:base",
+      "start": [
+        26,
+        46
+      ],
+      "end": [
+        38,
+        46
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:trash-bin-sub-state-284:right-corner",
+      "start": [
+        38,
+        46
+      ],
+      "end": [
+        42,
+        42
+      ],
+      "radius_x": 4,
+      "radius_y": 4,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "1:trash-bin-sub-state-284:right",
+      "start": [
+        42,
+        42
+      ],
+      "end": [
+        42,
+        24
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:trash-bin-sub-state-284:bin",
+      "members": [
+        "1:trash-bin-sub-state-284:left",
+        "1:trash-bin-sub-state-284:left-corner",
+        "1:trash-bin-sub-state-284:base",
+        "1:trash-bin-sub-state-284:right-corner",
+        "1:trash-bin-sub-state-284:right"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:trash-bin-sub-state-284:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:trash-bin-sub-state-284:lid",
+        "1:trash-bin-sub-state-284:bin"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:trash-bin-sub-state-284:lid",
+        "1:trash-bin-sub-state-284:knob"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "trash-bin-sub-state-284",
+      "profile": "SUB32",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub50d-compositions/container-circle-trash-bin-sub-state-284.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

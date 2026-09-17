@@ -1,0 +1,300 @@
+{
+  "icon_id": "container-circle-counterclockwise-history",
+  "name": "Container circle counterclockwise history",
+  "description": "",
+  "tags": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "clockwise",
+    "history",
+    "curved",
+    "arrows",
+    "form",
+    "open",
+    "circular",
+    "clock"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "circle",
+    "ring",
+    "badge",
+    "avatar",
+    "bubble",
+    "clockwise",
+    "history",
+    "curved",
+    "arrows",
+    "form",
+    "open",
+    "circular",
+    "clock"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "CIRCLE",
+  "keyshape_bounds": [
+    0,
+    0,
+    64,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-top",
+      "start": [
+        2,
+        32
+      ],
+      "end": [
+        62,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:container-circle:half-bottom",
+      "start": [
+        62,
+        32
+      ],
+      "end": [
+        2,
+        32
+      ],
+      "radius_x": 30,
+      "radius_y": 30,
+      "large_arc": false,
+      "sweep": true
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:counterclockwise-history:top",
+      "start": [
+        46,
+        26
+      ],
+      "end": [
+        18,
+        26
+      ],
+      "radius_x": 14,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:head-top-1",
+      "start": [
+        18,
+        18
+      ],
+      "end": [
+        18,
+        26
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:head-top-2",
+      "start": [
+        18,
+        26
+      ],
+      "end": [
+        24,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "1:counterclockwise-history:bottom",
+      "start": [
+        18,
+        38
+      ],
+      "end": [
+        46,
+        38
+      ],
+      "radius_x": 14,
+      "radius_y": 8,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:head-bottom-1",
+      "start": [
+        40,
+        38
+      ],
+      "end": [
+        46,
+        38
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:head-bottom-2",
+      "start": [
+        46,
+        38
+      ],
+      "end": [
+        46,
+        46
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:hands-1",
+      "start": [
+        32,
+        26
+      ],
+      "end": [
+        32,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:counterclockwise-history:hands-2",
+      "start": [
+        32,
+        32
+      ],
+      "end": [
+        36,
+        32
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:container-circle:outline",
+      "members": [
+        "0:container-circle:half-top",
+        "0:container-circle:half-bottom"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:counterclockwise-history:head-top",
+      "members": [
+        "1:counterclockwise-history:head-top-1",
+        "1:counterclockwise-history:head-top-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:counterclockwise-history:head-bottom",
+      "members": [
+        "1:counterclockwise-history:head-bottom-1",
+        "1:counterclockwise-history:head-bottom-2"
+      ],
+      "closed": false
+    },
+    {
+      "contour_id": "1:counterclockwise-history:hands",
+      "members": [
+        "1:counterclockwise-history:hands-1",
+        "1:counterclockwise-history:hands-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:container-circle:center": [
+      32,
+      32
+    ],
+    "0:container-circle:content-top-left": [
+      16,
+      16
+    ],
+    "0:container-circle:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:counterclockwise-history:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:counterclockwise-history:top",
+        "1:counterclockwise-history:head-top"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:counterclockwise-history:bottom",
+        "1:counterclockwise-history:head-bottom"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "container-circle",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "counterclockwise-history",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "modifier",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/state-sub30-compositions/container-circle-counterclockwise-history.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

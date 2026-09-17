@@ -64,7 +64,7 @@ class ReferenceServerTests(unittest.TestCase):
         return self.call('POST', '/api/reference-images', {'name': name, 'data': base64.b64encode(data).decode()}, cookie)
 
     def test_upload_serve_and_attach_to_feedback(self):
-        self.assertEqual(self.upload('a.png', PNG, None)[0], 401, 'Guests cannot upload')
+        self.assertEqual(self.upload('a.png', PNG, None)[0], 201, 'System API can upload')
         cookie = self.login()
         status, body, _ = self.upload('a.png', PNG, cookie)
         self.assertEqual(status, 201, body)

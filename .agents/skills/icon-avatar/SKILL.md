@@ -9,6 +9,11 @@ Use the user's request as the brief, including any supplied icon ID, reference p
 
 Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
+**Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
+glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
+geometry, including text components in combined icons or Pending briefs.
+This routing rule takes precedence over the primitive-authoring workflow below.
+
 This skill authors **exactly one family**. Everything below is fixed by the
 family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
