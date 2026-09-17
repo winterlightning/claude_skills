@@ -12,6 +12,7 @@ from pathlib import Path
 from typing import Iterable, Literal, TYPE_CHECKING
 
 from ..keyshapes import FreeKeyshapeSpec, Keyshape
+from ..metadata import record_metadata
 from ..primitives import (
     Arc,
     Bezier,
@@ -302,10 +303,7 @@ class Icon:
         drawing = self.draw()
         record = {
             "icon_id": self.icon_id,
-            "name": self.icon_id,
-            "aliases": list(self.aliases),
-            "category": self.category,
-            "keywords": list(self.keywords),
+            **record_metadata(self),
             "family": self.family,
             "profile": self.profile.name,
             "canvas_size": self.profile.spec.canvas_size,

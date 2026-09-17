@@ -210,6 +210,12 @@ def resolve_artwork(record, choice, *, variant=None):
     """Return the exact selected SVG plus its provenance; use_org returns None."""
     mode = variant or (choice or {}).get('source_mode', 'use_org')
     if mode == 'use_org':
+        if record.get('uploaded_icon'):
+            document = record.get('uploaded_svg')
+            if not document or sha(document) != baseline(record)['svg_sha256']:
+                raise ValueError('Original uploaded SVG is unavailable.')
+            return {'svg': document, 'svg_sha256': sha(document), 'source_mode': mode,
+                    'graph': None, 'validation_override': None, 'automatic_status': 'not-run'}
         return None
     if not choice:
         raise ValueError('That artwork version has not been saved.')

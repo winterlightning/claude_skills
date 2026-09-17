@@ -54,6 +54,7 @@ if str(REPO_ROOT) not in sys.path:
 from icon_set.scripts.icon_artwork import ArtworkStore, DEFAULT_ARTWORK, resolve_artwork, icon_from_graph, sha
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
+from icon_set.model.metadata import publish_metadata
 from icon_set.model.icons.registry import factories, icons_in, families as registry_families  # noqa: E402
 from icon_set.model.profiles import Profile  # noqa: E402
 from icon_set.renderers.png import render_png  # noqa: E402
@@ -457,6 +458,8 @@ def _stage_family(
         # Carried-over records went in first; restore canonical order so output stays byte-stable.
         order = {icon_id: index for index, icon_id in enumerate(factories())}
         records.sort(key=lambda record: order.get(record["icon_id"], len(order)))
+    publish_metadata(records, target_dir, factories())
+    publish_metadata(failed_records, failed_dir, factories())
     failed_records.sort(key=lambda entry: entry["icon_id"])
     (failed_dir / 'manifest.json').write_text(json.dumps({
         "manifest_version": MANIFEST_VERSION, "family": family, "profile": profile.name,

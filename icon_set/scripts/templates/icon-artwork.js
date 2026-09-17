@@ -7,6 +7,7 @@
   const current=()=>data?.choice?.source_mode || data?.source_mode || icon?.artwork_source || 'use_org';
   const preview=variant=>'../api/icon-artwork/svg?icon='+encodeURIComponent(icon.key)+'&variant='+variant+'&v='+(data?.choice?.revision || 0)+'-'+(data?.edit_revision || 0);
   function tab(name,focus=false){
+    if(name==='browser' && icon?.uploaded_icon)name='manual';
     for(const key of tabs){$(key+'EditPanel').hidden=key!==name;$(key+'EditTab').setAttribute('aria-selected',String(key===name));$(key+'EditTab').tabIndex=key===name?0:-1;}
     if(focus)$(name+'EditTab').focus();
     if(name==='browser')window.StrokeEditor?.refresh?.();
@@ -33,7 +34,7 @@
       const newer=mode==='use_upload'?uploaded?.svg_sha256!==(data?.choice?.selected_upload || uploaded)?.svg_sha256:mode==='use_edited' && data?.choice?.edited?.revision!==data?.edit_revision;
       const displayed=current()===mode && !newer;card.dataset.current=String(displayed);
       $('pickNote_'+mode).textContent=!available?(mode==='use_upload'?'Upload and save an SVG in Manual Edit.':'Save your changes in Browser Edit.'):
-        displayed?'Currently displayed':mode==='use_org'?'Python-generated original':mode==='use_edited'?'Latest saved browser edit':'Latest saved manual edit';
+        displayed?'Currently displayed':mode==='use_org'?(icon?.uploaded_icon?'Uploaded original':'Python-generated original'):mode==='use_edited'?'Latest saved browser edit':'Latest saved manual edit';
       if(mode==='use_edited' && window.StrokeEditor?.hasUnsavedChanges())$('pickNote_'+mode).textContent='Unsaved changes in Browser Edit. Save them before picking this version.';
     }
   }
@@ -74,7 +75,7 @@
     }catch(error){if(request===token)status.textContent=error.message;}
     finally{if(request===token){busy=false;controls();}}
   }
-  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source || 'use_org';tab('browser');controls();load();}
+  function open(next){icon=next;data=null;file=null;token++;busy=false;$('artworkFile').value='';$('manualEditStatus').textContent='';$('artworkStatus').textContent='';$('artworkMode').value=next.artwork_source || 'use_org';$('browserEditTab').disabled=!!next.uploaded_icon;tab(next.uploaded_icon?'manual':'browser');controls();load();}
   document.addEventListener('DOMContentLoaded',()=>{
     for(const [i,name] of tabs.entries()){
       $(name+'EditTab').onclick=()=>tab(name);

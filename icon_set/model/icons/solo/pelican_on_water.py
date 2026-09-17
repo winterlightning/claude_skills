@@ -1,7 +1,7 @@
-# Review revision; previous candidates preserved.
-"""A pelican floating on water with the short underline beneath its folded wing removed. SQUARE extremes (6,6)-(42,42) preserve the bill, neck and water. Lucide bird informs the sparse curved profile. Left-facing asymmetry is intentional."""
+'pelican-on-water: Long pointed bill with a hanging pouch, small rounded head, sweeping neck and a broad floating body. Original redrawn in place after the nine-icon meaning review.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
+
 SOURCE_ICON_ID = 'a64f3ff4-3dac-4e77-9941-a21f45a74c31'
 SOURCE_PATH = 'pictographic-primitives/animals/pelican_a64f3ff4-3dac-4e77-9941-a21f45a74c31.svg'
 AUTHOR = 'gpt-6'
@@ -16,7 +16,7 @@ class PelicanOnWater(Solo48):
     keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
 
     def build(self):
-        # Symbol plan: Restore the long bill with throat pouch, curved neck, rounded floating body and water line.
+        # Symbol plan: Long pointed bill with a hanging pouch, small rounded head, sweeping neck and a broad floating body.
 
         def path(name,start,commands,closed=False):
             members=[];here=start
@@ -34,7 +34,7 @@ class PelicanOnWater(Solo48):
             path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('bird',(18,14),[('C',(27,4),(18,8),(21,4)),('C',(34,14),(35,4),(35,10)),('C',(25,29),(33,21),(23,23)),('C',(44,26),(30,35),(40,30)),('C',(24,36),(44,34),(32,36))])
-        path('bill',(18,14),[('L',(4,16)),('C',(18,24),(5,25),(13,28)),('L',(18,14))],True)
-        join('bill','bird')
-        path('water',(4,44),[('C',(24,44),(11,44),(17,44)),('C',(44,44),(31,44),(37,44))])
+        path('bird',(4,18),[('L',(20,10)),('C',(29,4),(21,6),(25,4)),('C',(39,13),(35,4),(39,8)),('C',(32,24),(39,18),(32,21)),('L',(44,22)),('C',(34,34),(44,30),(40,34)),('L',(26,34)),('C',(20,28),(21,34),(19,31)),('L',(22,18)),('L',(4,18))],True)
+        path('pouch',(4,18),[('C',(21,23),(6,28),(14,30))]);join('pouch','bird')
+        dot('eye',(29,13))
+        path('water',(4,44),[('C',(14,42),(7,44),(11,42)),('C',(24,44),(17,42),(21,44)),('C',(34,42),(27,44),(31,42)),('C',(44,44),(37,42),(41,44))])

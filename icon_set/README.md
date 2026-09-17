@@ -105,6 +105,39 @@ Profile names are the family plus the canvas. Earlier releases named the 48 and
 64 profiles for a role rather than a family, which is how a solo subject ended
 up on the container canvas; the numbers are unchanged, only the binding is new.
 
+## Per-icon search metadata
+
+Each registered icon has an editable `metadata/<family>/<icon_id>.json` file.
+This is the source of truth for `name`, `description`, `tags`, `aliases`,
+`category`, and `keywords`. Stable `icon_id`, `family`, and `schema_version`
+identify the record. Extra fields are allowed for future search features.
+Geometry and validation settings remain in the Python model.
+
+Existing files were seeded from the model's category, aliases, and keywords;
+readable names come from icon IDs. Descriptions start blank when no description
+was authored. Tags initially copy keywords; they can be edited independently.
+Edit the JSON to curate these fields; regeneration never overwrites an existing
+file. Variants have their own metadata file.
+
+After adding new icons, run:
+
+```bash
+python3 -m icon_set.scripts.sync_metadata
+```
+
+This creates missing files and validates all registered metadata without building
+geometry. The format is documented in `schemas/icon-metadata.schema.json`.
+Malformed JSON, mismatched identity, blank names, and invalid tag lists fail
+with the filename. Reading a draft without a file uses model defaults without
+writing to disk.
+
+`to_record()` and JSON graph exports include the current search fields. Builds
+also seed missing files, refresh metadata on reused records, and publish
+`<icon_id>.metadata.json` beside each successful or failed SVG. Family manifests
+carry the same search fields. Removed published icons lose their output sidecar;
+source metadata is retained. Rebuild to publish metadata changes. This prepares
+the data for search; it does not add a search UI or index.
+
 ## Authoring an icon
 
 One new file in the family's folder, subclassing the family's base:

@@ -16,6 +16,7 @@ from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 import json
 import hashlib
 import secrets
+import re
 import time
 from http.cookies import SimpleCookie, CookieError
 from pathlib import Path
@@ -34,7 +35,8 @@ import webbrowser
 if __package__:
     from .attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from .reviewer_stats import current_reviews, reviewer_stats
-    from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
+    from .upload_validation import validate_upload
+    from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from .generation import GenerationManager
     from .review_icon import FeedbackReviewManager
@@ -49,7 +51,8 @@ if __package__:
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
     from reviewer_stats import current_reviews, reviewer_stats
-    from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha
+    from upload_validation import validate_upload
+    from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
     from generation import GenerationManager
     from review_icon import FeedbackReviewManager
@@ -90,6 +93,8 @@ def init_database(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("CREATE TABLE IF NOT EXISTS admin_sessions (token TEXT PRIMARY KEY, username TEXT NOT NULL, expires REAL NOT NULL)")
+        connection.execute("""CREATE TABLE IF NOT EXISTS uploaded_icons (
+            icon TEXT PRIMARY KEY, record TEXT NOT NULL, svg TEXT NOT NULL)""")
         init_brief_queue(connection)
         connection.execute('''CREATE TABLE IF NOT EXISTS icon_types (
             icon TEXT PRIMARY KEY, icon_type TEXT NOT NULL,
@@ -436,7 +441,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if not cached or cached[0] != stamp:
             cached = (stamp, json.loads(path.read_text(encoding='utf-8')))
             self.server.catalog_cache = cached
-        return cached[1]
+        data = dict(cached[1])
+        with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+            uploads = [dict(json.loads(record), uploaded_svg=svg)
+                       for record, svg in connection.execute('SELECT record, svg FROM uploaded_icons')]
+        data['icons'] = data['icons'] + uploads
+        return data
 
     def catalog(self, *, include_failed=False):
         data = self.catalog_data()
@@ -524,11 +534,22 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path == '/api/icon-categories':
+            try:
+                data = self.catalog_data()
+                categories = {'manual_upload'}
+                for row in data.get('icons', []) + data.get('failed_icons', []):
+                    category = row.get('category')
+                    if isinstance(category, str) and category.strip():
+                        categories.add(category.strip())
+                return self.json_response({'categories': sorted(categories, key=lambda value: (value.casefold(), value))})
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Could not load categories. You can still type a category.'}, 503)
         if parsed.path == '/gallery/icons.json':
             try:
                 data = dict(self.catalog_data())
                 for field in ('icons', 'failed_icons'):
-                    data[field] = [self.artwork_record(row) for row in data.get(field, [])]
+                    data[field] = [{k: v for k, v in self.artwork_record(row).items() if k != 'uploaded_svg'} for row in data.get(field, [])]
                 return self.json_response(data)
             except (OSError, ValueError):
                 return self.json_response({'error': 'Artwork storage is unavailable.'}, 503)
@@ -549,7 +570,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     selected = {'svg': icon_from_graph(edit['edited_graph']).to_svg()}
                 else:
                     selected = resolve_artwork(icon, choice, variant=variant)
-                if not choice and variant is None and icon.get('artwork_source', 'use_org') != 'use_org':
+                if not choice and not icon.get('uploaded_icon') and variant is None and icon.get('artwork_source', 'use_org') != 'use_org':
                     # A published manual SVG still displays when only dist was copied.
                     # Editing its source choice requires restoring persistent storage.
                     path = (self.root / 'gallery' / unquote(urlsplit(icon['preview_url']).path)).resolve()
@@ -846,14 +867,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
         route = urlsplit(self.path).path
         original_route = route
-        if route not in ('/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
+        if route not in ('/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
-        # Every change is attributed to a logged-in user; only logging in is anonymous.
+        # Uploads are public; review and editing actions still require a logged-in user.
         user = None
         if route not in ('/api/auth/login', '/api/auth/logout'):
             user = self.current_user()
-            if not user:
+            if not user and route != '/api/icons/upload':
                 return self.json_response({'error': 'Log in to make changes.'}, 401)
+            if route == '/api/icons/upload':
+                user = user or 'anonymous'
         origin = self.headers.get('Origin')
         if origin and (urlsplit(origin).scheme not in ('http', 'https') or
                        urlsplit(origin).netloc != self.headers.get('Host')):
@@ -864,13 +887,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        limit = {'/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
+        limit = {'/api/icons/upload': 2 * 1024 * 1024, '/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
         if self.headers.get('Transfer-Encoding') or not 0 < size <= limit:
             return self.json_response({'error': 'Invalid request size' if route != '/api/reference-images' else 'Reference image is too large.'}, 413)
         try:
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route == '/api/icons/upload':
+                return self.upload_icon(data, user)
             if route == '/api/ai-feedback':
                 try:
                     key = data.get('icon')
@@ -1024,6 +1049,56 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response(result, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
+
+    def upload_icon(self, data, user):
+        """Create a persistent SVG-only icon and its initial review atomically."""
+        try:
+            name, family = data.get('name'), data.get('family')
+            if not isinstance(name, str) or not 1 <= len(name.strip()) <= 120:
+                raise ValueError('Enter an icon name up to 120 characters.')
+            if not isinstance(family, str) or family not in ('sub', 'solo', 'container'):
+                raise ValueError('Choose sub, solo, or container.')
+            category = data.get('category', 'manual_upload')
+            if not isinstance(category, str) or len(category) > 100:
+                raise ValueError('Enter a category up to 100 characters.')
+            bypass = data.get('bypass_validation', True)
+            if type(bypass) is not bool:
+                raise ValueError('bypass_validation must be a JSON boolean: true or false.')
+            canvas = {'sub': 32, 'solo': 48, 'container': 64}[family]
+            document = safe_svg(data.get('svg'), canvas)
+            validation = validate_upload(document, canvas, bypass=bypass)
+            if validation['status'] in ('fail', 'error'):
+                return self.json_response({'error': 'Upload validation failed.' if validation['status']=='fail' else 'Upload validation is unavailable.',
+                                           'validation': validation}, 422 if validation['status']=='fail' else 503)
+            digest = sha(document)
+            slug = re.sub(r'[^a-z0-9]+', '-', name.lower()).strip('-')[:80] or 'icon'
+            icon_id = slug + '-upload-' + secrets.token_hex(8)
+            key = family + '/' + icon_id
+            now = utc_now()
+            record = dict(key=key, icon_id=icon_id, name=name.strip(), family=family,
+                          profile=family.upper()+str(canvas), canvas_size=canvas,
+                          category=category.strip() or 'manual_upload', icon_type='uploaded', keywords=[], aliases=[],
+                          svg_sha256=digest, uploaded_icon=True, artwork_source='use_org',
+                          preview_url='../api/icon-artwork/svg?icon='+key+'&v='+digest,
+                          author=user, created_at=now, modified_at=now, original_sources=[],
+                          primitives=[], contours=[], relationships=[], anchors={},
+                          style={'stroke_width': 4}, keyshape='FREE', keyshape_bounds=[0, 0, canvas, canvas],
+                          bypass_validation=bypass, validation=validation)
+            with DISCARD_LOCK:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                    connection.execute('INSERT INTO uploaded_icons VALUES (?,?,?)',
+                                       (key, json.dumps(record), document))
+                    connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,'ready',?,?)",
+                                       (key, digest, now, user))
+                    connection.execute('INSERT INTO icon_types(icon,icon_type,updated_at,updated_by) VALUES (?,?,?,?)',
+                                       (key, 'uploaded', now, user))
+                    record_activity(connection, user, 'upload', key, svg_sha256=digest, status='ready',
+                                    category=record['category'], icon_type='uploaded')
+            return self.json_response({'record': record, 'status': 'ready'}, 201)
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except (OSError, ImportError, sqlite3.Error):
+            return self.json_response({'error': 'Could not save the upload. Check storage and SVG rendering dependencies.'}, 503)
 
     def export_feedback_db(self, bundle=False):
         handle, name = tempfile.mkstemp(prefix='.feedback-export-', suffix='.zip' if bundle else '.sqlite3', dir=self.database.parent)

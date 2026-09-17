@@ -1,13 +1,10 @@
-'cough: Keep the left-facing anatomical head and add two expelled breath strokes at the mouth. Repaired original in place.'
+'cough: Restore the simple rounded profile and broaden the head; retain two short cough strokes. Original redrawn in place after the nine-icon meaning review.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = 'bc3ea9f7-36ca-4b3a-a099-e36c89039b41'
 SOURCE_PATH = 'pictographic-primitives/health/cough_bc3ea9f7-36ca-4b3a-a099-e36c89039b41.svg'
 AUTHOR = 'gpt-6'
-ORIGINAL_AUTHOR = 'json_to_solo'
-REVIEWED_BY = 'gpt-6'
-REVIEW_ACTION = 'geometry-repaired'
 
 class Cough(Solo48):
     icon_id = 'cough'
@@ -19,7 +16,7 @@ class Cough(Solo48):
     keywords = ('cough', 'health')
 
     def build(self):
-        # Symbol plan: Keep the left-facing anatomical head and add two expelled breath strokes at the mouth.
+        # Symbol plan: Restore the simple rounded profile and broaden the head; retain two short cough strokes.
 
         def path(name,start,commands,closed=False):
             members=[];here=start
@@ -37,5 +34,5 @@ class Cough(Solo48):
             path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
         line=self.add_line;poly=self.add_polyline;dot=self.add_dot
         join=lambda a,b:self.relate('connect',a,b)
-        path('head',(40,44),[('L',(40,32)),('C',(44,18),(40,27),(44,25)),('A',(20,18),12,14,False),('L',(16,26)),('L',(20,26)),('L',(20,34)),('A',(24,38),4,4,False),('L',(28,38)),('L',(28,44))])
-        line('cough-upper',(4,24),(8,26));line('cough-lower',(4,40),(8,38))
+        path('head',(40,44),[('L',(40,34)),('C',(44,18),(40,28),(44,27)),('C',(30,4),(44,9),(39,4)),('C',(16,18),(21,4),(16,9)),('L',(14,26)),('L',(18,26)),('L',(18,32)),('C',(24,38),(18,36),(20,38)),('L',(28,38)),('L',(28,44))])
+        line('cough-upper',(4,24),(6,26));line('cough-lower',(4,40),(8,38))

@@ -108,6 +108,31 @@ A distinct enclosure plus a hosted symbol, or a subject plus an adjacent modifie
 may require two standalone component briefs. The icon-making workflow handles
 that split instead of treating the combination as one primitive.
 
+### Upload a new icon
+
+Open **Icon review → Upload icon** and choose an SVG up to 1 MB. No login is
+required for the upload page or `POST /api/icons/upload`. The page shows the full
+production endpoint and a copyable curl example:
+`https://suffered-scored-nicole-default.trycloudflare.com/api/icons/upload`. Anonymous uploads are attributed to
+`anonymous`; approval and disapproval still require a logged-in reviewer.
+Enter its name and optional category (defaults to `manual_upload`). Every upload
+receives the `uploaded` icon type, including those with a custom category.
+The canvas selects the family automatically
+(32 = sub, 48 = solo, 64 = container); the server checks that it matches.
+Choose **Upload to Ready**, then **Review uploaded icon** to approve or disapprove it.
+Uploads remain outside the approved library until approved.
+
+The optional JSON boolean `bypass_validation` defaults to `true`. Set it to
+`false` to run rendered SVG hole-and-pinch checks before saving. Failures return
+422 with a validation report and save nothing; checker errors return 503.
+SVG safety, canvas, and rendering checks always run. These SVG checks do not
+replace authored-geometry validation (grid, keyshape, vector spacing, symmetry).
+
+New uploads and their original SVGs are stored in the feedback database, so gallery
+rebuilds and server restarts preserve them. Back up the database along with the
+existing artwork folders. These are SVG-only icons: use Manual Edit for revisions;
+Python generation and browser primitive editing require authored Python geometry.
+
 ### Fix an existing icon
 
 Open its inspector and choose **Fix with AI** / **Generate fixed variant**.
