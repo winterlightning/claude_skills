@@ -33,7 +33,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         # Exercise the actual HTTP route handlers without requiring a listening socket.
         handler = GalleryHandler.__new__(GalleryHandler)
         handler.root, handler.database = self.dist, self.database
-        handler.server = SimpleNamespace(references=ReferenceStore(self.root / 'reference-images'))
+        handler.server = SimpleNamespace(references=ReferenceStore(self.root / 'reference-images'), artwork=SimpleNamespace(get=lambda key: None))
         handler.current_user = lambda: 'jakes'  # every change is made by a logged-in reviewer
         handler.path = path
         body = json.dumps(data).encode() if data is not None else b''
@@ -72,7 +72,7 @@ class RejectedFeedbackTests(unittest.TestCase):
         self.assertEqual(json.loads(self.request('GET', '/api/reviews')[1])['sub/square'], 'ready')
         self.assertEqual(self.request('POST', '/api/reviews', dict(payload, status='approve'))[0], 201)
         self.assertEqual(source.read_bytes(), before)
-        self.assertEqual(json.loads(self.request('GET', '/api/feedback-feed')[1])[0]['feedback'], 'Keep for reference')
+        self.assertEqual(json.loads(self.request('GET', '/api/feedback-feed')[1]), [])
 
     def test_discard_removes_model_files_and_rows_of_a_rejected_icon_only(self):
         source_root = self.root / 'repo'
@@ -248,7 +248,9 @@ assert.equal(selectable(rejected),true);assert.equal(selectable(approved),false)
 section='final';reviewFilter='';assert.equal(inSection(rejected),false);assert.equal(inSection(approved),true);
 assert.equal(feedbackIconState(rejected),'rejected');
 const files=feedbackBriefFiles([{id:1,icon:rejected.key},{id:2,icon:approved.key}],[rejected,approved]);
-assert.equal(files.length,1);assert.match(files[0].name,/approved/);
+assert.equal(files.length,0);
+reviews[approved.key]='pending';
+assert.equal(feedbackBriefFiles([{id:2,icon:approved.key}],[approved]).length,1);
 syncInspector();assert.equal($('download').hidden,true);assert.equal($('fixPanel').hidden,true);
 assert.equal($('restoreCombined').hidden,false);assert.equal($('approveDetail').disabled,true);
 assert.equal($('discardIcon').hidden,false);

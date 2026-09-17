@@ -1,4 +1,4 @@
-"""Right-facing plump songbird with a long tail and two legs; Lucide bird informs circular head and breast. Directional asymmetry preserves the pose."""
+'perched-songbird: Give the rounded songbird a distinct projecting beak, small eye, folded wing and branch perch. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,32 +9,32 @@ AUTHOR = 'gpt-6'
 
 class PerchedSongbird(Solo48):
     icon_id = 'perched-songbird'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/animals"
     aliases = ()
     keywords = ('bird', 'songbird', 'sparrow', 'robin', 'perched', 'wildlife', 'wing', 'garden')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_bezier('head-left', (24, 14), *(((25.47719402, 8.95896372), (29.55412824, 6), (34, 6)),))
-        self.add_arc('head-right', (34, 6), (42, 14), radius_x=10, radius_y=12, large_arc=False, sweep=True)
-        self.add_line('beak-1', (42, 14), (42, 18))
-        self.add_line('beak-2', (42, 18), (40, 22))
-        self.add_line('breast-neck', (40, 22), (40, 24))
-        self.add_arc('breast', (40, 24), (26, 38), radius_x=14, radius_y=14, large_arc=False, sweep=True)
-        self.add_line('belly', (26, 38), (18, 38))
-        self.add_line('tail-1', (18, 38), (6, 34))
-        self.add_line('tail-2', (6, 34), (24, 14))
-        self.add_arc('wing', (32, 21), (22, 29), radius_x=9, radius_y=9, large_arc=False, sweep=True)
-        self.add_line('leg-left-1', (18, 38), (18, 42))
-        self.add_line('leg-left-2', (18, 42), (14, 42))
-        self.add_line('leg-right-1', (26, 38), (30, 42))
-        self.add_line('leg-right-2', (30, 42), (34, 42))
-        self.add_contour('outline', *('head-left', 'head-right', 'beak-1', 'beak-2', 'breast-neck', 'breast', 'belly', 'tail-1', 'tail-2'), closed=True)
-        self.add_contour('leg-left', *('leg-left-1', 'leg-left-2'), closed=False)
-        self.add_contour('leg-right', *('leg-right-1', 'leg-right-2'), closed=False)
-        self.relate('connect', *('outline', 'leg-left'))
-        self.relate('connect', *('outline', 'leg-right'))
+    def build(self):
+        # Symbol plan: Give the rounded songbird a distinct projecting beak, small eye, folded wing and branch perch.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('bird',(4,32),[('L',(20,16)),('C',(30,4),(19,8),(24,4)),('C',(38,12),(35,4),(38,7)),('L',(44,16)),('L',(38,20)),('C',(24,36),(38,32),(34,36)),('L',(4,32))],True)
+        path('wing',(20,16),[('C',(14,34),(24,24),(14,26))]);join('wing','bird')
+        dot('eye',(30,13));line('leg',(25,36),(25,44));line('branch',(12,44),(38,44));join('leg','bird');join('leg','branch')

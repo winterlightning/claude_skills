@@ -558,27 +558,32 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     )
 
 
-def write_all(check_only: bool = False, agent: str = "all") -> int:
+def write_all(check_only: bool = False, agent: str = "all", skill: str | None = None) -> int:
     stale = []
     outputs = {}
     for family in [*contracts.families(), "avatar"]:
+        if skill is not None and skill != f"icon-{family}":
+            continue
         content = render(family)
         if agent in ("all", "claude"):
             outputs[SKILLS_DIR / f"icon-{family}" / "SKILL.md"] = content
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / f"icon-{family}" / "SKILL.md"] = render_codex(content)
     if agent in ("all", "codex"):
-        brief = (SKILLS_DIR / "icon-brief" / "SKILL.md").read_text(encoding="utf-8")
-        outputs[CODEX_SKILLS_DIR / "icon-brief" / "SKILL.md"] = render_codex(brief)
-    if agent in ("all", "codex"):
-        making = (SKILLS_DIR / "icon-making" / "SKILL.md").read_text(encoding="utf-8")
-        outputs[CODEX_SKILLS_DIR / "icon-making" / "SKILL.md"] = render_codex(making, "icon-making")
-        review = (SKILLS_DIR / "icon-review" / "SKILL.md").read_text(encoding="utf-8")
-        outputs[CODEX_SKILLS_DIR / "icon-review" / "SKILL.md"] = render_codex(review, "icon-review")
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color"):
+            if skill is not None and skill != name:
+                continue
+            source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")
+            outputs[CODEX_SKILLS_DIR / name / "SKILL.md"] = render_codex(source, name)
         # Portable skills are generated from the same Codex text, not edited separately.
         for target, content in list(outputs.items()):
             if target.parent.parent == CODEX_SKILLS_DIR:
                 outputs[REPO_ROOT / "skills" / target.parent.name / "SKILL.md"] = content
+    if skill is not None:
+        outputs = {target: content for target, content in outputs.items() if target.parent.name == skill}
+        if not outputs:
+            print(f"No generated output for {skill} with agent={agent}", file=sys.stderr)
+            return 1
     for target, content in outputs.items():
         current = target.read_text(encoding="utf-8") if target.is_file() else None
         if current == content:
@@ -602,8 +607,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--check", action="store_true", help="report stale files instead of writing")
     parser.add_argument("--agent", choices=("all", "claude", "codex"), default="all",
                         help="which agent's skills to generate (default: all)")
+    parser.add_argument("--skill", help="generate/check only one named skill, such as icon-color")
     args = parser.parse_args(argv)
-    return write_all(check_only=args.check, agent=args.agent)
+    return write_all(check_only=args.check, agent=args.agent, skill=args.skill)
 
 
 if __name__ == "__main__":

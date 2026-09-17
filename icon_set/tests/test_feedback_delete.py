@@ -25,11 +25,12 @@ class FeedbackDeleteTests(unittest.TestCase):
             self.db.execute("INSERT INTO reviews VALUES ('solo/example','new','approve','2026-09-15','jakes')")
         self.payload = {'id': 1, 'previous_feedback': 'Make round', 'previous_edited_at': None}
 
-    def request(self, payload=None, user='jakes', origin=None):
+    def request(self, payload=None, user='jakes', origin=None, path='/api/feedback/delete'):
         handler = GalleryHandler.__new__(GalleryHandler)
         handler.root, handler.database = self.root, self.database
         handler.current_user = lambda: user
-        handler.path = '/api/feedback/delete'
+        handler.path = path
+        handler.catalog = lambda **kwargs: {'solo/example': {'svg_sha256': 'new'}}
         body = json.dumps(self.payload if payload is None else payload).encode()
         handler.rfile = BytesIO(body)
         handler.headers = Message()
@@ -42,6 +43,23 @@ class FeedbackDeleteTests(unittest.TestCase):
         handler.json_response = lambda data, status=200: responses.append((status, data))
         handler.do_POST()
         return responses[0]
+
+    def test_ready_clears_feedback_across_revisions_only_for_that_icon(self):
+        with self.db:
+            self.db.execute("INSERT INTO feedback(icon,feedback,svg_sha256,created_at) VALUES ('solo/other','Keep other','old','2026-09-15')")
+        payload = {'icon': 'solo/example', 'svg_sha256': 'new', 'status': 'ready'}
+        self.assertEqual(self.request(payload, path='/api/reviews')[0], 201)
+        self.assertEqual(self.db.execute('SELECT icon FROM feedback').fetchall(), [('solo/other',)])
+        self.assertEqual(self.db.execute("SELECT status FROM reviews WHERE icon='solo/example'").fetchone()[0], 'ready')
+
+    def test_failed_ready_request_preserves_feedback(self):
+        payload = {'icon': 'solo/example', 'svg_sha256': 'stale', 'status': 'ready'}
+        self.assertEqual(self.request(payload, path='/api/reviews')[0], 409)
+        self.assertEqual(self.db.execute('SELECT COUNT(*) FROM feedback').fetchone()[0], 2)
+        payload['svg_sha256'] = 'new'
+        with patch('icon_set.scripts.deploy.record_activity', side_effect=sqlite3.OperationalError('unavailable')):
+            self.assertEqual(self.request(payload, path='/api/reviews')[0], 503)
+        self.assertEqual(self.db.execute('SELECT COUNT(*) FROM feedback').fetchone()[0], 2)
 
     def test_removes_only_selected_feedback_and_records_actor(self):
         reviews = self.db.execute('SELECT * FROM reviews').fetchall()

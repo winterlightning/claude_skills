@@ -1,8 +1,4 @@
-"""Give the feeding teat a clear, taller profile and a consistent collar band.
-Plan: symmetric bottle body, collar with 8-unit band, curved nipple.
-VRECT_L centerline extremes (8,4)-(40,44).
-Lucide: milk; geometric contour construction adapted to SOLO48.
-Independent variant; original preserved."""
+'baby-bottle: Narrow feeding bottle with a projecting teat, collar and two measurement ticks. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '017fdfd5-cc7b-55c1-97bd-dfe302867ff9'
@@ -11,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class BabyBottle(Solo48):
     icon_id = 'baby-bottle'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/baby-care'
@@ -19,30 +15,26 @@ class BabyBottle(Solo48):
     keywords = ('bottle', 'baby', 'milk', 'feeding', 'teat', 'infant', 'formula', 'nursing')
 
     def build(self):
+        # Symbol plan: Narrow feeding bottle with a projecting teat, collar and two measurement ticks.
 
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for j, (kind, end, *args) in enumerate(commands):
-                name = f'{n}-{j}'
-                if kind == 'L':
-                    self.add_line(name, here, end)
-                elif kind == 'A':
-                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C':
-                    self.add_bezier(name, here, (args[0], args[1], end))
-                here = end
-                members.append(name)
-            self.add_contour(n, *members, closed=closed)
-
-        def circle(n, x, y, r):
-            path(n, (x - r, y), [('A', (x, y - r), r, r, True), ('A', (x + r, y), r, r, True), ('A', (x, y + r), r, r, True), ('A', (x - r, y), r, r, True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        dot = self.add_dot
-        join = lambda a, b: self.relate('connect', a, b)
-        # Full-height teat dome and split rim nodes avoid the shallow collar pocket.
-        path('body',(8,22),[('L',(8,36)),('A',(16,44),8,8,False),('L',(32,44)),('A',(40,36),8,8,False),('L',(40,22))])
-        poly('collar',(8,22),(8,14),(14,14),(34,14),(40,14),(40,22),(8,22))
-        path('teat',(14,14),[('A',(24,4),10,10,True),('A',(34,14),10,10,True)])
-        join('body','collar');join('teat','collar')
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('bottle',(16,20),[('L',(12,24)),('L',(12,40)),('A',(16,44),4,4,False),('L',(32,44)),('A',(36,40),4,4,False),('L',(36,24)),('L',(32,20)),('L',(16,20))],True)
+        path('teat',(16,20),[('L',(16,14)),('C',(20,8),(16,12),(20,12)),('A',(28,8),4,4,True),('C',(32,14),(28,12),(32,12)),('L',(32,20))])
+        join('bottle','teat')
+        line('measure-1',(12,28),(20,28));line('measure-2',(12,36),(20,36))
+        join('measure-1','bottle');join('measure-2','bottle')

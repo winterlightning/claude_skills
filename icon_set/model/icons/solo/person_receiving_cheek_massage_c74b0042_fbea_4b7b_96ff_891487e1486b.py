@@ -1,9 +1,4 @@
-"""Person Receiving Cheek Massage.
-
-Symbol plan: A circular head receives a fingertip on the right cheek. One visible closed eye and a neutral mouth remain; the right eye is omitted beside the hand, along with swept hair and motion waves. The visible face uses circular arcs, and the hand retains the asymmetric massage gesture.
-Lucide: hand; original and atomic-debug geometry inspected.
-Keyshape: SQUARE; centerline (6,6)-(42,42); ink (4,4)-(44,44).
-"""
+'person-receiving-cheek-massage: Show a relaxed face with two closed eyes and a curved hand pressing the cheek, with a visible wrist. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -21,36 +16,25 @@ class PersonReceivingCheekMassage(Solo48):
     keywords = ('massage', 'therapy', 'person', 'wellness', 'relaxation', 'treatment', 'body', 'spa')
 
     def build(self):
-        self.path('face',(22,38),(6,22,16,16,True),(22,6,16,16,True),(38,22,16,16,True))
-        self.path('finger',(38,22),(42,32,42,24,42,28),(42,42),(32,42),(32,34),(28,30),(28,26),(32,22,4,4,True),(38,22))
-        self.relate('connect','face','finger')
-        self.add_line('left-eye',(16,20),(20,20))
-        self.add_line('mouth',(18,28),(20,28))
+        # Symbol plan: Show a relaxed face with two closed eyes and a curved hand pressing the cheek, with a visible wrist.
 
-    def path(self, name, start, *steps, closed=False):
-        members=[]
-        point=start
-        for index, step in enumerate(steps):
-            member=f"{name}-{index+1}"
-            if len(step)==2:
-                self.add_line(member,point,step)
-                point=step
-            elif len(step)==5:
-                x,y,rx,ry,sweep=step
-                self.add_arc(member,point,(x,y),radius_x=rx,radius_y=ry,sweep=sweep)
-                point=(x,y)
-            else:
-                x,y,cx1,cy1,cx2,cy2=step
-                self.add_bezier(member,point,((cx1,cy1),(cx2,cy2),(x,y)))
-                point=(x,y)
-            members.append(member)
-        self.add_contour(name,*members,closed=closed)
-
-    def circle(self,name,x,y,r):
-        self.path(name,(x,y-r),(x+r,y,r,r,True),(x,y+r,r,r,True),
-                  (x-r,y,r,r,True),(x,y-r,r,r,True),closed=True)
-
-    def rect(self,name,x,y,w,h,r=2):
-        self.path(name,(x+r,y),(x+w-r,y),(x+w,y+r,r,r,True),
-                  (x+w,y+h-r),(x+w-r,y+h,r,r,True),(x+r,y+h),
-                  (x,y+h-r,r,r,True),(x,y+r),(x+r,y,r,r,True),closed=True)
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('face',(24,42),[('C',(6,24),(12,42),(6,33)),('A',(24,6),18,18,True),('A',(42,24),18,18,True),('L',(42,28))])
+        path('hand',(34,42),[('L',(34,34)),('C',(30,30),(34,32),(28,32)),('C',(34,28),(28,28),(31,28)),('L',(42,28)),('L',(42,42)),('L',(34,42))],True)
+        join('hand','face')
+        line('closed-eye-l',(17,19),(20,19));line('closed-eye-r',(28,19),(31,19))

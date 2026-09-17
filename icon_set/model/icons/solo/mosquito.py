@@ -8,35 +8,37 @@ AUTHOR = 'gpt-6'
 
 class Mosquito(Solo48):
     icon_id = 'mosquito'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'animals'
     aliases = ()
     keywords = ('mosquito', 'insect', 'bug', 'wings', 'pest', 'bite', 'fly', 'antennae')
 
-    def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_arc('head-1', (24, 11), (24, 21), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_arc('head-2', (24, 21), (24, 11), radius_x=5, radius_y=5, large_arc=False, sweep=True)
-        self.add_line('proboscis', (24, 6), (24, 11))
-        self.add_line('abdomen', (24, 21), (24, 42))
-        self.add_arc('leg-left', (12, 10), (7, 6), radius_x=11, radius_y=11, large_arc=False, sweep=True)
-        self.add_line('wing-left-1', (24, 21), (6, 31))
-        self.add_bezier('wing-left-2', (6, 31), *(((6, 34.91328937), (6, 39.51512651), (8, 42)),))
-        self.add_line('wing-left-3', (8, 42), (24, 21))
-        self.add_arc('leg-right', (36, 10), (41, 6), radius_x=11, radius_y=11, large_arc=False, sweep=False)
-        self.add_line('wing-right-1', (24, 21), (42, 31))
-        self.add_bezier('wing-right-2', (42, 31), *(((42, 34.91328937), (42, 39.51512651), (40, 42)),))
-        self.add_line('wing-right-3', (40, 42), (24, 21))
-        self.add_contour('head', *('head-1', 'head-2'), closed=True)
-        self.add_contour('wing-left', *('wing-left-1', 'wing-left-2', 'wing-left-3'), closed=True)
-        self.add_contour('wing-right', *('wing-right-1', 'wing-right-2', 'wing-right-3'), closed=True)
-        self.relate('connect', *('proboscis', 'head'))
-        self.relate('connect', *('head', 'abdomen'))
-        self.relate('connect', *('wing-left', 'head'))
-        self.relate('connect', *('wing-left', 'abdomen'))
-        self.relate('connect', *('wing-right', 'head'))
-        self.relate('connect', *('wing-right', 'abdomen'))
-        self.relate('connect', *('wing-left', 'wing-right'))
+    def build(self):
+        # Symbol plan: Add a long proboscis and bent paired legs to an elongated insect body, with two broad wings.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        circle('head',24,10,3);line('proboscis',(24,2),(24,7));join('proboscis','head')
+        line('body',(24,13),(24,44));join('body','head')
+        for n,sign in [('left',-1),('right',1)]:
+         def p(x,y):return (24+sign*x,y)
+         path(n+'-wing',(24,22),[('C',p(20,16),p(10,20),p(20,10)),('C',(24,22),p(20,24),p(10,25))],True)
+         poly(n+'-leg',(24,30),p(12,36),p(18,44))
+         join(n+'-wing','body');join(n+'-leg','body')
+        join('left-wing','right-wing');join('left-leg','right-leg')

@@ -1,4 +1,4 @@
-'Opera house: preserve the rising sail silhouettes above a smooth separate water line, with a clear gap beneath the base.'
+'opera-house-shells-on-water: Restore overlapping curved sail roofs over a low waterfront base, with a separate water ripple. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,21 +8,31 @@ AUTHOR = 'gpt-6'
 
 class OperaHouseShellsOnWater(Solo48):
     icon_id = 'opera-house-shells-on-water'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/landmarks'
     aliases = ()
     keywords = ('sydney opera house', 'australia', 'shells', 'sails', 'harbour', 'water', 'landmark', 'cloud')
 
-    def build(self) -> None:
-        self.add_polyline('base',(4,30),(44,30))
-        self.add_bezier('sail-a',(4,30),((5,27),(5,23),(4,20)))
-        self.add_line('sail-a-edge',(4,20),(17,26))
-        self.add_bezier('sail-b',(17,26),((16,19),(14,12),(13,8)))
-        self.add_bezier('sail-c',(13,8),((24,10),(29,18),(31,26)))
-        self.add_bezier('sail-d',(31,26),((35,22),(39,21),(44,20)))
-        self.add_line('sail-end',(44,20),(44,30))
-        self.add_contour('shells','sail-a','sail-a-edge','sail-b','sail-c','sail-d','sail-end')
-        self.relate('connect','shells','base')
-        self.add_bezier('water',(4,40),((10,40),(12,39),(16,39)),((20,39),(22,40),(24,40)),((28,40),(30,39),(34,39)),((38,39),(40,40),(44,40)))
+    def build(self):
+        # Symbol plan: Restore overlapping curved sail roofs over a low waterfront base, with a separate water ripple.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('roofs',(4,32),[('L',(4,22)),('C',(16,28),(10,22),(14,25)),('L',(12,14)),('C',(28,26),(20,14),(26,20)),('L',(24,6)),('C',(40,32),(36,10),(40,24)),('L',(44,32)),('L',(4,32))],True)
+        path('water',(4,44),[('C',(24,44),(11,40),(17,44)),('C',(44,44),(31,40),(37,44))])

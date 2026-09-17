@@ -1,4 +1,4 @@
-'Overlapping clouds: smooth rear cloud reaches the upper and right bounds; front lobe reaches the left and bottom.'
+'overlapping-clouds: Replace the rear circular disc with a scalloped cloud silhouette, partially hidden by the foreground cloud. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,19 +8,32 @@ AUTHOR = 'gpt-6'
 
 class OverlappingClouds(Solo48):
     icon_id = 'overlapping-clouds'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/weather"
     aliases = ()
     keywords = ('cloud', 'overcast', 'sky', 'weather', 'cloudy', 'atmosphere')
 
-    def build(self) -> None:
-        # Broad cloud lobes retain their natural overlap and tangent curve flow.
-        self.add_arc('left',(12,40),(12,28),radius_x=8,radius_y=6)
-        self.add_arc('crown',(12,28),(28,28),radius_x=8,radius_y=6)
-        self.add_arc('right',(28,28),(28,40),radius_x=8,radius_y=6)
-        self.add_line('base',(28,40),(12,40))
-        self.add_contour('front','left','crown','right','base',closed=True)
-        self.add_bezier('back',(12,28),((12,17),(16,8),(28,8)),((37,8),(44,15),(44,24)),((44,33),(37,40),(28,40)))
-        self.relate('connect','front','back')
+    def build(self):
+        # Symbol plan: Replace the rear circular disc with a scalloped cloud silhouette, partially hidden by the foreground cloud.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('front',(12,40),[('A',(12,24),8,8,True),('A',(28,24),8,8,True),('A',(36,32),8,8,True),('A',(28,40),8,8,True),('L',(12,40))],True)
+        path('rear',(20,16),[('A',(40,16),10,10,True),('C',(44,24),(44,16),(44,20)),('C',(36,32),(44,28),(42,32))])
+        join('front','rear')

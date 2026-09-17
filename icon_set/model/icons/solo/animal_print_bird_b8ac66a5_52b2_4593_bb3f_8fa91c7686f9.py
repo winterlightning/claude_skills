@@ -1,4 +1,4 @@
-"""Animal print bird (_uncategorized), converted from the icons-json construction graph by json_to_solo --mode bezier. SQUARE keyshape; curves kept as cubic beziers."""
+'animal-print-bird: Replace ambiguous droplets with two staggered three-toed bird tracks. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -11,7 +11,7 @@ REVIEW_ACTION = 'geometry-reconstructed'
 
 class AnimalPrintBird(Solo48):
     icon_id = 'animal-print-bird'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = '_uncategorized'
@@ -19,9 +19,27 @@ class AnimalPrintBird(Solo48):
     keywords = ('animal', 'print', 'bird', '_uncategorized')
 
     def build(self):
-        # Plan: remove subpixel cubic detours while preserving real contour nodes.
-        # Reference: supplied subject and its existing stroke graph.
-        self.add_bezier('e0', (12, 7), ((8.801, 9.839), (6.008, 14.55), (6.008, 18.911)), ((6.008, 18.983), (6, 19.064), (6, 19.137)), ((6, 19.295), (6.008, 19.443), (6.008, 19.598)), ((6.008, 23.877), (9.027, 27.723), (13.56, 27.314)), ((15, 27.183), (16.35, 26.602), (17.414, 25.62)), ((21.398, 21.93), (19.811, 14.787), (17.135, 10.819)), ((16.17, 9.395), (14.951, 8.209), (13.699, 7.047)), ((13.249, 6.614), (12.938, 6.303), (12.635, 6)), ((12.332, 6), (12.298, 6.734), (12, 7)))
-        self.add_bezier('e1', (35, 22), ((30.975, 25.322), (27.715, 29.981), (28.345, 35.34)), ((28.729, 38.613), (31.069, 41.992), (34.685, 41.992)), ((34.798, 41.992), (34.903, 42), (35.016, 42)), ((35.209, 42), (35.405, 41.992), (35.594, 41.992)), ((39.627, 41.992), (41.992, 37.901), (41.992, 34.285)), ((41.992, 34.212), (42, 34.132), (42, 34.059)), ((42, 33.826), (41.992, 33.589), (41.992, 33.36)), ((41.992, 29.719), (40.036, 25.98), (37.655, 23.329)), ((37.312, 22.945), (35.61, 21.112), (35.291, 21.071)), ((35.07, 21.226), (35.221, 21.845), (35, 22)))
-        self.add_contour('c0', 'e0', closed=True)
-        self.add_contour('c1', 'e1', closed=True)
+        # Symbol plan: Replace ambiguous droplets with two staggered three-toed bird tracks.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('upper-track',(6,8),(14,18),(14,6))
+        line('upper-right',(14,18),(22,8));line('upper-heel',(14,18),(12,24))
+        join('upper-track','upper-right');join('upper-track','upper-heel')
+        poly('lower-track',(26,26),(34,36),(34,24))
+        line('lower-right',(34,36),(42,26));line('lower-heel',(34,36),(32,42))
+        join('lower-track','lower-right');join('lower-track','lower-heel')

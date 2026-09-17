@@ -1,9 +1,4 @@
-"""Moustache with Drooping Ends.
-
-Symbol plan: Mirrored upper moustache lobes, broad center and downward curled ends. Use shared radii and tangent arcs; omit hair texture.
-HRECT_L centerline extremes (4,8)-(44,40); exact envelope selected for the subject's proportions.
-Construction reference: No useful exact Lucide subject match; reconstruct the supplied silhouette with coherent lines and arcs.
-"""
+'moustache-with-drooping-ends: Flatten the over-tall moustache and restore broad curling lobes with drooping tips. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '2d299adf-39d3-4a59-a36e-c1a3f1ba07d3'
@@ -12,27 +7,30 @@ AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'moustache-with-drooping-ends'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'beauty'
     aliases = ()
     keywords = ('beard', 'moustache', 'facial hair', 'grooming', 'barber', 'style', 'face', 'hair')
 
-    def build(self) -> None:
+    def build(self):
+        # Symbol plan: Flatten the over-tall moustache and restore broad curling lobes with drooping tips.
 
-        def line(n,a,b): self.add_line(n,a,b)
-        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry or r,sweep=s)
-        def join(n,*parts,closed=False): self.add_contour(n,*parts,closed=closed)
-
-        arc('upper-l',(4,20),(24,20),10,12)
-        arc('upper-r',(24,20),(44,20),10,12)
-        line('outer-r',(44,20),(44,36))
-        arc('tip-r',(44,36),(36,36),4)
-        line('inner-r',(36,36),(36,34))
-        arc('under-r',(36,34),(24,30),12,4,s=False)
-        arc('under-l',(24,30),(12,34),12,4,s=False)
-        line('inner-l',(12,34),(12,36))
-        arc('tip-l',(12,36),(4,36),4)
-        line('outer-l',(4,36),(4,20))
-        join('moustache','upper-l','upper-r','outer-r','tip-r','inner-r','under-r','under-l','inner-l','tip-l','outer-l',closed=True)
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('moustache',(24,18),[('C',(14,12),(20,12),(18,12)),('C',(4,30),(6,12),(4,22)),('L',(4,36)),('C',(12,28),(10,36),(12,32)),('C',(24,26),(16,30),(21,29)),('C',(36,28),(27,29),(32,30)),('C',(44,36),(36,32),(38,36)),('L',(44,30)),('C',(34,12),(44,22),(42,12)),('C',(24,18),(30,12),(28,12))],True)

@@ -1,4 +1,4 @@
-"""Wide visor with central nose indentation and right strap. Consistent circular corners informed by Lucide smartphone; intentional right-side connector."""
+'mixed-reality-headset: Widen and flatten the visor, preserve the nose recess and show the side strap. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dfd86ad0-9936-5051-a60d-200aa0c585ad'
@@ -7,25 +7,32 @@ AUTHOR = 'gpt-6'
 
 class MixedRealityHeadset(Solo48):
     icon_id = 'mixed-reality-headset'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/technology'
     aliases = ()
     keywords = ('headset', 'mixed-reality', 'vision-pro', 'visor', 'spatial', 'vr', 'ar', 'goggles')
 
-    def build(self) -> None:
-        # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
-        # Curves reaching an edge use bounded cubic controls, with shared endpoints retained.
-        self.add_line('top',(14, 8),(30, 8))
-        self.add_bezier('tr',(30, 8),*(((35.90355937, 8), (41.5, 12.4771525), (42, 18)),))
-        self.add_line('right',(42, 18),(42, 30))
-        self.add_bezier('br',(42, 30),*(((41.5, 35.5228475), (35.90355937, 40), (30, 40)),))
-        self.add_arc('nose-r',(30, 40),(22, 36),radius_x=10,radius_y=10,large_arc=False,sweep=True)
-        self.add_arc('nose-l',(22, 36),(14, 40),radius_x=10,radius_y=10,large_arc=False,sweep=True)
-        self.add_bezier('bl',(14, 40),*(((8.08595979, 39.03526374), (4, 34.82760764), (4, 30)),))
-        self.add_line('left',(4, 30),(4, 18))
-        self.add_bezier('tl',(4, 18),*(((4, 13.17239236), (8.08595979, 8.96473626), (14, 8)),))
-        self.add_line('strap',(42, 23),(44, 23))
-        self.add_contour('visor',*('top', 'tr', 'right', 'br', 'nose-r', 'nose-l', 'bl', 'left', 'tl'),closed=True)
-        self.relate('connect',*('strap', 'visor'))
+    def build(self):
+        # Symbol plan: Widen and flatten the visor, preserve the nose recess and show the side strap.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('visor',(14,12),[('L',(30,12)),('A',(40,22),10,10,True),('L',(40,26)),('A',(30,36),10,10,True),('C',(22,31),(26,36),(25,31)),('C',(14,36),(19,31),(18,36)),('A',(4,26),10,10,True),('L',(4,22)),('A',(14,12),10,10,True)],True)
+        line('strap',(40,24),(44,24))
+        join('visor','strap')

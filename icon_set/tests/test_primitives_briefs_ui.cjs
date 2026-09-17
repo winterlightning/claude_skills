@@ -53,3 +53,27 @@ run('readURL();writeURL()');assert.equal(run('state.view'),'todo');assert.equal(
 context.location.search='?category=food';run('readURL()');assert.equal(run('state.view'),'category','Existing category links retain their behavior');
 context.location.search='';run('readURL()');assert.equal(run('state.view'),'todo','Default view is all TODO icons');
 console.log('All-TODO grid scope, 50-item pagination, and URL state checks passed.');
+
+(async()=>{
+  context.document.hidden=false;
+  context.document.querySelector=()=>null;
+  run("state.view='todo';state.category='';state.batch='';state.brief='missing';state.q='';state.reason='';statusesAvailable=briefsAvailable=true;referenceBriefs={};statuses={skipped:{reason:'container'}};selected.clear();show=()=>{};");
+  assert.ok(!JSON.parse(run('JSON.stringify(detailRows().map(r=>r.uuid))')).includes('skipped'),'SKIP with no brief is excluded');
+  let nextStatuses={skipped:{reason:'container'},missing:{reason:'container'}};
+  context.fetch=async url=>({ok:true,json:async()=>url.endsWith('/status')?nextStatuses:{}});
+  await run('refreshGalleryState()');
+  assert.ok(!JSON.parse(run('JSON.stringify(detailRows().map(r=>r.uuid))')).includes('missing'),'External SKIP disappears after automatic refresh');
+  run("briefDrafts.set('ready',{brief:'Human draft'});");nextStatuses={...nextStatuses,ready:{reason:'container'}};
+  await run('refreshGalleryState()');
+  assert.equal(run('statuses.ready'),undefined,'Refresh preserves active edits');
+  assert.equal(run("briefDrafts.get('ready').brief"),'Human draft');
+  run('briefDrafts.clear();');
+  await run('refreshGalleryState()');assert.equal(run('statuses.ready.reason'),'container');
+  context.fetch=async()=>{throw Error('offline');};await run('refreshGalleryState()');
+  assert.equal(run('detailRows().length'),0,'Unavailable live statuses never show stale TODO candidates');
+  context.fetch=async url=>({ok:true,json:async()=>url.endsWith('/status')?nextStatuses:{}});
+  await run('refreshGalleryState()');assert.equal(run('statusesAvailable'),true,'Refresh recovers after failure');
+  context.fetch=async url=>({ok:true,json:async()=>{run('galleryRevision++');return {};}});
+  await run('refreshGalleryState()');assert.equal(run('statuses.ready.reason'),'container','An older refresh cannot replace state after a local write');
+  console.log('Live TODO-only missing-brief refresh, edit preservation, failure, recovery and save-race checks passed.');
+})().catch(error=>{console.error(error);process.exitCode=1;});

@@ -90,7 +90,7 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
     <div class="toolbar">
       <select id="gridCategory" aria-label="TODO category"></select>
       <div id="statusChips" class="chips" role="group" aria-label="Status filter"></div>
-      <select id="briefFilter" aria-label="TODO brief filter"><option value="">All TODO briefs</option><option value="ready">Brief ready</option><option value="missing">No brief</option></select>
+      <select id="briefFilter" aria-label="TODO brief filter"><option value="">All TODO briefs</option><option value="ready">Brief ready</option><option value="missing">TODO without brief</option></select>
       <select id="batch" aria-label="Batch"></select>
       <select id="reasonFilter" aria-label="Skip reason"><option value="">Any skip reason</option></select>
       <input id="search" type="search" placeholder="Search concept, file or UUID" aria-label="Search primitives">
@@ -135,6 +135,7 @@ const STATUS_LABEL={todo:'TODO',skip:'Skip',generated:'Generated'};
 let catalog={rows:[]},statuses={},selected=new Set(),sort={key:'name',dir:1},page=1;
 let referenceBriefs={},briefsAvailable=false,statusesAvailable=false;
 const briefDrafts=new Map();
+let refreshInFlight=false, galleryWrites=0, galleryRevision=0;
 const PAGE_SIZE=50;
 const state={view:'todo',category:'',status:'todo',batch:'',reason:'',q:'',brief:''};
 
@@ -262,7 +263,7 @@ function tile(row){
       select.append(new Option('Not set',''),...SUB_POSITIONS.map(p=>new Option(p,p)));select.value=d.sub_position||'';
       const message=node('p','');message.setAttribute('role','status');
       select.onchange=async()=>{select.disabled=true;message.textContent='Saving…';try{
-        const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[row.uuid],status:'skip',reason:d.reason,note:d.note,sub_position:select.value||null})});
+        const response=await galleryWrite('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[row.uuid],status:'skip',reason:d.reason,note:d.note,sub_position:select.value||null})});
         const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save position');statuses[row.uuid]=data.decisions[row.uuid];renderDetail();
       }catch(error){message.textContent=error.message;select.value=d.sub_position||'';}finally{select.disabled=false;}};
       position.append(select,message);el.append(position);
@@ -319,7 +320,7 @@ function referenceBriefEditor(row){
   saveButton.onclick=async()=>{
     const payload={uuid:row.uuid,family:family.value,brief:textarea.value};
     saveButton.disabled=true;family.disabled=true;textarea.readOnly=true;message.textContent='Saving…';
-    try{const response=await fetch('/api/primitives/briefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    try{const response=await galleryWrite('/api/primitives/briefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
       const result=await response.json();if(!response.ok)throw Error(result.error||'Could not save the brief.');
       referenceBriefs[row.uuid]=result;briefDrafts.delete(row.uuid);textarea.value=result.brief;summary.textContent='Icon brief · saved';copy.hidden=false;message.textContent='Saved.';renderBriefSummary(currentRows().filter(r=>!state.batch||r.batch===state.batch));
     }catch(error){message.textContent=error.message;}
@@ -340,7 +341,7 @@ function openBrief(row,field,label){briefRow=row;briefField=field;const c=status
 async function saveBrief(clear=false){const d=statuses[briefRow.uuid];
   const brief=clear?null:{family:$('briefFamily').value,name:$('componentName').value.trim(),description:$('componentDescription').value.trim()};
   $('saveBrief').disabled=$('clearBrief').disabled=$('closeBrief').disabled=true;$('briefMessage').textContent='Saving…';
-  try{const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[briefRow.uuid],status:'skip',reason:d.reason,note:d.note,[briefField]:brief})});
+  try{const response=await galleryWrite('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[briefRow.uuid],status:'skip',reason:d.reason,note:d.note,[briefField]:brief})});
     const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save brief');
     statuses[briefRow.uuid]=data.decisions[briefRow.uuid];$('briefDialog').close();renderDetail();
   }catch(error){$('briefMessage').textContent=error.message;}
@@ -353,7 +354,7 @@ async function save(status){
   const uuids=[...selected],reason=$('skipReason').value,note=$('skipNote').value.trim();
   if(status==='skip'&&reason==='other'&&!note){$('actionMessage').textContent='Add a note to skip as Other.';$('skipNote').focus();return;}
   $('markSkip').disabled=$('markTodo').disabled=true;$('actionMessage').textContent='Saving…';let changed=0;
-  try{for(let i=0;i<uuids.length;i+=500){const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},
+  try{for(let i=0;i<uuids.length;i+=500){const response=await galleryWrite('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({uuids:uuids.slice(i,i+500),status,reason:status==='skip'?reason:undefined,note:status==='skip'?note:''})});
       const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save');changed+=data.changed;
       for(const [uid,decision] of Object.entries(data.decisions||{})){if(decision)statuses[uid]=decision;else delete statuses[uid];}}
@@ -396,6 +397,33 @@ async function copyTodo(){
   catch{$('copyText').value=text;$('copyDialog').showModal();$('copyText').select();}
 }
 
+// Refresh external decisions without replacing unsaved edits or racing local saves.
+async function galleryWrite(url,options){
+  galleryWrites++;galleryRevision++;
+  try{return await fetch(url,options);}
+  finally{galleryWrites--;galleryRevision++;}
+}
+function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
+async function refreshGalleryState(){
+  if(refreshInFlight||!canRefreshGallery())return;
+  refreshInFlight=true;
+  const revision=galleryRevision;
+  try{
+    const [statusResponse,briefResponse]=await Promise.all([
+      fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/briefs',{cache:'no-store'})]);
+    if(!statusResponse.ok||!briefResponse.ok)throw Error('Gallery state unavailable');
+    const [nextStatuses,nextBriefs]=await Promise.all([statusResponse.json(),briefResponse.json()]);
+    if(revision!==galleryRevision||!canRefreshGallery())return;
+    const changed=!statusesAvailable||!briefsAvailable||JSON.stringify(statuses)!==JSON.stringify(nextStatuses)||JSON.stringify(referenceBriefs)!==JSON.stringify(nextBriefs);
+    statuses=nextStatuses;referenceBriefs=nextBriefs;statusesAvailable=briefsAvailable=true;
+    if(changed)show();
+  }catch{
+    if(revision===galleryRevision&&canRefreshGallery()){
+      statusesAvailable=briefsAvailable=false;show();
+    }
+  }finally{refreshInFlight=false;}
+}
+
 for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
 document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
 $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openView('categories');
@@ -429,6 +457,9 @@ window.addEventListener('beforeunload',event=>{if(briefDrafts.size){event.preven
   catch{note+=' · Saved briefs unavailable.';}
   $('status').textContent=`${catalog.count.toLocaleString()} primitives from ${catalog.root_label} · catalog ${catalog.generated_at.replace('T',' ').replace('+00:00',' UTC')}`+note;
   show();
+  window.addEventListener('focus',refreshGalleryState);
+  document.addEventListener('visibilitychange',refreshGalleryState);
+  setInterval(refreshGalleryState,5000);
 })();
 </script>
 </body>

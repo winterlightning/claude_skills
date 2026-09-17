@@ -1,8 +1,4 @@
-"""An isometric block with a visible top and left face shows a serif capital N on its front face.
-
-Symbol plan: Perspective block with top and left strips and frontal N; extremes (6,6)-(42,42).
-Review notes: Preserves block perspective and N; removes the tiny serifs to fit the front face. Earlier Lucide square construction informs the shared face edges; perspective is intentionally asymmetric.
-"""
+'notion-cube-logo: Restore a larger upright N on the front face and reduce the perspective depth. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -20,27 +16,25 @@ class NotionCubeLogo(Solo48):
     keywords = ('notion', 'notes', 'letter-n', 'cube', 'logo', 'brand', 'productivity')
 
     def build(self):
+        # Symbol plan: Restore a larger upright N on the front face and reduce the perspective depth.
 
-        def chain(name, *points):
-            for i,(start,end) in enumerate(zip(points,points[1:]),1):
-                self.add_line(f'{name}-{i}',start,end)
-        def ring(name, x, y, r):
-            self.add_arc(name+'-top', (x-r,y), (x+r,y), radius_x=r)
-            self.add_arc(name+'-bottom', (x+r,y), (x-r,y), radius_x=r)
-            self.add_contour(name, name+'-top', name+'-bottom', closed=True)
-        def rounded(name, left, top, right, bottom, r):
-            points=[(left+r,top),(right-r,top),(right,top+r),(right,bottom-r),(right-r,bottom),(left+r,bottom),(left,bottom-r),(left,top+r)]
-            members=[]
-            for i,start in enumerate(points):
-                end=points[(i+1)%8]; ident=f'{name}-{i}'
-                if start==end: continue
-                if i%2:self.add_arc(ident,start,end,radius_x=r)
-                else:self.add_line(ident,start,end)
-                members.append(ident)
-            self.add_contour(name,*members,closed=True)
-        self.add_polyline('outline',(6,6),(34,6),(42,14),(42,42),(14,42),(6,34),closed=True)
-        self.add_polyline('front',(6,6),(14,14),(42,14))
-        self.add_line('left-edge',(14,14),(14,42))
-        for a,bs in [('front-1',['outline-1','outline-6']),('front-2',['outline-2','outline-3']),('left-edge',['front-1','front-2','outline-4','outline-5'])]:
-         for b in bs:self.relate('connect',a,b)
-        self.add_polyline('n',(23,33),(23,23),(33,33),(33,23))
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('cube',(6,6),(34,6),(42,14),(42,42),(14,42),(6,34),(6,6))
+        poly('front',(6,6),(14,14),(42,14));line('edge',(14,14),(14,42))
+        poly('letter',(22,34),(22,22),(34,34),(34,22))
+        join('cube','front');join('cube','edge');join('front','edge')

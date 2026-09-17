@@ -439,7 +439,7 @@ async function main() {
   assert.equal(disapprovers.run("$('feedbackAuthor').value"),'ray');
   assert.equal(attributionURL.searchParams.get('icon_feedback_by'),'hina');
   assert.equal(attributionURL.searchParams.get('feedback_by'),'ray');
-  disapprovers.run(`urlReady=false;section='feedback';feedbackLoaded=true;feedbackRows=[
+  disapprovers.run(`urlReady=false;section='feedback';reviews['solo/a']='pending';reviewsLoaded=true;feedbackLoaded=true;feedbackRows=[
     {id:1,icon:'solo/a',author:'ray',feedback:'Round it'},
     {id:2,icon:'solo/b',author:'hina',edited_by:'ray',feedback:'Keep it'},
     {id:3,icon:'solo/b',feedback:'Legacy anonymous feedback'}
@@ -448,6 +448,15 @@ async function main() {
   assert.equal(disapprovers.run("$('feedbackCount').textContent"),'1 feedback requests','Feedback matches its author, not its editor');
   disapprovers.run("$('feedbackAuthor').value='';$('feedbackAuthor').oninput();");
   assert.equal(disapprovers.run("$('feedbackCount').textContent"),'3 feedback requests','Anyone includes anonymous feedback');
+  for(const state of ['ready','approve','rejected']){
+    disapprovers.run(`reviews['solo/a']='${state}';renderFeedback();`);
+    assert.equal(disapprovers.run("$('feedbackCount').textContent"),'2 feedback requests','Resolved and rejected icons leave the feedback list');
+    assert.equal(disapprovers.run('feedbackBriefFiles(feedbackRows,icons).length'),2,'Downloads include only disapproved icons');
+  }
+  disapprovers.run("reviews['solo/a']='pending';flushFeedbackSave=async()=>true;");
+  disapprovers.context.fetch=async()=>({ok:true,json:async()=>({status:'ready',updated_by:'jakes'})});
+  await disapprovers.run("saveReview(icons[0],'ready')");
+  assert.equal(disapprovers.run('feedbackRows.length'),2,'Returning to Ready clears local feedback immediately');
   const stableTabs = page('gallery');
   stableTabs.run("icons=[{key:'solo/a',family:'solo',icon_id:'a',name:'A'}];reviewsLoaded=true;pendingFeedbackLoaded=true;render();");
   const reviewButtons = [...stableTabs.document.getElementById('reviewTabs').children];

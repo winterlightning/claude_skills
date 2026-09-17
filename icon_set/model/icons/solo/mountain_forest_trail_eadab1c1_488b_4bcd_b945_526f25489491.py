@@ -1,7 +1,4 @@
-"""Two mountain peaks, one pine, and a descending dashed trail form a compact landscape. SQUARE extremes (6,6)-(42,42); intentional scene asymmetry.
-Reduction: Removed one repeated pine, reduced the remaining pine to one triangular tier, and shortened the trail to two broad dashes.
-Lucide construction: mountain, tree-pine, route
-"""
+'mountain-forest-trail: Give the scene a winding foreground trail, a triangular mountain and a recognizable pine tree. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -12,18 +9,33 @@ AUTHOR = 'gpt-6'
 
 class MountainForestTrail(Solo48):
     icon_id = 'mountain-forest-trail'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "nature/batch-02"
     aliases = ()
     keywords = ('landscape', 'mountains', 'trail', 'pine', 'forest', 'hiking', 'outdoors', 'path')
 
-    def build(self) -> None:
-        self.add_polyline("peaks",(6,22),(12,6),(18,16),(24,6),(30,22),closed=True)
-        self.add_polyline("pine",(6,40),(12,30),(18,40),(12,40),closed=True)
-        self.add_line("trunk",(12,40),(12,42))
-        self.relate("connect","trunk","pine-3")
-        self.relate("connect","trunk","pine-4")
-        self.add_line("trail-upper",(42,14),(42,22))
-        self.add_line("trail-lower",(34,30),(42,38))
+    def build(self):
+        # Symbol plan: Give the scene a winding foreground trail, a triangular mountain and a recognizable pine tree.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        poly('mountain',(4,20),(12,4),(20,20),closed=True)
+        poly('pine',(36,12),(44,28),(28,28),closed=True)
+        line('trunk',(36,28),(36,36));join('pine','trunk')
+        path('trail',(14,32),[('C',(8,44),(25,36),(4,37))])

@@ -1,8 +1,4 @@
-"""Person Connected to Six Nodes.
-Plan: A central circular head and open rounded bust own six actual graph links. Six equal nodes derive from mirrored x positions and a three-row series. Bounds (6,6)-(42,42). Head bottom y19, torso top y27: exactly 8 centerline units.
-References: human_ref/user.svg circular head and rounded shoulders; Lucide network shared graph junctions.
-Reduction: Bust baseline removed to retain a readable open shoulder outline; all six nodes and links retained.
-"""
+'person-connected-to-six-nodes: Restore a recognizable central head-and-shoulders avatar surrounded by six connected circular nodes. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
@@ -53,7 +49,7 @@ def symmetric(icon, name, start, left_steps, axis=24):
 
 class PersonConnectedToSixNodes(Solo48):
     icon_id = 'person-connected-to-six-nodes'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     category = 'business'
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
@@ -61,17 +57,26 @@ class PersonConnectedToSixNodes(Solo48):
     keywords = ('person', 'connected', 'to', 'six', 'nodes')
 
     def build(self):
-        axis=24
-        circle(self,'head',axis,16,3)
-        path(self,'body',(20,33),('L',(20,31)),('A',(axis,27),4,4,True),('A',(28,31),4,4,True),('L',(28,33)))
-        for side in (-1,1):
-         x=axis+side*15
-         for row,y in enumerate((9,24,39)):
-          name=f'node-{side}-{row}'
-          circle(self,name,x,y,3)
-          start=(x-side*3,y)
-          end=((axis+side*3,16),(axis+side*4,31),(axis+side*4,33))[row]
-          self.add_line('link-'+name,start,end)
-          self.relate('connect',name,'link-'+name)
-          self.relate('connect','head' if row==0 else 'body','link-'+name)
-        self.mark_human_figure('person',head='head',torso='body-2',torso_junction='end')
+        # Symbol plan: Restore a recognizable central head-and-shoulders avatar surrounded by six connected circular nodes.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        circle('head',24,16,4)
+        path('bust',(14,38),[('A',(24,28),10,10,True),('A',(34,38),10,10,True),('L',(14,38))],True)
+        for n,x,y in [('tl',5,5),('tr',43,5),('ml',5,24),('mr',43,24),('bl',5,43),('br',43,43)]:circle(n,x,y,3)
+        for n,a,b,node in [('top-l',(8,7),(20,16),'tl'),('top-r',(40,7),(28,16),'tr'),('middle-l',(8,24),(17,31),'ml'),('middle-r',(40,24),(31,31),'mr'),('bottom-l',(8,41),(14,38),'bl'),('bottom-r',(40,41),(34,38),'br')]:
+         line(n,a,b);join(n,node);join(n,'head' if n.startswith('top') else 'bust')

@@ -15,6 +15,11 @@ replace their geometry and validation instructions. Inspect the corresponding
 skill file before authoring. Their sources are in `.claude/skills/`; Codex copies
 are in `.agents/skills/` and portable copies in `skills/`.
 
+For coloring an existing icon or color-specific review feedback, route to
+`$icon-color`. It preserves the source family and handles semantic palettes,
+transparent openings, junction layering, and small color-only additions. Use
+the family authoring workflow below for new icons or substantial redesigns.
+
 ## Inspect and classify before authoring
 
 For any human subject or human part within a scene, carry

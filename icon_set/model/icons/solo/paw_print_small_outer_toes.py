@@ -1,4 +1,4 @@
-"""Enlarge the outer toe ovals and rebalance the lower pad within a taller envelope. Applied to the original icon identity."""
+'paw-print-small-outer-toes: Restore a broad three-lobed central paw pad and arrange four toes in an arch, with smaller outer toes. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '193cadb3-56bf-56a6-8cdf-a6db99d7d95e'
@@ -7,7 +7,7 @@ AUTHOR = 'gpt-6'
 
 class PawPrintSmallOuterToes(Solo48):
     icon_id = 'paw-print-small-outer-toes'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
@@ -15,33 +15,24 @@ class PawPrintSmallOuterToes(Solo48):
     keywords = ('paw', 'print', 'track', 'footprint', 'animal', 'pet', 'dog', 'cat', 'wildlife')
 
     def build(self):
-        """Symbol plan: Enlarge the outer toe ovals and rebalance the lower pad within a taller envelope. Reference: Lucide paw-print: rounded paired toes and a separate lower pad."""
+        # Symbol plan: Restore a broad three-lobed central paw pad and arrange four toes in an arch, with smaller outer toes.
 
-        def path(n, start, commands, closed=False):
-            here = start
-            members = []
-            for i, c in enumerate(commands):
-                kind, end, *args = c
-                name = f'{n}-{i}'
-                if kind == 'L':
-                    self.add_line(name, here, end)
-                elif kind == 'A':
-                    self.add_arc(name, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2])
-                elif kind == 'C':
-                    self.add_bezier(name, here, (args[0], args[1], end))
-                members.append(name)
-                here = end
-            self.add_contour(n, *members, closed=closed)
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        for n,x,y,r in [('upper-left',17,7,3),('upper-right',31,7,3),('outer-left',6,20,2),('outer-right',42,20,2)]:circle(n,x,y,r)
 
-        def oval(n, x, y, rx, ry):
-            path(n, (x - rx, y), [('A', (x + rx, y), rx, ry, True), ('A', (x - rx, y), rx, ry, True)], True)
-
-        def box(n, l, t, r, b, rad=4):
-            path(n, (l + rad, t), [('L', (r - rad, t)), ('A', (r, t + rad), rad, rad, True), ('L', (r, b - rad)), ('A', (r - rad, b), rad, rad, True), ('L', (l + rad, b)), ('A', (l, b - rad), rad, rad, True), ('L', (l, t + rad)), ('A', (l + rad, t), rad, rad, True)], True)
-        line = self.add_line
-        poly = self.add_polyline
-        dot = self.add_dot
-        join = lambda a, b: self.relate('connect', a, b)
-        for name, x, y in [('upper-left', 16, 9), ('upper-right', 32, 9), ('outer-left', 12, 27), ('outer-right', 36, 27)]:
-            oval(name, x, y, 4, 5)
-        oval('pad', 24, 40, 5, 4)
+        path('pad',(24,25),[('C',(15,33),(18,25),(19,29)),('C',(12,40),(12,36),(10,38)),('C',(17,44),(12,43),(14,44)),('C',(24,42),(20,44),(21,42)),('C',(31,44),(27,42),(28,44)),('C',(36,40),(34,44),(36,43)),('C',(33,33),(38,38),(36,36)),('C',(24,25),(29,29),(30,25))],True)

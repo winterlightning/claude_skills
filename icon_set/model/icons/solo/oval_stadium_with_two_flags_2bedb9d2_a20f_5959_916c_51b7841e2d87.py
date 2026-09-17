@@ -1,9 +1,4 @@
-"""Oval Stadium with Two Flags.
-
-Plan: Horizontal capsule arena above an outer-wall band, with repeated rectangular pennants. Extremes (4,8)-(44,40).
-Reduction: Oval arena simplified to a clean capsule; 2 flags retained as rectangular cloth outlines to keep clear interiors.
-Construction reference: Lucide flag and landmark.
-"""
+'oval-stadium-with-two-flags: Restore an open oval arena with a curved front wall and 2 triangular flags. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -50,7 +45,7 @@ def _box(icon, name, left, top, right, bottom, radius, attachments=()):
 
 class OvalStadiumWithTwoFlags(Solo48):
     icon_id = 'oval-stadium-with-two-flags'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'building'
@@ -58,11 +53,26 @@ class OvalStadiumWithTwoFlags(Solo48):
     keywords = ('oval', 'stadium', 'with', 'two', 'flags')
 
     def build(self):
-        _box(self,'bowl',4,24,44,40,8,attachments=((20,24),))
-        self.add_line('band',(4,32),(44,32))
-        self.relate('connect','band','bowl')
-        for n,x in enumerate((12, 36)):
-            y=32 if x==4 else 24
-            self.add_polyline(f'flag-{n}',(x,y),(x,16),(x,8),(x+8,8),(x+8,16),(x,16))
-            self.relate('connect',f'flag-{n}','bowl')
-            if x==4:self.relate('connect',f'flag-{n}','band')
+        # Symbol plan: Restore an open oval arena with a curved front wall and 2 triangular flags.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        ellipse('rim',24,27,20,7)
+        path('wall',(4,27),[('L',(6,36)),('C',(24,44),(8,42),(16,44)),('C',(42,36),(32,44),(40,42)),('L',(44,27))]);join('rim','wall')
+        for i,x in enumerate((8, 34)):
+         poly('flag-'+str(i),(x,20),(x,4),(x+6,8))
+         join('flag-'+str(i),'rim')

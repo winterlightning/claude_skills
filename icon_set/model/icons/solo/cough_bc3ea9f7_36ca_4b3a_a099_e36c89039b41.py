@@ -1,4 +1,4 @@
-"""cough: reviewed and repaired in place on SOLO48."""
+'cough: Keep the left-facing anatomical head and add two expelled breath strokes at the mouth. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -11,7 +11,7 @@ REVIEW_ACTION = 'geometry-repaired'
 
 class Cough(Solo48):
     icon_id = 'cough'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'health'
@@ -19,18 +19,23 @@ class Cough(Solo48):
     keywords = ('cough', 'health')
 
     def build(self):
-        # VRECT_L (8,4)-(40,44); circle cranium and tangent nape, no detached gap.
-        # Construction reference: human_ref/user.svg: circular head; continuous anatomical neck
-        face_right = False
+        # Symbol plan: Keep the left-facing anatomical head and add two expelled breath strokes at the mouth.
 
-        def p(x,y): return (48-x,y) if face_right else (x,y)
-        self.add_line('neck-back',p(36,44),p(36,32))
-        self.add_bezier('nape',p(36,32),(p(36,27),p(40,25),p(40,18)))
-        self.add_arc('cranium',p(40,18),p(12,18),radius_x=14,sweep=face_right)
-        self.add_line('nose-slope',p(12,18),p(8,28))
-        self.add_line('nose-base',p(8,28),p(12,28))
-        self.add_line('face',p(12,28),p(12,34))
-        self.add_arc('chin',p(12,34),p(16,38),radius_x=4,sweep=face_right)
-        self.add_line('jaw',p(16,38),p(20,38))
-        self.add_line('neck-front',p(20,38),p(20,44))
-        self.add_contour('outline','neck-back','nape','cranium','nose-slope','nose-base','face','chin','jaw','neck-front')
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('head',(40,44),[('L',(40,32)),('C',(44,18),(40,27),(44,25)),('A',(20,18),12,14,False),('L',(16,26)),('L',(20,26)),('L',(20,34)),('A',(24,38),4,4,False),('L',(28,38)),('L',(28,44))])
+        line('cough-upper',(4,24),(8,26));line('cough-lower',(4,40),(8,38))

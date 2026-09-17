@@ -86,6 +86,46 @@ class FeedbackSyncTests(unittest.TestCase):
         self.assertEqual(self.rows('SELECT feedback FROM feedback', path), [('Ears too big',)])
         self.assertEqual(self.rows('SELECT * FROM admin_sessions', path), [])
 
+    def seed_progression(self, path, label):
+        with closing_db(path) as db, db:
+            db.execute("INSERT INTO primitive_status(uuid,status,reason,updated_by,updated_at) VALUES (?,'skip','container','jakes','2026-09-17')", (label,))
+            db.execute("INSERT INTO primitive_briefs VALUES (?,'solo',?,'jakes','2026-09-17')", (label, label))
+            db.execute('CREATE TABLE progression_imports(uuid TEXT PRIMARY KEY, updated_at TEXT NOT NULL)')
+            db.execute('INSERT INTO progression_imports VALUES (?,?)', (label, '2026-09-17'))
+            db.execute('CREATE TABLE progression_reviews(path TEXT PRIMARY KEY, content TEXT NOT NULL)')
+            db.execute('INSERT INTO progression_reviews VALUES (?,?)', (label, '{}'))
+            db.execute("INSERT INTO activity_log(username,action,icon,created_at) VALUES ('jakes','primitive_todo',?,'2026-09-17')", ('primitive:' + label,))
+
+    def test_export_excludes_progression(self):
+        self.seed_progression(self.production, 'production')
+        path = self.root / 'without-progression.sqlite3'
+        export_feedback_snapshot(self.production, path)
+        for table in ('primitive_status', 'primitive_briefs', 'progression_imports', 'progression_reviews'):
+            self.assertEqual(self.rows(f'SELECT * FROM {table}', path), [])
+        self.assertEqual(self.rows("SELECT * FROM activity_log WHERE action='primitive_todo'", path), [])
+
+    def test_sync_preserves_local_progression_even_from_legacy_exports(self):
+        self.seed_progression(self.production, 'production')
+        self.seed_progression(self.database, 'local')
+        tables = ('primitive_status', 'primitive_briefs', 'progression_imports', 'progression_reviews')
+        before = {table: self.rows(f'SELECT * FROM {table}') for table in tables}
+        # A legacy server sends progression as part of its whole database.
+        self.export = self.production.read_bytes()
+        import zipfile
+        bundle = self.root / 'legacy.zip'
+        with zipfile.ZipFile(bundle, 'w') as archive:
+            archive.writestr('feedback.sqlite3', self.export)
+            archive.writestr('stores.json', '[]')
+        self.bundle = bundle.read_bytes()
+        for bundled in (True, False):
+            with self.subTest(bundled=bundled), self.serve(bundle=bundled):
+                status, result = self.request({'source': 'https://prod.example'})
+            self.assertEqual(status, 200, result)
+            for table in tables:
+                self.assertEqual(self.rows(f'SELECT * FROM {table}'), before[table])
+            self.assertEqual(self.rows("SELECT icon FROM activity_log WHERE action='primitive_todo'"), [('primitive:local',)])
+            self.assertEqual(self.rows('SELECT feedback FROM feedback'), [('Ears too big',)])
+
     def test_sync_replaces_database_backs_up_and_keeps_local_login(self):
         with self.serve() as opened:
             status, result = self.request({'source': 'https://prod.example/gallery/icons.html?page=1&page_size=48'})

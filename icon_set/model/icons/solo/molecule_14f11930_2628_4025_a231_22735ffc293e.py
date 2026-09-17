@@ -1,4 +1,4 @@
-"""Molecule (science), converted from the icons-json construction graph by json_to_solo --mode fit. HRECT_L keyshape; curves fitted to integer lines and arcs."""
+'molecule-science: Use a central atom, three satellites and exposed bonds instead of a heavy triangular network. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,36 +8,32 @@ AUTHOR = 'gpt-6'
 
 class MoleculeScience(Solo48):
     icon_id = 'molecule-science'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'science'
     aliases = ()
     keywords = ('molecule', 'science')
 
-    def build(self) -> None:
-        # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
-        # Curves reaching an edge use bounded cubic controls, with shared endpoints retained.
-        self.add_arc('sym-e0',(19, 13),(29, 13),radius_x=5,radius_y=5,large_arc=False,sweep=True)
-        self.add_arc('sym-e1',(29, 13),(19, 13),radius_x=5,radius_y=5,large_arc=False,sweep=True)
-        self.add_arc('sym-e2',(33, 35),(44, 35),radius_x=5,radius_y=5,large_arc=False,sweep=True)
-        self.add_bezier('sym-e3',(44, 35),*(((44, 38.03756612), (41.53756612, 40), (38.5, 40)), ((35.46243388, 40), (33.0, 38.03756612), (33, 35))))
-        self.add_arc('sym-e4',(15, 35),(4, 35),radius_x=5,radius_y=5,large_arc=False,sweep=False)
-        self.add_bezier('sym-e5',(4, 35),*(((4, 38.03756612), (6.46243388, 40), (9.5, 40)), ((12.53756612, 40), (15.0, 38.03756612), (15, 35))))
-        self.add_line('sym-e6',(33, 35),(15, 35))
-        self.add_line('sym-e7',(38, 30),(28, 17))
-        self.add_line('sym-e8',(10, 30),(20, 17))
-        self.add_contour('sym-c0',*('sym-e0', 'sym-e1'),closed=True)
-        self.add_contour('sym-c1',*('sym-e2', 'sym-e3'),closed=True)
-        self.add_contour('sym-c2',*('sym-e4', 'sym-e5'),closed=True)
-        self.add_contour('sym-c3',*('sym-e6',),closed=False)
-        self.add_contour('sym-c4',*('sym-e7',),closed=False)
-        self.add_contour('sym-c5',*('sym-e8',),closed=False)
-        self.relate('connect',*('sym-c1', 'sym-c3'))
-        self.relate('connect',*('sym-c2', 'sym-c3'))
-        self.relate('connect',*('sym-c2', 'sym-c5'))
-        self.relate('connect',*('sym-c1', 'sym-c4'))
-        self.relate('connect',*('sym-c0', 'sym-c5'))
-        self.relate('connect',*('sym-c0', 'sym-c4'))
-        self.relate('connect',*('sym-c2', 'sym-c3'))
-        self.relate('connect',*('sym-c1', 'sym-c3'))
+    def build(self):
+        # Symbol plan: Use a central atom, three satellites and exposed bonds instead of a heavy triangular network.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        circle('center',24,32,6);circle('left',6,32,4);circle('right',42,32,4);circle('top',24,14,4)
+        for n,a,b,atom in [('bond-left',(10,32),(18,32),'left'),('bond-right',(30,32),(38,32),'right'),('bond-top',(24,18),(24,26),'top')]:
+         line(n,a,b);join(n,'center');join(n,atom)

@@ -8,30 +8,33 @@ AUTHOR = 'gpt-6'
 
 class PelicanOnWater(Solo48):
     icon_id = 'pelican-on-water'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.FREE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ('pelican',)
     keywords = ('pelican', 'water', 'bird', 'pouch', 'beak', 'sea', 'float', 'waterfowl')
 
-    def build(self) -> None:
-        self.add_arc('head-left', (20, 14), (28, 6), radius_x=8)
-        self.add_arc('head-right', (28, 6), (36, 14), radius_x=8)
-        self.add_arc('neck-back', (36, 14), (30, 24), radius_x=12)
-        self.add_line('wing-root', (30, 24), (26, 26))
-        self.add_arc('wing-upper', (26, 26), (42, 22), radius_x=16, radius_y=4, sweep=False)
-        self.add_arc('wing-lower', (42, 22), (32, 32), radius_x=10)
-        self.add_contour('outline', 'head-left', 'head-right', 'neck-back', 'wing-root', 'wing-upper', 'wing-lower')
-        self.add_line('bill-top', (6, 14), (20, 14))
-        self.add_arc('bill-pouch', (20, 14), (6, 14), radius_x=7, radius_y=6)
-        self.add_contour('pouch', 'bill-top', 'bill-pouch', closed=True)
-        self.add_line('neck-front', (20, 14), (15, 26))
-        self.add_arc('breast', (15, 26), (17, 32), radius_x=6, sweep=False)
-        self.add_contour('neck', 'neck-front', 'breast')
-        self.relate('connect', 'outline', 'pouch')
-        self.relate('connect', 'outline', 'neck')
-        self.relate('connect', 'pouch', 'neck')
-        self.add_arc('wave-up', (6, 41), (24, 41), radius_x=9, radius_y=1)
-        self.add_arc('wave-down', (24, 41), (42, 41), radius_x=9, radius_y=1, sweep=False)
-        self.add_contour('water', 'wave-up', 'wave-down')
+    def build(self):
+        # Symbol plan: Restore the long bill with throat pouch, curved neck, rounded floating body and water line.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('bird',(18,14),[('C',(27,4),(18,8),(21,4)),('C',(34,14),(35,4),(35,10)),('C',(25,29),(33,21),(23,23)),('C',(44,26),(30,35),(40,30)),('C',(24,36),(44,34),(32,36))])
+        path('bill',(18,14),[('L',(4,16)),('C',(18,24),(5,25),(13,28)),('L',(18,14))],True)
+        join('bill','bird')
+        path('water',(4,44),[('C',(24,44),(11,44),(17,44)),('C',(44,44),(31,44),(37,44))])

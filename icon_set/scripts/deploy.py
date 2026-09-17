@@ -167,6 +167,13 @@ def record_activity(connection, username, action, icon=None, **details):
                        (username, action, icon, json.dumps(details, ensure_ascii=False), utc_now()))
 
 
+def clear_ready_feedback(connection, key, user):
+    """Resolve all saved requests when an icon is explicitly returned to Ready."""
+    deleted = connection.execute('DELETE FROM feedback WHERE icon=?', (key,)).rowcount
+    if deleted:
+        record_activity(connection, user, 'feedback_resolved', key, deleted_count=deleted)
+
+
 def review_detail(connection, key, sha):
     """Who set the icon's current review state, following the same precedence as /api/reviews."""
     split = connection.execute('SELECT created_by, created_at FROM split_requests WHERE icon=? AND svg_sha256=? AND active=1',
@@ -183,11 +190,20 @@ def review_detail(connection, key, sha):
         {'status': 'ready', 'updated_by': None, 'updated_at': None}
 
 
+PROGRESSION_TABLES = ('primitive_status', 'primitive_briefs', 'progression_imports', 'progression_reviews')
+PROGRESSION_ACTIVITY = "action GLOB 'primitive_*' OR icon GLOB 'primitive:*'"
+
+
 def export_feedback_snapshot(database: Path, target: Path) -> None:
-    """Consistent copy of the live database without login sessions."""
+    """Consistent review data copy without login sessions or progression data."""
     with closing(sqlite3.connect(database, timeout=30)) as source, closing(sqlite3.connect(target)) as copy:
         source.backup(copy)
         copy.execute('DELETE FROM admin_sessions')
+        tables = {row[0] for row in copy.execute("SELECT name FROM sqlite_master WHERE type='table'")}
+        for table in PROGRESSION_TABLES:
+            if table in tables:
+                copy.execute(f'DELETE FROM {table}')
+        copy.execute(f'DELETE FROM activity_log WHERE {PROGRESSION_ACTIVITY}')
         copy.commit()
         copy.execute('VACUUM')
 
@@ -291,6 +307,18 @@ def replace_feedback_database(database: Path, snapshot: Path, user: str, origin:
             incoming.execute('DELETE FROM admin_sessions')
             incoming.executemany('INSERT INTO admin_sessions VALUES (?,?,?)',
                                  live.execute('SELECT token, username, expires FROM admin_sessions').fetchall())
+            # Progression belongs to this installation, even when syncing an older export.
+            for table in PROGRESSION_TABLES:
+                schema = live.execute("SELECT sql FROM sqlite_master WHERE type='table' AND name=?", (table,)).fetchone()
+                incoming.execute(f'DROP TABLE IF EXISTS {table}')
+                if schema:
+                    incoming.execute(schema[0])
+                    columns = [row[1] for row in live.execute(f'PRAGMA table_info({table})')]
+                    incoming.executemany(f'INSERT INTO {table} VALUES ({",".join("?" for _ in columns)})',
+                                         live.execute(f'SELECT * FROM {table}').fetchall())
+            incoming.execute(f'DELETE FROM activity_log WHERE {PROGRESSION_ACTIVITY}')
+            incoming.executemany('INSERT INTO activity_log(username,action,icon,details,created_at) VALUES (?,?,?,?,?)',
+                                 live.execute(f'SELECT username,action,icon,details,created_at FROM activity_log WHERE {PROGRESSION_ACTIVITY} ORDER BY id').fetchall())
             record_activity(incoming, user, 'feedback_sync', source=origin, backup=backup.name, exported_at=exported_at)
             incoming.commit()
             counts = {table: incoming.execute(f'SELECT COUNT(*) FROM {table}').fetchone()[0] for table in SYNC_COUNTED_TABLES}
@@ -988,6 +1016,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                        status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
                     (key, sha, status, now, user),
                 )
+                if status == 'ready':
+                    clear_ready_feedback(connection, key, user)
             result = {'saved': True, 'status': status, 'updated_by': user}
             if route == '/api/feedback':
                 result.update(id=feedback_id, feedback=feedback.strip())
@@ -1320,6 +1350,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     connection.execute("UPDATE reviews SET status='ready', updated_by=?, updated_at=? WHERE icon=? AND status='rejected'", (user, now, key))
                     # Explicit restore returns the icon to review, never silently approves it.
                     connection.execute("INSERT INTO reviews(icon,svg_sha256,status,updated_at,updated_by) VALUES (?,?,'ready',?,?) ON CONFLICT(icon,svg_sha256) DO UPDATE SET status='ready',updated_at=excluded.updated_at,updated_by=excluded.updated_by", (key,icon['svg_sha256'],now,user))
+                    clear_ready_feedback(connection, key, user)
                     record_activity(connection, user, 'restore', key, svg_sha256=icon['svg_sha256'])
                     return self.json_response({'saved': True, 'status': 'ready'})
                 validate_split(data)

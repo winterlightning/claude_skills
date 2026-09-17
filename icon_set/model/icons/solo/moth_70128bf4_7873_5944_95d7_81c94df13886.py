@@ -1,4 +1,4 @@
-"""Symmetric moth with small domed head and broad swept wings tapering into an abdomen. Thin source legs and antennae omitted to favor the characteristic wing silhouette. Lucide heart informs mirrored lobes; no useful moth match."""
+'moth: Show the broad triangular forewings, lower wing lobes, central body and antennae. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,18 +16,25 @@ class Moth(Solo48):
     aliases = ()
     keywords = ('moth', 'animal')
 
-    def build(self) -> None:
-        # HRECT_XL: authored to its exact SOLO48 centerline bounds.
-        self.add_bezier('head-top', (18, 12), *(((18.42928338, 8.52884098), (20.99406902, 6), (24, 6)),))
-        self.add_bezier('head-right', (24, 6), *(((27.00593098, 6), (29.57071662, 8.52884098), (30, 12)),))
-        self.add_contour('head', 'head-top', 'head-right', closed=False)
-        self.add_line('wing-left-leading', (18, 12), (6, 30))
-        self.add_bezier('wing-left-tip', (6, 30), *(((6, 32.47520861), (6, 35.52479139), (6, 38)),))
-        self.add_arc('wing-left-bottom', (6, 38), (12, 42), radius_x=10, radius_y=5, sweep=False)
-        self.add_arc('wing-left-inner', (12, 42), (24, 29), radius_x=20, radius_y=20, sweep=False)
-        self.add_arc('wing-right-inner', (24, 29), (36, 42), radius_x=20, radius_y=20, sweep=False)
-        self.add_arc('wing-right-bottom', (36, 42), (42, 38), radius_x=10, radius_y=5, sweep=False)
-        self.add_bezier('wing-right-tip', (42, 38), *(((42, 35.52479139), (42, 32.47520861), (42, 30)),))
-        self.add_line('wing-right-leading', (42, 30), (30, 12))
-        self.add_contour('wings', 'wing-left-leading', 'wing-left-tip', 'wing-left-bottom', 'wing-left-inner', 'wing-right-inner', 'wing-right-bottom', 'wing-right-tip', 'wing-right-leading', closed=False)
-        self.relate("connect", 'head', 'wings')
+    def build(self):
+        # Symbol plan: Show the broad triangular forewings, lower wing lobes, central body and antennae.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('wings',(24,18),[('C',(6,12),(18,18),(12,12)),('L',(6,34)),('C',(14,38),(6,40),(10,42)),('L',(24,30)),('L',(34,38)),('C',(42,34),(38,42),(42,40)),('L',(42,12)),('C',(24,18),(36,12),(30,18))],True)
+        line('body',(24,18),(24,42));poly('antennae',(16,6),(24,18),(32,6))
+        join('wings','body');join('wings','antennae');join('body','antennae')

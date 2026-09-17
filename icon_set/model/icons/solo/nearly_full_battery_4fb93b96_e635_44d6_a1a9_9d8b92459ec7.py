@@ -1,4 +1,4 @@
-"""A horizontal battery has a rounded rectangular body and a short terminal projecting from its right end. Five evenly spaced vertical charge marks occupy most of the body, leaving a small blank area beside the terminal."""
+'nearly-full-battery: Restore a low battery silhouette, attached terminal and three equal charge bars with one empty slot. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -8,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class MobileIcon(Solo48):
     icon_id = 'nearly-full-battery'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/mobile"
@@ -16,28 +16,24 @@ class MobileIcon(Solo48):
     keywords = ('battery', 'charge', 'level', 'nearly-full', 'power', 'energy', 'indicator')
 
     def build(self):
-        # Typed paths keep continuous joins; dimensions belong to each symbol.
-        def path(name, start, commands, closed=False):
-            members, here = [], start
-            for i, (kind, end, *args) in enumerate(commands):
-                ident = f"{name}-{i}"
-                if kind == "L":
-                    self.add_line(ident, here, end)
-                else:
-                    rx, ry, sweep = args
-                    self.add_arc(ident, here, end, radius_x=rx, radius_y=ry, sweep=sweep)
-                members.append(ident)
-                here = end
-            self.add_contour(name, *members, closed=closed)
-        def rounded(name, x0, y0, x1, y1, r):
-            path(name, (x0+r,y0), [
-                ('L',(x1-r,y0)), ('A',(x1,y0+r),r,r,True),
-                ('L',(x1,y1-r)), ('A',(x1-r,y1),r,r,True),
-                ('L',(x0+r,y1)), ('A',(x0,y1-r),r,r,True),
-                ('L',(x0,y0+r)), ('A',(x0+r,y0),r,r,True)], True)
-        # HRECT_L extremes (4,8)-(44,40). Rounded cell and detached terminal.
-        # Lucide battery-full: equal corner radii and an evenly spaced charge series.
-        self.add_polyline('case', (4,8),(36,8),(36,40),(4,40), closed=True)
-        self.add_line('terminal', (44,20), (44,28))
-        for i, x in enumerate((12,20,28)):
-            self.add_line(f'charge-{i}', (x,24 if i == 2 else 17), (x,31))
+        # Symbol plan: Restore a low battery silhouette, attached terminal and three equal charge bars with one empty slot.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        rounded('battery',2,12,42,36,4)
+        line('terminal',(42,24),(46,24));join('terminal','battery')
+        for x in (11,19,27):line('charge-'+str(x),(x,21),(x,27))

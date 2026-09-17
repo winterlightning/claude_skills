@@ -1,4 +1,4 @@
-"""Give the penguin a rounder forward belly and a sharper downward-pointing bill, opening up its left profile. Applied to the original icon identity."""
+'penguin-looking-down: Restore the downturned beak, upright tapered body, belly division and flat feet. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '9ca363f4-f61f-5da3-a3be-41fa52d1fa3a'
@@ -14,14 +14,25 @@ class PenguinLookingDown(Solo48):
     aliases = ()
     keywords = ('penguin', 'bending', 'looking', 'down', 'bird', 'antarctic', 'nurture', 'care')
 
-    def build(self) -> None:
-        """Symbol plan: Give the penguin a rounder forward belly and a sharper downward-pointing bill, opening up its left profile. Reference: Lucide bird: a clear bill and one open inner wing curve."""
-        self.add_bezier('head', (12, 16), ((14, 9), (19, 4), (24, 4)), ((31, 4), (35, 9), (36, 15)))
-        self.add_bezier('back', (36, 15), ((38, 22), (40, 29), (40, 34)), ((40, 40), (34, 44), (28, 44)))
-        self.add_line('base', (28, 44), (18, 44))
-        self.add_bezier('belly', (18, 44), ((10, 42), (10, 32), (14, 28)))
-        self.add_line('beak-low', (14, 28), (8, 26))
-        self.add_line('beak-high', (8, 26), (12, 16))
-        self.add_contour('outline', 'head', 'back', 'base', 'belly', 'beak-low', 'beak-high', closed=True)
-        self.add_dot('eye', (23, 15))
-        self.add_bezier('flipper', (28, 25), ((30, 29), (28, 34), (26, 35)))
+    def build(self):
+        # Symbol plan: Restore the downturned beak, upright tapered body, belly division and flat feet.
+
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('penguin',(8,22),[('C',(24,4),(8,12),(15,4)),('C',(38,25),(35,4),(38,15)),('L',(38,36)),('L',(40,44)),('L',(20,44)),('C',(18,22),(13,37),(16,28)),('L',(12,28)),('L',(8,22))],True)
+        dot('eye',(23,14))
+        path('flipper',(27,23),[('C',(26,32),(29,26),(29,28))])

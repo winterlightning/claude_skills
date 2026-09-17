@@ -1,4 +1,4 @@
-'Light bulb: circular crown, equal shoulders and a base with a 10-unit interior height.'
+'oval-light-bulb: Use an elongated glass bulb that narrows naturally into a distinct screw base and rounded contact. Repaired original in place.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -9,7 +9,7 @@ AUTHOR = 'gpt-6'
 
 class OvalLightBulb(Solo48):
     icon_id = 'oval-light-bulb'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.FREE
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/work"
@@ -17,25 +17,23 @@ class OvalLightBulb(Solo48):
     keywords = ('bulb', 'light', 'lamp', 'idea', 'illumination', 'electricity')
 
     def build(self):
-        # Light bulb: tangent circular crown and reverse-curved shoulders, with a balanced open base.
-        l = self.add_line
-        p = self.add_polyline
-        link = self.relate
+        # Symbol plan: Use an elongated glass bulb that narrows naturally into a distinct screw base and rounded contact.
 
-        def a(name, start, end, rx, ry=None, sweep=True):
-            self.add_arc(name, start, end, radius_x=rx,
-                         radius_y=rx if ry is None else ry, sweep=sweep)
-
-        a('crown',(8,20),(40,20),16)
-        a('shoulder-r',(40,20),(32,28),8)
-        a('neck-r',(32,28),(28,32),4,sweep=False)
-        l('base-r',(28,32),(28,42))
-        a('base-br',(28,42),(26,44),2)
-        l('base-bottom',(26,44),(22,44))
-        a('base-bl',(22,44),(20,42),2)
-        l('base-l',(20,42),(20,32))
-        a('neck-l',(20,32),(16,28),4,sweep=False)
-        a('shoulder-l',(16,28),(8,20),8)
-        self.add_contour('bulb','crown','shoulder-r','neck-r','base-r','base-br','base-bottom','base-bl','base-l','neck-l','shoulder-l',closed=True)
-        l('seam',(20,34),(28,34))
-        link('connect','bulb','seam')
+        def path(name,start,commands,closed=False):
+            members=[];here=start
+            for i,(kind,end,*args) in enumerate(commands):
+                ident=f'{name}-{i}'
+                if kind=='L': self.add_line(ident,here,end)
+                elif kind=='A': self.add_arc(ident,here,end,radius_x=args[0],radius_y=args[1],sweep=args[2])
+                elif kind=='C': self.add_bezier(ident,here,(args[0],args[1],end))
+                members.append(ident);here=end
+            self.add_contour(name,*members,closed=closed)
+        def ellipse(name,x,y,rx,ry):
+            path(name,(x-rx,y),[('A',(x,y-ry),rx,ry,True),('A',(x+rx,y),rx,ry,True),('A',(x,y+ry),rx,ry,True),('A',(x-rx,y),rx,ry,True)],True)
+        def circle(name,x,y,r): ellipse(name,x,y,r,r)
+        def rounded(name,x0,y0,x1,y1,r):
+            path(name,(x0+r,y0),[('L',(x1-r,y0)),('A',(x1,y0+r),r,r,True),('L',(x1,y1-r)),('A',(x1-r,y1),r,r,True),('L',(x0+r,y1)),('A',(x0,y1-r),r,r,True),('L',(x0,y0+r)),('A',(x0+r,y0),r,r,True)],True)
+        line=self.add_line;poly=self.add_polyline;dot=self.add_dot
+        join=lambda a,b:self.relate('connect',a,b)
+        path('glass',(18,34),[('C',(10,18),(18,29),(10,28)),('A',(38,18),14,14,True),('C',(30,34),(38,28),(30,29)),('L',(18,34))],True)
+        path('base',(18,34),[('L',(18,38)),('A',(24,44),6,6,False),('A',(30,38),6,6,False),('L',(30,34))]);join('glass','base')
