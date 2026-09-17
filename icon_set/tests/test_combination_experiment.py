@@ -1,8 +1,22 @@
 import json
 import unittest
+import xml.etree.ElementTree as ET
+from icon_set.scripts.refresh_combination_pairs import export_sub32
 from icon_set.scripts.combination_experiment import DATA, POSITIONS, number, placement, render, custom_item
 
 class CombinationExperimentTests(unittest.TestCase):
+    def test_sub_export_preserves_source_artwork(self):
+        source = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48" stroke-width="4"><path d="M4 4L44 44"/></svg>'
+        output = ET.fromstring(export_sub32(source))
+        original = ET.fromstring(source)
+        self.assertEqual(output.get('width'), '32')
+        self.assertEqual(output.get('height'), '32')
+        self.assertEqual(output.get('viewBox'), original.get('viewBox'))
+        for key in ('width','height'):
+            output.attrib.pop(key)
+            original.attrib.pop(key)
+        self.assertEqual(ET.tostring(output), ET.tostring(original))
+
     def test_every_pair_every_anchor(self):
         for row in json.loads(DATA.read_text())['rows']:
             for ax,ay in POSITIONS.values():

@@ -20,10 +20,10 @@ class ChessKnightAndPawn(Solo48):
     keywords = ('chess', 'knight', 'and', 'pawn')
 
     def build(self):
-        self.add_polyline('knight-front',(4,40),(4,32),(8,32),(8,30),(12,22),(4,22),(12,14),(12,8))
+        self.add_polyline('knight-front',(4,40),(4,32),(8,32),(16,24),(4,24),(12,14),(12,8))
         self.add_arc('knight-mane',(12,8),(24,20),radius_x=12)
         self.add_polyline('knight-back',(24,20),(24,32),(24,40),(4,40))
-        self.add_contour('knight',*[f'knight-front-{i}' for i in range(1,8)],'knight-mane','knight-back-1','knight-back-2','knight-back-3',closed=True)
+        self.add_contour('knight',*[f'knight-front-{i}' for i in range(1,7)],'knight-mane','knight-back-1','knight-back-2','knight-back-3',closed=True)
         self.contours=[c for c in self.contours if c.contour_id not in ['knight-front','knight-back']]
         self.add_line('knight-base',(8,32),(24,32))
         self.relate('connect','knight','knight-base')

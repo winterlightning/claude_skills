@@ -28,10 +28,10 @@ class ChiselWithWoodShaving(Solo48):
         self.add_contour('handle','handle-top','handle-r','handle-bottom-r','handle-bottom-l','handle-l',closed=True)
 
         self.add_line('shaft',(29,17),(25,30))
-        self.add_polyline('blade',(22,28),(25,30),(28,32),(20,44),(12,40),closed=True)
+        self.add_polyline('blade',(22,28),(25,30),(30,33),(20,44),(10,38),closed=True)
         self.relate('connect','handle','shaft')
         self.relate('connect','shaft','blade')
         self.add_arc('shaving-outer',(16,22),(16,6),radius_x=8)
-        self.add_arc('shaving-turn',(16,6),(20,10),radius_x=4)
-        self.add_arc('shaving-tip',(20,10),(16,14),radius_x=4)
+        self.add_arc('shaving-turn',(16,6),(18,10),radius_x=2,radius_y=4)
+        self.add_arc('shaving-tip',(18,10),(16,14),radius_x=2,radius_y=4)
         self.add_contour('shaving','shaving-outer','shaving-turn','shaving-tip')

@@ -31,7 +31,9 @@ class CarvingAWoodenBowl(Solo48):
         self.add_arc('bowl-bottom',(42,30),(6,30),radius_x=18,radius_y=12)
         self.add_contour('bowl','rim-1','rim-2','rim-3','bowl-bottom',closed=True)
         self.contours=[c for c in self.contours if c.contour_id!='rim']
-        self.add_arc('shaving',(34,30),(34,14),radius_x=8,sweep=False)
+        self.add_line('shaving-stem',(34,30),(34,24))
+        self.add_arc('shaving-turn',(34,24),(42,16),radius_x=8)
+        self.add_contour('shaving','shaving-stem','shaving-turn')
         self.relate('connect','handle','shaft')
         self.relate('connect','shaft','bowl')
         self.relate('connect','shaving','bowl')

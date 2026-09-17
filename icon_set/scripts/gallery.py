@@ -298,6 +298,8 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
     catalog = write_catalog(target / 'primitives.json',
                             {record['icon_id']: record for record in records},
                             {record['icon_id']: record for record in failed_records})
+    from icon_set.scripts.combination_catalog import write_catalog as write_combinations
+    write_combinations(target, catalog, records)
     if catalog['warning']:
         print('Primitives page: ' + catalog['warning'])
     return catalog
@@ -379,7 +381,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
     for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "icons.html", "approved-icons.js", "reference-picker.js",
-                  "primitives.html", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js"):
+                  "primitives.html", "progression-combinations.js", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
     stage_ai_quality_review(target)
     stage_laboratory(target)

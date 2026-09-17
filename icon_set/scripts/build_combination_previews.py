@@ -18,16 +18,28 @@ def build():
         file=folder/(row['id']+'.svg')
         prior=old.get(row['id'],{})
         if prior.get('fingerprint')==key:return row['id'],prior
-        result=render({'id':row['id']})
+        try:
+            result=render({'id':row['id']}, row=row)
+        except Exception as error:
+            return row['id'], {'error': str(error), 'concept': row['concept']}
         print('Rendered '+row['concept'],flush=True)
         return row['id'],{'fingerprint':key,'url':'combination-previews/'+file.name,'result':result}
     results={}
+    failures={}
+    completed=0
     with ThreadPoolExecutor(max_workers=4) as pool:
         for key,item in pool.map(one,rows):
+            completed+=1
+            if 'error' in item:
+                failures[key]=item
+                old.pop(key,None)
+                print(f'Failed {key}: {item["error"]}',flush=True)
+                continue
             results[key]=item
             old[key]=item
-            cache.write_text(json.dumps(old))
+            if len(results)%50 == 0:cache.write_text(json.dumps(old))
             print(f'Prepared {len(results)} of {len(rows)} combinations', flush=True)
+    (ROOT/'data/combination-failures.json').write_text(json.dumps(failures,indent=2))
     cache.write_text(json.dumps(results))
     folder.mkdir(parents=True,exist_ok=True)
     for key,item in results.items():

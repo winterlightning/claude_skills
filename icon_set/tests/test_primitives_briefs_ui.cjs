@@ -50,6 +50,18 @@ run('page=3');assert.equal(run('pageRows(manyRows).length'),23);assert.equal(run
 context.location={href:'http://localhost/gallery/primitives.html',search:'?view=todo&brief=missing&page=2'};
 context.history={replaceState(_a,_b,url){context.savedURL=String(url);}};
 run('readURL();writeURL()');assert.equal(run('state.view'),'todo');assert.equal(run('page'),2);assert.ok(context.savedURL.includes('brief=missing'));assert.ok(context.savedURL.includes('page=2'));
+for(const [target,pages,expected] of [['first',8,1],['middle',8,4],['middle',9,5],['last',8,8],['last',1,1]]){
+  context.location.search='?view=todo&brief=missing&page='+target;
+  run(`readURL();resolvePage(${pages});writeURL()`);
+  assert.equal(run('page'),expected,`${target} resolves after filtering to ${pages} pages`);
+  assert.ok(context.savedURL.includes('page='+target),'Named page remains bookmarkable');
+}
+context.location.search='?view=todo&brief=missing&page=last';
+run('readURL();resolvePage(8);resolvePage(6)');assert.equal(run('page'),6,'Last follows a shrinking filtered result set');
+context.location.search='?view=todo&brief=missing&page=999';
+run('readURL();resolvePage(8)');assert.equal(run('page'),8,'Numeric pages still clamp');
+context.location.search='?view=todo&brief=missing&page=invalid';
+run('readURL();resolvePage(8)');assert.equal(run('page'),1,'Invalid pages still fall back to first');
 context.location.search='?category=food';run('readURL()');assert.equal(run('state.view'),'category','Existing category links retain their behavior');
 context.location.search='';run('readURL()');assert.equal(run('state.view'),'todo','Default view is all TODO icons');
 console.log('All-TODO grid scope, 50-item pagination, and URL state checks passed.');

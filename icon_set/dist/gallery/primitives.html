@@ -2,9 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Primitives · Pictographic</title>
+<title>Progression · Pictographic</title>
 <link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
 <style>
+.combination-summary{display:flex;flex-wrap:wrap;gap:14px;margin:22px 0}.combination-summary>div{padding:16px 22px;border:1px solid var(--line);border-radius:10px;min-width:150px}.combination-summary strong{display:block;font-size:26px}.combination-summary span{font-size:12px;color:var(--muted)}
+.combination-list{display:grid;gap:18px}.combination-card{border:1px solid var(--line);border-radius:12px;padding:20px;background:white}.combination-heading{display:flex;justify-content:space-between;gap:12px;align-items:center}.combination-heading h3{margin:0;font-size:18px}.combination-artworks{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));margin-top:18px;gap:16px}.combination-artwork{min-width:0;text-align:center;background:#fafaf7;border-radius:8px;padding:14px}.combination-artwork h4{margin:0 0 15px;font-size:12px;color:var(--muted)}.combination-artwork img{width:80px;height:80px;object-fit:contain}.combination-artwork p,.combination-artwork figcaption{font-size:12px;overflow-wrap:anywhere}.combination-generated{display:flex;justify-content:center;flex-wrap:wrap;gap:12px}.combination-generated figure{margin:0;max-width:140px}.combination-label{color:#426b39}.combination-empty{font-size:12px;color:var(--muted);padding:22px 4px}.combination-identities{margin-top:14px;color:var(--muted);font-size:11px;overflow-wrap:anywhere}.component-name{min-height:28px}@media(max-width:750px){.combination-artworks{grid-template-columns:repeat(2,minmax(0,1fr))}.combination-heading{align-items:flex-start;flex-direction:column}}
+
 .prim-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
 .prim-intro{padding:36px 0 8px}.prim-intro h1{font-size:40px;font-weight:600;letter-spacing:-1.8px;margin:0 0 8px}.prim-intro p{color:var(--muted);margin:0;max-width:760px;line-height:1.6}
 .brief-ready{margin:22px 0;padding:20px;border:1px solid #bdd4bf;border-radius:12px;background:#f3f8ef}.brief-ready h2{margin:0 0 8px;font-size:22px}.brief-ready p{color:var(--muted);font-size:13px;line-height:1.5}.ready-categories{display:flex;flex-wrap:wrap;gap:10px}.ready-category{display:block;background:white;border:1px solid var(--line);border-radius:8px;padding:12px 16px;text-decoration:none}.ready-category strong,.ready-category span{display:block}.ready-category span{margin-top:5px;font-size:12px;color:var(--muted)}.categories td.brief-progress{text-align:left}.brief-progress small{display:block;margin-top:4px;color:var(--muted)}
@@ -59,12 +62,13 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 <body class="guest">
 <header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
 <main class="prim-main">
-  <section class="prim-intro"><p class="eyebrow">REMAKE PROGRESS</p><h1>Primitives</h1>
-    <p>Every original Pictographic primitive and where it stands. <b>Generated</b> means a linked icon is published in the library. <b>Skip</b> marks originals we will not remake (combination, container, text or number). Everything else is <b>TODO</b>.</p></section>
+  <section class="prim-intro"><p class="eyebrow">REMAKE PROGRESS</p><h1>Progression</h1>
+    <p>Track the remake of the Pictographic set. Browse individual primitives or follow combinations from their original reference to generated main and sub icons, then the combined result.</p></section>
   <p id="warning" class="prim-warning" hidden></p>
   <p id="status" class="prim-status" role="status" aria-live="polite">Loading primitives…</p>
 
-  <div class="toolbar chips" role="group" aria-label="Gallery view"><button id="todoView" class="chip" type="button">All TODO icons</button><button id="categoriesView" class="chip" type="button">Categories</button></div>
+  <div class="toolbar chips" role="group" aria-label="Gallery view"><button id="todoView" class="chip" type="button">All TODO icons</button><button id="categoriesView" class="chip" type="button">Categories</button><button id="containerView" class="chip" type="button">Container combination</button><button id="sideView" class="chip" type="button">Side combination</button></div>
+  <section id="combinations" hidden></section>
   <section id="overview" hidden>
     <div id="overallStats" class="prim-stats"></div>
     <div id="overallBar" class="bar" aria-hidden="true"></div>
@@ -127,12 +131,14 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
   <p id="briefMessage" role="status"></p><button id="saveBrief" type="submit">Save brief</button><button id="clearBrief" type="button">Clear brief</button><button id="closeBrief" type="button">Cancel</button>
 </form></dialog>
 <footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Primitives remake progress</span></footer>
+<script src="progression-combinations.js"></script>
 <script>
 const $=id=>document.getElementById(id);
 const REASONS={combination:'Combination',container:'Container',text_number:'Text / number',other:'Other'};
 const SUB_POSITIONS=['top-left','top','top-right','left','center','right','bottom-left','bottom','bottom-right'];
 const STATUS_LABEL={todo:'TODO',skip:'Skip',generated:'Generated'};
 let catalog={rows:[]},statuses={},selected=new Set(),sort={key:'name',dir:1},page=1;
+let pageTarget='';
 let referenceBriefs={},briefsAvailable=false,statusesAvailable=false;
 const briefDrafts=new Map();
 let refreshInFlight=false, galleryWrites=0, galleryRevision=0;
@@ -157,12 +163,13 @@ function primitiveURL(path){return '/primitives/'+path.split('/').map(encodeURIC
 function categoryRows(name){return catalog.rows.filter(r=>r.category===name);}
 
 function currentRows(){return state.view==='todo'?(statusesAvailable?catalog.rows.filter(r=>effective(r)==='todo'&&(!state.category||r.category===state.category)):[]):categoryRows(state.category);}
+function resolvePage(pages){page=pageTarget==='first'?1:pageTarget==='middle'?Math.ceil(pages/2):pageTarget==='last'?pages:Math.min(page,pages);}
 function pageRows(rows){return rows.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);}
 function writeURL(){const u=new URL(location.href);u.search='';if(state.view!=='category')u.searchParams.set('view',state.view);if(state.view!=='categories'){if(state.category)u.searchParams.set('category',state.category);
-  for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'))u.searchParams.set(k,state[k]);if(page>1)u.searchParams.set('page',page);}
+  for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'))u.searchParams.set(k,state[k]);if(pageTarget||page>1)u.searchParams.set('page',pageTarget||page);}
   history.replaceState(null,'',u);}
-function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.view=p.get('view')==='categories'?'categories':p.get('view')==='todo'||!state.category?'todo':'category';state.status=state.view==='todo'?'todo':['todo','skip','generated','all'].includes(p.get('status'))?p.get('status'):'todo';
-  state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&REASONS[p.get('reason')]?p.get('reason'):'';state.q=p.get('q')||'';page=Math.max(1,parseInt(p.get('page'))||1);}
+function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.view=['container','side'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'||!state.category?'todo':'category';state.status=state.view==='todo'?'todo':['todo','skip','generated','all','missing','partial','ready'].includes(p.get('status'))?p.get('status'):'todo';
+  state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&REASONS[p.get('reason')]?p.get('reason'):'';state.q=p.get('q')||'';pageTarget=['first','middle','last'].includes(p.get('page'))?p.get('page'):'';page=Math.max(1,parseInt(p.get('page'))||1);}
 
 function renderOverview(){
   const all=counts(catalog.rows),allBriefs=briefCounts(catalog.rows);
@@ -222,11 +229,11 @@ function renderDetail(){
   $('grid').className='grid'+(allTodo?' todo-view':'');
   bar($('detailBar'),c);renderBriefSummary(scoped);
   $('statusChips').replaceChildren(...['todo','skip','generated','all'].map(s=>{const b=node('button','chip',s==='all'?'All':STATUS_LABEL[s]);b.type='button';
-    b.append(node('b','',(s==='all'?c.total:c[s]).toLocaleString()));b.setAttribute('aria-pressed',String(state.status===s));b.onclick=()=>{state.status=s;state.brief='';page=1;selected.clear();renderDetail();};return b;}));
+    b.append(node('b','',(s==='all'?c.total:c[s]).toLocaleString()));b.setAttribute('aria-pressed',String(state.status===s));b.onclick=()=>{state.status=s;state.brief='';page=1;pageTarget='';selected.clear();renderDetail();};return b;}));
   const batches=[...new Set(rows.map(r=>r.batch).filter(Boolean))].sort();
   $('batch').hidden=!batches.length;$('batch').replaceChildren(new Option('All batches',''),...batches.map(b=>new Option((state.category==='Uncategorized'?'Batch ':'')+b,b)));$('batch').value=state.batch;
   $('reasonFilter').value=state.reason;$('search').value=state.q;
-  const filtered=detailRows(),size=PAGE_SIZE,pages=Math.max(1,Math.ceil(filtered.length/size));page=Math.min(page,pages);
+  const filtered=detailRows(),size=PAGE_SIZE,pages=Math.max(1,Math.ceil(filtered.length/size));resolvePage(pages);
   const visible=pageRows(filtered);
   $('grid').replaceChildren(...(visible.length?visible.map(tile):[node('div','empty','No primitives match these filters.')]));
   const pageLabel=`Page ${page} of ${pages} · ${filtered.length?((page-1)*size+1).toLocaleString():0}–${Math.min(page*size,filtered.length).toLocaleString()} of ${filtered.length.toLocaleString()} icons`;
@@ -362,9 +369,14 @@ async function save(status){
   }catch(error){$('actionMessage').textContent=error.message;updateSelection();}
 }
 
-function openCategory(name,brief=''){state.view='category';state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';state.brief=brief;page=1;selected.clear();show();window.scrollTo(0,0);}
-function openView(view){state.view=view;state.category='';state.status='todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;selected.clear();show();window.scrollTo(0,0);}
+function openCategory(name,brief=''){state.view='category';state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';state.brief=brief;page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
+function openView(view){state.view=view;state.category='';state.status='todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
 function show(){if(state.view==='category'&&!(catalog.categories||{})[state.category]){state.view='categories';state.category='';}
+  const combination=['container','side'].includes(state.view);
+  $('combinations').hidden=!combination;
+  for(const view of ['container','side'])$(view+'View').setAttribute('aria-pressed',String(state.view===view));
+  $('status').hidden=combination;
+  if(combination){$('overview').hidden=$('detail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');writeURL();renderCombinations();return;}
   const inDetail=state.view!=='categories';$('overview').hidden=inDetail;$('detail').hidden=!inDetail;
   $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view!=='todo'));
   if(inDetail)renderDetail();else{writeURL();renderOverview();}}
@@ -426,17 +438,18 @@ async function refreshGalleryState(){
 
 for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
 document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
+$('containerView').onclick=()=>openView('container');$('sideView').onclick=()=>openView('side');
 $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openView('categories');
-$('gridCategory').onchange=()=>{state.category=$('gridCategory').value;state.batch='';page=1;selected.clear();renderDetail();};
+$('gridCategory').onchange=()=>{state.category=$('gridCategory').value;state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('categoryBriefFilter').onchange=renderOverview;
 $('copyMissingTask').onclick=copyMissingTask;
-$('briefFilter').onchange=()=>{state.brief=$('briefFilter').value;state.status='todo';state.reason='';page=1;selected.clear();renderDetail();};
+$('briefFilter').onchange=()=>{state.brief=$('briefFilter').value;state.status='todo';state.reason='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('copyReadyBriefs').onclick=copyReadyBriefs;$('downloadReadyBriefs').onclick=downloadReadyBriefs;
 $('categorySearch').oninput=renderOverview;$('hideDone').onchange=renderOverview;
-$('batch').onchange=()=>{state.batch=$('batch').value;page=1;selected.clear();renderDetail();};
-$('reasonFilter').onchange=()=>{state.reason=$('reasonFilter').value;if(state.reason&&state.status==='todo')state.status='skip';state.brief='';page=1;renderDetail();};
-let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.q=$('search').value;page=1;renderDetail();},200);};
-$('prev').onclick=()=>{page--;renderDetail();window.scrollTo(0,0);};$('next').onclick=()=>{page++;renderDetail();window.scrollTo(0,0);};
+$('batch').onchange=()=>{state.batch=$('batch').value;page=1;pageTarget='';selected.clear();renderDetail();};
+$('reasonFilter').onchange=()=>{state.reason=$('reasonFilter').value;if(state.reason&&state.status==='todo')state.status='skip';state.brief='';page=1;pageTarget='';renderDetail();};
+let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.q=$('search').value;page=1;pageTarget='';renderDetail();},200);};
+$('prev').onclick=()=>{pageTarget='';page--;renderDetail();window.scrollTo(0,0);};$('next').onclick=()=>{pageTarget='';page++;renderDetail();window.scrollTo(0,0);};
 $('prevTop').onclick=$('prev').onclick;$('nextTop').onclick=$('next').onclick;
 $('selectPage').onchange=()=>{const size=PAGE_SIZE;for(const r of detailRows().slice((page-1)*size,page*size))if(effective(r)!=='generated')$('selectPage').checked?selected.add(r.uuid):selected.delete(r.uuid);renderDetail();};
 $('markSkip').onclick=()=>save('skip');$('markTodo').onclick=()=>save('todo');$('copyTodo').onclick=copyTodo;$('closeCopy').onclick=()=>$('copyDialog').close();

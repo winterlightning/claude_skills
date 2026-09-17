@@ -73,9 +73,10 @@ def custom_item(value, role):
     return {'icon':'custom-'+role,'document':text,'canvas':canvas,'bounds':bounds}
 
 
-def render(data):
-    rows = json.loads(DATA.read_text())['rows']
-    row = next((r for r in rows if r['id']==data.get('id')),None)
+def render(data, row=None):
+    if row is None:
+        rows = json.loads(DATA.read_text())['rows']
+        row = next((r for r in rows if r['id']==data.get('id')),None)
     if row is None:
         raise ValueError('Choose an available icon pair.')
     position = data.get('position') or row['position']
