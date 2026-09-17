@@ -1,0 +1,118 @@
+...EEE.............................<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a785e0>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7aa70>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7a980>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a79300>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7b790>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7ab60>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7b6a0>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a79d50>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7bf10>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7ae30>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7af20>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+<frozen importlib._bootstrap_external>:784: ResourceWarning: unclosed database in <sqlite3.Connection object at 0x107a7b010>
+ResourceWarning: Enable tracemalloc to get the object allocation traceback
+.......................[solo] 2 of 2 icons checked; 0 unchanged since the last build reused
+FAILED BUILD [solo]: 1 of 2 checked icons did not validate -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp1nr8z4ri/dist/failed/solo48
+
+  connected-channel-fixture
+    internal-spacing [outer / inner]: outer-3 and return have 2.0752 units of ink clearance over 23.0653 units; requires 4; review required
+
+Icon gallery -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp1nr8z4ri/dist/gallery/index.html
+[solo] validated and exported 1 SOLO48 icons -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp1nr8z4ri/dist/solo48; 1 failed -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp1nr8z4ri/dist/failed/solo48
+
+1 icon(s) failed validation; their SVGs and errors are in /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp1nr8z4ri/dist/failed and the gallery's Failed build tab.
+airmail: symmetry [sym-e3]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.0032805 units near [44.0, 37.5]
+airmail: symmetry [sym-e12-1]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.0032805 units near [4.003280503432336, 37.473683453227814]
+airmail: symmetry [sym-e12-2]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.00320526 units near [4.0032052599191275, 38.49999999999999]
+..........
+======================================================================
+ERROR: test_component_brief_api_round_trip (icon_set.tests.test_primitives.PrimitivesServerTests.test_component_brief_api_round_trip)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_primitives.py", line 234, in setUp
+    self.server = create_server(self.dist, self.database, port=0, primitives=self.primitives)
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/deploy.py", line 1350, in create_server
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 457, in __init__
+    self.server_bind()
+    ~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+======================================================================
+ERROR: test_page_catalog_status_api_and_original_route (icon_set.tests.test_primitives.PrimitivesServerTests.test_page_catalog_status_api_and_original_route)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_primitives.py", line 234, in setUp
+    self.server = create_server(self.dist, self.database, port=0, primitives=self.primitives)
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/deploy.py", line 1350, in create_server
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 457, in __init__
+    self.server_bind()
+    ~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+======================================================================
+ERROR: test_reference_brief_round_trip_preserves_status (icon_set.tests.test_primitives.PrimitivesServerTests.test_reference_brief_round_trip_preserves_status)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_primitives.py", line 234, in setUp
+    self.server = create_server(self.dist, self.database, port=0, primitives=self.primitives)
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/deploy.py", line 1350, in create_server
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 457, in __init__
+    self.server_bind()
+    ~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 68 tests in 22.262s
+
+FAILED (errors=3)
+{
+  "fail": 1
+}
+/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmp5oj5by7x/index.html
+[solo] 1 of 1 icons checked; 0 unchanged since the last build reused
+FAILED BUILD [solo]: 1 of 1 checked icons did not validate -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpcpo2us2l/dist/failed/solo48
+
+  airmail
+    symmetry [sym-e3]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.0032805 units near [44.0, 37.5]
+    symmetry [sym-e12-1]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.0032805 units near [4.003280503432336, 37.473683453227814]
+    symmetry [sym-e12-2]: ink is 99.97% mirrored about vertical axis 24, but centerline differs by 0.00320526 units near [4.0032052599191275, 38.49999999999999]
+
+Icon gallery -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpcpo2us2l/dist/gallery/index.html
+[solo] no icon exported; previous release kept -> /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpcpo2us2l/dist/solo48
+
+1 icon(s) failed validation; their SVGs and errors are in /private/var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpcpo2us2l/dist/failed and the gallery's Failed build tab.

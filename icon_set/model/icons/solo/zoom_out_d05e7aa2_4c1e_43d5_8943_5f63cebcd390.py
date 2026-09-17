@@ -1,4 +1,4 @@
-"""Zoom out (interface-essential), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""A circular magnifying glass with a minus and a straight handle. Repaired in place from bad-stroke feedback."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -16,14 +16,16 @@ class ZoomOut(Solo48):
     keywords = ('zoom', 'out', 'interface-essential')
 
     def build(self) -> None:
-        # Symbol plan: preserve the subject, contour topology and curve types.
-        # Rebalance whole parts on the SOLO48 integer grid; keep real shared contacts.
-        self.add_line('e0', (42, 42), (34, 34))
-        self.add_line('e1', (15, 22), (29, 22))
-        self.add_arc('e2-top', (6, 22), (38, 22), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_arc('e2-bottom', (38, 22), (6, 22), radius_x=16, radius_y=16, large_arc=False, sweep=True)
-        self.add_line('e3', (34, 34), (33, 32))
-        self.add_contour('c0', *('e0', 'e3'), closed=False)
-        self.add_contour('c1', *('e1',), closed=False)
-        self.add_contour('e2', *('e2-top', 'e2-bottom'), closed=True)
-        self.relate('connect', *('c0', 'e2'))
+        # Circular lens, centered minus, and one uninterrupted handle.
+        # Lucide zoom-out informs its circle/line construction.
+        # SQUARE centerline extremes: (6, 6)-(42, 42).
+        center, radius = 21, 15
+        left, right = (center - radius, center), (center + radius, center)
+        attachment = (center + 12, center + 9)  # exact 9-12-15 circle point
+        self.add_arc('lens-top', left, right, radius_x=radius)
+        self.add_arc('lens-join', right, attachment, radius_x=radius)
+        self.add_arc('lens-bottom', attachment, left, radius_x=radius)
+        self.add_contour('lens', 'lens-top', 'lens-join', 'lens-bottom', closed=True)
+        self.add_line('minus', (center - 6, center), (center + 6, center))
+        self.add_line('handle', attachment, (42, 42))
+        self.relate('connect', 'lens', 'handle')

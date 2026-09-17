@@ -1,4 +1,4 @@
-"""Layers front (design), converted from the icons-json construction graph by json_to_solo --mode fit. SQUARE keyshape; curves fitted to integer lines and arcs."""
+"""Two overlapping rounded squares, with the lower-right layer in front. Repaired in place from bad-stroke feedback."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'dbf0ac16-2a71-5d64-b2cd-16f26ce22d99'
@@ -14,23 +14,32 @@ class LayersFront(Solo48):
     aliases = ()
     keywords = ('layers', 'front', 'design')
 
-    def build(self):
-        self.add_line('e0', (32, 16), (32, 7))
-        self.add_line('e2', (6, 8), (6, 31))
-        self.add_line('e3', (7, 32), (16, 32))
-        self.add_line('e4', (20, 16), (36, 16))
-        self.add_line('e5', (42, 17), (42, 40))
-        self.add_line('e6', (40, 42), (17, 42))
-        self.add_line('e7', (16, 41), (16, 17))
-        self.add_line('e8-1', (32, 7), (30, 6))
-        self.add_line('e8-2', (30, 6), (8, 6))
-        self.add_arc('e9', (8, 6), (6, 8), radius_x=2, radius_y=2, large_arc=False, sweep=False)
-        self.add_arc('e10', (6, 31), (7, 32), radius_x=2, radius_y=2, large_arc=False, sweep=True)
-        self.add_arc('e11', (36, 16), (42, 17), radius_x=4, radius_y=4, large_arc=False, sweep=True)
-        self.add_arc('e12', (42, 40), (40, 42), radius_x=2, radius_y=2, large_arc=False, sweep=True)
-        self.add_line('e13', (17, 42), (16, 41))
-        self.add_arc('e14', (16, 17), (20, 16), radius_x=3, radius_y=3, large_arc=False, sweep=True)
-        self.add_contour('c0', 'e0', 'e8-1', 'e8-2', 'e9', 'e2', 'e10', 'e3', closed=False)
-        self.add_contour('c1', 'e4', 'e11', 'e5', 'e12', 'e6', 'e13', 'e7', 'e14', closed=True)
-        self.relate('connect', 'c0', 'c1')
-        self.relate('connect', 'c0', 'c1')
+    def build(self) -> None:
+        # Two equal rounded squares offset by 10, with the rear square occluded.
+        # Lucide copy informs consistent radii and a clean uninterrupted front.
+        # SQUARE centerline extremes: (6, 6)-(42, 42).
+        radius, size, offset = 4, 26, 10
+        left, top = 6 + offset, 6 + offset
+        right, bottom = left + size, top + size
+        self.add_line('front-top-a', (left + radius, top), (32, top))
+        self.add_line('front-top-b', (32, top), (right - radius, top))
+        self.add_arc('front-tr', (right - radius, top), (right, top + radius), radius_x=radius)
+        self.add_line('front-right', (right, top + radius), (right, bottom - radius))
+        self.add_arc('front-br', (right, bottom - radius), (right - radius, bottom), radius_x=radius)
+        self.add_line('front-bottom', (right - radius, bottom), (left + radius, bottom))
+        self.add_arc('front-bl', (left + radius, bottom), (left, bottom - radius), radius_x=radius)
+        self.add_line('front-left-a', (left, bottom - radius), (left, 32))
+        self.add_line('front-left-b', (left, 32), (left, top + radius))
+        self.add_arc('front-tl', (left, top + radius), (left + radius, top), radius_x=radius)
+        self.add_contour('front', 'front-top-a', 'front-top-b', 'front-tr', 'front-right', 'front-br',
+                         'front-bottom', 'front-bl', 'front-left-a', 'front-left-b', 'front-tl', closed=True)
+        self.add_line('back-right', (32, 16), (32, 10))
+        self.add_arc('back-tr', (32, 10), (28, 6), radius_x=radius, sweep=False)
+        self.add_line('back-top', (28, 6), (10, 6))
+        self.add_arc('back-tl', (10, 6), (6, 10), radius_x=radius, sweep=False)
+        self.add_line('back-left', (6, 10), (6, 28))
+        self.add_arc('back-bl', (6, 28), (10, 32), radius_x=radius, sweep=False)
+        self.add_line('back-bottom', (10, 32), (16, 32))
+        self.add_contour('back', 'back-right', 'back-tr', 'back-top', 'back-tl',
+                         'back-left', 'back-bl', 'back-bottom')
+        self.relate('connect', 'back', 'front')

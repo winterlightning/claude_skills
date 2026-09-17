@@ -1,8 +1,4 @@
-"""A large pointed droplet occupies the upper center of the image. Four detached spray strokes spread downward beneath it, with the outer pair slanting farther outward.
-
-Reduced four spray marks to three and rebuilt a complete droplet; bilateral symmetry.
-Construction reference: No useful exact local match; paired tangent arc teardrop.
-"""
+"""A curved water droplet above three detached spray rays. Repaired in place from bad-stroke feedback."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
@@ -12,7 +8,7 @@ AUTHOR = 'gpt-6'
 
 class WaterSpray(Solo48):
     icon_id = 'water-spray'
-    keyshape = Keyshape.HRECT_XL
+    keyshape = Keyshape.HRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/weather"
@@ -20,11 +16,13 @@ class WaterSpray(Solo48):
     keywords = ('water', 'spray', 'cleaning', 'pressure', 'droplet', 'wash')
 
     def build(self) -> None:
-        # Live HRECT_XL visible bounds: (2, 6, 46, 42).
-        self.add_line('drop-top-1', (16, 19), (24, 8))
-        self.add_line('drop-top-2', (24, 8), (32, 19))
-        self.add_arc('drop-bottom', (32, 19), (16, 19), radius_x=8, radius_y=8, sweep=True, large_arc=False)
-        self.add_contour('drop', 'drop-top-1', 'drop-top-2', 'drop-bottom', closed=True)
-        self.add_line('spray-left', (10, 31), (4, 40))
-        self.add_line('spray-middle', (24, 36), (24, 40))
-        self.add_line('spray-right', (38, 31), (44, 40))
+        # A curved, pointed droplet above three mirrored spray rays.
+        # Lucide droplet informs curved shoulders rather than a triangular cap.
+        # HRECT_L centerline extremes: (4, 8)-(44, 40).
+        self.add_arc('drop-right', (24, 8), (32, 20), radius_x=14)
+        self.add_arc('drop-bottom', (32, 20), (16, 20), radius_x=8)
+        self.add_arc('drop-left', (16, 20), (24, 8), radius_x=14)
+        self.add_contour('drop', 'drop-right', 'drop-bottom', 'drop-left', closed=True)
+        for side, x1, x2 in [('left', 11, 4), ('right', 37, 44)]:
+            self.add_line('spray-' + side, (x1, 31), (x2, 40))
+        self.add_line('spray-middle', (24, 37), (24, 40))

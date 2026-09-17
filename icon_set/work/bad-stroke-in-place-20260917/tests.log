@@ -1,0 +1,73 @@
+EEEEEEEEEEE....FFEFFFFEFFFFEEFF..EE...Inspecting computers: 2 originals
+Report: /var/folders/l0/3h2f96kn3jv01p9cnyn7nk600000gn/T/tmpfltpqfy9/report/index.html
+{'pending': 1, 'ready': 1}
+......F...............................Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/__main__.py", line 18, in <module>
+    main(module=None)
+    ~~~~^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 104, in __init__
+    self.runTests()
+    ~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/main.py", line 270, in runTests
+    self.result = testRunner.run(self.test)
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/runner.py", line 240, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 84, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/suite.py", line 122, in run
+    test(result)
+    ~~~~^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 707, in __call__
+    return self.run(*args, **kwds)
+           ~~~~~~~~^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 651, in run
+    self._callTestMethod(testMethod)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/unittest/case.py", line 606, in _callTestMethod
+    if method() is not None:
+       ~~~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_corpus.py", line 43, in test_every_icon_validates
+    report = icon.validate_icon()
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/base.py", line 296, in validate_icon
+    return IconValidator().validate(self)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/validator.py", line 102, in validate
+    review |= self._check_mic(icon, paths, errors, warnings, drawing)
+              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/validator.py", line 339, in _check_mic
+    result = analyze_paths(
+        payload,
+        minimum_distance=float(spec.equal_stroke_centerline_min),
+        stroke_width=float(STROKE_WIDTH),
+    )
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 795, in analyze_paths
+    connection = _connection(first, second, budget)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 569, in _connection
+    if _bounds_lower(first.bounds, second.bounds) > first.error + second.error:
+                     ^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 119, in bounds
+    return _union_bounds([segment.bounds for segment in self.segments])
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 277, in _union_bounds
+    max(item[2] for item in bounds), max(item[3] for item in bounds))
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/validation/stroke_distance.py", line 277, in <genexpr>
+    max(item[2] for item in bounds), max(item[3] for item in bounds))
+        ~~~~^^^
+KeyboardInterrupt

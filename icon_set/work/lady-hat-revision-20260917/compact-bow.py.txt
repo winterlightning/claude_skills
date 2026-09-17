@@ -1,0 +1,51 @@
+"""A domed ladies hat with an intrinsic side bow and uninterrupted brim. Repaired in place from bad-stroke feedback."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '458f50aa-9a12-44e8-b8a4-281764c436e5'
+SOURCE_PATH = 'pictographic-primitives/accessories/batch-07/hat lady_458f50aa-9a12-44e8-b8a4-281764c436e5.svg'
+AUTHOR = 'gpt-6'
+
+class LadiesHatWithBow(Solo48):
+    icon_id = 'ladies-hat-with-bow'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'objects/accessories'
+    aliases = ()
+    keywords = ('ladies', 'hat', 'with', 'bow')
+
+    def build(self) -> None:
+        # A broad cloche crown above a curved brim, with a shallow side bow.
+        # The bow is intrinsic hat trim; its paired loops share one definition.
+        # Lucide hat-glasses informs the simple crown/brim; the source supplies
+        # the curved brim and side ribbon. The bow deliberately occludes the
+        # right crown and band. HRECT_L centerlines: (4, 8)-(44, 40).
+        self.add_arc('crown-left', (8, 26), (22, 8), radius_x=14, radius_y=18)
+        self.add_arc('crown-right', (22, 8), (38, 24), radius_x=16)
+        self.add_contour('crown', 'crown-left', 'crown-right')
+        self.add_line('brim-left', (8, 26), (4, 34))
+        self.add_arc('brim-lower-left', (4, 34), (24, 40), radius_x=20, radius_y=6, sweep=False)
+        self.add_arc('brim-lower-right', (24, 40), (44, 34), radius_x=20, radius_y=6, sweep=False)
+        self.add_line('brim-right', (44, 34), (42, 30))
+        self.add_contour('brim', 'brim-left', 'brim-lower-left', 'brim-lower-right', 'brim-right')
+        self.add_line('band', (8, 26), (24, 26))
+        # Mirror the shallow ribbon lobes around the knot at (34, 26).
+        knot = (34, 26)
+        for side in ('left', 'right'):
+            reflect = (lambda x: x) if side == 'left' else (lambda x: 68 - x)
+            point = lambda x, y: (reflect(x), y)
+            prefix = 'bow-' + side
+            self.add_line(prefix + '-top-a', knot, point(30, 24))
+            self.add_line(prefix + '-top-b', point(30, 24), point(26, 22))
+            self.add_arc(prefix + '-outer-top', point(26, 22), point(24, 26),
+                         radius_x=2, radius_y=4, sweep=side == 'right')
+            self.add_arc(prefix + '-outer-bottom', point(24, 26), point(26, 30),
+                         radius_x=2, radius_y=4, sweep=side == 'right')
+            self.add_line(prefix + '-bottom', point(26, 30), knot)
+            self.add_contour(prefix, prefix + '-top-a', prefix + '-top-b',
+                             prefix + '-outer-top', prefix + '-outer-bottom',
+                             prefix + '-bottom', closed=True)
+        for a, b in [('crown', 'brim'), ('crown', 'band'), ('brim', 'band'),
+                     ('bow-left', 'bow-right'), ('crown', 'bow-right'),
+                     ('band', 'bow-left'), ('brim', 'bow-right')]:
+            self.relate('connect', a, b)
