@@ -7,7 +7,7 @@ description: Author a solo-family avatar for the Pictographic icon set on the SO
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-combination-main`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 **Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
 glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
@@ -38,6 +38,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 
 - `$icon-sub` — sub family, `SUB32`, 32×32
 - `$icon-container` — container family, `CONTAINER64`, 64×64
+- `$icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
 
 ## Visual priorities
 

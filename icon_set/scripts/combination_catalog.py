@@ -66,6 +66,10 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
     remaps = json.loads(remap_path.read_text()).get('rules', []) if remap_path.exists() else []
     preview_cache = root / 'icon_set/data/combination-previews.json'
     previews = json.loads(preview_cache.read_text()) if preview_cache.exists() else {}
+    main_map_path = root / 'icon_set/data/container-main-icons.json'
+    main_map = json.loads(main_map_path.read_text()).get('mappings', {}) if main_map_path.exists() else {}
+    containers = {r['icon_id']: r for r in records if r.get('family') == 'container'
+                  and r.get('key', '').startswith('container/')}
     export_path = root / 'icon_set/data/combination-sub32.json'
     sub_exports = json.loads(export_path.read_text()) if export_path.exists() else {}
     rows = []
@@ -81,12 +85,24 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
                     row['remappings'].append(dict(rule, original_id=item.get(field)))
             for field in ('id', 'main_id', 'sub_id'):
                 reference(row[field])
+            # Main/sub roles are contextual: the same reference can still use its
+            # solo drawing in a side combination. Do not mutate shared references.
+            main_artwork = references[row['main_id']]['generated']
+            if kind == 'container':
+                mapping = main_map.get(row['main_id'])
+                if mapping:
+                    row['main_icon_id'] = mapping['icon_id']
+                    selected = containers.get(mapping['icon_id'])
+                    main_artwork = [{k: selected[k] for k in ('icon_id', 'key', 'preview_url')}] if selected else []
+                else:
+                    main_artwork = [g for g in main_artwork if g.get('key', '').startswith('container/')]
+                row['main_generated'] = main_artwork
             row['generated'] = []
             preview = previews.get(row['id'], {})
             if kind == 'side' and preview.get('result', {}).get('svg'):
                 row['generated'].append({'icon_id': row['id'], 'preview_url': preview['url'], 'kind': 'side experiment'})
             seen = set()
-            for main in references[row['main_id']]['generated']:
+            for main in main_artwork:
                 for sub in references[row['sub_id']]['generated']:
                     for result in compositions.get((kind, main['icon_id'], sub['icon_id']), []):
                         if result['icon_id'] not in seen:

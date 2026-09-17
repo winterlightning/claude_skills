@@ -1,0 +1,220 @@
+{
+  "icon_id": "water-droplet-container-check",
+  "name": "Water droplet container check",
+  "description": "",
+  "tags": [
+    "water",
+    "droplet",
+    "container",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "water",
+    "droplet",
+    "container",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_L",
+  "keyshape_bounds": [
+    8,
+    0,
+    56,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:water-droplet-container:drop-0",
+      "start": [
+        32,
+        2
+      ],
+      "end": [
+        16,
+        26
+      ]
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:water-droplet-container:drop-1",
+      "start": [
+        16,
+        26
+      ],
+      "end": [
+        10,
+        40
+      ],
+      "radius_x": 22,
+      "radius_y": 24,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:water-droplet-container:drop-2",
+      "start": [
+        10,
+        40
+      ],
+      "end": [
+        54,
+        40
+      ],
+      "radius_x": 22,
+      "radius_y": 22,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "arc",
+      "element_id": "0:water-droplet-container:drop-3",
+      "start": [
+        54,
+        40
+      ],
+      "end": [
+        48,
+        26
+      ],
+      "radius_x": 22,
+      "radius_y": 24,
+      "large_arc": false,
+      "sweep": false
+    },
+    {
+      "kind": "line",
+      "element_id": "0:water-droplet-container:drop-4",
+      "start": [
+        48,
+        26
+      ],
+      "end": [
+        32,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:water-droplet-container:drop",
+      "members": [
+        "0:water-droplet-container:drop-0",
+        "0:water-droplet-container:drop-1",
+        "0:water-droplet-container:drop-2",
+        "0:water-droplet-container:drop-3",
+        "0:water-droplet-container:drop-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:water-droplet-container:center": [
+      32,
+      32
+    ],
+    "0:water-droplet-container:content-top-left": [
+      16,
+      16
+    ],
+    "0:water-droplet-container:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [],
+  "children": [
+    {
+      "icon_id": "water-droplet-container",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/container-main-completion/compositions/water-droplet-container-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

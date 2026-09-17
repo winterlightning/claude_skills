@@ -3,7 +3,7 @@
   "family": "sub",
   "profile": "SUB32",
   "canvas_size": 32,
-  "count": 312,
+  "count": 319,
   "icons": [
     {
       "icon_id": "ab-text",
@@ -355,6 +355,140 @@
           "authored_hole_count": 3,
           "raster_artifact_count": 0,
           "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "add-sub32",
+      "name": "Add sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "interface-essential",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "e0",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            16,
+            30
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "e1",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            30,
+            16
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "c0",
+          "members": [
+            "e0"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "c1",
+          "members": [
+            "e1"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/add-sub32.svg",
+      "svg_sha256": "e8168093face66af5d7d9710e1f5a764360edf09e89a4c8640f9407e0b8f72d9",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [],
+          "authored_hole_count": 0,
+          "raster_artifact_count": 0,
+          "hole_count": 0,
           "failed_hole_count": 0,
           "pinch_count": 0,
           "exception_count": 0,
@@ -7499,6 +7633,352 @@
       }
     },
     {
+      "icon_id": "ball-sub32",
+      "name": "Ball sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "sports",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "outline-0",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            16,
+            2
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outline-1",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outline-2",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            16,
+            30
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outline-3",
+          "start": [
+            16,
+            30
+          ],
+          "end": [
+            2,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "bezier",
+          "element_id": "seam-top-0",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "segments": [
+            [
+              [
+                16.0,
+                9.7
+              ],
+              [
+                22.3,
+                16.0
+              ],
+              [
+                30.0,
+                16.0
+              ]
+            ]
+          ]
+        },
+        {
+          "kind": "bezier",
+          "element_id": "seam-bottom-0",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            16,
+            30
+          ],
+          "segments": [
+            [
+              [
+                9.7,
+                16.0
+              ],
+              [
+                16.0,
+                22.3
+              ],
+              [
+                16.0,
+                30.0
+              ]
+            ]
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outline",
+          "members": [
+            "outline-0",
+            "outline-1",
+            "outline-2",
+            "outline-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "seam-top",
+          "members": [
+            "seam-top-0"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "seam-bottom",
+          "members": [
+            "seam-bottom-0"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "seam-top",
+            "outline"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "seam-bottom",
+            "outline"
+          ]
+        }
+      ],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/ball-sub32.svg",
+      "svg_sha256": "9e00175ff86143c0a8d3df193d0e4e963d6842d7630c838bcd037d8114b28645",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                11.0469,
+                11.0469
+              ],
+              "bbox_viewbox": [
+                4.1562,
+                4.1562,
+                23.6875,
+                23.6875
+              ],
+              "bbox_ship_px": [
+                23.6875,
+                23.6875
+              ],
+              "bbox_design_u": [
+                23.6875,
+                23.6875
+              ],
+              "area_ship_px2": 232.4766,
+              "equivalent_diameter_ship_px": 17.2046,
+              "equivalent_diameter_design_u": 17.2046,
+              "inscribed_diameter_ship_px": 9.8737,
+              "inscribed_diameter_design_u": 9.8737,
+              "inscribed_radius_ship_px": 4.9369,
+              "inscribed_radius_design_u": 4.9369,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                22.8594,
+                8.8594
+              ],
+              "bbox_viewbox": [
+                18.2188,
+                4.2188,
+                9.5625,
+                9.5625
+              ],
+              "bbox_ship_px": [
+                9.5625,
+                9.5625
+              ],
+              "bbox_design_u": [
+                9.5625,
+                9.5625
+              ],
+              "area_ship_px2": 38.5732,
+              "equivalent_diameter_ship_px": 7.0081,
+              "equivalent_diameter_design_u": 7.0081,
+              "inscribed_diameter_ship_px": 4.1623,
+              "inscribed_diameter_design_u": 4.1623,
+              "inscribed_radius_ship_px": 2.0811,
+              "inscribed_radius_design_u": 2.0811,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 3,
+              "center_viewbox": [
+                8.8594,
+                22.8594
+              ],
+              "bbox_viewbox": [
+                4.2188,
+                18.2188,
+                9.5625,
+                9.5625
+              ],
+              "bbox_ship_px": [
+                9.5625,
+                9.5625
+              ],
+              "bbox_design_u": [
+                9.5625,
+                9.5625
+              ],
+              "area_ship_px2": 38.5791,
+              "equivalent_diameter_ship_px": 7.0086,
+              "equivalent_diameter_design_u": 7.0086,
+              "inscribed_diameter_ship_px": 4.1623,
+              "inscribed_diameter_design_u": 4.1623,
+              "inscribed_radius_ship_px": 2.0811,
+              "inscribed_radius_design_u": 2.0811,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 3,
+          "raster_artifact_count": 0,
+          "hole_count": 3,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "bar",
       "name": "Bar",
       "description": "",
@@ -13974,6 +14454,239 @@
       }
     },
     {
+      "icon_id": "circle-add-sub32",
+      "name": "Circle add sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "other",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "sym-e0",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "sym-e1",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            2,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "sym-e2",
+          "start": [
+            16,
+            16
+          ],
+          "end": [
+            16,
+            23
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "sym-e3",
+          "start": [
+            9,
+            16
+          ],
+          "end": [
+            23,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "sym-e5",
+          "start": [
+            16,
+            9
+          ],
+          "end": [
+            16,
+            16
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "sym-c0",
+          "members": [
+            "sym-e0",
+            "sym-e1"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "sym-c1",
+          "members": [
+            "sym-e2"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "sym-c2",
+          "members": [
+            "sym-e3"
+          ],
+          "closed": false
+        },
+        {
+          "contour_id": "sym-c3",
+          "members": [
+            "sym-e5"
+          ],
+          "closed": false
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "sym-c1",
+            "sym-c2",
+            "sym-c3"
+          ]
+        }
+      ],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/circle-add-sub32.svg",
+      "svg_sha256": "599cf3c26d7ecce41afe8aff2f7a86ddc7349f3f2ed824e060dae1d9f56753dc",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                10.2031,
+                10.2031
+              ],
+              "bbox_viewbox": [
+                4.0,
+                4.0,
+                24.0,
+                24.0
+              ],
+              "bbox_ship_px": [
+                24.0,
+                24.0
+              ],
+              "bbox_design_u": [
+                24.0,
+                24.0
+              ],
+              "area_ship_px2": 331.2549,
+              "equivalent_diameter_ship_px": 20.537,
+              "equivalent_diameter_design_u": 20.537,
+              "inscribed_diameter_ship_px": 7.5748,
+              "inscribed_diameter_design_u": 7.5748,
+              "inscribed_radius_ship_px": 3.7874,
+              "inscribed_radius_design_u": 3.7874,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "circle-arrow-right-full-reference",
       "name": "Circle arrow right full reference",
       "description": "",
@@ -14577,6 +15290,173 @@
               "inscribed_diameter_design_u": 7.5748,
               "inscribed_radius_ship_px": 3.7874,
               "inscribed_radius_design_u": 3.7874,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "circle-symbol-sub32",
+      "name": "Circle symbol sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "symbol",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "e0-top",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "e0-bottom",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            2,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "e0",
+          "members": [
+            "e0-top",
+            "e0-bottom"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/circle-symbol-sub32.svg",
+      "svg_sha256": "e46dbaab70848e402b8dd16311f7a8e5b7f1919d82be55443174970ea3526c1d",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                15.9844,
+                15.9844
+              ],
+              "bbox_viewbox": [
+                4.0,
+                4.0,
+                24.0,
+                24.0
+              ],
+              "bbox_ship_px": [
+                24.0,
+                24.0
+              ],
+              "bbox_design_u": [
+                24.0,
+                24.0
+              ],
+              "area_ship_px2": 452.4307,
+              "equivalent_diameter_ship_px": 24.0011,
+              "equivalent_diameter_design_u": 24.0011,
+              "inscribed_diameter_ship_px": 23.5669,
+              "inscribed_diameter_design_u": 23.5669,
+              "inscribed_radius_ship_px": 11.7834,
+              "inscribed_radius_design_u": 11.7834,
               "minimum_radius_design_u": 1.0,
               "status": "pass"
             }
@@ -40497,6 +41377,506 @@
       }
     },
     {
+      "icon_id": "plain-circular-rescue-ring-with-quarter-divisions-sub32",
+      "name": "Plain circular rescue ring with quarter divisions sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "objects/recreation",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "CIRCLE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "outer-0",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outer-1",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            16,
+            30
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outer-2",
+          "start": [
+            16,
+            30
+          ],
+          "end": [
+            2,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "outer-3",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            16,
+            2
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "inner-0",
+          "start": [
+            16,
+            9
+          ],
+          "end": [
+            23,
+            16
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "inner-1",
+          "start": [
+            23,
+            16
+          ],
+          "end": [
+            16,
+            23
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "inner-2",
+          "start": [
+            16,
+            23
+          ],
+          "end": [
+            9,
+            16
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "arc",
+          "element_id": "inner-3",
+          "start": [
+            9,
+            16
+          ],
+          "end": [
+            16,
+            9
+          ],
+          "radius_x": 7,
+          "radius_y": 7,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "band-0",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            16,
+            9
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-1",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            23,
+            16
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-2",
+          "start": [
+            16,
+            30
+          ],
+          "end": [
+            16,
+            23
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "band-3",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            9,
+            16
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "outer",
+          "members": [
+            "outer-0",
+            "outer-1",
+            "outer-2",
+            "outer-3"
+          ],
+          "closed": true
+        },
+        {
+          "contour_id": "inner",
+          "members": [
+            "inner-0",
+            "inner-1",
+            "inner-2",
+            "inner-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "band-0",
+            "outer"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-0",
+            "inner"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-1",
+            "outer"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-1",
+            "inner"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-2",
+            "outer"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-2",
+            "inner"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-3",
+            "outer"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "band-3",
+            "inner"
+          ]
+        }
+      ],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/plain-circular-rescue-ring-with-quarter-divisions-sub32.svg",
+      "svg_sha256": "cdafff1ae324be983b8c4e08898d392d297b943c39992c4059aeedc894faea3c",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                9.4844,
+                7.7656
+              ],
+              "bbox_viewbox": [
+                4.1562,
+                4.1562,
+                9.8438,
+                9.8438
+              ],
+              "bbox_ship_px": [
+                9.8438,
+                9.8438
+              ],
+              "bbox_design_u": [
+                9.8438,
+                9.8438
+              ],
+              "area_ship_px2": 37.4102,
+              "equivalent_diameter_ship_px": 6.9016,
+              "equivalent_diameter_design_u": 6.9016,
+              "inscribed_diameter_ship_px": 2.9992,
+              "inscribed_diameter_design_u": 2.9992,
+              "inscribed_radius_ship_px": 1.4996,
+              "inscribed_radius_design_u": 1.4996,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 2,
+              "center_viewbox": [
+                22.5156,
+                7.7656
+              ],
+              "bbox_viewbox": [
+                18.0,
+                4.1562,
+                9.8438,
+                9.8438
+              ],
+              "bbox_ship_px": [
+                9.8438,
+                9.8438
+              ],
+              "bbox_design_u": [
+                9.8438,
+                9.8438
+              ],
+              "area_ship_px2": 37.4092,
+              "equivalent_diameter_ship_px": 6.9015,
+              "equivalent_diameter_design_u": 6.9015,
+              "inscribed_diameter_ship_px": 2.9992,
+              "inscribed_diameter_design_u": 2.9992,
+              "inscribed_radius_ship_px": 1.4996,
+              "inscribed_radius_design_u": 1.4996,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 3,
+              "center_viewbox": [
+                15.9844,
+                15.9844
+              ],
+              "bbox_viewbox": [
+                11.0,
+                11.0,
+                10.0,
+                10.0
+              ],
+              "bbox_ship_px": [
+                10.0,
+                10.0
+              ],
+              "bbox_design_u": [
+                10.0,
+                10.0
+              ],
+              "area_ship_px2": 78.5674,
+              "equivalent_diameter_ship_px": 10.0018,
+              "equivalent_diameter_design_u": 10.0018,
+              "inscribed_diameter_ship_px": 9.8112,
+              "inscribed_diameter_design_u": 9.8112,
+              "inscribed_radius_ship_px": 4.9056,
+              "inscribed_radius_design_u": 4.9056,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 4,
+              "center_viewbox": [
+                7.7656,
+                22.5156
+              ],
+              "bbox_viewbox": [
+                4.1562,
+                18.0,
+                9.8438,
+                9.8438
+              ],
+              "bbox_ship_px": [
+                9.8438,
+                9.8438
+              ],
+              "bbox_design_u": [
+                9.8438,
+                9.8438
+              ],
+              "area_ship_px2": 37.4092,
+              "equivalent_diameter_ship_px": 6.9015,
+              "equivalent_diameter_design_u": 6.9015,
+              "inscribed_diameter_ship_px": 2.9992,
+              "inscribed_diameter_design_u": 2.9992,
+              "inscribed_radius_ship_px": 1.4996,
+              "inscribed_radius_design_u": 1.4996,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            },
+            {
+              "hole": 5,
+              "center_viewbox": [
+                24.2344,
+                22.5156
+              ],
+              "bbox_viewbox": [
+                18.0,
+                18.0,
+                9.8438,
+                9.8438
+              ],
+              "bbox_ship_px": [
+                9.8438,
+                9.8438
+              ],
+              "bbox_design_u": [
+                9.8438,
+                9.8438
+              ],
+              "area_ship_px2": 37.3955,
+              "equivalent_diameter_ship_px": 6.9002,
+              "equivalent_diameter_design_u": 6.9002,
+              "inscribed_diameter_ship_px": 2.9992,
+              "inscribed_diameter_design_u": 2.9992,
+              "inscribed_radius_ship_px": 1.4996,
+              "inscribed_radius_design_u": 1.4996,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 5,
+          "raster_artifact_count": 0,
+          "hole_count": 5,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "play-triangle",
       "name": "Play triangle",
       "description": "",
@@ -46324,6 +47704,314 @@
       }
     },
     {
+      "icon_id": "robot-head-with-twin-antennae-sub32",
+      "name": "Robot head with twin antennae sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "artificial-intelligence",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "line",
+          "element_id": "top-1",
+          "start": [
+            2,
+            10
+          ],
+          "end": [
+            10,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "top-2",
+          "start": [
+            10,
+            10
+          ],
+          "end": [
+            22,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "top-3",
+          "start": [
+            22,
+            10
+          ],
+          "end": [
+            30,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "top-4",
+          "start": [
+            30,
+            10
+          ],
+          "end": [
+            30,
+            20
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lower-right",
+          "start": [
+            30,
+            20
+          ],
+          "end": [
+            20,
+            30
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "base",
+          "start": [
+            20,
+            30
+          ],
+          "end": [
+            12,
+            30
+          ]
+        },
+        {
+          "kind": "arc",
+          "element_id": "lower-left",
+          "start": [
+            12,
+            30
+          ],
+          "end": [
+            2,
+            20
+          ],
+          "radius_x": 10,
+          "radius_y": 10,
+          "large_arc": false,
+          "sweep": true
+        },
+        {
+          "kind": "line",
+          "element_id": "left",
+          "start": [
+            2,
+            20
+          ],
+          "end": [
+            2,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "antenna-0",
+          "start": [
+            10,
+            2
+          ],
+          "end": [
+            10,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "eye-0",
+          "start": [
+            10,
+            18
+          ],
+          "end": [
+            10,
+            20
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "antenna-1",
+          "start": [
+            22,
+            2
+          ],
+          "end": [
+            22,
+            10
+          ]
+        },
+        {
+          "kind": "line",
+          "element_id": "eye-1",
+          "start": [
+            22,
+            18
+          ],
+          "end": [
+            22,
+            20
+          ]
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "head",
+          "members": [
+            "top-1",
+            "top-2",
+            "top-3",
+            "top-4",
+            "lower-right",
+            "base",
+            "lower-left",
+            "left"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [
+        {
+          "kind": "connect",
+          "members": [
+            "antenna-0",
+            "head"
+          ]
+        },
+        {
+          "kind": "connect",
+          "members": [
+            "antenna-1",
+            "head"
+          ]
+        }
+      ],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/robot-head-with-twin-antennae-sub32.svg",
+      "svg_sha256": "897d08b9fb85d21420a70937f1bbc05241cd4d22f2c2afd37d3a003b15d5777f",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                15.9844,
+                23.2656
+              ],
+              "bbox_viewbox": [
+                4.0,
+                12.0,
+                24.0,
+                16.0
+              ],
+              "bbox_ship_px": [
+                24.0,
+                16.0
+              ],
+              "bbox_design_u": [
+                24.0,
+                16.0
+              ],
+              "area_ship_px2": 315.3516,
+              "equivalent_diameter_ship_px": 20.0379,
+              "equivalent_diameter_design_u": 20.0379,
+              "inscribed_diameter_ship_px": 9.4997,
+              "inscribed_diameter_design_u": 9.4997,
+              "inscribed_radius_ship_px": 4.7499,
+              "inscribed_radius_design_u": 4.7499,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
       "icon_id": "roof-sub",
       "name": "Roof sub",
       "description": "",
@@ -50217,6 +51905,207 @@
       "artwork_source": "use_org",
       "svg_path": "dist/sub32/sparkle.svg",
       "svg_sha256": "4aa2948e04db5836aef6096b8df877326f148d7e7530d8c04e80ef45e35da064",
+      "validation": {
+        "status": "valid",
+        "automatic_status": "pass",
+        "validation_override": null,
+        "errors": [],
+        "checks_run": [
+          "schema/profile",
+          "style/grid",
+          "canvas/keyshape bounds",
+          "mic",
+          "keyshape",
+          "composition",
+          "svg round-trip",
+          "reproducibility",
+          "symmetry",
+          "holes/pinches",
+          "internal-spacing-review"
+        ],
+        "warnings": [],
+        "negative_space": {
+          "status": "pass",
+          "authored_holes": [
+            {
+              "hole": 1,
+              "center_viewbox": [
+                15.9844,
+                15.9844
+              ],
+              "bbox_viewbox": [
+                9.7812,
+                9.7812,
+                12.4375,
+                12.4375
+              ],
+              "bbox_ship_px": [
+                12.4375,
+                12.4375
+              ],
+              "bbox_design_u": [
+                12.4375,
+                12.4375
+              ],
+              "area_ship_px2": 63.457,
+              "equivalent_diameter_ship_px": 8.9887,
+              "equivalent_diameter_design_u": 8.9887,
+              "inscribed_diameter_ship_px": 7.4873,
+              "inscribed_diameter_design_u": 7.4873,
+              "inscribed_radius_ship_px": 3.7436,
+              "inscribed_radius_design_u": 3.7436,
+              "minimum_radius_design_u": 1.0,
+              "status": "pass"
+            }
+          ],
+          "authored_hole_count": 1,
+          "raster_artifact_count": 0,
+          "hole_count": 1,
+          "failed_hole_count": 0,
+          "pinch_count": 0,
+          "exception_count": 0,
+          "minimum_authored_diameter": 2.0,
+          "minimum_measured_diameter": 5.0,
+          "configured_fill_depth": 1.0,
+          "effective_fill_depth": 1.0,
+          "measuring_stroke_width": 1.0,
+          "pinch_measuring_stroke_width": 4,
+          "samples_per_unit": 32
+        },
+        "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+        "internal_spacing_advisory": {
+          "status": "pass",
+          "blocking": false,
+          "required_ink_gap": 2.0,
+          "rules": {
+            "version": 2,
+            "sample_step": 0.25,
+            "minimum_run": 2.0,
+            "endpoint_margin": 0.5,
+            "maximum_parallel_angle_degrees": 30,
+            "blocking": false,
+            "publication_requires_clear_review": true
+          },
+          "findings": [],
+          "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+        }
+      }
+    },
+    {
+      "icon_id": "sparkle-four-point-rounded-sub32",
+      "name": "Sparkle four point rounded sub32",
+      "description": "",
+      "tags": [],
+      "aliases": [],
+      "category": "objects/symbols",
+      "keywords": [],
+      "family": "sub",
+      "profile": "SUB32",
+      "canvas_size": 32,
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "composition_class": "SOLO",
+      "keyshape": "SQUARE",
+      "keyshape_bounds": [
+        0,
+        0,
+        32,
+        32
+      ],
+      "style": {
+        "stroke_width": 4,
+        "line_cap": "round",
+        "line_join": "round",
+        "grid": 1
+      },
+      "primitives": [
+        {
+          "kind": "arc",
+          "element_id": "side-0",
+          "start": [
+            16,
+            2
+          ],
+          "end": [
+            30,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "side-1",
+          "start": [
+            30,
+            16
+          ],
+          "end": [
+            16,
+            30
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "side-2",
+          "start": [
+            16,
+            30
+          ],
+          "end": [
+            2,
+            16
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": false
+        },
+        {
+          "kind": "arc",
+          "element_id": "side-3",
+          "start": [
+            2,
+            16
+          ],
+          "end": [
+            16,
+            2
+          ],
+          "radius_x": 14,
+          "radius_y": 14,
+          "large_arc": false,
+          "sweep": false
+        }
+      ],
+      "contours": [
+        {
+          "contour_id": "sparkle",
+          "members": [
+            "side-0",
+            "side-1",
+            "side-2",
+            "side-3"
+          ],
+          "closed": true
+        }
+      ],
+      "anchors": {
+        "center": [
+          16,
+          16
+        ]
+      },
+      "relationships": [],
+      "artwork_source": "use_org",
+      "svg_path": "dist/sub32/sparkle-four-point-rounded-sub32.svg",
+      "svg_sha256": "3c9e753762cd7836740f61d5639888fef758c4f46944f42c1ecc7f3bad2159b3",
       "validation": {
         "status": "valid",
         "automatic_status": "pass",

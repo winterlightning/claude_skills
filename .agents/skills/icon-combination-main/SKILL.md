@@ -1,0 +1,225 @@
+---
+name: icon-combination-main
+description: Author a combination_main-family icon for the Pictographic icon set on the COMBINATION_MAIN48 profile (48x48). Use when asked to draw the main subject of an icon combination and save it in the icon combination main family, with the same drawing rules as solo. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+---
+
+# $icon-combination-main — one combination_main icon on `COMBINATION_MAIN48`
+
+Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
+
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-combination-main`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+
+**Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
+glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
+geometry, including text components in combined icons or Pending briefs.
+This routing rule takes precedence over the primitive-authoring workflow below.
+
+This skill authors **exactly one family**. Everything below is fixed by the
+family and read from `icon_set/model/contracts/icon-profile.v1.json`:
+
+| | |
+|---|---|
+| Family | `combination_main` |
+| Profile | `COMBINATION_MAIN48` |
+| Canvas | 48×48, centre (24,24), integer grid 1, stroke 4, round caps and joins |
+| Module goes in | `icon_set/model/icons/combination_main/` — one file per icon |
+| Subclass | `CombinationMain48` from `._base` |
+| Ships to | `icon_set/dist/combination_main48/` with its own `manifest.json` |
+| Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
+| Interior guide | (6,6)-(42,42) — constrains inner detail only |
+| Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abacus-two-rods-four-beads`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo` |
+
+An **icon combination main** is one independently readable main subject, saved separately for use in a combination. Draw only the main subject; it hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
+
+**Wrong family? Stop.** If the brief is a small glyph, operator or modifier meant to be hosted, stop and use `$icon-sub`. If it is an enclosure meant to hold a sub icon, use `$icon-container`. A combination_main icon cannot be authored on
+another canvas: the base has no profile to override, the registry refuses a
+`CombinationMain48` in another folder, and the validator rejects the profile. Do not widen
+this skill's scope to "just draw it bigger"; name the right skill and hand over.
+
+- `$icon-sub` — sub family, `SUB32`, 32×32
+- `$icon-solo` — solo family, `SOLO48`, 48×48
+- `$icon-container` — container family, `CONTAINER64`, 64×64
+
+## Visual priorities
+
+Prioritize **Lucide-style geometric construction and smooth curves**.
+Prefer mirrored geometry and visual balance only where they preserve the icon's
+meaning, recognizability, and natural shape. These are optional design choices,
+not requirements: skip mirroring or forced balance when they would distort the
+subject. A palm tree, for example, may retain uneven fronds and a leaning trunk;
+mirror only the parts where it helps the drawing read clearly.
+
+For any human subject or human part in a scene, first read
+`icon_set/skills/icon-design/human-reference.md` and inspect the relevant files in
+`icon_set/references/human_ref/`. These own human proportions and construction;
+detached heads require exactly 4 units of visible head-to-body clearance.
+For each stick figure, call `self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")` after creating those parts. The head flag names its outline primitive or contour; the torso flag names the upper torso primitive, with `start` or `end` identifying its actual neck junction. Use a unique figure ID for each person. The required gap is exactly 8 units between stroke centerlines / 4 units between ink edges. See the shared human reference for the full example and measurement rules. These flags support future validation; they do not certify spacing or declare contact.
+
+Before authoring, inspect a relevant local Lucide original and its atomic-debug
+geometry when a useful match exists. Use its construction principles with this
+family's own grid, stroke and keyshape; preserve the requested subject.
+
+Build symmetric subjects from a shared axis and mirrored coordinates, with
+matching radii and spacing. Preserve intentional asymmetry in directional,
+perspective, or naturally asymmetric subjects. Make curve-to-curve and
+curve-to-line joins tangent-continuous where the silhouette should be smooth;
+round stroke caps alone do not repair a kink. Prefer fewer coherent curves over
+many short segments. Preserve deliberate corners and recognizable features.
+
+Apply `icon_set/skills/icon-design/authoring.md` for the construction and visual
+review checklist. A numeric pass alone is not enough: inspect curve flow,
+paired proportions, and negative space at native size in both themes. Repair
+tight areas by rebalancing geometry, without weakening validation rules.
+
+## Procedure
+
+1. **Name it.** One sentence for what the subject is, then a kebab-case
+   `icon_id` (`^[a-z][a-z0-9]*(-[a-z0-9]+)*$`). Synonyms go in `aliases`,
+   search terms in `keywords`. Keep a supplied `sym-<id>` at the front.
+   Preserve any reference UUID or explicit source ID separately from the name.
+   Search existing Python files by that ID before creating a new file; patch the
+   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.
+   See `icon_set/skills/icon-design/naming.md`.
+
+Before reduction, apply `icon_set/skills/icon-design/reference-triage.md`. If the reference is a
+container combination or side combination, route to `$icon-making` to reject
+it as one primitive and queue two component briefs. A Pending component brief
+already specifies which single component to isolate. For review revisions,
+preserve the parent and edit a new file from `create_variant.py`.
+
+2. **Reduce.** Keep the smallest recognizable silhouette, the features that carry
+   identity, and nothing that disappears at 48 pixels. With a
+   reference in scope, render it and look at it; read the subject, never the
+   coordinates. See `icon_set/skills/icon-design/intake.md`.
+
+   **Plan symbols before coordinates.** Read `icon_set/skills/icon-design/symbol-construction.md`.
+   Identify typed shapes, nesting, repeated definitions/series, intended symmetry,
+   and shared attachment points. Record a compact plan in the module; implement
+   it with shared Python parameters and the existing geometry API. During repairs,
+   change the owning symbol or repeat definition so joins and equality survive.
+
+3. **Choose the keyshape, write down its four extremes, design backwards to
+   them.** The rectangle fit is exact (tolerance 0); `CIRCLE` is radial. These are
+   the `COMBINATION_MAIN48` numbers:
+
+| Keyshape | Visible ink | Centerline box (author to this) |
+|---|---|---|
+| `CIRCLE` | radius 22 about (24,24) | radius 20 |
+| `SQUARE` | (4,4)-(44,44) | (6,6)-(42,42) |
+| `HRECT_L` | (2,6)-(46,42) | (4,8)-(44,40) |
+| `HRECT_M` | (2,8)-(46,40) | (4,10)-(44,38) |
+| `VRECT_L` | (6,2)-(42,46) | (8,4)-(40,44) |
+| `VRECT_M` | (8,2)-(40,46) | (10,4)-(38,44) |
+
+   Ask the model instead of doing arithmetic:
+   `Keyshape.HRECT_L.bounds_for(Profile.COMBINATION_MAIN48)`.
+
+4. **Author the module** at `icon_set/model/icons/combination_main/<icon_id_with_underscores>.py`:
+
+   For a supplied reference ID, the new filename must instead be
+   `<descriptive_name>_<source_id_with_underscores>.py`. Every generated module
+   or one-off Python generation script must include `SOURCE_ICON_ID` (the exact
+   original ID), `SOURCE_PATH` (the supplied source path) and `AUTHOR` (the
+   model that drew it). Use `None` only for missing values; never discard an ID
+   because the input also has a name. `AUTHOR` is never `None` and never
+   guessed: name the model **you** are running as, in lowercase and hyphenated
+   -- `astra-chatgpt` labels everything authored before this field existed, so
+   use it only if that is you. If you do not know which model you are, ask
+   rather than guess. Patching an existing module makes `AUTHOR` yours. Follow
+   the UUID example, the author table and the patch lookup in
+   `icon_set/skills/icon-design/naming.md`.
+
+   ```python
+   from ...keyshapes import Keyshape
+   from ._base import CombinationMain48
+
+   SOURCE_ICON_ID = "<exact-reference-id>"  # None only if no ID was supplied
+   SOURCE_PATH = "<source-path>"  # None only if no path was supplied
+   AUTHOR = "<your-model>"  # the model authoring this file; never None
+
+
+   class <ClassName>(CombinationMain48):
+       icon_id = "<icon-id>"
+       keyshape = Keyshape.<TOKEN>
+       semantic_role = "MAIN"
+       semantic_kind = "noun"
+       category = "objects/<device|media|award|...>"
+       aliases = ()
+       keywords = ()
+
+       def build(self) -> None:
+           # add_line / add_arc / add_dot / add_polyline / add_contour / relate
+           ...
+   ```
+
+   Contour members paint as round joins; loose primitives as round caps. Where two
+   parts genuinely touch, share an endpoint and declare it:
+   `self.relate("connect", "a", "b")` — that pair only. Technique, arcs and
+   tangent-continuous joins: `icon_set/skills/icon-design/geometry.md`, `icon_set/skills/icon-design/authoring.md`.
+
+   Nothing to register. The folder is the registry.
+
+5. **Validate and repair the model, never the SVG.**
+
+   ```python
+   from icon_set.model.icons.registry import create
+   report = create("<icon-id>").validate_icon()
+   print(report.describe())      # status must be "valid" with zero warnings
+   ```
+
+   Eight checks run in order; every failure names the element and coordinates.
+   A `review` warning is **not** a pass. Repair ladder for crowding: enlarge the
+   opening, rebalance, remove the part — never squeeze. Re-check the keyshape after
+   every repair. See `icon_set/skills/icon-design/validation.md`.
+
+6. **Family-specific checks.**
+
+- COMBINATION_MAIN48 has six keyshapes: `CIRCLE`, `SQUARE`, `HRECT_L`, `HRECT_M`, `VRECT_L` and `VRECT_M`, with the visible-ink bounds in the table above. Older modules may still name `HRECT_XL`/`_S` or `VRECT_XL`/`_S`; on COMBINATION_MAIN48 those resolve to the same bounds as `HRECT_L`/`VRECT_L`, so never choose one for new work. The `_M` rectangles reduce only the short visible-ink side by 4: 44x32 horizontal or 32x44 vertical. If an upright subject cannot fit, try a recognizable diagonal construction on the integer grid. If it still cannot fit, retain the validation findings and request the gallery's exception flag for manual review; record the reason and attempted fit. The flag is not a validation waiver or permission to leave the 48x48 canvas.
+- Budget before drawing: centerline boxes are 36x36 on `SQUARE`, 40x32 on `HRECT_L`, 32x40 on `VRECT_L`, 40x28 on `HRECT_M`, and 28x40 on `VRECT_M`. Every gap between distinct parts costs 8 on centerlines. An interior mark between two walls needs a band of 16 between the wall centerlines, 17 if either wall is curved, because the engine cannot certify a curved pair sitting exactly on the minimum. If the band is short, change the keyshape or drop the part; never squeeze.
+- Existing solo modules authored before 2026-09-13 were drawn to full-canvas envelopes (ink 0-48) and MIC 2, and many no longer validate. Run `validate_icon()` on any icon before imitating its coordinates; take construction ideas from a failing one, not numbers.
+- Traced references: render first, then re-author on this grid. Reconstruct the subject, never the source's coordinates. Put arc centres on integer points and pick radii whose apex *is* the endpoint, so the arc reaches the keyshape edge exactly and cannot overshoot it.
+- Split a wall where a part attaches so the two share an endpoint; declare the contact with `relate("connect", ...)`. An arc merely touching a line is not proved as a connection and comes back `review`.
+- Parallel straight edges inside the same contour must also meet the profile's ink clearance and centerline minimum. This is an exact blocking MIC check for positive overlapping runs, excluding adjacent segments and shared endpoints. Curved and near-parallel internal edges remain sampled advisories.
+- Same concept also wanted at 32 or 64? That is a separately authored icon in another family with a suffix (`bell-sub`, `bell-container`). Never scale.
+
+7. **Build and look.**
+
+   ```bash
+   python3 -m unittest discover -s icon_set/tests -t .
+   python3 icon_set/scripts/build.py --family combination_main
+   python3 icon_set/scripts/contact_sheet.py --family combination_main --theme dark --png /tmp/combination_main.png
+   ```
+
+   Open the PNG and judge it at 48 pixels. Numeric success is not
+   visual approval; if two candidates are close, render both and keep the stronger.
+
+8. **Report.** Say what the subject is, which keyshape and why, what you dropped
+   and why, which references you used and what you took from each, and the
+   validation status. If something could not be made to pass, name the check and
+   the element and stop — a reported blocker beats a weakened rule.
+
+## Never
+
+- Change a profile constant, keyshape dimension, tolerance or `numeric_epsilon`.
+- Put this icon in another family's folder or subclass another base for a
+  different canvas.
+- Scale a drawing from another family. Every family is authored fresh.
+- Declare `connect` on parts that do not touch, add a `FREE` record to dodge a
+  repair, or describe a `review` as a pass.
+- Hand-write or patch the emitted SVG.
+
+## Definition of done
+
+- Python filename includes the supplied source ID for a new file; the script
+  records the exact `SOURCE_ICON_ID`, `SOURCE_PATH` and an `AUTHOR` naming your
+  own model. Existing matches are patched in place, with source metadata
+  preserved or added and `AUTHOR` updated to you.
+- Tests green; `build.py --family combination_main` exits 0; the icon is in
+  `icon_set/dist/combination_main48/manifest.json`.
+- `validate_icon()` is `valid` with no warnings.
+- Reviewed at native size in both themes for smooth joins, consistent radii,
+  balanced negative space, and symmetry wherever the subject supports it.
+- State which Lucide construction informed the drawing, or that no useful match
+  was found; explain any deliberate asymmetry.
+- For human figures, name the shared human reference and verify its proportions
+  and exact 4-unit detached head-to-body ink gap in the emitted geometry.

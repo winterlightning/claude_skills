@@ -7,7 +7,7 @@ description: Author a container-family icon for the Pictographic icon set on the
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-combination-main`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 **Text and numbers:** follow `icon_set/skills/icon-design/typeface.md` and reuse the existing
 glyphs in `icon_set/typeface/glyphs.json`. Do not invent new letter/number
@@ -27,7 +27,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/dist/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
-| Existing icons to imitate | `aiming-reticle`, `award-ribbon-container`, `browser-window`, `captive-bead-ring`, `circular-speech-bubble`, `clipboard` |
+| Existing icons to imitate | `aiming-reticle`, `arched-handle-shopping-basket`, `award-ribbon-container`, `awning-storefront-container`, `billboard-container`, `blank-calendar-container` |
 
 A **container** stands alone as a noun and is the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
 
@@ -38,6 +38,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 
 - `$icon-sub` — sub family, `SUB32`, 32×32
 - `$icon-solo` — solo family, `SOLO48`, 48×48
+- `$icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
 
 ## Visual priorities
 

@@ -1,5 +1,5 @@
 function approvedIcons(catalog, reviews) {
-  return catalog.icons.filter(icon => reviews[icon.key] === 'approve');
+  return catalog.icons.filter(icon => reviews[icon.key] === 'approve' && icon.reference_fidelity?.status !== 'superseded');
 }
 function approvedCategory(value) {
   const category=(value||'').trim();

@@ -14,7 +14,7 @@ class BabyHead(Solo48):
     semantic_kind = 'noun'
     category = 'babies'
     aliases = ()
-    keywords = ('baby', 'head')
+    keywords = ('baby', 'head', 'sub icon')
 
     def build(self):
         # Symbol plan: A circular baby face without ears, one curved hair stroke and an open smile, matching the saved feedback.
@@ -38,3 +38,7 @@ class BabyHead(Solo48):
         path('hair',(20,15),[('C',(28,15),(22,13),(26,13))])
         dot('eye-left',(16,24));dot('eye-right',(32,24))
         self.add_arc('smile',(20,33),(28,33),radius_x=6,radius_y=3,sweep=False)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('5393b57b-1ff9-4e16-b855-128e09e91ba7', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/baby face_5393b57b-1ff9-4e16-b855-128e09e91ba7.svg')]

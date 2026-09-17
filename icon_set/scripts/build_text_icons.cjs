@@ -1,0 +1,29 @@
+#!/usr/bin/env node
+/* Export text-family artwork using the Experiment / Typeface layout engine. */
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const {layout,svg}=require('./templates/text-combine.js');
+const root=path.resolve(__dirname,'../..'),specPath=path.join(root,'icon_set/data/container-text-icons.json');
+const spec=JSON.parse(fs.readFileSync(specPath,'utf8'));
+const {glyphs}=JSON.parse(fs.readFileSync(path.join(root,spec.geometry_source),'utf8'));
+const output=process.argv[2]?path.resolve(process.argv[2]):path.join(root,'icon_set/dist/text28');
+if(spec.family!=='text'||spec.canvas_height!==28)throw Error('Text family requires a 28-unit canvas height.');
+const records=[],ids=new Set();
+for(const item of spec.icons){
+ if(!/^[a-z][a-z0-9-]+$/.test(item.icon_id)||ids.has(item.icon_id))throw Error('Invalid or duplicate icon ID');
+ ids.add(item.icon_id);
+ const result=layout(item.text,glyphs,{canvasHeight:28,stroke:4,padding:0,trimInk:true,underline:item.underline,align:item.line_align||'center'});
+ if(!result.placements.length||result.height!==28||result.stroke!==4||!Number.isFinite(result.width))throw Error('Empty or invalid text export');
+ for(const p of result.placements){
+  const [l,t,r,b]=p.glyph.bounds,h=result.stroke/2,e=1e-7;
+  if(l*p.scale+p.x-h < -e || t*p.scale+p.y-h < -e || r*p.scale+p.x+h > result.width+e || b*p.scale+p.y+h > 28+e)throw Error('Clipped glyph: '+item.icon_id);
+ }
+ const document=svg(result,item.text).replaceAll('stroke="#202820"','stroke="currentColor"');
+ const record={icon_id:item.icon_id,name:item.name,description:item.text,tags:['text',...item.text.split(/\s+/)],aliases:[],keywords:[item.text],category:'text',family:'text',profile:'TEXT28',canvas_size:28,canvas_width:result.width,canvas_height:28,keyshape:null,keyshape_bounds:null,semantic_role:'SUB',semantic_kind:'text',composition_class:'TEXT',style:{stroke_width:result.stroke,line_cap:'round',line_join:'round'},text:item.text,underline:item.underline,author:item.author,source_ids:[item.source_id],original_sources:[{source_id:item.source_id,source_path:item.source_path}],glyph_ids:result.placements.map(p=>p.glyph.icon_id),svg_sha256:crypto.createHash('sha256').update(document).digest('hex'),svg_path:'dist/text28/'+item.icon_id+'.svg',validation:{status:'valid',errors:[],warnings:[],checks_run:['existing typeface glyphs','28-unit canvas height','4-unit effective stroke','glyph ink bounds','uniform aspect ratio'],scope:'Typeface layout validation; geometric icon-profile rules do not apply to text.'}};
+ records.push({record,document});
+}
+// Validate the entire batch before writing its manifest or any artwork.
+fs.mkdirSync(output,{recursive:true});
+for(const {record,document} of records)fs.writeFileSync(path.join(output,record.icon_id+'.svg'),document+'\n');
+fs.writeFileSync(path.join(output,'manifest.json'),JSON.stringify({schema_version:1,family:'text',profile:'TEXT28',canvas_height:28,geometry_policy:'existing-typeface-proportions',icons:records.map(r=>r.record)},null,2)+'\n');
+console.log(`Exported ${records.length} text-family icons; every canvas is 28 units high. ${spec.unresolved.length} unresolved references recorded in ${specPath}.`);

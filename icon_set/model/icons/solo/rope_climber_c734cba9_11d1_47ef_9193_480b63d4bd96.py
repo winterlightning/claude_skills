@@ -17,7 +17,7 @@ class RopeClimber(Solo48):
     semantic_kind = "noun"
     category = "objects/sports"
     aliases = ()
-    keywords = ('climbing', 'rope', 'harness', 'athlete', 'ascent', 'sport')
+    keywords = ('climbing', 'rope', 'harness', 'athlete', 'ascent', 'sport', 'sub icon')
 
     def circle(self,name,x,y,r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
@@ -68,3 +68,7 @@ class RopeClimber(Solo48):
          ('bent-leg',[(20,32),(32,36),(32,42)])])
         self.add_arc('rope-curve',(42,18),(30,32),radius_x=12,radius_y=14)
         for part in ['rope-top-0','right-arm-1','harness-1']:self.relate('connect','rope-curve',part)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('64bc05d2-25cd-4e18-83c2-a00814ef966b', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/climbing_64bc05d2-25cd-4e18-83c2-a00814ef966b.svg')]

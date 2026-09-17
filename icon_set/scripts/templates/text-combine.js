@@ -1,12 +1,26 @@
 (function(root){
 'use strict';
-function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,stroke=4,padding=16,underline=false,strikethrough=false}={}){
+function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,stroke=4,padding=16,underline=false,strikethrough=false,canvasHeight=null,align='left',trimInk=false}={}){
   if(![xHeight,capHeight,tracking,lineGap,stroke,padding].every(Number.isFinite)||xHeight<=0||capHeight<=0||tracking<0||lineGap<0||stroke<=0||padding<0)throw Error('Invalid text dimensions.');
+  if(canvasHeight!==null){
+    if(!Number.isFinite(canvasHeight)||canvasHeight<=0)throw Error('Invalid canvas height.');
+    // Fit geometry and spacing, keeping stroke in final canvas units.
+    const measure=factor=>layout(text,glyphs,{xHeight:xHeight*factor,capHeight:capHeight*factor,tracking:tracking*factor,lineGap:lineGap*factor,padding:padding*factor,stroke,underline,strikethrough,align,trimInk});
+    let low=1e-9,high=1;
+    if(measure(low).height>=canvasHeight)throw Error('This stroke and line count cannot fit the locked canvas height.');
+    while(measure(high).height<canvasHeight)high*=2;
+    for(let i=0;i<60;i++){
+      const mid=(low+high)/2;
+      if(measure(mid).height>canvasHeight)high=mid;else low=mid;
+    }
+    const fitted=measure(low);fitted.height=canvasHeight;
+    return fitted;
+  }
   text=text.replace(/\r\n?/g,'\n');
   if(text.length>200)throw Error('Please use 200 characters or fewer.');
   const map=new Map(glyphs.filter(g=>g.preferred).map(g=>[g.character,g]));
   const missing=[...new Set([...text].filter(c=>c!==' '&&c!=='\n'&&!map.has(c)))];
-  if(missing.length)throw Error('Unsupported characters: '+missing.map(c=>JSON.stringify(c)).join(', ')+'. Use uppercase or lowercase letters, digits, spaces and line breaks.');
+  if(missing.length)throw Error('Unsupported characters: '+missing.map(c=>JSON.stringify(c)).join(', ')+'. Use uppercase or lowercase letters, digits, keyboard punctuation, spaces and line breaks.');
   let top=-capHeight-stroke/2,bottom=stroke/2;
   const placements=[],lines=[];
   for(const [lineIndex,lineText] of text.split('\n').entries()){
@@ -42,7 +56,31 @@ function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,strok
     }
   }
   for(const p of placements){p.x+=padding;p.y+=lines[p.lineIndex].baseline;}
-  return {placements,lines,decorations,lineAdvance,width:Math.max(2*padding+Math.max(...lines.map(l=>l.width)),2*padding+1),height:bottom-top+2*padding+(lines.length-1)*lineAdvance,baseline:offset,bodyTop:offset-xHeight,stroke};
+  const result={placements,lines,decorations,lineAdvance,width:Math.max(2*padding+Math.max(...lines.map(l=>l.width)),2*padding+1),height:bottom-top+2*padding+(lines.length-1)*lineAdvance,baseline:offset,bodyTop:offset-xHeight,stroke};
+  if(!['left','center','right'].includes(align))throw Error('Invalid line alignment.');
+  if(align!=='left'){
+    const longest=Math.max(...lines.map(l=>l.width));
+    for(let i=0;i<lines.length;i++){
+      const shift=(longest-lines[i].width)/(align==='center'?2:1);
+      for(const p of placements)if(p.lineIndex===i)p.x+=shift;
+      for(const d of decorations)if(d.lineIndex===i){d.x1+=shift;d.x2+=shift;}
+    }
+  }
+  if(trimInk&&placements.length){
+    const half=stroke/2,boxes=placements.map(p=>{
+      const [l,t,r,b]=p.glyph.bounds;
+      return [l*p.scale+p.x-half,t*p.scale+p.y-half,r*p.scale+p.x+half,b*p.scale+p.y+half];
+    });
+    for(const d of decorations)boxes.push([d.x1-half,d.y-half,d.x2+half,d.y+half]);
+    const left=Math.min(...boxes.map(b=>b[0])),top=Math.min(...boxes.map(b=>b[1]));
+    const right=Math.max(...boxes.map(b=>b[2])),bottom=Math.max(...boxes.map(b=>b[3]));
+    for(const p of placements){p.x-=left;p.y-=top;}
+    for(const line of lines){line.baseline-=top;line.bodyTop-=top;}
+    for(const d of decorations){d.x1-=left;d.x2-=left;d.y-=top;}
+    result.baseline-=top;result.bodyTop-=top;
+    result.width=right-left;result.height=bottom-top;
+  }
+  return result;
 }
 function escapeXML(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
 function svg(result,text,guides=false){
@@ -65,13 +103,13 @@ if(typeof document==='undefined')return;
 const data=JSON.parse(document.getElementById('glyphData').textContent),$=id=>document.getElementById(id);
 let current=null;
 function update(){
-  try{current=layout($('words').value,data.glyphs,{xHeight:Number($('height').value),capHeight:Number($('height').value)*52/36,tracking:Number($('spacing').value),lineGap:Number($('lineSpacing').value),stroke:Number($('strokeWidth').value),underline:$('underline').checked,strikethrough:$('strikethrough').checked});
+  try{current=layout($('words').value,data.glyphs,{xHeight:Number($('height').value),capHeight:Number($('height').value)*52/36,tracking:Number($('spacing').value),lineGap:Number($('lineSpacing').value),stroke:Number($('strokeWidth').value),underline:$('underline').checked,strikethrough:$('strikethrough').checked,canvasHeight:$('lockHeight').checked?28:null,padding:$('lockHeight').checked?0:16,trimInk:$('lockHeight').checked,align:'center'});
     $('output').innerHTML=svg(current,$('words').value,$('guides').checked);
-    $('status').textContent='Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.';
+    $('status').textContent=($('lockHeight').checked?'Visible ink locked at 28 units high, without padding; width follows the text. ':'')+'Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.';
     $('download').disabled=!current.placements.length;
   }catch(e){current=null;$('output').replaceChildren();$('status').textContent=e.message;$('download').disabled=true;}
 }
-for(const id of ['words','height','spacing','lineSpacing','strokeWidth','guides','underline','strikethrough'])$(id).addEventListener('input',update);
+for(const id of ['words','height','spacing','lineSpacing','strokeWidth','guides','underline','strikethrough','lockHeight'])$(id).addEventListener('input',update);
 $('download').onclick=()=>{
  if(!current)return;
  const url=URL.createObjectURL(new Blob([svg(current,$('words').value)],{type:'image/svg+xml'}));

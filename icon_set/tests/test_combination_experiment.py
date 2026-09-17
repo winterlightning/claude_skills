@@ -17,6 +17,38 @@ class CombinationExperimentTests(unittest.TestCase):
             original.attrib.pop(key)
         self.assertEqual(ET.tostring(output), ET.tostring(original))
 
+    def test_sub_lock_rounds_visible_extent_and_preserves_proportions(self):
+        item={'bounds':[8,4,40,44],'canvas':48}
+        auto=placement(item,32,(1,1),(0,0),size_lock='auto')
+        self.assertEqual(auto['locked_axis'],'height')
+        self.assertAlmostEqual(auto['painted_box']['h'],29)
+        self.assertAlmostEqual((auto['painted_box']['w']-4)/(auto['painted_box']['h']-4),32/40)
+        explicit=placement(item,32,(0,0),(0,0),size_lock='width',bound_size=24)
+        self.assertAlmostEqual(explicit['painted_box']['w'],24)
+        self.assertAlmostEqual(explicit['painted_box']['h'],29)
+        for size in (24.5,4,33):
+            with self.assertRaises(ValueError):placement(item,32,(0,0),(0,0),size_lock='width',bound_size=size)
+        with self.assertRaises(ValueError):placement(item,32,(0,0),(0,0),size_lock='width',bound_size=32)
+        with self.assertRaises(ValueError):placement(item,32,(0,0),(0,0),size_lock='invalid')
+
+    def test_automatic_sub_bounds_fit_all_available_pairs(self):
+        for row in json.loads(DATA.read_text())['rows']:
+            for item in row['subs']:
+                result=placement(item,32,(1,1),(0,0),size_lock='auto')
+                box=result['painted_box']
+                if item['family'] != 'sub':
+                    self.assertAlmostEqual(result['locked_size'],round(result['locked_size']))
+                self.assertLessEqual(max(box['w'],box['h']),32.000001)
+                if result.get('target_keyshape'):
+                    self.assertAlmostEqual(box['x']+box['w']/2,46)
+                    self.assertAlmostEqual(box['y']+box['h']/2,46)
+                    l,t,r,b=item['target_keyshape_bounds']
+                    self.assertLessEqual(box['w'],r-l+1e-6)
+                    self.assertLessEqual(box['h'],b-t+1e-6)
+                else:
+                    self.assertAlmostEqual(box['x']+box['w'],62)
+                    self.assertAlmostEqual(box['y']+box['h'],62)
+
     def test_every_pair_every_anchor(self):
         for row in json.loads(DATA.read_text())['rows']:
             for ax,ay in POSITIONS.values():

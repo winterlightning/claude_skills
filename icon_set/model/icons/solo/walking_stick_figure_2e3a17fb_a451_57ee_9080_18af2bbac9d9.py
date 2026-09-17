@@ -13,7 +13,7 @@ class WalkingStickFigure(Solo48):
     semantic_kind = "noun"
     category = 'objects/wayfinding'
     aliases = ()
-    keywords = ('person', 'walking', 'stick', 'figure', 'pedestrian', 'stride')
+    keywords = ('person', 'walking', 'stick', 'figure', 'pedestrian', 'stride', 'sub icon')
 
     def build(self):
         # Exact shared contact nodes; continuous shapes remain coherent contours.
@@ -31,3 +31,7 @@ class WalkingStickFigure(Solo48):
         self.add_contour('person-legs', 'person-legs-1', 'person-legs-2', 'person-legs-3', closed=False)
         self.relate('connect', 'person-body', 'person-arms')
         self.relate('connect', 'person-body', 'person-legs')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('7ce62344-aeae-474c-9800-f2104921b059', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/wayfinding/walking_7ce62344-aeae-474c-9800-f2104921b059.svg')]

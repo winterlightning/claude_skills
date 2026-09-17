@@ -9,7 +9,7 @@ from ._base import Solo48, HEAD_BODY_CENTERLINE_GAP
 
 SOURCE_ICON_ID = None
 SOURCE_PATH = "icon_set/references/human_ref/user.svg"
-AUTHOR = "gpt-6"
+AUTHOR = 'gpt-6'
 
 
 class UserAvatar(Solo48):
@@ -17,7 +17,7 @@ class UserAvatar(Solo48):
     category = "avatars"
     keyshape = Keyshape.VRECT_L
     aliases = ("account-avatar",)
-    keywords = ("user", "person", "avatar", "profile", "account")
+    keywords = ('user', 'person', 'avatar', 'profile', 'account', 'sub icon')
 
     def build(self) -> None:
         cx, cy, radius = 24, 12, 8
@@ -36,3 +36,7 @@ class UserAvatar(Solo48):
         self.add_contour("body", "left-side", "left-shoulder", "shoulder-top", "right-shoulder", "right-side")
 
         self.relate("connect", "head", "body")
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('2234e12a-05f0-48de-ba27-d943238ccfaa', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/person_2234e12a-05f0-48de-ba27-d943238ccfaa.svg'), ('55606b28-310c-4be8-8fcb-e228f769d500', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/person_55606b28-310c-4be8-8fcb-e228f769d500.svg')]

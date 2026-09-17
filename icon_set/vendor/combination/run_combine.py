@@ -210,6 +210,7 @@ def load(items):
             "sid": sid, "svg": f, "box": box, "natural_box": natural_box,
             "manual_combined": bool(it.get("manual_combined")),
             "preserve_geometry": bool(it.get("preserve_geometry")),
+            "rounded_box": bool(it.get("rounded_box")),
             "area": float(it.get("area") or (box["w"] * box["h"])),
             "ink": float(it.get("ink") or 0.0),
             "z": read_z(sid, it.get("z")),

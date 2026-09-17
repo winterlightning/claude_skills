@@ -1,0 +1,236 @@
+{
+  "icon_id": "open-handle-shopping-basket-check",
+  "name": "Open handle shopping basket check",
+  "description": "",
+  "tags": [
+    "open",
+    "handle",
+    "shopping",
+    "basket",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "open",
+    "handle",
+    "shopping",
+    "basket",
+    "accept",
+    "success",
+    "complete",
+    "ok"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "HRECT_XL",
+  "keyshape_bounds": [
+    0,
+    4,
+    64,
+    60
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:basket-1",
+      "start": [
+        2,
+        28
+      ],
+      "end": [
+        62,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:basket-2",
+      "start": [
+        62,
+        28
+      ],
+      "end": [
+        52,
+        58
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:basket-3",
+      "start": [
+        52,
+        58
+      ],
+      "end": [
+        12,
+        58
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:basket-4",
+      "start": [
+        12,
+        58
+      ],
+      "end": [
+        2,
+        28
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:handle-14",
+      "start": [
+        14,
+        28
+      ],
+      "end": [
+        25,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:open-handle-shopping-basket:handle-50",
+      "start": [
+        50,
+        28
+      ],
+      "end": [
+        39,
+        6
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-1",
+      "start": [
+        18,
+        33
+      ],
+      "end": [
+        27,
+        42
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:check:mark-2",
+      "start": [
+        27,
+        42
+      ],
+      "end": [
+        46,
+        22
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:open-handle-shopping-basket:basket",
+      "members": [
+        "0:open-handle-shopping-basket:basket-1",
+        "0:open-handle-shopping-basket:basket-2",
+        "0:open-handle-shopping-basket:basket-3",
+        "0:open-handle-shopping-basket:basket-4"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "1:check:mark",
+      "members": [
+        "1:check:mark-1",
+        "1:check:mark-2"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:open-handle-shopping-basket:center": [
+      32,
+      32
+    ],
+    "0:open-handle-shopping-basket:content-top-left": [
+      16,
+      16
+    ],
+    "0:open-handle-shopping-basket:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:check:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:open-handle-shopping-basket:basket",
+        "0:open-handle-shopping-basket:handle-14"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "0:open-handle-shopping-basket:basket",
+        "0:open-handle-shopping-basket:handle-50"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "open-handle-shopping-basket",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "check",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "state",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/container-main-completion/compositions/open-handle-shopping-basket-check.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

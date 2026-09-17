@@ -6,7 +6,7 @@ from pathlib import Path
 from .combination_experiment import DATA, ROOT, render
 
 
-def build():
+def build(*, force=False):
     rows=json.loads(DATA.read_text())['rows']
     folder=ROOT/'dist/gallery/combination-previews';folder.mkdir(parents=True,exist_ok=True)
     cache=ROOT/'data/combination-previews.json'
@@ -16,8 +16,31 @@ def build():
     def one(row):
         key=hashlib.sha256((engine+json.dumps(row,sort_keys=True)).encode()).hexdigest()
         file=folder/(row['id']+'.svg')
-        prior=old.get(row['id'],{})
+        prior={} if force else old.get(row['id'],{})
         if prior.get('fingerprint')==key:return row['id'],prior
+        # The runner previously dropped rounded_box. Uniform placements are
+        # identical; only the small nonuniform rounding cases need rerendering.
+        old_engine = engine.replace('            "rounded_box": bool(it.get("rounded_box")),\n', '')
+        old_key = hashlib.sha256((old_engine+json.dumps(row,sort_keys=True)).encode()).hexdigest()
+        if prior.get('fingerprint') == old_key:
+            p = prior['result']['placements'][1]['painted_box']
+            b = row['subs'][0]['bounds']
+            width,height = b[2]-b[0], b[3]-b[1]
+            if width <= 1e-9 or height <= 1e-9 or abs((p['w']-4)/width-(p['h']-4)/height) < 1e-9:
+                return row['id'], {**prior, 'fingerprint':key}
+
+        # Readiness labels and native download links do not alter the SVG.
+        # Reuse the previous cache only when its exact pre-metadata fingerprint
+        # matches; changed component lists or geometry still require rendering.
+        legacy = json.loads(json.dumps(row))
+        for item in legacy['subs']:
+            item.pop('sub32_status', None)
+            item.pop('sub32_reason', None)
+            if item['family'] == 'sub':
+                item.pop('export_url', None)
+        legacy_key = hashlib.sha256((engine+json.dumps(legacy,sort_keys=True)).encode()).hexdigest()
+        if prior.get('fingerprint') == legacy_key:
+            return row['id'], {**prior, 'fingerprint': key}
         try:
             result=render({'id':row['id']}, row=row)
         except Exception as error:

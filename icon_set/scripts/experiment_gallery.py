@@ -103,9 +103,14 @@ def stage_experiments(target: Path) -> None:
         shutil.copyfile(combination, target / 'experiment-combination.json')
         counts['combination'] = len(json.loads(combination.read_text())['rows'])
     shutil.copyfile(Path(__file__).with_name('templates') / 'combination-experiment.js', target / 'combination-experiment.js')
+    from .sub_scaling_gallery import stage_sub_scaling
+    stage_sub_scaling(target)
     sub_exports = ROOT / 'icon_set/assets/combination-sub32'
     if sub_exports.exists():
         shutil.copytree(sub_exports, target / 'combination-sub32', dirs_exist_ok=True)
+    state_exports = ROOT / 'icon_set/assets/combination-state32'
+    if state_exports.is_dir():
+        shutil.copytree(state_exports, target / 'combination-state32', dirs_exist_ok=True)
     preview_cache = ROOT / 'icon_set/data/combination-previews.json'
     if preview_cache.is_file():
         results = json.loads(preview_cache.read_text())

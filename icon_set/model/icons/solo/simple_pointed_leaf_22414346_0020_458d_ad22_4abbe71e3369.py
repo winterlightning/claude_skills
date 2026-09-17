@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "food"
     aliases = ()
-    keywords = ('simple', 'pointed', 'leaf')
+    keywords = ('simple', 'pointed', 'leaf', 'sub icon')
 
     def build(self):
         # Plan: Broad diagonal pointed leaf with a sweeping central vein continuing above its upper-right tip. Lucide leaf informs the long organic contour and single vein. No secondary veins added.
@@ -39,3 +39,7 @@ class Drawing(Solo48):
 
         path('leaf',(6,42),[('C',(10,18),(6,32),(6,23)),('C',(36,10),(17,10),(27,6)),('C',(35,32),(40,16),(41,24)),('C',(6,42),(28,42),(15,42))],True)
         path('vein',(6,42),[('C',(36,10),(14,25),(26,18)),('C',(42,6),(39,10),(41,8))]);join('leaf','vein')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('1157517b-90dd-480d-990d-dd252676e00e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/leaf right_1157517b-90dd-480d-990d-dd252676e00e.svg')]

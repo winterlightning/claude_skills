@@ -14,7 +14,7 @@ class CanoeAndPaddle(Solo48):
     semantic_kind = 'noun'
     category = 'outdoors'
     aliases = ()
-    keywords = ('canoe', 'paddle', 'kayak', 'boat', 'water', 'sport', 'outdoors', 'outdoors-batch-01')
+    keywords = ('canoe', 'paddle', 'kayak', 'boat', 'water', 'sport', 'outdoors', 'outdoors-batch-01', 'sub icon')
 
     def build(self):
         # Plan: Top-view canoe with a circular cockpit and a separate double paddle. Repeated blades mirror vertically. Wide HRECT_L reserves space for the cockpit; long rib omitted.
@@ -46,3 +46,7 @@ class CanoeAndPaddle(Solo48):
             def p(x,y): return (x,y) if i == 0 else (x,48-y)
             poly(f'blade-{i}',p(4,8),p(12,8),p(12,16),p(8,20),p(4,16),closed=True)
         line('shaft',(8,20),(8,28));join('shaft','blade-0');join('shaft','blade-1')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('18ef3c0c-f96b-4a36-b74d-e15aada31f40', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/canoe paddle_18ef3c0c-f96b-4a36-b74d-e15aada31f40.svg')]

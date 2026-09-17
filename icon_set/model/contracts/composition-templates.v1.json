@@ -5,12 +5,13 @@
   "scope_note": "SOLO and CONTAINER_COMBINE are frozen in this release. SIDE_COMBINE and DIAGRAM_COMBINE are declared so the enum and validator are complete, but carry no frozen slots yet and the validator rejects any icon that claims them. Their templates land with the M6 composition engine.",
   "classes": {
     "SOLO": {
-      "contract": "One independently readable icon: a sub glyph on SUB32, a solo subject on SOLO48, or a container standing empty on CONTAINER64. The family decides which.",
+      "contract": "One independently readable icon: a sub glyph, solo subject, combination main subject, or empty container. The family decides its profile.",
       "frozen": true,
       "output_profiles": [
         "SUB32",
         "SOLO48",
-        "CONTAINER64"
+        "CONTAINER64",
+        "COMBINATION_MAIN48"
       ],
       "participants": {
         "min": 1,

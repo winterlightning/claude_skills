@@ -16,7 +16,7 @@ class Drop(Solo48):
     semantic_kind = 'noun'
     category = 'smileys'
     aliases = ()
-    keywords = ('drop', 'smileys')
+    keywords = ('drop', 'smileys', 'sub icon')
 
     def build(self):
         # Plan: VRECT_L; mirrored shoulders meet a circular bowl with vertical tangents.
@@ -26,3 +26,7 @@ class Drop(Solo48):
         self.add_arc('bowl',(8,28),(40,28),radius_x=16,sweep=False)
         self.add_bezier('right',(40,28),((40,22),(29,11),(axis,4)))
         self.add_contour('outline','left','bowl','right',closed=True)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('01d89380-da3f-4d8c-ae1a-a259c8c619ae', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/drop_01d89380-da3f-4d8c-ae1a-a259c8c619ae.svg')]

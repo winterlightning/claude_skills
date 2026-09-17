@@ -13,7 +13,7 @@ class ShoppingBagWithArchedHandle(Solo48):
     semantic_kind = 'noun'
     category = 'objects/accessories'
     aliases = ()
-    keywords = ('shopping', 'bag', 'with', 'arched', 'handle')
+    keywords = ('shopping', 'bag', 'with', 'arched', 'handle', 'sub icon')
 
     def build(self) -> None:
         # Shared nodes are reused by every touching member.
@@ -41,3 +41,7 @@ class ShoppingBagWithArchedHandle(Solo48):
         self.add_contour('body', 'rim-1', 'rim-2', 'rim-3', 'side-right', 'corner-right', 'base', 'corner-left', 'side-left', closed=True)
         self.add_contour('handle', 'handle-left', 'handle-arch', 'handle-right', closed=False)
         self.relate('connect', 'body', 'handle')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('a00cf782-226f-44d9-baca-8f8157db6f9a', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/battery 2_a00cf782-226f-44d9-baca-8f8157db6f9a.svg')]

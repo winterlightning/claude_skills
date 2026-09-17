@@ -14,7 +14,7 @@ class ShipsWheel(Solo48):
     semantic_kind = "noun"
     category = "transportation"
     aliases = ()
-    keywords = ('ship wheel', 'helm', 'steering', 'nautical', 'boat', 'captain', 'sailing', 'marine')
+    keywords = ('ship wheel', 'helm', 'steering', 'nautical', 'boat', 'captain', 'sailing', 'marine', 'sub icon')
 
     def build(self) -> None:
 
@@ -31,3 +31,7 @@ class ShipsWheel(Solo48):
             for b in self.primitives[i+1:]:
                 if a.start in (b.start,b.end) or a.end in (b.start,b.end):
                     self.relate('connect',a.element_id,b.element_id)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('2ff122ea-615a-43a4-98d6-4efda67be0a5', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/health/bacteria_2ff122ea-615a-43a4-98d6-4efda67be0a5.svg')]

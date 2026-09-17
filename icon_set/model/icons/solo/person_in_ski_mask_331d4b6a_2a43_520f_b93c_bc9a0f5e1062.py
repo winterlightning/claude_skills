@@ -19,7 +19,7 @@ class PersonInSkiMask(Solo48):
     semantic_kind = "noun"
     category = "objects/crime"
     aliases = ()
-    keywords = ('person', 'in', 'ski', 'mask')
+    keywords = ('person', 'in', 'ski', 'mask', 'sub icon')
 
     def build(self):
         def path(name, start, steps, closed=False):
@@ -43,3 +43,7 @@ class PersonInSkiMask(Solo48):
         path('hood',(8,44), [((14,38),6,6,True),(14,36),((8,30),6,6,True),(8,20),((24,4),16,16,True),((40,20),16,16,True),(40,30),((34,36),6,6,True),(34,38),((40,44),6,6,True)])
         path('eye-opening',(21,14),[(27,14),((27,22),4,4,True),(21,22),((21,14),4,4,True)],True)
         self.add_line('mouth',(22,32),(26,32))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('8a4bd6ce-492d-5b6a-a9ab-d8e814463361', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/criminal mask_8a4bd6ce-492d-5b6a-a9ab-d8e814463361.svg')]

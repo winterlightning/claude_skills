@@ -1,0 +1,39 @@
+"""Keyboard punctuation drawn on the shared x-height 18 / baseline 42 band.
+
+All coordinates use that same band: small punctuation is never enlarged to
+letter height. Round-cap zero-length lines form stroke-width-aware dots.
+"""
+SYMBOLS = {
+    '!': ('exclamation', ['M24 6 V30', 'M24 42 L24 42']),
+    '"': ('double-quote', ['M18 6 V16', 'M30 6 V16']),
+    '#': ('number-sign', ['M20 6 L14 42', 'M34 6 L28 42', 'M10 18 H39', 'M8 30 H37']),
+    '$': ('dollar', ['M35 11 C32 4 14 3 12 15 C10 27 35 21 36 33 C37 46 16 47 11 38', 'M24 1 V47']),
+    '%': ('percent', ['M11 42 L37 6', 'M11 13 A5 7 0 1 1 21 13 A5 7 0 1 1 11 13 Z', 'M27 35 A5 7 0 1 1 37 35 A5 7 0 1 1 27 35 Z']),
+    '&': ('ampersand', ['M39 42 L17 17 C8 6 25 0 29 10 C33 20 9 24 10 34 C11 47 32 47 38 26']),
+    "'": ('apostrophe', ['M24 6 V16']),
+    '(': ('left-parenthesis', ['M29 2 C14 14 14 38 29 50']),
+    ')': ('right-parenthesis', ['M19 2 C34 14 34 38 19 50']),
+    '*': ('asterisk', ['M24 5 V27', 'M14.47 10.5 L33.53 21.5', 'M14.47 21.5 L33.53 10.5']),
+    '+': ('plus', ['M10 30 H38', 'M24 16 V44']),
+    ',': ('comma', ['M25 40 C25 45 23 48 20 50']),
+    '-': ('hyphen', ['M16 30 H32']),
+    '.': ('period', ['M24 42 L24 42']),
+    '/': ('slash', ['M12 46 L36 2']),
+    ':': ('colon', ['M24 22 L24 22', 'M24 40 L24 40']),
+    ';': ('semicolon', ['M24 22 L24 22', 'M25 40 C25 45 23 48 20 50']),
+    '<': ('less-than', ['M34 16 L13 30 L34 44']),
+    '=': ('equals', ['M11 24 H37', 'M11 36 H37']),
+    '>': ('greater-than', ['M14 16 L35 30 L14 44']),
+    '?': ('question', ['M12 14 C12 1 36 1 36 14 C36 23 24 23 24 31', 'M24 42 L24 42']),
+    '@': ('at', ['M32 20 V33 C32 43 44 38 44 25 C44 0 5 0 5 26 C5 44 21 51 36 44', 'M32 27 C32 14 16 14 16 28 C16 42 32 40 32 27']),
+    '[': ('left-bracket', ['M30 2 H18 V50 H30']),
+    '\\': ('backslash', ['M12 2 L36 46']),
+    ']': ('right-bracket', ['M18 2 H30 V50 H18']),
+    '^': ('caret', ['M13 16 L24 6 L35 16']),
+    '_': ('underscore', ['M10 48 H38']),
+    '`': ('grave', ['M20 6 L28 14']),
+    '{': ('left-brace', ['M31 2 C22 2 20 5 20 13 V18 C20 23 18 26 13 26 C18 26 20 29 20 34 V39 C20 47 22 50 31 50']),
+    '|': ('vertical-bar', ['M24 2 V50']),
+    '}': ('right-brace', ['M17 2 C26 2 28 5 28 13 V18 C28 23 30 26 35 26 C30 26 28 29 28 34 V39 C28 47 26 50 17 50']),
+    '~': ('tilde', ['M9 32 C18 18 30 42 39 28']),
+}

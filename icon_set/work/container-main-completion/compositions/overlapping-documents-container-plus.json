@@ -1,0 +1,273 @@
+{
+  "icon_id": "overlapping-documents-container-plus",
+  "name": "Overlapping documents container plus",
+  "description": "",
+  "tags": [
+    "overlapping",
+    "documents",
+    "container",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "overlapping",
+    "documents",
+    "container",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:front-1",
+      "start": [
+        18,
+        2
+      ],
+      "end": [
+        46,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:front-2",
+      "start": [
+        46,
+        2
+      ],
+      "end": [
+        58,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:front-3",
+      "start": [
+        58,
+        14
+      ],
+      "end": [
+        58,
+        50
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:front-4",
+      "start": [
+        58,
+        50
+      ],
+      "end": [
+        18,
+        50
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:front-5",
+      "start": [
+        18,
+        50
+      ],
+      "end": [
+        18,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:rear-0",
+      "start": [
+        18,
+        14
+      ],
+      "end": [
+        6,
+        14
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:rear-1",
+      "start": [
+        6,
+        14
+      ],
+      "end": [
+        6,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:rear-2",
+      "start": [
+        6,
+        62
+      ],
+      "end": [
+        46,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:overlapping-documents-container:rear-3",
+      "start": [
+        46,
+        62
+      ],
+      "end": [
+        46,
+        50
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:overlapping-documents-container:front",
+      "members": [
+        "0:overlapping-documents-container:front-1",
+        "0:overlapping-documents-container:front-2",
+        "0:overlapping-documents-container:front-3",
+        "0:overlapping-documents-container:front-4",
+        "0:overlapping-documents-container:front-5"
+      ],
+      "closed": true
+    },
+    {
+      "contour_id": "0:overlapping-documents-container:rear",
+      "members": [
+        "0:overlapping-documents-container:rear-0",
+        "0:overlapping-documents-container:rear-1",
+        "0:overlapping-documents-container:rear-2",
+        "0:overlapping-documents-container:rear-3"
+      ],
+      "closed": false
+    }
+  ],
+  "anchors": {
+    "0:overlapping-documents-container:center": [
+      32,
+      32
+    ],
+    "0:overlapping-documents-container:content-top-left": [
+      16,
+      16
+    ],
+    "0:overlapping-documents-container:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "0:overlapping-documents-container:front",
+        "0:overlapping-documents-container:rear"
+      ]
+    },
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "overlapping-documents-container",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/container-main-completion/compositions/overlapping-documents-container-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

@@ -21,7 +21,7 @@ class AndroidMascotWithoutArms(Solo48):
     semantic_kind = "noun"
     category = 'apps'
     aliases = ()
-    keywords = ('android', 'mascot', 'without', 'arms')
+    keywords = ('android', 'mascot', 'without', 'arms', 'sub icon')
 
     def build(self) -> None:
         axis = 24
@@ -49,3 +49,7 @@ class AndroidMascotWithoutArms(Solo48):
         for side,x,dx in [("left",15,-7),("right",33,7)]:
             self.add_line(f"antenna-{side}",(x,10),(x+dx,4))
             self.relate("connect","body",f"antenna-{side}")
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('c737ad22-037b-47d7-883f-17a8b36a58e5', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/apps/android_c737ad22-037b-47d7-883f-17a8b36a58e5.svg')]

@@ -17,7 +17,7 @@ class BugBeetle(Solo48):
     semantic_kind = "noun"
     category = "objects/symbols"
     aliases = ()
-    keywords = ('bug', 'beetle', 'insect', 'debug', 'error', 'software', 'pest', 'virus')
+    keywords = ('bug', 'beetle', 'insect', 'debug', 'error', 'software', 'pest', 'virus', 'sub icon')
 
     def build(self) -> None:
 
@@ -44,3 +44,7 @@ class BugBeetle(Solo48):
             for level in ('top','mid','low'):
                 self.relate('connect','leg-'+level+'-'+side,'body')
             self.relate('connect','leg-top-'+side,'head-divider')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('9a3ccf45-79d9-442e-9bbb-bf6598cc98bf', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/bug_9a3ccf45-79d9-442e-9bbb-bf6598cc98bf.svg')]

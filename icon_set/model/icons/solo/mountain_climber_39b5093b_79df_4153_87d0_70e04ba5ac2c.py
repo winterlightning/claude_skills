@@ -17,7 +17,7 @@ class MountainClimber(Solo48):
     semantic_kind = "noun"
     category = "objects/sports"
     aliases = ()
-    keywords = ('climbing', 'mountain', 'climber', 'rock', 'athlete', 'ascent')
+    keywords = ('climbing', 'mountain', 'climber', 'rock', 'athlete', 'ascent', 'sub icon')
 
     def circle(self,name,x,y,r):
         self.add_arc(name+'-top',(x-r,y),(x+r,y),radius_x=r)
@@ -65,3 +65,7 @@ class MountainClimber(Solo48):
          ('pack-strap',[(16,24),(6,22),(6,25)]),
          ('supporting-leg',[(12,36),(6,42)]),
          ('raised-leg',[(12,36),(24,32),(26,40)])])
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('c63b6ce9-917b-4f7e-a312-f05bbdf42679', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/climb_c63b6ce9-917b-4f7e-a312-f05bbdf42679.svg')]

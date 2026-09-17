@@ -315,7 +315,7 @@ def snapped_size(w, h, bw, bh):
     return W, H
 
 
-def fit_into(segments, box_px, snap=False):
+def fit_into(segments, box_px, snap=False, exact_box=False):
     """Scale `segments` into `box_px` and centre them there.
 
     Uniform and centred is the same rule `app.place.fit` uses in the library, so
@@ -331,6 +331,10 @@ def fit_into(segments, box_px, snap=False):
     x0, y0, x1, y1 = b
     w, h = x1 - x0, y1 - y0
     bx, by, bw, bh = box_px
+    if exact_box:
+        sx = bw/w if w>1e-9 else 1
+        sy = bh/h if h>1e-9 else 1
+        return [[(bx+(p[0]-x0)*sx, by+(p[1]-y0)*sy) for p in seg] for seg in segments]
     got = snapped_size(w, h, bw, bh) if snap else None
     if got is not None:
         tw, th = got
@@ -591,11 +595,11 @@ def _fold(ordered, work_dir, buffer_radius, canvas, stroke, min_segment_length,
         snap = (bool(it.get("manual_combined")) and not it.get("preserve_geometry"))
         raw_placed.append(fit_into(
             it["placed_source"], box_to_canvas(it["box"], canvas=canvas),
-            snap=snap))
+            snap=snap, exact_box=bool(it.get("rounded_box"))))
         raw_natural.append(fit_into(
             it["natural_source"],
             box_to_canvas(it.get("natural_box") or it["box"], canvas=canvas),
-            snap=snap))
+            snap=snap, exact_box=bool(it.get("rounded_box"))))
 
     ns, ndx, ndy, normalization = group_transform(
         raw_natural, canvas=canvas, stroke=stroke)
@@ -624,7 +628,7 @@ def _fold(ordered, work_dir, buffer_radius, canvas, stroke, min_segment_length,
     first = ordered[0]
     segments = fit_into(parse_segments(first["clean"]),
                         box_to_canvas(first["box"], canvas=canvas),
-                        snap=(bool(first.get("manual_combined")) and not first.get("preserve_geometry")))
+                        snap=(bool(first.get("manual_combined")) and not first.get("preserve_geometry")), exact_box=bool(first.get("rounded_box")))
     # how many of the accumulated segments are still the bottom layer's — the
     # one the writer calls the main icon. Every pass cuts into it, so the count
     # has to be carried through the cut rather than measured at the end.
@@ -641,7 +645,7 @@ def _fold(ordered, work_dir, buffer_radius, canvas, stroke, min_segment_length,
         # it are already on the canvas, so there is no offset left to apply
         placed = fit_into(parse_segments(it["clean"]),
                           box_to_canvas(it["box"], canvas=canvas),
-                          snap=(bool(it.get("manual_combined")) and not it.get("preserve_geometry")))
+                          snap=(bool(it.get("manual_combined")) and not it.get("preserve_geometry")), exact_box=bool(it.get("rounded_box")))
         state = _state_data(placed, buffer_radius)
 
         before = len(segments)

@@ -12,7 +12,7 @@ class BadmintonShuttlecock(Solo48):
     semantic_kind = 'noun'
     category = 'objects/symbols'
     aliases = ()
-    keywords = ('badminton', 'shuttlecock', 'sport', 'racket', 'game', 'birdie', 'court', 'play')
+    keywords = ('badminton', 'shuttlecock', 'sport', 'racket', 'game', 'birdie', 'court', 'play', 'sub icon')
 
     def build(self) -> None:
         """Symbol plan: Remove the internal feather rib, leaving three outer feather curves and an empty feather fan. Reference: inspected current parent; no useful exact Lucide match selected."""
@@ -26,3 +26,7 @@ class BadmintonShuttlecock(Solo48):
         self.add_contour('outline', 'feather-left', 'feather-top', 'feather-middle', 'feather-right', 'feather-base', 'cork-bottom', 'cork-left', closed=True)
         self.add_line('cork-divider', (14, 26), (22, 34))
         self.relate('connect', 'outline', 'cork-divider')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('a72d1038-bdfa-446e-bd28-56516d6ea08b', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/badminton ball_a72d1038-bdfa-446e-bd28-56516d6ea08b.svg')]

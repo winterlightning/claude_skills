@@ -33,10 +33,14 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "objects/interface-essential"
     aliases = ()
-    keywords = ('refresh', 'arrows', 'circular', 'cycle', 'clockwise', 'synchronize')
+    keywords = ('refresh', 'arrows', 'circular', 'cycle', 'clockwise', 'synchronize', 'sub icon')
     def build(self):
         for i in range(2):
             def p(x,y):return (x,y) if i==0 else (48-x,48-y)
             n=f"cycle-{i}"
             path(self,n,p(6,22),[("C",p(6,13),p(14,6),p(24,6)),("C",p(32,6),p(38,10),p(42,16))])
             self.add_polyline(n+"-head",p(32,16),p(42,16),p(42,6));self.relate("connect",n,n+"-head")
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('6f318fe0-f892-436c-85ec-2fd600044785', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/sync arrow_6f318fe0-f892-436c-85ec-2fd600044785.svg')]

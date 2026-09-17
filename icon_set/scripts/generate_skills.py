@@ -241,6 +241,22 @@ FAMILY_TEXT = {
 }
 
 
+# The new save family intentionally shares every solo drawing instruction.
+FAMILY_TEXT["combination_main"] = {
+    **FAMILY_TEXT["solo"],
+    "trigger": "Use when asked to draw the main subject of an icon combination and save it in the icon combination main family, with the same drawing rules as solo.",
+    "job": FAMILY_TEXT["solo"]["job"].replace(
+        "A **solo** icon is one independently readable subject. It is never hosted and hosts nothing,",
+        "An **icon combination main** is one independently readable main subject, saved separately for use in a combination. Draw only the main subject; it hosts nothing,"
+    ),
+    "specifics": [item.replace("SOLO48", "COMBINATION_MAIN48") for item in FAMILY_TEXT["solo"]["specifics"]],
+}
+
+
+def skill_name(family: str) -> str:
+    return "icon-" + family.replace("_", "-")
+
+
 def render(family: str) -> str:
     bound_family = "solo" if family == "avatar" else family
     row = contracts.families()[bound_family]
@@ -258,7 +274,7 @@ def render(family: str) -> str:
            "avatar_gap": avatar_gap, "avatar_centerline_gap": avatar_gap + 4}
     others = [f for f in contracts.families() if f != bound_family]
     other_lines = "\n".join(
-        f"- `/icon-{other}` — {other} family, "
+        f"- `/{skill_name(other)}` — {other} family, "
         f"`{contracts.families()[other]['profile']}`, "
         f"{Profile.for_family(other).spec.canvas_size}×{Profile.for_family(other).spec.canvas_size}"
         for other in others
@@ -379,12 +395,12 @@ cannot approve an incomplete recreation.
 """ if family == "sub" else ""
 
     return f"""---
-name: icon-{family}
+name: {skill_name(family)}
 description: Author a {bound_family}-family {"avatar" if family == "avatar" else "icon"} for the Pictographic icon set on the {row['profile']} profile ({spec.canvas_size}x{spec.canvas_size}). {text['trigger']} Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 ---
 
-# /icon-{family} — one {family} icon on `{row['profile']}`
+# /{skill_name(family)} — one {family} icon on `{row['profile']}`
 
 Request: $ARGUMENTS
 {reference_fidelity}
@@ -406,7 +422,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/{row['dist']}/` with its own `manifest.json` |
 | Ink clearance (MIC) | {spec.mic} between distinct parts = **{spec.equal_stroke_centerline_min} between centerlines** |
 | Interior guide | ({guide_l},{guide_t})-({guide_r},{guide_b}) — constrains inner detail only |
-| Existing icons to imitate | {("`user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar`" if family == "avatar" else _examples(family))} |
+| Existing icons to imitate | {("`user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar`" if family == "avatar" else _examples("solo" if family == "combination_main" else family))} |
 
 {text['job'].format(**fmt)}
 
@@ -429,7 +445,7 @@ mirror only the parts where it helps the drawing read clearly.
 For any human subject or human part in a scene, first read
 `{SHARED}/human-reference.md` and inspect the relevant files in
 `icon_set/references/human_ref/`. These own human proportions and construction;
-{('avatar heads touch the body with zero visible gap and use circular face arcs.' if family == 'avatar' else 'detached heads require exactly 4 units of visible head-to-body clearance.')}{(chr(10) + 'For each stick figure, call `self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")` after creating those parts. The head flag names its outline primitive or contour; the torso flag names the upper torso primitive, with `start` or `end` identifying its actual neck junction. Use a unique figure ID for each person. The required gap is exactly 8 units between stroke centerlines / 4 units between ink edges. See the shared human reference for the full example and measurement rules. These flags support future validation; they do not certify spacing or declare contact.' if family == 'solo' else '')}
+{('avatar heads touch the body with zero visible gap and use circular face arcs.' if family == 'avatar' else 'detached heads require exactly 4 units of visible head-to-body clearance.')}{(chr(10) + 'For each stick figure, call `self.mark_human_figure("person", head="head", torso="torso", torso_junction="start")` after creating those parts. The head flag names its outline primitive or contour; the torso flag names the upper torso primitive, with `start` or `end` identifying its actual neck junction. Use a unique figure ID for each person. The required gap is exactly 8 units between stroke centerlines / 4 units between ink edges. See the shared human reference for the full example and measurement rules. These flags support future validation; they do not certify spacing or declare contact.' if family in ('solo', 'combination_main') else '')}
 
 Before authoring, inspect a relevant local Lucide original and its atomic-debug
 geometry when a useful match exists. Use its construction principles with this
@@ -610,7 +626,7 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
         "Resolve repository paths and run commands from the `claude_skills` directory "
         "containing `icon_set/` (three levels above this skill folder). "
         "In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, "
-        "`$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. "
+        "`$icon-solo`, `$icon-combination-main`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. "
         "Treat slash-style handoffs in generated briefs as references to the "
         "corresponding skill.",
     )
@@ -620,13 +636,13 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
     stale = []
     outputs = {}
     for family in [*contracts.families(), "avatar"]:
-        if skill is not None and skill != f"icon-{family}":
+        if skill is not None and skill != skill_name(family):
             continue
         content = render(family)
         if agent in ("all", "claude"):
-            outputs[SKILLS_DIR / f"icon-{family}" / "SKILL.md"] = content
+            outputs[SKILLS_DIR / skill_name(family) / "SKILL.md"] = content
         if agent in ("all", "codex"):
-            outputs[CODEX_SKILLS_DIR / f"icon-{family}" / "SKILL.md"] = render_codex(content)
+            outputs[CODEX_SKILLS_DIR / skill_name(family) / "SKILL.md"] = render_codex(content)
     if agent in ("all", "codex"):
         for name in ("icon-brief", "icon-making", "icon-review", "icon-color"):
             if skill is not None and skill != name:

@@ -14,7 +14,7 @@ class HeartPulse(Solo48):
     semantic_kind = "noun"
     category = "objects/symbols"
     aliases = ()
-    keywords = ('heart', 'pulse', 'heartbeat', 'health', 'cardio', 'medical', 'rate', 'life')
+    keywords = ('heart', 'pulse', 'heartbeat', 'health', 'cardio', 'medical', 'rate', 'life', 'sub icon')
 
     def build(self) -> None:
         # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
@@ -34,3 +34,7 @@ class HeartPulse(Solo48):
         self.add_contour('heart',*('left-lobe', 'right-lobe', 'right-shoulder', 'right-tip', 'left-tip', 'left-shoulder'),closed=True)
         self.add_contour('pulse',*('pulse-1', 'pulse-2', 'pulse-3', 'pulse-4', 'pulse-5', 'pulse-6'),closed=False)
         self.relate('connect',*('heart', 'pulse'))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('a9dc34df-bbc3-4ab4-a859-ebdb7d92a804', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/sports/heart rate_a9dc34df-bbc3-4ab4-a859-ebdb7d92a804.svg'), ('468beab8-6edf-4e7f-9ee2-0f23f5c3b360', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/sports/heart rate_468beab8-6edf-4e7f-9ee2-0f23f5c3b360.svg')]

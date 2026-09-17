@@ -193,9 +193,17 @@ def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = No
     rows = scan(root)
     warning = conversion_warning(root, rows)
     links = links or model_links()
+    text_by_source = collections.defaultdict(list)
+    for icon_id, record in built.items():
+        if record.get('family') == 'text':
+            for uid in record.get('source_ids', []):
+                text_by_source[uid].append(icon_id)
     categories = collections.OrderedDict()
     for row in rows:
         models, method = link(row, links)
+        if text_by_source.get(row['uuid']):
+            models = sorted(set(models + text_by_source[row['uuid']]))
+            method = 'source ID'
         generated = [dict(icon_id=icon_id, key=built[icon_id]['key'], preview_url=built[icon_id]['preview_url'])
                      for icon_id in models if icon_id in built]
         state = ('generated' if generated else 'build_failed' if any(m in failed for m in models)

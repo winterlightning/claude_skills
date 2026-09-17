@@ -9,8 +9,8 @@ class TypefaceExperimentTests(unittest.TestCase):
     def test_centerlines_keep_exact_paths(self):
         glyphs=json.loads((Path(__file__).resolve().parents[1]/'dist/gallery/typeface.json').read_text())['glyphs']
         rows=typeface_samples(glyphs)
-        self.assertEqual(len(rows),63)
-        self.assertEqual(len({r['key'] for r in rows}),63)
+        self.assertEqual(len(rows),95)
+        self.assertEqual(len({r['key'] for r in rows}),95)
         by_id={g['icon_id']:g for g in glyphs}
         for row in rows:
             with self.subTest(icon=row['icon_id']):
@@ -29,7 +29,7 @@ class TypefaceExperimentTests(unittest.TestCase):
         html=(root/'experiment.html').read_text()
         self.assertNotIn('__TYPEFACE_EXPERIMENT_DATA__',html)
         payload=html.split('<script id="typefaceExperimentData" type="application/json">')[1].split('</script>')[0]
-        self.assertEqual(len(json.loads(payload)['icons']),63)
+        self.assertEqual(len(json.loads(payload)['icons']),95)
         js=(root/'experiment.js').read_text()
         self.assertIn("review.href='text-combine.html'",js)
         self.assertIn("type==='typeface'?Math.max(1,filtered.length):pageSize",js)
@@ -41,7 +41,7 @@ class TypefaceExperimentTests(unittest.TestCase):
         self.assertEqual(len(originals),37)
         for row in rows:
             with self.subTest(icon=row['icon_id']):
-                if row['icon_id'].endswith('-uppercase'):
+                if row['icon_id'].endswith('-uppercase') or row['icon_id'].startswith('symbol-'):
                     self.assertIsNone(row['original'])
                     self.assertIsNone(row['original_preview'])
                 else:

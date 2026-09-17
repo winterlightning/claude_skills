@@ -3,7 +3,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = 'dc5549d8-9b05-4532-8ed4-ef18efdf1b0f'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/design/brush_dc5549d8-9b05-4532-8ed4-ef18efdf1b0f.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'gpt-6'
 
 
 class Drawing(Solo48):
@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "objects/design"
     aliases = ()
-    keywords = ('brush', 'paintbrush', 'bristles', 'handle', 'art', 'artist', 'painting', 'tool')
+    keywords = ('brush', 'paintbrush', 'bristles', 'handle', 'art', 'artist', 'painting', 'tool', 'sub icon')
 
     def build(self):
         # Plan: long rounded diagonal handle flows into a curved pointed bristle tuft.
@@ -34,3 +34,7 @@ class Drawing(Solo48):
         self.add_bezier('bristles-upper',(6,42),((14,34),(10,18),(20,22)))
         self.add_contour('outline','handle-upper','handle-tip','handle-lower','bristles-lower','bristles-upper',closed=True)
         self.add_line('joint',(20,22),(26,28));join('joint','outline')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('a0a41169-49c3-4086-a686-b84d4a7eeb92', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/brush_a0a41169-49c3-4086-a686-b84d4a7eeb92.svg')]

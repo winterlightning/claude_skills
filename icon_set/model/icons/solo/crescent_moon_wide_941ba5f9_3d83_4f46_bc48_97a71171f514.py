@@ -14,7 +14,7 @@ class CrescentMoonWide(Solo48):
     semantic_kind = "noun"
     category = "objects/symbols"
     aliases = ()
-    keywords = ('moon', 'crescent', 'night', 'sleep', 'dark-mode', 'sky', 'lunar', 'evening')
+    keywords = ('moon', 'crescent', 'night', 'sleep', 'dark-mode', 'sky', 'lunar', 'evening', 'sub icon')
 
     def build(self) -> None:
         self.add_arc('outer-top',(24,6),(6,24),radius_x=18,sweep=False)
@@ -22,3 +22,7 @@ class CrescentMoonWide(Solo48):
         self.add_arc('outer-right',(24,42),(42,24),radius_x=18,sweep=False)
         self.add_arc('inner',(42,24),(24,6),radius_x=13)
         self.add_contour('moon','outer-top','outer-bottom','outer-right','inner',closed=True)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('5b9c3b71-2b29-4560-8949-289b5ff5bd10', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/night_5b9c3b71-2b29-4560-8949-289b5ff5bd10.svg')]

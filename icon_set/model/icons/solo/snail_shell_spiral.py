@@ -12,7 +12,7 @@ class SnailShellSpiral(Solo48):
     semantic_kind = 'noun'
     category = 'nature/animals'
     aliases = ()
-    keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl')
+    keywords = ('snail', 'shell', 'spiral', 'swirl', 'coil', 'whorl', 'mollusc', 'curl', 'sub icon')
 
     def build(self) -> None:
         """Opening repair: Rebuilt the whorl from tangent half-ellipses with wider turn spacing and exact square bounds."""
@@ -21,3 +21,7 @@ class SnailShellSpiral(Solo48):
         self.add_arc('middle-upper', (16, 24), (32, 24), radius_x=8, radius_y=8)
         self.add_arc('inner-lower', (32, 24), (26, 24), radius_x=3, radius_y=3)
         self.add_contour('spiral', 'outer-upper', 'outer-lower', 'middle-upper', 'inner-lower')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('7795da4a-94f4-4d32-9e97-2b2255bfc247', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/hotels/food_7795da4a-94f4-4d32-9e97-2b2255bfc247.svg')]

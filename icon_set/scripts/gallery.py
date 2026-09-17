@@ -165,13 +165,17 @@ def original_sources() -> dict[str, list[Path]]:
     for icon_id, (paths, ids) in declared.items():
         for uid in sorted(ids):
             paths.extend(by_id.get(uid, []))
-        # Multiple batch folders can contain identical copies of the same original.
+        # Collapse batch copies of one reference, not distinct reference IDs
+        # whose artwork happens to be identical. Every source identity must
+        # remain visible on the linked icon's provenance list.
         seen = set()
         selected = []
         for path in sorted(set(paths), key=lambda p: (p.suffix.lower() != '.svg', str(p))):
             digest = hashlib.sha256(path.read_bytes()).hexdigest()
-            if digest not in seen:
-                seen.add(digest)
+            match = uuid.search(path.stem)
+            identity = (match[0].lower() if match else str(path), digest)
+            if identity not in seen:
+                seen.add(identity)
                 selected.append(path)
         result[icon_id] = selected
     return result
@@ -335,6 +339,8 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
                     ancestor = registered[ancestor.variant_of]
                 record['variant_root'] = ancestor.icon_id
             records.append(record)
+    from icon_set.scripts.text_family import gallery_records as text_records
+    records.extend(text_records(staged, published, target))
     failed_records = []
     exported_keys = {record['key'] for record in records}
     for folder in folders:
@@ -375,6 +381,9 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     remap_categories(records + failed_records, catalog)
     add_creation_times(records + failed_records, published)
     add_modification_times(records + failed_records, published)
+    from icon_set.scripts.sub_reference_fidelity import annotate_sub_references, stage_sub_reference_review
+    annotate_sub_references(records + failed_records)
+    stage_sub_reference_review(target)
     stage_review_facets(records, staged, published, target)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')

@@ -40,3 +40,9 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     html = html.replace('__TYPEFACE_DATA__', data)
     html = html.replace('__TYPEFACE_SCRIPT__', (templates/'text-combine.js').read_text())
     (target/'text-combine.html').write_text(html)
+
+    # The text family uses these same glyphs, with a fixed-height canvas.
+    (target/'text-icons.html').write_text((templates/'text-icons.html').read_text())
+    spec = source.parents[1] / 'data/container-text-icons.json'
+    pending = json.loads(spec.read_text()).get('unresolved', []) if spec.exists() else []
+    (target/'text-unresolved.json').write_text(json.dumps(pending, indent=2)+'\n')

@@ -1,0 +1,223 @@
+{
+  "icon_id": "point-top-hexagon-container-plus",
+  "name": "Point top hexagon container plus",
+  "description": "",
+  "tags": [
+    "point",
+    "top",
+    "hexagon",
+    "container",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "aliases": [],
+  "category": "compositions",
+  "keywords": [
+    "point",
+    "top",
+    "hexagon",
+    "container",
+    "add",
+    "create",
+    "increase",
+    "math"
+  ],
+  "family": "container",
+  "profile": "CONTAINER64",
+  "canvas_size": 64,
+  "semantic_role": "MAIN",
+  "semantic_kind": "noun",
+  "composition_class": "CONTAINER_COMBINE",
+  "keyshape": "VRECT_XL",
+  "keyshape_bounds": [
+    4,
+    0,
+    60,
+    64
+  ],
+  "style": {
+    "stroke_width": 4,
+    "line_cap": "round",
+    "line_join": "round",
+    "grid": 1
+  },
+  "primitives": [
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-1",
+      "start": [
+        32,
+        2
+      ],
+      "end": [
+        58,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-2",
+      "start": [
+        58,
+        17
+      ],
+      "end": [
+        58,
+        47
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-3",
+      "start": [
+        58,
+        47
+      ],
+      "end": [
+        32,
+        62
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-4",
+      "start": [
+        32,
+        62
+      ],
+      "end": [
+        6,
+        47
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-5",
+      "start": [
+        6,
+        47
+      ],
+      "end": [
+        6,
+        17
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "0:point-top-hexagon-container:hexagon-6",
+      "start": [
+        6,
+        17
+      ],
+      "end": [
+        32,
+        2
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-horizontal",
+      "start": [
+        18,
+        32
+      ],
+      "end": [
+        46,
+        32
+      ]
+    },
+    {
+      "kind": "line",
+      "element_id": "1:plus:bar-vertical",
+      "start": [
+        32,
+        18
+      ],
+      "end": [
+        32,
+        46
+      ]
+    }
+  ],
+  "contours": [
+    {
+      "contour_id": "0:point-top-hexagon-container:hexagon",
+      "members": [
+        "0:point-top-hexagon-container:hexagon-1",
+        "0:point-top-hexagon-container:hexagon-2",
+        "0:point-top-hexagon-container:hexagon-3",
+        "0:point-top-hexagon-container:hexagon-4",
+        "0:point-top-hexagon-container:hexagon-5",
+        "0:point-top-hexagon-container:hexagon-6"
+      ],
+      "closed": true
+    }
+  ],
+  "anchors": {
+    "0:point-top-hexagon-container:center": [
+      32,
+      32
+    ],
+    "0:point-top-hexagon-container:content-top-left": [
+      16,
+      16
+    ],
+    "0:point-top-hexagon-container:content-bottom-right": [
+      48,
+      48
+    ],
+    "1:plus:center": [
+      32,
+      32
+    ]
+  },
+  "relationships": [
+    {
+      "kind": "connect",
+      "members": [
+        "1:plus:bar-horizontal",
+        "1:plus:bar-vertical"
+      ]
+    }
+  ],
+  "children": [
+    {
+      "icon_id": "point-top-hexagon-container",
+      "profile": "CONTAINER64",
+      "semantic_role": "MAIN",
+      "semantic_kind": "noun",
+      "slot_role": "container",
+      "position": [
+        0,
+        0
+      ]
+    },
+    {
+      "icon_id": "plus",
+      "profile": "SUB32",
+      "semantic_role": "SUB",
+      "semantic_kind": "verb",
+      "slot_role": "content",
+      "position": [
+        16,
+        16
+      ]
+    }
+  ],
+  "svg_path": "work/container-main-completion/compositions/point-top-hexagon-container-plus.svg",
+  "validation": {
+    "status": "valid",
+    "checks_run": [
+      "schema/profile",
+      "style/grid",
+      "canvas/keyshape bounds",
+      "mic",
+      "keyshape",
+      "composition",
+      "svg round-trip",
+      "reproducibility"
+    ]
+  }
+}

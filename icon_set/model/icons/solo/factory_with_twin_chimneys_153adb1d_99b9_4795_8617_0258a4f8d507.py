@@ -9,7 +9,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID = '153adb1d-99b9-4795-8617-0258a4f8d507'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/container/factory_153adb1d-99b9-4795-8617-0258a4f8d507.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'gpt-6'
 
 class Batch02Icon10(Solo48):
     icon_id = 'factory-with-twin-chimneys-153adb1d'
@@ -18,7 +18,7 @@ class Batch02Icon10(Solo48):
     semantic_kind = "noun"
     category = "objects/factory"
     aliases = ('factory-with-twin-chimneys',)
-    keywords = ('factory', 'with', 'twin', 'chimneys')
+    keywords = ('factory', 'with', 'twin', 'chimneys', 'sub icon')
 
     def build(self):
         def path(name, start, commands, closed=False):
@@ -39,3 +39,7 @@ class Batch02Icon10(Solo48):
             name=f"chimney-{side}"
             self.add_polyline(name,p(18,26),p(18,6),p(10,6),p(8,26))
             self.relate("connect","building",name)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('2530cf14-a84f-4082-8504-b4d2f35fe972', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/factory_2530cf14-a84f-4082-8504-b4d2f35fe972.svg')]

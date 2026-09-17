@@ -7,7 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='6188e665-7838-43fa-b5c8-8aecfca95ea0'
 SOURCE_PATH='pictographic-primitives/symbol/three hearts_6188e665-7838-43fa-b5c8-8aecfca95ea0.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
 
 class HeartsTwo(Solo48):
     icon_id='hearts-two'
@@ -16,7 +16,7 @@ class HeartsTwo(Solo48):
     semantic_kind="noun"
     category="objects/symbols"
     aliases=()
-    keywords=('hearts', 'love', 'like', 'romance', 'valentine', 'favorite', 'affection', 'care')
+    keywords = ('hearts', 'love', 'like', 'romance', 'valentine', 'favorite', 'affection', 'care', 'sub icon')
 
     def oval(self,n,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry
@@ -41,3 +41,7 @@ class HeartsTwo(Solo48):
         self.raw('small-bottom',[(26,10),(28,14),(34,20),(40,14),(42,10)])
         self.add_arc('small-right',(42,10),(34,10),radius_x=4,sweep=False)
         self.add_contour('small','small-left',*['small-bottom-'+str(j) for j in range(1,5)],'small-right',closed=True)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('76a3aff2-7ce1-498f-ac39-f41016299ef6', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/heart and hook_76a3aff2-7ce1-498f-ac39-f41016299ef6.svg')]

@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {layout,svg}=require('../scripts/templates/text-combine.js');
 const {glyphs}=JSON.parse(fs.readFileSync(path.join(__dirname,'../dist/gallery/typeface.json'),'utf8'));
-assert.equal(glyphs.length,63);
+assert.equal(glyphs.length,95);
 let result=layout('obdpqg',glyphs);
 for(const p of result.placements){
  assert.ok(Math.abs(p.glyph.body_height*p.scale-36)<1e-8);
@@ -110,3 +110,63 @@ for(const stroke of [.5,4,16])for(const underline of [false,true])for(const stri
 }
 assert.equal(layout('\n  ',glyphs,{underline:true,strikethrough:true}).decorations.length,0);
 console.log('Underline and strikethrough: individual/combined effects, multiline bounds, blank lines, stroke weights and export passed.');
+// Fixed canvas height preserves every glyph's aspect ratio and the complete line box.
+for(const text of ['INDD','gyp','FOR\nSALE','SHARE\nTHE\nROAD','Mg'])for(const underline of [false,true]){
+ if(underline&&text.split('\n').length>=3){assert.throws(()=>layout(text,glyphs,{padding:4,underline,canvasHeight:28}),/cannot fit/);continue;}
+ const original=layout(text,glyphs,{padding:4,underline,align:'center'});
+ const fixed=layout(text,glyphs,{padding:4,underline,align:'center',canvasHeight:28});
+ assert.equal(fixed.height,28);
+ assert.equal(fixed.stroke,4);
+ const ratios=fixed.placements.map((p,i)=>p.scale/original.placements[i].scale);
+ assert.ok(ratios.every(r=>Math.abs(r-ratios[0])<1e-10));
+ const widths=[...svg(fixed,text).matchAll(/<path[^>]*stroke-width="([^"]+)"/g)].map(m=>Number(m[1]));
+ let wi=0;for(const p of fixed.placements)for(const _ of p.glyph.paths)assert.ok(Math.abs(widths[wi++]*p.scale-4)<1e-10);
+ assert.ok(fixed.decorations.every(d=>d.y+2<=28));
+ assert.ok(svg(fixed,text).includes('height="28"'));
+ for(const p of fixed.placements){
+  const [l,t,r,b]=p.glyph.bounds,h=fixed.stroke/2;
+  assert.ok(l*p.scale+p.x-h>=-1e-7&&r*p.scale+p.x+h<=fixed.width+1e-7);
+  assert.ok(t*p.scale+p.y-h>=-1e-7&&b*p.scale+p.y+h<=28+1e-7);
+ }
+}
+assert.throws(()=>layout('A',glyphs,{canvasHeight:0}),/Invalid canvas height/);
+console.log('Fixed 28-unit text canvas: multiline, underline, bounds and proportions passed.');
+// Tight text canvases measure actual glyph/decorative ink, not the nominal body band.
+const batch=JSON.parse(fs.readFileSync(path.join(__dirname,'../data/container-text-icons.json'),'utf8'));
+for(const item of [...batch.icons,{text:'ooo',underline:false},{text:'gyp',underline:true}]){
+ const r=layout(item.text,glyphs,{canvasHeight:28,padding:0,stroke:4,trimInk:true,underline:item.underline,align:'center'});
+ const boxes=r.placements.map(p=>[p.x+p.glyph.bounds[0]*p.scale-2,p.y+p.glyph.bounds[1]*p.scale-2,p.x+p.glyph.bounds[2]*p.scale+2,p.y+p.glyph.bounds[3]*p.scale+2]);
+ for(const d of r.decorations)boxes.push([d.x1-2,d.y-2,d.x2+2,d.y+2]);
+ const bounds=[Math.min(...boxes.map(b=>b[0])),Math.min(...boxes.map(b=>b[1])),Math.max(...boxes.map(b=>b[2])),Math.max(...boxes.map(b=>b[3]))];
+ for(const [i,v] of [0,0,r.width,28].entries())assert.ok(Math.abs(bounds[i]-v)<1e-8,`${item.text}: ink bounds ${bounds}`);
+ assert.equal(r.stroke,4);
+}
+console.log('All text exports: zero padding on all four ink edges, 28-unit ink height, stroke 4 passed.');
+// Every printable ASCII character is accepted, with punctuation on a shared
+// typographic band instead of scaling tiny marks to the full letter height.
+const printable=Array.from({length:95},(_,i)=>String.fromCharCode(i+32)).join('');
+for(const stroke of [.5,4,16]){
+ const r=layout(printable,glyphs,{stroke,underline:true,strikethrough:true});
+ assert.equal(r.placements.length,94);
+ for(const p of r.placements){
+  const [l,t,rr,b]=p.glyph.bounds;
+  assert.ok([p.x,p.y,p.scale,...p.glyph.bounds].every(Number.isFinite));
+  assert.ok(l*p.scale+p.x-stroke/2>=-1e-8);
+  assert.ok(rr*p.scale+p.x+stroke/2<=r.width+1e-8);
+  assert.ok(t*p.scale+p.y-stroke/2>=-1e-8);
+  assert.ok(b*p.scale+p.y+stroke/2<=r.height+1e-8);
+ }
+}
+const punct=layout('.o,\'_',glyphs),[period,o,comma,quote,underscore]=punct.placements;
+const topOf=p=>p.y+p.glyph.bounds[1]*p.scale;
+const bottomOf=p=>p.y+p.glyph.bounds[3]*p.scale;
+assert.equal(topOf(period),punct.baseline);
+assert.ok(bottomOf(comma)>punct.baseline);
+assert.ok(bottomOf(quote)<topOf(o));
+assert.ok(topOf(underscore)>punct.baseline);
+const escaped=svg(layout('<&>"',glyphs),'<&>"');
+assert.ok(escaped.includes('<title>&lt;&amp;&gt;&quot;</title>'));
+assert.ok(!escaped.includes('<title><'));
+const lockedSymbols=layout('Hello, World!\n$19.99',glyphs,{canvasHeight:28,trimInk:true,padding:0});
+assert.equal(lockedSymbols.height,28);
+console.log('All printable keyboard characters, punctuation positions, escaping and locked-height layout passed.');

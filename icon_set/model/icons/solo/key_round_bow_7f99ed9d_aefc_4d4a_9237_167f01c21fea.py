@@ -7,7 +7,7 @@ from ._base import Solo48
 
 SOURCE_ICON_ID='7f99ed9d-aefc-4d4a-9237-167f01c21fea'
 SOURCE_PATH='pictographic-primitives/symbol/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
 
 class KeyRoundBow(Solo48):
     icon_id='key-round-bow'
@@ -16,7 +16,7 @@ class KeyRoundBow(Solo48):
     semantic_kind="noun"
     category="objects/symbols"
     aliases=()
-    keywords=('key', 'access', 'unlock', 'password', 'security', 'lock', 'login', 'privacy')
+    keywords = ('key', 'access', 'unlock', 'password', 'security', 'lock', 'login', 'privacy', 'sub icon')
 
     def oval(self,n,cx,cy,rx,ry=None):
         ry=rx if ry is None else ry
@@ -33,3 +33,7 @@ class KeyRoundBow(Solo48):
         self.path('shaft',[(18,18),(30,6),(42,6),(42,18),(30,30)])
         self.relate('connect','bow','shaft')
         self.oval('hole',18,30,3)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('8d4e51db-4d2a-4285-a400-fd2f7b20a987', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/video-games/batch-05/key_8d4e51db-4d2a-4285-a400-fd2f7b20a987.svg')]

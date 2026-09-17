@@ -13,7 +13,7 @@ class Drawing(Solo48):
     semantic_kind = 'noun'
     category = 'objects/food'
     aliases = ()
-    keywords = ('grape', 'fruit', 'bunch', 'berry', 'vine', 'produce', 'food')
+    keywords = ('grape', 'fruit', 'bunch', 'berry', 'vine', 'produce', 'food', 'sub icon')
 
     def build(self):
         # Plan: Three large round grapes on triangular lattice, shortened detached stem. Lucide grape circular repetition; overlap removed to keep clear interiors. Symmetric envelope (8,4)-(40,44).
@@ -22,3 +22,7 @@ class Drawing(Solo48):
          self.add_arc(f'b-{i}',(x+6,y),(x-6,y),radius_x=6)
          self.add_contour(f'grape-{i}',f't-{i}',f'b-{i}',closed=True)
         self.add_line('stem',(24,4),(24,7))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('2fc0acbf-1d1b-470d-a272-1cf68f822b5a', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/grape_2fc0acbf-1d1b-470d-a272-1cf68f822b5a.svg')]

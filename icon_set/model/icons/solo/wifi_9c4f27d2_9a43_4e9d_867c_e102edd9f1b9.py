@@ -16,7 +16,7 @@ class Wifi(Solo48):
     semantic_kind = 'noun'
     category = 'networks'
     aliases = ()
-    keywords = ('wifi', 'networks')
+    keywords = ('wifi', 'networks', 'sub icon')
 
     def build(self):
         # Plan: HRECT_L; mirror each crest from one shared definition, retaining two bands.
@@ -28,3 +28,7 @@ class Wifi(Solo48):
         crown('outer',4,17,8)
         crown('inner',14,27,23)
         self.add_dot('signal',(24,40))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('b2468acd-4b50-4a65-911c-aee5076b1c7e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/electric waves_b2468acd-4b50-4a65-911c-aee5076b1c7e.svg')]

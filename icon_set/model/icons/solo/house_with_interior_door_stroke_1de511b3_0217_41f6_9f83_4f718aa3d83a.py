@@ -15,7 +15,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "objects/interface-essential"
     aliases = ()
-    keywords = ('house', 'home', 'roof', 'building', 'facade', 'door')
+    keywords = ('house', 'home', 'roof', 'building', 'facade', 'door', 'sub icon')
 
     def build(self):
         # Plan: mirrored house about x=24; SQUARE extremes (6,6)-(42,42).
@@ -27,3 +27,7 @@ class Drawing(Solo48):
         self.add_polyline("walls",(left,20),(left,base),(axis,base),(right,base),(right,20))
         self.relate("connect","roof","walls")
         self.add_line("interior-stroke",(axis,25),(axis,33))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = []

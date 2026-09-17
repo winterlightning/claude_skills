@@ -5,13 +5,14 @@ import json
 import re
 from pathlib import Path
 from types import SimpleNamespace
+from . import contracts
 
 ROOT = Path(__file__).resolve().parents[1] / "metadata"
 FIELDS = ("name", "description", "tags", "aliases", "category", "keywords")
 
 
 def metadata_path(icon, root: Path | None = None) -> Path:
-    if icon.family not in ("sub", "solo", "container") or not re.fullmatch(
+    if icon.family not in contracts.families() or not re.fullmatch(
         r"[a-z][a-z0-9]*(?:-[a-z0-9]+)*", icon.icon_id
     ):
         raise ValueError(f"Invalid metadata identity: {icon.family}/{icon.icon_id}")
@@ -80,7 +81,7 @@ def load_metadata(icon, *, root: Path | None = None, create: bool = False) -> di
 
 def record_metadata(icon) -> dict:
     # Unregistered geometry drafts may have no family.
-    document = load_metadata(icon) if icon.family in ("sub", "solo", "container") else defaults(icon)
+    document = load_metadata(icon) if icon.family in contracts.families() else defaults(icon)
     return {field: document[field] for field in FIELDS}
 
 

@@ -12,7 +12,7 @@ class Drawing(Solo48):
     semantic_kind = "noun"
     category = "interface-essential"
     aliases = ()
-    keywords = ('upward', 'arrow')
+    keywords = ('upward', 'arrow', 'sub icon')
 
     def build(self):
         # Plan: one upright shaft with mirrored open head.
@@ -26,3 +26,7 @@ class Drawing(Solo48):
         for j in range(4):self.add_arc(f'{n}-{j}',pts[j],pts[(j+1)%4],radius_x=r)
         self.add_contour(n,*[f'{n}-{j}' for j in range(4)],closed=True)
 
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('5a531ee0-acc0-409b-9f0b-cfffcb853637', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/up arrow_5a531ee0-acc0-409b-9f0b-cfffcb853637.svg')]

@@ -47,7 +47,7 @@ class ProfileSpecTests(unittest.TestCase):
 
     def test_family_binding_is_one_to_one(self) -> None:
         families = contracts.families()
-        self.assertEqual(set(families), {"sub", "solo", "container"})
+        self.assertEqual(set(families), {"sub", "solo", "container", "combination_main"})
         self.assertEqual({Profile.for_family(f) for f in families}, set(Profile))
         for family in families:
             self.assertEqual(Profile.for_family(family).family, family)

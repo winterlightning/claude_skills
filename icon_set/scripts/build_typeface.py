@@ -65,7 +65,7 @@ def bounds(paths):
 
 def canonical(icon_id,character,kind,paths,band=None,source=None,preferred=True):
  full=bounds(paths);top,baseline=band or (full[1],full[3])
- target=24 if kind=='lowercase' else 24*52/36
+ target=24 if kind in ('lowercase','symbol') else 24*52/36
  scale=target/(baseline-top)
  # Uniform similarity only: no independent x/y stretching. Place the natural
  # ink envelope at center for preview; the preview viewBox can expand freely.
@@ -80,7 +80,7 @@ def canonical(icon_id,character,kind,paths,band=None,source=None,preferred=True)
              paths=ds,preview_box=[min(0,box[0]-3),min(0,box[1]-3),max(48,box[2]+3)-min(0,box[0]-3),max(48,box[3]+3)-min(0,box[1]-3)],svg_sha256=identity,source_path=str(source.relative_to(ROOT)) if source else None,
              source_sha256=hashlib.sha256(source.read_bytes()).hexdigest() if source else None,
              author=AUTHOR,geometry_policy='natural-proportions-no-keyshape',
-             construction='Repaired source fragments; retained curve character' if source and source.stem in REPAIRS else 'Source centerlines with subpixel crumbs removed' if source else 'Matching uppercase monoline construction')
+             construction='Repaired source fragments; retained curve character' if source and source.stem in REPAIRS else 'Source centerlines with subpixel crumbs removed' if source else 'Keyboard symbol on shared body and baseline band' if kind=='symbol' else 'Matching uppercase monoline construction')
 
 # Uppercase definitions share natural cap height, but have independent widths.
 # Smooth bowls use coherent elliptical/cubic curves; thin letters stay narrow.
@@ -123,6 +123,12 @@ def build():
  for char,ds in CAPS.items():
   glyphs.append(canonical('letter-'+char.lower()+'-uppercase',char,'uppercase',
                           [parse_path(d) for d in ds],(6,42) if char=='Q' else None))
+ if __package__:
+  from .typeface_symbols import SYMBOLS
+ else:
+  from typeface_symbols import SYMBOLS
+ for char,(name,ds) in SYMBOLS.items():
+  glyphs.append(canonical('symbol-'+name,char,'symbol',[parse_path(d) for d in ds],(18,42)))
  target=ROOT/'icon_set/typeface/glyphs.json';target.parent.mkdir(exist_ok=True)
  target.write_text(json.dumps({'schema_version':2,'geometry_policy':'natural-proportions-no-keyshape','glyphs':glyphs},indent=2)+'\n')
  print(f'Built {len(glyphs)} free-proportion glyphs -> {target}')

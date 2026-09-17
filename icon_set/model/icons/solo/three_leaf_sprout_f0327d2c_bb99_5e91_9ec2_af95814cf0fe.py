@@ -17,7 +17,7 @@ class ThreeLeafSprout(Solo48):
     semantic_kind = "noun"
     category = "nature/batch-02"
     aliases = ()
-    keywords = ('sprout', 'plant', 'leaves', 'growth', 'seedling', 'ground', 'garden', 'nature')
+    keywords = ('sprout', 'plant', 'leaves', 'growth', 'seedling', 'ground', 'garden', 'nature', 'sub icon')
 
     def build(self) -> None:
         def leaf(name,tip,joint,rx,ry,sweep):
@@ -37,3 +37,7 @@ class ThreeLeafSprout(Solo48):
         leaf("right-leaf",(40,26),(24,40),16,14,False)
         for side in ("left-leaf","right-leaf"):
             for part in ("outer","inner"):self.relate("connect","stem-upper",side+"-"+part)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('4a47df00-a455-41d9-84a4-6416eb861ee6', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/leaf_4a47df00-a455-41d9-84a4-6416eb861ee6.svg')]

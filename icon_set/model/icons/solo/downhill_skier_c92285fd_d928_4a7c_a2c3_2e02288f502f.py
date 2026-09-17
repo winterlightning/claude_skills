@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='c92285fd-d928-4a7c-a2c3-2e02288f502f'
 SOURCE_PATH='pictographic-primitives/sports/skiing slide down_c92285fd-d928-4a7c-a2c3-2e02288f502f.svg'
-AUTHOR='gpt-6'
+AUTHOR = 'gpt-6'
 
 class DownhillSkier(Solo48):
     icon_id='downhill-skier'
@@ -12,7 +12,7 @@ class DownhillSkier(Solo48):
     semantic_kind='noun'
     category='objects/sports'
     aliases=()
-    keywords=('ski', 'downhill', 'skier', 'snow', 'winter', 'athlete')
+    keywords = ('ski', 'downhill', 'skier', 'snow', 'winter', 'athlete', 'sub icon')
     def build(self) -> None:
         # SQUARE centerline extremes (6, 6, 42, 42) from current SOLO48 contract.
         def circle(n,x,y,r):
@@ -31,3 +31,7 @@ class DownhillSkier(Solo48):
         self.relate('connect','arms','torso')
         self.add_polyline('ski',(6,33),(17,38),(34,42),(42,38))
         self.relate('connect','torso','ski')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('5a60755a-84e0-4d24-9372-1ab838965a3f', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/snowboard_5a60755a-84e0-4d24-9372-1ab838965a3f.svg')]

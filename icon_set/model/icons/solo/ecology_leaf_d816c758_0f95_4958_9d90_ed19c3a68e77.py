@@ -16,7 +16,7 @@ class EcologyLeaf(Solo48):
     semantic_kind = 'noun'
     category = 'ecology'
     aliases = ()
-    keywords = ('ecology', 'leaf')
+    keywords = ('ecology', 'leaf', 'sub icon')
 
     def build(self):
         # Plan: HRECT_L; a small set of continuous leaf curves owns the outline, with an exact vein/stem junction.
@@ -45,3 +45,7 @@ class EcologyLeaf(Solo48):
          ('C',(14,40),(10,38),(8,34)),('C',(2,24),(13,12),(23,12)),('L',(32,12)),('C',(38,12),(41,10),(44,8))],True)
         path('vein',(4,38),[('L',(8,34)),('C',(14,28),(20,24),(27,21))])
         self.relate('connect','vein','outline')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('164d9e51-fa44-4293-94e6-d83af50f3387', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/leaf right_164d9e51-fa44-4293-94e6-d83af50f3387.svg')]

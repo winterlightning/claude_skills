@@ -7,7 +7,7 @@ description: Inspect a Pictographic icon request or reference, decide solo/sub/c
 
 Use the user's request as the brief, including any supplied icon ID, reference paths, and output directory.
 
-Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
+Resolve repository paths and run commands from the `claude_skills` directory containing `icon_set/` (three levels above this skill folder). In Codex, invoke these skills with `$icon-brief`, `$icon-sub`, `$icon-solo`, `$icon-combination-main`, `$icon-avatar`, or `$icon-container`; in ChatGPT, select the skill with `@`. Treat slash-style handoffs in generated briefs as references to the corresponding skill.
 
 Run from the repository containing `icon_set/`. This skill selects and invokes
 one of `$icon-solo`, `$icon-sub`, `$icon-container`, `$icon-avatar`, or `$icon-brief`; it does not

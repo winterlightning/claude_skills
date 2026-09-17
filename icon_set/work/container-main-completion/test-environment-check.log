@@ -1,0 +1,25 @@
+E
+======================================================================
+ERROR: test_actions_record_who_did_them (icon_set.tests.test_activity_log.ActivityLogTests.test_actions_record_who_did_them)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/tests/test_gallery.py", line 190, in setUp
+    self.server = create_server(self.dist, self.database, port=0)
+                  ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/scripts/deploy.py", line 1458, in create_server
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 457, in __init__
+    self.server_bind()
+    ~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/http/server.py", line 136, in server_bind
+    socketserver.TCPServer.server_bind(self)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "/opt/homebrew/Cellar/python@3.13/3.13.5/Frameworks/Python.framework/Versions/3.13/lib/python3.13/socketserver.py", line 478, in server_bind
+    self.socket.bind(self.server_address)
+    ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+PermissionError: [Errno 1] Operation not permitted
+
+----------------------------------------------------------------------
+Ran 1 test in 49.775s
+
+FAILED (errors=1)

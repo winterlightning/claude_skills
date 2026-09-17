@@ -1,6 +1,7 @@
 """Free-proportion lettering preserves curves and typographic measurements."""
 import hashlib
 import json
+import string
 from pathlib import Path
 import unittest
 from svgpathtools import parse_path
@@ -16,8 +17,8 @@ class NaturalTypefaceTests(unittest.TestCase):
 
     def test_complete_character_map_without_keyshape_constraints(self):
         self.assertEqual(self.data['geometry_policy'],'natural-proportions-no-keyshape')
-        self.assertEqual(len(self.glyphs),63)
-        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}),62)
+        self.assertEqual(len(self.glyphs),95)
+        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}),94)
         for g in self.glyphs:self.assertNotIn('keyshape',g)
 
     def test_original_aspect_ratios_are_preserved_by_uniform_transforms(self):
@@ -38,7 +39,7 @@ class NaturalTypefaceTests(unittest.TestCase):
                 actual=bounds([parse_path(d) for d in g['paths']])
                 for a,b in zip(actual,g['bounds']):self.assertAlmostEqual(a,b,places=9)
                 self.assertAlmostEqual(g['baseline']-g['body_top'],g['body_height'],places=9)
-                self.assertAlmostEqual(g['body_height'],24 if g['kind']=='lowercase' else 24*52/36)
+                self.assertAlmostEqual(g['body_height'],24 if g['kind'] in ('lowercase','symbol') else 24*52/36)
                 x,y,w,h=g['preview_box']
                 self.assertGreaterEqual(actual[0]-2,x)
                 self.assertGreaterEqual(actual[1]-2,y)
@@ -53,3 +54,14 @@ class NaturalTypefaceTests(unittest.TestCase):
         self.assertLess((r['bounds'][2]-r['bounds'][0])/r['body_height'],.4)
         self.assertLess((j['bounds'][2]-j['bounds'][0])/j['body_height'],.4)
         self.assertLess((s['bounds'][2]-s['bounds'][0])/s['body_height'],.8)
+
+    def test_keyboard_symbols_share_typographic_band(self):
+        symbols={g['character']:g for g in self.glyphs if g['kind']=='symbol'}
+        self.assertEqual(set(symbols),set(string.punctuation))
+        for char,g in symbols.items():
+            self.assertIsNone(g['source_path'])
+            self.assertEqual(g['body_height'],24)
+            self.assertEqual(g['baseline']-g['body_top'],24)
+        self.assertEqual(symbols['.']['bounds'][3],symbols['.']['baseline'])
+        self.assertGreater(symbols[',']['bounds'][3],symbols[',']['baseline'])
+        self.assertLess(symbols['"']['bounds'][3],symbols['"']['body_top'])

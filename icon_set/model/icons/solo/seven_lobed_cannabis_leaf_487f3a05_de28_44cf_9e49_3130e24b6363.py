@@ -21,7 +21,7 @@ class SevenLobedCannabisLeaf(Solo48):
     semantic_kind = "noun"
     category = 'cannabis'
     aliases = ()
-    keywords = ('seven-lobed', 'cannabis', 'leaf')
+    keywords = ('seven-lobed', 'cannabis', 'leaf', 'sub icon')
 
     def build(self) -> None:
         def path(name, start, commands, closed=False):
@@ -51,3 +51,7 @@ class SevenLobedCannabisLeaf(Solo48):
         path("leaf",(axis,6),commands,True)
         self.add_line("stem",(24,37),(24,42))
         self.relate("connect","leaf","stem")
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/cannabis/cannabis_8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1.svg')]

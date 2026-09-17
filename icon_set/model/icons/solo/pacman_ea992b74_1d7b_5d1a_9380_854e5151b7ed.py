@@ -16,7 +16,7 @@ class Pacman(Solo48):
     semantic_kind = 'noun'
     category = 'video-games'
     aliases = ()
-    keywords = ('pacman', 'video-games')
+    keywords = ('pacman', 'video-games', 'sub icon')
 
     def build(self):
         # SQUARE (6,6)-(42,42) would distort this circle; use VRECT_L with an ellipse instead.
@@ -28,3 +28,7 @@ class Pacman(Solo48):
         self.add_polyline('mouth',(40,34),(27,24),(40,14))
         self.add_contour('outline','upper-right','left-body','lower-right','mouth-1','mouth-2',closed=True)
         self.contours.pop(0)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('d162e891-6c21-47e5-ab18-e1fc863c5dc5', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/video-games/batch-08/pacman_d162e891-6c21-47e5-ab18-e1fc863c5dc5.svg')]

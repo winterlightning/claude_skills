@@ -14,7 +14,7 @@ class TwoStandingPeople(Solo48):
     semantic_kind = "noun"
     category = "people/groups"
     aliases = ()
-    keywords = ('people', 'two', 'users', 'pair', 'men', 'figures', 'group', 'team')
+    keywords = ('people', 'two', 'users', 'pair', 'men', 'figures', 'group', 'team', 'sub icon')
 
     def circle(self, name, cx, cy, radius):
         top, bottom = (cx, cy-radius), (cx, cy+radius)
@@ -37,3 +37,7 @@ class TwoStandingPeople(Solo48):
         for index,cx in enumerate((13,35)):
             self.circle('head-'+str(index),cx,9,5)
             self.male_body('body-'+str(index),cx)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('5e8b621f-4f10-4323-943d-1337196c6e73', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/two persons_5e8b621f-4f10-4323-943d-1337196c6e73.svg')]

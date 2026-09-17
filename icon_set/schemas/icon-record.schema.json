@@ -60,15 +60,17 @@
       "enum": [
         "sub",
         "solo",
-        "container"
+        "container",
+        "combination_main"
       ],
-      "description": "The authored family. Bound one-to-one to profile by the profile contract: sub=SUB32, solo=SOLO48, container=CONTAINER64. A composition is 'container'."
+      "description": "The authored family. Bound one-to-one to profile by the profile contract: sub=SUB32, solo=SOLO48, container=CONTAINER64, combination_main=COMBINATION_MAIN48. A composition is 'container'."
     },
     "profile": {
       "enum": [
         "SUB32",
         "SOLO48",
-        "CONTAINER64"
+        "CONTAINER64",
+        "COMBINATION_MAIN48"
       ]
     },
     "canvas_size": {
@@ -220,14 +222,39 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["figure_id", "head", "torso", "torso_junction", "centerline_gap", "ink_gap"],
+        "required": [
+          "figure_id",
+          "head",
+          "torso",
+          "torso_junction",
+          "centerline_gap",
+          "ink_gap"
+        ],
         "properties": {
-          "figure_id": {"type": "string", "minLength": 1},
-          "head": {"type": "string", "minLength": 1},
-          "torso": {"type": "string", "minLength": 1},
-          "torso_junction": {"enum": ["start", "end"]},
-          "centerline_gap": {"const": 8},
-          "ink_gap": {"const": 4}
+          "figure_id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "head": {
+            "type": "string",
+            "minLength": 1
+          },
+          "torso": {
+            "type": "string",
+            "minLength": 1
+          },
+          "torso_junction": {
+            "enum": [
+              "start",
+              "end"
+            ]
+          },
+          "centerline_gap": {
+            "const": 8
+          },
+          "ink_gap": {
+            "const": 4
+          }
         }
       }
     },
@@ -282,7 +309,8 @@
             "enum": [
               "SUB32",
               "SOLO48",
-              "CONTAINER64"
+              "CONTAINER64",
+              "COMBINATION_MAIN48"
             ]
           },
           "semantic_role": {

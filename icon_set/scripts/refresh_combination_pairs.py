@@ -27,7 +27,7 @@ def refresh():
     old = json.loads(DATA.read_text())['rows'] if DATA.exists() else []
     previous = {item.get('source_svg', item['svg']): item for row in old for role in ('mains', 'subs') for item in row[role]}
     index = defaultdict(list)
-    profiles = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64'}
+    profiles = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64', 'combination_main':'combination_main48'}
     for model in model_catalog():
         path = ROOT / 'dist' / profiles[model['family']] / (model['icon_id'] + '.svg')
         if not path.exists():
@@ -43,12 +43,16 @@ def refresh():
         for uid in ids:
             if uid:
                 index[uid.lower()].append(item)
+    from .combination_state_subs import reviewed_states
+    state_subs, state_skips = reviewed_states(ROOT)
     measured = {}
     exports = ROOT / 'assets/combination-sub32'
     exports.mkdir(exist_ok=True)
     public = ROOT / 'dist/gallery/combination-sub32'
     public.mkdir(exist_ok=True)
     export_manifest = {}
+    audit_path = ROOT / 'data/combination-sub32-audit.json'
+    audit = {r['icon_id']: r for r in json.loads(audit_path.read_text())['rows']} if audit_path.exists() else {}
 
     def measure(item, role):
         key = (item['svg'], role)
@@ -60,6 +64,27 @@ def refresh():
             viewbox = list(map(float, ET.fromstring(document).attrib['viewBox'].split()))
             bounds = prior['bounds'] if prior.get('source_sha256', prior.get('sha256')) == digest else bbox(parse_segments(path))
             result = dict(item, document=document, sha256=digest, bounds=bounds, canvas=viewbox[2])
+            if role == 'sub':
+                if not item.get('native_study'):
+                    from icon_set.model.icons.registry import create
+                    from icon_set.model.keyshapes import Keyshape
+                    from icon_set.model.profiles import Profile
+                    from icon_set.validation.envelope import centerline_radial_extent
+                    model = create(item['icon'])
+                    shape = model.keyshape.name
+                    if item['family'] != 'sub':
+                        shape = {'HRECT_XL':'HRECT_L','HRECT_S':'HRECT_L',
+                                 'VRECT_XL':'VRECT_L','VRECT_S':'VRECT_L'}.get(shape,shape)
+                    if shape != 'FREE':
+                        result['target_keyshape'] = shape
+                        result['target_keyshape_bounds'] = Keyshape[shape].bounds_for(Profile.SUB32)
+                        if shape == 'CIRCLE':
+                            result['source_radial_extent'] = centerline_radial_extent(model.draw().primitives,
+                                ((bounds[0]+bounds[2])/2,(bounds[1]+bounds[3])/2))
+                result['sub32_status'] = 'native_sub32' if item['family'] == 'sub' else 'needs_redraw'
+                result['sub32_reason'] = '' if item['family'] == 'sub' else audit.get(item['icon'], {}).get('reason', 'Requires a separate grid-aligned SUB32 version.')
+                if item['family'] == 'sub':
+                    result['export_url'] = item.get('export_url') or '../sub32/' + path.name
             if role == 'sub' and item['family'] != 'sub':
                 document = export_sub32(document)
                 file = exports / (item['family'] + '--' + item['icon'] + '.svg')
@@ -88,21 +113,24 @@ def refresh():
             fragment = row['id'][:18] if rule['role'] == 'main' else row['id'][19:34]
             if not row.get(field) and fragment == rule['fragment']:
                 row[field] = rule['reference_id']
-        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'container':1,'sub':2}[m['family']],m['icon']))
-        subs = sorted(index.get((row.get('sub_id') or '').lower(), []), key=lambda m: ({'sub':0,'solo':1,'container':2}[m['family']],m['icon']))
+        mains = sorted(index.get((row.get('main_id') or '').lower(), []), key=lambda m: ({'solo':0,'combination_main':0,'container':1,'sub':2}[m['family']],m['icon']))
+        sub_id = (row.get('sub_id') or '').lower()
+        subs = sorted(state_subs.get(sub_id, index.get(sub_id, [])), key=lambda m: ({'sub':0,'solo':1,'combination_main':1,'container':2}[m['family']],m['icon']))
         if not mains or not subs:
             continue
         try:
             rows.append(dict(row, type='side', mains=[measure(m,'main') for m in mains], subs=[measure(m,'sub') for m in subs]))
         except Exception as error:
             failures.append({'id':row['id'],'concept':row['concept'],'error':str(error)})
-    DATA.write_text(json.dumps({'rows': rows, 'failures': failures}))
+    DATA.write_text(json.dumps({'rows': rows, 'failures': failures, 'state_skips': state_skips}))
     (ROOT / 'data/combination-sub32.json').write_text(json.dumps(export_manifest, indent=2)+'\n')
     (ROOT / 'dist/gallery/experiment-combination.json').write_text(DATA.read_text())
     catalog = ROOT / 'dist/gallery/experiments.json'
     totals = json.loads(catalog.read_text())
     totals['combination'] = len(rows)
     catalog.write_text(json.dumps(totals))
+    from .sub_scaling_gallery import stage_sub_scaling
+    stage_sub_scaling(ROOT / 'dist/gallery')
     print(f'Available: {len(rows)} side pairs; {len(export_manifest)} reusable 32px exports; {len(failures)} failures; grid: {len(old)} → {len(rows)}', flush=True)
 
 

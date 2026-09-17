@@ -35,7 +35,7 @@ class GeneratedSkillTests(unittest.TestCase):
         cls.gen = _generator()
 
     def _path(self, family: str) -> Path:
-        return SKILLS_DIR / f"icon-{family}" / "SKILL.md"
+        return SKILLS_DIR / self.gen.skill_name(family) / "SKILL.md"
 
     def test_one_skill_per_family_exists(self) -> None:
         for family in contracts.families():
@@ -50,7 +50,7 @@ class GeneratedSkillTests(unittest.TestCase):
             if (path / "SKILL.md").is_file()
             and "Generated from the contracts" in (path / "SKILL.md").read_text(encoding="utf-8")
         )
-        self.assertEqual(generated, sorted(f"icon-{f}" for f in contracts.families()))
+        self.assertEqual(generated, sorted(self.gen.skill_name(f) for f in [*contracts.families(), "avatar"]))
 
     def test_generated_files_are_current(self) -> None:
         for family in contracts.families():
@@ -67,7 +67,7 @@ class GeneratedSkillTests(unittest.TestCase):
             with self.subTest(family=family):
                 self.assertTrue(text.startswith("---\n"))
                 block = text.split("---", 2)[1]
-                self.assertRegex(block, rf"(?m)^name: icon-{family}$")
+                self.assertRegex(block, rf"(?m)^name: {self.gen.skill_name(family)}$")
                 self.assertRegex(block, r"(?m)^description: .+")
                 self.assertIn("$ARGUMENTS", text)
 
@@ -86,9 +86,9 @@ class GeneratedSkillTests(unittest.TestCase):
                 for other, other_row in contracts.families().items():
                     if other == family:
                         continue
-                    self.assertIn(f"`/icon-{other}`", text)
+                    self.assertIn(f"`/{self.gen.skill_name(other)}`", text)
                     self.assertNotIn(f"class <ClassName>({other_row['base_class']})", text)
-                self.assertNotIn("MAIN48", text)
+                self.assertNotIn("`MAIN48`", text)
                 self.assertNotIn("COMPOSITE64", text)
                 self.assertEqual(profile.spec.canvas_size, int(row["profile"][-2:]))
 

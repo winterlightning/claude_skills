@@ -28,16 +28,55 @@ def number(value, default=0):
     return n
 
 
-def placement(item, size, anchor, offset, padding=2):
+def placement(item, size, anchor, offset, padding=2, size_lock="none", bound_size=None):
     x0,y0,x1,y1 = item['bounds']
     scale = size / item['canvas']
     w,h = (x1-x0)*scale, (y1-y0)*scale
+    if size_lock not in ('none', 'auto', 'width', 'height'):
+        raise ValueError('Choose automatic, width, height, or original sub sizing.')
+    locked_axis = None
+    rounded_auto = size == 32 and size_lock == 'auto' and bound_size in (None, '')
+    if rounded_auto:
+        width,height = x1-x0,y1-y0
+        if item.get('family') == 'sub':
+            w,h = width,height
+        else:
+            longest = max(width,height)
+            # Prefer the largest exact-ratio whole-number box of useful size.
+            for extent in range(size-4, 19, -1):
+                sw,sh = width*extent/longest,height*extent/longest
+                if abs(sw-round(sw))<1e-6 and abs(sh-round(sh))<1e-6:
+                    w,h = round(sw),round(sh)
+                    break
+            else:
+                w = max(1, math.floor(width*(size-4)/longest+.5)) if width else 0
+                h = max(1, math.floor(height*(size-4)/longest+.5)) if height else 0
+        locked_axis = 'width' if w>=h else 'height'
+    elif size_lock != 'none':
+        locked_axis = ('width' if w >= h else 'height') if size_lock == 'auto' else size_lock
+        extent = (x1-x0) if locked_axis == 'width' else (y1-y0)
+        if extent <= 0:
+            raise ValueError('Cannot lock an empty dimension; choose the other axis.')
+        max_target = 4 + (size-4)*extent/max(x1-x0, y1-y0)
+        current = (w if locked_axis == 'width' else h) + 4
+        if bound_size in (None, ''):
+            target = min(math.floor(current+.5), math.floor(max_target+1e-9))
+            target = max(5, target)
+        else:
+            target = number(bound_size)
+            if target != int(target) or not 5 <= target <= size:
+                raise ValueError(f'Locked visible size must be a whole number from 5 to {size}.')
+        scale = (target-4)/extent
+        w,h = (x1-x0)*scale, (y1-y0)*scale
     if max(w,h)+4 > size+.01:
         raise ValueError(f'Artwork exceeds its {size}×{size} component canvas.')
     ax,ay = anchor
     bx,by = padding+(64-2*padding-size)*ax, padding+(64-2*padding-size)*ay
     x,y = bx+(size-w-4)*ax+offset[0], by+(size-h-4)*ay+offset[1]
-    return {'canvas_box': dict(x=bx,y=by,w=size,h=size),
+    return {'size_lock': size_lock, 'locked_axis': locked_axis,
+            'rounded_box': bool(rounded_auto),
+            'locked_size': (w+4 if locked_axis == 'width' else h+4) if locked_axis else None,
+            'canvas_box': dict(x=bx,y=by,w=size,h=size),
             'painted_box': dict(x=x,y=y,w=w+4,h=h+4),
             'box': dict(x=(x+2)*24/64,y=(y+2)*24/64,w=w*24/64,h=h*24/64)}
 
@@ -100,12 +139,14 @@ def render(data, row=None):
                 item=custom_item(data[role+'Upload'],role)
             if item is None:
                 raise ValueError('The selected component does not belong to this pair.')
-            p=placement(item,size,anchor,(number(data.get(role+'X')),number(data.get(role+'Y'))),padding)
+            p=placement(item,size,anchor,(number(data.get(role+'X')),number(data.get(role+'Y'))),padding,
+                        size_lock=data.get('subSizeLock', 'auto') if role=='sub' else 'none',
+                        bound_size=data.get('subBoundSize') if role=='sub' else None)
             placements.append(dict(p,role=role,icon=item['icon']))
             file=out/(role+'.svg');file.write_text(item['document'])
             items.append({'sid':item['icon'],'file':str(file),'box':p['box'],
                           'natural_box':p['box'],'manual_combined':True,
-                          'preserve_geometry':True,'area':size*size,'ink':0,'z':n+1})
+                          'preserve_geometry':True,'rounded_box':p['rounded_box'],'area':size*size,'ink':0,'z':n+1})
         spec={'id':row['id'],'name':row['concept'],'out_dir':str(out/'result'),
               'canvas':64,'stroke':4,'buffer_px':margin,'symbols':items}
         (out/'spec.json').write_text(json.dumps(spec))
@@ -132,4 +173,4 @@ def render(data, row=None):
         if b['x']<0 or b['y']<0 or b['x']+b['w']>64.01 or b['y']+b['h']>64.01:
             warnings.append('Adjusted artwork extends beyond the 64×64 canvas and may be clipped.');break
     return {'svg':svg,'placements':placements,'position':position,'canvas':64,
-            'filename':row['id']+'.svg','warnings':warnings,'margin':margin,'padding':padding}
+            'filename':row['id']+'.svg','warnings':warnings,'margin':margin,'padding':padding,'subSizeLock':data.get('subSizeLock','auto'),'subBoundSize':data.get('subBoundSize','')}

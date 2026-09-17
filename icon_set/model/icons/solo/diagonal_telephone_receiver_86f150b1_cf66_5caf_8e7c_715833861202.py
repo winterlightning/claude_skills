@@ -13,7 +13,7 @@ class DiagonalTelephoneReceiver(Solo48):
     semantic_kind = 'noun'
     category = 'objects/device'
     aliases = ()
-    keywords = ('telephone', 'receiver', 'handset', 'diagonal', 'call', 'communication')
+    keywords = ('telephone', 'receiver', 'handset', 'diagonal', 'call', 'communication', 'sub icon')
 
     def build(self):
         def line(n, a, b): self.add_line(n, a, b)
@@ -61,3 +61,7 @@ class DiagonalTelephoneReceiver(Solo48):
         arc('mouth-br',(42,38),(38,42),4);line('bottom',(38,42),(36,42))
         arc('outer-bow',(36,42),(6,12),30);arc('ear-tl',(6,12),(12,6),6)
         self.add_contour('receiver','top','top-end','ear-face','ear-corner','inner-bow','mouth-angle','mouth-face','mouth-tr','mouth-right','mouth-br','bottom','outer-bow','ear-tl',closed=True)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('1701ca48-aa5b-4e61-a6fd-9be91a706783', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/phone 1_1701ca48-aa5b-4e61-a6fd-9be91a706783.svg')]

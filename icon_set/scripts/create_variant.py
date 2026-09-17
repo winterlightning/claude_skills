@@ -71,7 +71,7 @@ def prepare_variant(icon_id: str, family: str, label: str) -> tuple[Path, str, s
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--icon', required=True)
-    parser.add_argument('--family', required=True, choices=['solo', 'sub', 'container'])
+    parser.add_argument('--family', required=True, choices=['solo', 'sub', 'container', 'combination_main'])
     parser.add_argument('--label', required=True)
     args = parser.parse_args(argv)
     try:

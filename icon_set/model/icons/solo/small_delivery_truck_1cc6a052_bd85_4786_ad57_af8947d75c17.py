@@ -14,7 +14,7 @@ class SmallDeliveryTruck(Solo48):
     semantic_kind = "noun"
     category = "transportation"
     aliases = ()
-    keywords = ('truck', 'delivery', 'lorry', 'cargo', 'shipping', 'logistics', 'transport', 'vehicle')
+    keywords = ('truck', 'delivery', 'lorry', 'cargo', 'shipping', 'logistics', 'transport', 'vehicle', 'sub icon')
 
     def build(self) -> None:
         # Preserve interior detail sizes; move only the outer edge bands to the exact envelope.
@@ -60,3 +60,7 @@ class SmallDeliveryTruck(Solo48):
         self.relate('connect',*('chassis', 'front-bottom'))
         self.relate('connect',*('rear-top', 'rear-bottom'))
         self.relate('connect',*('front-top', 'front-bottom'))
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('7fa4b356-9d73-4875-94fd-29e892bef9d8', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/transportation/truck_7fa4b356-9d73-4875-94fd-29e892bef9d8.svg')]

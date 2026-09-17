@@ -1,0 +1,38 @@
+"""Petri Dish Culture.
+Plan: Outer radius20 at (24,24). Unbroken dish rim, large upper-right round colony, small lower-left solid colony, and short curved bottom culture.
+References: supplied original source; Lucide microscope: minimal biological detail; original dish layout.
+Human guidance: human_ref/user.svg and full_body_ref.png where applicable.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '6c907c0e-4b14-5b5a-9bb2-b2e5a17c5175'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/petri dish_6c907c0e-4b14-5b5a-9bb2-b2e5a17c5175.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'petri-dish-culture-6c907c0e'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "health"
+    aliases = ('petri-dish-culture',)
+    keywords = ('petri', 'dish', 'culture')
+
+    def build(self):
+
+        def stroke(name, start, segments, closed=False):
+            members=[]
+            for j,s in enumerate(segments):
+                member=f"{name}-{j}"
+                if len(s)==1: self.add_line(member,start,s[0])
+                else: self.add_arc(member,start,s[0],radius_x=s[1],radius_y=s[2],sweep=s[3],large_arc=s[4] if len(s)>4 else False)
+                members.append(member);start=s[0]
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,cx,cy,r):
+            stroke(name,(cx-r,cy),[((cx+r,cy),r,r,True),((cx-r,cy),r,r,True)],True)
+        circle("dish",24,24,20)
+        circle("colony-large",28,18,4)
+        self.add_dot("colony-small",(16,26))
+        stroke("culture",(24,34),[((30,30),6,6,True)])
+

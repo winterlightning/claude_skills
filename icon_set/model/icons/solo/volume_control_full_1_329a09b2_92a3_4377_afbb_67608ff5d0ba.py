@@ -13,10 +13,14 @@ class VolumeControlFull1(Solo48):
     semantic_kind = 'noun'
     category = 'audio'
     aliases = ()
-    keywords = ('volume', 'control', 'full', 'audio')
+    keywords = ('volume', 'control', 'full', 'audio', 'sub icon')
 
     def build(self) -> None:
         # Shared speaker silhouette and two concentric elliptical sound waves.
         self.add_polyline('speaker',(4,18),(12,18),(22,8),(22,40),(12,30),(4,30),closed=True)
         self.add_arc('wave-inner',(31,17),(31,31),radius_x=3,radius_y=7)
         self.add_arc('wave-outer',(38,12),(38,36),radius_x=6,radius_y=12)
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('9908ced6-c069-485f-a3f0-c6840a25f58e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/volume high_9908ced6-c069-485f-a3f0-c6840a25f58e.svg')]

@@ -12,7 +12,7 @@ class CampingTentOutdoors(Solo48):
     semantic_kind = 'noun'
     category = 'outdoors'
     aliases = ()
-    keywords = ('camping', 'tent', 'outdoors', 'solo-ai-next100')
+    keywords = ('camping', 'tent', 'outdoors', 'solo-ai-next100', 'sub icon')
 
     def build(self):
         # Plan: Retain the arched dome tent, with matching outer slopes and a roomy arched entrance.
@@ -49,3 +49,7 @@ class CampingTentOutdoors(Solo48):
         join = lambda a,b: self.relate("connect",a,b)
         path('tent',(6,42),[('C',(24,6),(10,24),(16,6)),('C',(42,42),(32,6),(38,24)),('L',(32,42)),('L',(16,42)),('L',(6,42))],True)
         path('door',(16,42),[('C',(24,20),(17,30),(20,20)),('C',(32,42),(28,20),(31,30))]);join('door','tent')
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('e04ca869-614a-4a24-9bbc-53fa1cb01b84', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/tent_e04ca869-614a-4a24-9bbc-53fa1cb01b84.svg')]

@@ -6,7 +6,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '599247c3-0ddd-4fc4-87ca-e8563ab80b67'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/content/quill ink_599247c3-0ddd-4fc4-87ca-e8563ab80b67.svg'
-AUTHOR = "gpt-6"
+AUTHOR = 'gpt-6'
 class Batch06Icon10(Solo48):
     icon_id = 'quill-in-inkwell'
     keyshape = Keyshape.SQUARE
@@ -14,7 +14,7 @@ class Batch06Icon10(Solo48):
     semantic_kind = "noun"
     category = "objects/stationery"
     aliases = ()
-    keywords = ('quill', 'in', 'inkwell')
+    keywords = ('quill', 'in', 'inkwell', 'sub icon')
     def build(self):
         def path(name, start, commands, closed=False):
             here = start
@@ -40,3 +40,7 @@ class Batch06Icon10(Solo48):
         path("bottle",(12,30),[("L",(12,28)),("L",(20,28)),("L",(28,28)),("L",(28,30)),("A",(34,36),6,6,True),("L",(34,42)),("L",(6,42)),("L",(6,36)),("A",(12,30),6,6,True)],True)
         path("feather",(24,20),[("C",(42,6),(24,12),(34,6)),("C",(24,20),(42,16),(34,20))],True)
         self.add_polyline("shaft",(20,28),(24,20),(32,14));self.relate("connect","shaft","bottle");self.relate("connect","shaft","feather")
+
+
+# Reviewed source-equivalent container sub-icon references.
+SOURCE_REFERENCES = [('610efb6f-0e7e-481b-b2a4-7e9873ef369d', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/quill inkwell_610efb6f-0e7e-481b-b2a4-7e9873ef369d.svg')]
