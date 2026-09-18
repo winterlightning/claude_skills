@@ -144,6 +144,10 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
                     row['trial_status'] = 'stale'
             rows.append(row)
     result = {'rows': rows, 'references': references}
+    if sub_exports:
+        from .deduplicate_subs import canonical_map, update_catalog
+        aliases, _ = canonical_map(sub_exports, root)
+        update_catalog(result, sub_exports, aliases, root)
     (target / 'combinations.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     return result
 

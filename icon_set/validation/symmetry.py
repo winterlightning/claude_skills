@@ -148,7 +148,9 @@ def analyze(icon, *, drawing=None, document=None, ink_min_iou=None):
     scale = RULES['ink_samples_per_unit']
     width = max(2, 2 * math.ceil((right-left+8) * scale/2))
     height = max(2, 2 * math.ceil((bottom-top+8) * scale/2))
-    if max(width, height) > 4096:
+    from ..model.icons.sub._text_base import TextSub32
+    over_budget = width * height > 4096 * 4096 if isinstance(icon, TextSub32) else max(width, height) > 4096
+    if over_budget:
         raise ValueError('symmetry: render exceeds measurement budget')
     root = ET.fromstring(document)
     root.set('viewBox', f'{cx-width/scale/2} {cy-height/scale/2} {width/scale} {height/scale}')

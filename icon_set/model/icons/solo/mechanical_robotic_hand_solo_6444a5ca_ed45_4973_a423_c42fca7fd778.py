@@ -1,6 +1,5 @@
 """Mechanical Robotic Hand. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,9 +18,13 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'mechanical robotic hand')
     def build(self):
-        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
-        self.add_bezier('hand',(4,8),((12,6),(15,10),(23,13)),((29,14),(31,18),(29,22)),((34,17),(39,13),(42,16)),((47,21),(36,31),(32,35)),((25,42),(13,34),(4,32)))
-        self.add_bezier('wrist',(4,32),((9,23),(9,17),(4,8)))
-        self.add_contour('outline','hand','wrist',closed=True)
-        self.add_polyline('palm',(17,12),(17,25),(29,28),(29,22))
-        self.relate('connect','outline','palm')
+        # Open mechanical gripper: palm shell, raised digit and cuff.
+        self.add_bezier('back',(4,8),((12,8),(18,12),(24,14)))
+        self.add_arc('knuckle',(24,14),(28,18),radius_x=4)
+        self.add_line('finger-bottom',(28,18),(28,24))
+        self.add_line('digit-up',(28,24),(37,16))
+        self.add_bezier('digit-tip',(37,16),((41,12),(44,15),(44,18)),((44,22),(36,31),(32,35)),((27,40),(23,40),(20,40)),((13,40),(9,35),(4,34)))
+        self.add_line('wrist',(4,34),(4,8))
+        self.add_contour('outline','back','knuckle','finger-bottom','digit-up','digit-tip','wrist',closed=True)
+        self.add_line('cuff',(13,12),(13,37))
+        self.relate('connect','outline','cuff')

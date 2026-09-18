@@ -2,11 +2,11 @@
   'use strict';
   const host=document.getElementById('combinationExperiment');if(!host)return;
   const labels={br:'Bottom-right',bl:'Bottom-left',tr:'Top-right',tl:'Top-left',ri:'Right',le:'Left',bo:'Bottom',to:'Top'};
-  let centerlineView='icon',displayStroke=4,gridPage=0,gridPageSize=24;
+  let centerlineView='sub-overlay',displayStroke=4,gridPage=0,gridPageSize=24;
   const pageControls=where=>`<nav class="pair-pagination" aria-label="Combination pages ${where}"><button id="pairPrevious${where}" type="button">← Previous</button><label>Page<select id="pairPage${where}" aria-label="Combination page ${where}"></select></label><span id="pairPageTotal${where}"></span><button id="pairNext${where}" type="button">Next →</button></nav>`;
   const imageURL=s=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s);
   let rows=[],row=null,result=null,loaded=false,busy=false,previews={},uploads={},approved=[],pickRole=null,pickPage=0;
-  host.innerHTML=`<section id="pairGallery"><div class="pair-gallery-heading"><div><h2>Combined icons</h2><p id="pairGridCount">Loading combined icons…</p></div><div class="pair-actions"><button id="pairRefresh" class="site-button">Refresh combinations</button><a class="site-button" href="sub-scaling.html">Inspect solo scaling ↗</a><button id="pairTry" class="site-button">Try combine</button></div></div><p>Uses existing main icons and 32px sub exports, including complete redrawn state icons that passed the 4px review. Resized solo previews still need a separate grid-aligned SUB32 design. Native SUB32 icons are labelled below.</p><p id="pairRefreshStatus" role="status" aria-live="polite"></p><label class="pair-grid-search">View<select id="pairView"><option value="icon" selected>Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label class="pair-grid-search">Display stroke width<select id="pairStrokeWidth"><option value="2">2px</option><option value="3">3px</option><option value="4" selected>4px · actual SVG</option></select></label><p class="pair-note">View full strokes, strokes with red centerlines, or centerlines alone. Width changes are for visual comparison; downloaded SVGs keep their actual 4px stroke.</p><label class="pair-grid-search">Find a combined icon<input id="pairGridSearch" type="search" placeholder="Search concepts or component names"></label><label class="pair-grid-search">Sub readiness<select id="pairReadiness"><option value="">All pairs</option><option value="native_sub32">Native SUB32</option><option value="needs_redraw">Needs SUB32 redraw</option></select></label><label class="pair-grid-search">Icons per page<select id="pairPageSize"><option value="24">24</option><option value="48">48</option><option value="96">96</option></select></label>${pageControls('Top')}<div id="pairResultsGrid" class="pair-results-grid"></div>${pageControls('Bottom')}<p id="pairGridStatus" role="status"></p></section>
+  host.innerHTML=`<section id="pairGallery"><div class="pair-view-toolbar"><label class="pair-grid-search">View<select id="pairView"><option value="sub-overlay" selected>Stroke + sub centerline</option><option value="icon">Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label class="pair-grid-search">Display stroke width<select id="pairStrokeWidth"><option value="4" selected>4px · original stroke</option></select></label><label class="pair-grid-search">Find a combined icon<input id="pairGridSearch" type="search" placeholder="Search concepts or component names"></label><label class="pair-grid-search">Sub readiness<select id="pairReadiness"><option value="pass" selected>Passing sub icons</option><option value="">All pairs</option><option value="native_sub32">Native SUB32</option><option value="needs_redraw">Needs SUB32 redraw</option></select></label><label class="pair-grid-search">Icons per page<select id="pairPageSize"><option value="24">24</option><option value="48">48</option><option value="96">96</option></select></label></div>${pageControls('Top')}<div id="pairResultsGrid" class="pair-results-grid"></div>${pageControls('Bottom')}<p id="pairGridStatus" role="status"></p></section>
   <section id="pairEditor" hidden><button id="pairBack" class="site-button">← Back to combined icons</button><div class="combination-heading"><h2>Combine main + sub</h2><p><span id="pairAvailableCount"></span> available pairs · 48×48 main · 32×32 sub · 64×64 output.</p><p>Position places the sub canvas at its chosen edge and the main at the opposite edge. Automatic sizing keeps solo proportions and rounds the ink-box dimensions. Default clearance is 8 units with 2 units of outer padding. Adjust offsets in canvas units.</p></div>
   <p id="pairError" role="alert" hidden></p>
   <div class="pair-controls"><label>Find a pair<input id="pairSearch" type="search" placeholder="Concept or component name"></label><label>Combination<select id="pairSelect"></select></label><label>Sub position<select id="pairPosition"></select></label></div>
@@ -15,7 +15,7 @@
   <div class="pair-offsets"><label>Sub size lock<select id="pairSubSizeLock"><option value="auto">Auto · rounded proportions</option><option value="width">Lock width</option><option value="height">Lock height</option><option value="none">Original scale</option></select></label><label>Visible size (px)<input id="pairSubBoundSize" type="number" min="5" max="32" step="1" placeholder="Nearest whole number"></label></div><p class="pair-note">32×32 is the maximum ink box, including the 4px stroke. Automatic scaling uses whole-number dimensions without imposing a SUB32 keyshape. Changing size or fractional offsets may move strokes off the grid; rounding the outer box alone does not validate the geometry.</p>
   <label>Buffer clearance<input id="pairMargin" type="number" min="0" max="64" step="0.5" value="8"></label><label>Canvas padding<input id="pairPadding" type="number" min="0" max="8" step="0.5" value="2"></label>
   <div class="pair-actions"><button id="pairRun">Combine pair</button><button id="pairReset">Reset placement</button><button id="pairSave">Save adjustments</button></div><p class="pair-note">Offsets save per pair in this browser. Uploaded and selected replacement SVGs are kept for this session only. Use stroked SVGs with a square viewBox; main fits 48×48 and sub fits 32×32.</p></div>
-  <div><div id="pairPreview" class="pair-preview"><p>Choose a pair and press Combine pair.</p></div><div class="pair-actions"><label>View<select id="pairEditorView"><option value="icon" selected>Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label>Display stroke width<select id="pairEditorStrokeWidth"><option value="2">2px</option><option value="3">3px</option><option value="4" selected>4px · actual SVG</option></select></label><label class="pair-guides"><input id="pairGuides" type="checkbox" checked> Show canvases and sub bounds</label><a id="pairDownload" hidden>Download SVG</a></div><p id="pairPlacement" class="pair-note"></p><p id="pairStatus" role="status" aria-live="polite"></p></div></div></section>`;
+  <div><div id="pairPreview" class="pair-preview"><p>Choose a pair and press Combine pair.</p></div><div class="pair-actions"><label>View<select id="pairEditorView"><option value="sub-overlay" selected>Stroke + sub centerline</option><option value="icon">Full stroke</option><option value="overlay">Stroke + centerline</option><option value="centerline">Centerline only</option></select></label><label>Display stroke width<select id="pairEditorStrokeWidth"><option value="4" selected>4px · original stroke</option></select></label><label class="pair-guides"><input id="pairGuides" type="checkbox" checked> Show canvases and sub bounds</label><a id="pairDownload" hidden>Download SVG</a></div><p id="pairPlacement" class="pair-note"></p><p id="pairStatus" role="status" aria-live="polite"></p></div></div></section>`;
   const $=id=>document.getElementById(id), option=(v,t)=>{const e=document.createElement('option');e.value=v;e.textContent=t;return e;};
   for(const [role,title,id] of [['main','Main','pairMain'],['sub','Sub','pairSub']]){
     const actions=document.createElement('div');actions.className='pair-source-actions';
@@ -60,7 +60,8 @@
   function displaySVG(documentText){
     const document=new DOMParser().parseFromString(documentText,'image/svg+xml');
     const svg=document.documentElement;
-    for(const shape of [svg,...svg.querySelectorAll('*')])if(shape.hasAttribute('stroke-width') && shape.getAttribute('stroke')!=='none')shape.setAttribute('stroke-width',displayStroke);
+    // Preserve original stroke widths and placement-scale compensation.
+    if(centerlineView==='sub-overlay'){SideCombinationPopup.addSubCenterline(svg);return new XMLSerializer().serializeToString(svg);}
     if(centerlineView==='icon')return new XMLSerializer().serializeToString(svg);
     const groups=Array.from(svg.children).filter(e=>e.localName==='g');
     for(const group of groups){
@@ -87,7 +88,7 @@
   $('pairView').onchange=changeView;$('pairEditorView').onchange=changeView;
   function draw(){if(!result)return;const ns='http://www.w3.org/2000/svg',svg=document.createElementNS(ns,'svg');svg.setAttribute('viewBox','-1 -1 66 66');svg.setAttribute('role','img');svg.setAttribute('aria-label','Combined icon on 64 by 64 canvas');
     function element(tag,attrs){const e=document.createElementNS(ns,tag);for(const [k,v]of Object.entries(attrs))e.setAttribute(k,v);svg.append(e);}
-    element('rect',{x:0,y:0,width:64,height:64,fill:'white',stroke:'#bcc5bb','stroke-width':.15});element('image',{href:imageURL(displaySVG(result.svg)),x:0,y:0,width:64,height:64});
+    element('rect',{x:0,y:0,width:64,height:64,fill:'white',stroke:'#bcc5bb','stroke-width':.15});for(let n=1;n<64;n++){const attrs={stroke:n%8===0?'#9eafb8':'#d7e1e5','stroke-width':n%8===0?.18:.08};element('line',{x1:n,y1:0,x2:n,y2:64,...attrs});element('line',{x1:0,y1:n,x2:64,y2:n,...attrs});}element('image',{href:imageURL(displaySVG(result.svg)),x:0,y:0,width:64,height:64});
     if($('pairGuides').checked)for(const p of result.placements)element('rect',{x:p.canvas_box.x,y:p.canvas_box.y,width:p.canvas_box.w,height:p.canvas_box.h,fill:'none',stroke:p.role==='main'?'#cf604d':'#4776aa','stroke-width':.2,'stroke-dasharray':'1 1'});
     if($('pairGuides').checked){const b=result.placements.find(p=>p.role==='sub')?.painted_box;if(b)element('rect',{x:b.x,y:b.y,width:b.w,height:b.h,fill:'none',stroke:'#23835b','stroke-width':.3,'stroke-dasharray':'1 .5'});}
     $('pairPreview').replaceChildren(svg);$('pairDownload').href=imageURL(result.svg);$('pairDownload').download=result.filename;$('pairDownload').hidden=false;
@@ -111,10 +112,10 @@
     if(previews[row?.id]?.result?.subSizeLock==='auto' && defaults){result=previews[row.id].result;draw();}
     $('pairGallery').hidden=true;$('pairEditor').hidden=false;$('pairBack').focus();
   }
-  function showGrid(){if(busy)return;$('pairEditor').hidden=true;$('pairGallery').hidden=false;$('pairTry').focus();}
+  function showGrid(){if(busy)return;$('pairEditor').hidden=true;$('pairGallery').hidden=false;$('pairGridSearch').focus();}
   function grid(){
     const q=$('pairGridSearch').value.trim().toLowerCase();
-    const visible=rows.filter(r=>(!$('pairReadiness').value || r.subs[0].sub32_status===$('pairReadiness').value) && [r.concept,r.id,...r.mains.map(m=>m.icon),...r.subs.map(m=>m.icon)].join(' ').toLowerCase().includes(q));
+    const visible=rows.filter(r=>(!$('pairReadiness').value || ($('pairReadiness').value==='pass' ? r.subs[0].model_validation==='pass' : r.subs[0].sub32_status===$('pairReadiness').value)) && [r.concept,r.id,...r.mains.map(m=>m.icon),...r.subs.map(m=>m.icon)].join(' ').toLowerCase().includes(q));
     const pages=Math.max(1,Math.ceil(visible.length/gridPageSize));
     gridPage=Math.min(gridPage,pages-1);
     const start=gridPage*gridPageSize;
@@ -133,16 +134,15 @@
       const preview=previews[r.id];
       if(preview)image.src=centerlineView==='icon'&&displayStroke===4?preview.url:imageURL(displaySVG(preview.result.svg));else image.alt='Preview unavailable';
       const title=document.createElement('h3');title.textContent=r.concept;
-      const detail=document.createElement('p');detail.textContent='64×64 · '+labels[r.position]+' · '+(r.subs[0].family==='sub'?'Native SUB32':'Needs SUB32 redraw');detail.title=r.subs[0].sub32_reason||'';
+      const detail=document.createElement('p');detail.textContent='64×64 · '+labels[r.position]+' · '+(r.subs[0].model_validation==='pass'?'Passing SUB32':'Needs review');detail.title=r.subs[0].sub32_reason||'';
       const actions=document.createElement('div');actions.className='pair-card-actions';
 
-      if(preview){const download=document.createElement('a');download.href=preview.url;download.download=r.id+'.svg';download.textContent='SVG';download.setAttribute('aria-label','Download '+r.concept+' SVG');actions.append(download);}
-      card.append(image,title,detail,actions);$('pairResultsGrid').append(card);
+      if(preview){const download=document.createElement('a');download.href=preview.url;download.download=r.id+'.svg';SideRepairFlags.download(download);download.setAttribute('aria-label','Download '+r.concept+' SVG');actions.append(download);}
+      actions.append(SideRepairFlags.button('main',r.mains[0],r),SideRepairFlags.button('sub',r.subs[0],r));card.append(image,title,detail,actions);if(preview)window.SideCombinationPopup.attach(image,r.concept,preview.result);$('pairResultsGrid').append(card);
     }
-    $('pairGridCount').textContent=visible.length+' combined icons · 64×64 · clearance 8 · padding 2';
     $('pairGridStatus').textContent=visible.length?'Showing '+(start+1)+'–'+Math.min(start+gridPageSize,visible.length)+' of '+visible.length+' combined icons.':'No combined icons match your search.';
   }
-  $('pairTry').onclick=()=>showEditor(row?.id);$('pairBack').onclick=showGrid;$('pairGridSearch').oninput=()=>{gridPage=0;grid();};
+  $('pairBack').onclick=showGrid;$('pairGridSearch').oninput=()=>{gridPage=0;grid();};
   $('pairReadiness').onchange=()=>{gridPage=0;grid();};
   $('pairPageSize').onchange=()=>{gridPageSize=Number($('pairPageSize').value);gridPage=0;grid();};
   function goPage(page){gridPage=page;grid();$('pairPageTop').focus({preventScroll:true});$('pairPageTop').scrollIntoView({block:'center'});}
@@ -151,23 +151,6 @@
     $('pairNext'+where).onclick=()=>goPage(gridPage+1);
     $('pairPage'+where).onchange=e=>goPage(Number(e.target.value));
   }
-  async function load(){if(loaded)return;loaded=true;try{const response=await fetch('experiment-combination.json',{cache:'no-store'});if(!response.ok)throw Error('Could not load available pairs.');rows=(await response.json()).rows;const rendered=await fetch('experiment-combination-results.json',{cache:'no-store'});if(!rendered.ok)throw Error('Combined previews could not be loaded. Reload to try again.');previews=(await rendered.json()).results;grid();$('combinationCount').textContent=rows.length;$('pairAvailableCount').textContent=rows.length;filter();$('pairSelect').value=rows.find(r=>r.concept==='surveillance cctv wifi')?.id||rows[0]?.id;choose();}catch(e){loaded=false;$('pairGridStatus').textContent=e.message;error(e.message);}}
-  let refreshTimer;
-  async function refreshStatus(start=false){
-    clearTimeout(refreshTimer);
-    try{
-      const response=await fetch('/api/combination-refresh',start?{method:'POST',headers:{'Content-Type':'application/json'},body:'{}'}:{cache:'no-store'});
-      if(!response.ok)throw Error('Could not refresh combinations. Please try again.');
-      const state=await response.json();
-      $('pairRefresh').disabled=state.status==='running';
-      $('pairRefresh').textContent=state.status==='running'?'Refreshing…':'Refresh combinations';
-      $('pairRefreshStatus').textContent=state.message||'';
-      if(state.status==='running')refreshTimer=setTimeout(()=>refreshStatus(),1500);
-      else if(state.status==='complete'){loaded=false;await load();}
-    }catch(e){$('pairRefresh').disabled=false;$('pairRefresh').textContent='Refresh combinations';$('pairRefreshStatus').textContent=e.message;}
-  }
-  $('pairRefresh').onclick=()=>refreshStatus(true);
-  window.addEventListener('show-combinations',()=>refreshStatus());
-  if(new URLSearchParams(location.search).get('type')==='combination')refreshStatus();
+  async function load(){if(loaded)return;loaded=true;try{const response=await fetch('experiment-combination.json',{cache:'no-store'});if(!response.ok)throw Error('Could not load available pairs.');rows=(await response.json()).rows;SideRepairFlags.setRows(rows);const rendered=await fetch('experiment-combination-results.json',{cache:'no-store'});if(!rendered.ok)throw Error('Combined previews could not be loaded. Reload to try again.');previews=(await rendered.json()).results;grid();$('combinationCount').textContent=rows.length;$('pairAvailableCount').textContent=rows.length;filter();$('pairSelect').value=rows.find(r=>r.concept==='surveillance cctv wifi')?.id||rows[0]?.id;choose();}catch(e){loaded=false;$('pairGridStatus').textContent=e.message;error(e.message);}}
   window.addEventListener('show-combinations',load);if(new URLSearchParams(location.search).get('type')==='combination')load();
 })();

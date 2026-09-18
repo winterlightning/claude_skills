@@ -168,7 +168,10 @@
       "additionalProperties": false,
       "properties": {
         "stroke_width": {
-          "const": 4
+          "enum": [
+            4,
+            32
+          ]
         },
         "line_cap": {
           "const": "round"
@@ -371,6 +374,18 @@
         "minLength": 1
       },
       "uniqueItems": true
+    },
+    "sizing_mode": {
+      "enum": [
+        "text-height32"
+      ]
+    },
+    "canvas_width": {
+      "type": "integer",
+      "minimum": 4
+    },
+    "canvas_height": {
+      "const": 32
     }
   },
   "$defs": {
@@ -497,5 +512,39 @@
         }
       ]
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "style": {
+            "properties": {
+              "stroke_width": {
+                "const": 32
+              }
+            }
+          }
+        },
+        "required": [
+          "style"
+        ]
+      },
+      "then": {
+        "required": [
+          "sizing_mode"
+        ],
+        "properties": {
+          "sizing_mode": {
+            "const": "text-height32"
+          },
+          "family": {
+            "const": "sub"
+          },
+          "profile": {
+            "const": "SUB32"
+          }
+        }
+      }
+    }
+  ]
 }

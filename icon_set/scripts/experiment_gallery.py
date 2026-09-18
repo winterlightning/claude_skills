@@ -36,6 +36,26 @@ def stage_container_experiment(target: Path) -> str:
     return payload
 
 
+def stage_animation_experiment(target: Path) -> int:
+    """Publish the animated SVG samples built by work/animation-samples/build.py."""
+    source = ROOT / 'work/animation-samples'
+    output = target / 'experiment-animation.json'
+    if (source / 'data.json').is_file():
+        rows = [dict(key=r['key'], number=r['number'], name=r['name'], icon_id=r['icon_id'],
+                     source=r['source'], canvas_size=r['canvas_size'], motion=r['motion'],
+                     outline=(source / r['outline_url']).read_text(),
+                     result=(source / r['result_url']).read_text())
+                for r in json.loads((source / 'data.json').read_text())['icons']]
+        output.write_text(json.dumps({'icons': rows}, separators=(',', ':')) + '\n')
+    else:
+        published = ROOT / 'icon_set/dist/gallery' / output.name
+        if published.is_file() and published.resolve() != output.resolve():
+            shutil.copyfile(published, output)
+        elif not output.is_file():
+            output.write_text('{"icons":[]}\n')
+    return len(json.loads(output.read_text())['icons'])
+
+
 def fitted_preview(document: str) -> str:
     """Trim only preview whitespace, preserving original aspect ratio and artwork."""
     import cairosvg
@@ -124,13 +144,13 @@ def stage_experiments(target: Path) -> None:
     payload = json.dumps(typeface, ensure_ascii=True).replace('<', '\\u003c')
     (target / 'experiment-typeface.json').write_text(payload+'\n')
     counts['typeface'] = len(typeface['icons'])
+    from .side_combination_progress import stage as stage_side_progress
+    stage_side_progress(target)
     combination = ROOT / 'icon_set/data/combination-pairs.json'
     if combination.is_file():
         shutil.copyfile(combination, target / 'experiment-combination.json')
         counts['combination'] = len(json.loads(combination.read_text())['rows'])
     shutil.copyfile(Path(__file__).with_name('templates') / 'combination-experiment.js', target / 'combination-experiment.js')
-    from .sub_scaling_gallery import stage_sub_scaling
-    stage_sub_scaling(target)
     sub_exports = ROOT / 'icon_set/assets/combination-sub32'
     if sub_exports.exists():
         shutil.copytree(sub_exports, target / 'combination-sub32', dirs_exist_ok=True)
@@ -150,6 +170,7 @@ def stage_experiments(target: Path) -> None:
     # Embed this small collection so the user's local-file experiment works offline.
     container_payload = stage_container_experiment(target)
     counts['container'] = len(json.loads(container_payload)['icons'])
+    counts['animation'] = stage_animation_experiment(target)
     (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload).replace('__CONTAINER_EXPERIMENT_DATA__', container_payload))
     (target / 'experiments.json').write_text(json.dumps(counts) + '\n')
     # Keep the existing fill review route and its browser feedback key intact.

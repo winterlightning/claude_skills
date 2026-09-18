@@ -38,3 +38,6 @@ class HeartPulse(Solo48):
 
 # Reviewed source-equivalent container sub-icon references.
 SOURCE_REFERENCES = [('a9dc34df-bbc3-4ab4-a859-ebdb7d92a804', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/sports/heart rate_a9dc34df-bbc3-4ab4-a859-ebdb7d92a804.svg'), ('468beab8-6edf-4e7f-9ee2-0f23f5c3b360', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/sports/heart rate_468beab8-6edf-4e7f-9ee2-0f23f5c3b360.svg')]
+
+# Visually reviewed equivalent content reference, explicitly requested for reuse.
+SOURCE_REFERENCES = tuple(globals().get("SOURCE_REFERENCES", ())) + (('a954f676-1cce-4e19-81eb-ec067ec52edc', 'icon_set/dist/gallery/combination-originals/a954f676-1cce-4e19-81eb-ec067ec52edc.svg'),)

@@ -32,8 +32,39 @@ def annotate_sub_references(records, root=ROOT):
         model=root/source
         if model.is_file() and hashlib.sha256(model.read_bytes()).hexdigest()==finding['model_sha256']:
             record['reference_fidelity']=finding
+    repair_path=root/'icon_set/data/sub-reference-repairs.json'
+    if not repair_path.exists():return
+    repairs=json.loads(repair_path.read_text())
+    by_id={r['icon_id']:r for r in records if r.get('family')=='sub'}
+    for icon_id, repair in repairs.items():
+        parent=by_id.get(icon_id)
+        if not parent or parent.get('reference_fidelity',{}).get('status')!='superseded':continue
+        # A saved resolution cannot certify later edits or a missing replacement.
+        if parent['reference_fidelity']['model_sha256']!=repair['parent_model_sha256']:continue
+        finding=dict(parent['reference_fidelity'])
+        if repair['status']=='redrawn':
+            replacement=by_id.get(repair['new_id'])
+            model=root/repair['new_model_path']
+            if not replacement or replacement.get('build_failed') or not model.is_file():continue
+            if hashlib.sha256(model.read_bytes()).hexdigest()!=repair['new_model_sha256']:continue
+            if replacement.get('validation',{}).get('status')!='valid':continue
+            finding.update(resolution='redrawn',replacement_id=repair['new_id'],review_url=repair['review_url'])
+            replacement['reference_fidelity']={
+                'status':'redrawn','source_id':repair['source_id'],
+                'review_url':repair['review_url'],'finding':'Complete source composition redrawn and visually reviewed; awaiting human approval.',
+                'model_sha256':repair['new_model_sha256'],
+            }
+        elif repair['status']=='skip':
+            finding.update(resolution='skip',review_url=repair['review_url'],redraw_reason=repair['reason'])
+        parent['reference_fidelity']=finding
 
 def stage_sub_reference_review(target, root=ROOT):
+    outlines=root/'work/sub-outline-restoration-20260918/report'
+    if (outlines/'index.html').exists():
+        shutil.copytree(outlines,target/'sub-outline-restoration',dirs_exist_ok=True)
+    repairs=root/'work/sub-superseded-fix-20260918/report'
+    if (repairs/'index.html').exists():
+        shutil.copytree(repairs,target/'sub-reference-repairs',dirs_exist_ok=True)
     source=root/'work/sub-family-reference-audit'
     if not (source/'review.json').exists():return
     dest=target/'sub-family-review';dest.mkdir(exist_ok=True)

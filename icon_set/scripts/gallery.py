@@ -384,14 +384,26 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     from icon_set.scripts.sub_reference_fidelity import annotate_sub_references, stage_sub_reference_review
     annotate_sub_references(records + failed_records)
     stage_sub_reference_review(target)
+    from .profile_links import annotate as annotate_profile_links
+    annotate_profile_links(records + failed_records)
+    from .sub_profile_report import stage as stage_sub_profiles
+    stage_sub_profiles(target)
     stage_review_facets(records, staged, published, target)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'generate.html', target / 'generate.html')
     shutil.copyfile(Path(__file__).with_name('templates') / 'icon-canvas.css', target / 'icon-canvas.css')
-    for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "icons.html", "approved-icons.js", "reference-picker.js",
+    for asset in ("api.html", "api.css", "api.js", "upload.html", "upload.js", "home.html", "login.html", "site.css", "site.js", "reviewers.html", "reviewers.css", "reviewers.js", "experiment.html", "experiment.css", "experiment.js", "combination-experiment.js", "side-combination-popup.js", "side-repair-flags.js", "side-combination-progress.js", "icons.html", "approved-icons.js", "reference-picker.js",
                   "primitives.html", "progression-combinations.js", "review-workspace.css", "stroke-fit.js", "stroke-editor.js", "stroke-editor.css", "icon-guides.js", "icon-artwork.js", "icon-feedback.js"):
         shutil.copyfile(Path(__file__).with_name("templates") / asset, target / asset)
+    side_review = REPO_ROOT / 'icon_set/work/side-combinations-passing-sub'
+    if (side_review / 'index.html').is_file():
+        shutil.copytree(side_review, target / 'side-combinations-passing-sub', dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns('pairs-before.json', 'previews-before.json', 'sample-review.png'))
+        page = target / 'side-combinations-passing-sub/index.html'
+        page.write_text(page.read_text().replace('../../dist/gallery/', '../'))
+    from .sub_repair_review import stage as stage_sub_repair_review
+    stage_sub_repair_review(target / 'sub-repair-review')
     stage_ai_quality_review(target)
     stage_laboratory(target)
     stage_preview(target, records)

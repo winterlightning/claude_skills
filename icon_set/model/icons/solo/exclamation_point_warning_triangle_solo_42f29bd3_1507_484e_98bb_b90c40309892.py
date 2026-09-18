@@ -1,26 +1,27 @@
-"""Exclamation Point Warning Triangle. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
-Rounded triangular warning silhouette; separated stem and dot.
+"""Exclamation Point Warning Triangle.
+Symbol plan: Triangular warning outline with centered stem and detached dot. Bounds (2,6)-(46,42).
+User explicitly requested the complete combined subject on SOLO48.
+References: supplied source render; local Lucide original and atomic geometry sheet
+(triangle-alert, user-round-plus, file-up, battery-charging, plug-zap, scan-face,
+clapperboard, badge-check, paw-print, car, wrench, shirt, chart-pie, delete).
+Human subjects follow icon_set/references/human_ref/user.svg.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
 from ._payments_batch01 import circle, rounded_rect
-SOURCE_ICON_ID = '42f29bd3-1507-484e-98bb-b90c40309892'
-SOURCE_PATH = 'pictographic-primitives/other/warning triangle_42f29bd3-1507-484e-98bb-b90c40309892.svg'
-AUTHOR = 'gpt-6'
+from ._container_content_batch import path, cross, contacts, bust, car, bolt
 
+SOURCE_ICON_ID = '42f29bd3-1507-484e-98bb-b90c40309892'
+SOURCE_PATH = 'icon_set/dist/gallery/combination-originals/42f29bd3-1507-484e-98bb-b90c40309892.svg'
+AUTHOR = 'gpt-6'
 class Drawing(Solo48):
     icon_id = 'exclamation-point-warning-triangle-solo'
-    keyshape = Keyshape.SQUARE
-    semantic_role = 'MAIN'
-    semantic_kind = 'noun'
+    keyshape = Keyshape.VRECT_L
     category = 'objects/interface-essential'
     tags = ('sub icon',)
-    keywords = ('sub icon', 'exclamation point warning triangle')
+    keywords = ('exclamation point warning triangle',)
     def build(self):
-        # Plan: Rounded triangular warning silhouette; separated stem and dot.
-        self.add_bezier('triangle',(24,6),((22,6),(21,9),(20,11)),((15,20),(10,30),(6,38)),((6,41),(7,42),(10,42)),((19,42),(29,42),(38,42)),((41,42),(42,41),(42,38)),((37,28),(30,15),(27,9)),((26,7),(25,6),(24,6)))
-        self.add_contour('outline','triangle',closed=True)
-        self.add_line('warning-stem',(24,22),(24,25))
-        self.add_dot('warning-dot',(24,33))
+        self.add_polyline('triangle',(24,4),(40,44),(8,44),closed=True)
+        self.add_line('warning',(24,26),(24,28))
+        self.add_dot('dot',(24,36))
+        contacts(self)

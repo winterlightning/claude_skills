@@ -12,22 +12,23 @@ AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'bicycle-reference-165-solo'
-    keyshape = Keyshape.HRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/interface-essential'
     tags = ('sub icon',)
     keywords = ('sub icon', 'simple bicycle icon')
     def build(self):
-        # Plan: Two equal wheels, shared frame junctions and opposing seat/handlebar ends.
-        circle(self,'rear-wheel',12,32,8)
-        circle(self,'front-wheel',36,32,8)
-        self.add_polyline('frame',(12,32),(22,32),(18,17),(12,32))
-        self.add_polyline('top-tube',(18,17),(31,17),(22,32))
-        self.add_polyline('fork',(36,32),(31,17),(28,8),(34,8))
-        self.add_polyline('seat',(16,8),(22,8))
-        self.add_line('seat-post',(19,8),(18,17))
-        self.relate('connect','frame','top-tube','fork','seat-post')
+        # Compact equal wheels and elevated diamond frame; forks meet wheel tops.
+        circle(self,'rear-wheel',12,36,6)
+        circle(self,'front-wheel',36,36,6)
+        self.add_polyline('frame',(18,14),(30,14),(24,26),(18,14))
+        self.add_line('rear-fork',(18,14),(12,30))
+        self.add_line('front-fork',(30,14),(36,30))
+        self.add_line('seat-post',(18,6),(18,14))
+        self.add_line('seat',(14,6),(22,6))
+        self.add_polyline('handlebar',(30,14),(28,6),(36,6))
+        self.relate('connect','rear-wheel','rear-fork')
+        self.relate('connect','front-wheel','front-fork')
+        self.relate('connect','frame','rear-fork','front-fork','seat-post','handlebar')
         self.relate('connect','seat-post','seat')
-        self.relate('connect','rear-wheel','frame')
-        self.relate('connect','front-wheel','fork')

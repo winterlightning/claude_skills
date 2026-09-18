@@ -1,6 +1,5 @@
 """Three Lightning Bolts. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,5 +18,6 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'three lightning bolts')
     def build(self):
-        for n,x in enumerate((4,19,34)):
-         self.add_polyline('bolt-'+str(n),(x+10,8),(x,24),(x+10,24),(x,40))
+        # Three identical open bolts, 17 units apart and 6 units wide with unequal diagonal slopes.
+        for n,x in enumerate((4,21,38)):
+            self.add_polyline('bolt-'+str(n),(x+6,8),(x,21),(x+6,25),(x,40))

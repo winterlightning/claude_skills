@@ -29,3 +29,39 @@ def test_missing_source_does_not_inherit_fidelity_verdict(tmp_path):
     row={'family':'sub','icon_id':'x'}
     annotate_sub_references([row],tmp_path)
     assert 'reference_fidelity' not in row
+
+def test_replacement_link_requires_present_valid_unchanged_model(tmp_path):
+    data=tmp_path/'icon_set/data';data.mkdir(parents=True)
+    parent=tmp_path/'parent.py';parent.write_text('incomplete parent')
+    child=tmp_path/'child.py';child.write_text('complete redraw')
+    digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+    (data/'sub-reference-fidelity.json').write_text(json.dumps({'x':{
+        'model_sha256':digest(parent),'status':'superseded'}}))
+    (data/'sub-reference-repairs.json').write_text(json.dumps({'x':{
+        'parent_model_sha256':digest(parent),'status':'redrawn','new_id':'x-v2',
+        'new_model_path':'child.py','new_model_sha256':digest(child),
+        'source_id':'source','review_url':'sub-reference-repairs/index.html#x'}}))
+    old={'family':'sub','icon_id':'x','python_source':{'path':'parent.py'}}
+    new={'family':'sub','icon_id':'x-v2','python_source':{'path':'child.py'},'validation':{'status':'valid'}}
+    annotate_sub_references([old],tmp_path)
+    assert 'resolution' not in old['reference_fidelity']
+    annotate_sub_references([old,new],tmp_path)
+    assert old['reference_fidelity']['replacement_id']=='x-v2'
+    assert new['reference_fidelity']['status']=='redrawn'
+    child.write_text('subsequent unreviewed edit')
+    annotate_sub_references([old,new],tmp_path)
+    assert 'resolution' not in old['reference_fidelity']
+    assert 'reference_fidelity' not in new
+
+def test_skipped_redraw_keeps_incomplete_parent_flagged(tmp_path):
+    data=tmp_path/'icon_set/data';data.mkdir(parents=True)
+    parent=tmp_path/'parent.py';parent.write_text('incomplete')
+    digest=hashlib.sha256(parent.read_bytes()).hexdigest()
+    (data/'sub-reference-fidelity.json').write_text(json.dumps({'x':{'model_sha256':digest,'status':'superseded'}}))
+    (data/'sub-reference-repairs.json').write_text(json.dumps({'x':{
+        'parent_model_sha256':digest,'status':'skip','reason':'Required detail does not fit.',
+        'review_url':'sub-reference-repairs/index.html#x'}}))
+    row={'family':'sub','icon_id':'x','python_source':{'path':'parent.py'}}
+    annotate_sub_references([row],tmp_path)
+    assert row['reference_fidelity']['status']=='superseded'
+    assert row['reference_fidelity']['resolution']=='skip'

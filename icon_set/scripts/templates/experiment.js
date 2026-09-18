@@ -22,7 +22,7 @@
       const comparisons=type==='typeface'
         ? [[icon.original,'Original',icon.original_preview],[icon.outline,'Iconized',icon.outline_preview],[icon.result,'Centerline',null]]
         : type==='container'?[[icon.outline,'Container',null],[icon.content,'Content',null],[icon.result,'Combination',null]]
-        : [[icon.outline,'Original',null],[icon.result,type==='color'?'Color':type==='duotone'?'Duotone':'Fill',null]];
+        : [[icon.outline,'Original',null],[icon.result,type==='color'?'Color':type==='duotone'?'Duotone':type==='animation'?'Animated':'Fill',null]];
       art.classList.toggle('typeface-comparison',type==='typeface'||type==='container');
       for(const [svg,label,preview] of comparisons){
         const figure=document.createElement('figure'),box=document.createElement('div'),caption=document.createElement('figcaption');box.className='icon-image';
@@ -31,8 +31,8 @@
         caption.textContent=label;figure.append(box,caption);art.append(figure);
       }
       card.append(art);
-      if(type==='container'){const note=document.createElement('p');note.className='pair-note';note.textContent=icon.status_label;card.append(note);}
-      const foot=document.createElement('footer'),detail=document.createElement('span'),download=document.createElement('a');detail.textContent=icon.canvas_size+' px'+(type==='fill'&&!icon.fill_applicable?' · Kept as strokes':'');download.textContent=type==='typeface'?'Download centerline':'Download SVG';download.href=imageURL(icon.result);download.download=icon.name+'-'+type+'.svg';foot.append(detail,download);card.append(foot);grid.append(card);
+      if(type==='container'||type==='animation'){const note=document.createElement('p');note.className='pair-note';note.textContent=type==='animation'?icon.motion:icon.status_label;card.append(note);}
+      const foot=document.createElement('footer'),detail=document.createElement('span'),download=document.createElement('a');detail.textContent=icon.canvas_size+' px'+(type==='fill'&&!icon.fill_applicable?' · Kept as strokes':'')+(type==='animation'?' · '+icon.source:'');download.textContent=type==='typeface'?'Download centerline':'Download SVG';download.href=imageURL(icon.result);download.download=icon.name+'-'+type+'.svg';foot.append(detail,download);card.append(foot);grid.append(card);
     }
     $('experimentStatus').textContent=filtered.length?`${start+1}–${start+visible.length} of ${filtered.length} ${type} samples`:'0 samples';$('experimentEmpty').hidden=filtered.length>0;
     const select=$('samplePage');select.replaceChildren();for(let n=1;n<=pages;n++){const o=document.createElement('option');o.value=n;o.textContent=n;select.append(o);}select.value=page;$('pageTotal').textContent='of '+pages;$('previousSamples').disabled=page<=1;$('nextSamples').disabled=page>=pages;writeURL();
@@ -53,7 +53,7 @@
     }
     if(!restore){page=1;$('experimentSearch').value='';}
     for(const tab of tabs){if(tab.dataset.type===type)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current');}
-    $('experimentGrid').setAttribute('aria-label',type==='container'?'Container combinations':type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':type==='duotone'?'Duotone icons':'Fill icons');
+    $('experimentGrid').setAttribute('aria-label',type==='container'?'Container combinations':type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':type==='duotone'?'Duotone icons':type==='animation'?'Animated icons':'Fill icons');
     $('typefaceLegend').hidden=type!=='typeface';
     $('experimentGrid').classList.toggle('typeface-grid',type==='typeface'||type==='container');
     document.querySelector('.experiment-pagination').hidden=type==='typeface';$('experimentGrid').replaceChildren();$('experimentEmpty').hidden=true;$('experimentStatus').textContent='Loading samples…';$('previousSamples').disabled=true;$('nextSamples').disabled=true;$('samplePage').disabled=true;$('experimentSearch').disabled=true;$('experimentSize').disabled=true;
@@ -72,8 +72,8 @@
   $('experimentSearch').addEventListener('input',()=>{page=1;render();});$('experimentSize').addEventListener('change',render);
   function go(n){page=n;render();window.scrollTo({top:0,behavior:'smooth'});}
   $('previousSamples').onclick=()=>go(page-1);$('nextSamples').onclick=()=>go(page+1);$('samplePage').onchange=()=>go(Number($('samplePage').value));
-  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';selectType(['fill','duotone','typeface','combination','container'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
+  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';selectType(['fill','duotone','typeface','combination','container','animation'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
   window.addEventListener('popstate',restore);restore();
   if(cache.has('container'))$('containerCount').textContent=cache.get('container').length;
-  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container'])$(kind+'Count').textContent=data[kind];}).catch(()=>{});
+  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation'])if(kind in data)$(kind+'Count').textContent=data[kind];}).catch(()=>{});
 })();

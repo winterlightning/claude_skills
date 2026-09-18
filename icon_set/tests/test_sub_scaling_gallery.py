@@ -11,9 +11,9 @@ class ScalingInspectionTests(unittest.TestCase):
         actual = placement(item, 32, (1, 1), (0, 0), size_lock='auto')['painted_box']
         self.assertAlmostEqual(m['ink_width'], actual['w'])
         self.assertAlmostEqual(m['ink_height'], actual['h'])
-        self.assertAlmostEqual(m['scale'], .625)
-        self.assertAlmostEqual(m['ink_width'], 29)
-        self.assertAlmostEqual(m['ink_height'], 24)
+        self.assertAlmostEqual(m['scale'], .7)
+        self.assertAlmostEqual(m['ink_width'], 32)
+        self.assertAlmostEqual(m['ink_height'], 26.4)
         self.assertLessEqual(max(m['ink_width'], m['ink_height']), 32)
 
     def test_scaled_preview_preserves_path_and_final_stroke(self):
@@ -49,15 +49,16 @@ class RoundedProportionTests(unittest.TestCase):
         item = dict(bounds=[4,8,44,40],canvas=48,family='solo',
                     target_keyshape='VRECT_M',target_keyshape_bounds=[6,0,26,32])
         result=scaling_metrics(item)
-        self.assertEqual((result['ink_width'],result['ink_height']),(29,24))
+        self.assertEqual((result['ink_width'],result['ink_height']),(32,26.4))
         self.assertEqual(result['proportion_change'],0)
 
-    def test_irrational_ratio_rounds_shorter_dimension(self):
+    def test_irrational_ratio_preserves_shorter_dimension(self):
         result=scaling_metrics(dict(bounds=[0,0,37.123,28.654],canvas=48,family='solo'))
-        self.assertEqual((result['ink_width'],result['ink_height']),(32,26))
+        self.assertAlmostEqual(result['ink_width'],32)
+        self.assertAlmostEqual(result['ink_height'],4+28*28.654/37.123)
         self.assertLess(result['proportion_change'],2)
 
-    def test_all_solo_options_have_whole_number_dimensions(self):
+    def test_all_solo_options_have_exact_maximum_ink_dimension(self):
         import json
         from icon_set.scripts.combination_experiment import DATA
         for row in json.loads(DATA.read_text())['rows']:
@@ -65,7 +66,7 @@ class RoundedProportionTests(unittest.TestCase):
                 if item['family']!='solo':continue
                 result=scaling_metrics(item)
                 for axis in ('ink_width','ink_height'):
-                    self.assertAlmostEqual(result[axis],round(result[axis]))
+                    self.assertAlmostEqual(max(result['ink_width'],result['ink_height']),32)
                     self.assertLessEqual(result[axis],32)
                 self.assertLess(result['proportion_change'],3)
 

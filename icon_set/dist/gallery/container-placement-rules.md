@@ -47,3 +47,9 @@ The runner now loads `icon_set/data/container-content-areas.json` by default: 21
 Both brain variants and the prohibition symbol have `kind: center-only`, center `[32, 32]`, no polygon, and overlay mode. Placement preserves that center and always requires overlay review; a center is not a promise of clearance. The brain-v2 exception was explicitly requested by the user. The other two follow the same visual reasoning.
 
 Safe zones were reviewed across all seven contact sheets. Open frames use manually bounded interior regions. The camera uses its lens, the book its right page, the tent its central opening, and whiteboards the area beside the teacher. Existing pair previews retain their earlier placements until rerun.
+
+## Center-first placement preference
+
+For container combinations, prioritize the intended content center. Keep the sub-icon on the content area's vertical centerline where feasible, then adjust vertical placement for optical balance and the required ink clearance. Do not treat a sideways placement found by a clearance search as visually approved. If a native-size symbol cannot clear in a centered position, mark that combination for visual review or a container revision. The container canvas center is not necessarily the content center when handles, headers, stands or other furniture are present.
+
+Saved policy and optical overrides: `icon_set/data/container-placement-preferences.json`.

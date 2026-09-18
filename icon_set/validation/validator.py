@@ -212,7 +212,8 @@ class IconValidator:
         self, icon: "Icon", resolved: list, errors: list[Finding]
     ) -> None:
         check = CHECK_ORDER[1]
-        if icon.STROKE_WIDTH != STROKE_WIDTH:
+        from ..model.icons.sub._text_base import is_height32_dot_text
+        if icon.STROKE_WIDTH != STROKE_WIDTH and not is_height32_dot_text(icon):
             errors.append(Finding(check, f"stroke width must be {STROKE_WIDTH}, got {icon.STROKE_WIDTH}"))
         if icon.LINE_CAP != LINE_CAP:
             errors.append(Finding(check, f"line cap must be {LINE_CAP!r}, got {icon.LINE_CAP!r}"))
@@ -250,9 +251,10 @@ class IconValidator:
         self, icon: "Icon", resolved: list, errors: list[Finding]
     ) -> None:
         check = CHECK_ORDER[2]
-        canvas = icon.profile.spec.canvas_size
+        from ..model.icons.sub._text_base import canvas_dimensions
+        width, canvas = canvas_dimensions(icon)
         try:
-            painted = envelope.visible_bounds(resolved)
+            painted = envelope.visible_bounds(resolved, radius=icon.STROKE_WIDTH / 2)
         except (ValueError, ZeroDivisionError) as error:
             errors.append(Finding(check, f"cannot measure the painted envelope: {error}"))
             return
@@ -260,11 +262,11 @@ class IconValidator:
         limit = CANVAS_OVERFLOW_TOLERANCE + NUMERIC_EPSILON
         if (
             painted[0] < -limit or painted[1] < -limit
-            or painted[2] > canvas + limit or painted[3] > canvas + limit
+            or painted[2] > width + limit or painted[3] > canvas + limit
         ):
             errors.append(Finding(
                 check,
-                f"visible ink {_fmt(painted)} leaves the {canvas}x{canvas} canvas",
+                f"visible ink {_fmt(painted)} leaves the {width}x{canvas} canvas",
                 detail={"painted": painted, "canvas": canvas},
             ))
 
@@ -339,7 +341,7 @@ class IconValidator:
         result = analyze_paths(
             payload,
             minimum_distance=float(spec.equal_stroke_centerline_min),
-            stroke_width=float(STROKE_WIDTH),
+            stroke_width=float(icon.STROKE_WIDTH),
         )
         if result["status"] == "pass":
             return False
@@ -406,6 +408,18 @@ class IconValidator:
 
     def _check_keyshape(self, icon: "Icon", errors: list[Finding]) -> None:
         check = CHECK_ORDER[4]
+        from ..model.icons.sub._text_base import TextSub32, canvas_dimensions
+        if isinstance(icon, TextSub32):
+            width, height = canvas_dimensions(icon)
+            left, top, right, bottom = icon.keyshape_bounds()
+            if top != 0 or bottom != 32 or left < 0 or right > width:
+                errors.append(Finding(check, 'Text sub ink must have height 32 and fit its natural-width canvas'))
+            if any(float(v) != round(v) for v in (left, top, right, bottom)):
+                errors.append(Finding(check, 'Text sub ink bounds must snap to grid 1'))
+            actual = envelope.visible_bounds(icon.draw().primitives, radius=icon.STROKE_WIDTH / 2)
+            if abs(actual[1]) > NUMERIC_EPSILON or abs(actual[3] - 32) > NUMERIC_EPSILON:
+                errors.append(Finding(check, 'Actual text ink must have height 32'))
+            return
         if icon.keyshape is Keyshape.FREE:
             return
         table = contracts.keyshapes()["resolved"][icon.profile.name]
@@ -543,18 +557,19 @@ class IconValidator:
         errors: list[Finding],
     ) -> None:
         check = CHECK_ORDER[6]
-        canvas = icon.profile.spec.canvas_size
+        from ..model.icons.sub._text_base import canvas_dimensions
+        width, canvas = canvas_dimensions(icon)
         try:
             parsed = parse_svg(document)
         except SvgRoundTripError as error:
             errors.append(Finding(check, str(error)))
             return
-        if parsed.view_box != (0.0, 0.0, float(canvas), float(canvas)):
-            errors.append(Finding(check, f"viewBox is {parsed.view_box}, expected (0, 0, {canvas}, {canvas})"))
-        if (parsed.width, parsed.height) != (canvas, canvas):
-            errors.append(Finding(check, f"size is {parsed.width}x{parsed.height}, expected {canvas}x{canvas}"))
+        if parsed.view_box != (0.0, 0.0, float(width), float(canvas)):
+            errors.append(Finding(check, f"viewBox is {parsed.view_box}, expected (0, 0, {width}, {canvas})"))
+        if (parsed.width, parsed.height) != (width, canvas):
+            errors.append(Finding(check, f"size is {parsed.width}x{parsed.height}, expected {width}x{canvas}"))
         expected_style = {
-            "fill": FILL, "stroke": STROKE, "stroke-width": str(STROKE_WIDTH),
+            "fill": FILL, "stroke": STROKE, "stroke-width": str(icon.STROKE_WIDTH),
             "stroke-linecap": LINE_CAP, "stroke-linejoin": LINE_JOIN,
         }
         if parsed.style != expected_style:

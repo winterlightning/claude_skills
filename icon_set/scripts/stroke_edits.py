@@ -23,7 +23,8 @@ class EditConflict(ValueError):
 GRAPH_FIELDS = ('icon_id', 'name', 'family', 'profile', 'canvas_size', 'keyshape',
                 'keyshape_bounds', 'style', 'primitives', 'contours', 'anchors',
                 'relationships', 'human_figures', 'composition_class', 'children',
-                'semantic_role', 'semantic_kind', 'category', 'free_keyshape')
+                'semantic_role', 'semantic_kind', 'category', 'free_keyshape',
+                'sizing_mode', 'canvas_width', 'canvas_height')
 
 
 def grid_number(value):

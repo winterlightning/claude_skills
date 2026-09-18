@@ -17,6 +17,14 @@ def icon_from_graph(graph):
                 primitives=[primitive_from_dict(p) for p in graph['primitives']],
                 contours=[Contour(c['contour_id'], tuple(c['members']), c['closed']) for c in graph.get('contours', [])],
                 relationships=[Relationship(r['kind'], tuple(r['members'])) for r in graph.get('relationships', [])])
+    if graph.get('sizing_mode') == 'text-height32':
+        if graph.get('family') != 'sub' or graph.get('profile') != 'SUB32':
+            raise ValueError('Natural-width text belongs to sub/SUB32')
+        from icon_set.model.icons.sub._text_base import TextSub32
+        # Restore a geometry-only instance without running any authored module.
+        icon.__class__ = TextSub32
+        icon.text_canvas_width = graph['canvas_width']
+        icon.text_ink_bounds = tuple(graph['keyshape_bounds'])
     for field in ('family', 'semantic_kind', 'category', 'composition_class'):
         if field in graph:
             setattr(icon, field, graph[field])

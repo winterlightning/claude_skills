@@ -1,6 +1,5 @@
 """Wallet with Cash Bill. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,8 +18,9 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'wallet with cash bill')
     def build(self):
-        self.add_polyline('wallet',(37,24),(37,14),(6,14),(6,42),(37,42),(37,34))
-        self.add_polyline('bill',(12,14),(29,6),(33,14))
-        self.relate('connect','wallet','bill')
+        # Cash bill has a rectangular exposed band; clasp joins open wallet edge.
+        self.add_polyline('bill',(14,14),(14,6),(32,6),(32,14))
+        self.add_polyline('wallet',(38,24),(38,14),(6,14),(6,42),(38,42),(38,34))
         rounded_rect(self,'clasp',25,24,42,34,4)
+        self.relate('connect','wallet','bill')
         self.relate('connect','wallet','clasp')

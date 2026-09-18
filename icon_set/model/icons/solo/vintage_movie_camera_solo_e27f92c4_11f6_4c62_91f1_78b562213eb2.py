@@ -1,6 +1,5 @@
 """Vintage Movie Camera. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,9 +18,17 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'vintage movie camera')
     def build(self):
-        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
-        rounded_rect(self,'body',6,24,32,42,4)
-        circle(self,'large-reel',15,15,9)
-        circle(self,'small-reel',35,13,3)
-        self.add_polyline('lens',(32,29),(42,25),(42,41),(32,37))
-        self.relate('connect','body','large-reel','lens')
+        # Two equal reels; camera body and lens form one joined silhouette.
+        for name,x in [('left',14),('right',34)]:
+            circle(self,name+'-reel',x,12,6)
+        self.add_line('body-top',(10,26),(26,26))
+        self.add_arc('body-tr',(26,26),(30,30),radius_x=4)
+        self.add_line('lens-1',(30,30),(42,26))
+        self.add_line('lens-2',(42,26),(42,42))
+        self.add_line('lens-3',(42,42),(30,38))
+        self.add_arc('body-br',(30,38),(26,42),radius_x=4)
+        self.add_line('body-bottom',(26,42),(10,42))
+        self.add_arc('body-bl',(10,42),(6,38),radius_x=4)
+        self.add_line('body-left',(6,38),(6,30))
+        self.add_arc('body-tl',(6,30),(10,26),radius_x=4)
+        self.add_contour('body','body-top','body-tr','lens-1','lens-2','lens-3','body-br','body-bottom','body-bl','body-left','body-tl',closed=True)

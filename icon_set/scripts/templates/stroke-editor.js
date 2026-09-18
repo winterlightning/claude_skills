@@ -3,7 +3,7 @@
   'use strict';
   const $ = id => document.getElementById(id);
   const clone = value => JSON.parse(JSON.stringify(value));
-  const fields = ['icon_id','name','family','profile','canvas_size','keyshape','keyshape_bounds','style','primitives','contours','anchors','relationships','human_figures','composition_class','children','semantic_role','semantic_kind','category','free_keyshape'];
+  const fields = ['icon_id','name','family','profile','canvas_size','keyshape','keyshape_bounds','style','primitives','contours','anchors','relationships','human_figures','composition_class','children','semantic_role','semantic_kind','category','free_keyshape','sizing_mode','canvas_width','canvas_height'];
   const graph = icon => Object.fromEntries(fields.filter(key => key in icon).map(key => [key, clone(icon[key])]));
   function groups(icon) {
     const byId = new Map((icon.primitives || []).map(p => [p.element_id,p]));
@@ -158,10 +158,10 @@
   let selectedPoint=null,deletedStrokes=[],savedDeletedStrokes=[];
   let keyshape='',savedKeyshape='',validation=null,checking=false,override=null,geometry=null,savedGeometry=null;
   let viewport=null,panMode=false,spacePan=false;
-  const viewZoom=()=>viewport && icon ? (icon.canvas_size+8)/viewport.size : 1;
+  const viewZoom=()=>viewport && icon ? (Math.max(icon.canvas_size,icon.canvas_width||0)+8)/viewport.size : 1;
   function updateView() {
     if(!icon)return;
-    viewport ||= {x:-4,y:-4,size:icon.canvas_size+8};
+    viewport ||= {x:-4,y:-4,size:Math.max(icon.canvas_size,icon.canvas_width||0)+8};
     const canvas=$('strokeCanvas'),zoom=viewZoom();
     canvas.setAttribute('viewBox',`${viewport.x} ${viewport.y} ${viewport.size} ${viewport.size}`);
     canvas.dataset.panMode=String(panMode || spacePan);
@@ -178,7 +178,7 @@
     if(!ready || busy || drag)return;
     updateView();
     anchor ||= {x:viewport.x+viewport.size/2,y:viewport.y+viewport.size/2};
-    const size=(icon.canvas_size+8)/Math.max(.25,Math.min(16,viewZoom()*factor)),ratio=size/viewport.size;
+    const size=(Math.max(icon.canvas_size,icon.canvas_width||0)+8)/Math.max(.25,Math.min(16,viewZoom()*factor)),ratio=size/viewport.size;
     viewport={x:anchor.x+(viewport.x-anchor.x)*ratio,y:anchor.y+(viewport.y-anchor.y)*ratio,size};
     updateView();
   }
@@ -277,9 +277,9 @@
     $('strokeSelect').replaceChildren(...visible.map(g=>{const option=document.createElement('option');option.value=g.id;option.textContent=g.label;return option;}));
     const size = icon.canvas_size, width = icon.style?.stroke_width || 4;
     updateView();
-    canvas.append(node('rect',{x:0,y:0,width:size,height:size,fill:'#fff',stroke:'#bdcbbb','stroke-width':.15}));
+    canvas.append(node('rect',{x:0,y:0,width:icon.canvas_width||size,height:size,fill:'#fff',stroke:'#bdcbbb','stroke-width':.15}));
     const grid = node('g',{'pointer-events':'none',stroke:'#dfe7da','stroke-width':.1});
-    for (let i=0;i<=size;i++) grid.append(node('path',{d:`M${i} 0V${size}M0 ${i}H${size}`}));
+    for (let i=0;i<=Math.max(size,icon.canvas_width||0);i++) grid.append(node('path',{d:`M${i} 0V${size}${i<=size?`M0 ${i}H${icon.canvas_width||size}`:''}`}));
     canvas.append(grid);
     if($('strokePoints').checked)canvas.append(node('path',{d:`M${size/2} 0V${size}M0 ${size/2}H${size}`,class:'editor-center-axes'}));
     const guide=window.IconGuides?.envelope(experiment());if(guide)canvas.append(guide);
@@ -491,7 +491,7 @@
     const edited=displayGraph(),size=icon.canvas_size;
     const escape=value=>String(value).replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;');
     const paths=visibleStrokes().map(g=>`  <path id="${escape(g.label)}" d="${escape(pathData(edited,g))}"/>`).join('\n');
-    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
+    const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="${icon.canvas_width||size}" height="${size}" viewBox="0 0 ${icon.canvas_width||size} ${size}" fill="none" stroke="currentColor" stroke-width="${icon.style?.stroke_width || 4}" stroke-linecap="round" stroke-linejoin="round">\n${paths}\n</svg>\n`;
     const url=URL.createObjectURL(new Blob([svg],{type:'image/svg+xml'}));
     const link=document.createElement('a');link.href=url;link.download=icon.icon_id+'-edited.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
   }

@@ -72,7 +72,7 @@ async function renderCombinations(){
     const card=node('article','combination-card'),head=node('div','combination-heading');head.append(node('h3','',row.concept),node('span','chip',combinationLabels[combinationState(row)]));card.append(head);
     const grid=node('div','combination-artworks');
     const original=artwork('Reference combination',{...refs[row.id],concept:row.concept,generated:[]});original.lastChild.remove();
-    const subRef={...refs[row.sub_id],generated:refs[row.sub_id].generated.map(g=>{const reuse=(row.sub_exports||[]).find(e=>e.icon===g.icon_id);return reuse?{...g,preview_url:reuse.export_url,label:g.icon_id+' · 32px reuse export'}:g;})};
+    const subRef={...refs[row.sub_id],generated:(row.sub_generated||refs[row.sub_id].generated).map(g=>{const reuse=(row.sub_exports||[]).find(e=>e.icon===g.icon_id);return reuse?{...g,preview_url:reuse.export_url,label:g.icon_id+' · 32px reuse export'}:g;})};
     const combined=artwork('Generated combination',refs[row.id],true,row.generated||[]);
     if(row.trial_preview){
       const trial=row.trial_preview, empty=combined.querySelector('.combination-empty');if(empty)empty.remove();

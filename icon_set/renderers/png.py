@@ -27,13 +27,14 @@ def render_png(icon: "Icon", *, ink: str = DEFAULT_INK, scale: int = 1) -> bytes
         ) from error
     if scale < 1 or int(scale) != scale:
         raise ValueError("scale must be a positive integer")
-    canvas = icon.profile.spec.canvas_size
+    from ..model.icons.sub._text_base import canvas_dimensions
+    width, canvas = canvas_dimensions(icon)
     # currentColor has no cascade in a standalone document; bind it explicitly.
     document = render_svg(icon).replace(
         'fill="none"', f'color="{ink}" fill="none"', 1
     )
     return cairosvg.svg2png(
         bytestring=document.encode("utf-8"),
-        output_width=canvas * scale,
+        output_width=width * scale,
         output_height=canvas * scale,
     )

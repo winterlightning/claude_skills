@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='adb3af2d-d45b-443f-893f-729c0e49861d'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/kids/slinky physics spring toy_adb3af2d-d45b-443f-893f-729c0e49861d.svg'
-SAVED_REFERENCE_PATH='/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/slinky physics spring toy_adb3af2d-d45b-443f-893f-729c0e49861d.svg'
+SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/kids/slinky physics spring toy_adb3af2d-d45b-443f-893f-729c0e49861d.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-015/references/slinky physics spring toy_adb3af2d-d45b-443f-893f-729c0e49861d.svg'
 AUTHOR='gpt-6'
 class BatchIcon(Solo48):

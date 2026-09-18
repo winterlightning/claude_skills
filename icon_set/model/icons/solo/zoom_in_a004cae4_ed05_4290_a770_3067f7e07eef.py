@@ -38,3 +38,6 @@ class ZoomIn(Solo48):
         self.relate('connect', *('c2', 'c4'))
         self.relate('connect', *('c3', 'c4'))
         self.relate('connect', *('c0', 'e5'))
+
+# Visually reviewed equivalent content reference, explicitly requested for reuse.
+SOURCE_REFERENCES = tuple(globals().get("SOURCE_REFERENCES", ())) + (('d2a83b3d-ee41-4915-81af-29e371bfd9b0', 'icon_set/dist/gallery/combination-originals/d2a83b3d-ee41-4915-81af-29e371bfd9b0.svg'),)

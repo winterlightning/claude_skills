@@ -29,3 +29,6 @@ class ZoomOut(Solo48):
         self.add_line('minus', (center - 6, center), (center + 6, center))
         self.add_line('handle', attachment, (42, 42))
         self.relate('connect', 'lens', 'handle')
+
+# Visually reviewed equivalent content reference, explicitly requested for reuse.
+SOURCE_REFERENCES = tuple(globals().get("SOURCE_REFERENCES", ())) + (('94d79c2a-5cc5-4d30-a216-d020b553a665', 'icon_set/dist/gallery/combination-originals/94d79c2a-5cc5-4d30-a216-d020b553a665.svg'),)

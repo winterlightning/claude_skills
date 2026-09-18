@@ -60,11 +60,12 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
     # Closure depth belongs to the authored paint, not the thinned hole mask.
     # Subtracting the 1.5-unit hole retreat disabled the 1-unit pinch rule.
     fill = rules['minimum_solid_fill_depth']
-    view = (0.0, 0.0, float(canvas), float(canvas))
+    canvas_width, canvas_height = engine._canvas_xy(canvas)
+    view = (0.0, 0.0, float(canvas_width), float(canvas_height))
     with tempfile.TemporaryDirectory(prefix='icon-hole-measure-') as temporary:
         path = Path(temporary) / 'icon.svg'
         path.write_text(document, encoding='utf-8')
-        ink = engine.render_ink_mask(path, canvas, canvas, samples, retreat)
+        ink = engine.render_ink_mask(path, canvas_width, canvas_height, samples, retreat)
         labels, region_ids = engine.enclosed_components(ink)
         holes = engine.measure_holes(labels, region_ids, view, samples, radius, canvas, canvas)
         for hole in holes:
@@ -77,7 +78,7 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
         # Thinning can merge a tiny painted-stroke pocket into a larger hole.
         # Check the actual exported ink too; a size correction alone cannot
         # preserve that topology. Keep the same threshold and circle exceptions.
-        authored_ink = engine.render_ink_mask(path, canvas, canvas, samples, 0)
+        authored_ink = engine.render_ink_mask(path, canvas_width, canvas_height, samples, 0)
         pinches = engine.find_pinches(path, authored_ink, view, samples, fill, 0, canvas,
                                       circle_closures=circle_candidates(document, drawing),
                                       circle_rule=rules['circle_hole_exception'], authored_stroke=STROKE_WIDTH)
@@ -97,7 +98,7 @@ def measure_negative_space(document: str, canvas: int, *, overlay: Path | None =
             if hole['status'] != 'fail' or hole['inscribed_radius_design_u'] > 1.01 / samples:
                 continue
             if finer_labels is None:
-                finer_ink = engine.render_ink_mask(path, canvas, canvas, samples * 2, 0)
+                finer_ink = engine.render_ink_mask(path, canvas_width, canvas_height, samples * 2, 0)
                 finer_labels, finer_ids = engine.enclosed_components(finer_ink)
                 finer_holes = engine.measure_holes(
                     finer_labels, finer_ids, view, samples * 2,
@@ -252,7 +253,9 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
                     f"{finding['sustained_length']:g} units; requires "
                     f"{row['internal_spacing']['required_ink_gap']:g}; review required")
         overlay = debug_dir / 'holes.png' if debug_dir is not None else None
-        row['negative_space'] = measure_negative_space(document, icon.profile.spec.canvas_size, overlay=overlay, drawing=drawing)
+        from ..model.icons.sub._text_base import canvas_dimensions
+        width, height = canvas_dimensions(icon)
+        row['negative_space'] = measure_negative_space(document, (width, height), overlay=overlay, drawing=drawing)
         if row['negative_space']['status'] != 'pass':
             row['status'] = 'fail'
             row['errors'].append(f"holes/pinches: {row['negative_space']['failed_hole_count']} undersized holes; "

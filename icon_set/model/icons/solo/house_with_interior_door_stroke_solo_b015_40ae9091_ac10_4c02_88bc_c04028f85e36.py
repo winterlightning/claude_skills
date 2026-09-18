@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='40ae9091-ac10-4c02-88bc-c04028f85e36'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/interface-essential/house_40ae9091-ac10-4c02-88bc-c04028f85e36.svg'
-SAVED_REFERENCE_PATH='/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/house_40ae9091-ac10-4c02-88bc-c04028f85e36.svg'
+SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/house_40ae9091-ac10-4c02-88bc-c04028f85e36.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-015/references/house_40ae9091-ac10-4c02-88bc-c04028f85e36.svg'
 AUTHOR='gpt-6'
 class BatchIcon(Solo48):

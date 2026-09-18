@@ -39,3 +39,6 @@ class GeneratedSolo(Solo48):
         self.add_line('cross-stem', (24, 17), (24, 30))
         self.add_line('cross-bar', (21, 21), (27, 21))
         self.relate("connect", 'cross-stem', 'cross-bar')
+
+# Visually reviewed equivalent content reference, explicitly requested for reuse.
+SOURCE_REFERENCES = tuple(globals().get("SOURCE_REFERENCES", ())) + (('d639010e-7131-46d6-b3fa-028d7353a5b9', 'icon_set/dist/gallery/combination-originals/d639010e-7131-46d6-b3fa-028d7353a5b9.svg'),)

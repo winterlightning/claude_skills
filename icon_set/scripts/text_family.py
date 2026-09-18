@@ -10,6 +10,7 @@ from urllib.parse import quote
 
 def gallery_records(staged: Path, published: Path, target: Path) -> list[dict]:
     return (_height_records(staged, published, target, 28)
+            + _height_records(staged, published, target, 32)
             + _height_records(staged, published, target, 44))
 
 

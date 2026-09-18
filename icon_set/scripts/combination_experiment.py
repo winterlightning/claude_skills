@@ -38,19 +38,13 @@ def placement(item, size, anchor, offset, padding=2, size_lock="none", bound_siz
     rounded_auto = size == 32 and size_lock == 'auto' and bound_size in (None, '')
     if rounded_auto:
         width,height = x1-x0,y1-y0
-        if item.get('family') == 'sub':
-            w,h = width,height
-        else:
-            longest = max(width,height)
-            # Prefer the largest exact-ratio whole-number box of useful size.
-            for extent in range(size-4, 19, -1):
-                sw,sh = width*extent/longest,height*extent/longest
-                if abs(sw-round(sw))<1e-6 and abs(sh-round(sh))<1e-6:
-                    w,h = round(sw),round(sh)
-                    break
-            else:
-                w = max(1, math.floor(width*(size-4)/longest+.5)) if width else 0
-                h = max(1, math.floor(height*(size-4)/longest+.5)) if height else 0
+        longest = max(width,height)
+        if longest <= 0:
+            raise ValueError('Cannot normalize empty sub geometry.')
+        # User-defined reuse envelope: longest painted axis is exactly 32.
+        # Preserve proportions; never snap each axis independently.
+        scale = (size-4)/longest
+        w,h = width*scale,height*scale
         locked_axis = 'width' if w>=h else 'height'
     elif size_lock != 'none':
         locked_axis = ('width' if w >= h else 'height') if size_lock == 'auto' else size_lock
@@ -74,7 +68,7 @@ def placement(item, size, anchor, offset, padding=2, size_lock="none", bound_siz
     bx,by = padding+(64-2*padding-size)*ax, padding+(64-2*padding-size)*ay
     x,y = bx+(size-w-4)*ax+offset[0], by+(size-h-4)*ay+offset[1]
     return {'size_lock': size_lock, 'locked_axis': locked_axis,
-            'rounded_box': bool(rounded_auto),
+            'rounded_box': False,
             'locked_size': (w+4 if locked_axis == 'width' else h+4) if locked_axis else None,
             'canvas_box': dict(x=bx,y=by,w=size,h=size),
             'painted_box': dict(x=x,y=y,w=w+4,h=h+4),
@@ -112,6 +106,49 @@ def custom_item(value, role):
     return {'icon':'custom-'+role,'document':text,'canvas':canvas,'bounds':bounds}
 
 
+def restore_original_sub(svg, item, placed):
+    """Keep the engine's clipped main, but publish the original sub curves.
+
+    Sampling is only used to compute clearance. It must not become sub artwork.
+    One affine placement keeps every path command/control point unchanged.
+    """
+    import copy
+    ns = 'http://www.w3.org/2000/svg'
+    ET.register_namespace('', ns)
+    target = ET.fromstring(svg)
+    source = ET.fromstring(item['document'])
+    old = next(e for e in target if e.get('id') == 'state-icon')
+    index = list(target).index(old)
+    target.remove(old)
+    x0,y0,x1,y1 = item['bounds']
+    box = placed['painted_box']
+    scale = (box['w'] - 4) / (x1-x0) if x1 != x0 else (box['h'] - 4) / (y1-y0)
+    tx,ty = box['x']+2-x0*scale, box['y']+2-y0*scale
+    attrs = {k:v for k,v in source.attrib.items() if k not in ('width','height','viewBox','id','transform')}
+    attrs.setdefault('stroke-width', '4')
+    attrs.update(id='state-icon', transform=f'translate({tx:.12g} {ty:.12g}) scale({scale:.12g})')
+    group = ET.Element('{'+ns+'}g', attrs)
+    content = ET.SubElement(group, '{'+ns+'}g', {'transform':source.get('transform')}) if source.get('transform') else group
+    for child in source:
+        if child.tag.rsplit('}',1)[-1] not in ('title','desc'):
+            content.append(copy.deepcopy(child))
+    ids = {e.get('id'): 'sub-source-'+e.get('id') for e in group.iter() if e is not group and e.get('id')}
+    for element in group.iter():
+        for key,value in list(element.attrib.items()):
+            if key=='id' and value in ids:element.set(key,ids[value])
+            else:
+                for old_id,new_id in ids.items():
+                    value=value.replace('url(#'+old_id+')','url(#'+new_id+')')
+                    if value=='#'+old_id:value='#'+new_id
+                element.set(key,value)
+        # Compensate placement scale only; viewBox zoom must scale both strokes equally.
+        element.attrib.pop('vector-effect', None)
+        if 'stroke-width' in element.attrib:
+            element.set('stroke-width', str(float(element.get('stroke-width')) / scale))
+    target.insert(index, group)
+    return ET.tostring(target, encoding='unicode')
+
+
 def render(data, row=None):
     if row is None:
         rows = json.loads(DATA.read_text())['rows']
@@ -128,7 +165,7 @@ def render(data, row=None):
         raise ValueError('Canvas padding must be between 0 and 8.')
     if margin < 0:
         raise ValueError('Erasure margin must be between 0 and 64.')
-    placements=[]
+    placements=[]; selected_sub=None
     with tempfile.TemporaryDirectory(prefix='pictographic-combination-') as temp:
         out = Path(temp); items=[]
         for n,(role,group,size,anchor) in enumerate([
@@ -139,6 +176,7 @@ def render(data, row=None):
                 item=custom_item(data[role+'Upload'],role)
             if item is None:
                 raise ValueError('The selected component does not belong to this pair.')
+            if role=='sub':selected_sub=item
             p=placement(item,size,anchor,(number(data.get(role+'X')),number(data.get(role+'Y'))),padding,
                         size_lock=data.get('subSizeLock', 'auto') if role=='sub' else 'none',
                         bound_size=data.get('subBoundSize') if role=='sub' else None)
@@ -166,7 +204,7 @@ def render(data, row=None):
         file=(out/'result'/result['file']).resolve()
         if not file.is_relative_to(out.resolve()):
             raise ValueError('Unexpected combination output path.')
-        svg=file.read_text()
+        svg=restore_original_sub(file.read_text(), selected_sub, placements[1])
     warnings=[]
     for p in placements:
         b=p['painted_box']

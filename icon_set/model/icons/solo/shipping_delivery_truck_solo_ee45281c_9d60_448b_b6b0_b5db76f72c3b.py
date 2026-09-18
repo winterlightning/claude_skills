@@ -1,6 +1,5 @@
 """Shipping Delivery Truck. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,12 +18,9 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'shipping delivery truck')
     def build(self):
-        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
-        self.add_polyline('body',(4,32),(4,8),(28,8),(28,32))
-        self.add_polyline('cab',(28,16),(36,16),(44,25),(44,32),(42,32))
-        self.add_line('axle',(14,32),(32,32))
-        circle(self,'rear-wheel',10,34,6)
-        circle(self,'front-wheel',38,34,6)
-        self.relate('connect','body','cab','axle')
-        self.relate('connect','rear-wheel','body','axle')
-        self.relate('connect','front-wheel','cab','axle')
+        # Cargo box and cab share one silhouette; small full circular wheels.
+        self.add_polyline('shell',(4,26),(4,8),(27,8),(27,16),(36,16),(44,26),(4,26))
+        self.add_line('cab-divider',(27,16),(27,26))
+        self.relate('connect','shell','cab-divider')
+        for name,x in [('rear',12),('front',36)]:
+            circle(self,name+'-wheel',x,37,3)

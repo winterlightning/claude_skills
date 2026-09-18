@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" viewBox="0 0 64 64">
+  <style>
+    /* Power surge: bolt re-sparks, pops, then the engine shudders awake. 2.4s loop. */
+    .engine-body {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: engine-shudder 2.4s infinite;
+    }
+    .engine-bolt {
+      transform-box: fill-box;
+      transform-origin: center;
+      stroke-dasharray: 88 89;
+      animation: bolt-zap 2.4s infinite;
+    }
+    @keyframes bolt-zap {
+      0%, 6%  { opacity: 1; stroke-dashoffset: 0;   transform: scale(1); }
+      12%     { opacity: 0; stroke-dashoffset: 0; }
+      14%     { opacity: 0; stroke-dashoffset: 88; animation-timing-function: cubic-bezier(.3, 0, .2, 1); }
+      14.01%  { opacity: 1; stroke-dashoffset: 88; }
+      28%     { opacity: 1; stroke-dashoffset: 0;   transform: scale(1); }
+      30%     { opacity: .4; }
+      32%     { opacity: 1;                          transform: scale(1.12); }
+      34%     { opacity: .55; }
+      36%     { opacity: 1; }
+      42%, 100% { opacity: 1; stroke-dashoffset: 0; transform: scale(1); }
+    }
+    @keyframes engine-shudder {
+      0%, 31% { transform: none; }
+      34% { transform: translate(-1px, .5px) rotate(-1.2deg); }
+      37% { transform: translate(1px, -.5px) rotate(1.2deg); }
+      40% { transform: translate(-.8px, -.4px) rotate(-.8deg); }
+      43% { transform: translate(.8px, .4px) rotate(.8deg); }
+      46% { transform: translate(-.4px, 0) rotate(-.4deg); }
+      50%, 100% { transform: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .engine-body, .engine-bolt { animation: none; }
+    }
+  </style>
+
+  
+  
+  <g id="main-icon-clipped" class="engine-body" stroke="#000000" stroke-width="4" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M12.00,12.00L26.00,12.00 M26.00,12.00L34.00,12.00 M34.00,12.00L38.00,18.00 M38.00,18.00L44.00,18.00 M44.00,18.00L44.00,28.69 M36.69,36.00L22.00,36.00 M22.00,36.00L12.00,26.00 M12.00,26.00L12.00,24.00 M12.00,24.00L12.00,12.00 M12.00,12.00L12.00,12.00 M20.00,4.00L26.00,4.00 M26.00,4.00L32.00,4.00 M26.00,4.00L26.00,12.00 M4.00,16.00L4.00,24.00 M4.00,24.00L4.00,32.00 M4.00,24.00L12.00,24.00 M12.00,12.00L26.00,12.00 M26.00,12.00L34.00,12.00 M34.00,12.00L38.00,18.00 M38.00,18.00L44.00,18.00 M44.00,18.00L44.00,28.69 M36.69,36.00L22.00,36.00 M22.00,36.00L12.00,26.00 M12.00,26.00L12.00,24.00 M12.00,24.00L12.00,12.00 M12.00,12.00L12.00,12.00 M20.00,4.00L26.00,4.00 M26.00,4.00L32.00,4.00 M26.00,4.00L26.00,12.00 M4.00,16.00L4.00,24.00 M4.00,24.00L4.00,32.00 M4.00,24.00L12.00,24.00" />
+  </g>
+  
+  
+  <g fill="none" stroke="currentColor" stroke-width="4.0" stroke-linecap="round" stroke-linejoin="round" id="state-icon" transform="translate(32 30) scale(1)"><path id="sub-source-path-1-1" class="engine-bolt" d="M20 2L4 18L13 18L12 30L28 14L19 14L20 2" />
+</g></svg>

@@ -84,6 +84,10 @@ def enclosed_components(ink: np.ndarray) -> tuple[np.ndarray, list[int]]:
     return labels, holes
 
 
+def _canvas_xy(value):
+    return tuple(value) if isinstance(value, (tuple, list)) else (value, value)
+
+
 def measure_holes(
     labels: np.ndarray,
     hole_labels: list[int],
@@ -94,10 +98,12 @@ def measure_holes(
     ship_canvas: float=SHIP_CANVAS,
 ) -> list[dict]:
     min_x, min_y, view_width, view_height = view_box
-    ship_scale_x = ship_canvas / view_width
-    ship_scale_y = ship_canvas / view_height
-    design_scale_x = design_canvas / view_width
-    design_scale_y = design_canvas / view_height
+    ship_width, ship_height = _canvas_xy(ship_canvas)
+    design_width, design_height = _canvas_xy(design_canvas)
+    ship_scale_x = ship_width / view_width
+    ship_scale_y = ship_height / view_height
+    design_scale_x = design_width / view_width
+    design_scale_y = design_height / view_height
     pixel_area_in_view_units = 1.0 / (samples_per_unit**2)
     measured = []
 
@@ -174,7 +180,8 @@ def authored_stroke_design_u(svg_path, view_box,design_canvas: float=DESIGN_CANV
     root = ET.parse(svg_path).getroot()
     m = re.search(r"stroke-width\s*:\s*([0-9.eE+-]+)", root.get("style") or "")
     width = _number(m.group(1) if m else root.get("stroke-width"), SVG_DEFAULT_STROKE_WIDTH)
-    return width * min(design_canvas / view_box[2], design_canvas / view_box[3])
+    design_width, design_height = _canvas_xy(design_canvas)
+    return width * min(design_width / view_box[2], design_height / view_box[3])
 
 
 def _thinned_svg(svg_path: Path, retreat_view_units: float) -> bytes:
@@ -260,7 +267,8 @@ def find_pinches(
     if min_fill_depth_design_u <= 0:
         return []
     min_x, min_y, view_width, view_height = view_box
-    design_scale = min(design_canvas / view_width, design_canvas / view_height)
+    design_width, design_height = _canvas_xy(design_canvas)
+    design_scale = min(design_width / view_width, design_height / view_height)
     retreat = min_fill_depth_design_u / design_scale
     background = ~ink
     cache: dict[float, np.ndarray] = {}

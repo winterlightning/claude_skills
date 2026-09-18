@@ -11,10 +11,10 @@
     const profile = icon.profile || contracts?.profile.families[icon.family]?.profile;
     const size = contracts?.profile.profiles[profile]?.canvas_size || icon.canvas_size;
     const standard = contracts?.keyshapes.resolved[profile]?.[icon.keyshape];
-    const bounds = icon.keyshape === 'FREE' ? icon.keyshape_bounds : standard?.visible_bounds || icon.keyshape_bounds;
+    const bounds = (icon.keyshape === 'FREE' || icon.sizing_mode === 'text-height32') ? icon.keyshape_bounds : standard?.visible_bounds || icon.keyshape_bounds;
     if (!Number.isFinite(size) || size <= 0) return null;
     const valid = Array.isArray(bounds) && bounds.length === 4 && bounds.every(Number.isFinite) && bounds[2] > bounds[0] && bounds[3] > bounds[1];
-    return {profile, size, name:icon.keyshape, bounds:valid ? bounds : null};
+    return {profile, size, width:icon.canvas_width||size, name:icon.sizing_mode==='text-height32'?'TEXT HEIGHT 32':icon.keyshape, bounds:valid ? bounds : null};
   }
   function label(icon) {
     const spec = resolve(icon);
@@ -53,11 +53,12 @@
     canvas.setAttribute('aria-label',`${spec.size} by ${spec.size} ${spec.profile || ''} canvas. Keyshape: ${label(icon)}`);
     const shape = envelope(icon);
     if (shape) {
-      const overlay = node('svg',{viewBox:`0 0 ${spec.size} ${spec.size}`,class:'keyshape-overlay','aria-hidden':'true'});
+      const overlay = node('svg',{viewBox:`0 0 ${spec.width} ${spec.size}`,class:'keyshape-overlay','aria-hidden':'true'});
       overlay.append(shape); canvas.append(overlay);
     }
   }
   function choices(icon) {
+    if(icon.sizing_mode==='text-height32')return [{name:icon.keyshape,label:label(icon)}];
     const spec=resolve(icon), shapes=contracts?.keyshapes.resolved[spec?.profile] || {};
     const names=contracts?.profile.profiles[spec?.profile]?.keyshape_choices || Object.keys(shapes);
     return [...new Set([icon.keyshape,...names].filter(Boolean))].map(name=>({name,label:label({...icon,keyshape:name})}));

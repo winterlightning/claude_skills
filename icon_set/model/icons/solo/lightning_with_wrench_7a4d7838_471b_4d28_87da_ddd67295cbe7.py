@@ -51,3 +51,6 @@ class LightningWithWrench(Solo48):
         join = lambda a,b: self.relate("connect",a,b)
         path('wrench',(6,32),[('L',(17,19)),('C',(15,13),(15,18),(14,16)),('C',(24,6),(15,8),(20,6)),('L',(31,6)),('L',(24,12)),('L',(27,17)),('C',(22,25),(28,22),(26,25)),('L',(14,38))])
         poly('bolt',(42,20),(30,31),(42,31),(32,42))
+
+# Visually reviewed equivalent content reference, explicitly requested for reuse.
+SOURCE_REFERENCES = tuple(globals().get("SOURCE_REFERENCES", ())) + (('8b71e7e7-15cf-4d31-8c76-295ef5576f53', 'icon_set/dist/gallery/combination-originals/8b71e7e7-15cf-4d31-8c76-295ef5576f53.svg'),)

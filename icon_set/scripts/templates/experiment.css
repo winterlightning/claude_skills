@@ -14,3 +14,19 @@
 .pair-pagination{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin:24px 0;font-size:14px}.pair-pagination button{padding:10px 12px;border:1px solid #cbd3c5;background:white;border-radius:7px;color:inherit;cursor:pointer;min-height:44px}.pair-pagination button:disabled{opacity:.45;cursor:default}#combinationExperiment .pair-pagination label{flex-direction:row;align-items:center}
 
 #containerRules{margin:24px 0;padding:20px;border:1px solid var(--line);border-radius:12px;background:white;line-height:1.6}#containerRules[hidden]{display:none}#containerRules h2{margin-top:0}#containerRules summary{cursor:pointer;font-weight:600}
+
+/* Canvas grid: 64 one-unit cells, heavier lines every 8 units. Display only. */
+.pair-result-card img{background-color:#fbfdfb;background-image:linear-gradient(to right,rgba(65,102,116,.24) .5px,transparent .5px),linear-gradient(to bottom,rgba(65,102,116,.24) .5px,transparent .5px),linear-gradient(to right,rgba(65,102,116,.13) .3px,transparent .3px),linear-gradient(to bottom,rgba(65,102,116,.13) .3px,transparent .3px);background-size:12.5% 12.5%,12.5% 12.5%,1.5625% 1.5625%,1.5625% 1.5625%;box-shadow:inset 0 0 0 1px #99adb4;width:192px;height:192px;max-width:100%}.pair-results-grid{grid-template-columns:repeat(auto-fill,minmax(230px,1fr))}
+
+.side-thumb{display:block;line-height:0;margin:12px 0 24px}.pair-result-card .side-thumb img{display:block;margin:0}.side-thumb svg{overflow:visible}
+
+.side-progress{padding:20px;background:#f3f7f5;border:1px solid #ccdad4;border-radius:12px;margin-bottom:24px}.side-progress progress{width:100%;height:16px;accent-color:#327763}.side-progress-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}.side-progress-cards>div{padding:16px;background:#fff;border-radius:8px}.side-progress-cards strong{display:block;font-size:26px}.side-progress-cards span{display:block;font-size:13px;line-height:1.5}.side-progress details{margin:12px 0}.side-progress ul{max-height:320px;overflow:auto;font-size:13px;line-height:1.8}.pair-card-actions{flex-wrap:wrap}.side-inspect textarea{box-sizing:border-box;width:100%;font:inherit;padding:10px}.side-flag-status{font-size:13px}.side-inspect .flag-error{color:#a32c28}
+
+/* Compact results controls. */
+#combinationExperiment{padding:16px;margin:16px 0}
+.pair-view-toolbar{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;align-items:end}
+#combinationExperiment .pair-view-toolbar .pair-grid-search{max-width:none;margin:0;font-size:12px;gap:4px}
+#combinationExperiment .pair-view-toolbar input,#combinationExperiment .pair-view-toolbar select{padding:7px 9px;height:36px;font-size:13px}
+#combinationExperiment .pair-pagination{margin:12px 0;gap:8px;font-size:12px}
+#combinationExperiment .pair-pagination button{padding:6px 10px;min-height:32px}
+.side-flag-summary{display:flex;gap:10px;align-items:center;font-size:12px;margin:0 0 8px;color:#68756e}.side-flag-summary[hidden]{display:none}.side-flag-summary p{margin:0}

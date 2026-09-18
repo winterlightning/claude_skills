@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID='a1e16064-3ada-48c1-977b-93e026ae68e7'
 SOURCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/logos/microsoft onedrive logo_a1e16064-3ada-48c1-977b-93e026ae68e7.svg'
-SAVED_REFERENCE_PATH='/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/logos/microsoft onedrive logo_a1e16064-3ada-48c1-977b-93e026ae68e7.svg'
+SAVED_REFERENCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/logos/microsoft onedrive logo_a1e16064-3ada-48c1-977b-93e026ae68e7.svg'
 EXPORTED_REFERENCE_PATH='work/brief-exports/20260918-all-todo-batches-15/batches/batch-016/references/microsoft onedrive logo_a1e16064-3ada-48c1-977b-93e026ae68e7.svg'
 AUTHOR='gpt-6'
 class BatchIcon(Solo48):

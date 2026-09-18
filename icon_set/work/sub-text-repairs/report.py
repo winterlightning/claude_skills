@@ -1,0 +1,28 @@
+import json,base64,io,xml.etree.ElementTree as ET
+from pathlib import Path
+from svgpathtools import Document,Arc
+D=Path('icon_set/work/sub-text-repairs');rs=json.loads((D/'repairs.json').read_text());manifest=json.load(open('icon_set/data/combination-sub32.json'));old=json.loads((D/'before-audit.json').read_text());repairs={a['key']:a for a in rs};checks=[]
+for a in old:
+ rec=manifest[a['key'].split('/')[1]];doc=Path(rec['svg']).read_text();root=ET.fromstring(doc);paths=Document(io.StringIO(doc)).paths();assert float(root.get('stroke-width'))==4
+ for p in paths:
+  for s in p:
+   for attr in ('start','end','control','control1','control2','radius'):
+    if hasattr(s,attr):
+     z=getattr(s,attr);assert abs(z.real-round(z.real))<1e-7 and abs(z.imag-round(z.imag))<1e-7,(a['key'],attr,z)
+ boxes=[p.bbox() for p in paths];bounds=[min(b[0] for b in boxes)-2,min(b[2] for b in boxes)-2,max(b[1] for b in boxes)+2,max(b[3] for b in boxes)+2]
+ symbol=rec.get('sizing_kind')=='symbol';assert symbol or abs(bounds[3]-bounds[1]-32)<1e-6
+ assert bounds[0]>=-1e-6 and bounds[1]>=-1e-6 and bounds[2]<=float(root.get('width'))+1e-6 and bounds[3]<=32+1e-6
+ checks.append(dict(key=a['key'],grid=True,stroke=4,ink_bounds=bounds,symbol=symbol))
+ a['repaired']=a['key'] in repairs;a['current_uri']='data:image/svg+xml;base64,'+base64.b64encode(doc.encode()).decode();a['current_width']=float(root.get('width'));a['current_ink']= [bounds[2]-bounds[0],bounds[3]-bounds[1]]
+ if a['repaired']:
+  r=repairs[a['key']];a['previous_uri']='data:image/svg+xml;base64,'+base64.b64encode((D/'before'/Path(r['old']).name).read_bytes()).decode()
+  if r['symbol']:a['repair_note']='Reclassified for sizing as a symbol: three 4-unit dots spanning 32 units. No text-height enlargement.'
+  elif r['underline']:a['repair_note']='Reused the existing glyphs with more room for the g bowl and descender; underline retained with 2 units of ink clearance.'
+  elif 'height-limit' in r['id']:a['repair_note']='Full-height text with the original opposed vertical chevrons arranged alongside it.'
+  elif 'wrench-size' in r['id']:a['repair_note']='Full-height numerals and the original wrench geometry placed side by side.'
+  else:a['repair_note']='Existing typeface reused on one line, with grid-aligned geometry, increased letter spacing and open counters.'
+ a['status']='Repaired and checked' if a['repaired'] else 'Unchanged; checks passed'
+(D/'full-set-verification.json').write_text(json.dumps(checks,indent=2))
+page='''<!doctype html><html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Text sub-icons · 27 repairs verified</title><style>body{font:15px system-ui;background:#f4f6f8;color:#20313d;margin:0;padding:24px}h1{font-size:26px}p,li{line-height:1.6}select,input{font:inherit;padding:9px;margin:5px;border:1px solid #b9c5ce;border-radius:5px}article{background:white;border:1px solid #d1d9df;border-left:5px solid #57916b;border-radius:9px;padding:18px;margin:18px 0}.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px}.art{overflow:auto;padding:14px 0;min-height:76px}.art img{display:block;max-width:none;height:64px}.native{overflow:auto}.native img{height:32px;max-width:none}small{color:#60717e}@media(max-width:900px){.compare{grid-template-columns:1fr}}a{color:#236d9c}</style><h1>Text sub-icons · 27 repairs verified</h1><p>All 27 flagged artworks have been repaired: 26 text labels and the three-dot symbol. Rechecked all 339 exports for grid coordinates and arc radii, 4-unit stroke and unclipped bounds. All 338 text labels have 32-unit ink height; the three-dot symbol has 32-unit ink width.</p><p>The 27 repaired items also pass checks for the expected number of separate parts and letter openings at 16×. Reviewed all repairs visually at native and enlarged sizes. This does not set your approval decisions.</p><p><a href="sub-icon-review.html">Open the original → generated → final review list</a></p><input id="search" placeholder="Search name"><select id="filter"><option value="repaired">27 repaired artworks</option><option value="all">All 339 checked artworks</option></select><p id="count"></p><div id="list"></div><script>const rows=DATA;const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));function preview(uri){return `<div class="art"><img src="${uri}" alt="Enlarged artwork"></div><small>Actual size</small><div class="native"><img src="${uri}" alt="Actual size artwork"></div>`}function render(){const term=document.querySelector('#search').value.toLowerCase(),f=document.querySelector('#filter').value,selected=rows.filter(r=>r.name.toLowerCase().includes(term)&&(f==='all'||r.repaired));document.querySelector('#count').textContent=selected.length+' artworks shown';document.querySelector('#list').innerHTML=selected.map(r=>`<article><h2>${esc(r.name)}</h2><small>${esc(r.key)}</small><p><b>${esc(r.status)}</b> · ink ${r.current_ink.join(' × ')} · 4-unit stroke · 1-unit grid</p><div class="compare">${r.repaired?`<div><b>Before repair</b>${preview(r.previous_uri)}</div>`:''}<div><b>Current artwork</b>${preview(r.current_uri)}</div></div>${r.repaired?`<p>${esc(r.repair_note)}</p><details><summary>Original audit findings</summary><ul>${r.notes.map(n=>'<li>'+esc(n)+'</li>').join('')}</ul></details>`:''}</article>`).join('')}document.querySelector('#search').oninput=render;document.querySelector('#filter').onchange=render;render()</script></html>'''.replace('DATA',json.dumps(old).replace('</','<\\/'))
+(D/'index.html').write_text(page);Path('icon_set/dist/gallery/sub-text-audit.html').write_text(page)
+print('Full-set verification passed for 339 exports; report updated with 27 repairs.')

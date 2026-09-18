@@ -997,3 +997,39 @@ latest repair reason/feedback for that version, and tag author/time.
 brief and Download all briefs include them too. Reason codes are `bad-stroke`,
 `meaning`, and `other`. `POST /api/icon-flag` additionally accepts `text` and
 `number`. Restart the updated server to migrate existing data safely.
+
+### Linked sub profiles
+
+`data/sub-profile-migration.json` maps each retained reuse artwork to an independent
+Python model in `model/icons/sub/`. `data/icon-profile-links.json` records source
+and target keys with source SVG hashes. `derived_from` identifies a direct source;
+`canonical_reuse` retains other solo sources sharing the deduplicated sub. These
+are cross-profile relationships, separate from same-family `variant_of` ancestry.
+Gallery Information and published metadata expose both `profile_sources` and
+`profile_derivatives`. Editing either profile does not rewrite the other.
+
+`python3 -m icon_set.scripts.migrate_sub_profiles` creates missing models without
+rewriting existing geometry. The original migration input is snapshotted in
+`data/sub-profile-inputs.json`. `--rewrite-generated` deliberately regenerates the
+migration-owned models and must not be used after independent edits unless those
+edits should be replaced. The importer preserves paths, endpoint contacts, SVG
+arc radii and explicit path closure; it does not redraw or certify source art.
+
+Text sub models inherit `TextSub32`: ink height 32, natural integer width,
+4-unit strokes and grid 1. Point-only horizontal punctuation scales its round
+caps and spacing proportionally (32-unit caps) to achieve the same 32-unit ink
+height; this exception is rejected for any non-point geometry. This user-requested layout specialization retains
+existing typeface outlines and glyph provenance. Ordinary `Sub32` models retain
+the standard square canvas. Include `model/icons/sub/_base.py` and `_text_base.py`
+in the validation runtime when deploying the gallery editor.
+
+Run the normal build to validate models. `python3 -m
+icon_set.scripts.activate_sub_profiles` refreshes the active sub inventory and
+pair choices from the Python models. Review previews live in `assets/sub-profiles`
+and `dist/gallery/sub-profiles`; failed models are not inserted into the validated
+`dist/sub32` release. Each pair carries `model_validation` and `sub32_status`.
+Review repairs preserve the parent as a same-family variant and retain its key in
+`previous_model_keys`; activation redirects old pair IDs to the repaired model.
+The importer preserves this history and refuses to regenerate repaired variants.
+Rebuild combination previews after changing active model geometry. Pair refresh
+and deduplication apply the profile mapping automatically.

@@ -1,6 +1,5 @@
 """Minimalist Pig Face. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
+Construction: inspected local Lucide hand, truck, piggy-bank, globe, zap, video and wallet originals and atomic-debug geometry for coherent outlines, shared radii and simplification.
 
 """
 from ...keyshapes import Keyshape
@@ -19,7 +18,7 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'minimalist pig face')
     def build(self):
-        self.add_bezier('pig',(15,13),((11,8),(8,6),(6,6)),((6,14),(8,18),(10,21)),((8,31),(14,42),(24,42)),((34,42),(40,31),(38,21)),((40,18),(42,14),(42,6)),((40,6),(37,8),(33,13)),((27,9),(21,9),(15,13)))
+        self.add_bezier('pig',(14,10),((11,8),(8,6),(6,6)),((6,14),(8,18),(10,21)),((8,31),(14,42),(24,42)),((34,42),(40,31),(38,21)),((40,18),(42,14),(42,6)),((40,6),(37,8),(34,10)),((28,6),(20,6),(14,10)))
         self.add_contour('head','pig',closed=True)
         circle(self,'snout',24,30,3)
         self.add_dot('eye-left',(18,20))

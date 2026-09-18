@@ -148,14 +148,15 @@ def build_paths(drawing: ResolvedDrawing) -> list[dict]:
 
 
 def render_svg(icon: "Icon") -> str:
-    canvas = icon.profile.spec.canvas_size
+    from ..model.icons.sub._text_base import canvas_dimensions
+    width, canvas = canvas_dimensions(icon)
     paths = build_paths(icon.draw())
     if not paths:
         raise ValueError(f"{icon.icon_id}: an icon must contain drawable geometry")
     lines = [
-        f'<svg xmlns="{SVG_NS}" width="{canvas}" height="{canvas}" '
-        f'viewBox="0 0 {canvas} {canvas}" fill="{FILL}" stroke="{STROKE}" '
-        f'stroke-width="{STROKE_WIDTH}" stroke-linecap="{LINE_CAP}" '
+        f'<svg xmlns="{SVG_NS}" width="{width}" height="{canvas}" '
+        f'viewBox="0 0 {width} {canvas}" fill="{FILL}" stroke="{STROKE}" '
+        f'stroke-width="{icon.STROKE_WIDTH}" stroke-linecap="{LINE_CAP}" '
         f'stroke-linejoin="{LINE_JOIN}">',
         f'  <title>{escape(icon.icon_id)}</title>',
     ]
