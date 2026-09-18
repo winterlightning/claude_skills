@@ -625,10 +625,13 @@ so old uploads or reviews must be inspected using explicit old paths or migrated
 intentionally. Historical work reports may still link to legacy output; active
 maintenance scripts and generated authoring skills use the new paths.
 
-`watch_deploy.py` is only for code updates in a dedicated clean checkout. It
-requires explicit production mode (or an explicit development opt-in), and does
-not rebuild or promote icon releases. Use appropriate access controls and HTTPS
-for an external server; the built-in accounts remain development credentials.
+Use `watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases
+--database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0` for automatic
+build, validation and publication after a push. It retains the previous release
+and restores it if the new server fails its startup check. See
+[automatic deployment setup](docs/development-workflow.md#automatic-production-releases-after-a-push)
+for state migration and service configuration. The legacy watcher mode with
+arguments after `--` still updates code only.
 
 ## Troubleshooting
 

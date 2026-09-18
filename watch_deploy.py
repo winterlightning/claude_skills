@@ -5,7 +5,11 @@
     python3 watch_deploy.py --development --interval 15
     python3 watch_deploy.py -- --production --dist /srv/releases/one --database /srv/state/feedback.sqlite3
 
-Runs `git pull --ff-only` on each new update, then relaunches deploy.py.
+Automatic production (build, validate, switch, rollback on startup failure):
+    python3 watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases --database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0
+
+Automatic release mode fetches committed code into isolated release workspaces.
+Legacy code-only mode runs `git pull --ff-only`, then relaunches deploy.py.
 """
 from __future__ import annotations
 
@@ -38,13 +42,14 @@ def git(*args: str, check: bool = True) -> str:
 class Deployment:
     """The deploy.py child process, run in its own process group."""
 
-    def __init__(self, cmd: list[str]) -> None:
+    def __init__(self, cmd: list[str], cwd=REPO) -> None:
         self.cmd = cmd
+        self.cwd = cwd
         self.proc: subprocess.Popen | None = None
 
     def start(self) -> None:
         log(f"starting: {' '.join(self.cmd)}")
-        self.proc = subprocess.Popen(self.cmd, cwd=REPO, start_new_session=True)
+        self.proc = subprocess.Popen(self.cmd, cwd=self.cwd, start_new_session=True)
 
     def stop(self, timeout: float = 10.0) -> None:
         if self.proc is None or self.proc.poll() is not None:
@@ -79,6 +84,12 @@ def remote_head(remote: str, branch: str) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument('--release-root', type=Path, help='Automatic production releases in an external directory')
+    ap.add_argument('--database', type=Path, help='Persistent production database outside source/releases')
+    ap.add_argument('--host', default='127.0.0.1')
+    ap.add_argument('--port', type=int, default=8000)
+    ap.add_argument('--primitives', type=Path)
+    ap.add_argument('--health-timeout', type=float, default=30)
     ap.add_argument("--development", action="store_true", help="Explicitly allow a development server; never use the active agent checkout")
     ap.add_argument("--interval", type=float, default=60.0, help="seconds between polls (default: 60)")
     ap.add_argument("--remote", default="origin", help="remote to watch (default: origin)")
@@ -92,6 +103,18 @@ def main() -> int:
     extra = args.deploy_args
     if extra and extra[0] == "--":
         extra = extra[1:]
+
+    if args.release_root:
+        if args.development or extra or args.deploy != str(DEFAULT_DEPLOY) or not args.database:
+            ap.error('Automatic release mode requires --database; do not combine with --development, --deploy or arguments after --.')
+        if not args.branch or args.health_timeout <= 0:
+            ap.error('Automatic release mode requires --branch and a positive --health-timeout.')
+        from icon_set.scripts.automatic_deploy import run
+        try:
+            return run(args, REPO, Deployment, remote_head, log)
+        except (OSError, ValueError, RuntimeError) as error:
+            log(str(error))
+            return 1
 
     if not args.development and '--production' not in extra:
         ap.error('Pass -- --production --dist RELEASE --database STATE_DB, or explicitly opt in with --development.')

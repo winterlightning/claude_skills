@@ -40,7 +40,10 @@ def build(root=ROOT, target=None):
 def stage(target, root=ROOT):
     import shutil
     source=root/'icon_set/assets/sub-profiles'
-    if not source.is_dir():return
+    required = ('icon_set/data/sub-profile-migration.json', 'icon_set/data/canonical-sub32.json',
+                'icon_set/data/icon-profile-links.json', 'icon_set/work/sub-profile-migration/qa.json')
+    if not source.is_dir() or not all((root / name).is_file() for name in required):
+        return  # Historical reports are optional in a clean release checkout.
     shutil.copytree(source,target/'sub-profiles',dirs_exist_ok=True)
     build(root,target)
 

@@ -78,10 +78,10 @@ has no agent manager, and rejects generation, source deletion, catalog regenerat
 and replacement of its database through the sync endpoint. Development-only
 controls are hidden based on `/api/runtime`; the API enforces the boundary too.
 
-`watch_deploy.py` is a code-update watcher, not an icon publisher. Use a dedicated
-clean checkout if using it, and pass the production arguments after `--`.
-It must not run against the agent authoring checkout. A new code version does not
-automatically select a new asset release.
+`watch_deploy.py --release-root ...` builds and promotes automatic production
+releases as described below. The legacy mode with arguments after `--` only
+updates server code and keeps the same asset directory; it requires a dedicated
+clean checkout and does not publish new icons.
 
 ## Existing installation migration
 
@@ -124,3 +124,61 @@ production data. Regenerate authoring skills with
 `python3 icon_set/scripts/generate_skills.py` after changing their generator or
 source instructions. Build output still contains aggregate catalogs; the boundary
 prevents those catalogs becoming source-control churn or production state.
+
+## Automatic production releases after a push
+
+Use the new automatic release mode instead of the old code-only watcher:
+
+```sh
+python3 watch_deploy.py \
+  --branch icon-lib \
+  --release-root /srv/pictographic/releases \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
+```
+
+Paths are examples; set them to the server's actual persistent directories. The
+server needs the same Python/build dependencies as local development, access to
+`origin`, and sufficient disk space for the current, previous and staged release.
+Run this under the existing service supervisor using the intended Python interpreter.
+Do not leave a separate service also starting `deploy.py` on the same port.
+
+The watcher fetches the named branch without pulling into or modifying its own
+checkout. It extracts the exact committed source into an isolated directory,
+seeds the build from the last successful release, and builds with normal validation.
+Identical source files retain their timestamps so cached validation and exports
+remain reusable. Shared build/schema/dependency changes force full revalidation;
+geometry and validation dependencies also invalidate the normal build cache.
+Gallery indexes are regenerated. Builds use Python originals and never read the
+production artwork store. Uncommitted local work is never deployed.
+
+A failed build keeps the current server running and saves
+`releases/failed-COMMIT.log`. Empty catalogs and catalogs with failed icons cannot
+be promoted. A failed revision is attempted once per watcher run; fix and push a
+new commit, or restart the watcher after correcting an environment problem.
+The first successful release needs a full baseline build.
+
+After preparing the assets, the watcher briefly stops the old server, starts the
+new server from that release's own source directory, and checks its production
+mode, gallery and unique release ID over local HTTP. Only then does it atomically
+update `releases/active.json`. A failed startup stops the candidate and restarts
+the previous server. Uploads, artwork, edits and reviews continue using the same
+external database and sibling storage directories. Two watchers cannot use the
+same state directory concurrently. This is a short restart, not zero-downtime
+traffic switching.
+
+Code and assets are retained together in `releases/COMMIT-SUFFIX/{source,assets}`.
+`active.json` records the current and previous release; `build.log` records the
+successful build. Releases are not automatically deleted. To manually roll back,
+stop the watcher and run the previous release's
+`source/icon_set/scripts/deploy.py --production --dist PREVIOUS/assets
+--database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0 --port 8000`.
+Keep the same state path. Restarting the watcher will follow the watched branch
+again, so revert the bad commit there before resuming automatic updates.
+
+For an existing installation, complete the state migration described above and
+stop its old launcher before starting this watcher. The initial build may take
+longer; after initialization, subsequent builds run while the active server stays
+available. Installing this code alone does not change the live service command.
+The watcher itself stays at its installed version; restart/update its checkout
+explicitly when changing deployment orchestration code.
