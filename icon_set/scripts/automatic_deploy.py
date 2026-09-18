@@ -217,7 +217,7 @@ def wait_healthy(deploy, host, port, timeout=30, expected_release=None):
                 runtime = json.load(response)
             # Readiness must not serialize the entire library and merge manual edits.
             with urlopen(f'http://{address}:{port}/gallery/index.html', timeout=2) as response:
-                gallery_ready = bool(response.read(1024))
+                gallery_ready = bool(response.read())
             release = {}
             if expected_release is not None:
                 with urlopen(f'http://{address}:{port}/release.json', timeout=1) as response:

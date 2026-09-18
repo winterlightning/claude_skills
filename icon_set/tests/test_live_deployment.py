@@ -99,6 +99,30 @@ class LiveDeploymentTests(unittest.TestCase):
         self.assertEqual((live/'gallery/index.html').read_text(), 'old')
         self.assertFalse((live/'feedback.sqlite3').exists())
 
+    def test_client_disconnect_is_quiet_but_application_errors_are_not_hidden(self):
+        from http.server import SimpleHTTPRequestHandler
+        handler = object.__new__(deploy.GalleryHandler)
+        for error in (BrokenPipeError(), ConnectionResetError()):
+            with patch.object(SimpleHTTPRequestHandler, 'handle', side_effect=error):
+                handler.handle()
+                self.assertTrue(handler.close_connection)
+        with patch.object(SimpleHTTPRequestHandler, 'handle', side_effect=ValueError('application bug')):
+            with self.assertRaisesRegex(ValueError, 'application bug'):
+                handler.handle()
+
+    def test_health_check_consumes_complete_html_response(self):
+        import io
+        runtime = io.BytesIO(b'{"mode":"production"}')
+        page = Mock()
+        page.read.return_value = b'large page' * 10000
+        page.__enter__ = Mock(return_value=page)
+        page.__exit__ = Mock(return_value=False)
+        process = Mock()
+        process.died.return_value = False
+        with patch.object(updates, 'urlopen', side_effect=[runtime, page]):
+            updates.wait_healthy(process, '127.0.0.1', 8000, 1)
+        page.read.assert_called_once_with()
+
     def test_live_pointer_cannot_escape_release_storage(self):
         updates.write_marker(self.releases, {'release':'../outside'})
         with self.assertRaises(ValueError):

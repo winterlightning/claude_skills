@@ -397,6 +397,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return StrokeEditStore(self.database.parent / 'stroke-edits', self.root / 'gallery/laboratory.json')
         return self.server.stroke_edits
 
+    def handle(self):
+        try:
+            super().handle()
+        except (BrokenPipeError, ConnectionResetError):
+            # A browser refresh or cancelled download can close a response early.
+            self.close_connection = True
+
     def setup(self):
         super().setup()
         self.connection.settimeout(15)
