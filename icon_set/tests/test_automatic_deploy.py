@@ -168,6 +168,7 @@ class AutomaticDeploymentTests(unittest.TestCase):
             def do_GET(self):
                 body = {'/api/runtime': {'mode': 'production'},
                         '/gallery/icons.json': {'icons': [], 'failed_icons': [{'key': 'sub/invalid'}]},
+                        '/gallery/index.html': {'ready': True},
                         '/release.json': {'deployment_id': 'expected'}}[self.path]
                 self.send_response(200)
                 self.end_headers()

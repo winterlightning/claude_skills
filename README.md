@@ -627,8 +627,9 @@ maintenance scripts and generated authoring skills use the new paths.
 
 Use `watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases
 --database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0` for automatic
-build, validation and publication after a push. It retains the previous release
-and restores it if the new server fails its startup check. See
+background builds and publication after a push. It starts the existing gallery
+first, then switches completed icon updates without restarting the server. Failed
+updates preserve the previous gallery. See
 [automatic deployment setup](docs/development-workflow.md#automatic-production-releases-after-a-push)
 for state migration and service configuration. The legacy watcher mode with
 arguments after `--` still updates code only.

@@ -169,15 +169,27 @@ Shared geometry changes still rebuild affected drawings whose SVG content change
 Gallery indexes and editorial metadata are refreshed each run. This still scans
 the library and computes drawing hashes; it is not an instantaneous operation.
 
+The server starts from the existing gallery **before** fetching commits or building.
+On first startup the existing assets are frozen in a serving slot before the
+working cache is changed. The watcher prints `Server is online on port ...` as
+soon as it is available. Builds run in a background worker; the watcher also
+monitors and restarts the server if it exits during a build.
+
 Production alternates between **two fixed slots**, `releases/slot-a` and
-`releases/slot-b`. Only the inactive slot is updated, overwriting changed files
-and removing obsolete ones. Unchanged files are not rewritten. Each slot contains
-its matching `source` and `assets`. After preparation the watcher briefly stops
-the old server, starts the candidate and checks its production mode, gallery and
-unique release ID over local HTTP. Only then does it replace `active.json`.
-Startup failure restores the previous server. One prior version is retained for
-rollback; there is no new permanent folder for each commit. The workspace cache
-is a third bounded working copy. Normal per-build temporary staging is cleaned up.
+`releases/slot-b`. Only the inactive slot is updated. After preparation, the
+watcher atomically updates `active.json`. The same running server selects the
+completed gallery at the start of each request. It does not restart or close its
+listening socket for icon updates. A failed HTTP check restores the previous
+pointer without stopping the server. Artwork, stroke-edit validation and QA
+requests use the selected gallery and the same persistent state directory.
+
+One prior catalog is retained for rollback, plus one persistent build cache.
+The log says `Gallery updated to ... Server stayed running.` after publication.
+Refresh the browser to load the updated gallery. This live switch updates assets
+and frontend files; changes to Python server behavior require pulling the installed
+checkout and restarting the watcher intentionally. It does not hot-reload Python
+server code. Keep the watcher running (or run it under your existing service
+supervisor); closing it or shutting down the machine still stops the application.
 
 Drawing-validation failures remain in the Failed build gallery and do not block
 deployment. Build/export crashes or empty catalogs keep the current version;
@@ -192,8 +204,8 @@ any active or rollback release. Unknown folders, state directories, migration
 backups and the original seed gallery are preserved. This bounds future storage;
 new icons naturally add files to the active catalog.
 
-To manually roll back, stop the watcher and run the source `deploy.py` in the
-slot recorded by `active.json` as `previous`, pointing `--dist` at that slot's
+To manually roll back, stop the watcher and run the installed `icon_set/scripts/deploy.py`,
+pointing `--dist` at the slot recorded by `active.json` as `previous` and its
 `assets` and using the same production database. Restarting the watcher follows
 the watched branch again, so revert the bad commit before resuming updates.
 The watcher itself stays at its installed version; pull and restart it when

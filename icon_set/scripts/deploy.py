@@ -358,6 +358,22 @@ def feedback_row(row):
     return data
 
 
+def live_directory(initial, releases):
+    """Select one complete catalog for each request, without restarting the server."""
+    if releases is None:
+        return initial
+    marker = Path(releases) / 'active.json'
+    if not marker.exists():
+        return initial
+    name = json.loads(marker.read_text())['release']
+    if not isinstance(name, str) or Path(name).name != name or name in ('.', '..'):
+        raise ValueError('Invalid active release name.')
+    assets = (Path(releases) / name / 'assets').resolve()
+    if not assets.is_relative_to(Path(releases).resolve()) or not (assets / 'gallery/icons.json').is_file():
+        raise ValueError('Active gallery is missing or outside release storage.')
+    return assets
+
+
 class GalleryServer(ThreadingHTTPServer):
     # The default backlog of 5 drops connections when a page requests hundreds of icons at once.
     request_queue_size = 256
@@ -365,9 +381,21 @@ class GalleryServer(ThreadingHTTPServer):
 
 class GalleryHandler(SimpleHTTPRequestHandler):
     def __init__(self, *args, directory, database, **kwargs):
-        self.root = Path(directory).resolve()
+        self.root = Path(directory() if callable(directory) else directory).resolve()
         self.database = database
         super().__init__(*args, directory=str(self.root), **kwargs)
+
+    @property
+    def evidence(self):
+        if getattr(self.server, 'live_release_root', None):
+            return EvidenceStore(self.root, self.database.parent / 'qa-evidence')
+        return self.server.evidence
+
+    @property
+    def stroke_edits(self):
+        if getattr(self.server, 'live_release_root', None):
+            return StrokeEditStore(self.database.parent / 'stroke-edits', self.root / 'gallery/laboratory.json')
+        return self.server.stroke_edits
 
     def setup(self):
         super().setup()
@@ -496,7 +524,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         from urllib.parse import quote
         source = baseline(icon)
         choice = self.server.artwork.get(icon['key'])
-        edit = self.server.stroke_edits.get(icon['key'], source['svg_sha256'])
+        edit = self.stroke_edits.get(icon['key'], source['svg_sha256'])
         return {'choice': choice, 'source_mode': (choice or {}).get('source_mode', icon.get('artwork_source', 'use_org')), 'svg_sha256': source['svg_sha256'],
                 'edit_revision': (edit or (choice or {}).get('edited') or {}).get('revision'),
                 'preview_url': '../api/icon-artwork/svg?icon='+quote(icon['key'], safe='')+'&v='+str((choice or {}).get('revision', 0)),
@@ -585,7 +613,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 variant = parse_qs(parsed.query).get('variant', [None])[0]
                 choice = self.server.artwork.get(key)
                 if variant == 'browser_edit':
-                    edit = self.server.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
+                    edit = self.stroke_edits.get(key, baseline(icon)['svg_sha256']) or (choice or {}).get('edited')
                     if not edit:
                         raise ValueError('No browser edit has been saved yet.')
                     selected = {'svg': icon_from_graph(edit['edited_graph']).to_svg()}
@@ -622,8 +650,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             try:
                 return self.json_response({
                     'svg_sha256': icon['svg_sha256'],
-                    'edit': self.server.stroke_edits.get(key, icon['svg_sha256']),
-                    'previous_versions': self.server.stroke_edits.previous_versions(key, icon['svg_sha256']),
+                    'edit': self.stroke_edits.get(key, icon['svg_sha256']),
+                    'previous_versions': self.stroke_edits.previous_versions(key, icon['svg_sha256']),
                 })
             except (OSError, ValueError):
                 return self.json_response({'error': 'Saved edits are unavailable. Try loading them again.'}, 503)
@@ -701,8 +729,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             key = query.get('icon', [''])[0]
             try:
                 if parsed.path == '/api/qa-evidence':
-                    return self.json_response(self.server.evidence.evidence(key))
-                content = self.server.evidence.image(key, query.get('kind', [''])[0])
+                    return self.json_response(self.evidence.evidence(key))
+                content = self.evidence.image(key, query.get('kind', [''])[0])
             except KeyError:
                 return self.json_response({'error': 'Unknown icon'}, 404)
             except (FileNotFoundError, ValueError) as error:
@@ -1218,13 +1246,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if not icon:
                     return self.json_response({'error': 'Icon not found.'}, 404)
                 if data.get('action') == 'upload':
-                    self.server.artwork.save(icon, data, user, self.server.stroke_edits)
+                    self.server.artwork.save(icon, data, user, self.stroke_edits)
                     return self.json_response(self.artwork_response(icon))
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
                     connection.execute('BEGIN IMMEDIATE')
                     if self.is_rejected(connection, icon['key'], icon['svg_sha256']):
                         return self.json_response({'error': 'Restore this rejected icon before picking and approving its artwork.'}, 409)
-                    self.server.artwork.save(icon, data, user, self.server.stroke_edits)
+                    self.server.artwork.save(icon, data, user, self.stroke_edits)
                     result = self.artwork_response(icon)
                     record = result['record']
                     now = utc_now()
@@ -1254,7 +1282,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if not icon:
                 return self.json_response({'error': 'Icon not found.'}, 404)
             try:
-                result = self.server.stroke_edits.validate(baseline(icon), data) if validate_only else self.server.stroke_edits.save(baseline(icon), data, user)
+                result = self.stroke_edits.validate(baseline(icon), data) if validate_only else self.stroke_edits.save(baseline(icon), data, user)
                 return self.json_response(result)
             except EditConflict as error:
                 return self.json_response({'error': str(error)}, 409)
@@ -1466,8 +1494,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not update pending briefs.'}, 503)
 
 
-def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE, *, production=False):
+def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE, *, production=False, live_release_root=None):
     dist, database = dist.resolve(), database.resolve()
+    if live_release_root is not None:
+        dist = live_directory(dist, live_release_root)
     if not (dist / 'gallery/index.html').is_file() or not (dist / 'gallery/icons.json').is_file():
         raise ValueError('Gallery is missing. Run icon_set/scripts/build.py first.')
     if not production and (dist / 'release.json').is_file():
@@ -1480,11 +1510,17 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
                 raise ValueError('Production dist and database must be outside the source checkout.')
         if dist.is_relative_to(database.parent):
             raise ValueError('Keep production releases outside the persistent state directory.')
+    if live_release_root is not None:
+        if not production:
+            raise ValueError('Live catalog updates require production mode.')
+        from icon_set.scripts.automatic_deploy import validate_paths
+        live_release_root, _ = validate_paths(PACKAGE_ROOT.parent, live_release_root, database)
     init_database(database)
     with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
         import_snapshot(connection)
-    server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+    server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
     server.production = production
+    server.live_release_root = live_release_root
     server.references = ReferenceStore(database.parent / 'reference-images')
     server.artwork = ArtworkStore(database.parent / 'icon-artwork')
     server.stroke_edits = StrokeEditStore(database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
@@ -1499,6 +1535,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--live-release-root', type=Path, help='Follow completed gallery updates without restarting the server')
     parser.add_argument('--production', action='store_true', help='Manual review/upload server; requires external --dist and --database; disables agent and source mutations')
     parser.add_argument('--dist', type=Path, default=DEFAULT_DIST)
     parser.add_argument('--database', type=Path, default=DEFAULT_DB)
@@ -1511,7 +1548,7 @@ def main(argv=None):
                         help='Production gallery to pull reviewing data from (default $PICTOGRAPHIC_SYNC_SOURCE)')
     args = parser.parse_args(argv)
     try:
-        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source, production=args.production)
+        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source, production=args.production, live_release_root=args.live_release_root)
     except (OSError, ValueError, sqlite3.Error) as error:
         parser.exit(1, f'error: {error}\n')
     port = server.server_address[1]

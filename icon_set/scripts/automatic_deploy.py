@@ -215,11 +215,14 @@ def wait_healthy(deploy, host, port, timeout=30, expected_release=None):
         try:
             with urlopen(f'http://{address}:{port}/api/runtime', timeout=1) as response:
                 runtime = json.load(response)
-            with urlopen(f'http://{address}:{port}/gallery/icons.json', timeout=1) as response:
-                catalog = json.load(response)
-            with urlopen(f'http://{address}:{port}/release.json', timeout=1) as response:
-                release = json.load(response)
-            if (runtime.get('mode') == 'production' and (catalog.get('icons') or catalog.get('failed_icons'))
+            # Readiness must not serialize the entire library and merge manual edits.
+            with urlopen(f'http://{address}:{port}/gallery/index.html', timeout=2) as response:
+                gallery_ready = bool(response.read(1024))
+            release = {}
+            if expected_release is not None:
+                with urlopen(f'http://{address}:{port}/release.json', timeout=1) as response:
+                    release = json.load(response)
+            if (runtime.get('mode') == 'production' and gallery_ready
                     and (expected_release is None or release.get('deployment_id') == expected_release)
                     and not deploy.died()):
                 return
@@ -263,57 +266,139 @@ def run(args, repo, deployment_class, remote_head, log):
         return _watch(args, repo, releases, database, deployment_class, remote_head, log)
 
 
+def select_baseline(repo, releases, seed=None):
+    active = read_active(releases)
+    candidates = ([bundle_path(releases, active['release']) / 'assets'] if active else [])
+    candidates += ([Path(seed)] if seed else [])
+    candidates += [Path(releases)/'workspace/source/icon_set/.local/dist',
+                   Path(repo)/'icon_set/.local/dist', Path(repo)/'icon_set/dist']
+    for path in candidates:
+        if (path/'gallery/index.html').is_file() and (path/'gallery/icons.json').is_file():
+            return path.resolve()
+    raise ValueError('No existing gallery. Restore the old gallery or pass --seed-dist; no full build started.')
+
+
+def write_marker(releases, marker):
+    temporary = Path(releases) / '.active.json.tmp'
+    temporary.write_text(json.dumps(marker, indent=2) + '\n')
+    temporary.replace(Path(releases) / 'active.json')
+
+
+def bootstrap(releases, baseline):
+    """Freeze the existing gallery before the build cache is modified."""
+    if read_active(releases):
+        return
+    candidate = bundle_path(releases, 'slot-a')
+    assets = candidate / 'assets'
+    if baseline.resolve() != assets.resolve():
+        sync_tree(baseline, assets)
+    (assets/'release.json').write_text(json.dumps({'deployment_id': 'bootstrap'}) + '\n')
+    (candidate/'deployment.json').write_text('{"commit": null}\n')
+    write_marker(releases, {'release': 'slot-a', 'commit': None, 'previous': None})
+
+
+def promote_live(releases, candidate, current, health):
+    """Atomically select finished data; retain the same serving process and state."""
+    old = read_active(releases)
+    revision = json.loads((candidate/'deployment.json').read_text())['commit']
+    identity = json.loads((candidate/'assets/release.json').read_text())['deployment_id']
+    write_marker(releases, {'release': candidate.name, 'commit': revision,
+                            'previous': old['release'] if old else None})
+    try:
+        health(current, identity)
+    except BaseException:
+        if old is not None:
+            write_marker(releases, old)
+        else:
+            (Path(releases)/'active.json').unlink()
+        raise
+
+
+def supervised_build(command, stop, **kwargs):
+    """Permit shutdown while a build runs in the background."""
+    import signal
+    proc = subprocess.Popen(command, start_new_session=True, **kwargs)
+    try:
+        while proc.poll() is None:
+            if stop.wait(0.25):
+                os.killpg(proc.pid, signal.SIGTERM)
+                try:
+                    proc.wait(timeout=10)
+                except subprocess.TimeoutExpired:
+                    os.killpg(proc.pid, signal.SIGKILL)
+                    proc.wait()
+                break
+        return subprocess.CompletedProcess(command, proc.returncode)
+    finally:
+        if proc.poll() is None:
+            os.killpg(proc.pid, signal.SIGTERM)
+            proc.wait()
+
+
 def _watch(args, repo, releases, database, deployment_class, remote_head, log):
     import signal
-    def factory(bundle):
-        server = deployment_class(server_command(bundle, args.python, database, args.host, args.port, args.primitives),
-                                  cwd=bundle / 'source')
-        server.release_id = json.loads((bundle / 'assets/release.json').read_text())['deployment_id']
-        return server
-    health = lambda deploy: wait_healthy(deploy, args.host, args.port, args.health_timeout, deploy.release_id)
-    stopping = False
-    def shutdown(signum, frame):
-        nonlocal stopping
-        stopping = True
-    previous_handlers = {sig: signal.signal(sig, shutdown) for sig in (signal.SIGINT, signal.SIGTERM)}
+    from concurrent.futures import ThreadPoolExecutor
+    from threading import Event
+    stop = Event()
+    previous_handlers = {sig: signal.signal(sig, lambda *_: stop.set())
+                         for sig in (signal.SIGINT, signal.SIGTERM)}
     current = None
+    executor = ThreadPoolExecutor(max_workers=1)
+    pending = None
     attempted = None
+    next_poll = 0
+    health = lambda server, identity=None: wait_healthy(server, args.host, args.port, args.health_timeout, identity)
     try:
-        active = read_active(releases)
-        if active:
-            current = factory(bundle_path(releases, active['release']))
-            current.start()
-            health(current)
-        while not stopping:
-            try:
-                revision = remote_head(args.remote, args.branch)
-                active = read_active(releases)
-                if revision != (active or {}).get('commit') and revision != attempted:
-                    attempted = revision
-                    previous = bundle_path(releases, active['release']) if active else None
-                    log(f'Preparing release {revision[:12]}; ' +
-                        ('current server stays available during the build.' if current else 'updating existing gallery; server starts after preparation.'))
-                    candidate = prepare(repo, releases, revision, args.python, previous, seed=getattr(args, 'seed_dist', None))
-                    manifest = json.loads((candidate / 'assets/release.json').read_text())
-                    if manifest.get('failed_icons'):
-                        log(f"{manifest['failed_icons']} drawings need review; continuing deployment with the Failed build gallery.")
-                    if stopping:
-                        break
-                    current = activate(releases, candidate, current, factory, health)
-                    cleanup_releases(releases)
-                    log(f'Production now serves {revision[:12]}. Fixed release slots reused; one rollback copy retained.')
-            except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
-                log(str(error))
-                if current is None:
-                    return 1
-            if current and current.died() and not args.no_restart_on_crash:
+        baseline = select_baseline(repo, releases, getattr(args, 'seed_dist', None))
+        # Legacy galleries inside the checkout must be copied out once before production serves them.
+        if baseline.is_relative_to(Path(repo).resolve()):
+            bootstrap(releases, baseline)
+            baseline = bundle_path(releases, read_active(releases)['release'])/'assets'
+        command = [args.python, str(Path(repo)/'icon_set/scripts/deploy.py'), '--production',
+                   '--dist', str(baseline), '--database', str(database), '--live-release-root', str(releases),
+                   '--host', args.host, '--port', str(args.port)]
+        if args.primitives:
+            command += ['--primitives', str(args.primitives)]
+        current = deployment_class(command, cwd=repo)
+        current.start()
+        health(current)
+        log(f'Server is online on port {args.port}. Existing gallery and production data are available.')
+        bootstrap(releases, baseline)
+        while not stop.is_set():
+            if current.died() and not args.no_restart_on_crash:
+                log('Server exited; restarting it while background preparation continues.')
                 current.start()
-            deadline = time.monotonic() + args.interval
-            while not stopping and time.monotonic() < deadline:
-                time.sleep(min(1, max(0, deadline-time.monotonic())))
+            if pending is not None and pending.done():
+                try:
+                    candidate = pending.result()
+                    if stop.is_set():
+                        break
+                    promote_live(releases, candidate, current, health)
+                    cleanup_releases(releases)
+                    log(f'Gallery updated to {attempted[:12]}. Server stayed running.')
+                except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                    log(f'Update failed; existing gallery stays online: {error}')
+                pending = None
+            if pending is None and time.monotonic() >= next_poll:
+                next_poll = time.monotonic() + args.interval
+                try:
+                    revision = remote_head(args.remote, args.branch)
+                    active = read_active(releases)
+                    if revision != (active or {}).get('commit') and revision != attempted:
+                        attempted = revision
+                        previous = bundle_path(releases, active['release']) if active else None
+                        log(f'Preparing {revision[:12]} in the background; server remains online.')
+                        pending = executor.submit(prepare, repo, releases, revision, args.python, previous,
+                            runner=lambda cmd, **kw: supervised_build(cmd, stop, **kw),
+                            seed=getattr(args, 'seed_dist', None))
+                except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
+                    log(f'Could not check for updates; server stays online: {error}')
+            stop.wait(0.5)
     finally:
+        stop.set()
         if current:
             current.stop()
+        executor.shutdown(wait=True)
         for sig, handler in previous_handlers.items():
             signal.signal(sig, handler)
     return 0

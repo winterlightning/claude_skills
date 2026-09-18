@@ -5,7 +5,7 @@
     python3 watch_deploy.py --development --interval 15
     python3 watch_deploy.py -- --production --dist /srv/releases/one --database /srv/state/feedback.sqlite3
 
-Automatic production (build, validate, switch, rollback on startup failure):
+Automatic production (serve immediately, build in background, switch completed data):
     python3 watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases --database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0
 
 Automatic release mode fetches committed code into isolated release workspaces.
