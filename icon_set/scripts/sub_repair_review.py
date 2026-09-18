@@ -10,6 +10,16 @@ else:
 
 ROOT=Path(__file__).resolve().parents[2]
 def stage(target):
+    required = (ROOT/'icon_set/data/canonical-sub32.json',
+                ROOT/'icon_set/work/sub-profile-migration/qa.json')
+    if not all(path.is_file() for path in required):
+        target.mkdir(parents=True, exist_ok=True)
+        (target/'index.html').write_text(
+            '<!doctype html><meta charset="utf-8"><title>Historical sub review</title>'
+            '<p>Historical sub review is unavailable in this checkout. '
+            'See the gallery Failed build view for current validation findings.</p>')
+        print('[reports] Historical sub repair review skipped: optional inputs unavailable', flush=True)
+        return None
     target.mkdir(parents=True,exist_ok=True);assets=target/'svg';assets.mkdir(exist_ok=True)
     models=json.loads((ROOT/'icon_set/data/canonical-sub32.json').read_text());qa=json.loads((ROOT/'icon_set/work/sub-profile-migration/qa.json').read_text());rows=[];cards=[]
     for uid,m in sorted(models.items()):

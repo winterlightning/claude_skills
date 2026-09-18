@@ -10,15 +10,25 @@ else:
 ROOT=Path(__file__).resolve().parents[2]
 def compact_html(d, report_href='sub-repair-review/index.html'):
     import html
+    if d is None:
+        return '<p>Historical side-combination progress is unavailable in this checkout.</p>'
     total=d['side_combinations'];done=d['recombined']
     stats=[(f"{done:,} / {total:,}", 'combinations ready'),(f"{total-done:,}", 'combinations left'),(f"{d['main_to_generate']:,} main + {d['sub_to_generate']:,} sub", 'new icons to generate'),(f"{d['sub_models']-d['passing_sub_models']:,}", 'sub icons to repair / review'),(f"{d['main_to_build_or_link']:,} main + {d['sub_to_build_or_link']:,} sub", 'existing sources to build / link')]
     cards=''.join('<span class="side-progress-stat"><strong>'+value+'</strong><small>'+label+'</small></span>' for value,label in stats)
     lists=''
     for role in ('main','sub'):
         lists+='<details><summary>See '+role+' generation / linking list</summary><ul>'+''.join('<li>'+html.escape(e['action']+': '+e['examples'][0])+' — '+str(e['combinations'])+' combinations</li>' for e in d['missing'][role])+'</ul></details>'
-    return '<!-- side-progress:start --><style>.side-progress-compact{flex-basis:100%;width:100%;box-sizing:border-box;background:#f3f7f5;border:1px solid #d4e0da;border-radius:9px;padding:12px 14px;margin:0 0 10px;font:13px system-ui;color:#20302d}.side-progress-compact h2{font-size:14px!important;margin:0 0 8px!important}.side-progress-compact .side-progress-stats{display:flex;flex-wrap:wrap;gap:10px 24px}.side-progress-stat strong,.side-progress-stat small{display:block}.side-progress-stat strong{font-size:17px}.side-progress-stat small{font-size:11px;margin-top:3px}.side-progress-compact progress{display:block;width:100%;height:7px;margin:10px 0 6px;accent-color:#327763}.side-progress-compact p{font-size:11px;margin:4px 0!important;line-height:1.5}.side-progress-compact details{font-size:11px;margin:5px 16px 0 0;display:inline-block;vertical-align:top}.side-progress-compact details[open]{display:block}.side-progress-compact ul{max-height:220px;overflow:auto;line-height:1.7}</style><section class="side-progress-compact" aria-label="Combination progress"><h2>Progress · '+f'{done/total:.1%}'+'</h2><div class="side-progress-stats">'+cards+'</div><progress value="'+str(done)+'" max="'+str(total)+'" aria-label="Combinations ready"></progress><p>'+f"{d['main_models_in_sides']:,} main models available · {d['sub_models']:,} sub models generated, {d['passing_sub_models']:,} passing. Of the combinations left: {d['waiting_sub_repair']:,} need a passing sub; {d['waiting_components']:,} need components or pairing. Icon counts and combination counts are separate."+'</p>'+lists+'<p><a href="'+html.escape(report_href,quote=True)+'">View all '+str(d['sub_models']-d['passing_sub_models'])+' sub icons needing repair / review →</a></p></section><!-- side-progress:end -->'
+    return '<!-- side-progress:start --><style>.side-progress-compact{flex-basis:100%;width:100%;box-sizing:border-box;background:#f3f7f5;border:1px solid #d4e0da;border-radius:9px;padding:12px 14px;margin:0 0 10px;font:13px system-ui;color:#20302d}.side-progress-compact h2{font-size:14px!important;margin:0 0 8px!important}.side-progress-compact .side-progress-stats{display:flex;flex-wrap:wrap;gap:10px 24px}.side-progress-stat strong,.side-progress-stat small{display:block}.side-progress-stat strong{font-size:17px}.side-progress-stat small{font-size:11px;margin-top:3px}.side-progress-compact progress{display:block;width:100%;height:7px;margin:10px 0 6px;accent-color:#327763}.side-progress-compact p{font-size:11px;margin:4px 0!important;line-height:1.5}.side-progress-compact details{font-size:11px;margin:5px 16px 0 0;display:inline-block;vertical-align:top}.side-progress-compact details[open]{display:block}.side-progress-compact ul{max-height:220px;overflow:auto;line-height:1.7}</style><section class="side-progress-compact" aria-label="Combination progress"><h2>Progress · '+f'{done/total if total else 0:.1%}'+'</h2><div class="side-progress-stats">'+cards+'</div><progress value="'+str(done)+'" max="'+str(total)+'" aria-label="Combinations ready"></progress><p>'+f"{d['main_models_in_sides']:,} main models available · {d['sub_models']:,} sub models generated, {d['passing_sub_models']:,} passing. Of the combinations left: {d['waiting_sub_repair']:,} need a passing sub; {d['waiting_components']:,} need components or pairing. Icon counts and combination counts are separate."+'</p>'+lists+'<p><a href="'+html.escape(report_href,quote=True)+'">View all '+str(d['sub_models']-d['passing_sub_models'])+' sub icons needing repair / review →</a></p></section><!-- side-progress:end -->'
 
 def stage(target):
+    required = (target/'combinations.json', ROOT/'icon_set/data/combination-pairs.json',
+                ROOT/'icon_set/data/canonical-sub32.json')
+    if not all(path.is_file() for path in required):
+        target.mkdir(parents=True, exist_ok=True)
+        (target/'side-combination-progress.html').write_text(compact_html(None))
+        (target/'side-combination-progress.json').write_text(json.dumps({'available': False})+'\n')
+        print('[reports] Historical side-combination progress skipped: optional inputs unavailable', flush=True)
+        return None
     catalog=json.loads((target/'combinations.json').read_text())['rows']
     sides=[r for r in catalog if r['kind']=='side']
     pairs=json.loads((ROOT/'icon_set/data/combination-pairs.json').read_text())['rows']
@@ -51,4 +61,4 @@ def stage(target):
     (target/'side-combination-progress.html').write_text(compact_html(report))
     (target/'side-combination-progress.json').write_text(json.dumps(report,indent=2));return report
 if __name__=='__main__':
-    r=stage(development_dist(ROOT) / 'gallery');print({k:v for k,v in r.items() if k!='missing'})
+    r=stage(development_dist(ROOT) / 'gallery');print({k:v for k,v in r.items() if k!='missing'} if r is not None else 'Report unavailable')
