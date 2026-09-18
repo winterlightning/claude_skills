@@ -649,6 +649,7 @@ def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
     rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
+    allow_validation_failures: bool = False,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -675,7 +676,7 @@ def build(
         families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
                                 rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir)
-    return 1 if failed else 0
+    return 1 if failed and not allow_validation_failures else 0
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -707,11 +708,14 @@ def main(argv: list[str] | None = None) -> int:
                              f'(default: {DEFAULT_QA_OVERLAYS.relative_to(REPO_ROOT)})')
     parser.add_argument('--artwork-dir', type=Path, default=None,
                         help='Opt in to a manual-artwork export; default builds Python originals only')
+    parser.add_argument('--allow-validation-failures', action='store_true',
+                        help='Publish the review gallery even when drawings fail validation; build errors still fail')
     args = parser.parse_args(argv)
     try:
         return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
                      debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
-                     qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir)
+                     qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir,
+                     allow_validation_failures=args.allow_validation_failures)
     except (OSError, ValueError) as error:
         parser.exit(2, f'error: {error}\n')
 

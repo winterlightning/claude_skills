@@ -173,7 +173,7 @@ class AutomaticDeploymentTests(unittest.TestCase):
         class Handler(BaseHTTPRequestHandler):
             def do_GET(self):
                 body = {'/api/runtime': {'mode': 'production'},
-                        '/gallery/icons.json': {'icons': [{'key': 'sub/test'}]},
+                        '/gallery/icons.json': {'icons': [], 'failed_icons': [{'key': 'sub/invalid'}]},
                         '/release.json': {'deployment_id': 'expected'}}[self.path]
                 self.send_response(200)
                 self.end_headers()
@@ -222,6 +222,34 @@ else:
         self.assertTrue((bundle/'assets/gallery/index.html').is_file())
         self.assertEqual(json.loads((bundle/'assets/release.json').read_text())['deployment_id'], bundle.name)
         self.assertFalse((bundle/'source/private').exists())
+
+    def test_failed_drawings_are_released_for_review_including_failed_only_library(self):
+        for passing in ([{'key': 'sub/valid'}], []):
+            with self.subTest(passing=bool(passing)):
+                def runner(command, **kwargs):
+                    result = self.fake_build(command, **kwargs)
+                    if 'build' in command:
+                        self.assertIn('--allow-validation-failures', command)
+                        catalog = kwargs['cwd']/'icon_set/.local/dist/gallery/icons.json'
+                        catalog.write_text(json.dumps({'icons': passing,
+                                                       'failed_icons': [{'key': 'sub/invalid', 'errors': ['spacing']}]}))
+                    return result
+                bundle = deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=runner)
+                catalog = json.loads((bundle/'assets/gallery/icons.json').read_text())
+                self.assertEqual(catalog['failed_icons'][0]['errors'], ['spacing'])
+                self.assertEqual(json.loads((bundle/'assets/release.json').read_text())['failed_icons'], 1)
+
+    def test_build_tolerance_only_changes_validation_exit_not_crashes(self):
+        from icon_set.scripts import build
+        with patch.object(build, '_build_selected', return_value=(0, 3)):
+            self.assertEqual(build.build(write_png=False), 1)
+            self.assertEqual(build.build(write_png=False, allow_validation_failures=True), 0)
+        with patch.object(build, '_build_selected', side_effect=OSError('disk full')):
+            with self.assertRaisesRegex(OSError, 'disk full'):
+                build.build(write_png=False, allow_validation_failures=True)
+        with patch.object(build, 'build', return_value=0) as builder:
+            self.assertEqual(build.main(['--no-png', '--allow-validation-failures']), 0)
+            self.assertTrue(builder.call_args.kwargs['allow_validation_failures'])
 
     def test_empty_catalog_never_promoted(self):
         def runner(command, **kwargs):

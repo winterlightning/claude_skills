@@ -107,7 +107,7 @@ def prepare(repo, releases, revision, python, previous=None, runner=subprocess.r
         environment = dict(os.environ, PYTHONNOUSERSITE='1')
         # Never inherit Python import paths from the author's workspace.
         environment.pop('PYTHONPATH', None)
-        command = [python, '-m', 'icon_set', 'build', '--no-png']
+        command = [python, '-m', 'icon_set', 'build', '--no-png', '--allow-validation-failures']
         if previous and pipeline_changed(source, previous / 'source'):
             command.append('--all')
         with (bundle / 'build.log').open('w') as log:
@@ -120,8 +120,8 @@ def prepare(repo, releases, revision, python, previous=None, runner=subprocess.r
                     shutil.copy2(bundle / 'build.log', failed)
                     raise RuntimeError(f'Release preparation failed; current production kept. See {failed}')
         catalog = json.loads((bundle / 'assets/gallery/icons.json').read_text())
-        if not catalog.get('icons') or catalog.get('failed_icons'):
-            raise ValueError('Refusing an empty release or one with failed icons.')
+        if not catalog.get('icons') and not catalog.get('failed_icons'):
+            raise ValueError('Refusing an empty release.')
         shutil.rmtree(source / 'icon_set/.local', ignore_errors=True)
         (bundle / 'deployment.json').write_text(json.dumps({'commit': revision}, indent=2) + '\n')
         # Unique names allow retrying an older commit without overwriting a release.
@@ -157,7 +157,7 @@ def wait_healthy(deploy, host, port, timeout=30, expected_release=None):
                 catalog = json.load(response)
             with urlopen(f'http://{address}:{port}/release.json', timeout=1) as response:
                 release = json.load(response)
-            if (runtime.get('mode') == 'production' and catalog.get('icons')
+            if (runtime.get('mode') == 'production' and (catalog.get('icons') or catalog.get('failed_icons'))
                     and (expected_release is None or release.get('deployment_id') == expected_release)
                     and not deploy.died()):
                 return
@@ -229,8 +229,12 @@ def _watch(args, repo, releases, database, deployment_class, remote_head, log):
                 if revision != (active or {}).get('commit') and revision != attempted:
                     attempted = revision
                     previous = bundle_path(releases, active['release']) if active else None
-                    log(f'Preparing release {revision[:12]}; current server stays available during the build.')
+                    log(f'Preparing release {revision[:12]}; ' +
+                        ('current server stays available during the build.' if current else 'first build; server starts after preparation.'))
                     candidate = prepare(repo, releases, revision, args.python, previous)
+                    manifest = json.loads((candidate / 'assets/release.json').read_text())
+                    if manifest.get('failed_icons'):
+                        log(f"{manifest['failed_icons']} drawings need review; continuing deployment with the Failed build gallery.")
                     if stopping:
                         break
                     current = activate(releases, candidate, current, factory, health)

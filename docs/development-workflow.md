@@ -153,8 +153,9 @@ Gallery indexes are regenerated. Builds use Python originals and never read the
 production artwork store. Uncommitted local work is never deployed.
 
 A failed build keeps the current server running and saves
-`releases/failed-COMMIT.log`. Empty catalogs and catalogs with failed icons cannot
-be promoted. A failed revision is attempted once per watcher run; fix and push a
+`releases/failed-COMMIT.log`. Drawing-validation failures do not block deployment: passing icons and the
+Failed build review gallery are published together, even when only failed
+drawings exist. Empty catalogs and build/export crashes still stop promotion. A failed revision is attempted once per watcher run; fix and push a
 new commit, or restart the watcher after correcting an environment problem.
 The first successful release needs a full baseline build.
 
