@@ -256,7 +256,7 @@ def _manifest_icons(path: Path) -> dict[str, dict]:
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
-    only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
+    only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None, changed_only=False,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
@@ -330,7 +330,7 @@ def _stage_family(
         key = artifact_key(icon)
         choice = artwork_store.get(key) if artwork_store is not None else None
         manual = resolve_artwork(icon.to_record(), choice) if choice else None
-        mtime = _source_mtime(icon) if previous is not None else None
+        mtime = (0.0 if changed_only else _source_mtime(icon)) if previous is not None else None
         if icon.profile is not profile or icon.family != family:
             qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
             qa['_key'] = key
@@ -554,7 +554,7 @@ def _build_selected(families, dist, png_dir, **options):
 
 
 def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
-                    qa_overlays=None, artwork_dir=None):
+                    qa_overlays=None, artwork_dir=None, changed_only=False):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -585,7 +585,7 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                 family, stages[dist], stages.get(png_dir),
                 write_png=write_png, published_dist=dist,
                 qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous, only=only,
-                qa_overlays=qa_overlays, artwork_dir=artwork_dir,
+                qa_overlays=qa_overlays, artwork_dir=artwork_dir, changed_only=changed_only,
             ))
         if qa_dir is not None:
             # A filtered build still shows the complete current library. Only
@@ -649,7 +649,7 @@ def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
     rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
-    allow_validation_failures: bool = False,
+    allow_validation_failures: bool = False, changed_only: bool = False,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -675,7 +675,7 @@ def build(
         # Without --family, build just the families the selected icons belong to.
         families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
-                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir)
+                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir, changed_only=changed_only)
     return 1 if failed and not allow_validation_failures else 0
 
 
@@ -710,12 +710,16 @@ def main(argv: list[str] | None = None) -> int:
                         help='Opt in to a manual-artwork export; default builds Python originals only')
     parser.add_argument('--allow-validation-failures', action='store_true',
                         help='Publish the review gallery even when drawings fail validation; build errors still fail')
+    parser.add_argument('--changed-only', action='store_true',
+                        help='Reuse unchanged SVGs and validation results by content; do not revalidate for rule-only changes')
     args = parser.parse_args(argv)
+    if args.changed_only and args.rebuild_all:
+        parser.error('--changed-only and --all cannot be combined')
     try:
         return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
                      debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
                      qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir,
-                     allow_validation_failures=args.allow_validation_failures)
+                     allow_validation_failures=args.allow_validation_failures, changed_only=args.changed_only)
     except (OSError, ValueError) as error:
         parser.exit(2, f'error: {error}\n')
 

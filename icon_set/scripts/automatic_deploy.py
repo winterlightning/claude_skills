@@ -1,4 +1,4 @@
-"""Prepare immutable code/assets together, then health-check before promotion."""
+"""Incrementally update a persistent cache and alternate two bounded release slots."""
 from __future__ import annotations
 
 import filecmp
@@ -42,7 +42,8 @@ def bundle_path(releases, name):
 
 def snapshot(repo, revision, target, previous=None):
     """Extract only committed files; preserve timestamps for identical build inputs."""
-    target.mkdir()
+    target.mkdir(parents=True, exist_ok=True)
+    seen = set()
     started = time.time()
     with tempfile.TemporaryFile() as errors:
         proc = subprocess.Popen(['git', 'archive', '--format=tar', revision], cwd=repo,
@@ -54,12 +55,19 @@ def snapshot(repo, revision, target, previous=None):
                     if relative.is_absolute() or '..' in relative.parts:
                         raise ValueError('Unsafe path in committed archive.')
                     path = target / member.name
+                    seen.add(path)
                     if member.isdir():
                         path.mkdir(parents=True, exist_ok=True)
                     elif member.isfile():
                         path.parent.mkdir(parents=True, exist_ok=True)
-                        with archive.extractfile(member) as source, path.open('wb') as dest:
-                            shutil.copyfileobj(source, dest)
+                        with archive.extractfile(member) as stream:
+                            content = stream.read()
+                        if path.is_file() and not path.is_symlink() and path.read_bytes() == content:
+                            path.chmod(member.mode & 0o777)
+                            continue
+                        if path.is_symlink():
+                            raise ValueError('Symlink found in build workspace.')
+                        path.write_bytes(content)
                         path.chmod(member.mode & 0o777)
                         old = previous / member.name if previous else None
                         stamp = old.stat().st_mtime if old and old.is_file() and filecmp.cmp(old, path, shallow=False) else started
@@ -74,65 +82,119 @@ def snapshot(repo, revision, target, previous=None):
             if proc.poll() is None:
                 proc.kill()
                 proc.wait()
+    # Remove sources deleted by the commit, but keep the persistent output cache.
+    for path in sorted(target.rglob('*'), reverse=True):
+        relative = path.relative_to(target)
+        if '.local' in relative.parts:
+            continue
+        if path.is_file() and path not in seen:
+            path.unlink()
+        elif path.is_dir() and path not in seen and not any(path.iterdir()):
+            path.rmdir()
 
 
-def pipeline_changed(source, previous):
-    """Conservatively invalidate validation cache when build/schema/dependencies change."""
-    def inputs(root):
-        paths = set()
-        for directory in ('icon_set/scripts', 'icon_set/schemas', 'icon_set/validation',
-                          'icon_set/renderers', 'icon_set/model/contracts'):
-            paths.update(p.relative_to(root) for p in (root / directory).rglob('*')
-                         if p.is_file() and p.suffix in ('.py', '.json', '.cjs'))
-        paths.update(p.relative_to(root) for p in (root / 'icon_set/model').glob('*.py'))
-        paths.update(p.relative_to(root) for p in (root / 'icon_set/model/icons').rglob('_*.py'))
-        paths.update(p.relative_to(root) for pattern in ('*requirements*.txt', '*lock*', 'pyproject.toml', 'package.json')
-                     for p in root.glob(pattern) if p.is_file())
-        return paths
-    before, after = inputs(previous), inputs(source)
-    return before != after or any(not filecmp.cmp(previous / p, source / p, shallow=False) for p in after)
+def sync_tree(source, target, excluded=()):
+    """Overwrite changed files only, prune deleted files, and never use hardlinks."""
+    source, target = Path(source), Path(target)
+    target.mkdir(parents=True, exist_ok=True)
+    names = set()
+    for item in source.iterdir():
+        if item.name in excluded or item.name.startswith('.icon-build-'):
+            continue
+        if item.is_symlink():
+            raise ValueError(f'Symlink is not allowed in published output: {item}')
+        names.add(item.name)
+        dest = target / item.name
+        if dest.is_symlink():
+            raise ValueError(f'Symlink is not allowed in release storage: {dest}')
+        if dest.exists() and dest.is_dir() != item.is_dir():
+            shutil.rmtree(dest) if dest.is_dir() else dest.unlink()
+        if item.is_dir():
+            sync_tree(item, dest, excluded)
+        elif not dest.exists() or not filecmp.cmp(item, dest, shallow=False):
+            shutil.copy2(item, dest)
+    for item in target.iterdir():
+        if item.name not in names:
+            shutil.rmtree(item) if item.is_dir() and not item.is_symlink() else item.unlink()
 
 
-def prepare(repo, releases, revision, python, previous=None, runner=subprocess.run):
-    """A failed build leaves active code/assets untouched; no state is copied."""
+def publish_cache(build, assets, revision, identity):
+    import hashlib
+    catalog = json.loads((build / 'gallery/icons.json').read_text())
+    if not (build / 'gallery/index.html').is_file() or not (catalog.get('icons') or catalog.get('failed_icons')):
+        raise ValueError('Refusing an empty release.')
+    for path in build.rglob('manifest.json'):
+        if any(row.get('artwork_source', 'use_org') != 'use_org'
+               for row in json.loads(path.read_text()).get('icons', [])):
+            raise ValueError('Baseline contains manual artwork; preserve it in production state instead.')
+    sync_tree(build, assets, excluded=('release.json', '__pycache__', '.DS_Store'))
+    (assets / 'release.json').write_text(json.dumps({
+        'schema_version': 1, 'commit': revision, 'deployment_id': identity,
+        'catalog_sha256': hashlib.sha256((assets / 'gallery/icons.json').read_bytes()).hexdigest(),
+        'icons': len(catalog.get('icons', [])), 'failed_icons': len(catalog.get('failed_icons', [])),
+        'artwork': 'python-originals',
+    }, indent=2) + '\n')
+
+
+def prepare(repo, releases, revision, python, previous=None, runner=subprocess.run, seed=None):
+    """Reuse a persistent build cache and overwrite only the inactive release slot."""
     releases = Path(releases)
-    releases.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix='.preparing-', dir=releases) as temporary:
-        bundle = Path(temporary)
-        source = bundle / 'source'
-        snapshot(repo, revision, source, previous / 'source' if previous else None)
-        build = source / 'icon_set/.local/dist'
-        if previous:
-            shutil.copytree(previous / 'assets', build, ignore=shutil.ignore_patterns('release.json'))
-        environment = dict(os.environ, PYTHONNOUSERSITE='1')
-        # Never inherit Python import paths from the author's workspace.
-        environment.pop('PYTHONPATH', None)
-        command = [python, '-m', 'icon_set', 'build', '--no-png', '--allow-validation-failures']
-        if previous and pipeline_changed(source, previous / 'source'):
-            command.append('--all')
-        with (bundle / 'build.log').open('w') as log:
-            for command in (command,
-                            [python, '-m', 'icon_set', 'release', str(bundle / 'assets')]):
-                result = runner(command, cwd=source, env=environment, stdout=log, stderr=subprocess.STDOUT)
-                if result.returncode:
-                    failed = releases / f'failed-{revision}.log'
-                    log.flush()
-                    shutil.copy2(bundle / 'build.log', failed)
-                    raise RuntimeError(f'Release preparation failed; current production kept. See {failed}')
-        catalog = json.loads((bundle / 'assets/gallery/icons.json').read_text())
-        if not catalog.get('icons') and not catalog.get('failed_icons'):
-            raise ValueError('Refusing an empty release.')
-        shutil.rmtree(source / 'icon_set/.local', ignore_errors=True)
-        (bundle / 'deployment.json').write_text(json.dumps({'commit': revision}, indent=2) + '\n')
-        # Unique names allow retrying an older commit without overwriting a release.
-        name = revision + '-' + bundle.name.removeprefix('.preparing-')
-        result = releases / name
-        manifest = bundle / 'assets/release.json'
-        release = json.loads(manifest.read_text())
-        release.update(commit=revision, deployment_id=name)
-        manifest.write_text(json.dumps(release, indent=2) + '\n')
-        bundle.rename(result)
-        return result
+    workspace = releases / 'workspace'
+    source = workspace / 'source'
+    snapshot(repo, revision, source, previous / 'source' if previous else None)
+    build = source / 'icon_set/.local/dist'
+    if not (build / 'gallery/icons.json').is_file():
+        baseline = previous / 'assets' if previous else seed
+        if baseline is None:
+            for path in (Path(repo) / 'icon_set/.local/dist', Path(repo) / 'icon_set/dist'):
+                if (path / 'gallery/icons.json').is_file():
+                    baseline = path
+                    break
+        if baseline is None or not (Path(baseline) / 'gallery/icons.json').is_file():
+            raise ValueError('No existing gallery to reuse. Pass --seed-dist PATH to your old built gallery; no full build was started.')
+        baseline = Path(baseline).resolve()
+        if build.resolve().is_relative_to(baseline) or baseline.is_relative_to(build.resolve()):
+            raise ValueError('Seed gallery must be separate from the build cache.')
+        print(f'Reusing existing gallery: {baseline}', flush=True)
+        sync_tree(baseline, build, excluded=('release.json', '.DS_Store'))
+    else:
+        print(f'Reusing build cache: {build}', flush=True)
+    environment = dict(os.environ, PYTHONUNBUFFERED='1')
+    environment.pop('PYTHONPATH', None)
+    command = [python, '-m', 'icon_set', 'build', '--no-png', '--no-report',
+               '--changed-only', '--allow-validation-failures']
+    with (workspace / 'build.log').open('w') as log:
+        result = runner(command, cwd=source, env=environment, stdout=log, stderr=subprocess.STDOUT)
+        if result.returncode:
+            log.flush()
+            shutil.copy2(workspace / 'build.log', releases / 'last-failed.log')
+            raise RuntimeError(f'Release preparation failed; current production kept. See {releases / "last-failed.log"}')
+    active_name = (read_active(releases) or {}).get('release')
+    slot = 'slot-b' if (previous and previous.name == 'slot-a') or active_name == 'slot-a' else 'slot-a'
+    candidate = bundle_path(releases, slot)
+    candidate.mkdir(exist_ok=True)
+    identity = revision + '-' + str(time.time_ns())
+    publish_cache(build, candidate / 'assets', revision, identity)
+    sync_tree(source, candidate / 'source', excluded=('.local', '__pycache__', '.DS_Store'))
+    (candidate / 'deployment.json').write_text(json.dumps({'commit': revision}) + '\n')
+    shutil.copy2(workspace / 'build.log', candidate / 'build.log')
+    return candidate
+
+
+def cleanup_releases(releases):
+    """Bound storage; remove only recognisable retired deployment artifacts."""
+    import re
+    active = read_active(releases) or {}
+    keep = {active.get('release'), active.get('previous'), 'workspace', 'slot-a', 'slot-b'}
+    for path in Path(releases).iterdir():
+        if path.name in keep or path.is_symlink():
+            continue
+        old_release = re.fullmatch(r'[0-9a-f]{40}-[a-zA-Z0-9_-]+', path.name)
+        abandoned = path.name.startswith('.preparing-') and (path / 'source').is_dir()
+        if path.is_dir() and ((old_release and (path / 'deployment.json').is_file()) or abandoned):
+            shutil.rmtree(path)
+        elif path.is_file() and re.fullmatch(r'failed-[0-9a-f]{40}\.log', path.name):
+            path.unlink()
 
 
 def server_command(bundle, python, database, host, port, primitives=None):
@@ -206,7 +268,7 @@ def _watch(args, repo, releases, database, deployment_class, remote_head, log):
     def factory(bundle):
         server = deployment_class(server_command(bundle, args.python, database, args.host, args.port, args.primitives),
                                   cwd=bundle / 'source')
-        server.release_id = bundle.name
+        server.release_id = json.loads((bundle / 'assets/release.json').read_text())['deployment_id']
         return server
     health = lambda deploy: wait_healthy(deploy, args.host, args.port, args.health_timeout, deploy.release_id)
     stopping = False
@@ -230,15 +292,16 @@ def _watch(args, repo, releases, database, deployment_class, remote_head, log):
                     attempted = revision
                     previous = bundle_path(releases, active['release']) if active else None
                     log(f'Preparing release {revision[:12]}; ' +
-                        ('current server stays available during the build.' if current else 'first build; server starts after preparation.'))
-                    candidate = prepare(repo, releases, revision, args.python, previous)
+                        ('current server stays available during the build.' if current else 'updating existing gallery; server starts after preparation.'))
+                    candidate = prepare(repo, releases, revision, args.python, previous, seed=getattr(args, 'seed_dist', None))
                     manifest = json.loads((candidate / 'assets/release.json').read_text())
                     if manifest.get('failed_icons'):
                         log(f"{manifest['failed_icons']} drawings need review; continuing deployment with the Failed build gallery.")
                     if stopping:
                         break
                     current = activate(releases, candidate, current, factory, health)
-                    log(f'Production now serves {revision[:12]}. Previous release retained.')
+                    cleanup_releases(releases)
+                    log(f'Production now serves {revision[:12]}. Fixed release slots reused; one rollback copy retained.')
             except (OSError, ValueError, RuntimeError, subprocess.SubprocessError) as error:
                 log(str(error))
                 if current is None:

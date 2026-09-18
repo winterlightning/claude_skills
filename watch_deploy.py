@@ -85,6 +85,7 @@ def remote_head(remote: str, branch: str) -> str:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument('--release-root', type=Path, help='Automatic production releases in an external directory')
+    ap.add_argument('--seed-dist', type=Path, help='Existing built gallery to reuse on first startup')
     ap.add_argument('--database', type=Path, help='Persistent production database outside source/releases')
     ap.add_argument('--host', default='127.0.0.1')
     ap.add_argument('--port', type=int, default=8000)

@@ -144,42 +144,57 @@ Run this under the existing service supervisor using the intended Python interpr
 Do not leave a separate service also starting `deploy.py` on the same port.
 
 The watcher fetches the named branch without pulling into or modifying its own
-checkout. It extracts the exact committed source into an isolated directory,
-seeds the build from the last successful release, and builds with normal validation.
-Identical source files retain their timestamps so cached validation and exports
-remain reusable. Shared build/schema/dependency changes force full revalidation;
-geometry and validation dependencies also invalidate the normal build cache.
-Gallery indexes are regenerated. Builds use Python originals and never read the
-production artwork store. Uncommitted local work is never deployed.
+checkout. Committed sources are synchronized into `releases/workspace/source`;
+unchanged files are preserved and deleted sources are removed. The build cache
+at `workspace/source/icon_set/.local/dist` persists across updates and restarts.
+The current build log is always `releases/workspace/build.log`, with unbuffered
+output. It is overwritten each run rather than accumulated.
 
-A failed build keeps the current server running and saves
-`releases/failed-COMMIT.log`. Drawing-validation failures do not block deployment: passing icons and the
-Failed build review gallery are published together, even when only failed
-drawings exist. Empty catalogs and build/export crashes still stop promotion. A failed revision is attempted once per watcher run; fix and push a
-new commit, or restart the watcher after correcting an environment problem.
-The first successful release needs a full baseline build.
+On first use, the watcher seeds that cache from the active release, or an existing
+`icon_set/.local/dist` or legacy `icon_set/dist` gallery in its checkout. You may
+choose another existing baseline with `--seed-dist /absolute/path/to/dist`.
+This copies built assets only; the original baseline is not modified or deleted.
+If no baseline exists, the watcher stops with an explanation instead of silently
+starting a full-library build. No migration of production state is needed again
+if the previous steps have already copied it successfully.
 
-After preparing the assets, the watcher briefly stops the old server, starts the
-new server from that release's own source directory, and checks its production
-mode, gallery and unique release ID over local HTTP. Only then does it atomically
-update `releases/active.json`. A failed startup stops the candidate and restarts
-the previous server. Uploads, artwork, edits and reviews continue using the same
-external database and sibling storage directories. Two watchers cannot use the
-same state directory concurrently. This is a short restart, not zero-downtime
-traffic switching.
+Automatic builds use `--changed-only --no-report --no-png`. They compare current
+SVG content against saved manifests and actual exported files. Unchanged passing
+and failing drawings reuse their existing validation and exports; new, changed,
+or missing drawings are validated and regenerated. Merely changing timestamps,
+build scripts or validation rules no longer triggers a library-wide revalidation.
+This intentionally keeps old validation results for unchanged drawings. To audit
+the whole library under new rules, run an explicit `build --all` separately.
+Shared geometry changes still rebuild affected drawings whose SVG content changes.
+Gallery indexes and editorial metadata are refreshed each run. This still scans
+the library and computes drawing hashes; it is not an instantaneous operation.
 
-Code and assets are retained together in `releases/COMMIT-SUFFIX/{source,assets}`.
-`active.json` records the current and previous release; `build.log` records the
-successful build. Releases are not automatically deleted. To manually roll back,
-stop the watcher and run the previous release's
-`source/icon_set/scripts/deploy.py --production --dist PREVIOUS/assets
---database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0 --port 8000`.
-Keep the same state path. Restarting the watcher will follow the watched branch
-again, so revert the bad commit there before resuming automatic updates.
+Production alternates between **two fixed slots**, `releases/slot-a` and
+`releases/slot-b`. Only the inactive slot is updated, overwriting changed files
+and removing obsolete ones. Unchanged files are not rewritten. Each slot contains
+its matching `source` and `assets`. After preparation the watcher briefly stops
+the old server, starts the candidate and checks its production mode, gallery and
+unique release ID over local HTTP. Only then does it replace `active.json`.
+Startup failure restores the previous server. One prior version is retained for
+rollback; there is no new permanent folder for each commit. The workspace cache
+is a third bounded working copy. Normal per-build temporary staging is cleaned up.
 
-For an existing installation, complete the state migration described above and
-stop its old launcher before starting this watcher. The initial build may take
-longer; after initialization, subsequent builds run while the active server stays
-available. Installing this code alone does not change the live service command.
-The watcher itself stays at its installed version; restart/update its checkout
-explicitly when changing deployment orchestration code.
+Drawing-validation failures remain in the Failed build gallery and do not block
+deployment. Build/export crashes or empty catalogs keep the current version;
+the latest failed log is `releases/last-failed.log`. A failed revision is attempted
+once per watcher run; fix and push, or restart after resolving an environment issue.
+Production state stays in the same external database and sibling storage folders.
+Two watchers cannot use the same state directory concurrently.
+
+After a successful switch the watcher removes recognisable retired releases and
+abandoned preparation folders from the older deployment implementation, except
+any active or rollback release. Unknown folders, state directories, migration
+backups and the original seed gallery are preserved. This bounds future storage;
+new icons naturally add files to the active catalog.
+
+To manually roll back, stop the watcher and run the source `deploy.py` in the
+slot recorded by `active.json` as `previous`, pointing `--dist` at that slot's
+`assets` and using the same production database. Restarting the watcher follows
+the watched branch again, so revert the bad commit before resuming updates.
+The watcher itself stays at its installed version; pull and restart it when
+changing deployment orchestration code.

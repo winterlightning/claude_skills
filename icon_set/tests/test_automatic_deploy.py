@@ -22,8 +22,10 @@ class AutomaticDeploymentTests(unittest.TestCase):
         self.git('config', 'user.email', 'deployment@example.invalid')
         self.write('icon.py', 'original')
         self.write('icon_set/scripts/build.py', '# builder\n')
-        self.write('.gitignore', 'private/\n')
+        self.write('.gitignore', 'private/\nicon_set/dist/\n')
         self.first = self.commit()
+        self.write('icon_set/dist/gallery/index.html', 'existing gallery')
+        self.write('icon_set/dist/gallery/icons.json', '{"icons":[{"key":"sub/existing"}]}')
         self.releases = self.root / 'releases'
         self.releases.mkdir()
 
@@ -78,7 +80,7 @@ class AutomaticDeploymentTests(unittest.TestCase):
         with self.assertRaisesRegex(RuntimeError, 'preparation failed'):
             deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=runner)
         self.assertEqual(marker.read_text(), '{"release":"existing"}')
-        self.assertTrue((self.releases/f'failed-{self.first}.log').exists())
+        self.assertTrue((self.releases/'last-failed.log').exists())
         self.assertEqual(list(self.releases.glob('.preparing-*')), [])
         runner.assert_called_once()
 
@@ -86,6 +88,8 @@ class AutomaticDeploymentTests(unittest.TestCase):
         previous = deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=self.fake_build)
         cached = previous/'assets/cached.svg'
         cached.write_text('keep')
+        cache = self.releases/'workspace/source/icon_set/.local/dist/cached.svg'
+        cache.write_text('keep')
         state = self.root/'state'
         state.mkdir()
         (state/'feedback.sqlite3').write_text('manual edits')
@@ -107,24 +111,14 @@ class AutomaticDeploymentTests(unittest.TestCase):
         self.assertEqual(json.loads((updated/'deployment.json').read_text())['commit'], revision)
         self.assertFalse((self.releases/'active.json').exists())
 
-    def test_shared_pipeline_change_forces_full_revalidation(self):
+    def test_shared_pipeline_change_does_not_force_full_revalidation(self):
         previous = deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=self.fake_build)
         self.write('icon_set/scripts/build.py', '# changed validation\n')
         revision = self.commit()
         runner = Mock(side_effect=self.fake_build)
         deploy.prepare(self.repo, self.releases, revision, sys.executable, previous, runner)
-        self.assertIn('--all', runner.call_args_list[0].args[0])
-
-    def test_deleted_shared_validator_invalidates_cache(self):
-        self.write('icon_set/validation/shared.py', '# old rule')
-        revision = self.commit()
-        old = self.root/'old'
-        deploy.snapshot(self.repo, revision, old)
-        (self.repo/'icon_set/validation/shared.py').unlink()
-        revision = self.commit()
-        new = self.root/'new'
-        deploy.snapshot(self.repo, revision, new, old)
-        self.assertTrue(deploy.pipeline_changed(new, old))
+        self.assertNotIn('--all', runner.call_args_list[0].args[0])
+        self.assertIn('--changed-only', runner.call_args_list[0].args[0])
 
     def test_unhealthy_new_server_restores_previous_without_switching_pointer(self):
         candidate = deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=self.fake_build)
@@ -220,7 +214,7 @@ else:
         with patch.dict('os.environ', {'PYTHONPATH': '/invalid/author/workspace'}):
             bundle = deploy.prepare(self.repo, self.releases, revision, sys.executable)
         self.assertTrue((bundle/'assets/gallery/index.html').is_file())
-        self.assertEqual(json.loads((bundle/'assets/release.json').read_text())['deployment_id'], bundle.name)
+        self.assertTrue(json.loads((bundle/'assets/release.json').read_text())['deployment_id'].startswith(revision))
         self.assertFalse((bundle/'source/private').exists())
 
     def test_failed_drawings_are_released_for_review_including_failed_only_library(self):
@@ -251,11 +245,98 @@ else:
             self.assertEqual(build.main(['--no-png', '--allow-validation-failures']), 0)
             self.assertTrue(builder.call_args.kwargs['allow_validation_failures'])
 
+    def test_no_seed_refuses_full_build(self):
+        import shutil
+        shutil.rmtree(self.repo/'icon_set/dist')
+        runner = Mock()
+        with self.assertRaisesRegex(ValueError, 'no full build was started'):
+            deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=runner)
+        runner.assert_not_called()
+
+    def test_repeated_updates_use_two_slots_and_preserve_identical_files(self):
+        previous = None
+        slots = set()
+        for number in range(4):
+            self.write('icon.py', str(number))
+            revision = self.commit()
+            candidate = deploy.prepare(self.repo, self.releases, revision, sys.executable,
+                                       previous, self.fake_build)
+            slots.add(candidate.name)
+            previous = candidate
+        self.assertEqual(slots, {'slot-a', 'slot-b'})
+        self.assertEqual({p.name for p in self.releases.iterdir() if p.is_dir()},
+                         {'slot-a', 'slot-b', 'workspace'})
+        source = self.root/'sync-source'
+        target = self.root/'sync-target'
+        source.mkdir()
+        (source/'keep.svg').write_text('unchanged')
+        deploy.sync_tree(source, target)
+        before = (target/'keep.svg').stat()
+        deploy.sync_tree(source, target)
+        self.assertEqual(before.st_mtime_ns, (target/'keep.svg').stat().st_mtime_ns)
+        self.assertEqual(before.st_ino, (target/'keep.svg').stat().st_ino)
+        (source/'keep.svg').unlink()
+        deploy.sync_tree(source, target)
+        self.assertFalse((target/'keep.svg').exists())
+
+    def test_cleanup_removes_old_releases_but_preserves_active_unknown_and_state(self):
+        retired = self.releases/('a'*40+'-old')
+        retired.mkdir()
+        (retired/'deployment.json').write_text('{}')
+        active = self.releases/('b'*40+'-active')
+        active.mkdir()
+        (active/'deployment.json').write_text('{}')
+        (self.releases/'active.json').write_text(json.dumps({'release':active.name}))
+        unknown = self.releases/'my-backup'
+        unknown.mkdir()
+        deploy.cleanup_releases(self.releases)
+        self.assertFalse(retired.exists())
+        self.assertTrue(active.exists())
+        self.assertTrue(unknown.exists())
+
+    def test_changed_only_reuses_existing_geometry_without_qa_even_if_inputs_are_newer(self):
+        from icon_set.scripts import build
+        from icon_set.model.icons.sub._base import Sub32
+        from icon_set.model.keyshapes import Keyshape
+        from contextlib import redirect_stdout
+        import io
+        class Fixture(Sub32):
+            icon_id = 'workflow-check'
+            keyshape = Keyshape.HRECT_XL
+            def build(self):
+                self.add_polyline('check', (2,18), (12,28), (30,4))
+        def gallery(staged, published, folders):
+            target = staged/'gallery'
+            target.mkdir()
+            (target/'index.html').write_text('gallery')
+            (target/'icons.json').write_text('{}')
+            return target
+        output = self.root/'built'
+        with patch.object(build, 'icons_in', return_value=[Fixture()]), \
+             patch.object(build, 'stage_gallery', side_effect=gallery), redirect_stdout(io.StringIO()):
+            self.assertEqual(build.build(output, None, only=['sub'], write_png=False, report=False), 0)
+            with patch.object(build, '_source_mtime', return_value=10**12), \
+                 patch.object(build, 'inspect_icon', side_effect=AssertionError('Unchanged icon was revalidated')):
+                self.assertEqual(build.build(output, None, only=['sub'], write_png=False,
+                                             report=False, changed_only=True), 0)
+            # A missing export still requires validation/recreation.
+            (output/'sub32/workflow-check.svg').unlink()
+            with patch.object(build, 'inspect_icon', wraps=build.inspect_icon) as inspect:
+                self.assertEqual(build.build(output, None, only=['sub'], write_png=False,
+                                             report=False, changed_only=True), 0)
+                self.assertGreater(inspect.call_count, 0)
+            # A changed drawing hash cannot reuse the old validation either.
+            with patch.object(build, '_drawing_sha', return_value='changed'), \
+                 patch.object(build, 'inspect_icon', wraps=build.inspect_icon) as inspect:
+                self.assertEqual(build.build(output, None, only=['sub'], write_png=False,
+                                             report=False, changed_only=True), 0)
+                self.assertGreater(inspect.call_count, 0)
+
     def test_empty_catalog_never_promoted(self):
         def runner(command, **kwargs):
             result = self.fake_build(command, **kwargs)
-            if 'release' in command:
-                (Path(command[-1])/'gallery/icons.json').write_text('{"icons": []}')
+            if 'build' in command:
+                (kwargs['cwd']/'icon_set/.local/dist/gallery/icons.json').write_text('{"icons": []}')
             return result
         with self.assertRaisesRegex(ValueError, 'empty release'):
             deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=runner)
