@@ -19,7 +19,7 @@
       const art=document.createElement('div');art.className='experiment-art';
       const comparisons=type==='typeface'
         ? [[icon.original,'Original',icon.original_preview],[icon.outline,'Iconized',icon.outline_preview],[icon.result,'Centerline',null]]
-        : [[icon.outline,'Original',null],[icon.result,type==='color'?'Color':'Fill',null]];
+        : [[icon.outline,'Original',null],[icon.result,type==='color'?'Color':type==='duotone'?'Duotone':'Fill',null]];
       art.classList.toggle('typeface-comparison',type==='typeface');
       for(const [svg,label,preview] of comparisons){
         const figure=document.createElement('figure'),box=document.createElement('div'),caption=document.createElement('figcaption');box.className='icon-image';
@@ -48,7 +48,7 @@
     }
     if(!restore){page=1;$('experimentSearch').value='';}
     for(const tab of tabs){if(tab.dataset.type===type)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current');}
-    $('experimentGrid').setAttribute('aria-label',type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':'Fill icons');
+    $('experimentGrid').setAttribute('aria-label',type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':type==='duotone'?'Duotone icons':'Fill icons');
     $('typefaceLegend').hidden=type!=='typeface';
     $('experimentGrid').classList.toggle('typeface-grid',type==='typeface');
     document.querySelector('.experiment-pagination').hidden=type==='typeface';$('experimentGrid').replaceChildren();$('experimentEmpty').hidden=true;$('experimentStatus').textContent='Loading samples…';$('previousSamples').disabled=true;$('nextSamples').disabled=true;$('samplePage').disabled=true;$('experimentSearch').disabled=true;$('experimentSize').disabled=true;
@@ -56,7 +56,7 @@
     review.textContent=type==='typeface'?'Text combine ↗':'Review this collection ↗';
     if(type==='typeface'){review.href='text-combine.html';review.hidden=false;}
     else if(type==='fill'){review.href='fill-review-500.html';review.hidden=false;}
-    else if(['localhost','127.0.0.1'].includes(location.hostname)){review.href=`http://${location.hostname}:8010/`;review.hidden=false;}
+    else if(type==='color'&&['localhost','127.0.0.1'].includes(location.hostname)){review.href=`http://${location.hostname}:8010/`;review.hidden=false;}
     try{
       if(!cache.has(type)){const response=await fetch('experiment-'+type+'.json');if(!response.ok)throw Error();const data=await response.json();if(!Array.isArray(data.icons))throw Error();cache.set(next,data.icons);}
       if(token!==request)return;rows=cache.get(type);$(type+'Count').textContent=rows.length;render();
@@ -67,7 +67,7 @@
   $('experimentSearch').addEventListener('input',()=>{page=1;render();});$('experimentSize').addEventListener('change',render);
   function go(n){page=n;render();window.scrollTo({top:0,behavior:'smooth'});}
   $('previousSamples').onclick=()=>go(page-1);$('nextSamples').onclick=()=>go(page+1);$('samplePage').onchange=()=>go(Number($('samplePage').value));
-  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';selectType(['fill','typeface','combination'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
+  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';selectType(['fill','duotone','typeface','combination'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
   window.addEventListener('popstate',restore);restore();
-  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','fill','typeface'])$(kind+'Count').textContent=data[kind];}).catch(()=>{});
+  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface'])$(kind+'Count').textContent=data[kind];}).catch(()=>{});
 })();

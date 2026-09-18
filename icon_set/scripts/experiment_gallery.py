@@ -65,11 +65,11 @@ def typeface_samples(glyphs: list[dict]) -> list[dict]:
 def stage_experiments(target: Path) -> None:
     target.mkdir(parents=True, exist_ok=True)
     counts = {}
-    for kind in ('color', 'fill'):
+    for kind in ('color', 'fill', 'duotone'):
         output = target / f'experiment-{kind}.json'
         source = ROOT / 'work' / f'{kind}-review-500'
         rows = None
-        if kind == 'color' and (source / 'data.json').is_file():
+        if kind in ('color', 'duotone') and (source / 'data.json').is_file():
             data = json.loads((source / 'data.json').read_text())
             rows = [dict(key=r['key'], number=r['number'], name=r['name'],
                          canvas_size=r['canvas_size'],
