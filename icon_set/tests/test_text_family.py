@@ -7,6 +7,20 @@ from icon_set.scripts.primitives_catalog import build_catalog
 from icon_set.scripts.text_family import gallery_records
 
 class TextFamilyTests(unittest.TestCase):
+    def test_44_unit_layouts_are_linked_without_changing_28_unit_exports(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            target = root/'gallery'
+            target.mkdir()
+            for height in (28, 44):
+                text = root/'dist'/f'text{height}'
+                text.mkdir(parents=True)
+                record = dict(icon_id=f'text-{height}', family='text', canvas_height=height)
+                (text/'manifest.json').write_text(json.dumps(dict(family='text', canvas_height=height, icons=[record])))
+                (text/f'text-{height}.svg').write_text('<svg/>')
+            rows = gallery_records(root/'stage', root/'dist', target)
+            self.assertEqual([r['preview_url'] for r in rows], ['../text28/text-28.svg', '../text44/text-44.svg'])
+
     def test_text_source_links_survive_catalog_rebuild(self):
         links={k:{} for k in ['by_id','by_reference_id','by_path','by_reference_path','anonymous','families']}
         rows=[dict(uuid='source-1',path='letters/a.svg',category='letters',copies=1)]

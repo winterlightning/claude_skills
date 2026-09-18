@@ -10,6 +10,32 @@ from xml.sax.saxutils import quoteattr
 ROOT = Path(__file__).resolve().parents[2]
 
 
+def stage_container_experiment(target: Path) -> str:
+    """Package the saved layouts and their actual components for offline browsing."""
+    manifest = ROOT / 'icon_set/data/container-solo-trials.json'
+    rows, seen = [], set()
+    records = json.loads(manifest.read_text())['results'] if manifest.is_file() else {}
+    for record in records.values():
+        filename = record['svg_file']
+        if filename in seen:
+            continue
+        seen.add(filename)
+        host = record['main_key'].split('/', 1)[1]
+        content = record['sub_key'].split('/', 1)[1]
+        rows.append(dict(number=len(rows)+1, name=host+' + '+content,
+                         icon_id=filename.removesuffix('.svg'), canvas_size=64,
+                         outline=(ROOT/f'icon_set/dist/container64/{host}.svg').read_text(),
+                         content=(ROOT/f'icon_set/dist/solo48/{content}.svg').read_text(),
+                         result=(ROOT/'icon_set/assets/container-solo-trials'/filename).read_text(),
+                         status_label='Trial preview · '+('clearance estimate clear' if record['status']=='clearance-estimate-pass' else 'placement review required')))
+    payload = json.dumps({'icons': rows}, ensure_ascii=True).replace('<', '\\u003c')
+    (target/'experiment-container.json').write_text(payload+'\n')
+    for source, dest in [('placement-rules.md', 'container-placement-rules.md'),
+                         ('report.md', 'container-trials-report.md')]:
+        shutil.copyfile(ROOT/'icon_set/work/container-pair-trials'/source, target/dest)
+    return payload
+
+
 def fitted_preview(document: str) -> str:
     """Trim only preview whitespace, preserving original aspect ratio and artwork."""
     import cairosvg
@@ -122,7 +148,9 @@ def stage_experiments(target: Path) -> None:
 
     template = (Path(__file__).with_name('templates') / 'experiment.html').read_text()
     # Embed this small collection so the user's local-file experiment works offline.
-    (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload))
+    container_payload = stage_container_experiment(target)
+    counts['container'] = len(json.loads(container_payload)['icons'])
+    (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload).replace('__CONTAINER_EXPERIMENT_DATA__', container_payload))
     (target / 'experiments.json').write_text(json.dumps(counts) + '\n')
     # Keep the existing fill review route and its browser feedback key intact.
     fill = ROOT / 'work/fill-review-500'
