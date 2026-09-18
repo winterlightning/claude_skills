@@ -33,7 +33,7 @@ import sys
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from icon_set.scripts.workspace import development_dist
 else:
     from workspace import development_dist
 

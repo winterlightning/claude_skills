@@ -20,6 +20,7 @@ class ProfileSpecTests(unittest.TestCase):
     def test_locked_constants(self) -> None:
         expected = {
             Profile.SUB32: (32, 4, 2, 6),
+            Profile.SYMBOL32: (32, 4, 2, 6),
             Profile.SOLO48: (48, 6, 4, 8),
             Profile.CONTAINER64: (64, 8, 2, 6),
         }
@@ -47,7 +48,7 @@ class ProfileSpecTests(unittest.TestCase):
 
     def test_family_binding_is_one_to_one(self) -> None:
         families = contracts.families()
-        self.assertEqual(set(families), {"sub", "solo", "container", "combination_main"})
+        self.assertEqual(set(families), {"sub", "symbol", "solo", "container", "combination_main"})
         self.assertEqual({Profile.for_family(f) for f in families}, set(Profile))
         for family in families:
             self.assertEqual(Profile.for_family(family).family, family)

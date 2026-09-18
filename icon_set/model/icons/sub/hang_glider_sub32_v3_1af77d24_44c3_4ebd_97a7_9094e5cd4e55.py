@@ -1,4 +1,3 @@
-# Variant of hang-glider-sub32-v2; parent file remains unchanged.
 """Independent 32px profile of hang-glider.
 Snapshot of the reviewed reuse drawing; validate before publication.
 Edit these primitives independently of the linked source models.
@@ -15,7 +14,7 @@ REFERENCE_EXPORT_SHA256 = '8af35c4515fbf2960523b2057f0128f30f6f21bc95e75a45d4741
 
 class DrawingVariant3(Sub32):
     icon_id = 'hang-glider-sub32-v3'
-    variant_of = 'hang-glider-sub32-v2'
+    related_origin_icon_id = 'hang-glider-sub32-v2'
     variant_label = 'Redraw proportions and source features'
     keyshape = Keyshape.HRECT_L
     semantic_role = 'SUB'
@@ -24,11 +23,11 @@ class DrawingVariant3(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        # Broad hang-glider wing with rounded tips, a gentle trailing arc and a slim centered control frame.
-        self.add_line('left-leading',(4,17),(16,6))
-        self.add_line('right-leading',(16,6),(28,17))
-        self.add_bezier('right-tip',(28,17),((31,20),(30,22),(27,21)))
-        self.add_bezier('trailing',(27,21),((17,18),(15,18),(5,21)))
-        self.add_bezier('left-tip',(5,21),((2,22),(1,20),(4,17)))
-        self.add_contour('wing','left-leading','right-leading','right-tip','trailing','left-tip',closed=True)
-        self.add_polyline('frame',(10,19),(13,26),(19,26),(22,19));self.relate('connect','wing','frame')
+        self.add_line('left-leading', (4, 17), (16, 6))
+        self.add_line('right-leading', (16, 6), (28, 17))
+        self.add_bezier('right-tip', (28, 17), ((31, 20), (30, 22), (27, 21)))
+        self.add_bezier('trailing', (27, 21), ((17, 18), (15, 18), (5, 21)))
+        self.add_bezier('left-tip', (5, 21), ((2, 22), (1, 20), (4, 17)))
+        self.add_contour('wing', 'left-leading', 'right-leading', 'right-tip', 'trailing', 'left-tip', closed=True)
+        self.add_polyline('frame', (10, 19), (13, 26), (19, 26), (22, 19))
+        self.relate('connect', 'wing', 'frame')

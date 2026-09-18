@@ -77,7 +77,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `icon_set/.local/dist/sub32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `ab-text`, `add-sub32`, `angry-face-sub`, `arrow-bend-left`, `arrow-clockwise`, `arrow-counterclockwise` |
+| Existing icons to imitate | `a-frame-church-sub32`, `a-frame-church-sub32-v2`, `ab-text`, `access-key-card-sub32`, `add-location-map-pin-sub32`, `add-sub32` |
 
 A **sub** icon is read small and hosted by others. Its whole canvas is the container's content region, so anything valid here can be placed in one. Verbs, states and modifiers declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `circle`, `star`) declares `MAIN` with `semantic_kind = "noun"` and is still a sub icon -- the role describes the subject, the family decides the canvas.
 
@@ -89,6 +89,7 @@ this skill's scope to "just draw it bigger"; name the right skill and hand over.
 - `/icon-solo` — solo family, `SOLO48`, 48×48
 - `/icon-container` — container family, `CONTAINER64`, 64×64
 - `/icon-combination-main` — combination_main family, `COMBINATION_MAIN48`, 48×48
+- `/icon-symbol` — symbol family, `SYMBOL32`, 32×32
 
 ## Visual priorities
 

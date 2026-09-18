@@ -17,7 +17,7 @@ else:
     from workspace import development_dist
 
 
-FAMILIES = ('sub', 'solo', 'container')
+FAMILIES = ('sub', 'symbol', 'solo', 'container')
 
 
 def mission_prompt(row):

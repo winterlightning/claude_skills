@@ -23,6 +23,11 @@ def manifest(root, family, folder, name):
 
 
 class GalleryTests(unittest.TestCase):
+    def setUp(self):
+        # These tests exercise manifest publication. The independently maintained
+        # draft inventory must not make the fixture depend on the live library.
+        self.enterContext(patch('icon_set.scripts.symbol_family.stage', side_effect=lambda target, records: records))
+
     def test_review_facets_require_matching_revision_and_complete_measurements(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

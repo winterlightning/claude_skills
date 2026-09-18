@@ -326,6 +326,9 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
             continue
         for record in json.loads(manifest.read_text(encoding='utf-8'))['icons']:
             record = dict(record)
+            current = registered.get(record['icon_id'])
+            if current is not None and current.family != record['family']:
+                continue
             record['key'] = record['family'] + '/' + record['icon_id']
             record['preview_url'] = '../' + quote(folder, safe='') + '/' + quote(record['icon_id'], safe='') + '.svg'
             record['original_sources'] = copy_originals(sources.get(record['icon_id'], []), target)
@@ -342,6 +345,8 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
             records.append(record)
     from icon_set.scripts.text_family import gallery_records as text_records
     records.extend(text_records(staged, published, target))
+    from .symbol_family import stage as stage_symbols
+    stage_symbols(target, records)
     failed_records = []
     exported_keys = {record['key'] for record in records}
     for folder in folders:
@@ -384,6 +389,8 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     add_modification_times(records + failed_records, published)
     from icon_set.scripts.sub_reference_fidelity import annotate_sub_references, stage_sub_reference_review
     annotate_sub_references(records + failed_records)
+    from .sub_usage_categories import annotate_records as annotate_sub_usage
+    annotate_sub_usage(records + failed_records)
     stage_sub_reference_review(target)
     from .profile_links import annotate as annotate_profile_links
     annotate_profile_links(records + failed_records)

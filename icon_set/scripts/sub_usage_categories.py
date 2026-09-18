@@ -13,7 +13,7 @@ else:
     from workspace import development_dist
 
 ROOT=Path(__file__).resolve().parents[2]
-MANIFEST='icon_set/data/sub-usage-categories.json'
+MANIFEST='icon_set/model/catalog/sub-usage-categories.json'
 
 def geometry(doc):
     # Canonical structure is independent of ElementTree's global namespace

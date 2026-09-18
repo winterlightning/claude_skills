@@ -481,7 +481,7 @@ def main(argv: list[str] | None = None) -> int:
         node = sub.add_parser(name, help=helptext)
         node.add_argument("folder", **common["folder"])
         node.add_argument("--family", default="container",
-                          choices=("sub", "solo", "container"))
+                          choices=("sub", "symbol", "solo", "container"))
         node.add_argument("--out", default=None)
         if name == "compare":
             node.add_argument("--scale", type=int, default=4)

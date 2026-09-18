@@ -1113,7 +1113,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             name, family = data.get('name'), data.get('family')
             if not isinstance(name, str) or not 1 <= len(name.strip()) <= 120:
                 raise ValueError('Enter an icon name up to 120 characters.')
-            if not isinstance(family, str) or family not in ('sub', 'solo', 'container'):
+            if not isinstance(family, str) or family not in ('sub', 'symbol', 'solo', 'container'):
                 raise ValueError('Choose sub, solo, or container.')
             category = data.get('category', 'manual_upload')
             if not isinstance(category, str) or len(category) > 100:
@@ -1121,7 +1121,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             bypass = data.get('bypass_validation', True)
             if type(bypass) is not bool:
                 raise ValueError('bypass_validation must be a JSON boolean: true or false.')
-            canvas = {'sub': 32, 'solo': 48, 'container': 64}[family]
+            canvas = {'sub': 32, 'symbol': 32, 'solo': 48, 'container': 64}[family]
             document = safe_svg(data.get('svg'), canvas)
             validation = validate_upload(document, canvas, bypass=bypass)
             if validation['status'] in ('fail', 'error'):

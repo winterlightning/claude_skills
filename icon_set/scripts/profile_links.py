@@ -28,7 +28,7 @@ def validate(links, registered, external_keys=()):
         source,target=link['source'],link['target']
         if source not in known or target not in known:
             raise ValueError(f'Unknown profile link: {source} -> {target}')
-        if source==target or not target.startswith('sub/'):
+        if source==target or not target.startswith(('sub/','symbol/')):
             raise ValueError(f'Invalid profile link: {source} -> {target}')
         if (source,target) in pairs:raise ValueError('Duplicate profile link')
         pairs.add((source,target))

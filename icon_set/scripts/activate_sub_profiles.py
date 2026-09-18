@@ -8,7 +8,11 @@ import json
 from pathlib import Path
 from icon_set.model.icons.registry import create
 from icon_set.validation.envelope import centerline_bounds, visible_bounds
-from icon_set.scripts.workspace import development_dist
+
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -23,16 +27,18 @@ def stage_catalog(catalog, root=ROOT):
         choices=[];exports=[];seen=set()
         for old in row.get('sub_generated',catalog['references'][row['sub_id']]['generated']):
             uid=mapping.get(old['icon_id']);record=models.get(uid)
-            if not record or record.get('family')!='sub':
+            if not record or record.get('family') not in ('sub','symbol'):
                 key=old['key'];choice=old
             else:
-                key='sub/'+uid
+                key=record['family']+'/'+uid
                 choice=dict(icon_id=uid,key=key,preview_url=record['export_url'],model_validation=record.get('model_validation','not-run'))
             if key in seen:continue
             seen.add(key);choices.append(choice)
             if record:exports.append(record)
         row['sub_generated']=choices
         if exports:row['sub_exports']=exports
+    from .sub_usage_categories import stage_catalog as stage_usage
+    stage_usage(catalog, root)
 
 
 def run(root=ROOT):
@@ -62,7 +68,7 @@ def run(root=ROOT):
             status='pass' if built.get('validation',{}).get('status') in ('valid','human-selected') else built.get('status',status)
         from icon_set.model.icons.sub._text_base import canvas_dimensions
         width,height=canvas_dimensions(icon)
-        record=dict(icon=uid,family='sub',model_key='sub/'+uid,python_source=entry['python_source'],
+        record=dict(icon=uid,family=icon.family,model_key=icon.family+'/'+uid,python_source=entry['python_source'],
                     source_svg=entry['reference_export'],svg=str(file.relative_to(root)),export_url='sub-profiles/'+name,
                     document=document,sha256=hashlib.sha256(document.encode()).hexdigest(),bounds=bounds,canvas=32,export_size=32,
                     canvas_width=width,sizing_kind='text' if getattr(icon,'sizing_mode',None)=='text-height32' else 'symbol',
@@ -92,7 +98,7 @@ def run(root=ROOT):
         for row in catalog['rows']:
             choices=[];exports=[];seen=set()
             for old in catalog['references'][row['sub_id']]['generated']:
-                uid=mapping.get(old['icon_id']);key='sub/'+uid if uid else old['key']
+                uid=mapping.get(old['icon_id']);key=models[uid]['family']+'/'+uid if uid else old['key']
                 if key in seen:continue
                 seen.add(key)
                 if uid:
@@ -100,6 +106,8 @@ def run(root=ROOT):
                     exports.append({k:v for k,v in record.items() if k!='document'})
                 else:choices.append(old)
             row['sub_generated']=choices;row['sub_exports']=exports
+        from .sub_usage_categories import stage_catalog as stage_usage
+        stage_usage(catalog, root)
         catalog_path.write_text(json.dumps(catalog,separators=(',',':'))+'\n')
     compact={uid:{k:v for k,v in r.items() if k!='document'} for uid,r in models.items()}
     (data/'canonical-sub32.json').write_text(json.dumps(compact,indent=2)+'\n')

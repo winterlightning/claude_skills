@@ -70,7 +70,7 @@ def main():
       root=root_svg();root.set('viewBox','0 0 32 32');root.append(artwork_group(art,'sub',*transform(24,[16,16]),stroke=4));s['svg24']=ET.tostring(root,encoding='unicode')
      except ValueError as e:s['error']=str(e)
      subs.append(s)
-    sx=si[key];s=subs[sx];h=hosts[hx];center=prefs.get('optical_overrides',{}).get(hn,{}).get(sn)
+    sx=si[key];s=subs[sx];h=hosts[hx];center=prefs.get('optical_overrides',{}).get(hn,{}).get(sn) or prefs.get('optical_overrides',{}).get(hn,{}).get(sg.get('canonical_icon_id',sn))
     saved=fixes.get('placements',{}).get(hn,{}).get(sn,{})
     if center is None and saved.get('visual_status')=='centerline-priority' and saved.get('host_sha256')==h['sha256'] and saved.get('sub_sha256')==s['sha256']:center=saved['center']
     center=center or h['center'];center=[round(v) if abs(v-round(v))<1e-9 else v for v in center];gaps=[None,None];fits=[None,None]

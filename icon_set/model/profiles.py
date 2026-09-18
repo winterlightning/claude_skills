@@ -101,6 +101,7 @@ def _spec(name: str) -> ProfileSpec:
 
 class Profile(Enum):
     SUB32 = _spec("SUB32")
+    SYMBOL32 = _spec("SYMBOL32")
     SOLO48 = _spec("SOLO48")
     COMBINATION_MAIN48 = _spec("COMBINATION_MAIN48")
     CONTAINER64 = _spec("CONTAINER64")

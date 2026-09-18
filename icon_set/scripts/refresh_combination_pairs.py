@@ -27,7 +27,7 @@ def refresh():
     old = json.loads(DATA.read_text())['rows'] if DATA.exists() else []
     previous = {item.get('source_svg', item['svg']): item for row in old for role in ('mains', 'subs') for item in row[role]}
     index = defaultdict(list)
-    profiles = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64', 'combination_main':'combination_main48'}
+    profiles = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'container': 'container64', 'combination_main':'combination_main48'}
     for model in model_catalog():
         path = development_dist(REPO_ROOT) / profiles[model['family']] / (model['icon_id'] + '.svg')
         if not path.exists():

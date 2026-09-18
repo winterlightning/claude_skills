@@ -408,7 +408,7 @@ class IconValidator:
 
     def _check_keyshape(self, icon: "Icon", errors: list[Finding]) -> None:
         check = CHECK_ORDER[4]
-        from ..model.icons.sub._text_base import TextSub32, canvas_dimensions
+        from ..model.icons.sub._text_base import Text32Mixin as TextSub32, canvas_dimensions
         if isinstance(icon, TextSub32):
             width, height = canvas_dimensions(icon)
             left, top, right, bottom = icon.keyshape_bounds()
@@ -519,7 +519,7 @@ class IconValidator:
         content_size = Profile[expected[1]["profile"]].spec.canvas_size
         for spec, child in zip(expected, children):
             label = f"child {spec['index']} ({spec['slot_role']})"
-            if child.icon.profile.name != spec["profile"]:
+            if child.icon.profile.name not in spec.get("accepted_profiles", [spec["profile"]]):
                 errors.append(Finding(
                     check,
                     f"{label} must be {spec['profile']}, got "

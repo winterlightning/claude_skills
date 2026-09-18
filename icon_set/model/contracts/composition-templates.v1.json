@@ -11,7 +11,8 @@
         "SUB32",
         "SOLO48",
         "CONTAINER64",
-        "COMBINATION_MAIN48"
+        "COMBINATION_MAIN48",
+        "SYMBOL32"
       ],
       "participants": {
         "min": 1,
@@ -66,12 +67,16 @@
         {
           "index": 1,
           "slot_role": "content",
-          "profile": "SUB32",
+          "profile": "SYMBOL32",
           "position": [
             16,
             16
           ],
-          "rule": "A valid SUB32 icon, so its ink is inside its own 32x32 canvas by construction and lands inside (16,16)-(48,48) once placed. Any semantic kind: a noun, a verb, a state or a modifier may be hosted. Only the sub family authors on SUB32, so only a sub icon can be content."
+          "rule": "Container symbols own SYMBOL32. Legacy SUB32 inputs remain compatible while defined pairs migrate. Numeric canvas and clearance rules are unchanged.",
+          "accepted_profiles": [
+            "SYMBOL32",
+            "SUB32"
+          ]
         }
       ],
       "divergence_from_plan": "ICON_SYSTEM_PLAN.md section 3.2 words this class as 'A MAIN noun or container encloses, hosts, or carries a SUB element', and an earlier implementation read that as a permission: only an icon declaring semantic_role SUB could be content. That was wrong. MAIN/SUB describes what an icon IS when it stands alone; the role it plays in a composition is positional and belongs to the slot, not to the icon. A heart is a noun and stands alone as MAIN, and it is also perfectly good content inside a circle -- as is a circle itself. What a slot can hold is decided by geometry (does it fit, does it clear) and never by the participant's own semantic kind. Widened deliberately on 2026-09-07."
