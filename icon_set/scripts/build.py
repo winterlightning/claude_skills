@@ -2,7 +2,10 @@
 """Validate every registered icon, then export SVG, PNG and a manifest per family.
 
 Validate-then-export: nothing reaches a release folder that has not passed the
-full chain, unless an explicit persisted human artwork choice overrides it.
+full chain, unless --artwork-dir explicitly opts into saved human choices.
+Default builds read Python originals only and write to icon_set/.local/dist;
+PNG previews go to icon_set/.local/previews-png. Both are ignored by Git.
+The dist/ paths below describe the layout inside the chosen output directory.
 Manual SVG uploads and accepted gallery edits retain their provenance and raw
 validation findings. A failing icon still renders -- its SVG and its findings go to
 ``dist/failed/<family><canvas>/`` and the gallery's Failed build tab, grouped
@@ -47,11 +50,16 @@ from tempfile import TemporaryDirectory
 import sys
 from pathlib import Path
 
+if __package__:
+    from .workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock
+else:
+    from workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from icon_set.scripts.icon_artwork import ArtworkStore, DEFAULT_ARTWORK, resolve_artwork, icon_from_graph, sha
+from icon_set.scripts.icon_artwork import ArtworkStore, resolve_artwork, icon_from_graph, sha
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.metadata import publish_metadata
@@ -61,8 +69,8 @@ from icon_set.renderers.png import render_png  # noqa: E402
 from icon_set.validation.library_qa import inspect_icon, artifact_key, save_evidence  # noqa: E402
 
 PACKAGE_ROOT = REPO_ROOT / "icon_set"
-DEFAULT_DIST = PACKAGE_ROOT / "dist"
-DEFAULT_PNG = PACKAGE_ROOT / "assets" / "previews-png"
+
+
 MANIFEST_VERSION = 2
 ICONS_ROOT = PACKAGE_ROOT / "model" / "icons"
 DEFAULT_QA_OVERLAYS = PACKAGE_ROOT / "work" / "qa_overlays"
@@ -248,7 +256,7 @@ def _manifest_icons(path: Path) -> dict[str, dict]:
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
-    only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
+    only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
@@ -317,10 +325,10 @@ def _stage_family(
     def overlay_failure(icon_id, svg_sha):
         return _qa_overlay_failure(qa_overlays, folder, icon_id, svg_sha)
 
-    artwork_store = ArtworkStore(artwork_dir)
+    artwork_store = ArtworkStore(artwork_dir) if artwork_dir is not None else None
     for icon in icons:
         key = artifact_key(icon)
-        choice = artwork_store.get(key)
+        choice = artwork_store.get(key) if artwork_store is not None else None
         manual = resolve_artwork(icon.to_record(), choice) if choice else None
         mtime = _source_mtime(icon) if previous is not None else None
         if icon.profile is not profile or icon.family != family:
@@ -538,8 +546,15 @@ def _sweep_stale_stages(root: Path) -> None:
             pass
 
 
-def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
-                    qa_overlays=None, artwork_dir=DEFAULT_ARTWORK):
+def _build_selected(families, dist, png_dir, **options):
+    with output_lock(dist):
+        if (Path(dist) / 'release.json').exists():
+            raise ValueError('Cannot build into a production release. Build locally, then export a new release.')
+        return _build_selected_locked(families, dist, png_dir, **options)
+
+
+def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
+                    qa_overlays=None, artwork_dir=None):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -588,8 +603,7 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
                     row['_key'] = key
                 qa_rows.append(row)
             save_evidence(qa_rows, qa_dir, debug=debug, report=report)
-            _publish([(qa_dir, dist / 'qa')])
-            print(f"QA evidence -> {dist / 'qa' / ('index.html' if report else 'results.json')}")
+            # Publish QA with the gallery and manifests in the same transaction.
         # Publish every family that exported something; failing icons are simply
         # left out. A family where nothing exported keeps its previous release.
         published = [family for family, (count, bad) in zip(families, counts) if count or not bad]
@@ -599,9 +613,13 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
         (dist / 'failed').mkdir(exist_ok=True)
         replacements += [(stages[dist] / 'failed' / family_dist_name(family), dist / 'failed' / family_dist_name(family))
                          for family in families]
+        if qa_dir is not None:
+            replacements.append((qa_dir, dist / 'qa'))
         gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()])
         replacements.append((gallery, dist / 'gallery'))
         _publish(replacements)
+        if qa_dir is not None:
+            print(f"QA evidence -> {dist / 'qa' / ('index.html' if report else 'results.json')}")
         print(f"Icon gallery -> {dist / 'gallery' / 'index.html'}")
     for family, (count, bad) in zip(families, counts):
         name = Profile.for_family(family).name
@@ -620,7 +638,7 @@ def _build_selected(families, dist, png_dir, *, write_png, debug=False, report=T
 
 def build_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool,
-    debug: bool = False, report: bool = True, rebuild_all: bool = False, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
+    debug: bool = False, report: bool = True, rebuild_all: bool = False, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
 ) -> tuple[int, int]:
     """Publish one family's passing icons; failing icons go to dist/failed and are counted."""
     return _build_selected([family], dist, png_dir, write_png=write_png, debug=debug, report=report,
@@ -630,7 +648,7 @@ def build_family(
 def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
-    rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path = DEFAULT_ARTWORK,
+    rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -687,12 +705,15 @@ def main(argv: list[str] | None = None) -> int:
                         help='qa_overlays.py results per family folder (DIR/solo48/...); icons whose saved '
                              'distance or hole check failed on the SVG being published go to the failed build '
                              f'(default: {DEFAULT_QA_OVERLAYS.relative_to(REPO_ROOT)})')
-    parser.add_argument('--artwork-dir', type=Path, default=DEFAULT_ARTWORK,
-                        help='Persistent icon-artwork folder beside the gallery database; manual source choices survive rebuilds')
+    parser.add_argument('--artwork-dir', type=Path, default=None,
+                        help='Opt in to a manual-artwork export; default builds Python originals only')
     args = parser.parse_args(argv)
-    return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
-                 debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
-                 qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir)
+    try:
+        return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
+                     debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
+                     qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir)
+    except (OSError, ValueError) as error:
+        parser.exit(2, f'error: {error}\n')
 
 
 if __name__ == "__main__":

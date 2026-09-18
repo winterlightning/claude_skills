@@ -11,6 +11,12 @@ from contextlib import closing
 from datetime import datetime, timezone
 from pathlib import Path
 
+if __package__:
+    from .workspace import DEFAULT_DATABASE
+else:
+    from workspace import DEFAULT_DATABASE
+
+
 PACKAGE = Path(__file__).resolve().parents[1]
 PROCESSED_AT = '2026-09-15T22:55:53.393007+07:00'
 # Includes every resolved entry from the 63-icon local feedback audit.
@@ -392,8 +398,8 @@ def mark_processed(database, dist, *, reset_review_status=False):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--database',type=Path,default=PACKAGE/'data/feedback.sqlite3')
-    parser.add_argument('--dist',type=Path,default=PACKAGE/'dist')
+    parser.add_argument('--database',type=Path,default=DEFAULT_DATABASE)
+    parser.add_argument('--dist',type=Path,default=PACKAGE/'.local/dist')
     parser.add_argument('--reset-review-status', action='store_true',
                         help='Reset later review statuses for the verified batch to Ready; keep newer feedback, active splits, and SVG version checks')
     args = parser.parse_args()

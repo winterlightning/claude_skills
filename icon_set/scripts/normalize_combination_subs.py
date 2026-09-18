@@ -2,11 +2,17 @@
 import hashlib,json
 from pathlib import Path
 from .sub_ink32 import normalize_ink32
+
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
 ROOT=Path(__file__).resolve().parents[2]
 
 def run():
     inventory=json.loads((ROOT/'icon_set/work/combination-sub-review/inventory.json').read_text())
-    folder=ROOT/'icon_set/assets/combination-sub32';public=ROOT/'icon_set/dist/gallery/combination-sub32'
+    folder=ROOT/'icon_set/assets/combination-sub32';public=development_dist(ROOT) / 'gallery/combination-sub32'
     folder.mkdir(exist_ok=True);public.mkdir(exist_ok=True)
     manifest_path=ROOT/'icon_set/data/combination-sub32.json'
     manifest=json.loads(manifest_path.read_text());results={}
@@ -37,8 +43,8 @@ def run():
             if key not in results:continue
             record,document=results[key];item.setdefault('source_bounds',item['bounds'])
             item.update(record,document=document,sha256=hashlib.sha256(document.encode()).hexdigest(),bounds=record['ink32']['bounds'],canvas=32,export_size=32,sub32_status='ink32_normalized',sub32_reason='Grid-snapped derived geometry; visual review required. Text uses height-only fitting.')
-    pairs_path.write_text(json.dumps(pairs));(ROOT/'icon_set/dist/gallery/experiment-combination.json').write_text(json.dumps(pairs))
-    catalog_path=ROOT/'icon_set/dist/gallery/combinations.json';catalog=json.loads(catalog_path.read_text())
+    pairs_path.write_text(json.dumps(pairs));(development_dist(ROOT) / 'gallery/experiment-combination.json').write_text(json.dumps(pairs))
+    catalog_path=development_dist(ROOT) / 'gallery/combinations.json';catalog=json.loads(catalog_path.read_text())
     for row in catalog['rows']:
         row['sub_exports']=[manifest[g['icon_id']] for g in catalog['references'][row['sub_id']]['generated'] if g['icon_id'] in manifest and not g['key'].startswith('text/')]
     catalog_path.write_text(json.dumps(catalog,separators=(',',':'))+'\n')

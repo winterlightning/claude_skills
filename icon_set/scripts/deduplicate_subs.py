@@ -8,6 +8,12 @@ import xml.etree.ElementTree as ET
 from collections import defaultdict
 from pathlib import Path
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -126,7 +132,7 @@ def deduplicate_pairs(pairs, manifest, aliases, root=ROOT):
 
 def run(root=ROOT):
     data = root / 'icon_set/data'
-    gallery = root / 'icon_set/dist/gallery'
+    gallery = development_dist(root) / 'gallery'
     manifest = json.loads((data/'combination-sub32.json').read_text())
     aliases, groups = canonical_map(manifest, root)
     pairs = json.loads((data/'combination-pairs.json').read_text())

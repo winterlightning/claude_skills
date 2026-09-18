@@ -9,7 +9,7 @@ that sit too close, the undersized hole. The build stages it into the gallery,
 where it is the Failed build tab.
 
     python3 icon_set/scripts/failure_report.py
-    python3 icon_set/scripts/failure_report.py --dist icon_set/dist --output /tmp/failures.html
+    python3 icon_set/scripts/failure_report.py --dist icon_set/.local/dist --output /tmp/failures.html
 """
 
 from __future__ import annotations
@@ -22,8 +22,13 @@ import xml.etree.ElementTree as ElementTree
 from collections import Counter
 from pathlib import Path
 
+if __package__:
+    from .workspace import DEFAULT_DIST
+else:
+    from workspace import DEFAULT_DIST
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
-DEFAULT_DIST = REPO_ROOT / "icon_set" / "dist"
+
 # Families the Failed build tab lists while the team works through them. Failed
 # icons of other families are still written to dist/failed; they are only left
 # out of this view. Add "container" / "sub" back when it is their turn.

@@ -14,7 +14,7 @@ from icon_set.model.profiles import Profile
 from icon_set.renderers.svg import render_svg
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
-DIST = PACKAGE_ROOT / "dist"
+from icon_set.scripts.workspace import DEFAULT_DIST as DIST
 
 
 def failed_ids(family: str) -> set[str]:
@@ -26,7 +26,7 @@ def failed_ids(family: str) -> set[str]:
 
 
 def dist_dir(family: str) -> Path:
-    return PACKAGE_ROOT / contracts.families()[family]["dist"]
+    return DIST / Path(contracts.families()[family]["dist"]).name
 
 
 class CorpusTests(unittest.TestCase):
@@ -139,7 +139,7 @@ class CorpusTests(unittest.TestCase):
 
 
 class DistTests(unittest.TestCase):
-    """The committed build must match what the model renders right now.
+    """The local build must match what the model renders right now.
 
     Each family ships to its own folder with its own manifest, and the folders
     never mix profiles.

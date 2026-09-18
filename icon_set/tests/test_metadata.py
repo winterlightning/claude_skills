@@ -49,11 +49,12 @@ class MetadataTests(unittest.TestCase):
 
     def test_cached_records_refresh_and_stale_sidecars_are_pruned(self):
         out = Path(self.tmp.name) / 'dist'
-        record = {'icon_id': self.icon.icon_id, 'name': 'Old name', 'svg_sha256': 'unchanged'}
+        record = {'icon_id': self.icon.icon_id, 'family': self.icon.family, 'name': 'Old name', 'svg_sha256': 'unchanged'}
         registered = {self.icon.icon_id: self.icon}
         metadata.publish_metadata([record], out, registered)
         path = metadata.metadata_path(self.icon)
-        document = json.loads(path.read_text())
+        self.assertFalse(path.exists(), 'Publishing must not seed source metadata')
+        document = metadata.load_metadata(self.icon, create=True)
         document.update(name='Edited name', description='Search description', tags=['new tag'])
         path.write_text(json.dumps(document))
         metadata.publish_metadata([record], out, registered)
@@ -61,6 +62,10 @@ class MetadataTests(unittest.TestCase):
         self.assertEqual(record['tags'], ['new tag'])
         self.assertEqual(record['svg_sha256'], 'unchanged')
         self.assertEqual(json.loads((out / 'sample-icon.metadata.json').read_text()), document)
+        published = out / 'sample-icon.metadata.json'
+        before = published.stat().st_mtime_ns
+        metadata.publish_metadata([record], out, registered)
+        self.assertEqual(published.stat().st_mtime_ns, before)
         metadata.publish_metadata([], out, registered)
         self.assertEqual(list(out.iterdir()), [])
 
@@ -68,7 +73,6 @@ class MetadataTests(unittest.TestCase):
         # Inspect the real corpus rather than the temporary store.
         root = Path(metadata.__file__).resolve().parents[1] / 'metadata'
         for icon in factories().values():
-            self.assertTrue(metadata.metadata_path(icon, root).is_file(), icon.icon_id)
             metadata.load_metadata(icon, root=root)
 
     def test_to_record_reads_sidecar(self):

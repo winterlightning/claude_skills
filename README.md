@@ -44,7 +44,7 @@ python3 -m pip install -r icon_set/requirements-qa.txt
 ```
 
 Keep the environment active when building and starting the server. Keep `.venv/`
-out of commits; the repository does not currently ignore that directory.
+out of commits; the repository ignores that directory.
 
 Build the gallery and exports:
 
@@ -356,11 +356,11 @@ families as context, which do not determine that build's exit code.
 
 | Output | Default location |
 | --- | --- |
-| SVGs and family manifests | `icon_set/dist/sub32/`, `solo48/`, `container64/` |
-| PNG previews | `icon_set/assets/previews-png/<family><canvas>/` |
-| Web app assets and icon catalog | `icon_set/dist/gallery/` |
-| Failed SVGs and findings | `icon_set/dist/failed/<family><canvas>/` |
-| QA HTML and measurements | `icon_set/dist/qa/` |
+| SVGs and family manifests | `icon_set/.local/dist/sub32/`, `solo48/`, `container64/` |
+| PNG previews | `icon_set/.local/previews-png/<family><canvas>/` |
+| Web app assets and icon catalog | `icon_set/.local/dist/gallery/` |
+| Failed SVGs and findings | `icon_set/.local/dist/failed/<family><canvas>/` |
+| QA HTML and measurements | `icon_set/.local/dist/qa/` |
 
 Build exit codes are **0** for no selected failures, **1** for selected icons
 that fail or remain unresolved, and **2** for argument/selection errors such as
@@ -529,7 +529,7 @@ empty-hole pass.
 | Full QA `review` | A measurement or spacing finding remains unresolved; automatic export is blocked. |
 | Full QA `error` | The checker could not finish; automatic export is blocked. |
 
-The default HTML report is `icon_set/dist/qa/index.html`, available from the
+The default HTML report is `icon_set/.local/dist/qa/index.html`, available from the
 running server at [QA report](http://127.0.0.1:8000/qa/index.html). Per-icon
 folders such as `qa/solo/<icon-id>/` contain `metrics.json` and SVG evidence.
 With `--debug`, they also contain spacing, internal-spacing, and hole overlays.
@@ -537,7 +537,7 @@ Findings name affected elements, coordinates, distances, and relevant thresholds
 
 The summary `results.json` references result shards under `results/`; it is not
 the complete flat list. For programmatic access, call
-`icon_set.validation.library_qa.load_results(Path("icon_set/dist/qa"))`.
+`icon_set.validation.library_qa.load_results(Path("icon_set/.local/dist/qa"))`.
 SVG and rule hashes identify the drawing and measurements represented by a row.
 
 `--debug` controls debug artifacts; `--report` controls HTML reporting. Neither
@@ -581,52 +581,54 @@ the authored Python module.
 
 ## Files, storage, and deployment
 
-| Path | Purpose |
+The authoritative [development workflow](docs/development-workflow.md) covers
+source ownership, daily commands, releases, rollback, and migration.
+
+| Location | Ownership |
 | --- | --- |
-| `icon_set/model/icons/` | Authored Python icon sources |
-| `icon_set/model/contracts/` | Numeric rules and explicit exception/review records |
-| `icon_set/validation/` | Vector, symmetry, spacing, and raster QA |
-| `icon_set/renderers/` | Export rendering |
-| `icon_set/scripts/` | Build, server, generation, and maintenance commands |
-| `icon_set/scripts/templates/` | Gallery assets and agent prompt templates |
-| `.claude/skills/`, `.agents/skills/`, `skills/` | Skill sources and generated tool-specific/portable copies |
-| `pictographic-primitives/` | Original reference artwork |
-| `icon_set/dist/` | Generated gallery, SVGs, manifests, and reports |
-| `icon_set/data/` | Persistent local app state; excluded from Git |
-
-By default, review data lives in `icon_set/data/feedback.sqlite3`. Beside it are
-`stroke-edits/`, `icon-artwork/`, `reference-images/`, and `generation-jobs/`.
-Keep and back up this state when replacing generated assets. Pending generation
-candidates require their job folders to remain available.
-
-To serve on another network interface or port:
+| `icon_set/model/icons/` | Agent-authored Python originals, tracked in Git |
+| `icon_set/metadata/` | Optional curated source metadata, tracked in Git |
+| `icon_set/.local/dist/` | Generated development gallery, ignored by Git |
+| `icon_set/.local/previews-png/` | Generated PNG previews, ignored by Git |
+| `icon_set/.local/state/` | Development-only database, uploads, edits and jobs |
+| `icon_set/data/` | Preserved legacy state and supporting datasets |
+| External release directory | Explicit production asset snapshot |
+| External state directory | Production database and manual artwork |
 
 ```bash
-python3 icon_set/scripts/deploy.py --host 0.0.0.0 --port 8000
+python3 -m icon_set doctor
+python3 -m icon_set build --no-png
+python3 -m icon_set dev --open
+
+# On the deployment machine, choose a new external release directory.
+python3 -m icon_set release /srv/pictographic/releases/release-001
+python3 -m icon_set production \
+  --dist /srv/pictographic/releases/release-001 \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
 ```
 
-`deploy.py` serves an existing local build; it does not upload the repository to
-a hosting provider. For a full app deployment, keep the complete repository,
-Python dependencies, and authenticated Codex installation on the server.
-Use the local default for development; the built-in accounts are development
-credentials. An externally hosted instance needs appropriate access controls
-and HTTPS in front of this internal server.
+Default builds use Python originals, do not seed source metadata, and do not
+refresh role datasets in place. The production server overlays its saved manual
+choices at request time. Export does not copy the development database. For an
+update or rollback, change the release path and retain the production state path.
 
-To use persistent storage outside the repository:
+The legacy `icon_set/dist/` and `icon_set/assets/previews-png/` trees are no longer
+tracked, but their local files remain available. This migration stages one-time
+removals from Git; it does not delete the files. Curated metadata and Python
+sources remain tracked. Normal future builds produce no generated Git changes.
 
-```bash
-python3 icon_set/scripts/deploy.py \
-  --database /persistent/gallery/feedback.sqlite3 --port 8000
+Existing installations must migrate their complete saved runtime state before
+switching to production mode; see the step-by-step guide. No live production
+state is moved automatically. A fresh development server uses `.local/state`,
+so old uploads or reviews must be inspected using explicit old paths or migrated
+intentionally. Historical work reports may still link to legacy output; active
+maintenance scripts and generated authoring skills use the new paths.
 
-# Run separately when rebuilding; use the same artwork storage as the server.
-python3 icon_set/scripts/build.py \
-  --artwork-dir /persistent/gallery/icon-artwork
-```
-
-The server and build also accept `--dist` for a custom export directory. Restart
-the server after changing server/runtime code. Rebuild after modifying templates
-or contracts so generated assets, including `gallery/laboratory.json`, match
-the deployed runtime.
+`watch_deploy.py` is only for code updates in a dedicated clean checkout. It
+requires explicit production mode (or an explicit development opt-in), and does
+not rebuild or promote icon releases. Use appropriate access controls and HTTPS
+for an external server; the built-in accounts remain development credentials.
 
 ## Troubleshooting
 

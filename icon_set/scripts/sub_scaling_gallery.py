@@ -8,6 +8,12 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 from .combination_experiment import placement
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
@@ -93,7 +99,7 @@ def stage_sub_scaling(target):
                 metrics = scaling_metrics(item)
                 a = audit.get(uid, {})
                 native_id = a.get('native_icon_id')
-                native_path = ROOT / 'icon_set/dist/sub32' / ((native_id or '') + '.svg')
+                native_path = development_dist(ROOT) / 'sub32' / ((native_id or '') + '.svg')
                 original = create(uid)
                 off_grid = []
                 for primitive in original.draw().primitives:
@@ -137,5 +143,5 @@ def stage_sub_scaling(target):
 
 
 if __name__ == '__main__':
-    result = stage_sub_scaling(ROOT/'icon_set/dist/gallery')
+    result = stage_sub_scaling(development_dist(ROOT) / 'gallery')
     print(f'{len(result["rows"])} unique solo options; {result["solo_default_pairs"]} pairs currently use a solo sub.')

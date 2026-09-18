@@ -96,6 +96,20 @@ class ArtworkTests(unittest.TestCase):
     def gallery(self, staging, published, folders):
         target = staging/'gallery'; target.mkdir(exist_ok=True); (target/'index.html').write_text('fixture'); return target
 
+    def test_default_build_does_not_read_manual_store(self):
+        self.store.save(self.icon, self.data, 'jakes', self.edits)
+        model = icon_from_graph(self.icon)
+        with patch.object(builder, 'icons_in', return_value=[model]), \
+             patch.object(builder, 'stage_gallery', side_effect=self.gallery), \
+             patch.object(builder, 'ArtworkStore', side_effect=AssertionError('Original build read manual state')), \
+             redirect_stdout(io.StringIO()):
+            builder.build(self.root/'originals', None, write_png=False, only=['solo'], report=False)
+        # The fixture can fail current geometry rules; either output must be Python artwork.
+        passing = self.root/'originals/solo48/editor-experiment.svg'
+        failed = self.root/'originals/failed/solo48/editor-experiment.svg'
+        self.assertEqual((passing if passing.exists() else failed).read_text(), model.to_svg())
+        self.assertEqual(self.store.get(self.icon['key'])['source_mode'], 'use_upload')
+
     def test_python_build_exports_selected_svg_png_and_restores_original(self):
         model = icon_from_graph(self.icon)
         saved = self.store.save(self.icon, self.data, 'jakes', self.edits)

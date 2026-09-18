@@ -32,13 +32,18 @@ import sys
 from datetime import datetime, timezone
 from urllib.parse import quote
 
+if __package__:
+    from .workspace import DEFAULT_DIST
+else:
+    from workspace import DEFAULT_DIST
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
 from icon_set.scripts.category_report import UUID, declared_references, source_id  # noqa: E402
 
-DEFAULT_DIST = REPO_ROOT / 'icon_set' / 'dist'
+
 ROOT_ENV = 'PICTOGRAPHIC_PRIMITIVES'
 UNCATEGORIZED = 'Uncategorized'
 _VIEWBOX = re.compile(r'viewBox="([^"]+)"')

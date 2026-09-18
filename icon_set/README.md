@@ -105,9 +105,15 @@ Profile names are the family plus the canvas. Earlier releases named the 48 and
 64 profiles for a role rather than a family, which is how a solo subject ended
 up on the container canvas; the numbers are unchanged, only the binding is new.
 
+Build and server defaults now use `.local/dist/` and `.local/previews-png/`,
+which are ignored by Git. Paths written as `dist/` below describe the export
+layout or legacy explicit paths. Default builds use Python originals only;
+production manual choices live in separate persistent server state. See the
+[root deployment guide](../README.md#files-storage-and-deployment).
+
 ## Per-icon search metadata
 
-Each registered icon has an editable `metadata/<family>/<icon_id>.json` file.
+Each registered icon can have an editable `metadata/<family>/<icon_id>.json` file.
 This is the source of truth for `name`, `description`, `tags`, `aliases`,
 `category`, and `keywords`. Stable `icon_id`, `family`, and `schema_version`
 identify the record. Extra fields are allowed for future search features.
@@ -119,7 +125,7 @@ was authored. Tags initially copy keywords; they can be edited independently.
 Edit the JSON to curate these fields; regeneration never overwrites an existing
 file. Variants have their own metadata file.
 
-After adding new icons, run:
+To explicitly seed missing metadata for the full library, run:
 
 ```bash
 python3 -m icon_set.scripts.sync_metadata
@@ -132,7 +138,7 @@ with the filename. Reading a draft without a file uses model defaults without
 writing to disk.
 
 `to_record()` and JSON graph exports include the current search fields. Builds
-also seed missing files, refresh metadata on reused records, and publish
+do not seed missing source files; they refresh metadata on reused records and publish
 `<icon_id>.metadata.json` beside each successful or failed SVG. Family manifests
 carry the same search fields. Removed published icons lose their output sidecar;
 source metadata is retained. Rebuild to publish metadata changes. This prepares

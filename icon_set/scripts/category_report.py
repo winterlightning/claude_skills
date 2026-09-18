@@ -23,6 +23,12 @@ import re
 import sys
 from datetime import datetime, timezone
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -276,7 +282,7 @@ def main(argv=None) -> int:
     parser.add_argument('categories', nargs='*', help='Category names or category directory paths')
     parser.add_argument('--all', action='store_true', help='Include every source category, including pending icons')
     parser.add_argument('--source-root', type=Path, default=REPO_ROOT / 'pictographic-primitives')
-    parser.add_argument('--dist', type=Path, default=REPO_ROOT / 'icon_set/dist')
+    parser.add_argument('--dist', type=Path, default=development_dist(REPO_ROOT))
     parser.add_argument('--out', type=Path, help='Output folder; default work/reports/<category or all>')
     parser.add_argument('--full-qa', action='store_true', help='Also run hole/pinch checks (slower)')
     args = parser.parse_args(argv)

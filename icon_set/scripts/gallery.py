@@ -230,7 +230,8 @@ def stage_ai_quality_review(target: Path) -> None:
     for name in ('ai-review.html', 'ai-review.css', 'ai-review.js'):
         shutil.copyfile(templates / name, target / name)
     source = REPO_ROOT / 'icon_set/reviews/approved-quality-50-20260917'
-    shutil.copytree(source, target / 'ai-review-data', dirs_exist_ok=True)
+    if source.is_dir():
+        shutil.copytree(source, target / 'ai-review-data', dirs_exist_ok=True)
 
 
 def stage_laboratory(target: Path) -> None:
@@ -388,6 +389,9 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
     annotate_profile_links(records + failed_records)
     from .sub_profile_report import stage as stage_sub_profiles
     stage_sub_profiles(target)
+    role_assets = REPO_ROOT / 'icon_set/assets/sub-usage'
+    if role_assets.is_dir():
+        shutil.copytree(role_assets, target / 'sub-usage', dirs_exist_ok=True)
     stage_review_facets(records, staged, published, target)
     (target / 'icons.json').write_text(json.dumps({'icons': records, 'failed_icons': failed_records}, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     shutil.copyfile(Path(__file__).with_name('templates') / 'gallery.html', target / 'index.html')
@@ -401,7 +405,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
         shutil.copytree(side_review, target / 'side-combinations-passing-sub', dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns('pairs-before.json', 'previews-before.json', 'sample-review.png'))
         page = target / 'side-combinations-passing-sub/index.html'
-        page.write_text(page.read_text().replace('../../dist/gallery/', '../'))
+        page.write_text(page.read_text().replace('../../dist/gallery/', '../').replace('../../.local/dist/gallery/', '../'))
     from .sub_repair_review import stage as stage_sub_repair_review
     stage_sub_repair_review(target / 'sub-repair-review')
     stage_ai_quality_review(target)

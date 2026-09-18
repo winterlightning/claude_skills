@@ -1,6 +1,12 @@
 """Report side-combination coverage and distinct missing source concepts."""
 import json
 from pathlib import Path
+
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
 ROOT=Path(__file__).resolve().parents[2]
 def compact_html(d, report_href='sub-repair-review/index.html'):
     import html
@@ -21,14 +27,14 @@ def stage(target):
     # Resolve main source IDs from the same model/export registry as pair discovery.
     from icon_set.scripts.category_report import model_catalog, source_id
     available_main=set(); authored_sources=set()
-    profiles={'solo':'solo48','container':'container64','combination_main':'combination_main48','sub':'sub32'}
+    profiles={'solo':'solo48','container':'container64','combination_main':'combination_main48','sub':'sub32','symbol':'symbol32'}
     for model in model_catalog():
         ids={model['source_id'],source_id(model['source_path']) if model['source_path'] else None}
         for uid,reference in model['source_references']:
             ids.add(uid)
             if reference:ids.add(source_id(reference))
         authored_sources.update(x.lower() for x in ids if x)
-        if (ROOT/'icon_set/dist'/profiles[model['family']]/(model['icon_id']+'.svg')).exists():
+        if (development_dist(ROOT)/profiles[model['family']]/(model['icon_id']+'.svg')).exists():
             available_main.update(x.lower() for x in ids if x)
     missing={role:{} for role in ['main','sub']}
     for r in sides:
@@ -45,4 +51,4 @@ def stage(target):
     (target/'side-combination-progress.html').write_text(compact_html(report))
     (target/'side-combination-progress.json').write_text(json.dumps(report,indent=2));return report
 if __name__=='__main__':
-    r=stage(ROOT/'icon_set/dist/gallery');print({k:v for k,v in r.items() if k!='missing'})
+    r=stage(development_dist(ROOT) / 'gallery');print({k:v for k,v in r.items() if k!='missing'})

@@ -23,7 +23,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 64×64, centre (32,32), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/container/` — one file per icon |
 | Subclass | `Container64` from `._base` |
-| Ships to | `icon_set/dist/container64/` with its own `manifest.json` |
+| Ships to | `icon_set/.local/dist/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
 | Existing icons to imitate | `aiming-reticle`, `arched-handle-shopping-basket`, `award-ribbon-container`, `awning-storefront-container`, `billboard-container`, `blank-calendar-container` |
@@ -214,7 +214,7 @@ preserve the parent and edit a new file from `create_variant.py`.
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family container` exits 0; the icon is in
-  `icon_set/dist/container64/manifest.json`.
+  `icon_set/.local/dist/container64/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

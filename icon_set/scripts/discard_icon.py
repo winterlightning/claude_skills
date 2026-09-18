@@ -110,7 +110,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
     discarded, removed_ids, removed_keys = [], {}, set()
     for icon, plan in plans:
         key, icon_id, path = icon['key'], icon['icon_id'], plan['path']
-        folder = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64'}[icon['family']]
+        folder = {'solo': 'solo48', 'sub': 'sub32', 'symbol': 'symbol32', 'container': 'container64'}[icon['family']]
         text = current.get(path, plan['text'])
         stem = f"{now.strftime('%Y%m%dT%H%M%SZ')}-{icon['family']}-{icon_id}"
         feedback = [dict(zip(('id', 'feedback', 'svg_sha256', 'created_at', 'author'), row)) for row in connection.execute(
@@ -129,7 +129,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
             path.unlink()
         for artifact in (dist / folder / f'{icon_id}.svg',
                          dist / 'failed' / folder / f'{icon_id}.svg',
-                         source_root / 'icon_set' / 'assets' / 'previews-png' / folder / f'{icon_id}.png'):
+                         source_root / 'icon_set' / '.local' / 'previews-png' / folder / f'{icon_id}.png'):
             artifact.unlink(missing_ok=True)
         removed_ids.setdefault(folder, set()).add(icon_id)
         removed_keys.add(key)

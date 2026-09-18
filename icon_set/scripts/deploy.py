@@ -65,12 +65,17 @@ else:
     from progression import import_snapshot
     from primitives_catalog import primitives_root
 
+if __package__:
+    from .workspace import DEFAULT_DIST, DEFAULT_DATABASE
+else:
+    from workspace import DEFAULT_DIST, DEFAULT_DATABASE
+
 PACKAGE_ROOT = Path(__file__).resolve().parents[1]
 # Resolve the shared validator package when launched as a script.
 if str(PACKAGE_ROOT.parent) not in sys.path:
     sys.path.insert(0, str(PACKAGE_ROOT.parent))
-DEFAULT_DIST = PACKAGE_ROOT / 'dist'
-DEFAULT_DB = PACKAGE_ROOT / 'data' / 'feedback.sqlite3'
+
+DEFAULT_DB = DEFAULT_DATABASE
 MAX_BODY = 65536
 # Base64 inflates by 4/3; leave room for the JSON wrapper around the largest image.
 MAX_REFERENCE_BODY = max(REFERENCE_LIMITS.values()) * 4 // 3 + 4096
@@ -532,8 +537,21 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             (key, key, sha),
         ).fetchone())
 
+    def production_blocked(self, route):
+        if not getattr(getattr(self, 'server', None), 'production', False):
+            return False
+        return (route.startswith('/api/generation') or route.startswith('/api/ai-feedback')
+                or route in ('/api/icons/discard', '/api/feedback-db/sync',
+                             '/api/combination-refresh', '/api/combination-experiment'))
+
     def do_GET(self):
         parsed = urlsplit(self.path)
+        if parsed.path == '/api/runtime':
+            production = getattr(self.server, 'production', False)
+            return self.json_response({'mode': 'production' if production else 'development',
+                                       'can_generate': not production, 'can_edit': True, 'can_upload': True})
+        if self.production_blocked(parsed.path):
+            return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         if parsed.path == '/api/combination-refresh':
             from icon_set.scripts.combination_refresh_job import status
             return self.json_response(status())
@@ -865,6 +883,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def do_POST(self):
         route = urlsplit(self.path).path
+        if self.production_blocked(route):
+            return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
         if route not in ('/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
@@ -1446,29 +1466,40 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': 'Could not update pending briefs.'}, 503)
 
 
-def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE):
+def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primitives=None, sync_source=DEFAULT_SYNC_SOURCE, *, production=False):
     dist, database = dist.resolve(), database.resolve()
     if not (dist / 'gallery/index.html').is_file() or not (dist / 'gallery/icons.json').is_file():
         raise ValueError('Gallery is missing. Run icon_set/scripts/build.py first.')
+    if not production and (dist / 'release.json').is_file():
+        raise ValueError('A production release must be served with --production, not the development server.')
     if database.is_relative_to(dist):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
+    if production:
+        for path in (dist, database):
+            if path.is_relative_to(PACKAGE_ROOT.parent):
+                raise ValueError('Production dist and database must be outside the source checkout.')
+        if dist.is_relative_to(database.parent):
+            raise ValueError('Keep production releases outside the persistent state directory.')
     init_database(database)
     with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
         import_snapshot(connection)
     server = GalleryServer((host, port), partial(GalleryHandler, directory=dist, database=database))
+    server.production = production
     server.references = ReferenceStore(database.parent / 'reference-images')
     server.artwork = ArtworkStore(database.parent / 'icon-artwork')
     server.stroke_edits = StrokeEditStore(database.parent / 'stroke-edits', dist / 'gallery/laboratory.json')
     server.evidence = EvidenceStore(dist, database.parent / 'qa-evidence')
     server.primitives_root = primitives_root(primitives)
     server.sync_source = sync_source
-    server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
-    server.ai_feedback = FeedbackReviewManager(server.generation, database.parent / 'ai-feedback-jobs')
+    if not production:
+        server.generation = GenerationManager(PACKAGE_ROOT.parent, dist, database.parent / 'generation-jobs', server.references)
+        server.ai_feedback = FeedbackReviewManager(server.generation, database.parent / 'ai-feedback-jobs')
     return server
 
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--production', action='store_true', help='Manual review/upload server; requires external --dist and --database; disables agent and source mutations')
     parser.add_argument('--dist', type=Path, default=DEFAULT_DIST)
     parser.add_argument('--database', type=Path, default=DEFAULT_DB)
     parser.add_argument('--host', default='127.0.0.1')
@@ -1480,7 +1511,7 @@ def main(argv=None):
                         help='Production gallery to pull reviewing data from (default $PICTOGRAPHIC_SYNC_SOURCE)')
     args = parser.parse_args(argv)
     try:
-        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source)
+        server = create_server(args.dist, args.database, args.host, args.port, args.primitives, args.sync_source, production=args.production)
     except (OSError, ValueError, sqlite3.Error) as error:
         parser.exit(1, f'error: {error}\n')
     port = server.server_address[1]

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Watch the git remote and restart the deploy server whenever new commits land.
 
-    python3 watch_deploy.py                      # poll origin/<current branch> every 60s
-    python3 watch_deploy.py --interval 15
-    python3 watch_deploy.py -- --host 0.0.0.0 --port 8000   # args after -- go to deploy.py
+    python3 watch_deploy.py --development        # dedicated clean development checkout
+    python3 watch_deploy.py --development --interval 15
+    python3 watch_deploy.py -- --production --dist /srv/releases/one --database /srv/state/feedback.sqlite3
 
 Runs `git pull --ff-only` on each new update, then relaunches deploy.py.
 """
@@ -79,6 +79,7 @@ def remote_head(remote: str, branch: str) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("--development", action="store_true", help="Explicitly allow a development server; never use the active agent checkout")
     ap.add_argument("--interval", type=float, default=60.0, help="seconds between polls (default: 60)")
     ap.add_argument("--remote", default="origin", help="remote to watch (default: origin)")
     ap.add_argument("--branch", default=None, help="branch to watch (default: current branch)")
@@ -91,6 +92,12 @@ def main() -> int:
     extra = args.deploy_args
     if extra and extra[0] == "--":
         extra = extra[1:]
+
+    if not args.development and '--production' not in extra:
+        ap.error('Pass -- --production --dist RELEASE --database STATE_DB, or explicitly opt in with --development.')
+    if git('status', '--porcelain', '--untracked-files=no'):
+        log('Refusing to auto-pull into a dirty checkout. Use a dedicated clean deployment checkout.')
+        return 1
 
     branch = args.branch or git("rev-parse", "--abbrev-ref", "HEAD")
     if branch == "HEAD":
@@ -136,6 +143,9 @@ def main() -> int:
             if remote == local:
                 continue
 
+            if git('status', '--porcelain', '--untracked-files=no'):
+                log('Checkout changed locally; skipping code update until it is clean.')
+                continue
             log(f"new update {local[:8]} -> {remote[:8]}")
             pull = subprocess.run(
                 ["git", "pull", "--ff-only", args.remote, branch],

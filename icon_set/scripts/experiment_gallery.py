@@ -7,13 +7,19 @@ import shutil
 from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 
 
 def stage_container_experiment(target: Path) -> str:
     """Package the saved layouts and their actual components for offline browsing."""
     manifest = ROOT / 'icon_set/data/container-solo-trials.json'
-    rows, seen = [], set()
+    rows, seen, unavailable = [], set(), 0
     records = json.loads(manifest.read_text())['results'] if manifest.is_file() else {}
     for record in records.values():
         filename = record['svg_file']
@@ -22,17 +28,24 @@ def stage_container_experiment(target: Path) -> str:
         seen.add(filename)
         host = record['main_key'].split('/', 1)[1]
         content = record['sub_key'].split('/', 1)[1]
+        outline = development_dist(ROOT) / f'container64/{host}.svg'
+        component = development_dist(ROOT) / f'solo48/{content}.svg'
+        result = ROOT/'icon_set/assets/container-solo-trials'/filename
+        if not all(path.is_file() for path in (outline, component, result)):
+            unavailable += 1
+            continue  # Optional historical experiments must not block a fresh build.
         rows.append(dict(number=len(rows)+1, name=host+' + '+content,
                          icon_id=filename.removesuffix('.svg'), canvas_size=64,
-                         outline=(ROOT/f'icon_set/dist/container64/{host}.svg').read_text(),
-                         content=(ROOT/f'icon_set/dist/solo48/{content}.svg').read_text(),
-                         result=(ROOT/'icon_set/assets/container-solo-trials'/filename).read_text(),
+                         outline=outline.read_text(), content=component.read_text(),
+                         result=result.read_text(),
                          status_label='Trial preview · '+('clearance estimate clear' if record['status']=='clearance-estimate-pass' else 'placement review required')))
-    payload = json.dumps({'icons': rows}, ensure_ascii=True).replace('<', '\\u003c')
+    payload = json.dumps({'icons': rows, 'unavailable': unavailable}, ensure_ascii=True).replace('<', '\\u003c')
     (target/'experiment-container.json').write_text(payload+'\n')
     for source, dest in [('placement-rules.md', 'container-placement-rules.md'),
                          ('report.md', 'container-trials-report.md')]:
-        shutil.copyfile(ROOT/'icon_set/work/container-pair-trials'/source, target/dest)
+        document = ROOT/'icon_set/work/container-pair-trials'/source
+        if document.is_file():
+            shutil.copyfile(document, target/dest)
     return payload
 
 
@@ -48,7 +61,7 @@ def stage_animation_experiment(target: Path) -> int:
                 for r in json.loads((source / 'data.json').read_text())['icons']]
         output.write_text(json.dumps({'icons': rows}, separators=(',', ':')) + '\n')
     else:
-        published = ROOT / 'icon_set/dist/gallery' / output.name
+        published = development_dist(ROOT) / 'gallery' / output.name
         if published.is_file() and published.resolve() != output.resolve():
             shutil.copyfile(published, output)
         elif not output.is_file():
@@ -132,7 +145,7 @@ def stage_experiments(target: Path) -> None:
                 raise ValueError(f'Duplicate {kind} experiment samples')
             output.write_text(json.dumps({'icons': rows}, separators=(',', ':')) + '\n')
         else:
-            published = ROOT / 'icon_set/dist/gallery' / output.name
+            published = development_dist(ROOT) / 'gallery' / output.name
             if published.is_file() and published.resolve() != output.resolve():
                 shutil.copyfile(published, output)
             elif not output.is_file():
@@ -182,4 +195,4 @@ def stage_experiments(target: Path) -> None:
 
 
 if __name__ == '__main__':
-    stage_experiments(ROOT / 'icon_set/dist/gallery')
+    stage_experiments(development_dist(ROOT) / 'gallery')

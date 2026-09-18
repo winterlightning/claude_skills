@@ -9,6 +9,12 @@ import sqlite3
 from contextlib import closing
 from pathlib import Path
 
+if __package__:
+    from .workspace import DEFAULT_DATABASE
+else:
+    from workspace import DEFAULT_DATABASE
+
+
 SNAPSHOT = Path(__file__).resolve().parents[1] / 'progression.sqlite3'
 FIELDS = 'uuid,status,reason,note,updated_by,updated_at,main_brief,sub_brief,sub_position'
 
@@ -66,7 +72,7 @@ def import_snapshot(connection, snapshot=SNAPSHOT):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--database',type=Path,default=SNAPSHOT.parent/'data/feedback.sqlite3')
+    parser.add_argument('--database',type=Path,default=DEFAULT_DATABASE)
     parser.add_argument('--output',type=Path,default=SNAPSHOT)
     parser.add_argument('--reviews',type=Path,default=SNAPSHOT.parents[1]/'work/primitives-review')
     args = parser.parse_args()

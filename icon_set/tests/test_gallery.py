@@ -164,15 +164,24 @@ class GalleryTests(unittest.TestCase):
 
     def test_failed_build_preserves_gallery_and_disabling_qa_still_builds_it(self):
         from icon_set.scripts import build as builder
-        from icon_set.model.icons.registry import create
-        from icon_set.tests.test_library_qa import small_hole_icon
+        from icon_set.model.icons.sub._base import Sub32
+        from icon_set.model.keyshapes import Keyshape
+        class Fixture(Sub32):
+            icon_id = 'workflow-check'
+            keyshape = Keyshape.HRECT_XL
+            def build(self):
+                self.add_polyline('check', (2,18), (12,28), (30,4))
+        def invalid_fixture():
+            icon = Fixture()
+            icon.add_polyline('tiny', (14,14), (18,14), (18,18), (14,18), closed=True)
+            return icon
         with tempfile.TemporaryDirectory() as tmp, redirect_stdout(io.StringIO()):
             dist = Path(tmp) / 'dist'
-            with patch.object(builder, 'icons_in', return_value=[create('square')]):
+            with patch.object(builder, 'icons_in', return_value=[Fixture()]):
                 self.assertEqual(builder.build(dist, None, write_png=False, only=['sub'], report=False), 0)
             before = (dist / 'gallery/icons.json').read_bytes()
             self.assertTrue((dist / 'gallery/index.html').is_file())
-            with patch.object(builder, 'icons_in', return_value=[small_hole_icon()]):
+            with patch.object(builder, 'icons_in', return_value=[invalid_fixture()]):
                 self.assertEqual(builder.build(dist, None, write_png=False, only=['sub'], report=False), 1)
             self.assertEqual((dist / 'gallery/icons.json').read_bytes(), before)
 

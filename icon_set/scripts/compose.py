@@ -32,6 +32,11 @@ import json
 import sys
 from pathlib import Path
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -43,7 +48,8 @@ from icon_set.model.keyshapes import Keyshape, resolve_token  # noqa: E402
 from icon_set.model.position import Position  # noqa: E402
 
 PACKAGE_ROOT = REPO_ROOT / "icon_set"
-DEFAULT_DIST = PACKAGE_ROOT / "dist" / "compositions"
+
+DEFAULT_DIST = development_dist() / 'compositions'
 DEFAULT_CLASS = "CONTAINER_COMBINE"
 
 

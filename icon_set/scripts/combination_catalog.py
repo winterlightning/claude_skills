@@ -6,6 +6,12 @@ import re
 import shutil
 from pathlib import Path
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 # Some source IDs contain non-hex characters; preserve their exact identity.
 ID = re.compile(r'([a-z0-9]{8}(?:-[a-z0-9]{4}){3}-[a-z0-9]{12})$', re.I)
@@ -153,7 +159,7 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
 
 
 if __name__ == '__main__':
-    gallery = ROOT / 'icon_set/dist/gallery'
+    gallery = development_dist(ROOT) / 'gallery'
     result = write_catalog(gallery, json.loads((gallery / 'primitives.json').read_text()),
                            json.loads((gallery / 'icons.json').read_text())['icons'])
     print(f"Staged {len(result['rows'])} combinations; {sum(not r['reference_url'] for r in result['references'].values())} missing references")

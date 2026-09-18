@@ -18,6 +18,12 @@ from icon_set.model.icons.registry import factories
 from icon_set.model.keyshapes import Keyshape
 from icon_set.model.profiles import Profile
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 AUTHOR = 'gpt-6'
 
@@ -120,7 +126,7 @@ def run(root=ROOT, *, rewrite=False):
     registered=factories()
     previous_path=data/'sub-profile-migration.json'
     previous=json.loads(previous_path.read_text()) if previous_path.exists() else {'icons':{}}
-    text_path=root/'icon_set/dist/text32/manifest.json'
+    text_path=development_dist(root) / 'text32/manifest.json'
     text_records={r['icon_id']:r for r in json.loads(text_path.read_text())['icons']} if text_path.exists() else {}
     rows={}; links=[]; pending=[]
     for uid, record in sorted(canonical.items()):
@@ -137,7 +143,7 @@ def run(root=ROOT, *, rewrite=False):
                 module=sys.modules[factory.__module__]
                 solo=getattr(module,'SOLO_SOURCE_ICON_ID',None)
                 if solo and solo in registered and not any(s['key']=='solo/'+solo for s in sources):
-                    f=root/'icon_set/dist/solo48'/f'{solo}.svg'
+                    f=development_dist(root) / 'solo48'/f'{solo}.svg'
                     sources.append(dict(key='solo/'+solo,profile='SOLO48',source_svg=str(f.relative_to(root)),svg_sha256=hashlib.sha256(f.read_bytes()).hexdigest() if f.exists() else None,relationship='derived_from'))
                 originals.extend([(getattr(module,'SOURCE_ICON_ID',None),getattr(module,'SOURCE_PATH',None))])
                 for ref in getattr(module,'SOURCE_REFERENCES',()):

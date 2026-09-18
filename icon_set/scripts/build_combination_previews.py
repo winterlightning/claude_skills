@@ -5,10 +5,16 @@ from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 from .combination_experiment import DATA, ROOT, render
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 
 def build(*, force=False):
     rows=json.loads(DATA.read_text())['rows']
-    folder=ROOT/'dist/gallery/combination-previews';folder.mkdir(parents=True,exist_ok=True)
+    folder=development_dist(ROOT.parent) / 'gallery/combination-previews';folder.mkdir(parents=True,exist_ok=True)
     cache=ROOT/'data/combination-previews.json'
     old=json.loads(cache.read_text()) if cache.exists() else {}
     engine=''.join(p.read_text() for p in sorted((ROOT/'vendor/combination').rglob('*.py')))
@@ -67,7 +73,7 @@ def build(*, force=False):
     folder.mkdir(parents=True,exist_ok=True)
     for key,item in results.items():
         (folder/(key+'.svg')).write_text(item['result']['svg'])
-    (ROOT/'dist/gallery/experiment-combination-results.json').write_text(json.dumps({'results':results}))
+    (development_dist(ROOT.parent) / 'gallery/experiment-combination-results.json').write_text(json.dumps({'results':results}))
     print(f'Published {len(results)} combined icons.',flush=True)
 
 if __name__=='__main__':build()

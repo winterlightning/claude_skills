@@ -8,6 +8,12 @@ from collections import Counter, defaultdict
 from .category_report import REPO_ROOT, model_catalog, source_id
 from .combination_experiment import DATA, ROOT
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 
 def export_sub32(document):
     """Derived export: maximum visible ink dimension 32, final stroke 4."""
@@ -23,7 +29,7 @@ def refresh():
     index = defaultdict(list)
     profiles = {'solo': 'solo48', 'sub': 'sub32', 'container': 'container64', 'combination_main':'combination_main48'}
     for model in model_catalog():
-        path = ROOT / 'dist' / profiles[model['family']] / (model['icon_id'] + '.svg')
+        path = development_dist(REPO_ROOT) / profiles[model['family']] / (model['icon_id'] + '.svg')
         if not path.exists():
             continue
         ids = {model['source_id']}
@@ -42,7 +48,7 @@ def refresh():
     measured = {}
     exports = ROOT / 'assets/combination-sub32'
     exports.mkdir(exist_ok=True)
-    public = ROOT / 'dist/gallery/combination-sub32'
+    public = development_dist(ROOT.parent) / 'gallery/combination-sub32'
     public.mkdir(exist_ok=True)
     export_path = ROOT / 'data/combination-sub32.json'
     export_manifest = json.loads(export_path.read_text()) if export_path.exists() else {}
@@ -133,8 +139,8 @@ def refresh():
             failures.append({'id':row['id'],'concept':row['concept'],'error':str(error)})
     DATA.write_text(json.dumps({'rows': rows, 'failures': failures, 'state_skips': state_skips}))
     (ROOT / 'data/combination-sub32.json').write_text(json.dumps(export_manifest, indent=2)+'\n')
-    (ROOT / 'dist/gallery/experiment-combination.json').write_text(DATA.read_text())
-    catalog = ROOT / 'dist/gallery/experiments.json'
+    (development_dist(ROOT.parent) / 'gallery/experiment-combination.json').write_text(DATA.read_text())
+    catalog = development_dist(ROOT.parent) / 'gallery/experiments.json'
     totals = json.loads(catalog.read_text())
     totals['combination'] = len(rows)
     catalog.write_text(json.dumps(totals))

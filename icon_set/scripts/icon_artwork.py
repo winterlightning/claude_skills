@@ -1,4 +1,4 @@
-"""Persistent artwork choices shared by the gallery and Python release builder.
+"""Persistent manual artwork choices owned by one gallery installation.
 
 Authored Python remains the baseline. Manual SVGs and accepted graph snapshots
 are independent inputs; no generated source code is rewritten by an upload.
@@ -21,7 +21,7 @@ else:
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
     from edit_validation import icon_from_graph
 
-DEFAULT_ARTWORK = Path(__file__).resolve().parents[1] / 'data/icon-artwork'
+DEFAULT_ARTWORK = Path(__file__).resolve().parents[1] / '.local/state/icon-artwork'
 MODES = ('use_org', 'use_upload', 'use_edited')
 SVG_NS = 'http://www.w3.org/2000/svg'
 MAX_SVG = 1024 * 1024

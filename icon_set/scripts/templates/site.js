@@ -1,4 +1,9 @@
 (async()=>{
+  // Hide development actions until this server confirms its capabilities.
+  document.documentElement.dataset.workspaceMode='production';
+  fetch('/api/runtime').then(response=>response.ok?response.json():null).then(runtime=>{
+    if(runtime?.mode==='development')document.documentElement.dataset.workspaceMode='development';
+  }).catch(()=>{});
   const nav=document.querySelector('.site-nav');
   // Keep every page's tabs, order, and active state in one place.
   const links=[["home.html", "Home"], ["icon-laboratory.html", "Design Document"], ["icons.html", "Icon"], ["preview.html", "Preview"], ["index.html", "Icon review"], ["experiment.html", "Experiment"], ["ai-review.html", "AI quality review"], ["primitives.html", "Progression"], ["upload.html", "Upload icon"], ["api.html", "API"]];

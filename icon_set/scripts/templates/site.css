@@ -19,3 +19,10 @@ body[data-icon-view]>header:not(.site-header){padding:28px 32px 0}body[data-icon
 body[data-icon-view]>main,body[data-icon-view]>header:not(.site-header),.approved-main{max-width:none;width:100%;margin-left:0;margin-right:0;padding-left:16px;padding-right:16px}
 body[data-icon-view]>.site-footer,.approved-page>.site-footer{padding-left:16px;padding-right:16px}
 .approved-main .review-layout{margin-top:24px}.approved-main .approved-filters{margin-top:0}.approved-main .category-sidebar input{border:1px solid var(--line);border-radius:8px;color:inherit}.approved-main .category-item{cursor:pointer;color:inherit}.approved-main .category-item:hover{background:#f0f4ec}
+
+/* Source-changing actions belong only to the development server. */
+html:not([data-workspace-mode="development"]) :is(
+  a[href="generate.html"], a[href="ai-review.html"],
+  #fixPanel, #askAiFeedback, .discard-button, #syncForm,
+  [data-development-only]
+) { display: none !important; }

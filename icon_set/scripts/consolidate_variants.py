@@ -26,6 +26,12 @@ import sqlite3
 import sys
 import tarfile
 
+if __package__:
+    from .workspace import DEFAULT_DATABASE
+else:
+    from workspace import DEFAULT_DATABASE
+
+
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
@@ -33,7 +39,7 @@ from icon_set.model.icons.registry import factories  # noqa: E402
 from icon_set.scripts.discard_icon import remove_class  # noqa: E402
 
 PACKAGE_ROOT = REPO_ROOT / 'icon_set'
-DEFAULT_DB = PACKAGE_ROOT / 'data' / 'feedback.sqlite3'
+DEFAULT_DB = DEFAULT_DATABASE
 EXCEPTIONS = PACKAGE_ROOT / 'model' / 'contracts' / 'exceptions.v1.json'
 VERSION = re.compile(r'^(?P<base>.+)-v(?P<number>\d+)$')
 HEADER = re.compile(r'^# Variant of [^\n]*; parent file remains unchanged\.\n')

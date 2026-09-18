@@ -18,6 +18,12 @@ import threading
 import uuid
 import xml.etree.ElementTree as ET
 
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -197,7 +203,7 @@ def main(argv=None):
                   key=icon.family+'/'+icon.icon_id, family=icon.family,
                   canvas_size=icon.profile.spec.canvas_size, profile=icon.profile.name,
                   keyshape=icon.keyshape.name, svg_sha256=sha(icon.to_svg()), artwork_source='use_org')
-    runner = GenerationManager(ROOT, ROOT/'icon_set/dist', args.out/'runner')
+    runner = GenerationManager(ROOT, development_dist(ROOT), args.out/'runner')
     print(json.dumps(run_review(runner, record, icon.to_svg(), args.out), indent=2))
 
 

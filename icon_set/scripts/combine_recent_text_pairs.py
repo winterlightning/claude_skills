@@ -1,6 +1,12 @@
 """Compose the 23 newly generated text references with their recorded containers."""
 from pathlib import Path
 import sys,json,re,hashlib,html,copy,xml.etree.ElementTree as ET
+
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
 from svgpathtools import parse_path
 from icon_set.scripts.container_placement import Artwork,place,digest
@@ -34,10 +40,10 @@ def text_art(document):
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
     items=json.loads((BASE/'work/container-unbriefed-subs/generated-items.json').read_text());by_source={r['source_id']:r for r in items}
-    catalog=json.loads((BASE/'dist/gallery/combinations.json').read_text());areas=json.loads((BASE/'data/container-content-areas.json').read_text())['areas'];records={r['key']:r for r in json.loads((BASE/'dist/gallery/icons.json').read_text())['icons']}
-    records.update({'container/'+r['icon_id']:r for r in json.loads((BASE/'dist/container64/manifest.json').read_text())['icons']})
+    catalog=json.loads((development_dist(BASE.parent) / 'gallery/combinations.json').read_text());areas=json.loads((BASE/'data/container-content-areas.json').read_text())['areas'];records={r['key']:r for r in json.loads((development_dist(BASE.parent) / 'gallery/icons.json').read_text())['icons']}
+    records.update({'container/'+r['icon_id']:r for r in json.loads((development_dist(BASE.parent) / 'container64/manifest.json').read_text())['icons']})
     main_map=json.loads((BASE/'data/container-main-icons.json').read_text())['mappings']
-    records.update({'text/'+r['icon_id']:r for r in json.loads((BASE/'dist/text28/manifest.json').read_text())['icons']})
+    records.update({'text/'+r['icon_id']:r for r in json.loads((development_dist(BASE.parent) / 'text28/manifest.json').read_text())['icons']})
     pairs=[r for r in catalog['rows'] if r['kind']=='container' and r['sub_id'] in by_source];results=[];cache={};cards=[]
     for pair in pairs:
         sub=by_source[pair['sub_id']];hosts=[r for r in pair.get('main_generated',[]) if r['key'].startswith('container/')]
@@ -46,7 +52,7 @@ def main():
         if not hosts:raise ValueError('Missing container for '+pair['concept'])
         host=hosts[0];main_id=host['icon_id'];key=main_id+'--'+sub['icon_id']
         if key not in cache:
-            host_path=BASE/'dist/container64'/f'{main_id}.svg';sub_path=BASE/'dist/text28'/f'{sub["icon_id"]}.svg'
+            host_path=development_dist(BASE.parent) / 'container64'/f'{main_id}.svg';sub_path=development_dist(BASE.parent) / 'text28'/f'{sub["icon_id"]}.svg'
             main=Artwork.read(host_path.read_text(),64);content=text_art(sub_path.read_text());extent=max(content.bounds[2]-content.bounds[0],content.bounds[3]-content.bounds[1])+4
             sizes=sorted(set([min(extent,x) for x in [48,44,40,36,32,28,24]]),reverse=True)
             result=place(main,content,padding=2,sizes=sizes,area=areas.get(main_id))

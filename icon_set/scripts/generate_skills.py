@@ -28,6 +28,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
+from icon_set.scripts.workspace import DEFAULT_DIST
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.icons.registry import icons_in  # noqa: E402
 from icon_set.model.keyshapes import Keyshape  # noqa: E402
@@ -226,7 +227,7 @@ FAMILY_TEXT = {
         "default_category": "avatars",
         "job": "This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` for the circular head, rounded shoulders, and open bottom. The current avatar rule supersedes its detached layout: head ink touches body ink, with no visible gap.",
         "specifics": [
-            "Avatar is a specialized authoring skill within the solo family, using SOLO48 and its six exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), `HRECT_M` (44×32), `VRECT_L` (36×44), and `VRECT_M` (32×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy `_XL` and `_S` rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
+            "Avatar is a specialized authoring skill within the solo family, using SOLO48 and its six exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), `HRECT_M` (44×32), `VRECT_L` (36×44), and `VRECT_M` (32×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `.local/dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy `_XL` and `_S` rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.",
             "Center the head/face circle on the canvas vertical axis: head_cx = 24 on SOLO48. Measure the face itself, excluding hair, buns and hats; asymmetric accessories must not shift the face off-axis. Fit accessories within the keyshape by rebalancing them. For tall headwear, shorten the body and simplify clothing while preserving a circular face, curved shoulders and head/body contact.",
             "Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Head ink must touch body ink: {avatar_gap} visible gap, or {avatar_centerline_gap} centerline separation for tangent stroke contact with stroke 4. Declare a scoped `connect` only for the actually touching head/body paths; keep the normal MIC for other separate parts. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.",
             "Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.",
@@ -250,6 +251,17 @@ FAMILY_TEXT["combination_main"] = {
         "An **icon combination main** is one independently readable main subject, saved separately for use in a combination. Draw only the main subject; it hosts nothing,"
     ),
     "specifics": [item.replace("SOLO48", "COMBINATION_MAIN48") for item in FAMILY_TEXT["solo"]["specifics"]],
+}
+
+
+# SYMBOL32 is now a separate registered family; it must not break generation
+# of the existing authoring skills when the contracts enumerate all families.
+FAMILY_TEXT["symbol"] = {
+    **FAMILY_TEXT["sub"],
+    "trigger": "Use when asked for an independently editable SYMBOL32 content symbol placed inside a container.",
+    "job": "A **symbol** is content placed inside a container. Keep its Python source independent from its linked side sub-icon; use the SYMBOL32 profile and its contract values below.",
+    "specifics": FAMILY_TEXT["sub"]["specifics"][:-1],
+    "not_this": "For a side modifier, use /icon-sub. For a standalone subject, use /icon-solo. For an enclosing frame, use /icon-container.",
 }
 
 
@@ -419,7 +431,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | {spec.canvas_size}×{spec.canvas_size}, centre ({cx},{cy}), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/{folder}/` — one file per icon |
 | Subclass | `{base}` from `._base` |
-| Ships to | `icon_set/{row['dist']}/` with its own `manifest.json` |
+| Ships to | `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/{dist}/` with its own `manifest.json` |
 | Ink clearance (MIC) | {spec.mic} between distinct parts = **{spec.equal_stroke_centerline_min} between centerlines** |
 | Interior guide | ({guide_l},{guide_t})-({guide_r},{guide_b}) — constrains inner detail only |
 | Existing icons to imitate | {("`user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar`" if family == "avatar" else _examples("solo" if family == "combination_main" else family))} |
@@ -593,7 +605,7 @@ it as one primitive and queue two component briefs. A Pending component brief
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family {bound_family}` exits 0; the icon is in
-  `icon_set/{row['dist']}/manifest.json`.
+  `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/{dist}/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 {avatar_done}- Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

@@ -86,14 +86,14 @@ def record_metadata(icon) -> dict:
 
 
 def publish_metadata(records: list[dict], directory: Path, registered: dict) -> None:
-    """Refresh even cached records and write lightweight JSON beside each SVG."""
+    """Read source metadata without mutation; publish changed output sidecars only."""
     directory.mkdir(parents=True, exist_ok=True)
     keep = set()
     from ..scripts.profile_links import annotate as annotate_profile_links
     annotate_profile_links(records)
     for record in records:
         icon = registered.get(record["icon_id"])
-        document = (load_metadata(icon, create=True) if icon is not None
+        document = (load_metadata(icon) if icon is not None
                     else defaults(SimpleNamespace(**record)))
         for field in ('profile_sources','profile_derivatives'):
             if record.get(field):document[field]=record[field]
@@ -101,8 +101,10 @@ def publish_metadata(records: list[dict], directory: Path, registered: dict) -> 
         record.update({field: document[field] for field in FIELDS})
         filename = f"{record['icon_id']}.metadata.json"
         keep.add(filename)
-        (directory / filename).write_text(
-            json.dumps(document, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        target = directory / filename
+        content = json.dumps(document, indent=2, ensure_ascii=False) + "\n"
+        if not target.exists() or target.read_text(encoding="utf-8") != content:
+            target.write_text(content, encoding="utf-8")
     for path in directory.glob("*.metadata.json"):
         if path.name not in keep:
             path.unlink()

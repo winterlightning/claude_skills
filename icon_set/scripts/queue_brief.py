@@ -14,6 +14,18 @@ from pathlib import Path
 import sqlite3
 import sys
 
+if __package__:
+    from .workspace import DEFAULT_DATABASE
+else:
+    from workspace import DEFAULT_DATABASE
+
+
+if __package__:
+    from .workspace import development_dist
+else:
+    from workspace import development_dist
+
+
 ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
@@ -24,7 +36,7 @@ from icon_set.scripts.split_handoff import save_split_handoffs
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--file', required=True, type=Path)
-    parser.add_argument('--database', type=Path, default=ROOT/'icon_set/data/feedback.sqlite3')
+    parser.add_argument('--database', type=Path, default=DEFAULT_DATABASE)
     parser.add_argument('--out', type=Path, default=ROOT/'work/pending-brief')
     parser.add_argument('--files-only', action='store_true', help='Save source/brief bundles without writing the review database')
     args = parser.parse_args(argv)
@@ -39,7 +51,7 @@ def main(argv=None):
         sha = hashlib.sha256(reference.read_bytes()).hexdigest()
         # If supplied, target the reviewed generated icon and its current revision.
         if data.get('icon'):
-            catalog = json.loads((ROOT/'icon_set/dist/gallery/icons.json').read_text())['icons']
+            catalog = json.loads((development_dist(ROOT) / 'gallery/icons.json').read_text())['icons']
             icon = next((item for item in catalog if item['key'] == data['icon']), None)
             if not icon:
                 raise ValueError('Unknown icon key in current gallery.')
