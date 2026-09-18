@@ -1,6 +1,7 @@
 """Stage the complete combination remake catalog and portable reference SVGs."""
 from __future__ import annotations
 import json
+import hashlib
 import re
 import shutil
 from pathlib import Path
@@ -72,6 +73,9 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
                   and r.get('key', '').startswith('container/')}
     export_path = root / 'icon_set/data/combination-sub32.json'
     sub_exports = json.loads(export_path.read_text()) if export_path.exists() else {}
+    trial_path = root / 'icon_set/data/container-solo-trials.json'
+    trials = json.loads(trial_path.read_text()).get('results', {}) if trial_path.exists() else {}
+    records_by_key = {r.get('key'): r for r in records}
     rows = []
     for kind in ('container', 'side'):
         for item in data.get(kind, []):
@@ -110,6 +114,34 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
                             seen.add(result['icon_id'])
             if kind == 'side':
                 row['sub_exports'] = [sub_exports[g['icon_id']] for g in references[row['sub_id']]['generated'] if g['icon_id'] in sub_exports]
+            trial = trials.get(row['id']) if kind == 'container' else None
+            if trial:
+                # Trials are separate from validated/generated compositions.
+                # A source edit or remap invalidates the saved preview.
+                current = (
+                    trial.get('main_source_id') == row['main_id']
+                    and trial.get('sub_source_id') == row['sub_id']
+                    and any(g['key'] == trial.get('main_key') for g in main_artwork)
+                    and any(g['key'] == trial.get('sub_key') for g in references[row['sub_id']]['generated'])
+                    and all(records_by_key.get(trial.get(role + '_key'), {}).get('svg_sha256') == trial.get(role + '_sha256')
+                            and trial.get(role + '_sha256') for role in ('main', 'sub'))
+                )
+                filename = trial.get('svg_file', '')
+                source = root / 'icon_set/assets/container-solo-trials' / filename
+                intact = (bool(filename) and Path(filename).name == filename and source.is_file()
+                          and hashlib.sha256(source.read_bytes()).hexdigest() == trial.get('svg_sha256'))
+                if current and intact:
+                    destination = target / 'container-solo-trials' / filename
+                    destination.parent.mkdir(parents=True, exist_ok=True)
+                    shutil.copyfile(source, destination)
+                    row['trial_preview'] = {
+                        'preview_url': 'container-solo-trials/' + filename,
+                        'status': trial['status'], 'native_sub32': False,
+                        'main_key': trial['main_key'], 'sub_key': trial['sub_key'],
+                        'placement': trial['placement'],
+                    }
+                else:
+                    row['trial_status'] = 'stale'
             rows.append(row)
     result = {'rows': rows, 'references': references}
     (target / 'combinations.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')

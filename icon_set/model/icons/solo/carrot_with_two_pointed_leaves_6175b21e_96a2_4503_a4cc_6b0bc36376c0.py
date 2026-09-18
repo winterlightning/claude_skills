@@ -3,7 +3,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6175b21e-96a2-4503-a4cc-6b0bc36376c0'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/food/carrot_6175b21e-96a2-4503-a4cc-6b0bc36376c0.svg'
+SOURCE_PATH = 'pictographic-primitives/food/carrot_6175b21e-96a2-4503-a4cc-6b0bc36376c0.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -12,6 +12,7 @@ class Drawing(Solo48):
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/food'
+    tags = ('sub icon',)
     aliases = ()
     keywords = ('carrot', 'root', 'vegetable', 'leaf', 'produce', 'food', 'garden')
 

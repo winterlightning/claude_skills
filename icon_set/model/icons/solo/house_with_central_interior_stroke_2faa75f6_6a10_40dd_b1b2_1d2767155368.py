@@ -5,7 +5,7 @@ from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '2faa75f6-6a10-40dd-b1b2-1d2767155368'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/house_2faa75f6-6a10-40dd-b1b2-1d2767155368.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/house_2faa75f6-6a10-40dd-b1b2-1d2767155368.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
@@ -14,6 +14,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/interface-essential"
+    tags = ('sub icon',)
     aliases = ()
     keywords = ('house', 'home', 'roof', 'building', 'facade', 'outline')
 

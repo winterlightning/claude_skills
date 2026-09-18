@@ -3,7 +3,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {layout,svg}=require('../scripts/templates/text-combine.js');
 const {glyphs}=JSON.parse(fs.readFileSync(path.join(__dirname,'../dist/gallery/typeface.json'),'utf8'));
-assert.equal(glyphs.length,95);
+assert.equal(glyphs.length,97);
 let result=layout('obdpqg',glyphs);
 for(const p of result.placements){
  assert.ok(Math.abs(p.glyph.body_height*p.scale-36)<1e-8);

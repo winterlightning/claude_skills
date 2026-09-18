@@ -5,7 +5,12 @@
   "selected_for_build": true,
   "status": "pass",
   "errors": [],
-  "warnings": [],
+  "warnings": [
+    "internal-spacing [body / wheel-left]: body-2 and wheel-left-top have 0.064 units of ink clearance over 4.75 units; requires 4; review required",
+    "internal-spacing [body / wheel-right]: body-6 and wheel-right-top have 2.0013 units of ink clearance over 8.5 units; requires 4; review required",
+    "internal-spacing [body / wheel-right]: body-7 and wheel-right-top have -1.9511 units of ink clearance over 4 units; requires 4; review required",
+    "internal-spacing [window / wheel-right]: window-2 and wheel-right-top have 2.2842 units of ink clearance over 4.5 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
     "status": "pass",
@@ -15,7 +20,7 @@
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 8 34 L 4 34 L 4 20 L 14 12 L 30 12 L 34 22 L 44 24 L 44 34 L 42 34",
+        "pathData": "M 8 34 L 4 34 L 4 20 L 14 12 L 30 12 L 34 22 L 44 22 L 44 34 L 42 34",
         "bounds": [
           4.0,
           12.0,
@@ -455,9 +460,9 @@
           36.0,
           18.0
         ],
-        "area_ship_px2": 257.5166,
-        "equivalent_diameter_ship_px": 18.1075,
-        "equivalent_diameter_design_u": 18.1075,
+        "area_ship_px2": 264.2451,
+        "equivalent_diameter_ship_px": 18.3425,
+        "equivalent_diameter_design_u": 18.3425,
         "inscribed_diameter_ship_px": 10.5625,
         "inscribed_diameter_design_u": 10.5625,
         "inscribed_radius_ship_px": 5.2812,
@@ -582,9 +587,9 @@
           39.0,
           21.0
         ],
-        "area_ship_px2": 432.6943,
-        "equivalent_diameter_ship_px": 23.4718,
-        "equivalent_diameter_design_u": 23.4718,
+        "area_ship_px2": 441.8086,
+        "equivalent_diameter_ship_px": 23.7177,
+        "equivalent_diameter_design_u": 23.7177,
         "inscribed_diameter_ship_px": 13.5611,
         "inscribed_diameter_design_u": 13.5611,
         "inscribed_radius_ship_px": 6.7805,
@@ -707,7 +712,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.429478834212759,
+        "ink_iou": 0.4463037744710972,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -715,7 +720,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.29314335900134375,
+        "ink_iou": 0.3001270053425927,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -751,7 +756,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "c69d27d28322258c38cf4f9304d17ecc121109df178eedc1b3925b15941b7823",
+  "svg_sha256": "7261e68b100fa99184e586460e00bbde74847ecd8b399ff850a6d1783af5559e",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -808,7 +813,7 @@
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -840,13 +845,7 @@
             8.042302638390671,
             33.29423255525651
           ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the adventure car silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
+        ]
       },
       {
         "contour": "body / wheel-right",
@@ -855,25 +854,19 @@
           "wheel-right-top"
         ],
         "status": "review",
-        "sustained_length": 9.2031,
-        "centerline_distance": 5.375,
-        "ink_gap": 1.375,
+        "sustained_length": 8.5,
+        "centerline_distance": 6.0013,
+        "ink_gap": 2.0013,
         "nearest_points": [
           [
-            38.26829268292683,
-            22.853658536585364
+            35.875,
+            22.0
           ],
           [
-            37.2312920531738,
-            28.127698928035873
+            35.99902831284721,
+            28.000020086052455
           ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the adventure car silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
+        ]
       },
       {
         "contour": "body / wheel-right",
@@ -894,13 +887,7 @@
             41.962066124711136,
             33.3363568187268
           ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the adventure car silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
+        ]
       },
       {
         "contour": "window / wheel-right",
@@ -921,18 +908,23 @@
             34.76870794682619,
             28.127698928035873
           ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "Preserve the adventure car silhouette and its readable internal detail. The flagged local approaches remain legible in the centerline and native light/dark views. Retain the remaining sampled opposing-edge advisories after visual review; the certified model, holes and authored-stroke pinch gate pass.",
-          "evidence": "icon_set/work/solo-remaining-repair/centerlines-21.png"
-        }
+        ]
       }
     ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 4
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true,
+  "artwork_source": "use_edited",
+  "human_selection": {
+    "by": "hina",
+    "at": "2026-09-16T10:01:14.956876+00:00"
+  },
+  "automatic_status": "review",
+  "validation_override": {
+    "reason": "pass",
+    "reviewed_by": "hina",
+    "reviewed_at": "2026-09-16T10:01:03.870231+00:00",
+    "source_svg_sha256": "c69d27d28322258c38cf4f9304d17ecc121109df178eedc1b3925b15941b7823",
+    "graph_sha256": "41435a9432bd0303ed851d7c6fd8e2cbaa6569fd6eb0d4f4efd2cde3c330a5eb"
+  }
 }

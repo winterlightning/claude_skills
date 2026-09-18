@@ -20,6 +20,7 @@ class FiveLobedCannabisLeafWithStraightStem(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'cannabis'
+    tags = ('sub icon',)
     aliases = ()
     keywords = ('five-lobed', 'cannabis', 'leaf', 'with', 'straight', 'stem', 'sub icon')
 
@@ -55,4 +56,4 @@ class FiveLobedCannabisLeafWithStraightStem(Solo48):
 
 
 # Reviewed source-equivalent container sub-icon references.
-SOURCE_REFERENCES = [('75ca4f8a-309a-4fe3-b039-3e34bdf81ef3', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/cannabis/cannabis_75ca4f8a-309a-4fe3-b039-3e34bdf81ef3.svg')]
+SOURCE_REFERENCES = [('75ca4f8a-309a-4fe3-b039-3e34bdf81ef3', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/cannabis/cannabis_75ca4f8a-309a-4fe3-b039-3e34bdf81ef3.svg'), ('8be10246-6ae7-43c7-bc9e-c25a3d070fe3', 'pictographic-primitives/cannabis/cannabis_8be10246-6ae7-43c7-bc9e-c25a3d070fe3.svg')]

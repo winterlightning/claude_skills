@@ -14,7 +14,7 @@ class ReferenceIdentityTests(unittest.TestCase):
         ids = ['11111111-1111-4111-8111-111111111111',
                '22222222-2222-4222-8222-222222222222']
         with tempfile.TemporaryDirectory() as folder:
-            root = Path(folder)
+            root = Path(folder).resolve()
             sources = root / 'pictographic-primitives'
             sources.mkdir()
             paths = [sources / f'first_{ids[0]}.svg',

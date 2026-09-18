@@ -4,6 +4,8 @@ All coordinates use that same band: small punctuation is never enlarged to
 letter height. Round-cap zero-length lines form stroke-width-aware dots.
 """
 SYMBOLS = {
+    '“': ('left-double-quotation-mark', ['M19 8 C13 10 12 17 12 24 H20 V34 H10 V24', 'M37 8 C31 10 30 17 30 24 H38 V34 H28 V24']),
+    '⊆': ('subset-or-equal', ['M36 8 H24 C5 8 5 32 24 32 H36', 'M12 42 H36']),
     '!': ('exclamation', ['M24 6 V30', 'M24 42 L24 42']),
     '"': ('double-quote', ['M18 6 V16', 'M30 6 V16']),
     '#': ('number-sign', ['M20 6 L14 42', 'M34 6 L28 42', 'M10 18 H39', 'M8 30 H37']),

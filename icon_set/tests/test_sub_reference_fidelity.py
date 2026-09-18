@@ -1,6 +1,16 @@
 import hashlib
 import json
-from icon_set.scripts.sub_reference_fidelity import annotate_sub_references
+from icon_set.scripts.sub_reference_fidelity import annotate_sub_references, resolve_audit_source
+
+def test_audit_source_follows_a_relocated_checkout(tmp_path):
+    source = tmp_path / 'pictographic-primitives' / 'state' / 'check.svg'
+    source.parent.mkdir(parents=True)
+    source.write_text('<svg/>')
+    assert resolve_audit_source('/old/checkout/pictographic-primitives/state/check.svg', tmp_path) == source
+
+def test_audit_source_does_not_hide_a_missing_reference(tmp_path):
+    original = '/old/checkout/pictographic-primitives/state/missing.svg'
+    assert str(resolve_audit_source(original, tmp_path)) == original
 
 def test_fidelity_findings_apply_only_to_reviewed_model_revision(tmp_path):
     source=tmp_path/'model.py';source.write_text('old model')

@@ -4,23 +4,28 @@
   "profile": "SOLO48",
   "selected_for_build": true,
   "status": "pass",
-  "errors": [],
-  "warnings": [],
+  "errors": [
+    "mic [body]: parallel straight edges body-5 and body-7 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "mic [body]: parallel straight edges body-6 and body-8 are 7.69219 apart on centerlines (ink gap 3.69219); requires at least 8 centerline / 4 ink (midpoint-normal)"
+  ],
+  "warnings": [
+    "internal-spacing [body]: body-6 and body-8 have 3.6922 units of ink clearance over 4.1254 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "body:subpath-1",
         "elementId": "body",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 4 20 L 12 20 L 12 16 L 32 16 L 32 24 L 28 24 L 28 40 L 20 40 L 18 28 L 12 28 L 4 36 L 4 20 Z",
+        "pathData": "M 4 16 L 32 16 L 32 16 L 32 16 L 32 28 L 25 28 L 27 35 L 19 35 L 17 28 L 13 28 L 4 38 L 4 16 Z",
         "bounds": [
           4.0,
           16.0,
           32.0,
-          40.0
+          38.0
         ],
         "segmentCount": 12,
         "approximationError": 0.0,
@@ -31,12 +36,12 @@
         "elementId": "barrel",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 32 20 L 44 20",
+        "pathData": "M 32 22 L 44 22",
         "bounds": [
           32.0,
-          20.0,
+          22.0,
           44.0,
-          20.0
+          22.0
         ],
         "segmentCount": 1,
         "approximationError": 0.0,
@@ -47,11 +52,11 @@
         "elementId": "handle",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 16 16 L 20 8 L 28 8 L 32 16",
+        "pathData": "M 24 16 L 19 10 L 19 10 L 24 16",
         "bounds": [
-          16.0,
-          8.0,
-          32.0,
+          19.0,
+          10.0,
+          24.0,
           16.0
         ],
         "segmentCount": 3,
@@ -79,9 +84,9 @@
         ],
         "bounds": [
           4.0,
-          8.0,
+          10.0,
           44.0,
-          40.0
+          38.0
         ]
       }
     ],
@@ -95,7 +100,7 @@
         "reason": "exact original straight-segment intersection",
         "point": [
           32.0,
-          20.0
+          22.0
         ]
       },
       {
@@ -103,9 +108,9 @@
           "body:subpath-1",
           "handle:subpath-1"
         ],
-        "reason": "shared original drawn-command endpoint",
+        "reason": "exact original straight-segment intersection",
         "point": [
-          32.0,
+          24.0,
           16.0
         ]
       }
@@ -126,7 +131,7 @@
           "reason": "exact original straight-segment intersection",
           "point": [
             32.0,
-            20.0
+            22.0
           ]
         }
       },
@@ -142,9 +147,9 @@
             "body:subpath-1",
             "handle:subpath-1"
           ],
-          "reason": "shared original drawn-command endpoint",
+          "reason": "exact original straight-segment intersection",
           "point": [
-            32.0,
+            24.0,
             16.0
           ]
         }
@@ -178,7 +183,7 @@
       "flattenedSegments": 16,
       "adaptiveNodes": 0,
       "distanceTests": 0,
-      "connectionTests": 1
+      "connectionTests": 2
     },
     "raw_status": "pass",
     "canvas": 48
@@ -189,133 +194,71 @@
       {
         "hole": 1,
         "center_viewbox": [
-          22.5156,
-          11.9844
-        ],
-        "bbox_viewbox": [
-          19.25,
-          10.0,
-          9.5,
-          4.0
-        ],
-        "bbox_ship_px": [
-          9.5,
-          4.0
-        ],
-        "bbox_design_u": [
-          9.5,
-          4.0
-        ],
-        "area_ship_px2": 30.125,
-        "equivalent_diameter_ship_px": 6.1932,
-        "equivalent_diameter_design_u": 6.1932,
-        "inscribed_diameter_ship_px": 4.0,
-        "inscribed_diameter_design_u": 4.0,
-        "inscribed_radius_ship_px": 2.0,
-        "inscribed_radius_design_u": 2.0,
-        "minimum_radius_design_u": 1.0,
-        "status": "pass"
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          21.6719,
-          22.5469
+          20.9531,
+          22.6406
         ],
         "bbox_viewbox": [
           6.0,
           18.0,
           24.0,
-          20.0
+          15.0
         ],
         "bbox_ship_px": [
           24.0,
-          20.0
+          15.0
         ],
         "bbox_design_u": [
           24.0,
-          20.0
+          15.0
         ],
-        "area_ship_px2": 223.4209,
-        "equivalent_diameter_ship_px": 16.8662,
-        "equivalent_diameter_design_u": 16.8662,
-        "inscribed_diameter_ship_px": 9.125,
-        "inscribed_diameter_design_u": 9.125,
-        "inscribed_radius_ship_px": 4.5625,
-        "inscribed_radius_design_u": 4.5625,
+        "area_ship_px2": 241.7412,
+        "equivalent_diameter_ship_px": 17.5441,
+        "equivalent_diameter_design_u": 17.5441,
+        "inscribed_diameter_ship_px": 9.3125,
+        "inscribed_diameter_design_u": 9.3125,
+        "inscribed_radius_ship_px": 4.6562,
+        "inscribed_radius_design_u": 4.6562,
         "minimum_radius_design_u": 1.0,
         "status": "pass"
       }
     ],
-    "authored_hole_count": 2,
+    "authored_hole_count": 1,
     "raster_artifact_count": 0,
-    "hole_count": 2,
+    "hole_count": 1,
     "failed_hole_count": 0,
     "pinch_count": 0,
     "holes": [
       {
         "hole": 1,
         "center_viewbox": [
-          22.5469,
-          11.9844
-        ],
-        "bbox_viewbox": [
-          16.8125,
-          8.5,
-          14.375,
-          7.0
-        ],
-        "bbox_ship_px": [
-          14.375,
-          7.0
-        ],
-        "bbox_design_u": [
-          14.375,
-          7.0
-        ],
-        "area_ship_px2": 76.125,
-        "equivalent_diameter_ship_px": 9.8451,
-        "equivalent_diameter_design_u": 9.8451,
-        "inscribed_diameter_ship_px": 7.0,
-        "inscribed_diameter_design_u": 7.0,
-        "inscribed_radius_ship_px": 3.5,
-        "inscribed_radius_design_u": 3.5,
-        "minimum_radius_design_u": 2.5,
-        "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 2.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 4.0
-      },
-      {
-        "hole": 2,
-        "center_viewbox": [
-          21.6719,
-          22.5469
+          20.9531,
+          22.6406
         ],
         "bbox_viewbox": [
           4.5,
           16.5,
           27.0,
-          23.0
+          20.1875
         ],
         "bbox_ship_px": [
           27.0,
-          23.0
+          20.1875
         ],
         "bbox_design_u": [
           27.0,
-          23.0
+          20.1875
         ],
-        "area_ship_px2": 372.7012,
-        "equivalent_diameter_ship_px": 21.7839,
-        "equivalent_diameter_design_u": 21.7839,
-        "inscribed_diameter_ship_px": 12.125,
-        "inscribed_diameter_design_u": 12.125,
-        "inscribed_radius_ship_px": 6.0625,
-        "inscribed_radius_design_u": 6.0625,
+        "area_ship_px2": 383.9473,
+        "equivalent_diameter_ship_px": 22.1101,
+        "equivalent_diameter_design_u": 22.1101,
+        "inscribed_diameter_ship_px": 12.3125,
+        "inscribed_diameter_design_u": 12.3125,
+        "inscribed_radius_ship_px": 6.1562,
+        "inscribed_radius_design_u": 6.1562,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 4.5625,
-        "equivalent_diameter_at_authored_stroke_design_u": 9.125
+        "equivalent_radius_at_authored_stroke_design_u": 4.6562,
+        "equivalent_diameter_at_authored_stroke_design_u": 9.3124
       }
     ],
     "pinches": [],
@@ -334,7 +277,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.4660859918285954,
+        "ink_iou": 0.23887113661909348,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -342,7 +285,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.3846926841304741,
+        "ink_iou": 0.3749774931956247,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -378,7 +321,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "be0e9bf9f38bb5488f6124ca0e5e3804b70bb6417174db1d99c054bcd61b3739",
+  "svg_sha256": "f954003200f03118f13bbb60c7220ad025883ee7ea0acc0cac938ff456b70831",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -435,7 +378,7 @@
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "pass",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -447,8 +390,43 @@
       "blocking": false,
       "publication_requires_clear_review": true
     },
-    "findings": [],
+    "findings": [
+      {
+        "contour": "body",
+        "elements": [
+          "body-6",
+          "body-8"
+        ],
+        "status": "review",
+        "sustained_length": 4.1254,
+        "centerline_distance": 7.6922,
+        "ink_gap": 3.6922,
+        "nearest_points": [
+          [
+            26.03333333333333,
+            31.616666666666667
+          ],
+          [
+            18.63710691823899,
+            33.72987421383646
+          ]
+        ]
+      }
+    ],
     "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true,
+  "artwork_source": "use_edited",
+  "human_selection": {
+    "by": "hina",
+    "at": "2026-09-16T08:00:27.621670+00:00"
+  },
+  "automatic_status": "fail",
+  "validation_override": {
+    "reason": "the body can't scale vertical to snap the keyshape",
+    "reviewed_by": "hina",
+    "reviewed_at": "2026-09-16T08:00:21.564820+00:00",
+    "source_svg_sha256": "be0e9bf9f38bb5488f6124ca0e5e3804b70bb6417174db1d99c054bcd61b3739",
+    "graph_sha256": "6ae0a35151a30e9f6b70476ed8e2c24a2b83944d0e705fae6321ac54d73267fc"
+  }
 }

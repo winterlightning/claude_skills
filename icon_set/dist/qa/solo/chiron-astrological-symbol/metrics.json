@@ -4,26 +4,33 @@
   "profile": "SOLO48",
   "selected_for_build": true,
   "status": "pass",
-  "errors": [],
-  "warnings": [],
+  "errors": [
+    "style/grid [branches-1]: start.x must be an integer on grid 1, got 32.25",
+    "style/grid [branches-2]: end.x must be an integer on grid 1, got 32.25",
+    "canvas/keyshape bounds: visible ink (11, 2, 37, 46) does not match the VRECT_M envelope (8, 2, 40, 46) (deltas [3.0, 0.0, 3.0, 0.0], tolerance 0.0)",
+    "mic: parallel straight geometry could not be checked: branches-1: non-integer authored line"
+  ],
+  "warnings": [
+    "internal-spacing [ring / branches]: ring-right and branches-2 have 2.1952 units of ink clearance over 3.9972 units; requires 4; review required"
+  ],
   "spacing": {
     "ok": true,
-    "status": "pass",
+    "status": "fail",
     "contours": [
       {
         "id": "ring:subpath-1",
         "elementId": "ring",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 24 24 A 16 10 0 0 1 24 44 A 16 10 0 0 1 24 24 Z",
+        "pathData": "M 24 24 A 11 10 0 0 1 24 44 A 11 10 0 0 1 24 24 Z",
         "bounds": [
-          8.0,
+          13.0,
           24.0,
-          40.0,
+          35.0,
           44.0
         ],
-        "segmentCount": 513,
-        "approximationError": 0.0003031037734646648,
+        "segmentCount": 257,
+        "approximationError": 0.0008296014674651027,
         "hasCurves": true
       },
       {
@@ -47,11 +54,11 @@
         "elementId": "branches",
         "subpathIndex": 1,
         "componentId": "component-1",
-        "pathData": "M 36 4 L 24 12 L 36 20",
+        "pathData": "M 32.25 4 L 24 12 L 32.25 20",
         "bounds": [
           24.0,
           4.0,
-          36.0,
+          32.25,
           20.0
         ],
         "segmentCount": 2,
@@ -78,9 +85,9 @@
           "branches"
         ],
         "bounds": [
-          8.0,
+          13.0,
           4.0,
-          40.0,
+          35.0,
           44.0
         ]
       }
@@ -175,8 +182,8 @@
     "reason": "No disconnected centerline components to compare.",
     "stats": {
       "commands": 10,
-      "flattenedSegments": 517,
-      "adaptiveNodes": 1022,
+      "flattenedSegments": 261,
+      "adaptiveNodes": 510,
       "distanceTests": 0,
       "connectionTests": 0
     },
@@ -189,26 +196,26 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.2969,
+          23.9531,
           33.9844
         ],
         "bbox_viewbox": [
-          10.0,
+          15.0,
           26.0,
-          28.0,
+          18.0,
           16.0
         ],
         "bbox_ship_px": [
-          28.0,
+          18.0,
           16.0
         ],
         "bbox_design_u": [
-          28.0,
+          18.0,
           16.0
         ],
-        "area_ship_px2": 349.6973,
-        "equivalent_diameter_ship_px": 21.1009,
-        "equivalent_diameter_design_u": 21.1009,
+        "area_ship_px2": 226.1299,
+        "equivalent_diameter_ship_px": 16.9681,
+        "equivalent_diameter_design_u": 16.9681,
         "inscribed_diameter_ship_px": 16.0,
         "inscribed_diameter_design_u": 16.0,
         "inscribed_radius_ship_px": 8.0,
@@ -226,34 +233,34 @@
       {
         "hole": 1,
         "center_viewbox": [
-          23.2656,
+          23.9844,
           33.9844
         ],
         "bbox_viewbox": [
-          8.5,
+          13.5,
           24.5,
-          31.0,
+          21.0,
           19.0
         ],
         "bbox_ship_px": [
-          31.0,
+          21.0,
           19.0
         ],
         "bbox_design_u": [
-          31.0,
+          21.0,
           19.0
         ],
-        "area_ship_px2": 462.0908,
-        "equivalent_diameter_ship_px": 24.256,
-        "equivalent_diameter_design_u": 24.256,
-        "inscribed_diameter_ship_px": 19.0,
-        "inscribed_diameter_design_u": 19.0,
-        "inscribed_radius_ship_px": 9.5,
-        "inscribed_radius_design_u": 9.5,
+        "area_ship_px2": 313.3652,
+        "equivalent_diameter_ship_px": 19.9747,
+        "equivalent_diameter_design_u": 19.9747,
+        "inscribed_diameter_ship_px": 18.9985,
+        "inscribed_diameter_design_u": 18.9985,
+        "inscribed_radius_ship_px": 9.4992,
+        "inscribed_radius_design_u": 9.4992,
         "minimum_radius_design_u": 2.5,
         "status": "pass",
-        "equivalent_radius_at_authored_stroke_design_u": 8.0,
-        "equivalent_diameter_at_authored_stroke_design_u": 16.0
+        "equivalent_radius_at_authored_stroke_design_u": 7.9992,
+        "equivalent_diameter_at_authored_stroke_design_u": 15.9984
       }
     ],
     "pinches": [],
@@ -272,7 +279,7 @@
       {
         "axis": "vertical",
         "coordinate": 24.0,
-        "ink_iou": 0.6567133922758877,
+        "ink_iou": 0.6774640390630096,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -280,7 +287,7 @@
       {
         "axis": "horizontal",
         "coordinate": 24.0,
-        "ink_iou": 0.16711396916332216,
+        "ink_iou": 0.1778612981972195,
         "ink_symmetric": false,
         "status": "not_applicable",
         "mismatches": []
@@ -316,7 +323,7 @@
     "reproducibility",
     "symmetry"
   ],
-  "svg_sha256": "9b03f844e7e98278c10fc73411e82ba32e3e408d73e1cb1218b3440506cc56f3",
+  "svg_sha256": "e7da4b2818275ce2859e42b820f322bad9ebaa44fb623c36a56075d5f3bd3598",
   "rules": {
     "profile": {
       "canvas_size": 48,
@@ -373,7 +380,7 @@
   "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
   "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
   "internal_spacing": {
-    "status": "reviewed",
+    "status": "review",
     "blocking": false,
     "required_ink_gap": 4.0,
     "rules": {
@@ -393,30 +400,35 @@
           "branches-2"
         ],
         "status": "review",
-        "sustained_length": 5.2218,
-        "centerline_distance": 6.564,
-        "ink_gap": 2.564,
+        "sustained_length": 3.9972,
+        "centerline_distance": 6.1952,
+        "ink_gap": 2.1952,
         "nearest_points": [
           [
-            32.914969675126855,
-            25.696120172352025
+            29.120058401809352,
+            25.150014345966994
           ],
           [
-            35.48275862068965,
-            19.655172413793103
+            31.80163043478261,
+            19.565217391304348
           ]
-        ],
-        "visual_review": {
-          "decision": "retain",
-          "reviewer": "gpt-6",
-          "reason": "The lower branch narrows toward the ring attachment; the astrological symbol remains recognizable.",
-          "evidence": "icon_set/work/solo-failed-batch-100/centerlines-2.png"
-        }
+        ]
       }
     ],
-    "notice": "Sampled findings retained after explicit visual review of this exact drawing. Model spacing and hole checks still apply.",
-    "measured_status": "review",
-    "reviewed_finding_count": 1
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
   },
-  "needs_review": false
+  "needs_review": true,
+  "artwork_source": "use_edited",
+  "human_selection": {
+    "by": "hina",
+    "at": "2026-09-17T03:21:55.371958+00:00"
+  },
+  "automatic_status": "fail",
+  "validation_override": {
+    "reason": "",
+    "reviewed_by": "hina",
+    "reviewed_at": "2026-09-17T03:20:49.189946+00:00",
+    "source_svg_sha256": "9b03f844e7e98278c10fc73411e82ba32e3e408d73e1cb1218b3440506cc56f3",
+    "graph_sha256": "792a58b1e01e48ed3176b7322c33f5210c5e7e04b5252dbda7a3df4c4190cc1c"
+  }
 }

@@ -20,7 +20,7 @@ def gallery_records(staged: Path, published: Path, target: Path) -> list[dict]:
         raise ValueError('Invalid text family manifest')
     records = []
     for item in data['icons']:
-        if item.get('family') != 'text' or item.get('canvas_height') != 28:
+        if item.get('family') != 'text' or (item.get('canvas_height') != 28 and not (item.get('profile') == 'TEXT_COMPOSITION' and item.get('text_ink_height') == 28 and item.get('motif'))):
             raise ValueError('Text export must have a 28-unit canvas height')
         if not (folder / (item['icon_id'] + '.svg')).is_file():
             raise ValueError('Missing text export: ' + item['icon_id'])

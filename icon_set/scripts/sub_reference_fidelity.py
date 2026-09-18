@@ -5,6 +5,20 @@ import shutil
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[2]
 
+def resolve_audit_source(value, root=ROOT):
+    """Keep saved audits portable when the repository checkout moves."""
+    source = Path(value)
+    candidate = source if source.is_absolute() else root / source
+    if candidate.is_file():
+        return candidate
+    for folder in ('pictographic-primitives', 'pictographic-combinations'):
+        if folder in source.parts:
+            relative = Path(*source.parts[source.parts.index(folder):])
+            relocated = root / relative
+            if relocated.is_file():
+                return relocated
+    return candidate  # Preserve a real missing-file error rather than hiding it.
+
 def annotate_sub_references(records, root=ROOT):
     path=root/'icon_set/data/sub-reference-fidelity.json'
     if not path.exists():return
@@ -29,7 +43,7 @@ def stage_sub_reference_review(target, root=ROOT):
     for row in records:
         if row['original_url']:
             output=dest/row['original_url'];output.parent.mkdir(exist_ok=True)
-            shutil.copyfile(row['source_path'],output)
+            shutil.copyfile(resolve_audit_source(row['source_path'], root),output)
         for version in row['versions']:
             output=dest/version['url'];output.parent.mkdir(exist_ok=True)
             shutil.copyfile(root/'work/state-category-complete/svg'/version['file'],output)

@@ -11,6 +11,7 @@ SOURCE_ICON_ID = 'e77d082a-2908-4e96-bc5e-1b396d792411'
 SOURCE_PATH = 'pictographic-primitives/cannabis/cannabis 1_e77d082a-2908-4e96-bc5e-1b396d792411.svg'
 SOURCE_ICON_IDS = ('e77d082a-2908-4e96-bc5e-1b396d792411', '219ceabe-349a-4492-b9c9-eae240f9d5c9', '8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1')
 SOURCE_PATHS = ('pictographic-primitives/cannabis/cannabis 1_e77d082a-2908-4e96-bc5e-1b396d792411.svg', 'pictographic-primitives/cannabis/cannabis_219ceabe-349a-4492-b9c9-eae240f9d5c9.svg', 'pictographic-primitives/cannabis/cannabis_8a80ee4f-5c0f-47e3-8f69-d4a34318a6b1.svg')
+SOURCE_REFERENCES = (('219ceabe-349a-4492-b9c9-eae240f9d5c9', 'pictographic-primitives/cannabis/cannabis_219ceabe-349a-4492-b9c9-eae240f9d5c9.svg'),)
 AUTHOR = 'gpt-6'
 
 
@@ -20,6 +21,7 @@ class FiveLobedCannabisLeafWithCurvedStem(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = 'cannabis'
+    tags = ('sub icon',)
     aliases = ()
     keywords = ('five-lobed', 'cannabis', 'leaf', 'with', 'curved', 'stem')
 

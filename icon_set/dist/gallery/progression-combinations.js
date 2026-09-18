@@ -73,7 +73,12 @@ async function renderCombinations(){
     const grid=node('div','combination-artworks');
     const original=artwork('Reference combination',{...refs[row.id],concept:row.concept,generated:[]});original.lastChild.remove();
     const subRef={...refs[row.sub_id],generated:refs[row.sub_id].generated.map(g=>{const reuse=(row.sub_exports||[]).find(e=>e.icon===g.icon_id);return reuse?{...g,preview_url:reuse.export_url,label:g.icon_id+' · 32px reuse export'}:g;})};
-    grid.append(original,artwork(row.kind==='container'?'Main · Container 64px':'Main',combinationMain(row)),artwork('Sub',subRef),artwork('Generated combination',refs[row.id],true,row.generated||[]));card.append(grid);
+    const combined=artwork('Generated combination',refs[row.id],true,row.generated||[]);
+    if(row.trial_preview){
+      const trial=row.trial_preview, empty=combined.querySelector('.combination-empty');if(empty)empty.remove();
+      combined.append(node('p','combination-label','Trial preview'),imageLink(trial.preview_url,row.concept+' — trial'),node('p','muted',trial.status==='clearance-estimate-pass'?'Solo artwork fitted inside container · review before approval':'Solo artwork fitted inside container · placement needs review'));
+    }else if(row.trial_status==='stale')combined.append(node('p','muted','Trial needs rebuilding because a linked source or pairing changed.'));
+    grid.append(original,artwork(row.kind==='container'?'Main · Container 64px':'Main',combinationMain(row)),artwork('Sub',subRef),combined);card.append(grid);
     for(const mapping of row.remappings||[])card.append(node('p','muted',`${mapping.role==='main'?'Main':'Sub'} remapped to an existing source: ${mapping.reason}.`));
     const details=node('details','combination-identities');details.append(node('summary','','Source IDs'));for(const [name,id] of [['Combination',row.id],['Main',row.main_id],['Sub',row.sub_id]])details.append(node('p','',name+': '+id));card.append(details);return card;
   }

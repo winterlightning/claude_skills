@@ -1,0 +1,616 @@
+{
+  "icon_id": "lungs-with-curved-bronchi-ece421f8",
+  "family": "solo",
+  "profile": "SOLO48",
+  "selected_for_build": true,
+  "status": "pass",
+  "errors": [],
+  "warnings": [],
+  "spacing": {
+    "ok": true,
+    "status": "pass",
+    "contours": [
+      {
+        "id": "lung--1:subpath-1",
+        "elementId": "lung--1",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 15 14 A 9 20 0 0 0 6 34 A 8 8 0 0 0 14 42 A 2 2 0 0 0 16 40 L 16 36",
+        "bounds": [
+          6.0,
+          14.0,
+          16.0,
+          42.0
+        ],
+        "segmentCount": 225,
+        "approximationError": 0.0006023928476958834,
+        "hasCurves": true
+      },
+      {
+        "id": "lung-1:subpath-1",
+        "elementId": "lung-1",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 33 14 A 9 20 0 0 1 42 34 A 8 8 0 0 1 34 42 A 2 2 0 0 1 32 40 L 32 36",
+        "bounds": [
+          32.0,
+          14.0,
+          42.0,
+          42.0
+        ],
+        "segmentCount": 225,
+        "approximationError": 0.0006023928476958726,
+        "hasCurves": true
+      },
+      {
+        "id": "trachea:subpath-1",
+        "elementId": "trachea",
+        "subpathIndex": 1,
+        "componentId": "component-3",
+        "pathData": "M 24 6 L 24 18",
+        "bounds": [
+          24.0,
+          6.0,
+          24.0,
+          18.0
+        ],
+        "segmentCount": 1,
+        "approximationError": 0.0,
+        "hasCurves": false
+      },
+      {
+        "id": "bronchi:subpath-1",
+        "elementId": "bronchi",
+        "subpathIndex": 1,
+        "componentId": "component-3",
+        "pathData": "M 16 27 A 8 9 0 0 0 24 18 A 8 9 0 0 0 32 27",
+        "bounds": [
+          16.0,
+          18.0,
+          32.0,
+          27.0
+        ],
+        "segmentCount": 128,
+        "approximationError": 0.0006776919536578688,
+        "hasCurves": true
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "lung--1:subpath-1"
+        ],
+        "contourIds": [
+          "lung--1:subpath-1"
+        ],
+        "elementIds": [
+          "lung--1"
+        ],
+        "bounds": [
+          6.0,
+          14.0,
+          16.0,
+          42.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "lung-1:subpath-1"
+        ],
+        "contourIds": [
+          "lung-1:subpath-1"
+        ],
+        "elementIds": [
+          "lung-1"
+        ],
+        "bounds": [
+          32.0,
+          14.0,
+          42.0,
+          42.0
+        ]
+      },
+      {
+        "id": "component-3",
+        "memberIds": [
+          "trachea:subpath-1",
+          "bronchi:subpath-1"
+        ],
+        "contourIds": [
+          "trachea:subpath-1",
+          "bronchi:subpath-1"
+        ],
+        "elementIds": [
+          "trachea",
+          "bronchi"
+        ],
+        "bounds": [
+          16.0,
+          6.0,
+          32.0,
+          27.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "lung--1:subpath-1",
+          "lung-1:subpath-1"
+        ],
+        "centerlineDistance": 16.0,
+        "inkClearance": 12.0,
+        "signedInkClearance": 12.0,
+        "lowerBound": 15.998795214304607,
+        "upperBound": 16.001204785695396,
+        "inkClearanceLowerBound": 11.998795214304607,
+        "inkClearanceUpperBound": 12.001204785695396,
+        "approximationError": 0.001204785695396282,
+        "nearestPoints": [
+          [
+            16.0,
+            40.0
+          ],
+          [
+            32.0,
+            40.0
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "lung--1:subpath-1"
+          ],
+          [
+            "lung-1:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "lung--1:subpath-1",
+              "lung-1:subpath-1"
+            ],
+            "centerlineDistance": 16.0,
+            "inkClearance": 12.0,
+            "signedInkClearance": 12.0,
+            "lowerBound": 15.998795214304607,
+            "upperBound": 16.001204785695396,
+            "inkClearanceLowerBound": 11.998795214304607,
+            "inkClearanceUpperBound": 12.001204785695396,
+            "approximationError": 0.001204785695391756,
+            "nearestPoints": [
+              [
+                16.0,
+                40.0
+              ],
+              [
+                32.0,
+                40.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      },
+      {
+        "closestContours": [
+          "lung--1:subpath-1",
+          "trachea:subpath-1"
+        ],
+        "centerlineDistance": 9.0,
+        "inkClearance": 5.0,
+        "signedInkClearance": 5.0,
+        "lowerBound": 8.998719915198645,
+        "upperBound": 9.000602392847698,
+        "inkClearanceLowerBound": 4.998719915198645,
+        "inkClearanceUpperBound": 5.000602392847698,
+        "approximationError": 0.001280084801354775,
+        "nearestPoints": [
+          [
+            15.0,
+            14.0
+          ],
+          [
+            24.0,
+            14.0
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-3"
+        ],
+        "memberIds": [
+          [
+            "lung--1:subpath-1"
+          ],
+          [
+            "trachea:subpath-1",
+            "bronchi:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "lung--1:subpath-1",
+              "trachea:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.999397607152302,
+            "upperBound": 9.000602392847698,
+            "inkClearanceLowerBound": 4.999397607152302,
+            "inkClearanceUpperBound": 5.000602392847698,
+            "approximationError": 0.0006023928476958834,
+            "nearestPoints": [
+              [
+                15.0,
+                14.0
+              ],
+              [
+                24.0,
+                14.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "lung--1:subpath-1",
+              "bronchi:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.998719915198645,
+            "upperBound": 9.001280084801355,
+            "inkClearanceLowerBound": 4.998719915198645,
+            "inkClearanceUpperBound": 5.001280084801355,
+            "approximationError": 0.0012800848013537524,
+            "nearestPoints": [
+              [
+                16.0,
+                36.0
+              ],
+              [
+                16.0,
+                27.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      },
+      {
+        "closestContours": [
+          "lung-1:subpath-1",
+          "trachea:subpath-1"
+        ],
+        "centerlineDistance": 9.0,
+        "inkClearance": 5.0,
+        "signedInkClearance": 5.0,
+        "lowerBound": 8.998719915198645,
+        "upperBound": 9.000602392847698,
+        "inkClearanceLowerBound": 4.998719915198645,
+        "inkClearanceUpperBound": 5.000602392847698,
+        "approximationError": 0.001280084801354775,
+        "nearestPoints": [
+          [
+            33.0,
+            14.0
+          ],
+          [
+            24.0,
+            14.0
+          ]
+        ],
+        "requiredCenterline": 8.0,
+        "requiredInkClearance": 4.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-2",
+          "component-3"
+        ],
+        "memberIds": [
+          [
+            "lung-1:subpath-1"
+          ],
+          [
+            "trachea:subpath-1",
+            "bronchi:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "lung-1:subpath-1",
+              "trachea:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.999397607152302,
+            "upperBound": 9.000602392847698,
+            "inkClearanceLowerBound": 4.999397607152302,
+            "inkClearanceUpperBound": 5.000602392847698,
+            "approximationError": 0.0006023928476958726,
+            "nearestPoints": [
+              [
+                33.0,
+                14.0
+              ],
+              [
+                24.0,
+                14.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "lung-1:subpath-1",
+              "bronchi:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.998719915198645,
+            "upperBound": 9.001280084801355,
+            "inkClearanceLowerBound": 4.998719915198645,
+            "inkClearanceUpperBound": 5.001280084801355,
+            "approximationError": 0.0012800848013537415,
+            "nearestPoints": [
+              [
+                32.0,
+                36.0
+              ],
+              [
+                32.0,
+                27.0
+              ]
+            ],
+            "requiredCenterline": 8.0,
+            "requiredInkClearance": 4.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "trachea:subpath-1",
+          "bronchi:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          24.0,
+          18.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "trachea:subpath-1",
+          "bronchi:subpath-1"
+        ],
+        "componentId": "component-3",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "trachea:subpath-1",
+            "bronchi:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            24.0,
+            18.0
+          ]
+        }
+      }
+    ],
+    "errors": [],
+    "requiredCenterline": 8.0,
+    "requiredInkClearance": 4.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 9.0,
+    "minimumInkClearance": 5.0,
+    "reason": "All disconnected components meet the required spacing.",
+    "stats": {
+      "commands": 15,
+      "flattenedSegments": 579,
+      "adaptiveNodes": 1144,
+      "distanceTests": 65,
+      "connectionTests": 0
+    },
+    "raw_status": "pass",
+    "canvas": 48
+  },
+  "negative_space": {
+    "status": "pass",
+    "authored_holes": [],
+    "authored_hole_count": 0,
+    "raster_artifact_count": 0,
+    "hole_count": 0,
+    "failed_hole_count": 0,
+    "pinch_count": 0,
+    "holes": [],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 1.0,
+    "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
+    "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "pass",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 24.0,
+        "ink_iou": 0.9996783774937433,
+        "ink_symmetric": true,
+        "status": "pass",
+        "mismatches": [],
+        "max_sampled_distance": 1.0048591735576161e-14
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 24.0,
+        "ink_iou": 0.11999518116989104,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
+  "artifacts": {
+    "svg": "solo/lungs-with-curved-bronchi-ece421f8/icon.svg",
+    "metrics": "solo/lungs-with-curved-bronchi-ece421f8/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility",
+    "symmetry"
+  ],
+  "svg_sha256": "f6ccaa0a0af4cc8565f511e7d2815e01fbaf298f2338e4fdbdec220131b26f76",
+  "rules": {
+    "profile": {
+      "canvas_size": 48,
+      "family": "solo",
+      "interior_guide_inset": 6,
+      "mic": 4,
+      "equal_stroke_centerline_min": 8,
+      "keyshape_scale_numerator": 3,
+      "keyshape_scale_denominator": 2,
+      "semantic_use": "primary noun or standalone subject"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-authored-topology-v3"
+    },
+    "internal_spacing": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "pinch_measurement": "authored-stroke-v1",
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 4.0,
+    "rules": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

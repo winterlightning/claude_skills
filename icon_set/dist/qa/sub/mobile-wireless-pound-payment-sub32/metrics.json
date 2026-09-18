@@ -1,0 +1,814 @@
+{
+  "icon_id": "mobile-wireless-pound-payment-sub32",
+  "family": "sub",
+  "profile": "SUB32",
+  "selected_for_build": true,
+  "status": "fail",
+  "errors": [
+    "mic [currency-bar]: parallel straight edges currency-bar-1, currency-bar-2 and currency-foot are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "mic [currency]: parallel straight edges currency-foot and bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "holes/pinches: 3 undersized holes; 0 pinches"
+  ],
+  "warnings": [
+    "mic [phone]: phone and currency are 6 apart on centerlines nearest (14, 30)<->(14, 24); SUB32 requires at least 6 (ink clearance 2) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "spacing": {
+    "ok": false,
+    "status": "fail",
+    "contours": [
+      {
+        "id": "signal:subpath-1",
+        "elementId": "signal",
+        "subpathIndex": 1,
+        "componentId": "component-1",
+        "pathData": "M 4 6 C 8 3 12 2 16 2 C 20 2 24 3 28 6",
+        "bounds": [
+          4.0,
+          2.0,
+          28.0,
+          6.0
+        ],
+        "segmentCount": 126,
+        "approximationError": 0.0009968764945770404,
+        "hasCurves": true
+      },
+      {
+        "id": "phone:subpath-1",
+        "elementId": "phone",
+        "subpathIndex": 1,
+        "componentId": "component-2",
+        "pathData": "M 4 12 L 4 26 A 4 4 0 0 0 8 30 L 24 30 A 4 4 0 0 0 28 26 L 28 12",
+        "bounds": [
+          4.0,
+          12.0,
+          28.0,
+          30.0
+        ],
+        "segmentCount": 131,
+        "approximationError": 0.0003011964238479417,
+        "hasCurves": true
+      },
+      {
+        "id": "currency:subpath-1",
+        "elementId": "currency",
+        "subpathIndex": 1,
+        "componentId": "component-3",
+        "pathData": "M 20 16 A 3 2 0 0 0 14 16 L 14 18 L 14 24 L 18 24",
+        "bounds": [
+          14.0,
+          14.0,
+          20.0,
+          24.0
+        ],
+        "segmentCount": 67,
+        "approximationError": 0.0009039468986700486,
+        "hasCurves": true
+      },
+      {
+        "id": "currency-bar:subpath-1",
+        "elementId": "currency-bar",
+        "subpathIndex": 1,
+        "componentId": "component-3",
+        "pathData": "M 13 18 L 14 18 L 17 18",
+        "bounds": [
+          13.0,
+          18.0,
+          17.0,
+          18.0
+        ],
+        "segmentCount": 2,
+        "approximationError": 0.0,
+        "hasCurves": false
+      }
+    ],
+    "components": [
+      {
+        "id": "component-1",
+        "memberIds": [
+          "signal:subpath-1"
+        ],
+        "contourIds": [
+          "signal:subpath-1"
+        ],
+        "elementIds": [
+          "signal"
+        ],
+        "bounds": [
+          4.0,
+          2.0,
+          28.0,
+          6.0
+        ]
+      },
+      {
+        "id": "component-2",
+        "memberIds": [
+          "phone:subpath-1"
+        ],
+        "contourIds": [
+          "phone:subpath-1"
+        ],
+        "elementIds": [
+          "phone"
+        ],
+        "bounds": [
+          4.0,
+          12.0,
+          28.0,
+          30.0
+        ]
+      },
+      {
+        "id": "component-3",
+        "memberIds": [
+          "currency:subpath-1",
+          "currency-bar:subpath-1"
+        ],
+        "contourIds": [
+          "currency:subpath-1",
+          "currency-bar:subpath-1"
+        ],
+        "elementIds": [
+          "currency",
+          "currency-bar"
+        ],
+        "bounds": [
+          13.0,
+          14.0,
+          20.0,
+          24.0
+        ]
+      }
+    ],
+    "pairs": [
+      {
+        "closestContours": [
+          "signal:subpath-1",
+          "phone:subpath-1"
+        ],
+        "centerlineDistance": 6.0,
+        "inkClearance": 2.0,
+        "signedInkClearance": 2.0,
+        "lowerBound": 6.0,
+        "upperBound": 6.001298072918426,
+        "inkClearanceLowerBound": 2.0,
+        "inkClearanceUpperBound": 2.001298072918426,
+        "approximationError": 0.0012980729184262074,
+        "nearestPoints": [
+          [
+            4.0,
+            6.0
+          ],
+          [
+            4.0,
+            12.0
+          ]
+        ],
+        "requiredCenterline": 6.0,
+        "requiredInkClearance": 2.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-2"
+        ],
+        "memberIds": [
+          [
+            "signal:subpath-1"
+          ],
+          [
+            "phone:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "signal:subpath-1",
+              "phone:subpath-1"
+            ],
+            "centerlineDistance": 6.0,
+            "inkClearance": 2.0,
+            "signedInkClearance": 2.0,
+            "lowerBound": 6.0,
+            "upperBound": 6.001298072918426,
+            "inkClearanceLowerBound": 2.0,
+            "inkClearanceUpperBound": 2.001298072918426,
+            "approximationError": 0.001298072918424982,
+            "nearestPoints": [
+              [
+                4.0,
+                6.0
+              ],
+              [
+                4.0,
+                12.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      },
+      {
+        "closestContours": [
+          "signal:subpath-1",
+          "currency:subpath-1"
+        ],
+        "centerlineDistance": 11.90404950776018,
+        "inkClearance": 7.904049507760179,
+        "signedInkClearance": 7.904049507760179,
+        "lowerBound": 11.90214868436693,
+        "upperBound": 11.90595033115343,
+        "inkClearanceLowerBound": 7.90214868436693,
+        "inkClearanceUpperBound": 7.905950331153431,
+        "approximationError": 0.0019008233932513718,
+        "nearestPoints": [
+          [
+            20.7768396780803,
+            2.5387126330504755
+          ],
+          [
+            18.01066956017666,
+            14.116911869633958
+          ]
+        ],
+        "requiredCenterline": 6.0,
+        "requiredInkClearance": 2.0,
+        "status": "pass",
+        "reason": "Every contour pair between these components meets the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-1",
+          "component-3"
+        ],
+        "memberIds": [
+          [
+            "signal:subpath-1"
+          ],
+          [
+            "currency:subpath-1",
+            "currency-bar:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "signal:subpath-1",
+              "currency:subpath-1"
+            ],
+            "centerlineDistance": 11.90404950776018,
+            "inkClearance": 7.904049507760179,
+            "signedInkClearance": 7.904049507760179,
+            "lowerBound": 11.90214868436693,
+            "upperBound": 11.90595033115343,
+            "inkClearanceLowerBound": 7.90214868436693,
+            "inkClearanceUpperBound": 7.905950331153431,
+            "approximationError": 0.001900823393247089,
+            "nearestPoints": [
+              [
+                20.7768396780803,
+                2.5387126330504755
+              ],
+              [
+                18.01066956017666,
+                14.116911869633958
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "signal:subpath-1",
+              "currency-bar:subpath-1"
+            ],
+            "centerlineDistance": 14.99981207566299,
+            "inkClearance": 10.99981207566299,
+            "signedInkClearance": 10.99981207566299,
+            "lowerBound": 14.99881519916841,
+            "upperBound": 15.00080895215757,
+            "inkClearanceLowerBound": 10.99881519916841,
+            "inkClearanceUpperBound": 11.00080895215757,
+            "approximationError": 0.0009968764945770404,
+            "nearestPoints": [
+              [
+                4.060292422661373,
+                5.955250490903533
+              ],
+              [
+                13.0,
+                18.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "Exact axis separation of enclosing geometry meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      },
+      {
+        "closestContours": [
+          "phone:subpath-1",
+          "currency:subpath-1"
+        ],
+        "centerlineDistance": 6.0,
+        "inkClearance": 2.0,
+        "signedInkClearance": 2.0,
+        "lowerBound": 5.998794856677481,
+        "upperBound": 6.001205143322519,
+        "inkClearanceLowerBound": 1.9987948566774811,
+        "inkClearanceUpperBound": 2.001205143322519,
+        "approximationError": 0.0012051433225188646,
+        "nearestPoints": [
+          [
+            14.0,
+            30.0
+          ],
+          [
+            14.0,
+            24.0
+          ]
+        ],
+        "requiredCenterline": 6.0,
+        "requiredInkClearance": 2.0,
+        "status": "review",
+        "reason": "The conservative curve distance interval crosses the required minimum.",
+        "ambiguousContact": false,
+        "componentIds": [
+          "component-2",
+          "component-3"
+        ],
+        "memberIds": [
+          [
+            "phone:subpath-1"
+          ],
+          [
+            "currency:subpath-1",
+            "currency-bar:subpath-1"
+          ]
+        ],
+        "contourPairs": [
+          {
+            "closestContours": [
+              "phone:subpath-1",
+              "currency:subpath-1"
+            ],
+            "centerlineDistance": 6.0,
+            "inkClearance": 2.0,
+            "signedInkClearance": 2.0,
+            "lowerBound": 5.998794856677481,
+            "upperBound": 6.001205143322519,
+            "inkClearanceLowerBound": 1.9987948566774811,
+            "inkClearanceUpperBound": 2.001205143322519,
+            "approximationError": 0.0012051433225179903,
+            "nearestPoints": [
+              [
+                14.0,
+                30.0
+              ],
+              [
+                14.0,
+                24.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "review",
+            "reason": "The curve distance interval crosses the minimum; refine the drawing or request a tighter certified check.",
+            "ambiguousContact": false
+          },
+          {
+            "closestContours": [
+              "phone:subpath-1",
+              "currency-bar:subpath-1"
+            ],
+            "centerlineDistance": 9.0,
+            "inkClearance": 5.0,
+            "signedInkClearance": 5.0,
+            "lowerBound": 8.99969880357615,
+            "upperBound": 9.00030119642385,
+            "inkClearanceLowerBound": 4.99969880357615,
+            "inkClearanceUpperBound": 5.00030119642385,
+            "approximationError": 0.0003011964238479417,
+            "nearestPoints": [
+              [
+                4.0,
+                18.0
+              ],
+              [
+                13.0,
+                18.0
+              ]
+            ],
+            "requiredCenterline": 6.0,
+            "requiredInkClearance": 2.0,
+            "status": "pass",
+            "reason": "The conservative distance lower bound meets the minimum.",
+            "ambiguousContact": false
+          }
+        ]
+      }
+    ],
+    "connectedPairs": [
+      {
+        "contourIds": [
+          "currency:subpath-1",
+          "currency-bar:subpath-1"
+        ],
+        "reason": "shared original drawn-command endpoint",
+        "point": [
+          14.0,
+          18.0
+        ]
+      }
+    ],
+    "excludedPairs": [
+      {
+        "contourIds": [
+          "currency:subpath-1",
+          "currency-bar:subpath-1"
+        ],
+        "componentId": "component-3",
+        "reason": "same proved connected centerline component",
+        "directConnection": {
+          "contourIds": [
+            "currency:subpath-1",
+            "currency-bar:subpath-1"
+          ],
+          "reason": "shared original drawn-command endpoint",
+          "point": [
+            14.0,
+            18.0
+          ]
+        }
+      }
+    ],
+    "errors": [
+      "component-2 / component-3: The conservative curve distance interval crosses the required minimum."
+    ],
+    "requiredCenterline": 6.0,
+    "requiredInkClearance": 2.0,
+    "strokeWidth": 4,
+    "tolerance": 0.001,
+    "measurement": {
+      "method": "continuous segment distance with adaptive curve Hausdorff bounds",
+      "nearestPoints": "points on the bounded polyline approximation; exact for original straight segments",
+      "connections": "shared original drawn endpoints or exact original straight intersections only; never ink contact",
+      "scope": "disconnected centerline components, not spacing inside a connected component"
+    },
+    "minimumCenterlineDistance": 6.0,
+    "minimumInkClearance": 2.0,
+    "reason": "Disconnected spacing needs repair or review; this result is not a pass.",
+    "stats": {
+      "commands": 17,
+      "flattenedSegments": 326,
+      "adaptiveNodes": 631,
+      "distanceTests": 424,
+      "connectionTests": 0
+    },
+    "raw_status": "review",
+    "canvas": 32
+  },
+  "negative_space": {
+    "status": "fail",
+    "authored_holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          17.5781,
+          16.0781
+        ],
+        "bbox_viewbox": [
+          17.5625,
+          16.0625,
+          0.0312,
+          0.0312
+        ],
+        "bbox_ship_px": [
+          0.0312,
+          0.0312
+        ],
+        "bbox_design_u": [
+          0.0312,
+          0.0312
+        ],
+        "area_ship_px2": 0.001,
+        "equivalent_diameter_ship_px": 0.0353,
+        "equivalent_diameter_design_u": 0.0353,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail"
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.6719,
+          16.1094
+        ],
+        "bbox_viewbox": [
+          17.6562,
+          16.0938,
+          0.0625,
+          0.0312
+        ],
+        "bbox_ship_px": [
+          0.0625,
+          0.0312
+        ],
+        "bbox_design_u": [
+          0.0625,
+          0.0312
+        ],
+        "area_ship_px2": 0.002,
+        "equivalent_diameter_ship_px": 0.0499,
+        "equivalent_diameter_design_u": 0.0499,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail"
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          17.7656,
+          16.1406
+        ],
+        "bbox_viewbox": [
+          17.75,
+          16.125,
+          0.25,
+          0.125
+        ],
+        "bbox_ship_px": [
+          0.25,
+          0.125
+        ],
+        "bbox_design_u": [
+          0.25,
+          0.125
+        ],
+        "area_ship_px2": 0.0078,
+        "equivalent_diameter_ship_px": 0.0997,
+        "equivalent_diameter_design_u": 0.0997,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail"
+      }
+    ],
+    "authored_hole_count": 3,
+    "raster_artifact_count": 0,
+    "hole_count": 3,
+    "failed_hole_count": 3,
+    "pinch_count": 0,
+    "holes": [
+      {
+        "hole": 1,
+        "center_viewbox": [
+          17.5781,
+          16.0781
+        ],
+        "bbox_viewbox": [
+          17.5625,
+          16.0625,
+          0.0312,
+          0.0312
+        ],
+        "bbox_ship_px": [
+          0.0312,
+          0.0312
+        ],
+        "bbox_design_u": [
+          0.0312,
+          0.0312
+        ],
+        "area_ship_px2": 0.001,
+        "equivalent_diameter_ship_px": 0.0353,
+        "equivalent_diameter_design_u": 0.0353,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail",
+        "measuring_stroke_width": 4,
+        "equivalent_radius_at_authored_stroke_design_u": 0.0312,
+        "equivalent_diameter_at_authored_stroke_design_u": 0.0625
+      },
+      {
+        "hole": 2,
+        "center_viewbox": [
+          17.6719,
+          16.1094
+        ],
+        "bbox_viewbox": [
+          17.6562,
+          16.0938,
+          0.0625,
+          0.0312
+        ],
+        "bbox_ship_px": [
+          0.0625,
+          0.0312
+        ],
+        "bbox_design_u": [
+          0.0625,
+          0.0312
+        ],
+        "area_ship_px2": 0.002,
+        "equivalent_diameter_ship_px": 0.0499,
+        "equivalent_diameter_design_u": 0.0499,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail",
+        "measuring_stroke_width": 4,
+        "equivalent_radius_at_authored_stroke_design_u": 0.0312,
+        "equivalent_diameter_at_authored_stroke_design_u": 0.0625
+      },
+      {
+        "hole": 3,
+        "center_viewbox": [
+          17.7656,
+          16.1406
+        ],
+        "bbox_viewbox": [
+          17.75,
+          16.125,
+          0.25,
+          0.125
+        ],
+        "bbox_ship_px": [
+          0.25,
+          0.125
+        ],
+        "bbox_design_u": [
+          0.25,
+          0.125
+        ],
+        "area_ship_px2": 0.0078,
+        "equivalent_diameter_ship_px": 0.0997,
+        "equivalent_diameter_design_u": 0.0997,
+        "inscribed_diameter_ship_px": 0.0625,
+        "inscribed_diameter_design_u": 0.0625,
+        "inscribed_radius_ship_px": 0.0312,
+        "inscribed_radius_design_u": 0.0312,
+        "minimum_radius_design_u": 1.0,
+        "status": "fail",
+        "measuring_stroke_width": 4,
+        "equivalent_radius_at_authored_stroke_design_u": 0.0312,
+        "equivalent_diameter_at_authored_stroke_design_u": 0.0625
+      }
+    ],
+    "pinches": [],
+    "exception_count": 0,
+    "minimum_authored_diameter": 2.0,
+    "minimum_measured_diameter": 5.0,
+    "configured_fill_depth": 1.0,
+    "effective_fill_depth": 1.0,
+    "measuring_stroke_width": 1.0,
+    "pinch_measuring_stroke_width": 4,
+    "samples_per_unit": 32
+  },
+  "symmetry": {
+    "status": "not_applicable",
+    "axes": [
+      {
+        "axis": "vertical",
+        "coordinate": 16.0,
+        "ink_iou": 0.9038492136281824,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      },
+      {
+        "axis": "horizontal",
+        "coordinate": 16.0,
+        "ink_iou": 0.5948961958017491,
+        "ink_symmetric": false,
+        "status": "not_applicable",
+        "mismatches": []
+      }
+    ],
+    "rules": {
+      "version": 1,
+      "ink_min_iou": 0.98,
+      "ink_samples_per_unit": 16,
+      "centerline_tolerance": 0.0001,
+      "curve_flatness": 1e-05,
+      "maximum_sample_spacing": 0.25,
+      "axes": [
+        "vertical",
+        "horizontal"
+      ],
+      "axis_origin": "painted bounds midpoint (not canvas midpoint)",
+      "centerline_measurement": "sampled distance to union of bounded-error chords"
+    }
+  },
+  "artifacts": {
+    "svg": "sub/mobile-wireless-pound-payment-sub32/icon.svg",
+    "metrics": "sub/mobile-wireless-pound-payment-sub32/metrics.json"
+  },
+  "checks_run": [
+    "schema/profile",
+    "style/grid",
+    "canvas/keyshape bounds",
+    "mic",
+    "keyshape",
+    "composition",
+    "svg round-trip",
+    "reproducibility",
+    "symmetry"
+  ],
+  "svg_sha256": "4f4de8f8bea71ec4eaeb1e15bf69fbbf6fd9b272fceba18cc94901287565853c",
+  "rules": {
+    "profile": {
+      "canvas_size": 32,
+      "family": "sub",
+      "interior_guide_inset": 4,
+      "mic": 2,
+      "equal_stroke_centerline_min": 6,
+      "keyshape_scale_numerator": 1,
+      "keyshape_scale_denominator": 1,
+      "semantic_use": "verb, state, or modifier; or a simple noun shape usable as content"
+    },
+    "stroke_width": 4,
+    "negative_space": {
+      "schema_version": 1,
+      "source": "claude_skills/core/icon_profiles.json validationDefaults",
+      "minimum_enclosed_radius": 1.0,
+      "minimum_solid_fill_depth": 1.0,
+      "measurement_stroke_width": 1.0,
+      "samples_per_unit": 32,
+      "circle_hole_exception": {
+        "id": "small-circle-hole",
+        "centerline_diameters": [
+          4,
+          6
+        ],
+        "scope": "Complete circular contours only; hole gate only. Spacing, pinch and other checks still apply."
+      },
+      "measurement_revision": "8-connected-background-authored-topology-v3"
+    },
+    "internal_spacing": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "pinch_measurement": "authored-stroke-v1",
+    "internal_parallel_straight": {
+      "version": 2,
+      "profiles": "all",
+      "blocking": true,
+      "required_centerline_distance": 8,
+      "required_ink_clearance": 4,
+      "parallelism": "exact",
+      "scope": "whole drawing",
+      "measurement": "midpoint normals, nearest each side, with overlap fallback",
+      "merge": "touching collinear pieces in same path",
+      "relationship_exemption": false,
+      "collinear_overlaps": "separate diagnostic"
+    }
+  },
+  "rules_sha256": "2e790ef3845418bf1230a6579aec2869fe438aae49b72d8dab537fb2b9e5ed0b",
+  "symmetry_rules_sha256": "b635c6fdb306b3f1134441b19e9400a3d76a5126d293e2fd71d510f2679cd354",
+  "internal_spacing": {
+    "status": "pass",
+    "blocking": false,
+    "required_ink_gap": 2.0,
+    "rules": {
+      "version": 2,
+      "sample_step": 0.25,
+      "minimum_run": 2.0,
+      "endpoint_margin": 0.5,
+      "maximum_parallel_angle_degrees": 30,
+      "blocking": false,
+      "publication_requires_clear_review": true
+    },
+    "findings": [],
+    "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+  },
+  "needs_review": false
+}

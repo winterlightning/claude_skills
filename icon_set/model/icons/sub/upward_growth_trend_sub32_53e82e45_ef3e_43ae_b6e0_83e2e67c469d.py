@@ -1,0 +1,32 @@
+"""Upward Growth Trend: user-requested grid-fitted 32px version of upward-growth-trend-solo.
+Plan: retain source primitive/contour topology and fit CIRCLE ink (0, 0, 32, 32).
+All geometry nodes, controls and radii are whole integers; final stroke stays 4.
+Source construction and visual references are retained from the solo model.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+SOURCE_ICON_ID='53e82e45-ef3e-43ae-b6e0-83e2e67c469d'
+SOURCE_PATH='pictographic-primitives/other/circle arrow trend up_53e82e45-ef3e-43ae-b6e0-83e2e67c469d.svg'
+SOLO_SOURCE_ICON_ID='upward-growth-trend-solo'
+AUTHOR='gpt-6'
+class Drawing(Sub32):
+    icon_id='upward-growth-trend-sub32'
+    keyshape=Keyshape.CIRCLE
+    semantic_role='SUB'
+    semantic_kind='modifier'
+    category='objects/interface-essential'
+    tags=('sub icon',)
+    keywords=('sub icon', 'grid fitted', 'upward growth trend')
+    def build(self):
+        self.add_arc('outline-top', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('outline-bottom', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_line('trend-1', (9, 19), (14, 14))
+        self.add_line('trend-2', (14, 14), (18, 18))
+        self.add_line('trend-3', (18, 18), (22, 13))
+        self.add_line('head-1', (17, 13), (22, 13))
+        self.add_line('head-2', (22, 13), (22, 18))
+        self.add_contour('outline', 'outline-top', 'outline-bottom', closed=True)
+        self.add_contour('trend', 'trend-1', 'trend-2', 'trend-3', closed=False)
+        self.add_contour('head', 'head-1', 'head-2', closed=False)
+        self.relate('connect', 'trend', 'head')
+        self.add_anchor('center',(16, 16))

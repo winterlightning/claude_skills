@@ -5,7 +5,7 @@ Lucide original and atomic-debug construction: link.
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'f3554d59-4ee9-5ba8-bc14-5b1324691503'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/interface-essential/attachment_f3554d59-4ee9-5ba8-bc14-5b1324691503.svg'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/attachment_f3554d59-4ee9-5ba8-bc14-5b1324691503.svg'
 AUTHOR = 'gpt-6'
 
 def circle(icon,name,cx,cy,r):
@@ -32,6 +32,7 @@ class Drawing(Solo48):
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects/interface-essential"
+    tags = ('sub icon',)
     aliases = ()
     keywords = ('chain', 'rings', 'link', 'attachment', 'connection', 'diagonal')
     def build(self):

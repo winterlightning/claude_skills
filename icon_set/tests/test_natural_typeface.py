@@ -17,8 +17,8 @@ class NaturalTypefaceTests(unittest.TestCase):
 
     def test_complete_character_map_without_keyshape_constraints(self):
         self.assertEqual(self.data['geometry_policy'],'natural-proportions-no-keyshape')
-        self.assertEqual(len(self.glyphs),95)
-        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}),94)
+        self.assertEqual(len(self.glyphs),97)
+        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}),96)
         for g in self.glyphs:self.assertNotIn('keyshape',g)
 
     def test_original_aspect_ratios_are_preserved_by_uniform_transforms(self):
@@ -57,7 +57,7 @@ class NaturalTypefaceTests(unittest.TestCase):
 
     def test_keyboard_symbols_share_typographic_band(self):
         symbols={g['character']:g for g in self.glyphs if g['kind']=='symbol'}
-        self.assertEqual(set(symbols),set(string.punctuation))
+        self.assertEqual(set(symbols),set(string.punctuation)|{"“","⊆"})
         for char,g in symbols.items():
             self.assertIsNone(g['source_path'])
             self.assertEqual(g['body_height'],24)
