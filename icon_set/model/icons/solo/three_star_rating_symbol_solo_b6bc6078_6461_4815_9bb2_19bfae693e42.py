@@ -1,7 +1,6 @@
-"""Three Star Rating Symbol. Authored directly on SOLO48 for later user-requested sub reuse.
-Construction: local Lucide circle-check, triangle-alert, search, shield-plus,
-smartphone and hand references inform coherent contours and shared joins.
-
+"""Three equal outlined stars in a triangular rating cluster.
+Lucide star original and atomic-debug inform the five-point contours.
+Shared widened vertices preserve open centers; HRECT_L extrema (4,8)-(44,40).
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -19,9 +18,8 @@ class Drawing(Solo48):
     tags = ('sub icon',)
     keywords = ('sub icon', 'three star rating symbol')
     def build(self):
-        # Plan: Complete reference subject; shared named joins; direct 48px geometry.
-        def star(name,cx,cy):
-         self.add_polyline(name,(cx,cy-6),(cx+2,cy-2),(cx+6,cy-2),(cx+3,cy+1),(cx+4,cy+6),(cx,cy+3),(cx-4,cy+6),(cx-3,cy+1),(cx-6,cy-2),(cx-2,cy-2),closed=True)
-        star('top',24,14)
-        star('left',10,34)
-        star('right',38,34)
+        # Three equal five-point stars, shared local vertices; top and lower pair
+        # meet HRECT_L extrema (4,8)-(44,40). Lucide star informs open centers.
+        points=((0,-7),(3,-3),(8,-2),(5,2),(5,7),(0,4),(-5,7),(-5,2),(-8,-2),(-3,-3))
+        for name,cx,cy in [('top',24,15),('left',12,33),('right',36,33)]:
+            self.add_polyline(name,*[(cx+x,cy+y) for x,y in points],closed=True)

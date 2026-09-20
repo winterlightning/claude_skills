@@ -1,0 +1,38 @@
+# Smiling Face Behind Game Controller
+
+- source: `pictographic-primitives/_uncategorized_16/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3.svg`
+- render: `png/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3.png` (look at this first)
+- native 48px: `png/emoji gaming lover hug 1_b0db5c05-63ca-4bad-830f-6a24ddb21cb3@48.png`
+- tags: emoji, game, controller, face, smile, gaming, controls
+- family: solo — author with `$icon-solo`
+- proposed icon_id: `smiling-face-behind-game-controller`
+
+- source UUID: `b0db5c05-63ca-4bad-830f-6a24ddb21cb3`
+
+## Description
+
+A round smiling face sits behind a broad game controller with two downward grips. Closed curved eyes and an upturned mouth appear above the controller, which carries a small cross shaped control.
+
+## To author
+
+Run `$icon-solo`, which reads `icon_set/skills/icon-design/SKILL.md`, then the reference-backed
+intake. Look at the render before choosing anything: name the subject in
+one sentence, keep only what survives at native size, choose the keyshape,
+and design backwards from its four extreme coordinates.
+
+The reference sets the subject, not the grid, the stroke or the
+proportions. Fit the result to the requested profile.
+
+You can try modifying a copy of the SVG reference to fit the icon design rules,
+or generate a new icon that matches the icon name. Either approach must follow
+the requested family's design rules and preserve the named subject's identity.
+Keep the original reference unchanged and produce the family skill's required deliverables.
+
+## Fit the icon design rules
+
+This reference is drawn at illustration scale — thin strokes and more
+detail than a 48px canvas can hold. Adapt or regenerate it to fit:
+fewer parts, the profile's stroke weight, larger gaps, geometry rebuilt on
+the grid. Keep the meaning intact — the silhouette it is recognized by and
+the parts that make it this subject and not a neighbouring one. Simplify
+the drawing, never the meaning.

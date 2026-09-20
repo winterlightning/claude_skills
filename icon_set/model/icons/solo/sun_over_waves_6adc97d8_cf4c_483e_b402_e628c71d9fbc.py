@@ -32,3 +32,6 @@ class SunOverWaves(Solo48):
             self.add_arc(n,(4+10*i,38),(14+10*i,38),radius_x=5,radius_y=2,sweep=i%2==0)
             names.append(n)
         self.add_contour("water",*names)
+
+# Additional original reference represented by this completed drawing.
+SOURCE_REFERENCES = globals().get("SOURCE_REFERENCES", []) + [('4023feef-7c65-4098-bea2-7cac808cd9ca', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_36/sun haze_4023feef-7c65-4098-bea2-7cac808cd9ca.svg')]

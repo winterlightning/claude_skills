@@ -26,6 +26,7 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
         if match:
             originals.setdefault(match[1].lower(), path)
     primitive_rows = {r['uuid']: r for r in primitives['rows']}
+    records_by_key = {r.get('key'): r for r in records}
     generated = {}
     for uid, row in primitive_rows.items():
         generated[uid] = list(row.get('generated', []))
@@ -53,8 +54,16 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
             if not destination.exists() or destination.read_bytes() != path.read_bytes():
                 shutil.copyfile(path, destination)
             url = 'combination-originals/' + destination.name
-        result = {'id': uid, 'concept': row.get('concept') or (ID.sub('', path.stem).strip(' _-') if path else uid or 'Unspecified component'),
-                  'reference_url': url, 'generated': generated.get(uid, [])}
+        # Reviewed component pairs can name a library key directly. A key is
+        # an exact selection, never a request for other remakes of its source.
+        selected = records_by_key.get(uid)
+        artwork = generated.get(uid, [])
+        concept = row.get('concept') or (ID.sub('', path.stem).strip(' _-') if path else uid or 'Unspecified component')
+        if isinstance(uid, str) and '/' in uid:
+            artwork = [{k: selected[k] for k in ('icon_id', 'key', 'preview_url')}] if selected else []
+            concept = (selected.get('name') or selected['icon_id'].replace('-', ' ')) if selected else uid.split('/', 1)[1].replace('-', ' ')
+        result = {'id': uid, 'concept': concept,
+                  'reference_url': url, 'generated': artwork}
         references[uid] = result
         return result
 
@@ -81,7 +90,6 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
     sub_exports = json.loads(export_path.read_text()) if export_path.exists() else {}
     trial_path = root / 'icon_set/data/container-solo-trials.json'
     trials = json.loads(trial_path.read_text()).get('results', {}) if trial_path.exists() else {}
-    records_by_key = {r.get('key'): r for r in records}
     rows = []
     for kind in ('container', 'side'):
         for item in data.get(kind, []):
@@ -154,6 +162,13 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
         from .deduplicate_subs import canonical_map, update_catalog
         aliases, _ = canonical_map(sub_exports, root)
         update_catalog(result, sub_exports, aliases, root)
+    # Legacy deduplication/profile migration may choose a different remake.
+    # Explicit reviewed pairs retain their independent symbol/sub selection,
+    # including an empty result when that exact asset has not been built yet.
+    for row in rows:
+        if row.get('component_selection') == 'explicit':
+            row['sub_generated'] = list(references[row['sub_id']]['generated'])
+            row['sub_exports'] = []
     (target / 'combinations.json').write_text(json.dumps(result, ensure_ascii=False, separators=(',', ':')) + '\n')
     return result
 

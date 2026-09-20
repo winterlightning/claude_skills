@@ -1,5 +1,5 @@
 """armored-hero-with-pointed-helmet: independent batch-086 SOLO48 result.
-Plan: Pointed helmet around a circular lower jaw, with eye dots and rounded shoulders. Jaw bottom y=32, shoulder top y=40: exact 4-unit detached ink gap.
+Plan: Pointed helmet around a circular lower jaw, with eye dots and rounded shoulders. Jaw bottom y=32, shoulder top y=36: exact zero ink gap.
 Reference construction: human_ref/user.svg.
 Reduction: Reduced armor seams and neck detail; retained the pointed helmet, circular jaw, eyes and broad rounded shoulders.
 """
@@ -19,6 +19,8 @@ class Drawing(Solo48):
     category = 'video-games'
     aliases = ()
     keywords = ('armored', 'hero', 'with', 'pointed', 'helmet')
+
+    human_construction = "bust"
 
     def build(self):
         # Exact envelope comes from Keyshape.VRECT_L.bounds_for(self.profile).
@@ -44,4 +46,5 @@ class Drawing(Solo48):
 
         path('helmet-head',(8,4),[('L',(24,12)),('L',(40,4)),('L',(40,20)),('L',(36,20)),('A',(24,32),12,12,True),('A',(12,20),12,12,True),('L',(8,20)),('L',(8,4))],True)
         for x in (20,28):dot(f'eye-{x}',(x,19))
-        path('shoulders',(8,44),[('A',(16,40),8,4,True),('L',(32,40)),('A',(40,44),8,4,True)])
+        path('shoulders',(8,44),[('A',(24,36),16,8,True),('A',(40,44),16,8,True)])
+        join('helmet-head','shoulders')

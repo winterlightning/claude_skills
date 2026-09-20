@@ -30,6 +30,39 @@ def number(value, default=0):
 
 def placement(item, size, anchor, offset, padding=2, size_lock="none", bound_size=None):
     x0,y0,x1,y1 = item['bounds']
+    if item.get('sizing_mode') == 'container-content-resize':
+        cw, ch = item.get('canvas_width'), item.get('canvas_height')
+        if size != 32 or any(type(v) is not int or not 4 <= v <= 60 for v in (cw, ch)):
+            raise ValueError('Container resize artwork requires its declared integer dimensions.')
+        if size_lock not in ('none', 'auto') or bound_size not in (None, ''):
+            raise ValueError('Resize variants keep their authored dimensions; select another model to change size.')
+        w, h = x1-x0+4, y1-y0+4
+        if abs(w-cw) > 1e-8 or abs(h-ch) > 1e-8:
+            raise ValueError('Resize artwork does not match its declared ink dimensions.')
+        x = round(padding+(64-2*padding-cw)*anchor[0]+offset[0])
+        y = round(padding+(64-2*padding-ch)*anchor[1]+offset[1])
+        return {'size_lock':'none', 'locked_axis':None, 'rounded_box':False,
+                'locked_size':None, 'canvas_box':dict(x=x,y=y,w=cw,h=ch),
+                'painted_box':dict(x=x,y=y,w=w,h=h),
+                'box':dict(x=(x+2)*24/64,y=(y+2)*24/64,w=(w-4)*24/64,h=(h-4)*24/64)}
+    if item.get('sizing_mode') in ('side-32x48', 'side-one-axis32', 'side-source-fit'):
+        cw,ch = item.get('canvas_width'),item.get('canvas_height')
+        if size != 32 or type(cw) is not int or type(ch) is not int or min(cw,ch) < 32 or (item.get('sizing_mode') != 'side-source-fit' and 32 not in (cw,ch)):
+            raise ValueError('Side artwork requires one 32px canvas dimension.')
+        if size_lock not in ('none', 'auto') or bound_size not in (None, ''):
+            raise ValueError('Side artwork keeps its original 32×48 or declared exception size.')
+        if cw > 64-2*padding or ch > 64-2*padding:
+            raise ValueError('Source-faithful artwork needs a larger combination canvas; it cannot be shrunk to fit.')
+        w,h = x1-x0+4,y1-y0+4
+        if w > cw or h > ch:
+            raise ValueError('Tall side artwork exceeds its 32×48 canvas.')
+        ax,ay = anchor
+        bx,by = padding+(64-2*padding-cw)*ax,padding+(64-2*padding-ch)*ay
+        x,y = bx+(cw-w)*ax+offset[0],by+(ch-h)*ay+offset[1]
+        return {'size_lock':'none', 'locked_axis':None, 'rounded_box':False,
+                'locked_size':None, 'canvas_box':dict(x=bx,y=by,w=cw,h=ch),
+                'painted_box':dict(x=x,y=y,w=w,h=h),
+                'box':dict(x=(x+2)*24/64,y=(y+2)*24/64,w=(w-4)*24/64,h=(h-4)*24/64)}
     scale = size / item['canvas']
     w,h = (x1-x0)*scale, (y1-y0)*scale
     if size_lock not in ('none', 'auto', 'width', 'height'):

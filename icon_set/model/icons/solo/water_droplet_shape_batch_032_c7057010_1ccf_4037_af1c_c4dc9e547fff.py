@@ -22,3 +22,5 @@ class Batch032Icon(Solo48):
         self.add_bezier('right',(24,4),((30,14),(40,22),(40,28)),((40,37),(33,44),(24,44)))
         self.add_bezier('left',(24,44),((15,44),(8,37),(8,28)),((8,22),(18,14),(24,4)))
         self.add_contour('drop','right','left',closed=True)
+
+SOURCE_REFERENCES = [('a26c2ef3-c469-4683-87b4-6bc44054199d', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_40/water_a26c2ef3-c469-4683-87b4-6bc44054199d.svg')]

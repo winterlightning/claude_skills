@@ -1,16 +1,19 @@
-"""Build free-proportion lettering from source centerlines, without icon keyshapes.
+"""Build lettering on a 24-unit visible-height grid from source centerlines.
 
-Original cubic curves are retained except documented artifact repairs. Typeface
-coordinates are continuous; the unrelated SOLO48 registry remains historical.
+Preserve smooth curves, then fit the complete stroke envelope to integer width.
+The unrelated SOLO48 registry remains historical.
 """
 from pathlib import Path
 import json
+import sys
 import hashlib
 import math
 import xml.etree.ElementTree as ET
 from svgpathtools import parse_path, Path as SVGPath, Line, CubicBezier, Arc
 
 ROOT=Path(__file__).resolve().parents[2]
+if __package__ in (None, ""):
+    sys.path.insert(0, str(ROOT))
 SOURCE_ICON_ID=None
 SOURCE_PATH='Letters/'
 AUTHOR='gpt-6'
@@ -113,6 +116,52 @@ CAPS={
 'Z':['M13 6 H34 Q36 6 34.5 8 L13.5 40 Q12 42 14 42 H35'],
 }
 
+GEOMETRY_POLICY = 'grid-ink-height24'
+
+
+def fit_base_grid(glyph):
+ """Fit the complete round-stroke envelope to height 24 and integer width.
+
+ Keep semantic body metrics for text layout, but size by the whole glyph.
+ Flat marks have no path height: their stroke must supply the 24-unit height.
+ """
+ glyph = dict(glyph)
+ left, top, right, bottom = glyph['bounds']
+ width, height = right-left, bottom-top
+ stroke = 4 if height > 1e-9 else 24
+ sy = (24-stroke)/height if height > 1e-9 else 24/glyph.get('stroke_width', 4)
+ ink_width = max(stroke, math.floor(width*sy+stroke+0.5))
+ sx = (ink_width-stroke)/width if width > 1e-9 else sy
+ def scale_point(p):
+  return complex(p.real*sx, p.imag*sy)
+ transformed = []
+ offset = complex(stroke/2-left*sx, stroke/2-top*sy)
+ for d in glyph['paths']:
+  segments = []
+  for segment in parse_path(d):
+   if isinstance(segment, Arc):
+    # All source ellipses are axis aligned. Preserve their exact curves.
+    if segment.rotation % 180:
+     raise ValueError('Grid fitting requires an axis-aligned ellipse')
+    segment = Arc(scale_point(segment.start), scale_point(segment.radius),
+                  segment.rotation, segment.large_arc, segment.sweep,
+                  scale_point(segment.end))
+   else:
+    segment = segment.scaled(sx, sy)
+   segments.append(segment.translated(offset))
+  transformed.append(SVGPath(*segments))
+ paths = [p.d() for p in transformed]
+ glyph.update(paths=paths, bounds=bounds(transformed),
+              body_top=stroke/2+(glyph['body_top']-top)*sy,
+              baseline=stroke/2+(glyph['baseline']-top)*sy,
+              body_height=glyph['body_height']*sy,
+              stroke_width=stroke, ink_width=ink_width, ink_height=24,
+              preview_box=[0, 0, ink_width, 24],
+              geometry_policy=GEOMETRY_POLICY,
+              svg_sha256=hashlib.sha256(json.dumps(paths,separators=(',',':')).encode()).hexdigest())
+ return glyph
+
+
 def build():
  glyphs=[]
  for source in sorted((ROOT/'Letters').glob('*.svg')):
@@ -129,8 +178,12 @@ def build():
   from typeface_symbols import SYMBOLS
  for char,(name,ds) in SYMBOLS.items():
   glyphs.append(canonical('symbol-'+name,char,'symbol',[parse_path(d) for d in ds],(18,42)))
+ # Preserve exact glyph paths recovered from existing approved text artwork.
+ glyphs.extend(json.loads((ROOT/'icon_set/typeface/reused-glyphs.json').read_text()))
+ glyphs = [fit_base_grid(glyph) for glyph in glyphs]
  target=ROOT/'icon_set/typeface/glyphs.json';target.parent.mkdir(exist_ok=True)
- target.write_text(json.dumps({'schema_version':2,'geometry_policy':'natural-proportions-no-keyshape','glyphs':glyphs},indent=2)+'\n')
- print(f'Built {len(glyphs)} free-proportion glyphs -> {target}')
+ from icon_set.typeface.sub32 import PROFILE_VARIANTS
+ target.write_text(json.dumps({'schema_version':3,'geometry_policy':GEOMETRY_POLICY,'glyphs':glyphs,'profile_variants':PROFILE_VARIANTS},indent=2)+'\n')
+ print(f'Built {len(glyphs)} grid-fitted 24-unit glyphs -> {target}')
 
 if __name__=='__main__':build()

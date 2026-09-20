@@ -30,6 +30,10 @@ class Batch033Icon(Solo48):
                 else:self.add_line(eid,p,q)
             self.add_contour(name,*ids,closed=True)
 
-        for i,(l,r,top,end) in enumerate(((4,44,8,15),(12,36,18,21),(19,29,28,29))):
-            self.add_bezier(f'wave-{i}',(l,end),((l+4,top),(20,top),(24,top)),((28,top),(r-4,top),(r,end)))
+        # Shared horizontal tangents at the axis keep the three waves smooth.
+        waves=[((4,15),(9,8),(16,8),(24,8),(32,8),(39,8),(44,15)),
+               ((12,22),(16,18),(20,18),(24,18),(28,18),(32,18),(36,22)),
+               ((19,28),(21,27),(22,27),(24,27),(26,27),(27,27),(29,28))]
+        for i,(start,c1,c2,mid,c3,c4,end) in enumerate(waves):
+            self.add_bezier(f'wave-{i}',start,(c1,c2,mid),(c3,c4,end))
         circle('point',24,38,2)

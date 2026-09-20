@@ -46,4 +46,4 @@ class PersonInSkiMask(Solo48):
 
 
 # Reviewed source-equivalent container sub-icon references.
-SOURCE_REFERENCES = [('8a4bd6ce-492d-5b6a-a9ab-d8e814463361', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/criminal mask_8a4bd6ce-492d-5b6a-a9ab-d8e814463361.svg')]
+SOURCE_REFERENCES = [('8a4bd6ce-492d-5b6a-a9ab-d8e814463361', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/criminal mask_8a4bd6ce-492d-5b6a-a9ab-d8e814463361.svg'), ('09ee382a-3706-4a55-a049-30c393a047b6', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/terrorist_09ee382a-3706-4a55-a049-30c393a047b6.svg')]

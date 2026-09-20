@@ -1,0 +1,110 @@
+# Reconstruction worklist
+
+100 icons from `/Applications/Workspaces/pictographic/claude_skills/icon_set/work/todo-solo-briefs-100-20260920-batch9/sources`.
+
+Triage on the contact sheets in `sheets/`, then take one icon at a time:
+read its brief, look at its render, and author it through
+`icon_set/skills/icon-design/SKILL.md`.
+
+| # | concept | brief | render |
+|--:|---|---|---|
+| 1 | Birdhouse with Round Entrance and Perch | [brief](briefs/cuckoo_a1dc3cd8-4582-487d-8dfe-97078ca035bf.md) | ![Birdhouse with Round Entrance and Perch](png/cuckoo_a1dc3cd8-4582-487d-8dfe-97078ca035bf.png) |
+| 2 | Square Culvert with Arched Opening | [brief](briefs/culvert_3cba141c-3b09-44d2-aa9d-b0335434ce54.md) | ![Square Culvert with Arched Opening](png/culvert_3cba141c-3b09-44d2-aa9d-b0335434ce54.png) |
+| 3 | Round Fruit with Large Pointed Leaf | [brief](briefs/currant_852547c6-32bd-4d86-890f-e29e1e71af36.md) | ![Round Fruit with Large Pointed Leaf](png/currant_852547c6-32bd-4d86-890f-e29e1e71af36.png) |
+| 4 | Arrow Mouse Cursor with Long Tail | [brief](briefs/cursor double_77d378c3-661a-4650-815c-e28f0191bb13.md) | ![Arrow Mouse Cursor with Long Tail](png/cursor double_77d378c3-661a-4650-815c-e28f0191bb13.png) |
+| 5 | Straight Hem Stage Curtains Drawn Apart | [brief](briefs/curtain_1a4d8ee3-788c-4c4c-a024-77479afed0f8.md) | ![Straight Hem Stage Curtains Drawn Apart](png/curtain_1a4d8ee3-788c-4c4c-a024-77479afed0f8.png) |
+| 6 | Pouch with Two Rounded Tie Ends | [brief](briefs/custard_b36af215-4e6d-4e3a-bcda-5c57dca51161.md) | ![Pouch with Two Rounded Tie Ends](png/custard_b36af215-4e6d-4e3a-bcda-5c57dca51161.png) |
+| 7 | Single Eyed Rounded Creature Head | [brief](briefs/cyclops_1996e073-b2d3-410a-8ad7-171410fe3cdd.md) | ![Single Eyed Rounded Creature Head](png/cyclops_1996e073-b2d3-410a-8ad7-171410fe3cdd.png) |
+| 8 | Radiating Dandelion Seed Head | [brief](briefs/dandelion_d47bc335-1eca-4c92-a4bf-43cc9ab8ef5a.md) | ![Radiating Dandelion Seed Head](png/dandelion_d47bc335-1eca-4c92-a4bf-43cc9ab8ef5a.png) |
+| 9 | Closed Envelope with Diagonal Back Seam | [brief](briefs/dart logo_1562f98c-4790-44ea-971c-d68ba4454109.md) | ![Closed Envelope with Diagonal Back Seam](png/dart logo_1562f98c-4790-44ea-971c-d68ba4454109.png) |
+| 10 | Stylized Wing with Four Rounded Feathers | [brief](briefs/database migration wing_6490b254-bb57-412c-b4d4-5a0ae998a87b.md) | ![Stylized Wing with Four Rounded Feathers](png/database migration wing_6490b254-bb57-412c-b4d4-5a0ae998a87b.png) |
+| 11 | Sun Appearing Behind Rounded Hill | [brief](briefs/day noon_9209ad15-ccc6-48e1-b297-b65ddf79ec66.md) | ![Sun Appearing Behind Rounded Hill](png/day noon_9209ad15-ccc6-48e1-b297-b65ddf79ec66.png) |
+| 12 | Low Lounger with Angled Backrest | [brief](briefs/daybed_b1cad115-c07d-451b-a6d8-9d8725450bef.md) | ![Low Lounger with Angled Backrest](png/daybed_b1cad115-c07d-451b-a6d8-9d8725450bef.png) |
+| 13 | Pointed Paper Plane Silhouette | [brief](briefs/delta wing_eaa222de-5e3d-4598-ace5-833c94083b22.md) | ![Pointed Paper Plane Silhouette](png/delta wing_eaa222de-5e3d-4598-ace5-833c94083b22.png) |
+| 14 | Profile Bust with Square Lower Corners | [brief](briefs/democrat_0e31e62c-e172-4c1e-a8f0-0cd3b091294f.md) | ![Profile Bust with Square Lower Corners](png/democrat_0e31e62c-e172-4c1e-a8f0-0cd3b091294f.png) |
+| 15 | Smiling Devil Bust with Curved Horns | [brief](briefs/demon_722cf62b-3e5b-4580-98b4-5e0213fb8c7b.md) | ![Smiling Devil Bust with Curved Horns](png/demon_722cf62b-3e5b-4580-98b4-5e0213fb8c7b.png) |
+| 16 | Gabled House with Plain Doorway | [brief](briefs/den_318acbec-ff5c-4622-87d9-7ff058616421.md) | ![Gabled House with Plain Doorway](png/den_318acbec-ff5c-4622-87d9-7ff058616421.png) |
+| 17 | Straight Leg Jeans with Curved Pockets | [brief](briefs/denim_ab809530-93de-485e-a989-185022943b13.md) | ![Straight Leg Jeans with Curved Pockets](png/denim_ab809530-93de-485e-a989-185022943b13.png) |
+| 18 | Tooth Beside Bent Dental Stick | [brief](briefs/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.md) | ![Tooth Beside Bent Dental Stick](png/dental stick tooth_5fba6994-83b3-4c8e-872d-6f2fc2d663b7.png) |
+| 19 | Large Tooth Beside Upright Toothbrush | [brief](briefs/dentist_c63435a2-c5ef-4352-9216-a28ed41a6246.md) | ![Large Tooth Beside Upright Toothbrush](png/dentist_c63435a2-c5ef-4352-9216-a28ed41a6246.png) |
+| 20 | Angled Toothbrush Above Small Molar | [brief](briefs/dentistry tooth brush_e0b304e7-acb0-4e8f-9bd4-d6957e4d6065.md) | ![Angled Toothbrush Above Small Molar](png/dentistry tooth brush_e0b304e7-acb0-4e8f-9bd4-d6957e4d6065.png) |
+| 21 | Rounded Deodorant Stick with Blank Label | [brief](briefs/deodorant_652b5646-a326-4a16-aef9-9faec5b55e77.md) | ![Rounded Deodorant Stick with Blank Label](png/deodorant_652b5646-a326-4a16-aef9-9faec5b55e77.png) |
+| 22 | Curved Palm Tree Between Sand Dunes | [brief](briefs/desert_a9c44c76-68f4-4e82-a0ad-c3c667877bef.md) | ![Curved Palm Tree Between Sand Dunes](png/desert_a9c44c76-68f4-4e82-a0ad-c3c667877bef.png) |
+| 23 | Ink Bottle with Ribbed Cap and Label | [brief](briefs/design tool ink_1888bc1b-5974-4d14-9f53-439684656693.md) | ![Ink Bottle with Ribbed Cap and Label](png/design tool ink_1888bc1b-5974-4d14-9f53-439684656693.png) |
+| 24 | Dhow with Curved Triangular Sail | [brief](briefs/dhow_4f2cbf40-337f-41ff-a679-2763c9d67e12.md) | ![Dhow with Curved Triangular Sail](png/dhow_4f2cbf40-337f-41ff-a679-2763c9d67e12.png) |
+| 25 | Three Lobed Crown with Round Finial | [brief](briefs/diadem_bd921d83-82b1-4990-b10c-2e0fbc4dd8cc.md) | ![Three Lobed Crown with Round Finial](png/diadem_bd921d83-82b1-4990-b10c-2e0fbc4dd8cc.png) |
+| 26 | Arrow Up Above Two Horizontal Bars | [brief](briefs/diagram arrow dash up_b34769bf-3391-42e5-ae9c-b1beff3c0b11.md) | ![Arrow Up Above Two Horizontal Bars](png/diagram arrow dash up_b34769bf-3391-42e5-ae9c-b1beff3c0b11.png) |
+| 27 | Arrow Rising Through Square Right Turn | [brief](briefs/diagram arrow up and right_acab70eb-8a06-42da-ba3a-455cf3d2880a.md) | ![Arrow Rising Through Square Right Turn](png/diagram arrow up and right_acab70eb-8a06-42da-ba3a-455cf3d2880a.png) |
+| 28 | Arrow Dashed Right Angle Descent | [brief](briefs/diagram dash down fast_3266a632-106d-4bf1-a92e-de4aa1157fe5.md) | ![Arrow Dashed Right Angle Descent](png/diagram dash down fast_3266a632-106d-4bf1-a92e-de4aa1157fe5.png) |
+| 29 | Arrow Rising Step with Broken Start | [brief](briefs/diagram dash rise steady_89bab507-8b2a-41b9-aae5-520882e84bf9.md) | ![Arrow Rising Step with Broken Start](png/diagram dash rise steady_89bab507-8b2a-41b9-aae5-520882e84bf9.png) |
+| 30 | Arrow Rising Through Rounded Step | [brief](briefs/diagram dash up steady_ee1f794e-51e4-4617-9127-74bef181afec.md) | ![Arrow Rising Through Rounded Step](png/diagram dash up steady_ee1f794e-51e4-4617-9127-74bef181afec.png) |
+| 31 | Arrow Right Return with Wide Upper Run | [brief](briefs/diagram dash up then down large head_a7e57dad-89db-406d-b954-9df4c6395c21.md) | ![Arrow Right Return with Wide Upper Run](png/diagram dash up then down large head_a7e57dad-89db-406d-b954-9df4c6395c21.png) |
+| 32 | Arrow Right Return with Broken Lower Shaft | [brief](briefs/diagram dash up then down_38864193-83c7-4621-abc5-a9da57be9039.md) | ![Arrow Right Return with Broken Lower Shaft](png/diagram dash up then down_38864193-83c7-4621-abc5-a9da57be9039.png) |
+| 33 | Arrow Down After Two Opposing Bends | [brief](briefs/diagram dash wave down_80755080-33d0-42e7-9bca-68d0d18ad221.md) | ![Arrow Down After Two Opposing Bends](png/diagram dash wave down_80755080-33d0-42e7-9bca-68d0d18ad221.png) |
+| 34 | Arrow Right Beside Dashed Vertical Guide | [brief](briefs/diagram fall rise steady large head_20c5249c-b20a-4336-a353-a5605dfd8c09.md) | ![Arrow Right Beside Dashed Vertical Guide](png/diagram fall rise steady large head_20c5249c-b20a-4336-a353-a5605dfd8c09.png) |
+| 35 | Arrow Rising into Rounded Right Turn | [brief](briefs/diagram fall rise steady_fd8944dc-d1c8-4ebe-adf2-9a1146284b53.md) | ![Arrow Rising into Rounded Right Turn](png/diagram fall rise steady_fd8944dc-d1c8-4ebe-adf2-9a1146284b53.png) |
+| 36 | Arrow Twin Upward Ends on U Curve | [brief](briefs/diagram up double large head_cada69c0-f437-4038-87b1-211bd013904e.md) | ![Arrow Twin Upward Ends on U Curve](png/diagram up double large head_cada69c0-f437-4038-87b1-211bd013904e.png) |
+| 37 | Arrow Right Return with Tall Rounded Bend | [brief](briefs/diagram up then down large head_b80bc882-9595-43b3-8d8e-6230f8657f92.md) | ![Arrow Right Return with Tall Rounded Bend](png/diagram up then down large head_b80bc882-9595-43b3-8d8e-6230f8657f92.png) |
+| 38 | Arrow Right Return with Level Parallel Runs | [brief](briefs/diagram up then down_70ffedae-e2ac-4934-956d-08067f4d74e6.md) | ![Arrow Right Return with Level Parallel Runs](png/diagram up then down_70ffedae-e2ac-4934-956d-08067f4d74e6.png) |
+| 39 | Arrow Down with Angular Zigzag Shaft | [brief](briefs/diagram zig zag fall large head_302376a8-2f68-4599-bebe-1130fd7a00dc.md) | ![Arrow Down with Angular Zigzag Shaft](png/diagram zig zag fall large head_302376a8-2f68-4599-bebe-1130fd7a00dc.png) |
+| 40 | Clock with Four Marks and Round Hub | [brief](briefs/dial_4b1fd465-f5f5-4a36-8f9d-7168270aee39.md) | ![Clock with Four Marks and Round Hub](png/dial_4b1fd465-f5f5-4a36-8f9d-7168270aee39.png) |
+| 41 | Cuffed Hands Supporting Faceted Diamond | [brief](briefs/diamond give_2a6eda08-c10d-4226-80a2-1ca03654ee6e.md) | ![Cuffed Hands Supporting Faceted Diamond](png/diamond give_2a6eda08-c10d-4226-80a2-1ca03654ee6e.png) |
+| 42 | Diaper with Curved Side Tabs | [brief](briefs/diaper_743e3fd6-84d2-44e9-8bc0-a7d00ba81259.md) | ![Diaper with Curved Side Tabs](png/diaper_743e3fd6-84d2-44e9-8bc0-a7d00ba81259.png) |
+| 43 | Domed Diaphragm with Thick Lower Rim | [brief](briefs/diaphragm_ab591fb1-da95-4677-8beb-82ec667316b2.md) | ![Domed Diaphragm with Thick Lower Rim](png/diaphragm_ab591fb1-da95-4677-8beb-82ec667316b2.png) |
+| 44 | Pointed Garden Trowel with Rounded Handle | [brief](briefs/dibble_f04d1f5f-0119-40b2-af71-bbc4d4fc874f.md) | ![Pointed Garden Trowel with Rounded Handle](png/dibble_f04d1f5f-0119-40b2-af71-bbc4d4fc874f.png) |
+| 45 | Sleeveless V Neck Vest with Hem Band | [brief](briefs/dickey_ee26c52a-6832-4a0f-a7bd-307d086c560f.md) | ![Sleeveless V Neck Vest with Hem Band](png/dickey_ee26c52a-6832-4a0f-a7bd-307d086c560f.png) |
+| 46 | Voice Recorder with Round Speaker Area | [brief](briefs/dictaphone_4605e62b-7f23-4283-a4ae-bcbb6b3c541d.md) | ![Voice Recorder with Round Speaker Area](png/dictaphone_4605e62b-7f23-4283-a4ae-bcbb6b3c541d.png) |
+| 47 | Fuel Pump with Hanging Side Hose | [brief](briefs/diesel_d528e1d7-b963-4ce7-b688-1a32d9f8f838.md) | ![Fuel Pump with Hanging Side Hose](png/diesel_d528e1d7-b963-4ce7-b688-1a32d9f8f838.png) |
+| 48 | Diagonal Shovel with Broad D Grip | [brief](briefs/dig_571135a9-8294-425e-b2d7-526d9f1ec44f.md) | ![Diagonal Shovel with Broad D Grip](png/dig_571135a9-8294-425e-b2d7-526d9f1ec44f.png) |
+| 49 | Wheeled Excavator with Raised Jointed Boom | [brief](briefs/digger_9807802c-4263-4ed0-9917-9adc44389799.md) | ![Wheeled Excavator with Raised Jointed Boom](png/digger_9807802c-4263-4ed0-9917-9adc44389799.png) |
+| 50 | Laptop Worker Beside Beach Palm | [brief](briefs/digital nomad beach_6d4dd61f-6a26-4fe2-9153-8e53f8a73a5d.md) | ![Laptop Worker Beside Beach Palm](png/digital nomad beach_6d4dd61f-6a26-4fe2-9153-8e53f8a73a5d.png) |
+| 51 | Laptop Worker Beneath Sun and Horizon | [brief](briefs/digital nomad sun_195158ad-68fb-43f8-82c7-2767217ded9c.md) | ![Laptop Worker Beneath Sun and Horizon](png/digital nomad sun_195158ad-68fb-43f8-82c7-2767217ded9c.png) |
+| 52 | Diner Building with Broad Fascia and Dome | [brief](briefs/diner_1a38690c-e827-43e3-8ccf-c7c1f51ff9d5.md) | ![Diner Building with Broad Fascia and Dome](png/diner_1a38690c-e827-43e3-8ccf-c7c1f51ff9d5.png) |
+| 53 | Rowboat with Diagonal Oar Across Hull | [brief](briefs/dinghy_cce07de7-91db-46fd-a460-a2edbb81534c.md) | ![Rowboat with Diagonal Oar Across Hull](png/dinghy_cce07de7-91db-46fd-a460-a2edbb81534c.png) |
+| 54 | Dining Table with Single Side Chair | [brief](briefs/dining table_0541c5ec-dbcc-416d-8de4-70b007cb32f0.md) | ![Dining Table with Single Side Chair](png/dining table_0541c5ec-dbcc-416d-8de4-70b007cb32f0.png) |
+| 55 | Upright Fork and Rounded Table Knife | [brief](briefs/dining_e3655bd1-e031-4afe-8b72-a0cc8f5e8924.md) | ![Upright Fork and Rounded Table Knife](png/dining_e3655bd1-e031-4afe-8b72-a0cc8f5e8924.png) |
+| 56 | Crested Dinosaur in Left Facing Profile | [brief](briefs/dinosaur raptor 2_2d6c89c4-e968-4d8b-8072-8bb25e0843ff.md) | ![Crested Dinosaur in Left Facing Profile](png/dinosaur raptor 2_2d6c89c4-e968-4d8b-8072-8bb25e0843ff.png) |
+| 57 | Long Necked Dinosaur with Two Visible Legs | [brief](briefs/dinosaur_c32d38ff-f99f-4336-ba44-95efd75ee99c.md) | ![Long Necked Dinosaur with Two Visible Legs](png/dinosaur_c32d38ff-f99f-4336-ba44-95efd75ee99c.png) |
+| 58 | Chip Dipped into Mounded Sauce Bowl | [brief](briefs/dip_a58ba0e9-479f-4272-b604-29eca91411de.md) | ![Chip Dipped into Mounded Sauce Bowl](png/dip_a58ba0e9-479f-4272-b604-29eca91411de.png) |
+| 59 | Oil Dipstick with Rounded End Grips | [brief](briefs/dipstick_0c5f3dea-2094-4910-b7ce-4aff29f0f695.md) | ![Oil Dipstick with Rounded End Grips](png/dipstick_0c5f3dea-2094-4910-b7ce-4aff29f0f695.png) |
+| 60 | Director Chair Beneath Large Megaphone | [brief](briefs/director_faff0670-0ec2-47d4-81d4-2ac47f6f61be.md) | ![Director Chair Beneath Large Megaphone](png/director_faff0670-0ec2-47d4-81d4-2ac47f6f61be.png) |
+| 61 | Sleeveless Dress with Wavy Skirt Hem | [brief](briefs/dirndl_5269ac01-1284-4e1b-8406-3a30741291a7.md) | ![Sleeveless Dress with Wavy Skirt Hem](png/dirndl_5269ac01-1284-4e1b-8406-3a30741291a7.png) |
+| 62 | Two Leaf Sprout in Soil Mound | [brief](briefs/dirt_70d996e8-a012-4dd2-8d7c-fa3d3f72ce28.md) | ![Two Leaf Sprout in Soil Mound](png/dirt_70d996e8-a012-4dd2-8d7c-fa3d3f72ce28.png) |
+| 63 | Ear with Round Hearing Device and Waves | [brief](briefs/disability hearing aid t_e1893637-f6ac-4602-b63a-d7fd5a641510.md) | ![Ear with Round Hearing Device and Waves](png/disability hearing aid t_e1893637-f6ac-4602-b63a-d7fd5a641510.png) |
+| 64 | Ear with Broken Diagonal and Outer Arc | [brief](briefs/disability hearing t_42121486-14f6-4035-afad-601034d0d354.md) | ![Ear with Broken Diagonal and Outer Arc](png/disability hearing t_42121486-14f6-4035-afad-601034d0d354.png) |
+| 65 | Seated Person Beside Front Facing Car | [brief](briefs/disability in car_d870fd26-4ba9-4393-b85f-95ba5e7e4786.md) | ![Seated Person Beside Front Facing Car](png/disability in car_d870fd26-4ba9-4393-b85f-95ba5e7e4786.png) |
+| 66 | Hanging Disco Ball with Curved Grid | [brief](briefs/disco_552b47f1-e2aa-42a2-8230-e74df63449cb.md) | ![Hanging Disco Ball with Curved Grid](png/disco_552b47f1-e2aa-42a2-8230-e74df63449cb.png) |
+| 67 | Upright Two Pin Plug with Curled Cable | [brief](briefs/disconnected_a9ef060c-94d9-4a0d-bf5b-b3f52e204fa9.md) | ![Upright Two Pin Plug with Curled Cable](png/disconnected_a9ef060c-94d9-4a0d-bf5b-b3f52e204fa9.png) |
+| 68 | Plain Dishwasher with Upper Panel Division | [brief](briefs/dishwasher_48fa499e-d0cc-4696-9fc3-14a148c8230d.md) | ![Plain Dishwasher with Upper Panel Division](png/dishwasher_48fa499e-d0cc-4696-9fc3-14a148c8230d.png) |
+| 69 | Three Rounded Network Nodes | [brief](briefs/distributor_7fc82a76-4203-44f5-8197-fbc82ad8dca3.md) | ![Three Rounded Network Nodes](png/distributor_7fc82a76-4203-44f5-8197-fbc82ad8dca3.png) |
+| 70 | Rounded Armchair with Inset Seat Cushion | [brief](briefs/divan_efcd3f01-3898-4701-8f39-b77fbd1f7836.md) | ![Rounded Armchair with Inset Seat Cushion](png/divan_efcd3f01-3898-4701-8f39-b77fbd1f7836.png) |
+| 71 | Cross with Long Vertical Stem | [brief](briefs/divider_37f4a307-a93e-48ce-910e-a9c8a307a042.md) | ![Cross with Long Vertical Stem](png/divider_37f4a307-a93e-48ce-910e-a9c8a307a042.png) |
+| 72 | Diving Mask Snorkel and Fish Set | [brief](briefs/diving mask fish_6803aca6-23a8-44ba-9b90-120d6647b7db.md) | ![Diving Mask Snorkel and Fish Set](png/diving mask fish_6803aca6-23a8-44ba-9b90-120d6647b7db.png) |
+| 73 | Front Facing Doe with Large Ears | [brief](briefs/doe_2236c5e7-9667-4f7b-8007-f93215a0f101.md) | ![Front Facing Doe with Large Ears](png/doe_2236c5e7-9667-4f7b-8007-f93215a0f101.png) |
+| 74 | Doghouse with Thick Gabled Roof | [brief](briefs/dog house 2_58681f4e-f40c-47aa-8ab2-a64e586e388e.md) | ![Doghouse with Thick Gabled Roof](png/dog house 2_58681f4e-f40c-47aa-8ab2-a64e586e388e.png) |
+| 75 | Dog Walker Carrying Hanging Bag | [brief](briefs/dog poop clean_a86e5b3d-1f7e-4696-be14-0fe51cbed365.md) | ![Dog Walker Carrying Hanging Bag](png/dog poop clean_a86e5b3d-1f7e-4696-be14-0fe51cbed365.png) |
+| 76 | Dog Leaping Over Triangular Obstacle | [brief](briefs/dog race compettion 2_899cc85a-715c-4068-a183-6b692a3cf57f.md) | ![Dog Leaping Over Triangular Obstacle](png/dog race compettion 2_899cc85a-715c-4068-a183-6b692a3cf57f.png) |
+| 77 | Standing Person Beside Seated Pointed Ear Pet | [brief](briefs/dog sit trainer side_2eaceb07-1bd4-4d4f-9ef1-708a7b82ec91.md) | ![Standing Person Beside Seated Pointed Ear Pet](png/dog sit trainer side_2eaceb07-1bd4-4d4f-9ef1-708a7b82ec91.png) |
+| 78 | Dog Face with Drooping Ears and Tongue | [brief](briefs/doggie_7d7d172d-b4f6-4dd0-8a05-cbf34601aa34.md) | ![Dog Face with Drooping Ears and Tongue](png/doggie_7d7d172d-b4f6-4dd0-8a05-cbf34601aa34.png) |
+| 79 | Four Rounded Petals Around Small Center | [brief](briefs/dogwood_d9004bc2-cb80-4030-aa94-9badd784e12f.md) | ![Four Rounded Petals Around Small Center](png/dogwood_d9004bc2-cb80-4030-aa94-9badd784e12f.png) |
+| 80 | Girl Doll with Bob Hair and Dress | [brief](briefs/doll_2f051532-a430-48a9-8c8d-3cd972e7789a.md) | ![Girl Doll with Bob Hair and Dress](png/doll_2f051532-a430-48a9-8c8d-3cd972e7789a.png) |
+| 81 | Tilting Hand Truck with Square Load | [brief](briefs/dolly_6afd5ed7-d4c1-4069-8a05-14b56d7cd974.md) | ![Tilting Hand Truck with Square Load](png/dolly_6afd5ed7-d4c1-4069-8a05-14b56d7cd974.png) |
+| 82 | Dolman Top with Broad Short Sleeves | [brief](briefs/dolman_431f8eeb-12dd-472a-a8db-a548c3916b80.md) | ![Dolman Top with Broad Short Sleeves](png/dolman_431f8eeb-12dd-472a-a8db-a548c3916b80.png) |
+| 83 | Open Hands Beneath Floating Heart | [brief](briefs/donation charity hand care heart_e4e00065-3df8-4a4e-8fb9-e6dda357af8f.md) | ![Open Hands Beneath Floating Heart](png/donation charity hand care heart_e4e00065-3df8-4a4e-8fb9-e6dda357af8f.png) |
+| 84 | Donkey Head with Tall Pointed Ears | [brief](briefs/donkey_3d0a94ba-875d-4615-a403-463589aa7bee.md) | ![Donkey Head with Tall Pointed Ears](png/donkey_3d0a94ba-875d-4615-a403-463589aa7bee.png) |
+| 85 | Round Doorknob on Tall Backplate | [brief](briefs/doorknob_abe71152-c216-4841-90ee-402a7dd5574b.md) | ![Round Doorknob on Tall Backplate](png/doorknob_abe71152-c216-4841-90ee-402a7dd5574b.png) |
+| 86 | Open Doorpost Frame with Inner Corner | [brief](briefs/doorpost_0e175b76-f7aa-4cd8-bb11-a3170b14fff1.md) | ![Open Doorpost Frame with Inner Corner](png/doorpost_0e175b76-f7aa-4cd8-bb11-a3170b14fff1.png) |
+| 87 | Plain Door in Broad Rounded Frame | [brief](briefs/doorway_1e50ca54-66dd-466e-b562-d683c18ad8d4.md) | ![Plain Door in Broad Rounded Frame](png/doorway_1e50ca54-66dd-466e-b562-d683c18ad8d4.png) |
+| 88 | Round Bread Loaf with Three Scores | [brief](briefs/dough_ead22c7c-b292-426c-90c0-d7d190de4721.md) | ![Round Bread Loaf with Three Scores](png/dough_ead22c7c-b292-426c-90c0-d7d190de4721.png) |
+| 89 | Dove Flying Right with Raised Wing | [brief](briefs/dove_f512d6dd-1499-4436-b24c-e444dbfb80de.md) | ![Dove Flying Right with Raised Wing](png/dove_f512d6dd-1499-4436-b24c-e444dbfb80de.png) |
+| 90 | Chevron Double Down with Wide Arms | [brief](briefs/down 2_566c0e57-a142-4e0c-b0fc-b66d54d9dee7.md) | ![Chevron Double Down with Wide Arms](png/down 2_566c0e57-a142-4e0c-b0fc-b66d54d9dee7.png) |
+| 91 | Dragon Boat with Diagonal Paddle | [brief](briefs/dragon boat_c0bf18ec-ef26-4887-96a5-9b72b4465109.md) | ![Dragon Boat with Diagonal Paddle](png/dragon boat_c0bf18ec-ef26-4887-96a5-9b72b4465109.png) |
+| 92 | Curled Dragon with Two Small Horns | [brief](briefs/dragon_740f43e8-d537-4ec2-bbd4-d4ce268b541b.md) | ![Curled Dragon with Two Small Horns](png/dragon_740f43e8-d537-4ec2-bbd4-d4ce268b541b.png) |
+| 93 | Dragon Fruit with Pointed Crown and Speckles | [brief](briefs/dragonfruit_f031a23b-13ed-49ee-bc22-42ee19d5d8b5.md) | ![Dragon Fruit with Pointed Crown and Speckles](png/dragonfruit_f031a23b-13ed-49ee-bc22-42ee19d5d8b5.png) |
+| 94 | Low Racing Car with Raised Rear Wing | [brief](briefs/dragster_9f803b66-a6f0-4bdf-b4c8-49f7ac21db0e.md) | ![Low Racing Car with Raised Rear Wing](png/dragster_9f803b66-a6f0-4bdf-b4c8-49f7ac21db0e.png) |
+| 95 | Round Four Hole Disk with Outer Rim | [brief](briefs/drain_6fef6aba-fc12-4bb8-91b2-50a289c234d6.md) | ![Round Four Hole Disk with Outer Rim](png/drain_6fef6aba-fc12-4bb8-91b2-50a289c234d6.png) |
+| 96 | Bent Drainpipe with Falling Water Lines | [brief](briefs/drainage_4c5aeecb-6fcf-4263-9573-d26b992703fa.md) | ![Bent Drainpipe with Falling Water Lines](png/drainage_4c5aeecb-6fcf-4263-9573-d26b992703fa.png) |
+| 97 | Left Facing Duck with Folded Wing | [brief](briefs/drake_9eadf921-3174-4221-866e-2c3028f77fdf.md) | ![Left Facing Duck with Folded Wing](png/drake_9eadf921-3174-4221-866e-2c3028f77fdf.png) |
+| 98 | Profile Person Wearing Slanted Beret | [brief](briefs/dramaturge_a8991616-b410-40cd-bdbc-7c97585a5607.md) | ![Profile Person Wearing Slanted Beret](png/dramaturge_a8991616-b410-40cd-bdbc-7c97585a5607.png) |
+| 99 | Open Drapes with Curved Lower Hems | [brief](briefs/drapes_33d71178-2725-4a21-82ed-02dae0e3a5b2.md) | ![Open Drapes with Curved Lower Hems](png/drapes_33d71178-2725-4a21-82ed-02dae0e3a5b2.png) |
+| 100 | Drawbridge Between Rounded Upright Posts | [brief](briefs/drawbridge_efa088bb-74a9-4fd2-ae55-cc9fedda3e46.md) | ![Drawbridge Between Rounded Upright Posts](png/drawbridge_efa088bb-74a9-4fd2-ae55-cc9fedda3e46.png) |

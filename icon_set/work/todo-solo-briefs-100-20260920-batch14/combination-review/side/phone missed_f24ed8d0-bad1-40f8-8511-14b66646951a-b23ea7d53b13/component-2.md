@@ -1,0 +1,13 @@
+# Incoming Down-Left Arrow
+
+- source: `pictographic-primitives/_uncategorized_30/phone missed_f24ed8d0-bad1-40f8-8511-14b66646951a.svg`
+- source UUID: `f24ed8d0-bad1-40f8-8511-14b66646951a`
+- family: sub
+- render: `phone missed_f24ed8d0-bad1-40f8-8511-14b66646951a.png`
+- native 48px reference: `phone missed_f24ed8d0-bad1-40f8-8511-14b66646951a@48.png`
+
+A diagonal shaft points downward left into an open right-angle arrowhead. Exclude the telephone receiver.
+
+## Authoring handoff
+
+You can try modifying a copy of the SVG reference to fit the icon design rules, or generate a new icon that matches the icon name. Either approach must follow the requested family's design rules and preserve the named subject's identity. Apply this only to the named component and exclude the other components. Keep the original reference unchanged.

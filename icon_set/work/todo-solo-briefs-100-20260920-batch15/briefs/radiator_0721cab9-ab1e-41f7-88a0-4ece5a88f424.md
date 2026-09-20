@@ -1,0 +1,38 @@
+# Four-Section Radiator
+
+- source: `pictographic-primitives/_uncategorized_32/radiator_0721cab9-ab1e-41f7-88a0-4ece5a88f424.svg`
+- render: `png/radiator_0721cab9-ab1e-41f7-88a0-4ece5a88f424.png` (look at this first)
+- native 48px: `png/radiator_0721cab9-ab1e-41f7-88a0-4ece5a88f424@48.png`
+- tags: radiator, heating, pipe, section, home, appliance
+- family: solo — author with `$icon-solo`
+- proposed icon_id: `four-section-radiator`
+
+- source UUID: `0721cab9-ab1e-41f7-88a0-4ece5a88f424`
+
+## Description
+
+A radiator has four rounded vertical sections joined into one broad body. The upper and lower edges dip between the sections, and two short pipes descend near the outer ends.
+
+## To author
+
+Run `$icon-solo`, which reads `icon_set/skills/icon-design/SKILL.md`, then the reference-backed
+intake. Look at the render before choosing anything: name the subject in
+one sentence, keep only what survives at native size, choose the keyshape,
+and design backwards from its four extreme coordinates.
+
+The reference sets the subject, not the grid, the stroke or the
+proportions. Fit the result to the requested profile.
+
+You can try modifying a copy of the SVG reference to fit the icon design rules,
+or generate a new icon that matches the icon name. Either approach must follow
+the requested family's design rules and preserve the named subject's identity.
+Keep the original reference unchanged and produce the family skill's required deliverables.
+
+## Fit the icon design rules
+
+This reference is drawn at illustration scale — thin strokes and more
+detail than a 48px canvas can hold. Adapt or regenerate it to fit:
+fewer parts, the profile's stroke weight, larger gaps, geometry rebuilt on
+the grid. Keep the meaning intact — the silhouette it is recognized by and
+the parts that make it this subject and not a neighbouring one. Simplify
+the drawing, never the meaning.

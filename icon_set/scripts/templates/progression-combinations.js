@@ -22,8 +22,8 @@ function containerGroups(rows){
 }
 function combinationState(row){
   const refs=combinationCatalog.references;
-  if(refs[row.id].generated.length || row.generated?.length)return 'generated';
-  const count=Number(!!combinationMain(row).generated.length)+Number(!!refs[row.sub_id].generated.length);
+  if((row.component_selection!=='explicit'&&refs[row.id].generated.length) || row.generated?.length)return 'generated';
+  const count=Number(!!combinationMain(row).generated.length)+Number(!!(row.sub_generated??refs[row.sub_id].generated).length);
   return count===2?'ready':count===1?'partial':'missing';
 }
 async function renderCombinations(){
@@ -73,7 +73,7 @@ async function renderCombinations(){
     const grid=node('div','combination-artworks');
     const original=artwork('Reference combination',{...refs[row.id],concept:row.concept,generated:[]});original.lastChild.remove();
     const subRef={...refs[row.sub_id],generated:(row.sub_generated||refs[row.sub_id].generated).map(g=>{const reuse=(row.sub_exports||[]).find(e=>e.icon===g.icon_id);return reuse?{...g,preview_url:reuse.export_url,label:g.icon_id+' · 32px reuse export'}:g;})};
-    const combined=artwork('Generated combination',refs[row.id],true,row.generated||[]);
+    const combined=artwork('Generated combination',row.component_selection==='explicit'?{...refs[row.id],generated:[]}:refs[row.id],true,row.generated||[]);
     if(row.trial_preview){
       const trial=row.trial_preview, empty=combined.querySelector('.combination-empty');if(empty)empty.remove();
       combined.append(node('p','combination-label','Trial preview'),imageLink(trial.preview_url,row.concept+' — trial'),node('p','muted',trial.status==='clearance-estimate-pass'?'Solo artwork fitted inside container · review before approval':'Solo artwork fitted inside container · placement needs review'));

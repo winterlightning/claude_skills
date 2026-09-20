@@ -1,5 +1,5 @@
 """portrait-with-bob-hair-and-pendant-collar: independent batch-086 SOLO48 result.
-Plan: Circular face inside a semicircular bob, broad paired shoulder arcs and one centered pendant. Detached face bottom 27, shoulders top 35: exact 4-unit ink gap.
+Plan: Circular face inside a semicircular bob, broad paired shoulder arcs and one centered pendant. Circular face bottom 27, shoulders top 31: exact zero ink gap.
 Reference construction: human_ref/user.svg.
 Reduction: Omitted tiny facial mark and reduced the three necklace ornaments to one pendant, preserving the bob and broad collar.
 """
@@ -19,6 +19,8 @@ class Drawing(Solo48):
     category = 'video-games'
     aliases = ()
     keywords = ('portrait', 'with', 'bob', 'hair', 'and', 'pendant', 'collar')
+
+    human_construction = "bust"
 
     def build(self):
         # Exact envelope comes from Keyshape.VRECT_L.bounds_for(self.profile).
@@ -42,7 +44,8 @@ class Drawing(Solo48):
         join=lambda a,b:self.relate('connect',a,b)
 
 
-        path('bob',(8,28),[('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,28))])
+        path('bob',(8,24),[('L',(8,20)),('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,24))])
         oval('face',24,20,7,7)
-        path('shoulders',(8,40),[('A',(24,35),16,5,True),('A',(40,40),16,5,True)])
+        path('shoulders',(8,40),[('A',(24,31),16,9,True),('A',(40,40),16,9,True)])
         dot('pendant',(24,44))
+        join('face','shoulders')

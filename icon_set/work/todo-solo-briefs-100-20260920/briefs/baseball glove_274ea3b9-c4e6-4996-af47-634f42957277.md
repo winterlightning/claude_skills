@@ -1,0 +1,38 @@
+# Baseball Glove with Webbed Thumb Gap
+
+- source: `pictographic-primitives/_uncategorized_05/baseball glove_274ea3b9-c4e6-4996-af47-634f42957277.svg`
+- render: `png/baseball glove_274ea3b9-c4e6-4996-af47-634f42957277.png` (look at this first)
+- native 48px: `png/baseball glove_274ea3b9-c4e6-4996-af47-634f42957277@48.png`
+- tags: glove, baseball, mitt, thumb, fingers, webbing, sport
+- family: solo — author with `$icon-solo`
+- proposed icon_id: `baseball-glove-with-webbed-thumb-gap`
+
+- source UUID: `274ea3b9-c4e6-4996-af47-634f42957277`
+
+## Description
+
+A broad rounded glove has four distinct finger tips across its upper edge. A deep curved gap separates the thumb from the fingers, with two short webbing bands spanning its upper portion.
+
+## To author
+
+Run `$icon-solo`, which reads `icon_set/skills/icon-design/SKILL.md`, then the reference-backed
+intake. Look at the render before choosing anything: name the subject in
+one sentence, keep only what survives at native size, choose the keyshape,
+and design backwards from its four extreme coordinates.
+
+The reference sets the subject, not the grid, the stroke or the
+proportions. Fit the result to the requested profile.
+
+You can try modifying a copy of the SVG reference to fit the icon design rules,
+or generate a new icon that matches the icon name. Either approach must follow
+the requested family's design rules and preserve the named subject's identity.
+Keep the original reference unchanged and produce the family skill's required deliverables.
+
+## Fit the icon design rules
+
+This reference is drawn at illustration scale — thin strokes and more
+detail than a 48px canvas can hold. Adapt or regenerate it to fit:
+fewer parts, the profile's stroke weight, larger gaps, geometry rebuilt on
+the grid. Keep the meaning intact — the silhouette it is recognized by and
+the parts that make it this subject and not a neighbouring one. Simplify
+the drawing, never the meaning.

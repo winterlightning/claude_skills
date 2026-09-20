@@ -27,7 +27,10 @@ def stage_catalog(catalog,root=ROOT):
     path=root/MANIFEST
     if not path.exists():return
     # Catalog publication is read-only. Explicit maintenance refreshes role exports.
-    data=json.loads(path.read_text());lookup={v['icon_id']:e for e in data['icons'] for v in e['versions'].values()}
+    data=json.loads(path.read_text())
+    # The origin stays stable when a repaired variant replaces a role version.
+    lookup={e['original_icon_id']:e for e in data['icons']}
+    lookup.update({v['icon_id']:e for e in data['icons'] for v in e['versions'].values()})
     fixes=json.loads((root/'icon_set/work/container-fit-repair/fit-adjustments.json').read_text()).get('sub_revisions',{})
     for row in catalog['rows']:
         role='symbol' if row['kind']=='container' else 'side';choices=[];exports=[];seen=set();old_exports={x['icon']:x for x in row.get('sub_exports',[])}

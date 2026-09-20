@@ -408,6 +408,19 @@ class IconValidator:
 
     def _check_keyshape(self, icon: "Icon", errors: list[Finding]) -> None:
         check = CHECK_ORDER[4]
+        from ..model.icons.symbol._resize_base import ResizeSymbol, resize_dimensions
+        if isinstance(icon, ResizeSymbol):
+            width, height = resize_dimensions(icon)
+            if icon.keyshape is not Keyshape.SQUARE or icon.keyshape_bounds() != (0, 0, width, height):
+                errors.append(Finding(check, 'Resize ink envelope must match its declared dimensions'))
+            if icon.STROKE_WIDTH != 4 or getattr(icon, 'PATH_STROKE_WIDTHS', {}):
+                errors.append(Finding(check, 'Container resize variants require a uniform 4-unit stroke'))
+            return
+        from ..model.icons.sub._tall_base import SourceFaithfulSideSub
+        if isinstance(icon, SourceFaithfulSideSub):
+            if icon.keyshape is not Keyshape.SQUARE or icon.keyshape_bounds() != (0, 0, icon.canvas_width, icon.canvas_height):
+                errors.append(Finding(check, 'Side exception envelope must match its declared canvas'))
+            return
         from ..model.icons.sub._text_base import Text32Mixin as TextSub32, canvas_dimensions
         if isinstance(icon, TextSub32):
             width, height = canvas_dimensions(icon)
@@ -519,6 +532,8 @@ class IconValidator:
         content_size = Profile[expected[1]["profile"]].spec.canvas_size
         for spec, child in zip(expected, children):
             label = f"child {spec['index']} ({spec['slot_role']})"
+            if getattr(child.icon, 'sizing_mode', None) in ('side-32x48', 'side-one-axis32', 'side-source-fit') and icon.composition_class == 'CONTAINER_COMBINE':
+                errors.append(Finding(check, '32×48 side icons cannot use the square container-content slot', child.icon.icon_id))
             if child.icon.profile.name not in spec.get("accepted_profiles", [spec["profile"]]):
                 errors.append(Finding(
                     check,

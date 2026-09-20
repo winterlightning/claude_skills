@@ -26,6 +26,12 @@ class TextSub32(Text32Mixin, Sub32):
 
 
 def canvas_dimensions(icon):
+    from ..symbol._resize_base import ResizeSymbol, resize_dimensions
+    if isinstance(icon, ResizeSymbol):
+        return resize_dimensions(icon)
+    from ._tall_base import SourceFaithfulSideSub
+    if isinstance(icon, SourceFaithfulSideSub):
+        return icon.canvas_width, icon.canvas_height
     if isinstance(icon, Text32Mixin):
         width=icon.text_canvas_width
         if type(width) is not int or width < 4:

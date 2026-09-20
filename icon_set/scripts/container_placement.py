@@ -36,13 +36,16 @@ class Artwork:
     paths: list
     bounds: tuple
     sha256: str
-    canvas: int
+    canvas: int | tuple[int, int]
 
     @classmethod
     def read(cls, document, canvas):
         root=ET.fromstring(document)
-        if [float(x) for x in root.get('viewBox','').replace(',',' ').split()] != [0,0,canvas,canvas]:
-            raise ValueError(f'Artwork must have viewBox 0 0 {canvas} {canvas}.')
+        width, height = canvas if isinstance(canvas, tuple) else (canvas, canvas)
+        if any(type(v) is not int or v < 4 for v in (width, height)):
+            raise ValueError('Artwork canvas requires positive integer dimensions of at least 4.')
+        if [float(x) for x in root.get('viewBox','').replace(',',' ').split()] != [0,0,width,height]:
+            raise ValueError(f'Artwork must have viewBox 0 0 {width} {height}.')
         if any(any(k in n.attrib for k in ('transform','clip-path','mask','filter')) for n in root.iter()):
             raise ValueError('Flatten transforms, clipping and effects before measured placement.')
         paths=[]

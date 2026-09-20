@@ -15,7 +15,7 @@ class Batch033Icon(Solo48):
     keywords = ('batch-033',)
 
     def build(self):
-        # Symbol plan: Globe with blank center latitude band and bowed polar meridians; shared symmetric nodes; radius20.
+        # Symbol plan: Globe with blank center latitude band and one simplified meridian per pole; shared symmetric nodes; radius20.
 
         def circle(name,cx,cy,r):
             self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
@@ -34,9 +34,11 @@ class Batch033Icon(Solo48):
         for i,p in enumerate(pts):self.add_arc(f'outer-{i}',p,pts[(i+1)%8],radius_x=20)
         self.add_contour('outline',*[f'outer-{i}' for i in range(8)],closed=True)
         for j,y in enumerate((12,36)):
-            self.add_polyline(f'latitude-{j}',(8,y),(18,y),(30,y),(40,y))
+            self.add_polyline(f'latitude-{j}',(8,y),(24,y),(40,y))
             self.relate('connect','outline',f'latitude-{j}')
-        for j,(start,end,cy) in enumerate([((18,12),(24,4),4),((24,4),(30,12),4),((18,36),(24,44),44),((24,44),(30,36),44)]):
-            self.add_bezier(f'polar-{j}',start,((start[0],cy),(end[0],cy),end))
-            self.relate('connect','outline',f'polar-{j}');self.relate('connect',f'latitude-{0 if j<2 else 1}',f'polar-{j}')
-        self.relate('connect','polar-0','polar-1');self.relate('connect','polar-2','polar-3')
+        # A single central polar meridian replaces the four crowded wedges.
+        # Retain the broad empty equatorial band and true shared polar nodes.
+        for name,start,end,latitude in [('north',(24,4),(24,12),'latitude-0'),('south',(24,36),(24,44),'latitude-1')]:
+            self.add_line(name,start,end)
+            self.relate('connect','outline',name)
+            self.relate('connect',latitude,name)

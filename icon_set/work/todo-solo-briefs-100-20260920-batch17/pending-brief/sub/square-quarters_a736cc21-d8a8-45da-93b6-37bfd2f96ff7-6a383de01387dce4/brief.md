@@ -1,0 +1,30 @@
+# Four-Pane Grid
+
+- Status: pending-brief
+- Family: sub
+- Combination: container
+- Component: 2 of 2
+- Original source: pictographic-primitives/_uncategorized_35/square quarters_a736cc21-d8a8-45da-93b6-37bfd2f96ff7.svg
+- Source copy: square quarters_a736cc21-d8a8-45da-93b6-37bfd2f96ff7.svg
+- Source ID: a736cc21-d8a8-45da-93b6-37bfd2f96ff7
+- Source SHA-256: 8708d516e21b16aaff8bb1f204df1b055ef762beba01e3b4f2e93ed7ebd5489e
+
+## Component to generate
+
+A small rounded square is divided into four cells by a central cross. Exclude the larger surrounding square.
+
+## Exclude
+
+Rounded Square Frame
+
+## Why the reference was split
+
+The outer enclosure surrounds an independently recognizable mark rather than a physical structural part.
+
+## AI handoff
+
+$icon-making
+Process this pending component brief with the copied reference. Generate or reuse only Four-Pane Grid as a standalone sub icon. Do not recreate the combined reference.
+The source is an unchanged copy of the full reference, not an extracted component. Visually isolate the named part. Preserve its reference identity and use the matching family skill.
+You can try modifying a copy of the SVG reference to fit the icon design rules, or generate a new icon that matches the icon name. Either approach must follow the requested family's design rules and preserve the named subject's identity. Apply this only to the named component and continue to exclude the other component.
+Do not modify or move the original reference. Keep existing generated icons intact. Validate and build the new component; leave approval to the reviewer.

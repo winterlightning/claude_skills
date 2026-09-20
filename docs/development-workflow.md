@@ -25,6 +25,9 @@ assets remain inputs; a normal gallery build must not regenerate them in place.
 # Check paths and confirm generated output is not tracked.
 python3 -m icon_set doctor
 
+# Export all standalone typeface heights 12–32, without building the icon library.
+python3 -m icon_set typeface-sizes
+
 # Initial complete catalog; failures remain available in the Failed build view.
 python3 -m icon_set build --no-png
 

@@ -42,3 +42,5 @@ class WiredGameController(Solo48):
         line('cable',(24,12),(24,6));connect('cable','body')
         poly('dpad-h',(15,23),(18,23),(21,23));poly('dpad-v',(18,21),(18,23),(18,25));connect('dpad-h','dpad-v')
         self.add_dot('button',(32,23))
+
+SOURCE_REFERENCES = [('30480c32-ffee-4a42-94da-a19f1a2e9d2f', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_24/joystick_30480c32-ffee-4a42-94da-a19f1a2e9d2f.svg')]

@@ -1,0 +1,40 @@
+'Round Analog Clock.\nPlan and review: Retained circular clock dial, round hub, upward minute hand and down-right hour hand. Enlarged hub to separate the hand ends.\nKeyshape: CIRCLE, exact SOLO48 envelope.\nConstruction reference: Lucide clock: plain circular dial and two connected hands; source hub retained.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'd7017be3-cebf-45b0-ab62-7677ba3bda73'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_38/time clock circle 1_d7017be3-cebf-45b0-ab62-7677ba3bda73.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'clock-with-round-hub'
+    keyshape = Keyshape.CIRCLE
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('clock', 'with', 'round', 'hub')
+
+    def build(self):
+
+        def path(name, start, steps, closed=False):
+            members=[]; point=start
+            for index, step in enumerate(steps):
+                member=f"{name}-{index}"
+                if len(step)==2:
+                    self.add_line(member,point,step); point=step
+                else:
+                    end,rx,ry,sweep=step
+                    self.add_arc(member,point,end,radius_x=rx,radius_y=ry,sweep=sweep); point=end
+                members.append(member)
+            self.add_contour(name,*members,closed=closed)
+        def circle(name,x,y,r):
+            path(name,(x-r,y),[((x+r,y),r,r,True),((x-r,y),r,r,True)],True)
+        def box(name,l,t,r,b,rad):
+            path(name,(l+rad,t),[(r-rad,t),((r,t+rad),rad,rad,True),(r,b-rad),((r-rad,b),rad,rad,True),(l+rad,b),((l,b-rad),rad,rad,True),(l,t+rad),((l+rad,t),rad,rad,True)],True)
+        def curve(name,start,*segments):
+            self.add_bezier(name,start,*segments)
+
+        circle('dial',24,24,20);circle('hub',24,24,5)
+        self.add_line('minute',(24,13),(24,19));self.add_line('hour',(27,28),(31,33))
+        self.relate('connect','minute','hub');self.relate('connect','hour','hub')

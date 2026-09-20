@@ -1,0 +1,55 @@
+"""Independent 32px profile of shipment-delivery.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+SOURCE_ICON_ID = '8a2c341f-4bcd-442f-bcb0-58b566bc0857'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/delivery/shipment_8a2c341f-4bcd-442f-bcb0-58b566bc0857.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('8a2c341f-4bcd-442f-bcb0-58b566bc0857', 'pictographic-primitives/delivery/shipment_8a2c341f-4bcd-442f-bcb0-58b566bc0857.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/shipment-delivery',)
+SOLO_SOURCE_ICON_IDS = ('shipment-delivery',)
+REFERENCE_EXPORT_SHA256 = '959f1a72a8d530bf1cef6a2c3b271d2ad890ede3db426b28b8cb0a999cfab05d'
+
+class DrawingVariant2(Sub32):
+    icon_id = 'shipment-delivery-sub32-v2'
+    variant_of = 'shipment-delivery-sub32'
+    variant_label = 'Source-faithful side-combination centerline repair'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
+    category = 'delivery'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        """Delivery truck with rectangular cargo body, sloped cab, vertical divider and two open circular wheels. Construction reference: truck."""
+        for name, x in [('rear', 6), ('front', 26)]:
+            circle(self, name, x, 24, 4)
+        self.add_line('left', (2, 24), (2, 6))
+        self.add_arc('tl', (2, 6), (4, 4), radius_x=2)
+        self.add_line('top', (4, 4), (16, 4))
+        self.add_line('divider', (16, 4), (16, 24))
+        self.add_line('floor', (10, 24), (22, 24))
+        self.add_polyline('cab', (16, 10), (24, 10), (30, 18), (30, 24))
+        self.add_contour('cargo', 'left', 'tl', 'top', 'divider')
+        for a, b in [('rear', 'cargo'), ('rear', 'floor'), ('front', 'cab'), ('front', 'floor'), ('cargo', 'floor'), ('cargo', 'cab')]:
+            self.relate('connect', a, b)
+
+def box(s, n, l, t, r, b, k=3):
+    points = [(l + k, t), (r - k, t), (r, t + k), (r, b - k), (r - k, b), (l + k, b), (l, b - k), (l, t + k)]
+    members = []
+    for i, p in enumerate(points):
+        q = points[(i + 1) % 8]
+        name = f'{n}-{i}'
+        if i % 2:
+            s.add_arc(name, p, q, radius_x=k)
+        else:
+            s.add_line(name, p, q)
+        members.append(name)
+    s.add_contour(n, *members, closed=True)
+
+def circle(s, n, cx, cy, r):
+    s.add_arc(n + '-top', (cx - r, cy), (cx + r, cy), radius_x=r)
+    s.add_arc(n + '-bottom', (cx + r, cy), (cx - r, cy), radius_x=r)
+    s.add_contour(n, n + '-top', n + '-bottom', closed=True)

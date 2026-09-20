@@ -1,4 +1,4 @@
-"""Capped circular head and broad open shoulders following human user.svg; detached gap exactly four ink units.
+"""Capped circular head and broad open shoulders following human user.svg; circular jaw and shoulder ink touch with zero gap.
 Keyshape ink bounds: (6, 2, 42, 46).
 Construction reference: Lucide user; source render establishes subject.
 Reduction: Cap boundary straightened; seam kept short and separated.
@@ -20,11 +20,14 @@ class Batch025Icon(Solo48):
     aliases = ()
     keywords = ('capped', 'person', 'bust')
 
+    human_construction = "bust"
+
     def build(self):
         self.add_arc('head-top',(14,14),(34,14),radius_x=10)
         self.add_arc('head-bottom',(34,14),(14,14),radius_x=10)
         self.add_contour('head','head-top','head-bottom',closed=True)
         self.add_line('cap',(14,14),(34,14))
         self.relate('connect','cap','head')
-        self.add_arc('shoulders',(8,44),(40,44),radius_x=16,radius_y=12)
+        self.add_arc('shoulders',(8,44),(40,44),radius_x=16,radius_y=16)
         self.add_line('seam',(24,44),(24,41))
+        self.relate('connect','head','shoulders')

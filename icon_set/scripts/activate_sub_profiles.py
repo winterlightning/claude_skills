@@ -71,11 +71,13 @@ def run(root=ROOT):
         record=dict(icon=uid,family=icon.family,model_key=icon.family+'/'+uid,python_source=entry['python_source'],
                     source_svg=entry['reference_export'],svg=str(file.relative_to(root)),export_url='sub-profiles/'+name,
                     document=document,sha256=hashlib.sha256(document.encode()).hexdigest(),bounds=bounds,canvas=32,export_size=32,
-                    canvas_width=width,sizing_kind='text' if getattr(icon,'sizing_mode',None)=='text-height32' else 'symbol',
+                    canvas_width=width,canvas_height=height,
+                    sizing_mode=getattr(icon,'sizing_mode',None),side_only=getattr(icon,'sizing_mode',None) in ('side-32x48','side-one-axis32','side-source-fit'),
+                    sizing_kind='text' if getattr(icon,'sizing_mode',None)=='text-height32' else 'symbol',
                     sub32_status='native_sub32' if status=='pass' else 'needs_review',
                     sub32_reason='' if status=='pass' else 'Independent Python model; geometry QA requires review. See model_validation.',
                     model_validation=status,profile_sources=entry['sources'],
-                    ink32=dict(bounds=bounds,ink_bounds=ink,ink_width=ink[2]-ink[0],ink_height=ink[3]-ink[1],canvas=32,canvas_width=width,stroke=icon.STROKE_WIDTH,grid=1))
+                    ink32=dict(bounds=bounds,ink_bounds=ink,ink_width=ink[2]-ink[0],ink_height=ink[3]-ink[1],canvas=32,canvas_width=width,canvas_height=height,stroke=icon.STROKE_WIDTH,grid=1))
         models[uid]=record;mapping[original]=uid;mapping[uid]=uid
         for prior_key in entry.get("previous_model_keys", []):
             mapping[prior_key.split("/", 1)[1]]=uid

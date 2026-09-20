@@ -27,3 +27,6 @@ class EruptingVolcano(Solo48):
         self.add_line('central-ejecta', (24, 12), (24, 6))
         self.add_arc('left-ejecta', (15, 13), (9, 7), radius_x=8, sweep=False)
         self.add_arc('right-ejecta', (33, 13), (39, 7), radius_x=8, sweep=True)
+
+# Additional original represented by the existing volcano concept.
+SOURCE_REFERENCES = ({'source_icon_id': 'b757b45f-54f0-4f2b-88d3-64a3eea55073', 'source_path': '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_25/lava_b757b45f-54f0-4f2b-88d3-64a3eea55073.svg'},)

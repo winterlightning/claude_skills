@@ -38,3 +38,5 @@ class IconWoodenBarrel(Solo48):
             path(name,(x-r,y),[("A",(x+r,y),r,r,True),("A",(x-r,y),r,r,True)],True)
         path('barrel',(12,4),[('L',(36,4)),('C',(39,14),(37,7),(38,10)),('C',(40,24),(40,18),(40,21)),('C',(39,34),(40,27),(40,30)),('C',(36,44),(38,38),(37,41)),('L',(12,44)),('C',(9,34),(11,41),(10,38)),('C',(8,24),(8,30),(8,27)),('C',(9,14),(8,21),(8,18)),('C',(12,4),(10,10),(11,7))],True)
         for y in [14,34]:self.add_line('hoop'+str(y),(9,y),(39,y));self.relate('connect','hoop'+str(y),'barrel')
+
+SOURCE_REFERENCES = [('c0f5926b-6ed4-4af5-ab7d-d9d39d87036d', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_39/ui page slider_c0f5926b-6ed4-4af5-ab7d-d9d39d87036d.svg')]

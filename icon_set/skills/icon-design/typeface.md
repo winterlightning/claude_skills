@@ -8,8 +8,23 @@ solo or sub icon.
 Look up the exact characters in `icon_set/typeface/glyphs.json` and reuse their
 existing `icon_id` and paths. Use the `preferred` glyph unless a specific variant
 is requested. Preserve case, readable content, and meaningful arrangement.
-Keep the typeface's natural proportions and baseline/body metrics; do not force
-glyphs into an icon keyshape or stretch their width independently.
+Use the stored grid-fitted base: every glyph's visible stroke envelope is 24
+units high and its width is a whole grid unit. Read `stroke_width`, `ink_width`,
+and `ink_height` from the glyph; flat marks use a 24-unit stroke to reach the
+required height. Preserve the stored baseline/body metrics for text layout.
+Do not replace these paths with the older free-proportion source geometry.
+
+For standalone glyphs at heights 12 through 32, reuse the generated size-specific
+SVGs under `gallery/typeface/sizes/<height>/<icon_id>.svg`. Every integer height
+is supported. Generate these with `python3 -m icon_set typeface-sizes`; normal
+gallery builds also export them. Width is the base width times height / 24,
+rounded to the nearest whole unit (half upward). Stroke width stays exactly 4 in final coordinates at every size. Geometry
+is fitted before export; no transform scales the stroke. Zero-width centerlines
+(such as i) stay 4 units wide. Flat marks and point-only glyphs remain 4 units
+tall, centered in the requested height. Read `ink_height` and `ink_top` separately
+from the canvas height for these cases. These size-specific exports supersede
+the base catalog's enlarged flat-mark stroke treatment.
+
 
 For a combined reference, prepare the non-text component normally and record
 the text component as typeface reuse, with the exact string and matching glyph

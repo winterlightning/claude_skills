@@ -26,3 +26,17 @@ class SubUsageTests(unittest.TestCase):
  def test_no_manifest_leaves_catalog_unchanged(self):
   with tempfile.TemporaryDirectory() as tmp:
    data={'rows':[{'kind':'side'}]};stage_catalog(data,Path(tmp));self.assertEqual(data,{'rows':[{'kind':'side'}]})
+ def test_repaired_side_variant_keeps_origin_and_independent_symbol(self):
+  with tempfile.TemporaryDirectory() as tmp:
+   root=Path(tmp);p=root/MANIFEST;p.parent.mkdir(parents=True)
+   versions={r:dict(icon_id=i,family=f,preview_url=i+'.svg',model_validation='pass',python_source=i+'.py',svg=i+'.svg',sha256='hash') for r,i,f in [('side','plus-v2','sub'),('symbol','plus-symbol','symbol')]}
+   p.write_text(json.dumps({'icons':[dict(original_icon_id='plus',related_group='group',versions=versions)]}))
+   fix=root/'icon_set/work/container-fit-repair/fit-adjustments.json';fix.parent.mkdir(parents=True);fix.write_text('{}')
+   for v in versions.values():(root/v['svg']).write_text('<svg/>')
+   data={'rows':[dict(kind=k,sub_generated=[dict(icon_id='plus',key='sub/plus')],sub_exports=[dict(icon='plus')]) for k in ['side','container']]}
+   stage_catalog(data,root);once=json.dumps(data,sort_keys=True);stage_catalog(data,root)
+   self.assertEqual(once,json.dumps(data,sort_keys=True))
+   self.assertEqual([r['sub_generated'][0]['icon_id'] for r in data['rows']],['plus-v2','plus-symbol'])
+   self.assertEqual([r['sub_exports'][0]['icon'] for r in data['rows']],['plus-v2','plus-symbol'])
+   self.assertEqual(data['rows'][1]['sub_generated'][0]['related_icon_ids'],['plus-v2'])
+   self.assertEqual(json.loads(p.read_text())['icons'][0]['versions'],versions)

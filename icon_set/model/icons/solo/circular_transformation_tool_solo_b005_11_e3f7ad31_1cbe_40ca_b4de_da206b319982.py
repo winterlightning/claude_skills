@@ -1,10 +1,12 @@
-"""Circular Transformation Tool.
-Plan: Open transformation disc with radial handle and diagonal arrow plus outside rotation cues.
-Centerline envelope: (6,6)-(42,42).
-Final reduction/review: INCOMPLETE: rebalanced disc, handle, diagonal arrow and outer arrows remain crowded; hole, pinch and spacing failures retained.
-Keyshape: SQUARE; all geometry authored at SOLO48, never scaled.
-Construction reference: Lucide repeat-2; rounded contours and shared attachment nodes.
-Human construction reference where applicable: icon_set/references/human_ref/.
+"""Circular transformation tool, resumed for saved batch-025.
+Symbol plan: open circular disc with a shared radial arm, round handle endpoint,
+diagonal control arrow and two detached curved rotation cues.
+VRECT_L centerline bounds: (8,4)-(40,44). Rebalanced on the SOLO48 integer grid.
+Reduction: widen the disc opening; use the round cap for the tiny handle ring;
+shorten outer arrowheads and remove crowded return strokes. The asymmetry
+preserves the distinct radial controls and surrounding rotation cues.
+Lucide repeat-2 original and atomic-debug informed separated turning arrows.
+Validation and release QA pass; reviewed at native 48px in light and dark.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -46,7 +48,7 @@ def arrow(s,n,a,z,w=7):
 
 class GeneratedSolo(Solo48):
     icon_id = 'circular-transformation-tool-solo-b005-11'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects'
@@ -54,14 +56,20 @@ class GeneratedSolo(Solo48):
     keywords = ('circular', 'transformation', 'tool')
 
     def build(self):
-        s = self
-        s.add_arc('disc-a',(30,24),(14,24),radius_x=8)
-        s.add_arc('disc-b',(14,24),(22,32),radius_x=8,sweep=False)
-        s.add_contour('disc','disc-a','disc-b')
-        s.add_polyline('radial',(30,24),(22,24),(30,34));join(s,'disc','radial')
-        s.add_polyline('tip',(24,34),(30,34),(30,28));join(s,'radial','tip')
-        circle(s,'handle',40,24,2)
-        s.add_polyline('top',(22,6),(34,6),(42,14))
-        s.add_polyline('top-tip',(34,14),(34,6),(42,6));join(s,'top','top-tip')
-        s.add_polyline('bottom',(6,32),(10,42),(18,42))
-        s.add_polyline('bottom-tip',(12,36),(18,42),(10,42));join(s,'bottom','bottom-tip')
+        # Open disc, radial handle/arrow, and two independent rotation arrows.
+        # VRECT_L extrema x8/40 and y4/44; no profile exceptions.
+        self.add_arc('disc-top',(32,25),(12,25),radius_x=10,sweep=False)
+        self.add_arc('disc-lower-left',(12,25),(14,31),radius_x=10,sweep=False)
+        self.add_contour('disc','disc-top','disc-lower-left')
+        self.add_polyline('radial',(38,25),(32,25),(22,25),(34,39))
+        self.relate('connect','radial','disc')
+        self.add_dot('handle',(38,25))
+        self.relate('connect','handle','radial')
+        self.add_polyline('radial-tip',(26,39),(34,39),(34,33))
+        self.relate('connect','radial','radial-tip')
+        self.add_bezier('rotation-top',(16,4),((28,4),(35,6),(40,12)))
+        self.add_polyline('rotation-top-tip',(40,4),(40,12),(35,12))
+        self.relate('connect','rotation-top','rotation-top-tip')
+        self.add_bezier('rotation-bottom',(19,44),((16,44),(12,44),(8,42)))
+        self.add_polyline('rotation-bottom-tip',(8,37),(8,42),(16,42))
+        self.relate('connect','rotation-bottom','rotation-bottom-tip')

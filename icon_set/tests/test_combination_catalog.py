@@ -2,11 +2,58 @@ import json
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import unittest
+from unittest.mock import patch
 
 from icon_set.scripts.combination_catalog import write_catalog
 
 
 class CombinationCatalogTest(unittest.TestCase):
+    def test_explicit_component_keys_resolve_without_source_id_cross_product(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            gallery = root / 'dist/gallery'
+            gallery.mkdir(parents=True)
+            pair = {'id': 'original', 'concept': 'Phone clock',
+                    'main_id': 'container/phone', 'sub_id': 'symbol/hands',
+                    'component_selection': 'explicit'}
+            (root / 'combination_data.json').write_text(json.dumps({'container': [pair]}))
+            host = {'icon_id': 'phone', 'key': 'container/phone', 'family': 'container',
+                    'preview_url': '../container64/phone.svg'}
+            child = {'icon_id': 'hands', 'key': 'symbol/hands', 'family': 'symbol',
+                     'preview_url': '../symbol32/hands.svg'}
+            primitives = {'rows': [{'uuid': 'original', 'generated': [child]}]}
+            result = write_catalog(gallery, primitives, [host, child], root)
+            row = result['rows'][0]
+            self.assertEqual(row['main_generated'][0]['key'], host['key'])
+            self.assertEqual(row['sub_generated'][0]['key'], child['key'])
+            # A generated component from the same original is not a completed pair.
+            self.assertEqual(row['generated'], [])
+            self.assertEqual(result['references']['original']['generated'], [child])
+            missing = write_catalog(gallery, primitives, [host], root)
+            self.assertEqual(missing['rows'][0]['sub_generated'], [])
+            self.assertEqual(missing['rows'][0]['generated'], [])
+
+    def test_explicit_selection_survives_legacy_sub_aliases(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            gallery = root / 'dist/gallery'
+            gallery.mkdir(parents=True)
+            config = root / 'icon_set/data'
+            config.mkdir(parents=True)
+            (config / 'combination-sub32.json').write_text('{"legacy": {}}')
+            pair = {'id': 'pair', 'concept': 'Pair', 'main_id': 'container/host',
+                    'sub_id': 'symbol/exact', 'component_selection': 'explicit'}
+            (root / 'combination_data.json').write_text(json.dumps({'container': [pair]}))
+            child = {'icon_id': 'exact', 'key': 'symbol/exact', 'preview_url': '../symbol32/exact.svg'}
+            def remap(result, *_):
+                result['rows'][0]['sub_generated'] = [{'key': 'sub/other'}]
+                result['rows'][0]['sub_exports'] = [{'icon': 'other'}]
+            with patch('icon_set.scripts.deduplicate_subs.canonical_map', return_value=({}, [])), \
+                 patch('icon_set.scripts.deduplicate_subs.update_catalog', side_effect=remap):
+                result = write_catalog(gallery, {'rows': []}, [child], root)
+            self.assertEqual(result['rows'][0]['sub_generated'], [child])
+            self.assertEqual(result['rows'][0]['sub_exports'], [])
+
     def test_container_main_mapping_is_role_scoped_and_used_for_compositions(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)

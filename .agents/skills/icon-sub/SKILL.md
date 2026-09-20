@@ -11,6 +11,13 @@ Resolve repository paths and run commands from the `claude_skills` directory con
 
 ## Reference fidelity comes first
 
+**Library-wide user policy:** Read `icon_set/skills/icon-design/sub-reference-policy.md`.
+For this workspace, the user authorizes larger canvases whenever necessary to
+preserve the complete original drawing and proportions. This applies to every
+sub icon and takes precedence over the default 32px restrictions and reduction
+steps below. Do not force even one dimension to 32 when doing so distorts the
+source. Retain the 4px stroke and record explicit dimensions.
+
 **Exact resize mode:** If the user explicitly requests the original unchanged,
 only resized, preserve the complete source SVG and change only its root display
 width and height to 32px. Keep its viewBox, geometry, style, and proportional

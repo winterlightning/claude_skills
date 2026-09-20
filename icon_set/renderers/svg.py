@@ -151,6 +151,14 @@ def render_svg(icon: "Icon") -> str:
     from ..model.icons.sub._text_base import canvas_dimensions
     width, canvas = canvas_dimensions(icon)
     paths = build_paths(icon.draw())
+    overrides = getattr(icon, "PATH_STROKE_WIDTHS", {})
+    unknown = set(overrides) - {path["id"] for path in paths}
+    if unknown:
+        raise ValueError(f"Unknown stroke override paths: {sorted(unknown)}")
+    import math
+    if any(not isinstance(v, (int, float)) or not math.isfinite(v) or v <= 0
+           for v in overrides.values()):
+        raise ValueError("Path stroke widths must be finite positive numbers")
     if not paths:
         raise ValueError(f"{icon.icon_id}: an icon must contain drawable geometry")
     lines = [
@@ -161,6 +169,8 @@ def render_svg(icon: "Icon") -> str:
         f'  <title>{escape(icon.icon_id)}</title>',
     ]
     for path in paths:
-        lines.append(f'  <path id={quoteattr(path["id"])} d="{path["d"]}"/>')
+        width_attr = (f' stroke-width="{overrides[path["id"]]}"'
+                      if path["id"] in overrides else "")
+        lines.append(f'  <path id={quoteattr(path["id"])} d="{path["d"]}"{width_attr}/>')
     lines.append("</svg>")
     return "\n".join(lines) + "\n"

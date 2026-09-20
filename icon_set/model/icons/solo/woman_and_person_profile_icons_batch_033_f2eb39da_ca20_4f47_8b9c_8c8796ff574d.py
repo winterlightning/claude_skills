@@ -32,8 +32,8 @@ class Batch033Icon(Solo48):
 
         circle('front-head',14,18,6)
         circle('back-head',34,10,6)
-        self.add_line('hair-left',(8,18),(8,25))
-        self.add_line('hair-right',(20,18),(20,25))
+        self.add_line('hair-left',(8,18),(8,24))
+        self.add_line('hair-right',(20,18),(20,24))
         self.relate('connect','front-head','hair-left')
         self.relate('connect','front-head','hair-right')
         self.add_bezier('front-left',(8,44),((8,35),(9,32),(14,32)))

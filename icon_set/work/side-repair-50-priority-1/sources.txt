@@ -1,0 +1,2256 @@
+#### 1 lock-sub32
+"""Independent 32px profile of lock.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '25032f12-63bc-403a-9b53-69083f3313cb'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/lock_25032f12-63bc-403a-9b53-69083f3313cb.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('25032f12-63bc-403a-9b53-69083f3313cb', 'pictographic-primitives/interface-essential/lock_25032f12-63bc-403a-9b53-69083f3313cb.svg'), ('e43b261d-5d07-450c-ab97-9058803311d6', 'pictographic-primitives/interface-essential/lock_e43b261d-5d07-450c-ab97-9058803311d6.svg'), ('ee9cb073-d745-4a2a-a54b-ab36b6f8efb7', 'pictographic-primitives/interface-essential/lock_ee9cb073-d745-4a2a-a54b-ab36b6f8efb7.svg'), ('386cb547-821f-4d23-a0b8-bb7f43205473', 'pictographic-primitives/interface-essential/lock_386cb547-821f-4d23-a0b8-bb7f43205473.svg'))
+PROFILE_SOURCE_KEYS = ('solo/lock', 'solo/lock-e43b261d', 'solo/lock-ee9cb073', 'solo/lock-interface-essential')
+SOLO_SOURCE_ICON_IDS = ('lock', 'lock-e43b261d', 'lock-ee9cb073', 'lock-interface-essential')
+REFERENCE_EXPORT_SHA256 = 'c3f139e1f35a4f1b1fb13df6b653dd944c83035799d224f6acd7916e6c9b27e7'
+
+class Drawing(Sub32):
+    icon_id = 'lock-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (16, 2), (15, 2))
+        self.add_arc('p1-r1-2', (15, 2), (8, 9), radius_x=7, radius_y=7, large_arc=False, sweep=False)
+        self.add_line('p1-r1-3', (8, 9), (8, 13))
+        self.add_line('p1-r1-4', (8, 13), (24, 13))
+        self.add_line('p1-r1-5', (24, 13), (24, 9))
+        self.add_arc('p1-r1-6', (24, 9), (17, 2), radius_x=8, radius_y=8, large_arc=False, sweep=False)
+        self.add_line('p1-r1-7', (17, 2), (16, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
+        self.add_line('p2-r1-1', (16, 30), (8, 30))
+        self.add_arc('p2-r1-2', (8, 30), (5, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p2-r1-3', (5, 26), (5, 15))
+        self.add_arc('p2-r1-4', (5, 15), (8, 13), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.add_line('p3-r1-1', (16, 30), (24, 30))
+        self.add_arc('p3-r1-2', (24, 30), (27, 26), radius_x=4, radius_y=4, large_arc=False, sweep=False)
+        self.add_line('p3-r1-3', (27, 26), (27, 26))
+        self.add_line('p3-r1-4', (27, 26), (27, 15))
+        self.add_arc('p3-r1-5', (27, 15), (24, 13), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', 'p3-r1-5', closed=False)
+        self.relate("connect", 'p1-r1-3', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-5')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-5')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+
+
+#### 2 wifi-sub32
+"""Independent 32px profile of wifi.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '9c4f27d2-9a43-4e9d-867c-e102edd9f1b9'
+SOURCE_PATH = 'pictographic-primitives/networks/wifi_9c4f27d2-9a43-4e9d-867c-e102edd9f1b9.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('9c4f27d2-9a43-4e9d-867c-e102edd9f1b9', 'pictographic-primitives/networks/wifi_9c4f27d2-9a43-4e9d-867c-e102edd9f1b9.svg'), ('b2468acd-4b50-4a65-911c-aee5076b1c7e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/electric waves_b2468acd-4b50-4a65-911c-aee5076b1c7e.svg'), ('f683dd0c-b161-414e-8816-ecfc56a54c18', 'pictographic-primitives/networks/wifi_f683dd0c-b161-414e-8816-ecfc56a54c18.svg'))
+PROFILE_SOURCE_KEYS = ('solo/wifi', 'solo/wifi-f683dd0c')
+SOLO_SOURCE_ICON_IDS = ('wifi', 'wifi-f683dd0c')
+REFERENCE_EXPORT_SHA256 = '08e98cce167e74f1102bdab222a8ad6789a52d4b398fb8ced78a386741f8f524'
+
+class Drawing(Sub32):
+    icon_id = 'wifi-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'networks'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (2, 11), ((7, 7), (10, 5), (16, 5)))
+        self.add_bezier('p1-r1-2', (16, 5), ((22, 5), (25, 7), (30, 11)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_bezier('p2-r1-1', (9, 18), ((11, 16), (13, 15), (16, 15)))
+        self.add_bezier('p2-r1-2', (16, 15), ((19, 15), (21, 16), (23, 18)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (16, 27), (16, 27))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 3 pin-sub32
+"""Independent 32px profile of pin.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '76f7fdb5-5122-45e4-a53b-be1029308735'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/pin_76f7fdb5-5122-45e4-a53b-be1029308735.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('76f7fdb5-5122-45e4-a53b-be1029308735', 'pictographic-primitives/interface-essential/pin_76f7fdb5-5122-45e4-a53b-be1029308735.svg'), ('9b4b8603-58f9-4f81-8664-658ab7045658', 'pictographic-primitives/interface-essential/pin_9b4b8603-58f9-4f81-8664-658ab7045658.svg'), ('79f28f0f-6da1-42b3-a142-474d81fe6b26', 'pictographic-primitives/state/pin wave_79f28f0f-6da1-42b3-a142-474d81fe6b26.svg'))
+PROFILE_SOURCE_KEYS = ('solo/pin', 'solo/pin-9b4b8603', 'solo/pin-wave')
+SOLO_SOURCE_ICON_IDS = ('pin', 'pin-9b4b8603', 'pin-wave')
+REFERENCE_EXPORT_SHA256 = '267d1985c489b24572604f32fc408010b1c0590304c66b4756ffb33ebc8ca294'
+
+class Drawing(Sub32):
+    icon_id = 'pin-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (5, 13), (27, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_bezier('p1-r1-2', (27, 13), ((27, 20), (20, 26), (16, 30)))
+        self.add_bezier('p1-r1-3', (16, 30), ((12, 26), (5, 20), (5, 13)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
+        self.add_arc('p2-r1-1', (13, 13), (20, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (20, 13), (13, 13), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+
+
+#### 4 skull-cb2b2f08-sub32
+"""Independent 32px profile of skull-cb2b2f08.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'cb2b2f08-6efa-4f5e-836a-62b022c55138'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/skull_cb2b2f08-6efa-4f5e-836a-62b022c55138.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('cb2b2f08-6efa-4f5e-836a-62b022c55138', 'pictographic-primitives/interface-essential/skull_cb2b2f08-6efa-4f5e-836a-62b022c55138.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/skull-cb2b2f08',)
+SOLO_SOURCE_ICON_IDS = ('skull-cb2b2f08',)
+REFERENCE_EXPORT_SHA256 = '52150fccc150717127a6ce745013d819258f1bd0fadf2055b41c84a09f006ed2'
+
+class Drawing(Sub32):
+    icon_id = 'skull-cb2b2f08-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (16, 5), ((8, 5), (2, 11), (2, 17)))
+        self.add_bezier('p1-r1-2', (2, 17), ((2, 20), (8, 20), (8, 23)))
+        self.add_line('p1-r1-3', (8, 23), (8, 24))
+        self.add_arc('p1-r1-4', (8, 24), (10, 27), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p1-r1-5', (10, 27), (16, 27))
+        self.add_line('p1-r1-6', (16, 27), (22, 27))
+        self.add_arc('p1-r1-7', (22, 27), (24, 24), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p1-r1-8', (24, 24), (24, 23))
+        self.add_bezier('p1-r1-9', (24, 23), ((24, 20), (30, 20), (30, 17)))
+        self.add_bezier('p1-r1-10', (30, 17), ((30, 11), (24, 5), (16, 5)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
+        self.add_line('p2-r1-1', (10, 15), (10, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (22, 15), (22, 15))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (16, 22), (16, 27))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-5', 'p4-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p4-r1-1')
+
+
+#### 5 key-round-bow-sub32
+"""Independent 32px profile of key-round-bow.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '7f99ed9d-aefc-4d4a-9237-167f01c21fea'
+SOURCE_PATH = 'pictographic-primitives/symbol/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('7f99ed9d-aefc-4d4a-9237-167f01c21fea', 'pictographic-primitives/symbol/state key_7f99ed9d-aefc-4d4a-9237-167f01c21fea.svg'), ('8d4e51db-4d2a-4285-a400-fd2f7b20a987', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/video-games/batch-05/key_8d4e51db-4d2a-4285-a400-fd2f7b20a987.svg'))
+PROFILE_SOURCE_KEYS = ('solo/key-round-bow',)
+SOLO_SOURCE_ICON_IDS = ('key-round-bow',)
+REFERENCE_EXPORT_SHA256 = '03bdc2b2de3f7f32bee53969b6cae062f640ce2cb12b8bc6469c35fbf2622cdb'
+
+class Drawing(Sub32):
+    icon_id = 'key-round-bow-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (21, 21), ((21, 26), (16, 30), (11, 30)))
+        self.add_bezier('p1-r1-2', (11, 30), ((9, 30), (7, 29), (5, 27)))
+        self.add_bezier('p1-r1-3', (5, 27), ((3, 25), (2, 23), (2, 21)))
+        self.add_bezier('p1-r1-4', (2, 21), ((2, 16), (6, 11), (11, 11)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
+        self.add_line('p2-r1-1', (11, 11), (21, 2))
+        self.add_line('p2-r1-2', (21, 2), (30, 2))
+        self.add_line('p2-r1-3', (30, 2), (30, 11))
+        self.add_line('p2-r1-4', (30, 11), (21, 21))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.add_bezier('p3-r1-1', (9, 21), ((9, 19), (10, 18), (11, 18)))
+        self.add_bezier('p3-r1-2', (11, 18), ((13, 18), (14, 19), (14, 21)))
+        self.add_bezier('p3-r1-3', (14, 21), ((14, 22), (13, 23), (11, 23)))
+        self.add_bezier('p3-r1-4', (11, 23), ((10, 23), (9, 22), (9, 21)))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-1')
+
+
+#### 6 cupped-hand-facing-right-sub32
+"""Independent 32px profile of cupped-hand-facing-right.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '1ab29135-e724-4766-8bba-d4d0f8b7b6d5'
+SOURCE_PATH = 'pictographic-primitives/business/begging hand ask_1ab29135-e724-4766-8bba-d4d0f8b7b6d5.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('1ab29135-e724-4766-8bba-d4d0f8b7b6d5', 'pictographic-primitives/business/begging hand ask_1ab29135-e724-4766-8bba-d4d0f8b7b6d5.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/cupped-hand-facing-right',)
+SOLO_SOURCE_ICON_IDS = ('cupped-hand-facing-right',)
+REFERENCE_EXPORT_SHA256 = 'b826b683ec4ccced4119d52af613d4e90985586549ee2795fd3c8791e94c61e6'
+
+class Drawing(Sub32):
+    icon_id = 'cupped-hand-facing-right-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'business'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (2, 10), ((6, 8), (8, 5), (12, 5)))
+        self.add_bezier('p1-r1-2', (12, 5), ((15, 5), (17, 8), (20, 9)))
+        self.add_bezier('p1-r1-3', (20, 9), ((22, 10), (22, 11), (22, 13)))
+        self.add_bezier('p1-r1-4', (22, 13), ((22, 14), (22, 15), (20, 16)))
+        self.add_line('p1-r1-5', (20, 16), (27, 10))
+        self.add_bezier('p1-r1-6', (27, 10), ((28, 9), (29, 9), (29, 9)))
+        self.add_bezier('p1-r1-7', (29, 9), ((30, 9), (30, 10), (30, 12)))
+        self.add_bezier('p1-r1-8', (30, 12), ((30, 12), (30, 12), (30, 12)))
+        self.add_bezier('p1-r1-9', (30, 12), ((30, 19), (23, 27), (16, 27)))
+        self.add_bezier('p1-r1-10', (16, 27), ((10, 27), (8, 22), (2, 22)))
+        self.add_line('p1-r1-11', (2, 22), (2, 10))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', closed=False)
+        self.add_line('p2-r1-1', (20, 16), (12, 13))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-4', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+
+
+#### 7 human-eye-160ed52a-sub32
+"""Independent 32px profile of human-eye-160ed52a.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '160ed52a-22e5-47c1-8202-7d7e9f91f1ec'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/eye_160ed52a-22e5-47c1-8202-7d7e9f91f1ec.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('160ed52a-22e5-47c1-8202-7d7e9f91f1ec', '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/health/eye_160ed52a-22e5-47c1-8202-7d7e9f91f1ec.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/human-eye-160ed52a',)
+SOLO_SOURCE_ICON_IDS = ('human-eye-160ed52a',)
+REFERENCE_EXPORT_SHA256 = '044e2ea9d57ea076a782adc06fc5517ca825163141babecee730f0f30d8070c2'
+
+class Drawing(Sub32):
+    icon_id = 'human-eye-160ed52a-sub32'
+    keyshape = Keyshape.HRECT_M
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'health'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=18, radius_y=24, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=18, radius_y=24, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_arc('p2-r1-1', (13, 16), (20, 16), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (20, 16), (13, 16), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+
+
+#### 8 synchronize-refresh-arrow-a0553293-sub32
+"""Independent 32px profile of synchronize-refresh-arrow-a0553293.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'a0553293-203d-4c9b-9583-f6ead215b9d7'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/synchronize refresh arrow_a0553293-203d-4c9b-9583-f6ead215b9d7.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('a0553293-203d-4c9b-9583-f6ead215b9d7', 'pictographic-primitives/interface-essential/synchronize refresh arrow_a0553293-203d-4c9b-9583-f6ead215b9d7.svg'), ('4d77908b-9f0a-416f-bab9-3143aecf95b6', 'pictographic-primitives/interface-essential/synchronize refresh arrow_4d77908b-9f0a-416f-bab9-3143aecf95b6.svg'))
+PROFILE_SOURCE_KEYS = ('solo/synchronize-refresh-arrow-a0553293', 'solo/synchronize-refresh-arrow-interface-essential')
+SOLO_SOURCE_ICON_IDS = ('synchronize-refresh-arrow-a0553293', 'synchronize-refresh-arrow-interface-essential')
+REFERENCE_EXPORT_SHA256 = '9677eec079b466cfacf500d6b45a19cbff276d484544d1af04b88058fb82fcf6'
+
+class Drawing(Sub32):
+    icon_id = 'synchronize-refresh-arrow-a0553293-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (27, 16), (15, 5), radius_x=13, radius_y=11, large_arc=False, sweep=False)
+        self.add_arc('p1-r1-2', (15, 5), (2, 16), radius_x=13, radius_y=11, large_arc=False, sweep=False)
+        self.add_arc('p1-r1-3', (2, 16), (15, 27), radius_x=13, radius_y=11, large_arc=False, sweep=False)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
+        self.add_line('p2-r1-1', (30, 13), (27, 16))
+        self.add_line('p2-r1-2', (27, 16), (24, 12))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-1', 'p2-r1-2')
+
+
+#### 9 three-leaf-sprout-sub32
+"""Independent 32px profile of three-leaf-sprout.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'f0327d2c-bb99-5e91-9ec2-af95814cf0fe'
+SOURCE_PATH = 'pictographic-primitives/nature/plant_f0327d2c-bb99-5e91-9ec2-af95814cf0fe.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('f0327d2c-bb99-5e91-9ec2-af95814cf0fe', 'pictographic-primitives/nature/plant_f0327d2c-bb99-5e91-9ec2-af95814cf0fe.svg'), ('4a47df00-a455-41d9-84a4-6416eb861ee6', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/leaf_4a47df00-a455-41d9-84a4-6416eb861ee6.svg'))
+PROFILE_SOURCE_KEYS = ('solo/three-leaf-sprout',)
+SOLO_SOURCE_ICON_IDS = ('three-leaf-sprout',)
+REFERENCE_EXPORT_SHA256 = 'bfc02d96844395296df394aab25c07ed978e4bd958a79482b856d9d39470a98a'
+
+class Drawing(Sub32):
+    icon_id = 'three-leaf-sprout-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'nature/batch-02'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (16, 2), (16, 13), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (16, 13), (16, 2), radius_x=7, radius_y=7, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (16, 13), (16, 27))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (16, 27), (16, 30))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_arc('p4-r1-1', (5, 17), (16, 27), radius_x=11, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('p4-r1-2', (16, 27), (5, 17), radius_x=11, radius_y=10, large_arc=False, sweep=True)
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        self.add_arc('p5-r1-1', (27, 17), (16, 27), radius_x=11, radius_y=10, large_arc=False, sweep=False)
+        self.add_arc('p5-r1-2', (16, 27), (27, 17), radius_x=11, radius_y=10, large_arc=False, sweep=False)
+        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p4-r1-2')
+        self.relate("connect", 'p2-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p5-r1-2')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-2')
+        self.relate("connect", 'p3-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p5-r1-2')
+        self.relate("connect", 'p4-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p4-r1-1', 'p5-r1-2')
+        self.relate("connect", 'p4-r1-2', 'p5-r1-1')
+        self.relate("connect", 'p4-r1-2', 'p5-r1-2')
+
+
+#### 10 mail-sub32
+"""Independent 32px profile of mail.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '75ad5383-92bd-435c-984f-c475f5f845c1'
+SOURCE_PATH = 'pictographic-primitives/symbol/mail_75ad5383-92bd-435c-984f-c475f5f845c1.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('75ad5383-92bd-435c-984f-c475f5f845c1', 'pictographic-primitives/symbol/mail_75ad5383-92bd-435c-984f-c475f5f845c1.svg'), ('19aca772-9076-4cc0-8470-0cdffef95def', 'pictographic-primitives/symbol/e mail_19aca772-9076-4cc0-8470-0cdffef95def.svg'), ('a6d5c36b-5f72-4bbf-a205-b2d56aaf29a5', 'pictographic-primitives/symbol/mail_a6d5c36b-5f72-4bbf-a205-b2d56aaf29a5.svg'), ('2a98051e-e248-4ae8-8a84-a56070dcb2ad', 'pictographic-primitives/symbol/page mail_2a98051e-e248-4ae8-8a84-a56070dcb2ad.svg'))
+PROFILE_SOURCE_KEYS = ('solo/mail', 'solo/e-mail', 'solo/mail-symbol', 'solo/page-mail')
+SOLO_SOURCE_ICON_IDS = ('mail', 'e-mail', 'mail-symbol', 'page-mail')
+REFERENCE_EXPORT_SHA256 = '9e2c67811a8f83e9c1036555c0f9612b42e7aa6d06c6eab13201a553c08ff94d'
+
+class Drawing(Sub32):
+    icon_id = 'mail-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'symbol'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 5), (27, 5))
+        self.add_arc('p1-r1-2', (27, 5), (30, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (30, 8), (30, 24))
+        self.add_arc('p1-r1-4', (30, 24), (27, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (27, 27), (5, 27))
+        self.add_arc('p1-r1-6', (5, 27), (2, 24), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (2, 24), (2, 8))
+        self.add_arc('p1-r1-8', (2, 8), (5, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_line('p2-r1-1', (2, 8), (16, 16))
+        self.add_line('p2-r1-2', (16, 16), (30, 8))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (2, 24), (16, 16))
+        self.add_line('p3-r1-2', (16, 16), (30, 24))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.relate("connect", 'p1-r1-2', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-2')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-2')
+        self.relate("connect", 'p1-r1-6', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-8', 'p2-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-2')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-2')
+
+
+#### 11 megaphone-9e81b14e-sub32
+"""Independent 32px profile of megaphone-9e81b14e.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '9e81b14e-7968-4119-8d29-69479a774ba8'
+SOURCE_PATH = 'pictographic-primitives/interface-essential/megaphone_9e81b14e-7968-4119-8d29-69479a774ba8.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('9e81b14e-7968-4119-8d29-69479a774ba8', 'pictographic-primitives/interface-essential/megaphone_9e81b14e-7968-4119-8d29-69479a774ba8.svg'), ('419cefd4-6e8d-4c3c-8b36-3566f3fa846b', 'pictographic-primitives/interface-essential/megaphone_419cefd4-6e8d-4c3c-8b36-3566f3fa846b.svg'))
+PROFILE_SOURCE_KEYS = ('solo/megaphone-9e81b14e', 'solo/megaphone-interface-essential')
+SOLO_SOURCE_ICON_IDS = ('megaphone-9e81b14e', 'megaphone-interface-essential')
+REFERENCE_EXPORT_SHA256 = '0c17287a95bf13d28f521e0d9d93ccbfb1b446831e6760dfa4b90635ad542d26'
+
+class Drawing(Sub32):
+    icon_id = 'megaphone-9e81b14e-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (6, 15), (12, 15))
+        self.add_bezier('p1-r1-2', (12, 15), ((17, 13), (22, 8), (27, 5)))
+        self.add_line('p1-r1-3', (27, 5), (30, 22))
+        self.add_bezier('p1-r1-4', (30, 22), ((27, 21), (24, 20), (22, 20)))
+        self.add_bezier('p1-r1-5', (22, 20), ((18, 20), (15, 21), (12, 22)))
+        self.add_line('p1-r1-6', (12, 22), (9, 22))
+        self.add_line('p1-r1-7', (9, 22), (6, 22))
+        self.add_bezier('p1-r1-8', (6, 22), ((4, 22), (2, 20), (2, 18)))
+        self.add_bezier('p1-r1-9', (2, 18), ((2, 16), (4, 15), (6, 15)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', closed=False)
+        self.add_line('p2-r1-1', (12, 15), (12, 22))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_bezier('p3-r1-1', (9, 22), ((10, 24), (12, 27), (14, 27)))
+        self.add_line('p3-r1-2', (14, 27), (17, 26))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p3-r1-1')
+
+
+#### 12 heart-message-22-solo-profile32
+"""Independent 32px profile of heart-message-22-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '2a3f04f0-a404-41db-90b7-a6ee5813413b'
+SOURCE_PATH = 'pictographic-primitives/symbol/messages bubble round heart_2a3f04f0-a404-41db-90b7-a6ee5813413b.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('2a3f04f0-a404-41db-90b7-a6ee5813413b', 'pictographic-primitives/symbol/messages bubble round heart_2a3f04f0-a404-41db-90b7-a6ee5813413b.svg'), ('147e6d81-0d21-49c9-8726-0fadea0fff54', 'pictographic-primitives/symbol/messages bubble with heart_147e6d81-0d21-49c9-8726-0fadea0fff54.svg'))
+PROFILE_SOURCE_KEYS = ('solo/heart-message-22-solo', 'solo/heart-message-77-solo')
+SOLO_SOURCE_ICON_IDS = ('heart-message-22-solo', 'heart-message-77-solo')
+REFERENCE_EXPORT_SHA256 = '685847693ea0fd50c447b5ddb25d955415e53ba9e7894c68b3383fbb4da32c75'
+
+class Drawing(Sub32):
+    icon_id = 'heart-message-22-solo-profile32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (7, 2), (25, 2))
+        self.add_arc('p1-r1-2', (25, 2), (30, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (30, 7), (30, 19))
+        self.add_arc('p1-r1-4', (30, 19), (25, 24), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (25, 24), (16, 24))
+        self.add_line('p1-r1-6', (16, 24), (8, 30))
+        self.add_line('p1-r1-7', (8, 30), (8, 24))
+        self.add_line('p1-r1-8', (8, 24), (7, 24))
+        self.add_arc('p1-r1-9', (7, 24), (2, 19), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('p1-r1-10', (2, 19), (2, 7))
+        self.add_arc('p1-r1-11', (2, 7), (7, 2), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', closed=False)
+        self.add_bezier('p2-r1-1', (16, 17), ((13, 14), (9, 14), (9, 11)))
+        self.add_bezier('p2-r1-2', (9, 11), ((9, 10), (10, 9), (12, 9)))
+        self.add_bezier('p2-r1-3', (12, 9), ((13, 9), (15, 10), (16, 11)))
+        self.add_bezier('p2-r1-4', (16, 11), ((17, 10), (19, 9), (20, 9)))
+        self.add_bezier('p2-r1-5', (20, 9), ((22, 9), (23, 10), (23, 11)))
+        self.add_bezier('p2-r1-6', (23, 11), ((23, 14), (19, 14), (16, 17)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
+
+
+#### 13 cube-sub32
+"""Independent 32px profile of cube.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '802601c0-689d-481d-86cd-d13aceeaf9a1'
+SOURCE_PATH = 'pictographic-primitives/symbol/cube_802601c0-689d-481d-86cd-d13aceeaf9a1.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('802601c0-689d-481d-86cd-d13aceeaf9a1', 'pictographic-primitives/symbol/cube_802601c0-689d-481d-86cd-d13aceeaf9a1.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/cube',)
+SOLO_SOURCE_ICON_IDS = ('cube',)
+REFERENCE_EXPORT_SHA256 = 'f611f6378bc2d5b73eb4eb1f7aaac8312a3ca19eedfc0e3077d2e4015c86f227'
+
+class Drawing(Sub32):
+    icon_id = 'cube-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'symbol'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (16, 2), (30, 13))
+        self.add_line('p1-r1-2', (30, 13), (30, 22))
+        self.add_line('p1-r1-3', (30, 22), (16, 30))
+        self.add_line('p1-r1-4', (16, 30), (2, 22))
+        self.add_line('p1-r1-5', (2, 22), (2, 13))
+        self.add_line('p1-r1-6', (2, 13), (16, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (2, 13), (16, 21))
+        self.add_line('p2-r1-2', (16, 21), (30, 13))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (16, 21), (16, 30))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+
+
+#### 14 mountain-landscape-picture-icon-solo-profile32
+"""Independent 32px profile of mountain-landscape-picture-icon-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'f4ded89f-6648-403c-8ccd-44e3dda750ea'
+SOURCE_PATH = 'pictographic-primitives/images/image_f4ded89f-6648-403c-8ccd-44e3dda750ea.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('f4ded89f-6648-403c-8ccd-44e3dda750ea', 'pictographic-primitives/images/image_f4ded89f-6648-403c-8ccd-44e3dda750ea.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/mountain-landscape-picture-icon-solo',)
+SOLO_SOURCE_ICON_IDS = ('mountain-landscape-picture-icon-solo',)
+REFERENCE_EXPORT_SHA256 = '5d1fa048e0e9db621d5bf186e1836195fc7ee7b0b915dee0cfb207d80d16c017'
+
+class Drawing(Sub32):
+    icon_id = 'mountain-landscape-picture-icon-solo-profile32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (6, 2), (26, 2))
+        self.add_arc('p1-r1-2', (26, 2), (30, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (30, 6), (30, 26))
+        self.add_arc('p1-r1-4', (30, 26), (26, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (26, 30), (6, 30))
+        self.add_arc('p1-r1-6', (6, 30), (2, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (2, 26), (2, 6))
+        self.add_arc('p1-r1-8', (2, 6), (6, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_arc('p2-r1-1', (9, 11), (14, 11), radius_x=2.5, radius_y=2.5, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (14, 11), (9, 11), radius_x=2.5, radius_y=2.5, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (2, 26), (11, 21))
+        self.add_line('p3-r1-2', (11, 21), (15, 25))
+        self.add_line('p3-r1-3', (15, 25), (22, 17))
+        self.add_line('p3-r1-4', (22, 17), (30, 26))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-3', 'p3-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-4')
+        self.relate("connect", 'p1-r1-6', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p3-r1-1')
+
+
+#### 15 mobile-phone-phones-sub32
+"""Independent 32px profile of mobile-phone-phones.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '0ccd2887-dbd0-4ab5-a736-e2ba5438da4d'
+SOURCE_PATH = 'pictographic-primitives/phones/mobile phone_0ccd2887-dbd0-4ab5-a736-e2ba5438da4d.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('0ccd2887-dbd0-4ab5-a736-e2ba5438da4d', 'pictographic-primitives/phones/mobile phone_0ccd2887-dbd0-4ab5-a736-e2ba5438da4d.svg'), ('70454eff-c88b-47e2-b376-ad91c78c22f0', 'pictographic-primitives/phones/mobile phone_70454eff-c88b-47e2-b376-ad91c78c22f0.svg'), ('c4f9e2f1-641c-4dbb-ae42-c4ce12aafedf', 'pictographic-primitives/phones/mobile phone_c4f9e2f1-641c-4dbb-ae42-c4ce12aafedf.svg'))
+PROFILE_SOURCE_KEYS = ('solo/mobile-phone-phones', 'solo/mobile-phone-70454eff', 'solo/mobile-phone-c4f9e2f1')
+SOLO_SOURCE_ICON_IDS = ('mobile-phone-phones', 'mobile-phone-70454eff', 'mobile-phone-c4f9e2f1')
+REFERENCE_EXPORT_SHA256 = '04503e0736e507598f14c69f2520921f4375190d995f1c7e395b765219108e21'
+
+class Drawing(Sub32):
+    icon_id = 'mobile-phone-phones-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'phones'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 23), (27, 23))
+        self.add_line('p1-r1-2', (27, 23), (27, 27))
+        self.add_arc('p1-r1-3', (27, 27), (26, 29), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (26, 29), (24, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (24, 30), (8, 30))
+        self.add_arc('p1-r1-6', (8, 30), (6, 29), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-7', (6, 29), (5, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-8', (5, 27), (5, 5))
+        self.add_arc('p1-r1-9', (5, 5), (8, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-10', (8, 2), (24, 2))
+        self.add_arc('p1-r1-11', (24, 2), (27, 5), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-12', (27, 5), (27, 23))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', closed=False)
+
+
+#### 16 single-tail-award-badge-sub32
+"""Independent 32px profile of single-tail-award-badge.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '4e2ed51b-8309-4e10-861b-a51459770e84'
+SOURCE_PATH = 'pictographic-primitives/rewards/badge_4e2ed51b-8309-4e10-861b-a51459770e84.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('4e2ed51b-8309-4e10-861b-a51459770e84', 'pictographic-primitives/rewards/badge_4e2ed51b-8309-4e10-861b-a51459770e84.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/single-tail-award-badge',)
+SOLO_SOURCE_ICON_IDS = ('single-tail-award-badge',)
+REFERENCE_EXPORT_SHA256 = 'cfcb94ead085503027d1aa95c3ffb1e312499fc2f5d9f21ef717ca752e5bf81e'
+
+class Drawing(Sub32):
+    icon_id = 'single-tail-award-badge-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/award'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (5, 10), (27, 10), radius_x=11, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (27, 10), (24, 16), radius_x=11, radius_y=9, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-3', (24, 16), (8, 16), radius_x=11, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (8, 16), (5, 10), radius_x=11, radius_y=9, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
+        self.add_line('p2-r1-1', (8, 16), (8, 30))
+        self.add_line('p2-r1-2', (8, 30), (16, 24))
+        self.add_line('p2-r1-3', (16, 24), (24, 30))
+        self.add_line('p2-r1-4', (24, 30), (24, 16))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-2', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-1')
+
+
+#### 17 document-cut-corner-lines-long-sub32
+"""Independent 32px profile of document-cut-corner-lines-long.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '9c3cb75e-d776-4efc-9959-dd04e8c52052'
+SOURCE_PATH = 'pictographic-primitives/symbol/text file_9c3cb75e-d776-4efc-9959-dd04e8c52052.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('9c3cb75e-d776-4efc-9959-dd04e8c52052', 'pictographic-primitives/symbol/text file_9c3cb75e-d776-4efc-9959-dd04e8c52052.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/document-cut-corner-lines-long',)
+SOLO_SOURCE_ICON_IDS = ('document-cut-corner-lines-long',)
+REFERENCE_EXPORT_SHA256 = '03dfa3386ea87fbe394118cf50a1713093725dc553f5625f77d08f242ce53976'
+
+class Drawing(Sub32):
+    icon_id = 'document-cut-corner-lines-long-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (9, 2), (19, 2))
+        self.add_line('p1-r1-2', (19, 2), (27, 10))
+        self.add_line('p1-r1-3', (27, 10), (27, 26))
+        self.add_arc('p1-r1-4', (27, 26), (23, 30), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (23, 30), (9, 30))
+        self.add_arc('p1-r1-6', (9, 30), (5, 26), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (5, 26), (5, 6))
+        self.add_arc('p1-r1-8', (5, 6), (9, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_line('p2-r1-1', (12, 15), (20, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (12, 22), (20, 22))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 18 money-chat-bubble-solo-profile32
+"""Independent 32px profile of money-chat-bubble-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'e2581dc8-469f-4d41-8bc1-20ad32b80072'
+SOURCE_PATH = 'pictographic-primitives/symbol/messages bubble square dollar sign_e2581dc8-469f-4d41-8bc1-20ad32b80072.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('e2581dc8-469f-4d41-8bc1-20ad32b80072', 'pictographic-primitives/symbol/messages bubble square dollar sign_e2581dc8-469f-4d41-8bc1-20ad32b80072.svg'), ('a0e713ab-5594-48b4-9fb9-5bd0a13657f4', 'pictographic-primitives/other/messages bubble round dollar sign_a0e713ab-5594-48b4-9fb9-5bd0a13657f4.svg'), ('93c99818-8211-47c5-bf92-9fa83e3cab72', 'pictographic-primitives/other/message dollar sign lines_93c99818-8211-47c5-bf92-9fa83e3cab72.svg'))
+PROFILE_SOURCE_KEYS = ('solo/money-chat-bubble-solo', 'solo/dollar-sign-chat-bubble-solo', 'solo/money-message-bubble-solo')
+SOLO_SOURCE_ICON_IDS = ('money-chat-bubble-solo', 'dollar-sign-chat-bubble-solo', 'money-message-bubble-solo')
+REFERENCE_EXPORT_SHA256 = 'a0eb804bb7dcb76a17857cbff085f2d0c34ad5451f33cc871fe310fcb1e19a5e'
+
+class Drawing(Sub32):
+    icon_id = 'money-chat-bubble-solo-profile32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/finance'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (9, 2), (23, 2))
+        self.add_arc('p1-r1-2', (23, 2), (27, 6), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (27, 6), (27, 23))
+        self.add_arc('p1-r1-4', (27, 23), (23, 27), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (23, 27), (12, 27))
+        self.add_line('p1-r1-6', (12, 27), (5, 30))
+        self.add_line('p1-r1-7', (5, 30), (5, 6))
+        self.add_arc('p1-r1-8', (5, 6), (9, 2), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_line('p2-r1-1', (20, 9), (16, 9))
+        self.add_arc('p2-r1-2', (16, 9), (16, 15), radius_x=4, radius_y=3, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-3', (16, 15), (16, 20), radius_x=4, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p2-r1-4', (16, 20), (12, 20))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.add_line('p3-r1-1', (16, 8), (16, 9))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (16, 20), (16, 21))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-3', 'p4-r1-1')
+        self.relate("connect", 'p2-r1-4', 'p4-r1-1')
+
+
+#### 19 gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32
+"""Independent 32px profile of gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'b06110ec-f282-457a-aacf-23318a701c51'
+SOURCE_PATH = 'pictographic-primitives/medias/gaming_b06110ec-f282-457a-aacf-23318a701c51.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('b06110ec-f282-457a-aacf-23318a701c51', 'pictographic-primitives/medias/gaming_b06110ec-f282-457a-aacf-23318a701c51.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51',)
+SOLO_SOURCE_ICON_IDS = ('gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51',)
+REFERENCE_EXPORT_SHA256 = '9934ba54fd0ca9c5f69b82ef829f07382dcb65e789b1e35490934e236c5c4d93'
+
+class Drawing(Sub32):
+    icon_id = 'gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/media'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (9, 5), (23, 5))
+        self.add_arc('p1-r1-2', (23, 5), (30, 22), radius_x=7, radius_y=17, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-3', (30, 22), (19, 22), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (19, 22), (13, 22), radius_x=3, radius_y=1, large_arc=False, sweep=False)
+        self.add_arc('p1-r1-5', (13, 22), (2, 22), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-6', (2, 22), (9, 5), radius_x=7, radius_y=17, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (11, 14), (9, 14))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (11, 14), (13, 14))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (11, 14), (11, 12))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.add_line('p5-r1-1', (11, 14), (11, 16))
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.add_line('p6-r1-1', (22, 14), (22, 14))
+        self.add_contour('path-6-1', 'p6-r1-1', closed=False)
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p4-r1-1', 'p5-r1-1')
+
+
+#### 20 first-aid-medical-case-sub32
+"""Independent 32px profile of first-aid-medical-case.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '1f12e0e9-892e-4d3d-ab45-7a2a22a30f92'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/medical kit_1f12e0e9-892e-4d3d-ab45-7a2a22a30f92.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('1f12e0e9-892e-4d3d-ab45-7a2a22a30f92', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/medical kit_1f12e0e9-892e-4d3d-ab45-7a2a22a30f92.svg'), ('41bb0b4b-dc69-42d5-bf22-17d0a68fea2b', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/medical kit 1_41bb0b4b-dc69-42d5-bf22-17d0a68fea2b.svg'))
+PROFILE_SOURCE_KEYS = ('solo/first-aid-medical-case', 'solo/emergency-medical-first-aid-kit')
+SOLO_SOURCE_ICON_IDS = ('first-aid-medical-case', 'emergency-medical-first-aid-kit')
+REFERENCE_EXPORT_SHA256 = '52c1a511ad3015b76444f7acd543b8d84e05538e9e6297433748b71165d087ce'
+
+class Drawing(Sub32):
+    icon_id = 'first-aid-medical-case-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/container-components'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 8), (10, 8))
+        self.add_line('p1-r1-2', (10, 8), (22, 8))
+        self.add_line('p1-r1-3', (22, 8), (27, 8))
+        self.add_arc('p1-r1-4', (27, 8), (30, 11), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (30, 11), (30, 27))
+        self.add_arc('p1-r1-6', (30, 27), (27, 30), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (27, 30), (22, 30))
+        self.add_line('p1-r1-8', (22, 30), (10, 30))
+        self.add_line('p1-r1-9', (10, 30), (5, 30))
+        self.add_arc('p1-r1-10', (5, 30), (2, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-11', (2, 27), (2, 11))
+        self.add_arc('p1-r1-12', (2, 11), (5, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', closed=False)
+        self.add_line('p2-r1-1', (10, 8), (10, 5))
+        self.add_arc('p2-r1-2', (10, 5), (13, 2), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p2-r1-3', (13, 2), (19, 2))
+        self.add_arc('p2-r1-4', (19, 2), (22, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p2-r1-5', (22, 5), (22, 8))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        self.add_line('p3-r1-1', (11, 19), (16, 19))
+        self.add_line('p3-r1-2', (16, 19), (21, 19))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.add_line('p4-r1-1', (16, 15), (16, 19))
+        self.add_line('p4-r1-2', (16, 19), (16, 23))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-5')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-5')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-2')
+        self.relate("connect", 'p3-r1-2', 'p4-r1-1')
+        self.relate("connect", 'p3-r1-2', 'p4-r1-2')
+
+
+#### 21 three-toed-animal-paw-sub32
+"""Independent 32px profile of three-toed-animal-paw.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '162eae61-5c7a-4f66-b659-3f2fbd11c0a5'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/paw print_162eae61-5c7a-4f66-b659-3f2fbd11c0a5.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('162eae61-5c7a-4f66-b659-3f2fbd11c0a5', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/paw print_162eae61-5c7a-4f66-b659-3f2fbd11c0a5.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/three-toed-animal-paw',)
+SOLO_SOURCE_ICON_IDS = ('three-toed-animal-paw',)
+REFERENCE_EXPORT_SHA256 = '97e14db0f190787388dc6913bc426cf24f0f12f95de4197689b028c24eabf262'
+
+class Drawing(Sub32):
+    icon_id = 'three-toed-animal-paw-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/container-components'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (13, 5), (16, 2), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (16, 2), (19, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-3', (19, 5), (16, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (16, 8), (13, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
+        self.add_arc('p2-r1-1', (2, 12), (5, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-2', (5, 9), (8, 12), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-3', (8, 12), (5, 15), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p2-r1-4', (5, 15), (2, 12), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.add_arc('p3-r1-1', (24, 12), (27, 9), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p3-r1-2', (27, 9), (30, 12), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p3-r1-3', (30, 12), (27, 15), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_arc('p3-r1-4', (27, 15), (24, 12), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
+        self.add_bezier('p4-r1-1', (16, 18), ((12, 18), (13, 22), (9, 24)))
+        self.add_bezier('p4-r1-2', (9, 24), ((7, 26), (6, 27), (6, 28)))
+        self.add_bezier('p4-r1-3', (6, 28), ((6, 30), (11, 30), (16, 30)))
+        self.add_bezier('p4-r1-4', (16, 30), ((16, 30), (16, 30), (16, 30)))
+        self.add_bezier('p4-r1-5', (16, 30), ((21, 30), (26, 30), (26, 28)))
+        self.add_bezier('p4-r1-6', (26, 28), ((26, 27), (25, 26), (23, 24)))
+        self.add_bezier('p4-r1-7', (23, 24), ((19, 22), (20, 18), (16, 18)))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', 'p4-r1-5', 'p4-r1-6', 'p4-r1-7', closed=False)
+
+
+#### 22 thermometer-mercury-sub32
+"""Independent 32px profile of thermometer-mercury.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'b9550739-2fcc-4d3f-b1da-62a62d9213f5'
+SOURCE_PATH = 'pictographic-primitives/symbol/thermometer_b9550739-2fcc-4d3f-b1da-62a62d9213f5.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('b9550739-2fcc-4d3f-b1da-62a62d9213f5', 'pictographic-primitives/symbol/thermometer_b9550739-2fcc-4d3f-b1da-62a62d9213f5.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/thermometer-mercury',)
+SOLO_SOURCE_ICON_IDS = ('thermometer-mercury',)
+REFERENCE_EXPORT_SHA256 = '9433a09109e9f1cdfb74828e8676ad88c428493c5035e679adb41688fd4eefa9'
+
+class Drawing(Sub32):
+    icon_id = 'thermometer-mercury-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (10, 8), (22, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_line('p1-r1-2', (22, 8), (22, 15))
+        self.add_arc('p1-r1-3', (22, 15), (27, 19), radius_x=5, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (27, 19), (5, 19), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-5', (5, 19), (10, 15), radius_x=5, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-6', (10, 15), (10, 8))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (16, 10), (16, 16))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (16, 23), (16, 23))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 23 shield-star-sub32
+"""Independent 32px profile of shield-star.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '60d67027-c2f9-4f11-b004-21bd27fe11f2'
+SOURCE_PATH = 'pictographic-primitives/protection/shield star_60d67027-c2f9-4f11-b004-21bd27fe11f2.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('60d67027-c2f9-4f11-b004-21bd27fe11f2', 'pictographic-primitives/protection/shield star_60d67027-c2f9-4f11-b004-21bd27fe11f2.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/shield-star',)
+SOLO_SOURCE_ICON_IDS = ('shield-star',)
+REFERENCE_EXPORT_SHA256 = '23557e4569ad216f72d950d2ecca0672700cf127096ad68e6803641b5696365d'
+
+class Drawing(Sub32):
+    icon_id = 'shield-star-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'protection'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (5, 6), ((8, 3), (12, 2), (16, 2)))
+        self.add_bezier('p1-r1-2', (16, 2), ((20, 2), (24, 3), (27, 6)))
+        self.add_line('p1-r1-3', (27, 6), (27, 18))
+        self.add_bezier('p1-r1-4', (27, 18), ((27, 24), (22, 28), (16, 30)))
+        self.add_bezier('p1-r1-5', (16, 30), ((10, 28), (5, 24), (5, 18)))
+        self.add_line('p1-r1-6', (5, 18), (5, 6))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (16, 9), (18, 13))
+        self.add_line('p2-r1-2', (18, 13), (21, 14))
+        self.add_line('p2-r1-3', (21, 14), (19, 17))
+        self.add_line('p2-r1-4', (19, 17), (19, 20))
+        self.add_line('p2-r1-5', (19, 20), (16, 19))
+        self.add_line('p2-r1-6', (16, 19), (13, 20))
+        self.add_line('p2-r1-7', (13, 20), (13, 17))
+        self.add_line('p2-r1-8', (13, 17), (11, 14))
+        self.add_line('p2-r1-9', (11, 14), (14, 13))
+        self.add_line('p2-r1-10', (14, 13), (16, 9))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', 'p2-r1-8', 'p2-r1-9', 'p2-r1-10', closed=False)
+
+
+#### 24 two-prong-electrical-plug-sub32
+"""Independent 32px profile of two-prong-electrical-plug.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '0a5f79fb-077b-4a74-b852-967b66a0f12e'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/plug_0a5f79fb-077b-4a74-b852-967b66a0f12e.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('0a5f79fb-077b-4a74-b852-967b66a0f12e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/plug_0a5f79fb-077b-4a74-b852-967b66a0f12e.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/two-prong-electrical-plug',)
+SOLO_SOURCE_ICON_IDS = ('two-prong-electrical-plug',)
+REFERENCE_EXPORT_SHA256 = 'adbf25caff4acf5316d860bc89ebf43d1cfe8d54f54064296d0f68768e881e1a'
+
+class Drawing(Sub32):
+    icon_id = 'two-prong-electrical-plug-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/container-components'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 10), (10, 10))
+        self.add_line('p1-r1-2', (10, 10), (22, 10))
+        self.add_line('p1-r1-3', (22, 10), (27, 10))
+        self.add_line('p1-r1-4', (27, 10), (27, 17))
+        self.add_arc('p1-r1-5', (27, 17), (16, 24), radius_x=11, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-6', (16, 24), (5, 17), radius_x=11, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (5, 17), (5, 10))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
+        self.add_line('p2-r1-1', (10, 2), (10, 10))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (22, 2), (22, 10))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (16, 24), (16, 30))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p4-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p4-r1-1')
+
+
+#### 25 credit-card-sub32
+"""Independent 32px profile of credit-card.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '66b95d3f-a723-4cfd-830c-ed99236a5244'
+SOURCE_PATH = 'pictographic-primitives/payments/credit card_66b95d3f-a723-4cfd-830c-ed99236a5244.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('66b95d3f-a723-4cfd-830c-ed99236a5244', 'pictographic-primitives/payments/credit card_66b95d3f-a723-4cfd-830c-ed99236a5244.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/credit-card',)
+SOLO_SOURCE_ICON_IDS = ('credit-card',)
+REFERENCE_EXPORT_SHA256 = '1fd402939e860a5b0b45fbcafa0d8a50ee5cff773c7938114a2df17bdcfcb04e'
+
+class Drawing(Sub32):
+    icon_id = 'credit-card-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'payments'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (2, 13), (30, 13))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
+        self.add_line('p2-r1-1', (2, 11), (2, 25))
+        self.add_arc('p2-r1-2', (2, 25), (4, 27), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p2-r1-3', (4, 27), (28, 27))
+        self.add_arc('p2-r1-4', (28, 27), (30, 25), radius_x=2, radius_y=2, large_arc=False, sweep=False)
+        self.add_line('p2-r1-5', (30, 25), (30, 7))
+        self.add_arc('p2-r1-6', (30, 7), (28, 5), radius_x=2, radius_y=2, large_arc=False, sweep=False)
+        self.add_line('p2-r1-7', (28, 5), (4, 5))
+        self.add_line('p2-r1-8', (4, 5), (3, 6))
+        self.add_line('p2-r1-9', (3, 6), (2, 8))
+        self.add_line('p2-r1-10', (2, 8), (2, 11))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', 'p2-r1-8', 'p2-r1-9', 'p2-r1-10', closed=False)
+        self.add_line('p3-r1-1', (24, 21), (24, 21))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 26 two-button-mouse-sub32
+"""Independent 32px profile of two-button-mouse.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '74af51b8-794a-4a67-b95c-616f408607d0'
+SOURCE_PATH = 'pictographic-primitives/computers/batch-03/mouse_74af51b8-794a-4a67-b95c-616f408607d0.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('74af51b8-794a-4a67-b95c-616f408607d0', 'pictographic-primitives/computers/batch-03/mouse_74af51b8-794a-4a67-b95c-616f408607d0.svg'), ('dd2baaa6-8560-4803-ae47-3542cfdb8b76', 'pictographic-primitives/computers/batch-03/mouse_dd2baaa6-8560-4803-ae47-3542cfdb8b76.svg'))
+PROFILE_SOURCE_KEYS = ('solo/two-button-mouse',)
+SOLO_SOURCE_ICON_IDS = ('two-button-mouse',)
+REFERENCE_EXPORT_SHA256 = '8e57f7ae41910079c91ec9c7f09868705317070d8afec6731494ae80db8a5244'
+
+class Drawing(Sub32):
+    icon_id = 'two-button-mouse-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/device'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (16, 2), (27, 13), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_line('p1-r1-2', (27, 13), (27, 15))
+        self.add_line('p1-r1-3', (27, 15), (27, 19))
+        self.add_arc('p1-r1-4', (27, 19), (16, 30), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-5', (16, 30), (5, 19), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_line('p1-r1-6', (5, 19), (5, 15))
+        self.add_line('p1-r1-7', (5, 15), (5, 13))
+        self.add_arc('p1-r1-8', (5, 13), (16, 2), radius_x=11, radius_y=11, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_line('p2-r1-1', (5, 15), (16, 15))
+        self.add_line('p2-r1-2', (16, 15), (27, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (16, 2), (16, 15))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-8', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+
+
+#### 27 database-servers-sub32
+"""Independent 32px profile of database-servers.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '7226fb36-c110-4033-9d0b-3e66cfa5b027'
+SOURCE_PATH = 'pictographic-primitives/servers/database_7226fb36-c110-4033-9d0b-3e66cfa5b027.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('7226fb36-c110-4033-9d0b-3e66cfa5b027', 'pictographic-primitives/servers/database_7226fb36-c110-4033-9d0b-3e66cfa5b027.svg'), ('b3ea511d-2f05-474a-944e-587c5423980b', 'pictographic-primitives/diagrams/database_b3ea511d-2f05-474a-944e-587c5423980b.svg'))
+PROFILE_SOURCE_KEYS = ('solo/database-servers', 'solo/database-diagrams')
+SOLO_SOURCE_ICON_IDS = ('database-servers', 'database-diagrams')
+REFERENCE_EXPORT_SHA256 = 'ad9ac229eddcd969e40d210b27eeed7f66ff8c9a2e5a743bbaf9796892935d26'
+
+class Drawing(Sub32):
+    icon_id = 'database-servers-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'servers'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (5, 6), (27, 6), radius_x=11, radius_y=4, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (27, 6), (5, 6), radius_x=11, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (5, 6), (5, 26))
+        self.add_arc('p2-r1-2', (5, 26), (27, 26), radius_x=11, radius_y=4, large_arc=False, sweep=False)
+        self.add_line('p2-r1-3', (27, 26), (27, 6))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        self.add_arc('p3-r1-1', (5, 17), (27, 17), radius_x=11, radius_y=4, large_arc=False, sweep=False)
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-1', 'p2-r1-3')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-3')
+
+
+#### 28 helmet-d5b67122-sub32
+"""Independent 32px profile of helmet-d5b67122.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'd5b67122-8eaa-475e-8ad0-0d51c15807ab'
+SOURCE_PATH = 'pictographic-primitives/protection/helmet_d5b67122-8eaa-475e-8ad0-0d51c15807ab.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('d5b67122-8eaa-475e-8ad0-0d51c15807ab', 'pictographic-primitives/protection/helmet_d5b67122-8eaa-475e-8ad0-0d51c15807ab.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/helmet-d5b67122',)
+SOLO_SOURCE_ICON_IDS = ('helmet-d5b67122',)
+REFERENCE_EXPORT_SHA256 = 'ef4d35f716e8a78bb97617de1e25b23dfcccdaf0dc8bb4d25604baef4e643336'
+
+class Drawing(Sub32):
+    icon_id = 'helmet-d5b67122-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'protection'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (30, 27), (2, 27))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
+        self.add_line('p2-r1-1', (19, 5), (13, 5))
+        self.add_line('p2-r1-2', (13, 5), (13, 8))
+        self.add_line('p2-r1-3', (13, 8), (13, 9))
+        self.add_arc('p2-r1-4', (13, 9), (5, 21), radius_x=17, radius_y=17, large_arc=False, sweep=False)
+        self.add_arc('p2-r1-5', (5, 21), (5, 27), radius_x=41, radius_y=41, large_arc=False, sweep=False)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        self.add_line('p3-r1-1', (13, 20), (13, 9))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_arc('p4-r1-1', (20, 9), (27, 21), radius_x=17, radius_y=17, large_arc=False, sweep=True)
+        self.add_arc('p4-r1-2', (27, 21), (27, 27), radius_x=41, radius_y=41, large_arc=False, sweep=True)
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        self.add_line('p5-r1-1', (20, 20), (20, 8))
+        self.add_line('p5-r1-2', (20, 8), (19, 5))
+        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
+        self.relate("connect", 'p2-r1-1', 'p5-r1-2')
+        self.relate("connect", 'p2-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-4', 'p3-r1-1')
+
+
+#### 29 shield-sub32
+"""Independent 32px profile of shield.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '0fa98a0f-6de4-4ade-b905-178ec453bc23'
+SOURCE_PATH = 'pictographic-primitives/protection/shield_0fa98a0f-6de4-4ade-b905-178ec453bc23.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('0fa98a0f-6de4-4ade-b905-178ec453bc23', 'pictographic-primitives/protection/shield_0fa98a0f-6de4-4ade-b905-178ec453bc23.svg'), ('8e1100ca-39fe-4e71-b978-93997ec5e7d8', 'pictographic-primitives/protection/shield_8e1100ca-39fe-4e71-b978-93997ec5e7d8.svg'), ('ba7b0c51-fe87-48cd-a5c0-eea81086a3a9', 'pictographic-primitives/protection/shield_ba7b0c51-fe87-48cd-a5c0-eea81086a3a9.svg'), ('ee28756e-a560-4166-b776-2aebcbfcabaa', 'pictographic-primitives/protection/shield_ee28756e-a560-4166-b776-2aebcbfcabaa.svg'))
+PROFILE_SOURCE_KEYS = ('solo/shield', 'solo/shield-8e1100ca', 'solo/shield-ba7b0c51', 'solo/shield-ee28756e')
+SOLO_SOURCE_ICON_IDS = ('shield', 'shield-8e1100ca', 'shield-ba7b0c51', 'shield-ee28756e')
+REFERENCE_EXPORT_SHA256 = '764b4ffc339d83132ae16c761a39500cf8cd920b49f9ed3a98e90510c1b8d4d8'
+
+class Drawing(Sub32):
+    icon_id = 'shield-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/protection'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (5, 6), (27, 6), radius_x=11, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-2', (27, 6), (27, 13))
+        self.add_arc('p1-r1-3', (27, 13), (16, 30), radius_x=18, radius_y=18, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-4', (16, 30), (5, 13), radius_x=18, radius_y=18, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (5, 13), (5, 6))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+
+
+#### 30 desktop-monitor-curved-pedestal-sub32
+"""Independent 32px profile of desktop-monitor-curved-pedestal.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'ed39cf15-fc56-485a-8d68-f5b5d3b362db'
+SOURCE_PATH = 'pictographic-primitives/computers/batch-04/monitor_ed39cf15-fc56-485a-8d68-f5b5d3b362db.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('ed39cf15-fc56-485a-8d68-f5b5d3b362db', 'pictographic-primitives/computers/batch-04/monitor_ed39cf15-fc56-485a-8d68-f5b5d3b362db.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/desktop-monitor-curved-pedestal',)
+SOLO_SOURCE_ICON_IDS = ('desktop-monitor-curved-pedestal',)
+REFERENCE_EXPORT_SHA256 = 'dec03f28ba3b705c3829c1eda97b7ba8035caa956709e70b9a141ecc0a8451ea'
+
+class Drawing(Sub32):
+    icon_id = 'desktop-monitor-curved-pedestal-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/device'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 5), (27, 5))
+        self.add_arc('p1-r1-2', (27, 5), (30, 7), radius_x=3, radius_y=2, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (30, 7), (30, 18))
+        self.add_arc('p1-r1-4', (30, 18), (27, 20), radius_x=3, radius_y=2, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (27, 20), (19, 20))
+        self.add_line('p1-r1-6', (19, 20), (13, 20))
+        self.add_line('p1-r1-7', (13, 20), (5, 20))
+        self.add_arc('p1-r1-8', (5, 20), (2, 18), radius_x=3, radius_y=2, large_arc=False, sweep=True)
+        self.add_line('p1-r1-9', (2, 18), (2, 7))
+        self.add_arc('p1-r1-10', (2, 7), (5, 5), radius_x=3, radius_y=2, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
+        self.add_arc('p2-r1-1', (13, 20), (8, 27), radius_x=5, radius_y=7, large_arc=False, sweep=True)
+        self.add_line('p2-r1-2', (8, 27), (24, 27))
+        self.add_arc('p2-r1-3', (24, 27), (19, 20), radius_x=5, radius_y=7, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        self.relate("connect", 'p1-r1-5', 'p2-r1-3')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-3')
+        self.relate("connect", 'p1-r1-7', 'p2-r1-1')
+
+
+#### 31 email-action-unread-emails-sub32
+"""Independent 32px profile of email-action-unread-emails.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'a1eb2b1e-b7c4-4d81-badb-17e7418d1e92'
+SOURCE_PATH = 'pictographic-primitives/emails/email action unread_a1eb2b1e-b7c4-4d81-badb-17e7418d1e92.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('a1eb2b1e-b7c4-4d81-badb-17e7418d1e92', 'pictographic-primitives/emails/email action unread_a1eb2b1e-b7c4-4d81-badb-17e7418d1e92.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/email-action-unread-emails',)
+SOLO_SOURCE_ICON_IDS = ('email-action-unread-emails',)
+REFERENCE_EXPORT_SHA256 = '5cd1e40be8bc1724f6a68a79e27429301168c7fac24d21e03a8299609b3114a0'
+
+class Drawing(Sub32):
+    icon_id = 'email-action-unread-emails-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'emails'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 12), (8, 12))
+        self.add_line('p1-r1-2', (8, 12), (22, 12))
+        self.add_arc('p1-r1-3', (22, 12), (24, 15), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-4', (24, 15), (24, 20))
+        self.add_line('p1-r1-5', (24, 20), (24, 24))
+        self.add_arc('p1-r1-6', (24, 24), (22, 27), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (22, 27), (8, 27))
+        self.add_line('p1-r1-8', (8, 27), (5, 27))
+        self.add_arc('p1-r1-9', (5, 27), (2, 24), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-10', (2, 24), (2, 20))
+        self.add_line('p1-r1-11', (2, 20), (2, 15))
+        self.add_arc('p1-r1-12', (2, 15), (5, 12), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', closed=False)
+        self.add_line('p2-r1-1', (2, 15), (13, 22))
+        self.add_line('p2-r1-2', (13, 22), (24, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (8, 12), (8, 8))
+        self.add_arc('p3-r1-2', (8, 8), (10, 5), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p3-r1-3', (10, 5), (27, 5))
+        self.add_arc('p3-r1-4', (27, 5), (30, 8), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p3-r1-5', (30, 8), (30, 17))
+        self.add_arc('p3-r1-6', (30, 17), (27, 20), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p3-r1-7', (27, 20), (24, 20))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', 'p3-r1-5', 'p3-r1-6', 'p3-r1-7', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-7')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-7')
+        self.relate("connect", 'p1-r1-11', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-12', 'p2-r1-1')
+
+
+#### 32 embassy-sub32
+"""Independent 32px profile of embassy.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '4ed0a70e-9b41-4588-bb16-bc61d9b78d29'
+SOURCE_PATH = 'pictographic-primitives/symbol/embassy_4ed0a70e-9b41-4588-bb16-bc61d9b78d29.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('4ed0a70e-9b41-4588-bb16-bc61d9b78d29', 'pictographic-primitives/symbol/embassy_4ed0a70e-9b41-4588-bb16-bc61d9b78d29.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/embassy',)
+SOLO_SOURCE_ICON_IDS = ('embassy',)
+REFERENCE_EXPORT_SHA256 = '2d184c606668088db58c4615fae1e8702aaef16f72c63e50e853b9674d2964a4'
+
+class Drawing(Sub32):
+    icon_id = 'embassy-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'symbol'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (4, 16), (28, 16), radius_x=12, radius_y=11, large_arc=False, sweep=True)
+        self.add_line('p1-r1-2', (28, 16), (4, 16))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (2, 27), (30, 27))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (6, 16), (6, 27))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (13, 16), (13, 27))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.add_line('p5-r1-1', (20, 16), (20, 27))
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.add_line('p6-r1-1', (26, 16), (26, 27))
+        self.add_contour('path-6-1', 'p6-r1-1', closed=False)
+
+
+#### 33 flame-with-inner-drop-sub32
+"""Independent 32px profile of flame-with-inner-drop.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'd11d120b-44dc-4986-8c2a-a773c8830e0c'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/fire/flame_d11d120b-44dc-4986-8c2a-a773c8830e0c.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('d11d120b-44dc-4986-8c2a-a773c8830e0c', '/Applications/Workspaces/pictographic/icon_simplification/pictographic-primitives/fire/flame_d11d120b-44dc-4986-8c2a-a773c8830e0c.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/flame-with-inner-drop',)
+SOLO_SOURCE_ICON_IDS = ('flame-with-inner-drop',)
+REFERENCE_EXPORT_SHA256 = '6480a8274acccf6a7f1325e9837658e0827c5d5b5d6b54a54acbb3a1bddf168a'
+
+class Drawing(Sub32):
+    icon_id = 'flame-with-inner-drop-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/fire'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (12, 30), ((7, 27), (5, 24), (5, 20)))
+        self.add_bezier('p1-r1-2', (5, 20), ((5, 13), (15, 11), (15, 5)))
+        self.add_bezier('p1-r1-3', (15, 5), ((15, 4), (14, 3), (14, 2)))
+        self.add_bezier('p1-r1-4', (14, 2), ((19, 5), (21, 8), (21, 12)))
+        self.add_bezier('p1-r1-5', (21, 12), ((21, 13), (21, 14), (20, 15)))
+        self.add_bezier('p1-r1-6', (20, 15), ((24, 15), (27, 13), (27, 10)))
+        self.add_bezier('p1-r1-7', (27, 10), ((27, 14), (27, 17), (27, 20)))
+        self.add_bezier('p1-r1-8', (27, 20), ((27, 24), (24, 28), (20, 30)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_bezier('p2-r1-1', (12, 30), ((11, 28), (10, 27), (10, 25)))
+        self.add_bezier('p2-r1-2', (10, 25), ((10, 21), (13, 19), (16, 17)))
+        self.add_bezier('p2-r1-3', (16, 17), ((16, 21), (21, 22), (21, 26)))
+        self.add_bezier('p2-r1-4', (21, 26), ((21, 27), (21, 29), (20, 30)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-8', 'p2-r1-4')
+
+
+#### 34 wallet-clasp-sub32
+"""Independent 32px profile of wallet-clasp.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'f57c49b6-d15d-47f7-9e8a-9f2680d3d4bd'
+SOURCE_PATH = 'pictographic-primitives/symbol/wallet_f57c49b6-d15d-47f7-9e8a-9f2680d3d4bd.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('f57c49b6-d15d-47f7-9e8a-9f2680d3d4bd', 'pictographic-primitives/symbol/wallet_f57c49b6-d15d-47f7-9e8a-9f2680d3d4bd.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/wallet-clasp',)
+SOLO_SOURCE_ICON_IDS = ('wallet-clasp',)
+REFERENCE_EXPORT_SHA256 = 'b4723a46cd93b18bf5fb5fcf0dad6e9c2d424c06fcc22e72c7947aefc9339692'
+
+class Drawing(Sub32):
+    icon_id = 'wallet-clasp-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (6, 5), (26, 5))
+        self.add_arc('p1-r1-2', (26, 5), (30, 9), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-3', (30, 9), (30, 13))
+        self.add_line('p1-r1-4', (30, 13), (30, 22))
+        self.add_line('p1-r1-5', (30, 22), (30, 23))
+        self.add_arc('p1-r1-6', (30, 23), (26, 27), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-7', (26, 27), (6, 27))
+        self.add_arc('p1-r1-8', (6, 27), (2, 23), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_line('p1-r1-9', (2, 23), (2, 11))
+        self.add_line('p1-r1-10', (2, 11), (2, 9))
+        self.add_arc('p1-r1-11', (2, 9), (6, 5), radius_x=4, radius_y=4, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', closed=False)
+        self.add_line('p2-r1-1', (2, 11), (16, 11))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (30, 13), (23, 13))
+        self.add_arc('p3-r1-2', (23, 13), (23, 22), radius_x=4.5, radius_y=4.5, large_arc=False, sweep=False)
+        self.add_line('p3-r1-3', (23, 22), (30, 22))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
+        self.relate("connect", 'p1-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-3')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-3')
+        self.relate("connect", 'p1-r1-9', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-10', 'p2-r1-1')
+
+
+#### 35 syringe-sub32
+"""Independent 32px profile of syringe.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '61c17587-0f1d-4e91-91d5-9bd53083e084'
+SOURCE_PATH = 'pictographic-primitives/symbol/syringe_61c17587-0f1d-4e91-91d5-9bd53083e084.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('61c17587-0f1d-4e91-91d5-9bd53083e084', 'pictographic-primitives/symbol/syringe_61c17587-0f1d-4e91-91d5-9bd53083e084.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/syringe',)
+SOLO_SOURCE_ICON_IDS = ('syringe',)
+REFERENCE_EXPORT_SHA256 = 'efa2fcbd36912863a66e5123405fa1fceecf4ed585ed4ed196ff2bac591fd766'
+
+class Drawing(Sub32):
+    icon_id = 'syringe-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 18), (16, 7))
+        self.add_line('p1-r1-2', (16, 7), (20, 11))
+        self.add_line('p1-r1-3', (20, 11), (24, 14))
+        self.add_line('p1-r1-4', (24, 14), (13, 25))
+        self.add_arc('p1-r1-5', (13, 25), (8, 24), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-6', (8, 24), (5, 18), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (8, 24), (2, 30))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (20, 11), (27, 5))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (24, 2), (27, 5))
+        self.add_line('p4-r1-2', (27, 5), (30, 8))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', closed=False)
+        self.add_line('p5-r1-1', (11, 12), (14, 15))
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.relate("connect", 'p1-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-1')
+        self.relate("connect", 'p3-r1-1', 'p4-r1-2')
+
+
+#### 36 shield-check-sub32
+"""Independent 32px profile of shield-check.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '35439928-bf3d-41d0-ac20-63c8b05f2354'
+SOURCE_PATH = 'pictographic-primitives/apps/shield check_35439928-bf3d-41d0-ac20-63c8b05f2354.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('35439928-bf3d-41d0-ac20-63c8b05f2354', 'pictographic-primitives/apps/shield check_35439928-bf3d-41d0-ac20-63c8b05f2354.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/shield-check',)
+SOLO_SOURCE_ICON_IDS = ('shield-check',)
+REFERENCE_EXPORT_SHA256 = '3c5eb57a8110eceb8f7e75e4e68dc9706319263a1dcf8f15d8b792878c03d30d'
+
+class Drawing(Sub32):
+    icon_id = 'shield-check-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'apps'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (21, 13), (14, 20))
+        self.add_line('p1-r1-2', (14, 20), (11, 17))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_bezier('p2-r1-1', (5, 6), ((7, 5), (10, 5), (12, 4)))
+        self.add_bezier('p2-r1-2', (12, 4), ((13, 4), (16, 2), (16, 2)))
+        self.add_bezier('p2-r1-3', (16, 2), ((16, 2), (16, 2), (16, 2)))
+        self.add_bezier('p2-r1-4', (16, 2), ((16, 2), (16, 2), (16, 2)))
+        self.add_bezier('p2-r1-5', (16, 2), ((17, 2), (19, 3), (19, 3)))
+        self.add_bezier('p2-r1-6', (19, 3), ((22, 5), (24, 6), (27, 7)))
+        self.add_line('p2-r1-7', (27, 7), (27, 16))
+        self.add_bezier('p2-r1-8', (27, 16), ((27, 16), (27, 17), (27, 17)))
+        self.add_bezier('p2-r1-9', (27, 17), ((27, 18), (27, 18), (27, 19)))
+        self.add_bezier('p2-r1-10', (27, 19), ((26, 23), (23, 26), (20, 28)))
+        self.add_bezier('p2-r1-11', (20, 28), ((19, 29), (17, 30), (16, 30)))
+        self.add_bezier('p2-r1-12', (16, 30), ((16, 30), (16, 30), (16, 30)))
+        self.add_bezier('p2-r1-13', (16, 30), ((16, 30), (16, 30), (16, 30)))
+        self.add_bezier('p2-r1-14', (16, 30), ((15, 30), (13, 28), (12, 28)))
+        self.add_bezier('p2-r1-15', (12, 28), ((9, 26), (7, 23), (5, 20)))
+        self.add_bezier('p2-r1-16', (5, 20), ((5, 19), (5, 18), (5, 17)))
+        self.add_bezier('p2-r1-17', (5, 17), ((5, 17), (5, 17), (5, 17)))
+        self.add_bezier('p2-r1-18', (5, 17), ((5, 17), (5, 17), (5, 17)))
+        self.add_line('p2-r1-19', (5, 17), (5, 6))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', 'p2-r1-8', 'p2-r1-9', 'p2-r1-10', 'p2-r1-11', 'p2-r1-12', 'p2-r1-13', 'p2-r1-14', 'p2-r1-15', 'p2-r1-16', 'p2-r1-17', 'p2-r1-18', 'p2-r1-19', closed=False)
+
+
+#### 37 messages-bubble-with-dots-sub32
+"""Independent 32px profile of messages-bubble-with-dots.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'a1a51949-b13a-41fa-81ae-78731ae3349e'
+SOURCE_PATH = 'pictographic-primitives/symbol/messages bubble with dots_a1a51949-b13a-41fa-81ae-78731ae3349e.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('a1a51949-b13a-41fa-81ae-78731ae3349e', 'pictographic-primitives/symbol/messages bubble with dots_a1a51949-b13a-41fa-81ae-78731ae3349e.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/messages-bubble-with-dots',)
+SOLO_SOURCE_ICON_IDS = ('messages-bubble-with-dots',)
+REFERENCE_EXPORT_SHA256 = '39f8291b05f35e684ddf67feec2714d56e71bdfd75efac63617f290be00c2909'
+
+class Drawing(Sub32):
+    icon_id = 'messages-bubble-with-dots-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'symbol'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (3, 27), ((4, 26), (5, 25), (6, 24)))
+        self.add_bezier('p1-r1-2', (6, 24), ((6, 24), (6, 23), (6, 23)))
+        self.add_bezier('p1-r1-3', (6, 23), ((6, 23), (6, 23), (6, 23)))
+        self.add_bezier('p1-r1-4', (6, 23), ((6, 23), (5, 22), (4, 21)))
+        self.add_bezier('p1-r1-5', (4, 21), ((3, 20), (2, 18), (2, 16)))
+        self.add_bezier('p1-r1-6', (2, 16), ((2, 15), (2, 15), (2, 15)))
+        self.add_bezier('p1-r1-7', (2, 15), ((2, 15), (2, 15), (2, 15)))
+        self.add_bezier('p1-r1-8', (2, 15), ((2, 14), (2, 13), (3, 12)))
+        self.add_bezier('p1-r1-9', (3, 12), ((5, 7), (11, 5), (15, 5)))
+        self.add_bezier('p1-r1-10', (15, 5), ((15, 5), (15, 5), (16, 5)))
+        self.add_bezier('p1-r1-11', (16, 5), ((16, 5), (16, 5), (17, 5)))
+        self.add_bezier('p1-r1-12', (17, 5), ((21, 5), (27, 7), (29, 12)))
+        self.add_bezier('p1-r1-13', (29, 12), ((30, 13), (30, 14), (30, 15)))
+        self.add_bezier('p1-r1-14', (30, 15), ((30, 15), (30, 15), (30, 16)))
+        self.add_bezier('p1-r1-15', (30, 16), ((30, 17), (30, 18), (29, 19)))
+        self.add_bezier('p1-r1-16', (29, 19), ((26, 24), (21, 26), (16, 26)))
+        self.add_bezier('p1-r1-17', (16, 26), ((16, 26), (16, 26), (15, 26)))
+        self.add_bezier('p1-r1-18', (15, 26), ((14, 26), (13, 26), (12, 25)))
+        self.add_bezier('p1-r1-19', (12, 25), ((11, 25), (10, 25), (10, 25)))
+        self.add_bezier('p1-r1-20', (10, 25), ((10, 25), (10, 25), (10, 25)))
+        self.add_bezier('p1-r1-21', (10, 25), ((10, 25), (9, 26), (8, 26)))
+        self.add_bezier('p1-r1-22', (8, 26), ((7, 27), (6, 27), (4, 27)))
+        self.add_bezier('p1-r1-23', (4, 27), ((4, 27), (4, 27), (4, 27)))
+        self.add_bezier('p1-r1-24', (4, 27), ((3, 27), (3, 27), (3, 27)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', 'p1-r1-11', 'p1-r1-12', 'p1-r1-13', 'p1-r1-14', 'p1-r1-15', 'p1-r1-16', 'p1-r1-17', 'p1-r1-18', 'p1-r1-19', 'p1-r1-20', 'p1-r1-21', 'p1-r1-22', 'p1-r1-23', 'p1-r1-24', closed=False)
+        self.add_line('p2-r1-1', (8, 15), (8, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (16, 15), (16, 15))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (24, 15), (24, 15))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+
+
+#### 38 user-profile-selection-cursor-solo-profile32
+"""Independent 32px profile of user-profile-selection-cursor-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '742a102d-2547-4878-9ea9-c64ad681d52b'
+SOURCE_PATH = 'pictographic-primitives/other/cursor head_742a102d-2547-4878-9ea9-c64ad681d52b.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('742a102d-2547-4878-9ea9-c64ad681d52b', 'pictographic-primitives/other/cursor head_742a102d-2547-4878-9ea9-c64ad681d52b.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/user-profile-selection-cursor-solo',)
+SOLO_SOURCE_ICON_IDS = ('user-profile-selection-cursor-solo',)
+REFERENCE_EXPORT_SHA256 = 'bc3f3f367b641f5add882cfef713d7fd0ac4bb34d099939cf15333f1ab3625f5'
+
+class Drawing(Sub32):
+    icon_id = 'user-profile-selection-cursor-solo-profile32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (12, 22), (2, 12), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (2, 12), (22, 12), radius_x=10, radius_y=10, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (18, 17), (30, 23))
+        self.add_line('p2-r1-2', (30, 23), (25, 25))
+        self.add_line('p2-r1-3', (25, 25), (22, 30))
+        self.add_line('p2-r1-4', (22, 30), (18, 17))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+
+
+#### 39 circle-skip-forward-button-solo-profile32
+"""Independent 32px profile of circle-skip-forward-button-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '7de072ea-141a-4a2a-9bfe-5d555c9500af'
+SOURCE_PATH = 'pictographic-primitives/other/circle button next_7de072ea-141a-4a2a-9bfe-5d555c9500af.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('7de072ea-141a-4a2a-9bfe-5d555c9500af', 'pictographic-primitives/other/circle button next_7de072ea-141a-4a2a-9bfe-5d555c9500af.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/circle-skip-forward-button-solo',)
+SOLO_SOURCE_ICON_IDS = ('circle-skip-forward-button-solo',)
+REFERENCE_EXPORT_SHA256 = 'fcfe0047f537e4f077d475f573800958eeecd1d46c71a2f89e0f24f45a8b6d2a'
+
+class Drawing(Sub32):
+    icon_id = 'circle-skip-forward-button-solo-profile32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (10, 11), (16, 16))
+        self.add_line('p2-r1-2', (16, 16), (10, 21))
+        self.add_line('p2-r1-3', (10, 21), (10, 11))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        self.add_line('p3-r1-1', (22, 12), (22, 20))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 40 file-emails-sub32
+"""Independent 32px profile of file-emails.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '5bd8438c-94c0-4326-8e22-5188c667350d'
+SOURCE_PATH = 'pictographic-primitives/emails/file_5bd8438c-94c0-4326-8e22-5188c667350d.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('5bd8438c-94c0-4326-8e22-5188c667350d', 'pictographic-primitives/emails/file_5bd8438c-94c0-4326-8e22-5188c667350d.svg'), ('ee647811-20d2-4d87-9000-0d11db8aa255', 'pictographic-primitives/files/document_ee647811-20d2-4d87-9000-0d11db8aa255.svg'))
+PROFILE_SOURCE_KEYS = ('solo/file-emails', 'solo/document-files')
+SOLO_SOURCE_ICON_IDS = ('file-emails', 'document-files')
+REFERENCE_EXPORT_SHA256 = '69667b7d09f1c2eb89fdde47e5fed35df35e783a156002aaee93d6d92a54cf6e'
+
+class Drawing(Sub32):
+    icon_id = 'file-emails-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'emails'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (11, 13), (21, 13))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
+        self.add_line('p2-r1-1', (11, 20), (21, 20))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (5, 2), (22, 2))
+        self.add_line('p3-r1-2', (22, 2), (27, 8))
+        self.add_line('p3-r1-3', (27, 8), (27, 30))
+        self.add_line('p3-r1-4', (27, 30), (5, 30))
+        self.add_line('p3-r1-5', (5, 30), (5, 2))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', 'p3-r1-5', closed=False)
+
+
+#### 41 workflow-data-table-1-business-sub32
+"""Independent 32px profile of workflow-data-table-1-business.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'c8dfe4cb-2c1f-4086-8985-b294567074d5'
+SOURCE_PATH = 'pictographic-primitives/business/workflow data table 1_c8dfe4cb-2c1f-4086-8985-b294567074d5.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('c8dfe4cb-2c1f-4086-8985-b294567074d5', 'pictographic-primitives/business/workflow data table 1_c8dfe4cb-2c1f-4086-8985-b294567074d5.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/workflow-data-table-1-business',)
+SOLO_SOURCE_ICON_IDS = ('workflow-data-table-1-business',)
+REFERENCE_EXPORT_SHA256 = '2ac32d16ecefe3bfc57dd0fea54831bcf97c249c35c6bbfb5c6ef98866b7848b'
+
+class Drawing(Sub32):
+    icon_id = 'workflow-data-table-1-business-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'business'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (30, 18), (2, 18))
+        self.add_line('p1-r1-2', (2, 18), (2, 28))
+        self.add_arc('p1-r1-3', (2, 28), (4, 30), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p1-r1-4', (4, 30), (11, 30))
+        self.add_line('p1-r1-5', (11, 30), (11, 8))
+        self.add_line('p1-r1-6', (11, 8), (30, 8))
+        self.add_line('p1-r1-7', (30, 8), (30, 28))
+        self.add_arc('p1-r1-8', (30, 28), (28, 30), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p1-r1-9', (28, 30), (21, 30))
+        self.add_line('p1-r1-10', (21, 30), (21, 8))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', 'p1-r1-9', 'p1-r1-10', closed=False)
+        self.add_line('p2-r1-1', (11, 8), (2, 8))
+        self.add_line('p2-r1-2', (2, 8), (2, 18))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (16, 30), (11, 30))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (16, 2), (4, 2))
+        self.add_arc('p4-r1-2', (4, 2), (2, 4), radius_x=3, radius_y=3, large_arc=False, sweep=False)
+        self.add_line('p4-r1-3', (2, 4), (2, 8))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', closed=False)
+        self.add_line('p5-r1-1', (16, 30), (21, 30))
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.add_line('p6-r1-1', (16, 2), (28, 2))
+        self.add_arc('p6-r1-2', (28, 2), (30, 4), radius_x=3, radius_y=3, large_arc=False, sweep=True)
+        self.add_line('p6-r1-3', (30, 4), (30, 8))
+        self.add_contour('path-6-1', 'p6-r1-1', 'p6-r1-2', 'p6-r1-3', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-6', 'p6-r1-3')
+        self.relate("connect", 'p1-r1-7', 'p6-r1-3')
+        self.relate("connect", 'p1-r1-9', 'p5-r1-1')
+        self.relate("connect", 'p1-r1-10', 'p5-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p4-r1-3')
+        self.relate("connect", 'p2-r1-2', 'p4-r1-3')
+        self.relate("connect", 'p3-r1-1', 'p5-r1-1')
+        self.relate("connect", 'p4-r1-1', 'p6-r1-1')
+
+
+#### 42 diamond-money-sub32
+"""Independent 32px profile of diamond-money.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '5d9db826-3f1d-489d-b7b6-bf5b50bbe949'
+SOURCE_PATH = 'pictographic-primitives/money/diamond_5d9db826-3f1d-489d-b7b6-bf5b50bbe949.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('5d9db826-3f1d-489d-b7b6-bf5b50bbe949', 'pictographic-primitives/money/diamond_5d9db826-3f1d-489d-b7b6-bf5b50bbe949.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/diamond-money',)
+SOLO_SOURCE_ICON_IDS = ('diamond-money',)
+REFERENCE_EXPORT_SHA256 = '2a0c5306cbdd87ab938391e3c8e1d687d04e1fed025b6426bc4ed454a87a9ae0'
+
+class Drawing(Sub32):
+    icon_id = 'diamond-money-sub32'
+    keyshape = Keyshape.HRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'money'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (9, 5), (23, 5))
+        self.add_line('p1-r1-2', (23, 5), (30, 15))
+        self.add_line('p1-r1-3', (30, 15), (16, 27))
+        self.add_line('p1-r1-4', (16, 27), (2, 15))
+        self.add_line('p1-r1-5', (2, 15), (9, 5))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+        self.add_line('p2-r1-1', (2, 15), (12, 15))
+        self.add_line('p2-r1-2', (12, 15), (20, 15))
+        self.add_line('p2-r1-3', (20, 15), (30, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
+        self.add_line('p3-r1-1', (9, 5), (12, 15))
+        self.add_line('p3-r1-2', (12, 15), (16, 27))
+        self.add_line('p3-r1-3', (16, 27), (20, 15))
+        self.add_line('p3-r1-4', (20, 15), (23, 5))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-1', 'p3-r1-4')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-3')
+        self.relate("connect", 'p1-r1-2', 'p3-r1-4')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-3')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-3')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-2')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-3')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-2')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-2')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-3')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-4')
+        self.relate("connect", 'p2-r1-3', 'p3-r1-3')
+        self.relate("connect", 'p2-r1-3', 'p3-r1-4')
+
+
+#### 43 lab-flask-experiment-science-sub32
+"""Independent 32px profile of lab-flask-experiment-science.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '29b5cc6d-0003-4008-aefc-58305cb4d79f'
+SOURCE_PATH = 'pictographic-primitives/science/lab flask experiment_29b5cc6d-0003-4008-aefc-58305cb4d79f.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('29b5cc6d-0003-4008-aefc-58305cb4d79f', 'pictographic-primitives/science/lab flask experiment_29b5cc6d-0003-4008-aefc-58305cb4d79f.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/lab-flask-experiment-science',)
+SOLO_SOURCE_ICON_IDS = ('lab-flask-experiment-science',)
+REFERENCE_EXPORT_SHA256 = 'a7804f8928e3355216fab37ef608b0b62b7975848ef0d27e353d308545abd057'
+
+class Drawing(Sub32):
+    icon_id = 'lab-flask-experiment-science-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'science'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (12, 2), (20, 2))
+        self.add_line('p1-r1-2', (20, 2), (20, 13))
+        self.add_bezier('p1-r1-3', (20, 13), ((20, 15), (27, 15), (27, 22)))
+        self.add_arc('p1-r1-4', (27, 22), (19, 30), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_line('p1-r1-5', (19, 30), (13, 30))
+        self.add_arc('p1-r1-6', (13, 30), (5, 22), radius_x=8, radius_y=8, large_arc=False, sweep=True)
+        self.add_bezier('p1-r1-7', (5, 22), ((5, 15), (12, 15), (12, 13)))
+        self.add_line('p1-r1-8', (12, 13), (12, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
+        self.add_bezier('p2-r1-1', (5, 22), ((6, 21), (7, 20), (8, 20)))
+        self.add_bezier('p2-r1-2', (8, 20), ((10, 20), (11, 23), (13, 23)))
+        self.add_bezier('p2-r1-3', (13, 23), ((14, 23), (15, 22), (16, 22)))
+        self.add_bezier('p2-r1-4', (16, 22), ((17, 21), (18, 20), (19, 20)))
+        self.add_bezier('p2-r1-5', (19, 20), ((21, 20), (22, 23), (24, 23)))
+        self.add_bezier('p2-r1-6', (24, 23), ((25, 23), (26, 22), (27, 22)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', closed=False)
+        self.relate("connect", 'p1-r1-3', 'p2-r1-6')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-6')
+        self.relate("connect", 'p1-r1-6', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-7', 'p2-r1-1')
+
+
+#### 44 link-interlocking-sub32
+"""Independent 32px profile of link-interlocking.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'a1310a44-a79e-47db-836c-4e40111ae679'
+SOURCE_PATH = 'pictographic-primitives/symbol/link_a1310a44-a79e-47db-836c-4e40111ae679.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('a1310a44-a79e-47db-836c-4e40111ae679', 'pictographic-primitives/symbol/link_a1310a44-a79e-47db-836c-4e40111ae679.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/link-interlocking',)
+SOLO_SOURCE_ICON_IDS = ('link-interlocking',)
+REFERENCE_EXPORT_SHA256 = 'b153cd513d76822057a281f590fe026c25080249bcd1fc3605a230c69b119a1a'
+
+class Drawing(Sub32):
+    icon_id = 'link-interlocking-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (13, 8), (16, 5))
+        self.add_bezier('p1-r1-2', (16, 5), ((18, 3), (20, 2), (22, 2)))
+        self.add_bezier('p1-r1-3', (22, 2), ((24, 2), (26, 3), (27, 4)))
+        self.add_bezier('p1-r1-4', (27, 4), ((29, 5), (30, 7), (30, 10)))
+        self.add_bezier('p1-r1-5', (30, 10), ((30, 11), (29, 13), (28, 14)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+        self.add_line('p2-r1-1', (7, 14), (4, 18))
+        self.add_bezier('p2-r1-2', (4, 18), ((3, 19), (2, 21), (2, 22)))
+        self.add_bezier('p2-r1-3', (2, 22), ((2, 25), (3, 27), (5, 28)))
+        self.add_bezier('p2-r1-4', (5, 28), ((6, 29), (8, 30), (10, 30)))
+        self.add_bezier('p2-r1-5', (10, 30), ((12, 30), (14, 29), (16, 27)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        self.add_line('p3-r1-1', (11, 21), (21, 11))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+
+
+#### 45 plus-minus-mathematical-sign-solo-profile32
+"""Independent 32px profile of plus-minus-mathematical-sign-solo.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '7adfa015-1e70-4aa5-a35c-0902119d672c'
+SOURCE_PATH = 'pictographic-primitives/other/circle plus minus_7adfa015-1e70-4aa5-a35c-0902119d672c.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('7adfa015-1e70-4aa5-a35c-0902119d672c', 'pictographic-primitives/other/circle plus minus_7adfa015-1e70-4aa5-a35c-0902119d672c.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/plus-minus-mathematical-sign-solo',)
+SOLO_SOURCE_ICON_IDS = ('plus-minus-mathematical-sign-solo',)
+REFERENCE_EXPORT_SHA256 = 'aa2095a0d08ddb7850de28a17e9ed9c92085ba2a4dc15064d4a5f0d1a4faf854'
+
+class Drawing(Sub32):
+    icon_id = 'plus-minus-mathematical-sign-solo-profile32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/interface-essential'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (2, 16), (30, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (30, 16), (2, 16), radius_x=14, radius_y=14, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p2-r1-1', (10, 11), (11, 11))
+        self.add_line('p2-r1-2', (11, 11), (13, 11))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p3-r1-1', (11, 10), (11, 11))
+        self.add_line('p3-r1-2', (11, 11), (11, 13))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
+        self.add_line('p4-r1-1', (10, 22), (22, 10))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+        self.add_line('p5-r1-1', (20, 21), (22, 21))
+        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-2')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-2', 'p3-r1-2')
+
+
+#### 46 shopping-bag-1b586bc1-sub32
+"""Independent 32px profile of shopping-bag-1b586bc1.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '1b586bc1-bc24-4649-9d1f-2c9c15a8444b'
+SOURCE_PATH = 'pictographic-primitives/shopping/shopping bag_1b586bc1-bc24-4649-9d1f-2c9c15a8444b.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('1b586bc1-bc24-4649-9d1f-2c9c15a8444b', 'pictographic-primitives/shopping/shopping bag_1b586bc1-bc24-4649-9d1f-2c9c15a8444b.svg'), ('80985b68-e4c6-544f-91e4-19b090803024', 'pictographic-primitives/accessories/batch-07/bag carry_80985b68-e4c6-544f-91e4-19b090803024.svg'), ('a00cf782-226f-44d9-baca-8f8157db6f9a', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/battery 2_a00cf782-226f-44d9-baca-8f8157db6f9a.svg'))
+PROFILE_SOURCE_KEYS = ('solo/shopping-bag-1b586bc1', 'solo/shopping-bag-with-arched-handle')
+SOLO_SOURCE_ICON_IDS = ('shopping-bag-1b586bc1', 'shopping-bag-with-arched-handle')
+REFERENCE_EXPORT_SHA256 = '41a9f5f19bf82a9f429195d6eecc9bad2dab7033f694408c10e732d5f483fa58'
+
+class Drawing(Sub32):
+    icon_id = 'shopping-bag-1b586bc1-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'shopping'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (5, 30), (5, 11))
+        self.add_line('p1-r1-2', (5, 11), (11, 11))
+        self.add_line('p1-r1-3', (11, 11), (21, 11))
+        self.add_line('p1-r1-4', (21, 11), (27, 11))
+        self.add_line('p1-r1-5', (27, 11), (27, 30))
+        self.add_line('p1-r1-6', (27, 30), (5, 30))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (11, 15), (11, 11))
+        self.add_line('p2-r1-2', (11, 11), (11, 7))
+        self.add_arc('p2-r1-3', (11, 7), (21, 7), radius_x=5, radius_y=5, large_arc=False, sweep=True)
+        self.add_line('p2-r1-4', (21, 7), (21, 11))
+        self.add_line('p2-r1-5', (21, 11), (21, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
+        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-2', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-2')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-3', 'p2-r1-5')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-4')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-5')
+
+
+#### 47 user-profile-sub32
+"""Independent 32px profile of user-profile.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '3352ce5f-f0e1-4497-86c8-0c433016cab6'
+SOURCE_PATH = 'pictographic-primitives/symbol/profile_3352ce5f-f0e1-4497-86c8-0c433016cab6.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('3352ce5f-f0e1-4497-86c8-0c433016cab6', 'pictographic-primitives/symbol/profile_3352ce5f-f0e1-4497-86c8-0c433016cab6.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/user-profile',)
+SOLO_SOURCE_ICON_IDS = ('user-profile',)
+REFERENCE_EXPORT_SHA256 = '8ff20e505b1112f40db5c43684fe6c3818fac4cce051ee76f31656a1c12c378c'
+
+class Drawing(Sub32):
+    icon_id = 'user-profile-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'objects/symbols'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_arc('p1-r1-1', (10, 8), (22, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_arc('p1-r1-2', (22, 8), (10, 8), radius_x=6, radius_y=6, large_arc=False, sweep=True)
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_arc('p2-r1-1', (5, 30), (27, 30), radius_x=11, radius_y=10, large_arc=False, sweep=True)
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+
+
+#### 48 color-palette-sample-sub32
+"""Independent 32px profile of color-palette-sample.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'ca1b998f-0a5f-47b5-a6aa-2effc22a4f39'
+SOURCE_PATH = 'pictographic-primitives/design/color palette sample_ca1b998f-0a5f-47b5-a6aa-2effc22a4f39.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('ca1b998f-0a5f-47b5-a6aa-2effc22a4f39', 'pictographic-primitives/design/color palette sample_ca1b998f-0a5f-47b5-a6aa-2effc22a4f39.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/color-palette-sample',)
+SOLO_SOURCE_ICON_IDS = ('color-palette-sample',)
+REFERENCE_EXPORT_SHA256 = '014a3ec9066be4d14fb7a8b18f1004b9ffa2a5a8a4d81fd2dbc539e87faabac2'
+
+class Drawing(Sub32):
+    icon_id = 'color-palette-sample-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'design'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (17, 2), ((23, 2), (27, 6), (27, 11)))
+        self.add_bezier('p1-r1-2', (27, 11), ((27, 16), (22, 17), (22, 22)))
+        self.add_bezier('p1-r1-3', (22, 22), ((22, 26), (21, 30), (16, 30)))
+        self.add_bezier('p1-r1-4', (16, 30), ((9, 30), (5, 24), (5, 17)))
+        self.add_bezier('p1-r1-5', (5, 17), ((5, 10), (10, 2), (17, 2)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+        self.add_line('p2-r1-1', (13, 14), (14, 15))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (19, 8), (19, 11))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (13, 22), (15, 22))
+        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
+
+
+#### 49 drop-smileys-sub32
+"""Independent 32px profile of drop-smileys.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = '6eeb8b64-353f-4d55-afc4-cee5edb7104e'
+SOURCE_PATH = 'pictographic-primitives/smileys/drop_6eeb8b64-353f-4d55-afc4-cee5edb7104e.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('6eeb8b64-353f-4d55-afc4-cee5edb7104e', 'pictographic-primitives/smileys/drop_6eeb8b64-353f-4d55-afc4-cee5edb7104e.svg'), ('a1bd3645-c186-44d1-a3a2-2ec8e3d10a1b', 'pictographic-primitives/smileys/drop_a1bd3645-c186-44d1-a3a2-2ec8e3d10a1b.svg'))
+PROFILE_SOURCE_KEYS = ('solo/drop-smileys', 'solo/drop-a1bd3645')
+SOLO_SOURCE_ICON_IDS = ('drop-smileys', 'drop-a1bd3645')
+REFERENCE_EXPORT_SHA256 = 'afc6655d1a83856b44a22f8f0b018899ae899d9fad8607c25ca680fd7e862457'
+
+class Drawing(Sub32):
+    icon_id = 'drop-smileys-sub32'
+    keyshape = Keyshape.VRECT_XL
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'smileys'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_bezier('p1-r1-1', (16, 2), ((12, 7), (5, 14), (5, 19)))
+        self.add_bezier('p1-r1-2', (5, 19), ((5, 25), (10, 30), (16, 30)))
+        self.add_bezier('p1-r1-3', (16, 30), ((22, 30), (27, 25), (27, 19)))
+        self.add_bezier('p1-r1-4', (27, 19), ((27, 14), (20, 7), (16, 2)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
+        self.add_arc('p2-r1-1', (16, 23), (20, 19), radius_x=4, radius_y=4, large_arc=False, sweep=False)
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+
+
+#### 50 fork-and-knife-sub32
+"""Independent 32px profile of fork-and-knife.
+Snapshot of the reviewed reuse drawing; validate before publication.
+Edit these primitives independently of the linked source models.
+"""
+from ...keyshapes import Keyshape
+from ._base import Sub32
+
+SOURCE_ICON_ID = 'b66fd641-5f5f-41b7-acfe-644485d3c82d'
+SOURCE_PATH = 'pictographic-primitives/symbol/fork and knife_b66fd641-5f5f-41b7-acfe-644485d3c82d.svg'
+AUTHOR = 'gpt-6'
+SOURCE_REFERENCES = (('b66fd641-5f5f-41b7-acfe-644485d3c82d', 'pictographic-primitives/symbol/fork and knife_b66fd641-5f5f-41b7-acfe-644485d3c82d.svg'),)
+PROFILE_SOURCE_KEYS = ('solo/fork-and-knife',)
+SOLO_SOURCE_ICON_IDS = ('fork-and-knife',)
+REFERENCE_EXPORT_SHA256 = '0e3c5c399b5f2ffcfea4b2559f8efaddc39b23d60f0d07af3ea3404d9a17f070'
+
+class Drawing(Sub32):
+    icon_id = 'fork-and-knife-sub32'
+    keyshape = Keyshape.SQUARE
+    semantic_role = "SUB"
+    semantic_kind = "modifier"
+    category = 'symbol'
+    profile_source_keys = PROFILE_SOURCE_KEYS
+
+    def build(self):
+        self.add_line('p1-r1-1', (2, 2), (2, 11))
+        self.add_bezier('p1-r1-2', (2, 11), ((2, 13), (3, 15), (4, 16)))
+        self.add_bezier('p1-r1-3', (4, 16), ((5, 17), (7, 18), (8, 18)))
+        self.add_bezier('p1-r1-4', (8, 18), ((8, 18), (8, 18), (8, 18)))
+        self.add_arc('p1-r1-5', (8, 18), (14, 11), radius_x=6, radius_y=6, large_arc=False, sweep=False)
+        self.add_line('p1-r1-6', (14, 11), (14, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', closed=False)
+        self.add_line('p2-r1-1', (8, 2), (8, 18))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (8, 18), (8, 30))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (24, 30), (24, 2))
+        self.add_line('p4-r1-2', (24, 2), (30, 14))
+        self.add_line('p4-r1-3', (30, 14), (30, 21))
+        self.add_line('p4-r1-4', (30, 21), (24, 21))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', closed=False)
+        self.relate("connect", 'p1-r1-3', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-3', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-4', 'p3-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p2-r1-1')
+        self.relate("connect", 'p1-r1-5', 'p3-r1-1')
+        self.relate("connect", 'p2-r1-1', 'p3-r1-1')
