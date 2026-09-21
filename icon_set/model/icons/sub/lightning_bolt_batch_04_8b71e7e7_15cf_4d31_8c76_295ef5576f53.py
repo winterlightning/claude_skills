@@ -13,4 +13,4 @@ class Drawing(Sub32):
     aliases = ()
     keywords = ('lightning', 'bolt')
     def build(self):
-        self.add_polyline('bolt',(30,2),(2,18),(20,14),(2,30))
+        self.add_polyline('bolt',(30,2),(2,16),(30,16),(2,30))

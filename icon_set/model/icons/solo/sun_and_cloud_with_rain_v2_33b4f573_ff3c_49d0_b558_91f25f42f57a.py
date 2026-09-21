@@ -1,4 +1,4 @@
-"""Sun behind a rounded cloud with three repeated diagonal raindrops. Lucide cloud-sun-rain supplies overlapping lobes and detached rain. Candidate retains sun disk, omits rays while testing space."""
+"""Sun behind a cloud with two rays and three diagonal rain strokes. SQUARE fits cloud-left, ray-top/right and rain-bottom. Source supplies scene and arrangement; Lucide cloud-sun-rain supplies lobe construction and detached rainfall. Sun radius8, shared attachment nodes (24,24) and (32,32); repeated rain step10. Two rays retained; other rays omitted to preserve gaps."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '33b4f573-ff3c-49d0-b558-91f25f42f57a'
@@ -30,7 +30,9 @@ class Drawing(Solo48):
                 else: self.add_bezier(part,here,(args[0],args[1],end))
                 here=end; members.append(part)
             self.add_contour(name,*members,closed=closed)
-        path('cloud',(14,32),[('A',(6,24),8,8,True),('A',(14,16),8,8,True),('C',(24,16),(14,5),(24,5)),('C',(32,24),(28,16),(32,20)),('A',(32,32),4,4,True),('L',(14,32))],True)
-        path('sun',(24,16),[('A',(33,6),9,10,True),('A',(42,16),9,10,True),('A',(32,24),10,8,True)])
+        path('cloud',(14,32),[('A',(6,24),8,8,True),('A',(14,16),8,8,True),('C',(24,24),(14,8),(24,8)),('C',(32,32),(28,24),(32,28)),('L',(14,32))],True)
+        path('sun',(24,24),[('A',(32,16),8,8,True),('A',(40,24),8,8,True),('A',(32,32),8,8,True)])
         self.relate('connect','sun','cloud')
+        self.add_line('ray-top',(32,6),(32,8))
+        self.add_line('ray-diagonal',(42,10),(42,11))
         for x in (14,24,34): self.add_line(f'rain-{x}',(x,40),(x-2,42))

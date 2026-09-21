@@ -167,6 +167,11 @@ def stage_experiments(target: Path) -> None:
     payload = json.dumps(typeface, ensure_ascii=True).replace('<', '\\u003c')
     (target / 'experiment-typeface.json').write_text(payload+'\n')
     counts['typeface'] = len(typeface['icons'])
+    v2_path = target / 'typeface-v2.json'
+    v2_glyphs = json.loads(v2_path.read_text())['glyphs'] if v2_path.is_file() else []
+    v2_payload = json.dumps({'icons': typeface_samples(v2_glyphs)}, ensure_ascii=True).replace('<', '\\u003c')
+    (target / 'experiment-typeface-v2.json').write_text(v2_payload+'\n')
+    counts['typeface-v2'] = len(v2_glyphs)
     from .side_combination_progress import stage as stage_side_progress
     stage_side_progress(target)
     combination = ROOT / 'icon_set/data/combination-pairs.json'
@@ -194,7 +199,7 @@ def stage_experiments(target: Path) -> None:
     container_payload = stage_container_experiment(target)
     counts['container'] = len(json.loads(container_payload)['icons'])
     counts['animation'] = stage_animation_experiment(target)
-    (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload).replace('__CONTAINER_EXPERIMENT_DATA__', container_payload))
+    (target / 'experiment.html').write_text(template.replace('__TYPEFACE_EXPERIMENT_DATA__', payload).replace('__TYPEFACE_V2_EXPERIMENT_DATA__', v2_payload).replace('__CONTAINER_EXPERIMENT_DATA__', container_payload))
     (target / 'experiments.json').write_text(json.dumps(counts) + '\n')
     # Keep the existing fill review route and its browser feedback key intact.
     fill = ROOT / 'work/fill-review-500'

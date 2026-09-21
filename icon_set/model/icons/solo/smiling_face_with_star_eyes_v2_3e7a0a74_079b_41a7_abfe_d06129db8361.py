@@ -1,4 +1,4 @@
-"""Circular smiling face with two matched five-point star eyes. Shared x=24 symmetry; star holes remain mandatory. Lucide star supplies five-tip contour; supplied reference owns expression."""
+"""Circular smiling face with paired five-point star eyes. CIRCLE matches the face silhouette. Source supplies expression; Lucide star supplies five-tip contour. Reduced star eyes close at stroke4: unresolved parallel runs and holes. Wider eyes were also tried and violate face/eye and inter-eye clearance; rotating the face does not improve packing."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '3e7a0a74-079b-41a7-abfe-d06129db8361'

@@ -46,6 +46,11 @@ class TypefaceTests(unittest.TestCase):
             self.assertAlmostEqual(r['bounds'][2]-r['bounds'][0],6)
             self.assertAlmostEqual(r['bounds'][3]-r['bounds'][1],20)
             self.assertNotIn('__TYPEFACE_', (path/'text-combine.html').read_text())
+            v2=json.loads((path/'typeface-v2.json').read_text())
+            self.assertEqual(v2['geometry_policy'],'natural-centerline-28x32')
+            self.assertEqual(len(v2['glyphs']),24)
+            self.assertTrue((path/'typeface-v2/letter-a-uppercase.svg').is_file())
+            self.assertIn('id="glyphDataV2"', (path/'text-combine.html').read_text())
 
     def test_invalid_band_is_rejected(self):
         icon=create('letter-b')

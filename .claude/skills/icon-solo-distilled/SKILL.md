@@ -16,13 +16,100 @@ this skill uses SOLO48, ink clearance 4, centerline clearance 8, and `published/
 ## Scope and intake
 
 Author one independently readable subject, including natural groups and scenes.
-A cup with its saucer or a person holding a tool remains one subject. A reusable
-state badge beside a subject, or a meaningful enclosure hosting a separate
-symbol, is a combination: apply
-`icon_set/skills/icon-design-distilled/reference-triage.md` and hand off to
-`/icon-making` for component briefs. Preserve the source; do not draw the
-combination as one primitive. A Pending component brief already identifies the
-single component to draw.
+A cup with its saucer or a person holding a tool remains one subject.
+
+### Review the reference before generation
+
+Render and inspect the reference **before choosing geometry or creating a Python
+original**. Classify by meaning and placement, not the supplied `family: solo`
+or an automatically prepared brief:
+
+- **Container combination:** a meaningful main wrapper containing a separate,
+  centered sub icon (for example, a screen containing an upload arrow). Update
+  the source's gallery classification to **container** for later generation.
+  Stop generation for this reference in the solo run; do not draw the complete
+  combination, extract and draw the wrapper, or start either component now.
+- **Side combination:** a main subject with a separate reusable sub icon on its
+  side or corner (for example, a folder with a corner plus badge). Record the
+  side-combination classification and skip generation for this reference.
+- **Standalone:** continue the solo workflow. Intrinsic parts, held objects,
+  and natural groups/scenes are not combinations just because they contain
+  multiple shapes. Apply `icon_set/skills/icon-design-distilled/reference-triage.md`
+  when deciding whether the second element is independent.
+
+Persist the decision against the original source UUID through the gallery's
+existing `POST /api/primitives/status` endpoint. In the current schema,
+classification uses `status: "skip"` plus `reason: "container"` for a container
+combination, or `reason: "combination"` for a side combination. Here SKIP means
+excluded from solo generation, not deleted or discarded. Do not merely change
+`family` in the exported brief; that does not update the gallery classification.
+
+**Save both component briefs as part of this intake.** Skipping drawing does
+not mean skipping preparation. Read the source's current status and reference
+brief first, then update the actual reference data used by
+`/gallery/primitives.html?view=todo`; a chat report, exported JSON, or a local
+handoff file alone does not complete this step.
+
+1. Send one `POST /api/primitives/status` per source UUID containing the
+   classification, review note, `main_brief`, and `sub_brief`. Each component
+   brief needs `name`, `family`, and `description`. For containers, main family
+   is `container` and sub family is `sub`. For side combinations, main family
+   is `solo` (or `container` if the main is itself a wrapper), sub family is
+   `sub`, and `sub_position` records the observed side/corner.
+2. Update the source's saved reference family through
+   `POST /api/primitives/briefs` with `uuid`, `family`, and `brief`. Use
+   `family: "container"` for container combinations; for side combinations use
+   the main component's family. Amend the reference brief to explain the split
+   and deferred generation, retaining useful editorial instructions and exact
+   source UUID/path. Do not leave an old instruction to draw the whole source
+   as a solo icon. The `reason` records the combination type; saved `family`
+   records the main's authoring family. There is no `side` family.
+3. Read back `/api/primitives/status` and `/api/primitives/briefs` for that UUID.
+   Verify the classification, saved family and both component briefs before
+   reporting it prepared. It should leave the TODO view and remain available
+   under the corresponding skipped classification for later component work.
+
+Container status example (replace placeholders and descriptions with the
+actual reference; do not send `sub_position` for containers):
+
+```json
+{
+  "uuids": ["<source UUID>"],
+  "status": "skip",
+  "reason": "container",
+  "note": "Screen wrapper with a centered upload arrow; generation deferred.",
+  "main_brief": {
+    "name": "Screen wrapper",
+    "family": "container",
+    "description": "Draw the empty screen wrapper alone. Exclude the centered upload arrow; leave its interior available for later composition."
+  },
+  "sub_brief": {
+    "name": "Upload arrow",
+    "family": "sub",
+    "description": "Draw the upload arrow alone. Exclude the screen wrapper. It belongs centered inside the wrapper in the later composition."
+  }
+}
+```
+
+Write concept-specific descriptions from the inspected reference: identify
+what each component includes and excludes, its distinguishing features, and
+its placement in the future composition. Preserve valid existing component
+content and revise it where necessary; do not replace editorial detail with
+empty boilerplate. Typeface components specify glyph reuse rather than newly
+drawn letters. Keep the original reference artwork unchanged.
+
+Use the existing authorized gallery session or local persistence workflow.
+If either save or readback fails, report the UUID and the unsaved fields with
+the prepared payload for retry; do not report triage complete. Still skip
+drawing that reference and continue the batch. Never fabricate source UUIDs.
+
+This solo intake classifies references and saves their family and two briefs;
+it does not start component generation or generation jobs. Later drawing is a
+separate task.
+An explicitly requested Pending component already identifies one isolated
+component: review that component, not the whole combined source, for routing.
+For an ambiguous reference, record the uncertainty and skip drawing it in this
+run rather than force a container or side classification.
 
 Route hosted modifiers to `/icon-sub`, enclosures to `/icon-container`, content
 symbols to `/icon-symbol`, combination main subjects to `/icon-combination-main`,

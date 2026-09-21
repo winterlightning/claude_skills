@@ -9,8 +9,8 @@ class TypefaceExperimentTests(unittest.TestCase):
     def test_centerlines_keep_exact_paths(self):
         glyphs=json.loads((Path(__file__).resolve().parents[2]/'published/gallery/typeface.json').read_text())['glyphs']
         rows=typeface_samples(glyphs)
-        self.assertEqual(len(rows),95)
-        self.assertEqual(len({r['key'] for r in rows}),95)
+        self.assertEqual(len(rows),len(glyphs))
+        self.assertEqual(len({r['key'] for r in rows}),len(glyphs))
         by_id={g['icon_id']:g for g in glyphs}
         for row in rows:
             with self.subTest(icon=row['icon_id']):
@@ -27,26 +27,52 @@ class TypefaceExperimentTests(unittest.TestCase):
     def test_offline_page_has_all_samples_and_composer_link(self):
         root=Path(__file__).resolve().parents[2]/'published/gallery'
         html=(root/'experiment.html').read_text()
-        self.assertNotIn('__TYPEFACE_EXPERIMENT_DATA__',html)
+        self.assertNotIn('__TYPEFACE_',html)
+        glyphs=json.loads((root/'typeface.json').read_text())['glyphs']
         payload=html.split('<script id="typefaceExperimentData" type="application/json">')[1].split('</script>')[0]
-        self.assertEqual(len(json.loads(payload)['icons']),95)
+        self.assertEqual(len(json.loads(payload)['icons']),len(glyphs))
+        v2=html.split('<script id="typefaceV2ExperimentData" type="application/json">')[1].split('</script>')[0]
+        self.assertEqual(len(json.loads(v2)['icons']),len(json.loads((root/'typeface-v2.json').read_text())['glyphs']))
+        self.assertIn('id="typefaceVersion"',html)
         js=(root/'experiment.js').read_text()
-        self.assertIn("review.href='text-combine.html'",js)
+        self.assertIn("review.href='text-combine.html'+(typefaceVersion==='v2'?'?version=v2':'')",js)
+        self.assertIn("'typeface-v2'",js)
         self.assertIn("type==='typeface'?Math.max(1,filtered.length):pageSize",js)
 
     def test_originals_use_source_files_and_uppercase_has_none(self):
         root=Path(__file__).resolve().parents[2]
         rows=json.loads((root/'published/gallery/experiment-typeface.json').read_text())['icons']
+        glyphs={g['icon_id']:g for g in json.loads((root/'published/gallery/typeface.json').read_text())['glyphs']}
         originals=[r for r in rows if r['original'] is not None]
-        self.assertEqual(len(originals),37)
+        self.assertEqual(len(originals),sum(1 for g in glyphs.values() if g.get('source_path')))
+        self.assertEqual(sum(1 for r in originals if r['icon_id'].startswith(('letter-','digit-'))),37)
         for row in rows:
             with self.subTest(icon=row['icon_id']):
-                if row['icon_id'].endswith('-uppercase') or row['icon_id'].startswith('symbol-'):
+                source_path=glyphs[row['icon_id']].get('source_path')
+                if row['icon_id'].endswith('-uppercase') or not source_path:
                     self.assertIsNone(row['original'])
                     self.assertIsNone(row['original_preview'])
                 else:
-                    self.assertEqual(row['original'],(root/'Letters'/row['original_name']).read_text())
+                    source=root/source_path
+                    if row['icon_id'].startswith(('letter-','digit-')):
+                        self.assertEqual(source.parent,root/'Letters/old')
+                    self.assertEqual(row['original'],source.read_text())
                     self.assertTrue(row['original_preview'].startswith('data:image/png;base64,'))
                 self.assertTrue(row['outline_preview'].startswith('data:image/png;base64,'))
         self.assertEqual(next(r for r in rows if r['icon_id']=='letter-o-large')['original_name'],'o.svg')
         self.assertEqual(next(r for r in rows if r['icon_id']=='letter-o')['original_name'],'o-1.svg')
+
+    def test_v2_samples_are_uppercase_with_upper_originals(self):
+        root=Path(__file__).resolve().parents[2]
+        rows=json.loads((root/'published/gallery/experiment-typeface-v2.json').read_text())['icons']
+        glyphs={g['icon_id']:g for g in json.loads((root/'published/gallery/typeface-v2.json').read_text())['glyphs']}
+        self.assertEqual(len(rows),len(glyphs))
+        self.assertEqual(len(rows),24)
+        for row in rows:
+            with self.subTest(icon=row['icon_id']):
+                self.assertTrue(row['icon_id'].endswith('-uppercase'))
+                source=root/glyphs[row['icon_id']]['source_path']
+                self.assertEqual(source.parent,root/'Letters/UPPER')
+                self.assertEqual(row['original'],source.read_text())
+                self.assertTrue(row['original_preview'].startswith('data:image/png;base64,'))
+                self.assertEqual([p.get('d') for p in list(ET.fromstring(row['outline']))[0]],glyphs[row['icon_id']]['paths'])

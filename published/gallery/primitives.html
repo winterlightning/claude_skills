@@ -70,6 +70,19 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
   <p id="status" class="prim-status" role="status" aria-live="polite">Loading primitives…</p>
 
   <div class="toolbar chips" role="group" aria-label="Gallery view"><button id="todoView" class="chip" type="button">All TODO icons</button><button id="categoriesView" class="chip" type="button">Categories</button><button id="containerView" class="chip" type="button">Container combination</button><button id="sideView" class="chip" type="button">Side combination</button></div>
+  <details class="brief-ready"><summary><strong>Prepare generation briefs · no AI tokens</strong></summary>
+    <p>Filter TODO icons and fill a fixed brief template automatically. Saved briefs are preserved in the export. Generated, skipped and already drawn icons are excluded. Family applies to templates; confirm it when inspecting the reference.</p>
+    <div class="toolbar">
+      <input id="queueCategory" placeholder="Category (blank for all)" aria-label="Generation category">
+      <input id="queueBatch" placeholder="Batch (blank for all)" aria-label="Generation batch">
+      <input id="queueSearch" type="search" placeholder="Search icons" aria-label="Generation search">
+      <select id="queueBrief" aria-label="Generation brief filter"><option value="">All TODO icons</option><option value="missing">Without saved brief</option><option value="ready">With saved brief</option></select>
+      <select id="queueFamily" aria-label="Template family"><option value="solo">Solo</option><option value="sub">Sub</option><option value="container">Container</option><option value="avatar">Avatar</option></select>
+      <input id="queueLimit" type="number" min="1" max="500" value="50" aria-label="Batch size" title="Batch size (1–500)">
+      <input id="queueOffset" type="number" min="0" value="0" aria-label="Starting offset" title="Starting offset">
+      <button id="copyQueueAPI" type="button">Copy API link</button><button id="downloadQueue" type="button">Download generation briefs</button>
+    </div><p id="queueMessage" role="status"></p>
+  </details>
   <section id="combinations" hidden></section>
   <section id="overview" hidden>
     <div id="overallStats" class="prim-stats"></div>
@@ -383,6 +396,24 @@ function show(){if(state.view==='category'&&!(catalog.categories||{})[state.cate
   $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view!=='todo'));
   if(inDetail)renderDetail();else{writeURL();renderOverview();}}
 
+function generationQueueURL(){
+  const url=new URL('/api/primitives/generation-queue',location.href);
+  for(const [key,id] of Object.entries({category:'queueCategory',batch:'queueBatch',q:'queueSearch',brief:'queueBrief',family:'queueFamily',limit:'queueLimit',offset:'queueOffset'})){
+    const value=$(id).value.trim();if(value)url.searchParams.set(key,value);
+  }
+  return url;
+}
+async function downloadGenerationQueue(){
+  $('queueMessage').textContent='Preparing briefs…';
+  try{
+    const response=await fetch(generationQueueURL(),{cache:'no-store'}),data=await response.json();
+    if(!response.ok)throw Error(data.error||'Could not prepare briefs');
+    const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=node('a');
+    a.href=url;a.download='generation-briefs.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    $('queueMessage').textContent=`Prepared ${data.briefs.length} of ${data.total} matching TODO icons. No AI call.${data.next_offset!==null?' Next offset: '+data.next_offset+'.':''}`;
+  }catch(error){$('queueMessage').textContent=error.message;}
+}
+
 function scopedMissingRows(){return briefsAvailable&&statusesAvailable?currentRows().filter(r=>(!state.batch||r.batch===state.batch)&&effective(r)==='todo'&&!hasBrief(r)):[];}
 function missingBriefHandoff(){return {category:state.category||null,batch:state.batch||null,
   task:'Use $icon-brief to render and inspect each listed reference and prepare its icon brief. Choose the appropriate family for each reference and follow combination triage. Process only these TODO icons without saved briefs; do not generate icons or reprocess generated/skipped icons. Recheck current status and saved briefs before starting each item, and skip any item already processed. Preserve each source UUID and complete reference path. Save each completed brief using POST /api/primitives/briefs with uuid, family and brief, through the gallery’s normal authenticated session. If saving is unavailable, return the completed briefs for pasting into the gallery.',
@@ -445,6 +476,8 @@ $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openV
 $('gridCategory').onchange=()=>{state.category=$('gridCategory').value;state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('categoryBriefFilter').onchange=renderOverview;
 $('copyMissingTask').onclick=copyMissingTask;
+$('copyQueueAPI').onclick=()=>copyHandoff(String(generationQueueURL()),$('queueMessage'));
+$('downloadQueue').onclick=downloadGenerationQueue;
 $('briefFilter').onchange=()=>{state.brief=$('briefFilter').value;state.status='todo';state.reason='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('copyReadyBriefs').onclick=copyReadyBriefs;$('downloadReadyBriefs').onclick=downloadReadyBriefs;
 $('categorySearch').oninput=renderOverview;$('hideDone').onchange=renderOverview;

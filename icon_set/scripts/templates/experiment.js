@@ -5,10 +5,15 @@
   const pageSize=50;
   const embedded=document.getElementById('typefaceExperimentData');
   if(embedded){try{const data=JSON.parse(embedded.textContent);if(Array.isArray(data.icons))cache.set('typeface',data.icons);}catch{ /* Server-loaded JSON remains the fallback. */ }}
+  const embeddedV2=document.getElementById('typefaceV2ExperimentData');
+  if(embeddedV2){try{const data=JSON.parse(embeddedV2.textContent);if(Array.isArray(data.icons))cache.set('typeface-v2',data.icons);}catch{}}
+  let typefaceVersion='v1';
+  // The typeface tab keeps two collections; v2 is the natural-width uppercase set.
+  const collection=()=>type==='typeface'&&typefaceVersion==='v2'?'typeface-v2':type;
   const containerData=document.getElementById('containerExperimentData');
   if(containerData){try{cache.set('container',JSON.parse(containerData.textContent).icons);}catch{}}
   const imageURL=svg=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
-  function writeURL(){const p=new URLSearchParams({type});if($('experimentSearch').value)p.set('q',$('experimentSearch').value);if(page>1)p.set('page',page);history.replaceState(null,'','experiment.html?'+p);}
+  function writeURL(){const p=new URLSearchParams({type});if(type==='typeface'&&typefaceVersion==='v2')p.set('version','v2');if($('experimentSearch').value)p.set('q',$('experimentSearch').value);if(page>1)p.set('page',page);history.replaceState(null,'','experiment.html?'+p);}
   function render(){
     const q=$('experimentSearch').value.trim().toLowerCase();
     const filtered=rows.filter(i=>!q||i.name.toLowerCase().replaceAll('-',' ').includes(q)||i.name.toLowerCase().includes(q)||String(i.icon_id||'').includes(q)||String(i.number)===q.replace(/^#/,''));
@@ -54,26 +59,31 @@
     if(!restore){page=1;$('experimentSearch').value='';}
     for(const tab of tabs){if(tab.dataset.type===type)tab.setAttribute('aria-current','page');else tab.removeAttribute('aria-current');}
     $('experimentGrid').setAttribute('aria-label',type==='container'?'Container combinations':type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':type==='duotone'?'Duotone icons':type==='animation'?'Animated icons':'Fill icons');
-    $('typefaceLegend').hidden=type!=='typeface';
+    $('typefaceLegend').hidden=type!=='typeface';$('typefaceVersionLabel').hidden=type!=='typeface';
+    $('typefaceLegend').textContent=typefaceVersion==='v2'
+      ?'Version 2: natural-width uppercase letters from Letters/UPPER kept at their drawn size: 28-unit cap centerline, 32-unit ink, stroke 4. Original, iconized lettering and red centerline for every character. Text combine uppercases text in v2 and borrows digits, symbols and missing letters from v1.'
+      :'Version 1: original reference, iconized lettering, and centerline for every character. Original and iconized previews trim empty margins and preserve proportions for comparison. Red traces the iconized letter\u2019s exact centerline. Uppercase letters have no supplied originals.';
     $('experimentGrid').classList.toggle('typeface-grid',type==='typeface'||type==='container');
     document.querySelector('.experiment-pagination').hidden=type==='typeface';$('experimentGrid').replaceChildren();$('experimentEmpty').hidden=true;$('experimentStatus').textContent='Loading samples…';$('previousSamples').disabled=true;$('nextSamples').disabled=true;$('samplePage').disabled=true;$('experimentSearch').disabled=true;$('experimentSize').disabled=true;
     const review=$('reviewCollection');review.hidden=true;
     review.textContent=type==='typeface'?'Text combine ↗':'Review this collection ↗';
-    if(type==='typeface'){review.href='text-combine.html';review.hidden=false;}
+    if(type==='typeface'){review.href='text-combine.html'+(typefaceVersion==='v2'?'?version=v2':'');review.hidden=false;}
     else if(type==='fill'){review.href='fill-review-500.html';review.hidden=false;}
     else if(type==='color'&&['localhost','127.0.0.1'].includes(location.hostname)){review.href=`http://${location.hostname}:8010/`;review.hidden=false;}
     try{
-      if(!cache.has(type)){const response=await fetch('experiment-'+type+'.json');if(!response.ok)throw Error();const data=await response.json();if(!Array.isArray(data.icons))throw Error();cache.set(next,data.icons);}
-      if(token!==request)return;rows=cache.get(type);$(type+'Count').textContent=rows.length;render();
+      const key=collection();
+      if(!cache.has(key)){const response=await fetch('experiment-'+key+'.json');if(!response.ok)throw Error();const data=await response.json();if(!Array.isArray(data.icons))throw Error();cache.set(key,data.icons);}
+      if(token!==request)return;rows=cache.get(key);$(type+'Count').textContent=rows.length;render();
     }catch{if(token!==request)return;rows=[];$('experimentStatus').textContent='This collection could not be loaded. Select its tab to try again.';}
     finally{if(token===request){$('samplePage').disabled=!rows.length;$('experimentSearch').disabled=false;$('experimentSize').disabled=false;}}
   }
   for(const tab of tabs)tab.addEventListener('click',event=>{if(event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;event.preventDefault();selectType(tab.dataset.type);});
   $('experimentSearch').addEventListener('input',()=>{page=1;render();});$('experimentSize').addEventListener('change',render);
+  $('typefaceVersion').addEventListener('change',()=>{typefaceVersion=$('typefaceVersion').value==='v2'?'v2':'v1';if(type==='typeface'){page=1;selectType('typeface',{restore:true});}});
   function go(n){page=n;render();window.scrollTo({top:0,behavior:'smooth'});}
   $('previousSamples').onclick=()=>go(page-1);$('nextSamples').onclick=()=>go(page+1);$('samplePage').onchange=()=>go(Number($('samplePage').value));
-  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';selectType(['fill','duotone','typeface','combination','container','animation'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
+  function restore(){const p=new URLSearchParams(location.search);page=Math.max(1,Number.parseInt(p.get('page'),10)||1);$('experimentSearch').value=p.get('q')||'';typefaceVersion=p.get('version')==='v2'?'v2':'v1';$('typefaceVersion').value=typefaceVersion;selectType(['fill','duotone','typeface','combination','container','animation'].includes(p.get('type'))?p.get('type'):'color',{restore:true});}
   window.addEventListener('popstate',restore);restore();
   if(cache.has('container'))$('containerCount').textContent=cache.get('container').length;
-  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation'])if(kind in data)$(kind+'Count').textContent=data[kind];}).catch(()=>{});
+  fetch('experiments.json').then(r=>{if(!r.ok)throw Error();return r.json();}).then(data=>{for(const kind of ['color','duotone','fill','typeface','container','animation']){const key=kind==='typeface'&&typefaceVersion==='v2'?'typeface-v2':kind;if(key in data)$(kind+'Count').textContent=data[key];}}).catch(()=>{});
 })();

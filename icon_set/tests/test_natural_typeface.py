@@ -75,3 +75,51 @@ class NaturalTypefaceTests(unittest.TestCase):
                 self.assertEqual(float(svg.get('width')),g['canvas_width'])
                 self.assertEqual(float(svg.get('height')),24)
                 self.assertEqual(float(svg.get('stroke-width')),g['stroke_width'])
+
+
+class NaturalTypefaceV2Tests(unittest.TestCase):
+    """v2 keeps the UPPER drawings at their native size: 28-unit cap centerline, 32-unit ink."""
+    @classmethod
+    def setUpClass(cls):
+        cls.data = json.loads((ROOT/'icon_set/typeface/glyphs-v2.json').read_text())
+        cls.glyphs = cls.data['glyphs']
+        cls.by_char = {g['character']: g for g in cls.glyphs}
+
+    def test_uppercase_only_catalog(self):
+        self.assertEqual(self.data['geometry_policy'], 'natural-centerline-28x32')
+        self.assertEqual(self.data['fallback'], 'v1')
+        self.assertEqual(len(self.glyphs), 24)
+        self.assertEqual(len(self.by_char), 24)
+        for g in self.glyphs:
+            with self.subTest(char=g['character']):
+                self.assertEqual(g['kind'], 'uppercase')
+                self.assertTrue(g['preferred'])
+                self.assertEqual(g['icon_id'], 'letter-'+g['character'].lower()+'-uppercase')
+                self.assertAlmostEqual(g['body_top'], 2)
+                self.assertAlmostEqual(g['baseline'], 30)
+                self.assertAlmostEqual(g['body_height'], 28)
+                self.assertEqual(g['stroke_width'], 4)
+                self.assertEqual(g['ink_height'], 32)
+                self.assertEqual(g['canvas_height'], 32)
+                self.assertAlmostEqual(g['bounds'][3], 30, places=3)
+                self.assertAlmostEqual(g['bounds'][1], 2, places=3)
+                self.assertGreaterEqual(g['canvas_width']+1e-6, g['ink_width'])
+
+    def test_widths_keep_source_proportions(self):
+        a, o, w = (self.by_char[c]['centerline_width'] for c in 'AOW')
+        self.assertAlmostEqual(a, 9)
+        self.assertAlmostEqual(o/a, 12/9)
+        self.assertAlmostEqual(w/a, 16/9)
+
+    def test_source_provenance_and_digests(self):
+        for g in self.glyphs:
+            with self.subTest(char=g['character']):
+                self.assertTrue(g['source_path'].startswith('Letters/UPPER/'))
+                self.assertEqual(g['source_sha256'], hashlib.sha256((ROOT/g['source_path']).read_bytes()).hexdigest())
+                digest = hashlib.sha256(json.dumps(g['paths'], separators=(',',':')).encode()).hexdigest()
+                self.assertEqual(digest, g['svg_sha256'])
+
+    def test_q_tail_is_a_stroke(self):
+        q = self.by_char['Q']
+        self.assertEqual(len(q['paths']), 2)
+        self.assertGreater(q['centerline_width'], self.by_char['O']['centerline_width'])

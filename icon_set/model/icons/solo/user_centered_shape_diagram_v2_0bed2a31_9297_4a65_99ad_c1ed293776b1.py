@@ -1,4 +1,4 @@
-"""Central user surrounded by square, circle, triangle and curved links. Human user.svg supplies head and open shoulders; source owns layout. Head radius3, bottom28; shoulders top36 for exact8 centerline gap. Orbit bottom omitted to test space."""
+"""Central user surrounded by square, circle and triangle with two orbital arcs. SQUARE follows the arrangement extremes. Human user.svg supplies circular head and open shoulders; source supplies shapes and layout. Head center(24,24) radius2, shoulders top34 gives exact8 centerline gap. Unresolved: triangle hole fails; central user loses prominence at native48. Larger head/shoulders and outer shapes were tried and fail clearance. Bottom orbital arc omitted during repair; rotating the complete diagram cannot free enough room."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = '0bed2a31-9297-4a65-99ad-c1ed293776b1'

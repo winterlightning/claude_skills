@@ -1,4 +1,4 @@
-"""Three equal five-point outlined stars in a horizontal row. Lucide star supplies outline; source supplies equal repeats. Shared local point definition at x10,24,38; circle keyshape avoids stretched stars. Required holes and inter-star spaces cannot be discarded."""
+"""Three equal outlined five-point stars in a horizontal row. CIRCLE radial fit permits a low row without stretching stars. Source supplies count and horizontal order; Lucide star supplies five-point outline. Shared centers8,24,40 and identical point template. Unresolved: three star holes close at stroke4. Wider12-unit stars with step14 were tried and fail spacing; tall rectangle fit distorts the stars. Diagonal staging would change the explicitly horizontal brief."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'cf0d9970-8b38-5723-b109-a3be9696acdb'

@@ -634,6 +634,10 @@ def render_codex(content: str, source_skill: str = "icon-brief") -> str:
     content = re.sub(r"(?<![\w./-])/icon-", "$icon-", content)
     content = content.replace("\0", "skills/icon-design")
     content = content.replace(
+        "Queue offset argument: $ARGUMENTS",
+        "Read the queue offset from the user's skill invocation or request.",
+    )
+    content = content.replace(
         "Hand-authored; edit this file directly.",
         f"Generated from .claude/skills/{source_skill}/SKILL.md by "
         "icon_set/scripts/generate_skills.py; edit the source, not this copy.",
@@ -663,7 +667,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / skill_name(family) / "SKILL.md"] = render_codex(content)
     if agent in ("all", "codex"):
-        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled"):
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-queue"):
             if skill is not None and skill != name:
                 continue
             source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")

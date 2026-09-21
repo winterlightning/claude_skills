@@ -1,4 +1,4 @@
-"""Hooded infant in a rounded blanket with crossed folds. Human user.svg supplies circular face; source supplies capsule and folds. Shared hood axis24, cap16 and base radii8; face radius5; no facial marks."""
+"""Hooded infant swaddle with a round face and crossed blanket folds. VRECT_L gives room for face opening and folds. Human user.svg supplies circular head vocabulary; source supplies hood and crossed folds. Shared hood axis24, cap radius16, base radii8, face center(24,18) radius5. Face has no facial details. Folds share the exact node(24,32) and end at split hood receiver nodes. Head is enclosed by cloth, not a detached stick-figure head."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'e0eaa90e-ee21-4ae5-bede-0c17096fa38f'
@@ -31,7 +31,7 @@ class Drawing(Solo48):
                 here=end; members.append(part)
             self.add_contour(name,*members,closed=closed)
         path('hood',(8,20),[('A',(24,4),16,16,True),('A',(40,20),16,16,True),('L',(40,28)),('L',(40,36)),('A',(32,44),8,8,True),('L',(16,44)),('A',(8,36),8,8,True),('L',(8,28)),('L',(8,20))],True)
-        circle('face',24,17,5)
+        circle('face',24,18,5)
         self.add_polyline('fold-a',(8,28),(24,32),(40,36))
         self.add_line('fold-b',(40,28),(24,32))
         self.relate('connect','fold-a','hood')

@@ -337,3 +337,68 @@ class PrimitivesServerTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class GenerationQueueServerTests(unittest.TestCase):
+    request = PrimitivesServerTests.request
+    def setUp(self):
+        # Build only the API fixture; unrelated galleries need live workspace datasets.
+        def stage_fixture(staged, published, folders):
+            target = staged / 'gallery'
+            target.mkdir()
+            (target / 'index.html').write_text('<html></html>')
+            (target / 'icons.json').write_text('[]')
+            catalog = build_catalog(self.primitives, {}, {},
+                                    dict(by_id={}, by_reference_id={}, by_path={},
+                                         by_reference_path={}, anonymous={}, families={}))
+            (target / 'primitives.json').write_text(json.dumps(catalog))
+        with patch(__name__ + '.stage_gallery', side_effect=stage_fixture):
+            PrimitivesServerTests.setUp(self)
+
+    def test_generation_queue_excludes_existing_drawings(self):
+        from icon_set.scripts.primitive_briefs import generation_queue
+        rows = [dict(uuid=str(i), path=f'{i}.svg', category='x', batch='',
+                     state=state, models=models)
+                for i, (state, models) in enumerate([
+                    ('generated', []), ('model_only', []), ('build_failed', []),
+                    ('none', ['existing']), ('none', []), ('none', [])])]
+        result = generation_queue({'rows': rows}, {'5': {'reason': 'other'}}, {}, {})
+        self.assertEqual([item['uuid'] for item in result['briefs']], ['4'])
+        item = result['briefs'][0]
+        self.assertEqual(item['skill'], 'icon-solo-distilled')
+        self.assertIn('$icon-solo-distilled', item['brief'])
+        self.assertIn('icon_set/skills/icon-design-distilled/', item['brief'])
+        original = 'Run $icon-solo. Read icon_set/skills/icon-design/intake.md. Keep $icon-solo-distilled.'
+        saved = {'4': {'family': 'solo', 'brief': original}}
+        item = generation_queue({'rows': rows}, {}, saved, {'brief': ['ready']})['briefs'][0]
+        self.assertIn('Run $icon-solo-distilled.', item['brief'])
+        self.assertNotIn('distilled-distilled', item['brief'])
+        self.assertEqual(saved['4']['brief'], original)
+
+    def test_generation_queue_templates_filters_and_saved_briefs(self):
+        code, body, _ = self.request('GET', '/api/primitives/generation-queue?category=Uncategorized&family=sub')
+        self.assertEqual(code, 200)
+        data = json.loads(body)
+        self.assertEqual(data['total'], 1)
+        item = data['briefs'][0]
+        self.assertEqual(item['uuid'], U2)
+        self.assertEqual(item['brief_source'], 'template')
+        self.assertIn('$icon-sub', item['brief'])
+        self.assertIn(U2, item['brief'])
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/briefs')[1]), {})
+        self.request('POST', '/api/primitives/briefs', {'uuid': U2, 'family': 'solo', 'brief': 'Keep editorial instructions.'})
+        data = json.loads(self.request('GET', '/api/primitives/generation-queue?brief=ready&family=sub')[1])
+        self.assertEqual([r['uuid'] for r in data['briefs']], [U2])
+        self.assertEqual(data['briefs'][0]['brief'], 'Keep editorial instructions.')
+        self.assertEqual(data['briefs'][0]['family'], 'solo')
+        data = json.loads(self.request('GET', '/api/primitives/generation-queue?category=Uncategorized&brief=missing')[1])
+        self.assertEqual(data['total'], 0)
+        self.request('POST', '/api/primitives/status', {'uuids': [U2], 'status': 'skip', 'reason': 'container'})
+        self.assertEqual(json.loads(self.request('GET', '/api/primitives/generation-queue?brief=ready')[1])['total'], 0)
+        data = json.loads(self.request('GET', '/api/primitives/generation-queue?limit=1')[1])
+        self.assertEqual(len(data['briefs']), 1)
+        self.assertEqual(data['next_offset'], 1)
+        data = json.loads(self.request('GET', '/api/primitives/generation-queue?q=hammer')[1])
+        self.assertEqual([r['uuid'] for r in data['briefs']], [U4])
+        for query in ['limit=0', 'limit=501', 'offset=-1', 'offset=no', 'family=bad', 'brief=bad']:
+            self.assertEqual(self.request('GET', '/api/primitives/generation-queue?' + query)[0], 400)

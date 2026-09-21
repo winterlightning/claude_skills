@@ -44,7 +44,7 @@ if __package__:
     from .reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
-    from .primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief
+    from .primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
     from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
@@ -60,7 +60,7 @@ else:
     from reference_images import ReferenceStore, LIMITS as REFERENCE_LIMITS
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
-    from primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief
+    from primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
     from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
     from progression import import_snapshot
     from primitives_catalog import primitives_root
@@ -710,6 +710,68 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return
         if parsed.path.startswith('/primitives/'):
             return self.serve_primitive(parsed.path)
+        if parsed.path == '/api/combinations/container/results':
+            try:
+                from icon_set.scripts.container_combination_results import listing
+                return self.json_response(listing(self.root, PACKAGE_ROOT / 'data', self.database.parent))
+            except (OSError, ValueError, sqlite3.Error):
+                return self.json_response({'error': 'Combination results are temporarily unavailable'}, 503)
+        if parsed.path in ('/api/combinations/container/latest', '/api/combinations/container/svg'):
+            try:
+                from icon_set.scripts.latest_container_combinations import LatestContainerPairs
+                query = parse_qs(parsed.query)
+                if parsed.path.endswith('/svg') and not query.get('id', [''])[0]:
+                    raise ValueError('A combination id is required')
+                if parsed.path.endswith('/svg'):
+                    from icon_set.scripts.container_combination_results import saved_svg
+                    cached_svg = saved_svg(self.root, PACKAGE_ROOT / 'data', self.database.parent, query['id'][0])
+                else:
+                    cached_svg = None
+                result = ({'pairs': [{'svg': cached_svg}]} if cached_svg else
+                          LatestContainerPairs(self.root, PACKAGE_ROOT / 'data').response(query))
+                if parsed.path.endswith('/svg'):
+                    if not result['pairs']:
+                        return self.json_response({'error': 'Combination not found'}, 404)
+                    pair = result['pairs'][0]
+                    if 'svg' not in pair:
+                        return self.json_response(pair, 409)
+                    content = pair['svg'].encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'image/svg+xml')
+                    self.send_header('Content-Length', str(len(content)))
+                    self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+                for pair in result['pairs']:
+                    pair.pop('svg', None)
+                return self.json_response(result)
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 400)
+            except OSError:
+                return self.json_response({'error': 'Container combinations are temporarily unavailable'}, 503)
+        if parsed.path == '/api/combinations/generation-queue':
+            try:
+                from icon_set.scripts.container_symbol_queue import generation_queue as symbol_queue
+                combinations = json.loads((self.root / 'gallery/combinations.json').read_text())
+                manifest = json.loads((self.root / 'symbol32/manifest.json').read_text())
+                return self.json_response(symbol_queue(
+                    combinations, manifest, self.primitives_catalog(), parse_qs(parsed.query)))
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 400)
+            except OSError:
+                return self.json_response({'error': 'Container symbol queue is temporarily unavailable'}, 503)
+        if parsed.path == '/api/primitives/generation-queue':
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    statuses = load_status(connection)
+                    briefs = load_primitive_briefs(connection)
+                return self.json_response(generation_queue(
+                    self.primitives_catalog(), statuses, briefs, parse_qs(parsed.query)))
+            except ValueError as error:
+                return self.json_response({'error': str(error)}, 400)
+            except (OSError, sqlite3.Error):
+                return self.json_response({'error': 'Generation queue is temporarily unavailable'}, 503)
         if parsed.path == '/api/primitives/briefs':
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -921,7 +983,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
+        if route not in ('/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -942,6 +1004,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             data = json.loads(self.rfile.read(size))
             if not isinstance(data, dict):
                 raise ValueError()
+            if route == '/api/combinations/container/combine':
+                from icon_set.scripts.container_combination_results import combine
+                try:
+                    query = {k: [str(v)] for k, v in data.items()}
+                    return self.json_response(combine(self.root, PACKAGE_ROOT / 'data', self.database.parent, query))
+                except ValueError as error:
+                    return self.json_response({'error': str(error)}, 400)
+                except (OSError, sqlite3.Error):
+                    return self.json_response({'error': 'Could not save combination previews'}, 503)
             if route == '/api/combination-refresh':
                 from icon_set.scripts.combination_refresh_job import start
                 return self.json_response(start(), 202)

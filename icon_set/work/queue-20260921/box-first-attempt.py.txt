@@ -1,0 +1,31 @@
+"""An isometric box has an inset panel in its right face. Shared vertices own perspective edges. VRECT_L preserves upright depth. Lucide box supplies single silhouette and shared corner construction; source supplies inset side panel.
+Plan: exact VRECT_L envelope; stroke 4, integer points, shared attachment nodes.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = 'b0243a57-ed91-4e54-aa5f-ad0799040a66'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_02/amazon elastic container registry_b0243a57-ed91-4e54-aa5f-ad0799040a66.svg'
+AUTHOR = "gpt-6"
+
+class Drawing(Solo48):
+    icon_id = 'isometric-box-with-a-side-panel'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = []
+    keywords = ['isometric', 'box', 'with', 'a', 'side', 'panel']
+
+    def build(self):
+        points=[(8,14),(24,4),(40,14),(40,34),(24,44),(8,34)]
+        for i,a in enumerate(points): self.add_line(f'outer-{i}',a,points[(i+1)%6])
+        self.add_contour('outer',*[f'outer-{i}' for i in range(6)],closed=True)
+        self.add_line('edge-left',(8,14),(24,24))
+        self.add_line('edge-right',(24,24),(40,14))
+        self.add_line('edge-down',(24,24),(24,44))
+        self.relate('connect','edge-left','edge-right','edge-down')
+        self.relate('connect','edge-left','outer-0','outer-5')
+        self.relate('connect','edge-right','outer-1','outer-2')
+        self.relate('connect','edge-down','outer-3','outer-4')
+        self.add_polyline('panel',(30,27),(35,24),(35,32),(30,35),closed=True)

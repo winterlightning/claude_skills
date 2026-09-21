@@ -2,8 +2,9 @@ const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const {layout,svg}=require('../scripts/templates/text-combine.js');
-const {glyphs}=JSON.parse(fs.readFileSync(path.join(__dirname,'../dist/gallery/typeface.json'),'utf8'));
-assert.equal(glyphs.length,97);
+const {glyphs}=JSON.parse(fs.readFileSync(path.join(__dirname,'../../published/gallery/typeface.json'),'utf8'));
+assert.equal(glyphs.length,107);
+const v2=JSON.parse(fs.readFileSync(path.join(__dirname,'../../published/gallery/typeface-v2.json'),'utf8')).glyphs;
 let result=layout('obdpqg',glyphs);
 for(const p of result.placements){
  assert.ok(Math.abs(p.glyph.body_height*p.scale-36)<1e-8);
@@ -170,3 +171,23 @@ assert.ok(!escaped.includes('<title><'));
 const lockedSymbols=layout('Hello, World!\n$19.99',glyphs,{canvasHeight:28,trimInk:true,padding:0});
 assert.equal(lockedSymbols.height,28);
 console.log('All printable keyboard characters, punctuation positions, escaping and locked-height layout passed.');
+
+// v2: uppercased text over the UPPER glyphs, with v1 filling the gaps.
+{
+ const covered=new Set(v2.map(g=>g.character));
+ const merged=v2.concat(glyphs.filter(g=>g.kind!=='lowercase'&&!covered.has(g.character)));
+ const text='Hash 1'.toUpperCase();
+ const result=layout(text,merged);
+ assert.equal(result.placements[0].glyph.icon_id,'letter-h-uppercase');
+ assert.equal(result.placements[0].glyph.geometry_policy,'fixed-centerline-6x20');
+ assert.equal(result.placements[1].glyph.icon_id,'letter-a-uppercase');
+ assert.equal(result.placements[1].glyph.geometry_policy,'natural-centerline-28x32');
+ assert.equal(result.placements[1].glyph.body_height,28);
+ assert.equal(result.placements[3].glyph.icon_id,'letter-h-uppercase');
+ assert.equal(result.placements[4].glyph.kind,'digit');
+ for(const p of result.placements)assert.ok(Math.abs(p.glyph.body_height*p.scale-52)<1e-8);
+ const wide=layout('W',merged),narrow=layout('A',merged);
+ assert.ok(Math.abs((wide.placements[0].width-4)/(narrow.placements[0].width-4)-16/9)<1e-6);
+ assert.throws(()=>layout('a',v2),/Unsupported/);
+}
+console.log('typeface cjs ok');

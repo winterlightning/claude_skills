@@ -1,5 +1,38 @@
 /* Combination views share the progression page's navigation and URL state. */
 let combinationCatalog=null, combinationLoading=false, combinationError='';
+let containerResults=null, containerResultError='', containerResultsLoading=false, combineRunning=false, combineProgress='';
+const containerPreviews=new Map(), expandedContainers=new Set();
+async function loadContainerResults(){
+  if(containerResultsLoading)return;
+  containerResultsLoading=true;
+  try{
+    const response=await fetch('/api/combinations/container/results',{cache:'no-store'});
+    const data=await response.json();if(!response.ok)throw Error(data.error||'Could not load combination results.');
+    containerResults=data;containerPreviews.clear();for(const pair of data.pairs)containerPreviews.set(pair.pair_id,pair);
+    containerResultError='';
+  }catch(error){containerResultError=error.message;}
+  finally{containerResultsLoading=false;}
+  if(state.view==='container')renderCombinations();
+}
+async function combineAllPairs(){
+  if(combineRunning)return;
+  combineRunning=true;combineProgress='Preparing all container pairs…';renderCombinations();
+  try{
+    const response=await fetch('/api/combinations/container/results',{cache:'no-store'});
+    const start=await response.json();if(!response.ok)throw Error(start.error||'Could not prepare pairs.');
+    containerResults=start;containerPreviews.clear();let offset=0;
+    do{
+      const response=await fetch('/api/combinations/container/combine',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({limit:100,offset,snapshot:start.snapshot})});
+      const batch=await response.json();if(!response.ok)throw Error(batch.error||'Could not combine pairs.');
+      for(const pair of batch.pairs)containerPreviews.set(pair.pair_id,pair);
+      const done=Math.min(batch.offset+batch.limit,batch.total);
+      combineProgress=`Processed ${done.toLocaleString()} of ${batch.total.toLocaleString()} pairs`;
+      offset=batch.next_offset;if(state.view==='container')renderCombinations();
+    }while(offset!==null);
+    combineProgress='All pairs processed. Missing components and fit problems are listed below.';
+  }catch(error){combineProgress=error.message+' Completed batches are saved; you can retry.';}
+  finally{combineRunning=false;await loadContainerResults();}
+}
 const combinationLabels={missing:'Components needed',partial:'One component generated',ready:'Both components generated',generated:'Generated'};
 function combinationMain(row){
   const ref=combinationCatalog.references[row.main_id];
@@ -21,6 +54,7 @@ function containerGroups(rows){
   return [...groups.values()].sort((a,b)=>a.title.localeCompare(b.title)||a.key.localeCompare(b.key));
 }
 function combinationState(row){
+  if(row.kind==='container'&&containerResults?.selections?.[row.id]){const selected=containerResults.selections[row.id];const n=Number(!!selected.main_key)+Number(!!selected.symbol_key);return n===2?'ready':n===1?'partial':'missing';}
   const refs=combinationCatalog.references;
   if((row.component_selection!=='explicit'&&refs[row.id].generated.length) || row.generated?.length)return 'generated';
   const count=Number(!!combinationMain(row).generated.length)+Number(!!(row.sub_generated??refs[row.sub_id].generated).length);
@@ -38,15 +72,32 @@ async function renderCombinations(){
     finally{combinationLoading=false;}
     if(['container','side'].includes(state.view))renderCombinations();return;
   }
+  if(state.view==='container'&&!containerResults&&!containerResultError&&!containerResultsLoading)loadContainerResults();
   const all=combinationCatalog.rows.filter(r=>r.kind===state.view), counts={missing:0,partial:0,ready:0,generated:0};
   all.forEach(r=>counts[combinationState(r)]++);
   host.replaceChildren();
-  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted','Generate the main and sub separately, then combine them to remake the reference. Linked artwork is shown below each component; check its size and family before combining.'));
+  host.append(node('h2','',state.view==='container'?'Container combination':'Side combination'),node('p','muted',state.view==='container'?'Combine each container with its latest standard 32×32 symbol. Expand a container to compare the original and combined preview.':'Generate the main and sub separately, then combine them to remake the reference.'));
   const summary=node('div','combination-summary');
   for(const [label,value] of [['Total',all.length],...Object.entries(counts).map(([k,v])=>[combinationLabels[k],v])]){
     const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));summary.append(item);
   }
-  host.append(summary);
+  if(state.view!=='container')host.append(summary);
+  else{
+    const area=node('div','container-combine-controls');
+    if(containerResults){
+      const stats=node('div','combination-summary');
+      for(const [label,value] of [['Container pairs',containerResults.total],['Container icons',containerResults.containers.total],['Containers needed',containerResults.containers.missing],['Symbol requirements · 32×32',containerResults.symbols.total],['Symbols needed',containerResults.symbols.missing]]){
+        const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));stats.append(item);
+      }
+      area.append(stats,node('p','muted',`${containerResults.containers.ready} containers and ${containerResults.symbols.ready} symbol requirements have eligible artwork. Symbols are counted once per source requirement; equivalent sources may share a drawing.`));
+    }
+    const actions=node('div','toolbar'),button=node('button','','Combine all pairs');button.disabled=combineRunning;button.onclick=combineAllPairs;
+    actions.append(button,node('span','muted','Latest published containers + standard 32×32 symbols. Applies to all pairs, including other pages.'));
+    area.append(actions);
+    const progress=node('p','muted',combineProgress||containerResultError||(containerResults?`${containerResults.processed.toLocaleString()} of ${containerResults.total.toLocaleString()} pairs processed. Saved previews appear when you expand a container.`:'Loading component counts…'));progress.setAttribute('role','status');area.append(progress);
+    if(containerResults&&!combineRunning){const c=containerResults.counts;area.append(node('p','muted',`${c.pass||0} fit checks passed · ${c.fail||0} need fit changes · ${c.review||0} need review · ${c.missing||0} missing components · ${c.blocked||0} blocked`));}
+    host.append(area);
+  }
   const toolbar=node('div','toolbar'), search=node('input');search.type='search';search.placeholder='Search concept or component ID';search.setAttribute('aria-label','Search combinations');search.value=state.q;
   const filter=node('select');filter.setAttribute('aria-label','Combination progress');filter.append(new Option('All progress','todo'),...Object.entries(combinationLabels).map(([k,v])=>new Option(v,k)));filter.value=state.status;
   filter.onchange=()=>{state.status=filter.value;page=1;writeURL();renderCombinations();};
@@ -74,11 +125,23 @@ async function renderCombinations(){
     const original=artwork('Reference combination',{...refs[row.id],concept:row.concept,generated:[]});original.lastChild.remove();
     const subRef={...refs[row.sub_id],generated:(row.sub_generated||refs[row.sub_id].generated).map(g=>{const reuse=(row.sub_exports||[]).find(e=>e.icon===g.icon_id);return reuse?{...g,preview_url:reuse.export_url,label:g.icon_id+' · 32px reuse export'}:g;})};
     const combined=artwork('Generated combination',row.component_selection==='explicit'?{...refs[row.id],generated:[]}:refs[row.id],true,row.generated||[]);
-    if(row.trial_preview){
+    if(row.kind!=='container'&&row.trial_preview){
       const trial=row.trial_preview, empty=combined.querySelector('.combination-empty');if(empty)empty.remove();
       combined.append(node('p','combination-label','Trial preview'),imageLink(trial.preview_url,row.concept+' — trial'),node('p','muted',trial.status==='clearance-estimate-pass'?'Solo artwork fitted inside container · review before approval':'Solo artwork fitted inside container · placement needs review'));
     }else if(row.trial_status==='stale')combined.append(node('p','muted','Trial needs rebuilding because a linked source or pairing changed.'));
-    grid.append(original,artwork(row.kind==='container'?'Main · Container 64px':'Main',combinationMain(row)),artwork('Sub',subRef),combined);card.append(grid);
+    const latest=containerPreviews.get(row.id);
+    const selection=containerResults?.selections?.[row.id]||latest;
+    if(row.kind==='container'){
+      combined.replaceChildren(node('h4','','Combined preview'));
+      if(latest?.svg_url){
+        combined.append(imageLink(latest.svg_url,row.concept+' — combined'));
+        combined.append(node('p','',({pass:'Fit check passed',fail:'Needs fit changes',review:'Needs review'})[latest.status]||latest.status));
+        combined.append(node('p','muted','64×64 · symbol at 32×32 · not yet approved'));
+      }else combined.append(node('p','combination-empty',latest?.reason||'Use Combine all pairs to generate this preview.'));
+    }
+    const selectedMain=selection?.main_key?{...combinationMain(row),generated:[{icon_id:'Container · 64×64',preview_url:'../container64/'+encodeURIComponent(selection.main_key.split('/')[1])+'.svg'}]}:combinationMain(row);
+    const selectedSub=selection?.symbol_key?{...subRef,generated:[{icon_id:'Symbol · 32×32',preview_url:'../symbol32/'+encodeURIComponent(selection.symbol_key.split('/')[1])+'.svg'}]}:{...subRef,generated:row.kind==='container'?[]:subRef.generated};
+    grid.append(original,artwork(row.kind==='container'?'Container · 64×64':'Main',selectedMain),artwork(row.kind==='container'?'Symbol · 32×32':'Sub',selectedSub),combined);card.append(grid);
     for(const mapping of row.remappings||[])card.append(node('p','muted',`${mapping.role==='main'?'Main':'Sub'} remapped to an existing source: ${mapping.reason}.`));
     const details=node('details','combination-identities');details.append(node('summary','','Source IDs'));for(const [name,id] of [['Combination',row.id],['Main',row.main_id],['Sub',row.sub_id]])details.append(node('p','',name+': '+id));card.append(details);return card;
   }
@@ -91,7 +154,9 @@ async function renderCombinations(){
       const label=node('span','container-group-label');label.append(node('strong','',group.title),node('span','muted',generated?'Main · Container 64px':'Main · Container needed'));
       heading.append(label,node('span','chip',`${group.rows.length.toLocaleString()} combination${group.rows.length===1?'':'s'}`));section.append(heading);
       const children=node('div','combination-list container-group-items');section.append(children);
-      section.addEventListener('toggle',()=>{if(section.open&&!children.childElementCount)for(const row of group.rows)children.append(combinationCard(row));});
+      function fill(){if(section.open&&!children.childElementCount)for(const row of group.rows)children.append(combinationCard(row));}
+      section.open=expandedContainers.has(group.key);fill();
+      section.addEventListener('toggle',()=>{if(!section.isConnected)return;if(section.open)expandedContainers.add(group.key);else expandedContainers.delete(group.key);fill();});
       list.append(section);
     }
   }else for(const row of rows.slice((page-1)*pageSize,page*pageSize))list.append(combinationCard(row));

@@ -11,6 +11,10 @@ project here):
 
 ## Queued
 
+- [ ] $icon-solo-queue 10 (tp:d74bb408)
+
+- [ ] $icon-solo-queue 10 (tp:9aff71a9)
+
 
 ## Backlog
 

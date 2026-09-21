@@ -1039,3 +1039,28 @@ Review repairs preserve the parent as a same-family variant and retain its key i
 The importer preserves this history and refuses to regenerate repaired variants.
 Rebuild combination previews after changing active model geometry. Pair refresh
 and deduplication apply the profile mapping automatically.
+
+
+### Token-free generation brief API
+
+`GET /api/primitives/generation-queue?category=Uncategorized&batch=03&family=solo&limit=50&offset=0`
+returns only effective TODO primitives, excluding published, skipped, model-only
+and failed existing drawings. Optional `q` searches concept, old concept, path
+and UUID; `brief=ready|missing` filters saved brief availability. Omit category
+and batch for all categories. `limit` is 1–500 (default 50); `offset` defaults to
+0. Results are ordered by source path and UUID, with `total` and `next_offset`.
+Recheck live TODO status before authoring: offsets are not queue reservations.
+
+Each item includes source UUID/path, original SVG URL, and a saved brief or a
+fixed Markdown template. Saved text and family take precedence; `family`
+(default solo; also sub/container/avatar) supplies the family for templates,
+not automatic visual classification. Names/tags come from catalog metadata or
+name words. Reference rendering and visual triage happen during authoring;
+this endpoint does not invent PNG files, call AI, write briefs, or start jobs.
+The Progression page offers filters, Copy API link, and Download generation
+briefs under “Prepare generation briefs · no AI tokens”.
+
+Solo generation handoffs use `$icon-solo-distilled` and the shared
+`icon_set/skills/icon-design-distilled/` guidance. Each API item includes its
+`skill`. Existing solo skill/path references are updated only in the export;
+stored editorial briefs remain unchanged.

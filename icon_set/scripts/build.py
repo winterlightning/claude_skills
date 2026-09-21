@@ -51,9 +51,9 @@ import sys
 from pathlib import Path
 
 if __package__:
-    from .workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST
+    from .workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST, compact_json_tree
 else:
-    from workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST
+    from workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST, compact_json_tree
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -618,6 +618,7 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
         gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()])
         replacements.append((gallery, dist / 'gallery'))
         _publish(replacements)
+        compact_json_tree(dist)
         if qa_dir is not None:
             print(f"QA evidence -> {dist / 'qa' / ('index.html' if report else 'results.json')}")
         print(f"Icon gallery -> {dist / 'gallery' / 'index.html'}")

@@ -15,7 +15,8 @@ ROOT=Path(__file__).resolve().parents[2]
 if __package__ in (None, ""):
     sys.path.insert(0, str(ROOT))
 SOURCE_ICON_ID=None
-SOURCE_PATH='Letters/'
+SOURCE_PATH='Letters/old/'
+UPPER_SOURCE='Letters/UPPER/'
 AUTHOR='gpt-6'
 
 # Source-space semantic bands, measured from the reference bodies. Dots,
@@ -44,8 +45,8 @@ REPAIRS={
 def ellipse(cx,cy,rx,ry):
  return parse_path(f'M{cx-rx} {cy} A{rx} {ry} 0 1 1 {cx+rx} {cy} A{rx} {ry} 0 1 1 {cx-rx} {cy} Z')
 
-def source_paths(source):
- if source.stem in REPAIRS:return [parse_path(d) for d in REPAIRS[source.stem]]
+def source_paths(source,repairs=True):
+ if repairs and source.stem in REPAIRS:return [parse_path(d) for d in REPAIRS[source.stem]]
  paths=[]
  for el in ET.parse(source).getroot():
   tag=el.tag.rsplit('}',1)[-1]
@@ -117,6 +118,11 @@ CAPS={
 }
 
 GEOMETRY_POLICY = 'fixed-centerline-6x20'
+GEOMETRY_POLICY_V2 = 'natural-centerline-28x32'
+# v2 uppercase sources: 32-unit canvas, cap centerline from y=2 to y=30.
+UPPER_BAND = (2, 30)
+# v2 sources drawn as filled outlines instead of strokes: replaced by their centerlines.
+V2_REPAIRS = {'Q': ['M8 16 A6 14 0 1 1 20 16 A6 14 0 1 1 8 16 Z', 'M14.1899 20 L22.4431 30']}
 
 
 def fit_base_grid(glyph):
@@ -171,7 +177,7 @@ def fit_base_grid(glyph):
 
 def build():
  glyphs=[]
- for source in sorted((ROOT/'Letters').glob('*.svg')):
+ for source in sorted((ROOT/'Letters/old').glob('*.svg')):
   stem=source.stem;kind='digit' if stem.isdigit() else 'lowercase'
   char=stem[0].lower();suffix='-large' if stem=='o' else ''
   icon_id=('digit-' if kind=='digit' else 'letter-')+char+suffix
@@ -193,4 +199,66 @@ def build():
  target.write_text(json.dumps({'schema_version':4,'geometry_policy':GEOMETRY_POLICY,'glyphs':glyphs,'profile_variants':PROFILE_VARIANTS},indent=2)+'\n')
  print(f'Built {len(glyphs)} fixed 6x20 centerline glyphs -> {target}')
 
-if __name__=='__main__':build()
+
+
+def fit_natural_grid(glyph):
+ """Keep v2 at its drawn size: 28-unit cap centerline, 32-unit ink, stroke 4, natural width.
+
+ canonical() applied a uniform similarity; one uniform factor restores the source scale.
+ """
+ glyph = dict(glyph)
+ left, top, right, bottom = glyph['bounds']
+ s = 28/(glyph['baseline']-glyph['body_top'])
+ def scale_point(p):
+  return complex(p.real*s, p.imag*s)
+ centerline_width = (right-left)*s
+ ink_width = centerline_width+4
+ ink_height = 32
+ canvas_width = max(10, math.ceil(ink_width-1e-9))
+ ink_left = (canvas_width-ink_width)/2
+ # Cap band at y=2..30 exactly as drawn; only the horizontal ink is re-centered.
+ offset = complex(ink_left+2-left*s, 2-glyph['body_top']*s)
+ transformed = []
+ for d in glyph['paths']:
+  segments = []
+  for segment in parse_path(d):
+   if isinstance(segment, Arc):
+    if segment.rotation % 180:
+     raise ValueError('Grid fitting requires an axis-aligned ellipse')
+    segment = Arc(scale_point(segment.start), scale_point(segment.radius),
+                  segment.rotation, segment.large_arc, segment.sweep,
+                  scale_point(segment.end))
+   else:
+    segment = segment.scaled(s, s)
+   segments.append(segment.translated(offset))
+  transformed.append(SVGPath(*segments))
+ paths = [p.d() for p in transformed]
+ box = bounds(transformed)
+ glyph.update(paths=paths, bounds=box,
+              body_top=2.0, baseline=30.0, body_height=28.0,
+              stroke_width=4, ink_width=ink_width, ink_height=ink_height,
+              ink_left=ink_left, ink_top=0.0,
+              centerline_width=centerline_width, centerline_height=28.0,
+              canvas_width=canvas_width, canvas_height=32,
+              centerline_band_height=28,
+              preview_box=[0, 0, canvas_width, 32],
+              geometry_policy=GEOMETRY_POLICY_V2,
+              svg_sha256=hashlib.sha256(json.dumps(paths,separators=(',',':')).encode()).hexdigest())
+ return glyph
+
+
+def build_v2():
+ """Uppercase-only v2 from Letters/UPPER; the browser uppercases text and falls back to v1."""
+ glyphs=[]
+ for source in sorted((ROOT/'Letters/UPPER').glob('*.svg')):
+  char=source.stem.upper()
+  if len(char)!=1 or not char.isalpha():raise ValueError('Unexpected v2 source: '+source.name)
+  paths=[parse_path(d) for d in V2_REPAIRS[char]] if char in V2_REPAIRS else source_paths(source,repairs=False)
+  glyph=canonical('letter-'+char.lower()+'-uppercase',char,'uppercase',paths,UPPER_BAND,source)
+  glyph['construction']=('Filled tail replaced by its centerline; ' if char in V2_REPAIRS else '')+'source centerlines kept at their drawn 32-unit size; natural width'
+  glyphs.append(fit_natural_grid(glyph))
+ target=ROOT/'icon_set/typeface/glyphs-v2.json'
+ target.write_text(json.dumps({'schema_version':4,'version':'v2','geometry_policy':GEOMETRY_POLICY_V2,'fallback':'v1','glyphs':glyphs},indent=2)+'\n')
+ print(f'Built {len(glyphs)} natural-width v2 uppercase glyphs -> {target}')
+
+if __name__=='__main__':build();build_v2()

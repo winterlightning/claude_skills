@@ -35,6 +35,32 @@ STATE_ROOT = state_root()
 DEFAULT_DATABASE = STATE_ROOT / 'feedback.sqlite3'
 
 
+# Never rewritten by compaction: regenerated QA evidence and the publication marker.
+UNCOMPACTED = ('qa',)
+
+
+def compact_json_tree(dist) -> int:
+    """Rewrite every JSON catalog under the build root in compact form.
+
+    Builds and the publisher both call this, so the tracked files never flip
+    between pretty and compact form and a targeted build leaves no churn.
+    """
+    import json
+    dist = Path(dist)
+    rewritten = 0
+    for path in dist.rglob('*.json'):
+        relative = path.relative_to(dist)
+        if relative.parts[0] in UNCOMPACTED or relative.name == 'release.json' or path.is_symlink() \
+                or any(part.startswith('.') for part in relative.parts):
+            continue
+        text = path.read_text(encoding='utf-8')
+        compact = json.dumps(json.loads(text), ensure_ascii=False, separators=(',', ':')) + '\n'
+        if compact != text:
+            path.write_text(compact, encoding='utf-8')
+            rewritten += 1
+    return rewritten
+
+
 @contextmanager
 def output_lock(dist):
     """Fail fast instead of allowing overlapping build/publication transactions.

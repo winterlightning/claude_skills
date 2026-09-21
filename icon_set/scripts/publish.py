@@ -12,7 +12,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from .workspace import PUBLISHED_DIST, output_lock
+from .workspace import PUBLISHED_DIST, compact_json_tree, output_lock
 
 # Regenerated per-icon QA evidence stays out of Git; everything else in the build root is committed.
 UNCOMMITTED_OUTPUT = {'qa', 'build-progress.json'}
@@ -41,7 +41,6 @@ def finalize_publication(dist: Path = PUBLISHED_DIST) -> dict:
             rows = document.get('icons', []) + document.get('failed_icons', [])
             if any(r.get('artwork_source', 'use_org') != 'use_org' or r.get('uploaded_icon') for r in rows):
                 raise ValueError(f'Manual artwork found in {path}; rebuild Python originals first.')
-        compacted = []
         for path in sorted(dist.rglob('*')):
             relative = path.relative_to(dist)
             if _is_hidden(relative) or relative.parts[0] in UNCOMMITTED_OUTPUT:
@@ -52,16 +51,10 @@ def finalize_publication(dist: Path = PUBLISHED_DIST) -> dict:
                 continue
             if path.suffix.lower() in RUNTIME_SUFFIXES:
                 raise ValueError(f'Runtime state cannot be published: {relative}')
-            if path.suffix == '.json' and relative.name != 'release.json':
-                compacted.append(path)
             if path.stat().st_size >= GIT_FILE_LIMIT:
                 raise ValueError(f"Asset exceeds GitHub's file limit: {relative}")
-        # Validation passed for the whole tree; now rewrite catalogs so Git diffs stay small.
-        for path in compacted:
-            text = path.read_text()
-            compact = json.dumps(json.loads(text), ensure_ascii=False, separators=(',', ':')) + '\n'
-            if compact != text:
-                path.write_text(compact)
+        # Validation passed for the whole tree; builds already compact, this catches manual edits.
+        compact_json_tree(dist)
         marker = {
             'schema_version': 1, 'artwork': 'python-originals',
             'publication': 'git', 'icons': len(data['icons']),

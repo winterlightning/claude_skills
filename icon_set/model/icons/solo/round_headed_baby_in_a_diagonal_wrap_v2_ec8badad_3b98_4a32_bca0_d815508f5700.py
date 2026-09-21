@@ -1,4 +1,4 @@
-"""Round-headed infant in a diagonal wrap. Human user.svg supplies circle proportions; source supplies round lower wrap and diagonal fold. Head radius10, center24,14; blanket top32 gives exact8 centerline head gap."""
+"""Round-headed infant in a diagonal wrap. VRECT_L supplies the tall envelope. Source supplies large circular head and fold; human user.svg supplies circular head construction. Head center(24,14) radius10; blanket top32 gives exact8 centerline gap. Unresolved curved-distance review and undersized folded blanket hole. A curved blanket-top layout was tried first; it also returned review. Reducing the head or deleting the fold loses the requested distinction."""
 from ...keyshapes import Keyshape
 from ._base import Solo48
 SOURCE_ICON_ID = 'ec8badad-3b98-4a32-bca0-d815508f5700'
