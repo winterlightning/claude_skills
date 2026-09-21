@@ -5,7 +5,7 @@ Read this only when the task calls for updating the Pictographic draft page.
 ## Files and scope
 
 - Editable data: `icon_set/scripts/templates/concept-dictionary.json`
-- Existing local preview data: `icon_set/.local/dist/gallery/concept-dictionary.json`
+- Existing local preview data: `published/gallery/concept-dictionary.json`
 - Preview: `/gallery/concept-dictionary.html?category=<existing-category-key>` on the user's running local server. Do not assume its port.
 - Page behavior: `icon_set/scripts/templates/concept-dictionary.js`
 

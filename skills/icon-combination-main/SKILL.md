@@ -24,7 +24,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 48×48, centre (24,24), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/combination_main/` — one file per icon |
 | Subclass | `CombinationMain48` from `._base` |
-| Ships to | `icon_set/.local/dist/combination_main48/` with its own `manifest.json` |
+| Ships to | `published/combination_main48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
 | Existing icons to imitate | `a-frame-church`, `a-line-skirt`, `abacus-two-rods-four-beads`, `abdominal-muscles`, `abdominal-torso`, `about-me-logo` |
@@ -216,7 +216,7 @@ preserve the parent and edit a new file from `create_variant.py`.
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family combination_main` exits 0; the icon is in
-  `icon_set/.local/dist/combination_main48/manifest.json`.
+  `published/combination_main48/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

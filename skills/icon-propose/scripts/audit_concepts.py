@@ -22,8 +22,8 @@ def read_json(path, missing):
 
 def audit(repo, category=None, terms=(), limit=12):
     missing = []
-    catalog = read_json(repo / 'icon_set/.local/dist/gallery/primitives.json', missing)
-    library = read_json(repo / 'icon_set/.local/dist/gallery/icons.json', missing)
+    catalog = read_json(repo / 'published/gallery/primitives.json', missing)
+    library = read_json(repo / 'published/gallery/icons.json', missing)
     dictionary = read_json(repo / 'icon_set/scripts/templates/concept-dictionary.json', missing)
     rows = catalog.get('rows', [])
     chosen = [r for r in rows if category is None or r['category'] == category]

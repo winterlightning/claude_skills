@@ -51,9 +51,9 @@ import sys
 from pathlib import Path
 
 if __package__:
-    from .workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock
+    from .workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST
 else:
-    from workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock
+    from workspace import DEFAULT_DIST, DEFAULT_PNG, output_lock, PUBLISHED_DIST
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -548,6 +548,8 @@ def _sweep_stale_stages(root: Path) -> None:
 
 def _build_selected(families, dist, png_dir, **options):
     with output_lock(dist):
+        if (Path(dist) / 'release.json').exists() and Path(dist).resolve() != PUBLISHED_DIST.resolve():
+            raise ValueError('Cannot build into an exported production release. Build published/, then export a new release.')
         return _build_selected_locked(families, dist, png_dir, **options)
 
 

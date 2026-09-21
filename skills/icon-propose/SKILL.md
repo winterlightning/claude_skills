@@ -17,8 +17,8 @@ Find the Pictographic repository in the current workspace or supplied path. It c
 
 Relevant repository data:
 
-- `icon_set/.local/dist/gallery/primitives.json`: source `rows`, including category, concept, original label, UUID, path, and generated model links.
-- `icon_set/.local/dist/gallery/icons.json`: published and failed models. A published model is not necessarily approved or suitable for the solo family.
+- `published/gallery/primitives.json`: source `rows`, including category, concept, original label, UUID, path, and generated model links.
+- `published/gallery/icons.json`: published and failed models. A published model is not necessarily approved or suitable for the solo family.
 - `icon_set/model/icons/`: unbuilt models may exist here too.
 - `icon_set/scripts/templates/concept-dictionary.json`: existing curated concepts and aliases. Read this before adding any proposal.
 

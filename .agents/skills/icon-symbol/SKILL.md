@@ -24,10 +24,10 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 32×32, centre (16,16), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/symbol/` — one file per icon |
 | Subclass | `Symbol32` from `._base` |
-| Ships to | `icon_set/.local/dist/symbol32/` with its own `manifest.json` |
+| Ships to | `published/symbol32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church-sub32-v3`, `account-profile-card-sub32`, `acoustic-guitar-sub32`, `active-sporting-figure-sub32`, `add-sub32-symbol`, `add-user-left-content-sub32` |
+| Existing icons to imitate | `a-frame-church-sub32-v3`, `account-profile-card-sub32`, `account-profile-card-sub32-resize`, `acoustic-guitar-sub32`, `active-sporting-figure-sub32`, `add-sub32-symbol` |
 
 A **symbol** is content placed inside a container. Keep its Python source independent from its linked side sub-icon; use the SYMBOL32 profile and its contract values below.
 
@@ -215,7 +215,7 @@ preserve the parent and edit a new file from `create_variant.py`.
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family symbol` exits 0; the icon is in
-  `icon_set/.local/dist/symbol32/manifest.json`.
+  `published/symbol32/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

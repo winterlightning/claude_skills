@@ -78,8 +78,16 @@ class PublishTests(unittest.TestCase):
 
     def test_development_server_serves_the_publication_directly(self):
         finalize_publication(self.dist)
-        server = deploy.create_server(self.dist, self.root / 'state/feedback.sqlite3', port=0)
-        server.server_close()
+        with patch('icon_set.scripts.workspace.PUBLISHED_DIST', self.dist):
+            server = deploy.create_server(self.dist, self.root / 'state/feedback.sqlite3', port=0)
+            server.server_close()
+        exported = self.root / 'release'
+        exported.mkdir()
+        for name in ('gallery/index.html', 'gallery/icons.json', 'release.json'):
+            (exported / name).parent.mkdir(exist_ok=True)
+            (exported / name).write_text((self.dist / name).read_text())
+        with self.assertRaisesRegex(ValueError, 'must be served with --production'):
+            deploy.create_server(exported, self.root / 'state/feedback.sqlite3', port=0)
 
     def test_committed_publication_allowed_with_external_state(self):
         finalize_publication(self.dist)

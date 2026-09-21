@@ -82,10 +82,10 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 32×32, centre (16,16), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/sub/` — one file per icon |
 | Subclass | `Sub32` from `._base` |
-| Ships to | `icon_set/.local/dist/sub32/` with its own `manifest.json` |
+| Ships to | `published/sub32/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (4,4)-(28,28) — constrains inner detail only |
-| Existing icons to imitate | `a-frame-church-sub32`, `a-frame-church-sub32-v2`, `ab-text`, `access-key-card-sub32`, `add-location-map-pin-sub32`, `add-sub32` |
+| Existing icons to imitate | `a-frame-church-sub32`, `a-frame-church-sub32-v2`, `ab-text`, `ab-text-v2`, `access-key-card-sub32`, `add-location-map-pin-sub32` |
 
 A **sub** icon is read small and hosted by others. Its whole canvas is the container's content region, so anything valid here can be placed in one. Verbs, states and modifiers declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `circle`, `star`) declares `MAIN` with `semantic_kind = "noun"` and is still a sub icon -- the role describes the subject, the family decides the canvas.
 
@@ -274,7 +274,7 @@ preserve the parent and edit a new file from `create_variant.py`.
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family sub` exits 0; the icon is in
-  `icon_set/.local/dist/sub32/manifest.json`.
+  `published/sub32/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

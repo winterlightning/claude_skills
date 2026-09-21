@@ -1,4 +1,14 @@
-# Icon workflow audit and migration
+# Icon workflow audit and migration (historical)
+
+**Superseded on 2026-09-21.** The separate `.local` development build, the
+publication staging folder and the untracked `icon_set/data/` datasets described
+below were removed: an ignored build folder was wiped and the color, fill,
+duotone and animation experiments were only recoverable from an old copy.
+`published/` is now the single, tracked build root, datasets are tracked, and
+runtime state lives in `icon_set/state/`. See
+[the development workflow](development-workflow.md). The text below records
+why the earlier boundary was introduced.
+
 
 The code audit found these causes:
 

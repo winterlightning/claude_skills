@@ -1507,10 +1507,12 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         dist = live_directory(dist, live_release_root)
     if not (dist / 'gallery/index.html').is_file() or not (dist / 'gallery/icons.json').is_file():
         raise ValueError('Gallery is missing. Run icon_set/scripts/build.py first.')
+    from icon_set.scripts.workspace import PUBLISHED_DIST
+    if not production and (dist / 'release.json').is_file() and dist != PUBLISHED_DIST.resolve():
+        raise ValueError('An exported release must be served with --production, not the development server.')
     if database.is_relative_to(dist):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
     if production:
-        from icon_set.scripts.workspace import PUBLISHED_DIST
         if database.is_relative_to(PACKAGE_ROOT.parent):
             raise ValueError('Production database must be outside the source checkout.')
         if dist.is_relative_to(PACKAGE_ROOT.parent) and dist != PUBLISHED_DIST.resolve():

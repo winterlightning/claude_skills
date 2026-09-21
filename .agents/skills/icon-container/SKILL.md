@@ -24,10 +24,10 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 64×64, centre (32,32), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/container/` — one file per icon |
 | Subclass | `Container64` from `._base` |
-| Ships to | `icon_set/.local/dist/container64/` with its own `manifest.json` |
+| Ships to | `published/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
-| Existing icons to imitate | `aiming-reticle`, `arched-handle-shopping-basket`, `arched-handle-shopping-basket-v2`, `award-ribbon-container`, `awning-storefront-container`, `awning-storefront-container-v2` |
+| Existing icons to imitate | `aiming-reticle`, `arched-handle-shopping-basket`, `award-ribbon-container`, `awning-storefront-container`, `billboard-container`, `blank-calendar-container` |
 
 A **container** stands alone as a noun and is the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
 
@@ -216,7 +216,7 @@ preserve the parent and edit a new file from `create_variant.py`.
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family container` exits 0; the icon is in
-  `icon_set/.local/dist/container64/manifest.json`.
+  `published/container64/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Reviewed at native size in both themes for smooth joins, consistent radii,
   balanced negative space, and symmetry wherever the subject supports it.

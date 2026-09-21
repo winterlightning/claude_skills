@@ -80,7 +80,7 @@ class GeneratedSkillTests(unittest.TestCase):
                 self.assertIn(f"| Profile | `{row['profile']}` |", text)
                 self.assertIn(f"Subclass | `{row['base_class']}`", text)
                 self.assertIn(f"icon_set/{row['package']}/", text)
-                self.assertIn(f"published/{row['dist']}/", text)
+                self.assertIn(f"published/{row['dist'].rsplit('/', 1)[-1]}/", text)
                 self.assertIn(f"build.py --family {family}", text)
                 # Other families appear only as hand-off pointers.
                 for other, other_row in contracts.families().items():

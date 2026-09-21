@@ -23,7 +23,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Canvas | 48×48, centre (24,24), integer grid 1, stroke 4, round caps and joins |
 | Module goes in | `icon_set/model/icons/solo/` — one file per icon |
 | Subclass | `Solo48` from `._base` |
-| Ships to | `icon_set/.local/dist/solo48/` with its own `manifest.json` |
+| Ships to | `published/solo48/` with its own `manifest.json` |
 | Ink clearance (MIC) | 4 between distinct parts = **8 between centerlines** |
 | Interior guide | (6,6)-(42,42) — constrains inner detail only |
 | Existing icons to imitate | `user-avatar`, `woman-store-clerk-3-avatar`, `boxer-avatar` |
@@ -191,7 +191,7 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
 
 6. **Family-specific checks.**
 
-- Avatar is a specialized authoring skill within the solo family, using SOLO48 and its six exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), `HRECT_M` (44×32), `VRECT_L` (36×44), and `VRECT_M` (32×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `.local/dist/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy `_XL` and `_S` rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
+- Avatar is a specialized authoring skill within the solo family, using SOLO48 and its six exact inset keyshapes: `CIRCLE` (44×44), `SQUARE` (40×40), `HRECT_L` (44×36), `HRECT_M` (44×32), `VRECT_L` (36×44), and `VRECT_M` (32×44). Fit the whole avatar, including head, hair/headwear and body, to that envelope. Use family `solo`, profile `SOLO48`, base `Solo48`, folder `model/icons/solo/`, and exports `published/solo48/`. Do not introduce an avatar family, profile, base class, registry folder, or export folder. Legacy `_XL` and `_S` rectangle size tokens resolve to their orientation's `_L` bounds and must not be chosen for new work.
 - Center the head/face circle on the canvas vertical axis: head_cx = 24 on SOLO48. Measure the face itself, excluding hair, buns and hats; asymmetric accessories must not shift the face off-axis. Fit accessories within the keyshape by rebalancing them. For tall headwear, shorten the body and simplify clothing while preserving a circular face, curved shoulders and head/body contact.
 - Read `HEAD_BODY_INK_GAP` and `HEAD_BODY_CENTERLINE_GAP` from this family's `._base`. These derive from `authoring.avatar.head_body_ink_gap` in the profile contract. Head ink must touch body ink: 0 visible gap, or 4 centerline separation for tangent stroke contact with stroke 4. Declare a scoped `connect` only for the actually touching head/body paths; keep the normal MIC for other separate parts. Derive `body_top = head_cy + head_radius + HEAD_BODY_CENTERLINE_GAP`; measure the nearest painted edges for angled poses.
 - Body silhouettes must follow `human_ref/user.svg`: broad curved shoulders with smooth tangent joins and short rounded sides. Use arcs or coherent Bezier curves, not straight diagonal shoulders, trapezoids, or boxy sleeve outlines. Differentiate avatars with clothing, collars, seams, and natural arm poses while preserving that curved construction.
@@ -241,7 +241,7 @@ Do not leave a v2 beside an outdated original unless alternatives were requested
   own model. Existing matches are patched in place, with source metadata
   preserved or added and `AUTHOR` updated to you.
 - Tests green; `build.py --family solo` exits 0; the icon is in
-  `icon_set/.local/dist/solo48/manifest.json`.
+  `published/solo48/manifest.json`.
 - `validate_icon()` is `valid` with no warnings.
 - Release QA passes, including holes measured at the actual 4-unit stroke; report its result separately from vector validation.
 - Named avatars have recognizable body cues while retaining curved reference shoulders; compare the set at native size.

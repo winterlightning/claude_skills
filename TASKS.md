@@ -14,9 +14,3 @@ project here):
 
 ## Backlog
 
-
-## Done
-
-- [x] test (tp:29326331)
-  give me print statemnet
-
