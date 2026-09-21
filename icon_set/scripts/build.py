@@ -548,7 +548,7 @@ def _sweep_stale_stages(root: Path) -> None:
 
 def _build_selected(families, dist, png_dir, **options):
     with output_lock(dist):
-        if (Path(dist) / 'release.json').exists():
+        if Path(dist).resolve() == (REPO_ROOT / 'published').resolve() or (Path(dist) / 'release.json').exists():
             raise ValueError('Cannot build into a production release. Build locally, then export a new release.')
         return _build_selected_locked(families, dist, png_dir, **options)
 

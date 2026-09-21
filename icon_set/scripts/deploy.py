@@ -1512,9 +1512,13 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
     if database.is_relative_to(dist):
         raise ValueError('Keep the feedback database outside the publicly served dist folder.')
     if production:
-        for path in (dist, database):
-            if path.is_relative_to(PACKAGE_ROOT.parent):
-                raise ValueError('Production dist and database must be outside the source checkout.')
+        from icon_set.scripts.workspace import PUBLISHED_DIST
+        if database.is_relative_to(PACKAGE_ROOT.parent):
+            raise ValueError('Production database must be outside the source checkout.')
+        if dist.is_relative_to(PACKAGE_ROOT.parent) and dist != PUBLISHED_DIST.resolve():
+            raise ValueError('Production dist must be published/ or outside the source checkout.')
+        if dist == PUBLISHED_DIST.resolve() and not (dist / 'release.json').is_file():
+            raise ValueError('Run python3 -m icon_set publish before serving published/.')
         if dist.is_relative_to(database.parent):
             raise ValueError('Keep production releases outside the persistent state directory.')
     if live_release_root is not None:
@@ -1523,8 +1527,9 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
         from icon_set.scripts.automatic_deploy import validate_paths
         live_release_root, _ = validate_paths(PACKAGE_ROOT.parent, live_release_root, database)
     init_database(database)
-    with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
-        import_snapshot(connection)
+    if not production:
+        with closing(sqlite3.connect(database, timeout=10)) as connection, connection:
+            import_snapshot(connection)
     server = GalleryServer((host, port), partial(GalleryHandler, directory=lambda: live_directory(dist, live_release_root), database=database))
     server.production = production
     server.live_release_root = live_release_root
@@ -1543,7 +1548,7 @@ def create_server(dist: Path, database: Path, host='127.0.0.1', port=8000, primi
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--live-release-root', type=Path, help='Follow completed gallery updates without restarting the server')
-    parser.add_argument('--production', action='store_true', help='Manual review/upload server; requires external --dist and --database; disables agent and source mutations')
+    parser.add_argument('--production', action='store_true', help='Review/upload server; serves published/ or an external release with an external database')
     parser.add_argument('--dist', type=Path, default=DEFAULT_DIST)
     parser.add_argument('--database', type=Path, default=DEFAULT_DB)
     parser.add_argument('--host', default='127.0.0.1')

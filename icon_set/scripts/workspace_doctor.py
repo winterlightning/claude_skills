@@ -2,18 +2,22 @@
 import argparse
 import json
 import subprocess
-from .workspace import REPO_ROOT, DEFAULT_DIST, DEFAULT_PNG, DEFAULT_DATABASE
+from .workspace import REPO_ROOT, DEFAULT_DIST, DEFAULT_PNG, DEFAULT_DATABASE, PUBLISHED_DIST
 
 
 def inspect_workspace():
     tracked = subprocess.run(
-        ['git', 'ls-files', '-z', '--', 'icon_set/dist', 'icon_set/assets/previews-png', 'icon_set/.local'],
+        ['git', 'ls-files', '-z', '--', 'icon_set/dist', 'icon_set/assets/previews-png', 'icon_set/.local',
+         'icon_set/scripts/.codex-batch-runner', 'icon_set/progression.sqlite3',
+         ':(glob)icon_set/work/**/*.log', ':(glob)icon_set/work/**/*.pid',
+         ':(glob)icon_set/work/**/*.sqlite3'],
         cwd=REPO_ROOT, check=True, capture_output=True).stdout.split(b'\0')
     catalog = DEFAULT_DIST / 'gallery/icons.json'
     data = json.loads(catalog.read_text()) if catalog.exists() else {}
     return {
         'development_assets': str(DEFAULT_DIST), 'development_previews': str(DEFAULT_PNG),
         'development_database': str(DEFAULT_DATABASE),
+        'published_assets': str(PUBLISHED_DIST),
         'tracked_generated_files': sum(bool(path) for path in tracked),
         'catalog_available': catalog.exists(),
         'built_icons': len(data.get('icons', [])), 'failed_icons': len(data.get('failed_icons', [])),

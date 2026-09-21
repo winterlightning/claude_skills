@@ -21,6 +21,8 @@ def development_previews(root=REPO_ROOT):
 DEFAULT_DIST = development_dist()
 DEFAULT_PNG = development_previews()
 DEFAULT_DATABASE = REPO_ROOT / 'icon_set' / '.local' / 'state' / 'feedback.sqlite3'
+PUBLISHED_DIST = REPO_ROOT / 'published'
+PUBLICATION_BUILD = REPO_ROOT / 'icon_set' / '.local' / 'publish-dist'
 
 
 @contextmanager

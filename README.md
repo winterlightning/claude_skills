@@ -8,6 +8,27 @@ The normal workflow is **run the app → generate a candidate → inspect it →
 it to the grid → approve the finished SVG**. Building an icon and approving it
 are separate operations.
 
+## Build locally; production pulls the assets
+
+Keep Python originals, experiments, reference SVGs and required supporting files
+in Git. Temporary outputs stay ignored. `published/` is the one committed asset folder.
+
+```sh
+# Local authoring machine: build and prepare the production catalog.
+python3 -m icon_set publish
+# Commit published/ together with the intended source changes, then push icon-lib.
+
+# Production: pull, then serve using the EXISTING external production database.
+git pull --ff-only origin icon-lib
+python3 -m icon_set production --database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0 --port 8000
+```
+
+Use your actual production database path. Reviews, uploads and manual edits remain
+in that database and its sibling folders, outside Git. Production never imports
+local review snapshots. Restart on the first switch to `published/` and whenever
+server code changes. Do not run the production build watcher for this workflow.
+See [the development workflow](docs/development-workflow.md) for details.
+
 ## Contents
 
 - [Install and run](#install-and-run)
@@ -588,6 +609,7 @@ source ownership, daily commands, releases, rollback, and migration.
 | --- | --- |
 | `icon_set/model/icons/` | Agent-authored Python originals, tracked in Git |
 | `icon_set/metadata/` | Optional curated source metadata, tracked in Git |
+| `published/` | Committed Python baseline and gallery, served on production |
 | `icon_set/.local/dist/` | Generated development gallery, ignored by Git |
 | `icon_set/.local/previews-png/` | Generated PNG previews, ignored by Git |
 | `icon_set/.local/state/` | Development-only database, uploads, edits and jobs |
@@ -625,7 +647,7 @@ so old uploads or reviews must be inspected using explicit old paths or migrated
 intentionally. Historical work reports may still link to legacy output; active
 maintenance scripts and generated authoring skills use the new paths.
 
-Use `watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases
+For the optional older server-side build workflow, use `watch_deploy.py --branch icon-lib --release-root /srv/pictographic/releases
 --database /srv/pictographic/state/feedback.sqlite3 --host 0.0.0.0` for automatic
 background builds and publication after a push. It starts the existing gallery
 first, then switches completed icon updates without restarting the server. Failed

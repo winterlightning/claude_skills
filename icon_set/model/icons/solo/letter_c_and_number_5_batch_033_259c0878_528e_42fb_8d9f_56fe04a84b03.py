@@ -45,13 +45,15 @@ class Batch033Icon(Solo48):
             tx=x-g['bounds'][0]*scale;ty=baseline-g['baseline']*scale
             def pt(z):return Point(z.real*scale+tx,z.imag*scale+ty)
             for pi,d in enumerate(g['paths']):
-                path=parse_path(d);members=[]
+              # A glyph path may hold several disconnected subpaths; each becomes its own contour.
+              for qi,path in enumerate(parse_path(d).continuous_subpaths()):
+                members=[]
                 for si,seg in enumerate(path):
-                    name=f'g{gi}-p{pi}-s{si}';members.append(name);a=pt(seg.start);b=pt(seg.end)
+                    name=f'g{gi}-p{pi}-q{qi}-s{si}';members.append(name);a=pt(seg.start);b=pt(seg.end)
                     if isinstance(seg,SvgLine):self.primitives.append(Line(name,a,b))
                     elif isinstance(seg,SvgArc):self.primitives.append(Arc(name,a,b,seg.radius.real*scale,seg.radius.imag*scale,bool(seg.large_arc),bool(seg.sweep)))
                     elif isinstance(seg,CubicBezier):
                         c1=pt(seg.control1);c2=pt(seg.control2);self.primitives.append(Bezier(name,a,b,((c1.as_tuple(),c2.as_tuple(),b.as_tuple()),)))
                     else:raise ValueError('Unsupported glyph segment: '+str(type(seg)))
-                self.add_contour(f'g{gi}-p{pi}',*members,closed=path.isclosed())
+                self.add_contour(f'g{gi}-p{pi}-q{qi}',*members,closed=path.isclosed())
             x+=(g['bounds'][2]-g['bounds'][0])*scale+gap
