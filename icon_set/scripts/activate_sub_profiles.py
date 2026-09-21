@@ -10,9 +10,9 @@ from icon_set.model.icons.registry import create
 from icon_set.validation.envelope import centerline_bounds, visible_bounds
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 
@@ -42,7 +42,7 @@ def stage_catalog(catalog, root=ROOT):
 
 
 def run(root=ROOT):
-    data=root/'icon_set/data';gallery=development_dist(root) / 'gallery'
+    data=root/'icon_set/data';gallery=build_dist(root) / 'gallery'
     path=data/'sub-profile-migration.json'
     if not path.exists():return
     migration=json.loads(path.read_text())['icons']
@@ -52,7 +52,7 @@ def run(root=ROOT):
     folder=root/'icon_set/assets/sub-profiles';folder.mkdir(exist_ok=True)
     public=gallery/'sub-profiles';public.mkdir(exist_ok=True)
     published={}
-    for manifest_path in (development_dist(root) / 'sub32/manifest.json', development_dist(root) / 'failed/sub32/manifest.json'):
+    for manifest_path in (build_dist(root) / 'sub32/manifest.json', build_dist(root) / 'failed/sub32/manifest.json'):
         if manifest_path.exists():
             for item in json.loads(manifest_path.read_text()).get('icons',[]):
                 published[item['icon_id']]=item

@@ -17,11 +17,13 @@ import xml.etree.ElementTree as ET
 if __package__:
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
     from .edit_validation import icon_from_graph
+    from .workspace import STATE_ROOT
 else:
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS, effective_validation_status
     from edit_validation import icon_from_graph
+    from workspace import STATE_ROOT
 
-DEFAULT_ARTWORK = Path(__file__).resolve().parents[1] / '.local/state/icon-artwork'
+DEFAULT_ARTWORK = STATE_ROOT / 'icon-artwork'
 MODES = ('use_org', 'use_upload', 'use_edited')
 SVG_NS = 'http://www.w3.org/2000/svg'
 MAX_SVG = 1024 * 1024

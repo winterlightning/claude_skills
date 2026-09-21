@@ -33,9 +33,9 @@ import sys
 from pathlib import Path
 
 if __package__:
-    from icon_set.scripts.workspace import development_dist
+    from icon_set.scripts.workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
 if str(REPO_ROOT) not in sys.path:
@@ -49,7 +49,7 @@ from icon_set.model.position import Position  # noqa: E402
 
 PACKAGE_ROOT = REPO_ROOT / "icon_set"
 
-DEFAULT_DIST = development_dist() / 'compositions'
+DEFAULT_DIST = build_dist() / 'compositions'
 DEFAULT_CLASS = "CONTAINER_COMBINE"
 
 

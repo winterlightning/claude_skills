@@ -13,7 +13,7 @@ class SubUsageTests(unittest.TestCase):
    versions={r:dict(icon_id=i,preview_url=i+'.svg',model_validation='pass',python_source=i+'.py',svg=i+'.svg',sha256='hash') for r,i in [('side','plus'),('symbol','plus-symbol')]}
    p.write_text(json.dumps({'icons':[dict(original_icon_id='plus',related_group='group',versions=versions)]}))
    fix=root/'icon_set/work/container-fit-repair/fit-adjustments.json';fix.parent.mkdir(parents=True);fix.write_text('{}')
-   gallery=root/'icon_set/.local/dist/gallery';gallery.mkdir(parents=True)
+   gallery=root/'published/gallery';gallery.mkdir(parents=True)
    for v in versions.values():(gallery/v['preview_url']).write_text('<svg/>')
    data={'rows':[dict(kind=k,sub_generated=[dict(icon_id='plus',key='sub/plus'),dict(icon_id='plus-symbol',key='sub/plus-symbol')]) for k in ['side','container']]}
    with patch('icon_set.scripts.sub_usage_categories.refresh', side_effect=AssertionError('Build refreshed source state')):

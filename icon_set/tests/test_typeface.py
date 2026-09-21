@@ -40,10 +40,11 @@ class TypefaceTests(unittest.TestCase):
             stage_typeface(path,[{'icon_id':'letter-b','svg_sha256':'stale'}],{})
             import json
             data=json.loads((path/'typeface.json').read_text())
-            self.assertEqual(data['geometry_policy'],'grid-ink-height24')
+            self.assertEqual(data['geometry_policy'],'fixed-centerline-6x20')
             self.assertEqual(len(data['glyphs']),107)
             r=next(g for g in data['glyphs'] if g['character']=='r')
-            self.assertLess((r['bounds'][2]-r['bounds'][0])/r['body_height'],0.4)
+            self.assertAlmostEqual(r['bounds'][2]-r['bounds'][0],6)
+            self.assertAlmostEqual(r['bounds'][3]-r['bounds'][1],20)
             self.assertNotIn('__TYPEFACE_', (path/'text-combine.html').read_text())
 
     def test_invalid_band_is_rejected(self):

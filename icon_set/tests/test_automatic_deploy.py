@@ -45,13 +45,13 @@ class AutomaticDeploymentTests(unittest.TestCase):
     def fake_build(self, command, **kwargs):
         source = kwargs['cwd']
         if 'build' in command:
-            build = source / 'icon_set/.local/dist'
+            build = source / 'published'
             (build / 'gallery').mkdir(parents=True, exist_ok=True)
             (build / 'gallery/icons.json').write_text(json.dumps({'icons': [{'key': 'sub/test'}], 'failed_icons': []}))
             (build / 'gallery/index.html').write_text('gallery')
         else:
             from icon_set.scripts.release import export_release
-            export_release(source / 'icon_set/.local/dist', Path(command[-1]))
+            export_release(source / 'published', Path(command[-1]))
         return subprocess.CompletedProcess(command, 0)
 
     def test_snapshot_uses_commit_not_dirty_or_private_files_and_keeps_unchanged_mtime(self):
@@ -88,7 +88,7 @@ class AutomaticDeploymentTests(unittest.TestCase):
         previous = deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=self.fake_build)
         cached = previous/'assets/cached.svg'
         cached.write_text('keep')
-        cache = self.releases/'workspace/source/icon_set/.local/dist/cached.svg'
+        cache = self.releases/'workspace/source/published/cached.svg'
         cache.write_text('keep')
         state = self.root/'state'
         state.mkdir()
@@ -97,11 +97,11 @@ class AutomaticDeploymentTests(unittest.TestCase):
         revision = self.commit()
         def runner(command, **kwargs):
             if 'build' in command:
-                copy = kwargs['cwd']/'icon_set/.local/dist/cached.svg'
+                copy = kwargs['cwd']/'published/cached.svg'
                 self.assertEqual(copy.read_text(), 'keep')
                 self.assertNotEqual(copy.stat().st_ino, cached.stat().st_ino)
                 self.assertNotIn('--all', command)
-                self.assertFalse((kwargs['cwd']/'icon_set/.local/dist/release.json').exists())
+                self.assertFalse((kwargs['cwd']/'published/release.json').exists())
             return self.fake_build(command, **kwargs)
         updated = deploy.prepare(self.repo, self.releases, revision, sys.executable, previous, runner)
         self.assertEqual(cached.read_text(), 'keep')
@@ -200,7 +200,7 @@ class AutomaticDeploymentTests(unittest.TestCase):
         self.write('icon_set/__main__.py', """
 import json, pathlib, shutil, sys
 assert not pathlib.Path('private').exists()
-build = pathlib.Path('icon_set/.local/dist')
+build = pathlib.Path('published')
 if sys.argv[1] == 'build':
     (build/'gallery').mkdir(parents=True, exist_ok=True)
     (build/'gallery/index.html').write_text('gallery')
@@ -225,7 +225,7 @@ else:
                     result = self.fake_build(command, **kwargs)
                     if 'build' in command:
                         self.assertIn('--allow-validation-failures', command)
-                        catalog = kwargs['cwd']/'icon_set/.local/dist/gallery/icons.json'
+                        catalog = kwargs['cwd']/'published/gallery/icons.json'
                         catalog.write_text(json.dumps({'icons': passing,
                                                        'failed_icons': [{'key': 'sub/invalid', 'errors': ['spacing']}]}))
                     return result
@@ -337,7 +337,7 @@ else:
         def runner(command, **kwargs):
             result = self.fake_build(command, **kwargs)
             if 'build' in command:
-                (kwargs['cwd']/'icon_set/.local/dist/gallery/icons.json').write_text('{"icons": []}')
+                (kwargs['cwd']/'published/gallery/icons.json').write_text('{"icons": []}')
             return result
         with self.assertRaisesRegex(ValueError, 'empty release'):
             deploy.prepare(self.repo, self.releases, self.first, sys.executable, runner=runner)

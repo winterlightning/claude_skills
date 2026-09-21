@@ -1,7 +1,10 @@
 """Shared filesystem ownership and build locking for the icon workspace.
 
-Python sources and curated metadata are versioned. Build output is disposable.
-Production receives release snapshots and owns a separate persistent state tree.
+One build root: ``published/``. Every build, the local server, the publisher and
+release export read and write it, and Git tracks it. Python originals, curated
+metadata, supporting datasets and experiments are versioned beside it. The only
+ignored things are runtime state (the review database, uploads, edits and jobs
+under ``icon_set/state/``), regenerated QA evidence and lock files.
 """
 from contextlib import contextmanager
 import fcntl
@@ -10,19 +13,26 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[2]
 
 
-def development_dist(root=REPO_ROOT):
-    return Path(root) / 'icon_set' / '.local' / 'dist'
+def build_dist(root=REPO_ROOT):
+    """The tracked build output: family exports, gallery, failed builds, reports."""
+    return Path(root) / 'published'
 
 
-def development_previews(root=REPO_ROOT):
-    return Path(root) / 'icon_set' / '.local' / 'previews-png'
+def preview_dir(root=REPO_ROOT):
+    """Tracked PNG previews, inside the build output."""
+    return build_dist(root) / 'previews-png'
 
 
-DEFAULT_DIST = development_dist()
-DEFAULT_PNG = development_previews()
-DEFAULT_DATABASE = REPO_ROOT / 'icon_set' / '.local' / 'state' / 'feedback.sqlite3'
-PUBLISHED_DIST = REPO_ROOT / 'published'
-PUBLICATION_BUILD = REPO_ROOT / 'icon_set' / '.local' / 'publish-dist'
+def state_root(root=REPO_ROOT):
+    """Ignored runtime state: review database, uploads, stroke edits, jobs, backups."""
+    return Path(root) / 'icon_set' / 'state'
+
+
+PUBLISHED_DIST = build_dist()
+DEFAULT_DIST = PUBLISHED_DIST
+DEFAULT_PNG = preview_dir()
+STATE_ROOT = state_root()
+DEFAULT_DATABASE = STATE_ROOT / 'feedback.sqlite3'
 
 
 @contextmanager
@@ -47,6 +57,7 @@ def output_lock(dist):
 
 if __name__ == '__main__':
     import json
-    print(json.dumps({'development_assets': str(DEFAULT_DIST),
-                      'development_previews': str(DEFAULT_PNG),
-                      'development_database': str(DEFAULT_DATABASE)}))
+    print(json.dumps({'build_output': str(DEFAULT_DIST),
+                      'previews': str(DEFAULT_PNG),
+                      'runtime_state': str(STATE_ROOT),
+                      'database': str(DEFAULT_DATABASE)}))

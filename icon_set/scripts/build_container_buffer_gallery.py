@@ -14,9 +14,9 @@ from PIL import Image, ImageDraw
 from scipy import ndimage
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT=Path(__file__).resolve().parents[2]
@@ -51,7 +51,7 @@ def paint(filename, ink, buffer, safe=None, collision=None, center=None):
 
 def main():
     OUT.mkdir(parents=True,exist_ok=True)
-    rows=json.loads((development_dist(BASE.parent) / 'gallery/combinations.json').read_text())['rows']
+    rows=json.loads((build_dist(BASE.parent) / 'gallery/combinations.json').read_text())['rows']
     mapped={g['key'].split('/',1)[1] for r in rows if r['kind']=='container' for g in r.get('main_generated',[]) if g['key'].startswith('container/')}
     trials=json.loads((BASE/'data/container-solo-trials.json').read_text())['results']
     grouped={}
@@ -59,7 +59,7 @@ def main():
         grouped.setdefault(record['main_key'].split('/',1)[1],{})[record['svg_file']]=record
     zones=json.loads((BASE/'data/container-content-areas.json').read_text())['areas']
     cards=[];results=[];pair_count=0
-    for source in sorted((development_dist(BASE.parent) / 'container64').glob('*.svg'),key=lambda p:(p.stem not in mapped,p.stem)):
+    for source in sorted((build_dist(BASE.parent) / 'container64').glob('*.svg'),key=lambda p:(p.stem not in mapped,p.stem)):
         ident=source.stem;document=source.read_text();ink=mask(document);buffer=expanded(ink)
         enclosed=ndimage.binary_fill_holes(ink)&~ink
         zone=zones[ident]
@@ -71,7 +71,7 @@ def main():
         pairs=[];pair_cards=[]
         for file,record in grouped.get(ident,{}).items():
             asset=BASE/'assets/container-solo-trials'/file
-            sub=development_dist(BASE.parent) / 'solo48'/f"{record['sub_key'].split('/',1)[1]}.svg"
+            sub=build_dist(BASE.parent) / 'solo48'/f"{record['sub_key'].split('/',1)[1]}.svg"
             stale=(hashlib.sha256(source.read_bytes()).hexdigest()!=record['main_sha256'] or not sub.exists() or hashlib.sha256(sub.read_bytes()).hexdigest()!=record['sub_sha256'] or not asset.exists() or hashlib.sha256(asset.read_bytes()).hexdigest()!=record['svg_sha256'])
             if stale:
                 pair_cards.append('<p>Source changed — rebuild '+html.escape(record['sub_key'])+'</p>')

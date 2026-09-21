@@ -19,9 +19,9 @@ import uuid
 import xml.etree.ElementTree as ET
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -203,7 +203,7 @@ def main(argv=None):
                   key=icon.family+'/'+icon.icon_id, family=icon.family,
                   canvas_size=icon.profile.spec.canvas_size, profile=icon.profile.name,
                   keyshape=icon.keyshape.name, svg_sha256=sha(icon.to_svg()), artwork_source='use_org')
-    runner = GenerationManager(ROOT, development_dist(ROOT), args.out/'runner')
+    runner = GenerationManager(ROOT, build_dist(ROOT), args.out/'runner')
     print(json.dumps(run_review(runner, record, icon.to_svg(), args.out), indent=2))
 
 

@@ -17,8 +17,8 @@ class WorkspaceLayoutTests(unittest.TestCase):
             for name in ('icon_set/__init__.py', 'icon_set/__main__.py',
                          'icon_set/model/icons/example.py', 'icon_set/metadata/solo/example.json',
                          'AGENTS.md', 'docs/development-workflow.md',
-                         'icon_set/.local/state/feedback.sqlite3', 'icon_set/data/feedback.sqlite3',
-                         'icon_set/.local/dist/gallery/icons.json'):
+                         'icon_set/state/feedback.sqlite3', 'icon_set/data/combination-pairs.json',
+                         'published/gallery/icons.json'):
                 path = root / name
                 path.parent.mkdir(parents=True, exist_ok=True)
                 path.write_text('fixture')
@@ -28,8 +28,9 @@ class WorkspaceLayoutTests(unittest.TestCase):
             self.assertIn('icon_set/__main__.py', baseline)
             self.assertIn('icon_set/metadata/solo/example.json', baseline)
             self.assertIn('AGENTS.md', baseline)
-            self.assertFalse((target / 'icon_set/.local').exists())
+            self.assertFalse((target / 'icon_set/state').exists())
             self.assertFalse((target / 'icon_set/data').exists())
+            self.assertFalse((target / 'published').exists())
 
     def test_profile_staging_writes_summary_only_inside_output(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -65,7 +66,7 @@ class WorkspaceLayoutTests(unittest.TestCase):
             with patch('icon_set.scripts.experiment_gallery.ROOT', root):
                 result = json.loads(stage_container_experiment(target))
             self.assertEqual(result, {'icons': [], 'unavailable': 1})
-            self.assertFalse((root / 'icon_set/.local').exists())
+            self.assertFalse((root / 'published').exists())
 
     def test_failed_gallery_does_not_publish_partial_qa(self):
         from icon_set.scripts import build

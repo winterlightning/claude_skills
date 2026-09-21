@@ -11,9 +11,9 @@ from icon_set.scripts.container_vector_geometry import (
     TOLERANCE, GUARD, QUAD_SEGS, VectorInk, read_art, vector_zone, check_pair, pair_groups)
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 BASE = Path(__file__).resolve().parents[1]
@@ -56,7 +56,7 @@ def main():
     for r in trials.values():
         grouped.setdefault(r['main_key'].split('/',1)[1], {})[r['svg_file']] = r
     cards, results = [], []
-    for source in sorted((development_dist(BASE.parent) / 'container64').glob('*.svg')):
+    for source in sorted((build_dist(BASE.parent) / 'container64').glob('*.svg')):
         ident = source.stem
         result = {'container': ident, 'source_sha256': digest(source), 'pairs': []}
         try:
@@ -79,7 +79,7 @@ def main():
                 pair_result = {'sub_key': trial['sub_key'], 'asset': file}
                 try:
                     asset = BASE/'assets/container-solo-trials'/file
-                    sub_source = development_dist(BASE.parent) / 'solo48'/f"{trial['sub_key'].split('/',1)[1]}.svg"
+                    sub_source = build_dist(BASE.parent) / 'solo48'/f"{trial['sub_key'].split('/',1)[1]}.svg"
                     if (trial['main_sha256'] != digest(source) or not sub_source.exists()
                         or digest(sub_source) != trial['sub_sha256'] or not asset.exists() or digest(asset) != trial['svg_sha256']):
                         raise ValueError('Stale source or pair asset; rebuild before measuring.')

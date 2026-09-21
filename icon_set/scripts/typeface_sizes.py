@@ -1,87 +1,52 @@
-"""Export every whole-unit typeface height from 12 through 32."""
+"""Export only the fixed 6 × 20 centerline typeface."""
 import argparse
 import hashlib
 import json
+import shutil
 from pathlib import Path
 from xml.sax.saxutils import escape, quoteattr
 from zipfile import ZipFile, ZIP_DEFLATED
 
-from svgpathtools import Arc, Path as SVGPath, parse_path
 
 from .workspace import DEFAULT_DIST, REPO_ROOT, output_lock
 
-HEIGHTS = tuple(range(12, 33))
+HEIGHTS = (24,)
 
 
 def size_record(glyph, height):
-    if type(height) is not int or height not in HEIGHTS:
-        raise ValueError('Typeface height must be an integer from 12 through 32')
-    if glyph.get('ink_height') != 24 or glyph.get('geometry_policy') != 'grid-ink-height24':
-        raise ValueError('Typeface sizes require the approved 24-unit base')
-    # Round the proportional width to the nearest multiple of 2.
-    # Exact odd-unit ties go upward (e.g. 9 -> 10).
-    width = 2 * ((glyph['ink_width'] * height + 24) // 48)
-    left, top, right, bottom = glyph['bounds']
-    path_width, path_height = right-left, bottom-top
-    # A point or vertical centerline is exactly one stroke wide at every size.
-    width = max(4, width) if path_width > 1e-9 else 4
-    ink_height = height if path_height > 1e-9 else 4
-    sx = (width-4)/path_width if path_width > 1e-9 else 1
-    sy = (ink_height-4)/path_height if path_height > 1e-9 else 1
-    return {
-        'width': width, 'height': height, 'scale_x': sx, 'scale_y': sy,
-        'stroke_width': 4, 'stroke_width_x': 4, 'stroke_width_y': 4,
-        'ink_width': width, 'ink_height': ink_height,
-        'ink_top': (height-ink_height)/2,
-        'file': f'{height}/{glyph["icon_id"]}.svg',
-    }
+    if type(height) is not int or height != 24:
+        raise ValueError('Only the fixed 6x20 centerline size (10x24 canvas) is supported')
+    if glyph.get('geometry_policy') != 'fixed-centerline-6x20':
+        raise ValueError('Rebuild the fixed-size base catalog first')
+    return dict(width=glyph['canvas_width'], height=24, stroke_width=4,
+                centerline_width=glyph['centerline_width'],
+                centerline_height=glyph['centerline_height'],
+                ink_width=glyph['ink_width'], ink_height=glyph['ink_height'],
+                ink_left=glyph['ink_left'], ink_top=glyph['ink_top'],
+                file=f"24/{glyph['icon_id']}.svg")
 
 
 def sized_paths(glyph, height):
-    size = size_record(glyph, height)
-    sx, sy = size['scale_x'], size['scale_y']
-    left, top, _, _ = glyph['bounds']
-    offset = complex(2-left*sx, size['ink_top']+2-top*sy)
-    def point(p):
-        return complex(p.real*sx, p.imag*sy)
-    paths = []
-    for d in glyph['paths']:
-        segments = []
-        for segment in parse_path(d):
-            if isinstance(segment, Arc):
-                if segment.rotation % 180:
-                    raise ValueError('Size fitting requires an axis-aligned ellipse')
-                segment = Arc(point(segment.start), point(segment.radius),
-                              segment.rotation, segment.large_arc, segment.sweep,
-                              point(segment.end))
-            else:
-                segment = segment.scaled(sx, sy)
-            segments.append(segment.translated(offset))
-        paths.append(SVGPath(*segments).d())
-    return paths
+    size_record(glyph, height)
+    return list(glyph['paths'])
 
 
 def sized_svg(glyph, height):
     size = size_record(glyph, height)
-    paths = ''.join('<path d=' + quoteattr(d) + '/>' for d in sized_paths(glyph, height))
-    # Bake the transform into centerlines, so every stroke and round cap is 4
-    # units wide in final coordinates, regardless of horizontal fitting.
-    return (
-        f'<svg xmlns="http://www.w3.org/2000/svg" width="{size["width"]}" '
-        f'height="{height}" viewBox="0 0 {size["width"]} {height}" '
-        f'role="img" aria-label={quoteattr(glyph["character"])}>'
-        f'<title>{escape(glyph["character"])}</title>'
-        f'<g fill="none" stroke="currentColor" stroke-width="4" '
-        f'stroke-linecap="round" stroke-linejoin="round">{paths}</g></svg>\n'
-    )
+    paths = ''.join('<path d=' + quoteattr(d) + '/>' for d in glyph['paths'])
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{size["width"]}" height="24" '
+            f'viewBox="0 0 {size["width"]} 24" role="img" aria-label='+quoteattr(glyph['character'])+'>'
+            '<title>'+escape(glyph['character'])+'</title>'
+            '<g fill="none" stroke="currentColor" stroke-width="4" '
+            'stroke-linecap="round" stroke-linejoin="round">'+paths+'</g></svg>\n')
 
 
 def stage_sizes(target, glyphs):
     """Stage disposable exports beneath a caller-owned, locked output folder."""
     target = Path(target)
     target.mkdir(parents=True, exist_ok=True)
-    manifest = {'schema_version': 3, 'base_height': 24, 'heights': list(HEIGHTS),
-                'rounding': 'nearest-multiple-of-2-half-up', 'width_grid': 2,
+    manifest = {'schema_version': 4, 'base_height': 24, 'heights': [24],
+                'centerline_box': [6,20], 'canvas': [10,24],
                 'stroke_policy': 'constant-4-final-units', 'glyphs': []}
     for height in HEIGHTS:
         (target / str(height)).mkdir(exist_ok=True)
@@ -100,12 +65,20 @@ def stage_sizes(target, glyphs):
     embedded = json.dumps(manifest, ensure_ascii=True).replace('<', '\\u003c')
     (target / 'index.html').write_text(template.read_text().replace('__SIZE_DATA__', embedded))
     # Include the manifest, offline viewer, and exactly the current exports.
-    with ZipFile(target / 'typeface-12-to-32.zip', 'w', ZIP_DEFLATED) as archive:
+    with ZipFile(target / 'typeface-6x20.zip', 'w', ZIP_DEFLATED) as archive:
         for name in ('manifest.json', 'index.html'):
             archive.write(target / name, name)
         for entry in manifest['glyphs']:
             for size in entry['sizes']:
                 archive.write(target / size['file'], size['file'])
+    # Retire only the known derived size range after the replacement is ready.
+    retired = [target/str(h) for h in range(12,33) if h != 24]
+    retired.append(target/'typeface-12-to-32.zip')
+    for path in retired:
+        if path.is_dir():
+            shutil.rmtree(path)
+        elif path.is_file():
+            path.unlink()
     return manifest
 
 

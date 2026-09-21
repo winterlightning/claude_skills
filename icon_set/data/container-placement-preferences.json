@@ -1,0 +1,53 @@
+{
+  "version": 1,
+  "priority": "Center placement comes first for container combinations.",
+  "rules": [
+    "Use the intended content area's center, not the complete container canvas center when hardware or furniture changes the usable area.",
+    "Try the content center first, then preserve its vertical centerline while adjusting vertical placement for visual balance and clearance.",
+    "A sideways clearance-only placement is an explicit visual-review exception, not a visually approved result.",
+    "Default to native 32-unit sub-icons with 4-unit strokes and 2-unit ink clearance. When a centered 32-unit combination fails, allow a 24-unit footprint suggestion with the same stroke weight only after vector fit checks; smaller-detail readability still needs visual review."
+  ],
+  "optical_overrides": {
+    "flower-vase-container": {
+      "heart-state-63": [
+        32.0,
+        40.5
+      ]
+    },
+    "heart-outline-container": {
+      "add-sub32": [
+        32.0,
+        35.0
+      ]
+    }
+  },
+  "sub_resize_policy": {
+    "preview": "Keep original native geometry; show optional clearly labeled scaled prototypes for suggested redraws. Prototypes are not final grid-snapped assets.",
+    "wide_sub": "Suggest a separately authored grid-snapped variant targeting visible height 32, width allowed above 32 if safe interior permits.",
+    "tight_sub": "Suggest separately authored 24 \u00d7 24 variant; verify clearance after redraw.",
+    "stroke_units": 4,
+    "minimum_clearance_units": 2,
+    "repair_priority": "Preserve meaning and original proportions. Try a modest grid-snapped container expansion first; do not force 32 if that makes the subject look wrong. Use smaller sub-icons where a modest repair is insufficient."
+  },
+  "container_centers": {
+    "liquid-soap-dispenser-bottle": [
+      32,
+      40
+    ],
+    "right-pointing-label-tag": [
+      28,
+      32
+    ],
+    "simple-folded-booklet": [
+      32,
+      38
+    ]
+  },
+  "preserve_silhouette_containers": [
+    "gift-box-container",
+    "liquid-soap-dispenser-bottle",
+    "right-pointing-label-tag",
+    "simple-folded-booklet"
+  ],
+  "restore_original_containers": []
+}

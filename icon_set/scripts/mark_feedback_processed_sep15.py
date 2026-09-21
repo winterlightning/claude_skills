@@ -399,7 +399,7 @@ def mark_processed(database, dist, *, reset_review_status=False):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--database',type=Path,default=DEFAULT_DATABASE)
-    parser.add_argument('--dist',type=Path,default=PACKAGE/'.local/dist')
+    parser.add_argument('--dist',type=Path,default=PACKAGE.parent/'published')
     parser.add_argument('--reset-review-status', action='store_true',
                         help='Reset later review statuses for the verified batch to Ready; keep newer feedback, active splits, and SVG version checks')
     args = parser.parse_args()

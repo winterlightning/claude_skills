@@ -412,7 +412,7 @@ def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
         shutil.copytree(side_review, target / 'side-combinations-passing-sub', dirs_exist_ok=True,
                         ignore=shutil.ignore_patterns('pairs-before.json', 'previews-before.json', 'sample-review.png'))
         page = target / 'side-combinations-passing-sub/index.html'
-        page.write_text(page.read_text().replace('../../dist/gallery/', '../').replace('../../.local/dist/gallery/', '../'))
+        page.write_text(page.read_text().replace('../../dist/gallery/', '../').replace('../../.local/dist/gallery/', '../').replace('../../../published/gallery/', '../'))
     from .sub_repair_review import stage as stage_sub_repair_review
     stage_sub_repair_review(target / 'sub-repair-review')
     stage_ai_quality_review(target)

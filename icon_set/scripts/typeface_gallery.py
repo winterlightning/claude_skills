@@ -10,8 +10,8 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     source = Path(__file__).resolve().parents[1] / 'typeface/glyphs.json'
     payload = json.loads(source.read_text())
     glyphs = payload['glyphs']
-    if payload.get('geometry_policy') != 'grid-ink-height24':
-        raise ValueError('Typeface requires grid-fitted 24-unit geometry')
+    if payload.get('geometry_policy') != 'fixed-centerline-6x20':
+        raise ValueError('Typeface requires fixed 6x20 centerline geometry')
     if len({g['icon_id'] for g in glyphs}) != len(glyphs):
         raise ValueError('Duplicate typeface glyph')
     import hashlib
@@ -29,7 +29,7 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     for glyph in glyphs:
         view_box = ' '.join(str(v) for v in glyph['preview_box'])
         paths = ''.join('<path d='+quoteattr(d)+'/>' for d in glyph['paths'])
-        document = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{glyph["ink_width"]}" height="24" '
+        document = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{glyph["canvas_width"]}" height="24" '
                     'viewBox='+quoteattr(view_box)+' fill="none" stroke="currentColor" '
                     f'stroke-width="{glyph["stroke_width"]}" stroke-linecap="round" stroke-linejoin="round">'
                     '<title>'+escape(glyph['character'])+'</title>'+paths+'</svg>')

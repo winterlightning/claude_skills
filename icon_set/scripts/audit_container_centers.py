@@ -4,9 +4,9 @@ from pathlib import Path
 import sys,json,math,hashlib,html
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2];sys.path.insert(0,str(ROOT))
 from PIL import Image,ImageDraw
@@ -46,7 +46,7 @@ def audit():
     original=json.loads((OUT/'before.json').read_text())['areas']
     data=json.loads(ZONES.read_text());records=[]
     for name,a in data['areas'].items():
-        source=development_dist(BASE.parent) / 'container64'/f'{name}.svg';sha=hashlib.sha256(source.read_bytes()).hexdigest()
+        source=build_dist(BASE.parent) / 'container64'/f'{name}.svg';sha=hashlib.sha256(source.read_bytes()).hexdigest()
         if sha!=a['source_sha256']:raise ValueError('Stale source '+name)
         old=original[name]['center'];ink=mask(source.read_text())
         evidence={'source_sha256':sha,'previous_center':old,'visual_review':'pending','scope':'Exported SVG placement; no primitive model/build certification.'}

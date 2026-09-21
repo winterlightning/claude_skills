@@ -1,0 +1,417 @@
+{
+  "discarded_by": "codex",
+  "discarded_at": "2026-09-15T10:32:21.907567+00:00",
+  "source_path": "icon_set/model/icons/solo/p_plus_b_text_sign_dfc037b7_3cf4_5183_a3ea_94c433baaa81.py",
+  "shared_module": false,
+  "record": {
+    "icon_id": "p-plus-b-text-sign",
+    "name": "p-plus-b-text-sign",
+    "aliases": [],
+    "category": "transportation",
+    "keywords": [
+      "park and bike",
+      "parking",
+      "bicycle",
+      "transit",
+      "text"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "HRECT_L",
+    "keyshape_bounds": [
+      2,
+      6,
+      46,
+      42
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "p-stem",
+        "start": [
+          4,
+          40
+        ],
+        "end": [
+          4,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "p-upright",
+        "start": [
+          4,
+          24
+        ],
+        "end": [
+          4,
+          8
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "p-bowl",
+        "start": [
+          4,
+          8
+        ],
+        "end": [
+          4,
+          24
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "plus-left",
+        "start": [
+          21,
+          24
+        ],
+        "end": [
+          24,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "plus-right",
+        "start": [
+          24,
+          24
+        ],
+        "end": [
+          27,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "plus-stem-1",
+        "start": [
+          24,
+          19
+        ],
+        "end": [
+          24,
+          24
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "plus-stem-2",
+        "start": [
+          24,
+          24
+        ],
+        "end": [
+          24,
+          29
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "b-upper-stem",
+        "start": [
+          36,
+          24
+        ],
+        "end": [
+          36,
+          8
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "b-upper-bowl",
+        "start": [
+          36,
+          8
+        ],
+        "end": [
+          36,
+          24
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "b-lower-stem",
+        "start": [
+          36,
+          40
+        ],
+        "end": [
+          36,
+          24
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "b-lower-bowl",
+        "start": [
+          36,
+          24
+        ],
+        "end": [
+          36,
+          40
+        ],
+        "radius_x": 8,
+        "radius_y": 8,
+        "large_arc": false,
+        "sweep": true
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "p-loop",
+        "members": [
+          "p-upright",
+          "p-bowl"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "plus-bar",
+        "members": [
+          "plus-left",
+          "plus-right"
+        ],
+        "closed": false
+      },
+      {
+        "contour_id": "plus-stem",
+        "members": [
+          "plus-stem-1",
+          "plus-stem-2"
+        ],
+        "closed": false
+      },
+      {
+        "contour_id": "b-upper",
+        "members": [
+          "b-upper-stem",
+          "b-upper-bowl"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "b-lower",
+        "members": [
+          "b-lower-stem",
+          "b-lower-bowl"
+        ],
+        "closed": true
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "p-stem",
+          "p-loop"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "plus-bar",
+          "plus-stem"
+        ]
+      },
+      {
+        "kind": "connect",
+        "members": [
+          "b-upper",
+          "b-lower"
+        ]
+      }
+    ],
+    "svg_path": "dist/solo48/p-plus-b-text-sign.svg",
+    "svg_sha256": "43d5fbf3ddcfbd26afda72ffc7ac667c6cf268ffedbb6aee4931ab943edc5a12",
+    "validation": {
+      "status": "valid",
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility",
+        "holes/pinches",
+        "internal-spacing-review"
+      ],
+      "warnings": [],
+      "negative_space": {
+        "status": "pass",
+        "authored_holes": [
+          {
+            "hole": 1,
+            "center_viewbox": [
+              7.9844,
+              15.4219
+            ],
+            "bbox_viewbox": [
+              6.0,
+              10.3438,
+              4.0,
+              11.3125
+            ],
+            "bbox_ship_px": [
+              4.0,
+              11.3125
+            ],
+            "bbox_design_u": [
+              4.0,
+              11.3125
+            ],
+            "area_ship_px2": 32.998,
+            "equivalent_diameter_ship_px": 6.4819,
+            "equivalent_diameter_design_u": 6.4819,
+            "inscribed_diameter_ship_px": 4.0,
+            "inscribed_diameter_design_u": 4.0,
+            "inscribed_radius_ship_px": 2.0,
+            "inscribed_radius_design_u": 2.0,
+            "minimum_radius_design_u": 1.0,
+            "status": "pass"
+          },
+          {
+            "hole": 2,
+            "center_viewbox": [
+              39.9844,
+              15.4219
+            ],
+            "bbox_viewbox": [
+              38.0,
+              10.3438,
+              4.0,
+              11.3125
+            ],
+            "bbox_ship_px": [
+              4.0,
+              11.3125
+            ],
+            "bbox_design_u": [
+              4.0,
+              11.3125
+            ],
+            "area_ship_px2": 32.998,
+            "equivalent_diameter_ship_px": 6.4819,
+            "equivalent_diameter_design_u": 6.4819,
+            "inscribed_diameter_ship_px": 4.0,
+            "inscribed_diameter_design_u": 4.0,
+            "inscribed_radius_ship_px": 2.0,
+            "inscribed_radius_design_u": 2.0,
+            "minimum_radius_design_u": 1.0,
+            "status": "pass"
+          },
+          {
+            "hole": 3,
+            "center_viewbox": [
+              39.9844,
+              31.4219
+            ],
+            "bbox_viewbox": [
+              38.0,
+              26.3438,
+              4.0,
+              11.3125
+            ],
+            "bbox_ship_px": [
+              4.0,
+              11.3125
+            ],
+            "bbox_design_u": [
+              4.0,
+              11.3125
+            ],
+            "area_ship_px2": 32.998,
+            "equivalent_diameter_ship_px": 6.4819,
+            "equivalent_diameter_design_u": 6.4819,
+            "inscribed_diameter_ship_px": 4.0,
+            "inscribed_diameter_design_u": 4.0,
+            "inscribed_radius_ship_px": 2.0,
+            "inscribed_radius_design_u": 2.0,
+            "minimum_radius_design_u": 1.0,
+            "status": "pass"
+          }
+        ],
+        "authored_hole_count": 3,
+        "raster_artifact_count": 0,
+        "hole_count": 3,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 1.0,
+        "measuring_stroke_width": 1.0,
+        "pinch_measuring_stroke_width": 4,
+        "samples_per_unit": 32
+      },
+      "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+      "internal_spacing_advisory": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 2,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false,
+          "publication_requires_clear_review": true
+        },
+        "findings": [],
+        "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+      }
+    },
+    "key": "solo/p-plus-b-text-sign",
+    "preview_url": "../solo48/p-plus-b-text-sign.svg",
+    "original_sources": [
+      {
+        "url": "originals/508bf3089ff08c3c50a07662fcc7e8765fe24a7adacd64f0ca4137301dc8af65.svg",
+        "format": "SVG",
+        "source_path": "pictographic-primitives/transportation/park and bike_dfc037b7-3cf4-5183-a3ea-94c433baaa81.svg"
+      }
+    ],
+    "python_source": {
+      "path": "icon_set/model/icons/solo/p_plus_b_text_sign_dfc037b7_3cf4_5183_a3ea_94c433baaa81.py",
+      "family": "solo",
+      "class_name": "PPlusBTextSign"
+    },
+    "author": "gpt-6",
+    "variant_of": null,
+    "variant_label": "",
+    "variant_root": "p-plus-b-text-sign"
+  },
+  "feedback": []
+}

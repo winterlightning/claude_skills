@@ -11,7 +11,7 @@ import re
 
 from icon_set.model.icons.registry import factories
 from icon_set.scripts.consolidate_variants import plan_groups
-from icon_set.scripts.workspace import development_dist
+from icon_set.scripts.workspace import build_dist
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -24,7 +24,7 @@ def main():
     replacements = {old['icon_id']: group['latest']
                     for group in groups for old in group['olds']}
     mappings = json.loads((ROOT / 'icon_set/data/container-main-icons.json').read_text())['mappings']
-    catalog = json.loads((development_dist(ROOT) / 'gallery/combinations.json').read_text())
+    catalog = json.loads((build_dist(ROOT) / 'gallery/combinations.json').read_text())
     definitions = [row for row in catalog['rows'] if row['kind'] == 'container']
     counts = Counter()
     for pair in definitions:
@@ -36,7 +36,7 @@ def main():
         if ident not in registered:
             raise ValueError(f"Unresolved main for {pair['id']}: {ident}")
         counts[replacements.get(ident, ident)] += 1
-    out = ROOT / 'icon_set/.local/latest-container-review'
+    out = ROOT / 'published/reports/latest-container-review'
     out.mkdir(parents=True, exist_ok=True)
     cards, rows = [], []
     for ident, count in sorted(counts.items()):

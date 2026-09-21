@@ -9,9 +9,9 @@ from shapely.geometry import shape
 from icon_set.scripts.container_square_fit import assess_square
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 BASE=Path(__file__).resolve().parents[1]
@@ -27,7 +27,7 @@ def main():
     records=[]
     for c in audit['containers']:
         ident=c['container']
-        svg=development_dist(BASE.parent) / 'container64'/f'{ident}.svg'
+        svg=build_dist(BASE.parent) / 'container64'/f'{ident}.svg'
         fresh=hashlib.sha256(svg.read_bytes()).hexdigest()==c['source_sha256']
         r={'container':ident,'source_sha256':c['source_sha256'],'zone_status':c['status'],'sizes':{}}
         for size in (32,48):

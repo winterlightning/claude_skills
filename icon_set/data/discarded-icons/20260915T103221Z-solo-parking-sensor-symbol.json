@@ -1,0 +1,322 @@
+{
+  "discarded_by": "codex",
+  "discarded_at": "2026-09-15T10:32:21.907567+00:00",
+  "source_path": "icon_set/model/icons/solo/parking_sensor_symbol_0e0c3c55_82f6_46b5_83b1_967b4389b677.py",
+  "shared_module": false,
+  "record": {
+    "icon_id": "parking-sensor-symbol",
+    "name": "parking-sensor-symbol",
+    "aliases": [],
+    "category": "transportation",
+    "keywords": [
+      "parking",
+      "sensor",
+      "symbol"
+    ],
+    "family": "solo",
+    "profile": "SOLO48",
+    "canvas_size": 48,
+    "semantic_role": "MAIN",
+    "semantic_kind": "noun",
+    "composition_class": "SOLO",
+    "keyshape": "SQUARE",
+    "keyshape_bounds": [
+      4,
+      4,
+      44,
+      44
+    ],
+    "style": {
+      "stroke_width": 4,
+      "line_cap": "round",
+      "line_join": "round",
+      "grid": 1
+    },
+    "primitives": [
+      {
+        "kind": "line",
+        "element_id": "p-stem",
+        "start": [
+          6,
+          26
+        ],
+        "end": [
+          6,
+          18
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "p-upright",
+        "start": [
+          6,
+          18
+        ],
+        "end": [
+          6,
+          6
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "p-top",
+        "start": [
+          6,
+          6
+        ],
+        "end": [
+          12,
+          6
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "p-bowl",
+        "start": [
+          12,
+          6
+        ],
+        "end": [
+          12,
+          18
+        ],
+        "radius_x": 6,
+        "radius_y": 6,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "p-base",
+        "start": [
+          12,
+          18
+        ],
+        "end": [
+          6,
+          18
+        ]
+      },
+      {
+        "kind": "arc",
+        "element_id": "sonar",
+        "start": [
+          28,
+          8
+        ],
+        "end": [
+          16,
+          30
+        ],
+        "radius_x": 25,
+        "radius_y": 25,
+        "large_arc": false,
+        "sweep": true
+      },
+      {
+        "kind": "line",
+        "element_id": "obstacle-1",
+        "start": [
+          26,
+          42
+        ],
+        "end": [
+          34,
+          26
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "obstacle-2",
+        "start": [
+          34,
+          26
+        ],
+        "end": [
+          42,
+          42
+        ]
+      },
+      {
+        "kind": "line",
+        "element_id": "obstacle-3",
+        "start": [
+          42,
+          42
+        ],
+        "end": [
+          26,
+          42
+        ]
+      }
+    ],
+    "contours": [
+      {
+        "contour_id": "p-loop",
+        "members": [
+          "p-upright",
+          "p-top",
+          "p-bowl",
+          "p-base"
+        ],
+        "closed": true
+      },
+      {
+        "contour_id": "obstacle",
+        "members": [
+          "obstacle-1",
+          "obstacle-2",
+          "obstacle-3"
+        ],
+        "closed": false
+      }
+    ],
+    "anchors": {
+      "center": [
+        24,
+        24
+      ]
+    },
+    "relationships": [
+      {
+        "kind": "connect",
+        "members": [
+          "p-loop",
+          "p-stem"
+        ]
+      }
+    ],
+    "svg_path": "dist/solo48/parking-sensor-symbol.svg",
+    "svg_sha256": "2edfbb9723d28ecf8edcd8b2cc445ccc9ca9f32a368622faff2ce121cb48a2c2",
+    "validation": {
+      "status": "valid",
+      "checks_run": [
+        "schema/profile",
+        "style/grid",
+        "canvas/keyshape bounds",
+        "mic",
+        "keyshape",
+        "composition",
+        "svg round-trip",
+        "reproducibility",
+        "holes/pinches",
+        "internal-spacing-review"
+      ],
+      "warnings": [],
+      "negative_space": {
+        "status": "pass",
+        "authored_holes": [
+          {
+            "hole": 1,
+            "center_viewbox": [
+              11.9531,
+              11.9844
+            ],
+            "bbox_viewbox": [
+              8.0,
+              8.0,
+              8.0,
+              8.0
+            ],
+            "bbox_ship_px": [
+              8.0,
+              8.0
+            ],
+            "bbox_design_u": [
+              8.0,
+              8.0
+            ],
+            "area_ship_px2": 57.126,
+            "equivalent_diameter_ship_px": 8.5285,
+            "equivalent_diameter_design_u": 8.5285,
+            "inscribed_diameter_ship_px": 7.889,
+            "inscribed_diameter_design_u": 7.889,
+            "inscribed_radius_ship_px": 3.9445,
+            "inscribed_radius_design_u": 3.9445,
+            "minimum_radius_design_u": 1.0,
+            "status": "pass"
+          },
+          {
+            "hole": 2,
+            "center_viewbox": [
+              33.9844,
+              37.1094
+            ],
+            "bbox_viewbox": [
+              29.25,
+              30.5,
+              9.5,
+              9.5
+            ],
+            "bbox_ship_px": [
+              9.5,
+              9.5
+            ],
+            "bbox_design_u": [
+              9.5,
+              9.5
+            ],
+            "area_ship_px2": 45.4219,
+            "equivalent_diameter_ship_px": 7.6048,
+            "equivalent_diameter_design_u": 7.6048,
+            "inscribed_diameter_ship_px": 5.8125,
+            "inscribed_diameter_design_u": 5.8125,
+            "inscribed_radius_ship_px": 2.9062,
+            "inscribed_radius_design_u": 2.9062,
+            "minimum_radius_design_u": 1.0,
+            "status": "pass"
+          }
+        ],
+        "authored_hole_count": 2,
+        "raster_artifact_count": 0,
+        "hole_count": 2,
+        "failed_hole_count": 0,
+        "pinch_count": 0,
+        "exception_count": 0,
+        "minimum_authored_diameter": 2.0,
+        "minimum_measured_diameter": 5.0,
+        "configured_fill_depth": 1.0,
+        "effective_fill_depth": 1.0,
+        "measuring_stroke_width": 1.0,
+        "pinch_measuring_stroke_width": 4,
+        "samples_per_unit": 32
+      },
+      "rules_sha256": "e2ba8c30d90c85f52f4b9d8dc9496ce231a86d0f5f59f38eb5326fcc8906c0db",
+      "internal_spacing_advisory": {
+        "status": "pass",
+        "blocking": false,
+        "required_ink_gap": 4.0,
+        "rules": {
+          "version": 2,
+          "sample_step": 0.25,
+          "minimum_run": 2.0,
+          "endpoint_margin": 0.5,
+          "maximum_parallel_angle_degrees": 30,
+          "blocking": false,
+          "publication_requires_clear_review": true
+        },
+        "findings": [],
+        "notice": "Sampled opposing-edge review; unresolved findings prevent publication. Ordinary joins and complete circular contours are excluded. Negative gap indicates overlapping ink."
+      }
+    },
+    "key": "solo/parking-sensor-symbol",
+    "preview_url": "../solo48/parking-sensor-symbol.svg",
+    "original_sources": [
+      {
+        "url": "originals/8fb347103a4735f67c8f5f2ab04bf8e41f1a8cccbb106322a3ed802cc8932754.svg",
+        "format": "SVG",
+        "source_path": "pictographic-primitives/transportation/parkig aid system_0e0c3c55-82f6-46b5-83b1-967b4389b677.svg"
+      }
+    ],
+    "python_source": {
+      "path": "icon_set/model/icons/solo/parking_sensor_symbol_0e0c3c55_82f6_46b5_83b1_967b4389b677.py",
+      "family": "solo",
+      "class_name": "ParkingSensorSymbol"
+    },
+    "author": "gpt-6",
+    "variant_of": null,
+    "variant_label": "",
+    "variant_root": "parking-sensor-symbol"
+  },
+  "feedback": []
+}

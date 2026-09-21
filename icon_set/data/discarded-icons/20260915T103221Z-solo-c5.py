@@ -1,0 +1,30 @@
+"""C5 (symbol), converted from the icons-json construction graph by json_to_solo --mode bezier. HRECT_L keyshape; curves kept as cubic beziers."""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '259c0878-528e-42fb-8d9f-56fe04a84b03'
+SOURCE_PATH = 'pictographic-primitives/symbol/c5_259c0878-528e-42fb-8d9f-56fe04a84b03.svg'
+AUTHOR = 'gpt-6'
+ORIGINAL_AUTHOR = 'json_to_solo'
+REVIEWED_BY = 'gpt-6'
+REVIEW_ACTION = 'geometry-reconstructed'
+
+class C5(Solo48):
+    icon_id = 'c5'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'symbol'
+    aliases = ()
+    keywords = ('c5', 'symbol')
+
+    def build(self):
+        # Plan: remove subpixel cubic detours while preserving real contour nodes.
+        # Reference: supplied subject and its existing stroke graph.
+        self.add_line('e0', (42, 8), (31, 8))
+        self.add_line('e1', (31, 8), (29, 24))
+        self.add_line('e2', (29, 24), (32, 22))
+        self.add_bezier('e3', (21, 14), ((19.7, 11.1), (17.573, 8.02), (14.318, 8.02)), ((14.209, 8.01), (14.1, 8.01), (13.991, 8)), ((13.773, 8), (13.564, 8.02), (13.355, 8.02)), ((12.482, 8.02), (11.518, 8.38), (10.718, 8.73)), ((5.736, 10.95), (4.009, 17.49), (4.009, 22.91)), ((4.009, 23.156), (4, 23.392), (4, 23.638)), ((4, 24.14), (4.009, 24.64), (4.009, 25.13)), ((4.009, 31.51), (6.382, 40), (13.436, 40)), ((13.577, 40), (13.711, 40), (13.855, 40)), ((13.991, 39.99), (14.127, 39.99), (14.264, 39.98)), ((17.764, 39.98), (19.782, 37.33), (21, 34)))
+        self.add_bezier('e4', (32, 22), ((37.936, 17.65), (44, 22.06), (44, 29.57)), ((44, 29.828), (43.991, 30.064), (43.991, 30.31)), ((43.991, 35.05), (40.745, 39.99), (36.145, 39.99)), ((36.055, 39.99), (35.964, 40), (35.864, 40)), ((35.664, 40), (35.455, 39.98), (35.255, 39.98)), ((32.755, 39.98), (30.336, 38.1), (29, 36)))
+        self.add_contour('c0', 'e3', closed=False)
+        self.add_contour('c1', 'e0', 'e1', 'e2', 'e4', closed=False)

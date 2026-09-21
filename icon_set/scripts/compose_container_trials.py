@@ -8,9 +8,9 @@ import re
 import sys
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -48,8 +48,8 @@ def main():
         metadata = {k: pair[k] for k in ('pair_id', 'concept', 'main_source_id', 'sub_source_id') if k in pair}
         if filename not in cache:
             try:
-                host_path = development_dist(ROOT) / f'container64/{host_id}.svg'
-                sub_path = development_dist(ROOT) / f'solo48/{sub_id}.svg'
+                host_path = build_dist(ROOT) / f'container64/{host_id}.svg'
+                sub_path = build_dist(ROOT) / f'solo48/{sub_id}.svg'
                 host = Artwork.read(host_path.read_text(), 64)
                 sub = Artwork.read(sub_path.read_text(), 48)
                 result = place(host, sub, padding=args.padding, sizes=args.sizes,
