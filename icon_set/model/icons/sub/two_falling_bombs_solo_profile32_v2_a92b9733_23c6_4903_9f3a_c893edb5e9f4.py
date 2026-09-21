@@ -7,7 +7,7 @@ from ._base import Sub32
 SOURCE_ICON_ID = 'a92b9733-23c6-4903-9f3a-c893edb5e9f4'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/state/bombs_a92b9733-23c6-4903-9f3a-c893edb5e9f4.svg'
 AUTHOR = 'gpt-6'
-SOURCE_REFERENCES = (('a92b9733-23c6-4903-9f3a-c893edb5e9f4', 'pictographic-primitives/state/bombs_a92b9733-23c6-4903-9f3a-c893edb5e9f4.svg'),)
+SOURCE_REFERENCES = (('a92b9733-23c6-4903-9f3a-c893edb5e9f4', 'pictographic-primitives/state/bombs_a92b9733-23c6-4903-9f3a-c893edb5e9f4.svg'), ('c44044e2-1060-423d-b9c2-c927d9bf1777', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/state/bombs_c44044e2-1060-423d-b9c2-c927d9bf1777.svg'))
 PROFILE_SOURCE_KEYS = ('solo/two-falling-bombs-solo',)
 SOLO_SOURCE_ICON_IDS = ('two-falling-bombs-solo',)
 REFERENCE_EXPORT_SHA256 = '541331099ccfba43b09640cdf3f213721080150ea2b320abe3b5a2af4a61cb6c'

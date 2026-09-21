@@ -1,0 +1,43 @@
+'Seated Cross-Legged Meditator.\nSymbol plan: A person sits cross-legged beneath a separate circular head, with the torso upright. Both arms curve outward toward rounded hands, while the overlapping bent legs form a wide base below the waist.\nConstruction: Human full_body_ref.png: circular heads, coherent torso/limbs, exact 8u centerline / 4u ink head-to-neck clearance.\nReduction: Keep symmetric open arms and broad crossed legs.\nKeyshape HRECT_L.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID = '0bd954e0-d5a7-4f63-8f86-8aba221682c2'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_31/pose_0bd954e0-d5a7-4f63-8f86-8aba221682c2.svg'
+AUTHOR = 'gpt-6'
+
+class BatchIcon(Solo48):
+    icon_id = 'seated-cross-legged-meditator'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/reference"
+    aliases = ()
+    keywords = ('meditation', 'yoga', 'person', 'seated', 'pose', 'crosslegged')
+    def build(self):
+
+        def line(n,a,b): self.add_line(n,a,b)
+        def poly(n,*p,closed=False): self.add_polyline(n,*p,closed=closed)
+        def arc(n,a,b,r,ry=None,s=True): self.add_arc(n,a,b,radius_x=r,radius_y=ry,sweep=s)
+        def bez(n,a,*s): self.add_bezier(n,a,*s)
+        def con(n,*p,closed=False):
+            self.contours[:] = [c for c in self.contours if not set(c.members)&set(p)]
+            self.add_contour(n,*p,closed=closed)
+        def circle(n,x,y,r):
+            arc(n+'a',(x-r,y),(x+r,y),r);arc(n+'b',(x+r,y),(x-r,y),r)
+            con(n,n+'a',n+'b',closed=True)
+        def rect(n,x,y,w,h,r=0):
+            if not r: poly(n,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True);return
+            ps=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+            for j in range(8):
+                if j%2: arc(n+str(j),ps[j],ps[(j+1)%8],r)
+                else: line(n+str(j),ps[j],ps[(j+1)%8])
+            con(n,*(n+str(j) for j in range(8)),closed=True)
+        circle('head',24,12,4);line('torso',(24,24),(24,32))
+        poly('arms',(4,32),(12,32),(16,24),(24,24),(32,24),(36,32),(44,32))
+        bez('left-leg',(24,32),((10,32),(4,40),(16,40)),((22,40),(26,40),(32,40)))
+        bez('right-leg',(24,32),((38,32),(44,40),(32,40)))
+        self.relate('connect','arms','torso');self.mark_human_figure('person',head='head',torso='torso',torso_junction='start')
+        # Declare only real, shared endpoints as automatic contacts.
+        for i,a in enumerate(self.primitives):
+            for b in self.primitives[i+1:]:
+                if {a.start,a.end}&{b.start,b.end}: self.relate('connect',a.element_id,b.element_id)

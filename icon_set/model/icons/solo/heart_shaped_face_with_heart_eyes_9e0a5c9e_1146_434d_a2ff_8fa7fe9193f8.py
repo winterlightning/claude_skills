@@ -45,6 +45,6 @@ class Drawing(Solo48):
         def poly(name, *points, closed=False): self.add_polyline(name,*points,closed=closed)
         def join(a,b): self.relate('connect',a,b)
         path('heart',(24,40),[('C',(4,19),(12,32),(4,28)),('A',(14,8),10,11,True),('C',(24,13),(19,8),(21,10)),('C',(34,8),(27,10),(29,8)),('A',(44,19),10,11,True),('C',(24,40),(44,28),(36,32))],True)
-        for j,x in enumerate((14,34)):
+        for j,x in enumerate((16,32)):
          path(f'eye-{j}',(x,24),[('C',(x-4,19),(x-3,22),(x-4,21)),('C',(x,18),(x-4,15),(x-1,15)),('C',(x+4,19),(x+1,15),(x+4,15)),('C',(x,24),(x+4,21),(x+3,22))],True)
-        path('smile',(19,30),[('C',(29,30),(22,34),(26,34))])
+        path('smile',(21,30),[('C',(27,30),(23,32),(25,32))])

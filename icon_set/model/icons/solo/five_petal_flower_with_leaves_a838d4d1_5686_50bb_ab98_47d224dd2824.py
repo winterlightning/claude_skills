@@ -37,3 +37,5 @@ class FivePetalFlowerWithLeaves(Solo48):
         self.add_arc("leaf-right", (24,44), (40,34), radius_x=16, radius_y=10)
         self.relate("connect", "stem", "leaf-left")
         self.relate("connect", "stem", "leaf-right")
+
+SOURCE_REFERENCES = (('2b341bc8-cb9a-4490-9129-7339b9080d7e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_25/lilac_2b341bc8-cb9a-4490-9129-7339b9080d7e.svg'),)

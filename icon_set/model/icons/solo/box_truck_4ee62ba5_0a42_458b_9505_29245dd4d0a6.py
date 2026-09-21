@@ -35,3 +35,6 @@ class BoxTruck(Solo48):
 # Equivalent second supplied reference, retained for future source-ID lookup.
 ADDITIONAL_SOURCE_ICON_ID = 'f2efc44d-db38-430e-95d2-cf55974a8afa'
 ADDITIONAL_SOURCE_PATH = 'pictographic-primitives/transportation/truck 2_f2efc44d-db38-430e-95d2-cf55974a8afa.svg'
+
+# Recognized source-reuse metadata for gallery and UUID progression.
+SOURCE_REFERENCES = ((ADDITIONAL_SOURCE_ICON_ID, ADDITIONAL_SOURCE_PATH),)

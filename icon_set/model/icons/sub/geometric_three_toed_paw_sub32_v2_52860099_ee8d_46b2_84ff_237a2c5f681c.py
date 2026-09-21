@@ -7,7 +7,7 @@ from ._base import Sub32
 SOURCE_ICON_ID = '52860099-ee8d-46b2-84ff-237a2c5f681c'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/paw print_52860099-ee8d-46b2-84ff-237a2c5f681c.svg'
 AUTHOR = 'gpt-6'
-SOURCE_REFERENCES = (('52860099-ee8d-46b2-84ff-237a2c5f681c', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/paw print_52860099-ee8d-46b2-84ff-237a2c5f681c.svg'),)
+SOURCE_REFERENCES = (('52860099-ee8d-46b2-84ff-237a2c5f681c', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/paw print_52860099-ee8d-46b2-84ff-237a2c5f681c.svg'), ('70306aa2-f188-495b-bfeb-fcee199061f9', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/state/paw_70306aa2-f188-495b-bfeb-fcee199061f9.svg'))
 PROFILE_SOURCE_KEYS = ('solo/geometric-three-toed-paw',)
 SOLO_SOURCE_ICON_IDS = ('geometric-three-toed-paw',)
 REFERENCE_EXPORT_SHA256 = '39b268cd29b8fe180b12d9648e587752d662b0b77bb4626884bab91668a81a4f'

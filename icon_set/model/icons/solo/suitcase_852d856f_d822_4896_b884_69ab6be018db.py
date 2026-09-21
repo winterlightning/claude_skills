@@ -61,3 +61,5 @@ class Suitcase(Solo48):
         self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
         self.relate('connect', 'sym-c0', 'sym-c2', 'sym-c3')
         self.relate('connect', 'sym-c0', 'sym-c1', 'sym-c2')
+
+SOURCE_REFERENCES = (('e5b10ed9-04b3-459c-88b3-1713b82f6977', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_26/luggage_e5b10ed9-04b3-459c-88b3-1713b82f6977.svg'),)

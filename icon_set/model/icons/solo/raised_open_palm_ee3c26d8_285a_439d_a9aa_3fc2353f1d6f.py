@@ -49,3 +49,6 @@ class IconRaisedOpenPalm(Solo48):
          x=first_x+(i+1)*step
          start=(x,max(heights[i],heights[i+1]))
          self.add_line(name,start,(x,end_y));self.relate('connect',name,'outline')
+
+# Additional source explicitly assigned to this existing concept by its brief.
+SOURCE_REFERENCES = (('83c18653-4bbf-498c-80b3-a71d2a06335a', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_24/labor hands_83c18653-4bbf-498c-80b3-a71d2a06335a.svg'),)

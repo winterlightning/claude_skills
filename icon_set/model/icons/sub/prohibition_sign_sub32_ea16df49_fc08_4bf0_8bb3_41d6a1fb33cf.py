@@ -8,7 +8,7 @@ from ._base import Sub32
 SOURCE_ICON_ID = 'ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf'
 SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/prohitbition_ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf.svg'
 AUTHOR = 'gpt-6'
-SOURCE_REFERENCES = (('ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/prohitbition_ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf.svg'),)
+SOURCE_REFERENCES = (('ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/other/prohitbition_ea16df49-fc08-4bf0-8bb3-41d6a1fb33cf.svg'), ('9d7e100f-bbce-49f1-a485-175de3295e3d', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/state/cancel_9d7e100f-bbce-49f1-a485-175de3295e3d.svg'))
 PROFILE_SOURCE_KEYS = ('solo/prohibition-sign-solo',)
 SOLO_SOURCE_ICON_IDS = ('prohibition-sign-solo',)
 REFERENCE_EXPORT_SHA256 = '23c54c8a7a1e6e82d73a8021292de19b8e794ebb3f94431efc854dd701fcc733'

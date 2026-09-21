@@ -1,0 +1,40 @@
+'narrow-museum-pedestal. Plan: Narrow shaft between matching broad top and foot blocks. Keyshape: VRECT_M, exact SOLO48 bounds. Construction: Lucide landmark: shared vertical structure. Reduction: Omit duplicate moldings; retain projected cap and base.'
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '91dd4804-f2fe-41a7-a046-e6ebdedaa024'
+SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_30/pedestal_91dd4804-f2fe-41a7-a046-e6ebdedaa024.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'narrow-museum-pedestal'
+    keyshape = Keyshape.VRECT_M
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = 'objects'
+    aliases = ()
+    keywords = ('pedestal', 'museum', 'plinth', 'stone', 'display', 'column')
+
+    def build(self):
+
+        def path(name, start, commands, closed=False):
+            here = start
+            members = []
+            for index, (kind, end, *args) in enumerate(commands):
+                member = f"{name}-{index}"
+                if kind == 'L': self.add_line(member, here, end)
+                elif kind == 'A': self.add_arc(member, here, end, radius_x=args[0], radius_y=args[1], sweep=args[2], large_arc=args[3] if len(args)>3 else False)
+                elif kind == 'C': self.add_bezier(member, here, (args[0], args[1], end))
+                members.append(member)
+                here = end
+            self.add_contour(name, *members, closed=closed)
+        def circle(name, x, y, r):
+            path(name, (x-r,y), [('A',(x,y-r),r,r,True),('A',(x+r,y),r,r,True),('A',(x,y+r),r,r,True),('A',(x-r,y),r,r,True)], True)
+        def rect(name, x, y, w, h, r=0):
+            if not r:
+                self.add_polyline(name,(x,y),(x+w,y),(x+w,y+h),(x,y+h),closed=True)
+            else:
+                path(name,(x+r,y), [('L',(x+w-r,y)),('A',(x+w,y+r),r,r,True),('L',(x+w,y+h-r)),('A',(x+w-r,y+h),r,r,True),('L',(x+r,y+h)),('A',(x,y+h-r),r,r,True),('L',(x,y+r)),('A',(x+r,y),r,r,True)],True)
+        rect('cap',10,4,28,8,0);rect('base',10,36,28,8,0)
+        for x in (18,30):
+         self.add_line(f'shaft-{x}',(x,12),(x,36));self.relate('connect','cap',f'shaft-{x}');self.relate('connect','base',f'shaft-{x}')

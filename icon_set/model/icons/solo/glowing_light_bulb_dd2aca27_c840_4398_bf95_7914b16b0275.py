@@ -31,3 +31,5 @@ class GlowingLightBulb(Solo48):
         self.add_dot('ray-right', (42, 24))
         self.add_dot('ray-nw', (10, 10))
         self.add_dot('ray-ne', (38, 10))
+
+SOURCE_REFERENCES = (('6230f0a2-a422-49f8-9b63-57668a37457e', '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_25/lightbulb on_6230f0a2-a422-49f8-9b63-57668a37457e.svg'),)
