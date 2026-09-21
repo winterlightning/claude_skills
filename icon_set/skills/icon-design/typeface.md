@@ -18,7 +18,10 @@ For standalone glyphs at heights 12 through 32, reuse the generated size-specifi
 SVGs under `gallery/typeface/sizes/<height>/<icon_id>.svg`. Every integer height
 is supported. Generate these with `python3 -m icon_set typeface-sizes`; normal
 gallery builds also export them. Width is the base width times height / 24,
-rounded to the nearest whole unit (half upward). Stroke width stays exactly 4 in final coordinates at every size. Geometry
+rounded to the nearest even integer (odd-unit ties round upward, e.g. 9 → 10).
+Every exported width must be divisible by 2, including the height-24 export.
+The stored base is the proportion reference; fitted exports apply this rule.
+Stroke width stays exactly 4 in final coordinates at every size. Geometry
 is fitted before export; no transform scales the stroke. Zero-width centerlines
 (such as i) stay 4 units wide. Flat marks and point-only glyphs remain 4 units
 tall, centered in the requested height. Read `ink_height` and `ink_top` separately

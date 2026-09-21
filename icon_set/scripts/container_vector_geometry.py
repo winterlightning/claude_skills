@@ -83,11 +83,13 @@ def vector_zone(ink, area):
             'bounds_units': list(inner.bounds), 'curve_error_units': ink.error}, inner, outer
 
 
-def check_pair(host, sub, zone_inner=None, zone_outer=None):
+def check_pair(host, sub, zone_inner=None, zone_outer=None, *, padding=PADDING):
+    if not math.isfinite(padding) or padding < 0:
+        raise ValueError('Padding must be a finite nonnegative number.')
     distance = host.lines.distance(sub.lines)
     uncertainty = host.error + sub.error + GUARD
     lower, upper = max(0., distance - 4 - uncertainty), max(0., distance - 4 + uncertainty)
-    gap_status = 'pass' if lower >= PADDING else ('fail' if upper < PADDING else 'review')
+    gap_status = 'pass' if lower >= padding else ('fail' if upper < padding else 'review')
     sub_outer, sub_inner = sub.envelope(2, True), sub.envelope(2, False)
     if zone_inner is None:
         containment = 'review'

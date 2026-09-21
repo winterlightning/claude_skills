@@ -45,7 +45,7 @@ class TypefaceSizesTests(unittest.TestCase):
                         h = size['height']
                         path_w = glyph['bounds'][2]-glyph['bounds'][0]
                         path_h = glyph['bounds'][3]-glyph['bounds'][1]
-                        w = max(4,int(glyph['ink_width']*h/24+0.5)) if path_w > 1e-9 else 4
+                        w = max(4,2*int(glyph['ink_width']*h/48+0.5)) if path_w > 1e-9 else 4
                         ink_h = h if path_h > 1e-9 else 4
                         top = (h-ink_h)/2
                         self.assertEqual(size['ink_height'],ink_h)
@@ -56,6 +56,7 @@ class TypefaceSizesTests(unittest.TestCase):
                         self.assertEqual(svg.get('width'),str(w))
                         self.assertEqual(svg.get('height'),str(h))
                         self.assertEqual(size['width'],w)
+                        self.assertEqual(w % 2,0)
             with ZipFile(target/'typeface-12-to-32.zip') as archive:
                 self.assertEqual(len(archive.namelist()),107*21+2)
                 self.assertEqual(json.loads(archive.read('manifest.json')),manifest)
@@ -66,7 +67,7 @@ class TypefaceSizesTests(unittest.TestCase):
     def test_all_intermediate_sizes_and_narrow_stems(self):
         by_char = {g['character']:g for g in self.glyphs if g['preferred']}
         self.assertEqual([size_record(by_char['C'],h)['width'] for h in HEIGHTS],
-                         [8,9,9,10,11,11,12,13,13,14,15,15,16,17,17,18,19,19,20,21,21])
+                         [8,8,10,10,10,12,12,12,14,14,14,16,16,16,18,18,18,20,20,20,22])
         # Narrow stems cannot be narrower than the fixed stroke.
         size = size_record(by_char['i'],15)
         self.assertEqual(size['width'],4)
@@ -75,6 +76,12 @@ class TypefaceSizesTests(unittest.TestCase):
             self.assertEqual(size_record(by_char['.'],h)['width'],4)
             self.assertEqual(size_record(by_char['.'],h)['ink_height'],4)
             self.assertEqual(size_record(by_char['-'],h)['ink_height'],4)
+
+    def test_even_width_ties_round_up(self):
+        by_char = {g['character']:g for g in self.glyphs if g['preferred']}
+        self.assertEqual(size_record(by_char['O'],12)['width'],10)  # 9 -> 10
+        self.assertEqual(size_record(by_char['O'],28)['width'],22)  # 21 -> 22
+        self.assertEqual(size_record(by_char['A'],24)['width'],20)  # 19 -> 20
 
     def test_invalid_sizes_are_rejected(self):
         for height in (11,33,12.5,True,'24'):

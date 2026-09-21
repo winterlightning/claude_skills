@@ -1,27 +1,22 @@
-"""A circular lens with a diagonal handle extending to the lower right.
-
-SQUARE: (0, 0, 64, 64); chosen for the source silhouette.
-Lucide search: circular lens and radial handle; intentional directional asymmetry; original and atomic-debug inspected for construction.
-Source details retained; export irregularities simplified.
-Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
+"""Enlarge the lens slightly while retaining the diagonal handle.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class SearchMagnifyingGlass(Container64):
     icon_id = 'search-magnifying-glass'
     keyshape = Keyshape.SQUARE
-    aliases = ('search-magnifying-glass-icon', 'magnifier')
-    keywords = ('search', 'magnifying', 'glass')
+    aliases = ()
+    keywords = ()
 
-    def build(self) -> None:
-        self.add_arc('lens-0', (42, 47), (2, 27), radius_x=25, radius_y=25, sweep=True)
-        self.add_arc('lens-1', (2, 27), (52, 27), radius_x=25, radius_y=25, sweep=True)
-        self.add_arc('lens-2', (52, 27), (42, 47), radius_x=25, radius_y=25, sweep=True)
-        self.add_contour('lens', 'lens-0', 'lens-1', 'lens-2', closed=True)
-        self.add_line('handle-0', (42, 47), (62, 62))
-        self.add_contour('handle', 'handle-0', closed=False)
-        self.relate("connect", "lens", "handle")
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        ellipse(self,'lens',28,28,26)
+        line('handle',(44,48),(62,62));join('lens','handle')

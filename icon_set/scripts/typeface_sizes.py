@@ -18,8 +18,9 @@ def size_record(glyph, height):
         raise ValueError('Typeface height must be an integer from 12 through 32')
     if glyph.get('ink_height') != 24 or glyph.get('geometry_policy') != 'grid-ink-height24':
         raise ValueError('Typeface sizes require the approved 24-unit base')
-    # Integer arithmetic gives exact half-up rounding, including halfway cases.
-    width = (glyph['ink_width'] * height + 12) // 24
+    # Round the proportional width to the nearest multiple of 2.
+    # Exact odd-unit ties go upward (e.g. 9 -> 10).
+    width = 2 * ((glyph['ink_width'] * height + 24) // 48)
     left, top, right, bottom = glyph['bounds']
     path_width, path_height = right-left, bottom-top
     # A point or vertical centerline is exactly one stroke wide at every size.
@@ -79,8 +80,8 @@ def stage_sizes(target, glyphs):
     """Stage disposable exports beneath a caller-owned, locked output folder."""
     target = Path(target)
     target.mkdir(parents=True, exist_ok=True)
-    manifest = {'schema_version': 2, 'base_height': 24, 'heights': list(HEIGHTS),
-                'rounding': 'nearest-integer-half-up',
+    manifest = {'schema_version': 3, 'base_height': 24, 'heights': list(HEIGHTS),
+                'rounding': 'nearest-multiple-of-2-half-up', 'width_grid': 2,
                 'stroke_policy': 'constant-4-final-units', 'glyphs': []}
     for height in HEIGHTS:
         (target / str(height)).mkdir(exist_ok=True)

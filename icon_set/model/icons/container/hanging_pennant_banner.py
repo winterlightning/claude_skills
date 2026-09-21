@@ -1,27 +1,23 @@
-"""A pointed fabric pennant hanging from a rod and triangular cord.
-
-VRECT_L: visible (8, 0, 56, 64); centerline (10, 2)-(54, 62).
-Reference: batch_05 source render. Lucide pentagon closed angular construction informs the tapered lower field..
-Angular fabric folds use round stroke joins; no ornament added.
-Hosting measured with compose.py: plus: does not clear; heart: does not clear; check: does not clear.
+"""Widen the banner while keeping the cord and pointed lower edge.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
-
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class HangingPennantBanner(Container64):
-    icon_id = "hanging-pennant-banner"
-    keyshape = Keyshape.VRECT_L
+    icon_id = 'hanging-pennant-banner'
+    keyshape = Keyshape.VRECT_XL
     aliases = ()
-    keywords = ('hanging', 'pennant', 'banner')
+    keywords = ()
 
-    def build(self) -> None:
-        self.add_line('rod', (10, 14), (54, 14))
-        self.add_polyline('cord', (14, 14), (32, 2), (50, 14), closed=False)
-        self.add_polyline('banner', (14, 14), (14, 48), (32, 62), (50, 48), (50, 14), closed=False)
-        self.relate("connect", 'rod', 'cord')
-        self.relate("connect", 'rod', 'banner')
-        self.relate("connect", 'cord', 'banner')
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        line('rod',(6,14),(58,14));poly('cord',(18,14),(32,2),(46,14))
+        poly('banner',(10,14),(10,50),(32,62),(54,50),(54,14))
+        join('rod','cord');join('rod','banner');join('cord','banner')

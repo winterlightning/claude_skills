@@ -7,17 +7,15 @@ Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class SimpleFoldedBooklet(Container64):
     icon_id = 'simple-folded-booklet'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_L
     aliases = ('folded-booklet',)
     keywords = ('simple', 'folded', 'booklet')
 
     def build(self) -> None:
-        self.add_polyline('front', (14, 14), (50, 14), (50, 62), (14, 62), closed=True)
-        self.add_polyline('rear', (14, 14), (46, 2), (46, 14), closed=False)
-        self.relate("connect", 'front', 'rear')
+        self.add_polyline('front', (10, 14), (54, 14), (54, 62), (10, 62), closed=True)
+        self.add_polyline('rear', (10, 14), (46, 2), (46, 14), closed=False)
+        self.relate('connect', 'front', 'rear')

@@ -57,6 +57,15 @@ class VectorGeometryTests(unittest.TestCase):
         self.assertEqual(result['containment_status'],'fail')
         self.assertEqual(result['status'],'fail')
 
+    def test_six_unit_padding_measures_visible_stroke_edges(self):
+        host = VectorInk.from_art(art('M4 10H60'))
+        for y, expected in [(20.01, 'pass'), (19.99, 'fail'), (20, 'review')]:
+            sub = VectorInk.from_art(art(f'M10 {y}H50'))
+            result = check_pair(host, sub, box(0,0,64,64), box(0,0,64,64), padding=6)
+            self.assertEqual(result['gap_status'], expected)
+        with self.assertRaises(ValueError):
+            check_pair(host, host, padding=-1)
+
     def test_open_face_is_not_fabricated(self):
         host=VectorInk.from_art(art('M4 4V60H60V4'))
         info, inner, outer=zone(host)

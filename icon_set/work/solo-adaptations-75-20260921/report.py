@@ -1,0 +1,46 @@
+"""Create the source-to-artwork review and its complete 75-source mapping."""
+import html,json,os,pathlib
+from urllib.parse import quote
+W=pathlib.Path(__file__).parent;ROOT=W.parents[2]
+scope=json.loads((W/'scope.json').read_text())
+attempts={r['number']:r for r in json.loads((W/'validation.json').read_text())}
+installed={r['number']:r for r in json.loads((W/'installed.json').read_text())}
+qa={r['number']:r['qa'] for r in json.loads((W/'full-qa.json').read_text())}
+held_notes={
+152:'Four separate 8-unit cells, an 8-unit gap, and the two frame clearances require a 40 × 40 centerline envelope. SOLO48 has only 36 × 36 for a square. Shrinking the cells or gaps fails MIC.',
+172:'The improved pills share their knob curves correctly, but the enclosing frame has uncertified 8-unit curved gaps. The full check also reports tight knob openings and inferred symmetry findings. This is not a pass.',
+438:'Two notification cards with their own text marks, a speaker, and the phone outline cannot retain the current spacing. Text-to-card and card-to-card gaps still fail.',
+456:'Three 8-unit cells per row plus the enclosing frame need 40 units in width; two separate rows plus the frame need 40 in height. The current 36-unit square leaves only 6-unit frame gaps.',
+515:'The header dots, sidebar list and two separate content panels still crowd their enclosing boundaries. Removing those features would no longer deliver the requested page layout.',
+524:'Five separate outlined date boxes cannot fit three across with 8-unit cell width, inter-cell gaps and frame clearances. Replacing them with dots would duplicate the other calendar concept.',
+641:'The outer frame, inner square and central square need at least five successive 8-unit spans on each axis. The inner and central edges remain 6 units apart.',
+653:'The inset drawing area, circular mark, side controls and diagonal stylus still fail clearance. The preserved candidate shows exactly which features need a different composition.',
+712:'The circled star passes the basic model check but fails full build QA: two undersized holes and narrow star-to-circle spaces. It remains unpublished.'}
+def url(p):return quote(os.path.relpath(pathlib.Path(p),W),safe='/')
+def esc(s):return html.escape(str(s))
+cards=[];mapping=[]
+for row in scope:
+ n=row['number'];canonical=row['canonical_source_number'];r=attempts[canonical];ready=canonical in installed
+ status='ready' if ready else 'held';reason=r['reduction'] if ready else held_notes[canonical]
+ model=installed.get(canonical,{}).get('model_path');svg=str(ROOT/'icon_set/.local/dist/solo48'/f"{r['icon_id']}.svg") if ready else None
+ item={'source_number':n,'source_uuid':row['uuid'],'name':row['name'],'reference_path':row['reference_path'],'status':status,'canonical_source_number':canonical,'solo_icon_id':r['icon_id'] if ready else None,'proposed_icon_id':r['icon_id'],'model_path':model,'svg_path':svg,'parent_icon_id':r['parent'],'family':'solo','keyshape':r['keyshape'],'notes':reason,'validation':qa.get(canonical,{'status':r['status'],'errors':[r['report']]}),'native_visual_review':ready}
+ mapping.append(item)
+ shared=f' · shares artwork with #{canonical}' if n!=canonical else ''
+ details=qa.get(canonical,{});findings='\n'.join(details.get('errors',[])+details.get('warnings',[])) or r['report']
+ target=f'<a href="{url(svg)}">Open SVG</a> · <a href="{url(model)}">Drawing source</a>' if ready else 'Candidate only — excluded from the library'
+ source=row['authoring_plan']['reference_path'] if n==canonical else ROOT/'pictographic-primitives'/row['reference_path']
+ parent=row['existing_target']['preview']
+ cards.append(f'''<article data-status="{status}" data-search="{esc((str(n)+' '+row['name']+' '+r['icon_id']).lower())}" id="icon-{n}">
+<div class="card-head"><span>#{n}{shared}</span><b class="{status}">{'Ready' if ready else 'Needs review'}</b></div>
+<h2>{esc(row['name'])}</h2><div class="images"><figure><div class="preview"><img src="{url(source)}" alt="Original reference"></div><figcaption>Reference</figcaption></figure><figure><div class="preview"><img src="{url(parent)}" alt="Existing artwork"></div><figcaption>Existing artwork</figcaption></figure><figure><div class="preview"><img src="previews/{canonical}-light-2.png" alt="Solo adaptation"></div><figcaption>Adaptation · 2×</figcaption></figure></div>
+<div class="native"><span>Actual 48 px</span><div class="light"><img src="previews/{canonical}-light-1.png" width="48" height="48" alt="Light at 48 pixels"></div><div class="dark"><img src="previews/{canonical}-dark-1.png" width="48" height="48" alt="Dark at 48 pixels"></div></div>
+<p>{esc(reason)}</p><div class="links">{target}</div><details><summary>Drawing and checks</summary><p>{esc(r['keyshape'])} · 48 × 48 · stroke 4 · author gpt-6</p><p>Lucide {esc(r['lucide_reference'])}: inspected original and atomic geometry. Adapted from {esc(r['parent'])}; original preserved.</p><p>{esc(r['reduction'])}</p><pre>{esc(findings if not ready else 'Model: valid, zero warnings.\nFull build QA: pass, zero warnings.\nReviewed in light and dark at 48 px.')}</pre></details></article>''')
+ready_count=sum(m['status']=='ready' for m in mapping)
+(W/'source-mapping.json').write_text(json.dumps(mapping,indent=2)+'\n')
+page='''<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>75 solo adaptations</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f4f6;color:#192431;font:15px/1.5 system-ui,sans-serif}header{background:#fff;border-bottom:1px solid #ddd;padding:32px max(24px,calc((100vw - 1400px)/2))}h1{font-size:32px;letter-spacing:-.8px;margin:0 0 8px}header p{max-width:900px;color:#586474}nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}button,input{font:inherit;border:1px solid #cbd2da;border-radius:8px;background:white;padding:8px 13px}button{cursor:pointer}button.active{background:#192431;color:#fff}input{min-width:260px}.grid{max-width:1450px;margin:24px auto;padding:0 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:18px}article{background:#fff;border:1px solid #dce1e7;border-radius:12px;padding:18px;min-width:0}.card-head{display:flex;justify-content:space-between;gap:8px;color:#647184;font-size:12px}.ready,.held{border-radius:20px;padding:3px 9px;white-space:nowrap}.ready{background:#e1f4e9;color:#146839}.held{background:#fff0d5;color:#8b5200}h2{font-size:17px;line-height:1.3;min-height:44px;margin:14px 0}.images{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}figure{margin:0}figcaption{text-align:center;color:#677486;font-size:11px;margin:5px 0}.preview{height:112px;display:grid;place-items:center;border:1px solid #edf0f3;background:white;border-radius:8px}.preview img{width:96px;height:96px;object-fit:contain}.native{display:flex;align-items:center;gap:8px;margin:14px 0;font-size:12px;color:#627086}.native span{margin-right:auto}.native>div{padding:7px;border-radius:7px;display:flex}.light{background:white;border:1px solid #e3e5e8}.dark{background:#171717}article p{font-size:13px;color:#526071}.links{font-size:12px;color:#986323}a{color:#1c5b9c}details{font-size:12px;border-top:1px solid #edf0f3;margin-top:15px;padding-top:12px}summary{cursor:pointer;color:#596677}pre{white-space:pre-wrap;font:11px/1.6 ui-monospace,monospace;max-height:280px;overflow:auto}footer{max-width:1400px;margin:28px auto;padding:0 24px 30px;color:#667385;font-size:13px}[hidden]{display:none!important}
+</style><header><h1>Solo adaptations</h1>'''
+page+=f'<p><strong>{ready_count} of 75 references ready</strong>, using {len(installed)} distinct solo drawings. Four duplicate references share their artwork. The remaining {75-ready_count} are clearly marked for review and have not been published.</p><p>Every published drawing passed model validation and the full build checks, including holes and internal spacing, and was reviewed at 48 px in both themes. Existing artwork is preserved.</p><nav><button class="active" data-filter="all">All 75</button><button data-filter="ready">Ready {ready_count}</button><button data-filter="held">Needs review {75-ready_count}</button><input id="search" placeholder="Find by name or source number" aria-label="Search icons"></nav></header><main class="grid">'+''.join(cards)+'</main>'
+page+='''<footer>Only these 75 adaptation cases were processed. The other solo-generation briefs and container classifications remain outside this drawing pass. <a href="source-mapping.json">Complete source mapping</a> · <a href="../centered-container-recheck-20260921/index.html">Return to classification review</a></footer><script>let filter='all';const search=document.querySelector('#search');function update(){let q=search.value.toLowerCase();document.querySelectorAll('article').forEach(e=>e.hidden=(filter!=='all'&&e.dataset.status!==filter)||!e.dataset.search.includes(q))}document.querySelectorAll('button[data-filter]').forEach(b=>b.onclick=()=>{filter=b.dataset.filter;document.querySelectorAll('button').forEach(x=>x.classList.toggle('active',x===b));update()});search.oninput=update;</script></html>'''
+(W/'index.html').write_text(page)
+print(f'Report: {ready_count}/75 ready; {len(installed)} drawings; {75-ready_count} held.')

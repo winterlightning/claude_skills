@@ -1,32 +1,22 @@
-"""A video camera with a rounded body and projecting lens.
-
-Keyshape HRECT_M: chosen for the reference silhouette.
-Lucide video: connected trapezoid and rounded enclosure; rebuilt on the integer CONTAINER64 grid.
-Source details retained unless noted in the batch review.
-Hosting (compose.py): plus valid, heart does not fit, check valid.
+"""Taller camera body and a narrower attached lens wedge.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
-
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class DigitalVideoCamera(Container64):
     icon_id = 'digital-video-camera'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_XL
     aliases = ()
-    keywords = ('digital', 'video', 'camera')
+    keywords = ()
 
-    def build(self) -> None:
-        self.add_line('body-0', (8, 14), (38, 14))
-        self.add_arc('body-1', (38, 14), (44, 20), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('body-2', (44, 20), (44, 44))
-        self.add_arc('body-3', (44, 44), (38, 50), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('body-4', (38, 50), (8, 50))
-        self.add_arc('body-5', (8, 50), (2, 44), radius_x=6, radius_y=6, sweep=True)
-        self.add_line('body-6', (2, 44), (2, 20))
-        self.add_arc('body-7', (2, 20), (8, 14), radius_x=6, radius_y=6, sweep=True)
-        self.add_contour('body', 'body-0', 'body-1', 'body-2', 'body-3', 'body-4', 'body-5', 'body-6', 'body-7', closed=True)
-        self.add_polyline("lens", (44,24), (62,18), (62,46), (44,40))
-        self.relate("connect", 'body', 'lens')
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        rect(self,'body',2,6,48,58,6)
+        poly('lens',(48,22),(62,14),(62,50),(48,42));join('body','lens')

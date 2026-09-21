@@ -1,26 +1,23 @@
-"""A square artboard surrounded by eight detached crop indicators. Keeps the sharp working-area corners.
-
-Keyshape: SQUARE; centerline extremes recorded in build.
-Construction reference: Lucide scan: balanced detached corner furniture, preserving the source straight marks.. Mirrored about x=32.
-Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
+"""Increase the artboard area and shorten the external indicator ticks.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class SquareArtboardWithCornerIndicators(Container64):
     icon_id = 'square-artboard-with-corner-indicators'
     keyshape = Keyshape.SQUARE
     aliases = ()
-    keywords = ('square', 'artboard', 'with', 'corner', 'indicators')
+    keywords = ()
 
-    def build(self) -> None:
-        # Centerline (2,2)-(62,62).
-        self.add_polyline('artboard',(13,13),(51,13),(51,51),(13,51),closed=True)
-        for n,p in enumerate((13,51)):
-            self.add_line(f'top-{n}',(p,2),(p,5))
-            self.add_line(f'bottom-{n}',(p,59),(p,62))
-            self.add_line(f'left-{n}',(2,p),(5,p))
-            self.add_line(f'right-{n}',(59,p),(62,p))
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        poly('artboard',(10,10),(54,10),(54,54),(10,54),closed=True)
+        for n,p in enumerate((10,54)):
+         line(f'top-{n}',(p,2),(p,4));line(f'bottom-{n}',(p,60),(p,62));line(f'left-{n}',(2,p),(4,p));line(f'right-{n}',(60,p),(62,p))

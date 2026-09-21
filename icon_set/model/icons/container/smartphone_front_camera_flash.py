@@ -1,36 +1,23 @@
-"""A complete phone enclosure with a radiating front-camera flash. Clipped lower body is restored.
-
-Keyshape: VRECT_L; centerline extremes recorded in build.
-Construction reference: Lucide smartphone: equal body corner radii, with an open shoulder around the flash.. Mirrored about x=32.
-Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
+"""Move the camera band upward, keeping the lens and flash rays.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class SmartphoneFrontCameraFlash(Container64):
     icon_id = 'smartphone-front-camera-flash'
     keyshape = Keyshape.VRECT_L
     aliases = ()
-    keywords = ('smartphone', 'front', 'camera', 'flash')
+    keywords = ()
 
-    def build(self) -> None:
-        # Centerline (10,2)-(54,62).
-        self.add_arc('shoulder-right',(48,10),(54,16),radius_x=6)
-        self.add_line('right',(54,16),(54,56))
-        self.add_arc('se',(54,56),(48,62),radius_x=6)
-        self.add_line('base',(48,62),(16,62))
-        self.add_arc('sw',(16,62),(10,56),radius_x=6)
-        self.add_line('left',(10,56),(10,16))
-        self.add_arc('shoulder-left',(10,16),(16,10),radius_x=6)
-        self.add_contour('body','shoulder-right','right','se','base','sw','left','shoulder-left')
-        self.add_line('divider',(10,26),(54,26))
-        self.relate('connect','divider','body')
-        self.add_dot('camera',(32,17))
-        self.add_line('ray-top',(32,2),(32,6))
-        self.add_line('ray-left',(21,3),(24,6))
-        self.add_line('ray-right',(43,3),(40,6))
-        self.add_line('ray-west',(19,17),(23,17))
-        self.add_line('ray-east',(41,17),(45,17))
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        path(self,'body',(48,10),[('A',(54,16),6,6,True),('L',(54,56)),('A',(48,62),6,6,True),('L',(16,62)),('A',(10,56),6,6,True),('L',(10,16)),('A',(16,10),6,6,True)])
+        line('divider',(10,20),(54,20));join('divider','body');self.add_dot('camera',(32,12))
+        line('ray-top',(32,2),(32,4));line('ray-left',(21,2),(23,4));line('ray-right',(43,2),(41,4));line('ray-west',(22,12),(24,12));line('ray-east',(40,12),(42,12))

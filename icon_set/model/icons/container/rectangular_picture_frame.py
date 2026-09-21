@@ -1,26 +1,22 @@
-"""A rectangular picture frame enclosing a second rectangular opening.
-
-Keyshape VRECT_XL: (4, 0, 60, 64); authored from its exact extremes.
-Reference: batch_10 source render. Lucide rectangle-horizontal informs the nested four-sided construction.
-Square corners preserve the reference frame; an eight-unit centerline inset keeps the border open.
-Hosting measured with compose.py: plus: does not clear; heart: does not clear; check: does not clear.
+"""Broaden the frame, keeping a uniform eight-unit centerline border.
+Construction: shared body/attachment coordinates, integer grid, 4-unit stroke.
+Lucide originals and atomic-debug references inspected for enclosure, handle and rounded-join construction.
 """
-
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+from ._construction import path, rounded_rect as rect, ellipse
+SOURCE_ICON_ID = None
+SOURCE_PATH = None
+AUTHOR = 'gpt-6'
 
 class RectangularPictureFrame(Container64):
     icon_id = 'rectangular-picture-frame'
-    keyshape = Keyshape.VRECT_XL
-    semantic_role = "MAIN"
-    semantic_kind = "noun"
-    category = "containers"
+    keyshape = Keyshape.SQUARE
     aliases = ()
-    keywords = ('rectangular', 'picture', 'frame')
+    keywords = ()
 
-    def build(self) -> None:
-        self.add_polyline('outer', (6, 2), (58, 2), (58, 62), (6, 62), closed=True)
-        self.add_polyline('inner', (14, 10), (50, 10), (50, 54), (14, 54), closed=True)
+    def build(self):
+        line, poly = self.add_line, self.add_polyline
+        def join(a,b): self.relate("connect",a,b)
+        poly('outer',(2,2),(62,2),(62,62),(2,62),closed=True)
+        poly('inner',(10,10),(54,10),(54,54),(10,54),closed=True)

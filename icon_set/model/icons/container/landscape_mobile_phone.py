@@ -1,33 +1,29 @@
-"""A landscape phone enclosure with a sensor in its left bezel.
-
-Keyshape HRECT_M: centerline extremes recorded in build below.
-Lucide smartphone supplies tangent quarter-circle corners and a single sensor mark. Both supplied phone references map here; the left bezel is widened for clearance.
-Hosting (compose.py): plus invalid, heart invalid, check invalid.
-"""
-
+"""Taller landscape display; retained sensor and bezel.
+Independent review variant of landscape-mobile-phone. HRECT_XL CONTAINER64, 4-unit strokes.
+Construction follows the inspected Lucide frame/phone/calendar/watch originals and atomic-debug views.
+Native SUB32 trial center: [39, 32]. See container-fit-repair report for measured hosting results."""
+SOURCE_PATH = None
+SOURCE_ICON_ID = None
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class LandscapeMobilePhone(Container64):
     icon_id = 'landscape-mobile-phone'
-    keyshape = Keyshape.HRECT_M
+    keyshape = Keyshape.HRECT_XL
     aliases = ('horizontal-phone',)
     keywords = ('landscape', 'mobile', 'phone')
 
     def build(self) -> None:
-        # HRECT_M centerline extremes: (2,14)-(62,50).
-        self.add_line("frame-0", (8, 14), (56, 14))
-        self.add_arc("frame-1", (56, 14), (62, 20), radius_x=6)
-        self.add_line("frame-2", (62, 20), (62, 44))
-        self.add_arc("frame-3", (62, 44), (56, 50), radius_x=6)
-        self.add_line("frame-4", (56, 50), (8, 50))
-        self.add_arc("frame-5", (8, 50), (2, 44), radius_x=6)
-        self.add_line("frame-6", (2, 44), (2, 20))
-        self.add_arc("frame-7", (2, 20), (8, 14), radius_x=6)
-        self.add_contour("frame", "frame-0", "frame-1", "frame-2", "frame-3", "frame-4", "frame-5", "frame-6", "frame-7", closed=True)
-        self.add_line("bezel-divider", (16,14), (16,50))
-        self.relate("connect", "frame", "bezel-divider")
-        self.add_dot("sensor", (9,32))
+        self.add_line('frame-0', (8, 6), (56, 6))
+        self.add_arc('frame-1', (56, 6), (62, 12), radius_x=6)
+        self.add_line('frame-2', (62, 12), (62, 52))
+        self.add_arc('frame-3', (62, 52), (56, 58), radius_x=6)
+        self.add_line('frame-4', (56, 58), (8, 58))
+        self.add_arc('frame-5', (8, 58), (2, 52), radius_x=6)
+        self.add_line('frame-6', (2, 52), (2, 12))
+        self.add_arc('frame-7', (2, 12), (8, 6), radius_x=6)
+        self.add_contour('frame', 'frame-0', 'frame-1', 'frame-2', 'frame-3', 'frame-4', 'frame-5', 'frame-6', 'frame-7', closed=True)
+        self.add_line('bezel-divider', (16, 6), (16, 58))
+        self.relate('connect', 'frame', 'bezel-divider')
+        self.add_dot('sensor', (9, 32))

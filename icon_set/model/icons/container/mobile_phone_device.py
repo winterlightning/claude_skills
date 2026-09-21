@@ -1,32 +1,28 @@
-"""A phone frame with a bottom navigation band.
-
-VRECT_M: exact centerline extremes recorded in build.
-Construction: Lucide smartphone, equal quarter-circle corner radii. Source identity retained without extra decoration.
-Hosting measured with compose.py: plus blocked, heart blocked, check blocked.
-"""
-
+"""Wider phone display; retained bottom navigation band and equal corner radii.
+Independent review variant of mobile-phone-device. VRECT_XL CONTAINER64, 4-unit strokes.
+Construction follows the inspected Lucide frame/phone/calendar/watch originals and atomic-debug views.
+Native SUB32 trial center: [32, 25]. See container-fit-repair report for measured hosting results."""
+SOURCE_PATH = None
+SOURCE_ICON_ID = None
 from ...keyshapes import Keyshape
 from ._base import Container64
-
-AUTHOR = 'astra-chatgpt'
-
+AUTHOR = 'gpt-6'
 
 class MobilePhoneDevice(Container64):
     icon_id = 'mobile-phone-device'
-    keyshape = Keyshape.VRECT_M
+    keyshape = Keyshape.VRECT_XL
     aliases = ()
     keywords = ('mobile', 'phone', 'device')
 
     def build(self) -> None:
-        # Centerline (14,2)-(50,62).
-        self.add_line('top', (20,2), (44,2))
-        self.add_arc('ne', (44,2), (50,8), radius_x=6)
-        self.add_line('right', (50,8), (50,56))
-        self.add_arc('se', (50,56), (44,62), radius_x=6)
-        self.add_line('bottom', (44,62), (20,62))
-        self.add_arc('sw', (20,62), (14,56), radius_x=6)
-        self.add_line('left', (14,56), (14,8))
-        self.add_arc('nw', (14,8), (20,2), radius_x=6)
-        self.add_contour('outline','top','ne','right','se','bottom','sw','left','nw',closed=True)
-        self.add_line('bezel',(14,48),(50,48))
-        self.relate('connect','outline','bezel')
+        self.add_line('top', (12, 2), (52, 2))
+        self.add_arc('ne', (52, 2), (58, 8), radius_x=6)
+        self.add_line('right', (58, 8), (58, 56))
+        self.add_arc('se', (58, 56), (52, 62), radius_x=6)
+        self.add_line('bottom', (52, 62), (12, 62))
+        self.add_arc('sw', (12, 62), (6, 56), radius_x=6)
+        self.add_line('left', (6, 56), (6, 8))
+        self.add_arc('nw', (6, 8), (12, 2), radius_x=6)
+        self.add_contour('outline', 'top', 'ne', 'right', 'se', 'bottom', 'sw', 'left', 'nw', closed=True)
+        self.add_line('bezel', (6, 48), (58, 48))
+        self.relate('connect', 'outline', 'bezel')
