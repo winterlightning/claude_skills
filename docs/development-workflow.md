@@ -1,5 +1,60 @@
 # Development and production workflow
 
+## Current workflow: build locally, commit, pull on production
+
+Python files under `icon_set/model/icons/` remain the drawing source. Experiments,
+reference SVGs, metadata, contracts, tests and gallery templates remain tracked.
+Only temporary execution logs, process IDs, runtime databases and build caches
+are ignored. Existing temporary files removed from Git tracking remain locally.
+
+`published/` is the **only committed build output**. Prepare it locally:
+
+```sh
+python3 -m icon_set publish
+python3 -m icon_set doctor
+git add published icon_set/model/icons
+# Include any intended code, metadata and documentation changes in the same commit.
+git commit -m "Publish updated icon catalog"
+git push origin icon-lib
+```
+
+The publisher builds into `icon_set/.local/publish-dist/`, reuses unchanged
+Python outputs, refreshes the gallery, rejects embedded local manual artwork,
+and replaces the complete `published/` directory. It omits temporary QA output
+and compacts JSON catalogs for Git. Validation failures remain available in
+Failed build; their artwork is excluded from the passing family manifests.
+Managed review drafts may also appear in the management gallery; they retain
+`release_eligible: false` and are counted separately in `release.json`.
+Do not run `build --dist published`: that path is protected against direct builds.
+
+On production, keep the **existing production database and all sibling state
+folders** outside the checkout. Pull the same branch, then serve the assets:
+
+```sh
+git pull --ff-only origin icon-lib
+python3 -m icon_set production \
+  --database /srv/pictographic/state/feedback.sqlite3 \
+  --host 0.0.0.0 --port 8000
+```
+
+Replace the example database path with the existing production path; do not
+create a fresh database or copy the developer database. `production` defaults
+to `published/`. Production does not build, generate icons, modify source files,
+or import the local progression snapshot. Reviews, approvals, comments, uploads
+and selected manual edits stay in its own persistent state. Stable icon IDs
+retain their associations; approval of a specific SVG is version-specific.
+
+For this first update, restart the server with the command above so it switches
+from its old asset path. Future asset-only pulls are picked up by the running
+server; restart when Python server code changes. A Git pull updates many files
+individually, so use a brief maintenance window if readers must never see a
+partially updated catalog. The external immutable-release workflow below remains
+available when atomic asset switching is needed, but is not required for this
+committed-assets setup. Disable any old watcher that builds on production.
+
+No production migration or state copy is performed by a local publish or push.
+
+
 ## Ownership
 
 | Area | Location | What belongs here |
@@ -7,6 +62,7 @@
 | Authoring | `icon_set/model/icons/` | Python originals created or revised by agents |
 | Editorial source | `icon_set/metadata/` | Optional curated names, tags and descriptions |
 | Build implementation | `icon_set/scripts/` | Validation, rendering, gallery and release tools |
+| Committed production assets | `published/` | Built Python baseline and gallery; production pulls this |
 | Development output | `icon_set/.local/dist/` | Generated SVGs, manifests and gallery |
 | Development previews | `icon_set/.local/previews-png/` | Generated PNG previews |
 | Development state | `icon_set/.local/state/` | Local reviews, uploads, edits, candidate jobs |
@@ -25,7 +81,7 @@ assets remain inputs; a normal gallery build must not regenerate them in place.
 # Check paths and confirm generated output is not tracked.
 python3 -m icon_set doctor
 
-# Export all standalone typeface heights 12–32, without building the icon library.
+# Export the single 6 × 20 centerline typeface (10 × 24 canvas, stroke 4).
 python3 -m icon_set typeface-sizes
 
 # Initial complete catalog; failures remain available in the Failed build view.
@@ -128,7 +184,7 @@ production data. Regenerate authoring skills with
 source instructions. Build output still contains aggregate catalogs; the boundary
 prevents those catalogs becoming source-control churn or production state.
 
-## Automatic production releases after a push
+## Optional legacy workflow: production builds after a push
 
 Use the new automatic release mode instead of the old code-only watcher:
 

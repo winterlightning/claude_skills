@@ -85,7 +85,7 @@ def snapshot(repo, revision, target, previous=None):
     # Remove sources deleted by the commit, but keep the persistent output cache.
     for path in sorted(target.rglob('*'), reverse=True):
         relative = path.relative_to(target)
-        if '.local' in relative.parts:
+        if relative.parts[:1] == ('published',):
             continue
         if path.is_file() and path not in seen:
             path.unlink()
@@ -142,11 +142,11 @@ def prepare(repo, releases, revision, python, previous=None, runner=subprocess.r
     workspace = releases / 'workspace'
     source = workspace / 'source'
     snapshot(repo, revision, source, previous / 'source' if previous else None)
-    build = source / 'icon_set/.local/dist'
+    build = source / 'published'
     if not (build / 'gallery/icons.json').is_file():
         baseline = previous / 'assets' if previous else seed
         if baseline is None:
-            for path in (Path(repo) / 'icon_set/.local/dist', Path(repo) / 'icon_set/dist'):
+            for path in (Path(repo) / 'published', Path(repo) / 'icon_set/dist'):
                 if (path / 'gallery/icons.json').is_file():
                     baseline = path
                     break
@@ -270,8 +270,8 @@ def select_baseline(repo, releases, seed=None):
     active = read_active(releases)
     candidates = ([bundle_path(releases, active['release']) / 'assets'] if active else [])
     candidates += ([Path(seed)] if seed else [])
-    candidates += [Path(releases)/'workspace/source/icon_set/.local/dist',
-                   Path(repo)/'icon_set/.local/dist', Path(repo)/'icon_set/dist']
+    candidates += [Path(releases)/'workspace/source/published',
+                   Path(repo)/'published', Path(repo)/'icon_set/dist']
     for path in candidates:
         if (path/'gallery/index.html').is_file() and (path/'gallery/icons.json').is_file():
             return path.resolve()

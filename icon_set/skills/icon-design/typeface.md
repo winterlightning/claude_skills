@@ -8,26 +8,21 @@ solo or sub icon.
 Look up the exact characters in `icon_set/typeface/glyphs.json` and reuse their
 existing `icon_id` and paths. Use the `preferred` glyph unless a specific variant
 is requested. Preserve case, readable content, and meaningful arrangement.
-Use the stored grid-fitted base: every glyph's visible stroke envelope is 24
-units high and its width is a whole grid unit. Read `stroke_width`, `ink_width`,
-and `ink_height` from the glyph; flat marks use a 24-unit stroke to reach the
-required height. Preserve the stored baseline/body metrics for text layout.
-Do not replace these paths with the older free-proportion source geometry.
+Use only the fixed-size typeface: a 6 × 20 centerline box with stroke 4,
+within a 10 × 24 canvas. Width and height describe centerlines separately
+from ink. Do not generate the retired 12–32 size range or scale strokes.
+Read the stored actual `centerline_width`, `centerline_height`, `ink_width`,
+`ink_height`, `ink_left` and `ink_top`; regular glyphs use a 10 × 24 preview box.
+Special cases i, l, !, apostrophe, colon and vertical bar keep their straight
+centerlines and fit height 20. Period and horizontal marks stay flat within
+that 20-unit band, with stroke 4; their actual ink height is 4. Hyphen retains
+its original 16-unit centerline width and underscore retains 28, giving
+20 × 24 and 32 × 24 canvases respectively. Do not enlarge a dot or thicken
+flat strokes to make them fill the vertical band.
 
-For standalone glyphs at heights 12 through 32, reuse the generated size-specific
-SVGs under `gallery/typeface/sizes/<height>/<icon_id>.svg`. Every integer height
-is supported. Generate these with `python3 -m icon_set typeface-sizes`; normal
-gallery builds also export them. Width is the base width times height / 24,
-rounded to the nearest even integer (odd-unit ties round upward, e.g. 9 → 10).
-Every exported width must be divisible by 2, including the height-24 export.
-The stored base is the proportion reference; fitted exports apply this rule.
-Stroke width stays exactly 4 in final coordinates at every size. Geometry
-is fitted before export; no transform scales the stroke. Zero-width centerlines
-(such as i) stay 4 units wide. Flat marks and point-only glyphs remain 4 units
-tall, centered in the requested height. Read `ink_height` and `ink_top` separately
-from the canvas height for these cases. These size-specific exports supersede
-the base catalog's enlarged flat-mark stroke treatment.
-
+Generate the single-size exports with `python3 -m icon_set typeface-sizes`.
+They are under `gallery/typeface/sizes/24/<icon_id>.svg`; the bundle is
+`typeface-6x20.zip`. Normal gallery builds export the same size.
 
 For a combined reference, prepare the non-text component normally and record
 the text component as typeface reuse, with the exact string and matching glyph

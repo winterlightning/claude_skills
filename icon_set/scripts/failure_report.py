@@ -9,7 +9,7 @@ that sit too close, the undersized hole. The build stages it into the gallery,
 where it is the Failed build tab.
 
     python3 icon_set/scripts/failure_report.py
-    python3 icon_set/scripts/failure_report.py --dist icon_set/.local/dist --output /tmp/failures.html
+    python3 icon_set/scripts/failure_report.py --dist published --output /tmp/failures.html
 """
 
 from __future__ import annotations

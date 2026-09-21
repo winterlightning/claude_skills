@@ -3,9 +3,9 @@ import json,shutil
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 def install_popup(folder, rows, results):
@@ -27,7 +27,7 @@ def install_popup(folder, rows, results):
     if 'id="compact-side-header"' not in s:s=s.replace('</style>', '</style><style id="compact-side-header">body>header{padding:16px 20px 8px;max-width:none;display:flex;align-items:center;gap:10px 16px;flex-wrap:wrap}body>header h1{font-size:20px;margin:0}body>header>p:not(#count){display:none}body>header input{padding:8px 10px;width:min(320px,100%);font-size:13px}body>header #count{font-size:12px;margin:0}body>header details{font-size:12px}body>header details[open]{flex-basis:100%}body>header details ul{max-height:280px;overflow:auto}body>header .side-flag-summary{flex-basis:100%;font-size:12px;display:flex;gap:10px;margin:0}body>header .side-flag-summary[hidden]{display:none}body>header .side-flag-summary p{margin:0}body>main{padding-top:12px}</style>', 1)
     from icon_set.scripts.side_combination_progress import stage, compact_html
     import re
-    progress=stage(development_dist() / 'gallery')
+    progress=stage(build_dist() / 'gallery')
     s=re.sub(r'<!-- side-progress:start -->.*?<!-- side-progress:end -->','',s,flags=re.S)
-    s=s.replace('<header>','<header>'+compact_html(progress, '../../.local/dist/gallery/sub-repair-review/index.html'),1)
+    s=s.replace('<header>','<header>'+compact_html(progress, '../../../published/gallery/sub-repair-review/index.html'),1)
     page.write_text(s)

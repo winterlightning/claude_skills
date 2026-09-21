@@ -4,9 +4,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 
@@ -35,7 +35,7 @@ def reviewed_states(root):
     manifest=root.parent/'work/state-category-complete/manifest.json'
     if not manifest.exists():return {},[]
     result={};skipped=[]
-    assets=root/'assets/combination-state32';public=development_dist(root.parent) / 'gallery/combination-state32'
+    assets=root/'assets/combination-state32';public=build_dist(root.parent) / 'gallery/combination-state32'
     assets.mkdir(parents=True,exist_ok=True);public.mkdir(parents=True,exist_ok=True)
     for row in json.loads(manifest.read_text())['records']:
         uid=row['source_id'].lower();result[uid]=[]

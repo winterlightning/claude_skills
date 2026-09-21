@@ -1,33 +1,39 @@
-/work
-/container_icons
-
 # Staging dirs left behind by an interrupted build.py run
 .icon-build-*/
 __pycache__/
 *.pyc
 
-# Server data is local, including the review database (feedback.sqlite3):
-# never commit it.
-/icon_set/data/*
-/icons-json
-/head
+# Runtime state: review database and backups, uploads, stroke edits, agent jobs,
+# API keys. It lives in one folder and is never committed.
+/icon_set/state/
+/icon_set/progression.sqlite3
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
 
-# Validation evidence: qa_overlays.py debug PNGs/metrics and the gallery's
-# on-demand evidence cache. Regenerated from the SVG; never commit it.
-/icon_set/data/qa-evidence/
+# Regenerated per-icon validation evidence inside the build root. Everything
+# else under published/ is committed.
+/published/qa/
+/published/build-progress.json
 *_distance_debug.png
 *_hole_debug.png
 *_visual_comparison.png
 *.metrics.json
 qa_results.csv
 
-# macOS Finder metadata
-.DS_Store
+# Execution logs, process ids and lock files.
+/icon_set/work/**/*.log
+/icon_set/work/**/*.pid
+/.published.lock
 
-# Reproducible development builds; never deploy directly from this folder.
+# Retired folders kept on disk only: old build outputs and agent batch copies.
 /icon_set/.local/
-
-# Legacy generated exports are retained locally, but retired from version control.
 /icon_set/dist/
 /icon_set/assets/previews-png/
+/icon_set/scripts/.codex-batch-runner/
+/icons-json
+/head
 .venv/
+
+# macOS Finder metadata
+.DS_Store

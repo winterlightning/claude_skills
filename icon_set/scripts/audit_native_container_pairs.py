@@ -9,7 +9,7 @@ import xml.etree.ElementTree as ET
 from shapely.affinity import translate
 from .container_placement import Artwork, render
 from .container_vector_geometry import VectorInk, reject_effects, vector_zone, check_pair
-from .workspace import development_dist
+from .workspace import build_dist
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -42,13 +42,13 @@ def load_art(path):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--padding', type=float, default=6)
-    parser.add_argument('--out', type=Path, default=ROOT/'icon_set/.local/container-pairs-padding-6')
+    parser.add_argument('--out', type=Path, default=ROOT/'published/reports/container-pairs-padding-6')
     args = parser.parse_args()
     if not 0 <= args.padding < 64:
         parser.error('Padding must be between 0 and 64.')
     out = args.out
     (out/'svg').mkdir(parents=True, exist_ok=True)
-    gallery = development_dist(ROOT)/'gallery'
+    gallery = build_dist(ROOT)/'gallery'
     catalog = json.loads((gallery/'combinations.json').read_text())
     pairs = [r for r in catalog['rows'] if r['kind'] == 'container']
     library = json.loads((gallery/'icons.json').read_text())

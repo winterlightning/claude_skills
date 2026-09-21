@@ -70,7 +70,7 @@ Read this section only when the request concerns `work/color-review-500/`.
   render check when fixing a new recurring defect.
 - To refresh Experiment, use `icon_set/scripts/experiment_gallery.py` to stage
   into a temporary directory and copy only `experiment-color.json` into
-  `icon_set/.local/dist/gallery/`. Preserve the separate fill collection.
+  `published/gallery/`. Preserve the separate fill collection.
 - The local color feedback server caches revision hashes at startup. If it is
   running, verify its command and restart that specific server after updating
   assets. Preserve `reviews.sqlite3` and the user's current review page.

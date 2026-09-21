@@ -8,9 +8,9 @@ import ast,copy,csv,hashlib,inspect,json,xml.etree.ElementTree as ET
 from collections import defaultdict,Counter
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 MANIFEST='icon_set/model/catalog/sub-usage-categories.json'
@@ -49,7 +49,7 @@ def stage_catalog(catalog,root=ROOT):
             else:
                 v=entry['versions'][role]
                 selected=dict(choice,icon_id=v['icon_id'],key=v.get('family','sub')+'/'+v['icon_id'],preview_url=v['preview_url'],model_validation=v['model_validation'],usage_category=role,related_group=entry['related_group'],canonical_icon_id=original,related_icon_ids=[x['icon_id'] for k,x in entry['versions'].items() if k!=role])
-                if not (root/v['svg']).is_file() and not (development_dist(root) / 'gallery'/v['preview_url']).resolve().is_file():
+                if not (root/v['svg']).is_file() and not (build_dist(root) / 'gallery'/v['preview_url']).resolve().is_file():
                     raise FileNotFoundError(v['svg'])
                 source=old_exports.get(choice['icon_id']) or old_exports.get(original)
                 if source:
@@ -61,10 +61,10 @@ def initialize(root=ROOT):
     from icon_set.model.icons.registry import factories
     manifest=root/MANIFEST
     if manifest.exists():raise RuntimeError('Already categorized; refresh exports instead of recreating editable versions.')
-    catalog=json.loads((development_dist(root) / 'gallery/combinations.json').read_text());paired=json.loads((root/'icon_set/work/container-pair-combinations/results.json').read_text());usage=defaultdict(lambda:defaultdict(set));sources={};defs=json.loads((root/'combination_data.json').read_text())
+    catalog=json.loads((build_dist(root) / 'gallery/combinations.json').read_text());paired=json.loads((root/'icon_set/work/container-pair-combinations/results.json').read_text());usage=defaultdict(lambda:defaultdict(set));sources={};defs=json.loads((root/'combination_data.json').read_text())
     for row in catalog['rows']:
         for s in row['sub_generated']:
-            sources.setdefault(s['icon_id'],dict(doc=(development_dist(root) / 'gallery'/s['preview_url']).resolve().read_text(),status=s.get('model_validation','unknown')))
+            sources.setdefault(s['icon_id'],dict(doc=(build_dist(root) / 'gallery'/s['preview_url']).resolve().read_text(),status=s.get('model_validation','unknown')))
             if row['kind']=='side':usage[s['icon_id']]['side'].add(row['id'])
     for r in paired['rows']:
         s=paired['subs'][r[1]];sources[s['name']]=dict(doc=s['svg32'],status=s['model_validation']);usage[s['name']]['symbol'].add(r[9])
@@ -92,17 +92,17 @@ def initialize(root=ROOT):
                 target.body=[n for n in target.body if not (isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id in attrs for t in n.targets))]
                 target.body[0:0]=[ast.Assign(targets=[ast.Name(id=k,ctx=ast.Store())],value=ast.Constant(v)) for k,v in attrs.items()]
                 ast.fix_missing_locations(tree);text='# Independent container symbol; edit separately from linked side sub-icon.\n'+ast.unparse(tree)+'\n';compile(text,str(model_path),'exec');pending.append((model_path,text))
-            asset=root/'icon_set/assets/sub-usage'/role/(new_id+'.svg');public=development_dist(root) / 'gallery/sub-usage'/role/(new_id+'.svg')
+            asset=root/'icon_set/assets/sub-usage'/role/(new_id+'.svg');public=build_dist(root) / 'gallery/sub-usage'/role/(new_id+'.svg')
             versions[role]={'icon_id':new_id,'python_source':str(model_path.relative_to(root)),'svg':str(asset.relative_to(root)),'preview_url':'sub-usage/'+role+'/'+new_id+'.svg','sha256':hashlib.sha256(sources[uid]['doc'].encode()).hexdigest(),'model_validation':sources[uid]['status'],'initial_geometry_sha256':hashlib.sha256(geometry(sources[uid]['doc'])).hexdigest()}
         entries.append({'original_icon_id':uid,'related_group':'sub-origin/'+uid,'source_icon_id':getattr(module,'SOURCE_ICON_ID',None),'usage':'both' if len(roles)==2 else next(iter(roles)),'pair_ids':{k:sorted(v) for k,v in roles.items()},'versions':versions})
     # Plan every independent module before writing any of them.
     for path,text in pending:path.write_text(text)
     for e in entries:
         for v in e['versions'].values():
-            for path in (root/v['svg'],development_dist(root) / 'gallery'/v['preview_url']):path.parent.mkdir(parents=True,exist_ok=True);path.write_text(sources[e['original_icon_id']]['doc'])
+            for path in (root/v['svg'],build_dist(root) / 'gallery'/v['preview_url']):path.parent.mkdir(parents=True,exist_ok=True);path.write_text(sources[e['original_icon_id']]['doc'])
     counts=Counter(e['usage'] for e in entries)
     data={'schema_version':1,'policy':'Side sub-icons and container symbols are independent editable roles on SUB32. Shared origin links do not synchronize geometry. Existing validation states are retained. Unused library icons are not assigned speculatively.','counts':dict(counts),'side_icons':sum('side' in e['versions'] for e in entries),'symbols':sum('symbol' in e['versions'] for e in entries),'distinct_originals':len(entries),'independent_copies_created':len(pending),'defined_pairs':{k:len(v) for k,v in defs.items()},'icons':entries}
-    manifest.write_text(json.dumps(data,indent=2));stage_catalog(catalog,root);(development_dist(root) / 'gallery/combinations.json').write_text(json.dumps(catalog,separators=(',',':')));print({k:v for k,v in data.items() if k!='icons'})
+    manifest.write_text(json.dumps(data,indent=2));stage_catalog(catalog,root);(build_dist(root) / 'gallery/combinations.json').write_text(json.dumps(catalog,separators=(',',':')));print({k:v for k,v in data.items() if k!='icons'})
 
 def refresh(root=ROOT):
     """Emit edited role copies; validation becomes stale when their geometry changes."""
@@ -112,7 +112,7 @@ def refresh(root=ROOT):
         for role,v in entry['versions'].items():
             doc=create(v['icon_id']).to_svg();digest=hashlib.sha256(geometry(doc)).hexdigest()
             if digest!=v.get('validated_geometry_sha256',v['initial_geometry_sha256']):v['model_validation']='stale-validation'
-            for dst in (root/v['svg'],development_dist(root) / 'gallery'/v['preview_url']):
+            for dst in (root/v['svg'],build_dist(root) / 'gallery'/v['preview_url']):
                 dst.parent.mkdir(parents=True, exist_ok=True)
                 dst.write_text(doc)
             v['sha256']=hashlib.sha256(doc.encode()).hexdigest()

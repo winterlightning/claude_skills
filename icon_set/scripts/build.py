@@ -3,8 +3,8 @@
 
 Validate-then-export: nothing reaches a release folder that has not passed the
 full chain, unless --artwork-dir explicitly opts into saved human choices.
-Default builds read Python originals only and write to icon_set/.local/dist;
-PNG previews go to icon_set/.local/previews-png. Both are ignored by Git.
+Default builds read Python originals only and write to published/, which Git tracks;
+PNG previews go to published/previews-png.
 The dist/ paths below describe the layout inside the chosen output directory.
 Manual SVG uploads and accepted gallery edits retain their provenance and raw
 validation findings. A failing icon still renders -- its SVG and its findings go to
@@ -548,8 +548,6 @@ def _sweep_stale_stages(root: Path) -> None:
 
 def _build_selected(families, dist, png_dir, **options):
     with output_lock(dist):
-        if (Path(dist) / 'release.json').exists():
-            raise ValueError('Cannot build into a production release. Build locally, then export a new release.')
         return _build_selected_locked(families, dist, png_dir, **options)
 
 

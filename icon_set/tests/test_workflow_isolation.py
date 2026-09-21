@@ -42,10 +42,11 @@ class ReleaseTests(unittest.TestCase):
             export_release(self.source, self.target)
         self.assertFalse(self.target.exists())
 
-    def test_build_defaults_are_local_and_original_only(self):
+    def test_build_defaults_are_the_tracked_output_and_original_only(self):
         self.assertEqual(build.DEFAULT_DIST, deploy.DEFAULT_DIST)
-        self.assertIn('.local', build.DEFAULT_DIST.parts)
-        self.assertIn('.local', build.DEFAULT_PNG.parts)
+        self.assertEqual(build.DEFAULT_DIST.name, 'published')
+        self.assertEqual(build.DEFAULT_PNG, build.DEFAULT_DIST / 'previews-png')
+        self.assertFalse(deploy.DEFAULT_DB.is_relative_to(build.DEFAULT_DIST))
         self.assertIsNone(inspect.signature(build.build).parameters['artwork_dir'].default)
         from icon_set.scripts.generation import GenerationManager
         manager = GenerationManager(self.root, self.source, self.root / 'jobs')

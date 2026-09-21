@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard · Pictographic</title>
+<link rel="stylesheet" href="site.css"><link rel="stylesheet" href="review-workspace.css"><link rel="stylesheet" href="reviewers.css">
+<script src="site.js" defer></script><script src="reviewers.js" defer></script>
+</head>
+<body class="guest reviewer-page review-page">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
+<header><div class="brand">WORKSPACE</div><h1>Icon review</h1><p>Review the latest icons, leave feedback, and approve the ones ready to use.</p></header>
+<main class="reviewer-main">
+<nav class="workspace-tabs" aria-label="Library pages"><a class="workspace-link" href="index.html?tab=icons">Icons</a><a class="workspace-link" href="index.html?tab=feedback">Feedback</a><a class="workspace-link" href="index.html?tab=failed">Failed build</a><a class="workspace-link" href="generate.html">Generate</a><a class="workspace-link" href="reviewers.html" aria-current="page">Dashboard</a></nav>
+<div class="dashboard-heading"><div><h2>Dashboard</h2><p class="subtitle">A daily view of the team's progress, one icon at a time.</p></div><a class="review-link" href="index.html">Open icon review <span aria-hidden="true">↗</span></a></div>
+<form id="dashboardFilters" class="dashboard-filters">
+<label>Reviewer<select id="reviewer"><option value="">All reviewers</option><option value="jakes">Jakes</option><option value="ray">Ray</option><option value="phuong">Phuong</option><option value="hina">Hina</option></select></label>
+<label>Family<select id="family"><option value="">All families</option><option value="solo" selected>Solo</option><option value="container">Container</option><option value="sub">Sub</option></select></label>
+<label>Period<select id="period"><option value="1">Today</option><option value="7" selected>Last 7 days</option><option value="30">Last 30 days</option><option value="all">All time</option><option value="custom">Custom dates</option></select></label>
+<label id="startLabel" hidden>From<input id="start" type="date"></label><label id="endLabel" hidden>To<input id="end" type="date"></label>
+<label>Time zone<select id="timezone"><option value="Asia/Ho_Chi_Minh">Vietnam · UTC+7</option><option value="UTC">UTC</option></select></label>
+<button type="submit" id="refresh">Refresh</button>
+</form>
+<form id="syncForm" class="sync-panel requires-login" hidden>
+<label for="syncSource">Sync reviewing data from production</label>
+<div class="sync-row"><input id="syncSource" type="url" required placeholder="https://….trycloudflare.com" autocomplete="url"><button type="submit" id="syncNow">Sync now</button></div>
+<p id="syncStatus" role="status" aria-live="polite">Syncs production review data and artwork, preserving local progression. The current data is backed up first.</p>
+</form>
+<div class="range-line"><h2 id="rangeTitle">Last 7 days</h2><span id="updatedAt"></span></div>
+<p id="dashboardStatus" role="status" aria-live="polite">Loading review activity…</p>
+<div id="dashboardContent" hidden>
+<section class="dashboard-panel current-panel" aria-labelledby="currentTitle">
+<div class="panel-heading"><div><h2 id="currentTitle">Current icon status</h2><p id="currentSummary">Live from the review database, the same numbers as Icon review, for all time.</p></div></div>
+<div id="currentCards" class="metrics current-metrics">
+<article class="metric metric-total"><span>Icons reviewed</span><strong id="currentReviewed">0</strong><small id="currentScope"></small></article>
+<article class="metric"><span><i class="dot approved"></i>Approved</span><strong id="currentApproved">0</strong><small>Currently approved</small></article>
+<article class="metric"><span><i class="dot disapproved"></i>Disapproved</span><strong id="currentDisapproved">0</strong><small>Waiting for a fix</small></article>
+<article class="metric"><span><i class="dot rejected"></i>Rejected</span><strong id="currentRejected">0</strong><small>Not kept in the set</small></article>
+<article class="metric"><span><i class="dot ready"></i>Ready</span><strong id="currentReady">0</strong><small>Not reviewed yet</small></article>
+</div>
+<div class="current-tables">
+<div id="currentFamilies" class="table-scroll"><table><thead><tr><th scope="col">Family</th><th scope="col">Icons</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th><th scope="col">Ready</th></tr></thead><tbody id="familyRows"></tbody></table></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">Decided by</th><th scope="col">Icons</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th></tr></thead><tbody id="currentReviewerRows"></tbody></table></div>
+</div>
+</section>
+<section class="dashboard-panel activity-panel" aria-labelledby="activityTitle">
+<div class="panel-heading"><div><h2 id="activityTitle">Daily activity</h2><p id="activitySummary"></p></div><div class="legend"><span><i class="dot approved"></i>Approved</span><span><i class="dot disapproved"></i>Disapproved</span><span><i class="dot rejected"></i>Rejected</span></div></div>
+<p id="emptyActivity" class="empty-state" hidden>No reviews recorded in this period. Try another date range or reviewer.</p>
+<div class="chart-scroll"><div id="dailyChart" class="daily-chart" role="list" aria-label="Daily review counts"></div></div>
+</section>
+<section class="dashboard-panel" aria-labelledby="teamTitle"><div class="panel-heading"><div><h2 id="teamTitle">Reviewer breakdown</h2><p>Daily icon counts added across the selected period.</p></div><button id="exportCsv" type="button">Export daily CSV <span aria-hidden="true">↓</span></button></div>
+<div class="table-scroll"><table><thead><tr><th scope="col">Reviewer</th><th scope="col">Reviewed</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th><th scope="col">Active days</th><th scope="col">Icon review</th></tr></thead><tbody id="reviewerRows"></tbody></table></div></section>
+<details class="dashboard-panel daily-details"><summary>Daily numbers</summary><div class="table-scroll"><table><thead><tr><th scope="col">Date</th><th scope="col">Reviewed</th><th scope="col">Approved</th><th scope="col">Disapproved</th><th scope="col">Rejected</th></tr></thead><tbody id="dailyRows"></tbody></table></div></details>
+<p class="counting-note"><strong>How we count</strong> Every number on this page comes from each icon's current decision in Icon review, counted once, on the day it was made, for the reviewer who made it. Decisions later changed, regenerated or removed are not counted, so All time matches the current status exactly.</p>
+<p id="historyNote" class="history-note"></p>
+</div>
+</main>
+</body></html>

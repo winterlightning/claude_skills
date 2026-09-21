@@ -7,9 +7,9 @@ import shutil
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -174,7 +174,7 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
 
 
 if __name__ == '__main__':
-    gallery = development_dist(ROOT) / 'gallery'
+    gallery = build_dist(ROOT) / 'gallery'
     result = write_catalog(gallery, json.loads((gallery / 'primitives.json').read_text()),
                            json.loads((gallery / 'icons.json').read_text())['icons'])
     print(f"Staged {len(result['rows'])} combinations; {sum(not r['reference_url'] for r in result['references'].values())} missing references")

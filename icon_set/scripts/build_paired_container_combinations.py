@@ -9,9 +9,9 @@ from icon_set.scripts.container_vector_geometry import VectorInk,read_art,reject
 from icon_set.scripts.suggest_container_sub_size import transform,recommendation
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 BASE=Path(__file__).resolve().parents[1];ROOT=BASE.parent
 OUT=BASE/'work/container-pair-combinations'
@@ -20,7 +20,7 @@ def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
  OUT.mkdir(parents=True,exist_ok=True)
  definitions=json.loads((ROOT/'combination_data.json').read_text())['container']
- catalog={r['id']:r for r in json.loads((development_dist(BASE.parent) / 'gallery/combinations.json').read_text())['rows'] if r['kind']=='container'}
+ catalog={r['id']:r for r in json.loads((build_dist(BASE.parent) / 'gallery/combinations.json').read_text())['rows'] if r['kind']=='container'}
  audit={r['container']:r for r in json.loads((BASE/'work/container-vector-report/results.json').read_text())['containers']}
  areas=json.loads((BASE/'data/container-content-areas.json').read_text())['areas']
  prefs=json.loads((BASE/'data/container-placement-preferences.json').read_text())
@@ -32,7 +32,7 @@ def main():
   mains=cat.get('main_generated',[]);children=cat.get('sub_generated',[])
   if not mains or not children:missing.append(dict(definition,reason='Missing mapped component'));continue
   for hg in mains:
-   parent=hg['icon_id'];revision=fixes.get('revisions',{}).get(parent);hn=revision['variant'] if revision else parent;hp=(BASE/'work/container-fit-repair'/(hn+'.svg')) if revision else (development_dist(BASE.parent) / 'gallery'/hg['preview_url']).resolve()
+   parent=hg['icon_id'];revision=fixes.get('revisions',{}).get(parent);hn=revision['variant'] if revision else parent;hp=(BASE/'work/container-fit-repair'/(hn+'.svg')) if revision else (build_dist(BASE.parent) / 'gallery'/hg['preview_url']).resolve()
    if not hp.is_file():missing.append(dict(definition,reason='Container asset missing: '+hn));continue
    if hn not in hi:
     idx=len(hosts);hi[hn]=idx;doc=hp.read_text();digest=sha(hp);c=audit.get(hn,{});center=c.get('center_units') or areas.get(hn,{}).get('center') or [32,32]
@@ -55,7 +55,7 @@ def main():
    seen_children=set()
    for sg in children:
     sub_revision=fixes.get('sub_revisions',{}).get(parent,{}).get(sg['icon_id'])
-    sn=sub_revision['variant'] if sub_revision else sg['icon_id'];sp=Path(sub_revision['path']) if sub_revision else (development_dist(BASE.parent) / 'gallery'/sg['preview_url']).resolve()
+    sn=sub_revision['variant'] if sub_revision else sg['icon_id'];sp=Path(sub_revision['path']) if sub_revision else (build_dist(BASE.parent) / 'gallery'/sg['preview_url']).resolve()
     if not sp.is_file():missing.append(dict(definition,reason='Sub asset missing: '+sn));continue
     key=(sn,str(sp))
     if key in seen_children:continue

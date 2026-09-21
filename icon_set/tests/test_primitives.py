@@ -204,6 +204,14 @@ class StatusStoreTests(unittest.TestCase):
             self.assertEqual(decision['sub_brief'], BRIEF['components'][1])
             self.assertIsNone(db.execute('SELECT combination_brief FROM primitive_status WHERE uuid=?', (U1,)).fetchone()[0])
 
+    def test_existing_drawings_are_not_todo(self):
+        from icon_set.scripts.primitive_status import effective
+        self.assertEqual(effective({'state': 'model_only'}, None), 'drawn')
+        self.assertEqual(effective({'state': 'build_failed'}, None), 'drawn')
+        self.assertEqual(effective({'state': 'none', 'models': ['existing']}, None), 'drawn')
+        self.assertEqual(effective({'state': 'none'}, None), 'todo')
+        self.assertEqual(effective({'state': 'model_only'}, {'reason': 'container'}), 'skip')
+
     def test_generated_wins_and_reports_conflict(self):
         rows = [dict(uuid=U1, category='a', state='generated'), dict(uuid=U2, category='a', state='build_failed'),
                 dict(uuid=U3, category='b', state='none')]

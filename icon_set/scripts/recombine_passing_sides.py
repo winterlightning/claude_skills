@@ -8,9 +8,9 @@ from pathlib import Path
 from concurrent.futures import ProcessPoolExecutor
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 sys.path.insert(0,str(ROOT))
@@ -36,7 +36,7 @@ def render_one(row):
     except Exception as e:return row['id'],None,str(e)
 
 def main():
-    data=ROOT/'icon_set/data';gallery=development_dist(ROOT) / 'gallery';out=ROOT/'icon_set/work/side-combinations-passing-sub'
+    data=ROOT/'icon_set/data';gallery=build_dist(ROOT) / 'gallery';out=ROOT/'icon_set/work/side-combinations-passing-sub'
     out.mkdir(parents=True,exist_ok=True);(out/'svg').mkdir(exist_ok=True)
     payload=json.loads((data/'combination-pairs.json').read_text());models=json.loads((data/'canonical-sub32.json').read_text())
     eligible=[];pending=[]

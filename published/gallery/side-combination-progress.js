@@ -1,0 +1,1 @@
+(()=>{const host=document.getElementById('combinationExperiment');if(!host)return;const slot=document.createElement('div');host.prepend(slot);fetch('side-combination-progress.html',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('Progress could not be loaded');return r.text();}).then(html=>{slot.innerHTML=html;}).catch(e=>{slot.textContent=e.message;});})();

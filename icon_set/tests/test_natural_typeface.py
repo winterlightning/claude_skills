@@ -17,7 +17,7 @@ class NaturalTypefaceTests(unittest.TestCase):
         cls.glyphs = cls.data['glyphs']
 
     def test_complete_character_map(self):
-        self.assertEqual(self.data['geometry_policy'], 'grid-ink-height24')
+        self.assertEqual(self.data['geometry_policy'], 'fixed-centerline-6x20')
         self.assertEqual(len(self.glyphs), 107)
         self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}), 106)
 
@@ -28,12 +28,15 @@ class NaturalTypefaceTests(unittest.TestCase):
                 half = g['stroke_width']/2
                 for a,b in zip(actual, g['bounds']):
                     self.assertAlmostEqual(a,b,places=8)
-                self.assertAlmostEqual(actual[0]-half, 0, places=8)
-                self.assertAlmostEqual(actual[1]-half, 0, places=8)
-                self.assertAlmostEqual(actual[2]+half, g['ink_width'], places=8)
-                self.assertAlmostEqual(actual[3]+half, 24, places=8)
+                self.assertAlmostEqual(actual[0]-half, g['ink_left'], places=8)
+                self.assertAlmostEqual(actual[1]-half, g['ink_top'], places=8)
+                self.assertAlmostEqual(actual[2]+half, g['ink_left']+g['ink_width'], places=8)
+                self.assertAlmostEqual(actual[3]+half, g['ink_top']+g['ink_height'], places=8)
+                self.assertEqual(g['stroke_width'],4)
+                self.assertIn(g['centerline_width'],(0,6,16,28))
+                self.assertIn(g['centerline_height'],(0,20))
                 self.assertEqual(g['ink_width'], round(g['ink_width']))
-                self.assertEqual(g['preview_box'], [0,0,g['ink_width'],24])
+                self.assertEqual(g['preview_box'], [0,0,g['canvas_width'],24])
                 self.assertAlmostEqual(g['baseline']-g['body_top'],g['body_height'],places=8)
 
     def test_original_source_provenance_retained(self):
@@ -49,9 +52,9 @@ class NaturalTypefaceTests(unittest.TestCase):
                 self.assertAlmostEqual(a,b,places=8)
         by_char = {g['character']:g for g in self.glyphs if g['preferred']}
         self.assertTrue(any('A' in d for d in by_char['C']['paths']))
-        self.assertEqual(by_char['C']['ink_width'],16)
-        self.assertEqual(by_char['.']['stroke_width'],24)
-        self.assertEqual(by_char['.']['ink_width'],24)
+        self.assertEqual(by_char['C']['ink_width'],10)
+        self.assertEqual(by_char['.']['stroke_width'],4)
+        self.assertEqual(by_char['.']['ink_width'],4)
         self.assertEqual(by_char['i']['ink_width'],4)
 
     def test_currency_rebuild_is_reproducible(self):
@@ -69,6 +72,6 @@ class NaturalTypefaceTests(unittest.TestCase):
             stage_typeface(target,[],{})
             for g in self.glyphs:
                 svg=ET.parse(target/'typeface'/(g['icon_id']+'.svg')).getroot()
-                self.assertEqual(float(svg.get('width')),g['ink_width'])
+                self.assertEqual(float(svg.get('width')),g['canvas_width'])
                 self.assertEqual(float(svg.get('height')),24)
                 self.assertEqual(float(svg.get('stroke-width')),g['stroke_width'])

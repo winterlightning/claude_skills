@@ -3,9 +3,9 @@ import json
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 def compact_html(d, report_href='sub-repair-review/index.html'):
@@ -44,7 +44,7 @@ def stage(target):
             ids.add(uid)
             if reference:ids.add(source_id(reference))
         authored_sources.update(x.lower() for x in ids if x)
-        if (development_dist(ROOT)/profiles[model['family']]/(model['icon_id']+'.svg')).exists():
+        if (build_dist(ROOT)/profiles[model['family']]/(model['icon_id']+'.svg')).exists():
             available_main.update(x.lower() for x in ids if x)
     missing={role:{} for role in ['main','sub']}
     for r in sides:
@@ -61,4 +61,4 @@ def stage(target):
     (target/'side-combination-progress.html').write_text(compact_html(report))
     (target/'side-combination-progress.json').write_text(json.dumps(report,indent=2));return report
 if __name__=='__main__':
-    r=stage(development_dist(ROOT) / 'gallery');print({k:v for k,v in r.items() if k!='missing'} if r is not None else 'Report unavailable')
+    r=stage(build_dist(ROOT) / 'gallery');print({k:v for k,v in r.items() if k!='missing'} if r is not None else 'Report unavailable')

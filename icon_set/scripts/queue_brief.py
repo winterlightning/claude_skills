@@ -21,9 +21,9 @@ else:
 
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -51,7 +51,7 @@ def main(argv=None):
         sha = hashlib.sha256(reference.read_bytes()).hexdigest()
         # If supplied, target the reviewed generated icon and its current revision.
         if data.get('icon'):
-            catalog = json.loads((development_dist(ROOT) / 'gallery/icons.json').read_text())['icons']
+            catalog = json.loads((build_dist(ROOT) / 'gallery/icons.json').read_text())['icons']
             icon = next((item for item in catalog if item['key'] == data['icon']), None)
             if not icon:
                 raise ValueError('Unknown icon key in current gallery.')

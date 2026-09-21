@@ -3,7 +3,7 @@
 A **symbol** is the small drawing hosted inside a container. A **sub** icon sits beside a main subject. These are separate families with independent editable models, even when their initial artwork is identical.
 
 - Family: `symbol`; profile: `SYMBOL32`; base: `Symbol32` from `icon_set.model.icons.symbol._base`.
-- Models: `icon_set/model/icons/symbol/`; validated exports: `icon_set/.local/dist/symbol32/`.
+- Models: `icon_set/model/icons/symbol/`; validated exports: `published/symbol32/`.
 - Native canvas 32×32; integer grid 1; stroke 4; round caps and joins; MIC 2. SYMBOL32 copies the SUB32 numeric rules exactly. Use the profile/keyshape contracts, without changing tolerances.
 - Existing natural-width text symbols use `TextSymbol32` from `symbol._text_base`. Preserve their existing text layout specialization.
 - Follow `symbol-construction.md`, `authoring.md`, and `human-reference.md` for human forms. Read the existing Python model before a repair.

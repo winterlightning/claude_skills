@@ -12,9 +12,9 @@ import threading
 import uuid
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 FAMILIES = ('sub', 'symbol', 'solo', 'container')
@@ -169,7 +169,7 @@ class GenerationManager:
 
     def build(self, workspace, family, log, dist=None, icon=None):
         # Only the candidate's module is checked; the rest of the family keeps its last build.
-        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--icon',str(workspace/icon),'--no-png','--no-report','--dist',str(dist or development_dist(workspace))],workspace,log)
+        self.command([sys.executable,str(workspace/'icon_set/scripts/build.py'),'--family',family,'--icon',str(workspace/icon),'--no-png','--no-report','--dist',str(dist or build_dist(workspace))],workspace,log)
 
     def run(self, row):
         folder=self.folder(row['id']); workspace=folder/'workspace'; log=folder/'run.log'
@@ -197,14 +197,14 @@ class GenerationManager:
             if sorted(new_python) != [relative]:
                 raise ValueError('Expected exactly one new Python module.')
             self.build(workspace,family,log,icon=relative)
-            icons=json.loads((development_dist(workspace) / 'gallery/icons.json').read_text())['icons']
+            icons=json.loads((build_dist(workspace) / 'gallery/icons.json').read_text())['icons']
             matches=[icon for icon in icons if icon.get('python_source',{}).get('path')==relative]
             if len(matches)!=1 or matches[0]['icon_id']!=candidate['icon_id']:
                 raise ValueError('Candidate metadata does not match its built Python icon.')
             icon=matches[0]
             if source and icon.get('variant_of')!=source['icon_id']:
                 raise ValueError('Fix must be a variant of the selected icon.')
-            svg=(development_dist(workspace) / 'gallery'/icon['preview_url']).resolve()
+            svg=(build_dist(workspace) / 'gallery'/icon['preview_url']).resolve()
             shutil.copy2(svg,folder/'preview.svg')
             row.update(status='candidate',candidate=icon,path=relative,sha256=digest(path))
         except Exception as error:

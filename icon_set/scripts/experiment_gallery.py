@@ -8,12 +8,25 @@ from pathlib import Path
 from xml.sax.saxutils import quoteattr
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 ROOT = Path(__file__).resolve().parents[2]
+# Tracked snapshots of experiments whose generating workspace was never versioned
+# and no longer exists. They are source data now.
+def preserved_copy(name: str) -> Path:
+    return ROOT / 'icon_set/assets/experiments' / name
+
+
+def restore_preserved(output: Path) -> None:
+    """Fill an experiment collection from the tracked snapshot, else leave it empty."""
+    saved = preserved_copy(output.name)
+    if saved.is_file() and saved.resolve() != output.resolve():
+        shutil.copyfile(saved, output)
+    elif not output.is_file():
+        output.write_text('{"icons":[]}\n')
 
 
 def stage_container_experiment(target: Path) -> str:
@@ -28,8 +41,8 @@ def stage_container_experiment(target: Path) -> str:
         seen.add(filename)
         host = record['main_key'].split('/', 1)[1]
         content = record['sub_key'].split('/', 1)[1]
-        outline = development_dist(ROOT) / f'container64/{host}.svg'
-        component = development_dist(ROOT) / f'solo48/{content}.svg'
+        outline = target.parent / f'container64/{host}.svg'
+        component = target.parent / f'solo48/{content}.svg'
         result = ROOT/'icon_set/assets/container-solo-trials'/filename
         if not all(path.is_file() for path in (outline, component, result)):
             unavailable += 1
@@ -39,8 +52,13 @@ def stage_container_experiment(target: Path) -> str:
                          outline=outline.read_text(), content=component.read_text(),
                          result=result.read_text(),
                          status_label='Trial preview · '+('clearance estimate clear' if record['status']=='clearance-estimate-pass' else 'placement review required')))
-    payload = json.dumps({'icons': rows, 'unavailable': unavailable}, ensure_ascii=True).replace('<', '\\u003c')
-    (target/'experiment-container.json').write_text(payload+'\n')
+    output = target / 'experiment-container.json'
+    if not rows and preserved_copy(output.name).is_file():
+        restore_preserved(output)
+        payload = output.read_text().rstrip('\n')
+    else:
+        payload = json.dumps({'icons': rows, 'unavailable': unavailable}, ensure_ascii=True).replace('<', '\\u003c')
+        output.write_text(payload+'\n')
     for source, dest in [('placement-rules.md', 'container-placement-rules.md'),
                          ('report.md', 'container-trials-report.md')]:
         document = ROOT/'icon_set/work/container-pair-trials'/source
@@ -61,11 +79,7 @@ def stage_animation_experiment(target: Path) -> int:
                 for r in json.loads((source / 'data.json').read_text())['icons']]
         output.write_text(json.dumps({'icons': rows}, separators=(',', ':')) + '\n')
     else:
-        published = development_dist(ROOT) / 'gallery' / output.name
-        if published.is_file() and published.resolve() != output.resolve():
-            shutil.copyfile(published, output)
-        elif not output.is_file():
-            output.write_text('{"icons":[]}\n')
+        restore_preserved(output)
     return len(json.loads(output.read_text())['icons'])
 
 
@@ -145,11 +159,7 @@ def stage_experiments(target: Path) -> None:
                 raise ValueError(f'Duplicate {kind} experiment samples')
             output.write_text(json.dumps({'icons': rows}, separators=(',', ':')) + '\n')
         else:
-            published = development_dist(ROOT) / 'gallery' / output.name
-            if published.is_file() and published.resolve() != output.resolve():
-                shutil.copyfile(published, output)
-            elif not output.is_file():
-                output.write_text('{"icons":[]}\n')
+            restore_preserved(output)
         counts[kind] = len(json.loads(output.read_text())['icons'])
     typeface_path = target / 'typeface.json'
     glyphs = json.loads(typeface_path.read_text())['glyphs'] if typeface_path.is_file() else []
@@ -195,4 +205,4 @@ def stage_experiments(target: Path) -> None:
 
 
 if __name__ == '__main__':
-    stage_experiments(development_dist(ROOT) / 'gallery')
+    stage_experiments(build_dist(ROOT) / 'gallery')

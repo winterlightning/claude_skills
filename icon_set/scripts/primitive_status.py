@@ -193,7 +193,13 @@ def load_status(connection) -> dict:
 
 
 def effective(row: dict, decision: dict | None) -> str:
-    return 'generated' if row.get('state') == 'generated' else 'skip' if decision else 'todo'
+    if row.get('state') == 'generated':
+        return 'generated'
+    if decision:
+        return 'skip'
+    if row.get('models') or row.get('state') in ('model_only', 'build_failed'):
+        return 'drawn'
+    return 'todo'
 
 
 def merge(rows: list[dict], statuses: dict) -> list[dict]:
@@ -253,7 +259,7 @@ def main(argv=None) -> int:
     commands.add_parser('summary', help='Counts per category and overall')
     listing = commands.add_parser('list', help='Primitives with their effective status')
     listing.add_argument('--category')
-    listing.add_argument('--status', choices=('todo', 'skip', 'generated', 'all'), default='todo')
+    listing.add_argument('--status', choices=('todo', 'skip', 'generated', 'drawn', 'all'), default='todo')
     listing.add_argument('--batch')
     listing.add_argument('--reason', choices=REASONS)
     listing.add_argument('--primitives', type=Path, help='Original primitives folder, for absolute file paths')

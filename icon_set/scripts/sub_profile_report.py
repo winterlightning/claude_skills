@@ -6,15 +6,15 @@ import os
 from pathlib import Path
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 ROOT=Path(__file__).resolve().parents[2]
 
 
 def build(root=ROOT, target=None):
-    gallery=development_dist(root) / 'gallery';data=root/'icon_set/data'
+    gallery=build_dist(root) / 'gallery';data=root/'icon_set/data'
     migration=json.loads((data/'sub-profile-migration.json').read_text())['icons']
     models=json.loads((data/'canonical-sub32.json').read_text())
     qa=json.loads((root/'icon_set/work/sub-profile-migration/qa.json').read_text())

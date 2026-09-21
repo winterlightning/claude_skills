@@ -129,7 +129,7 @@ def discard_many(icons: list[dict], *, source_root: Path, dist: Path, archive: P
             path.unlink()
         for artifact in (dist / folder / f'{icon_id}.svg',
                          dist / 'failed' / folder / f'{icon_id}.svg',
-                         source_root / 'icon_set' / '.local' / 'previews-png' / folder / f'{icon_id}.png'):
+                         source_root / 'published' / 'previews-png' / folder / f'{icon_id}.png'):
             artifact.unlink(missing_ok=True)
         removed_ids.setdefault(folder, set()).add(icon_id)
         removed_keys.add(key)

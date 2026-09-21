@@ -116,26 +116,29 @@ CAPS={
 'Z':['M13 6 H34 Q36 6 34.5 8 L13.5 40 Q12 42 14 42 H35'],
 }
 
-GEOMETRY_POLICY = 'grid-ink-height24'
+GEOMETRY_POLICY = 'fixed-centerline-6x20'
 
 
 def fit_base_grid(glyph):
- """Fit the complete round-stroke envelope to height 24 and integer width.
-
- Keep semantic body metrics for text layout, but size by the whole glyph.
- Flat marks have no path height: their stroke must supply the 24-unit height.
- """
+ """Fit centerlines to the single 6 × 20 body with a fixed 4-unit stroke."""
  glyph = dict(glyph)
  left, top, right, bottom = glyph['bounds']
  width, height = right-left, bottom-top
- stroke = 4 if height > 1e-9 else 24
- sy = (24-stroke)/height if height > 1e-9 else 24/glyph.get('stroke_width', 4)
- ink_width = max(stroke, math.floor(width*sy+stroke+0.5))
- sx = (ink_width-stroke)/width if width > 1e-9 else sy
+ stroke = 4
+ sy = 20/height if height > 1e-9 else 1
+ # Flat marks retain their original authored widths; other special strokes
+ # retain zero centerline width. All use the same 20-unit vertical band.
+ target_width = {'-': 16, '_': 28}.get(glyph['character'], 6)
+ sx = target_width/width if width > 1e-9 else 1
+ ink_width = target_width+4 if width > 1e-9 else 4
+ ink_height = 24 if height > 1e-9 else 4
+ canvas_width = max(10, ink_width)
+ ink_left = (canvas_width-ink_width)/2
+ ink_top = (24-ink_height)/2
  def scale_point(p):
   return complex(p.real*sx, p.imag*sy)
  transformed = []
- offset = complex(stroke/2-left*sx, stroke/2-top*sy)
+ offset = complex(ink_left+2-left*sx, ink_top+2-top*sy)
  for d in glyph['paths']:
   segments = []
   for segment in parse_path(d):
@@ -152,11 +155,15 @@ def fit_base_grid(glyph):
   transformed.append(SVGPath(*segments))
  paths = [p.d() for p in transformed]
  glyph.update(paths=paths, bounds=bounds(transformed),
-              body_top=stroke/2+(glyph['body_top']-top)*sy,
-              baseline=stroke/2+(glyph['baseline']-top)*sy,
+              body_top=ink_top+2+(glyph['body_top']-top)*sy,
+              baseline=ink_top+2+(glyph['baseline']-top)*sy,
               body_height=glyph['body_height']*sy,
-              stroke_width=stroke, ink_width=ink_width, ink_height=24,
-              preview_box=[0, 0, ink_width, 24],
+              stroke_width=4, ink_width=ink_width, ink_height=ink_height,
+              ink_left=ink_left, ink_top=ink_top,
+              centerline_width=ink_width-4, centerline_height=ink_height-4,
+              canvas_width=canvas_width, canvas_height=24,
+              centerline_band_height=20,
+              preview_box=[0, 0, canvas_width, 24],
               geometry_policy=GEOMETRY_POLICY,
               svg_sha256=hashlib.sha256(json.dumps(paths,separators=(',',':')).encode()).hexdigest())
  return glyph
@@ -183,7 +190,7 @@ def build():
  glyphs = [fit_base_grid(glyph) for glyph in glyphs]
  target=ROOT/'icon_set/typeface/glyphs.json';target.parent.mkdir(exist_ok=True)
  from icon_set.typeface.sub32 import PROFILE_VARIANTS
- target.write_text(json.dumps({'schema_version':3,'geometry_policy':GEOMETRY_POLICY,'glyphs':glyphs,'profile_variants':PROFILE_VARIANTS},indent=2)+'\n')
- print(f'Built {len(glyphs)} grid-fitted 24-unit glyphs -> {target}')
+ target.write_text(json.dumps({'schema_version':4,'geometry_policy':GEOMETRY_POLICY,'glyphs':glyphs,'profile_variants':PROFILE_VARIANTS},indent=2)+'\n')
+ print(f'Built {len(glyphs)} fixed 6x20 centerline glyphs -> {target}')
 
 if __name__=='__main__':build()

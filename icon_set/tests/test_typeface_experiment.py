@@ -7,7 +7,7 @@ from icon_set.scripts.experiment_gallery import typeface_samples
 
 class TypefaceExperimentTests(unittest.TestCase):
     def test_centerlines_keep_exact_paths(self):
-        glyphs=json.loads((Path(__file__).resolve().parents[1]/'dist/gallery/typeface.json').read_text())['glyphs']
+        glyphs=json.loads((Path(__file__).resolve().parents[2]/'published/gallery/typeface.json').read_text())['glyphs']
         rows=typeface_samples(glyphs)
         self.assertEqual(len(rows),95)
         self.assertEqual(len({r['key'] for r in rows}),95)
@@ -25,7 +25,7 @@ class TypefaceExperimentTests(unittest.TestCase):
                 for group in groups:self.assertEqual([p.get('d') for p in group],paths)
 
     def test_offline_page_has_all_samples_and_composer_link(self):
-        root=Path(__file__).resolve().parents[1]/'dist/gallery'
+        root=Path(__file__).resolve().parents[2]/'published/gallery'
         html=(root/'experiment.html').read_text()
         self.assertNotIn('__TYPEFACE_EXPERIMENT_DATA__',html)
         payload=html.split('<script id="typefaceExperimentData" type="application/json">')[1].split('</script>')[0]
@@ -36,7 +36,7 @@ class TypefaceExperimentTests(unittest.TestCase):
 
     def test_originals_use_source_files_and_uppercase_has_none(self):
         root=Path(__file__).resolve().parents[2]
-        rows=json.loads((root/'icon_set/dist/gallery/experiment-typeface.json').read_text())['icons']
+        rows=json.loads((root/'published/gallery/experiment-typeface.json').read_text())['icons']
         originals=[r for r in rows if r['original'] is not None]
         self.assertEqual(len(originals),37)
         for row in rows:

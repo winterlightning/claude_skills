@@ -88,4 +88,15 @@ console.log('All-TODO grid scope, 50-item pagination, and URL state checks passe
   context.fetch=async url=>({ok:true,json:async()=>{run('galleryRevision++');return {};}});
   await run('refreshGalleryState()');assert.equal(run('statuses.ready.reason'),'container','An older refresh cannot replace state after a local write');
   console.log('Live TODO-only missing-brief refresh, edit preservation, failure, recovery and save-race checks passed.');
+// Existing drawings must never be offered for first-time generation.
+run(`catalog.rows=[{uuid:'unbuilt',category:'x',state:'model_only',models:['existing']},{uuid:'failed',category:'x',state:'build_failed',models:['failed-icon']},{uuid:'new',category:'x',state:'none'}];statuses={};referenceBriefs=Object.fromEntries(catalog.rows.map(r=>[r.uuid,{family:'solo',brief:'Draw it'}]));briefsAvailable=statusesAvailable=true;state.view='todo';state.category='';state.batch='';state.brief='';state.q='';state.status='todo'`);
+assert.equal(run('counts(catalog.rows).drawn'),2);
+assert.equal(run('counts(catalog.rows).todo'),1);
+assert.equal(run('briefCounts(catalog.rows).brief_ready'),1);
+assert.equal(run('JSON.stringify(detailRows().map(r=>r.uuid))'),'["new"]');
+assert.equal(run('JSON.stringify(readyBriefHandoff().briefs.map(r=>r.uuid))'),'["new"]');
+run("state.view='category';state.category='x';state.status='drawn'");
+assert.equal(run('detailRows().length'),2);
+console.log('Existing unpublished and failed drawings are excluded from TODO and exports.');
+
 })().catch(error=>{console.error(error);process.exitCode=1;});

@@ -10,6 +10,7 @@ def main(argv=None):
         'build': 'build',
         'dev': 'deploy',
         'release': 'release',
+        'publish': 'publish',
         'production': 'deploy',
         'doctor': 'workspace_doctor',
         'typeface-sizes': 'typeface_sizes',
@@ -23,6 +24,9 @@ def main(argv=None):
     rest = argv[1:]
     if args.command == 'production':
         rest.insert(0, '--production')
+        if not any(arg == '--dist' or arg.startswith('--dist=') for arg in rest):
+            from .scripts.workspace import PUBLISHED_DIST
+            rest.extend(['--dist', str(PUBLISHED_DIST)])
     elif args.command == 'dev' and '--production' in rest:
         parser.error('Use the production command for production state.')
     module = importlib.import_module('icon_set.scripts.' + commands[args.command])

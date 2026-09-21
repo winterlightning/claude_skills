@@ -6,9 +6,9 @@ import json
 import xml.etree.ElementTree as ET
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 
 BASE=Path(__file__).resolve().parents[1]
@@ -25,13 +25,13 @@ def main():
     vector={r['container']:r for r in json.loads((BASE/'work/container-vector-report/results.json').read_text())['containers']}
     sizes={r['container']:r for r in json.loads((BASE/'work/container-size-report/results.json').read_text())['containers']}
     subs=[]
-    for path in sorted((development_dist(BASE.parent) / 'sub32').glob('*.svg')):
+    for path in sorted((build_dist(BASE.parent) / 'sub32').glob('*.svg')):
         root=ET.fromstring(path.read_text())
         if [float(v) for v in root.get('viewBox','').replace(',',' ').split()] != [0,0,32,32]:
             raise ValueError('Unexpected SUB32 canvas: '+path.name)
         subs.append({'name':path.stem,'uri':uri(path),'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
     hosts=[]
-    for path in sorted((development_dist(BASE.parent) / 'container64').glob('*.svg')):
+    for path in sorted((build_dist(BASE.parent) / 'container64').glob('*.svg')):
         name=path.stem;area=areas.get(name,{});v=vector.get(name,{})
         sha=hashlib.sha256(path.read_bytes()).hexdigest()
         fresh=area.get('source_sha256')==sha and v.get('source_sha256')==sha

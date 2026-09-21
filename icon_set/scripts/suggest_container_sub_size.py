@@ -13,9 +13,9 @@ from icon_set.scripts.container_placement import Artwork,artwork_group,root_svg
 from icon_set.scripts.container_vector_geometry import VectorInk,read_art,reject_effects,check_pair,vector_zone
 
 if __package__:
-    from .workspace import development_dist
+    from .workspace import build_dist
 else:
-    from workspace import development_dist
+    from workspace import build_dist
 
 BASE=Path(__file__).resolve().parents[1]
 DEFAULT_SUBS=['check-mark','add-sub32','heart-state-63']
@@ -65,18 +65,18 @@ def main(argv=None):
     fixes=json.loads((BASE/'work/container-fit-repair/fit-adjustments.json').read_text())
     hosts=args.container or sorted(set(audit)|{r['variant'] for r in fixes['revisions'].values()})
     revision_by_id={r['variant']:r for r in fixes['revisions'].values()}
-    names=sorted(p.stem for p in (development_dist(BASE.parent) / 'sub32').glob('*.svg')) if args.all_subs else args.sub or DEFAULT_SUBS
+    names=sorted(p.stem for p in (build_dist(BASE.parent) / 'sub32').glob('*.svg')) if args.all_subs else args.sub or DEFAULT_SUBS
     subs={};blocked={}
     for name in names:
         try:
-            p=development_dist(BASE.parent) / 'sub32'/f'{name}.svg';doc=p.read_text();reject_effects(doc);art=Artwork.read(doc,32)
+            p=build_dist(BASE.parent) / 'sub32'/f'{name}.svg';doc=p.read_text();reject_effects(doc);art=Artwork.read(doc,32)
             if min(art.bounds[:2])<2-1e-6 or max(art.bounds[2:])>30+1e-6:raise ValueError('Source centerline exceeds nominal SUB32 drafting extent')
             subs[name]=(art,sha(p))
         except (ValueError,OSError) as e:blocked[name]=str(e)
     rows=[]
     for ident in hosts:
         try:
-            path=development_dist(BASE.parent) / 'container64'/f'{ident}.svg';digest=sha(path);art=read_art(path.read_text());ink=VectorInk.from_art(art)
+            path=build_dist(BASE.parent) / 'container64'/f'{ident}.svg';digest=sha(path);art=read_art(path.read_text());ink=VectorInk.from_art(art)
             if ident in audit:
                 c=audit[ident]
                 if digest!=c['source_sha256']:raise ValueError('Stale vector interior; rebuild audit first')
