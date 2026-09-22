@@ -80,6 +80,24 @@ python3 -m icon_set build --icon icon_set/model/icons/solo/example.py --no-png -
 python3 -m icon_set dev --open                   # local app on published/ with icon_set/state/
 ```
 
+For a single authored icon, use the compact verification helper:
+
+```sh
+python3 -m icon_set finish-icon icon_set/model/icons/solo/example.py
+```
+
+It runs one targeted build, reports actionable validation findings, checks the
+export against its manifest hash, and renders a single light/dark preview sheet
+at native and enlarged size. Inspect that sheet for fidelity. Full diagnostics
+are saved beside the previews in a temporary directory (`--out DIR` overrides).
+Use `--dist DIR` for isolated tests. Numeric success is not visual approval.
+
+Targeted builds update only selected metadata, gallery entries, provenance,
+related primitive/combination links and failure summaries. They preserve
+unrelated exports, reference assets, UI files, experiments, sidecars and catalog
+records, including records with no source in the current checkout. Full builds
+and publish still refresh the complete gallery. No Git-based cleanup is needed.
+
 A targeted build keeps previously built icons. Use `--all` when a full
 revalidation is required. Builds do not create source metadata;
 `python3 -m icon_set.scripts.sync_metadata` is an explicit library-wide
