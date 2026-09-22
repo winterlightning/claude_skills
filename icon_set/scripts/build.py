@@ -290,26 +290,18 @@ def _stage_family(
         base = registry_families()[family]
         members = {icon_id: factory for icon_id, factory in factories().items() if issubclass(factory, base)}
         icons = [factory() for icon_id, factory in members.items() if icon_id in only]
-        for icon_id, factory in members.items():
+        # Preserve even records whose originals are not in this checkout.
+        for icon_id in dict.fromkeys([*old_records, *old_failed]):
             if icon_id in only:
                 continue
-            key = f"{factory.family}/{icon_id}"
-            old_qa = previous.qa_row(key, 0.0) if previous is not None and qa_dir is not None else None
             if icon_id in old_records:
                 records.append(old_records[icon_id])
-            elif icon_id in old_failed:
-                stale = dict(old_failed[icon_id])
-                try:
-                    if stale.get('svg'):
-                        (failed_dir / stale['svg']).write_bytes(
-                            (published_dist / 'failed' / folder / stale['svg']).read_bytes())
-                except OSError:
-                    stale['svg'] = None
-                failed_records.append(stale)
             else:
-                continue
-            if old_qa is not None:
-                qa_rows.append(old_qa)
+                failed_records.append(old_failed[icon_id])
+            if previous is not None and qa_dir is not None:
+                old_qa = previous.qa_row(f"{family}/{icon_id}", 0.0)
+                if old_qa is not None:
+                    qa_rows.append(old_qa)
             reused += 1
 
     def fail(icon, qa, messages, mtime, document=None):
@@ -466,8 +458,8 @@ def _stage_family(
         # Carried-over records went in first; restore canonical order so output stays byte-stable.
         order = {icon_id: index for index, icon_id in enumerate(factories())}
         records.sort(key=lambda record: order.get(record["icon_id"], len(order)))
-    publish_metadata(records, target_dir, factories())
-    publish_metadata(failed_records, failed_dir, factories())
+    publish_metadata(records, target_dir, factories(), only=only)
+    publish_metadata(failed_records, failed_dir, factories(), only=only)
     failed_records.sort(key=lambda entry: entry["icon_id"])
     (failed_dir / 'manifest.json').write_text(json.dumps({
         "manifest_version": MANIFEST_VERSION, "family": family, "profile": profile.name,
@@ -486,14 +478,22 @@ def _stage_family(
             for message in messages:
                 print(f"    {message}")
         print()
-        if not records:
+        if not records and only is None:
             # Nothing usable (e.g. the renderer is down): keep the previous release.
             return 0, len(failures)
 
     keep = {record["icon_id"] for record in records}
-    _prune(target_dir, ".svg", keep)
-    if preview_dir is not None:
-        _prune(preview_dir, ".png", keep)
+    if only is None:
+        _prune(target_dir, ".svg", keep)
+        if preview_dir is not None:
+            _prune(preview_dir, ".png", keep)
+    else:
+        for icon_id in only - keep:
+            (target_dir / f"{icon_id}.svg").unlink(missing_ok=True)
+            if preview_dir is not None:
+                (preview_dir / f"{icon_id}.png").unlink(missing_ok=True)
+        for icon_id in only - {r["icon_id"] for r in failed_records}:
+            (failed_dir / f"{icon_id}.svg").unlink(missing_ok=True)
 
     manifest = {
         "manifest_version": MANIFEST_VERSION,
@@ -575,6 +575,12 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                     shutil.copytree(target, stage / folder)
                 else:
                     (stage / folder).mkdir()
+        if only is not None:
+            for family in families:
+                folder = family_dist_name(family)
+                source = dist / 'failed' / folder
+                if source.exists():
+                    shutil.copytree(source, stages[dist] / 'failed' / folder, dirs_exist_ok=True)
         qa_rows = []
         qa_dir = stages[dist] / 'qa' if debug or report else None
         if qa_dir is not None:
@@ -598,6 +604,8 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                 # A targeted build keeps other icons' last rows rather than re-checking them.
                 mtime = 0.0 if only is not None else _source_mtime(icon)
                 row = previous.qa_row(key, mtime, selected=False) if previous else None
+                if row is None and only is not None:
+                    continue  # A targeted report never measures an unselected icon.
                 if row is None:
                     row = inspect_icon(icon, debug_dir=qa_dir / key if debug else None, selected=False)
                     row['_key'] = key
@@ -606,7 +614,7 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
             # Publish QA with the gallery and manifests in the same transaction.
         # Publish every family that exported something; failing icons are simply
         # left out. A family where nothing exported keeps its previous release.
-        published = [family for family, (count, bad) in zip(families, counts) if count or not bad]
+        published = [family for family, (count, bad) in zip(families, counts) if count or not bad or only is not None]
         replacements = [(stage / family_dist_name(family), root / family_dist_name(family))
                         for root, stage in stages.items() for family in published]
         # The failed-build list always reflects this run, even when a family kept its release.
@@ -615,10 +623,22 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                          for family in families]
         if qa_dir is not None:
             replacements.append((qa_dir, dist / 'qa'))
-        gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()])
+        gallery_options = {'only': only} if only is not None else {}
+        gallery = stage_gallery(stages[dist], dist, [family_dist_name(name) for name in contracts.families()], **gallery_options)
         replacements.append((gallery, dist / 'gallery'))
+        if only is not None:
+            # Compact changed catalogs only, before the transactional swap.
+            for staged_dir, destination in replacements:
+                if staged_dir == qa_dir:
+                    continue
+                for path in staged_dir.rglob('*.json'):
+                    old = destination / path.relative_to(staged_dir)
+                    if not old.exists() or path.read_bytes() != old.read_bytes():
+                        path.write_text(json.dumps(json.loads(path.read_text()), ensure_ascii=False,
+                                                   separators=(',', ':')) + '\n')
         _publish(replacements)
-        compact_json_tree(dist)
+        if only is None:
+            compact_json_tree(dist)
         if qa_dir is not None:
             print(f"QA evidence -> {dist / 'qa' / ('index.html' if report else 'results.json')}")
         print(f"Icon gallery -> {dist / 'gallery' / 'index.html'}")

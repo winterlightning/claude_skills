@@ -85,13 +85,14 @@ def record_metadata(icon) -> dict:
     return {field: document[field] for field in FIELDS}
 
 
-def publish_metadata(records: list[dict], directory: Path, registered: dict) -> None:
+def publish_metadata(records: list[dict], directory: Path, registered: dict, *, only: set[str] | None = None) -> None:
     """Read source metadata without mutation; publish changed output sidecars only."""
     directory.mkdir(parents=True, exist_ok=True)
     keep = set()
     from ..scripts.profile_links import annotate as annotate_profile_links
-    annotate_profile_links(records)
-    for record in records:
+    selected = records if only is None else [r for r in records if r["icon_id"] in only]
+    annotate_profile_links(selected)
+    for record in selected:
         icon = registered.get(record["icon_id"])
         document = (load_metadata(icon) if icon is not None
                     else defaults(SimpleNamespace(**record)))
@@ -106,5 +107,5 @@ def publish_metadata(records: list[dict], directory: Path, registered: dict) -> 
         if not target.exists() or target.read_text(encoding="utf-8") != content:
             target.write_text(content, encoding="utf-8")
     for path in directory.glob("*.metadata.json"):
-        if path.name not in keep:
+        if path.name not in keep and (only is None or path.name.removesuffix(".metadata.json") in only):
             path.unlink()

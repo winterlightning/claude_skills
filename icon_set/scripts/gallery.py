@@ -118,7 +118,7 @@ def add_modification_times(records: list[dict], published: Path) -> None:
             row['modified_source_sha256'] = digest
 
 
-def original_sources() -> dict[str, list[Path]]:
+def original_sources(only=None) -> dict[str, list[Path]]:
     """Use declared source paths/UUIDs only; never infer provenance from names."""
     from icon_set.model.icons.registry import factories
     primitives = (REPO_ROOT / 'pictographic-primitives').resolve()
@@ -127,6 +127,8 @@ def original_sources() -> dict[str, list[Path]]:
     declared = {}
     missing_ids = set()
     for icon_id, factory in factories().items():
+        if only is not None and icon_id not in only:
+            continue
         module = sys.modules[factory.__module__]
         refs = [(getattr(module, 'SOURCE_ICON_ID', None), getattr(module, 'SOURCE_PATH', None))]
         for entry in getattr(module, 'SOURCE_REFERENCES', None) or ():
@@ -195,11 +197,13 @@ def copy_originals(paths: list[Path], target: Path) -> list[dict]:
     return rows
 
 
-def python_sources() -> dict[str, dict]:
+def python_sources(only=None) -> dict[str, dict]:
     """Include registered authoring file locations, without publishing source code."""
     from icon_set.model.icons.registry import factories
     result = {}
     for icon_id, factory in factories().items():
+        if only is not None and icon_id not in only:
+            continue
         filename = inspect.getsourcefile(factory)
         if not filename:
             continue
@@ -310,7 +314,10 @@ def stage_primitives(target: Path, records: list[dict], failed_records: list[dic
     return catalog
 
 
-def stage_gallery(staged: Path, published: Path, folders: list[str]) -> Path:
+def stage_gallery(staged: Path, published: Path, folders: list[str], *, only=None) -> Path:
+    if only is not None:
+        from .targeted_gallery import stage_targeted_gallery
+        return stage_targeted_gallery(staged, published, folders, only)
     target = staged / 'gallery'
     target.mkdir()
     records = []
