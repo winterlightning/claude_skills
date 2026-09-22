@@ -8,7 +8,64 @@
   if(!icons.length){root.innerHTML='<p class="loading" role="status">No approved icons are available yet. Approve icons in the library, then reload this example.</p>';return;}
   const escape=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const editor=PreviewIconEditor({icons,example:kind});
-  const icon=editor.icon;
+  // Every template icon is resolved to a side-combination (main + sub badge)
+  // so all ten examples render combinations at the same density as the old
+  // solo icons. Ids come from experiment-combination-results.json.
+  const SIDE_COMBINATIONS={
+    'ecology-leaf':'f0327d2c-bb99-5e91-98f2-4b8115e447br',
+    'upright-rocket-round-window':'f99926f6-12c0-4ba6-a826-4422da00e7to',
+    'flash':'2ea382ae-7cf3-5969-897e-de17aaf87ctr',
+    'nodes-connected-angle':'b7c0d52e-b021-59e3-9c62-9622160ecabr',
+    'globe':'5178166e-bac1-49a8-a337-c2575e324bbr',
+    'notification-bell':'12d4871f-765e-4058-8784-f72f371c1dtr',
+    'security-shield':'5178166e-bac1-49a8-8de6-23be0bf1d8br',
+    'cloud':'be9bae6a-3dc6-5dc7-8b09-653917d044tr',
+    'clock':'4e5cefd6-c9c9-46fb-9217-7031427f5fbr',
+    'paintbrush':'a50f4b37-52bf-57b9-861b-a51459770ebr',
+    'camera-photography':'8b077ef0-ba0d-405b-a3cb-caa71cc3b5br',
+    'book-open':'03b427a0-f791-44b1-aaec-bcd922b880to',
+    'mail-envelope':'864e8557-0788-5dcf-931b-0d558dad49br',
+    'equalizer-audio':'d924d40c-7b79-5735-8b09-653917d044tr',
+    'mountain-road':'6ce17d6f-0a53-4eaa-a53b-be10293087tl',
+    'wallet-clasp':'91844974-1ccf-5069-8202-7d7e9f91f1br',
+    'rounded-chat-message-bubble':'a860d203-f16c-4448-8b09-653917d044tr',
+    'eight-pointed-star-badge':'c5b95603-1163-4ea7-a3cb-caa71cc3b5tr',
+    'folder':'ddd2bcfe-2962-53d9-931b-0d558dad49br',
+    'document':'2afb23ce-4e0f-4134-a50b-2dd50dab7cbr',
+    'bars-chart':'135c4735-05ba-531d-8985-b294567074br',
+    'cog':'4c6e5052-015f-4d2d-8769-db85e43e22tr',
+    'cup':'13dcc618-4810-41aa-a337-c2575e324bbr',
+    'check-circle':'ddd2bcfe-2962-53d9-a3cb-caa71cc3b5br',
+    'zoom-in-magnifying-glass':'129c70c9-d37d-4bff-8db2-c377d1b6efbr',
+    'plus-math-symbol-circle':'47328ef1-9ad8-5380-931b-0d558dad49br',
+    'user-reference':'c1a77ca3-a293-51b0-90b7-a6ee581341tr',
+    'target-dot':'f6422635-c7a1-4188-a3cb-caa71cc3b5br',
+    'retail-shopping-bag':'4f97114c-a7e4-4f5d-a664-4ae3e56c83br',
+    'armchair':'69002efb-1746-5370-aa58-53ce337798tr',
+    'box-shipping':'155592b3-ec54-46c3-8ccd-44e3dda750br',
+    'heart-shaped-handshake':'ee3c26d8-285a-439d-a337-c2575e324btr',
+    'standing-lamp':'6a686616-2bfa-4c53-8b09-653917d044tr',
+    'bag':'12a6aa6e-010c-419c-b928-083d50e252br',
+    'water-kettle-with-lid':'dcc7af24-9bec-4d53-867c-e102edd9f1br',
+    'compass':'f442e678-6fbd-570e-8b09-653917d044tr',
+    'airplane':'47a78895-0132-42e2-a3cb-caa71cc3b5br',
+    'beach-palm-tree-sun':'82042441-8abf-5e1b-a337-c2575e324bbr',
+    'bank-columns':'5e8f5a5b-e11d-504a-a1ab-06e3fe5239tr',
+    'hammock-on-palm-tree':'82042441-8abf-5e1b-b27a-8891d60149ri',
+    'eight-ray-sun':'ffc07827-2bbd-5dd6-a1ab-06e3fe5239tl',
+    'academic-graduation-cap':'5178166e-bac1-49a8-b798-b60860e5b3br',
+    'pencil-sketch-design':'4e2bee98-c069-5dac-931b-0d558dad49br',
+    'banknote-simple':'5662c539-f168-56d1-8202-7d7e9f91f1br',
+    'coins':'149fd072-7297-49b0-a664-4ae3e56c83br',
+    'heart-shaped-leaf':'724cec2d-4e21-444d-8b09-653917d044br',
+    'heart-flower-stem':'724cec2d-4e21-444d-a3cb-caa71cc3b5tr',
+    'person-riding-bicycle':'6ce17d6f-0a53-4eaa-a400-fd2f7b20a9to',
+    'do-not-disturb-sleep-mode':'65881da4-e2b5-4025-98f2-4b8115e447tr',
+    'location-marker-pin':'f442e678-6fbd-570e-a93b-dc7b4a54ffbr',
+    'simple-admission-ticket':'d3c5d63d-804f-4be5-a3cb-caa71cc3b5br',
+    'microphone-bc89e360':'bc89e360-7dac-4e19-a858-53d1cdc716tr'
+  };
+  const icon=(id,cls='',slot)=>editor.icon(id,cls,slot,SIDE_COMBINATIONS[id]);
   const brand=(name,slot)=>`<div class="brand">${icon('ecology-leaf','',slot)}<span>${name}<span class="brand-period">.</span></span></div>`;
   const arrow=()=>icon('arrow-right-1');
   function landing(){return `<div class="landing"><header class="sample-nav">${brand('bloom')}<nav><a href="#features">Why Bloom</a><a href="#features">How it works</a></nav><a class="button small" href="#features">Find your flow ${arrow()}</a></header><section class="landing-hero"><div class="hero-copy"><span class="pill">A LITTLE SPACE FOR BIG IDEAS</span><h1>Good work.<br>Room to <em>grow.</em></h1><p>Bring your people, projects, and possibilities together. Make space for the work that matters.</p><a class="button" href="#features">Explore the possibilities ${arrow()}</a><div class="tiny-proof"><span class="avatar-stack"><b>J</b><b>A</b><b>M</b></span>A fresh start for thoughtful teams</div></div><div class="hero-garden" aria-label="A composition of Pictographic icons"><div class="garden-caption">YOUR NEXT BIG THING STARTS SMALL</div><div class="garden-grid"><div class="garden-tile leaf">${icon('ecology-leaf')}</div><div class="garden-tile bolt">${icon('flash')}</div><div class="garden-tile rocket">${icon('upright-rocket-round-window')}</div><div class="garden-tile people">${icon('nodes-connected-angle')}</div><div class="garden-tile globe">${icon('globe')}</div></div><div class="garden-footer"><span>Less friction. More possibility.</span><span>↗</span></div></div></section><section class="feature-section" id="features"><div class="section-heading"><span>THOUGHTFULLY SIMPLE</span><h2>Everything you need to move forward.</h2></div><div class="feature-grid">${[['flash','Find your momentum','Turn a spark of inspiration into your next small step.'],['nodes-connected-angle','Better, together','Give every person and every idea a place to belong.'],['security-shield','Build with confidence','Keep your work organized, so you can focus on what’s next.'],['cloud','Ideas, everywhere','Pick up where you left off, wherever the day takes you.'],['clock','Time for what matters','Build a rhythm that leaves room for your best work.'],['paintbrush','Make it your own','Give every project a little of your personality.']].map(([id,title,desc])=>`<article>${icon(id)}<h3>${title}</h3><p>${desc}</p></article>`).join('')}</div></section><section class="use-cases"><p class="kicker">A HOME FOR EVERY KIND OF WORK</p><h2>Whatever you’re making, make it yours.</h2><div class="use-case-grid">${[['camera-photography','Photography'],['book-open','Learning'],['mail-envelope','Newsletters'],['equalizer-audio','Podcasts'],['mountain-road','Adventures'],['wallet-clasp','Business'],['rounded-chat-message-bubble','Community'],['eight-pointed-star-badge','Great ideas']].map(([id,label])=>`<article>${icon(id)}<span>${label}</span></article>`).join('')}</div></section><footer class="sample-footer">${brand('bloom')}<span>A sample landing page / Pictographic</span></footer></div>`;}
@@ -21,6 +78,12 @@
   const extra=PreviewUsageTemplates[kind];
   root.innerHTML=extra?extra.render({icon}):({landing,dashboard,application,slides:presentation})[kind]();
   editor.mount();
+  let showCombos=true;
+  const variantBtn=document.createElement('button');variantBtn.type='button';variantBtn.id='iconVariantToggle';
+  const paintVariantBtn=()=>{variantBtn.textContent=showCombos?'View Solo':'View Side combination';variantBtn.setAttribute('aria-pressed',String(showCombos));variantBtn.title=showCombos?'Show the original solo icons':'Show the side-combination icons';};
+  variantBtn.onclick=()=>{showCombos=!showCombos;paintVariantBtn();editor.setVariant(showCombos);};
+  paintVariantBtn();
+  const barRight=document.querySelector('.scene-editbar > div');if(barRight)barRight.insertBefore(variantBtn,barRight.firstChild);
   if(extra)extra.mount({icon,editor});
   if(kind==='dashboard')document.getElementById('period').onchange=e=>{const month=e.target.value==='month';['$24,680','18','24'].forEach((v,i)=>document.querySelector(`[data-metric="${i}"]`).textContent=month?['$98,420','42','26'][i]:v);document.querySelectorAll('.bar').forEach((b,i)=>b.style.height=(month?[42,51,63,56,74,83,96][i]:b.dataset.height)+'%');document.querySelectorAll('.bars small').forEach((s,i)=>s.textContent=month?['1–4','5–8','9–12','13–16','17–20','21–24','25–30'][i]:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'][i]);document.getElementById('chartSummary').textContent=month?'128 tasks completed this month':'32 tasks completed this week';document.querySelector('.chart').setAttribute('aria-label',month?'Sample activity over the month':'Sample activity over the week');};
   if(kind==='application'){

@@ -173,22 +173,24 @@ const lockedSymbols=layout('Hello, World!\n19.99',glyphs,{canvasHeight:28,trimIn
 assert.equal(lockedSymbols.height,28);
 console.log('All printable keyboard characters, punctuation positions, escaping and locked-height layout passed.');
 
-// v2: uppercased text over the UPPER glyphs, with v1 filling the gaps.
+// v2: uppercased text over the UPPER and Numbers glyphs, with v1 symbols filling gaps.
 {
  const covered=new Set(v2.map(g=>g.character));
  const merged=v2.concat(glyphs.filter(g=>g.kind!=='lowercase'&&!covered.has(g.character)));
  const text='Hash 1'.toUpperCase();
  const result=layout(text,merged);
  assert.equal(result.placements[0].glyph.icon_id,'letter-h-uppercase');
- assert.equal(result.placements[0].glyph.geometry_policy,'fixed-centerline-6x20');
+ assert.equal(result.placements[0].glyph.geometry_policy,'grid-centerline-15x19');
  assert.equal(result.placements[1].glyph.icon_id,'letter-a-uppercase');
- assert.equal(result.placements[1].glyph.geometry_policy,'natural-centerline-28x32');
- assert.equal(result.placements[1].glyph.body_height,28);
+ assert.equal(result.placements[1].glyph.geometry_policy,'grid-centerline-15x19');
+ assert.equal(result.placements[1].glyph.body_height,15);
  assert.equal(result.placements[3].glyph.icon_id,'letter-h-uppercase');
  assert.equal(result.placements[4].glyph.kind,'digit');
  for(const p of result.placements)assert.ok(Math.abs(p.glyph.body_height*p.scale-52)<1e-8);
- const wide=layout('W',merged),narrow=layout('A',merged);
- assert.ok(Math.abs((wide.placements[0].width-4)/(narrow.placements[0].width-4)-16/9)<1e-6);
+ const wide=layout('W',merged),narrow=layout('I',merged);
+ assert.ok(wide.placements[0].width>narrow.placements[0].width);
+ const native=layout('A1',merged,{xHeight:15*36/52,capHeight:15,canvasHeight:19,trimInk:true,padding:0});
+ assert.equal(native.height,19);
  assert.throws(()=>layout('a',v2),/Unsupported/);
 }
 console.log('typeface cjs ok');

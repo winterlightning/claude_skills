@@ -62,17 +62,18 @@ class TypefaceExperimentTests(unittest.TestCase):
         self.assertEqual(next(r for r in rows if r['icon_id']=='letter-o-large')['original_name'],'o.svg')
         self.assertEqual(next(r for r in rows if r['icon_id']=='letter-o')['original_name'],'o-1.svg')
 
-    def test_v2_samples_are_uppercase_with_upper_originals(self):
+    def test_v2_samples_use_upper_and_number_originals(self):
         root=Path(__file__).resolve().parents[2]
         rows=json.loads((root/'published/gallery/experiment-typeface-v2.json').read_text())['icons']
         glyphs={g['icon_id']:g for g in json.loads((root/'published/gallery/typeface-v2.json').read_text())['glyphs']}
         self.assertEqual(len(rows),len(glyphs))
-        self.assertEqual(len(rows),24)
+        self.assertEqual(len(rows),36)
         for row in rows:
             with self.subTest(icon=row['icon_id']):
-                self.assertTrue(row['icon_id'].endswith('-uppercase'))
-                source=root/glyphs[row['icon_id']]['source_path']
-                self.assertEqual(source.parent,root/'Letters/UPPER')
+                glyph=glyphs[row['icon_id']]
+                source=root/glyph['source_path']
+                expected=root/'Letters'/('UPPER' if glyph['kind']=='uppercase' else 'Numbers')
+                self.assertEqual(source.parent,expected)
                 self.assertEqual(row['original'],source.read_text())
                 self.assertTrue(row['original_preview'].startswith('data:image/png;base64,'))
                 self.assertEqual([p.get('d') for p in list(ET.fromstring(row['outline']))[0]],glyphs[row['icon_id']]['paths'])

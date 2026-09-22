@@ -50,12 +50,12 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     from .typeface_sizes import stage_sizes
     stage_sizes(exports/'sizes', glyphs)
 
-    # v2: natural-width uppercase from Letters/UPPER; the browser uppercases
-    # text and falls back to v1 for characters v2 does not draw.
+    # v2: grid-snapped uppercase and digits from Letters/UPPER and Numbers;
+    # the browser uppercases text and falls back to v1 for symbols.
     v2_source = source.with_name('glyphs-v2.json')
     v2 = json.loads(v2_source.read_text())
-    if v2.get('geometry_policy') != 'natural-centerline-28x32':
-        raise ValueError('Typeface v2 requires the drawn 28-unit centerline on 32-unit ink')
+    if v2.get('geometry_policy') != 'grid-centerline-15x19':
+        raise ValueError('Typeface v2 requires a grid-snapped 15-unit centerline on 19-unit ink')
     if len({g['icon_id'] for g in v2['glyphs']}) != len(v2['glyphs']):
         raise ValueError('Duplicate typeface v2 glyph')
     for glyph in v2['glyphs']:
