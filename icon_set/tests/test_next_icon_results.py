@@ -28,7 +28,7 @@ class StandaloneResultTests(unittest.TestCase):
         (folder / 'result.json').write_text(json.dumps(result))
         return folder
 
-    def test_only_complete_valid_reviewed_bundles_count(self):
+    def test_saved_attempts_count_regardless_of_validation_or_export(self):
         self.bundle()
         self.bundle('invalid', validation_status='invalid')
         self.bundle('warning', validation_warnings=['uncertified'])
@@ -37,7 +37,12 @@ class StandaloneResultTests(unittest.TestCase):
         (missing / 'sample.svg').unlink()
         broken = self.bundle('broken')
         (broken / 'result.json').write_text('{')
-        self.assertEqual(next_icon.completed_result_sources(self.root / 'results'), {'source-a'})
+        no_source = self.bundle('no-source')
+        (no_source / 'sample.py').unlink()
+        unfinished = self.bundle('unfinished')
+        (unfinished / 'result.json').unlink()
+        self.assertEqual(next_icon.completed_result_sources(self.root / 'results'),
+                         {'source-a', 'invalid', 'warning', 'unreviewed', 'missing'})
 
     def test_successful_retry_counts_and_read_is_nonmutating(self):
         self.bundle(validation_status='invalid')
@@ -47,7 +52,7 @@ class StandaloneResultTests(unittest.TestCase):
         self.assertEqual(before, {p: p.read_bytes() for p in self.root.rglob('*') if p.is_file()})
 
     def test_parameter_free_retrieval_advances_and_explicit_uuid_explains(self):
-        self.bundle()
+        self.bundle(validation_status='invalid')
         gallery = self.root / 'gallery'
         gallery.mkdir()
         rows = [dict(uuid=uid, path=f'{uid}.svg', concept=uid, category='Other')
@@ -64,5 +69,5 @@ class StandaloneResultTests(unittest.TestCase):
             with contextlib.redirect_stdout(output):
                 self.assertEqual(next_icon.main([]), 0)
             self.assertIn('source UUID: source-b', output.getvalue())
-            with self.assertRaisesRegex(SystemExit, 'completed valid standalone result'):
+            with self.assertRaisesRegex(SystemExit, 'saved standalone attempt and result'):
                 next_icon.main(['--uuid', 'source-a'])

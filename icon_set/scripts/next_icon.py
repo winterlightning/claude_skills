@@ -3,8 +3,9 @@
 
 Reads the tracked catalog (published/gallery/primitives.json) and, when present,
 a local copy of the review database (icon_set/state/feedback.sqlite3) read-only,
-using the same functions the server calls. Completed, valid standalone Ray
-results are also excluded without changing the catalog or review database.
+using the same functions the server calls. Standalone Ray attempts with a saved
+result are also excluded, regardless of validation, without changing the catalog
+or review database.
 
     python3 icon_set/scripts/next_icon.py                                 # print the first TODO
     python3 icon_set/scripts/next_icon.py --offset 1 --out primitive-input-2.txt
@@ -47,7 +48,7 @@ def originals_by_source():
 
 
 def completed_result_sources(root=None):
-    """Read finished result bundles; partial or failed runs remain eligible."""
+    """Skip recorded attempts, including failures; unfinished attempts may retry."""
     root = Path(root) if root is not None else primitive_results_dir()
     completed = set()
     for path in root.glob('*/*/result.json'):
@@ -55,23 +56,10 @@ def completed_result_sources(root=None):
             result = json.loads(path.read_text(encoding='utf-8'))
             if not isinstance(result, dict):
                 continue
-            uid, icon_id = result.get('source_uuid'), result.get('icon_id')
+            uid = result.get('source_uuid')
             if not isinstance(uid, str) or uid != path.parent.parent.name:
                 continue
-            if not isinstance(icon_id, str) or not re.fullmatch(r'[a-z][a-z0-9-]*', icon_id):
-                continue
-            review = result.get('visual_review')
-            if (result.get('validation_status') != 'valid'
-                    or result.get('validation_errors') or result.get('validation_warnings')
-                    or not isinstance(review, dict) or review.get('status') != 'reviewed'):
-                continue
-            required = (path.parent / f'{icon_id}.svg', path.parent / f'{icon_id}.metadata.json')
-            artifacts = result.get('artifacts')
-            if (not all(p.is_file() for p in required) or not isinstance(artifacts, list)
-                    or not artifacts or not any(isinstance(n, str) and n.endswith('.py') for n in artifacts)):
-                continue
-            if not all(isinstance(n, str) and Path(n).name == n
-                       and (path.parent / n).is_file() for n in artifacts):
+            if not any(p.is_file() for p in path.parent.glob('*.py')):
                 continue
             completed.add(uid)
         except (OSError, ValueError):
@@ -102,7 +90,7 @@ def main(argv=None):
         if not rows:
             sys.exit(f'error: unknown uuid {args.uuid}')
         if rows[0]['uuid'] in completed:
-            sys.exit(f'error: {args.uuid} already has a completed valid standalone result')
+            sys.exit(f'error: {args.uuid} already has a saved standalone attempt and result')
         if rows[0]['status'] != 'todo' or rows[0]['uuid'] in originals:
             sys.exit(f"error: {args.uuid} is {rows[0]['status']}, not TODO")
         row = rows[0]

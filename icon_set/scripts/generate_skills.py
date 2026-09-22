@@ -734,10 +734,11 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
             "icon folders, metadata catalogs, galleries, queues or runtime state. "
             "Do not run build, finish-icon, publish, release or gallery update commands. "
             "This output rule overrides output and registration advice in shared guides. "
-            "The next-icon helper reads completed result.json bundles and skips their "
-            "source UUIDs when validation is valid, visual review is recorded as "
-            "`reviewed`, and the source, SVG, metadata and listed artifacts exist. "
-            "Write result.json last with these fields; failed or unfinished runs remain eligible.",
+            "The next-icon helper skips a source UUID once a run contains an authored "
+            "Python module and a readable result.json with that source_uuid. "
+            "Validation failures, warnings, and failed exports still count as attempts; "
+            "do not retry them automatically. Write result.json last, including failures. "
+            "Only attempts without a saved result remain eligible for automatic retry.",
         )
         content = content.replace("icon_set/model/icons/solo/", "RESULT_DIR/")
         content = content.replace(
