@@ -90,6 +90,7 @@ async function renderCombinations(){
         const item=node('div');item.append(node('strong','',value.toLocaleString()),node('span','',label));stats.append(item);
       }
       area.append(stats,node('p','muted',`${containerResults.containers.ready} containers and ${containerResults.symbols.ready} symbol requirements have eligible artwork. Symbols are counted once per source requirement; equivalent sources may share a drawing.`));
+      const needed=node('p');const link=node('a','','Browse the symbols still needed →');link.href='symbols-needed.html';needed.append(link);area.append(needed);
     }
     const actions=node('div','toolbar'),button=node('button','','Combine all pairs');button.disabled=combineRunning;button.onclick=combineAllPairs;
     actions.append(button,node('span','muted','Latest published containers + standard 32×32 symbols. Applies to all pairs, including other pages.'));

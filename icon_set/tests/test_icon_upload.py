@@ -181,3 +181,30 @@ class IconUploadTests(unittest.TestCase):
         categories = self.call('GET', '/api/icon-categories')[1]['categories']
         self.assertIn('New category', categories)
         self.assertEqual(len(categories), len(set(categories)))
+
+    def test_custom_family_upload_review_and_persistence(self):
+        payload = dict(id='rounded', name='Rounded icons', canvas_size=72)
+        self.assertEqual(self.call('POST', '/api/icon-families', payload)[0], 201)
+        self.assertEqual(self.call('POST', '/api/icon-families', payload)[0], 409)
+        status, data = self.call('POST', '/api/icons/upload', dict(name='Custom', family='rounded', svg=self.svg.replace('48 48','72 72')))
+        self.assertEqual(status, 201, data)
+        icon = data['record']
+        self.assertEqual(icon['canvas_size'], 72)
+        self.assertEqual(self.call('POST', '/api/reviews', dict(icon=icon['key'], svg_sha256=icon['svg_sha256'], status='approve'))[0], 201)
+        self.server.shutdown(); self.server.server_close()
+        self.start()
+        families = self.call('GET', '/api/icon-families')[1]['families']
+        self.assertEqual(len(families), 6)
+        self.assertIn('rounded', [row['id'] for row in families])
+        self.assertEqual(self.call('GET', '/api/reviews')[1][icon['key']], 'approve')
+        self.assertIn(icon['key'], [row['key'] for row in self.call('GET', '/gallery/icons.json')[1]['icons']])
+        self.assertEqual(self.call('POST', '/api/icons/upload', dict(name='Wrong canvas', family='rounded', svg=self.svg))[0], 400)
+
+    def test_family_validation_and_builtin_protection(self):
+        for changes in [dict(id='../bad'), dict(id=[]), dict(name=''), dict(canvas_size=True), dict(canvas_size=15), dict(canvas_size=257)]:
+            payload = dict(id='custom', name='Custom', canvas_size=48)
+            payload.update(changes)
+            self.assertEqual(self.call('POST', '/api/icon-families', payload)[0], 400)
+        self.assertEqual(self.call('POST', '/api/icon-families', dict(id='solo', name='Override', canvas_size=72))[0], 409)
+        self.assertEqual(self.call('POST', '/api/icon-families', dict(id='custom', name='Custom', canvas_size=48), origin='https://example.com')[0], 403)
+        self.assertEqual(self.call('POST', '/api/icons/upload', dict(name='Main', family='combination_main', svg=self.svg))[0], 201)

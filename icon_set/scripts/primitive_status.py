@@ -54,6 +54,45 @@ def init_primitive_status(connection) -> None:
                            (json.dumps(main, sort_keys=True), json.dumps(sub, sort_keys=True), uid))
 
 
+def init_primitive_symbol_links(connection) -> None:
+    connection.execute('''CREATE TABLE IF NOT EXISTS primitive_symbol_links (
+        uuid TEXT PRIMARY KEY, icon_key TEXT NOT NULL,
+        updated_by TEXT NOT NULL, updated_at TEXT NOT NULL)''')
+
+
+def set_symbol_link(connection, uuid, icon_key, *, user, record, known=None) -> dict:
+    """Note that an existing symbol icon already fulfills a reference's requirement.
+
+    Independent of primitive_status: it never changes the todo/skip decision,
+    it only remembers a candidate match for the symbols-needed picker until a
+    real remap folds it into the build.
+    """
+    if not isinstance(uuid, str) or not _UUID.match(uuid.strip().lower()):
+        raise ValueError(f'Invalid primitive id: {uuid!r}')
+    uuid = uuid.strip().lower()
+    if known is not None and uuid not in known:
+        raise ValueError(f'Unknown primitive: {uuid}')
+    now = datetime.now(timezone.utc).isoformat()
+    if icon_key is None:
+        connection.execute('DELETE FROM primitive_symbol_links WHERE uuid=?', (uuid,))
+        record(connection, user, 'primitive_symbol_unlinked', 'primitive:' + uuid)
+        return {'uuid': uuid, 'icon_key': None}
+    if not isinstance(icon_key, str) or not icon_key.strip():
+        raise ValueError('Choose an icon to link.')
+    icon_key = icon_key.strip()
+    connection.execute(
+        'INSERT INTO primitive_symbol_links(uuid,icon_key,updated_by,updated_at) VALUES (?,?,?,?) '
+        'ON CONFLICT(uuid) DO UPDATE SET icon_key=excluded.icon_key, updated_by=excluded.updated_by, updated_at=excluded.updated_at',
+        (uuid, icon_key, user, now))
+    record(connection, user, 'primitive_symbol_linked', 'primitive:' + uuid, icon_key=icon_key)
+    return {'uuid': uuid, 'icon_key': icon_key, 'updated_by': user, 'updated_at': now}
+
+
+def load_symbol_links(connection) -> dict:
+    rows = connection.execute('SELECT uuid, icon_key, updated_by, updated_at FROM primitive_symbol_links')
+    return {uid: {'icon_key': icon_key, 'updated_by': by, 'updated_at': at} for uid, icon_key, by, at in rows}
+
+
 def validate_component(component, field):
     if component is None:
         return None

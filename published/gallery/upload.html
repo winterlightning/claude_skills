@@ -29,9 +29,10 @@ JSON</code></pre>
 <p><a href="#api-reference">Request fields and responses ↓</a></p>
 </section>
 <h2>Or upload a file here</h2>
-<form id="uploadForm"><label for="uploadFile">SVG file</label><input id="uploadFile" type="file" accept=".svg,image/svg+xml" required aria-describedby="uploadHelp"><p id="uploadHelp">SVG only, up to 1 MB. Use a square 32, 48, or 64 canvas and convert text to outlines.</p><img id="uploadPreview" class="upload-preview" alt="Selected icon preview" hidden>
+<form id="uploadForm"><label for="uploadFile">SVG file</label><input id="uploadFile" type="file" accept=".svg,image/svg+xml" required aria-describedby="uploadHelp"><p id="uploadHelp">SVG only, up to 1 MB. Use the selected family’s square canvas and convert text to outlines.</p><img id="uploadPreview" class="upload-preview" alt="Selected icon preview" hidden>
 <label for="uploadName">Icon name</label><input id="uploadName" maxlength="120" required placeholder="e.g. Open umbrella">
-<label for="uploadFamily">Family / canvas</label><select id="uploadFamily"><option value="solo">Solo · 48 × 48</option><option value="sub">Sub · 32 × 32</option><option value="symbol">Symbol</option><option value="container">Container · 64 × 64</option></select>
+<label for="uploadFamily">Family / canvas</label><select id="uploadFamily"><option value="solo">Solo · 48 × 48</option></select>
+<fieldset><legend>Create a new family</legend><label for="familyId">Family id</label><input id="familyId" maxlength="64" placeholder="e.g. rounded"><label for="familyName">Family name</label><input id="familyName" maxlength="120" placeholder="e.g. Rounded icons"><label for="familyCanvas">Square canvas size</label><input id="familyCanvas" type="number" min="16" max="256" value="48"><button id="createFamily" type="button" class="site-button">Create family</button><p id="familyMessage" role="status"></p></fieldset>
 <label for="uploadCategory">Category</label><input id="uploadCategory" list="uploadCategories" maxlength="100" placeholder="Choose or type a category" aria-describedby="uploadCategoryHelp uploadCategoriesStatus"><datalist id="uploadCategories"><option value="manual_upload"></option></datalist><p id="uploadCategoriesStatus" role="status">Loading current categories…</p>
 <p id="uploadCategoryHelp">Choose a current category from the dropdown or type a new one. Leave blank to use manual_upload. All uploads receive the uploaded type.</p>
 <label for="uploadValidation"><input id="uploadValidation" type="checkbox" style="width:auto"> Validate holes and pinches before upload</label><p>Optional; off by default. SVG safety, canvas, and rendering checks always run. Full authored-geometry checks are unavailable for uploaded SVGs.</p>
@@ -41,19 +42,22 @@ JSON</code></pre>
 <h2 id="uploadGuideTitle">Upload guide</h2>
 <ol>
 <li><strong>No login required.</strong> Select one SVG file up to 1 MB. A preview appears and the file name fills in the icon name.</li>
-<li><strong>Check the name and family.</strong> The page detects the family from a supported SVG canvas. Its viewBox must match the selected family.</li>
+<li><strong>Check the name and family.</strong> The page detects the family from a supported SVG canvas. Its viewBox must match the selected family. To add a family, enter its unique id, display name and canvas size above, then select Create family.</li>
 <li><strong>Choose a category.</strong> Choose an existing category or type a new one, or leave it blank to use <code>manual_upload</code>. Every uploaded icon gets the <code>uploaded</code> type, including icons with a custom category.</li>
 <li>Select <strong>Upload to Ready</strong>, then <strong>Review uploaded icon</strong> to find it in the Ready queue.</li>
 <li>A reviewer chooses <strong>Approve</strong> to include it in the approved library, or <strong>Disapprove</strong> when it needs a fix and records feedback.</li>
 </ol>
 <table><caption>Supported SVG canvases</caption><thead><tr><th scope="col">Family</th><th scope="col">Canvas</th><th scope="col">SVG viewBox</th></tr></thead><tbody>
 <tr><td>Sub</td><td>32 × 32</td><td><code>0 0 32 32</code></td></tr>
+<tr><td>Symbol</td><td>32 × 32</td><td><code>0 0 32 32</code></td></tr>
+<tr><td>Combination main</td><td>48 × 48</td><td><code>0 0 48 48</code></td></tr>
+<tr><td>Custom family</td><td>N × N (16–256)</td><td><code>0 0 N N</code></td></tr>
 <tr><td>Solo</td><td>48 × 48</td><td><code>0 0 48 48</code></td></tr>
 <tr><td>Container</td><td>64 × 64</td><td><code>0 0 64 64</code></td></tr>
 </tbody></table>
 <p><strong>Preparing the file:</strong> Export static vector shapes and convert text to outlines. Scripts, embedded raster images, external resources, and unsupported effects are rejected. The SVG must contain visible artwork.</p>
 <p><strong>After upload:</strong> The icon starts as Ready. Guest uploads are attributed to system; signed-in uploads record the account name. It stays saved through server restarts and gallery rebuilds. Uploading the same name again creates a separate icon. To revise an existing upload, open its inspector and use <strong>Editing → Manual Edit</strong>; save the revision, then review it in <strong>Pick</strong>.</p>
-<section id="api-reference" aria-labelledby="apiReferenceTitle"><h3 id="apiReferenceTitle">API reference</h3>
+<section id="families"><h2>Create an icon family</h2><p>Custom families are supported for SVG uploads and human review. List built-in and custom families with <code>GET /api/icon-families</code>. Create a family with <code>POST /api/icon-families</code>, then use its id as <code>family</code> in <code>POST /api/icons/upload</code>.</p><pre><code>{"id":"rounded","name":"Rounded icons","canvas_size":48}</code></pre><p>The id must start with a lowercase letter and contain only lowercase letters, digits, underscores or hyphens (1–64 characters). Name is required (1–120 characters). Canvas size is an integer from 16 to 256; SVG viewBox must be <code>0 0 N N</code> for that size. Success returns <code>201 {"family":{...}}</code>; an existing id returns <code>409</code>; invalid fields return <code>400</code>. No login is required; browser requests must use the same origin.</p><p>The five built-in families are sub (32), symbol (32), solo (48), combination_main (48), and container (64). Custom families persist with the review database through restarts and builds, including empty families. Family creation does not add Python authoring contracts or AI generation support. Icons retain type <code>uploaded</code>; category is a separate optional topic. Uploads enter Ready and use the existing approval and feedback endpoints. Family renaming, resizing and deletion are not currently exposed.</p></section><section id="api-reference" aria-labelledby="apiReferenceTitle"><h3 id="apiReferenceTitle">API reference</h3>
 <p>Send <code>POST /api/icons/upload</code> with <code>Content-Type: application/json</code> — no login, API key, or session cookie is required. Browser requests must come from the same origin.</p>
 <pre><code>{
   "name": "Circle outline",

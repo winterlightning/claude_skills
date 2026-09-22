@@ -26,6 +26,32 @@
     }
   }
   loadCategories();
+  async function loadFamilies(selected) {
+    const response = await fetch('../api/icon-families');
+    if (!response.ok) throw Error('Could not load families.');
+    const data = await response.json();
+    const current = selected || $('uploadFamily').value;
+    $('uploadFamily').replaceChildren(...data.families.map(family => {
+      const option = document.createElement('option');
+      option.value = family.id;
+      option.textContent = `${family.name} · ${family.canvas_size} × ${family.canvas_size}`;
+      return option;
+    }));
+    $('uploadFamily').value = current;
+  }
+  loadFamilies().catch(error => { $('familyMessage').textContent = error.message; });
+  $('createFamily').addEventListener('click', async () => {
+    $('createFamily').disabled = true;
+    try {
+      const response = await fetch('../api/icon-families', {method:'POST', headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({id:$('familyId').value.trim(), name:$('familyName').value.trim(), canvas_size:Number($('familyCanvas').value)})});
+      const result = await response.json();
+      if (!response.ok) throw Error(result.error || 'Could not create family.');
+      await loadFamilies(result.family.id);
+      $('familyMessage').textContent = 'Family created and selected. Upload your icon to Ready.';
+    } catch (error) { $('familyMessage').textContent = error.message; }
+    finally { $('createFamily').disabled = false; }
+  });
   let previewURL = null, busy = false;
   $('uploadFile').addEventListener('change', async () => {
     if (previewURL) URL.revokeObjectURL(previewURL);
@@ -46,7 +72,7 @@
     const view = (svg.getAttribute('viewBox') || '').trim().split(/[\s,]+/).map(Number);
     if (view.length === 4 && view[0] === 0 && view[1] === 0 && view[2] === view[3]) {
       const family = {32:'sub',48:'solo',64:'container'}[view[2]];
-      if (family) $('uploadFamily').value = family;
+      if (family && ['solo','sub','container'].includes($('uploadFamily').value)) $('uploadFamily').value = family;
     }
     previewURL = URL.createObjectURL(new Blob([text], {type:'image/svg+xml'}));
     $('uploadPreview').src = previewURL;

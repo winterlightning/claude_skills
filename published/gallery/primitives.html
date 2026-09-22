@@ -160,7 +160,7 @@ function effective(row){return row.state==='generated'?'generated':statuses[row.
 function counts(rows){const c={total:0,todo:0,skip:0,generated:0,drawn:0,build_failed:0,conflict:0};for(const k in REASONS)c['skip_'+k]=0;
   for(const row of rows){const s=effective(row),d=statuses[row.uuid];c.total++;c[s]++;if(row.state==='build_failed')c.build_failed++;if(d&&s==='generated')c.conflict++;if(d&&s==='skip')c['skip_'+d.reason]++;}
   c.done=pct(c.generated+c.drawn+c.skip,c.total);return c;}
-function hasBrief(row){const b=referenceBriefs[row.uuid];return !!(b&&['sub','solo','container','avatar'].includes(b.family)&&b.brief?.trim());}
+function hasBrief(row){const b=referenceBriefs[row.uuid];return !!(b&&['sub','solo','container','avatar','symbol'].includes(b.family)&&b.brief?.trim());}
 function briefCounts(rows){const todo=rows.filter(r=>effective(r)==='todo'),ready=todo.filter(hasBrief).length;
   return {brief_ready:ready,brief_missing:todo.length-ready};}
 function readyRows(rows){return briefsAvailable&&statusesAvailable?rows.filter(r=>effective(r)==='todo'&&hasBrief(r)):[];}
@@ -361,7 +361,7 @@ function referenceBriefEditor(row){
   const source=node('a','source-link','View original SVG');source.href=primitiveURL(row.path);source.target='_blank';source.rel='noopener';source.title=referencePath(row);section.append(source);
   const familyId='reference-family-'+row.uuid,textId='reference-brief-'+row.uuid;
   const familyLabel=node('label','','Icon family');familyLabel.htmlFor=familyId;
-  const family=node('select');family.id=familyId;family.append(new Option('Choose a family',''),...['sub','solo','container','avatar'].map(f=>new Option(f[0].toUpperCase()+f.slice(1),f)));family.value=draft.family;
+  const family=node('select');family.id=familyId;family.append(new Option('Choose a family',''),...['sub','solo','container','avatar','symbol'].map(f=>new Option(f[0].toUpperCase()+f.slice(1),f)));family.value=draft.family;
   const prompt=node('button','','Copy $icon-brief prompt');prompt.type='button';prompt.disabled=!family.value;
   const label=node('label','','Brief');label.htmlFor=textId;
   const textarea=node('textarea');textarea.id=textId;textarea.value=draft.brief;textarea.maxLength=20000;textarea.placeholder='Paste the completed $icon-brief result here…';

@@ -668,7 +668,7 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / skill_name(family) / "SKILL.md"] = render_codex(content)
     if agent in ("all", "codex"):
-        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-queue"):
+        for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue"):
             if skill is not None and skill != name:
                 continue
             source = (SKILLS_DIR / name / "SKILL.md").read_text(encoding="utf-8")

@@ -1,7 +1,7 @@
 """Saved reference briefs, independent of a primitive's remake status."""
 from datetime import datetime, timezone
 
-FAMILIES = ('sub', 'solo', 'container', 'avatar')
+FAMILIES = ('sub', 'solo', 'container', 'avatar', 'symbol')
 MAX_BRIEF = 20000
 
 
@@ -21,7 +21,7 @@ def save_primitive_brief(connection, uid, family, brief, *, known, user, record,
     if not isinstance(uid, str) or uid not in known:
         raise ValueError('Choose a known primitive.')
     if family not in FAMILIES:
-        raise ValueError('Choose an icon family: sub, solo, container or avatar.')
+        raise ValueError('Choose an icon family: sub, solo, container, avatar or symbol.')
     if not isinstance(brief, str) or not brief.strip() or len(brief) > MAX_BRIEF:
         raise ValueError(f'Enter a brief of 1–{MAX_BRIEF:,} characters.')
     brief = brief.strip()
@@ -48,7 +48,7 @@ def generation_queue(catalog, statuses, briefs, query, classification_history=No
     one = lambda key, default='': query.get(key, [default])[0]
     family = one('family', 'solo')
     if family not in FAMILIES:
-        raise ValueError('Choose family: solo, sub, container or avatar.')
+        raise ValueError('Choose family: solo, sub, container, avatar or symbol.')
     brief_filter = one('brief')
     if brief_filter not in ('', 'ready', 'missing'):
         raise ValueError('Choose brief: ready or missing, or omit it for all TODO icons.')
@@ -80,7 +80,7 @@ def generation_queue(catalog, statuses, briefs, query, classification_history=No
         chosen = saved['family'] if saved else family
         skill = 'icon-solo-distilled' if chosen == 'solo' else f'icon-{chosen}'
         design_root = 'icon_set/skills/icon-design' + ('-distilled' if chosen == 'solo' else '')
-        size = 32 if chosen == 'sub' else 64 if chosen == 'container' else 48
+        size = 32 if chosen in ('sub', 'symbol') else 64 if chosen == 'container' else 48
         tags = row.get('tags') or [word for word in re.split(r'\W+', name.lower()) if word]
         if isinstance(tags, str):
             tags = [tags]

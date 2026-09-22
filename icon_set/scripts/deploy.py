@@ -45,7 +45,8 @@ if __package__:
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
     from .primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map
+    from .primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map,
+                                    init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
@@ -61,7 +62,8 @@ else:
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
     from primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map
+    from primitive_status import (init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map,
+                                   init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from progression import import_snapshot
     from primitives_catalog import primitives_root
 
@@ -98,6 +100,9 @@ def init_database(path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with closing(sqlite3.connect(path)) as connection, connection:
         connection.execute("CREATE TABLE IF NOT EXISTS admin_sessions (token TEXT PRIMARY KEY, username TEXT NOT NULL, expires REAL NOT NULL)")
+        connection.execute("""CREATE TABLE IF NOT EXISTS upload_families (
+            id TEXT PRIMARY KEY, name TEXT NOT NULL, canvas_size INTEGER NOT NULL,
+            created_at TEXT NOT NULL, created_by TEXT NOT NULL)""")
         connection.execute("""CREATE TABLE IF NOT EXISTS uploaded_icons (
             icon TEXT PRIMARY KEY, record TEXT NOT NULL, svg TEXT NOT NULL)""")
         init_brief_queue(connection)
@@ -161,6 +166,7 @@ def init_database(path: Path) -> None:
         connection.execute('CREATE INDEX IF NOT EXISTS activity_log_user ON activity_log(username, id)')
         connection.execute('CREATE INDEX IF NOT EXISTS activity_log_icon ON activity_log(icon, id)')
         init_primitive_status(connection)
+        init_primitive_symbol_links(connection)
         init_primitive_briefs(connection)
     # Data migrations run against this installation's live database after its
     # schema is committed; no local database copy or manual attribution command.
@@ -577,7 +583,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return False
         return (route.startswith('/api/generation') or route.startswith('/api/ai-feedback')
                 or route in ('/api/icons/discard', '/api/feedback-db/sync',
-                             '/api/combination-refresh', '/api/combination-experiment'))
+                             '/api/combination-refresh', '/api/combination-experiment',
+                             '/api/symbols/copy-from-sub'))
 
     def do_GET(self):
         parsed = urlsplit(self.path)
@@ -590,6 +597,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/combination-refresh':
             from icon_set.scripts.combination_refresh_job import status
             return self.json_response(status())
+        if parsed.path == '/api/icon-families':
+            try:
+                return self.json_response({'families': self.upload_families()})
+            except sqlite3.Error:
+                return self.json_response({'error': 'Could not load families.'}, 503)
         if parsed.path == '/api/icon-categories':
             try:
                 data = self.catalog_data()
@@ -755,11 +767,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 from icon_set.scripts.container_symbol_queue import generation_queue as symbol_queue
                 combinations = json.loads((self.root / 'gallery/combinations.json').read_text())
                 manifest = json.loads((self.root / 'symbol32/manifest.json').read_text())
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    statuses = load_status(connection)
                 return self.json_response(symbol_queue(
-                    combinations, manifest, self.primitives_catalog(), parse_qs(parsed.query)))
+                    combinations, manifest, self.primitives_catalog(), parse_qs(parsed.query), statuses))
             except ValueError as error:
                 return self.json_response({'error': str(error)}, 400)
-            except OSError:
+            except (OSError, sqlite3.Error):
                 return self.json_response({'error': 'Container symbol queue is temporarily unavailable'}, 503)
         if parsed.path == '/api/primitives/generation-queue':
             try:
@@ -780,6 +794,12 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response(load_primitive_briefs(connection))
             except sqlite3.Error:
                 return self.json_response({'error': 'Primitive briefs are temporarily unavailable'}, 503)
+        if parsed.path == '/api/primitives/symbol-links':
+            try:
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                    return self.json_response(load_symbol_links(connection))
+            except sqlite3.Error:
+                return self.json_response({'error': 'Symbol links are temporarily unavailable'}, 503)
         if parsed.path in ('/api/primitives', '/api/primitives/status', '/api/primitives/summary'):
             try:
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
@@ -985,7 +1005,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/feedback-db/sync'):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1024,6 +1044,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response(render(data))
                 except (ValueError, OSError) as error:
                     return self.json_response({'error': str(error)}, 422)
+            if route == '/api/icon-families':
+                return self.create_upload_family(data, user)
             if route == '/api/icons/upload':
                 return self.upload_icon(data, user)
             if route == '/api/ai-feedback':
@@ -1088,6 +1110,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.save_primitive_brief(data, user)
             if route == '/api/primitives/status':
                 return self.save_primitive_status(data, user)
+            if route == '/api/primitives/symbol-link':
+                return self.save_symbol_link(data, user)
+            if route == '/api/symbols/copy-from-sub':
+                return self.copy_symbol_from_sub(data, user)
             if route == '/api/icon-flag':
                 return self.save_icon_flag(data, user)
             if route == '/api/icon-type':
@@ -1180,21 +1206,56 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
 
+    def upload_families(self):
+        from icon_set.model import contracts
+        profiles = contracts.icon_profile()['profiles']
+        builtins = {key: profiles[row['profile']]['canvas_size'] for key, row in contracts.families().items()}
+        result = [dict(id=key, name=key.replace('_', ' ').title(), canvas_size=size, builtin=True)
+                  for key, size in builtins.items()]
+        with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+            result.extend(dict(id=key, name=name, canvas_size=size, builtin=False)
+                          for key, name, size in connection.execute(
+                              'SELECT id,name,canvas_size FROM upload_families ORDER BY name,id'))
+        return result
+
+    def create_upload_family(self, data, user):
+        try:
+            key, name, canvas = data.get('id'), data.get('name'), data.get('canvas_size')
+            if not isinstance(key, str) or not re.fullmatch(r'[a-z][a-z0-9_-]{0,63}', key):
+                raise ValueError('Family id must be 1–64 lowercase letters, digits, underscores or hyphens, starting with a letter.')
+            if not isinstance(name, str) or not 1 <= len(name.strip()) <= 120:
+                raise ValueError('Enter a family name up to 120 characters.')
+            if type(canvas) is not int or not 16 <= canvas <= 256:
+                raise ValueError('canvas_size must be an integer from 16 to 256.')
+            if any(row['id'] == key for row in self.upload_families()):
+                return self.json_response({'error': 'Family id already exists. Choose it for your upload or use a different id.'}, 409)
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                connection.execute('INSERT INTO upload_families VALUES (?,?,?,?,?)',
+                                   (key, name.strip(), canvas, utc_now(), user))
+            return self.json_response({'family': dict(id=key, name=name.strip(), canvas_size=canvas, builtin=False)}, 201)
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except sqlite3.IntegrityError:
+            return self.json_response({'error': 'Family id already exists.'}, 409)
+        except sqlite3.Error:
+            return self.json_response({'error': 'Could not save family.'}, 503)
+
     def upload_icon(self, data, user):
         """Create a persistent SVG-only icon and its initial review atomically."""
         try:
             name, family = data.get('name'), data.get('family')
             if not isinstance(name, str) or not 1 <= len(name.strip()) <= 120:
                 raise ValueError('Enter an icon name up to 120 characters.')
-            if not isinstance(family, str) or family not in ('sub', 'symbol', 'solo', 'container'):
-                raise ValueError('Choose sub, solo, or container.')
+            families = {row['id']: row for row in self.upload_families()}
+            if not isinstance(family, str) or family not in families:
+                raise ValueError('Unknown family. Create it with POST /api/icon-families first.')
             category = data.get('category', 'manual_upload')
             if not isinstance(category, str) or len(category) > 100:
                 raise ValueError('Enter a category up to 100 characters.')
             bypass = data.get('bypass_validation', True)
             if type(bypass) is not bool:
                 raise ValueError('bypass_validation must be a JSON boolean: true or false.')
-            canvas = {'sub': 32, 'symbol': 32, 'solo': 48, 'container': 64}[family]
+            canvas = families[family]['canvas_size']
             document = safe_svg(data.get('svg'), canvas)
             validation = validate_upload(document, canvas, bypass=bypass)
             if validation['status'] in ('fail', 'error'):
@@ -1453,6 +1514,39 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response({'error': str(error)}, 400)
         except (OSError, sqlite3.Error):
             return self.json_response({'error': 'Could not save primitive status. Please retry.'}, 503)
+
+    def save_symbol_link(self, data, user):
+        icon_key = data.get('icon')
+        if icon_key is not None and (not isinstance(icon_key, str) or self.catalog().get(icon_key, {}).get('family') != 'symbol'):
+            return self.json_response({'error': 'Choose an existing symbol-family icon.'}, 400)
+        try:
+            (uid,), known = self._canonical_uuids([data.get('uuid')])
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                result = set_symbol_link(connection, uid, icon_key, user=user, record=record_activity, known=known)
+            return self.json_response(result)
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except (OSError, sqlite3.Error):
+            return self.json_response({'error': 'Could not save the symbol link. Please retry.'}, 503)
+
+    def copy_symbol_from_sub(self, data, user):
+        sub_icon_id = data.get('sub_icon_id')
+        if not isinstance(sub_icon_id, str) or not sub_icon_id.strip():
+            return self.json_response({'error': 'Choose a sub-family icon to copy.'}, 400)
+        from icon_set.scripts.symbol_role_copy import copy_sub_to_symbol
+        try:
+            result = copy_sub_to_symbol(sub_icon_id.strip())
+        except ValueError as error:
+            return self.json_response({'error': str(error)}, 400)
+        except OSError:
+            return self.json_response({'error': 'Could not write the new symbol file. Please retry.'}, 503)
+        try:
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                record_activity(connection, user, 'symbol_role_copy', 'symbol/' + result['icon_id'],
+                                 source_icon_id=result['source_icon_id'], path=result['path'])
+        except sqlite3.Error:
+            pass
+        return self.json_response(result, 201)
 
     def save_icon_type(self, data, user):
         key, icon_type = data.get('icon'), data.get('icon_type')

@@ -1,9 +1,9 @@
 """Independent 32px profile of book-open-1421392c.
-Snapshot of the reviewed reuse drawing; validate before publication.
+Reauthored from the requested reference for SYMBOL32; see construction plan.
 Edit these primitives independently of the linked source models.
 """
 from ...keyshapes import Keyshape
-from ._base import Symbol32 as Sub32
+from ._base import Symbol32
 SOURCE_ICON_ID = '1421392c-5884-4c7e-bf5c-1082165dfba9'
 SOURCE_PATH = 'pictographic-primitives/content/book open_1421392c-5884-4c7e-bf5c-1082165dfba9.svg'
 AUTHOR = 'gpt-6'
@@ -12,7 +12,7 @@ PROFILE_SOURCE_KEYS = ('solo/book-open-1421392c', 'solo/book-open-1-df25e3f8', '
 SOLO_SOURCE_ICON_IDS = ('book-open-1421392c', 'book-open-1-df25e3f8', 'book-open-a147931e')
 REFERENCE_EXPORT_SHA256 = '1bae9a15dc9fe7fdec94acae5090512df80fbbba3b114ec69ff3eeeda1a1eec5'
 
-class DrawingContainerSymbol(Sub32):
+class DrawingContainerSymbol(Symbol32):
     icon_id = 'book-open-1421392c-sub32-symbol'
     related_origin_icon_id = 'book-open-1421392c-sub32'
     variant_label = 'Independent container symbol'
@@ -26,24 +26,24 @@ class DrawingContainerSymbol(Sub32):
     profile_source_keys = PROFILE_SOURCE_KEYS
 
     def build(self):
-        self.add_line('p1-r1-1', (16, 10), (9, 5))
-        self.add_line('p1-r1-2', (9, 5), (2, 8))
-        self.add_line('p1-r1-3', (2, 8), (2, 23))
-        self.add_line('p1-r1-4', (2, 23), (9, 22))
-        self.add_line('p1-r1-5', (9, 22), (16, 27))
-        self.add_bezier('p1-r1-6', (16, 27), ((20, 23), (26, 23), (30, 23)))
-        self.add_line('p1-r1-7', (30, 23), (30, 6))
-        self.add_bezier('p1-r1-8', (30, 6), ((26, 6), (20, 6), (16, 10)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', 'p1-r1-8', closed=False)
-        self.add_line('p2-r1-1', (16, 10), (16, 27))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (9, 5), (9, 22))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.relate('connect', 'p1-r1-1', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-1', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-2', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-4', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-5', 'p3-r1-1')
-        self.relate('connect', 'p1-r1-6', 'p2-r1-1')
-        self.relate('connect', 'p1-r1-8', 'p2-r1-1')
+
+        # Plan: mirrored leaves own equal top/bottom page curves; one gutter
+        # joins their shared central nodes. Lucide book-open informs the curved
+        # leaf edges and blank pages. Centerline bounds (2,4)-(30,28).
+        # Omit page text and the redundant left inner line at this size.
+        axis, page_radius = 16, 10
+        top, bottom = (axis, 8), (axis, 28)
+        self.add_line('top-left', (2, 4), (8, 4))
+        self.add_arc('top-left-curve', (8, 4), top, radius_x=page_radius)
+        self.add_arc('top-right-curve', top, (24, 4), radius_x=page_radius)
+        self.add_polyline('right-edge', (24, 4), (30, 4), (30, 24), (24, 24))
+        self.add_arc('bottom-right-curve', (24, 24), bottom, radius_x=page_radius, sweep=False)
+        self.add_arc('bottom-left-curve', bottom, (8, 24), radius_x=page_radius, sweep=False)
+        self.add_polyline('left-edge', (8, 24), (2, 24), (2, 4))
+        self.contours.clear()
+        self.add_contour('pages', 'top-left', 'top-left-curve', 'top-right-curve',
+                         'right-edge-1', 'right-edge-2', 'right-edge-3',
+                         'bottom-right-curve', 'bottom-left-curve', 'left-edge-1', 'left-edge-2', closed=True)
+        self.add_line('gutter', top, bottom)
+        for curve in ('top-left-curve', 'top-right-curve', 'bottom-left-curve', 'bottom-right-curve'):
+            self.relate('connect', 'gutter', curve)

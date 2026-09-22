@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Symbols needed · Pictographic</title>
+<link rel="stylesheet" href="site.css"><script src="site.js" defer></script>
+<style>
+.sn-main{max-width:1400px;margin:0 auto;padding:0 32px 40px}
+.sn-intro{padding:36px 0 8px}.sn-intro h1{font-size:36px;font-weight:600;letter-spacing:-1.6px;margin:0 0 8px}.sn-intro p{color:var(--muted);margin:0;max-width:760px;line-height:1.6}
+.back{display:inline-block;margin:24px 0 0;font-size:13px}
+.sn-status{font-size:13px;color:var(--muted);min-height:20px;margin:10px 0}
+.toolbar{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:18px 0 12px}.toolbar input[type=search]{flex:1;min-width:200px;border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.toolbar select{border:1px solid var(--line);border-radius:8px;padding:9px 11px;background:#fff}
+.pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin:18px 0}.pager button{border:1px solid var(--line);border-radius:8px;padding:9px 13px;background:#fff;cursor:pointer}.pager button:disabled{opacity:.5;cursor:not-allowed}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:14px}
+.tile{background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.tile figure{margin:0;aspect-ratio:1;background:#f7f9f4;border-radius:8px;display:grid;place-items:center;overflow:hidden}
+.tile img{width:74%;height:74%;object-fit:contain}
+.tile h3{margin:0;font-size:13px;line-height:1.35;overflow-wrap:anywhere}
+.tile p{margin:0;font-size:12px;color:var(--muted)}
+.tile a.uses{align-self:flex-start;font-size:12px}
+.empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
+.muted{color:var(--muted)}
+.badge{align-self:flex-start;font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:3px 9px;background:#e8eefb;color:#2f4f8f;text-transform:uppercase}
+.badge.text{background:#f3e8d4;color:#7a5200}
+.sym-families{display:flex;flex-wrap:wrap;gap:4px}
+.badge.family{background:#eceff0;color:#4b5560}
+.badge.family.warn{background:#fae5e1;color:#923b30}
+.sym-origins{display:flex;flex-direction:column;gap:4px}
+.sym-origins-more summary{cursor:pointer;font-size:12px;color:#2f4f8f}
+.sym-origins-more a{display:block;margin-top:4px}
+.sym-classify{border-top:1px solid var(--line);padding-top:8px;margin-top:auto;display:grid;gap:6px}
+.sym-classify-actions{display:flex;flex-wrap:wrap;gap:6px}
+.sym-classify-actions button{flex:1;min-width:0;border:1px solid var(--line);border-radius:7px;padding:7px 8px;background:#fff;font-size:11px;cursor:pointer}
+.sym-classify-actions button:disabled{opacity:.5;cursor:not-allowed}
+.sym-classify-message{font-size:11px;min-height:14px}
+.badge.linked{background:#dff3e4;color:#1f6b35}
+.sym-picker{border-top:1px solid var(--line);padding-top:8px;display:grid;gap:6px}
+.sym-picker summary{cursor:pointer;font-size:12px;font-weight:600;color:#2f4f8f}
+.sym-picker-family{display:flex;gap:6px}
+.sym-picker-family button{flex:1;border:1px solid var(--line);border-radius:7px;padding:6px 8px;background:#fff;font-size:11px;cursor:pointer}
+.sym-picker-family button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+.sym-picker input[type=search]{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:7px;padding:7px 9px;font-size:12px}
+.sym-picker-results{display:grid;gap:6px;max-height:220px;overflow:auto}
+.sym-picker-row{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:7px;padding:6px}
+.sym-picker-thumb{margin:0;width:32px;height:32px;flex:none;background:#f7f9f4;border-radius:6px;display:grid;place-items:center;overflow:hidden}
+.sym-picker-thumb img{width:80%;height:80%;object-fit:contain}
+.sym-picker-label{flex:1;min-width:0;display:grid;font-size:11px;overflow-wrap:anywhere}
+.sym-picker-row button{border:1px solid var(--line);border-radius:6px;padding:6px 8px;background:#fff;font-size:11px;cursor:pointer;flex:none}
+body.guest .login-only{display:none!important}body:not(.guest) .guest-only{display:none!important}
+@media(max-width:700px){.sn-main{padding:0 18px 30px}.sn-intro h1{font-size:28px}}
+</style>
+</head>
+<body class="guest">
+<header class="site-header"><a class="site-brand" href="home.html"><span class="site-mark" aria-hidden="true">✳</span>Pictographic</a><nav class="site-nav" aria-label="Main navigation"><a href="home.html">Home</a><a href="icon-laboratory.html">Design Document</a><a href="icons.html">Icon</a><a href="preview.html">Preview</a><a href="index.html">Icon review</a><a href="experiment.html">Experiment</a><a href="ai-review.html">AI quality review</a><a href="primitives.html">Progression</a><a href="upload.html">Upload icon</a><a href="api.html">API</a></nav></header>
+<main class="sn-main">
+  <a class="back" href="primitives.html?view=container">← Container pairs</a>
+  <section class="sn-intro"><p class="eyebrow">CONTAINER COMBINATIONS</p><h1>Symbols needed</h1>
+    <p>Every 32×32 symbol a container combination still needs, with its original reference artwork. Check the existing artwork families and validation status to see why one is still needed, mark it text / number if it needs no drawn icon, link an existing symbol icon, copy a matching sub icon into the symbol family, queue a matching solo icon for an AI agent to redraw at 32px, or browse to its container pairs.</p></section>
+  <p id="status" class="sn-status" role="status" aria-live="polite">Loading…</p>
+  <p class="guest-only muted"><a href="login.html">Log in</a> to mark, link or copy symbols.</p>
+  <div class="toolbar"><input id="search" type="search" placeholder="Search concept" aria-label="Search symbols">
+    <select id="classifyFilter" aria-label="Classification filter">
+      <option value="needed">No symbol yet</option>
+      <option value="needs_fix">Symbol exists, needs a fix</option>
+      <option value="linked">Linked to existing icon</option>
+      <option value="queued">Queued for AI agent</option>
+      <option value="text">Marked text / number</option>
+      <option value="all">All</option>
+    </select>
+  </div>
+  <div class="pager" id="pagerTop"></div>
+  <div id="grid" class="grid"></div>
+  <div class="pager" id="pagerBottom"></div>
+</main>
+<footer class="site-footer"><span>Pictographic / A considered icon system</span><span>Symbols needed for container combinations</span></footer>
+<script>
+const $=id=>document.getElementById(id);
+const PAGE_SIZE=48;
+let items=[],statuses={},links={},briefs={},page=1;
+let _iconIndexPromise=null;
+function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.className=cls;if(text!==undefined)n.textContent=text;return n;}
+function iconIndex(){
+  return _iconIndexPromise ??= fetch('icons.json',{cache:'no-store'}).then(response=>{
+    if(!response.ok)throw Error('Could not load the icon catalog.');
+    return response.json();
+  }).then(data=>data.icons.map(icon=>({icon_id:icon.icon_id,name:icon.name,family:icon.family,key:icon.key,
+    preview_url:icon.preview_url,category:icon.category,keywords:icon.keywords,aliases:icon.aliases})));
+}
+function matchIcons(list,family,query){
+  const terms=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  return list.filter(icon=>icon.family===family&&(!terms.length||terms.every(term=>
+    [icon.name,icon.icon_id,icon.category,...(icon.keywords||[]),...(icon.aliases||[])].join(' ').toLowerCase().includes(term)))).slice(0,30);
+}
+
+function symbolRequirements(catalog,results){
+  const rows=catalog.rows.filter(r=>r.kind==='container'), refs=catalog.references, map=new Map();
+  for(const row of rows){
+    const ready=!!results?.selections?.[row.id]?.symbol_key, subRef=refs[row.sub_id];
+    const entry=map.get(row.sub_id)||{sub_id:row.sub_id,concept:subRef.concept,reference_url:subRef.reference_url,
+      families:new Map(),ready:false,pairs:0,origins:[]};
+    entry.ready=entry.ready||ready;entry.pairs++;
+    // Row-level sub_generated/sub_exports carry model_validation and python_source; the reference-level list doesn't.
+    const exportsByIcon=new Map((row.sub_exports||[]).map(x=>[x.icon,x]));
+    for(const g of [...subRef.generated,...(row.sub_generated||[])]){
+      const family=(g.key||'').split('/')[0];if(!family)continue;
+      const existing=entry.families.get(family), source=exportsByIcon.get(g.icon_id)?.python_source;
+      if(!existing)entry.families.set(family,{family,validation:g.model_validation||null,icon_id:g.icon_id,python_source:source||null});
+      else if(!existing.validation&&g.model_validation){existing.validation=g.model_validation;existing.icon_id=g.icon_id;existing.python_source=source||existing.python_source;}
+    }
+    const origin=refs[row.id];
+    if(origin)entry.origins.push({id:row.id,concept:origin.concept,reference_url:origin.reference_url,main_icon_id:row.main_icon_id});
+    map.set(row.sub_id,entry);
+  }
+  for(const entry of map.values())entry.families=[...entry.families.values()];
+  return [...map.values()];
+}
+
+function classification(item){return statuses[item.sub_id]?.reason||null;}
+function isText(item){return classification(item)==='text_number';}
+function isLinked(item){return !!links[item.sub_id]?.icon_key;}
+function isQueued(item){return briefs[item.sub_id]?.family==='symbol'&&!!briefs[item.sub_id]?.brief?.trim();}
+function symbolFamily(item){return item.families.find(f=>f.family==='symbol')||null;}
+function bucket(item){return isText(item)?'text':isLinked(item)?'linked':isQueued(item)?'queued':symbolFamily(item)?'needs_fix':'needed';}
+
+function filtered(){
+  const q=$('search').value.trim().toLowerCase(),mode=$('classifyFilter').value;
+  return items.filter(i=>(!q||i.concept.toLowerCase().includes(q))&&(mode==='all'||bucket(i)===mode));
+}
+
+function pager(pages){
+  const bar=node('div'),prev=node('button','','← Previous'),next=node('button','','Next →');
+  prev.disabled=page<=1;next.disabled=page>=pages;
+  prev.onclick=()=>{page--;render();window.scrollTo(0,0);};next.onclick=()=>{page++;render();window.scrollTo(0,0);};
+  bar.append(prev,node('span','muted',`Page ${page} of ${pages}`),next);return bar;
+}
+
+function classifyControls(item){
+  const section=node('div','sym-classify login-only');
+  const badge=node('span','badge');
+  const textButton=node('button','','Mark text / number');textButton.type='button';
+  const neededButton=node('button','','Mark needs sub icon');neededButton.type='button';
+  const message=node('p','sym-classify-message');message.setAttribute('role','status');
+  function reflect(){const text=isText(item);badge.className='badge'+(text?' text':'');badge.textContent=text?'Text / number':'Needs sub icon';
+    textButton.disabled=text;neededButton.disabled=!text;}
+  async function update(next){
+    textButton.disabled=neededButton.disabled=true;message.textContent='Saving…';
+    try{
+      const body=next==='text_number'?{uuids:[item.sub_id],status:'skip',reason:'text_number',note:''}:{uuids:[item.sub_id],status:'todo'};
+      const response=await fetch('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+      const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save.');
+      if(data.decisions?.[item.sub_id])statuses[item.sub_id]=data.decisions[item.sub_id];else delete statuses[item.sub_id];
+      message.textContent='Saved.';reflect();
+      const pages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));page=Math.min(page,pages);render();
+    }catch(error){message.textContent=error.message;reflect();}
+  }
+  textButton.onclick=()=>update('text_number');neededButton.onclick=()=>update('todo');
+  reflect();
+  const actions=node('div','sym-classify-actions');actions.append(textButton,neededButton);
+  section.append(badge,actions,message);return section;
+}
+
+function linkControls(item){
+  const link=links[item.sub_id];
+  if(!link?.icon_key)return null;
+  const section=node('div','sym-classify login-only');
+  const badge=node('span','badge linked','Linked: '+link.icon_key.replace(/^symbol\//,''));
+  const message=node('p','sym-classify-message');message.setAttribute('role','status');
+  const unlink=node('button','','Unlink');unlink.type='button';
+  unlink.onclick=async()=>{
+    unlink.disabled=true;message.textContent='Unlinking…';
+    try{
+      const response=await fetch('/api/primitives/symbol-link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuid:item.sub_id,icon:null})});
+      const data=await response.json();if(!response.ok)throw Error(data.error||'Could not unlink.');
+      delete links[item.sub_id];
+      const pages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));page=Math.min(page,pages);render();
+    }catch(error){message.textContent=error.message;unlink.disabled=false;}
+  };
+  const actions=node('div','sym-classify-actions');actions.append(unlink);
+  section.append(badge,actions,message);return section;
+}
+
+function symbolFixBriefTemplate(item,sym){
+  return `# ${item.concept} — fix the existing symbol icon
+
+- existing file: \`${sym.python_source||'icon_set/model/icons/symbol/ — find it by icon_id below'}\`
+- icon_id: \`${sym.icon_id}\`
+- current validation: ${sym.validation||'unknown'}
+- reference: \`${item.reference_url}\` (render and look at this first)
+- source UUID: \`${item.sub_id}\`
+
+## To fix
+
+This symbol icon already exists and is already correctly linked to this source (SOURCE_ICON_ID matches). Do not author a new one. Inspect it with the project's icon validation tooling, find the failing or reviewed check, and edit its geometry in place until it passes. Re-render and re-validate after editing. Keep its icon_id, family and source attribution unchanged.
+
+Needed by ${item.pairs} container pair${item.pairs===1?'':'s'}.`;
+}
+
+function fixControls(item){
+  const sym=symbolFamily(item);
+  if(!sym||isText(item)||isLinked(item)||isQueued(item))return null;
+  const section=node('div','sym-classify login-only');
+  section.append(node('span','badge family'+(sym.validation==='fail'?' warn':''),'Existing symbol · '+(sym.validation||'unknown')));
+  const message=node('p','sym-classify-message');message.setAttribute('role','status');
+  const button=node('button','','Queue a fix (existing file)');button.type='button';
+  button.onclick=async()=>{
+    button.disabled=true;message.textContent='Saving…';
+    try{
+      const brief=symbolFixBriefTemplate(item,sym);
+      const response=await fetch('/api/primitives/briefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuid:item.sub_id,family:'symbol',brief})});
+      const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save the brief.');
+      briefs[item.sub_id]=data;message.textContent='Queued a fix for an agent.';
+      const pages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));page=Math.min(page,pages);render();
+    }catch(error){message.textContent=error.message;}
+    finally{button.disabled=false;}
+  };
+  const actions=node('div','sym-classify-actions');actions.append(button);
+  section.append(actions,message);return section;
+}
+
+function queueControls(item){
+  const brief=briefs[item.sub_id];
+  if(!(brief?.family==='symbol'&&brief?.brief?.trim()))return null;
+  const section=node('div','sym-classify');
+  section.append(node('span','badge linked','Queued for AI agent'),
+    node('p','sym-classify-message','A symbol brief is saved for this reference; an agent can pick it up with $icon-symbol.'));
+  return section;
+}
+
+function symbolBriefTemplate(item,solo){
+  return `# ${item.concept} — symbol icon needed
+
+- reference: \`${item.reference_url}\` (render and look at this first)
+- style/subject reference: existing solo icon \`${solo.icon_id}\` (\`${solo.preview_url}\`)
+- native size: 32px (SYMBOL32 profile)
+- family: symbol — author with \`$icon-symbol\`
+- source UUID: \`${item.sub_id}\`
+
+## To author
+
+Run \`$icon-symbol\` and follow its shared guidance. Look at both the reference and \`${solo.icon_id}\` before drawing: keep the same recognizable subject as the solo icon, but redraw it from scratch to fit the SYMBOL32 profile (32×32, its own stroke weight and clearance rules) — do not just rescale the solo artwork.
+
+Needed by ${item.pairs} container pair${item.pairs===1?'':'s'}.`;
+}
+
+function pickerResultRow(item,match,message){
+  const row=node('div','sym-picker-row');
+  const thumb=node('figure','sym-picker-thumb');
+  if(match.preview_url){const img=document.createElement('img');img.loading='lazy';img.alt=match.name||match.icon_id;img.src=match.preview_url;thumb.append(img);}
+  const label=node('div','sym-picker-label');label.append(node('strong','',match.name||match.icon_id),node('span','muted',match.icon_id));
+  row.append(thumb,label);
+  if(match.family==='symbol'){
+    const button=node('button','','Link this icon');button.type='button';
+    button.onclick=async()=>{
+      button.disabled=true;message.textContent='Linking…';
+      try{
+        const response=await fetch('/api/primitives/symbol-link',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuid:item.sub_id,icon:match.key})});
+        const data=await response.json();if(!response.ok)throw Error(data.error||'Could not link.');
+        links[item.sub_id]=data;message.textContent='Linked.';
+        const pages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));page=Math.min(page,pages);render();
+      }catch(error){message.textContent=error.message;button.disabled=false;}
+    };
+    row.append(button);
+  }else if(match.family==='sub'){
+    const button=node('button','','Copy to symbol family');button.type='button';
+    button.onclick=async()=>{
+      button.disabled=true;message.textContent='Copying…';
+      try{
+        const response=await fetch('/api/symbols/copy-from-sub',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sub_icon_id:match.icon_id})});
+        const data=await response.json();if(!response.ok)throw Error(data.error||'Could not copy.');
+        message.textContent=`Created ${data.icon_id} at ${data.path}. Run your normal icon build, then use Combine all pairs on the Container view to pick this up — a newly written file isn't picked up by the running server.`;
+      }catch(error){message.textContent=error.message;}
+      finally{button.disabled=false;}
+    };
+    row.append(button);
+  }else if(symbolFamily(item)){
+    row.append(node('span','muted','A symbol icon already exists for this reference — use "Queue a fix" above instead of authoring a new one.'));
+  }else{
+    const button=node('button','','Queue for AI agent');button.type='button';
+    button.onclick=async()=>{
+      button.disabled=true;message.textContent='Saving…';
+      try{
+        const brief=symbolBriefTemplate(item,match);
+        const response=await fetch('/api/primitives/briefs',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuid:item.sub_id,family:'symbol',brief})});
+        const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save the brief.');
+        briefs[item.sub_id]=data;message.textContent='Queued for an agent.';
+        const pages=Math.max(1,Math.ceil(filtered().length/PAGE_SIZE));page=Math.min(page,pages);render();
+      }catch(error){message.textContent=error.message;}
+      finally{button.disabled=false;}
+    };
+    row.append(button);
+  }
+  return row;
+}
+
+function iconPicker(item){
+  const details=node('details','sym-picker login-only');
+  details.append(node('summary','','Find an existing icon'));
+  const familyRow=node('div','sym-picker-family');
+  const symbolButton=node('button','','Symbol'),subButton=node('button','','Sub'),soloButton=node('button','','Solo');
+  symbolButton.type=subButton.type=soloButton.type='button';
+  const buttons={symbol:symbolButton,sub:subButton,solo:soloButton};
+  const search=document.createElement('input');search.type='search';search.setAttribute('aria-label','Search icons');search.value=item.concept;
+  const results=node('div','sym-picker-results');
+  const message=node('p','sym-classify-message');message.setAttribute('role','status');
+  let family='symbol',opened=false,searchTimer2;
+  function setFamily(next){family=next;for(const [key,button] of Object.entries(buttons))button.setAttribute('aria-pressed',String(key===family));runSearch();}
+  async function runSearch(){
+    results.replaceChildren(node('p','muted','Loading…'));
+    try{
+      const list=await iconIndex();
+      const matches=matchIcons(list,family,search.value);
+      results.replaceChildren(...(matches.length?matches.map(match=>pickerResultRow(item,match,message)):[node('p','muted','No matches.')]));
+    }catch(error){results.replaceChildren(node('p','muted',error.message));}
+  }
+  symbolButton.onclick=()=>setFamily('symbol');subButton.onclick=()=>setFamily('sub');soloButton.onclick=()=>setFamily('solo');
+  search.oninput=()=>{clearTimeout(searchTimer2);searchTimer2=setTimeout(runSearch,180);};
+  details.addEventListener('toggle',()=>{if(details.open&&!opened){opened=true;runSearch();}});
+  symbolButton.setAttribute('aria-pressed','true');subButton.setAttribute('aria-pressed','false');soloButton.setAttribute('aria-pressed','false');
+  familyRow.append(symbolButton,subButton,soloButton);
+  details.append(familyRow,search,results,message);
+  return details;
+}
+
+function originLink(origin){
+  const link=node('a','uses','View original: '+(origin.main_icon_id?origin.main_icon_id.replace(/[-_]/g,' '):origin.concept));
+  link.href=origin.reference_url;link.target='_blank';link.rel='noopener';return link;
+}
+
+function tile(item){
+  const el=node('article','tile');
+  const fig=node('figure'),img=document.createElement('img');img.loading='lazy';img.alt=item.concept;img.src=item.reference_url;fig.append(img);
+  el.append(fig,node('h3','',item.concept),node('p','',`Needed by ${item.pairs.toLocaleString()} pair${item.pairs===1?'':'s'}`));
+  if(item.families.length){
+    const fams=node('div','sym-families');
+    for(const f of item.families){
+      const warn=f.family==='container'||f.validation==='fail';
+      fams.append(node('span','badge family'+(warn?' warn':''),f.family+(f.validation?' · '+f.validation:'')));
+    }
+    el.append(fams);
+  }
+  const view=node('a','uses','View isolated reference');view.href=item.reference_url;view.target='_blank';view.rel='noopener';el.append(view);
+  const origins=item.origins.filter(o=>o.reference_url);
+  if(origins.length){
+    const wrap=node('div','sym-origins');
+    for(const origin of origins.slice(0,3))wrap.append(originLink(origin));
+    if(origins.length>3){
+      const rest=origins.length-3,details=node('details','sym-origins-more');
+      details.append(node('summary','',`+${rest} more original${rest===1?'':'s'}`));
+      for(const origin of origins.slice(3))details.append(originLink(origin));
+      wrap.append(details);
+    }
+    el.append(wrap);
+  }
+  const uses=node('a','uses','View its container pairs');uses.href='primitives.html?view=container&q='+encodeURIComponent(item.concept);el.append(uses);
+  const linked=linkControls(item);if(linked)el.append(linked);
+  const queued=queueControls(item);if(queued)el.append(queued);
+  const fix=fixControls(item);if(fix)el.append(fix);
+  el.append(classifyControls(item),iconPicker(item));
+  return el;
+}
+
+function render(){
+  const rows=filtered(),pages=Math.max(1,Math.ceil(rows.length/PAGE_SIZE));page=Math.min(page,pages);
+  const visible=rows.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);
+  $('grid').replaceChildren(...(visible.length?visible.map(tile):[node('div','empty','No symbols match these filters.')]));
+  $('pagerTop').replaceChildren(pager(pages));$('pagerBottom').replaceChildren(pager(pages));
+}
+
+function updateStatus(statusesLoaded,combinationsLoaded){
+  const counts={needed:0,needs_fix:0,text:0,linked:0,queued:0};
+  for(const item of items)counts[bucket(item)]++;
+  $('status').textContent=`${counts.needed.toLocaleString()} have no symbol yet · ${counts.needs_fix.toLocaleString()} have one that needs a fix · ${counts.linked.toLocaleString()} linked to an existing icon · ${counts.queued.toLocaleString()} queued for an AI agent · ${counts.text.toLocaleString()} marked text / number`
+    +(combinationsLoaded?'':' · readiness may be stale (combination results unavailable)')
+    +(statusesLoaded?'':' · classifications unavailable (reload to retry)');
+}
+
+let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{page=1;render();},180);};
+$('classifyFilter').onchange=()=>{page=1;render();};
+
+(async()=>{
+  try{
+    const [catalogResponse,resultsResponse,statusResponse,linksResponse,briefsResponse]=await Promise.all([
+      fetch('combinations.json',{cache:'no-store'}),fetch('/api/combinations/container/results',{cache:'no-store'}),
+      fetch('/api/primitives/status',{cache:'no-store'}),fetch('/api/primitives/symbol-links',{cache:'no-store'}),
+      fetch('/api/primitives/briefs',{cache:'no-store'})]);
+    if(!catalogResponse.ok)throw Error('Could not load the combination catalog.');
+    const catalog=await catalogResponse.json();
+    const results=resultsResponse.ok?await resultsResponse.json():null;
+    if(statusResponse.ok)statuses=await statusResponse.json();
+    if(linksResponse.ok)links=await linksResponse.json();
+    if(briefsResponse.ok)briefs=await briefsResponse.json();
+    items=symbolRequirements(catalog,results).filter(i=>!i.ready&&i.reference_url).sort((a,b)=>a.concept.localeCompare(b.concept));
+    updateStatus(statusResponse.ok,resultsResponse.ok);
+    render();
+  }catch(error){$('status').textContent='Could not load symbols: '+error.message;}
+})();
+</script>
+</body>
+</html>
