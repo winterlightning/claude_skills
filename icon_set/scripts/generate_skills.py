@@ -667,6 +667,149 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
             outputs[SKILLS_DIR / skill_name(family) / "SKILL.md"] = content
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / skill_name(family) / "SKILL.md"] = render_codex(content)
+    # Reuse solo construction, with Ray's queue intake and all-input scope.
+    if skill in (None, "primitive-make-ray"):
+        content = render("solo").replace(
+            "name: icon-solo\n", "name: primitive-make-ray\n", 1
+        ).replace("# /icon-solo —", "# /primitive-make-ray —", 1)
+        content = "\n".join(
+            line for line in content.split("\n")
+            if not line.startswith("argument-hint:")
+        ).replace(
+            "Request: $ARGUMENTS",
+            "Invoke this skill without parameters. Run from the repository containing `icon_set/`.\n\n"
+            "Retrieve the next TODO icon by running this command without parameters:\n\n"
+            "```bash\npython3 icon_set/scripts/next_icon.py\n```\n\n"
+            "Use its output as the brief, including the source ID and reference path, "
+            "then follow the full authoring workflow below. If retrieval fails or no "
+            "TODO icon remains, report that result and stop.",
+        )
+        content = re.sub(
+            r"^description: .*",
+            "description: Retrieve the next TODO reference without parameters and author "
+            "its complete composition as a Pictographic SOLO48 icon, including text, "
+            "digits, logos, symbols, avatars, wrappers and combinations. Save results "
+            "and retrieval metadata in a standalone folder without gallery updates. Generated from "
+            "the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.",
+            content, count=1, flags=re.MULTILINE,
+        )
+        content = re.sub(
+            r"\*\*Text and numbers:\*\*.*?(?=This skill authors)",
+            "**Generate every input:** author the complete retrieved reference as one "
+            "SOLO48 icon. Do not skip, split into component briefs, or hand off because "
+            "it contains text, digits, a logo, a symbol, an avatar, an enclosure or a "
+            "combination. Preserve its defining features and arrangement.\n\n"
+            "Letters and digits may be hand-authored to preserve the reference's "
+            "distinctive shape, including outlined or three-dimensional forms. "
+            "Existing typeface glyphs are optional construction references, not a "
+            "required substitute. These scope and text rules override routing and "
+            "typeface restrictions in the shared guides. All SOLO48 geometry and "
+            "validation requirements still apply.\n\n",
+            content, count=1, flags=re.DOTALL,
+        )
+        content = re.sub(
+            r"A \*\*solo\*\* icon.*?(?=## Visual priorities)",
+            "Every input stays in `icon_set/model/icons/solo/`, subclasses `Solo48`, "
+            "and uses `semantic_role = \"MAIN\"`, `semantic_kind = \"noun\"`. "
+            "Keep the complete composition on the 48×48 canvas; do not reroute it "
+            "to another family or enlarge the canvas.\n\n",
+            content, count=1, flags=re.DOTALL,
+        )
+        content = re.sub(
+            r"Before reduction, apply .*?(?=2\. \*\*Reduce\.)",
+            "Inspect the complete reference before reduction. Treat its text, "
+            "enclosure, main subject and modifiers as parts of the requested "
+            "composition; do not reject or split combinations. For review revisions, "
+            "preserve the parent and edit a new file from `create_variant.py`.\n\n",
+            content, count=1, flags=re.DOTALL,
+        )
+        content = content.replace(
+            "then follow the full authoring workflow below.",
+            "then follow the full authoring workflow below.\n\n"
+            "**Folder-only output:** create a fresh result directory at "
+            "`icon_set/work/primitive-make-ray/<source-uuid>/<unique-run-id>/`. "
+            "Call it `RESULT_DIR` below. Store all source, exports, reference renders, "
+            "previews, retrieval metadata and findings there, including unsuccessful attempts. Never "
+            "overwrite an earlier run. Do not write to `published/`, the registered "
+            "icon folders, metadata catalogs, galleries, queues or runtime state. "
+            "Do not run build, finish-icon, publish, release or gallery update commands. "
+            "This output rule overrides output and registration advice in shared guides. "
+            "The next-icon helper reads completed result.json bundles and skips their "
+            "source UUIDs when validation is valid, visual review is recorded as "
+            "`reviewed`, and the source, SVG, metadata and listed artifacts exist. "
+            "Write result.json last with these fields; failed or unfinished runs remain eligible.",
+        )
+        content = content.replace("icon_set/model/icons/solo/", "RESULT_DIR/")
+        content = content.replace(
+            f"| Ships to | `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/solo48/` with its own `manifest.json` |",
+            "| Exports to | `RESULT_DIR/` only; no gallery or manifest updates |",
+        ).replace("`Solo48` from `._base`", "`Solo48` from `icon_set.model.icons.solo._base`")
+        content = content.replace(
+            "   Search existing Python files by that ID before creating a new file; patch the\n"
+            "   matching module for this family for reuse; for review changes create an independent variant instead of overwriting it.",
+            "   Inspect existing Python files by that ID for context, but author a new\n"
+            "   standalone module inside this run's RESULT_DIR; do not patch registered originals.",
+        ).replace(
+            "For review revisions, preserve the parent and edit a new file from `create_variant.py`.",
+            "For revisions, preserve the parent and author the revised module in a fresh result directory.",
+        ).replace(
+            "from ...keyshapes import Keyshape\n   from ._base import Solo48",
+            "from icon_set.model.keyshapes import Keyshape\n   from icon_set.model.icons.solo._base import Solo48",
+        ).replace(
+            "   Nothing to register. The folder is the registry.",
+            "   Keep the module outside the registry. Load it by file path with\n"
+            "   `importlib.util.spec_from_file_location` from the repository root\n"
+            "   and instantiate its authored class directly.",
+        ).replace(
+            '   from icon_set.model.icons.registry import create\n   report = create("<icon-id>").validate_icon()',
+            "   icon = module.<ClassName>()  # module loaded from RESULT_DIR\n   report = icon.validate_icon()",
+        ).replace(
+            "retain the validation findings and request the gallery's exception flag for manual review; record the reason and attempted fit. The flag is not a validation waiver or permission to leave the 48x48 canvas.",
+            "save the validation findings and attempted fit in RESULT_DIR for manual review. "
+            "Do not request a gallery flag, waive validation, or leave the 48x48 canvas.",
+        )
+        content = re.sub(
+            r"7\. \*\*Build and look\.\*\*.*?(?=8\. \*\*Report\.)",
+            "7. **Export locally and look.**\n\n"
+            "   Save `icon.to_svg()` as `RESULT_DIR/<icon-id>.svg` and\n"
+            "   save the retrieval metadata beside it as `RESULT_DIR/<icon-id>.metadata.json`.\n"
+            "   Preserve the helper's concept, source UUID, reference path, category,\n"
+            "   and optional brief as `concept`, `source_uuid`, `reference_path`,\n"
+            "   `category`, and `brief` (null when absent). Keep the exact strings,\n"
+            "   including multiline brief content; do not substitute inferred values.\n"
+            "   Include the complete original stdout as `retrieval_stdout` to retain\n"
+            "   any additional fields, and stderr warnings as `retrieval_stderr`.\n"
+            "   Write this JSON as soon as retrieval succeeds, even if drawing fails.\n"
+            "   Save\n"
+            "   `report.describe()` as `RESULT_DIR/validation.txt`. Render that SVG\n"
+            "   directly with CairoSVG into light and dark PNGs at native 48px and\n"
+            "   enlarged size, all inside RESULT_DIR. Inspect both themes. Save a\n"
+            "   `result.json` containing source UUID/path, icon ID, author, validation\n"
+            "   status, visual-review findings, omissions and artifact filenames.\n"
+            "   Retain invalid candidates with their failure findings; do not claim\n"
+            "   they passed. If validation or rendering raises, retain the source and\n"
+            "   save the error in this same folder. No library build is needed.\n\n",
+            content, count=1, flags=re.DOTALL,
+        )
+        content = content.replace(
+            "Existing matches are patched in place, with source metadata\n  preserved or added and `AUTHOR` updated to you.",
+            "Source metadata is preserved in the standalone result module;\n  earlier runs and registered originals remain unchanged.",
+        ).replace(
+            "- Tests green; `build.py --family solo` exits 0; the icon is in\n"
+            f"  `{DEFAULT_DIST.relative_to(REPO_ROOT).as_posix()}/solo48/manifest.json`.",
+            "- Source, SVG, matching retrieval metadata JSON, previews, validation findings\n"
+            "  and result.json are saved\n"
+            "  together in RESULT_DIR; link this directory and its SVG in the final response.\n"
+            "- No gallery, published output, registry, queue or runtime-state updates.",
+        )
+        if agent in ("all", "claude"):
+            outputs[SKILLS_DIR / "primitive-make-ray" / "SKILL.md"] = content
+        if agent in ("all", "codex"):
+            outputs[CODEX_SKILLS_DIR / "primitive-make-ray" / "SKILL.md"] = (
+                render_codex(content).replace(
+                    "# /primitive-make-ray —", "# $primitive-make-ray —", 1
+                )
+            )
     if agent in ("all", "codex"):
         for name in ("icon-brief", "icon-making", "icon-review", "icon-color", "icon-solo-distilled", "icon-solo-distilled-force", "icon-solo-queue"):
             if skill is not None and skill != name:

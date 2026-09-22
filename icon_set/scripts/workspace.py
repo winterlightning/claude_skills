@@ -28,6 +28,11 @@ def state_root(root=REPO_ROOT):
     return Path(root) / 'icon_set' / 'state'
 
 
+def primitive_results_dir(root=REPO_ROOT):
+    """Standalone Ray results, separate from published catalogs and runtime state."""
+    return Path(root) / 'icon_set' / 'work' / 'primitive-make-ray'
+
+
 PUBLISHED_DIST = build_dist()
 DEFAULT_DIST = PUBLISHED_DIST
 DEFAULT_PNG = preview_dir()
