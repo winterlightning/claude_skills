@@ -1,5 +1,15 @@
 # Text and number icons
 
+Typeface means alphabet letters, digits, and keyboard punctuation (including
+curly quote and degree variants). Currency symbols are **icons, not typeface**,
+even `$` on a keyboard. This includes dollar, euro, pound, yen/yuan, bitcoin,
+rupee, won, hryvnia, kip and lira. Specialist symbols such as prescription and
+subset-or-equal are also icons. Route them by use: solo when standalone, sub
+as a modifier, or symbol as container content. Currency inside a combination
+remains an icon component, not a typeface reuse brief. Existing reusable symbol
+paths are preserved separately in `icon_set/typeface/symbol-glyphs.json`; their
+presence does not classify them as text.
+
 Use the existing **typeface** glyphs for icons representing letters, words,
 abbreviations, digits, or numbers, including text within or beside another icon.
 Do not invent, trace, or redraw replacement letter/number geometry as a new

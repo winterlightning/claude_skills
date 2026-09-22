@@ -45,7 +45,7 @@ if __package__:
     from .discard_icon import discard_many
     from .qa_evidence import EvidenceStore
     from .primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from .primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
 else:
@@ -61,7 +61,7 @@ else:
     from discard_icon import discard_many
     from qa_evidence import EvidenceStore
     from primitive_briefs import init_primitive_briefs, load_primitive_briefs, save_primitive_brief, generation_queue
-    from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows
+    from primitive_status import init_primitive_status, set_status, load_status, merge, summarize, filter_rows, canonical_map
     from progression import import_snapshot
     from primitives_catalog import primitives_root
 
@@ -763,11 +763,13 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response({'error': 'Container symbol queue is temporarily unavailable'}, 503)
         if parsed.path == '/api/primitives/generation-queue':
             try:
+                from icon_set.scripts.primitive_decision_history import load_history
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     statuses = load_status(connection)
                     briefs = load_primitive_briefs(connection)
+                    classification_history = load_history(connection, ADMIN_USERS)
                 return self.json_response(generation_queue(
-                    self.primitives_catalog(), statuses, briefs, parse_qs(parsed.query)))
+                    self.primitives_catalog(), statuses, briefs, parse_qs(parsed.query), classification_history))
             except ValueError as error:
                 return self.json_response({'error': str(error)}, 400)
             except (OSError, sqlite3.Error):
@@ -1102,16 +1104,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             if not isinstance(key, str):
                 raise ValueError()
             if route == '/api/reviews' and status == 'pending' and ('reason' in data or 'feedback' in data):
-                labels = {'bad-stroke': 'Bad stroke drawn', 'meaning': 'Does not convey the intended meaning'}
+                labels = {'bad-stroke': 'Bad stroke drawn', 'meaning': 'Does not convey the intended meaning', 'manual-fix-request': 'Manual fix request'}
                 details = data.get('feedback', '')
-                if not isinstance(details, str) or reason not in ('bad-stroke', 'meaning', 'other') or (reason == 'other' and not details.strip()):
+                if not isinstance(details, str) or reason not in ('bad-stroke', 'meaning', 'manual-fix-request', 'other') or (reason == 'other' and not details.strip()):
                     return self.json_response({'error': 'Choose a disapproval reason; Other requires feedback.'}, 400)
                 feedback = '\n\n'.join(filter(None, (labels.get(reason), details.strip())))
                 route = '/api/feedback'
             if route == '/api/feedback':
                 if data.get('feedback_id') is not None and (type(data['feedback_id']) is not int or not isinstance(data.get('previous_feedback'), str)):
                     raise ValueError()
-                if reason not in ('bad-stroke', 'meaning', 'other'):
+                if reason not in ('bad-stroke', 'meaning', 'manual-fix-request', 'other'):
                     return self.json_response({'error': 'Choose a valid disapproval reason.'}, 400)
                 if not isinstance(feedback, str) or not 1 <= len(feedback.strip()) <= 10000:
                     raise ValueError()
@@ -1415,12 +1417,18 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
 
+    def _canonical_uuids(self, uuids):
+        """Folded alias uuids act on their canonical primitive; unknown ids pass through to validation."""
+        canonical = canonical_map(self.primitives_catalog()['rows'])
+        resolved = [canonical.get(uid.strip().lower(), uid) if isinstance(uid, str) else uid for uid in uuids]
+        return resolved, set(canonical)
+
     def save_primitive_brief(self, data, user):
         try:
-            known = {row['uuid'] for row in self.primitives_catalog()['rows']}
+            (uid,), known = self._canonical_uuids([data.get('uuid')])
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
-                result = save_primitive_brief(connection, data.get('uuid'), data.get('family'), data.get('brief'),
-                                              known=known, user=user, record=record_activity)
+                result = save_primitive_brief(connection, uid, data.get('family'), data.get('brief'),
+                                              known=known, user=user, record=record_activity, authority='user')
             return self.json_response(result)
         except ValueError as error:
             return self.json_response({'error': str(error)}, 400)
@@ -1429,13 +1437,17 @@ class GalleryHandler(SimpleHTTPRequestHandler):
 
     def save_primitive_status(self, data, user):
         try:
-            known = {row['uuid'] for row in self.primitives_catalog()['rows']}
+            uuids = data.get('uuids')
+            if isinstance(uuids, list):
+                uuids, known = self._canonical_uuids(uuids)
+            else:
+                known = {row['uuid'] for row in self.primitives_catalog()['rows']}
             with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
-                result = set_status(connection, data.get('uuids'), data.get('status'), data.get('reason'),
-                                    data.get('note', ''), user=user, record=record_activity, known=known,
+                result = set_status(connection, uuids, data.get('status'), data.get('reason'),
+                                    data.get('note', ''), user=user, record=record_activity, known=known, authority='user',
                                     **{key: data[key] for key in ('combination_brief', 'main_brief', 'sub_brief', 'sub_position') if key in data})
                 statuses = load_status(connection)
-            result['decisions'] = {uid.strip().lower(): statuses.get(uid.strip().lower()) for uid in data['uuids']}
+            result['decisions'] = {uid.strip().lower(): statuses.get(uid.strip().lower()) for uid in uuids}
             return self.json_response(result)
         except ValueError as error:
             return self.json_response({'error': str(error)}, 400)

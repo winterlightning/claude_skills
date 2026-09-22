@@ -7,6 +7,13 @@ def export_glyphs(exports: Path, payload: dict) -> None:
     """Write one stroked SVG per glyph, plus the catalog as a manifest."""
     from xml.sax.saxutils import quoteattr, escape
     exports.mkdir(exist_ok=True)
+    manifest = exports/'manifest.json'
+    previous = json.loads(manifest.read_text()).get('glyphs', []) if manifest.exists() else []
+    current_ids = {g['icon_id'] for g in payload['glyphs']}
+    for glyph in previous:
+        uid = glyph['icon_id']
+        if uid not in current_ids and Path(uid).name == uid:
+            (exports/(uid+'.svg')).unlink(missing_ok=True)
     for glyph in payload['glyphs']:
         view_box = ' '.join(str(v) for v in glyph['preview_box'])
         paths = ''.join('<path d='+quoteattr(d)+'/>' for d in glyph['paths'])

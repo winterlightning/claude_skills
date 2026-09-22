@@ -57,7 +57,20 @@ The shared paths live in `icon_set/scripts/workspace.py`: `build_dist()`,
 definitions when adding tools. Model contracts still name family subfolders
 (`solo48/`, `sub32/`, ...), independently of the build root.
 
+The editable container/side pair database has an explicit import and export
+workflow under `python3 -m icon_set combinations`. See
+[Combination database](combination-library.md). It lives in runtime state;
+builds never seed it or overwrite its edits.
+
 ## Daily work
+
+Read a generation queue page without a running HTTP server using
+`python3 icon_set/scripts/generation_queue.py 40 --offline`. This reads the
+workspace's published primitive catalog and local review database in read-only
+mode, using the same queue logic and classification history as the gallery.
+For another local gallery, supply `--dist PATH --database PATH` with `--offline`;
+both paths must match that gallery. Missing data is an error, not an empty queue.
+Omit `--offline` to keep using the HTTP endpoint.
 
 ```sh
 python3 -m icon_set doctor                       # paths, tracked state, uncommitted output

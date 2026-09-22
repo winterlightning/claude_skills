@@ -17,7 +17,7 @@ def load_primitive_briefs(connection):
                 'SELECT uuid, family, brief, updated_by, updated_at FROM primitive_briefs')}
 
 
-def save_primitive_brief(connection, uid, family, brief, *, known, user, record):
+def save_primitive_brief(connection, uid, family, brief, *, known, user, record, authority='unspecified'):
     if not isinstance(uid, str) or uid not in known:
         raise ValueError('Choose a known primitive.')
     if family not in FAMILIES:
@@ -31,11 +31,12 @@ def save_primitive_brief(connection, uid, family, brief, *, known, user, record)
         connection.execute('INSERT INTO primitive_briefs VALUES (?,?,?,?,?) ON CONFLICT(uuid) DO UPDATE SET '
                            'family=excluded.family, brief=excluded.brief, updated_by=excluded.updated_by, '
                            'updated_at=excluded.updated_at', (uid, family, brief, user, now))
-        record(connection, user, 'primitive_brief', 'primitive:' + uid, family=family, brief=brief)
+        record(connection, user, 'primitive_brief', 'primitive:' + uid, family=family, brief=brief,
+               previous_family=previous[0] if previous else None, authority=authority)
     return load_primitive_briefs(connection)[uid]
 
 
-def generation_queue(catalog, statuses, briefs, query):
+def generation_queue(catalog, statuses, briefs, query, classification_history=None):
     """Read-only, deterministic authoring handoff; never calls a model or saves briefs."""
     import re
     from urllib.parse import quote
@@ -126,12 +127,21 @@ subjects to `$icon-making` for component briefs, and text/numbers to `{design_ro
             # Adapt only the exported handoff; retain the stored editorial brief.
             exported_brief = re.sub(r'\$icon-solo(?![-\w])', '$icon-solo-distilled', exported_brief)
             exported_brief = exported_brief.replace('icon_set/skills/icon-design/', design_root + '/')
+        from icon_set.scripts.primitive_decision_history import handoff_decision
+        history = (classification_history or {}).get(row['uuid'], [])
+        decision = handoff_decision(history, chosen, saved)
+        if decision['authoritative']:
+            # Remove the generic invitation to reclassify from generated templates.
+            if not saved:
+                exported_brief = exported_brief.split('## Reference triage')[0].rstrip()
+            exported_brief = '## User classification — takes priority\n\n' + decision['instruction'] + '\n\n' + exported_brief
         items.append(dict(uuid=row['uuid'], concept=name, category=row['category'],
                           batch=row.get('batch'), reference_path=source, reference_url=reference_url,
                           family=chosen, skill=skill, proposed_icon_id=icon_id, tags=tags,
                           brief_source='saved' if saved else 'template',
+                          classification_history=history, classification_decision=decision,
                           brief=exported_brief))
     return dict(total=len(rows), offset=offset, limit=limit,
                 next_offset=offset + limit if offset + limit < len(rows) else None,
-                instruction='Recheck TODO status before drawing. Inspect the reference and follow the family skill.',
+                instruction='Recheck TODO status before drawing. Follow authoritative user classification decisions; do not reclassify or split those references. Inspect geometry and follow the family drawing rules.',
                 briefs=items)

@@ -18,6 +18,10 @@ its model state is:
 
 TODO/SKIP decisions are not stored here; they live in the gallery database
 (primitive_status.py) and are merged by the page, the API and the CLI.
+
+Primitives that are the same drawing (data/primitive-aliases.json, written by
+primitive_duplicates.py) fold into one row: the canonical keeps its identity and
+lists the others under ``aliases``; models linked to any uuid in the set count.
 """
 from __future__ import annotations
 
@@ -46,6 +50,7 @@ from icon_set.scripts.category_report import UUID, declared_references, source_i
 
 ROOT_ENV = 'PICTOGRAPHIC_PRIMITIVES'
 UNCATEGORIZED = 'Uncategorized'
+ALIASES_PATH = REPO_ROOT / 'icon_set' / 'data' / 'primitive-aliases.json'
 _VIEWBOX = re.compile(r'viewBox="([^"]+)"')
 
 
@@ -56,6 +61,42 @@ def primitives_root(explicit: str | Path | None = None) -> Path:
     if value:
         return Path(value).expanduser().resolve()
     return (REPO_ROOT / 'pictographic-primitives').resolve()
+
+
+def load_aliases(path: Path | None = None) -> dict[str, str]:
+    """alias uuid -> canonical uuid from primitive_duplicates.py; no file means no aliases."""
+    path = path or ALIASES_PATH
+    if not path.is_file():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding='utf-8'))
+    except ValueError:
+        return {}
+    return {str(alias).lower(): str(canonical).lower() for alias, canonical in (data.get('aliases') or {}).items()}
+
+
+def resolve(uid: str | None, aliases: dict[str, str]) -> str | None:
+    """The canonical uuid a primitive id stands for (itself when it is not an alias)."""
+    if not uid:
+        return uid
+    uid = uid.lower()
+    return aliases.get(uid, uid)
+
+
+def fold_aliases(rows: list[dict], aliases: dict[str, str]) -> list[dict]:
+    """Attach alias rows to their canonical row as ``aliases``; the canonical keeps its own identity."""
+    if not aliases:
+        return rows
+    by_uuid = {row['uuid']: row for row in rows if row['uuid']}
+    folded = []
+    for row in rows:
+        canonical = by_uuid.get(aliases.get(row['uuid'] or ''))
+        if canonical is None or canonical is row:
+            folded.append(row)
+            continue
+        canonical.setdefault('aliases', []).append({key: row[key] for key in ('uuid', 'path', 'concept', 'old_concept', 'category', 'batch')})
+        canonical['copies'] = canonical.get('copies', 1) + row.get('copies', 1)
+    return folded
 
 
 def _relative_primitive_path(path: str | Path | None) -> str | None:
@@ -173,18 +214,24 @@ def model_links() -> dict:
                 by_reference_path=by_reference_path, anonymous=anonymous, families=families)
 
 
+def row_uuids(row: dict) -> list[str]:
+    """The canonical uuid followed by every alias folded into the row."""
+    return [uid for uid in [row.get('uuid')] + [alias['uuid'] for alias in row.get('aliases', [])] if uid]
+
+
 def link(row: dict, links: dict) -> tuple[list[str], str]:
+    uids = row_uuids(row)
+    for key, method in (('by_id', 'source ID'), ('by_reference_id', 'declared source reuse')):
+        matches = [icon for uid in uids for icon in links[key].get(uid, ())]
+        if matches:
+            return sorted(set(matches)), method
     uid = row['uuid']
-    if uid:
-        if links['by_id'].get(uid):
-            return sorted(set(links['by_id'][uid])), 'source ID'
-        if links['by_reference_id'].get(uid):
-            return sorted(set(links['by_reference_id'][uid])), 'declared source reuse'
-    compatible = lambda other: not uid or not other or other == uid  # noqa: E731
-    matches = [icon for icon, other in links['by_path'].get(row['path'], ()) if compatible(other)]
+    compatible = lambda other: not uid or not other or other in uids  # noqa: E731
+    paths = [row['path']] + [alias['path'] for alias in row.get('aliases', [])]
+    matches = [icon for path in paths for icon, other in links['by_path'].get(path, ()) if compatible(other)]
     if matches:
         return sorted(set(matches)), 'source path'
-    matches = [icon for icon, other in links['by_reference_path'].get(row['path'], ()) if compatible(other)]
+    matches = [icon for path in paths for icon, other in links['by_reference_path'].get(path, ()) if compatible(other)]
     if matches:
         return sorted(set(matches)), 'declared source reuse'
     proposed = row.get('proposed_icon_id')
@@ -193,9 +240,14 @@ def link(row: dict, links: dict) -> tuple[list[str], str]:
     return [], 'unmatched'
 
 
-def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = None) -> dict:
-    """built/failed map icon_id -> gallery record (needs key and preview_url)."""
-    rows = scan(root)
+def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = None,
+                  aliases: dict[str, str] | None = None) -> dict:
+    """built/failed map icon_id -> gallery record (needs key and preview_url).
+
+    Primitives listed as aliases in data/primitive-aliases.json fold into their canonical row.
+    """
+    aliases = load_aliases() if aliases is None else aliases
+    rows = fold_aliases(scan(root), aliases)
     warning = conversion_warning(root, rows)
     links = links or model_links()
     text_by_source = collections.defaultdict(list)
@@ -206,8 +258,9 @@ def build_catalog(root: Path, built: dict, failed: dict, links: dict | None = No
     categories = collections.OrderedDict()
     for row in rows:
         models, method = link(row, links)
-        if text_by_source.get(row['uuid']):
-            models = sorted(set(models + text_by_source[row['uuid']]))
+        text_models = [icon for uid in row_uuids(row) for icon in text_by_source.get(uid, ())]
+        if text_models:
+            models = sorted(set(models + text_models))
             method = 'source ID'
         generated = [dict(icon_id=icon_id, key=built[icon_id]['key'], preview_url=built[icon_id]['preview_url'])
                      for icon_id in models if icon_id in built]

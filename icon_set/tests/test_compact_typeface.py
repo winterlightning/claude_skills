@@ -38,8 +38,9 @@ class CompactTypefaceTests(unittest.TestCase):
 
     def test_catalog_preserves_optical_forms_separately(self):
         data = json.loads((Path(__file__).resolve().parents[1]/'typeface/glyphs.json').read_text())
-        self.assertEqual(data['profile_variants'], PROFILE_VARIANTS)
-        parents = {g['icon_id'] for g in data['glyphs']}
+        symbols = json.loads((Path(__file__).resolve().parents[1]/'typeface/symbol-glyphs.json').read_text())
+        self.assertEqual(data['profile_variants'] | symbols['profile_variants'], PROFILE_VARIANTS)
+        parents = {g['icon_id'] for g in data['glyphs'] + symbols['glyphs']}
         for variant in PROFILE_VARIANTS.values():
             self.assertIn(variant['parent_glyph'], parents)
             self.assertEqual(variant['stroke_width'], 4)

@@ -1,5 +1,13 @@
 # Reference combination gate
 
+An empty enclosure is a standalone **solo** subject when no separate icon is
+hosted inside: this includes boards, screens with keyboards, speech bubbles,
+and overlapping empty frames. Enclosing geometry, a structural clamp/stand, or
+a saved `container` family label does not make a container combination. Reserve
+container routing for the wrapper component of an actual hosted-icon combination
+or an explicit container-component request. Follow the current user's family
+correction over an older saved label; never invent an inner icon to justify a split.
+
 Before authoring a referenced primitive, visually inspect the reference and
 classify it as standalone, container combination, or side combination. Use the
 `icon-making` skill in the repository skill folders as the routing entry point.

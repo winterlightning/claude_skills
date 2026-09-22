@@ -41,7 +41,7 @@ class TypefaceTests(unittest.TestCase):
             import json
             data=json.loads((path/'typeface.json').read_text())
             self.assertEqual(data['geometry_policy'],'fixed-centerline-6x20')
-            self.assertEqual(len(data['glyphs']),107)
+            self.assertEqual(len(data['glyphs']),96)
             r=next(g for g in data['glyphs'] if g['character']=='r')
             self.assertAlmostEqual(r['bounds'][2]-r['bounds'][0],6)
             self.assertAlmostEqual(r['bounds'][3]-r['bounds'][1],20)

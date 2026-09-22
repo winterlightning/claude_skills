@@ -49,6 +49,7 @@ body.guest .login-only{display:none!important}body:not(.guest) .guest-only{displ
 .badges{display:flex;flex-wrap:wrap;gap:4px}.badge{font-size:10px;font-weight:700;letter-spacing:.03em;border-radius:999px;padding:2px 7px;background:#eceff0;color:#4b5560;text-transform:uppercase}
 .badge.todo{background:#e8eefb;color:#2f4f8f}.badge.skip{background:#f3e8d4;color:#7a5200}.badge.generated{background:#dff3e4;color:#1f6b35}
 .badge.failed{background:#fae5e1;color:#923b30}.badge.conflict{background:#fde2f0;color:#8d1f5c}
+.badge.merged{background:#e6e8f5;color:#3d4a8a}.aliases{font-size:12px;margin:4px 0}.aliases summary{cursor:pointer;color:#4b5560}.aliases p{margin:2px 0 0 8px}.aliases a{color:#2f4f8f}
 .pager{display:flex;flex-wrap:wrap;align-items:center;gap:10px;justify-content:center;margin:18px 0}
 .empty{padding:30px;text-align:center;color:var(--muted);background:#fff;border:1px dashed var(--line);border-radius:12px}
 dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);padding:20px}dialog textarea{width:100%;min-height:300px;font:12px ui-monospace,monospace}
@@ -59,6 +60,12 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 @media(min-width:480px){.tile:has(.reference-brief[open]){grid-column:span 2}}
 .container-group{border:1px solid var(--line);border-radius:12px;background:white;overflow:hidden}.container-group-heading{display:flex;align-items:center;gap:18px;padding:18px 22px;cursor:pointer;list-style:none}.container-group-heading::-webkit-details-marker{display:none}.container-group-heading::before{content:'▸';color:var(--muted)}.container-group[open]>.container-group-heading::before{content:'▾'}.container-group-heading img{width:64px;height:64px;object-fit:contain}.container-group-label{display:grid;gap:6px;flex:1;min-width:0;overflow-wrap:anywhere}.container-group-label strong{font-size:18px;text-transform:capitalize}.container-group-label .muted{font-size:12px}.container-group-items{padding:0 18px 18px}.container-group:not([open])>.container-group-items{display:none}@media(max-width:600px){.container-group-heading{gap:10px;padding:14px;flex-wrap:wrap}.container-group-heading img{width:48px;height:48px}.container-group-heading .chip{margin-left:auto}.container-group-items{padding:0 8px 8px}}
 .bar .drawn,.legend .drawn{background:#7895bd}.badge.drawn{background:#e5edf8;color:#25466f}
+.art figure{min-width:0}.art figcaption{overflow-wrap:anywhere}
+.review-view{grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr))}
+.review-view .art figure{aspect-ratio:auto;min-height:140px;padding:10px;grid-template-rows:96px auto}
+.review-view .art a{display:grid;place-items:center;width:100%;height:96px}
+.review-view .art img{width:80px;height:80px}
+.classification-editor{border-top:1px solid var(--line);padding-top:10px;display:grid;gap:8px}.classification-editor label{display:grid;gap:5px;font-size:12px;font-weight:600}.classification-editor select,.classification-editor input{width:100%;min-width:0;box-sizing:border-box;padding:8px;border:1px solid var(--line);border-radius:7px;background:white}.classification-buttons{display:flex;flex-wrap:wrap;gap:6px}.classification-buttons button{padding:8px 10px;border:1px solid var(--line);border-radius:7px;background:white;cursor:pointer}
 </style>
 </head>
 <body class="guest">
@@ -69,20 +76,8 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
   <p id="warning" class="prim-warning" hidden></p>
   <p id="status" class="prim-status" role="status" aria-live="polite">Loading primitives…</p>
 
-  <div class="toolbar chips" role="group" aria-label="Gallery view"><button id="todoView" class="chip" type="button">All TODO icons</button><button id="categoriesView" class="chip" type="button">Categories</button><button id="containerView" class="chip" type="button">Container combination</button><button id="sideView" class="chip" type="button">Side combination</button></div>
-  <details class="brief-ready"><summary><strong>Prepare generation briefs · no AI tokens</strong></summary>
-    <p>Filter TODO icons and fill a fixed brief template automatically. Saved briefs are preserved in the export. Generated, skipped and already drawn icons are excluded. Family applies to templates; confirm it when inspecting the reference.</p>
-    <div class="toolbar">
-      <input id="queueCategory" placeholder="Category (blank for all)" aria-label="Generation category">
-      <input id="queueBatch" placeholder="Batch (blank for all)" aria-label="Generation batch">
-      <input id="queueSearch" type="search" placeholder="Search icons" aria-label="Generation search">
-      <select id="queueBrief" aria-label="Generation brief filter"><option value="">All TODO icons</option><option value="missing">Without saved brief</option><option value="ready">With saved brief</option></select>
-      <select id="queueFamily" aria-label="Template family"><option value="solo">Solo</option><option value="sub">Sub</option><option value="container">Container</option><option value="avatar">Avatar</option></select>
-      <input id="queueLimit" type="number" min="1" max="500" value="50" aria-label="Batch size" title="Batch size (1–500)">
-      <input id="queueOffset" type="number" min="0" value="0" aria-label="Starting offset" title="Starting offset">
-      <button id="copyQueueAPI" type="button">Copy API link</button><button id="downloadQueue" type="button">Download generation briefs</button>
-    </div><p id="queueMessage" role="status"></p>
-  </details>
+  <div class="toolbar chips" role="group" aria-label="Gallery view"><button id="reviewView" class="chip" type="button">Review icons</button><button id="todoView" class="chip" type="button">All TODO icons</button><button id="categoriesView" class="chip" type="button">Categories</button><button id="containerView" class="chip" type="button">Container pairs</button><button id="sideView" class="chip" type="button">Side pairs</button></div>
+  <div id="reviewShortcuts" class="toolbar chips" role="group" aria-label="Quick review filters"></div>
   <section id="combinations" hidden></section>
   <section id="overview" hidden>
     <div id="overallStats" class="prim-stats"></div>
@@ -107,15 +102,15 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
     <div class="cat-head"><div><p class="eyebrow" id="detailEyebrow">CATEGORY</p><h2 id="detailTitle"></h2></div><div id="detailStats" class="muted"></div></div>
     <div id="detailBar" class="bar" style="margin-top:12px" aria-hidden="true"></div>
     <div class="toolbar">
-      <select id="gridCategory" aria-label="TODO category"></select>
+      <select id="gridCategory" aria-label="Icon category"></select>
       <div id="statusChips" class="chips" role="group" aria-label="Status filter"></div>
       <select id="briefFilter" aria-label="TODO brief filter"><option value="">All TODO briefs</option><option value="ready">Brief ready</option><option value="missing">TODO without brief</option></select>
       <select id="batch" aria-label="Batch"></select>
-      <select id="reasonFilter" aria-label="Skip reason"><option value="">Any skip reason</option></select>
+      <select id="reasonFilter" aria-label="Classification filter"><option value="">All classifications</option><option value="combinations">All combinations</option></select>
       <input id="search" type="search" placeholder="Search concept, file or UUID" aria-label="Search primitives">
       <button id="copyTodo" type="button" title="The TODO primitives in this category and batch, as JSON for an agent">Copy TODO list (JSON)</button>
     </div>
-    <div class="toolbar"><span id="detailBriefStats" class="muted"></span>
+    <div class="toolbar" id="briefTools"><span id="detailBriefStats" class="muted"></span>
       <button id="copyMissingTask" type="button">Copy missing-brief task</button>
       <button id="copyReadyBriefs" type="button">Copy ready TODO briefs</button>
       <button id="downloadReadyBriefs" type="button">Download ready TODO briefs</button>
@@ -149,13 +144,13 @@ dialog{border:1px solid var(--line);border-radius:14px;width:min(720px,94vw);pad
 <script src="progression-combinations.js"></script>
 <script>
 const $=id=>document.getElementById(id);
-const REASONS={combination:'Combination',container:'Container',text_number:'Text / number',other:'Other'};
+const REASONS={combination:'Side combination',container:'Container combination',text_number:'Text / number',other:'Other'};
 const SUB_POSITIONS=['top-left','top','top-right','left','center','right','bottom-left','bottom','bottom-right'];
 const STATUS_LABEL={todo:'TODO',skip:'Skip',generated:'Generated',drawn:'Drawn, unpublished'};
 let catalog={rows:[]},statuses={},selected=new Set(),sort={key:'name',dir:1},page=1;
 let pageTarget='';
 let referenceBriefs={},briefsAvailable=false,statusesAvailable=false;
-const briefDrafts=new Map();
+const briefDrafts=new Map(),classificationDrafts=new Map();
 let refreshInFlight=false, galleryWrites=0, galleryRevision=0;
 const PAGE_SIZE=50;
 const state={view:'todo',category:'',status:'todo',batch:'',reason:'',q:'',brief:''};
@@ -177,14 +172,14 @@ function node(tag,cls,text){const n=document.createElement(tag);if(cls)n.classNa
 function primitiveURL(path){return '/primitives/'+path.split('/').map(encodeURIComponent).join('/');}
 function categoryRows(name){return catalog.rows.filter(r=>r.category===name);}
 
-function currentRows(){return state.view==='todo'?(statusesAvailable?catalog.rows.filter(r=>effective(r)==='todo'&&(!state.category||r.category===state.category)):[]):categoryRows(state.category);}
+function currentRows(){if(state.view==='review')return catalog.rows.filter(r=>!state.category||r.category===state.category);return state.view==='todo'?(statusesAvailable?catalog.rows.filter(r=>effective(r)==='todo'&&(!state.category||r.category===state.category)):[]):categoryRows(state.category);}
 function resolvePage(pages){page=pageTarget==='first'?1:pageTarget==='middle'?Math.ceil(pages/2):pageTarget==='last'?pages:Math.min(page,pages);}
 function pageRows(rows){return rows.slice((page-1)*PAGE_SIZE,page*PAGE_SIZE);}
 function writeURL(){const u=new URL(location.href);u.search='';if(state.view!=='category')u.searchParams.set('view',state.view);if(state.view!=='categories'){if(state.category)u.searchParams.set('category',state.category);
-  for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'))u.searchParams.set(k,state[k]);if(pageTarget||page>1)u.searchParams.set('page',pageTarget||page);}
+  for(const k of ['status','batch','reason','q','brief'])if(state[k]&&!(k==='status'&&state[k]==='todo'&&state.view!=='review'))u.searchParams.set(k,state[k]);if(pageTarget||page>1)u.searchParams.set('page',pageTarget||page);}
   history.replaceState(null,'',u);}
-function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.view=['container','side'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'||!state.category?'todo':'category';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready'].includes(p.get('status'))?p.get('status'):'todo';
-  state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&REASONS[p.get('reason')]?p.get('reason'):'';state.q=p.get('q')||'';pageTarget=['first','middle','last'].includes(p.get('page'))?p.get('page'):'';page=Math.max(1,parseInt(p.get('page'))||1);}
+function readURL(){const p=new URLSearchParams(location.search);state.category=p.get('category')||'';state.view=['container','side','review'].includes(p.get('view'))?p.get('view'):p.get('view')==='categories'?'categories':p.get('view')==='todo'?'todo':state.category?'category':'review';state.status=state.view==='todo'?'todo':['todo','skip','generated','drawn','all','missing','partial','ready'].includes(p.get('status'))?p.get('status'):state.view==='review'?'all':'todo';
+  state.brief=state.status==='todo'&&['ready','missing'].includes(p.get('brief'))?p.get('brief'):'';state.batch=p.get('batch')||'';state.reason=state.view!=='todo'&&(REASONS[p.get('reason')]||p.get('reason')==='combinations')?p.get('reason'):'';state.q=p.get('q')||'';pageTarget=['first','middle','last'].includes(p.get('page'))?p.get('page'):'';page=Math.max(1,parseInt(p.get('page'))||1);}
 
 function renderOverview(){
   const all=counts(catalog.rows),allBriefs=briefCounts(catalog.rows);
@@ -226,22 +221,25 @@ function categoryEntryBrief(){const filter=$('categoryBriefFilter').value;return
 function briefCountCell(c,filter,label){const td=node('td');if(!briefsAvailable||!statusesAvailable||!c['brief_'+(filter==='ready'?'ready':'missing')]){td.textContent=label;return td;}
   const a=node('a','',label);a.href='?category='+encodeURIComponent(c.name)+'&brief='+filter;a.title=filter==='ready'?'View TODO icons with briefs':'View TODO icons without briefs';
   a.onclick=e=>{e.preventDefault();e.stopPropagation();openCategory(c.name,filter);};td.append(a);return td;}
+function matchesClassification(row,reason){return !reason||(statusesAvailable&&(reason==='combinations'?['container','combination'].includes(statuses[row.uuid]?.reason):statuses[row.uuid]?.reason===reason));}
 function detailRows(){const term=state.q.trim().toLowerCase();
   return currentRows().filter(r=>(!state.batch||r.batch===state.batch)
     &&(state.status==='all'||effective(r)===state.status)
     &&(!state.brief||effective(r)==='todo'&&(state.brief==='ready'?briefsAvailable&&statusesAvailable&&hasBrief(r):briefsAvailable&&statusesAvailable&&!hasBrief(r)))
-    &&(!state.reason||(statuses[r.uuid]||{}).reason===state.reason)
-    &&(!term||[r.concept,r.old_concept,r.path,r.uuid,...(r.models||[])].join(' ').toLowerCase().includes(term)));}
+    &&matchesClassification(r,state.reason)
+    &&(!term||[r.concept,r.old_concept,r.path,r.uuid,...(r.models||[]),...(r.aliases||[]).flatMap(a=>[a.uuid,a.concept,a.path])].join(' ').toLowerCase().includes(term)));}
 
 function renderDetail(){
-  const rows=currentRows(),scoped=rows.filter(r=>!state.batch||r.batch===state.batch),c=counts(scoped);
-  const allTodo=state.view==='todo';
+  const rows=currentRows(),scoped=rows.filter(r=>!state.batch||r.batch===state.batch),c=counts(scoped.filter(r=>matchesClassification(r,state.reason)));
+  const allTodo=state.view==='todo',review=state.view==='review';
   $('detailTitle').textContent=allTodo?(state.category?state.category+' · TODO':'All TODO icons'):state.category;$('detailEyebrow').textContent=allTodo?'TODO GRID':state.batch?'CATEGORY · BATCH '+state.batch:'CATEGORY';
+  if(review){$('detailTitle').textContent=state.category||'Review all icons';$('detailEyebrow').textContent='CLASSIFICATION & GENERATED ARTWORK';}
   $('detailStats').textContent=`${c.total.toLocaleString()} primitives · ${c.generated} generated · ${c.drawn} drawn, unpublished · ${c.skip} skip · ${c.todo} TODO · ${c.done}% done`+(c.build_failed?` · ${c.build_failed} build failed`:'');
   if(allTodo)$('detailStats').textContent=statusesAvailable?`${c.todo.toLocaleString()} TODO icons · 50 per page`:'TODO status unavailable. Reload to retry.';
   $('detailBar').hidden=allTodo;$('statusChips').hidden=allTodo;$('reasonFilter').hidden=allTodo;
-  $('gridCategory').hidden=!allTodo;$('gridCategory').replaceChildren(new Option('All categories',''),...Object.keys(catalog.categories||{}).sort().map(name=>new Option(name,name)));$('gridCategory').value=state.category;
-  $('grid').className='grid'+(allTodo?' todo-view':'');
+  $('gridCategory').hidden=false;$('gridCategory').replaceChildren(new Option('All categories',''),...Object.keys(catalog.categories||{}).sort().map(name=>new Option(name,name)));$('gridCategory').value=state.category;
+  $('grid').className='grid'+(allTodo?' todo-view':review?' review-view':'');
+  $('briefTools').hidden=state.status!=='todo';$('briefFilter').hidden=state.status!=='todo';$('copyTodo').hidden=state.status!=='todo';
   bar($('detailBar'),c);renderBriefSummary(scoped);
   $('statusChips').replaceChildren(...['todo','skip','generated','drawn','all'].map(s=>{const b=node('button','chip',s==='all'?'All':STATUS_LABEL[s]);b.type='button';
     b.append(node('b','',(s==='all'?c.total:c[s]).toLocaleString()));b.setAttribute('aria-pressed',String(state.status===s));b.onclick=()=>{state.status=s;state.brief='';page=1;pageTarget='';selected.clear();renderDetail();};return b;}));
@@ -254,7 +252,7 @@ function renderDetail(){
   const pageLabel=`Page ${page} of ${pages} · ${filtered.length?((page-1)*size+1).toLocaleString():0}–${Math.min(page*size,filtered.length).toLocaleString()} of ${filtered.length.toLocaleString()} icons`;
   for(const id of ['pageInfo','pageInfoTop'])$(id).textContent=pageLabel;for(const id of ['prev','prevTop'])$(id).disabled=page<=1;for(const id of ['next','nextTop'])$(id).disabled=page>=pages;
   const selectable=visible.filter(r=>effective(r)!=='generated');$('selectPage').checked=selectable.length>0&&selectable.every(r=>selected.has(r.uuid));
-  updateSelection();writeURL();
+  renderReviewShortcuts();updateSelection();writeURL();
 }
 
 function tile(row){
@@ -264,10 +262,10 @@ function tile(row){
   const art=node('div','art');const original=node('figure');const img=document.createElement('img');img.loading='lazy';img.alt='';img.src=primitiveURL(row.path);original.append(img);
   original.append(node('figcaption','','Original'));art.append(original);
   if(state.view!=='todo'&&!(row.generated||[]).length){const empty=node('figure','placeholder');empty.append(node('span','',s==='skip'?'Skipped':row.state==='build_failed'?'Drawn · build failed':s==='drawn'?'Drawn · not published':'Not generated'));art.append(empty);}
-  for(const g of (row.generated||[]).slice(0,1)){const fig=node('figure');const a=document.createElement('a');a.href='index.html?q='+encodeURIComponent(g.icon_id);a.title='Open '+g.icon_id+' in the icon grid';
-    const gi=document.createElement('img');gi.loading='lazy';gi.alt=g.icon_id;gi.src=g.preview_url;a.append(gi);fig.append(a,node('figcaption','','Generated'));art.append(fig);}
+  for(const g of (row.generated||[])){const fig=node('figure');const a=document.createElement('a');a.href='index.html?q='+encodeURIComponent(g.icon_id);a.title='Open '+g.icon_id+' in the icon grid';
+    const gi=document.createElement('img');gi.loading='lazy';gi.alt=g.icon_id;gi.src=g.preview_url;a.append(gi);fig.append(a,node('figcaption','',g.icon_id.replace(/-/g,' ')));art.append(fig);}
   el.append(art,node('h3','',row.concept),node('p','',row.old_concept+(row.batch?' · '+row.batch:'')));
-  if(state.view==='todo')el.append(node('p','',row.category));
+  if(['todo','review'].includes(state.view))el.append(node('p','',row.category));
   const uid=node('p','',row.uuid.slice(0,8)+'…');uid.title=row.uuid+'\n'+row.path;el.append(uid);
   const badges=node('div','badges');badges.append(node('span','badge '+s,STATUS_LABEL[s]));
   if(s==='todo'&&briefsAvailable)badges.append(node('span','badge '+(hasBrief(row)?'generated':'todo'),hasBrief(row)?'Brief ready':'Brief missing'));
@@ -275,7 +273,12 @@ function tile(row){
   if(row.state==='build_failed')badges.append(node('span','badge failed','Build failed'));
   if(d&&s==='generated')badges.append(node('span','badge conflict','Skipped but generated'));
   if((row.generated||[]).length>1)badges.append(node('span','badge',row.generated.length+' icons'));
-  el.append(badges);
+  if((row.aliases||[]).length)badges.append(node('span','badge merged',row.aliases.length+' merged'));
+  el.append(badges,classificationEditor(row));
+  if((row.aliases||[]).length){const same=node('details','aliases');same.append(node('summary','','Also this artwork · '+row.aliases.length));
+    for(const a of row.aliases){const line=node('p');const link=document.createElement('a');link.href=primitiveURL(a.path);link.target='_blank';link.rel='noopener';link.textContent=a.concept;link.title=a.uuid+'\n'+a.path;
+      line.append(link,document.createTextNode(' · '+a.category+(a.batch?' · '+a.batch:'')+' · '+a.uuid.slice(0,8)+'…'));same.append(line);}
+    el.append(same);}
   if(d){const note=node('p','',(d.note?'“'+d.note+'” · ':'')+(d.updated_by||'')+(d.updated_at?' · '+d.updated_at.slice(0,10):''));el.append(note);}
   else if(row.models&&row.models.length&&s!=='generated'){el.append(node('p','warn','Model: '+row.models.join(', ')));}
   if(d&&['container','combination'].includes(d.reason)){
@@ -303,6 +306,39 @@ function tile(row){
   }
   el.append(referenceBriefEditor(row));
   return el;
+}
+
+function classificationEditor(row){
+  const decision=statuses[row.uuid],section=node('section','classification-editor login-only');
+  const label=node('label','','Change classification');
+  const select=document.createElement('select');select.setAttribute('aria-label','Classification for '+row.concept);
+  select.append(new Option('Choose an action…',''),new Option('TODO / clear classification','todo'),...Object.entries(REASONS).map(([key,value])=>new Option(value,key)));
+  select.value=decision?.reason||'';label.append(select);
+  const note=document.createElement('input');note.type='text';note.maxLength=2000;note.value=decision?.note||'';
+  note.placeholder='Review note (required for Other)';note.setAttribute('aria-label','Classification note for '+row.concept);
+  const actions=node('div','classification-buttons'),saveButton=node('button','','Save type'),todo=node('button','','Mark TODO');saveButton.type=todo.type='button';
+  const message=node('p','');message.setAttribute('role','status');
+  const hint=row.state==='generated'?'Existing artwork stays Generated. TODO clears the classification; it does not delete or requeue artwork.':row.models?.length||['model_only','build_failed'].includes(row.state)?'Existing drawings stay Drawn. TODO clears the classification.':'';
+  if(hint)section.append(node('p','muted',hint));
+  const update=async value=>{
+    if(!value){message.textContent='Choose a classification first.';return;}
+    if(value==='other'&&!note.value.trim()){message.textContent='Add a note explaining Other.';note.focus();return;}
+    saveButton.disabled=todo.disabled=select.disabled=note.disabled=true;message.textContent='Saving…';
+    try{
+      const response=await galleryWrite('/api/primitives/status',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({uuids:[row.uuid],status:value==='todo'?'todo':'skip',reason:value==='todo'?undefined:value,note:value==='todo'?'':note.value.trim()})});
+      const data=await response.json();if(!response.ok)throw Error(data.error||'Could not save classification.');
+      if(data.decisions?.[row.uuid])statuses[row.uuid]=data.decisions[row.uuid];else delete statuses[row.uuid];
+      selected.delete(row.uuid);classificationDrafts.delete(row.uuid);
+      $('actionMessage').textContent=row.concept+': '+(value==='todo'?'classification cleared.':REASONS[value]+' saved.');
+      renderDetail();
+    }catch(error){message.textContent=error.message;}
+    finally{saveButton.disabled=todo.disabled=select.disabled=note.disabled=false;}
+  };
+  const draft=classificationDrafts.get(row.uuid);if(draft){select.value=draft.value;note.value=draft.note;}
+  const remember=()=>classificationDrafts.set(row.uuid,{value:select.value,note:note.value});select.onchange=remember;note.oninput=remember;
+  saveButton.onclick=()=>update(select.value);todo.onclick=()=>update('todo');
+  if(!statusesAvailable){saveButton.disabled=todo.disabled=select.disabled=note.disabled=true;message.textContent='Classification unavailable. Reload to retry.';}
+  actions.append(saveButton,todo);section.append(label,note,actions,message);return section;
 }
 
 function referencePath(row){return catalog.root_label.replace(/\/$/,'')+'/'+row.path;}
@@ -384,35 +420,31 @@ async function save(status){
   }catch(error){$('actionMessage').textContent=error.message;updateSelection();}
 }
 
+
+function renderReviewShortcuts(){
+  $('reviewView').setAttribute('aria-pressed',String(state.view==='review'));
+  const presets=[['All icons','','all'],['All combinations','combinations','all'],['Container combination','container','all'],['Side combination','combination','all'],['Text / number','text_number','all'],['Generated','','generated']];
+  $('reviewShortcuts').replaceChildren(...presets.map(([label,reason,status])=>{
+    const total=catalog.rows.filter(r=>matchesClassification(r,reason)&&(status==='all'||effective(r)===status)).length;
+    const b=node('button','chip',label);b.type='button';b.append(node('b','',reason&&!statusesAvailable?'—':total.toLocaleString()));
+    b.disabled=!!reason&&!statusesAvailable;
+    b.setAttribute('aria-pressed',String(state.view==='review'&&state.reason===reason&&state.status===status));
+    b.onclick=()=>{Object.assign(state,{view:'review',category:'',status,reason,batch:'',q:'',brief:''});page=1;pageTarget='';selected.clear();show();};return b;
+  }));
+}
+
 function openCategory(name,brief=''){state.view='category';state.category=name;state.status='todo';state.batch='';state.reason='';state.q='';state.brief=brief;page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
-function openView(view){state.view=view;state.category='';state.status='todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
+function openView(view){state.view=view;state.category='';state.status=view==='review'?'all':'todo';state.batch='';state.reason='';state.q='';state.brief='';page=1;pageTarget='';selected.clear();show();window.scrollTo(0,0);}
 function show(){if(state.view==='category'&&!(catalog.categories||{})[state.category]){state.view='categories';state.category='';}
+  renderReviewShortcuts();
   const combination=['container','side'].includes(state.view);
   $('combinations').hidden=!combination;
   for(const view of ['container','side'])$(view+'View').setAttribute('aria-pressed',String(state.view===view));
   $('status').hidden=combination;
   if(combination){$('overview').hidden=$('detail').hidden=true;$('todoView').setAttribute('aria-pressed','false');$('categoriesView').setAttribute('aria-pressed','false');writeURL();renderCombinations();return;}
   const inDetail=state.view!=='categories';$('overview').hidden=inDetail;$('detail').hidden=!inDetail;
-  $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view!=='todo'));
+  $('todoView').setAttribute('aria-pressed',String(state.view==='todo'));$('categoriesView').setAttribute('aria-pressed',String(state.view==='categories'));
   if(inDetail)renderDetail();else{writeURL();renderOverview();}}
-
-function generationQueueURL(){
-  const url=new URL('/api/primitives/generation-queue',location.href);
-  for(const [key,id] of Object.entries({category:'queueCategory',batch:'queueBatch',q:'queueSearch',brief:'queueBrief',family:'queueFamily',limit:'queueLimit',offset:'queueOffset'})){
-    const value=$(id).value.trim();if(value)url.searchParams.set(key,value);
-  }
-  return url;
-}
-async function downloadGenerationQueue(){
-  $('queueMessage').textContent='Preparing briefs…';
-  try{
-    const response=await fetch(generationQueueURL(),{cache:'no-store'}),data=await response.json();
-    if(!response.ok)throw Error(data.error||'Could not prepare briefs');
-    const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),a=node('a');
-    a.href=url;a.download='generation-briefs.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    $('queueMessage').textContent=`Prepared ${data.briefs.length} of ${data.total} matching TODO icons. No AI call.${data.next_offset!==null?' Next offset: '+data.next_offset+'.':''}`;
-  }catch(error){$('queueMessage').textContent=error.message;}
-}
 
 function scopedMissingRows(){return briefsAvailable&&statusesAvailable?currentRows().filter(r=>(!state.batch||r.batch===state.batch)&&effective(r)==='todo'&&!hasBrief(r)):[];}
 function missingBriefHandoff(){return {category:state.category||null,batch:state.batch||null,
@@ -448,7 +480,7 @@ async function galleryWrite(url,options){
   try{return await fetch(url,options);}
   finally{galleryWrites--;galleryRevision++;}
 }
-function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
+function canRefreshGallery(){return !document.hidden&&!galleryWrites&&!briefDrafts.size&&!classificationDrafts.size&&!selected.size&&!document.querySelector('dialog[open]')&&!document.querySelector('textarea:focus, input:focus, select:focus');}
 async function refreshGalleryState(){
   if(refreshInFlight||!canRefreshGallery())return;
   refreshInFlight=true;
@@ -472,17 +504,16 @@ async function refreshGalleryState(){
 for(const [k,l] of Object.entries(REASONS)){$('reasonFilter').append(new Option(l,k));$('skipReason').append(new Option(l,k));}
 document.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const key=b.dataset.sort;sort=sort.key===key?{key,dir:-sort.dir}:{key,dir:key==='name'?1:-1};renderOverview();});
 $('containerView').onclick=()=>openView('container');$('sideView').onclick=()=>openView('side');
+$('reviewView').onclick=()=>openView('review');
 $('todoView').onclick=()=>openView('todo');$('categoriesView').onclick=()=>openView('categories');
-$('gridCategory').onchange=()=>{state.category=$('gridCategory').value;state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};
+$('gridCategory').onchange=()=>{state.category=$('gridCategory').value;if(state.view==='category'&&!state.category)state.view='review';state.batch='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('categoryBriefFilter').onchange=renderOverview;
 $('copyMissingTask').onclick=copyMissingTask;
-$('copyQueueAPI').onclick=()=>copyHandoff(String(generationQueueURL()),$('queueMessage'));
-$('downloadQueue').onclick=downloadGenerationQueue;
 $('briefFilter').onchange=()=>{state.brief=$('briefFilter').value;state.status='todo';state.reason='';page=1;pageTarget='';selected.clear();renderDetail();};
 $('copyReadyBriefs').onclick=copyReadyBriefs;$('downloadReadyBriefs').onclick=downloadReadyBriefs;
 $('categorySearch').oninput=renderOverview;$('hideDone').onchange=renderOverview;
 $('batch').onchange=()=>{state.batch=$('batch').value;page=1;pageTarget='';selected.clear();renderDetail();};
-$('reasonFilter').onchange=()=>{state.reason=$('reasonFilter').value;if(state.reason&&state.status==='todo')state.status='skip';state.brief='';page=1;pageTarget='';renderDetail();};
+$('reasonFilter').onchange=()=>{state.reason=$('reasonFilter').value;if(state.reason&&['todo','skip'].includes(state.status))state.status='all';state.brief='';page=1;pageTarget='';selected.clear();renderDetail();};
 let searchTimer;$('search').oninput=()=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{state.q=$('search').value;page=1;pageTarget='';renderDetail();},200);};
 $('prev').onclick=()=>{pageTarget='';page--;renderDetail();window.scrollTo(0,0);};$('next').onclick=()=>{pageTarget='';page++;renderDetail();window.scrollTo(0,0);};
 $('prevTop').onclick=$('prev').onclick;$('nextTop').onclick=$('next').onclick;
@@ -491,7 +522,7 @@ $('markSkip').onclick=()=>save('skip');$('markTodo').onclick=()=>save('todo');$(
 $('briefForm').onsubmit=e=>{e.preventDefault();saveBrief();};$('clearBrief').onclick=()=>saveBrief(true);$('closeBrief').onclick=()=>$('briefDialog').close();
 document.querySelector('.back').onclick=e=>{e.preventDefault();openView('categories');};
 window.addEventListener('popstate',()=>{readURL();show();});
-window.addEventListener('beforeunload',event=>{if(briefDrafts.size){event.preventDefault();event.returnValue='';}});
+window.addEventListener('beforeunload',event=>{if(briefDrafts.size||classificationDrafts.size){event.preventDefault();event.returnValue='';}});
 
 (async()=>{
   readURL();

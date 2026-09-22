@@ -31,7 +31,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 A **symbol** is content placed inside a container. Keep its Python source independent from its linked side sub-icon; use the SYMBOL32 profile and its contract values below.
 
-**Wrong family? Stop.** For a side modifier, use $icon-sub. For a standalone subject, use $icon-solo. For an enclosing frame, use $icon-container. A symbol icon cannot be authored on
+**Wrong family? Stop.** For a side modifier, use $icon-sub. For a standalone subject, use $icon-solo. For a wrapper component isolated from a hosted-icon combination, use $icon-container. A symbol icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `Symbol32` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.

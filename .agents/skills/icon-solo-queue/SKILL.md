@@ -42,7 +42,12 @@ the error rather than treating it as an empty queue.
    state cannot be read, report the item as blocked and continue.
 2. Render and visually inspect the actual reference before deciding its
    classification or creating any Python original. A supplied `solo` family
-   is not proof that the source is standalone. If the reference cannot be
+   is not proof that the source is standalone, and a saved `container` family
+   is not proof of a container combination or grounds to skip the item. An empty
+   board, screen, frame pair, or speech bubble with no independent icon inside
+   is a standalone solo subject. Apply the current user classification over
+   older saved family labels; correct the saved family/brief and verify the
+   readback when the user has explicitly corrected it. If the reference cannot be
    inspected or its interpretation remains ambiguous, report that limitation
    and skip drawing this item.
 3. For a standalone subject, follow `$icon-solo-distilled`: search for an

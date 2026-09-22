@@ -45,6 +45,13 @@ def stage_sizes(target, glyphs):
     """Stage disposable exports beneath a caller-owned, locked output folder."""
     target = Path(target)
     target.mkdir(parents=True, exist_ok=True)
+    previous_manifest = target/'manifest.json'
+    previous = json.loads(previous_manifest.read_text()).get('glyphs', []) if previous_manifest.exists() else []
+    current_ids = {g['icon_id'] for g in glyphs}
+    for glyph in previous:
+        uid = glyph['icon_id']
+        if uid not in current_ids and Path(uid).name == uid:
+            (target/'24'/(uid+'.svg')).unlink(missing_ok=True)
     manifest = {'schema_version': 4, 'base_height': 24, 'heights': [24],
                 'centerline_box': [6,20], 'canvas': [10,24],
                 'stroke_policy': 'constant-4-final-units', 'glyphs': []}

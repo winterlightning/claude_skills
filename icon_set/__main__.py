@@ -14,6 +14,7 @@ def main(argv=None):
         'production': 'deploy',
         'doctor': 'workspace_doctor',
         'typeface-sizes': 'typeface_sizes',
+        'combinations': 'combination_library',
     }
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('command', choices=commands)

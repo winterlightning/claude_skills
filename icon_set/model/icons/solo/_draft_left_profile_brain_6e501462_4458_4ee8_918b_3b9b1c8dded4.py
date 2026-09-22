@@ -1,15 +1,19 @@
-'Anatomical head and brain, preserving independent internal lobes. Must retain source direction and folds in final review.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape VRECT_L uses exact SOLO48 contract bounds. No useful exact Lucide reference unless noted.'
+'Anatomical head and brain, preserving independent internal lobes. Must retain source direction and folds in final review.\nPlan: reference-backed typed contours; repeated shapes share parameters. Keyshape VRECT_L uses exact SOLO48 contract bounds. Lucide brain contributes lobed contour principle; human_ref/user inspected for head vocabulary. Anatomical brain is an intrinsic organ. Whole brain offset owns clearance repair; no internal folds can fit. Unresolved visual review: reduced brain loses recognizable lobes and stem, so retain draft without export.'
 from ...keyshapes import Keyshape
 from ._base import Solo48
 
 SOURCE_ICON_ID = '6e501462-4458-4ee8-918b-3b9b1c8dded4'
-SOURCE_PATH = '/Applications/Workspaces/pictographic/claude_skills/pictographic-primitives/_uncategorized_28/neurobiologist_6e501462-4458-4ee8-918b-3b9b1c8dded4.svg'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_28/neurobiologist_6e501462-4458-4ee8-918b-3b9b1c8dded4.svg'
 AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'left-profile-brain'
     keyshape = Keyshape.VRECT_L
-    category = "objects"
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "Uncategorized"
+    aliases = ["Human Head with Brain"]
+    keywords = ["head", "brain", "anatomy", "profile", "neurology", "human"]
     def build(self):
 
         def path(name,start,steps,closed=False):
@@ -37,4 +41,7 @@ class Drawing(Solo48):
 
         bez('skull',(32,44),((30,39),(31,35),(36,31)),((40,28),(40,24),(40,19)),((40,10),(33,4),(25,4)),((16,4),(12,10),(12,18)))
         poly('face',(12,18),(8,25),(14,26),(14,34),(22,34),(22,44));join('skull','face')
-        bez('brain',(22,22),((19,22),(19,16),(22,15)),((25,11),(30,14),(30,17)),((33,21),(29,24),(26,22)),((24,23),(23,22),(22,22)))
+        brain_x = 1
+        shift = lambda p: (p[0]+brain_x,p[1])
+        segments=[((19,22),(19,16),(22,15)),((25,11),(29,14),(29,17)),((32,21),(28,24),(26,22)),((24,23),(23,22),(22,22))]
+        bez('brain',shift((22,22)),*[tuple(shift(p) for p in seg) for seg in segments])

@@ -163,7 +163,8 @@ review note or source copy alone is not a generation brief.
 
 - For container/side combinations, save each independent component's name,
   family, visual description and exclusions; retain the full source UUID/path.
-- For an empty enclosure, save its container brief. For text/number sources,
+- For an empty standalone enclosure with no separate icon inside, save a solo brief
+  unless the user explicitly requested a container component. For text/number sources,
   preserve the exact readable content and visual arrangement in a typeface
   reuse/layout brief following `icon_set/skills/icon-design/typeface.md`.
   Record existing glyph IDs, not instructions to invent new letter/number

@@ -113,8 +113,8 @@ FAMILY_TEXT = {
         ],
         "not_this": (
             "If the brief is a standalone subject with its own silhouette (a device, an "
-            "object, a badge), stop and use `/icon-solo`. If it is an enclosure meant to "
-            "hold something, use `/icon-container`."
+            "object, a badge), stop and use `/icon-solo`. For a wrapper component isolated "
+            "from a hosted-icon combination, use `/icon-container`."
         ),
     },
     "solo": {
@@ -172,20 +172,21 @@ FAMILY_TEXT = {
         ],
         "not_this": (
             "If the brief is a small glyph, operator or modifier meant to be hosted, stop "
-            "and use `/icon-sub`. If it is an enclosure meant to hold a sub icon, use "
+            "and use `/icon-sub`. For a wrapper component isolated from a hosted-icon combination, use "
             "`/icon-container`."
         ),
     },
     "container": {
         "trigger": (
-            "Use when asked for an enclosure, frame, window, screen, badge outline, "
-            "bubble, board, card, or any framed device drawn at 64."
+            "Use for a CONTAINER64 wrapper component isolated from an actual hosted-icon "
+            "combination, or an explicitly requested container component. Empty standalone "
+            "boards, screens, frames and speech bubbles with no separate icon inside use solo."
         ),
         "default_role": "MAIN",
         "default_kind": "noun",
         "default_category": "containers",
         "job": (
-            "A **container** stands alone as a noun and is the outer half of a "
+            "A **container** is an explicitly requested wrapper component or the outer half of a "
             "`CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the "
             "subject with the interior furniture it actually has -- a title bar, a "
             "lid, a dial face, a keypad. `{slot}` is the **content region**, where a "
@@ -216,7 +217,7 @@ FAMILY_TEXT = {
             "interior; it is never a reason to empty the drawing out.",
         ],
         "not_this": (
-            "If the subject reads at 48 and is never framed around anything, use "
+            "If the reference is an empty standalone enclosure with no separate icon inside, use "
             "`/icon-solo`. If it is the thing that goes *inside*, use `/icon-sub`."
         ),
     },
@@ -237,7 +238,7 @@ FAMILY_TEXT = {
             "Use the 48-unit keyshape table above and re-author the reference on the integer grid. The supplied user.svg uses the same 48x48 canvas; use its construction while fitting the chosen keyshape. Keep round caps, tangent shoulder curves, and coherent head/body proportions.",
             "Verify painted head/body contact in emitted geometry and record the measured zero gap. Face and jaw outlines must use circular arcs with equal radius_x and radius_y, or a full circle; do not stretch or flatten the face into an oval. Hair and headwear may retain subject-specific outlines. Never add false connect relationships or disable holes/pinches to obtain a pass.",
         ],
-        "not_this": "For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For an enclosure, use `/icon-container`; for a hosted glyph, use `/icon-sub`.",
+        "not_this": "For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For a wrapper component isolated from a hosted-icon combination, use `/icon-container`; for a hosted glyph, use `/icon-sub`.",
     },
 }
 
@@ -261,7 +262,7 @@ FAMILY_TEXT["symbol"] = {
     "trigger": "Use when asked for an independently editable SYMBOL32 content symbol placed inside a container.",
     "job": "A **symbol** is content placed inside a container. Keep its Python source independent from its linked side sub-icon; use the SYMBOL32 profile and its contract values below.",
     "specifics": FAMILY_TEXT["sub"]["specifics"][:-1],
-    "not_this": "For a side modifier, use /icon-sub. For a standalone subject, use /icon-solo. For an enclosing frame, use /icon-container.",
+    "not_this": "For a side modifier, use /icon-sub. For a standalone subject, use /icon-solo. For a wrapper component isolated from a hosted-icon combination, use /icon-container.",
 }
 
 

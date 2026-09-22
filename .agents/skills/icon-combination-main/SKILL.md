@@ -31,7 +31,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 An **icon combination main** is one independently readable main subject, saved separately for use in a combination. Draw only the main subject; it hosts nothing, but it does not own the edge of the 48 canvas: its keyshape envelope sits inset (2 units on a long axis or `CIRCLE`, 4 on `SQUARE`, 6 on an `_L` short axis, 8 on an `_M` short axis). It is always `semantic_role = "MAIN"`, `semantic_kind = "noun"`.
 
-**Wrong family? Stop.** If the brief is a small glyph, operator or modifier meant to be hosted, stop and use `$icon-sub`. If it is an enclosure meant to hold a sub icon, use `$icon-container`. A combination_main icon cannot be authored on
+**Wrong family? Stop.** If the brief is a small glyph, operator or modifier meant to be hosted, stop and use `$icon-sub`. For a wrapper component isolated from a hosted-icon combination, use `$icon-container`. A combination_main icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `CombinationMain48` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.

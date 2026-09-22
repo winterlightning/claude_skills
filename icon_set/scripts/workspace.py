@@ -33,6 +33,8 @@ DEFAULT_DIST = PUBLISHED_DIST
 DEFAULT_PNG = preview_dir()
 STATE_ROOT = state_root()
 DEFAULT_DATABASE = STATE_ROOT / 'feedback.sqlite3'
+LEGACY_COMBINATION_DATABASE = STATE_ROOT / 'combinations.sqlite3'
+DEFAULT_COMBINATION_DATABASE = DEFAULT_DATABASE
 
 
 # Never rewritten by compaction: regenerated QA evidence and the publication marker.

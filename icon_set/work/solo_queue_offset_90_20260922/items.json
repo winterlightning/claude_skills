@@ -1,0 +1,112 @@
+[
+  {
+    "uuid": "9546d202-dedd-4112-adfa-445ef27ff664",
+    "source_path": "pictographic-primitives/hobbies/sudoku_9546d202-dedd-4112-adfa-445ef27ff664.svg",
+    "concept": "Sudoku Number Puzzle Grid",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "1, 7, 4",
+    "glyph_reuse": "digit-1; digit-7; digit-4",
+    "visual_review": "A rounded two-by-two grid, with 1 at upper left, 7 at upper right, 4 at lower right and an empty lower-left cell.",
+    "blocker": "Fixed glyph ink height is 24. Each row would require at least 24 + 8 clearance + 4 boundary stroke = 36 units between horizontal grid centerlines; two rows need 72 versus at most 40 on SOLO48. Widening the grid does not resolve height. Shrinking glyphs is unsupported; removing digits loses the puzzle identity."
+  },
+  {
+    "uuid": "508b6084-198b-4c3b-9db6-0e18db25297f",
+    "source_path": "pictographic-primitives/holidays/maha shivaratri om_508b6084-198b-4c3b-9db6-0e18db25297f.svg",
+    "concept": "Om Symbol with Crescent Moon",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "ॐ",
+    "glyph_reuse": "missing",
+    "visual_review": "Crescent at upper left, sacred Om syllable below and to its right, with an upper curved mark and dot.",
+    "blocker": "The Om character is absent from glyphs.json. Preserve the crescent and full syllable arrangement; do not substitute a numeral 3 or trace a replacement character."
+  },
+  {
+    "uuid": "998e557a-5275-5300-98ab-9d2b686288ee",
+    "source_path": "pictographic-primitives/hotels/reception hotel bell_998e557a-5275-5300-98ab-9d2b686288ee.svg",
+    "concept": "Hotel Reception Desk with Service Bell",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "H",
+    "glyph_reuse": "letter-h-uppercase",
+    "visual_review": "Uniformed receptionist behind a desk, service bell on the right and capital H on the desk face.",
+    "blocker": "A 24-high H with 4 ink clearance to top and bottom counter boundaries needs 36 centerline units of counter height. At most 4 centerline units remain above it in a 40-high keyshape, insufficient for the detached head, exact 8 centerline head/body gap, shoulders and bell. An unlettered scene could fit but would omit the reference lettering, so no complete export was made. Human user.svg and Lucide concierge-bell original/atoms were inspected for shoulder and dome construction."
+  },
+  {
+    "uuid": "8d434a6c-05ca-4846-8b6a-0936d5387a30",
+    "source_path": "pictographic-primitives/hotels/reception hotel_8d434a6c-05ca-4846-8b6a-0936d5387a30.svg",
+    "concept": "24 Hour Hotel Reception Desk",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "24h",
+    "glyph_reuse": "digit-2; digit-4; letter-h",
+    "visual_review": "Receptionist behind a rounded desk labeled 24h, with a small rectangular sign on a post at right.",
+    "blocker": "Three fixed 10-wide glyphs with two 4-unit ink gaps occupy 38 ink units. Adding 4-unit inside clearance and boundary half-strokes requires at least 50 centerline units of counter width, exceeding the maximum 40. The 24-high lettering also requires a 36-high counter; there is no remaining room for the receptionist. Preserve lower-case h."
+  },
+  {
+    "uuid": "e10e748f-638c-5583-88b9-695922930c2d",
+    "source_path": "pictographic-primitives/interface-essential/cyrillic alphabet_e10e748f-638c-5583-88b9-695922930c2d.svg",
+    "concept": "Cyrillic Letter Ya",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "Я",
+    "glyph_reuse": "missing",
+    "visual_review": "A capital Cyrillic Ya: right upright, upper left bowl and diagonal lower-left leg.",
+    "blocker": "Cyrillic Я is absent from glyphs.json. Do not mirror Latin R as a substitute or redraw this letterform."
+  },
+  {
+    "uuid": "36fbfe74-72dd-4c87-9346-658b68be8896",
+    "source_path": "pictographic-primitives/interface-essential/font expand horizontal_36fbfe74-72dd-4c87-9346-658b68be8896.svg",
+    "concept": "Horizontal Text Width Expansion",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "A",
+    "glyph_reuse": "letter-a-uppercase",
+    "visual_review": "Capital A flanked by outward-facing horizontal arrows.",
+    "blocker": "The reusable A contains noninteger endpoints, including 4.678571428571429,2.8 and crossbar y=13.466666666666665. A translated fixed-size glyph in an HRECT_M layout with outside chevrons was validated and returned invalid style/grid and MIC checks. Translation or larger arrow spacing cannot repair internal fractional geometry; snapping would redraw the glyph. Validation evidence is saved alongside this report."
+  },
+  {
+    "uuid": "1ba2c6b3-85bc-4115-abde-c7447d143e4f",
+    "source_path": "pictographic-primitives/interface-essential/font size_1ba2c6b3-85bc-4115-abde-c7447d143e4f.svg",
+    "concept": "Large and Small Capital Letters",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "AA",
+    "glyph_reuse": "letter-a-uppercase (twice)",
+    "visual_review": "Two capital A letters share a baseline, with the larger one on the left.",
+    "blocker": "The source requires distinct letter sizes. Current typeface_sizes.size_record rejects heights 12, 16 and 32 and supports only 24. Two equal-sized glyphs would lose the size contrast; the existing A also has noninteger endpoints incompatible with SOLO48 authored geometry."
+  },
+  {
+    "uuid": "2f242159-ca9e-43ff-8d0b-a4a49bdb4507",
+    "source_path": "pictographic-primitives/interface-essential/greek alphabet_2f242159-ca9e-43ff-8d0b-a4a49bdb4507.svg",
+    "concept": "Greek Letter Omega Symbol",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "Ω",
+    "glyph_reuse": "missing",
+    "visual_review": "Capital Greek Omega with a broad rounded loop, open bottom and outward horizontal feet.",
+    "blocker": "Greek Ω is absent from glyphs.json. The concept is explicitly an alphabet letter; do not replace it with independently authored symbol geometry."
+  },
+  {
+    "uuid": "0c0b746e-55e7-53d1-8eae-b4ec848b0441",
+    "source_path": "pictographic-primitives/interface-essential/hindi alphabet_0c0b746e-55e7-53d1-8eae-b4ec848b0441.svg",
+    "concept": "Hindi Devanagari Letter A",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "अ",
+    "glyph_reuse": "missing",
+    "visual_review": "Devanagari letter A with paired left curves, a joining middle stroke, and right upright under a headline.",
+    "blocker": "Devanagari अ is absent from glyphs.json; preserve the complete character rather than drawing its fragments as arbitrary curves."
+  },
+  {
+    "uuid": "0f35a27e-6e36-4ed7-a956-59cd9954ed4f",
+    "source_path": "pictographic-primitives/interface-essential/korean alphabet_0f35a27e-6e36-4ed7-a956-59cd9954ed4f.svg",
+    "concept": "Korean Hangul Character Han",
+    "family": "solo",
+    "status": "unresolved",
+    "required_text": "한",
+    "glyph_reuse": "missing",
+    "visual_review": "Hangul Han with upper-left hieut strokes and circle, a right vowel upright and short arm, and the lower nieun angle.",
+    "blocker": "Hangul 한 and the component jamo needed to reproduce it are absent from glyphs.json; do not reconstruct the character from geometric approximations."
+  }
+]

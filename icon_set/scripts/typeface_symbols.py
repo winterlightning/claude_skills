@@ -1,4 +1,4 @@
-"""Keyboard punctuation drawn on the shared x-height 18 / baseline 42 band.
+"""Reusable punctuation and icon symbols on the x-height 18 / baseline 42 band.
 
 All coordinates use that same band: small punctuation is never enlarged to
 letter height. Round-cap zero-length lines form stroke-width-aware dots.
@@ -40,7 +40,7 @@ SYMBOLS = {
     '~': ('tilde', ['M9 32 C18 18 30 42 39 28']),
 }
 
-# Shared currency and prescription glyphs, approved additions.
+# Icon symbols: build_typeface stores these separately from typeface glyphs.
 SYMBOLS.update({'₿': ('bitcoin',
        ['M 12,38 L 12,10 L 30,10 C 48,10 48,24 30,24 L 12,24',
         'M 30,24 C 49,24 49,38 30,38 L 12,38',

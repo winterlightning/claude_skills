@@ -18,8 +18,16 @@ class NaturalTypefaceTests(unittest.TestCase):
 
     def test_complete_character_map(self):
         self.assertEqual(self.data['geometry_policy'], 'fixed-centerline-6x20')
-        self.assertEqual(len(self.glyphs), 107)
-        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}), 106)
+        self.assertEqual(len(self.glyphs), 96)
+        self.assertEqual(len({g['character'] for g in self.glyphs if g['preferred']}), 95)
+
+    def test_only_keyboard_text_is_typeface(self):
+        from icon_set.typeface.classification import is_typeface_character
+        for char in '$€£¥₿₹₩₴₭₤℞⊆':
+            self.assertFalse(is_typeface_character(char))
+        for char in 'Aa09!?@#%&*+-=“°':
+            self.assertTrue(is_typeface_character(char))
+        self.assertTrue(all(is_typeface_character(g['character']) for g in self.glyphs))
 
     def test_every_actual_envelope_fits_integer_grid(self):
         for g in self.glyphs:
@@ -59,11 +67,29 @@ class NaturalTypefaceTests(unittest.TestCase):
 
     def test_currency_rebuild_is_reproducible(self):
         from icon_set.scripts.typeface_symbols import SYMBOLS
-        by_char={g['character']:g for g in self.glyphs if g['preferred']}
+        symbols=json.loads((ROOT/'icon_set/typeface/symbol-glyphs.json').read_text())['glyphs']
+        by_char={g['character']:g for g in symbols if g['preferred']}
         for char in '₿£¥₴₭₤₹₩℞':
             name,paths=SYMBOLS[char]
             rebuilt=fit_base_grid(canonical('symbol-'+name,char,'symbol',[parse_path(d) for d in paths],(18,42)))
             self.assertEqual(by_char[char],rebuilt)
+
+    def test_reexport_removes_retired_symbols_and_downloads(self):
+        from icon_set.scripts.typeface_gallery import export_glyphs
+        from icon_set.scripts.typeface_sizes import stage_sizes
+        from zipfile import ZipFile
+        symbols=json.loads((ROOT/'icon_set/typeface/symbol-glyphs.json').read_text())['glyphs']
+        with tempfile.TemporaryDirectory() as folder:
+            target=Path(folder)
+            export_glyphs(target/'typeface', {'glyphs': self.glyphs+symbols})
+            stage_sizes(target/'typeface/sizes', self.glyphs+symbols)
+            stage_typeface(target, [], {})
+            for glyph in symbols:
+                self.assertFalse((target/'typeface'/(glyph['icon_id']+'.svg')).exists())
+                self.assertFalse((target/'typeface/sizes/24'/(glyph['icon_id']+'.svg')).exists())
+            with ZipFile(target/'typeface/sizes/typeface-6x20.zip') as archive:
+                for glyph in symbols:
+                    self.assertNotIn('24/'+glyph['icon_id']+'.svg', archive.namelist())
 
     def test_export_uses_actual_base_canvas_and_stroke(self):
         import xml.etree.ElementTree as ET

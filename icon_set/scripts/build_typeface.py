@@ -196,8 +196,15 @@ def build():
  glyphs = [fit_base_grid(glyph) for glyph in glyphs]
  target=ROOT/'icon_set/typeface/glyphs.json';target.parent.mkdir(exist_ok=True)
  from icon_set.typeface.sub32 import PROFILE_VARIANTS
- target.write_text(json.dumps({'schema_version':4,'geometry_policy':GEOMETRY_POLICY,'glyphs':glyphs,'profile_variants':PROFILE_VARIANTS},indent=2)+'\n')
- print(f'Built {len(glyphs)} fixed 6x20 centerline glyphs -> {target}')
+ from icon_set.typeface.classification import is_typeface_character
+ for filename, is_text in [('glyphs.json', True), ('symbol-glyphs.json', False)]:
+  selected = [g for g in glyphs if is_typeface_character(g['character']) == is_text]
+  variants = {key: value for key, value in PROFILE_VARIANTS.items()
+              if is_typeface_character(value['character']) == is_text}
+  output = target.with_name(filename)
+  output.write_text(json.dumps({'schema_version':4,'geometry_policy':GEOMETRY_POLICY,
+                               'glyphs':selected,'profile_variants':variants},indent=2)+'\n')
+  print(f'Built {len(selected)} {"typeface" if is_text else "icon symbol"} forms -> {output}')
 
 
 

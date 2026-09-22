@@ -1,9 +1,9 @@
-"""Four Stud Toy Building Brick.
-
-Plan: Four stud brick in top view with lower thickness lip. Bounds6,6,42,42. Simplify perspective while preserving four studs.
-Construction reference: No useful local Lucide match.
-Final review: Not released: top-view four-stud reduction passes geometry but reads as dice/button; the two-stud alternative changes the reference count.
-
+"""Four-stud toy brick, revised top view with a thickness edge.
+VRECT_L envelope (8,4)-(40,44). Four radius-2 studs share a 12-unit grid;
+body owns the thickness divider and its split attachment nodes. Lucide
+ toy-brick was inspected for body/stud hierarchy; reference supplies count.
+Valid with zero warnings, but the native appearance still resembles a button
+or die. Perspective and protruding studs are unresolved; do not export.
 """
 from ...keyshapes import Keyshape
 from ._base import Solo48
@@ -14,7 +14,7 @@ AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'toy-brick-with-four-top-studs'
-    keyshape = Keyshape.SQUARE
+    keyshape = Keyshape.VRECT_L
     semantic_role = "MAIN"
     semantic_kind = "noun"
     category = "objects"
@@ -40,5 +40,8 @@ class Drawing(Solo48):
         def poly(name,*points,closed=False): self.add_polyline(name,*points,closed=closed)
         def join(a,b): self.relate('connect',a,b)
 
-        rect('brick',6,6,36,36,4)
-        for j,(x,y) in enumerate([(17,17),(31,17),(17,31),(31,31)]):circle(f'stud-{j}',x,y,2)
+        poly('body',(8,36),(8,4),(40,4),(40,36),(40,44),(8,44),(8,36),closed=True)
+        line('thickness',(8,36),(40,36))
+        join('thickness','body-1');join('thickness','body-6')
+        join('thickness','body-3');join('thickness','body-4')
+        for j,(x,y) in enumerate([(18,14),(30,14),(18,26),(30,26)]):circle(f'stud-{j}',x,y,2)

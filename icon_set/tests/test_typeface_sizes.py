@@ -22,7 +22,7 @@ class TypefaceSizesTests(unittest.TestCase):
             root=Path(folder)
             manifest=stage_sizes(root,self.glyphs)
             self.assertEqual(manifest['heights'],[24])
-            self.assertEqual(len(list(root.glob('*/*.svg'))),107)
+            self.assertEqual(len(list(root.glob('*/*.svg'))),96)
             for glyph,entry in zip(self.glyphs,manifest['glyphs']):
                 self.assertEqual(len(entry['sizes']),1)
                 record=entry['sizes'][0]
@@ -43,7 +43,7 @@ class TypefaceSizesTests(unittest.TestCase):
                 self.assertLessEqual(box[2]+2,glyph['canvas_width']+1e-7)
                 self.assertLessEqual(box[3]+2,24+1e-7)
             with ZipFile(root/'typeface-6x20.zip') as archive:
-                self.assertEqual(len(archive.namelist()),109)
+                self.assertEqual(len(archive.namelist()),98)
                 self.assertIsNone(archive.testzip())
             self.assertNotIn('__SIZE_DATA__',(root/'index.html').read_text())
 

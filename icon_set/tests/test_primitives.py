@@ -389,7 +389,8 @@ class GenerationQueueServerTests(unittest.TestCase):
         self.request('POST', '/api/primitives/briefs', {'uuid': U2, 'family': 'solo', 'brief': 'Keep editorial instructions.'})
         data = json.loads(self.request('GET', '/api/primitives/generation-queue?brief=ready&family=sub')[1])
         self.assertEqual([r['uuid'] for r in data['briefs']], [U2])
-        self.assertEqual(data['briefs'][0]['brief'], 'Keep editorial instructions.')
+        self.assertTrue(data['briefs'][0]['brief'].endswith('Keep editorial instructions.'))
+        self.assertTrue(data['briefs'][0]['classification_decision']['authoritative'])
         self.assertEqual(data['briefs'][0]['family'], 'solo')
         data = json.loads(self.request('GET', '/api/primitives/generation-queue?category=Uncategorized&brief=missing')[1])
         self.assertEqual(data['total'], 0)
@@ -402,3 +403,17 @@ class GenerationQueueServerTests(unittest.TestCase):
         self.assertEqual([r['uuid'] for r in data['briefs']], [U4])
         for query in ['limit=0', 'limit=501', 'offset=-1', 'offset=no', 'family=bad', 'brief=bad']:
             self.assertEqual(self.request('GET', '/api/primitives/generation-queue?' + query)[0], 400)
+
+    def test_queue_includes_authenticated_reclassification_history(self):
+        self.request('POST', '/api/primitives/status', {'uuids': [U2], 'status': 'skip', 'reason': 'combination', 'note': 'Previous split'})
+        self.request('POST', '/api/primitives/status', {'uuids': [U2], 'status': 'todo'})
+        result = json.loads(self.request('GET', '/api/primitives/generation-queue?family=solo')[1])
+        item = next(r for r in result['briefs'] if r['uuid'] == U2)
+        event = item['classification_history'][-1]
+        self.assertEqual((event['from'], event['to']), ('combination', 'todo'))
+        self.assertEqual(event['authority'], 'user')
+        self.assertTrue(event['user'])
+        self.assertEqual(event['previous_note'], 'Previous split')
+        self.assertTrue(item['classification_decision']['authoritative'])
+        self.assertIn('Do not judge the classification again', item['brief'])
+        self.assertNotIn('## Reference triage', item['brief'])

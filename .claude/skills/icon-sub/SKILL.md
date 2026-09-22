@@ -88,7 +88,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 A **sub** icon is read small and hosted by others. Its whole canvas is the container's content region, so anything valid here can be placed in one. Verbs, states and modifiers declare `semantic_role = "SUB"`; a simple noun shape (`heart`, `circle`, `star`) declares `MAIN` with `semantic_kind = "noun"` and is still a sub icon -- the role describes the subject, the family decides the canvas.
 
-**Wrong family? Stop.** If the brief is a standalone subject with its own silhouette (a device, an object, a badge), stop and use `/icon-solo`. If it is an enclosure meant to hold something, use `/icon-container`. A sub icon cannot be authored on
+**Wrong family? Stop.** If the brief is a standalone subject with its own silhouette (a device, an object, a badge), stop and use `/icon-solo`. For a wrapper component isolated from a hosted-icon combination, use `/icon-container`. A sub icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `Sub32` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.

@@ -22,7 +22,7 @@ class ReviewWorkflowTests(unittest.TestCase):
         data = {'icon': 'sub/example', 'svg_sha256': 'version-a', 'status': 'disapprove'}
         self.assertEqual(self.call('POST', '/api/reviews', data)[0], 201)
         self.assertEqual(self.call('GET', '/api/feedback?icon=sub%2Fexample')[1], [])
-        for reason in ('bad-stroke', 'meaning', 'other'):
+        for reason in ('bad-stroke', 'meaning', 'manual-fix-request', 'other'):
             payload = dict(data, reason=reason)
             if reason == 'other':
                 self.assertEqual(self.call('POST', '/api/reviews', payload)[0], 400)

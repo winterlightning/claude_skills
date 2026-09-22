@@ -1,6 +1,6 @@
 ---
 name: icon-container
-description: Author a container-family icon for the Pictographic icon set on the CONTAINER64 profile (64x64). Use when asked for an enclosure, frame, window, screen, badge outline, bubble, board, card, or any framed device drawn at 64. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Author a container-family icon for the Pictographic icon set on the CONTAINER64 profile (64x64). Use for a CONTAINER64 wrapper component isolated from an actual hosted-icon combination, or an explicitly requested container component. Empty standalone boards, screens, frames and speech bubbles with no separate icon inside use solo. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 argument-hint: <icon-id> — <one-sentence brief> [references: <paths>]
 ---
 
@@ -26,11 +26,11 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 | Ships to | `published/container64/` with its own `manifest.json` |
 | Ink clearance (MIC) | 2 between distinct parts = **6 between centerlines** |
 | Interior guide | (8,8)-(56,56) — constrains inner detail only |
-| Existing icons to imitate | `aiming-reticle`, `arched-handle-shopping-basket`, `award-ribbon-container`, `awning-storefront-container`, `billboard-container`, `blank-calendar-container` |
+| Existing icons to imitate | `add-new-duplicate-copy`, `aiming-reticle`, `arched-handle-shopping-basket`, `award-ribbon-container`, `awning-storefront-container`, `billboard-container` |
 
-A **container** stands alone as a noun and is the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
+A **container** is an explicitly requested wrapper component or the outer half of a `CONTAINER_COMBINE`. Nothing inside its canvas is reserved: draw the subject with the interior furniture it actually has -- a title bar, a lid, a dial face, a keypad. `(16,16)-(48,48)` is the **content region**, where a hosted child would land; the base adds `content-top-left` and `content-bottom-right` anchors marking it. Painting through it is allowed and often necessary; it just means this container will not clear that child, which `compose.py` measures per pair. The protected slot that used to forbid ink there was withdrawn on 2026-09-07 -- it made windows, tab bars and lids undrawable -- and `contracts/composition-templates.v1.json` keeps the record under `withdrawn_slot`.
 
-**Wrong family? Stop.** If the subject reads at 48 and is never framed around anything, use `/icon-solo`. If it is the thing that goes *inside*, use `/icon-sub`. A container icon cannot be authored on
+**Wrong family? Stop.** If the reference is an empty standalone enclosure with no separate icon inside, use `/icon-solo`. If it is the thing that goes *inside*, use `/icon-sub`. A container icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `Container64` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.

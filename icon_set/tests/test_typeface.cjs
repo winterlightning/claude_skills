@@ -3,7 +3,8 @@ const fs=require('node:fs');
 const path=require('node:path');
 const {layout,svg}=require('../scripts/templates/text-combine.js');
 const {glyphs}=JSON.parse(fs.readFileSync(path.join(__dirname,'../../published/gallery/typeface.json'),'utf8'));
-assert.equal(glyphs.length,107);
+assert.equal(glyphs.length,96);
+for (const currency of '$€£¥₿₹₩₴₭₤') assert.throws(()=>layout(currency,glyphs),/Unsupported/);
 const v2=JSON.parse(fs.readFileSync(path.join(__dirname,'../../published/gallery/typeface-v2.json'),'utf8')).glyphs;
 let result=layout('obdpqg',glyphs);
 for(const p of result.placements){
@@ -143,12 +144,12 @@ for(const item of [...batch.icons,{text:'ooo',underline:false},{text:'gyp',under
  assert.equal(r.stroke,4);
 }
 console.log('All text exports: zero padding on all four ink edges, 28-unit ink height, stroke 4 passed.');
-// Every printable ASCII character is accepted, with punctuation on a shared
+// Keyboard characters except currency are accepted, with punctuation on a shared
 // typographic band instead of scaling tiny marks to the full letter height.
-const printable=Array.from({length:95},(_,i)=>String.fromCharCode(i+32)).join('');
+const printable=Array.from({length:95},(_,i)=>String.fromCharCode(i+32)).filter(c=>c!=='$').join('');
 for(const stroke of [.5,4,16]){
  const r=layout(printable,glyphs,{stroke,underline:true,strikethrough:true});
- assert.equal(r.placements.length,94);
+ assert.equal(r.placements.length,93);
  for(const p of r.placements){
   const [l,t,rr,b]=p.glyph.bounds;
   assert.ok([p.x,p.y,p.scale,...p.glyph.bounds].every(Number.isFinite));
@@ -168,7 +169,7 @@ assert.ok(topOf(underscore)>punct.baseline);
 const escaped=svg(layout('<&>"',glyphs),'<&>"');
 assert.ok(escaped.includes('<title>&lt;&amp;&gt;&quot;</title>'));
 assert.ok(!escaped.includes('<title><'));
-const lockedSymbols=layout('Hello, World!\n$19.99',glyphs,{canvasHeight:28,trimInk:true,padding:0});
+const lockedSymbols=layout('Hello, World!\n19.99',glyphs,{canvasHeight:28,trimInk:true,padding:0});
 assert.equal(lockedSymbols.height,28);
 console.log('All printable keyboard characters, punctuation positions, escaping and locked-height layout passed.');
 

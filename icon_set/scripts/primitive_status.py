@@ -124,7 +124,8 @@ def validate(uuids, status, reason=None, note='', known=None) -> tuple[list[str]
 
 
 def set_status(connection, uuids, status, reason=None, note='', *, user, record, known=None,
-               combination_brief=UNSET, main_brief=UNSET, sub_brief=UNSET, sub_position=UNSET) -> dict:
+               combination_brief=UNSET, main_brief=UNSET, sub_brief=UNSET, sub_position=UNSET,
+               authority='unspecified') -> dict:
     """Update either component independently; omitted fields preserve saved values."""
     uuids, reason, note = validate(uuids, status, reason, note, known)
     if combination_brief is not UNSET:
@@ -148,11 +149,16 @@ def set_status(connection, uuids, status, reason=None, note='', *, user, record,
     encode = lambda value: json.dumps(value, ensure_ascii=False, sort_keys=True) if value else None
     for uid in uuids:
         current = connection.execute('SELECT reason, note, main_brief, sub_brief, sub_position FROM primitive_status WHERE uuid=?', (uid,)).fetchone()
+        audit = dict(previous_classification=current[0] if current else 'todo',
+                     classification=reason if status == 'skip' else 'todo', authority=authority,
+                     previous_note=current[1] if current else '')
         if status == 'todo':
             if current is None:
+                if authority == 'user':
+                    record(connection, user, 'primitive_classification_confirmed', 'primitive:' + uid, **audit)
                 continue
             connection.execute('DELETE FROM primitive_status WHERE uuid=?', (uid,))
-            record(connection, user, 'primitive_todo', 'primitive:' + uid, previous_reason=current[0])
+            record(connection, user, 'primitive_todo', 'primitive:' + uid, previous_reason=current[0], **audit)
         else:
             main, sub, position = current[2:] if current else (None, None, None)
             if sub_position is not UNSET:
@@ -166,6 +172,8 @@ def set_status(connection, uuids, status, reason=None, note='', *, user, record,
             if reason not in ('container', 'combination'):
                 main = sub = None
             if current == (reason, note, main, sub, position):
+                if authority == 'user':
+                    record(connection, user, 'primitive_classification_confirmed', 'primitive:' + uid, **audit)
                 continue
             connection.execute(
                 "INSERT INTO primitive_status(uuid,status,reason,note,updated_by,updated_at,main_brief,sub_brief,sub_position) VALUES (?,'skip',?,?,?,?,?,?,?) "
@@ -174,7 +182,7 @@ def set_status(connection, uuids, status, reason=None, note='', *, user, record,
                 'main_brief=excluded.main_brief, sub_brief=excluded.sub_brief, sub_position=excluded.sub_position, combination_brief=NULL',
                 (uid, reason, note, user, now, main, sub, position))
             record(connection, user, 'primitive_skip', 'primitive:' + uid, reason=reason, note=note,
-                   main_brief=json.loads(main) if main else None, sub_brief=json.loads(sub) if sub else None, sub_position=position)
+                   main_brief=json.loads(main) if main else None, sub_brief=json.loads(sub) if sub else None, sub_position=position, **audit)
         changed.append(uid)
     return {'status': status, 'reason': reason, 'changed': len(changed), 'unchanged': len(uuids) - len(changed)}
 
@@ -202,13 +210,36 @@ def effective(row: dict, decision: dict | None) -> str:
     return 'todo'
 
 
+def row_decision(row: dict, statuses: dict) -> dict | None:
+    """The canonical uuid's decision, else the first folded alias that has one (tagged with from_uuid)."""
+    decision = statuses.get(row['uuid'])
+    if decision:
+        return decision
+    for alias in row.get('aliases', []):
+        decision = statuses.get(alias['uuid'])
+        if decision:
+            return {**decision, 'from_uuid': alias['uuid']}
+    return None
+
+
 def merge(rows: list[dict], statuses: dict) -> list[dict]:
     merged = []
     for row in rows:
-        decision = statuses.get(row['uuid'])
+        decision = row_decision(row, statuses)
         merged.append({**row, 'status': effective(row, decision), 'decision': decision,
                        'conflict': bool(decision) and row.get('state') == 'generated'})
     return merged
+
+
+def canonical_map(rows: list[dict]) -> dict[str, str]:
+    """Every uuid the catalog knows (canonical or folded alias) -> the canonical uuid of its row."""
+    result = {}
+    for row in rows:
+        if row.get('uuid'):
+            result[row['uuid']] = row['uuid']
+        for alias in row.get('aliases', []):
+            result[alias['uuid']] = row['uuid']
+    return result
 
 
 def summarize(merged: list[dict]) -> dict:
@@ -282,7 +313,15 @@ def main(argv=None) -> int:
             uuids = list(args.uuids)
             if args.from_file:
                 uuids += [line.strip() for line in args.from_file.read_text().splitlines() if line.strip()]
-            known = {row['uuid'] for row in catalog['rows']}
+            canonical = canonical_map(catalog['rows'])
+            known = set(canonical)
+            resolved = []
+            for uid in uuids:
+                target = canonical.get(uid.strip().lower(), uid)
+                if target != uid.strip().lower():
+                    print(f'{uid} is an alias of {target}; applying to {target}', file=sys.stderr)
+                resolved.append(target)
+            uuids = resolved
             total = collections.Counter()
             try:
                 brief_path = getattr(args, 'brief_file', None)

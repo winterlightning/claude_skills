@@ -46,11 +46,12 @@ Otherwise this router is authorized to decide it:
 | A standalone avatar or profile bust combining a head and its own body | `$icon-avatar` (solo family, 48×48) |
 | One independently recognizable noun/object, tool, person, animal, or scene reduced to a single subject | `$icon-solo` (48×48) |
 | Small operator, arrow, state, modifier, or simple glyph intended to accompany another icon | `$icon-sub` (32×32) |
-| A standalone enclosure, frame, screen, card, window, or speech bubble | `$icon-container` (64×64) |
+| An empty enclosure, frame, screen, card, window, or speech bubble with no separate icon inside | `$icon-solo` (48×48) |
+| A wrapper component isolated from a hosted-icon combination, or an explicit container-component request | `$icon-container` (64×64) |
 
 Use function and meaning, not the source image's dimensions. Explain the chosen
 family in one sentence. A simple noun glyph can be `sub`; a screen with its own
-structural controls can be a standalone `container`. If the user's specified
+structural controls and no separate hosted icon is `solo`. If the user's specified
 family conflicts with a combined reference, split it through the workflow below
 instead of silently reclassifying the whole reference.
 
@@ -71,7 +72,9 @@ individual authoring skill. Two disallowed primitive candidates are:
 A handle, lid, screen button, clothing detail, or natural body part is not a
 second icon just because it is a separate shape. In particular, an avatar head
 and its own body remain one subject and route to `$icon-avatar`. Reject only when both parts
-have independent icon meanings. An empty container is a valid primitive.
+have independent icon meanings. Empty enclosing geometry alone remains solo;
+a container component is authored separately only after a real hosted-icon split
+or an explicit container-component request.
 
 Name and describe exactly two standalone components. Preserve the full
 reference path/UUID and explain which component each brief isolates. Do not

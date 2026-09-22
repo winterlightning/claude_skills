@@ -17,6 +17,11 @@ this skill uses SOLO48, ink clearance 4, centerline clearance 8, and `published/
 
 Author one independently readable subject, including natural groups and scenes.
 A cup with its saucer or a person holding a tool remains one subject.
+An empty board, monitor with keyboard, speech bubble, or overlapping frame pair
+also remains solo when no separate icon is hosted inside. An enclosing shape
+or an older `family: container` label alone does not establish a container
+combination. Current explicit user classification takes precedence over saved
+labels and prior routing decisions.
 
 ### Review the reference before generation
 
@@ -111,7 +116,8 @@ component: review that component, not the whole combined source, for routing.
 For an ambiguous reference, record the uncertainty and skip drawing it in this
 run rather than force a container or side classification.
 
-Route hosted modifiers to `/icon-sub`, enclosures to `/icon-container`, content
+Route hosted modifiers to `/icon-sub`, wrapper components isolated from an
+actual hosted-icon combination to `/icon-container`, content
 symbols to `/icon-symbol`, combination main subjects to `/icon-combination-main`,
 and standalone profile busts to `/icon-avatar`.
 

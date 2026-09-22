@@ -30,7 +30,7 @@ family and read from `icon_set/model/contracts/icon-profile.v1.json`:
 
 This is the specialized avatar skill for the **solo family**, not a separate family. An **avatar** combines a head and its own body into one standalone human subject. Author directly on 48x48; it hosts nothing and has no container content slot. Use `icon_set/references/human_ref/user.svg` for the circular head, rounded shoulders, and open bottom. The current avatar rule supersedes its detached layout: head ink touches body ink, with no visible gap.
 
-**Wrong family? Stop.** For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For an enclosure, use `/icon-container`; for a hosted glyph, use `/icon-sub`. An avatar icon cannot be authored on
+**Wrong family? Stop.** For an isolated head or a full-body action scene intended at 48, use `/icon-solo`. For a wrapper component isolated from a hosted-icon combination, use `/icon-container`; for a hosted glyph, use `/icon-sub`. An avatar icon cannot be authored on
 another canvas: the base has no profile to override, the registry refuses a
 `Solo48` in another folder, and the validator rejects the profile. Do not widen
 this skill's scope to "just draw it bigger"; name the right skill and hand over.

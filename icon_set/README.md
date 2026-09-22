@@ -683,7 +683,7 @@ rebuilds and deployments; later source or SVG changes update it.
 
 The popup opens on **Review**, with original and generated previews always visible
 on both Review and Information. Choose **Ready**, **Approve**, **Disapprove**, or
-**Reject**. Disapprove requires **Bad stroke drawn**, **Does not convey the intended
+**Reject**. Disapprove requires **Bad stroke drawn**, **Manual fix request**, **Does not convey the intended
 meaning**, or **Other** (written feedback required). Preset reasons accept optional
 details. Reasons are stored separately from the feedback text and included in
 feedback history and exported repair briefs. Reject is for prohibited subjects:
