@@ -8,7 +8,7 @@ function layout(text,glyphs,{xHeight=36,capHeight=52,tracking=6,lineGap=16,strok
     const measure=factor=>layout(text,glyphs,{xHeight:xHeight*factor,capHeight:capHeight*factor,tracking:tracking*factor,lineGap:lineGap*factor,padding:padding*factor,stroke,underline,strikethrough,align,trimInk});
     let low=1e-9,high=1;
     if(measure(low).height>=canvasHeight)throw Error('This stroke and line count cannot fit the locked canvas height.');
-    // Glyphs drawn at the locked size (v2 caps on 32-unit ink) export at exactly scale 1.
+    // Glyphs drawn at the locked size (v2 caps on 19-unit ink) export at exactly scale 1.
     const native=measure(1);if(Math.abs(native.height-canvasHeight)<1e-3){native.height=canvasHeight;return native;}
     while(measure(high).height<canvasHeight)high*=2;
     for(let i=0;i<60;i++){
@@ -104,12 +104,12 @@ root.Typeface=api;
 if(typeof document==='undefined')return;
 const data=JSON.parse(document.getElementById('glyphData').textContent),$=id=>document.getElementById(id);
 const v2Node=document.getElementById('glyphDataV2'),dataV2=v2Node?JSON.parse(v2Node.textContent):{glyphs:[]};
-// v2 draws uppercase only: text is uppercased, and characters it lacks come from v1.
+// v2 draws uppercase letters and digits: text is uppercased, and symbols come from v1.
 function withFallback(primary,fallback){const covered=new Set(primary.filter(g=>g.preferred).map(g=>g.character));return primary.concat(fallback.filter(g=>g.kind!=='lowercase'&&!covered.has(g.character)));}
 // v1: the height input is the lowercase body (caps 52/36 taller); locked ink is the 28-unit text family.
-// v2: the height input is the cap height, drawn at 28 with 32-unit ink, so locking gives the native size at scale 1.
+// v2: the height input is the cap height, drawn at 15 with 19-unit ink, so locking gives the native size at scale 1.
 const versions={v1:{glyphs:data.glyphs,text:t=>t,inspect:'letter-b',height:36,lock:28,metrics:h=>({xHeight:h,capHeight:h*52/36})},
-                v2:{glyphs:withFallback(dataV2.glyphs,data.glyphs),text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',height:28,lock:32,metrics:h=>({xHeight:h*36/52,capHeight:h})}};
+                v2:{glyphs:withFallback(dataV2.glyphs,data.glyphs),text:t=>t.toUpperCase(),inspect:'letter-a-uppercase',height:15,lock:19,metrics:h=>({xHeight:h*36/52,capHeight:h})}};
 let version=new URLSearchParams(location.search).get('version');if(!(version in versions))version='v1';$('version').value=version;
 const active=()=>versions[version];
 function applyVersionDefaults(){$('height').value=active().height;$('lockHeightLabel').textContent='Lock visible ink height to '+active().lock+' (no padding)';}
@@ -118,7 +118,7 @@ let current=null;
 function update(){
   try{current=layout(active().text($('words').value),active().glyphs,{...active().metrics(Number($('height').value)),tracking:Number($('spacing').value),lineGap:Number($('lineSpacing').value),stroke:Number($('strokeWidth').value),underline:$('underline').checked,strikethrough:$('strikethrough').checked,canvasHeight:$('lockHeight').checked?active().lock:null,padding:$('lockHeight').checked?0:16,trimInk:$('lockHeight').checked,align:'center'});
     $('output').innerHTML=svg(current,active().text($('words').value),$('guides').checked);
-    $('status').textContent=($('lockHeight').checked?'Visible ink locked at '+active().lock+' units high, without padding; width follows the text. ':'')+(version==='v2'?'Uppercase only: caps are 28 units tall on 32 units of ink at the default height, matching the UPPER drawings at scale 1.':'Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.');
+    $('status').textContent=($('lockHeight').checked?'Visible ink locked at '+active().lock+' units high, without padding; width follows the text. ':'')+(version==='v2'?'Lowercase is rendered as uppercase; letters and digits use a grid-snapped 15-unit centerline on 19 units of ink.':'Bodies share the shaded height. Ascenders rise above it; descenders fall below the baseline.');
     $('download').disabled=!current.placements.length;
   }catch(e){current=null;$('output').replaceChildren();$('status').textContent=e.message;$('download').disabled=true;}
 }

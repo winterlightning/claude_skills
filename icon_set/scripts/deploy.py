@@ -515,7 +515,14 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         result['generated_svg_sha256'] = source['svg_sha256']
         result['artwork_source'] = (choice or {}).get('source_mode', 'use_org')
         # A server choice takes precedence over a previous build's selection.
-        selected = resolve_artwork(source, choice)
+        try:
+            selected = resolve_artwork(source, choice)
+        except ValueError:
+            # A stale or invalid saved choice (for example an edit recorded against a
+            # profile that has since been renamed) must not fail the whole catalog.
+            # Serve the authored original and mark the record accordingly.
+            selected = None
+            result['artwork_source'] = 'use_org'
         if selected:
             if selected['graph']:
                 result.update(selected['graph'])

@@ -9,7 +9,7 @@ import sys
 import hashlib
 import math
 import xml.etree.ElementTree as ET
-from svgpathtools import parse_path, Path as SVGPath, Line, CubicBezier, Arc
+from svgpathtools import parse_path, Path as SVGPath, Line, CubicBezier, QuadraticBezier, Arc
 
 ROOT=Path(__file__).resolve().parents[2]
 if __package__ in (None, ""):
@@ -17,6 +17,7 @@ if __package__ in (None, ""):
 SOURCE_ICON_ID=None
 SOURCE_PATH='Letters/old/'
 UPPER_SOURCE='Letters/UPPER/'
+NUMBER_SOURCE='Letters/Numbers/'
 AUTHOR='gpt-6'
 
 # Source-space semantic bands, measured from the reference bodies. Dots,
@@ -45,10 +46,20 @@ REPAIRS={
 def ellipse(cx,cy,rx,ry):
  return parse_path(f'M{cx-rx} {cy} A{rx} {ry} 0 1 1 {cx+rx} {cy} A{rx} {ry} 0 1 1 {cx-rx} {cy} Z')
 
+def rounded_rect(x, y, width, height, rx=0, ry=0):
+ rx=min(max(rx, 0), width/2);ry=min(max(ry, 0), height/2)
+ if not rx or not ry:
+  return parse_path(f'M{x} {y} H{x+width} V{y+height} H{x} Z')
+ return parse_path(
+  f'M{x+rx} {y} H{x+width-rx} A{rx} {ry} 0 0 1 {x+width} {y+ry} '
+  f'V{y+height-ry} A{rx} {ry} 0 0 1 {x+width-rx} {y+height} '
+  f'H{x+rx} A{rx} {ry} 0 0 1 {x} {y+height-ry} '
+  f'V{y+ry} A{rx} {ry} 0 0 1 {x+rx} {y} Z')
+
 def source_paths(source,repairs=True):
  if repairs and source.stem in REPAIRS:return [parse_path(d) for d in REPAIRS[source.stem]]
  paths=[]
- for el in ET.parse(source).getroot():
+ for el in ET.parse(source).getroot().iter():
   tag=el.tag.rsplit('}',1)[-1]
   if tag=='path' and el.get('stroke'):
    for run in parse_path(el.attrib['d']).continuous_subpaths():
@@ -61,6 +72,12 @@ def source_paths(source,repairs=True):
    # The sole transformed ellipse is rotated 180° about its own center.
    if el.get('transform') and not el.get('transform').startswith('rotate(180 '):raise ValueError('Unexpected ellipse transform')
    paths.append(ellipse(cx,cy,rx,ry))
+  elif tag=='rect' and el.get('stroke'):
+   x,y=float(el.get('x',0)),float(el.get('y',0))
+   width,height=float(el.get('width')),float(el.get('height'))
+   rx_attr,ry_attr=el.get('rx'),el.get('ry')
+   rx=float(rx_attr or ry_attr or 0);ry=float(ry_attr or rx_attr or 0)
+   paths.append(rounded_rect(x,y,width,height,rx,ry))
  return paths
 
 def bounds(paths):
@@ -118,11 +135,19 @@ CAPS={
 }
 
 GEOMETRY_POLICY = 'fixed-centerline-6x20'
-GEOMETRY_POLICY_V2 = 'natural-centerline-28x32'
+GEOMETRY_POLICY_V2 = 'grid-centerline-15x19'
 # v2 uppercase sources: 32-unit canvas, cap centerline from y=2 to y=30.
 UPPER_BAND = (2, 30)
-# v2 sources drawn as filled outlines instead of strokes: replaced by their centerlines.
-V2_REPAIRS = {'Q': ['M8 16 A6 14 0 1 1 20 16 A6 14 0 1 1 8 16 Z', 'M14.1899 20 L22.4431 30']}
+# Exceptional v2 sources can be replaced by reviewed centerlines here when needed.
+V2_REPAIRS = {}
+# Small-size optical repairs after scaling. These preserve the supplied concepts
+# while replacing exporter-fragment curves that become lumpy on the 15-unit grid.
+V2_GRID_REPAIRS = {
+ 'P': ['M2 17 V2 H7 C11 2 13 4 13 6 C13 9 11 10 7 10 H2'],
+ 'R': ['M2 17 V2 H7 C11 2 13 4 13 6 C13 9 11 10 7 10 H2', 'M7 10 L13 17'],
+ 'U': ['M2 2 V11 C2 15 5 17 9 17 C13 17 16 15 16 11 V2'],
+ 'V': ['M2 2 L8 16 Q9 18 10 16 L16 2'],
+}
 
 
 def fit_base_grid(glyph):
@@ -209,63 +234,85 @@ def build():
 
 
 def fit_natural_grid(glyph):
- """Keep v2 at its drawn size: 28-unit cap centerline, 32-unit ink, stroke 4, natural width.
+ """Fit v2 to a 15-unit centerline and 19-unit ink height on the integer grid.
 
- canonical() applied a uniform similarity; one uniform factor restores the source scale.
+ Natural proportions are uniformly reduced. Arcs become cubic curves before every
+ endpoint and control handle is snapped, so exported paths contain grid points only.
  """
  glyph = dict(glyph)
  left, top, right, bottom = glyph['bounds']
- s = 28/(glyph['baseline']-glyph['body_top'])
- def scale_point(p):
-  return complex(p.real*s, p.imag*s)
- centerline_width = (right-left)*s
- ink_width = centerline_width+4
- ink_height = 32
- canvas_width = max(10, math.ceil(ink_width-1e-9))
- ink_left = (canvas_width-ink_width)/2
- # Cap band at y=2..30 exactly as drawn; only the horizontal ink is re-centered.
- offset = complex(ink_left+2-left*s, 2-glyph['body_top']*s)
+ s = 15/(glyph['baseline']-glyph['body_top'])
+ offset = complex(2-left*s, 2-glyph['body_top']*s)
+ def grid_value(value):
+  return math.copysign(math.floor(abs(value)+0.5),value)
+ def grid_point(point):
+  return complex(grid_value(point.real),grid_value(point.imag))
+ def grid_segment(segment):
+  if isinstance(segment,Line):return Line(grid_point(segment.start),grid_point(segment.end))
+  if isinstance(segment,QuadraticBezier):
+   return QuadraticBezier(grid_point(segment.start),grid_point(segment.control),grid_point(segment.end))
+  if isinstance(segment,CubicBezier):
+   return CubicBezier(grid_point(segment.start),grid_point(segment.control1),
+                      grid_point(segment.control2),grid_point(segment.end))
+  raise ValueError('Unexpected segment while snapping v2 geometry')
  transformed = []
- for d in glyph['paths']:
+ source_geometry=V2_GRID_REPAIRS.get(glyph['character'])
+ for d in source_geometry or glyph['paths']:
   segments = []
   for segment in parse_path(d):
+   segment=segment if source_geometry else segment.scaled(s,s).translated(offset)
    if isinstance(segment, Arc):
     if segment.rotation % 180:
      raise ValueError('Grid fitting requires an axis-aligned ellipse')
-    segment = Arc(scale_point(segment.start), scale_point(segment.radius),
-                  segment.rotation, segment.large_arc, segment.sweep,
-                  scale_point(segment.end))
+    count=max(1,math.ceil(abs(segment.delta)/90))
+    segments.extend(grid_segment(curve) for curve in segment.as_cubic_curves(curves=count))
    else:
-    segment = segment.scaled(s, s)
-   segments.append(segment.translated(offset))
+    segments.append(grid_segment(segment))
+  # A collapsed segment renders as a round dot or tiny cross-stroke even though
+  # it carries no geometry. Removing it keeps joins clean after grid reduction.
+  segments=[segment for segment in segments if segment.length()>1e-8]
+  if not segments:raise ValueError('Grid snapping collapsed a complete v2 path')
   transformed.append(SVGPath(*segments))
  paths = [p.d() for p in transformed]
  box = bounds(transformed)
+ centerline_width = box[2]-box[0]
+ ink_width = centerline_width+4
+ ink_height = 19
+ canvas_width = max(8,math.ceil(box[2]+2-1e-9))
+ ink_left = box[0]-2
  glyph.update(paths=paths, bounds=box,
-              body_top=2.0, baseline=30.0, body_height=28.0,
+              body_top=2, baseline=17, body_height=15,
               stroke_width=4, ink_width=ink_width, ink_height=ink_height,
               ink_left=ink_left, ink_top=0.0,
-              centerline_width=centerline_width, centerline_height=28.0,
-              canvas_width=canvas_width, canvas_height=32,
-              centerline_band_height=28,
-              preview_box=[0, 0, canvas_width, 32],
+              centerline_width=centerline_width, centerline_height=15,
+              canvas_width=canvas_width, canvas_height=19,
+              centerline_band_height=15,
+              preview_box=[0, 0, canvas_width, 19],
               geometry_policy=GEOMETRY_POLICY_V2,
               svg_sha256=hashlib.sha256(json.dumps(paths,separators=(',',':')).encode()).hexdigest())
  return glyph
 
 
 def build_v2():
- """Uppercase-only v2 from Letters/UPPER; the browser uppercases text and falls back to v1."""
+ """Build v2 from UPPER and Numbers; lowercase input is rendered as uppercase."""
  glyphs=[]
- for source in sorted((ROOT/'Letters/UPPER').glob('*.svg')):
-  char=source.stem.upper()
-  if len(char)!=1 or not char.isalpha():raise ValueError('Unexpected v2 source: '+source.name)
+ sources=[(source,source.stem.upper(),'uppercase','letter-'+source.stem.lower()+'-uppercase')
+          for source in sorted((ROOT/UPPER_SOURCE).glob('*.svg'))]
+ sources += [(source,source.stem,'digit','digit-'+source.stem)
+             for source in sorted((ROOT/NUMBER_SOURCE).glob('*.svg'))]
+ for source,char,kind,icon_id in sources:
+  if len(char)!=1 or (kind=='uppercase' and not char.isalpha()) or (kind=='digit' and not char.isdigit()):
+   raise ValueError('Unexpected v2 source: '+source.name)
   paths=[parse_path(d) for d in V2_REPAIRS[char]] if char in V2_REPAIRS else source_paths(source,repairs=False)
-  glyph=canonical('letter-'+char.lower()+'-uppercase',char,'uppercase',paths,UPPER_BAND,source)
-  glyph['construction']=('Filled tail replaced by its centerline; ' if char in V2_REPAIRS else '')+'source centerlines kept at their drawn 32-unit size; natural width'
+  if not paths:raise ValueError('No stroked v2 geometry: '+source.name)
+  glyph=canonical(icon_id,char,kind,paths,UPPER_BAND,source)
+  repair=('small-grid optical curve repair; ' if char in V2_GRID_REPAIRS else
+          'reviewed centerline repair; ' if char in V2_REPAIRS else '')
+  glyph['construction']=repair+'uniformly scaled from source and snapped to the integer grid; natural width'
   glyphs.append(fit_natural_grid(glyph))
  target=ROOT/'icon_set/typeface/glyphs-v2.json'
- target.write_text(json.dumps({'schema_version':4,'version':'v2','geometry_policy':GEOMETRY_POLICY_V2,'fallback':'v1','glyphs':glyphs},indent=2)+'\n')
- print(f'Built {len(glyphs)} natural-width v2 uppercase glyphs -> {target}')
+ target.write_text(json.dumps({'schema_version':4,'version':'v2','geometry_policy':GEOMETRY_POLICY_V2,
+                               'case_policy':'uppercase','fallback':'v1','glyphs':glyphs},indent=2)+'\n')
+ print(f'Built {len(glyphs)} grid-snapped v2 uppercase and digit glyphs -> {target}')
 
 if __name__=='__main__':build();build_v2()

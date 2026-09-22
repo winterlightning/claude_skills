@@ -8,6 +8,32 @@ from icon_set.scripts.combination_catalog import write_catalog
 
 
 class CombinationCatalogTest(unittest.TestCase):
+    def test_primitive_alias_supplies_reference_concept_and_generated_artwork(self):
+        with TemporaryDirectory() as folder:
+            root = Path(folder)
+            gallery = root / 'dist/gallery'
+            gallery.mkdir(parents=True)
+            aliases = root / 'icon_set/data'
+            aliases.mkdir(parents=True)
+            aliases.joinpath('primitive-aliases.json').write_text(json.dumps({
+                'aliases': {'alias': 'canonical'}}))
+            source = root / 'pictographic-primitives/computers'
+            source.mkdir(parents=True)
+            source.joinpath('monitor.svg').write_text('<svg/>')
+            root.joinpath('combination_data.json').write_text(json.dumps({'side': [{
+                'id': 'pair', 'concept': 'Monitor plus mark', 'main_id': 'alias', 'sub_id': 'sub'}]}))
+            drawing = {'icon_id': 'monitor', 'key': 'solo/monitor', 'preview_url': '../solo48/monitor.svg'}
+            primitives = {'rows': [
+                {'uuid': 'canonical', 'path': 'computers/monitor.svg', 'concept': 'Desktop monitor', 'generated': [drawing]},
+                {'uuid': 'sub', 'concept': 'Mark', 'generated': []},
+            ]}
+            result = write_catalog(gallery, primitives, [], root)
+            ref = result['references']['alias']
+            self.assertEqual(ref['canonical_id'], 'canonical')
+            self.assertEqual(ref['concept'], 'Desktop monitor')
+            self.assertEqual(ref['generated'], [drawing])
+            self.assertEqual((gallery / ref['reference_url']).read_text(), '<svg/>')
+
     def test_explicit_component_keys_resolve_without_source_id_cross_product(self):
         with TemporaryDirectory() as folder:
             root = Path(folder)
@@ -19,13 +45,18 @@ class CombinationCatalogTest(unittest.TestCase):
             (root / 'combination_data.json').write_text(json.dumps({'container': [pair]}))
             host = {'icon_id': 'phone', 'key': 'container/phone', 'family': 'container',
                     'preview_url': '../container64/phone.svg'}
+            child_source = 'aaaaaaaa-1111-2222-3333-bbbbbbbbbbbb'
             child = {'icon_id': 'hands', 'key': 'symbol/hands', 'family': 'symbol',
-                     'preview_url': '../symbol32/hands.svg'}
+                     'preview_url': '../symbol32/hands.svg',
+                     'original_sources': [{'url': 'originals/hands.svg',
+                                           'source_path': f'pictographic-primitives/symbol/hands_{child_source}.svg'}]}
             primitives = {'rows': [{'uuid': 'original', 'generated': [child]}]}
             result = write_catalog(gallery, primitives, [host, child], root)
             row = result['rows'][0]
             self.assertEqual(row['main_generated'][0]['key'], host['key'])
             self.assertEqual(row['sub_generated'][0]['key'], child['key'])
+            self.assertEqual(result['references']['symbol/hands']['reference_url'], 'originals/hands.svg')
+            self.assertEqual(result['references']['symbol/hands']['canonical_id'], child_source)
             # A generated component from the same original is not a completed pair.
             self.assertEqual(row['generated'], [])
             self.assertEqual(result['references']['original']['generated'], [child])

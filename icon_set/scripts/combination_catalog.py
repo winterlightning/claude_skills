@@ -8,8 +8,10 @@ from pathlib import Path
 
 if __package__:
     from .workspace import build_dist
+    from .primitives_catalog import load_aliases, resolve
 else:
     from workspace import build_dist
+    from primitives_catalog import load_aliases, resolve
 
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -26,6 +28,7 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
         if match:
             originals.setdefault(match[1].lower(), path)
     primitive_rows = {r['uuid']: r for r in primitives['rows']}
+    primitive_aliases = load_aliases(root / 'icon_set/data/primitive-aliases.json')
     records_by_key = {r.get('key'): r for r in records}
     generated = {}
     for uid, row in primitive_rows.items():
@@ -44,8 +47,10 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
     def reference(uid):
         if uid in references:
             return references[uid]
-        row = primitive_rows.get(uid, {})
-        path = originals.get(uid)
+        canonical_uid = resolve(uid, primitive_aliases)
+        reference_uid = canonical_uid
+        row = primitive_rows.get(uid) or primitive_rows.get(canonical_uid, {})
+        path = originals.get(uid) or originals.get(canonical_uid)
         if path is None and row.get('path'):
             path = root / 'pictographic-primitives' / row['path']
         url = None
@@ -57,13 +62,21 @@ def write_catalog(target: Path, primitives: dict, records: list[dict], root: Pat
         # Reviewed component pairs can name a library key directly. A key is
         # an exact selection, never a request for other remakes of its source.
         selected = records_by_key.get(uid)
-        artwork = generated.get(uid, [])
+        artwork = generated.get(uid) or generated.get(canonical_uid, [])
         concept = row.get('concept') or (ID.sub('', path.stem).strip(' _-') if path else uid or 'Unspecified component')
         if isinstance(uid, str) and '/' in uid:
             artwork = [{k: selected[k] for k in ('icon_id', 'key', 'preview_url')}] if selected else []
             concept = (selected.get('name') or selected['icon_id'].replace('-', ' ')) if selected else uid.split('/', 1)[1].replace('-', ' ')
+            if not url and selected and selected.get('original_sources'):
+                source = selected['original_sources'][0]
+                url = source.get('url')
+                match = ID.search(Path(source.get('source_path', '')).stem)
+                if match:
+                    reference_uid = resolve(match[1].lower(), primitive_aliases)
         result = {'id': uid, 'concept': concept,
                   'reference_url': url, 'generated': artwork}
+        if reference_uid != uid:
+            result['canonical_id'] = reference_uid
         references[uid] = result
         return result
 
