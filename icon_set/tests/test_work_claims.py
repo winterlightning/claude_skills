@@ -164,7 +164,7 @@ class StateRuleTests(unittest.TestCase):
         rows = work_claims.listing(self.connection, catalog, decisions, NOW)['claims']
         self.assertEqual([(row['icon'], row['state'], row['current'], row['status']) for row in rows], [('solo/c', 'claimed', True, 'claimed')])
         review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
-        self.assertEqual(review['counts'], {'unclaimed': 2, 'claimed': 1})
+        self.assertEqual(review['counts'], {'claimed': 1, 'done': 0, 'cannot-fix': 0})
         self.assertEqual(review['items'][0]['key'], 'solo/c', 'most recent work first')
         # A deployed fix changes the hash: the new revision starts Ready with no row and leaves the listing.
         catalog['solo/c']['svg_sha256'] = 'c2'
@@ -370,7 +370,7 @@ class ProductionServerTests(ServerBase):
         claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
         self.assertEqual(self.request(self.server, 'POST', '/api/work/claim', claim)[0], 201)
         listing = self.request(self.server, 'GET', '/api/work/review')[1]
-        self.assertEqual((listing['total'], listing['counts'], listing['items'][0]['work']['results']), (1, {'claimed': 1}, []))
+        self.assertEqual((listing['total'], listing['counts'], listing['items'][0]['work']['results']), (1, {'claimed': 1, 'done': 0, 'cannot-fix': 0}, []))
         self.assertEqual(self.request(self.server, 'GET', '/api/work/snapshot?icon=' + ICON + '&svg_sha256=' + SHA)[0], 404, 'snapshots are gone')
         self.assertEqual(self.request(self.server, 'POST', '/api/work/heartbeat', claim)[0], 404, 'no heartbeat: the lease is claimed_at + LEASE_HOURS')
         self.assertEqual(self.request(self.server, 'POST', '/api/work/done', dict(claim, note='sub/square-v2'))[0], 200)

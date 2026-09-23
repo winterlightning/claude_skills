@@ -1,8 +1,8 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {unclaimed: 'Not claimed', claimed: 'Claimed', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
-  const stateOf = row => row.work.state || 'unclaimed';
+  const STATE_LABELS = {claimed: 'Claimed', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix'};
+  const stateOf = row => row.work.state || '';
   const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   let rows = [], page = 1, loading = false;
@@ -108,7 +108,7 @@
   function render() {
     const counts = {};
     for (const row of rows) counts[stateOf(row)] = (counts[stateOf(row)] || 0) + 1;
-    $('workSummary').replaceChildren(...['', 'unclaimed', 'claimed', 'done', 'cannot-fix'].map(state => {
+    $('workSummary').replaceChildren(...['', 'claimed', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
@@ -147,7 +147,7 @@
       feedback.append(summaryLine, text);
       disapproval.append(meta, feedback);
       tr.append(cell(disapproval));
-      const stateCell = cell(badge('state', stateOf(row), STATE_LABELS[stateOf(row)] || stateOf(row)));
+      const stateCell = stateOf(row) ? cell(badge('state', stateOf(row), STATE_LABELS[stateOf(row)])) : cell('—');
       if ((row.work.results || []).includes('after')) stateCell.append(badge('result', 'after', 'fix uploaded'));
       tr.append(stateCell);
       tr.append(cell(row.work.worker ? (row.work.worker === worker() ? row.work.worker + ' (you)' : row.work.worker) : '—'));

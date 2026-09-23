@@ -372,9 +372,10 @@ def review_listing(connection, catalog, decisions, query, now) -> dict:
         ordered = [item for item in ordered if item['work']['state'] == state]
     if status:
         ordered = [item for item in ordered if item['status'] == status]
-    counts = {}
+    counts = {state: 0 for state in STATES}
     for item in items:
-        counts[item['work']['state'] or 'unclaimed'] = counts.get(item['work']['state'] or 'unclaimed', 0) + 1
+        if item['work']['state']:
+            counts[item['work']['state']] += 1
     return {'total': len(ordered), 'offset': offset, 'next_offset': offset + limit if offset + limit < len(ordered) else None,
             'counts': counts, 'items': ordered[offset:offset + limit]}
 
