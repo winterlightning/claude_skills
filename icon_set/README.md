@@ -574,7 +574,7 @@ to the matching grid view after an output is accepted. Generation and admin logi
 are omitted from the main navigation.
 The grid and interactive design
 rules are public; the generation page, job list, previews, logs, and generation
-actions require an admin session. Log in as `jakes`, `ray`, `phuong`, or `hina`, each with
+actions require an admin session. Log in as `jakes`, `ray`, `phuong`, `hina`, or `an`, each with
 password `1`. These requested accounts are defined server-side in `deploy.py`.
 Sessions last 12 hours, use an HttpOnly cookie, and are revoked on logout. Session
 records are stored in the feedback database; only token hashes are persisted.

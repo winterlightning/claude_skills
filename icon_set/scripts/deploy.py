@@ -81,7 +81,7 @@ DEFAULT_DB = DEFAULT_DATABASE
 MAX_BODY = 65536
 # Base64 inflates by 4/3; leave room for the JSON wrapper around the largest image.
 MAX_REFERENCE_BODY = max(REFERENCE_LIMITS.values()) * 4 // 3 + 4096
-ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1", "phuong": "1"}
+ADMIN_USERS = {"jakes": "1", "hina": "1", "ray": "1", "phuong": "1", "an": "1"}
 SESSION_TTL = 12 * 60 * 60
 # Discards rewrite icons.json and manifests; one at a time.
 DISCARD_LOCK = threading.Lock()

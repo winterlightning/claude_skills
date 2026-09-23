@@ -63,7 +63,7 @@ class AdminAuthTests(unittest.TestCase):
         self.assertEqual(self.server.generation.decide.call_args.args[-1], 'system')
 
     def test_all_accounts_login_and_logout_revokes_cookie(self):
-        for user in ('jakes', 'hina', 'ray', 'phuong'):
+        for user in ('jakes', 'hina', 'ray', 'phuong', 'an'):
             status, headers, _ = self.request('/api/auth/login', {'username': user, 'password': '1'})
             self.assertEqual(status, 200)
             self.assertIn('HttpOnly', headers['Set-Cookie'])

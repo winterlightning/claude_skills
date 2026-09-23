@@ -7,7 +7,7 @@ import unittest
 from icon_set.scripts.reviewer_stats import reviewer_stats
 from icon_set.tests import test_gallery
 
-USERS = ('jakes', 'ray', 'phuong', 'hina')
+USERS = ('jakes', 'ray', 'phuong', 'hina', 'an')
 
 
 class ReviewerStatsTests(unittest.TestCase):
@@ -31,7 +31,7 @@ class ReviewerStatsTests(unittest.TestCase):
         self.assertEqual((result['start'], result['end']), ('2026-09-10', '2026-09-16'))
         self.assertEqual(len(result['daily']), 7)
         self.assertEqual({row['reviewer'] for row in result['reviewers']}, set(USERS))
-        self.assertEqual(len(result['reviewer_daily']), 28)
+        self.assertEqual(len(result['reviewer_daily']), 7 * len(USERS))
         self.assertEqual(result['totals']['total'], 0)
 
     def test_only_current_decisions_count_and_all_time_matches_current_status(self):
