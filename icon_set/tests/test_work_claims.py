@@ -126,6 +126,10 @@ class StateRuleTests(unittest.TestCase):
         self.assertEqual((rows[0]['icon'], rows[0]['state'], rows[0]['current'], rows[0]['status']), ('solo/c', 'working', True, 'disapprove'))
         catalog['solo/c']['svg_sha256'] = 'c2'
         self.assertEqual(work_claims.listing(self.connection, catalog, decisions, NOW)['claims'][0]['state'], 'superseded')
+        review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
+        self.assertEqual({item['key']: item['work']['state'] for item in review['items']}, {'sub/a': 'open', 'sub/b': 'open', 'solo/c': 'superseded'})
+        self.assertEqual(review['items'][0]['key'], 'solo/c', 'most recent work first')
+        self.assertEqual(work_claims.review_listing(self.connection, catalog, decisions, {'state': ['superseded']}, NOW)['total'], 1)
 
     def test_worker_and_lease_validation(self):
         decision = self.disapprove()
@@ -265,6 +269,32 @@ class ProductionServerTests(ServerBase):
         self.assertEqual(self.request(self.server, 'POST', '/api/work/claim', {'worker': 'mac-b', 'icons': []})[0], 400)
         self.assertEqual(self.request(self.server, 'POST', '/api/work/claim', {'worker': '', 'icons': [ICON]})[0], 400)
 
+    def test_review_listing_history_and_snapshot(self):
+        self.disapprove()
+        claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
+        self.assertEqual(self.request(self.server, 'POST', '/api/work/claim', claim)[0], 201)
+        listing = self.request(self.server, 'GET', '/api/work/review')[1]
+        self.assertEqual((listing['total'], listing['counts'], listing['items'][0]['work']['snapshot']), (1, {'working': 1}, True))
+        connection = http.client.HTTPConnection('127.0.0.1', self.server.server_port)
+        connection.request('GET', '/api/work/snapshot?icon=' + ICON + '&svg_sha256=' + SHA)
+        response = connection.getresponse()
+        self.assertEqual((response.status, response.getheader('Content-Type')), (200, 'image/svg+xml'))
+        self.assertIn(b'<svg', response.read())
+        connection.close()
+        self.assertEqual(self.request(self.server, 'POST', '/api/work/done', dict(claim, note='sub/square-v2'))[0], 200)
+        listing = self.request(self.server, 'GET', '/api/work/review?state=done')[1]
+        self.assertEqual((listing['total'], listing['items'][0]['status'], listing['items'][0]['work']['state']), (1, 'ready', 'done'))
+        self.assertEqual(self.request(self.server, 'GET', '/api/work/disapproved')[1]['total'], 0, 'Ready icons leave the disapproved list')
+        history = self.request(self.server, 'GET', '/api/work/history?icon=' + ICON)[1]
+        self.assertEqual((history['current']['status'], history['current']['work']['state']), ('ready', 'done'))
+        self.assertEqual(len(history['revisions']), 1)
+        revision = history['revisions'][0]
+        self.assertTrue(revision['current'] and revision['snapshot'])
+        self.assertEqual((revision['claim']['worker'], revision['review']['status'], len(revision['feedback'])), ('mac-a/claude', 'ready', 1))
+        self.assertEqual([event['action'] for event in history['events']], ['feedback', 'work_claim', 'work_done', 'review'])
+        self.assertEqual(self.request(self.server, 'GET', '/api/work/history?icon=sub/missing')[0], 404)
+        self.assertEqual(self.request(self.server, 'GET', '/api/work/snapshot?icon=' + ICON + '&svg_sha256=nope')[0], 404)
+
     def test_abandon_by_owner_or_logged_in_reviewer(self):
         self.disapprove()
         claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
@@ -301,6 +331,13 @@ class ForwardingTests(ServerBase):
         with closing(sqlite3.connect(production_db)) as connection:
             self.assertEqual(connection.execute('SELECT worker FROM work_claims').fetchone()[0], 'mac-a/claude')
         self.assertEqual(self.request(development, 'GET', '/api/work')[1]['claims'][0]['worker'], 'mac-a/claude')
+        connection = http.client.HTTPConnection('127.0.0.1', development.server_port)
+        connection.request('GET', '/api/work/snapshot?icon=' + ICON + '&svg_sha256=' + SHA)
+        relayed = connection.getresponse()
+        self.assertEqual((relayed.status, relayed.getheader('Content-Type')), (200, 'image/svg+xml'))
+        self.assertIn(b'<svg', relayed.read())
+        connection.close()
+        self.assertEqual(self.request(development, 'GET', '/api/work/history?icon=' + ICON)[1]['current']['work']['state'], 'working')
         detail = self.request(development, 'GET', '/api/review-detail?icon=' + ICON)[1]
         self.assertEqual(detail['work']['state'], 'working')
         production.shutdown()

@@ -31,6 +31,8 @@ Rules that follow from the table:
   `expires_at` three hours later (`lease_hours` 1–24 on request). `heartbeat`
   extends the lease. An expired claim is claimable by anyone and the takeover
   is logged as `work_expired`.
+- **Claim** also saves a snapshot of the displayed SVG for that revision, so
+  the reviewer can still see the disapproved drawing after the fix replaces it.
 - **Done** updates the claim to `done` **and** sets that revision's review
   status to Ready in the same transaction, attributed to the worker. The
   disapproval feedback is kept so the reviewer can compare the fix against the
@@ -72,6 +74,9 @@ record and must match on every later call.
 |---|---|---|---|
 | `/api/work/queue` | GET | `family`, `category`, `type`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable Disapproved icons, oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
 | `/api/work/disapproved` | GET | same filters as the queue | every Disapproved icon, claimable or not, each with `status` and `work` (`open`, `working`, `expired`, `done`, `cannot-fix`) |
+| `/api/work/review` | GET | `family`, `state`, `status`, `limit`, `offset` | every icon that is disapproved or carries a claim, newest work first, with `counts` per state; a claim on a revision that is no longer current is `superseded` (fix deployed) |
+| `/api/work/history` | GET | `icon` | the icon's revisions (review, claim, feedback, snapshot flag per hash) and its full change log from `activity_log` |
+| `/api/work/snapshot` | GET | `icon`, `svg_sha256` | `image/svg+xml`: the drawing as displayed when that revision was claimed (saved automatically on claim) |
 | `/api/work` | GET | optional `icon` | all claims joined to the catalog (`current`, `status`), or one icon's `{status, svg_sha256, work}` |
 | `/api/work/claim` | POST | `icon`, `svg_sha256`, `worker`, optional `lease_hours` | `201 {saved, work, item}`; `409` with the current `work` when taken, done or cannot-fix |
 | `/api/work/claim` (batch) | POST | `worker`, `icons`: list of keys or `{icon, svg_sha256}` (max 500), optional `lease_hours` | `200 {saved, worker, claimed: [item…], refused: [{icon, status, error, work}]}`; each icon succeeds or is refused on its own; a bare key uses production's current hash |
@@ -122,12 +127,21 @@ procedure for agents.
 
 ## The Fix queue page
 
-`gallery/work.html` (nav: **Fix queue**) lists every disapproved icon on
-production with its work state, worker, claim time, lease and note, with
-family / state / reason filters, search and paging. Type a worker name, tick
-icons and **Claim selected** to claim them in one call (`icons` batch), or
-**Release selected** to abandon your own claims. On localhost the page shows
-production's data because the dev server forwards the work routes.
+`gallery/work.html` (nav: **Fix queue**) is read-only, for reviewing. It lists
+every icon that is disapproved or carries a fix claim, with review status, work
+state, worker, claim time, lease and note, plus family / state / status filters,
+search and paging. **History** on a row opens:
+
+- **What changed**: the drawing saved when the icon was claimed (before) next
+  to the current drawing (now), with a sentence saying whether the fix has
+  reached production yet;
+- **Revisions**: every `svg_sha256` the icon has had, with its review decision,
+  claim and feedback entries;
+- **Change log**: every logged event for the icon, newest first (reviews,
+  feedback, claims, heartbeats, done, cannot-fix, abandon, expiry).
+
+Claims are made by agents with `work_queue.py`, not from the page. On localhost
+the page shows production's data because the dev server forwards the work routes.
 
 ## What reviewers see
 

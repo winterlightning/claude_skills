@@ -1,19 +1,17 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {open: 'Open', working: 'Working', expired: 'Claim expired', done: 'Done · awaiting review', 'cannot-fix': 'Cannot fix'};
+  const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', expired: 'Claim expired', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', superseded: 'Fix deployed · new revision', none: '—'};
+  const STATUS_LABELS = {disapprove: 'Disapproved', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   let rows = [], page = 1, loading = false;
-  const selected = new Set();
+  const open = new Set();
+  const histories = new Map();
 
-  const workerKey = 'pictographic_worker';
-  try { $('workWorker').value = localStorage.getItem(workerKey) || ''; } catch {}
-  $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, $('workWorker').value.trim()); } catch {} updateActions(); });
-
-  async function api(method, path, body) {
-    const response = await fetch(path, {method, cache: 'no-store', headers: body ? {'Content-Type': 'application/json'} : {}, body: body ? JSON.stringify(body) : undefined});
+  async function api(path) {
+    const response = await fetch(path, {cache: 'no-store'});
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) throw Object.assign(Error(data.error || ('HTTP ' + response.status)), {data});
+    if (!response.ok) throw Error(data.error || ('HTTP ' + response.status));
     return data;
   }
 
@@ -21,18 +19,18 @@
     if (loading) return;
     loading = true;
     $('workNotice').textContent = '';
-    $('workRows').innerHTML = '<tr><td colspan="8" class="work-empty">Loading…</td></tr>';
+    $('workRows').innerHTML = '<tr><td colspan="9" class="work-empty">Loading…</td></tr>';
     try {
       const all = [];
       let offset = 0;
       for (;;) {
-        const data = await api('GET', '/api/work/disapproved?limit=500&offset=' + offset);
+        const data = await api('/api/work/review?limit=500&offset=' + offset);
         all.push(...data.items);
         if (data.next_offset === null || data.next_offset === undefined) break;
         offset = data.next_offset;
       }
       rows = all;
-      for (const key of selected) if (!rows.some(row => row.key === key)) selected.delete(key);
+      histories.clear();
       fillFamilies();
     } catch (error) {
       rows = [];
@@ -50,30 +48,39 @@
     select.value = families.includes(current) ? current : '';
   }
 
-  function hoursLeft(row) {
-    if (!row.work.expires_at) return null;
-    return Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e5 * 10) / 10);
-  }
+  function when(stamp) { return stamp ? new Date(stamp).toLocaleString() : ''; }
+  function short(sha) { return sha ? sha.slice(0, 10) : '—'; }
 
   function visible() {
-    const family = $('workFamily').value, state = $('workState').value, reason = $('workReason').value;
+    const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value;
     const query = $('workSearch').value.trim().toLowerCase();
-    return rows.filter(row => (!family || row.family === family) && (!state || row.work.state === state)
-      && (!reason || (row.reason || '') === reason)
+    return rows.filter(row => (!family || row.family === family) && (!state || row.work.state === state) && (!status || row.status === status)
       && (!query || [row.key, row.name, row.work.worker, row.feedback, row.disapproved_by, row.work.note].join(' ').toLowerCase().includes(query)));
   }
 
-  function when(stamp) { return stamp ? new Date(stamp).toLocaleString() : ''; }
+  function cell(content, className) {
+    const td = document.createElement('td');
+    if (className) td.className = className;
+    if (typeof content === 'string') td.textContent = content; else if (content) td.append(content);
+    return td;
+  }
+
+  function badge(kind, value, label) {
+    const span = document.createElement('span');
+    span.className = 'work-badge';
+    span.dataset[kind] = value;
+    span.textContent = label;
+    return span;
+  }
 
   function render() {
     const counts = {};
     for (const row of rows) counts[row.work.state] = (counts[row.work.state] || 0) + 1;
-    const summary = $('workSummary');
-    summary.replaceChildren(...['', 'open', 'working', 'expired', 'done', 'cannot-fix'].map(state => {
+    $('workSummary').replaceChildren(...['', 'open', 'working', 'expired', 'done', 'cannot-fix', 'superseded'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
-      button.innerHTML = (state ? STATE_LABELS[state] : 'All disapproved') + ' <b>' + (state ? counts[state] || 0 : rows.length) + '</b>';
+      button.innerHTML = (state ? STATE_LABELS[state] : 'All') + ' <b>' + (state ? counts[state] || 0 : rows.length) + '</b>';
       button.onclick = () => { $('workState').value = state; page = 1; render(); };
       return button;
     }));
@@ -85,15 +92,11 @@
     const body = $('workRows');
     body.replaceChildren();
     if (!slice.length) {
-      body.innerHTML = '<tr><td colspan="8" class="work-empty">' + (rows.length ? 'No disapproved icons match these filters.' : 'No disapproved icons on production.') + '</td></tr>';
+      body.innerHTML = '<tr><td colspan="9" class="work-empty">' + (rows.length ? 'No icons match these filters.' : 'No disapproved icons or fix claims on production.') + '</td></tr>';
     }
     for (const row of slice) {
       const tr = document.createElement('tr');
-      tr.dataset.selected = String(selected.has(row.key));
-      const check = document.createElement('input');
-      check.type = 'checkbox'; check.checked = selected.has(row.key); check.setAttribute('aria-label', 'Select ' + row.key);
-      check.onchange = () => { if (check.checked) selected.add(row.key); else selected.delete(row.key); tr.dataset.selected = String(check.checked); updateActions(); };
-      tr.append(cell(check));
+      tr.dataset.key = row.key;
       const icon = document.createElement('div'); icon.className = 'work-icon';
       if (row.preview_url) { const img = document.createElement('img'); img.src = row.preview_url; img.alt = ''; img.loading = 'lazy'; icon.append(img); }
       const label = document.createElement('div');
@@ -101,85 +104,155 @@
       const small = document.createElement('small'); small.textContent = [row.name, row.family, row.category].filter(Boolean).join(' · ');
       label.append(code, small); icon.append(label);
       tr.append(cell(icon));
+      tr.append(cell(badge('status', row.status, STATUS_LABELS[row.status] || row.status)));
       const feedback = document.createElement('details'); feedback.className = 'work-feedback';
-      const summaryLine = document.createElement('summary'); summaryLine.textContent = REASON_LABELS[row.reason] || (row.reason ? row.reason : 'No reason recorded');
+      const summaryLine = document.createElement('summary'); summaryLine.textContent = REASON_LABELS[row.reason] || row.reason || 'No reason recorded';
       const text = document.createElement('p'); text.textContent = row.feedback || '(no feedback text)';
       const meta = document.createElement('div'); meta.className = 'work-meta'; meta.textContent = (row.disapproved_by || 'unknown') + ' · ' + when(row.disapproved_at);
       feedback.append(summaryLine, text, meta);
       tr.append(cell(feedback));
-      const badge = document.createElement('span'); badge.className = 'work-badge'; badge.dataset.state = row.work.state; badge.textContent = STATE_LABELS[row.work.state] || row.work.state;
-      tr.append(cell(badge));
+      tr.append(cell(badge('state', row.work.state, STATE_LABELS[row.work.state] || row.work.state)));
       tr.append(cell(row.work.worker || '—'));
       tr.append(cell(when(row.work.claimed_at) || '—'));
-      const left = hoursLeft(row);
-      tr.append(cell(row.work.state === 'working' ? left + ' h left · until ' + when(row.work.expires_at) : row.work.updated_at ? 'updated ' + when(row.work.updated_at) : '—'));
+      let lease = '—';
+      if (row.work.state === 'working' && row.work.expires_at) lease = Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e4) / 10) + ' h left';
+      else if (row.work.updated_at) lease = 'updated ' + when(row.work.updated_at);
+      tr.append(cell(lease));
       tr.append(cell(row.work.note || '—'));
+      const button = document.createElement('button'); button.type = 'button'; button.className = 'site-button work-history-button';
+      button.textContent = open.has(row.key) ? 'Hide history' : 'History';
+      button.setAttribute('aria-expanded', String(open.has(row.key)));
+      button.onclick = () => { if (open.has(row.key)) open.delete(row.key); else open.add(row.key); render(); };
+      tr.append(cell(button));
       body.append(tr);
+      if (open.has(row.key)) body.append(detailRow(row));
     }
     $('workPageInfo').textContent = shown.length ? 'Page ' + page + ' of ' + pages + ' · ' + shown.length + ' icons' : '';
     $('workPrev').disabled = page <= 1; $('workNext').disabled = page >= pages;
-    const onPage = slice.filter(row => selected.has(row.key)).length;
-    $('workSelectAll').checked = slice.length > 0 && onPage === slice.length;
-    $('workSelectAll').indeterminate = onPage > 0 && onPage < slice.length;
-    updateActions();
   }
 
-  function cell(content) {
-    const td = document.createElement('td');
-    if (typeof content === 'string') td.textContent = content; else td.append(content);
-    return td;
-  }
-
-  function updateActions() {
-    const worker = $('workWorker').value.trim();
-    $('workSelection').textContent = selected.size + ' selected';
-    $('workClaim').disabled = !selected.size || !worker || loading;
-    $('workRelease').disabled = !selected.size || !worker || loading;
-  }
-
-  async function claimSelected() {
-    const worker = $('workWorker').value.trim();
-    const icons = rows.filter(row => selected.has(row.key)).map(row => ({icon: row.key, svg_sha256: row.svg_sha256}));
-    if (!icons.length || !worker) return;
-    $('workClaim').disabled = true;
-    try {
-      const result = await api('POST', '/api/work/claim', {worker, icons});
-      const lines = ['Claimed ' + result.claimed.length + ' icon' + (result.claimed.length === 1 ? '' : 's') + ' for ' + worker + '.'];
-      for (const refused of result.refused) lines.push(refused.icon + ': ' + refused.error);
-      $('workNotice').textContent = lines.join('\n');
-      for (const item of result.claimed) selected.delete(item.key);
-    } catch (error) {
-      $('workNotice').textContent = 'Claim failed: ' + error.message;
+  function detailRow(row) {
+    const tr = document.createElement('tr'); tr.className = 'work-detail';
+    const td = document.createElement('td'); td.colSpan = 9;
+    const history = histories.get(row.key);
+    if (!history) {
+      td.textContent = 'Loading history…';
+      api('/api/work/history?icon=' + encodeURIComponent(row.key)).then(data => { histories.set(row.key, data); render(); })
+        .catch(error => { histories.set(row.key, {error: error.message}); render(); });
+    } else if (history.error) {
+      td.textContent = 'Could not load history: ' + history.error;
+    } else {
+      td.append(changePanel(history), revisionList(history), eventLog(history));
     }
-    await load();
+    tr.append(td);
+    return tr;
   }
 
-  async function releaseSelected() {
-    const worker = $('workWorker').value.trim();
-    const targets = rows.filter(row => selected.has(row.key));
-    if (!targets.length || !worker) return;
-    $('workRelease').disabled = true;
-    let released = 0; const problems = [];
-    for (const row of targets) {
-      try { await api('POST', '/api/work/abandon', {icon: row.key, svg_sha256: row.svg_sha256, worker}); released++; selected.delete(row.key); }
-      catch (error) { problems.push(row.key + ': ' + error.message); }
+  function figure(src, caption, note) {
+    const wrapper = document.createElement('figure');
+    const img = document.createElement('img'); img.src = src; img.alt = caption;
+    img.onerror = () => { img.replaceWith(Object.assign(document.createElement('p'), {className: 'work-missing', textContent: 'No drawing saved for this revision.'})); };
+    const cap = document.createElement('figcaption'); cap.textContent = caption;
+    wrapper.append(img, cap);
+    if (note) { const p = document.createElement('p'); p.className = 'work-meta'; p.textContent = note; wrapper.append(p); }
+    return wrapper;
+  }
+
+  function changePanel(history) {
+    const panel = document.createElement('div'); panel.className = 'work-change';
+    const heading = document.createElement('h3'); heading.textContent = 'What changed';
+    panel.append(heading);
+    const claimed = [...history.revisions].reverse().find(rev => rev.claim);
+    const figures = document.createElement('div'); figures.className = 'work-figures';
+    if (claimed) {
+      const before = claimed.snapshot ? '/api/work/snapshot?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(claimed.svg_sha256) : '';
+      const claimNote = 'Claimed by ' + claimed.claim.worker + ' · ' + when(claimed.claim.claimed_at) + (claimed.claim.note ? ' · ' + claimed.claim.note : '');
+      if (before) figures.append(figure(before, 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote));
+      else figures.append(figure('', 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote + ' · no snapshot saved (claimed before snapshots existed)'));
     }
-    $('workNotice').textContent = ['Released ' + released + ' claim' + (released === 1 ? '' : 's') + '.', ...problems].join('\n');
-    await load();
+    const currentNote = STATUS_LABELS[history.current.status] + (history.current.updated_by ? ' · by ' + history.current.updated_by : '') + (history.current.updated_at ? ' · ' + when(history.current.updated_at) : '');
+    figures.append(figure('/api/icon-artwork/svg?icon=' + encodeURIComponent(history.icon), 'Now · revision ' + short(history.current.svg_sha256), currentNote));
+    panel.append(figures);
+    const verdict = document.createElement('p'); verdict.className = 'work-verdict';
+    if (!claimed) verdict.textContent = 'No fix claim yet: the drawing shown is the one the reviewer disapproved.';
+    else if (claimed.current) verdict.textContent = claimed.claim.state === 'done'
+      ? 'Reported fixed by ' + claimed.claim.worker + ', but the new drawing has not reached production yet (same revision). The change will appear after the next production pull.'
+      : 'This revision is ' + STATE_LABELS[claimed.claim.state].toLowerCase() + '; the drawing has not changed on production yet.';
+    else verdict.textContent = 'The fix was deployed: the current revision differs from the one that was claimed. Compare the two drawings above.';
+    panel.append(verdict);
+    return panel;
   }
 
-  $('workSelectAll').onchange = () => {
-    const shown = visible(); const size = Number($('workPageSize').value) || 100;
-    for (const row of shown.slice((page - 1) * size, page * size)) { if ($('workSelectAll').checked) selected.add(row.key); else selected.delete(row.key); }
-    render();
-  };
-  for (const id of ['workFamily', 'workState', 'workReason']) $(id).addEventListener('change', () => { page = 1; render(); });
+  function revisionList(history) {
+    const section = document.createElement('div'); section.className = 'work-revisions';
+    const heading = document.createElement('h3'); heading.textContent = 'Revisions';
+    section.append(heading);
+    const list = document.createElement('ol');
+    for (const rev of history.revisions) {
+      const item = document.createElement('li');
+      const title = document.createElement('div'); title.className = 'work-rev-title';
+      const code = document.createElement('code'); code.textContent = short(rev.svg_sha256);
+      title.append(code);
+      if (rev.current) title.append(badge('status', 'current', 'current'));
+      if (rev.review) title.append(badge('status', rev.review.status, STATUS_LABELS[rev.review.status] || rev.review.status), document.createTextNode(' ' + (rev.review.updated_by ? 'by ' + rev.review.updated_by + ' · ' : '') + when(rev.review.updated_at)));
+      item.append(title);
+      if (rev.claim) {
+        const claim = document.createElement('p');
+        claim.append(badge('state', rev.claim.state, STATE_LABELS[rev.claim.state] || rev.claim.state), document.createTextNode(' ' + rev.claim.worker + ' · claimed ' + when(rev.claim.claimed_at) + (rev.claim.updated_at !== rev.claim.claimed_at ? ' · updated ' + when(rev.claim.updated_at) : '') + (rev.claim.note ? ' · ' + rev.claim.note : '')));
+        item.append(claim);
+      }
+      for (const entry of rev.feedback) {
+        const p = document.createElement('p'); p.className = 'work-feedback-entry';
+        p.textContent = (REASON_LABELS[entry.reason] || entry.reason || 'feedback') + ' · ' + (entry.author || 'unknown') + ' · ' + when(entry.created_at) + (entry.edited_by ? ' (edited by ' + entry.edited_by + ')' : '') + '\n' + entry.feedback;
+        item.append(p);
+      }
+      if (rev.snapshot) { const p = document.createElement('p'); p.className = 'work-meta'; p.textContent = 'Drawing snapshot saved at claim time.'; item.append(p); }
+      list.append(item);
+    }
+    section.append(list);
+    return section;
+  }
+
+  function describe(event) {
+    const d = event.details || {};
+    switch (event.action) {
+      case 'review': return 'Review status → ' + (STATUS_LABELS[d.status === 'pending' ? 'disapprove' : d.status] || d.status) + (d.source === 'work_done' ? ' (fix reported; feedback kept)' : '') + (d.svg_sha256 ? ' · revision ' + short(d.svg_sha256) : '');
+      case 'feedback': return 'Feedback saved' + (d.reason ? ' · ' + (REASON_LABELS[d.reason] || d.reason) : '');
+      case 'feedback_edit': return 'Feedback edited' + (d.reason ? ' · ' + (REASON_LABELS[d.reason] || d.reason) : '');
+      case 'feedback_resolved': return 'Feedback cleared (' + (d.deleted_count || 0) + ' entries) when returned to Ready';
+      case 'feedback_deleted': return 'Feedback deleted';
+      case 'work_claim': return 'Claimed by ' + d.worker + ' · lease until ' + when(d.expires_at);
+      case 'work_heartbeat': return 'Lease extended by ' + d.worker + ' until ' + when(d.expires_at);
+      case 'work_done': return 'Reported done by ' + d.worker + (d.note ? ' · ' + d.note : '');
+      case 'work_cannot_fix': return 'Reported cannot fix by ' + d.worker + (d.note ? ' · ' + d.note : '');
+      case 'work_abandon': return 'Claim of ' + d.worker + ' released by ' + d.released_by;
+      case 'work_expired': return 'Claim of ' + d.worker + ' expired · taken by ' + d.taken_by;
+      default: return event.action.replaceAll('_', ' ') + (Object.keys(d).length ? ' · ' + JSON.stringify(d) : '');
+    }
+  }
+
+  function eventLog(history) {
+    const section = document.createElement('div'); section.className = 'work-events';
+    const heading = document.createElement('h3'); heading.textContent = 'Change log';
+    section.append(heading);
+    if (!history.events.length) { const p = document.createElement('p'); p.className = 'work-meta'; p.textContent = 'No logged events for this icon.'; section.append(p); return section; }
+    const list = document.createElement('ol');
+    for (const event of [...history.events].reverse()) {
+      const item = document.createElement('li');
+      const time = document.createElement('time'); time.textContent = when(event.at);
+      const who = document.createElement('b'); who.textContent = event.user;
+      item.append(time, document.createTextNode(' '), who, document.createTextNode(' · ' + describe(event)));
+      list.append(item);
+    }
+    section.append(list);
+    return section;
+  }
+
+  for (const id of ['workFamily', 'workState', 'workStatus']) $(id).addEventListener('change', () => { page = 1; render(); });
   $('workSearch').addEventListener('input', () => { page = 1; render(); });
   $('workPageSize').addEventListener('change', () => { page = 1; render(); });
   $('workPrev').onclick = () => { page--; render(); };
   $('workNext').onclick = () => { page++; render(); };
   $('workRefresh').onclick = load;
-  $('workClaim').onclick = claimSelected;
-  $('workRelease').onclick = releaseSelected;
   load();
 })();

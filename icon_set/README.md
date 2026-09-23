@@ -1008,7 +1008,7 @@ review status: `open`, `working` (a machine holds a 3-hour lease), `expired`,
 production. A development server never stores claims: it forwards these routes
 to its `--sync-source` (the production tunnel) so localhost shows the same
 badges. `GET /api/icon-types` and `GET /api/review-detail` include the `work`
-field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The **Fix queue** page (`gallery/work.html`) shows every disapproved icon with its work state and worker and claims selected icons. Agents use `python3 icon_set/scripts/work_queue.py next|done|cannot-fix|abandon|heartbeat|status`
+field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The read-only **Fix queue** page (`gallery/work.html`) shows every disapproved or claimed icon with its work state and worker, and per icon a before/after comparison (the SVG is snapshotted on claim), its revisions and its change log (`GET /api/work/review`, `/api/work/history`, `/api/work/snapshot`). Agents use `python3 icon_set/scripts/work_queue.py next|done|cannot-fix|abandon|heartbeat|status`
 and the `/fix-icon-queue` skill. The full state table, curl examples and
 recovery steps are in [docs/work-claims.md](../docs/work-claims.md).
 

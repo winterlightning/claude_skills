@@ -848,7 +848,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
             return
-        if parsed.path in ('/api/work', '/api/work/queue', '/api/work/disapproved'):
+        if parsed.path == '/api/work' or parsed.path.startswith('/api/work/'):
             return self.work_read(parsed)
         if parsed.path == '/api/icon-types':
             query = parse_qs(parsed.query)
@@ -1240,21 +1240,27 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         origin = self.work_origin()
         request = urllib.request.Request(origin + path, method=method,
                                          data=json.dumps(body).encode('utf-8') if body is not None else None,
-                                         headers={'Content-Type': 'application/json', 'Accept': 'application/json'})
+                                         headers={'Content-Type': 'application/json', 'Accept': 'application/json, image/svg+xml'})
         try:
             with urllib.request.urlopen(request, timeout=WORK_FORWARD_TIMEOUT) as response:
-                return self.json_response(json.loads(response.read().decode('utf-8')), response.status)
+                content, status, mime = response.read(), response.status, response.headers.get('Content-Type', 'application/json')
         except urllib.error.HTTPError as error:
-            try:
-                payload = json.loads(error.read().decode('utf-8'))
-                if not isinstance(payload, dict):
-                    raise ValueError()
-            except ValueError:
-                payload = {'error': f'Production returned HTTP {error.code}. Is it running the latest deploy.py?'}
-            return self.json_response(payload, error.code)
+            content, status, mime = error.read(), error.code, error.headers.get('Content-Type', 'application/json')
+            if not mime.startswith('application/json'):
+                content = json.dumps({'error': f'Production returned HTTP {error.code}. Is it running the latest deploy.py?'}).encode('utf-8')
+                mime = 'application/json'
         except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
             reason = getattr(error, 'reason', error)
             return self.json_response({'error': f'Production is unreachable at {origin}: {reason}'}, 502)
+        self.send_response(status)
+        self.send_header('Content-Type', mime)
+        self.send_header('Content-Length', str(len(content)))
+        self.send_header('Cache-Control', 'no-store')
+        if mime.startswith('image/svg'):
+            self.send_header('X-Content-Type-Options', 'nosniff')
+            self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+        self.end_headers()
+        self.wfile.write(content)
 
     def remote_work_map(self):
         """Current production claims by icon key, cached briefly per process."""
@@ -1297,10 +1303,33 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                 decisions = current_decisions(connection, catalog)
                 now = datetime.now(timezone.utc)
+                query = parse_qs(parsed.query)
                 if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
-                    return self.json_response(work_claims.queue(connection, catalog, decisions, parse_qs(parsed.query), now,
+                    return self.json_response(work_claims.queue(connection, catalog, decisions, query, now,
                                                                 claimable_only=parsed.path.endswith('/queue')))
-                key = parse_qs(parsed.query).get('icon', [''])[0]
+                if parsed.path == '/api/work/review':
+                    return self.json_response(work_claims.review_listing(connection, catalog, decisions, query, now))
+                key = query.get('icon', [''])[0]
+                if parsed.path in ('/api/work/history', '/api/work/snapshot'):
+                    if key not in catalog:
+                        return self.json_response({'error': 'Unknown icon'}, 404)
+                    if parsed.path == '/api/work/history':
+                        return self.json_response(work_claims.history(connection, catalog, decisions, key, now))
+                    svg = work_claims.load_snapshot(connection, key, query.get('svg_sha256', [''])[0])
+                    if svg is None:
+                        return self.json_response({'error': 'No snapshot was saved for this revision.'}, 404)
+                    content = svg.encode('utf-8')
+                    self.send_response(200)
+                    self.send_header('Content-Type', 'image/svg+xml')
+                    self.send_header('Content-Length', str(len(content)))
+                    self.send_header('Cache-Control', 'no-store')
+                    self.send_header('X-Content-Type-Options', 'nosniff')
+                    self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+                    self.end_headers()
+                    self.wfile.write(content)
+                    return
+                if parsed.path != '/api/work':
+                    return self.json_response({'error': 'Unknown work route.'}, 404)
                 if key:
                     if key not in catalog:
                         return self.json_response({'error': 'Unknown icon'}, 404)
@@ -1348,6 +1377,19 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 refused.append(dict(payload, icon=key, status=status))
         return self.json_response({'saved': bool(claimed), 'worker': worker, 'claimed': claimed, 'refused': refused}, 200)
 
+    def current_document(self, key, icon):
+        """The SVG the gallery displays for this icon right now, or None when it cannot be read."""
+        try:
+            chosen = resolve_artwork(icon, self.server.artwork.get(key))
+            if chosen:
+                return chosen['svg']
+            preview = (self.root / 'gallery' / urlsplit(icon.get('preview_url', '')).path).resolve()
+            if preview.is_relative_to(self.root) and preview.is_file():
+                return preview.read_text(encoding='utf-8')
+            return icon_from_graph(baseline(icon)).to_svg()
+        except Exception:  # a missing preview must not block the claim
+            return None
+
     def work_one(self, action, key, sha_given, data, user, *, require_sha=True):
         """Run one work transition on production; returns (http status, JSON payload)."""
         worker = data.get('worker')
@@ -1375,6 +1417,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     common = dict(decision=decision, now=now, record=record_activity, user=user)
                     if action == 'claim':
                         result = {'work': work_claims.claim(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
+                        document = self.current_document(key, icon)
+                        if document is not None:
+                            work_claims.save_snapshot(connection, key, sha, document, now)
                         feedback = work_claims.latest_feedback(connection).get((key, sha))
                         item = work_claims.queue_item(dict(icon, icon_type=work_claims.icon_types(connection).get(key)),
                                                       decision, feedback, work_claims.load_claim(connection, key, sha), 'working')

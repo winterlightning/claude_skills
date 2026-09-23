@@ -19,6 +19,7 @@ HTTP. Only production keeps this table; development servers forward to it.
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+import json
 import re
 
 LEASE_HOURS = 3
@@ -46,6 +47,20 @@ def init_work_claims(connection) -> None:
         worker TEXT NOT NULL, note TEXT NOT NULL DEFAULT '',
         claimed_at TEXT NOT NULL, updated_at TEXT NOT NULL, expires_at TEXT,
         PRIMARY KEY(icon, svg_sha256))''')
+    # The drawing as it was when claimed, so a fix can be compared with what the reviewer saw.
+    connection.execute('''CREATE TABLE IF NOT EXISTS work_snapshots (
+        icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL, svg TEXT NOT NULL, saved_at TEXT NOT NULL,
+        PRIMARY KEY(icon, svg_sha256))''')
+
+
+def save_snapshot(connection, key, sha, svg, now) -> None:
+    connection.execute('INSERT OR IGNORE INTO work_snapshots(icon, svg_sha256, svg, saved_at) VALUES (?, ?, ?, ?)',
+                       (key, sha, svg, now.isoformat()))
+
+
+def load_snapshot(connection, key, sha):
+    row = connection.execute('SELECT svg FROM work_snapshots WHERE icon=? AND svg_sha256=?', (key, sha)).fetchone()
+    return row[0] if row else None
 
 
 def parse_time(stamp):
@@ -293,3 +308,119 @@ def abandon(connection, key, sha, worker, *, decision, now, record, user, admin=
     record(connection, user, 'work_abandon', key, svg_sha256=sha, worker=existing['worker'], released_by=worker,
            previous_state=existing['state'])
     return {'work': work_field(None, 'open')}
+
+
+def review_listing(connection, catalog, decisions, query, now) -> dict:
+    """Every icon a reviewer may want to follow: disapproved now, or carrying any claim.
+
+    Claims on a revision that is no longer current are reported as ``superseded``:
+    the fix was deployed and the current revision is judged on its own.
+    """
+    disapproved = queue(connection, catalog, decisions, {'limit': [str(MAX_QUEUE)]}, now, claimable_only=False)
+    rows = {item['key']: item for item in disapproved['items']}
+    while disapproved['next_offset'] is not None:
+        disapproved = queue(connection, catalog, decisions, {'limit': [str(MAX_QUEUE)], 'offset': [str(disapproved['next_offset'])]},
+                            now, claimable_only=False)
+        rows.update((item['key'], item) for item in disapproved['items'])
+    feedback, types = latest_feedback(connection), icon_types(connection)
+    snapshots = {(row[0], row[1]) for row in connection.execute('SELECT icon, svg_sha256 FROM work_snapshots')}
+    for (key, sha), claim in load_claims(connection).items():
+        icon = catalog.get(key)
+        if not icon:
+            continue
+        current_sha = icon.get('svg_sha256') or ''
+        if key in rows:
+            rows[key]['work']['snapshot'] = (key, sha) in snapshots
+            continue
+        decision = decisions.get(key) or ('ready', None, None)
+        if sha == current_sha:
+            state = work_state(claim, decision[2], now)
+        elif claim['state'] == 'working' and work_state(claim, None, now) == 'expired':
+            state = 'superseded'
+        else:
+            state = 'superseded'
+        item = queue_item(dict(icon, icon_type=types.get(key)), decision, feedback.get((key, sha)), claim, state)
+        item['status'] = 'disapprove' if decision[0] == 'pending' else decision[0]
+        item['work']['claimed_svg_sha256'] = sha
+        item['work']['snapshot'] = (key, sha) in snapshots
+        rows[key] = item
+    for item in rows.values():
+        item['work'].setdefault('snapshot', False)
+    ordered = sorted(rows.values(), key=lambda item: (item['work'].get('updated_at') or item['disapproved_at'] or '', item['key']), reverse=True)
+    one = lambda name: (query.get(name) or [None])[0]  # noqa: E731
+    family, state, status = one('family'), one('state'), one('status')
+    if family:
+        ordered = [item for item in ordered if item.get('family') == family]
+    if state:
+        ordered = [item for item in ordered if item['work']['state'] == state]
+    if status:
+        ordered = [item for item in ordered if item['status'] == status]
+    try:
+        limit, offset = int(one('limit') or MAX_QUEUE), int(one('offset') or 0)
+    except ValueError:
+        raise WorkError('limit and offset must be integers.', 400)
+    if not 1 <= limit <= MAX_QUEUE or offset < 0:
+        raise WorkError(f'limit must be 1-{MAX_QUEUE} and offset nonnegative.', 400)
+    counts = {}
+    for item in rows.values():
+        counts[item['work']['state']] = counts.get(item['work']['state'], 0) + 1
+    return {'total': len(ordered), 'offset': offset, 'next_offset': offset + limit if offset + limit < len(ordered) else None,
+            'counts': counts, 'items': ordered[offset:offset + limit]}
+
+
+def history(connection, catalog, decisions, key, now) -> dict:
+    """Everything that happened to one icon: revisions, reviews, feedback, claims and the event log."""
+    icon = catalog[key]
+    current_sha = icon.get('svg_sha256') or ''
+    decision = decisions.get(key) or ('ready', None, None)
+    revisions = {}
+
+    def revision(sha):
+        return revisions.setdefault(sha, {'svg_sha256': sha, 'current': sha == current_sha, 'review': None, 'claim': None,
+                                          'feedback': [], 'snapshot': False, 'first_seen': None})
+
+    def seen(entry, stamp):
+        if stamp and (entry['first_seen'] is None or stamp < entry['first_seen']):
+            entry['first_seen'] = stamp
+
+    for sha, status, actor, stamp in connection.execute('SELECT svg_sha256, status, updated_by, updated_at FROM reviews WHERE icon=?', (key,)):
+        entry = revision(sha)
+        entry['review'] = {'status': 'disapprove' if status == 'pending' else ('ready' if status == 're-generated' else status),
+                           'updated_by': actor, 'updated_at': stamp}
+        seen(entry, stamp)
+    for row in connection.execute('SELECT id, svg_sha256, reason, feedback, author, created_at, edited_by, edited_at FROM feedback WHERE icon=? ORDER BY id', (key,)):
+        entry = revision(row[1])
+        entry['feedback'].append({'id': row[0], 'reason': row[2], 'feedback': row[3], 'author': row[4], 'created_at': row[5],
+                                  'edited_by': row[6], 'edited_at': row[7]})
+        seen(entry, row[5])
+    for (icon_key, sha), claim in load_claims(connection).items():
+        if icon_key != key:
+            continue
+        entry = revision(sha)
+        state = work_state(claim, decision[2] if sha == current_sha else None, now) if sha == current_sha else 'superseded'
+        entry['claim'] = work_field(claim, state)
+        seen(entry, claim['claimed_at'])
+    for sha, saved_at in connection.execute('SELECT svg_sha256, saved_at FROM work_snapshots WHERE icon=?', (key,)):
+        entry = revision(sha)
+        entry['snapshot'] = True
+        seen(entry, saved_at)
+    current = revision(current_sha)
+    if current['review'] is None:
+        current['review'] = {'status': 'disapprove' if decision[0] == 'pending' else decision[0], 'updated_by': decision[1], 'updated_at': decision[2]}
+    events = []
+    for username, action, details, created_at in connection.execute(
+            'SELECT username, action, details, created_at FROM activity_log WHERE icon=? ORDER BY id', (key,)):
+        try:
+            payload = json.loads(details) if details else {}
+        except ValueError:
+            payload = {}
+        events.append({'at': created_at, 'user': username, 'action': action, 'details': payload})
+    ordered = sorted(revisions.values(), key=lambda entry: (entry['current'], entry['first_seen'] or ''))
+    for entry in ordered:
+        entry.pop('first_seen', None)
+    return {'icon': key, 'name': icon.get('name'), 'family': icon.get('family'), 'preview_url': icon.get('preview_url'),
+            'python_source': icon.get('python_source'),
+            'current': {'svg_sha256': current_sha, 'status': current['review']['status'],
+                        'updated_by': current['review']['updated_by'], 'updated_at': current['review']['updated_at'],
+                        'work': current['claim'] or {'state': 'open' if current['review']['status'] == 'disapprove' else 'none'}},
+            'revisions': ordered, 'events': events}

@@ -764,7 +764,7 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                     continue
                 key = artifact_key(icon)
                 # A targeted build keeps other icons' last rows rather than re-checking them.
-                mtime = 0.0 if only is not None else _source_mtime(icon)
+                mtime = 0.0 if only is not None or changed_only else _source_mtime(icon)
                 row = previous.qa_row(key, mtime, selected=False) if previous else None
                 if row is None and only is not None:
                     continue  # A targeted report never measures an unselected icon.
@@ -773,7 +773,7 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                 rows.append(row)
             if pending:
                 print(f"[qa report] re-checking {len(pending)} icons outside the built families "
-                      f"(rules changed since their last row)", flush=True)
+                      f"(no reusable QA row; pass --changed-only to keep rows across rule changes)", flush=True)
                 progress = _Progress('qa report', len(pending))
                 tasks = [(icon_id, str(qa_dir / key) if debug else None, False, False) for _, icon_id, key in pending]
                 for (index, _, key), (row, _, _) in zip(pending, _checked(tasks, jobs)):
