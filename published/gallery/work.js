@@ -1,8 +1,8 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', expired: 'Claim expired', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', superseded: 'Fix deployed · new revision', none: '—'};
-  const STATUS_LABELS = {disapprove: 'Disapproved', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
+  const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', expired: 'Claim expired', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', none: '—'};
+  const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', 'cannot-fix': 'Cannot fix', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   let rows = [], page = 1, loading = false;
   const open = new Set();
@@ -28,11 +28,10 @@
     $('docClaim').textContent = post('/api/work/claim', claim);
     $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'sub/minus']});
     $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json\ngit commit -m "Fix sub/plus" && git push origin icon-lib';
-    $('docHeartbeat').textContent = post('/api/work/heartbeat', claim);
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
     $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon sub/plus --stage after \\\n  --svg published/sub32/plus.svg --python icon_set/model/icons/sub/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
-    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
-    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # fetch + claim, prints the brief; exit 3 = nothing to claim\npython3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # three sub icons at once\npython3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
+    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=before" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
+    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # fetch + claim, prints the brief; exit 3 = nothing to claim\npython3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # three sub icons at once\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
   }
   $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); render(); });
   $('docBase').addEventListener('input', renderDoc);
@@ -108,7 +107,7 @@
   function render() {
     const counts = {};
     for (const row of rows) counts[row.work.state] = (counts[row.work.state] || 0) + 1;
-    $('workSummary').replaceChildren(...['', 'open', 'working', 'expired', 'done', 'cannot-fix', 'superseded'].map(state => {
+    $('workSummary').replaceChildren(...['', 'open', 'working', 'expired', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
@@ -154,6 +153,7 @@
       tr.append(cell(when(row.work.claimed_at) || '—'));
       let lease = '—';
       if (row.work.state === 'working' && row.work.expires_at) lease = Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e4) / 10) + ' h left';
+      else if (row.work.state === 'expired' && row.work.expires_at) lease = 'expired ' + when(row.work.expires_at);
       else if (row.work.updated_at) lease = 'updated ' + when(row.work.updated_at);
       tr.append(cell(lease));
       tr.append(cell(row.work.note || '—'));
@@ -205,11 +205,10 @@
     const resultUrl = (rev, stage, part) => '/api/work/result?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(rev.svg_sha256) + '&stage=' + stage + '&part=' + part;
     if (claimed) {
       const results = claimed.results || {};
-      const before = claimed.snapshot ? '/api/work/snapshot?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(claimed.svg_sha256)
-        : results.before ? resultUrl(claimed, 'before', 'svg') : '';
+      const before = results.before ? resultUrl(claimed, 'before', 'svg') : '';
       const claimNote = 'Claimed by ' + claimed.claim.worker + ' · ' + when(claimed.claim.claimed_at) + (claimed.claim.note ? ' · ' + claimed.claim.note : '');
       if (before) figures.append(figure(before, 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote));
-      else figures.append(figure('', 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote + ' · no snapshot saved (claimed before snapshots existed)'));
+      else figures.append(figure('', 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote + ' · no before drawing was uploaded'));
       if (results.after) figures.append(figure(resultUrl(claimed, 'after', 'svg'), 'Fixed · uploaded by ' + results.after.worker,
         when(results.after.saved_at) + (results.after.note ? ' · ' + results.after.note : '') + (results.after.python_path ? ' · ' + results.after.python_path : '')));
     }
@@ -265,7 +264,7 @@
       item.append(title);
       if (rev.claim) {
         const claim = document.createElement('p');
-        claim.append(badge('state', rev.claim.state, STATE_LABELS[rev.claim.state] || rev.claim.state), document.createTextNode(' ' + rev.claim.worker + ' · claimed ' + when(rev.claim.claimed_at) + (rev.claim.updated_at !== rev.claim.claimed_at ? ' · updated ' + when(rev.claim.updated_at) : '') + (rev.claim.note ? ' · ' + rev.claim.note : '')));
+        claim.append(badge('state', rev.claim.state, STATE_LABELS[rev.claim.state] || rev.claim.state), document.createTextNode(' ' + rev.claim.worker + ' · claimed ' + when(rev.claim.claimed_at) + (rev.claim.note ? ' · ' + rev.claim.note : '')));
         item.append(claim);
       }
       for (const entry of rev.feedback) {
@@ -273,7 +272,6 @@
         p.textContent = (REASON_LABELS[entry.reason] || entry.reason || 'feedback') + ' · ' + (entry.author || 'unknown') + ' · ' + when(entry.created_at) + (entry.edited_by ? ' (edited by ' + entry.edited_by + ')' : '') + '\n' + entry.feedback;
         item.append(p);
       }
-      if (rev.snapshot) { const p = document.createElement('p'); p.className = 'work-meta'; p.textContent = 'Drawing snapshot saved at claim time.'; item.append(p); }
       list.append(item);
     }
     section.append(list);
@@ -288,11 +286,11 @@
       case 'feedback_edit': return 'Feedback edited' + (d.reason ? ' · ' + (REASON_LABELS[d.reason] || d.reason) : '');
       case 'feedback_resolved': return 'Feedback cleared (' + (d.deleted_count || 0) + ' entries) when returned to Ready';
       case 'feedback_deleted': return 'Feedback deleted';
-      case 'work_claim': return 'Claimed by ' + d.worker + ' · lease until ' + when(d.expires_at);
-      case 'work_heartbeat': return 'Lease extended by ' + d.worker + ' until ' + when(d.expires_at);
+      case 'work_claim': return 'Claimed by ' + d.worker + ' · expires ' + when(d.expires_at);
+      case 'work_heartbeat': return 'Lease extended by ' + d.worker + ' until ' + when(d.expires_at) + ' (legacy)';
       case 'work_done': return 'Reported done by ' + d.worker + (d.note ? ' · ' + d.note : '');
       case 'work_cannot_fix': return 'Reported cannot fix by ' + d.worker + (d.note ? ' · ' + d.note : '');
-      case 'work_abandon': return 'Claim of ' + d.worker + ' released by ' + d.released_by;
+      case 'work_abandon': return 'Claim of ' + d.worker + ' released by ' + d.released_by + (d.previous_state ? ' (was ' + d.previous_state + ')' : '');
       case 'work_expired': return 'Claim of ' + d.worker + ' expired · taken by ' + d.taken_by;
       default: return event.action.replaceAll('_', ' ') + (Object.keys(d).length ? ' · ' + JSON.stringify(d) : '');
     }

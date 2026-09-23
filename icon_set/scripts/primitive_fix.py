@@ -87,7 +87,7 @@ def describe_block(item, result_dir, module_path):
              f"disapproved by: {item.get('disapproved_by') or 'unknown'} · {item.get('disapproved_at') or ''}",
              'feedback:',
              item.get('feedback') or '(no feedback text)',
-             f"lease expires: {work.get('expires_at') or ''}",
+             f"claim expires: {work.get('expires_at') or ''}",
              f"finish with: python3 icon_set/scripts/primitive_fix.py finish --icon {item['key']} --outcome done --note \"<what changed>\""]
     return '\n'.join(lines) + '\n'
 

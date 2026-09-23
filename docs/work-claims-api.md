@@ -10,7 +10,7 @@ disapproved icons. Concepts and the state table are in
 |---|---|
 | Base URL | the production gallery, e.g. `https://<production>`. A local `python3 -m icon_set dev` server forwards every `/api/work*` call there, so `http://127.0.0.1:8000` works too. |
 | Login | none. Send `Content-Type: application/json` on POST. |
-| Worker | a name you choose once per machine and reuse on every call, e.g. `thuan-mac`. Required: `--worker` or `PICTOGRAPHIC_WORKER`, no default. It is stored on the claim; only the same worker may report it. |
+| Worker | a name you choose once per machine and reuse on every call, e.g. `thuan-mac`. Required: `--worker` or `PICTOGRAPHIC_WORKER`, no default. It is stored on the review row as `worker`; only the same worker may report it. |
 | Hash | every write names the revision with `svg_sha256`. Use the value the API just gave you; a stale hash is refused with `409`. |
 
 ```bash
@@ -20,8 +20,9 @@ WORKER='thuan-mac'
 
 ## 1. Fetch the disapproved icons
 
-Two lists. `disapproved` is everything a reviewer disapproved, with its work
-state, for looking. `queue` is the subset you may claim right now.
+Two lists. `disapproved` is every icon whose review status is Disapproved,
+Claimed or Cannot fix, with its work state, for looking. `queue` is the subset
+you may claim right now.
 
 ```bash
 curl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset=0"
@@ -55,9 +56,9 @@ Oldest disapproval first. Page with `next_offset` until it is `null`.
 | state | meaning | in `queue`? |
 |---|---|---|
 | `open` | nobody is on it | yes |
-| `expired` | someone claimed it but the 3-hour lease ran out | yes |
-| `working` | another machine holds it (`work.worker`, `work.expires_at`) | no |
-| `done` | fixed and back to Ready, waiting for the reviewer | no |
+| `expired` | review status `claimed`, but `claimed_at` is more than six hours old | yes |
+| `working` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
+| `done` | review status `ready` set by a worker's report; waiting for the reviewer | no |
 | `cannot-fix` | a worker gave up (`work.note`); only a new disapproval reopens it | no |
 
 ## 2. Claim
@@ -104,13 +105,16 @@ Refusals you will see:
 | HTTP | error | do |
 |---|---|---|
 | `409` | `… is working on this icon.` | take the next queue item |
-| `409` | `… already fixed this revision; it is waiting for review.` | skip |
+| `409` | `Another worker claimed this icon just now.` | take the next queue item |
 | `409` | `Icon changed on production; refresh the queue …` (`svg_sha256` in the body is the current one) | re-fetch, claim with that hash |
 | `409` | `Restore this rejected icon before working on it.` | skip |
 | `400` | `worker must be a name …` | send a worker string |
 
-Optional `lease_hours` (1–24, default 3). Claiming also saves a snapshot of
-the drawing as displayed at that moment, for the before/after view in step 5.
+The claim is one conditional update on the review row (`status = 'claimed'`
+only where it was Disapproved or an expired claim), so two machines can never
+both win. It expires six hours after `claimed_at`; there is nothing to extend.
+Upload the current drawing as the `before` result (step 4a) if you want the
+before/after view in step 5.
 
 Or let the CLI do steps 1–2 in one go and print the brief:
 
@@ -135,13 +139,8 @@ git commit -m "Fix sub/plus" && git push origin icon-lib
 
 The per-icon build writes that icon's SVG, manifest row, metadata and gallery
 entry into `published/`. Production receives the new drawing on its next pull.
-If the work takes longer than the lease, extend it:
-
-```bash
-curl --fail-with-body -H 'Content-Type: application/json' --data '{
-  "icon": "sub/plus", "svg_sha256": "5a1c…e9", "worker": "'"$WORKER"'"
-}' "$API_BASE/api/work/heartbeat"
-```
+Finish within six hours of the claim; after that the icon is `expired` and open
+to other machines again.
 
 ## 4a. Upload the result
 
@@ -156,8 +155,8 @@ python3 icon_set/scripts/work_queue.py upload --worker "$WORKER" --icon sub/plus
 ```
 
 Raw API: `POST /api/work/result` with `{icon, svg_sha256, worker, stage, svg, python_path?, python_source?, validation?, note?}`
-(`before` only while the claim is `working`; `after` while working or after
-`done`; each text ≤ 512 KB; the SVG must be a clean `0 0 N N` document for the
+(`before` only while you hold the claim; `after` while working or after
+`done` / `cannot-fix`; each text ≤ 512 KB; the SVG must be a clean `0 0 N N` document for the
 icon's canvas). Read it back with
 `GET /api/work/result?icon=sub/plus&svg_sha256=5a1c…e9&stage=after&part=svg|python|validation`.
 
@@ -183,22 +182,22 @@ HTTP 200
   "saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9", "status": "ready",
   "work": {"state": "done", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d",
            "claimed_at": "2026-09-23T07:00:00+00:00", "updated_at": "2026-09-23T08:10:00+00:00",
-           "expires_at": null, "svg_sha256": "5a1c…e9"}
+           "svg_sha256": "5a1c…e9"}
 }
 ```
 
-What this did on production, in one transaction: the claim became `done`, the
-revision's review status became **Ready** (attributed to your worker), and the
+What this did on production: the revision's review status became **Ready**
+(attributed to your worker, `worker` and `note` kept on the row) and the
 disapproval feedback was **kept** so the reviewer can compare. The icon leaves
 `disapproved` and `queue`; it cannot be claimed again until a reviewer
-disapproves it again.
+disapproves it again, which clears the worker.
 
 The two other ways to end a claim:
 
 ```bash
 # no meaning-preserving drawing passes; note is required
 curl ... --data '{"icon":"sub/plus","svg_sha256":"5a1c…e9","worker":"'"$WORKER"'","note":"MIC 6 impossible with three bars"}' "$API_BASE/api/work/cannot-fix"
-# give it back to the queue
+# set it back to Disapproved for the queue (anyone may; also reopens a cannot-fix)
 curl ... --data '{"icon":"sub/plus","svg_sha256":"5a1c…e9","worker":"'"$WORKER"'"}' "$API_BASE/api/work/abandon"
 ```
 
@@ -230,18 +229,17 @@ curl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"
   "revisions": [
     {"svg_sha256": "5a1c…e9", "current": false,
      "review": {"status": "ready", "updated_by": "thuan-mac", "updated_at": "2026-09-23T08:10:00+00:00"},
-     "claim": {"state": "superseded", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."},
+     "claim": {"state": "done", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."},
      "feedback": [{"id": 41, "reason": "bad-stroke", "feedback": "Bad stroke drawn\n\nThe arms are not equal.",
                    "author": "hina", "created_at": "2026-09-23T06:20:37+00:00", "edited_by": null, "edited_at": null}],
-     "snapshot": true,
      "results": {"before": {"worker": "thuan-mac", "saved_at": "2026-09-23T07:00:01+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "first version, before the fix", "has_python": true, "has_validation": false},
                  "after": {"worker": "thuan-mac", "saved_at": "2026-09-23T08:05:00+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true}}},
     {"svg_sha256": "9f02…b1", "current": true,
-     "review": {"status": "ready", "updated_by": null, "updated_at": null}, "claim": null, "feedback": [], "snapshot": false}
+     "review": {"status": "ready", "updated_by": null, "updated_at": null}, "claim": null, "feedback": [], "results": {}}
   ],
   "events": [
     {"at": "2026-09-23T06:20:37+00:00", "user": "hina", "action": "feedback", "details": {"status": "pending", "reason": "bad-stroke", "feedback_id": 41}},
-    {"at": "2026-09-23T07:00:00+00:00", "user": "system", "action": "work_claim", "details": {"worker": "thuan-mac", "expires_at": "2026-09-23T10:00:00+00:00", "lease_hours": 3}},
+    {"at": "2026-09-23T07:00:00+00:00", "user": "system", "action": "work_claim", "details": {"worker": "thuan-mac", "expires_at": "2026-09-23T13:00:00+00:00"}},
     {"at": "2026-09-23T08:10:00+00:00", "user": "system", "action": "work_done", "details": {"worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d"}},
     {"at": "2026-09-23T08:10:00+00:00", "user": "thuan-mac", "action": "review", "details": {"status": "ready", "source": "work_done", "feedback_kept": true}}
   ]
@@ -253,31 +251,30 @@ Read it like this:
 - Right after `done`, `current.svg_sha256` still equals the claimed hash and
   `current.work.state` is `done`: the fix is reported but the new drawing has
   not been pulled on production yet.
-- After the production pull, `current.svg_sha256` is the new hash, the old
-  revision's claim reads `superseded`, and the new revision is `ready` with no
-  claim (the example above). The reviewer then approves it (`current.status`
-  becomes `approve`) or disapproves it again (`disapprove`, and the icon is
-  back in the queue with a fresh `open` state).
+- After the production pull, `current.svg_sha256` is the new hash and the
+  new revision is `ready` with no claim (the example above); the old revision
+  keeps its `done` row as history. The reviewer then approves it
+  (`current.status` becomes `approve`) or disapproves it again (`disapprove`,
+  which clears the worker and puts the icon back in the queue as `open`).
 
 **Before and after drawings**, for comparing:
 
 ```bash
-curl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=5a1c…e9" -o before.svg   # as displayed when claimed
-curl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg                      # what production shows now
+curl "$API_BASE/api/work/result?icon=sub/plus&svg_sha256=5a1c…e9&stage=before" -o before.svg   # uploaded before the fix
+curl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg                                  # what production shows now
 ```
 
-`snapshot` answers `404` for revisions claimed before snapshots existed.
+`result` answers `404` when no `before` drawing was uploaded for that revision.
 
 **All fixed icons awaiting review**, or any other state:
 
 ```bash
-curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, superseded, working, expired, cannot-fix, open
+curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, working, expired, cannot-fix, open
 curl --fail-with-body "$API_BASE/api/work/review?status=approve"    # by review status
 ```
 
-Each item has the same shape as step 1 plus `work.snapshot` (bool) and, for
-superseded claims, `work.claimed_svg_sha256`. The response also carries
-`counts` per state. The gallery's **Fix queue** page (`gallery/work.html`) is
+Each item has the same shape as step 1 plus `work.results` (the uploaded
+stages). The response also carries `counts` per state. The gallery's **Fix queue** page (`gallery/work.html`) is
 this call plus `history`, rendered.
 
 ## Quick reference
@@ -287,16 +284,15 @@ this call plus `history`, rendered.
 | fetch all disapproved | `GET /api/work/disapproved?family=&category=&type=&limit=&offset=` |
 | fetch claimable | `GET /api/work/queue?…` |
 | claim one / many | `POST /api/work/claim` `{icon, svg_sha256, worker}` or `{worker, icons: [...]}` |
-| extend lease | `POST /api/work/heartbeat` `{icon, svg_sha256, worker}` |
 | upload before / after | `POST /api/work/result` `{icon, svg_sha256, worker, stage, svg, python_path?, python_source?, validation?, note?}` · `GET /api/work/result?icon=&svg_sha256=&stage=&part=` |
 | mark done → Ready | `POST /api/work/done` `{icon, svg_sha256, worker, note?}` |
 | give up | `POST /api/work/cannot-fix` `{…, note}` · `POST /api/work/abandon` `{…}` |
 | one icon now | `GET /api/work?icon=` |
 | full history | `GET /api/work/history?icon=` |
-| before / now SVG | `GET /api/work/snapshot?icon=&svg_sha256=` · `GET /api/icon-artwork/svg?icon=` |
+| before / now SVG | `GET /api/work/result?icon=&svg_sha256=&stage=before` · `GET /api/icon-artwork/svg?icon=` |
 | everything tracked | `GET /api/work/review?state=&status=&family=&limit=&offset=` |
 | all claims raw | `GET /api/work` |
 
-CLI equivalents: `work_queue.py next | queue | upload | heartbeat | done | cannot-fix | abandon | status`.
+CLI equivalents: `work_queue.py next | queue | upload | done | cannot-fix | abandon | status`.
 Whole loop for solo icons: `/primitive-fix-thuan <count> [--offset N] [--disapprove-status R] [--worker name]`
 (`primitive_fix.py start` / `finish`).

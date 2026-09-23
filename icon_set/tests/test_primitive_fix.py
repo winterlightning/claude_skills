@@ -142,7 +142,7 @@ class PrimitiveFixTests(ServerBase):
             code = primitive_fix.finish(self.base, 'thuan-mac', 'solo/anchor', 'cannot-fix', 'MIC 8 impossible', self.results)
         self.assertEqual(code, 0)
         body = self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]
-        self.assertEqual((body['status'], body['work']['state'], body['work']['note']), ('disapprove', 'cannot-fix', 'MIC 8 impossible'))
+        self.assertEqual((body['status'], body['work']['state'], body['work']['note']), ('cannot-fix', 'cannot-fix', 'MIC 8 impossible'))
 
 
 class UploadRuleTests(ServerBase):

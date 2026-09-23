@@ -2,15 +2,16 @@
 """Take, report and release disapproved-icon fixes against the production gallery.
 
 Every machine and agent talks to the same production database over HTTP, so no
-two of them fix the same icon. ``next`` claims the oldest claimable disapproved
-icon and prints its brief; ``done`` reports the fix (the revision returns to
-Ready for the reviewer); ``cannot-fix`` and ``abandon`` release it.
+two of them fix the same icon. A claim is a review status: ``next`` turns the
+oldest Disapproved icon into Claimed under your worker name and prints its
+brief; ``done`` reports the fix (the revision returns to Ready for the
+reviewer); ``cannot-fix`` and ``abandon`` release it. A claim older than the
+lease (six hours) is claimable again; there is no heartbeat.
 
     python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke [--family sub] [--out fix-input.txt]
     python3 icon_set/scripts/work_queue.py done --icon sub/plus --worker "$WORKER" --note "sub/plus-v3"
     python3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --worker "$WORKER" --note "why"
     python3 icon_set/scripts/work_queue.py abandon --icon sub/plus --worker "$WORKER"
-    python3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus --worker "$WORKER"
     python3 icon_set/scripts/work_queue.py upload --icon sub/plus --stage after --svg fixed.svg --python icon_set/model/icons/sub/plus.py
     python3 icon_set/scripts/work_queue.py status [--icon sub/plus]
     python3 icon_set/scripts/work_queue.py queue [--family sub] [--limit 20]
@@ -102,7 +103,7 @@ def brief(item, work=None):
     lines.append('feedback:')
     lines.append(item.get('feedback') or '(no feedback text)')
     lines.append(f"worker: {work.get('worker') or ''}")
-    lines.append(f"lease expires: {work.get('expires_at') or ''}")
+    lines.append(f"claim expires: {work.get('expires_at') or ''}")
     lines.append(f"report with: python3 icon_set/scripts/work_queue.py done --icon {item['key']} --worker \"{work.get('worker') or ''}\" --note \"<variant or commit>\"")
     return '\n'.join(lines) + '\n'
 
@@ -121,8 +122,7 @@ def upload_result(base_url, worker, key, sha, stage, svg_path, python_path=None,
     return call(base_url, 'POST', '/api/work/result', body)
 
 
-def take_next(base_url, worker, family=None, category=None, icon_type=None, lease_hours=None, *,
-              limit=1, offset=0, reason=None):
+def take_next(base_url, worker, family=None, category=None, icon_type=None, *, limit=1, offset=0, reason=None):
     """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins."""
     query = {'family': family, 'category': category, 'type': icon_type, 'reason': reason,
              'limit': min(MAX_PAGE, max(limit + CLAIM_ATTEMPTS, 1)), 'offset': offset}
@@ -134,8 +134,6 @@ def take_next(base_url, worker, family=None, category=None, icon_type=None, leas
         if len(claimed) >= limit:
             break
         body = {'icon': item['key'], 'svg_sha256': item['svg_sha256'], 'worker': worker}
-        if lease_hours:
-            body['lease_hours'] = lease_hours
         try:
             claimed.append(call(base_url, 'POST', '/api/work/claim', body))
         except ApiError as error:
@@ -165,7 +163,6 @@ def main(argv=None):
     take.add_argument('--family')
     take.add_argument('--category')
     take.add_argument('--type', dest='icon_type')
-    take.add_argument('--lease-hours', type=int)
     take.add_argument('--out', type=Path, help='write the brief(s) here instead of printing')
     listing = commands.add_parser('queue', help='list claimable disapproved icons without claiming', parents=[shared])
     listing.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS)
@@ -176,14 +173,11 @@ def main(argv=None):
     listing.add_argument('--offset', type=int, default=0)
     for name, help_text, note in (('done', 'report the fix; the revision returns to Ready', False),
                                   ('cannot-fix', 'give up with a required note', True),
-                                  ('abandon', 'release your claim so another machine can take it', False),
-                                  ('heartbeat', 'extend your lease', False)):
+                                  ('abandon', 'release a claim (or a cannot-fix) so the icon is disapproved again', False)):
         sub = commands.add_parser(name, help=help_text, parents=[shared])
         sub.add_argument('--icon', required=True)
         sub.add_argument('--svg-sha256', help='revision to report (default: the current production revision)')
         sub.add_argument('--note', required=note, default='')
-        if name == 'heartbeat':
-            sub.add_argument('--lease-hours', type=int)
     upload = commands.add_parser('upload', help='upload the before or after result of a fix to production', parents=[shared])
     upload.add_argument('--icon', required=True)
     upload.add_argument('--svg-sha256', help='revision (default: the current production revision)')
@@ -201,7 +195,7 @@ def main(argv=None):
         if args.command == 'next':
             if args.limit < 1 or args.offset < 0:
                 parser.error('--limit must be at least 1 and --offset nonnegative')
-            results, page, last = take_next(base_url, worker, args.family, args.category, args.icon_type, args.lease_hours,
+            results, page, last = take_next(base_url, worker, args.family, args.category, args.icon_type,
                                             limit=args.limit, offset=args.offset, reason=args.reason)
             if not results:
                 if last is not None:
@@ -252,8 +246,6 @@ def main(argv=None):
         body = {'icon': args.icon, 'svg_sha256': sha, 'worker': worker}
         if args.note:
             body['note'] = args.note
-        if getattr(args, 'lease_hours', None):
-            body['lease_hours'] = args.lease_hours
         data = call(base_url, 'POST', '/api/work/' + args.command, body)
         if args.json:
             json.dump(data, sys.stdout, indent=2)

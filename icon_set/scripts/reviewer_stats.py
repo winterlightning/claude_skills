@@ -6,7 +6,8 @@ exactly the part of today's status that was decided in that period.
 from datetime import date, datetime, time, timedelta, timezone
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-OUTCOMES = {'approve': 'approved', 'pending': 'disapproved', 'disapprove': 'disapproved', 'rejected': 'rejected'}
+OUTCOMES = {'approve': 'approved', 'pending': 'disapproved', 'disapprove': 'disapproved', 'claimed': 'disapproved',
+            'cannot-fix': 'disapproved', 'rejected': 'rejected'}
 
 
 def current_decisions(connection, catalog):
@@ -30,7 +31,7 @@ def current_reviews(connection, catalog):
     decisions = current_decisions(connection, catalog)
     by = lambda wanted: {key: actor for key, (status, actor, _) in decisions.items() if status in wanted and actor}
     return ({key: status for key, (status, _, _) in decisions.items()},
-            by({'approve'}), by({'pending', 'disapprove'}), by({'rejected'}))
+            by({'approve'}), by({'pending', 'disapprove', 'claimed', 'cannot-fix'}), by({'rejected'}))
 
 
 def blank_counts():

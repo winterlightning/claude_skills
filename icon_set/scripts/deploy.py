@@ -93,8 +93,15 @@ DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffer
 MAX_SYNC_BYTES = 1024 * 1024 * 1024
 SYNC_TIMEOUT = 120
 # Work claims live only in the production database; a development server forwards these.
-WORK_ROUTES = ('/api/work/claim', '/api/work/heartbeat', '/api/work/done', '/api/work/cannot-fix', '/api/work/abandon', '/api/work/result')
+WORK_ROUTES = ('/api/work/claim', '/api/work/done', '/api/work/cannot-fix', '/api/work/abandon', '/api/work/result')
 MAX_WORK_RESULT_BODY = 1536 * 1024
+# One table for review status and fix claims: claimed / cannot-fix are statuses, worker + claimed_at say who holds it.
+REVIEWS_TABLE = '''CREATE TABLE IF NOT EXISTS reviews (
+    icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
+    status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected', 'claimed', 'cannot-fix')),
+    updated_at TEXT NOT NULL, updated_by TEXT, worker TEXT, claimed_at TEXT, note TEXT NOT NULL DEFAULT '',
+    PRIMARY KEY(icon, svg_sha256))'''
+REVIEWS_COLUMNS = ('icon', 'svg_sha256', 'status', 'updated_at', 'updated_by', 'worker', 'claimed_at', 'note')
 WORK_FORWARD_TIMEOUT = 30
 WORK_CACHE_SECONDS = 10
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
@@ -141,18 +148,15 @@ def init_database(path: Path) -> None:
             connection.execute("UPDATE feedback SET reason='meaning' WHERE feedback LIKE 'Does not convey the meaning%'")
         if 'reference_images' not in {row[1] for row in connection.execute('PRAGMA table_info(feedback)')}:
             connection.execute("ALTER TABLE feedback ADD COLUMN reference_images TEXT NOT NULL DEFAULT '[]'")
-        connection.execute('''CREATE TABLE IF NOT EXISTS reviews (
-            icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-            status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected')),
-            updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))''')
+        connection.execute(REVIEWS_TABLE)
         schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='reviews'").fetchone()[0]
-        if 'rejected' not in schema:
+        if 'claimed' not in schema:
+            # Older CHECK constraints lack the claim statuses: rebuild the table around the same rows.
+            legacy = [row[1] for row in connection.execute('PRAGMA table_info(reviews)')]
             connection.execute('ALTER TABLE reviews RENAME TO reviews_legacy')
-            connection.execute("""CREATE TABLE reviews (
-                icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-                status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected')),
-                updated_at TEXT NOT NULL, PRIMARY KEY(icon, svg_sha256))""")
-            connection.execute('INSERT INTO reviews SELECT * FROM reviews_legacy')
+            connection.execute(REVIEWS_TABLE)
+            shared = ', '.join(column for column in legacy if column in REVIEWS_COLUMNS)
+            connection.execute(f'INSERT INTO reviews({shared}) SELECT {shared} FROM reviews_legacy')
             connection.execute('DROP TABLE reviews_legacy')
         # Keep the legacy pending storage value for existing Python consumers;
         # the review UI calls it Disapprove. Re-generated is retired.
@@ -867,7 +871,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                             continue
                         icon = catalog[key]
                         review = review_detail(connection, key, icon['svg_sha256'])
-                        status = 'disapprove' if review['status'] == 'pending' else review['status']
+                        status = work_claims.public_status(review['status'])
                         if query.get('status') and query['status'][0] != status:
                             continue
                         feedback = connection.execute('SELECT reason,feedback FROM feedback WHERE icon=? AND svg_sha256=? ORDER BY id DESC LIMIT 1', (key, icon['svg_sha256'])).fetchone()
@@ -1200,6 +1204,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     elif status != 'rejected':
                         return self.json_response({'error': 'Restore this rejected icon before changing its review status.'}, 409)
                 now = datetime.now(timezone.utc).isoformat()
+                held = connection.execute("SELECT 1 FROM reviews WHERE icon=? AND svg_sha256=? AND status='claimed'", (key, sha)).fetchone()
+                keep_claim = bool(held) and route == '/api/feedback'
+                if keep_claim:
+                    status = 'claimed'  # more feedback while a worker is on it does not take the icon away
                 if route == '/api/feedback':
                     feedback_id = data.get('feedback_id')
                     if feedback_id is not None:
@@ -1221,8 +1229,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 connection.execute(
                     '''INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, ?, ?, ?)
                        ON CONFLICT(icon, svg_sha256) DO UPDATE SET
-                       status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
-                    (key, sha, status, now, user),
+                       status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by,
+                       worker=CASE WHEN ? THEN worker END, claimed_at=CASE WHEN ? THEN claimed_at END,
+                       note=CASE WHEN ? THEN note ELSE '' END''',
+                    (key, sha, status, now, user, keep_claim, keep_claim, keep_claim),
                 )
                 if status == 'ready':
                     clear_ready_feedback(connection, key, user)
@@ -1284,9 +1294,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
     def work_lookup(self, connection):
         """(key, sha, review_updated_at) -> the ``work`` field for that revision."""
         if getattr(self.server, 'production', False):
-            claims, now = work_claims.load_claims(connection), datetime.now(timezone.utc)
-            return lambda key, sha, stamp: work_claims.work_field(
-                claims.get((key, sha)), work_claims.work_state(claims.get((key, sha)), stamp, now))
+            rows, now = work_claims.load_rows(connection), datetime.now(timezone.utc)
+            return lambda key, sha, stamp: work_claims.work_field(rows.get((key, sha)), work_claims.work_state(rows.get((key, sha)), now))
         table, error = self.remote_work_map()
 
         def remote(key, sha, stamp):
@@ -1313,7 +1322,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path == '/api/work/review':
                     return self.json_response(work_claims.review_listing(connection, catalog, decisions, query, now))
                 key = query.get('icon', [''])[0]
-                if parsed.path in ('/api/work/history', '/api/work/snapshot', '/api/work/result'):
+                if parsed.path in ('/api/work/history', '/api/work/result'):
                     if key not in catalog:
                         return self.json_response({'error': 'Unknown icon'}, 404)
                     if parsed.path == '/api/work/history':
@@ -1336,19 +1345,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         self.end_headers()
                         self.wfile.write(content)
                         return
-                    svg = work_claims.load_snapshot(connection, key, query.get('svg_sha256', [''])[0])
-                    if svg is None:
-                        return self.json_response({'error': 'No snapshot was saved for this revision.'}, 404)
-                    content = svg.encode('utf-8')
-                    self.send_response(200)
-                    self.send_header('Content-Type', 'image/svg+xml')
-                    self.send_header('Content-Length', str(len(content)))
-                    self.send_header('Cache-Control', 'no-store')
-                    self.send_header('X-Content-Type-Options', 'nosniff')
-                    self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
-                    self.end_headers()
-                    self.wfile.write(content)
-                    return
                 if parsed.path != '/api/work':
                     return self.json_response({'error': 'Unknown work route.'}, 404)
                 if key:
@@ -1356,7 +1352,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         return self.json_response({'error': 'Unknown icon'}, 404)
                     detail = review_detail(connection, key, catalog[key]['svg_sha256'])
                     return self.json_response({'icon': key, 'svg_sha256': catalog[key]['svg_sha256'],
-                                               'status': 'disapprove' if detail['status'] == 'pending' else detail['status'],
+                                               'status': work_claims.public_status(detail['status']),
                                                'work': self.work_lookup(connection)(key, catalog[key]['svg_sha256'], detail['updated_at'])})
                 return self.json_response(work_claims.listing(connection, catalog, decisions, now))
         except work_claims.WorkError as error:
@@ -1398,19 +1394,6 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 refused.append(dict(payload, icon=key, status=status))
         return self.json_response({'saved': bool(claimed), 'worker': worker, 'claimed': claimed, 'refused': refused}, 200)
 
-    def current_document(self, key, icon):
-        """The SVG the gallery displays for this icon right now, or None when it cannot be read."""
-        try:
-            chosen = resolve_artwork(icon, self.server.artwork.get(key))
-            if chosen:
-                return chosen['svg']
-            preview = (self.root / 'gallery' / urlsplit(icon.get('preview_url', '')).path).resolve()
-            if preview.is_relative_to(self.root) and preview.is_file():
-                return preview.read_text(encoding='utf-8')
-            return icon_from_graph(baseline(icon)).to_svg()
-        except Exception:  # a missing preview must not block the claim
-            return None
-
     def work_one(self, action, key, sha_given, data, user, *, require_sha=True):
         """Run one work transition on production; returns (http status, JSON payload)."""
         worker = data.get('worker')
@@ -1437,16 +1420,11 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     now = datetime.now(timezone.utc)
                     common = dict(decision=decision, now=now, record=record_activity, user=user)
                     if action == 'claim':
-                        result = {'work': work_claims.claim(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
-                        document = self.current_document(key, icon)
-                        if document is not None:
-                            work_claims.save_snapshot(connection, key, sha, document, now)
+                        result = {'work': work_claims.claim(connection, key, sha, worker, **common)}
                         feedback = work_claims.latest_feedback(connection).get((key, sha))
                         item = work_claims.queue_item(dict(icon, icon_type=work_claims.icon_types(connection).get(key)),
-                                                      decision, feedback, work_claims.load_claim(connection, key, sha), 'working')
+                                                      decision, feedback, work_claims.load_row(connection, key, sha), 'working')
                         result.update(item=item)
-                    elif action == 'heartbeat':
-                        result = {'work': work_claims.heartbeat(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
                     elif action in ('done', 'cannot-fix'):
                         result = work_claims.finish(connection, key, sha, worker, action, note=data.get('note'), **common)
                     elif action == 'result':
@@ -1457,9 +1435,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         result = {'result': work_claims.save_result(
                             connection, key, sha, data.get('stage'), worker, svg=svg, python_path=data.get('python_path'),
                             python_source=data.get('python_source'), validation=data.get('validation'), note=data.get('note'), **common)}
-                        result['work'] = work_claims.work_field(*work_claims._current(connection, key, sha, decision, now))
+                        result['work'] = work_claims.work_field(*work_claims._current(connection, key, sha, now))
                     else:
-                        result = work_claims.abandon(connection, key, sha, worker, admin=user != 'system', **common)
+                        result = work_claims.abandon(connection, key, sha, worker, **common)
                     connection.execute('COMMIT')
                 except BaseException:
                     connection.execute('ROLLBACK')
