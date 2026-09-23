@@ -14,26 +14,56 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('digit-1', 'digit-0')
 REFERENCE_EXPORT_SHA256 = '3312c101379b508d238a543e58a72f3542c13f61a61876328f54f1664eee4275'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-number-ten-symbol-bb0be6c6-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 45
-    text_ink_bounds = (0.0, 0.0, 45.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 44
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 42.0, 20.0)
 
     def build(self):
-        self.add_arc('p1-r1-1', (23, 10), (43, 10), radius_x=10, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-2', (43, 10), (43, 22))
-        self.add_arc('p1-r1-3', (43, 22), (23, 22), radius_x=10, radius_y=8, large_arc=False, sweep=True)
-        self.add_line('p1-r1-4', (23, 22), (23, 10))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_line('p2-r1-1', (9, 30), (9, 3))
-        self.add_bezier('p2-r1-2', (9, 3), ((9, 2), (8, 2), (8, 2)))
-        self.add_line('p2-r1-3', (8, 2), (2, 2))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.add_line('p3-r1-1', (2, 30), (15, 30))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        """Source-native uppercase composition for '10'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (10.4, 18), (10.4, 2.40859))
+        self.add_bezier('p1-r1-2', (10.4, 2.40859), ((10.4, 2.18293), (10.2171, 2), (9.99141, 2)))
+        self.add_line('p1-r1-3', (9.99141, 2), (4, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
+        self.add_line('p1-r2-1', (4.85714, 18), (16, 18))
+        self.add_contour('path-1-2', 'p1-r2-1', closed=False)
+        self.add_line('p2-r1-1', (28, 2), (40, 2))
+        self.add_line('p2-r1-2', (40, 2), (40, 18))
+        self.add_line('p2-r1-3', (40, 18), (28, 18))
+        self.add_line('p2-r1-4', (28, 18), (28, 2))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)

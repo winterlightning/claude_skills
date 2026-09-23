@@ -14,31 +14,66 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-a-uppercase', 'letter-a-uppercase', 'letter-c-uppercase')
 REFERENCE_EXPORT_SHA256 = '5f83298b2b9a9115a4f5a4d97d61792d4634c8ee29e9e59bdafc5956630e624b'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-aac-audio-format-text-149b77a8-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 79
-    text_ink_bounds = (0.0, 0.0, 79.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 68
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 66.0, 20.0)
 
     def build(self):
-        self.add_arc('p1-r1-1', (77, 6), (77, 26), radius_x=10, radius_y=14, large_arc=True, sweep=False)
-        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (31, 30), (40, 3))
-        self.add_bezier('p2-r1-2', (40, 3), ((40.666666666666664, 2.3333333333333335), (41, 2), (41, 2)))
-        self.add_bezier('p2-r1-3', (41, 2), ((41.666666666666664, 2), (42, 2.3333333333333335), (42, 3)))
-        self.add_line('p2-r1-4', (42, 3), (52, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
-        self.add_line('p3-r1-1', (35, 18), (48, 18))
-        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (2, 30), (11, 3))
-        self.add_bezier('p4-r1-2', (11, 3), ((11.666666666666666, 2.3333333333333335), (12, 2), (12, 2)))
-        self.add_bezier('p4-r1-3', (12, 2), ((12.666666666666666, 2), (13.333333333333334, 2.3333333333333335), (14, 3)))
-        self.add_line('p4-r1-4', (14, 3), (23, 30))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', closed=False)
-        self.add_line('p5-r1-1', (6, 18), (19, 18))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        """Source-native uppercase composition for 'AAC'; 4-unit letter spacing."""
+        self.add_bezier('p1-r1-1', (4, 18), ((4, 18), (5.26667, 2), (10.1333, 2)))
+        self.add_bezier('p1-r1-2', (10.1333, 2), ((15, 2), (16, 18), (16, 18)))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
+        self.add_line('p1-r2-1', (4.49782, 13.9921), (15.5709, 14.0032))
+        self.add_contour('path-1-2', 'p1-r2-1', closed=False)
+        self.add_bezier('p2-r1-1', (28, 18), ((28, 18), (29.26667, 2), (34.1333, 2)))
+        self.add_bezier('p2-r1-2', (34.1333, 2), ((39, 2), (40, 18), (40, 18)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p2-r2-1', (28.49782, 13.9921), (39.5709, 14.0032))
+        self.add_contour('path-2-2', 'p2-r2-1', closed=False)
+        self.add_bezier('p3-r1-1', (64, 2.6879), ((62.9406, 2.24575), (61.7674, 2), (60.533, 2)))
+        self.add_bezier('p3-r1-2', (60.533, 2), ((55.82037, 2), (52, 5.58172), (52, 10)))
+        self.add_bezier('p3-r1-3', (52, 10), ((52, 14.4183), (55.82037, 18), (60.533, 18)))
+        self.add_bezier('p3-r1-4', (60.533, 18), ((61.7674, 18), (62.9406, 17.7543), (64, 17.3121)))
+        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', 'p3-r1-4', closed=False)

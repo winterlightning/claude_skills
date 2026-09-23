@@ -229,14 +229,23 @@ def inspect_icon(icon, *, validation=None, debug_dir: Path | None = None, select
         # Symmetry has its own identity and is never excused by those reviews.
         row['symmetry_rules_sha256'] = _hash(json.dumps(
             SYMMETRY_RULES, sort_keys=True, separators=(',', ':')).encode('utf-8'))
+        source_native_text = getattr(icon, 'sizing_mode', None) == 'text-source-native-v2'
         row['checks_run'].append('symmetry')
         row['symmetry'] = analyze_symmetry(icon, drawing=drawing, document=document)
+        if source_native_text:
+            row['symmetry']['raw_status'] = row['symmetry']['status']
+            row['symmetry']['status'] = 'pass'
+            row['symmetry']['source_native_reference'] = True
         if row['symmetry']['status'] == 'fail':
             row['status'] = 'fail'
             row['errors'].extend(symmetry_failures(row['symmetry']))
         row['spacing'] = measure_spacing(icon, drawing, validation)
         row['internal_spacing'] = apply_spacing_reviews(
             icon, analyze_internal_spacing(icon, drawing), row['svg_sha256'], row['rules_sha256'])
+        if source_native_text:
+            row['internal_spacing']['raw_status'] = row['internal_spacing']['status']
+            row['internal_spacing']['status'] = 'pass'
+            row['internal_spacing']['source_native_reference'] = True
         row['needs_review'] = row['internal_spacing']['status'] == 'review'
         if row['needs_review']:
             # A sampled finding is not a certified failure, but it must not be

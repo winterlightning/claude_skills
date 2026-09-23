@@ -14,37 +14,78 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-i-uppercase', 'letter-n-uppercase', 'letter-d-uppercase', 'letter-d-uppercase')
 REFERENCE_EXPORT_SHA256 = '0ca1b4a0da39e8dc6429562113bd3b4d61d82e7a7c5a550d0c3f80e3bce97dec'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-adobe-indesign-document-file-f5ea5b1f-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 96
-    text_ink_bounds = (0.0, 0.0, 96.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 92
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 90.00000000000003, 20.0)
 
     def build(self):
-        self.add_line('p1-r1-1', (75, 2), (82, 2))
-        self.add_bezier('p1-r1-2', (82, 2), ((90, 2), (94, 9), (94, 16)))
-        self.add_bezier('p1-r1-3', (94, 16), ((94, 23), (90, 30), (82, 30)))
-        self.add_line('p1-r1-4', (82, 30), (75, 30))
-        self.add_line('p1-r1-5', (75, 30), (75, 2))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
-        self.add_line('p2-r1-1', (47, 2), (55, 2))
-        self.add_bezier('p2-r1-2', (55, 2), ((63, 2), (67, 9), (67, 16)))
-        self.add_bezier('p2-r1-3', (67, 16), ((67, 23), (63, 30), (55, 30)))
-        self.add_line('p2-r1-4', (55, 30), (47, 30))
-        self.add_line('p2-r1-5', (47, 30), (47, 2))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)
-        self.add_line('p3-r1-1', (19, 30), (19, 2))
-        self.add_line('p3-r1-2', (19, 2), (39, 30))
-        self.add_line('p3-r1-3', (39, 30), (39, 2))
-        self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', 'p3-r1-3', closed=False)
-        self.add_line('p4-r1-1', (2, 2), (11, 2))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (7, 2), (7, 30))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.add_line('p6-r1-1', (2, 30), (11, 30))
-        self.add_contour('path-6-1', 'p6-r1-1', closed=False)
+        """Source-native uppercase composition for 'INDD'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (16, 18), (4, 18))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
+        self.add_line('p2-r1-1', (16, 2), (4, 2))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (10, 2), (10, 18))
+        self.add_contour('path-3-1', 'p3-r1-1', closed=False)
+        self.add_line('p4-r1-1', (27, 18), (27, 2.21987))
+        self.add_bezier('p4-r1-2', (27, 2.21987), ((27, 1.97187), (27.77876, 1.91394), (27.95982, 2.14847)))
+        self.add_line('p4-r1-3', (27.95982, 2.14847), (40.0402, 17.7968))
+        self.add_bezier('p4-r1-4', (40.0402, 17.7968), ((40.221199999999996, 18.0313), (41, 17.9734), (41, 17.7254)))
+        self.add_line('p4-r1-5', (41, 17.7254), (41, 2.02527))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', 'p4-r1-5', closed=False)
+        self.add_line('p5-r1-1', (52, 2), (56.88681, 2))
+        self.add_bezier('p5-r1-2', (56.88681, 2), ((60.8153, 2), (64, 5.58172), (64, 10)))
+        self.add_bezier('p5-r1-3', (64, 10), ((64, 14.4183), (60.8153, 18), (56.88681, 18)))
+        self.add_line('p5-r1-4', (56.88681, 18), (52, 18))
+        self.add_line('p5-r1-5', (52, 18), (52, 2))
+        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', 'p5-r1-3', 'p5-r1-4', 'p5-r1-5', closed=False)
+        self.add_line('p6-r1-1', (76, 2), (80.88681, 2))
+        self.add_bezier('p6-r1-2', (80.88681, 2), ((84.81530000000001, 2), (88, 5.58172), (88, 10)))
+        self.add_bezier('p6-r1-3', (88, 10), ((88, 14.4183), (84.81530000000001, 18), (80.88681, 18)))
+        self.add_line('p6-r1-4', (80.88681, 18), (76, 18))
+        self.add_line('p6-r1-5', (76, 18), (76, 2))
+        self.add_contour('path-6-1', 'p6-r1-1', 'p6-r1-2', 'p6-r1-3', 'p6-r1-4', 'p6-r1-5', closed=False)
+        self.relate("connect", 'path-1-1', 'path-2-1')
+        self.relate("connect", 'path-1-1', 'path-3-1')
+        self.relate("connect", 'path-2-1', 'path-3-1')

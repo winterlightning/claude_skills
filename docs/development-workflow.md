@@ -10,6 +10,7 @@ build, no publication staging folder and no copy step: `build`, `dev`,
 ```sh
 python3 -m icon_set build --icon icon_set/model/icons/solo/example.py --no-png --no-report
 python3 -m icon_set dev --open            # serves published/ with the local database
+python3 -m icon_set publish --dry-run     # list new, changed and missing icon outputs
 python3 -m icon_set publish               # changed-only build, validate, compact, release.json
 python3 -m icon_set doctor
 git add published icon_set
@@ -19,7 +20,10 @@ git push origin icon-lib
 
 `publish` builds the changed originals in place, refuses embedded manual
 artwork or runtime files, compacts every JSON catalog so Git diffs stay small,
-and writes `release.json`. Validation failures remain visible in the Failed
+and writes `release.json`. Before writing, it reports newly registered icons,
+drawings whose SVG content changed, and missing or stale generated SVG, metadata
+or preview files. It regenerates those outputs across every family and always
+refreshes the gallery links. Validation failures remain visible in the Failed
 build view; their artwork is excluded from the passing family manifests.
 
 On production, keep the **existing production database and all sibling state

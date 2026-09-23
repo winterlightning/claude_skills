@@ -14,27 +14,60 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-t-uppercase', 'letter-x-uppercase', 'letter-t-uppercase')
 REFERENCE_EXPORT_SHA256 = '158c64d4cc6a8adbbfb56c318e65b18ea2b04fc6fc9f67b1afdb9acba8fb394b'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-txt-text-document-icon-15c48b39-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 83
-    text_ink_bounds = (0.0, 0.0, 83.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 68
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 66.0, 20.0)
 
     def build(self):
-        self.add_line('p1-r1-1', (60, 2), (81, 2))
+        """Source-native uppercase composition for 'TXT'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (4, 2), (16, 2))
         self.add_contour('path-1-1', 'p1-r1-1', closed=False)
-        self.add_line('p2-r1-1', (71, 2), (71, 30))
+        self.add_line('p2-r1-1', (10, 18), (10.0064, 2))
         self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (32, 2), (52, 30))
+        self.add_line('p3-r1-1', (27, 2.00003), (41, 17.9909))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (52, 2), (32, 30))
+        self.add_line('p4-r1-1', (27.02295, 18), (40.9638, 2.04587))
         self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (2, 2), (24, 2))
+        self.add_line('p5-r1-1', (52, 2), (64, 2))
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.add_line('p6-r1-1', (13, 2), (13, 30))
+        self.add_line('p6-r1-1', (58, 18), (58.0064, 2))
         self.add_contour('path-6-1', 'p6-r1-1', closed=False)
+        self.relate("connect", 'path-1-1', 'path-2-1')
+        self.relate("connect", 'path-3-1', 'path-4-1')
+        self.relate("connect", 'path-5-1', 'path-6-1')

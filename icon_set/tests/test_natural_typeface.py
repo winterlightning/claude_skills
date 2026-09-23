@@ -5,7 +5,7 @@ from pathlib import Path
 import tempfile
 import unittest
 from svgpathtools import parse_path
-from icon_set.scripts.build_typeface import bounds, canonical, fit_base_grid
+from icon_set.scripts.build_typeface import bounds, canonical, fit_base_grid, source_paths
 from icon_set.scripts.typeface_gallery import stage_typeface
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -104,7 +104,7 @@ class NaturalTypefaceTests(unittest.TestCase):
 
 
 class NaturalTypefaceV2Tests(unittest.TestCase):
-    """v2 fits UPPER and Numbers to a grid-snapped 15-unit centerline and 19-unit ink."""
+    """v2 uses the supplied Letters/new SVG geometry and canvases directly."""
     @classmethod
     def setUpClass(cls):
         cls.data = json.loads((ROOT/'icon_set/typeface/glyphs-v2.json').read_text())
@@ -112,7 +112,7 @@ class NaturalTypefaceV2Tests(unittest.TestCase):
         cls.by_char = {g['character']: g for g in cls.glyphs}
 
     def test_uppercase_and_digit_catalog(self):
-        self.assertEqual(self.data['geometry_policy'], 'grid-centerline-15x19')
+        self.assertEqual(self.data['geometry_policy'], 'source-native-20')
         self.assertEqual(self.data['case_policy'], 'uppercase')
         self.assertEqual(self.data['fallback'], 'v1')
         self.assertEqual(len(self.glyphs), 36)
@@ -125,36 +125,27 @@ class NaturalTypefaceV2Tests(unittest.TestCase):
                             if g['kind']=='uppercase' else 'digit-'+g['character'])
                 self.assertEqual(g['icon_id'], expected)
                 self.assertAlmostEqual(g['body_top'], 2)
-                self.assertAlmostEqual(g['baseline'], 17)
-                self.assertAlmostEqual(g['body_height'], 15)
+                self.assertAlmostEqual(g['baseline'], 18)
+                self.assertAlmostEqual(g['body_height'], 16)
                 self.assertEqual(g['stroke_width'], 4)
-                self.assertEqual(g['ink_height'], 19)
-                self.assertEqual(g['canvas_height'], 19)
-                self.assertAlmostEqual(g['bounds'][3], 17, places=3)
-                self.assertAlmostEqual(g['bounds'][1], 2, places=3)
-                self.assertGreaterEqual(g['canvas_width']+1e-6, g['ink_width'])
+                self.assertIn(g['canvas_height'], (20,21))
+                self.assertEqual(g['canvas_width'], 20)
+                self.assertLessEqual(g['ink_height'],g['canvas_height']+.01)
+                self.assertLessEqual(g['ink_width'],g['canvas_width']+.01)
+                self.assertAlmostEqual(g['bounds'][1], 2, delta=.01)
 
-    def test_every_path_point_is_on_the_integer_grid(self):
-        from svgpathtools import Arc, CubicBezier, QuadraticBezier
+    def test_paths_are_the_supplied_source_geometry(self):
         for g in self.glyphs:
-            for path_data in g['paths']:
-                for segment in parse_path(path_data):
-                    self.assertNotIsInstance(segment, Arc)
-                    points=[segment.start,segment.end]
-                    if isinstance(segment,CubicBezier):points += [segment.control1,segment.control2]
-                    elif isinstance(segment,QuadraticBezier):points += [segment.control]
-                    self.assertTrue(all(p.real==round(p.real) and p.imag==round(p.imag) for p in points),g['icon_id'])
-                    self.assertGreater(segment.length(), 0, g['icon_id'])
+            source=ROOT/g['source_path']
+            self.assertEqual(g['paths'],[path.d() for path in source_paths(source,repairs=False)])
 
     def test_widths_keep_source_proportions(self):
         self.assertGreater(self.by_char['W']['centerline_width'], self.by_char['I']['centerline_width'])
-        self.assertGreater(self.by_char['0']['centerline_width'], self.by_char['1']['centerline_width'])
 
     def test_source_provenance_and_digests(self):
         for g in self.glyphs:
             with self.subTest(char=g['character']):
-                expected = 'Letters/UPPER/' if g['kind']=='uppercase' else 'Letters/Numbers/'
-                self.assertTrue(g['source_path'].startswith(expected))
+                self.assertTrue(g['source_path'].startswith('Letters/new/'))
                 self.assertEqual(g['source_sha256'], hashlib.sha256((ROOT/g['source_path']).read_bytes()).hexdigest())
                 digest = hashlib.sha256(json.dumps(g['paths'], separators=(',',':')).encode()).hexdigest()
                 self.assertEqual(digest, g['svg_sha256'])
@@ -162,4 +153,4 @@ class NaturalTypefaceV2Tests(unittest.TestCase):
     def test_q_tail_is_a_stroke(self):
         q = self.by_char['Q']
         self.assertEqual(len(q['paths']), 2)
-        self.assertGreaterEqual(q['centerline_width'], self.by_char['O']['centerline_width'])
+        self.assertAlmostEqual(q['centerline_width'], self.by_char['O']['centerline_width'], places=3)

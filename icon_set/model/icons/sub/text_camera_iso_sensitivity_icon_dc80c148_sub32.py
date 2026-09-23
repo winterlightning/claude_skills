@@ -14,34 +14,69 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-i-uppercase', 'letter-s-uppercase', 'letter-o-uppercase')
 REFERENCE_EXPORT_SHA256 = 'b8359e794cdac03f54c7af35e983fbec36e5c3dce8c45ddea58948e0a2a3d10f'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-camera-iso-sensitivity-icon-dc80c148-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
+    sizing_mode = 'text-source-native-v2'
     text_canvas_width = 68
-    text_ink_bounds = (0.0, 0.0, 68.0, 32.0)
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 68.0, 20.000000000000004)
 
     def build(self):
-        self.add_bezier('p1-r1-1', (45, 16), ((45, 8), (50, 2), (56, 2)))
-        self.add_bezier('p1-r1-2', (56, 2), ((61, 2), (66, 8), (66, 16)))
-        self.add_bezier('p1-r1-3', (66, 16), ((66, 24), (61, 30), (56, 30)))
-        self.add_bezier('p1-r1-4', (56, 30), ((50, 30), (45, 24), (45, 16)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', closed=False)
-        self.add_bezier('p2-r1-1', (37, 6), ((36, 3), (32, 2), (29, 2)))
-        self.add_bezier('p2-r1-2', (29, 2), ((25, 2), (21, 4), (20, 9)))
-        self.add_bezier('p2-r1-3', (20, 9), ((20, 9), (20, 9), (20, 10)))
-        self.add_bezier('p2-r1-4', (20, 10), ((20, 17), (37, 13), (38, 22)))
-        self.add_bezier('p2-r1-5', (38, 22), ((38, 22), (38, 22), (38, 23)))
-        self.add_bezier('p2-r1-6', (38, 23), ((38, 28), (33, 30), (28, 30)))
-        self.add_bezier('p2-r1-7', (28, 30), ((25, 30), (21, 29), (19, 26)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', 'p2-r1-6', 'p2-r1-7', closed=False)
-        self.add_line('p3-r1-1', (2, 2), (11, 2))
+        """Source-native uppercase composition for 'ISO'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (16, 18), (4, 18))
+        self.add_contour('path-1-1', 'p1-r1-1', closed=False)
+        self.add_line('p2-r1-1', (16, 2), (4, 2))
+        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
+        self.add_line('p3-r1-1', (10, 2), (10, 18))
         self.add_contour('path-3-1', 'p3-r1-1', closed=False)
-        self.add_line('p4-r1-1', (7, 2), (7, 30))
-        self.add_contour('path-4-1', 'p4-r1-1', closed=False)
-        self.add_line('p5-r1-1', (2, 30), (11, 30))
-        self.add_contour('path-5-1', 'p5-r1-1', closed=False)
+        self.add_line('p4-r1-1', (39.9314, 2), (32.77906, 2))
+        self.add_bezier('p4-r1-2', (32.77906, 2), ((27.70172, 2), (26.21029, 7.42857), (30.98284, 9.42857)))
+        self.add_line('p4-r1-3', (30.98284, 9.42857), (37.4623, 11.608))
+        self.add_bezier('p4-r1-4', (37.4623, 11.608), ((41.7211, 13.4286), (40.2526, 18), (35.7787, 18)))
+        self.add_line('p4-r1-5', (35.7787, 18), (28, 18))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', 'p4-r1-5', closed=False)
+        self.add_arc('p5-r1-1', (50, 10), (66, 10), radius_x=8, radius_y=8, large_arc=True, sweep=False)
+        self.add_arc('p5-r1-2', (66, 10), (50, 10), radius_x=8, radius_y=8, large_arc=True, sweep=False)
+        self.add_contour('path-5-1', 'p5-r1-1', 'p5-r1-2', closed=False)
+        self.relate("connect", 'path-1-1', 'path-2-1')
+        self.relate("connect", 'path-1-1', 'path-3-1')
+        self.relate("connect", 'path-2-1', 'path-3-1')

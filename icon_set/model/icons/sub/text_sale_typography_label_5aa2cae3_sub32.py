@@ -14,39 +14,68 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-s-uppercase', 'letter-a-uppercase', 'letter-l-uppercase', 'letter-e-uppercase')
 REFERENCE_EXPORT_SHA256 = '3f210b9ff55bf06a6929a1b9caa6c5e2080923d708824f27a4c3e77b589fa155'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-sale-typography-label-5aa2cae3-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 100
-    text_ink_bounds = (0.0, 0.0, 100.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 92
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 90.0, 20.000000000000004)
 
     def build(self):
-        self.add_line('p1-r1-1', (98, 2), (81, 2))
-        self.add_line('p1-r1-2', (81, 2), (81, 30))
-        self.add_line('p1-r1-3', (81, 30), (98, 30))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
-        self.add_line('p2-r1-1', (81, 16), (95, 16))
-        self.add_contour('path-2-1', 'p2-r1-1', closed=False)
-        self.add_line('p3-r1-1', (57, 2), (57, 30))
-        self.add_line('p3-r1-2', (57, 30), (73, 30))
+        """Source-native uppercase composition for 'SALE'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (15.9314, 2), (8.77906, 2))
+        self.add_bezier('p1-r1-2', (8.77906, 2), ((3.70172, 2), (2.21029, 7.42857), (6.98284, 9.42857)))
+        self.add_line('p1-r1-3', (6.98284, 9.42857), (13.4623, 11.608))
+        self.add_bezier('p1-r1-4', (13.4623, 11.608), ((17.7211, 13.4286), (16.2526, 18), (11.7787, 18)))
+        self.add_line('p1-r1-5', (11.7787, 18), (4, 18))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', closed=False)
+        self.add_bezier('p2-r1-1', (28, 18), ((28, 18), (29.26667, 2), (34.1333, 2)))
+        self.add_bezier('p2-r1-2', (34.1333, 2), ((39, 2), (40, 18), (40, 18)))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.add_line('p2-r2-1', (28.49782, 13.9921), (39.5709, 14.0032))
+        self.add_contour('path-2-2', 'p2-r2-1', closed=False)
+        self.add_bezier('p3-r1-1', (63, 18), ((59.9428, 18), (52.23973, 18), (52, 18)))
+        self.add_line('p3-r1-2', (52, 18), (52, 2))
         self.add_contour('path-3-1', 'p3-r1-1', 'p3-r1-2', closed=False)
-        self.add_line('p4-r1-1', (28, 30), (38, 3))
-        self.add_bezier('p4-r1-2', (38, 3), ((38, 2.3333333333333335), (38.333333333333336, 2), (39, 2)))
-        self.add_bezier('p4-r1-3', (39, 2), ((39, 2), (39.333333333333336, 2.3333333333333335), (40, 3)))
-        self.add_line('p4-r1-4', (40, 3), (49, 30))
-        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', closed=False)
-        self.add_line('p5-r1-1', (32, 18), (45, 18))
+        self.add_line('p4-r1-1', (88, 17.9999), (76.26183, 18))
+        self.add_bezier('p4-r1-2', (76.26183, 18), ((76.11723, 18), (76, 17.8828), (76, 17.7382)))
+        self.add_line('p4-r1-3', (76, 17.7382), (76, 9.98924))
+        self.add_line('p4-r1-4', (76, 9.98924), (76, 2.01314))
+        self.add_line('p4-r1-5', (76, 2.01314), (88, 2))
+        self.add_contour('path-4-1', 'p4-r1-1', 'p4-r1-2', 'p4-r1-3', 'p4-r1-4', 'p4-r1-5', closed=False)
+        self.add_line('p5-r1-1', (84.4, 10), (76, 10))
         self.add_contour('path-5-1', 'p5-r1-1', closed=False)
-        self.add_bezier('p6-r1-1', (20, 6), ((19, 3), (15, 2), (12, 2)))
-        self.add_bezier('p6-r1-2', (12, 2), ((8, 2), (4, 4), (3, 9)))
-        self.add_bezier('p6-r1-3', (3, 9), ((3, 9), (3, 9), (3, 10)))
-        self.add_bezier('p6-r1-4', (3, 10), ((3, 17), (20, 13), (20, 22)))
-        self.add_bezier('p6-r1-5', (20, 22), ((20, 22), (20, 22), (20, 23)))
-        self.add_bezier('p6-r1-6', (20, 23), ((20, 28), (16, 30), (11, 30)))
-        self.add_bezier('p6-r1-7', (11, 30), ((7, 30), (4, 29), (2, 26)))
-        self.add_contour('path-6-1', 'p6-r1-1', 'p6-r1-2', 'p6-r1-3', 'p6-r1-4', 'p6-r1-5', 'p6-r1-6', 'p6-r1-7', closed=False)
+        self.relate("connect", 'path-4-1', 'path-5-1')

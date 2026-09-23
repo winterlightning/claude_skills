@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from unittest.mock import patch
 
-from icon_set.scripts.publish import finalize_publication
+from icon_set.scripts.publish import finalize_publication, publication_plan
 from icon_set.scripts import deploy
 
 
@@ -100,3 +100,62 @@ class PublishTests(unittest.TestCase):
             server.server_close()
             with self.assertRaisesRegex(ValueError, 'database.*outside'):
                 deploy.create_server(self.dist, self.root / 'state/feedback.sqlite3', production=True, port=0)
+
+    def test_publication_plan_detects_new_changed_missing_and_unchanged(self):
+        class FakeIcon:
+            family = 'solo'
+
+            def __init__(self, icon_id, document):
+                self.icon_id = icon_id
+                self.document = document
+
+            def to_svg(self):
+                return self.document
+
+        def factory(icon_id, document):
+            class Factory:
+                family = 'solo'
+
+                def __new__(cls):
+                    return FakeIcon(icon_id, document)
+            return Factory
+
+        current = '<svg>current</svg>'
+        digest = hashlib.sha256(current.encode()).hexdigest()
+        rows = [
+            {'icon_id': 'changed', 'svg_sha256': 'old'},
+            {'icon_id': 'missing', 'svg_sha256': digest},
+            {'icon_id': 'unchanged', 'svg_sha256': digest},
+        ]
+        (self.dist / 'solo48/manifest.json').write_text(json.dumps({'icons': rows}))
+        failed = self.dist / 'failed/solo48'
+        failed.mkdir(parents=True)
+        (failed / 'manifest.json').write_text(json.dumps({'icons': [
+            {'icon_id': 'failed', 'svg_sha256': digest, 'svg': 'failed.svg', 'errors': ['too close']},
+        ]}))
+        (failed / 'failed.svg').write_text(current)
+        for suffix in ('svg', 'metadata.json'):
+            path = self.dist / 'solo48' / f'unchanged.{suffix}'
+            path.write_text(current if suffix == 'svg' else '{}')
+        preview = self.dist / 'previews-png/solo48/unchanged.png'
+        preview.parent.mkdir(parents=True)
+        preview.write_bytes(b'png')
+        registered = {
+            'new': factory('new', current),
+            'changed': factory('changed', current),
+            'failed': factory('failed', current),
+            'missing': factory('missing', current),
+            'unchanged': factory('unchanged', current),
+        }
+
+        plan = publication_plan(
+            self.dist, registered=registered, folder_for_family=lambda family: 'solo48'
+        )
+
+        self.assertEqual([row['icon_id'] for row in plan['new']], ['new'])
+        self.assertEqual([row['icon_id'] for row in plan['changed']], ['changed'])
+        self.assertEqual([row['icon_id'] for row in plan['missing']], ['missing'])
+        self.assertEqual([row['icon_id'] for row in plan['unchanged']], ['unchanged'])
+        self.assertEqual([row['icon_id'] for row in plan['failed']], ['failed'])
+        self.assertEqual(plan['failed'][0]['validation'], ['too close'])
+        self.assertEqual(plan['errors'], [])

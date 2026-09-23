@@ -14,24 +14,53 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('digit-9',)
 REFERENCE_EXPORT_SHA256 = '25492b5c3641881d3f5dcbc1eed85ee2001f93dc73b8797954a4717c9d26f524'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-numerical-digit-nine-d938682c-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 24
-    text_ink_bounds = (0.0, 0.0, 24.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 20
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 18.0005, 20.00000000000001)
 
     def build(self):
-        self.add_arc('p1-r1-1', (2, 10), (22, 10), radius_x=10, radius_y=8, large_arc=True, sweep=True)
-        self.add_arc('p1-r1-2', (22, 10), (2, 10), radius_x=10, radius_y=8, large_arc=True, sweep=True)
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', closed=False)
-        self.add_line('p2-r1-1', (22, 10), (22, 20))
-        self.add_bezier('p2-r1-2', (22, 20), ((22, 26), (17, 30), (12, 30)))
-        self.add_line('p2-r1-3', (12, 30), (5, 30))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', closed=False)
-        self.relate("connect", 'p1-r1-1', 'p2-r1-1')
-        self.relate("connect", 'p1-r1-2', 'p2-r1-1')
+        """Source-native uppercase composition for '9'; 4-unit letter spacing."""
+        self.add_line('p1-r1-1', (16.0005, 6.72498), (16.0005, 13.1172))
+        self.add_bezier('p1-r1-2', (16.0005, 13.1172), ((16.0005, 15.8139), (13.8144, 18), (11.1177, 18)))
+        self.add_line('p1-r1-3', (11.1177, 18), (5.62988, 18))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
+        self.add_arc('p2-r1-1', (4, 6.80433), (16, 6.80433), radius_x=6, radius_y=4.80433, large_arc=True, sweep=False)
+        self.add_arc('p2-r1-2', (16, 6.80433), (4, 6.80433), radius_x=6, radius_y=4.80433, large_arc=True, sweep=False)
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', closed=False)
+        self.relate("connect", 'path-1-1', 'path-2-1')

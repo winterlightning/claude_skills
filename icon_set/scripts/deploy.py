@@ -589,7 +589,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if not getattr(getattr(self, 'server', None), 'production', False):
             return False
         return (route.startswith('/api/generation') or route.startswith('/api/ai-feedback')
-                or route in ('/api/icons/discard', '/api/feedback-db/sync',
+                or route in ('/api/icons/discard', '/api/combinations/side/keep-sub', '/api/feedback-db/sync',
                              '/api/combination-refresh', '/api/combination-experiment',
                              '/api/symbols/copy-from-sub'))
 
@@ -1012,7 +1012,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync'):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync'):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1111,6 +1111,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icons/discard':
                 return self.discard_icon(data, user)
+            if route == '/api/combinations/side/keep-sub':
+                return self.keep_side_sub(data, user)
             if route == '/api/feedback-db/sync':
                 return self.sync_feedback(data, user)
             if route == '/api/primitives/briefs':
@@ -1484,6 +1486,57 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 return self.json_response(result)
             except (OSError, SyntaxError, sqlite3.Error):
                 return self.json_response({'error': 'Could not discard. Refresh to see what changed, then retry.'}, 503)
+
+    def keep_side_sub(self, data, user):
+        """Keep one sub for a side pair; reject and discard its alternatives everywhere they are used.
+
+        Accepts {pair_id, keep, dry_run}. A dry run returns the plan without changing anything.
+        """
+        from icon_set.scripts.side_keep_sub import plan, strip_file
+        if not isinstance(data.get('pair_id'), str) or not isinstance(data.get('keep'), str):
+            return self.json_response({'error': 'Choose a pair and the sub to keep.'}, 400)
+        pairs = PACKAGE_ROOT / 'data/combination-pairs.json'
+        with DISCARD_LOCK:
+            try:
+                rows = json.loads(pairs.read_text())['rows']
+                result = plan(rows, data['pair_id'], data['keep'])
+            except (OSError, KeyError, ValueError) as error:
+                return self.json_response({'error': str(error) or 'Could not read side pairs.'}, 409)
+            if data.get('dry_run'):
+                return self.json_response(result)
+            try:
+                catalog = self.catalog(include_failed=True)
+                icons, failed = [], []
+                for item in result['remove']:
+                    icon = catalog.get(item['key'])
+                    if icon is None:
+                        failed.append({'icon': item['key'], 'name': item['icon'], 'error': 'Unknown icon'})
+                    else:
+                        icons.append(icon)
+                now = datetime.now(timezone.utc).isoformat()
+                with closing(sqlite3.connect(self.database, timeout=10)) as connection, connection:
+                    for icon in icons:
+                        record_activity(connection, user, 'review', icon['key'], status='rejected',
+                                        svg_sha256=icon.get('svg_sha256'), reason='duplicate side sub', kept=data['keep'])
+                        connection.execute(
+                            '''INSERT INTO reviews(icon, svg_sha256, status, updated_at, updated_by) VALUES (?, ?, 'rejected', ?, ?)
+                               ON CONFLICT(icon, svg_sha256) DO UPDATE SET
+                               status=excluded.status, updated_at=excluded.updated_at, updated_by=excluded.updated_by''',
+                            (icon['key'], icon.get('svg_sha256'), now, user))
+                    source_root = getattr(self.server, 'source_root', PACKAGE_ROOT.parent)
+                    outcome = discard_many(icons, source_root=source_root, dist=self.root,
+                                           archive=self.database.parent / 'discarded-icons',
+                                           connection=connection, user=user)
+                    for row in outcome['discarded']:
+                        record_activity(connection, user, 'discard', row['icon'], svg_sha256=catalog[row['icon']].get('svg_sha256'),
+                                        source=row['source'], archive=row['archive'])
+                removed = [row['icon'] for row in outcome['discarded']]
+                for path in (pairs, self.root / 'gallery/experiment-combination.json'):
+                    strip_file(path, removed)
+            except (OSError, SyntaxError, sqlite3.Error):
+                return self.json_response({'error': 'Could not remove the other subs. Refresh to see what changed, then retry.'}, 503)
+        return self.json_response({'removed': removed, 'failed': failed + outcome['failed'],
+                                   'affected_pairs': result['affected_pairs']})
 
     def _canonical_uuids(self, uuids):
         """Folded alias uuids act on their canonical primitive; unknown ids pass through to validation."""

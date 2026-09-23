@@ -46,7 +46,7 @@ def dot_text_layout(document):
 def primitive_calls(document, *, text=False):
     root = ET.fromstring(document)
     box=list(map(float, root.attrib['viewBox'].split()))
-    if box[:2] != [0,0] or box[3] != 32 or (not text and box[2] != 32):
+    if box[:2] != [0,0] or box[3] <= 0 or (not text and box[2:] != [32, 32]):
         raise ValueError('Requires an existing square 32px export')
     if float(root.get('stroke-width', 4)) != 4:
         raise ValueError('Requires a four-unit stroke')
@@ -59,7 +59,7 @@ def primitive_calls(document, *, text=False):
         for path in Document(io.StringIO(ET.tostring(single,encoding='unicode'))).paths():
             paths.append(path)
             elements.append(element)
-    dot_layout = dot_text_layout(document) if text else None
+    dot_layout = dot_text_layout(document) if text and box[3] == 32 else None
     calls, endpoints = [], {}
     for pi, path in enumerate(paths):
         element = elements[pi]

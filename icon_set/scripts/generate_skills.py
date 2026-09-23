@@ -98,6 +98,19 @@ FAMILY_TEXT = {
             "family decides the canvas."
         ),
         "specifics": [
+            "Use the profile-wide 4px stroke for every ordinary path. Do not set "
+            "`STROKE_WIDTH = 2` or add `PATH_STROKE_WIDTHS` merely to rescue "
+            "crowded detail, enlarge an opening, or force a 32px fit. Existing named "
+            "compact exceptions remain scoped to their already approved records; do "
+            "not create a new compact exception without explicit user approval.",
+            "Intentional enclosed negative space is acceptable when it defines the "
+            "concept. The triangular openings in Bluetooth and the inner opening of a "
+            "crescent moon are reference examples: preserve their count, direction, "
+            "and readable separation instead of filling, collapsing, or removing them "
+            "just to avoid a hole finding. Verify each opening at native size in light "
+            "and dark themes. If validation still flags an expected opening, report "
+            "that finding honestly; visual acceptance of the hole does not waive an "
+            "unrelated MIC, keyshape, or spacing failure.",
             "Eight stroke widths across the canvas. Keep the smallest recognizable "
             "silhouette and one identifying feature; a third level of detail does not "
             "survive at 32 pixels.",

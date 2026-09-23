@@ -14,28 +14,55 @@ SOLO_SOURCE_ICON_IDS = ()
 TYPEFACE_GLYPH_IDS = ('letter-j-uppercase', 'letter-s-uppercase')
 REFERENCE_EXPORT_SHA256 = '5e0ecd4c3d314804827a566eddad5c2fd44e61ec535a2c7befd7c361e2261e4c'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TYPEFACE_PROFILE = 'v2'
+TEXT_TRACKING = 4
+
 class Drawing(TextSub32):
     icon_id = 'text-javascript-programming-logo-8ff6de00-sub32'
     keyshape = Keyshape.SQUARE
-    semantic_role = "SUB"
-    semantic_kind = "modifier"
+    semantic_role = 'SUB'
+    semantic_kind = 'modifier'
     category = 'primitives/mark'
     profile_source_keys = PROFILE_SOURCE_KEYS
 
-    text_canvas_width = 46
-    text_ink_bounds = (0.0, 0.0, 46.0, 32.0)
+    sizing_mode = 'text-source-native-v2'
+    text_canvas_width = 44
+    text_canvas_height = 20
+    text_ink_bounds = (2.0, 0.0, 42.00000753985241, 20.000000000000004)
 
     def build(self):
-        self.add_bezier('p1-r1-1', (43, 6), ((42, 3), (39, 2), (35, 2)))
-        self.add_bezier('p1-r1-2', (35, 2), ((31, 2), (27, 4), (26, 9)))
-        self.add_bezier('p1-r1-3', (26, 9), ((26, 9), (26, 9), (26, 10)))
-        self.add_bezier('p1-r1-4', (26, 10), ((26, 17), (43, 13), (44, 22)))
-        self.add_bezier('p1-r1-5', (44, 22), ((44, 22), (44, 22), (44, 23)))
-        self.add_bezier('p1-r1-6', (44, 23), ((44, 28), (39, 30), (35, 30)))
-        self.add_bezier('p1-r1-7', (35, 30), ((31, 30), (27, 29), (26, 26)))
-        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', 'p1-r1-4', 'p1-r1-5', 'p1-r1-6', 'p1-r1-7', closed=False)
-        self.add_line('p2-r1-1', (6, 2), (18, 2))
-        self.add_line('p2-r1-2', (18, 2), (18, 21))
-        self.add_bezier('p2-r1-3', (18, 21), ((18, 27), (14, 30), (9, 30)))
-        self.add_bezier('p2-r1-4', (9, 30), ((6, 30), (3, 28), (2, 24)))
-        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', closed=False)
+        """Source-native uppercase composition for 'JS'; 4-unit letter spacing."""
+        self.add_bezier('p1-r1-1', (4, 13.4286), ((4, 16.5714), (6.68629, 18), (10, 18)))
+        self.add_bezier('p1-r1-2', (10, 18), ((13.3137, 18), (16, 16.5714), (16, 13.6918)))
+        self.add_line('p1-r1-3', (16, 13.6918), (16, 2))
+        self.add_contour('path-1-1', 'p1-r1-1', 'p1-r1-2', 'p1-r1-3', closed=False)
+        self.add_line('p2-r1-1', (39.9314, 2), (32.77906, 2))
+        self.add_bezier('p2-r1-2', (32.77906, 2), ((27.70172, 2), (26.21029, 7.42857), (30.98284, 9.42857)))
+        self.add_line('p2-r1-3', (30.98284, 9.42857), (37.4623, 11.608))
+        self.add_bezier('p2-r1-4', (37.4623, 11.608), ((41.7211, 13.4286), (40.2526, 18), (35.7787, 18)))
+        self.add_line('p2-r1-5', (35.7787, 18), (28, 18))
+        self.add_contour('path-2-1', 'p2-r1-1', 'p2-r1-2', 'p2-r1-3', 'p2-r1-4', 'p2-r1-5', closed=False)

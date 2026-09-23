@@ -131,8 +131,10 @@ class Icon:
         if not segments:
             raise ValueError(f"{element_id}: a bezier needs at least one segment")
         last = segments[-1][2]
+        source_native = getattr(self, "sizing_mode", None) == "text-source-native-v2"
         self.primitives.append(Bezier(
-            element_id, Point(*start), Point(int(last[0]), int(last[1])),
+            element_id, Point(*start),
+            Point(*last) if source_native else Point(int(last[0]), int(last[1])),
             tuple((tuple(c1), tuple(c2), tuple(p3)) for c1, c2, p3 in segments),
         ))
         return self

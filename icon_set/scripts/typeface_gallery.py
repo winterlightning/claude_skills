@@ -15,12 +15,16 @@ def export_glyphs(exports: Path, payload: dict) -> None:
         if uid not in current_ids and Path(uid).name == uid:
             (exports/(uid+'.svg')).unlink(missing_ok=True)
     for glyph in payload['glyphs']:
-        view_box = ' '.join(str(v) for v in glyph['preview_box'])
-        paths = ''.join('<path d='+quoteattr(d)+'/>' for d in glyph['paths'])
-        document = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{glyph["canvas_width"]}" height="{glyph.get("canvas_height", 24)}" '
-                    'viewBox='+quoteattr(view_box)+' fill="none" stroke="currentColor" '
-                    f'stroke-width="{glyph["stroke_width"]}" stroke-linecap="round" stroke-linejoin="round">'
-                    '<title>'+escape(glyph['character'])+'</title>'+paths+'</svg>')
+        if glyph.get('geometry_policy') == 'source-native-20':
+            source = Path(__file__).resolve().parents[2] / glyph['source_path']
+            document = source.read_text().replace('stroke="black"', 'stroke="currentColor"').rstrip()
+        else:
+            view_box = ' '.join(str(v) for v in glyph['preview_box'])
+            paths = ''.join('<path d='+quoteattr(d)+'/>' for d in glyph['paths'])
+            document = (f'<svg xmlns="http://www.w3.org/2000/svg" width="{glyph["canvas_width"]}" height="{glyph.get("canvas_height", 24)}" '
+                        'viewBox='+quoteattr(view_box)+' fill="none" stroke="currentColor" '
+                        f'stroke-width="{glyph["stroke_width"]}" stroke-linecap="round" stroke-linejoin="round">'
+                        '<title>'+escape(glyph['character'])+'</title>'+paths+'</svg>')
         (exports/(glyph['icon_id']+'.svg')).write_text(document+'\n')
     (exports/'manifest.json').write_text(json.dumps(payload, indent=2)+'\n')
 
@@ -50,12 +54,11 @@ def stage_typeface(target: Path, records: list[dict], registered: dict) -> None:
     from .typeface_sizes import stage_sizes
     stage_sizes(exports/'sizes', glyphs)
 
-    # v2: grid-snapped uppercase and digits from Letters/UPPER and Numbers;
-    # the browser uppercases text and falls back to v1 for symbols.
+    # v2 uses the user-supplied Letters/new SVGs without geometry changes.
     v2_source = source.with_name('glyphs-v2.json')
     v2 = json.loads(v2_source.read_text())
-    if v2.get('geometry_policy') != 'grid-centerline-15x19':
-        raise ValueError('Typeface v2 requires a grid-snapped 15-unit centerline on 19-unit ink')
+    if v2.get('geometry_policy') != 'source-native-20':
+        raise ValueError('Typeface v2 requires the native Letters/new SVGs')
     if len({g['icon_id'] for g in v2['glyphs']}) != len(v2['glyphs']):
         raise ValueError('Duplicate typeface v2 glyph')
     for glyph in v2['glyphs']:
