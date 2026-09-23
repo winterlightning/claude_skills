@@ -103,10 +103,10 @@ production, wait for the production pull. `GET /api/icon-types` and
 API_BASE='https://<production>'
 curl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"
 curl --fail-with-body -H 'Content-Type: application/json' \
-  --data '{"icon":"sub/plus","svg_sha256":"<hash>","worker":"mac-a/claude-fable-5-1"}' \
+  --data '{"icon":"sub/plus","svg_sha256":"<hash>","worker":"thuan-mac"}' \
   "$API_BASE/api/work/claim"
 curl --fail-with-body -H 'Content-Type: application/json' \
-  --data '{"icon":"sub/plus","svg_sha256":"<hash>","worker":"mac-a/claude-fable-5-1","note":"sub/plus-v3"}' \
+  --data '{"icon":"sub/plus","svg_sha256":"<hash>","worker":"thuan-mac","note":"sub/plus-v3"}' \
   "$API_BASE/api/work/done"
 ```
 
