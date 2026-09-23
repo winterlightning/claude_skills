@@ -10,12 +10,12 @@ that revision. The review statuses are the ones reviewers know plus one::
     approve / rejected   reviewer decisions, never claimable
 
 The ``work.state`` the API reports is derived from that row and the clock, and
-follows the worker's path: Claimed -> Done or Cannot fix.
+follows the worker's path: Working -> Done or Cannot fix.
 
-    claimed     review status claimed, less than LEASE_HOURS ago
-    done        ready, set by a worker's ``done`` report (feedback kept for review)
-    cannot-fix  disapproved, but a worker gave up: ``worker`` and ``note`` stay on
-                the row so the queue skips it until a reviewer decides again
+    working     review status claimed, less than LEASE_HOURS ago
+    done        review status ready, set by a worker's ``done`` report (feedback kept)
+    cannot-fix  review status pending (Disapproved) with the ``worker`` and ``note`` of the
+                worker who gave up; the queue skips it and ``state=cannot-fix`` filters it
     null        nobody has worked on this revision; a Disapproved one is claimable
 
 A claim older than LEASE_HOURS has expired: ``release_expired`` sets the row back
@@ -36,7 +36,7 @@ import re
 
 LEASE_HOURS = 6
 DISAPPROVED = ('pending', 'claimed')  # the review statuses that mean "needs a fix"
-STATES = ('claimed', 'done', 'cannot-fix')
+STATES = ('working', 'done', 'cannot-fix')
 CLAIMABLE = (None,)  # a Disapproved revision with no work state
 MAX_WORKER = 120
 MAX_NOTE = 4000
@@ -142,7 +142,7 @@ def save_result(connection, key, sha, stage, worker, *, svg, python_path=None, p
         raise WorkError('python_path must be a short path string.', 400)
     note = validate_note(note)
     row, state = _current(connection, key, sha, now)
-    allowed = ('claimed',) if stage == 'before' else ('claimed', 'done', 'cannot-fix')
+    allowed = ('working',) if stage == 'before' else ('working', 'done', 'cannot-fix')
     if state not in allowed:
         raise WorkError(f'Upload the {stage} result while you hold the claim; this revision is {state}.', 409, work_field(row, state))
     if row['worker'] != worker:
@@ -229,17 +229,17 @@ def expires_at(row):
 
 
 def work_state(row, now):
-    """The work state of one revision (claimed, done, cannot-fix) or None, from its review row and the clock."""
+    """The work state of one revision (working, done, cannot-fix) or None, from its review row and the clock."""
     if not row or not row.get('worker'):
         return None
     status = row['status']
-    if status == 'pending':
-        return 'cannot-fix'
     if status == 'claimed':
         claimed = parse_time(row.get('claimed_at'))
-        return 'claimed' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else None  # expired: released on next write
+        return 'working' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else None  # expired: released on next write
     if status == 'ready':
         return 'done'
+    if status == 'pending':
+        return 'cannot-fix'
     return None
 
 
@@ -336,7 +336,9 @@ def queue(connection, catalog, decisions, query, now, *, claimable_only=True) ->
     """Disapproved icons, oldest disapproval first: claimable ones, or all of them with their work state."""
     one, limit, offset = _paging(query)
     items = _disapproved_items(connection, catalog, decisions, now, (one('family'), one('category'), one('type'), one('reason')))
-    rows = [item for item in items if item['status'] != 'ready' and (not claimable_only or item['work']['state'] in CLAIMABLE)]
+    state = one('state')
+    rows = [item for item in items if item['status'] in ('disapprove', 'claimed') and (not claimable_only or item['work']['state'] in CLAIMABLE)
+            and (not state or item['work']['state'] == state)]
     rows.sort(key=lambda item: (item['disapproved_at'] or '', item['key']))
     page = rows[offset:offset + limit]
     return {'total': len(rows), 'offset': offset,
@@ -390,9 +392,9 @@ def claim(connection, key, sha, worker, *, decision, now, record, user) -> dict:
     if status not in DISAPPROVED and status != 'disapprove':
         raise WorkError(f'Only disapproved icons can be claimed; this revision is {public_status(status)}.', 409, work_field(row, state))
     if state not in CLAIMABLE:
-        if state == 'claimed' and row['worker'] == worker:
+        if state == 'working' and row['worker'] == worker:
             raise WorkError('You already hold this claim.', 409, work_field(row, state))
-        message = {'claimed': f'{row["worker"]} is working on this icon.',
+        message = {'working': f'{row["worker"]} is working on this icon.',
                    'cannot-fix': f'{row["worker"]} reported this revision cannot be fixed.'}.get(state, f'This revision is {state}.')
         raise WorkError(message, 409, work_field(row, state))
     stamp = now.isoformat()
@@ -407,12 +409,12 @@ def claim(connection, key, sha, worker, *, decision, now, record, user) -> dict:
         record(connection, user, 'work_expired', key, svg_sha256=sha, worker=row['worker'], claimed_at=row['claimed_at'], taken_by=worker)
     fresh = load_row(connection, key, sha)
     record(connection, user, 'work_claim', key, svg_sha256=sha, worker=worker, expires_at=expires_at(fresh))
-    return work_field(fresh, 'claimed')
+    return work_field(fresh, 'working')
 
 
 def _own_claim(connection, key, sha, worker, now, verb):
     row, state = _current(connection, key, sha, now)
-    if state != 'claimed':
+    if state != 'working':
         raise WorkError(f'No active claim to {verb}; this revision is {state or "not claimed"}.', 409, work_field(row, state))
     if row['worker'] != worker:
         raise WorkError(f'This claim belongs to {row["worker"]}, not {worker}.', 409, work_field(row, state))
@@ -420,7 +422,7 @@ def _own_claim(connection, key, sha, worker, now, verb):
 
 
 def finish(connection, key, sha, worker, outcome, *, decision, now, record, user, note=None) -> dict:
-    """claimed -> ready (done: feedback kept for the reviewer) or cannot-fix."""
+    """claimed -> ready (done: feedback kept for the reviewer) or back to disapproved with the worker kept (cannot-fix)."""
     if outcome not in ('done', 'cannot-fix'):
         raise WorkError('outcome must be done or cannot-fix.', 400)
     worker = validate_worker(worker)
@@ -435,17 +437,17 @@ def finish(connection, key, sha, worker, outcome, *, decision, now, record, user
         record(connection, user, 'work_done', key, svg_sha256=sha, worker=worker, note=note)
         record(connection, worker, 'review', key, status='ready', svg_sha256=sha, source='work_done', feedback_kept=True)
         return {'work': work_field(load_row(connection, key, sha), 'done'), 'status': 'ready'}
-    # Back to Disapproved, but the worker and note stay on the row: the queue skips it until a reviewer decides again.
+    # Back to Disapproved, but the worker and note stay on the row: the queue skips it and reviewers filter on it.
     connection.execute("UPDATE reviews SET status='pending', note=? WHERE icon=? AND svg_sha256=?", (note, key, sha))
     record(connection, user, 'work_cannot_fix', key, svg_sha256=sha, worker=worker, note=note)
     return {'work': work_field(load_row(connection, key, sha), 'cannot-fix')}
 
 
 def abandon(connection, key, sha, worker, *, decision, now, record, user) -> dict:
-    """claimed or cannot-fix -> disapproved with no worker, by anyone; the icon is open at once."""
+    """working or cannot-fix -> disapproved with no worker, by anyone; the icon is claimable at once."""
     worker = validate_worker(worker)
     row, state = _current(connection, key, sha, now)
-    if state not in ('claimed', 'cannot-fix'):
+    if state not in ('working', 'cannot-fix'):
         raise WorkError(f'There is no claim to release; this revision is {state or "not claimed"}.', 409 if row else 404, work_field(row, state))
     connection.execute("UPDATE reviews SET status='pending', worker=NULL, claimed_at=NULL, note='' WHERE icon=? AND svg_sha256=?", (key, sha))
     record(connection, user, 'work_abandon', key, svg_sha256=sha, worker=row['worker'], released_by=worker, previous_state=state)

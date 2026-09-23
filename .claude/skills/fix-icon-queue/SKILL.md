@@ -21,7 +21,8 @@ production; the claim is the review status **Claimed** with your worker name,
 set in one conditional update, and it is what stops another machine from taking
 the same icon. An icon is claimable only while its review status is Disapproved
 and no worker gave up on it; a claim older than six hours goes back to
-Disapproved on its own. After you report `done`,
+Disapproved on its own. While you hold it the review status is **Claimed** and
+the work state is `working`; `done` returns it to Ready. After you report `done`,
 production sets that revision back to **Ready** for the reviewer and keeps it
 out of the queue until a reviewer disapproves it again.
 
@@ -85,6 +86,8 @@ validated fix.
      The disapproved revision returns to Ready; its feedback is kept so the
      reviewer can compare.
    - No meaning-preserving drawing passes: `python3 icon_set/scripts/work_queue.py cannot-fix --icon <key> --note "<the blocking check and element>"`
+     The icon stays Disapproved with your worker name and note; the queue skips
+     it and reviewers find it with the Cannot fix filter.
    - You must stop without a result: `python3 icon_set/scripts/work_queue.py abandon --icon <key>`
      so another machine can take it. A claim you do not report expires six
      hours after it was taken; there is no heartbeat, so finish or abandon
@@ -96,8 +99,8 @@ validated fix.
 
 ## Never
 
-- Skip the claim, or work on an icon the queue reported as `claimed` or
-  `cannot-fix` for someone else.
+- Skip the claim, or work on an icon reported as `working` or `cannot-fix`
+  for someone else.
 - Report `done` for an unvalidated, unpublished or unrelated change.
 - Reuse another worker's name, or change the production status through
   `/api/reviews` to hide a failed fix.

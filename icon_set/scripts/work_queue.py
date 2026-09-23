@@ -171,6 +171,7 @@ def main(argv=None):
     listing.add_argument('--type', dest='icon_type')
     listing.add_argument('--limit', type=int, default=20)
     listing.add_argument('--offset', type=int, default=0)
+    listing.add_argument('--cannot-fix', action='store_true', help='list the disapproved icons a worker gave up on instead')
     for name, help_text, note in (('done', 'report the fix; the revision returns to Ready', False),
                                   ('cannot-fix', 'give up with a required note', True),
                                   ('abandon', 'release a claim (or a cannot-fix) so the icon is disapproved again', False)):
@@ -217,13 +218,15 @@ def main(argv=None):
                 print(text, end='')
             return 0
         if args.command == 'queue':
-            data = call(base_url, 'GET', '/api/work/queue', query={'family': args.family, 'category': args.category, 'reason': args.reason,
-                                                                   'type': args.icon_type, 'limit': args.limit, 'offset': args.offset})
+            path = '/api/work/disapproved' if args.cannot_fix else '/api/work/queue'
+            data = call(base_url, 'GET', path, query={'family': args.family, 'category': args.category, 'reason': args.reason,
+                                                       'type': args.icon_type, 'limit': args.limit, 'offset': args.offset,
+                                                       'state': 'cannot-fix' if args.cannot_fix else None})
             if args.json:
                 json.dump(data, sys.stdout, indent=2)
                 print()
                 return 0
-            print(f"{data['total']} claimable disapproved icons (showing {len(data['items'])} from {data['offset']})")
+            print(f"{data['total']} {'cannot-fix' if args.cannot_fix else 'claimable'} disapproved icons (showing {len(data['items'])} from {data['offset']})")
             for item in data['items']:
                 print(f"  {item['key']}  {item.get('reason') or '-'}  by {item.get('disapproved_by') or '?'}  {item.get('disapproved_at') or ''}  work={item['work']['state']}")
             return 0

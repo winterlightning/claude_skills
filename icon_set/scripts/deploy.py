@@ -152,7 +152,7 @@ def init_database(path: Path) -> None:
         schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='reviews'").fetchone()[0]
         if 'claimed' not in schema or 'cannot-fix' in schema:
             # Older CHECK constraints lack the claimed status (or still allow the retired cannot-fix one):
-            # rebuild the table around the same rows. A cannot-fix row is a Disapproved row that keeps its worker and note.
+            # rebuild the table around the same rows. A cannot-fix report is a Disapproved row that keeps its worker and note.
             connection.execute("UPDATE reviews SET status='pending' WHERE status='cannot-fix'")
             legacy = [row[1] for row in connection.execute('PRAGMA table_info(reviews)')]
             connection.execute('ALTER TABLE reviews RENAME TO reviews_legacy')
@@ -1428,7 +1428,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         result = {'work': work_claims.claim(connection, key, sha, worker, **common)}
                         feedback = work_claims.latest_feedback(connection).get((key, sha))
                         item = work_claims.queue_item(dict(icon, icon_type=work_claims.icon_types(connection).get(key)),
-                                                      decision, feedback, work_claims.load_row(connection, key, sha), 'claimed')
+                                                      decision, feedback, work_claims.load_row(connection, key, sha), 'working')
                         result.update(item=item)
                     elif action in ('done', 'cannot-fix'):
                         result = work_claims.finish(connection, key, sha, worker, action, note=data.get('note'), **common)

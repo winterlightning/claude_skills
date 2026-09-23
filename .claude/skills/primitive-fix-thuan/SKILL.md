@@ -207,7 +207,9 @@ was not criticised unless validation forces a change.
    python3 icon_set/scripts/primitive_fix.py finish --worker <name> --icon <icon-key> --outcome cannot-fix --note "<the blocking check and element>"
    ```
 
-   Then restore the module to its `before/` copy so an unfinished attempt does not ship.
+   The icon stays **Disapproved** with your worker name and note; the queue skips it and reviewers
+   find it with the Cannot fix filter. Restore the module to its `before/` copy so an unfinished
+   attempt does not ship.
 
    **After every claimed icon is finished**, publish only the fixed icons; never run a full
    library build or a plain `publish` for fixes:

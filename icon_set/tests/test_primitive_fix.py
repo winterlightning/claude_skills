@@ -103,7 +103,7 @@ class PrimitiveFixTests(ServerBase):
         self.assertEqual(code, 2)
         self.assertIn('refused', err.getvalue())
         self.assertFalse((run / 'result.json').exists())
-        self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'claimed')
+        self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'working')
         self.assertEqual(self.request(self.server, 'GET', '/api/work/history?icon=solo/anchor')[1]['revisions'][0]['results'].get('after'), None)
         clean = FakeIcon(FakeReport('valid'))
         with patch('sys.stdout', io.StringIO()) as out, patch.object(primitive_fix, 'load_icon', return_value=clean), \

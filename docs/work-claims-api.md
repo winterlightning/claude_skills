@@ -30,7 +30,8 @@ curl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"
 ```
 
 Filters: `family`, `category`, `type`, `reason` (`bad-stroke`, `meaning`,
-`manual-fix-request`, `other`), `limit` (1–500, default 50), `offset`.
+`manual-fix-request`, `other`), `state` (`working`, `cannot-fix`), `limit`
+(1–500, default 50), `offset`.
 Oldest disapproval first. Page with `next_offset` until it is `null`.
 
 ```json
@@ -51,14 +52,14 @@ Oldest disapproval first. Page with `next_offset` until it is `null`.
 }
 ```
 
-`work.state` follows the worker's path, `claimed` → `done` or `cannot-fix`, and tells you what to do:
+`work.state` follows the worker's path, `working` → `done` or `cannot-fix`, and tells you what to do:
 
 | state | meaning | in `queue`? |
 |---|---|---|
 | `null` | nobody has worked on it; Disapproved, so claimable (a claim older than six hours is set back to this) | yes |
-| `claimed` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
+| `working` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
 | `done` | review status `ready` set by a worker's report; waiting for the reviewer | no |
-| `cannot-fix` | Disapproved, but a worker gave up (`work.worker`, `work.note`); a reviewer decision or `abandon` reopens it | no |
+| `cannot-fix` | Disapproved, but a worker gave up (`work.worker`, `work.note`); `disapproved?state=cannot-fix` lists them; a reviewer decision or `abandon` reopens one | no |
 
 ## 2. Claim
 
@@ -74,10 +75,10 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 HTTP 201
 {
   "saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
-  "work": {"state": "claimed", "worker": "thuan-mac", "note": "",
+  "work": {"state": "working", "worker": "thuan-mac", "note": "",
            "claimed_at": "2026-09-23T07:00:00+00:00", "updated_at": "2026-09-23T07:00:00+00:00",
            "expires_at": "2026-09-23T10:00:00+00:00", "svg_sha256": "5a1c…e9"},
-  "item": { "...the same object as in step 1, now with work.state = claimed..." }
+  "item": { "...the same object as in step 1, now with work.state = working..." }
 }
 ```
 
@@ -96,7 +97,7 @@ HTTP 200
 {"saved": true, "worker": "thuan-mac",
  "claimed": [ { "key": "sub/plus", "...": "..." } ],
  "refused": [ {"icon": "sub/minus", "status": 409, "error": "mac-mini is working on this icon.",
-               "work": {"state": "claimed", "worker": "mac-mini", "...": "..."}} ]}
+               "work": {"state": "working", "worker": "mac-mini", "...": "..."}} ]}
 ```
 
 Refusals you will see:
@@ -165,7 +166,7 @@ HTTP 200
 {"saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
  "result": {"stage": "after", "worker": "thuan-mac", "saved_at": "2026-09-23T08:05:00+00:00",
             "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true},
- "work": {"state": "claimed", "...": "..."}}
+ "work": {"state": "working", "...": "..."}}
 ```
 
 ## 4. Mark done
@@ -270,7 +271,8 @@ curl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg                  
 **All fixed icons awaiting review**, or any other state:
 
 ```bash
-curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, claimed, cannot-fix
+curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, working, cannot-fix
+curl --fail-with-body "$API_BASE/api/work/disapproved?state=cannot-fix"   # icons workers gave up on
 curl --fail-with-body "$API_BASE/api/work/review?status=approve"    # by review status
 ```
 

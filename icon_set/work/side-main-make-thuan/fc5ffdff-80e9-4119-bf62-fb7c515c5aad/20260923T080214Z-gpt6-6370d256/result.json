@@ -5,9 +5,9 @@
   "author": "gpt-6",
   "validation_status": "invalid",
   "keyshape": "SQUARE",
-  "visual_review_findings": "Rendered at 48 and 384 pixels in light and dark themes; inspect preview artifacts.",
-  "omissions": "No defining feature intentionally omitted.",
-  "lucide_reference": "Lucide watch, smartphone, calendar, briefcase, or related geometric original and atomic-debug where useful; see source concept.",
+  "visual_review_findings": "The 18+ mark and calendar remain recognizable at native 48 pixels in both themes, but the drawing fails strict SOLO48 spacing validation.",
+  "omissions": "No defining source feature omitted. The calendar border, 1, 8, and plus are all retained for review.",
+  "lucide_reference": "Lucide calendar original and atomic-debug: paired binding pins and header divider.",
   "artifacts": {
     "module": "eighteen_plus_calendar_fc5ffdff_80e9_4119_bf62_fb7c515c5aad.py",
     "svg": "eighteen-plus-calendar.svg",
@@ -26,5 +26,7 @@
       "preview-dark-48.png",
       "preview-dark-384.png"
     ]
-  }
+  },
+  "blocker": "mic: one, eight-upper/lower, plus-h/v, header-divider, and calendar cannot all maintain more than 8 centerline units of clearance in the SQUARE inner field. The worst current conflict is calendar to plus-h at 4 units.",
+  "attempted_fit": "SQUARE envelope reached exactly; compact aligned 18+ retained. A diagonal orientation would reduce recognizability and still compete for the same border clearance."
 }

@@ -41,7 +41,7 @@ class StateRuleTests(unittest.TestCase):
         decision = self.disapprove()
         self.assertIsNone(work_claims.work_state(self.row(), NOW))
         work = work_claims.claim(self.connection, ICON, SHA, ' mac-a/claude ', decision=decision, now=NOW, record=self.record, user='system')
-        self.assertEqual((work['state'], work['worker']), ('claimed', 'mac-a/claude'))
+        self.assertEqual((work['state'], work['worker']), ('working', 'mac-a/claude'))
         self.assertEqual(work['expires_at'], (NOW + timedelta(hours=work_claims.LEASE_HOURS)).isoformat())
         row = self.row()
         self.assertEqual((row['status'], row['worker'], row['claimed_at'], row['updated_by']), ('claimed', 'mac-a/claude', NOW.isoformat(), 'hina'),
@@ -49,7 +49,7 @@ class StateRuleTests(unittest.TestCase):
         with self.assertRaises(work_claims.WorkError) as refused:
             work_claims.claim(self.connection, ICON, SHA, 'mac-b/claude', decision=('claimed', 'hina', decision[2]), now=NOW, record=self.record, user='system')
         self.assertEqual(refused.exception.status, 409)
-        self.assertEqual(refused.exception.work['state'], 'claimed')
+        self.assertEqual(refused.exception.work['state'], 'working')
         with self.assertRaises(work_claims.WorkError):
             work_claims.finish(self.connection, ICON, SHA, 'mac-b/claude', 'done', decision=decision, now=NOW, record=self.record, user='system')
         later = NOW + timedelta(minutes=30)
@@ -65,7 +65,7 @@ class StateRuleTests(unittest.TestCase):
         again = self.disapprove(later + timedelta(hours=2))
         self.assertIsNone(work_claims.work_state(self.row(), later + timedelta(hours=3)))
         work = work_claims.claim(self.connection, ICON, SHA, 'mac-b/claude', decision=again, now=later + timedelta(hours=3), record=self.record, user='system')
-        self.assertEqual((work['state'], work['worker']), ('claimed', 'mac-b/claude'))
+        self.assertEqual((work['state'], work['worker']), ('working', 'mac-b/claude'))
         self.assertEqual([entry[1] for entry in self.log], ['work_claim', 'work_done', 'review', 'work_claim'])
 
     def test_expired_claim_goes_back_to_disapproved_and_open(self):
@@ -73,7 +73,7 @@ class StateRuleTests(unittest.TestCase):
         work_claims.claim(self.connection, ICON, SHA, 'mac-a/claude', decision=decision, now=NOW, record=self.record, user='system')
         fresh = NOW + timedelta(hours=work_claims.LEASE_HOURS, minutes=-1)
         stale = NOW + timedelta(hours=work_claims.LEASE_HOURS, minutes=1)
-        self.assertEqual(work_claims.work_state(self.row(), fresh), 'claimed')
+        self.assertEqual(work_claims.work_state(self.row(), fresh), 'working')
         self.assertIsNone(work_claims.work_state(self.row(), stale), 'an expired claim has no work state, never claimed')
         with self.assertRaises(work_claims.WorkError):
             work_claims.claim(self.connection, ICON, SHA, 'mac-b/claude', decision=decision, now=fresh, record=self.record, user='system')
@@ -88,7 +88,7 @@ class StateRuleTests(unittest.TestCase):
         # Even without the release, a claim wins over a stale claimed row directly.
         work_claims.claim(self.connection, ICON, SHA, 'mac-a/claude', decision=decision, now=NOW, record=self.record, user='system')
         work = work_claims.claim(self.connection, ICON, SHA, 'mac-b/claude', decision=('claimed', 'hina', decision[2]), now=stale, record=self.record, user='system')
-        self.assertEqual((work['state'], work['worker'], work['claimed_at']), ('claimed', 'mac-b/claude', stale.isoformat()))
+        self.assertEqual((work['state'], work['worker'], work['claimed_at']), ('working', 'mac-b/claude', stale.isoformat()))
 
     def test_claim_is_one_conditional_update(self):
         decision = self.disapprove()
@@ -108,13 +108,17 @@ class StateRuleTests(unittest.TestCase):
         result = work_claims.finish(self.connection, ICON, SHA, 'mac-a/claude', 'cannot-fix', note='needs 5 gaps', decision=decision, now=NOW, record=self.record, user='system')
         self.assertEqual(result['work']['state'], 'cannot-fix')
         self.assertNotIn('status', result)
-        self.assertEqual(self.connection.execute('SELECT status, worker, note FROM reviews WHERE icon=?', (ICON,)).fetchone(),
-                         ('pending', 'mac-a/claude', 'needs 5 gaps'), 'cannot-fix is not a review status: Disapproved with the worker and note kept')
+        self.assertEqual(self.connection.execute('SELECT status, worker, updated_by, note FROM reviews WHERE icon=?', (ICON,)).fetchone(),
+                         ('pending', 'mac-a/claude', 'hina', 'needs 5 gaps'), 'cannot-fix keeps the icon Disapproved with the worker and note kept')
         catalog = {ICON: {'key': ICON, 'svg_sha256': SHA, 'family': 'sub'}}
         decisions = {ICON: ('pending', 'hina', decision[2])}
-        self.assertEqual(work_claims.queue(self.connection, catalog, decisions, {}, NOW)['total'], 0)
+        self.assertEqual(work_claims.queue(self.connection, catalog, decisions, {}, NOW)['total'], 0, 'the queue skips it')
         everything = work_claims.queue(self.connection, catalog, decisions, {}, NOW, claimable_only=False)
         self.assertEqual((everything['items'][0]['status'], everything['items'][0]['work']['state']), ('disapprove', 'cannot-fix'))
+        self.assertEqual(work_claims.queue(self.connection, catalog, decisions, {'state': ['cannot-fix']}, NOW, claimable_only=False)['total'], 1, 'the filter finds it')
+        self.assertEqual(work_claims.queue(self.connection, catalog, decisions, {'state': ['working']}, NOW, claimable_only=False)['total'], 0)
+        review = work_claims.review_listing(self.connection, catalog, decisions, {'state': ['cannot-fix']}, NOW)
+        self.assertEqual([(item['status'], item['work']['state'], item['work']['note']) for item in review['items']], [('disapprove', 'cannot-fix', 'needs 5 gaps')])
         with self.assertRaises(work_claims.WorkError):
             work_claims.claim(self.connection, ICON, SHA, 'mac-b/claude', decision=decisions[ICON], now=NOW, record=self.record, user='system')
         self.assertEqual(work_claims.abandon(self.connection, ICON, SHA, 'anyone', decision=decisions[ICON], now=NOW, record=self.record, user='system')['work'], {'state': None})
@@ -158,13 +162,13 @@ class StateRuleTests(unittest.TestCase):
         self.assertEqual(work_claims.review_listing(self.connection, catalog, decisions, {'reason': ['bad-stroke']}, NOW)['total'], 1)
         everything = work_claims.queue(self.connection, catalog, decisions, {}, NOW, claimable_only=False)
         self.assertEqual([(item['key'], item['status'], item['work']['state']) for item in everything['items']],
-                         [('sub/b', 'disapprove', None), ('sub/a', 'disapprove', None), ('solo/c', 'claimed', 'claimed')])
+                         [('sub/b', 'disapprove', None), ('sub/a', 'disapprove', None), ('solo/c', 'claimed', 'working')])
         paged = work_claims.queue(self.connection, catalog, decisions, {'limit': ['1']}, NOW)
         self.assertEqual((paged['total'], paged['next_offset'], paged['items'][0]['key']), (2, 1, 'sub/b'))
         rows = work_claims.listing(self.connection, catalog, decisions, NOW)['claims']
-        self.assertEqual([(row['icon'], row['state'], row['current'], row['status']) for row in rows], [('solo/c', 'claimed', True, 'claimed')])
+        self.assertEqual([(row['icon'], row['state'], row['current'], row['status']) for row in rows], [('solo/c', 'working', True, 'claimed')])
         review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
-        self.assertEqual(review['counts'], {'claimed': 1, 'done': 0, 'cannot-fix': 0})
+        self.assertEqual(review['counts'], {'working': 1, 'done': 0, 'cannot-fix': 0})
         self.assertEqual(review['items'][0]['key'], 'solo/c', 'most recent work first')
         # A deployed fix changes the hash: the new revision starts Ready with no row and leaves the listing.
         catalog['solo/c']['svg_sha256'] = 'c2'
@@ -303,18 +307,18 @@ class ProductionServerTests(ServerBase):
         claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
         status, body, _ = self.request(self.server, 'POST', '/api/work/claim', claim)
         self.assertEqual(status, 201, body)
-        self.assertEqual((body['work']['state'], body['item']['key'], body['item']['reason']), ('claimed', ICON, 'bad-stroke'))
+        self.assertEqual((body['work']['state'], body['item']['key'], body['item']['reason']), ('working', ICON, 'bad-stroke'))
         status, body, _ = self.request(self.server, 'POST', '/api/work/claim', dict(claim, worker='mac-b/claude'))
         self.assertEqual((status, body['work']['worker']), (409, 'mac-a/claude'))
         self.assertEqual(self.request(self.server, 'GET', '/api/work/queue')[1]['total'], 0)
         everything = self.request(self.server, 'GET', '/api/work/disapproved')[1]
-        self.assertEqual((everything['total'], everything['items'][0]['status'], everything['items'][0]['work']['state']), (1, 'claimed', 'claimed'))
+        self.assertEqual((everything['total'], everything['items'][0]['status'], everything['items'][0]['work']['state']), (1, 'claimed', 'working'))
         status, body, _ = self.request(self.server, 'GET', '/api/work?icon=' + ICON)
-        self.assertEqual((status, body['status'], body['work']['state']), (200, 'claimed', 'claimed'))
+        self.assertEqual((status, body['status'], body['work']['state']), (200, 'claimed', 'working'))
         self.assertEqual(self.request(self.server, 'GET', '/api/reviews')[1][ICON], 'claimed', 'the claim is the review status')
         self.request(self.server, 'POST', '/api/icon-type', {'icon': ICON, 'icon_type': 'avatar'}, self.cookie)
         status, body, _ = self.request(self.server, 'GET', '/api/icon-types?status=claimed')
-        self.assertEqual(body['icons'][0]['work']['state'], 'claimed')
+        self.assertEqual(body['icons'][0]['work']['state'], 'working')
         # More feedback while a worker is on it keeps the claim.
         self.disapprove('Also the top bar')
         self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=' + ICON)[1]['work']['worker'], 'mac-a/claude')
@@ -336,7 +340,7 @@ class ProductionServerTests(ServerBase):
         status, body, _ = self.request(self.server, 'POST', '/api/work/claim', dict(claim, worker='mac-b/claude'))
         self.assertEqual((status, body['work']['worker']), (201, 'mac-b/claude'))
         listing = self.request(self.server, 'GET', '/api/work')[1]['claims']
-        self.assertEqual([(row['icon'], row['worker'], row['state']) for row in listing], [(ICON, 'mac-b/claude', 'claimed')])
+        self.assertEqual([(row['icon'], row['worker'], row['state']) for row in listing], [(ICON, 'mac-b/claude', 'working')])
         with closing(sqlite3.connect(self.database)) as connection:
             actions = [row[0] for row in connection.execute("SELECT action FROM activity_log WHERE action LIKE 'work_%' ORDER BY id")]
         self.assertEqual(actions, ['work_claim', 'work_done', 'work_claim'])
@@ -370,7 +374,7 @@ class ProductionServerTests(ServerBase):
         claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
         self.assertEqual(self.request(self.server, 'POST', '/api/work/claim', claim)[0], 201)
         listing = self.request(self.server, 'GET', '/api/work/review')[1]
-        self.assertEqual((listing['total'], listing['counts'], listing['items'][0]['work']['results']), (1, {'claimed': 1, 'done': 0, 'cannot-fix': 0}, []))
+        self.assertEqual((listing['total'], listing['counts'], listing['items'][0]['work']['results']), (1, {'working': 1, 'done': 0, 'cannot-fix': 0}, []))
         self.assertEqual(self.request(self.server, 'GET', '/api/work/snapshot?icon=' + ICON + '&svg_sha256=' + SHA)[0], 404, 'snapshots are gone')
         self.assertEqual(self.request(self.server, 'POST', '/api/work/heartbeat', claim)[0], 404, 'no heartbeat: the lease is claimed_at + LEASE_HOURS')
         self.assertEqual(self.request(self.server, 'POST', '/api/work/done', dict(claim, note='sub/square-v2'))[0], 200)
@@ -425,7 +429,7 @@ class ForwardingTests(ServerBase):
         self.assertEqual((status, body['total']), (200, 1))
         claim = {'icon': ICON, 'svg_sha256': SHA, 'worker': 'mac-a/claude'}
         status, body, _ = self.request(development, 'POST', '/api/work/claim', claim)
-        self.assertEqual((status, body['work']['state']), (201, 'claimed'))
+        self.assertEqual((status, body['work']['state']), (201, 'working'))
         status, body, _ = self.request(development, 'POST', '/api/work/claim', dict(claim, worker='mac-b'))
         self.assertEqual((status, body['work']['worker']), (409, 'mac-a/claude'))
         with closing(sqlite3.connect(development_db)) as connection:
@@ -433,9 +437,9 @@ class ForwardingTests(ServerBase):
         with closing(sqlite3.connect(production_db)) as connection:
             self.assertEqual(connection.execute("SELECT worker FROM reviews WHERE status='claimed'").fetchone()[0], 'mac-a/claude')
         self.assertEqual(self.request(development, 'GET', '/api/work')[1]['claims'][0]['worker'], 'mac-a/claude')
-        self.assertEqual(self.request(development, 'GET', '/api/work/history?icon=' + ICON)[1]['current']['work']['state'], 'claimed')
+        self.assertEqual(self.request(development, 'GET', '/api/work/history?icon=' + ICON)[1]['current']['work']['state'], 'working')
         detail = self.request(development, 'GET', '/api/review-detail?icon=' + ICON)[1]
-        self.assertEqual(detail['work']['state'], 'claimed')
+        self.assertEqual(detail['work']['state'], 'working')
         production.shutdown()
         production.server_close()
         development.work_cache = None

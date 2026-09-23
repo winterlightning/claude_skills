@@ -14,15 +14,15 @@ A claim is not a separate record. It is the **review status** of an icon
 revision (`icon` + `svg_sha256`, one row in `reviews`), plus three columns on
 that row: `worker`, `claimed_at` and `note`. The review statuses are the ones
 reviewers already know plus **Claimed**; cannot-fix is not a review status.
-The work state follows the worker's path, **Claimed → Done** or **Cannot fix**,
+The work state follows the worker's path, **Working → Done** or **Cannot fix**,
 and is `null` for a revision nobody has worked on.
 
 | Review status (database) | Set by | Meaning | `work.state` | Claimable |
 |---|---|---|---|---|
 | `pending` (`disapprove` in the API), no worker | reviewer | needs a fix, nobody on it | `null` | yes |
-| `claimed`, `claimed_at` < 6 h ago | worker (`claim`) | a machine is fixing it | `claimed` | no |
+| `claimed`, `claimed_at` < 6 h ago | worker (`claim`) | a machine is fixing it | `working` | no |
 | `claimed`, `claimed_at` ≥ 6 h ago | the clock | expired: set back to `pending` with no worker on the next work call | `null` | yes |
-| `pending` with a `worker` and `note` | worker (`cannot-fix`) | gave up, `note` says why; skipped by the queue | `cannot-fix` | no |
+| `pending` with a `worker` and `note` | worker (`cannot-fix`) | gave up, `note` says why; skipped by the queue, listed by `state=cannot-fix` | `cannot-fix` | no |
 | `ready` with a `worker` | worker (`done`) | fixed, waiting for the reviewer; feedback kept | `done` | no |
 | `ready` / `approve` / `rejected`, no worker | reviewer or build | nothing to fix | `null` | no |
 
@@ -45,7 +45,10 @@ Rules that follow from the table:
   gallery's manual Ready button clears feedback; `done` does not.)
 - **Cannot fix** keeps the review status Disapproved but leaves `worker` and
   `note` on the row. The queue skips such a row (`work.state` `cannot-fix`)
-  until a reviewer decides again or `abandon` clears the worker.
+  until a reviewer decides again or `abandon` clears the worker. Reviewers
+  find these icons with the **Cannot fix (worker gave up)** reason filter in
+  the gallery, `GET /api/work/disapproved?state=cannot-fix`, or
+  `work_queue.py queue --cannot-fix`.
 - **Every reviewer decision clears the claim.** Setting Ready, Approved,
   Disapproved or Rejected from the gallery nulls `worker` and `claimed_at`, so
   disapproving a `done` or `cannot-fix` icon again puts it straight back in the
@@ -68,12 +71,12 @@ Rules that follow from the table:
 ## Machine A and machine B
 
 ```
-machine A: next  → queue lists X (no work state) → claim X → X is claimed (A, 6 h)
+machine A: next  → queue lists X (no work state) → claim X → X is claimed, working (A, 6 h)
 machine B: next  → queue skips X → claims Y instead
 machine A: fixes X, publishes, done X → X is ready with worker A; feedback kept
 machine B: next  → X is not listed (ready); claim X → 409 "Only disapproved icons can be claimed"
 reviewer:  disapproves X again → worker cleared, X is claimable
-machine B: next  → X is listed → claim X → claimed (B)
+machine B: next  → X is listed → claim X → claimed, working (B)
 ```
 
 A crashed machine holds nothing forever: six hours after its claim the icon is
@@ -91,8 +94,8 @@ row and must match on `done`, `cannot-fix` and `result`.
 
 | Route | Method | Body / query | Result |
 |---|---|---|---|
-| `/api/work/queue` | GET | `family`, `category`, `type`, `reason`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable icons (Disapproved, `work.state` null), oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
-| `/api/work/disapproved` | GET | same filters as the queue | every icon whose status is `disapprove` or `claimed`, with `status` and `work` (`claimed`, `cannot-fix` or null) |
+| `/api/work/queue` | GET | `family`, `category`, `type`, `reason`, `state`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable icons (Disapproved, `work.state` null), oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
+| `/api/work/disapproved` | GET | same filters as the queue; `state=cannot-fix` lists the icons workers gave up on | every icon whose status is `disapprove` or `claimed`, with `status` and `work` (`working`, `cannot-fix` or null) |
 | `/api/work/review` | GET | `family`, `reason`, `state`, `status`, `limit`, `offset` | the disapproved list plus `done` icons awaiting review, newest work first, with `counts` per state and `work.results` |
 | `/api/work/history` | GET | `icon` | the icon's revisions (review, claim, feedback and results per hash) and its full change log from `activity_log` |
 | `/api/work/result` | POST | `icon`, `svg_sha256`, `worker`, `stage` (`before`/`after`), `svg`, optional `python_path`, `python_source`, `validation`, `note` | stores a fix result for the worker's own claim (`before` while working; `after` while working or after done / cannot-fix); each ≤ 512 KB; the SVG must be a clean 0 0 N N document for the icon's canvas |
@@ -134,6 +137,7 @@ export PICTOGRAPHIC_API='https://<production>'                  # default: the r
 python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # claim + brief; exit 3 = nothing to claim
 python3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # several at once
 python3 icon_set/scripts/work_queue.py queue --family sub                       # look without claiming
+python3 icon_set/scripts/work_queue.py queue --cannot-fix                       # disapproved icons a worker gave up on
 python3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"
 python3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "MIC 6 impossible with three bars"
 python3 icon_set/scripts/work_queue.py abandon --icon sub/plus
@@ -177,9 +181,10 @@ the work routes.
 ## What reviewers see
 
 - Claimed and cannot-fix icons stay under **Disapproved** in the review grid,
-  with a second badge: **Claimed · worker · Nh left**, **Fixed by worker ·
+  with a second badge: **Working · worker · Nh left**, **Fixed by worker ·
   awaiting review** or **Cannot fix · worker**. Hover for the note and
-  timestamps.
+  timestamps. The reason filter's **Cannot fix (worker gave up)** option shows
+  only the icons a worker gave up on.
 - After a `done` report the icon appears under **Ready** with its feedback
   still attached. Approve it, or disapprove it again to send it back to the
   queue.
