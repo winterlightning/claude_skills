@@ -68,6 +68,14 @@ builds never seed it or overwrite its edits.
 
 ## Daily work
 
+Disapproved icons are fixed through the shared production work queue so two
+machines never repair the same icon: `python3 icon_set/scripts/work_queue.py next`
+claims one on production and prints its brief, `done` reports the fix and
+returns the revision to Ready, `cannot-fix` and `abandon` release it. A local
+`dev` server forwards every `/api/work*` request to its `--sync-source`, so the
+review grid on localhost shows production's claims. See
+[Work claims](work-claims.md).
+
 Read a generation queue page without a running HTTP server using
 `python3 icon_set/scripts/generation_queue.py 40 --offline`. This reads the
 workspace's published primitive catalog and local review database in read-only

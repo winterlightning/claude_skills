@@ -38,6 +38,7 @@ then build; ``--qa-overlays DIR`` reads another folder.
 from __future__ import annotations
 
 import argparse
+import functools
 import hashlib
 import inspect
 import json
@@ -63,7 +64,7 @@ from icon_set.scripts.icon_artwork import ArtworkStore, resolve_artwork, icon_fr
 from icon_set.scripts.gallery import stage_gallery  # noqa: E402
 from icon_set.model import contracts  # noqa: E402
 from icon_set.model.metadata import publish_metadata
-from icon_set.model.icons.registry import factories, icons_in, families as registry_families  # noqa: E402
+from icon_set.model.icons.registry import factories, icons_in, create, families as registry_families  # noqa: E402
 from icon_set.model.profiles import Profile  # noqa: E402
 from icon_set.renderers.png import render_png  # noqa: E402
 from icon_set.validation.library_qa import inspect_icon, artifact_key, save_evidence  # noqa: E402
@@ -94,17 +95,23 @@ def _prune(directory: Path, suffix: str, keep: set[str]) -> list[Path]:
     return removed
 
 
+@functools.cache
+def _rules_mtime() -> float | None:
+    """Newest validation, renderer, model or contract file, scanned once per build."""
+    inputs = [* (PACKAGE_ROOT / 'validation').rglob('*.py'),
+              * (PACKAGE_ROOT / 'renderers').rglob('*.py'),
+              * (PACKAGE_ROOT / 'model').glob('*.py'),
+              * (PACKAGE_ROOT / 'model' / 'contracts').glob('*.json')]
+    return max((path.stat().st_mtime for path in inputs), default=None)
+
+
 def _source_mtime(icon) -> float | None:
     """Newest input to publication, including geometry and validation code.
 
     An unchanged drawing must be rechecked when the rules or their implementation
     change. Targeted builds still carry unselected icons over explicitly.
     """
-    inputs = [* (PACKAGE_ROOT / 'validation').rglob('*.py'),
-              * (PACKAGE_ROOT / 'renderers').rglob('*.py'),
-              * (PACKAGE_ROOT / 'model').glob('*.py'),
-              * (PACKAGE_ROOT / 'model' / 'contracts').glob('*.json')]
-    newest = max((path.stat().st_mtime for path in inputs), default=None)
+    newest = _rules_mtime()
     for cls in type(icon).__mro__:
         try:
             filename = inspect.getsourcefile(cls)
@@ -253,10 +260,116 @@ def _manifest_icons(path: Path) -> dict[str, dict]:
         return {}
 
 
+def _hms(seconds: float) -> str:
+    seconds = max(0, int(seconds))
+    if seconds >= 3600:
+        return f"{seconds // 3600}h{seconds % 3600 // 60:02d}m"
+    if seconds >= 60:
+        return f"{seconds // 60}m{seconds % 60:02d}s"
+    return f"{seconds}s"
+
+
+class _Progress:
+    """One progress line on stderr: a bar, counts, elapsed time and an estimate.
+
+    On a terminal the line is redrawn in place at most ten times a second; when
+    stderr is a file or pipe a line is written every few seconds instead.
+    """
+
+    def __init__(self, label: str, total: int, width: int = 30):
+        self.label, self.total, self.width = label, total, width
+        self.done = 0
+        self.note = ''
+        self.started = time.monotonic()
+        self.last_draw = 0.0
+        self.tty = sys.stderr.isatty()
+
+    def tick(self, count: int = 1, note: str | None = None) -> None:
+        self.done += count
+        if note is not None:
+            self.note = note
+        now = time.monotonic()
+        if self.done < self.total and now - self.last_draw < (0.1 if self.tty else 5.0):
+            return
+        self._draw()
+
+    def _draw(self) -> None:
+        self.last_draw = time.monotonic()
+        fraction = self.done / self.total if self.total else 1.0
+        filled = int(self.width * fraction)
+        bar = '#' * filled + '-' * (self.width - filled)
+        elapsed = self.last_draw - self.started
+        remaining = elapsed / self.done * (self.total - self.done) if self.done else 0.0
+        line = (f"[{self.label}] [{bar}] {self.done}/{self.total} {fraction:4.0%}"
+                f"{'  ' + self.note if self.note else ''}  {_hms(elapsed)} elapsed, ~{_hms(remaining)} left")
+        if self.tty:
+            sys.stderr.write('\r\x1b[K' + line)
+        else:
+            sys.stderr.write(line + '\n')
+        sys.stderr.flush()
+
+    def close(self) -> None:
+        self._draw()
+        if self.tty:
+            sys.stderr.write('\n')
+            sys.stderr.flush()
+
+
+class _RenderFailed(RuntimeError):
+    """A worker's PNG export failed; the message already names the original error."""
+
+
+def _check_icon(task: tuple) -> tuple[dict, bytes | None, str | None]:
+    """Validate one Python original and, when it passes, render its preview.
+
+    Runs on a worker process (or in-process for small builds), so it takes an icon
+    id and rebuilds the icon from the registry. Returns (qa, png, png_error).
+    """
+    icon_id, debug_dir, want_png, selected = task
+    icon = create(icon_id)
+    qa = inspect_icon(icon, debug_dir=Path(debug_dir) if debug_dir else None, selected=selected)
+    png = error = None
+    if want_png and qa['status'] == 'pass':
+        try:
+            png = render_png(icon)
+        except (OSError, ValueError, TypeError, RuntimeError) as failure:
+            error = f'{type(failure).__name__}: {failure}'
+    return qa, png, error
+
+
+def _warm_registry() -> None:
+    factories()
+
+
+POOL_THRESHOLD = 32
+
+
+def _checked(tasks: list[tuple], jobs: int | None):
+    """Yield ``_check_icon`` results for ``tasks`` in order, on a process pool when worth it.
+
+    Validation and rendering are CPU-bound Python, so processes rather than
+    threads. A pool only pays off past a few dozen icons: each worker imports the
+    icon registry before its first task.
+    """
+    jobs = jobs or os.cpu_count() or 1
+    if jobs <= 1 or len(tasks) < POOL_THRESHOLD:
+        for task in tasks:
+            yield _check_icon(task)
+        return
+    import multiprocessing
+    from concurrent.futures import ProcessPoolExecutor
+    workers = min(jobs, len(tasks))
+    chunksize = max(1, min(32, len(tasks) // (workers * 4)))
+    with ProcessPoolExecutor(workers, mp_context=multiprocessing.get_context('spawn'),
+                             initializer=_warm_registry) as pool:
+        yield from pool.map(_check_icon, tasks, chunksize=chunksize)
+
+
 def _stage_family(
     family: str, dist: Path, png_dir: Path | None, *, write_png: bool, published_dist: Path,
     qa_rows: list, qa_dir: Path | None, debug: bool, previous: _Previous | None = None,
     only: set[str] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None, changed_only=False,
+    jobs: int | None = None,
 ) -> tuple[int, int]:
     """Write one family into staging. Returns (prepared, failed).
 
@@ -318,19 +431,18 @@ def _stage_family(
         return _qa_overlay_failure(qa_overlays, folder, icon_id, svg_sha)
 
     artwork_store = ArtworkStore(artwork_dir) if artwork_dir is not None else None
+    # Pass 1 decides, in library order, which icons reuse their last result and
+    # which must be checked. Pass 2 applies those decisions in the same order,
+    # so records and QA rows come out exactly as a sequential build writes them,
+    # while the checks themselves run on a process pool.
+    steps: list[tuple] = []
     for icon in icons:
         key = artifact_key(icon)
         choice = artwork_store.get(key) if artwork_store is not None else None
         manual = resolve_artwork(icon.to_record(), choice) if choice else None
         mtime = (0.0 if changed_only else _source_mtime(icon)) if previous is not None else None
         if icon.profile is not profile or icon.family != family:
-            qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
-            qa['_key'] = key
-            qa_rows.append(qa)
-            fail(icon, qa, [
-                f"family {family!r} ships {profile.name} only; this icon is "
-                f"{icon.family!r} on {getattr(icon.profile, 'name', icon.profile)!r}"
-            ], mtime)
+            steps.append(('mismatch', icon, key, mtime))
             continue
         if previous is not None and only is None and manual is None:
             drawing = _drawing_sha(icon)
@@ -343,9 +455,7 @@ def _stage_family(
             if _reusable_record(record, target_dir / f"{icon.icon_id}.svg", png, mtime, drawing) and \
                     overlay is None and \
                     (qa_dir is None or (old_qa is not None and old_qa['status'] == 'pass')):
-                records.append(record)
-                if old_qa is not None:
-                    qa_rows.append(old_qa)
+                steps.append(('reuse', record, old_qa))
                 reused += 1
                 continue
             stale = old_failed.get(icon.icon_id)
@@ -361,14 +471,51 @@ def _stage_family(
                     except OSError:
                         document = None
                 if stale.get('svg') is None or document is not None:
-                    if old_qa is not None:
-                        qa_rows.append(old_qa)
-                    failures.append((icon.icon_id, stale.get('errors') or stale.get('warnings') or []))
-                    if document is not None:
-                        (failed_dir / stale['svg']).write_text(document, encoding='utf-8')
-                    failed_records.append(stale)
+                    steps.append(('stale', icon, stale, old_qa, document))
                     reused += 1
                     continue
+        steps.append(('check', icon, key, choice, manual, mtime))
+
+    # Python originals are validated and rendered on the pool. Manual artwork and
+    # profile mismatches are rare and stay in this process.
+    tasks = [(step[1].icon_id, str(qa_dir / step[2]) if debug and qa_dir else None, preview_dir is not None, True)
+             for step in steps if step[0] == 'check' and step[4] is None]
+    checked_results = _checked(tasks, jobs)
+    if steps:
+        print(f"[{family}] checking {len(steps) - reused} of {len(steps)} icons, {reused} reused", flush=True)
+    progress = _Progress(family, len(steps))
+    for step in steps:
+        kind = step[0]
+        if kind == 'reuse':
+            _, record, old_qa = step
+            records.append(record)
+            if old_qa is not None:
+                qa_rows.append(old_qa)
+            progress.tick(note=f"{len(failures)} failed")
+            continue
+        if kind == 'stale':
+            _, icon, stale, old_qa, document = step
+            if old_qa is not None:
+                qa_rows.append(old_qa)
+            failures.append((icon.icon_id, stale.get('errors') or stale.get('warnings') or []))
+            if document is not None:
+                (failed_dir / stale['svg']).write_text(document, encoding='utf-8')
+            failed_records.append(stale)
+            progress.tick(note=f"{len(failures)} failed")
+            continue
+        if kind == 'mismatch':
+            _, icon, key, mtime = step
+            qa = inspect_icon(icon, debug_dir=qa_dir / key if debug and qa_dir else None)
+            qa['_key'] = key
+            qa_rows.append(qa)
+            fail(icon, qa, [
+                f"family {family!r} ships {profile.name} only; this icon is "
+                f"{icon.family!r} on {getattr(icon.profile, 'name', icon.profile)!r}"
+            ], mtime)
+            progress.tick(note=f"{len(failures)} failed")
+            continue
+        _, icon, key, choice, manual, mtime = step
+        png_bytes = png_error = None
         if manual and manual['source_mode'] == 'use_upload':
             # Uploaded outlines are an explicit human-selected source, not a
             # claim that the original Python primitive graph passed checks.
@@ -379,9 +526,11 @@ def _stage_family(
                   'spacing': {'status': 'not_run'}, 'negative_space': {'status': 'not_run'},
                   'symmetry': {'status': 'not_run'}, 'rules_sha256': None,
                   '_svg': manual['svg'], 'svg_sha256': manual['svg_sha256']}
-        else:
-            qa = inspect_icon(icon_from_graph(manual['graph']) if manual else icon,
+        elif manual:
+            qa = inspect_icon(icon_from_graph(manual['graph']),
                               debug_dir=qa_dir / key if debug and qa_dir else None)
+        else:
+            qa, png_bytes, png_error = next(checked_results)
         if manual:
             qa['artwork_source'] = manual['source_mode']
             qa['human_selection'] = {'by': choice.get('selected_by', choice['updated_by']), 'at': choice.get('selected_at', choice['updated_at'])}
@@ -404,6 +553,7 @@ def _stage_family(
             if overlay is not None:
                 failed_records[-1]['qa_overlays_failed'] = True
                 failed_records[-1]['holes'].extend(overlay['holes'])
+            progress.tick(note=f"{len(failures)} failed")
             continue
         try:
             document = qa['_svg']
@@ -444,15 +594,23 @@ def _stage_family(
                     preview.write_bytes(cairosvg.svg2png(bytestring=document.encode('utf-8'),
                                                         output_width=profile.spec.canvas_size,
                                                         output_height=profile.spec.canvas_size))
+                elif png_error is not None:
+                    raise _RenderFailed(png_error)
                 else:
-                    preview.write_bytes(render_png(icon))
+                    preview.write_bytes(png_bytes if png_bytes is not None else render_png(icon))
             # Recorded only once every output exists, so a half-exported icon is
             # left out of the manifest and its files are pruned below.
             records.append(record)
+        except _RenderFailed as error:
+            qa['status'] = 'error'
+            qa['errors'].append(f'export: {error}')
+            fail(icon, qa, qa['errors'], mtime)
         except (OSError, ValueError, TypeError, RuntimeError) as error:
             qa['status'] = 'error'
             qa['errors'].append(f'export: {type(error).__name__}: {error}')
             fail(icon, qa, qa['errors'], mtime)
+        progress.tick(note=f"{len(failures)} failed")
+    progress.close()
 
     if only is not None:
         # Carried-over records went in first; restore canonical order so output stays byte-stable.
@@ -554,7 +712,7 @@ def _build_selected(families, dist, png_dir, **options):
 
 
 def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, report=True, rebuild_all=False, only=None,
-                    qa_overlays=None, artwork_dir=None, changed_only=False):
+                    qa_overlays=None, artwork_dir=None, changed_only=False, jobs=None):
     dist = dist.resolve()
     png_dir = png_dir.resolve() if write_png and png_dir is not None else None
     counts = []
@@ -591,12 +749,16 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                 family, stages[dist], stages.get(png_dir),
                 write_png=write_png, published_dist=dist,
                 qa_rows=qa_rows, qa_dir=qa_dir, debug=debug, previous=previous, only=only,
-                qa_overlays=qa_overlays, artwork_dir=artwork_dir, changed_only=changed_only,
+                qa_overlays=qa_overlays, artwork_dir=artwork_dir, changed_only=changed_only, jobs=jobs,
             ))
         if qa_dir is not None:
             # A filtered build still shows the complete current library. Only
             # selected families determine whether this release can be published.
             from icon_set.model.icons.registry import all_icons
+            # Rows keep library order: icons without a reusable row are checked
+            # on the pool and slotted back into their place.
+            rows: list = []
+            pending: list[tuple[int, str, str]] = []
             for icon in all_icons():
                 if icon.family in families:
                     continue
@@ -607,9 +769,19 @@ def _build_selected_locked(families, dist, png_dir, *, write_png, debug=False, r
                 if row is None and only is not None:
                     continue  # A targeted report never measures an unselected icon.
                 if row is None:
-                    row = inspect_icon(icon, debug_dir=qa_dir / key if debug else None, selected=False)
+                    pending.append((len(rows), icon.icon_id, key))
+                rows.append(row)
+            if pending:
+                print(f"[qa report] re-checking {len(pending)} icons outside the built families "
+                      f"(rules changed since their last row)", flush=True)
+                progress = _Progress('qa report', len(pending))
+                tasks = [(icon_id, str(qa_dir / key) if debug else None, False, False) for _, icon_id, key in pending]
+                for (index, _, key), (row, _, _) in zip(pending, _checked(tasks, jobs)):
                     row['_key'] = key
-                qa_rows.append(row)
+                    rows[index] = row
+                    progress.tick()
+                progress.close()
+            qa_rows.extend(rows)
             save_evidence(qa_rows, qa_dir, debug=debug, report=report)
             # Publish QA with the gallery and manifests in the same transaction.
         # Publish every family that exported something; failing icons are simply
@@ -670,7 +842,7 @@ def build(
     dist: Path = DEFAULT_DIST, png_dir: Path | None = DEFAULT_PNG, *, write_png: bool = True,
     only: list[str] | None = None, debug: bool = False, report: bool = True,
     rebuild_all: bool = False, sources: list[Path] | None = None, qa_overlays: Path | None = None, artwork_dir: Path | None = None,
-    allow_validation_failures: bool = False, changed_only: bool = False,
+    allow_validation_failures: bool = False, changed_only: bool = False, jobs: int | None = None,
 ) -> int:
     families = list(contracts.families())
     if only:
@@ -696,7 +868,8 @@ def build(
         # Without --family, build just the families the selected icons belong to.
         families = [name for name in families if name in icon_families] if not only else families
     _, failed = _build_selected(families, dist, png_dir, write_png=write_png, debug=debug, report=report,
-                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir, changed_only=changed_only)
+                                rebuild_all=rebuild_all, only=selected, qa_overlays=qa_overlays, artwork_dir=artwork_dir,
+                                changed_only=changed_only, jobs=jobs)
     return 1 if failed and not allow_validation_failures else 0
 
 
@@ -733,6 +906,9 @@ def main(argv: list[str] | None = None) -> int:
                         help='Publish the review gallery even when drawings fail validation; build errors still fail')
     parser.add_argument('--changed-only', action='store_true',
                         help='Reuse unchanged SVGs and validation results by content; do not revalidate for rule-only changes')
+    parser.add_argument('--jobs', '-j', type=int, default=None, metavar='N',
+                        help='validate and render icons on N worker processes (default: every CPU core); '
+                             '1 runs everything in this process')
     args = parser.parse_args(argv)
     if args.changed_only and args.rebuild_all:
         parser.error('--changed-only and --all cannot be combined')
@@ -740,7 +916,8 @@ def main(argv: list[str] | None = None) -> int:
         return build(args.dist, args.png_dir, write_png=not args.no_png, only=args.family,
                      debug=args.debug, report=args.report, rebuild_all=args.rebuild_all, sources=args.sources,
                      qa_overlays=args.qa_overlays, artwork_dir=args.artwork_dir,
-                     allow_validation_failures=args.allow_validation_failures, changed_only=args.changed_only)
+                     allow_validation_failures=args.allow_validation_failures, changed_only=args.changed_only,
+                     jobs=args.jobs)
     except (OSError, ValueError) as error:
         parser.exit(2, f'error: {error}\n')
 

@@ -6,7 +6,7 @@
   }).catch(()=>{});
   const nav=document.querySelector('.site-nav');
   // Keep every page's tabs, order, and active state in one place.
-  const links=[["home.html", "Home"], ["icon-laboratory.html", "Design Document"], ["icons.html", "Icon"], ["preview.html", "Preview"], ["index.html", "Icon review"], ["experiment.html", "Experiment"], ["ai-review.html", "AI quality review"], ["primitives.html", "Progression"], ["upload.html", "Upload icon"], ["api.html", "API"]];
+  const links=[["home.html", "Home"], ["icon-laboratory.html", "Design Document"], ["icons.html", "Icon"], ["preview.html", "Preview"], ["index.html", "Icon review"], ["experiment.html", "Experiment"], ["ai-review.html", "AI quality review"], ["primitives.html", "Progression"], ["work.html", "Fix queue"], ["upload.html", "Upload icon"], ["api.html", "API"]];
   const page=location.pathname.split('/').pop()||'home.html';
   const current=({'text-combine.html':'experiment.html','generate.html':'index.html','reviewers.html':'index.html','failures.html':'index.html','concept-dictionary.html':'primitives.html'})[page]||page;
   if(nav){

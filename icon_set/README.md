@@ -993,6 +993,25 @@ workflow must reconcile anchors/relationships and run validation before building
 an updated icon. Validation evidence in Information describes the published SVG,
 not the pending edit.
 
+### Shared fix queue: who is fixing which disapproved icon
+
+Reviews live in one production database, and several machines and agents fix
+icons at once, so production also records **work claims**. A claim belongs to
+one icon revision (`icon` + `svg_sha256`) and adds a `work` state next to the
+review status: `open`, `working` (a machine holds a 3-hour lease), `expired`,
+`done` (fixed; the revision was returned to Ready with its feedback kept) or
+`cannot-fix`. An icon is claimable only while it is Disapproved and `open` or
+`expired`; a reviewer disapproving it again after a report reopens it.
+
+`GET /api/work/disapproved` (every disapproved icon with its work state), `GET /api/work/queue` (claimable ones), `GET /api/work[?icon=]` and one POST per action
+(`/api/work/claim`, `heartbeat`, `done`, `cannot-fix`, `abandon`) are served by
+production. A development server never stores claims: it forwards these routes
+to its `--sync-source` (the production tunnel) so localhost shows the same
+badges. `GET /api/icon-types` and `GET /api/review-detail` include the `work`
+field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The **Fix queue** page (`gallery/work.html`) shows every disapproved icon with its work state and worker and claims selected icons. Agents use `python3 icon_set/scripts/work_queue.py next|done|cannot-fix|abandon|heartbeat|status`
+and the `/fix-icon-queue` skill. The full state table, curl examples and
+recovery steps are in [docs/work-claims.md](../docs/work-claims.md).
+
 ### Developer lookup by icon type
 
 `GET /api/icon-types?type=avatar&status=disapprove` returns tagged icons without

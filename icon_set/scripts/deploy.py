@@ -34,7 +34,7 @@ import webbrowser
 
 if __package__:
     from .attribute_legacy_reviews import migrate as migrate_legacy_reviewers
-    from .reviewer_stats import current_reviews, reviewer_stats
+    from .reviewer_stats import current_decisions, current_reviews, reviewer_stats
     from .upload_validation import validate_upload
     from .icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from .stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -49,9 +49,10 @@ if __package__:
                                     init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from .progression import import_snapshot
     from .primitives_catalog import primitives_root
+    from . import work_claims
 else:
     from attribute_legacy_reviews import migrate as migrate_legacy_reviewers
-    from reviewer_stats import current_reviews, reviewer_stats
+    from reviewer_stats import current_decisions, current_reviews, reviewer_stats
     from upload_validation import validate_upload
     from icon_artwork import ArtworkStore, baseline, resolve_artwork, icon_from_graph, sha, safe_svg
     from stroke_edits import StrokeEditStore, EditConflict, GRAPH_FIELDS
@@ -66,6 +67,7 @@ else:
                                    init_primitive_symbol_links, set_symbol_link, load_symbol_links)
     from progression import import_snapshot
     from primitives_catalog import primitives_root
+    import work_claims
 
 if __package__:
     from .workspace import DEFAULT_DIST, DEFAULT_DATABASE
@@ -90,6 +92,10 @@ MAX_DISCARD_BATCH = 500
 DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffered-scored-nicole-default.trycloudflare.com')
 MAX_SYNC_BYTES = 1024 * 1024 * 1024
 SYNC_TIMEOUT = 120
+# Work claims live only in the production database; a development server forwards these.
+WORK_ROUTES = ('/api/work/claim', '/api/work/heartbeat', '/api/work/done', '/api/work/cannot-fix', '/api/work/abandon')
+WORK_FORWARD_TIMEOUT = 30
+WORK_CACHE_SECONDS = 10
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
 # Review decisions point at artwork kept beside the database: an approved upload or
 # gallery edit changes the icon's svg_sha256, so these folders travel with the database.
@@ -168,6 +174,7 @@ def init_database(path: Path) -> None:
         init_primitive_status(connection)
         init_primitive_symbol_links(connection)
         init_primitive_briefs(connection)
+        work_claims.init_work_claims(connection)
     # Data migrations run against this installation's live database after its
     # schema is committed; no local database copy or manual attribution command.
     migrate_legacy_reviewers(path)
@@ -841,6 +848,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             self.end_headers()
             self.wfile.write(content)
             return
+        if parsed.path in ('/api/work', '/api/work/queue', '/api/work/disapproved'):
+            return self.work_read(parsed)
         if parsed.path == '/api/icon-types':
             query = parse_qs(parsed.query)
             wanted = query.get('type', [None])[0]
@@ -848,6 +857,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 catalog = self.catalog(include_failed=True)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
                     types = connection.execute('SELECT icon,icon_type,updated_at,updated_by FROM icon_types WHERE icon_type != \'\'').fetchall()
+                    work_of = self.work_lookup(connection)
                     result = []
                     for key, icon_type, at, actor in types:
                         if key not in catalog or (wanted is not None and icon_type != wanted):
@@ -861,7 +871,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         result.append({'icon': key, 'icon_type': icon_type, 'status': status,
                                        'python_source': icon.get('python_source'), 'svg_sha256': icon['svg_sha256'],
                                        'reason': feedback[0] if feedback else None, 'feedback': feedback[1] if feedback else None,
-                                       'updated_at': at, 'updated_by': actor})
+                                       'updated_at': at, 'updated_by': actor,
+                                       'work': work_of(key, icon['svg_sha256'], review['updated_at'])})
                 return self.json_response({'icons': result})
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Icon types are temporarily unavailable.'}, 503)
@@ -963,7 +974,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if key not in catalog:
                     return self.json_response({'error': 'Unknown icon'}, 404)
                 with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                    return self.json_response(review_detail(connection, key, catalog[key]['svg_sha256']))
+                    detail = review_detail(connection, key, catalog[key]['svg_sha256'])
+                    detail['work'] = self.work_lookup(connection)(key, catalog[key]['svg_sha256'], detail['updated_at'])
+                    return self.json_response(detail)
             except (OSError, ValueError, sqlite3.Error):
                 return self.json_response({'error': 'Review details are temporarily unavailable'}, 503)
         if parsed.path == '/api/feedback':
@@ -1012,7 +1025,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if self.production_blocked(route):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         original_route = route
-        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync'):
+        if route not in ('/api/icon-families', '/api/combinations/container/combine', '/api/combination-refresh', '/api/combination-experiment', '/api/icons/upload', '/api/ai-feedback', '/api/icon-artwork', '/api/stroke-edits/validate', '/api/stroke-edits', '/api/auth/login', '/api/auth/logout', '/api/generation', '/api/generation/accept', '/api/generation/discard', '/api/icon-type', '/api/icon-flag', '/api/feedback/delete', '/api/feedback/edit', '/api/feedback', '/api/reviews', '/api/reject-combination', '/api/pending-briefs/complete', '/api/reject-combination/restore', '/api/reference-images', '/api/icons/discard', '/api/combinations/side/keep-sub', '/api/primitives/status', '/api/primitives/briefs', '/api/primitives/symbol-link', '/api/symbols/copy-from-sub', '/api/feedback-db/sync', *WORK_ROUTES):
             return self.json_response({'error': 'Not found'}, 404)
         # Login identifies a human reviewer; sessionless API calls are system actions.
         user = self.current_user() or 'system'
@@ -1111,6 +1124,8 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                     return self.json_response({'error': 'Review statuses are temporarily unavailable'}, 503)
             if route == '/api/icons/discard':
                 return self.discard_icon(data, user)
+            if route in WORK_ROUTES:
+                return self.work_action(route, data, user)
             if route == '/api/combinations/side/keep-sub':
                 return self.keep_side_sub(data, user)
             if route == '/api/feedback-db/sync':
@@ -1214,6 +1229,175 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             return self.json_response(result, 201)
         except sqlite3.Error:
             return self.json_response({'error': 'Could not save feedback'}, 503)
+
+    # ---- work claims: one database (production); development forwards ----
+
+    def work_origin(self):
+        return (getattr(self.server, 'sync_source', None) or DEFAULT_SYNC_SOURCE).rstrip('/')
+
+    def forward_to_production(self, method, path, body=None):
+        """Relay a work request to production and return its answer unchanged."""
+        origin = self.work_origin()
+        request = urllib.request.Request(origin + path, method=method,
+                                         data=json.dumps(body).encode('utf-8') if body is not None else None,
+                                         headers={'Content-Type': 'application/json', 'Accept': 'application/json'})
+        try:
+            with urllib.request.urlopen(request, timeout=WORK_FORWARD_TIMEOUT) as response:
+                return self.json_response(json.loads(response.read().decode('utf-8')), response.status)
+        except urllib.error.HTTPError as error:
+            try:
+                payload = json.loads(error.read().decode('utf-8'))
+                if not isinstance(payload, dict):
+                    raise ValueError()
+            except ValueError:
+                payload = {'error': f'Production returned HTTP {error.code}. Is it running the latest deploy.py?'}
+            return self.json_response(payload, error.code)
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError) as error:
+            reason = getattr(error, 'reason', error)
+            return self.json_response({'error': f'Production is unreachable at {origin}: {reason}'}, 502)
+
+    def remote_work_map(self):
+        """Current production claims by icon key, cached briefly per process."""
+        cached = getattr(self.server, 'work_cache', None)
+        if cached and cached[0] > time.monotonic():
+            return cached[1], cached[2]
+        origin = self.work_origin()
+        try:
+            request = urllib.request.Request(origin + '/api/work', headers={'Accept': 'application/json'})
+            with urllib.request.urlopen(request, timeout=WORK_FORWARD_TIMEOUT) as response:
+                claims = json.loads(response.read().decode('utf-8'))['claims']
+            table, error = {row['icon']: row for row in claims if row.get('current')}, None
+        except (urllib.error.URLError, TimeoutError, OSError, ValueError, KeyError, TypeError) as failure:
+            table, error = {}, f'Production is unreachable at {origin}: {getattr(failure, "reason", failure)}'
+        self.server.work_cache = (time.monotonic() + WORK_CACHE_SECONDS, table, error)
+        return table, error
+
+    def work_lookup(self, connection):
+        """(key, sha, review_updated_at) -> the ``work`` field for that revision."""
+        if getattr(self.server, 'production', False):
+            claims, now = work_claims.load_claims(connection), datetime.now(timezone.utc)
+            return lambda key, sha, stamp: work_claims.work_field(
+                claims.get((key, sha)), work_claims.work_state(claims.get((key, sha)), stamp, now))
+        table, error = self.remote_work_map()
+
+        def remote(key, sha, stamp):
+            if error:
+                return {'state': 'unknown', 'error': error}
+            row = table.get(key)
+            if not row or row.get('svg_sha256') != sha:
+                return {'state': 'open'}
+            return {k: v for k, v in row.items() if k not in ('icon', 'current', 'status')}
+        return remote
+
+    def work_read(self, parsed):
+        if not getattr(self.server, 'production', False):
+            return self.forward_to_production('GET', parsed.path + ('?' + parsed.query if parsed.query else ''))
+        try:
+            catalog = self.catalog(include_failed=True)
+            with closing(sqlite3.connect(self.database, timeout=10)) as connection:
+                decisions = current_decisions(connection, catalog)
+                now = datetime.now(timezone.utc)
+                if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
+                    return self.json_response(work_claims.queue(connection, catalog, decisions, parse_qs(parsed.query), now,
+                                                                claimable_only=parsed.path.endswith('/queue')))
+                key = parse_qs(parsed.query).get('icon', [''])[0]
+                if key:
+                    if key not in catalog:
+                        return self.json_response({'error': 'Unknown icon'}, 404)
+                    detail = review_detail(connection, key, catalog[key]['svg_sha256'])
+                    return self.json_response({'icon': key, 'svg_sha256': catalog[key]['svg_sha256'],
+                                               'status': 'disapprove' if detail['status'] == 'pending' else detail['status'],
+                                               'work': self.work_lookup(connection)(key, catalog[key]['svg_sha256'], detail['updated_at'])})
+                return self.json_response(work_claims.listing(connection, catalog, decisions, now))
+        except work_claims.WorkError as error:
+            return self.json_response({'error': str(error)}, error.status)
+        except (OSError, ValueError, sqlite3.Error):
+            return self.json_response({'error': 'Work claims are temporarily unavailable.'}, 503)
+
+    def work_action(self, route, data, user):
+        if not getattr(self.server, 'production', False):
+            return self.forward_to_production('POST', route, data)
+        action = route.rsplit('/', 1)[1]
+        if action == 'claim' and 'icons' in data:
+            return self.work_claim_many(data, user)
+        status, payload = self.work_one(action, data.get('icon'), data.get('svg_sha256'), data, user)
+        return self.json_response(payload, status)
+
+    def work_claim_many(self, data, user):
+        """Claim several icons in one call; each icon succeeds or is refused on its own."""
+        icons = data.get('icons')
+        if not isinstance(icons, list) or not icons or len(icons) > work_claims.MAX_QUEUE:
+            return self.json_response({'error': f'icons must be a list of 1-{work_claims.MAX_QUEUE} icon keys or {{icon, svg_sha256}} objects.'}, 400)
+        try:
+            worker = work_claims.validate_worker(data.get('worker'))
+        except work_claims.WorkError as error:
+            return self.json_response({'error': str(error)}, error.status)
+        claimed, refused, seen = [], [], set()
+        for entry in icons:
+            key, sha = (entry, None) if isinstance(entry, str) else ((entry.get('icon'), entry.get('svg_sha256')) if isinstance(entry, dict) else (None, None))
+            if not isinstance(key, str) or not key:
+                refused.append({'icon': entry if isinstance(entry, str) else None, 'status': 400, 'error': 'Each entry needs an icon key.'})
+                continue
+            if key in seen:
+                continue
+            seen.add(key)
+            status, payload = self.work_one('claim', key, sha, dict(data, worker=worker), user, require_sha=sha is not None)
+            if status == 201:
+                claimed.append(payload['item'])
+            else:
+                refused.append(dict(payload, icon=key, status=status))
+        return self.json_response({'saved': bool(claimed), 'worker': worker, 'claimed': claimed, 'refused': refused}, 200)
+
+    def work_one(self, action, key, sha_given, data, user, *, require_sha=True):
+        """Run one work transition on production; returns (http status, JSON payload)."""
+        worker = data.get('worker')
+        if not isinstance(key, str) or not key:
+            return 400, {'error': 'Choose an icon.'}
+        try:
+            icon = self.catalog(include_failed=True).get(key)
+        except (OSError, ValueError, sqlite3.Error):
+            return 503, {'error': 'Gallery is temporarily unavailable'}
+        if icon is None:
+            return 404, {'error': 'Unknown icon'}
+        sha = icon.get('svg_sha256') or ''
+        if (require_sha or sha_given is not None) and (sha_given or '') != sha:
+            return 409, {'error': 'Icon changed on production; refresh the queue and use its svg_sha256. '
+                                  'If your build is ahead of production, wait for the production pull.', 'svg_sha256': sha}
+        try:
+            with closing(sqlite3.connect(self.database, timeout=10, isolation_level=None)) as connection:
+                connection.execute('BEGIN IMMEDIATE')
+                try:
+                    if self.is_rejected(connection, key, sha):
+                        raise work_claims.WorkError('Restore this rejected icon before working on it.', 409)
+                    detail = review_detail(connection, key, sha)
+                    decision = (detail['status'], detail['updated_by'], detail['updated_at'])
+                    now = datetime.now(timezone.utc)
+                    common = dict(decision=decision, now=now, record=record_activity, user=user)
+                    if action == 'claim':
+                        result = {'work': work_claims.claim(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
+                        feedback = work_claims.latest_feedback(connection).get((key, sha))
+                        item = work_claims.queue_item(dict(icon, icon_type=work_claims.icon_types(connection).get(key)),
+                                                      decision, feedback, work_claims.load_claim(connection, key, sha), 'working')
+                        result.update(item=item)
+                    elif action == 'heartbeat':
+                        result = {'work': work_claims.heartbeat(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
+                    elif action in ('done', 'cannot-fix'):
+                        result = work_claims.finish(connection, key, sha, worker, action, note=data.get('note'), **common)
+                    else:
+                        result = work_claims.abandon(connection, key, sha, worker, admin=user != 'system', **common)
+                    connection.execute('COMMIT')
+                except BaseException:
+                    connection.execute('ROLLBACK')
+                    raise
+            result.update(saved=True, icon=key, svg_sha256=sha)
+            return (201 if action == 'claim' else 200), result
+        except work_claims.WorkError as error:
+            payload = {'error': str(error)}
+            if error.work is not None:
+                payload['work'] = error.work
+            return error.status, payload
+        except sqlite3.Error:
+            return 503, {'error': 'Could not save the work claim'}
 
     def upload_families(self):
         from icon_set.model import contracts
