@@ -11,8 +11,10 @@ Arguments: $ARGUMENTS
 Run from the repository containing `icon_set/`. The first number in the arguments is the
 **count** of icons to claim (required; ask when it is missing). `--offset N` skips that many
 claimable icons, `--disapprove-status` keeps one disapproval reason (`bad-stroke`, `meaning`,
-`manual-fix-request`, `other`). The **worker name** identifies your machine on every call: take
-it from `--worker`, else from `$PICTOGRAPHIC_WORKER`, else ask (for example `thuan-mac`).
+`manual-fix-request`, `other`). The **worker name** identifies your machine on every call and is
+**required**: take it from `--worker`, else from `$PICTOGRAPHIC_WORKER`; if neither is set, ask
+the user for it (for example `thuan-mac`) before claiming anything. Never invent one from the
+hostname, and never reuse a name you saw in the queue; the scripts refuse to run without it.
 
 **Claim first.** Retrieve and claim the icons with one command built from those arguments:
 

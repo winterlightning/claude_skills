@@ -224,7 +224,7 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
     parser.add_argument('--base-url', default=None, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
-    parser.add_argument('--worker', default=None, help='your worker name, e.g. thuan-mac (default: $PICTOGRAPHIC_WORKER)')
+    parser.add_argument('--worker', default=None, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required')
     parser.add_argument('--results-root', type=Path, default=None, help=argparse.SUPPRESS)
     commands = parser.add_subparsers(dest='command', required=True)
     begin = commands.add_parser('start', help='claim disapproved solo icons and record their first version')
@@ -238,7 +238,7 @@ def main(argv=None):
     end.add_argument('--note', default='')
     args = parser.parse_args(argv)
     base_url = args.base_url or work_queue.default_base_url()
-    worker = args.worker or work_queue.default_worker()
+    worker = (args.worker or '').strip() or work_queue.default_worker()  # exits with guidance when unset
     try:
         if args.command == 'start':
             if args.limit < 1 or args.offset < 0:

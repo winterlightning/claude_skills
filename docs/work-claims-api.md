@@ -10,7 +10,7 @@ disapproved icons. Concepts and the state table are in
 |---|---|
 | Base URL | the production gallery, e.g. `https://<production>`. A local `python3 -m icon_set dev` server forwards every `/api/work*` call there, so `http://127.0.0.1:8000` works too. |
 | Login | none. Send `Content-Type: application/json` on POST. |
-| Worker | a name you choose once and reuse on every call, e.g. `mac-a/claude-fable-5-1`. It is stored on the claim; only the same worker may report it. |
+| Worker | a name you choose once per machine and reuse on every call, e.g. `thuan-mac`. Required: `--worker` or `PICTOGRAPHIC_WORKER`, no default. It is stored on the claim; only the same worker may report it. |
 | Hash | every write names the revision with `svg_sha256`. Use the value the API just gave you; a stale hash is refused with `409`. |
 
 ```bash

@@ -116,7 +116,7 @@ curl --fail-with-body -H 'Content-Type: application/json' \
 no local server or database.
 
 ```bash
-export PICTOGRAPHIC_WORKER="$(hostname -s)/claude-fable-5-1"   # default: hostname/user
+export PICTOGRAPHIC_WORKER=thuan-mac        # required: no default, one name per machine
 export PICTOGRAPHIC_API='https://<production>'                  # default: the recorded tunnel
 
 python3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # claim + brief; exit 3 = nothing to claim

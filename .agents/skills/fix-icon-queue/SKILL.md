@@ -33,8 +33,11 @@ validated fix.
    the claim and must match on every later call:
 
    ```bash
-   export PICTOGRAPHIC_WORKER="$(hostname -s)/<your-model>"   # e.g. mac-a/claude-fable-5-1
+   export PICTOGRAPHIC_WORKER=thuan-mac   # one name per machine; required, no default
    ```
+
+   If it is not set and the request gives no `--worker`, ask the user for it before
+   claiming anything; the scripts refuse to run without a worker name.
 
    The API base defaults to the production tunnel recorded in `deploy.py`;
    override with `--base-url` or `PICTOGRAPHIC_API` when it changed.

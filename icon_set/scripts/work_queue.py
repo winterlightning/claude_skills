@@ -16,17 +16,15 @@ Ready for the reviewer); ``cannot-fix`` and ``abandon`` release it.
     python3 icon_set/scripts/work_queue.py queue [--family sub] [--limit 20]
 
 The base URL defaults to $PICTOGRAPHIC_API, then $PICTOGRAPHIC_SYNC_SOURCE, then
-the production tunnel recorded in deploy.py. The worker name defaults to
-$PICTOGRAPHIC_WORKER, then "<hostname>/<user>". See docs/work-claims.md.
+the production tunnel recorded in deploy.py. The worker name has no default: pass
+--worker or export PICTOGRAPHIC_WORKER (for example thuan-mac). See docs/work-claims.md.
 """
 from __future__ import annotations
 
 import argparse
-import getpass
 import json
 import os
 from pathlib import Path
-import socket
 import sys
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
@@ -55,14 +53,16 @@ def default_base_url():
     return DEFAULT_SYNC_SOURCE
 
 
+WORKER_HELP = ('Set your worker name so production knows which machine holds the claim: '
+               'pass --worker thuan-mac or export PICTOGRAPHIC_WORKER=thuan-mac. There is no default.')
+
+
 def default_worker():
-    if os.environ.get('PICTOGRAPHIC_WORKER'):
-        return os.environ['PICTOGRAPHIC_WORKER']
-    try:
-        user = getpass.getuser()
-    except (KeyError, OSError):
-        user = 'agent'
-    return f'{socket.gethostname().split(".")[0]}/{user}'
+    """The worker name must be chosen deliberately; never derive one from the machine."""
+    worker = os.environ.get('PICTOGRAPHIC_WORKER', '').strip()
+    if not worker:
+        raise SystemExit('error: ' + WORKER_HELP)
+    return worker
 
 
 def call(base_url, method, path, body=None, query=None):
@@ -151,7 +151,7 @@ def main(argv=None):
     # --base-url, --worker and --json are accepted before or after the subcommand.
     shared = argparse.ArgumentParser(add_help=False)
     shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
-    shared.add_argument('--worker', default=argparse.SUPPRESS, help='who is working (default: $PICTOGRAPHIC_WORKER or hostname/user)')
+    shared.add_argument('--worker', default=argparse.SUPPRESS, help='your worker name, e.g. thuan-mac (or export PICTOGRAPHIC_WORKER); required for claims and reports')
     shared.add_argument('--json', action='store_true', default=argparse.SUPPRESS, help='print the raw API response')
     parser.set_defaults(base_url=None, worker=None, json=False)
     for action in shared._actions:
@@ -196,7 +196,7 @@ def main(argv=None):
     status.add_argument('--icon')
     args = parser.parse_args(argv)
     base_url = args.base_url or default_base_url()
-    worker = args.worker or default_worker()
+    worker = (args.worker or '').strip() or (default_worker() if args.command not in ('queue', 'status') else '')
     try:
         if args.command == 'next':
             if args.limit < 1 or args.offset < 0:
