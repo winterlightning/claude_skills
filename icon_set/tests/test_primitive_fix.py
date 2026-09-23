@@ -103,7 +103,7 @@ class PrimitiveFixTests(ServerBase):
         self.assertEqual(code, 2)
         self.assertIn('refused', err.getvalue())
         self.assertFalse((run / 'result.json').exists())
-        self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'working')
+        self.assertEqual(self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]['work']['state'], 'claimed')
         self.assertEqual(self.request(self.server, 'GET', '/api/work/history?icon=solo/anchor')[1]['revisions'][0]['results'].get('after'), None)
         clean = FakeIcon(FakeReport('valid'))
         with patch('sys.stdout', io.StringIO()) as out, patch.object(primitive_fix, 'load_icon', return_value=clean), \
@@ -142,7 +142,7 @@ class PrimitiveFixTests(ServerBase):
             code = primitive_fix.finish(self.base, 'thuan-mac', 'solo/anchor', 'cannot-fix', 'MIC 8 impossible', self.results)
         self.assertEqual(code, 0)
         body = self.request(self.server, 'GET', '/api/work?icon=solo/anchor')[1]
-        self.assertEqual((body['status'], body['work']['state'], body['work']['note']), ('cannot-fix', 'cannot-fix', 'MIC 8 impossible'))
+        self.assertEqual((body['status'], body['work']['state'], body['work']['note']), ('disapprove', 'cannot-fix', 'MIC 8 impossible'))
 
 
 class UploadRuleTests(ServerBase):

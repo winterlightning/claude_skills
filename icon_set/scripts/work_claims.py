@@ -2,27 +2,28 @@
 
 There is one table. ``reviews`` holds the review status of every icon revision
 (``icon`` + ``svg_sha256``) and, since claims moved onto it, who is working on
-that revision::
+that revision. The review statuses are the ones reviewers know plus one::
 
     ready        nothing to do (a fixed revision reported ``done`` keeps its worker)
-    pending      Disapproved by a reviewer (``disapprove`` in the API): claimable
-    claimed      a worker took it; ``worker`` and ``claimed_at`` say who and when
-    cannot-fix   the worker gave up with a ``note``; stays out of the queue
+    pending      Disapproved by a reviewer (``disapprove`` in the API)
+    claimed      a worker is on it; ``worker`` and ``claimed_at`` say who and since when
     approve / rejected   reviewer decisions, never claimable
 
 The ``work.state`` the API reports is derived from that row and the clock:
 
-    open        pending and unclaimed
-    working     claimed less than LEASE_HOURS ago
-    expired     claimed longer ago: claimable again, no heartbeat needed
+    open        disapproved and nobody on it: claimable
+    claimed     review status claimed, less than LEASE_HOURS ago
     done        ready, set by a worker's ``done`` report (feedback kept for review)
-    cannot-fix  as stored
+    cannot-fix  disapproved, but a worker gave up: ``worker`` and ``note`` stay on
+                the row so the queue skips it until a reviewer decides again
     none        every other status
 
-A deployed fix changes the hash, so the new revision starts Ready with no row;
-the old row stays as history. A reviewer who sets any status through the
-gallery clears the claim columns, so disapproving a ``done`` or ``cannot-fix``
-icon again puts it straight back in the queue.
+A claim older than LEASE_HOURS has expired: ``release_expired`` sets the row back
+to Disapproved (worker cleared) and it is ``open`` again; no heartbeat exists. A
+deployed fix changes the hash, so the new revision starts Ready with no row; the
+old row stays as history. A reviewer who sets any status through the gallery
+clears the claim columns, so disapproving a ``done`` or ``cannot-fix`` icon again
+puts it straight back in the queue.
 
 Every function takes an open connection and ``now`` so it can be tested without
 HTTP. Only production writes these columns; development servers forward to it.
@@ -34,8 +35,8 @@ import json
 import re
 
 LEASE_HOURS = 6
-DISAPPROVED = ('pending', 'claimed', 'cannot-fix')  # the review statuses that mean "needs a fix"
-CLAIMABLE = ('open', 'expired')
+DISAPPROVED = ('pending', 'claimed')  # the review statuses that mean "needs a fix"
+CLAIMABLE = ('open',)
 MAX_WORKER = 120
 MAX_NOTE = 4000
 MAX_QUEUE = 500
@@ -62,6 +63,19 @@ def init_work_claims(connection) -> None:
     migrate_claims_table(connection)
 
 
+def release_expired(connection, now, record=None) -> int:
+    """Claims older than LEASE_HOURS go back to Disapproved so the icon is open again; returns how many."""
+    stale = (now - timedelta(hours=LEASE_HOURS)).isoformat()
+    rows = connection.execute("SELECT icon, svg_sha256, worker, claimed_at FROM reviews WHERE status='claimed' AND claimed_at <= ?",
+                              (stale,)).fetchall()
+    for icon, sha, worker, claimed_at in rows:
+        connection.execute("UPDATE reviews SET status='pending', worker=NULL, claimed_at=NULL, note='' "
+                           "WHERE icon=? AND svg_sha256=? AND status='claimed' AND claimed_at=?", (icon, sha, claimed_at))
+        if record is not None:
+            record(connection, 'system', 'work_expired', icon, svg_sha256=sha, worker=worker, claimed_at=claimed_at)
+    return len(rows)
+
+
 def migrate_claims_table(connection) -> None:
     """One-time move of the old separate tables onto the review rows, then drop them."""
     tables = {row[0] for row in connection.execute("SELECT name FROM sqlite_master WHERE type='table'")}
@@ -76,7 +90,7 @@ def migrate_claims_table(connection) -> None:
                 connection.execute("UPDATE reviews SET status='claimed', worker=?, claimed_at=?, note='' WHERE icon=? AND svg_sha256=?",
                                    (worker, claimed_at, icon, sha))
             elif state == 'cannot-fix' and status == 'pending' and not (decided and updated_at and decided > updated_at):
-                connection.execute("UPDATE reviews SET status='cannot-fix', worker=?, claimed_at=?, note=? WHERE icon=? AND svg_sha256=?",
+                connection.execute("UPDATE reviews SET worker=?, claimed_at=?, note=? WHERE icon=? AND svg_sha256=?",
                                    (worker, claimed_at, note or '', icon, sha))
             elif state == 'done' and status == 'ready':
                 connection.execute('UPDATE reviews SET worker=?, claimed_at=?, note=? WHERE icon=? AND svg_sha256=?',
@@ -127,7 +141,7 @@ def save_result(connection, key, sha, stage, worker, *, svg, python_path=None, p
         raise WorkError('python_path must be a short path string.', 400)
     note = validate_note(note)
     row, state = _current(connection, key, sha, now)
-    allowed = ('working',) if stage == 'before' else ('working', 'done', 'cannot-fix')
+    allowed = ('claimed',) if stage == 'before' else ('claimed', 'done', 'cannot-fix')
     if state not in allowed:
         raise WorkError(f'Upload the {stage} result while you hold the claim; this revision is {state}.', 409, work_field(row, state))
     if row['worker'] != worker:
@@ -219,12 +233,10 @@ def work_state(row, now) -> str:
         return 'none'
     status = row['status']
     if status == 'pending':
-        return 'open'
+        return 'cannot-fix' if row.get('worker') else 'open'
     if status == 'claimed':
         claimed = parse_time(row.get('claimed_at'))
-        return 'working' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else 'expired'
-    if status == 'cannot-fix':
-        return 'cannot-fix'
+        return 'claimed' if claimed and now < claimed + timedelta(hours=LEASE_HOURS) else 'open'  # expired: released on next write
     if status == 'ready' and row.get('worker'):
         return 'done'
     return 'none'
@@ -233,7 +245,7 @@ def work_state(row, now) -> str:
 def work_field(row, state) -> dict:
     """What the API returns under ``work``."""
     field = {'state': state}
-    if row and row.get('worker'):
+    if row and row.get('worker') and state != 'open':
         field.update(worker=row['worker'], note=row.get('note') or '', claimed_at=row.get('claimed_at'),
                      updated_at=row.get('updated_at'), svg_sha256=row['svg_sha256'])
         if row['status'] == 'claimed':
@@ -376,29 +388,29 @@ def claim(connection, key, sha, worker, *, decision, now, record, user) -> dict:
     if status not in DISAPPROVED and status != 'disapprove':
         raise WorkError(f'Only disapproved icons can be claimed; this revision is {public_status(status)}.', 409, work_field(row, state))
     if state not in CLAIMABLE:
-        if state == 'working' and row['worker'] == worker:
+        if state == 'claimed' and row['worker'] == worker:
             raise WorkError('You already hold this claim.', 409, work_field(row, state))
-        message = {'working': f'{row["worker"]} is working on this icon.',
+        message = {'claimed': f'{row["worker"]} is working on this icon.',
                    'cannot-fix': f'{row["worker"]} reported this revision cannot be fixed.'}.get(state, f'This revision is {state}.')
         raise WorkError(message, 409, work_field(row, state))
     stamp = now.isoformat()
     stale = (now - timedelta(hours=LEASE_HOURS)).isoformat()
     changed = connection.execute('''UPDATE reviews SET status='claimed', worker=?, claimed_at=?, note=''
-        WHERE icon=? AND svg_sha256=? AND (status='pending' OR (status='claimed' AND claimed_at <= ?))''',
+        WHERE icon=? AND svg_sha256=? AND ((status='pending' AND worker IS NULL) OR (status='claimed' AND claimed_at <= ?))''',
                                  (worker, stamp, key, sha, stale)).rowcount
     if not changed:
         row, state = _current(connection, key, sha, now)
         raise WorkError('Another worker claimed this icon just now.', 409, work_field(row, state))
-    if state == 'expired':
-        record(connection, user, 'work_expired', key, svg_sha256=sha, worker=row['worker'], expired_at=expires_at(row), taken_by=worker)
+    if row and row['status'] == 'claimed':
+        record(connection, user, 'work_expired', key, svg_sha256=sha, worker=row['worker'], claimed_at=row['claimed_at'], taken_by=worker)
     fresh = load_row(connection, key, sha)
     record(connection, user, 'work_claim', key, svg_sha256=sha, worker=worker, expires_at=expires_at(fresh))
-    return work_field(fresh, 'working')
+    return work_field(fresh, 'claimed')
 
 
-def _own_working(connection, key, sha, worker, now, verb):
+def _own_claim(connection, key, sha, worker, now, verb):
     row, state = _current(connection, key, sha, now)
-    if state != 'working':
+    if state != 'claimed':
         raise WorkError(f'No active claim to {verb}; this revision is {state}.', 409, work_field(row, state))
     if row['worker'] != worker:
         raise WorkError(f'This claim belongs to {row["worker"]}, not {worker}.', 409, work_field(row, state))
@@ -411,7 +423,7 @@ def finish(connection, key, sha, worker, outcome, *, decision, now, record, user
         raise WorkError('outcome must be done or cannot-fix.', 400)
     worker = validate_worker(worker)
     note = validate_note(note, required=outcome == 'cannot-fix')
-    _own_working(connection, key, sha, worker, now, 'finish')
+    _own_claim(connection, key, sha, worker, now, 'finish')
     stamp = now.isoformat()
     if outcome == 'done':
         # Back to Ready for the reviewer, attributed to the worker. The disapproval
@@ -421,16 +433,17 @@ def finish(connection, key, sha, worker, outcome, *, decision, now, record, user
         record(connection, user, 'work_done', key, svg_sha256=sha, worker=worker, note=note)
         record(connection, worker, 'review', key, status='ready', svg_sha256=sha, source='work_done', feedback_kept=True)
         return {'work': work_field(load_row(connection, key, sha), 'done'), 'status': 'ready'}
-    connection.execute("UPDATE reviews SET status='cannot-fix', note=? WHERE icon=? AND svg_sha256=?", (note, key, sha))
+    # Back to Disapproved, but the worker and note stay on the row: the queue skips it until a reviewer decides again.
+    connection.execute("UPDATE reviews SET status='pending', note=? WHERE icon=? AND svg_sha256=?", (note, key, sha))
     record(connection, user, 'work_cannot_fix', key, svg_sha256=sha, worker=worker, note=note)
     return {'work': work_field(load_row(connection, key, sha), 'cannot-fix')}
 
 
 def abandon(connection, key, sha, worker, *, decision, now, record, user) -> dict:
-    """claimed or cannot-fix -> disapproved again, by anyone; the icon is open at once."""
+    """claimed or cannot-fix -> disapproved with no worker, by anyone; the icon is open at once."""
     worker = validate_worker(worker)
     row, state = _current(connection, key, sha, now)
-    if state not in ('working', 'expired', 'cannot-fix'):
+    if state not in ('claimed', 'cannot-fix'):
         raise WorkError(f'There is no claim to release; this revision is {state}.', 409 if row else 404, work_field(row, state))
     connection.execute("UPDATE reviews SET status='pending', worker=NULL, claimed_at=NULL, note='' WHERE icon=? AND svg_sha256=?", (key, sha))
     record(connection, user, 'work_abandon', key, svg_sha256=sha, worker=row['worker'], released_by=worker, previous_state=state)

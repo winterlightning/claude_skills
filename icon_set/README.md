@@ -998,19 +998,21 @@ not the pending edit.
 Reviews live in one production database, and several machines and agents fix
 icons at once, so a fix claim is a **review status** on the same `reviews`
 row: Disapproved (`pending`) → **Claimed** (`worker`, `claimed_at`) → Ready
-(reported `done`, feedback kept for the reviewer) or **Cannot fix** (`note`).
-The API derives a `work.state` from that row and the clock: `open`, `working`,
-`expired` (claimed more than six hours ago, claimable again, no heartbeat),
-`done` or `cannot-fix`. A claim is one conditional update, so two machines can
-never both win; any reviewer decision in the gallery clears the worker, so
-disapproving a done or cannot-fix icon again puts it straight back in the queue.
+(reported `done`, feedback kept for the reviewer), or back to Disapproved with
+the worker and a `note` kept when the worker reports cannot-fix. The API
+derives a `work.state` from that row and the clock: `open`, `claimed`, `done`
+or `cannot-fix`; a claim older than six hours is set back to Disapproved and
+`open` on the next work call, with no heartbeat. A claim is one conditional
+update, so two machines can never both win; any reviewer decision in the
+gallery clears the worker, so disapproving a done or cannot-fix icon again puts
+it straight back in the queue.
 
-`GET /api/work/disapproved` (every Disapproved, Claimed or Cannot-fix icon with its work state), `GET /api/work/queue` (claimable ones), `GET /api/work[?icon=]` and one POST per action
+`GET /api/work/disapproved` (every Disapproved or Claimed icon with its work state), `GET /api/work/queue` (claimable ones), `GET /api/work[?icon=]` and one POST per action
 (`/api/work/claim`, `done`, `cannot-fix`, `abandon`) are served by
 production. A development server never stores claims: it forwards these routes
 to its `--sync-source` (the production tunnel) so localhost shows the same
 badges. `GET /api/icon-types` and `GET /api/review-detail` include the `work`
-field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The read-only **Fix queue** page (`gallery/work.html`) shows every disapproved, claimed, cannot-fix or freshly fixed icon with its work state and worker, and per icon a before/after comparison, its revisions and its change log (`GET /api/work/review`, `/api/work/history`). Workers upload the drawing before and after a fix (`POST /api/work/result`), shown as Before / Fixed / Now in the page's History. Agents use `python3 icon_set/scripts/work_queue.py next|upload|done|cannot-fix|abandon|status`,
+field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The read-only **Fix queue** page (`gallery/work.html`) shows every disapproved, claimed or freshly fixed icon with its work state and worker, and per icon a before/after comparison, its revisions and its change log (`GET /api/work/review`, `/api/work/history`). Workers upload the drawing before and after a fix (`POST /api/work/result`), shown as Before / Fixed / Now in the page's History. Agents use `python3 icon_set/scripts/work_queue.py next|upload|done|cannot-fix|abandon|status`,
 the `/fix-icon-queue` skill, or `/primitive-fix-thuan <count>` which claims solo icons, keeps each first version, fixes the registered module in place, uploads before/after and reports done (`icon_set/scripts/primitive_fix.py`). The full state table and recovery steps are in
 [docs/work-claims.md](../docs/work-claims.md); the request-by-request walkthrough
 (fetch, claim, done, result) is [docs/work-claims-api.md](../docs/work-claims-api.md).

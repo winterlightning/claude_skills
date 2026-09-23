@@ -98,7 +98,7 @@ MAX_WORK_RESULT_BODY = 1536 * 1024
 # One table for review status and fix claims: claimed / cannot-fix are statuses, worker + claimed_at say who holds it.
 REVIEWS_TABLE = '''CREATE TABLE IF NOT EXISTS reviews (
     icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
-    status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected', 'claimed', 'cannot-fix')),
+    status TEXT NOT NULL CHECK(status IN ('ready', 'pending', 're-generated', 'approve', 'rejected', 'claimed')),
     updated_at TEXT NOT NULL, updated_by TEXT, worker TEXT, claimed_at TEXT, note TEXT NOT NULL DEFAULT '',
     PRIMARY KEY(icon, svg_sha256))'''
 REVIEWS_COLUMNS = ('icon', 'svg_sha256', 'status', 'updated_at', 'updated_by', 'worker', 'claimed_at', 'note')
@@ -150,8 +150,10 @@ def init_database(path: Path) -> None:
             connection.execute("ALTER TABLE feedback ADD COLUMN reference_images TEXT NOT NULL DEFAULT '[]'")
         connection.execute(REVIEWS_TABLE)
         schema = connection.execute("SELECT sql FROM sqlite_master WHERE name='reviews'").fetchone()[0]
-        if 'claimed' not in schema:
-            # Older CHECK constraints lack the claim statuses: rebuild the table around the same rows.
+        if 'claimed' not in schema or 'cannot-fix' in schema:
+            # Older CHECK constraints lack the claimed status (or still allow the retired cannot-fix one):
+            # rebuild the table around the same rows. A cannot-fix row is a Disapproved row that keeps its worker and note.
+            connection.execute("UPDATE reviews SET status='pending' WHERE status='cannot-fix'")
             legacy = [row[1] for row in connection.execute('PRAGMA table_info(reviews)')]
             connection.execute('ALTER TABLE reviews RENAME TO reviews_legacy')
             connection.execute(REVIEWS_TABLE)
@@ -1313,8 +1315,10 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         try:
             catalog = self.catalog(include_failed=True)
             with closing(sqlite3.connect(self.database, timeout=10)) as connection:
-                decisions = current_decisions(connection, catalog)
                 now = datetime.now(timezone.utc)
+                if work_claims.release_expired(connection, now, record_activity):
+                    connection.commit()
+                decisions = current_decisions(connection, catalog)
                 query = parse_qs(parsed.query)
                 if parsed.path in ('/api/work/queue', '/api/work/disapproved'):
                     return self.json_response(work_claims.queue(connection, catalog, decisions, query, now,
@@ -1415,15 +1419,16 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 try:
                     if self.is_rejected(connection, key, sha):
                         raise work_claims.WorkError('Restore this rejected icon before working on it.', 409)
+                    now = datetime.now(timezone.utc)
+                    work_claims.release_expired(connection, now, record_activity)
                     detail = review_detail(connection, key, sha)
                     decision = (detail['status'], detail['updated_by'], detail['updated_at'])
-                    now = datetime.now(timezone.utc)
                     common = dict(decision=decision, now=now, record=record_activity, user=user)
                     if action == 'claim':
                         result = {'work': work_claims.claim(connection, key, sha, worker, **common)}
                         feedback = work_claims.latest_feedback(connection).get((key, sha))
                         item = work_claims.queue_item(dict(icon, icon_type=work_claims.icon_types(connection).get(key)),
-                                                      decision, feedback, work_claims.load_row(connection, key, sha), 'working')
+                                                      decision, feedback, work_claims.load_row(connection, key, sha), 'claimed')
                         result.update(item=item)
                     elif action in ('done', 'cannot-fix'):
                         result = work_claims.finish(connection, key, sha, worker, action, note=data.get('note'), **common)

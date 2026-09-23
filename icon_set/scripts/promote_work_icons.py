@@ -1,0 +1,185 @@
+#!/usr/bin/env python3
+"""Register icons drawn by the folder-only skills so the gallery can count them.
+
+side-main-make-thuan and side-sub-make-thuan save each drawing in
+``icon_set/work/<skill>/<source-uuid>/<run>/`` and never touch the registry, so
+the side-mains and side-subs pages keep showing those sources as missing until
+the module is copied into ``icon_set/model/icons/<family>/`` and a build runs.
+This script does that step: for every source it takes the newest run whose
+result.json says ``valid``, rewrites the module's imports to the relative form
+the model tree uses, and copies it in. A run that was promoted before (its
+module already exists in the tree, or the run carries promoted.json) is left
+alone, as is a source with no valid run.
+
+An icon id already owned by another family gets the ``-<family>`` suffix, so a
+solo main drawn for a source that also has a container icon becomes
+``<id>-solo``. Pass --no-suffix to skip those instead.
+
+Note the skills validate with ``validate_icon()`` only; the build also runs the
+hole/pinch and internal-spacing gates, so some promoted icons land in the
+Failing bucket rather than Done. --strict runs those gates first and skips
+icons that would fail, reporting them.
+
+    python3 icon_set/scripts/promote_work_icons.py --dry-run      # what would be promoted
+    python3 icon_set/scripts/promote_work_icons.py --build        # promote, then build --changed-only
+    python3 icon_set/scripts/promote_work_icons.py --skill side-sub-make-thuan --build
+"""
+from __future__ import annotations
+
+import argparse
+import json
+import re
+import subprocess
+import sys
+from datetime import datetime, timezone
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+if str(REPO_ROOT) not in sys.path:
+    sys.path.insert(0, str(REPO_ROOT))
+
+WORK = REPO_ROOT / 'icon_set' / 'work'
+MODELS = REPO_ROOT / 'icon_set' / 'model' / 'icons'
+SKILLS = {  # work folder -> (family, base class)
+    'side-main-make-thuan': ('solo', 'Solo48'),
+    'side-sub-make-thuan': ('sub', 'Sub32'),
+    'primitive-make-ray': ('solo', 'Solo48'),
+}
+ICON_ID = re.compile(r'''^(\s*)icon_id\s*=\s*(['"])([^'"]+)\2''', re.MULTILINE)
+
+
+def _relative_imports(text: str, family: str, base: str) -> str:
+    text = text.replace('from icon_set.model.keyshapes import Keyshape', 'from ...keyshapes import Keyshape')
+    text = text.replace(f'from icon_set.model.icons.{family}._base import {base}', f'from ._base import {base}')
+    return text
+
+
+def _latest_valid_run(source_dir: Path) -> Path | None:
+    runs = []
+    for run in source_dir.iterdir():
+        result = run / 'result.json'
+        if not result.is_file():
+            continue
+        try:
+            data = json.loads(result.read_text(encoding='utf-8'))
+        except ValueError:
+            continue
+        if data.get('validation_status') == 'valid' and len(list(run.glob('*.py'))) == 1:
+            runs.append(run)
+    return max(runs, key=lambda run: run.name) if runs else None
+
+
+def _strict_ok(module_path: Path, icon_id: str) -> list[str]:
+    """The build's own findings for a module, so a failing icon can be held back."""
+    import importlib.util
+    from icon_set.validation.library_qa import inspect_icon
+    spec = importlib.util.spec_from_file_location(f'_promote_{module_path.stem}', module_path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    for value in vars(module).values():
+        if isinstance(value, type) and getattr(value, 'icon_id', None) == icon_id:
+            qa = inspect_icon(value())
+            return [] if qa['status'] == 'pass' else (qa['errors'] or qa['warnings'] or ['failed'])
+    return [f'no class with icon_id {icon_id!r}']
+
+
+def promote(skills: list[str], *, dry_run: bool, suffix: bool, strict: bool) -> dict:
+    from icon_set.model.icons.registry import factories
+    registered = factories()
+    report = {'promoted': [], 'skipped': [], 'held': [], 'families': set()}
+    taken = set(registered)  # ids owned by the tree plus those promoted earlier in this run
+    for skill in skills:
+        family, base = SKILLS[skill]
+        root = WORK / skill
+        if not root.is_dir():
+            continue
+        target_dir = MODELS / family
+        for source_dir in sorted(p for p in root.iterdir() if p.is_dir()):
+            run = _latest_valid_run(source_dir)
+            if run is None:
+                report['skipped'].append((source_dir.name, 'no valid run'))
+                continue
+            module = next(run.glob('*.py'))
+            target = target_dir / module.name
+            if (run / 'promoted.json').is_file() or target.is_file():
+                continue
+            text = _relative_imports(module.read_text(encoding='utf-8'), family, base)
+            match = ICON_ID.search(text)
+            if match is None:
+                report['skipped'].append((source_dir.name, f'{module.name}: no icon_id'))
+                continue
+            icon_id = match[3]
+            if icon_id in taken:
+                owner = registered.get(icon_id)
+                where = f'registered in {owner.family}' if owner is not None else 'promoted from another run in this batch'
+                new_id = f'{icon_id}-{family}'
+                if not suffix or owner is None or new_id in taken:
+                    report['skipped'].append((source_dir.name, f'{icon_id} already {where}; rename the icon_id in {module.name}'))
+                    continue
+                text = text[:match.start(3)] + new_id + text[match.end(3):]
+                icon_id = new_id
+            if strict:
+                # Check the copy as the build will see it, in a scratch location.
+                scratch = run / f'.strict-{module.name}'
+                scratch.write_text(text, encoding='utf-8')
+                try:
+                    findings = _strict_ok(scratch, icon_id)
+                finally:
+                    scratch.unlink(missing_ok=True)
+                if findings:
+                    report['held'].append((source_dir.name, icon_id, findings[0]))
+                    continue
+            taken.add(icon_id)
+            report['promoted'].append((source_dir.name, icon_id, str(target.relative_to(REPO_ROOT))))
+            report['families'].add(family)
+            if dry_run:
+                continue
+            target.write_text(text, encoding='utf-8')
+            (run / 'promoted.json').write_text(json.dumps({
+                'icon_id': icon_id, 'module': str(target.relative_to(REPO_ROOT)),
+                'promoted_at': datetime.now(timezone.utc).isoformat(),
+            }, indent=2) + '\n', encoding='utf-8')
+    return report
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--skill', action='append', choices=sorted(SKILLS), metavar='WORK_FOLDER',
+                        help='work folder to promote from (repeatable); default: side-main-make-thuan and side-sub-make-thuan')
+    parser.add_argument('--dry-run', action='store_true', help='report only; copy nothing')
+    parser.add_argument('--no-suffix', dest='suffix', action='store_false',
+                        help='skip icons whose id another family already owns instead of adding -<family>')
+    parser.add_argument('--strict', action='store_true',
+                        help="run the build's hole/pinch and spacing gates first and hold back icons that fail them")
+    parser.add_argument('--build', action='store_true', help='after promoting, run build.py --changed-only for the touched families')
+    args = parser.parse_args(argv)
+    skills = args.skill or ['side-main-make-thuan', 'side-sub-make-thuan']
+
+    report = promote(skills, dry_run=args.dry_run, suffix=args.suffix, strict=args.strict)
+    verb = 'would promote' if args.dry_run else 'promoted'
+    print(f"{verb} {len(report['promoted'])} icon(s)")
+    for source, icon_id, path in report['promoted']:
+        print(f"  {source[:8]}  {icon_id}  -> {path}")
+    for source, icon_id, finding in report['held']:
+        print(f"  held {source[:8]}  {icon_id}: {finding}")
+    for source, reason in report['skipped']:
+        if reason != 'no valid run':
+            print(f"  skipped {source[:8]}: {reason}")
+    quiet = sum(reason == 'no valid run' for _, reason in report['skipped'])
+    if quiet:
+        print(f"  {quiet} source folder(s) have no valid run yet")
+
+    if args.build and report['promoted'] and not args.dry_run:
+        command = [sys.executable, str(REPO_ROOT / 'icon_set' / 'scripts' / 'build.py'), '--changed-only']
+        for family in sorted(report['families']):
+            command += ['--family', family]
+        print('$', ' '.join(command[1:]), flush=True)
+        return subprocess.call(command, cwd=REPO_ROOT)
+    if report['promoted'] and not args.dry_run:
+        families = ' '.join(f'--family {f}' for f in sorted(report['families']))
+        print(f"now run: python3 icon_set/scripts/build.py {families} --changed-only")
+    return 0
+
+
+if __name__ == '__main__':
+    raise SystemExit(main())

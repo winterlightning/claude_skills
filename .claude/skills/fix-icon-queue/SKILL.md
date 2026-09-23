@@ -19,8 +19,9 @@ Reviews live in **one database, on production**. Several machines and agents
 fix icons at the same time. Before touching an icon you must **claim** it on
 production; the claim is the review status **Claimed** with your worker name,
 set in one conditional update, and it is what stops another machine from taking
-the same icon. An icon is claimable only while its review status is Disapproved,
-or Claimed for more than six hours (an expired claim). After you report `done`,
+the same icon. An icon is claimable only while its review status is Disapproved
+and no worker gave up on it; a claim older than six hours goes back to
+Disapproved on its own. After you report `done`,
 production sets that revision back to **Ready** for the reviewer and keeps it
 out of the queue until a reviewer disapproves it again.
 
@@ -95,7 +96,7 @@ validated fix.
 
 ## Never
 
-- Skip the claim, or work on an icon the queue reported as `working` or
+- Skip the claim, or work on an icon the queue reported as `claimed` or
   `cannot-fix` for someone else.
 - Report `done` for an unvalidated, unpublished or unrelated change.
 - Reuse another worker's name, or change the production status through

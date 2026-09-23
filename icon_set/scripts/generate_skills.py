@@ -996,12 +996,38 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
         thuan = re.sub(
             r"^description: .*",
             "description: Retrieve the next missing side-combination main (gallery side-mains "
-            "page) without parameters and author it as a Pictographic SOLO48 icon exactly like "
-            "its reference, with no classification or routing. Save results and retrieval "
-            "metadata in a standalone folder without gallery updates. Generated from the "
-            "contracts by icon_set/scripts/generate_skills.py; do not edit by hand.",
+            "page), or several with an optional count and --offset, and author each as a "
+            "Pictographic SOLO48 icon exactly like its reference, with no classification or "
+            "routing. Save results and retrieval metadata in a standalone folder without gallery "
+            "updates. Generated from the contracts by icon_set/scripts/generate_skills.py; do not "
+            "edit by hand.",
             thuan, count=1, flags=re.MULTILINE,
+        ).replace(
+            "name: side-main-make-thuan\n",
+            "name: side-main-make-thuan\nargument-hint: [count] [--offset N]\n", 1,
         )
+        # Optional batch arguments: a count of mains per invocation and a queue offset, so
+        # parallel workers can start at different positions.
+        thuan, replaced = re.subn(
+            r"Invoke this skill without parameters\..*?report that result and stop\.",
+            "Arguments: $ARGUMENTS\n\n"
+            "Run from the repository containing `icon_set/`. Both arguments are optional: the first "
+            "number is the **count** of mains to author in this invocation (default 1), and "
+            "`--offset N` skips the first N missing mains, so parallel workers can take different "
+            "sources (`--offset 0`, `--offset 1`, ...).\n\n"
+            "Retrieve each main from the Missing bucket of `gallery/side-mains.html` with the same "
+            "command every time:\n\n"
+            "```bash\npython3 icon_set/scripts/next_side_main.py --offset <N>\n```\n\n"
+            "Use its output as the brief, including the source ID and reference path, then follow "
+            "the full authoring workflow below. A main whose run folder holds a `result.json` "
+            "leaves the queue, so once a main is saved the same offset returns the next one; if it "
+            "returns a source you already saved in this invocation, rerun it with the offset "
+            "raised by one. Repeat until **count** mains are saved, then report all of them. If "
+            "retrieval fails or no missing side main remains, report that result and stop.",
+            thuan, count=1, flags=re.DOTALL,
+        )
+        if replaced != 1:
+            raise ValueError("side-main-make-thuan: intro paragraph not found")
         thuan = re.sub(
             r"\*\*Generate every input:\*\*.*?(?=Letters and digits)",
             "**Draw the reference as it is:** author the retrieved main `reference` as one "

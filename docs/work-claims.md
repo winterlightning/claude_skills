@@ -12,33 +12,38 @@ routes to production, so the review grid on localhost shows the same state.
 
 A claim is not a separate record. It is the **review status** of an icon
 revision (`icon` + `svg_sha256`, one row in `reviews`), plus three columns on
-that row: `worker`, `claimed_at` and `note`.
+that row: `worker`, `claimed_at` and `note`. The review statuses are the ones
+reviewers already know plus **Claimed**; cannot-fix is not a review status.
 
 | Review status (database) | Set by | Meaning | `work.state` | Claimable |
 |---|---|---|---|---|
-| `pending` (`disapprove` in the API) | reviewer | needs a fix, nobody on it | `open` | yes |
-| `claimed`, `claimed_at` < 6 h ago | worker (`claim`) | a machine is fixing it | `working` | no |
-| `claimed`, `claimed_at` ≥ 6 h ago | the clock | the machine went quiet | `expired` | yes |
+| `pending` (`disapprove` in the API), no worker | reviewer | needs a fix, nobody on it | `open` | yes |
+| `claimed`, `claimed_at` < 6 h ago | worker (`claim`) | a machine is fixing it | `claimed` | no |
+| `claimed`, `claimed_at` ≥ 6 h ago | the clock | expired: set back to `pending` with no worker on the next work call | `open` | yes |
+| `pending` with a `worker` and `note` | worker (`cannot-fix`) | gave up, `note` says why; skipped by the queue | `cannot-fix` | no |
 | `ready` with a `worker` | worker (`done`) | fixed, waiting for the reviewer; feedback kept | `done` | no |
-| `cannot-fix` | worker (`cannot-fix`) | gave up, `note` says why | `cannot-fix` | no |
 | `ready` / `approve` / `rejected`, no worker | reviewer or build | nothing to fix | `none` | no |
 
 Rules that follow from the table:
 
 - **Claim** is one conditional update: `status = 'claimed'` with your worker
-  name and `claimed_at = now`, applied only where the row is `pending` or an
-  expired `claimed`. If no row changed, someone else won a moment earlier and
-  the call is refused with `409`. Two machines can never both hold an icon.
-- **Expiry needs no heartbeat.** The lease is `claimed_at` + `LEASE_HOURS`
-  (six hours, `work.expires_at` in the API). The queue treats an older claim as
-  claimable; the takeover is logged as `work_expired`. Six hours covers a long
-  fix plus the production pull, so finish or abandon within that time.
+  name and `claimed_at = now`, applied only where the row is `pending` with no
+  worker or an expired `claimed`. If no row changed, someone else won a moment
+  earlier and the call is refused with `409`. Two machines can never both hold
+  an icon.
+- **Expiry needs no heartbeat.** A claim lasts `claimed_at` + `LEASE_HOURS`
+  (six hours, `work.expires_at` in the API). Every work call first runs
+  `release_expired`, which sets older claims back to `pending` with no worker
+  and logs `work_expired`; the icon is `open`, never "expired but still
+  claimed". Six hours covers a long fix plus the production pull, so finish or
+  abandon within that time.
 - **Done** sets the row to `ready`, attributed to the worker, and keeps `worker`
   and `note` so the reviewer sees who fixed it. The disapproval feedback is
   deliberately kept so the fix can be compared against the request. (The
   gallery's manual Ready button clears feedback; `done` does not.)
-- **Cannot fix** is its own status, so the icon stays out of the queue with its
-  note until a reviewer or `abandon` sends it back.
+- **Cannot fix** keeps the review status Disapproved but leaves `worker` and
+  `note` on the row. The queue skips such a row (`work.state` `cannot-fix`)
+  until a reviewer decides again or `abandon` clears the worker.
 - **Every reviewer decision clears the claim.** Setting Ready, Approved,
   Disapproved or Rejected from the gallery nulls `worker` and `claimed_at`, so
   disapproving a `done` or `cannot-fix` icon again puts it straight back in the
@@ -47,8 +52,8 @@ Rules that follow from the table:
 - **A deployed fix changes the hash.** The new revision has no row and starts
   Ready, exactly as any new build does. The old row stays as history and is
   shown under **Revisions** in the Fix queue page.
-- **Abandon** sets a `claimed` or `cannot-fix` row back to `pending`. Anyone
-  may do it; the icon is `open` at once.
+- **Abandon** clears the worker from a `claimed` or `cannot-fix` row and sets
+  it to `pending`. Anyone may do it; the icon is `open` at once.
 - **Results** are what a worker uploads to `work_results`: the drawing, module
   and validation `before` the fix (the first version) and `after` it. The Fix
   queue History panel shows Before / Fixed / Now from them; `history` lists
@@ -70,7 +75,7 @@ machine B: next  → X is listed → claim X → claimed (B)
 ```
 
 A crashed machine holds nothing forever: six hours after its claim the icon is
-`expired` and the next `next` takes it.
+Disapproved and `open` again, and the next `next` takes it.
 
 ## API
 
@@ -84,8 +89,8 @@ row and must match on `done`, `cannot-fix` and `result`.
 
 | Route | Method | Body / query | Result |
 |---|---|---|---|
-| `/api/work/queue` | GET | `family`, `category`, `type`, `reason`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable icons (`open` or `expired`), oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
-| `/api/work/disapproved` | GET | same filters as the queue | every icon whose status is `disapprove`, `claimed` or `cannot-fix`, with `status` and `work` (`open`, `working`, `expired`, `cannot-fix`) |
+| `/api/work/queue` | GET | `family`, `category`, `type`, `reason`, `limit` (1–500, default 50), `offset` | `{total, offset, next_offset, items}`; items are claimable icons (`open`), oldest disapproval first, each with `key`, `svg_sha256`, `family`, `python_source`, `reason`, `feedback`, `disapproved_by`, `disapproved_at`, `original_sources`, `work` |
+| `/api/work/disapproved` | GET | same filters as the queue | every icon whose status is `disapprove` or `claimed`, with `status` and `work` (`open`, `claimed`, `cannot-fix`) |
 | `/api/work/review` | GET | `family`, `reason`, `state`, `status`, `limit`, `offset` | the disapproved list plus `done` icons awaiting review, newest work first, with `counts` per state and `work.results` |
 | `/api/work/history` | GET | `icon` | the icon's revisions (review, claim, feedback and results per hash) and its full change log from `activity_log` |
 | `/api/work/result` | POST | `icon`, `svg_sha256`, `worker`, `stage` (`before`/`after`), `svg`, optional `python_path`, `python_source`, `validation`, `note` | stores a fix result for the worker's own claim (`before` while working; `after` while working or after done / cannot-fix); each ≤ 512 KB; the SVG must be a clean 0 0 N N document for the icon's canvas |
@@ -101,8 +106,8 @@ row and must match on `done`, `cannot-fix` and `result`.
 `409` carrying the current hash. If your local `published/` is ahead of
 production, wait for the production pull. `GET /api/icon-types`,
 `GET /api/review-detail` and `GET /api/reviews` report the same statuses
-(`claimed` and `cannot-fix` included); the review grid files them under
-**Disapproved** with a work badge.
+(`claimed` included); the review grid files it under **Disapproved** with a
+work badge.
 
 ```bash
 API_BASE='https://<production>'
@@ -146,7 +151,7 @@ the after result and reports done or cannot-fix).
 ## The Fix queue page
 
 `gallery/work.html` (nav: **Fix queue**) is read-only, for reviewing. It lists
-every icon that is disapproved, claimed, cannot-fix or freshly fixed, with
+every icon that is disapproved, claimed or freshly fixed, with
 review status, work state, worker, claim time, expiry and note, plus family /
 state / status / reason filters, search and paging. **History** on a row opens:
 
@@ -170,9 +175,9 @@ the work routes.
 ## What reviewers see
 
 - Claimed and cannot-fix icons stay under **Disapproved** in the review grid,
-  with a second badge: **Working · worker · Nh left**, **Fixed by worker ·
-  awaiting review**, **Cannot fix · worker**, or **Claim expired**. Hover for
-  the note and timestamps.
+  with a second badge: **Claimed · worker · Nh left**, **Fixed by worker ·
+  awaiting review** or **Cannot fix · worker**. Hover for the note and
+  timestamps.
 - After a `done` report the icon appears under **Ready** with its feedback
   still attached. Approve it, or disapprove it again to send it back to the
   queue.
@@ -184,8 +189,8 @@ the work routes.
 - **Wrong worker name** on a report: the API answers `409 This claim belongs to
   …`. Repeat with the name used to claim, or `abandon` it (anyone may) and
   claim again.
-- **A machine died mid-fix**: wait six hours for the claim to expire, or
-  `abandon` it; the icon is `open` immediately.
+- **A machine died mid-fix**: six hours after the claim the icon is
+  Disapproved and `open` again on its own, or `abandon` it now.
 - **A `done` that was wrong**: disapprove the icon again in the gallery. The
   new decision clears the worker and reopens it for claiming.
 - **`cannot-fix` that should be retried**: disapprove the icon again in the
@@ -199,10 +204,10 @@ the work routes.
 
 Older databases had `work_claims` (state, worker, lease) and `work_snapshots`
 next to `reviews`. On start-up production adds the `worker`, `claimed_at` and
-`note` columns to `reviews`, rebuilds the status check to allow `claimed` and
-`cannot-fix`, moves each claim onto its review row (`working` → `claimed`,
-`cannot-fix` → `cannot-fix`, `done` → the worker on the `ready` row), copies
-each snapshot into `work_results` as a `before` result, and drops the two old
-tables. A `cannot-fix` that a reviewer had already re-disapproved stays
-Disapproved. The `/api/work/heartbeat` and `/api/work/snapshot` routes are
-gone; `lease_hours` is ignored.
+`note` columns to `reviews`, rebuilds the status check to allow `claimed`,
+moves each claim onto its review row (`working` → `claimed`; `cannot-fix` →
+Disapproved with the worker and note kept; `done` → the worker on the `ready`
+row), copies each snapshot into `work_results` as a `before` result, and drops
+the two old tables. A `cannot-fix` that a reviewer had already re-disapproved
+stays plain Disapproved. The `/api/work/heartbeat` and `/api/work/snapshot`
+routes are gone; `lease_hours` is ignored.

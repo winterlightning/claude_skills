@@ -1,21 +1,21 @@
 ---
 name: side-main-make-thuan
-description: Retrieve the next missing side-combination main (gallery side-mains page) without parameters and author it as a Pictographic SOLO48 icon exactly like its reference, with no classification or routing. Save results and retrieval metadata in a standalone folder without gallery updates. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Retrieve the next missing side-combination main (gallery side-mains page), or several with an optional count and --offset, and author each as a Pictographic SOLO48 icon exactly like its reference, with no classification or routing. Save results and retrieval metadata in a standalone folder without gallery updates. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
 # $side-main-make-thuan — one solo icon on `SOLO48`
 
-Invoke this skill without parameters. Run from the repository containing `icon_set/`.
+Arguments: $ARGUMENTS
 
-Retrieve the next missing side-combination main (the Missing bucket of `gallery/side-mains.html`) by running this command without parameters:
+Run from the repository containing `icon_set/`. Both arguments are optional: the first number is the **count** of mains to author in this invocation (default 1), and `--offset N` skips the first N missing mains, so parallel workers can take different sources (`--offset 0`, `--offset 1`, ...).
+
+Retrieve each main from the Missing bucket of `gallery/side-mains.html` with the same command every time:
 
 ```bash
-python3 icon_set/scripts/next_side_main.py
+python3 icon_set/scripts/next_side_main.py --offset <N>
 ```
 
-Use its output as the brief, including the source ID and reference path, then follow the full authoring workflow below.
-
-**Folder-only output:** create a fresh result directory at `icon_set/work/side-main-make-thuan/<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, exports, reference renders, previews, retrieval metadata and findings there, including unsuccessful attempts. Never overwrite an earlier run. Do not write to `published/`, the registered icon folders, metadata catalogs, galleries, queues or runtime state. Do not run build, finish-icon, publish, release or gallery update commands. This output rule overrides output and registration advice in shared guides. The next-side-main helper skips a source UUID once a run contains an authored Python module and a readable result.json with that source_uuid. Validation failures, warnings, and failed exports still count as attempts; do not retry them automatically. Write result.json last, including failures. Only attempts without a saved result remain eligible for automatic retry. If retrieval fails or no missing side main remains, report that result and stop.
+Use its output as the brief, including the source ID and reference path, then follow the full authoring workflow below. A main whose run folder holds a `result.json` leaves the queue, so once a main is saved the same offset returns the next one; if it returns a source you already saved in this invocation, rerun it with the offset raised by one. Repeat until **count** mains are saved, then report all of them. If retrieval fails or no missing side main remains, report that result and stop.
 
 **Draw the reference as it is:** author the retrieved main `reference` as one SOLO48 icon that follows the reference. Do not classify, triage, route, skip or split it into component briefs, whatever it contains. The `combination context` SVGs only show how this main is used beside a sub modifier; never draw that side modifier. Preserve the reference's defining features and arrangement.
 

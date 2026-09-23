@@ -1,8 +1,8 @@
 (() => {
   'use strict';
   const $ = id => document.getElementById(id);
-  const STATE_LABELS = {open: 'Open · not claimed', working: 'Working', expired: 'Claim expired', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', none: '—'};
-  const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', 'cannot-fix': 'Cannot fix', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
+  const STATE_LABELS = {open: 'Open · not claimed', claimed: 'Claimed', done: 'Done · back to Ready', 'cannot-fix': 'Cannot fix', none: '—'};
+  const STATUS_LABELS = {disapprove: 'Disapproved', claimed: 'Claimed', ready: 'Ready', approve: 'Approved', rejected: 'Rejected'};
   const REASON_LABELS = {'bad-stroke': 'Bad stroke drawn', 'manual-fix-request': 'Manual fix request', meaning: 'Unclear meaning', other: 'Other'};
   let rows = [], page = 1, loading = false;
   const open = new Set();
@@ -107,7 +107,7 @@
   function render() {
     const counts = {};
     for (const row of rows) counts[row.work.state] = (counts[row.work.state] || 0) + 1;
-    $('workSummary').replaceChildren(...['', 'open', 'working', 'expired', 'done', 'cannot-fix'].map(state => {
+    $('workSummary').replaceChildren(...['', 'open', 'claimed', 'done', 'cannot-fix'].map(state => {
       const button = document.createElement('button');
       button.type = 'button';
       button.setAttribute('aria-pressed', String($('workState').value === state));
@@ -152,8 +152,7 @@
       tr.append(cell(row.work.worker ? (row.work.worker === worker() ? row.work.worker + ' (you)' : row.work.worker) : '—'));
       tr.append(cell(when(row.work.claimed_at) || '—'));
       let lease = '—';
-      if (row.work.state === 'working' && row.work.expires_at) lease = Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e4) / 10) + ' h left';
-      else if (row.work.state === 'expired' && row.work.expires_at) lease = 'expired ' + when(row.work.expires_at);
+      if (row.work.state === 'claimed' && row.work.expires_at) lease = Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e4) / 10) + ' h left';
       else if (row.work.updated_at) lease = 'updated ' + when(row.work.updated_at);
       tr.append(cell(lease));
       tr.append(cell(row.work.note || '—'));
@@ -291,7 +290,7 @@
       case 'work_done': return 'Reported done by ' + d.worker + (d.note ? ' · ' + d.note : '');
       case 'work_cannot_fix': return 'Reported cannot fix by ' + d.worker + (d.note ? ' · ' + d.note : '');
       case 'work_abandon': return 'Claim of ' + d.worker + ' released by ' + d.released_by + (d.previous_state ? ' (was ' + d.previous_state + ')' : '');
-      case 'work_expired': return 'Claim of ' + d.worker + ' expired · taken by ' + d.taken_by;
+      case 'work_expired': return 'Claim of ' + d.worker + ' expired' + (d.taken_by ? ' · taken by ' + d.taken_by : ' · open again');
       default: return event.action.replaceAll('_', ' ') + (Object.keys(d).length ? ' · ' + JSON.stringify(d) : '');
     }
   }

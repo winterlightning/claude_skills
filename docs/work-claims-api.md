@@ -20,9 +20,9 @@ WORKER='thuan-mac'
 
 ## 1. Fetch the disapproved icons
 
-Two lists. `disapproved` is every icon whose review status is Disapproved,
-Claimed or Cannot fix, with its work state, for looking. `queue` is the subset
-you may claim right now.
+Two lists. `disapproved` is every icon whose review status is Disapproved or
+Claimed, with its work state, for looking. `queue` is the subset you may claim
+right now.
 
 ```bash
 curl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset=0"
@@ -55,11 +55,10 @@ Oldest disapproval first. Page with `next_offset` until it is `null`.
 
 | state | meaning | in `queue`? |
 |---|---|---|
-| `open` | nobody is on it | yes |
-| `expired` | review status `claimed`, but `claimed_at` is more than six hours old | yes |
-| `working` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
+| `open` | Disapproved and nobody is on it (a claim older than six hours is set back to this) | yes |
+| `claimed` | review status `claimed`: another machine holds it (`work.worker`, `work.expires_at` = `claimed_at` + 6 h) | no |
 | `done` | review status `ready` set by a worker's report; waiting for the reviewer | no |
-| `cannot-fix` | a worker gave up (`work.note`); only a new disapproval reopens it | no |
+| `cannot-fix` | Disapproved, but a worker gave up (`work.worker`, `work.note`); a reviewer decision or `abandon` reopens it | no |
 
 ## 2. Claim
 
@@ -75,10 +74,10 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 HTTP 201
 {
   "saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
-  "work": {"state": "working", "worker": "thuan-mac", "note": "",
+  "work": {"state": "claimed", "worker": "thuan-mac", "note": "",
            "claimed_at": "2026-09-23T07:00:00+00:00", "updated_at": "2026-09-23T07:00:00+00:00",
            "expires_at": "2026-09-23T10:00:00+00:00", "svg_sha256": "5a1c…e9"},
-  "item": { "...the same object as in step 1, now with work.state = working..." }
+  "item": { "...the same object as in step 1, now with work.state = claimed..." }
 }
 ```
 
@@ -97,7 +96,7 @@ HTTP 200
 {"saved": true, "worker": "thuan-mac",
  "claimed": [ { "key": "sub/plus", "...": "..." } ],
  "refused": [ {"icon": "sub/minus", "status": 409, "error": "mac-mini is working on this icon.",
-               "work": {"state": "working", "worker": "mac-mini", "...": "..."}} ]}
+               "work": {"state": "claimed", "worker": "mac-mini", "...": "..."}} ]}
 ```
 
 Refusals you will see:
@@ -111,8 +110,9 @@ Refusals you will see:
 | `400` | `worker must be a name …` | send a worker string |
 
 The claim is one conditional update on the review row (`status = 'claimed'`
-only where it was Disapproved or an expired claim), so two machines can never
-both win. It expires six hours after `claimed_at`; there is nothing to extend.
+only where it was Disapproved with no worker, or an expired claim), so two
+machines can never both win. Six hours after `claimed_at` the row goes back to
+Disapproved and `open`; there is nothing to extend.
 Upload the current drawing as the `before` result (step 4a) if you want the
 before/after view in step 5.
 
@@ -139,8 +139,8 @@ git commit -m "Fix sub/plus" && git push origin icon-lib
 
 The per-icon build writes that icon's SVG, manifest row, metadata and gallery
 entry into `published/`. Production receives the new drawing on its next pull.
-Finish within six hours of the claim; after that the icon is `expired` and open
-to other machines again.
+Finish within six hours of the claim; after that the icon is Disapproved and
+`open` to other machines again.
 
 ## 4a. Upload the result
 
@@ -165,7 +165,7 @@ HTTP 200
 {"saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
  "result": {"stage": "after", "worker": "thuan-mac", "saved_at": "2026-09-23T08:05:00+00:00",
             "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true},
- "work": {"state": "working", "...": "..."}}
+ "work": {"state": "claimed", "...": "..."}}
 ```
 
 ## 4. Mark done
@@ -195,9 +195,10 @@ disapproves it again, which clears the worker.
 The two other ways to end a claim:
 
 ```bash
-# no meaning-preserving drawing passes; note is required
+# no meaning-preserving drawing passes; note is required. The icon is Disapproved again but keeps
+# your worker and note (work.state cannot-fix), so the queue skips it until a reviewer decides.
 curl ... --data '{"icon":"sub/plus","svg_sha256":"5a1c…e9","worker":"'"$WORKER"'","note":"MIC 6 impossible with three bars"}' "$API_BASE/api/work/cannot-fix"
-# set it back to Disapproved for the queue (anyone may; also reopens a cannot-fix)
+# set it back to plain Disapproved for the queue (anyone may; also reopens a cannot-fix)
 curl ... --data '{"icon":"sub/plus","svg_sha256":"5a1c…e9","worker":"'"$WORKER"'"}' "$API_BASE/api/work/abandon"
 ```
 
@@ -269,7 +270,7 @@ curl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg                  
 **All fixed icons awaiting review**, or any other state:
 
 ```bash
-curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, working, expired, cannot-fix, open
+curl --fail-with-body "$API_BASE/api/work/review?state=done"        # done, claimed, cannot-fix, open
 curl --fail-with-body "$API_BASE/api/work/review?status=approve"    # by review status
 ```
 

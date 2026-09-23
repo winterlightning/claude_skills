@@ -72,7 +72,7 @@ Disapproved icons are fixed through the shared production work queue so two
 machines never repair the same icon: `python3 icon_set/scripts/work_queue.py next`
 sets one to the review status Claimed on production and prints its brief,
 `done` reports the fix and returns the revision to Ready, `cannot-fix` and
-`abandon` release it. A claim older than six hours is claimable again. A local
+`abandon` release it. A claim older than six hours goes back to Disapproved. A local
 `dev` server forwards every `/api/work*` request to its `--sync-source`, so the
 review grid on localhost shows production's claims. See
 [Work claims](work-claims.md).
