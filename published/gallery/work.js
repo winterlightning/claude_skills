@@ -9,11 +9,17 @@
   const histories = new Map();
   const workerKey = 'pictographic_worker';
   try { $('workWorker').value = localStorage.getItem(workerKey) || ''; } catch {}
-  $('docBase').value = location.origin;
+  // The guide targets production. The server says where that is (itself, or the dev server's sync source).
+  fetch('/api/runtime', {cache: 'no-store'}).then(r => r.ok ? r.json() : null).then(runtime => {
+    if (!runtime) return;
+    if (runtime.mode === 'production') $('docBase').value = location.origin;
+    else if (runtime.production_api) $('docBase').value = runtime.production_api;
+    renderDoc();
+  }).catch(() => {});
   const worker = () => $('workWorker').value.trim();
   const quote = value => "'" + String(value).replaceAll("'", "'\\''") + "'";
   function renderDoc() {
-    const base = ($('docBase').value.trim() || location.origin).replace(/\/$/, '');
+    const base = ($('docBase').value.trim() || 'https://suffered-scored-nicole-default.trycloudflare.com').replace(/\/$/, '');
     const me = worker() || 'thuan-mac';
     const setup = 'API_BASE=' + quote(base) + '\nWORKER=' + quote(me);
     const post = (route, body) => 'curl --fail-with-body -H \'Content-Type: application/json\' \\\n  --data ' + quote(JSON.stringify(body)) + ' \\\n  "$API_BASE' + route + '"';

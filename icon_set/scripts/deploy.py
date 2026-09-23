@@ -605,7 +605,9 @@ class GalleryHandler(SimpleHTTPRequestHandler):
         if parsed.path == '/api/runtime':
             production = getattr(self.server, 'production', False)
             return self.json_response({'mode': 'production' if production else 'development',
-                                       'can_generate': not production, 'can_edit': True, 'can_upload': True})
+                                       'can_generate': not production, 'can_edit': True, 'can_upload': True,
+                                       # Where work claims live: this server in production, its sync source in development.
+                                       'production_api': '' if production else self.work_origin()})
         if self.production_blocked(parsed.path):
             return self.json_response({'error': 'This action belongs to the development workspace.'}, 403)
         if parsed.path == '/api/combination-refresh':
