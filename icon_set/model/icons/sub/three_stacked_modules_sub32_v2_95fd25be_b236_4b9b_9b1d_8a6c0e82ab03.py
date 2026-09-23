@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd2571284419ee4ff1bbc5566eece5a2a9217a5fdfe927300e17ef
 
 class DrawingVariant2(Sub32):
     icon_id = 'three-stacked-modules-sub32-v2'
-    variant_of = 'three-stacked-modules-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

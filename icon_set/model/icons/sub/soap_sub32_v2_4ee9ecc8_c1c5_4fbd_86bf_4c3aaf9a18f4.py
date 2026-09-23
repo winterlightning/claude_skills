@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '359ecc91d653bc7a4f8ae3bf5f6bffd1fe0b31fe274abbe6daeb3
 
 class DrawingVariant2(Sub32):
     icon_id = 'soap-sub32-v2'
-    variant_of = 'soap-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

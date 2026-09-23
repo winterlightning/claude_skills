@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd8dbcc733c8c0f8aa0944a5bcb2205ad7b927eafd7af1202d73a3
 
 class DrawingVariant2(Sub32):
     icon_id = 'drop-bottle-sub32-v2'
-    variant_of = 'drop-bottle-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '56bfdcf80722d513f8aac4db4730696f0fd5090438a6301800207
 
 class DrawingVariant2(Sub32):
     icon_id = 'pine-tree-sub32-v2'
-    variant_of = 'pine-tree-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'eb6248c50044d536c9f23dee3c893cfc9dd5394b08b169fc95148
 
 class DrawingVariant2(Sub32):
     icon_id = 'diagonal-paintbrush-with-curved-bristles-sub32-v2'
-    variant_of = 'diagonal-paintbrush-with-curved-bristles-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

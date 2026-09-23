@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9830f4531c1a5eb2f9d41b627ac8e8f9751a2fbcf73d9a6087a36
 
 class DrawingVariant2(Sub32):
     icon_id = 'horse-head-symbol-sub32-v2'
-    variant_of = 'horse-head-symbol-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

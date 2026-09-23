@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd4bdd3bcaea9bac5ad527af69259d952a5d74b50ce11f4c85d865
 
 class DrawingVariant2(Sub32):
     icon_id = 'tall-crescent-moon-sub32-v2'
-    variant_of = 'tall-crescent-moon-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

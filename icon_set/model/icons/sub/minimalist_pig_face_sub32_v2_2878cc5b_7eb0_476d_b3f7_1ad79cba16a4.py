@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'beeafe89b51ab7fabf5e06d610366fe3135b83c447034f4159cab
 
 class DrawingVariant2(Sub32):
     icon_id = 'minimalist-pig-face-sub32-v2'
-    variant_of = 'minimalist-pig-face-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '32a292c8cccc1ef4db26c5b8ec4414f3d97974dc0bbc03d65100f
 
 class DrawingVariant2(Sub32):
     icon_id = 'column-selected-single-interface-essential-sub32-v2'
-    variant_of = 'column-selected-single-interface-essential-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

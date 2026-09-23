@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '2cbd63fe3602bc94254dadb0413e42262156d6210aef458e617a0
 
 class DrawingVariant2(Sub32):
     icon_id = 'fork-spoon-crossed-sub32-v2'
-    variant_of = 'fork-spoon-crossed-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

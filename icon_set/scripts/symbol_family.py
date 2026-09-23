@@ -7,7 +7,7 @@ from pathlib import Path
 import json,hashlib,inspect,sys
 ROOT=Path(__file__).resolve().parents[2]
 def stage(target, records, root=ROOT):
-    from icon_set.model.icons.registry import create
+    from icon_set.model.icons.registry import create, factories
     from .sub_usage_categories import MANIFEST
     path=root/MANIFEST
     if not path.exists():return records
@@ -17,6 +17,7 @@ def stage(target, records, root=ROOT):
     present={r['key'] for r in records};folder=target/'symbol-models';folder.mkdir(parents=True,exist_ok=True)
     for entry,v in [(e,v) for e in data['icons'] for v in e['versions'].values()]:
         family=v.get('family','sub');uid=v['icon_id'];key=family+'/'+uid
+        if uid not in factories():continue  # catalog still lists a discarded model; nothing to stage
         folder=target/(family+'-models');folder.mkdir(parents=True,exist_ok=True)
         model=create(uid);doc=model.to_svg()
         role='symbol' if family=='symbol' else 'side'

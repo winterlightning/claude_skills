@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'f8b19500a7958cb097600733a4c60115200d7536dfdd043e56be6
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bug-beetle-sub32'
     icon_id = 'bug-beetle-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

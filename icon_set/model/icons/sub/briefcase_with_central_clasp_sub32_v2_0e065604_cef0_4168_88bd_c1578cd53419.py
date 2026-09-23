@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd22103870bbebc47ceeb0e8dc746602a8bc24fcd12e56a87f3195
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'briefcase-with-central-clasp-sub32'
     icon_id = 'briefcase-with-central-clasp-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -15,7 +15,7 @@ REFERENCE_EXPORT_SHA256 = '0851de1ce8150de5219a856397da403d2043c3417ce49fc05e222
 
 class DrawingVariant3(Sub32):
     icon_id = 'gavel-block-sub32-v3'
-    variant_of = 'gavel-block-sub32-v2'
+    variant_of = 'gavel-block-sub32'
     variant_label = 'Redraw proportions and source features'
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'

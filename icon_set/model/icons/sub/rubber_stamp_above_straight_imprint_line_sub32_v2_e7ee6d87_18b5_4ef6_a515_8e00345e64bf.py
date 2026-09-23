@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a154add09c811f63c87104e772c980c7d620f676cde61db262ff1
 
 class DrawingVariant2(Sub32):
     icon_id = 'rubber-stamp-above-straight-imprint-line-sub32-v2'
-    variant_of = 'rubber-stamp-above-straight-imprint-line-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

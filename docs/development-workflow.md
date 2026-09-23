@@ -10,6 +10,7 @@ build, no publication staging folder and no copy step: `build`, `dev`,
 ```sh
 python3 -m icon_set build --icon icon_set/model/icons/solo/example.py --no-png --no-report
 python3 -m icon_set dev --open            # serves published/ with the local database
+python3 -m icon_set publish --dry-run     # list new, changed and missing icon outputs
 python3 -m icon_set publish               # changed-only build, validate, compact, release.json
 python3 -m icon_set doctor
 git add published icon_set
@@ -19,7 +20,10 @@ git push origin icon-lib
 
 `publish` builds the changed originals in place, refuses embedded manual
 artwork or runtime files, compacts every JSON catalog so Git diffs stay small,
-and writes `release.json`. Validation failures remain visible in the Failed
+and writes `release.json`. Before writing, it reports newly registered icons,
+drawings whose SVG content changed, and missing or stale generated SVG, metadata
+or preview files. It regenerates those outputs across every family and always
+refreshes the gallery links. Validation failures remain visible in the Failed
 build view; their artwork is excluded from the passing family manifests.
 
 On production, keep the **existing production database and all sibling state
@@ -63,6 +67,14 @@ workflow under `python3 -m icon_set combinations`. See
 builds never seed it or overwrite its edits.
 
 ## Daily work
+
+Disapproved icons are fixed through the shared production work queue so two
+machines never repair the same icon: `python3 icon_set/scripts/work_queue.py next`
+claims one on production and prints its brief, `done` reports the fix and
+returns the revision to Ready, `cannot-fix` and `abandon` release it. A local
+`dev` server forwards every `/api/work*` request to its `--sync-source`, so the
+review grid on localhost shows production's claims. See
+[Work claims](work-claims.md).
 
 Read a generation queue page without a running HTTP server using
 `python3 icon_set/scripts/generation_queue.py 40 --offline`. This reads the

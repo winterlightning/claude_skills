@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'e38aa7e61051b5c25c0f65421c0853c0d50362b6ce2d9bd3fe13b
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'chilli-sub32'
     icon_id = 'chilli-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

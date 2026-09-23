@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '41b12e62b7ad988e90811b3e82a5d0ebf1efa864f1509281bbf4b
 
 class DrawingVariant2(Sub32):
     icon_id = 'stethoscope-sub32-v2'
-    variant_of = 'stethoscope-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

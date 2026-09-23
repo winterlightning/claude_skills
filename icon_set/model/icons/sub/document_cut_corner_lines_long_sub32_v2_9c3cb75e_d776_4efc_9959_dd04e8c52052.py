@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '03dfa3386ea87fbe394118cf50a1713093725dc553f5625f77d08
 
 class DrawingVariant2(Sub32):
     icon_id = 'document-cut-corner-lines-long-sub32-v2'
-    variant_of = 'document-cut-corner-lines-long-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'adbf25caff4acf5316d860bc89ebf43d1cfe8d54f54064296d0f6
 
 class DrawingVariant2(Sub32):
     icon_id = 'two-prong-electrical-plug-sub32-v2'
-    variant_of = 'two-prong-electrical-plug-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9dfca71b04c9158a59f2cd57ae4fb855ac7a8074d06ab21738e17
 
 class DrawingVariant2(Sub32):
     icon_id = 'circles-three-trefoil-sub32-v2'
-    variant_of = 'circles-three-trefoil-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

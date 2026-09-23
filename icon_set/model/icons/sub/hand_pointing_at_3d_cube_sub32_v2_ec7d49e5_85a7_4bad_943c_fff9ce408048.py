@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0e04905611e451ab5d0a6d6e41b7eb57acab6019ea75f93e8c669
 
 class DrawingVariant2(Sub32):
     icon_id = 'hand-pointing-at-3d-cube-sub32-v2'
-    variant_of = 'hand-pointing-at-3d-cube-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

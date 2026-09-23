@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8bb3ceb9ae8d85e969d74979fd0e772cd4c403faa7da43c62bdc0
 
 class DrawingVariant2(Sub32):
     icon_id = 'pet-head-sub32-v2'
-    variant_of = 'pet-head-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

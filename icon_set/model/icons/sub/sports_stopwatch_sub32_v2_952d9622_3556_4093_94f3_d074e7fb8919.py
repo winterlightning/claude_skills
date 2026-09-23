@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a39008e26511f672ab6d5c2915c526f363e0b6ca61e7ef1459604
 
 class DrawingVariant2(Sub32):
     icon_id = 'sports-stopwatch-sub32-v2'
-    variant_of = 'sports-stopwatch-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_L
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '0c17287a95bf13d28f521e0d9d93ccbfb1b446831e6760dfa4b90
 
 class DrawingVariant2(Sub32):
     icon_id = 'megaphone-9e81b14e-sub32-v2'
-    variant_of = 'megaphone-9e81b14e-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '852464449953dbbeaf09e56dd7ab7126f3a1b74ff57760b92c534
 
 class DrawingVariant2(Sub32):
     icon_id = 'bound-notebook-sub32-v2'
-    variant_of = 'bound-notebook-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

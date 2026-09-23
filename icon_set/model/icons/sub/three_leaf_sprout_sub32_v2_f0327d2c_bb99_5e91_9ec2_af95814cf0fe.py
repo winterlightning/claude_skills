@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'bfc02d96844395296df394aab25c07ed978e4bd958a79482b856d
 
 class DrawingVariant2(Sub32):
     icon_id = 'three-leaf-sprout-sub32-v2'
-    variant_of = 'three-leaf-sprout-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

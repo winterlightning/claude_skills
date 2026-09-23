@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a0e0a468015204b48ebba4e5778af58a1ff414247475f0f869116
 
 class DrawingVariant2(Sub32):
     icon_id = 'heart-pulse-sub32-v2'
-    variant_of = 'heart-pulse-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

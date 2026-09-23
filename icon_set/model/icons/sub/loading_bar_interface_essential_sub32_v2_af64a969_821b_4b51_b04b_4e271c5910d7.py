@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8dc2090d8469d05f859adf93717c02503a8192b99946f46c21adb
 
 class DrawingVariant2(Sub32):
     icon_id = 'loading-bar-interface-essential-sub32-v2'
-    variant_of = 'loading-bar-interface-essential-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_S
     semantic_role = 'SUB'

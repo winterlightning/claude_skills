@@ -574,7 +574,7 @@ to the matching grid view after an output is accepted. Generation and admin logi
 are omitted from the main navigation.
 The grid and interactive design
 rules are public; the generation page, job list, previews, logs, and generation
-actions require an admin session. Log in as `jakes`, `ray`, `phuong`, or `hina`, each with
+actions require an admin session. Log in as `jakes`, `ray`, `phuong`, `hina`, or `an`, each with
 password `1`. These requested accounts are defined server-side in `deploy.py`.
 Sessions last 12 hours, use an HttpOnly cookie, and are revoked on logout. Session
 records are stored in the feedback database; only token hashes are persisted.
@@ -992,6 +992,26 @@ published SVGs or automatically rewrite Python models. The consuming Python
 workflow must reconcile anchors/relationships and run validation before building
 an updated icon. Validation evidence in Information describes the published SVG,
 not the pending edit.
+
+### Shared fix queue: who is fixing which disapproved icon
+
+Reviews live in one production database, and several machines and agents fix
+icons at once, so production also records **work claims**. A claim belongs to
+one icon revision (`icon` + `svg_sha256`) and adds a `work` state next to the
+review status: `open`, `working` (a machine holds a 3-hour lease), `expired`,
+`done` (fixed; the revision was returned to Ready with its feedback kept) or
+`cannot-fix`. An icon is claimable only while it is Disapproved and `open` or
+`expired`; a reviewer disapproving it again after a report reopens it.
+
+`GET /api/work/disapproved` (every disapproved icon with its work state), `GET /api/work/queue` (claimable ones), `GET /api/work[?icon=]` and one POST per action
+(`/api/work/claim`, `heartbeat`, `done`, `cannot-fix`, `abandon`) are served by
+production. A development server never stores claims: it forwards these routes
+to its `--sync-source` (the production tunnel) so localhost shows the same
+badges. `GET /api/icon-types` and `GET /api/review-detail` include the `work`
+field. `POST /api/work/claim` also takes `icons: [...]` to claim several at once. The read-only **Fix queue** page (`gallery/work.html`) shows every disapproved or claimed icon with its work state and worker, and per icon a before/after comparison (the SVG is snapshotted on claim), its revisions and its change log (`GET /api/work/review`, `/api/work/history`, `/api/work/snapshot`). Agents use `python3 icon_set/scripts/work_queue.py next|done|cannot-fix|abandon|heartbeat|status`
+and the `/fix-icon-queue` skill. The full state table and recovery steps are in
+[docs/work-claims.md](../docs/work-claims.md); the request-by-request walkthrough
+(fetch, claim, done, result) is [docs/work-claims-api.md](../docs/work-claims-api.md).
 
 ### Developer lookup by icon type
 

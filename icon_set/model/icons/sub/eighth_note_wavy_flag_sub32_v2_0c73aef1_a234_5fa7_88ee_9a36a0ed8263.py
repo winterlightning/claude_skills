@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'f72f78d8bcbe0c60b91ef44863877b687f05c79fbd301134ecc2e
 
 class DrawingVariant2(Sub32):
     icon_id = 'eighth-note-wavy-flag-sub32-v2'
-    variant_of = 'eighth-note-wavy-flag-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

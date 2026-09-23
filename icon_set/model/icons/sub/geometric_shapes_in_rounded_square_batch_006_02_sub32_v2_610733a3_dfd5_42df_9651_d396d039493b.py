@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd38ff80d7fc9183b47c7ff0c0ba2e766d259eed2a5f1a6bfa3e53
 
 class DrawingVariant2(Sub32):
     icon_id = 'geometric-shapes-in-rounded-square-batch-006-02-sub32-v2'
-    variant_of = 'geometric-shapes-in-rounded-square-batch-006-02-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

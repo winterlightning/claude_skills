@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '173aaab2d36f786be99715d94ce571dad58f55691f819f722e4c0
 
 class DrawingVariant2(Sub32):
     icon_id = 'paper-plane-sub32-v2'
-    variant_of = 'paper-plane-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

@@ -61,7 +61,7 @@
     $('experimentGrid').setAttribute('aria-label',type==='container'?'Container combinations':type==='typeface'?'Typeface and centerlines':type==='color'?'Color icons':type==='duotone'?'Duotone icons':type==='animation'?'Animated icons':'Fill icons');
     $('typefaceLegend').hidden=type!=='typeface';$('typefaceVersionLabel').hidden=type!=='typeface';
     $('typefaceLegend').textContent=typefaceVersion==='v2'
-      ?'Version 2: natural-width uppercase letters and digits from Letters/UPPER and Letters/Numbers, fitted to a grid-snapped 15-unit centerline with 19-unit ink and stroke 4. Text combine uppercases lowercase input and borrows keyboard symbols from v1.'
+      ?'Version 2: uppercase letters and digits use the supplied Letters/new SVG paths and native canvases without resizing or curve repair. Text combine uppercases lowercase input and borrows keyboard symbols from v1.'
       :'Version 1: original reference, iconized lettering, and centerline for every character. Original and iconized previews trim empty margins and preserve proportions for comparison. Red traces the iconized letter\u2019s exact centerline. Uppercase letters have no supplied originals.';
     $('experimentGrid').classList.toggle('typeface-grid',type==='typeface'||type==='container');
     document.querySelector('.experiment-pagination').hidden=type==='typeface';$('experimentGrid').replaceChildren();$('experimentEmpty').hidden=true;$('experimentStatus').textContent='Loading samples…';$('previousSamples').disabled=true;$('nextSamples').disabled=true;$('samplePage').disabled=true;$('experimentSearch').disabled=true;$('experimentSize').disabled=true;

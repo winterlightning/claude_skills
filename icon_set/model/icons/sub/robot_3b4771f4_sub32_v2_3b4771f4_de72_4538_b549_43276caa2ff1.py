@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'e8045c3d77e1b5a76dd3c471742c92d3976285f48fc3a2b95d7f6
 
 class DrawingVariant2(Sub32):
     icon_id = 'robot-3b4771f4-sub32-v2'
-    variant_of = 'robot-3b4771f4-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

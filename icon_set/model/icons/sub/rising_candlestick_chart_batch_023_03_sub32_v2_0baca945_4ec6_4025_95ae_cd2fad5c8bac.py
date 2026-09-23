@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd77513dca53491b44f429393093095e9266932f9596acf15e72b9
 
 class DrawingVariant2(Sub32):
     icon_id = 'rising-candlestick-chart-batch-023-03-sub32-v2'
-    variant_of = 'rising-candlestick-chart-batch-023-03-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

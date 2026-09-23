@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '450f361bcf4114b68574b09bd2db4032edd9d4e337422557a2efb
 
 class DrawingVariant2(Sub32):
     icon_id = 'left-pointing-hand-with-raised-thumb-sub32-v2'
-    variant_of = 'left-pointing-hand-with-raised-thumb-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

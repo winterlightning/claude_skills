@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '6a73c41cd7d09f798690ebf6158c62280ab6d0b8aa8a67a50ea84
 
 class DrawingVariant2(Sub32):
     icon_id = 'house-b6632e92-sub32-v2'
-    variant_of = 'house-b6632e92-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

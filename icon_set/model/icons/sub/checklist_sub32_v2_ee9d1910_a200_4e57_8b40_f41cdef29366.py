@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'dc72fbb8823e2d0e1538bca01930fd065ef1f24ec231f0533a072
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'checklist-sub32'
     icon_id = 'checklist-sub32-v2'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

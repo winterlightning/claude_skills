@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '56d57a5c91cd60286131789072b054c481906a9fbff462c771d6b
 
 class DrawingVariant2(Sub32):
     icon_id = 'religious-cross-sub32-v2'
-    variant_of = 'religious-cross-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

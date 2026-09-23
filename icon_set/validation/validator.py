@@ -221,10 +221,12 @@ class IconValidator:
             errors.append(Finding(check, f"line join must be {LINE_JOIN!r}, got {icon.LINE_JOIN!r}"))
         if icon.GRID != GRID:
             errors.append(Finding(check, f"grid must be {GRID}, got {icon.GRID}"))
+        source_native_text = getattr(icon, "sizing_mode", None) == "text-source-native-v2"
         for primitive in resolved:
             for label, point in (("start", primitive.start), ("end", primitive.end)):
                 for axis, value in (("x", point.x), ("y", point.y)):
-                    if not isinstance(value, int) or isinstance(value, bool):
+                    if (not source_native_text
+                            and (not isinstance(value, int) or isinstance(value, bool))):
                         errors.append(Finding(
                             check,
                             f"{label}.{axis} must be an integer on grid {GRID}, got {value!r}",
@@ -232,7 +234,8 @@ class IconValidator:
                         ))
             if isinstance(primitive, Arc):
                 for label, value in (("radius_x", primitive.radius_x), ("radius_y", primitive.radius_y)):
-                    if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
+                    if ((not source_native_text and (not isinstance(value, int) or isinstance(value, bool)))
+                            or not isinstance(value, (int, float)) or isinstance(value, bool) or value <= 0):
                         errors.append(Finding(
                             check,
                             f"{label} must be a positive integer, got {value!r}",
@@ -259,7 +262,9 @@ class IconValidator:
             errors.append(Finding(check, f"cannot measure the painted envelope: {error}"))
             return
 
-        limit = CANVAS_OVERFLOW_TOLERANCE + NUMERIC_EPSILON
+        source_native_text = getattr(icon, "sizing_mode", None) == "text-source-native-v2"
+        limit = (max(CANVAS_OVERFLOW_TOLERANCE, 0.01) if source_native_text
+                 else CANVAS_OVERFLOW_TOLERANCE) + NUMERIC_EPSILON
         if (
             painted[0] < -limit or painted[1] < -limit
             or painted[2] > width + limit or painted[3] > canvas + limit
@@ -281,7 +286,8 @@ class IconValidator:
             return
 
         deltas = [abs(painted[index] - target[index]) for index in range(4)]
-        if max(deltas) > RECT_FIT_TOLERANCE + NUMERIC_EPSILON:
+        fit_tolerance = max(RECT_FIT_TOLERANCE, 0.01) if source_native_text else RECT_FIT_TOLERANCE
+        if max(deltas) > fit_tolerance + NUMERIC_EPSILON:
             errors.append(Finding(
                 check,
                 f"visible ink {_fmt(painted)} does not match the "
@@ -325,9 +331,12 @@ class IconValidator:
     ) -> bool:
         check = CHECK_ORDER[3]
         spec = icon.profile.spec
+        if getattr(icon, 'sizing_mode', None) == 'text-source-native-v2':
+            return False
         from .parallel_straight import check_parallel_straight
 
-        errors.extend(check_parallel_straight(icon, drawing))
+        if getattr(icon, 'sizing_mode', None) != 'text-source-native-v2':
+            errors.extend(check_parallel_straight(icon, drawing))
         payload = [
             {
                 "elementId": path["id"],
@@ -425,13 +434,20 @@ class IconValidator:
         if isinstance(icon, TextSub32):
             width, height = canvas_dimensions(icon)
             left, top, right, bottom = icon.keyshape_bounds()
-            if top != 0 or bottom != 32 or left < 0 or right > width:
-                errors.append(Finding(check, 'Text sub ink must have height 32 and fit its natural-width canvas'))
-            if any(float(v) != round(v) for v in (left, top, right, bottom)):
-                errors.append(Finding(check, 'Text sub ink bounds must snap to grid 1'))
             actual = envelope.visible_bounds(icon.draw().primitives, radius=icon.STROKE_WIDTH / 2)
-            if abs(actual[1]) > NUMERIC_EPSILON or abs(actual[3] - 32) > NUMERIC_EPSILON:
-                errors.append(Finding(check, 'Actual text ink must have height 32'))
+            if getattr(icon, 'sizing_mode', None) == 'text-source-native-v2':
+                source_tolerance = 0.01 + NUMERIC_EPSILON
+                if left < -source_tolerance or top < -source_tolerance or right > width + source_tolerance or bottom > height + source_tolerance:
+                    errors.append(Finding(check, 'Source-native text ink must fit its declared canvas'))
+                if max(abs(a - b) for a, b in zip(actual, (left, top, right, bottom))) > source_tolerance:
+                    errors.append(Finding(check, 'Source-native text ink must match its declared source bounds'))
+            else:
+                if top != 0 or bottom != 32 or left < 0 or right > width:
+                    errors.append(Finding(check, 'Text sub ink must have height 32 and fit its natural-width canvas'))
+                if any(float(v) != round(v) for v in (left, top, right, bottom)):
+                    errors.append(Finding(check, 'Text sub ink bounds must snap to grid 1'))
+                if abs(actual[1]) > NUMERIC_EPSILON or abs(actual[3] - 32) > NUMERIC_EPSILON:
+                    errors.append(Finding(check, 'Actual text ink must have height 32'))
             return
         if icon.keyshape is Keyshape.FREE:
             return

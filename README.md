@@ -91,7 +91,7 @@ exit code of 1 does not necessarily mean that the app cannot start.
 The public navigation includes **Home**, **Design rules**, **Icon**, and
 **Icon Grid**. The Icon page contains approved icons; Icon Grid is the review
 workspace. Log in to generate, save edits, or make review decisions. The current
-development accounts are `jakes`, `ray`, `phuong`, and `hina`, each with password
+development accounts are `jakes`, `ray`, `phuong`, `hina`, and `an`, each with password
 `1`, as defined in `icon_set/scripts/deploy.py`.
 
 ## Pipeline API reference

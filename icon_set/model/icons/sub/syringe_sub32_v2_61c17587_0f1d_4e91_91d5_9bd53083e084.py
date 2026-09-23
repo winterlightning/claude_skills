@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'efa2fcbd36912863a66e5123405fa1fceecf4ed585ed4ed196ff2
 
 class DrawingVariant2(Sub32):
     icon_id = 'syringe-sub32-v2'
-    variant_of = 'syringe-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

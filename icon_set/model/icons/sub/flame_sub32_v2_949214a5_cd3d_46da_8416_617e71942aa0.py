@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '02bd12553efd78629895b3a8335281f6168608b2ee89ce0610a24
 
 class DrawingVariant2(Sub32):
     icon_id = 'flame-sub32-v2'
-    variant_of = 'flame-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

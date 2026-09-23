@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'c6dd4677dfb60bf75d6076281dd70575b17f10a91240fb12519e0
 
 class DrawingVariant2(Sub32):
     icon_id = 'fire-sub32-v2'
-    variant_of = 'fire-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

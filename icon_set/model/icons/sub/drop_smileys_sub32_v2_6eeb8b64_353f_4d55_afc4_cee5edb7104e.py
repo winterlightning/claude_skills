@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'afc6655d1a83856b44a22f8f0b018899ae899d9fad8607c25ca68
 
 class DrawingVariant2(Sub32):
     icon_id = 'drop-smileys-sub32-v2'
-    variant_of = 'drop-smileys-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9934ba54fd0ca9c5f69b82ef829f07382dcb65e789b1e35490934
 
 class DrawingVariant2(Sub32):
     icon_id = 'gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32-v2'
-    variant_of = 'gamepad-dpad-and-button-b06110ec-f282-457a-aacf-23318a701c51-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

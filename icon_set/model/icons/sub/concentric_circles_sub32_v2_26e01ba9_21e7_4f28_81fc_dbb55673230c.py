@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '47bdd3925984cab8e42192c0b6dd0c984af45fa0a80c625d4559e
 
 class DrawingVariant2(Sub32):
     icon_id = 'concentric-circles-sub32-v2'
-    variant_of = 'concentric-circles-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

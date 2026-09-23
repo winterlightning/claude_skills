@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'd2ca9280949924a9afa3a43e09fb3c198f1d0913054a20d8c3627
 
 class DrawingVariant2(Sub32):
     icon_id = 'video-cross-sub32-v2'
-    variant_of = 'video-cross-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '1157191c38e62a59ea1c51619411b5f8040b8e3b9da7c6c77b2bd
 
 class DrawingVariant2(Sub32):
     icon_id = 'sitting-cat-side-view-sub32-v2'
-    variant_of = 'sitting-cat-side-view-sub32'
     variant_label = 'Record the actual joined strokes; preserve reviewed artwork'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

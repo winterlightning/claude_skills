@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'c09581e29e7446aa593c50b6da69f5a0cfca5b93c9cb8eb176e35
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'bell-knob-curved-clapper-sub32'
     icon_id = 'bell-knob-curved-clapper-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

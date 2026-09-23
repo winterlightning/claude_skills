@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '8e57f7ae41910079c91ec9c7f09868705317070d8afec6731494a
 
 class DrawingVariant2(Sub32):
     icon_id = 'two-button-mouse-sub32-v2'
-    variant_of = 'two-button-mouse-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

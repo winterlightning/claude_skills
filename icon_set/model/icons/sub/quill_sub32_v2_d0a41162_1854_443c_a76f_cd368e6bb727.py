@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'b3bc4f3461d4afd2a382f9581921ec27100785f14627c69b248bc
 
 class DrawingVariant2(Sub32):
     icon_id = 'quill-sub32-v2'
-    variant_of = 'quill-sub32'
     variant_label = 'Balanced feather and smooth root around the shaft'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

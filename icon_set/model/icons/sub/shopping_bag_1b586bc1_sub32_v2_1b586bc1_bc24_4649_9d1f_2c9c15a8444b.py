@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '41a9f5f19bf82a9f429195d6eecc9bad2dab7033f694408c10e73
 
 class DrawingVariant2(Sub32):
     icon_id = 'shopping-bag-1b586bc1-sub32-v2'
-    variant_of = 'shopping-bag-1b586bc1-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

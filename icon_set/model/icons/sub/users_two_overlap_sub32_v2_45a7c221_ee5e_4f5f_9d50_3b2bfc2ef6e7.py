@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '6cb9bfc0e94a523cb8e8699ac8ae9c422a582350f343bb074f9cd
 
 class DrawingVariant2(Sub32):
     icon_id = 'users-two-overlap-sub32-v2'
-    variant_of = 'users-two-overlap-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

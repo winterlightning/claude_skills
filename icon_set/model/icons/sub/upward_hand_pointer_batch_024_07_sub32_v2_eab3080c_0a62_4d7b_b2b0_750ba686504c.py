@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'aa934776c74bb68e01a16f3a104dde6a87e4430f41e0f1465eea3
 
 class DrawingVariant2(Sub32):
     icon_id = 'upward-hand-pointer-batch-024-07-sub32-v2'
-    variant_of = 'upward-hand-pointer-batch-024-07-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

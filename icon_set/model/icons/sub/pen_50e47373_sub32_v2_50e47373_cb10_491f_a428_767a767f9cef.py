@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '4ed27c71c7372ed32ce2a47ac5f724620e282c674712c89a5fa98
 
 class DrawingVariant2(Sub32):
     icon_id = 'pen-50e47373-sub32-v2'
-    variant_of = 'pen-50e47373-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

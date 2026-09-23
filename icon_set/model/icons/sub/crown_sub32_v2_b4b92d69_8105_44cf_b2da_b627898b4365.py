@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '3c694a13eedd26df1abf44210f5000490b4acd9fff374ca167fc9
 
 class DrawingVariant2(Sub32):
     icon_id = 'crown-sub32-v2'
-    variant_of = 'crown-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

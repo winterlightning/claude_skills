@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '628c4b176c82ac2974b34469f9b2489870b6ccc915ab01b84fda9
 
 class DrawingVariant2(Sub32):
     icon_id = 'wheelchair-accessible-sub32-v2'
-    variant_of = 'wheelchair-accessible-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

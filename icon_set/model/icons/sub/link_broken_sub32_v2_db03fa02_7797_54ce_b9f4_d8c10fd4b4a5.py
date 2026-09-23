@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '80e294c2ee1bcefe095796b4e3262b87a294657bd1638a3a2b04f
 
 class DrawingVariant2(Sub32):
     icon_id = 'link-broken-sub32-v2'
-    variant_of = 'link-broken-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

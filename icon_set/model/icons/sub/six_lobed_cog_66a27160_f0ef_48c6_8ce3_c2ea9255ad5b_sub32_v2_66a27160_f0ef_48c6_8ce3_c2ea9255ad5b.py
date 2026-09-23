@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'de2b86749ce5a30a52bed4e6b5975351feba0d38cc4c88e8fe073
 
 class DrawingVariant2(Sub32):
     icon_id = 'six-lobed-cog-66a27160-f0ef-48c6-8ce3-c2ea9255ad5b-sub32-v2'
-    variant_of = 'six-lobed-cog-66a27160-f0ef-48c6-8ce3-c2ea9255ad5b-sub32'
     variant_label = 'Broaden all six lobes with smooth symmetric curves'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

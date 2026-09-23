@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '55424d86d9f1c23322099a7cc56667b45eb911bd6f3ac5d604311
 
 class DrawingVariant2(Sub32):
     icon_id = 'menstrual-cup-c49f8cf3-sub32-v2'
-    variant_of = 'menstrual-cup-c49f8cf3-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

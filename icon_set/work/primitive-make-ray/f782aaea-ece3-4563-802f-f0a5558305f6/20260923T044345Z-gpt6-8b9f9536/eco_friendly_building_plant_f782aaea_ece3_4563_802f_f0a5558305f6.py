@@ -1,0 +1,61 @@
+"""A low building sprouts a two-leaf plant from its roof.
+
+SOLO48 HRECT_L; Lucide reference: factory: low industrial outline; leaf: paired leaves.
+Symbol plan: source composition reduced to named outlines and shared geometry.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = 'f782aaea-ece3-4563-802f-f0a5558305f6'
+SOURCE_PATH = 'pictographic-primitives/_uncategorized_18/factory building eco friendly 3_f782aaea-ece3-4563-802f-f0a5558305f6.svg'
+AUTHOR = 'gpt-6'
+
+class EcoFriendlyBuildingPlant(Solo48):
+    icon_id = 'eco-friendly-building-plant'
+    keyshape = Keyshape.HRECT_L
+    semantic_role = 'MAIN'
+    semantic_kind = 'noun'
+    category = 'buildings/ecology'
+    aliases = ('Eco Friendly Building with Plant',)
+    keywords = tuple('eco friendly building with plant'.split())
+
+    def ring(self, name, x, y, r):
+        self.add_arc(name+'-ne',(x,y-r),(x+r,y),radius_x=r,sweep=True)
+        self.add_arc(name+'-se',(x+r,y),(x,y+r),radius_x=r,sweep=True)
+        self.add_arc(name+'-sw',(x,y+r),(x-r,y),radius_x=r,sweep=True)
+        self.add_arc(name+'-nw',(x-r,y),(x,y-r),radius_x=r,sweep=True)
+        self.add_contour(name,*(name+'-'+s for s in ('ne','se','sw','nw')),closed=True)
+
+    def box(self, name, x1, y1, x2, y2):
+        self.add_polyline(name,(x1,y1),(x2,y1),(x2,y2),(x1,y2),closed=True)
+
+    def round_box(self, name, x1, y1, x2, y2, r):
+        parts=[]
+        def line(s,a,b):
+            n=name+'-'+s; self.add_line(n,a,b); parts.append(n)
+        def arc(s,a,b):
+            n=name+'-'+s; self.add_arc(n,a,b,radius_x=r,sweep=True); parts.append(n)
+        line('top',(x1+r,y1),(x2-r,y1))
+        arc('ne',(x2-r,y1),(x2,y1+r))
+        line('right',(x2,y1+r),(x2,y2-r))
+        arc('se',(x2,y2-r),(x2-r,y2))
+        line('bottom',(x2-r,y2),(x1+r,y2))
+        arc('sw',(x1+r,y2),(x1,y2-r))
+        line('left',(x1,y2-r),(x1,y1+r))
+        arc('nw',(x1,y1+r),(x1+r,y1))
+        self.add_contour(name,*parts,closed=True)
+
+    def heart(self,name,x,y):
+        self.add_arc(name+'-left',(x,y-2),(x-6,y-4),radius_x=4,radius_y=4,sweep=False)
+        self.add_arc(name+'-left-side',(x-6,y-4),(x-6,y+2),radius_x=4,radius_y=4,sweep=False)
+        self.add_line(name+'-left-tip',(x-6,y+2),(x,y+8))
+        self.add_line(name+'-right-tip',(x,y+8),(x+6,y+2))
+        self.add_arc(name+'-right-side',(x+6,y+2),(x+6,y-4),radius_x=4,radius_y=4,sweep=False)
+        self.add_arc(name+'-right',(x+6,y-4),(x,y-2),radius_x=4,radius_y=4,sweep=False)
+        self.add_contour(name,*(name+s for s in ('-left','-left-side','-left-tip','-right-tip','-right-side','-right')),closed=True)
+
+    def build(self) -> None:
+        self.add_polyline('building',(4,25),(4,40),(44,40),(44,25),(24,20))
+        self.add_polyline('door',(12,40),(12,30),(20,30),(20,40)); self.relate('connect','door','building')
+        self.add_line('stem',(28,21),(30,7))
+        self.add_arc('leaf-left',(29,15),(21,7),radius_x=8,radius_y=8,sweep=False)
+        self.add_arc('leaf-right',(30,13),(40,5),radius_x=10,radius_y=8,sweep=True)

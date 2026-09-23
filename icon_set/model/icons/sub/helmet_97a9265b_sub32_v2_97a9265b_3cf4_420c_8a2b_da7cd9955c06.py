@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '04c494d966925f7e4a9092b4ccb17e1b6ce5f8388453339820145
 
 class DrawingVariant2(Sub32):
     icon_id = 'helmet-97a9265b-sub32-v2'
-    variant_of = 'helmet-97a9265b-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

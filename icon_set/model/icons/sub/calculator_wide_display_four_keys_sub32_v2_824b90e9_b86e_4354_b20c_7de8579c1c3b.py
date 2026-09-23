@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '96f55966fc1f89e2376e26daac3d1b363c26e15194c11492a1c9a
 
 class DrawingVariant2(Sub32):
     icon_id = 'calculator-wide-display-four-keys-sub32-v2'
-    variant_of = 'calculator-wide-display-four-keys-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

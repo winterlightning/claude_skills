@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '014a3ec9066be4d14fb7a8b18f1004b9ffa2a5a8a4d81fd2dbc53
 
 class DrawingVariant2(Sub32):
     icon_id = 'color-palette-sample-sub32-v2'
-    variant_of = 'color-palette-sample-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'ff0341573f02b158b31d0b8fe7b6f66b34d300184969dc5471bc6
 
 class DrawingVariant2(Sub32):
     icon_id = 'spiraling-tornado-sub32-v2'
-    variant_of = 'spiraling-tornado-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

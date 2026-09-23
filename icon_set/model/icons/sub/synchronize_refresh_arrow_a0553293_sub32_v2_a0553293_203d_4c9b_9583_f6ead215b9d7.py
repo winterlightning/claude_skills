@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9677eec079b466cfacf500d6b45a19cbff276d484544d1af04b88
 
 class DrawingVariant2(Sub32):
     icon_id = 'synchronize-refresh-arrow-a0553293-sub32-v2'
-    variant_of = 'synchronize-refresh-arrow-a0553293-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

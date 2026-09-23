@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '31be7a040ee3c4051d74facabcd9943541ce14e4dd3e6344d00cf
 
 class DrawingVariant2(Sub32):
     icon_id = 'shipping-delivery-truck-sub32-v2'
-    variant_of = 'shipping-delivery-truck-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

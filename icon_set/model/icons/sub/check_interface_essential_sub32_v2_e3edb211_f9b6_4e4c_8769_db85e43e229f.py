@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '281e56f7b26a5e3a8097c192b0cfab91d74cc716d605ac4caf2df
 
 class DrawingVariant2(Sub32):
     icon_id = 'check-interface-essential-sub32-v2'
-    variant_of = 'check-interface-essential-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

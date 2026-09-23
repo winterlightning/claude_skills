@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'cfcb94ead085503027d1aa95c3ffb1e312499fc2f5d9f21ef717c
 
 class DrawingVariant2(Sub32):
     icon_id = 'single-tail-award-badge-sub32-v2'
-    variant_of = 'single-tail-award-badge-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_M
     semantic_role = 'SUB'

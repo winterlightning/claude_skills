@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'ef4d35f716e8a78bb97617de1e25b23dfcccdaf0dc8bb4d25604b
 
 class DrawingVariant2(Sub32):
     icon_id = 'helmet-d5b67122-sub32-v2'
-    variant_of = 'helmet-d5b67122-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

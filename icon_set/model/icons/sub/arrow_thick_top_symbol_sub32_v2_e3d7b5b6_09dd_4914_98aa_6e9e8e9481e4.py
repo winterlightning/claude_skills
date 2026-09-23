@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '7690b702c11ba7e4cb38754a98175ca6e2d7343c3152d11919603
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'arrow-thick-top-symbol-sub32'
     icon_id = 'arrow-thick-top-symbol-sub32-v2'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

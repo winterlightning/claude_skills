@@ -8,6 +8,7 @@ from ._base import Sub32
 
 class Text32Mixin:
     text_canvas_width = 32
+    text_canvas_height = 32
     text_ink_bounds = (0, 0, 32, 32)
     sizing_mode = 'text-height32'
 
@@ -17,7 +18,7 @@ class Text32Mixin:
     def to_record(self):
         record = super().to_record()
         record.update(sizing_mode=self.sizing_mode, canvas_width=self.text_canvas_width,
-                      canvas_height=32)
+                      canvas_height=self.text_canvas_height)
         return record
 
 
@@ -33,10 +34,10 @@ def canvas_dimensions(icon):
     if isinstance(icon, SourceFaithfulSideSub):
         return icon.canvas_width, icon.canvas_height
     if isinstance(icon, Text32Mixin):
-        width=icon.text_canvas_width
-        if type(width) is not int or width < 4:
-            raise ValueError('Text sub width must be a positive grid width of at least 4')
-        return width, 32
+        width, height = icon.text_canvas_width, icon.text_canvas_height
+        if type(width) is not int or type(height) is not int or min(width, height) < 4:
+            raise ValueError('Text sub dimensions must be positive grid dimensions of at least 4')
+        return width, height
     size=icon.profile.spec.canvas_size
     return size, size
 

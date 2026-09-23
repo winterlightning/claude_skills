@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '662a8a79c3d9b0d8ce5e0b122772975def9dc35523a0ef12cfa1d
 
 class DrawingVariant2(Sub32):
     icon_id = 'glass-drinks-sub32-v2'
-    variant_of = 'glass-drinks-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

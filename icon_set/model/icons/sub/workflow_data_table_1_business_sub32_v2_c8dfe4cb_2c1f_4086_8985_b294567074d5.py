@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '2ac32d16ecefe3bfc57dd0fea54831bcf97c249c35c6bbfb5c6ef
 
 class DrawingVariant2(Sub32):
     icon_id = 'workflow-data-table-1-business-sub32-v2'
-    variant_of = 'workflow-data-table-1-business-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

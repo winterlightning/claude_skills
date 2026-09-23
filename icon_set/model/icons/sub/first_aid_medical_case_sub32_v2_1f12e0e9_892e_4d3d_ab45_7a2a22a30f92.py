@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '52c1a511ad3015b76444f7acd543b8d84e05538e9e6297433748b
 
 class DrawingVariant2(Sub32):
     icon_id = 'first-aid-medical-case-sub32-v2'
-    variant_of = 'first-aid-medical-case-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

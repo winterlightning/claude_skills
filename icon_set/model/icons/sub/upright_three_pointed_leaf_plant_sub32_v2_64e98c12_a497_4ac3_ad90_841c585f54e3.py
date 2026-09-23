@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '021c1106539d742f8906013ce84045fb696103114735549b1217d
 
 class DrawingVariant2(Sub32):
     icon_id = 'upright-three-pointed-leaf-plant-sub32-v2'
-    variant_of = 'upright-three-pointed-leaf-plant-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

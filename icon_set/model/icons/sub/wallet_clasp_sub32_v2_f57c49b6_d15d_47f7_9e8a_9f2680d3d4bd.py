@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'b4723a46cd93b18bf5fb5fcf0dad6e9c2d424c06fcc22e72c7947
 
 class DrawingVariant2(Sub32):
     icon_id = 'wallet-clasp-sub32-v2'
-    variant_of = 'wallet-clasp-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

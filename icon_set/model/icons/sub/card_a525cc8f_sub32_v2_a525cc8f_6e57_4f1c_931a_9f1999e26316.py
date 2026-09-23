@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '83cf2dfd353fa8a2169657a02a78af2808d74426525de8da36059
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'card-a525cc8f-sub32'
     icon_id = 'card-a525cc8f-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

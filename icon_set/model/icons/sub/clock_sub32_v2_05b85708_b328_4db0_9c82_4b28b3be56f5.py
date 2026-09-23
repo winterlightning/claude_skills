@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '67967de3ce3da04a245c136daacce4ac2b999fd318a8e7fa7ed24
 
 class DrawingVariant2(Sub32):
     icon_id = 'clock-sub32-v2'
-    variant_of = 'clock-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'

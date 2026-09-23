@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '15b5e36562673a9e61b4b1b34483fb391015a4ffa272fc1542839
 
 class DrawingVariant2(Sub32):
     icon_id = 'make-up-brush-sub32-v2'
-    variant_of = 'make-up-brush-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

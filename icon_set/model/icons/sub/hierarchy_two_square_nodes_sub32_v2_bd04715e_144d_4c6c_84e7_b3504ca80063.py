@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'aef39f16091aa56e8e083fb4c5fda10865b79c2467ffdd9c7b10c
 
 class DrawingVariant2(Sub32):
     icon_id = 'hierarchy-two-square-nodes-sub32-v2'
-    variant_of = 'hierarchy-two-square-nodes-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

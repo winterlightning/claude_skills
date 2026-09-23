@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1fd402939e860a5b0b45fbcafa0d8a50ee5cff773c7938114a2df
 
 class DrawingVariant2(Sub32):
     icon_id = 'credit-card-sub32-v2'
-    variant_of = 'credit-card-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

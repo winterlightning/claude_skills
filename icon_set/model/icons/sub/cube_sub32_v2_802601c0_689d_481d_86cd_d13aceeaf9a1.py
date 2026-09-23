@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'f611f6378bc2d5b73eb4eb1f7aaac8312a3ca19eedfc0e3077d2e
 
 class DrawingVariant2(Sub32):
     icon_id = 'cube-sub32-v2'
-    variant_of = 'cube-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

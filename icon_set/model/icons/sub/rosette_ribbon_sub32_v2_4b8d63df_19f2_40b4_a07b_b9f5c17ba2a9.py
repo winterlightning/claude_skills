@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '1cbfb17661c7d9a0d7c112837ae221bf1e9ff4f741bbee4551b45
 
 class DrawingVariant2(Sub32):
     icon_id = 'rosette-ribbon-sub32-v2'
-    variant_of = 'rosette-ribbon-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '2a0c5306cbdd87ab938391e3c8e1d687d04e1fed025b6426bc4ed
 
 class DrawingVariant2(Sub32):
     icon_id = 'diamond-money-sub32-v2'
-    variant_of = 'diamond-money-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

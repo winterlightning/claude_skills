@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '9433a09109e9f1cdfb74828e8676ad88c428493c5035e679adb41
 
 class DrawingVariant2(Sub32):
     icon_id = 'thermometer-mercury-sub32-v2'
-    variant_of = 'thermometer-mercury-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

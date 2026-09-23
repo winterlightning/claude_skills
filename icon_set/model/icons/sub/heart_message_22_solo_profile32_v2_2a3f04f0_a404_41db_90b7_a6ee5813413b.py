@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '685847693ea0fd50c447b5ddb25d955415e53ba9e7894c68b3383
 
 class DrawingVariant2(Sub32):
     icon_id = 'heart-message-22-solo-profile32-v2'
-    variant_of = 'heart-message-22-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

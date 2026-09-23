@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '5d1fa048e0e9db621d5bf186e1836195fc7ee7b0b915dee0cfb20
 
 class DrawingVariant2(Sub32):
     icon_id = 'mountain-landscape-picture-icon-solo-profile32-v2'
-    variant_of = 'mountain-landscape-picture-icon-solo-profile32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

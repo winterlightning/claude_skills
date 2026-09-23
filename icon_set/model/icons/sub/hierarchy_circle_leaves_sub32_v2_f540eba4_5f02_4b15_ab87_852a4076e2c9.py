@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '422d84c25ff1bd4c6142b6667dbf3634fef2ece6d3334d62e375e
 
 class DrawingVariant2(Sub32):
     icon_id = 'hierarchy-circle-leaves-sub32-v2'
-    variant_of = 'hierarchy-circle-leaves-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

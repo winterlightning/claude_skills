@@ -49,10 +49,14 @@ class TypefaceTests(unittest.TestCase):
             self.assertNotIn('__TYPEFACE_', composer)
             self.assertIn('text:t=>t.toUpperCase()', composer)
             v2=json.loads((path/'typeface-v2.json').read_text())
-            self.assertEqual(v2['geometry_policy'],'grid-centerline-15x19')
+            self.assertEqual(v2['geometry_policy'],'source-native-20')
             self.assertEqual(len(v2['glyphs']),36)
             self.assertTrue((path/'typeface-v2/letter-a-uppercase.svg').is_file())
             self.assertTrue((path/'typeface-v2/digit-0.svg').is_file())
+            root=Path(__file__).resolve().parents[2]
+            for glyph in v2['glyphs']:
+                expected=(root/glyph['source_path']).read_text().replace('stroke="black"','stroke="currentColor"').rstrip()+'\n'
+                self.assertEqual((path/'typeface-v2'/(glyph['icon_id']+'.svg')).read_text(),expected)
             self.assertIn('id="glyphDataV2"', composer)
 
     def test_invalid_band_is_rejected(self):

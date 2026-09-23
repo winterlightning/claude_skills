@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '5b4e5ac8c022667cf3ac40dbb4523522c7474644542029ebea9ad
 
 class DrawingVariant2(Sub32):
     icon_id = 't-shirt-clothes-sub32-v2'
-    variant_of = 't-shirt-clothes-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

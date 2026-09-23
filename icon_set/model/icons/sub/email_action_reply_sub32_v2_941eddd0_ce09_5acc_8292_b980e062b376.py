@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = '3e2b32341fc81eb07f6704b6b3010cf5cd6d5f937c95a632cf157
 
 class DrawingVariant2(Sub32):
     icon_id = 'email-action-reply-sub32-v2'
-    variant_of = 'email-action-reply-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

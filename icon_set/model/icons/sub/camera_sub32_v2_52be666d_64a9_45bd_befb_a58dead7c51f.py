@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'ad6f73f47f717d597656ebf1a435fe80ec00c42ecdd36e93beec4
 
 class RepairVariant(Sub32):
     variant_label = 'Centerline and source fidelity repair'
-    variant_of = 'camera-sub32'
     icon_id = 'camera-sub32-v2'
     keyshape = Keyshape.HRECT_XL
     semantic_role = 'SUB'

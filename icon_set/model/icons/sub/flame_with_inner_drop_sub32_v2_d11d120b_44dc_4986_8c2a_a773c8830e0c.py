@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '6480a8274acccf6a7f1325e9837658e0827c5d5b5d6b54a54acbb
 
 class DrawingVariant2(Sub32):
     icon_id = 'flame-with-inner-drop-sub32-v2'
-    variant_of = 'flame-with-inner-drop-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.SQUARE
     semantic_role = 'SUB'

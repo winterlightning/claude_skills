@@ -15,7 +15,6 @@ REFERENCE_EXPORT_SHA256 = 'a7bd1ee6fc8cb1c0a8387f9b89e6454b88879a5c6388a71e92a03
 
 class DrawingVariant2(Sub32):
     icon_id = 'charging-sub32-v2'
-    variant_of = 'charging-sub32'
     variant_label = 'Repair 32px envelope'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

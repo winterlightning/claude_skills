@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = '96aca030dc9e0bba6e269d766dba0eabf78e5840774642a171fea
 
 class DrawingVariant2(Sub32):
     icon_id = 'deepfake-face-sub32-v2'
-    variant_of = 'deepfake-face-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.VRECT_XL
     semantic_role = 'SUB'

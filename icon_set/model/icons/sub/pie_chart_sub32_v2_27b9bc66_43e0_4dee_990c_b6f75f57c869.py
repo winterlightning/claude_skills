@@ -14,7 +14,6 @@ REFERENCE_EXPORT_SHA256 = 'a0c09bf05742b71400843abb583206d049ca056fc746145d89210
 
 class DrawingVariant2(Sub32):
     icon_id = 'pie-chart-sub32-v2'
-    variant_of = 'pie-chart-sub32'
     variant_label = 'Source-faithful side-combination centerline repair'
     keyshape = Keyshape.CIRCLE
     semantic_role = 'SUB'
