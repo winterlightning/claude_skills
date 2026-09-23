@@ -126,8 +126,14 @@ class StateRuleTests(unittest.TestCase):
         self.assertEqual((rows[0]['icon'], rows[0]['state'], rows[0]['current'], rows[0]['status']), ('solo/c', 'working', True, 'disapprove'))
         catalog['solo/c']['svg_sha256'] = 'c2'
         self.assertEqual(work_claims.listing(self.connection, catalog, decisions, NOW)['claims'][0]['state'], 'superseded')
+        # The new revision is still disapproved: it is open again, the old claim is history.
         review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
-        self.assertEqual({item['key']: item['work']['state'] for item in review['items']}, {'sub/a': 'open', 'sub/b': 'open', 'solo/c': 'superseded'})
+        self.assertEqual({item['key']: item['work']['state'] for item in review['items']}, {'sub/a': 'open', 'sub/b': 'open', 'solo/c': 'open'})
+        # A deployed fix that starts Ready shows the claim as superseded.
+        decisions['solo/c'] = ('ready', None, None)
+        review = work_claims.review_listing(self.connection, catalog, decisions, {}, NOW)
+        self.assertEqual({item['key']: (item['status'], item['work']['state']) for item in review['items']},
+                         {'sub/a': ('disapprove', 'open'), 'sub/b': ('disapprove', 'open'), 'solo/c': ('ready', 'superseded')})
         self.assertEqual(review['items'][0]['key'], 'solo/c', 'most recent work first')
         self.assertEqual(work_claims.review_listing(self.connection, catalog, decisions, {'state': ['superseded']}, NOW)['total'], 1)
 
