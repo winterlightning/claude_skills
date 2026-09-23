@@ -969,11 +969,72 @@ def write_all(check_only: bool = False, agent: str = "all", skill: str | None = 
             "  together in RESULT_DIR; link this directory and its SVG in the final response.\n"
             "- No gallery, published output, registry, queue or runtime-state updates.",
         )
+        # Ray takes explicit reference files (batched in TASKS.md) instead of the next-icon
+        # helper, so parallel tasks never draw the same reference. Thuan keeps `content`.
+        ray, replaced = re.subn(
+            r"Invoke this skill without parameters\..*?then follow the full authoring workflow below\.",
+            "Arguments: $ARGUMENTS\n\n"
+            "Run from the repository containing `icon_set/`. The arguments are one or more "
+            "reference SVG files, normally from `icon_set/work/todo-references/`. Process them "
+            "in the order given, one icon per file; do not retrieve, add or substitute other "
+            "references. If no file is given, say so and stop.\n\n"
+            "For each file, the brief is the file itself: its filename is "
+            "`<concept>_<source-uuid>.svg`. The **source UUID** is the UUID at the end of the "
+            "filename, the **concept** is the text before it, and the **reference path** is the "
+            "file path as given. Render and inspect the reference, then follow the full "
+            "authoring workflow below. Skip a file whose "
+            "`icon_set/work/primitive-make-ray/<source-uuid>/*/result.json` already exists and "
+            "report it as already done. If a file is missing or has no UUID in its name, report "
+            "that and continue with the next file. After the last file, report every file's result.",
+            content, count=1, flags=re.DOTALL,
+        )
+        if replaced != 1:
+            raise ValueError("primitive-make-ray: intro paragraph not found")
+        for old, new in (
+            ("The next-icon helper skips a source UUID once a run contains an authored "
+             "Python module and a readable result.json with that source_uuid. "
+             "Validation failures, warnings, and failed exports still count as attempts; "
+             "do not retry them automatically. Write result.json last, including failures. "
+             "Only attempts without a saved result remain eligible for automatic retry. "
+             "If retrieval fails or no TODO icon remains, report that result and stop.",
+             "A file counts as done once its run folder holds an authored Python module and "
+             "a result.json with that source_uuid. Validation failures, warnings, and failed "
+             "exports still count as attempts; do not retry them automatically. Write "
+             "result.json last, including failures."),
+            ("   Preserve the helper's concept, source UUID, reference path, category,\n"
+             "   and optional brief as `concept`, `source_uuid`, `reference_path`,\n"
+             "   `category`, and `brief` (null when absent). Keep the exact strings,\n"
+             "   including multiline brief content; do not substitute inferred values.\n"
+             "   Include the complete original stdout as `retrieval_stdout` to retain\n"
+             "   any additional fields, and stderr warnings as `retrieval_stderr`.\n"
+             "   Write this JSON as soon as retrieval succeeds, even if drawing fails.\n",
+             "   Record the input as `concept`, `source_uuid` and `reference_path`,\n"
+             "   taken exactly from the filename and the path as given; do not\n"
+             "   substitute inferred values. Write this JSON before drawing, even if\n"
+             "   drawing fails.\n"),
+            ("author the complete retrieved reference", "author the complete given reference"),
+            ("retrieval metadata", "input metadata"),
+            ("name: primitive-make-ray\n",
+             "name: primitive-make-ray\nargument-hint: <reference.svg> [more.svg ...]\n"),
+        ):
+            if old not in ray:
+                raise ValueError(f"primitive-make-ray: text not found: {old[:60]!r}")
+            ray = ray.replace(old, new)
+        ray = re.sub(
+            r"^description: .*",
+            "description: Author each given reference SVG file (a TODO reference, usually from "
+            "icon_set/work/todo-references/) as a complete Pictographic SOLO48 icon, including "
+            "text, digits, logos, symbols, avatars, wrappers and combinations. Takes one or more "
+            "file paths; the source UUID and concept come from each filename. Save results and "
+            "input metadata in a standalone folder without gallery updates. Generated from the "
+            "contracts by icon_set/scripts/generate_skills.py; do not edit by hand.",
+            ray, count=1, flags=re.MULTILINE,
+        )
         if agent in ("all", "claude"):
-            outputs[SKILLS_DIR / "primitive-make-ray" / "SKILL.md"] = content
+            outputs[SKILLS_DIR / "primitive-make-ray" / "SKILL.md"] = ray
         if agent in ("all", "codex"):
             outputs[CODEX_SKILLS_DIR / "primitive-make-ray" / "SKILL.md"] = (
-                render_codex(content).replace(
+                render_codex(ray).replace(
                     "# /primitive-make-ray —", "# $primitive-make-ray —", 1
                 )
             )

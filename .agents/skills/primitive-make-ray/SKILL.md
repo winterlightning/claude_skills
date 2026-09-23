@@ -1,23 +1,19 @@
 ---
 name: primitive-make-ray
-description: Retrieve the next TODO reference without parameters and author its complete composition as a Pictographic SOLO48 icon, including text, digits, logos, symbols, avatars, wrappers and combinations. Save results and retrieval metadata in a standalone folder without gallery updates. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
+description: Author each given reference SVG file (a TODO reference, usually from icon_set/work/todo-references/) as a complete Pictographic SOLO48 icon, including text, digits, logos, symbols, avatars, wrappers and combinations. Takes one or more file paths; the source UUID and concept come from each filename. Save results and input metadata in a standalone folder without gallery updates. Generated from the contracts by icon_set/scripts/generate_skills.py; do not edit by hand.
 ---
 
 # $primitive-make-ray — one solo icon on `SOLO48`
 
-Invoke this skill without parameters. Run from the repository containing `icon_set/`.
+Arguments: $ARGUMENTS
 
-Retrieve the next TODO icon by running this command without parameters:
+Run from the repository containing `icon_set/`. The arguments are one or more reference SVG files, normally from `icon_set/work/todo-references/`. Process them in the order given, one icon per file; do not retrieve, add or substitute other references. If no file is given, say so and stop.
 
-```bash
-python3 icon_set/scripts/next_icon.py
-```
+For each file, the brief is the file itself: its filename is `<concept>_<source-uuid>.svg`. The **source UUID** is the UUID at the end of the filename, the **concept** is the text before it, and the **reference path** is the file path as given. Render and inspect the reference, then follow the full authoring workflow below. Skip a file whose `icon_set/work/primitive-make-ray/<source-uuid>/*/result.json` already exists and report it as already done. If a file is missing or has no UUID in its name, report that and continue with the next file. After the last file, report every file's result.
 
-Use its output as the brief, including the source ID and reference path, then follow the full authoring workflow below.
+**Folder-only output:** create a fresh result directory at `icon_set/work/primitive-make-ray/<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, exports, reference renders, previews, input metadata and findings there, including unsuccessful attempts. Never overwrite an earlier run. Do not write to `published/`, the registered icon folders, metadata catalogs, galleries, queues or runtime state. Do not run build, finish-icon, publish, release or gallery update commands. This output rule overrides output and registration advice in shared guides. A file counts as done once its run folder holds an authored Python module and a result.json with that source_uuid. Validation failures, warnings, and failed exports still count as attempts; do not retry them automatically. Write result.json last, including failures.
 
-**Folder-only output:** create a fresh result directory at `icon_set/work/primitive-make-ray/<source-uuid>/<unique-run-id>/`. Call it `RESULT_DIR` below. Store all source, exports, reference renders, previews, retrieval metadata and findings there, including unsuccessful attempts. Never overwrite an earlier run. Do not write to `published/`, the registered icon folders, metadata catalogs, galleries, queues or runtime state. Do not run build, finish-icon, publish, release or gallery update commands. This output rule overrides output and registration advice in shared guides. The next-icon helper skips a source UUID once a run contains an authored Python module and a readable result.json with that source_uuid. Validation failures, warnings, and failed exports still count as attempts; do not retry them automatically. Write result.json last, including failures. Only attempts without a saved result remain eligible for automatic retry. If retrieval fails or no TODO icon remains, report that result and stop.
-
-**Generate every input:** author the complete retrieved reference as one SOLO48 icon. Do not skip, split into component briefs, or hand off because it contains text, digits, a logo, a symbol, an avatar, an enclosure or a combination. Preserve its defining features and arrangement.
+**Generate every input:** author the complete given reference as one SOLO48 icon. Do not skip, split into component briefs, or hand off because it contains text, digits, a logo, a symbol, an avatar, an enclosure or a combination. Preserve its defining features and arrangement.
 
 Letters and digits may be hand-authored to preserve the reference's distinctive shape, including outlined or three-dimensional forms. Existing typeface glyphs are optional construction references, not a required substitute. These scope and text rules override routing and typeface restrictions in the shared guides. All SOLO48 geometry and validation requirements still apply.
 
@@ -181,14 +177,11 @@ Inspect the complete reference before reduction. Treat its text, enclosure, main
 7. **Export locally and look.**
 
    Save `icon.to_svg()` as `RESULT_DIR/<icon-id>.svg` and
-   save the retrieval metadata beside it as `RESULT_DIR/<icon-id>.metadata.json`.
-   Preserve the helper's concept, source UUID, reference path, category,
-   and optional brief as `concept`, `source_uuid`, `reference_path`,
-   `category`, and `brief` (null when absent). Keep the exact strings,
-   including multiline brief content; do not substitute inferred values.
-   Include the complete original stdout as `retrieval_stdout` to retain
-   any additional fields, and stderr warnings as `retrieval_stderr`.
-   Write this JSON as soon as retrieval succeeds, even if drawing fails.
+   save the input metadata beside it as `RESULT_DIR/<icon-id>.metadata.json`.
+   Record the input as `concept`, `source_uuid` and `reference_path`,
+   taken exactly from the filename and the path as given; do not
+   substitute inferred values. Write this JSON before drawing, even if
+   drawing fails.
    Save
    `report.describe()` as `RESULT_DIR/validation.txt`. Render that SVG
    directly with CairoSVG into light and dark PNGs at native 48px and
@@ -220,7 +213,7 @@ Inspect the complete reference before reduction. Treat its text, enclosure, main
   records the exact `SOURCE_ICON_ID`, `SOURCE_PATH` and an `AUTHOR` naming your
   own model. Source metadata is preserved in the standalone result module;
   earlier runs and registered originals remain unchanged.
-- Source, SVG, matching retrieval metadata JSON, previews, validation findings
+- Source, SVG, matching input metadata JSON, previews, validation findings
   and result.json are saved
   together in RESULT_DIR; link this directory and its SVG in the final response.
 - No gallery, published output, registry, queue or runtime-state updates.
