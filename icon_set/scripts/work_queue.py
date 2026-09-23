@@ -133,11 +133,16 @@ def take_next(base_url, worker, family=None, category=None, icon_type=None, leas
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0], formatter_class=argparse.RawDescriptionHelpFormatter,
                                      epilog='\n'.join(__doc__.splitlines()[2:]))
-    parser.add_argument('--base-url', default=None, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
-    parser.add_argument('--worker', default=None, help='who is working (default: $PICTOGRAPHIC_WORKER or hostname/user)')
-    parser.add_argument('--json', action='store_true', help='print the raw API response')
+    # --base-url, --worker and --json are accepted before or after the subcommand.
+    shared = argparse.ArgumentParser(add_help=False)
+    shared.add_argument('--base-url', default=argparse.SUPPRESS, help='production gallery (default: $PICTOGRAPHIC_API or the recorded tunnel)')
+    shared.add_argument('--worker', default=argparse.SUPPRESS, help='who is working (default: $PICTOGRAPHIC_WORKER or hostname/user)')
+    shared.add_argument('--json', action='store_true', default=argparse.SUPPRESS, help='print the raw API response')
+    parser.set_defaults(base_url=None, worker=None, json=False)
+    for action in shared._actions:
+        parser._add_action(action)
     commands = parser.add_subparsers(dest='command', required=True)
-    take = commands.add_parser('next', help='claim the next disapproved icon(s) and print the brief(s)')
+    take = commands.add_parser('next', help='claim the next disapproved icon(s) and print the brief(s)', parents=[shared])
     take.add_argument('--limit', type=int, default=1, help='how many icons to claim (default 1)')
     take.add_argument('--offset', type=int, default=0, help='skip this many claimable icons first')
     take.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS,
@@ -147,7 +152,7 @@ def main(argv=None):
     take.add_argument('--type', dest='icon_type')
     take.add_argument('--lease-hours', type=int)
     take.add_argument('--out', type=Path, help='write the brief(s) here instead of printing')
-    listing = commands.add_parser('queue', help='list claimable disapproved icons without claiming')
+    listing = commands.add_parser('queue', help='list claimable disapproved icons without claiming', parents=[shared])
     listing.add_argument('--disapprove-status', '--reason', dest='reason', choices=REASONS)
     listing.add_argument('--family')
     listing.add_argument('--category')
@@ -158,13 +163,13 @@ def main(argv=None):
                                   ('cannot-fix', 'give up with a required note', True),
                                   ('abandon', 'release your claim so another machine can take it', False),
                                   ('heartbeat', 'extend your lease', False)):
-        sub = commands.add_parser(name, help=help_text)
+        sub = commands.add_parser(name, help=help_text, parents=[shared])
         sub.add_argument('--icon', required=True)
         sub.add_argument('--svg-sha256', help='revision to report (default: the current production revision)')
         sub.add_argument('--note', required=note, default='')
         if name == 'heartbeat':
             sub.add_argument('--lease-hours', type=int)
-    status = commands.add_parser('status', help='show claims (all, or one icon)')
+    status = commands.add_parser('status', help='show claims (all, or one icon)', parents=[shared])
     status.add_argument('--icon')
     args = parser.parse_args(argv)
     base_url = args.base_url or default_base_url()
