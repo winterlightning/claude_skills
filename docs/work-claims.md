@@ -65,6 +65,9 @@ lease and the next `next` takes the icon.
 
 ## API
 
+Step-by-step request and response examples for the whole workflow are in
+[work-claims-api.md](work-claims-api.md).
+
 Production serves these; `python3 -m icon_set dev` forwards them to its
 `--sync-source` (default `$PICTOGRAPHIC_SYNC_SOURCE`, then the tunnel recorded
 in `deploy.py`). No login is required; the `worker` string is stored on the
