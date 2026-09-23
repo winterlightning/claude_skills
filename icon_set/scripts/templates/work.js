@@ -7,6 +7,27 @@
   let rows = [], page = 1, loading = false;
   const open = new Set();
   const histories = new Map();
+  const workerKey = 'pictographic_worker';
+  try { $('workWorker').value = localStorage.getItem(workerKey) || ''; } catch {}
+  $('docBase').value = location.origin;
+  const worker = () => $('workWorker').value.trim();
+  const quote = value => "'" + String(value).replaceAll("'", "'\\''") + "'";
+  function renderDoc() {
+    const base = ($('docBase').value.trim() || location.origin).replace(/\/$/, '');
+    const me = worker() || 'thuan-mac';
+    const setup = 'API_BASE=' + quote(base) + '\nWORKER=' + quote(me);
+    const post = (route, body) => 'curl --fail-with-body -H \'Content-Type: application/json\' \\\n  --data ' + quote(JSON.stringify(body)) + ' \\\n  "$API_BASE' + route + '"';
+    const claim = {icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1', worker: me};
+    $('docFetch').textContent = setup + '\n\ncurl --fail-with-body "$API_BASE/api/work/disapproved?family=sub&limit=50&offset=0"\ncurl --fail-with-body "$API_BASE/api/work/queue?family=sub&limit=5"';
+    $('docClaim').textContent = post('/api/work/claim', claim);
+    $('docClaimMany').textContent = post('/api/work/claim', {worker: me, icons: [{icon: 'sub/plus', svg_sha256: 'HASH_FROM_STEP_1'}, 'sub/minus']});
+    $('docHeartbeat').textContent = post('/api/work/heartbeat', claim);
+    $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
+    $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
+    $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --family sub --out fix-input.txt   # fetch + claim, prints the brief; exit 3 = queue empty\npython3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
+  }
+  $('workWorker').addEventListener('input', () => { try { localStorage.setItem(workerKey, worker()); } catch {} renderDoc(); render(); });
+  $('docBase').addEventListener('input', renderDoc);
 
   async function api(path) {
     const response = await fetch(path, {cache: 'no-store'});
@@ -54,7 +75,9 @@
   function visible() {
     const family = $('workFamily').value, state = $('workState').value, status = $('workStatus').value;
     const query = $('workSearch').value.trim().toLowerCase();
+    const mine = $('workMine').checked && worker();
     return rows.filter(row => (!family || row.family === family) && (!state || row.work.state === state) && (!status || row.status === status)
+      && (!mine || row.work.worker === mine)
       && (!query || [row.key, row.name, row.work.worker, row.feedback, row.disapproved_by, row.work.note].join(' ').toLowerCase().includes(query)));
   }
 
@@ -97,6 +120,7 @@
     for (const row of slice) {
       const tr = document.createElement('tr');
       tr.dataset.key = row.key;
+      tr.dataset.mine = String(!!worker() && row.work.worker === worker());
       const icon = document.createElement('div'); icon.className = 'work-icon';
       if (row.preview_url) { const img = document.createElement('img'); img.src = row.preview_url; img.alt = ''; img.loading = 'lazy'; icon.append(img); }
       const label = document.createElement('div');
@@ -112,7 +136,7 @@
       feedback.append(summaryLine, text, meta);
       tr.append(cell(feedback));
       tr.append(cell(badge('state', row.work.state, STATE_LABELS[row.work.state] || row.work.state)));
-      tr.append(cell(row.work.worker || '—'));
+      tr.append(cell(row.work.worker ? (row.work.worker === worker() ? row.work.worker + ' (you)' : row.work.worker) : '—'));
       tr.append(cell(when(row.work.claimed_at) || '—'));
       let lease = '—';
       if (row.work.state === 'working' && row.work.expires_at) lease = Math.max(0, Math.round((new Date(row.work.expires_at) - Date.now()) / 36e4) / 10) + ' h left';
@@ -253,6 +277,8 @@
   $('workPageSize').addEventListener('change', () => { page = 1; render(); });
   $('workPrev').onclick = () => { page--; render(); };
   $('workNext').onclick = () => { page++; render(); };
+  $('workMine').addEventListener('change', () => { page = 1; render(); });
   $('workRefresh').onclick = load;
+  renderDoc();
   load();
 })();

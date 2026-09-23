@@ -143,8 +143,13 @@ search and paging. **History** on a row opens:
 - **Change log**: every logged event for the icon, newest first (reviews,
   feedback, claims, heartbeats, done, cannot-fix, abandon, expiry).
 
-Claims are made by agents with `work_queue.py`, not from the page. On localhost
-the page shows production's data because the dev server forwards the work routes.
+Type your worker name (for example `thuan-mac` or `mac-mini`) in **Your worker
+name**: it is remembered in the browser, your rows are highlighted, **Only my
+claims** filters to them, and the on-page guide **How to fetch, claim and
+finish a fix** fills its curl and CLI examples with that name and the server
+URL. Claims are made by agents with `work_queue.py`, not from the page. On
+localhost the page shows production's data because the dev server forwards
+the work routes.
 
 ## What reviewers see
 
