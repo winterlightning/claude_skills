@@ -1,0 +1,50 @@
+"""A return arrow points left beside an open rounded return path.
+Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
+SOLO48 HRECT_L; omissions: None.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='4c146073-9a15-4ce4-92c6-b12415905f32'
+SOURCE_PATH='icon_set/work/todo-references/navigation previous_4c146073-9a15-4ce4-92c6-b12415905f32.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='navigation-previous'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('navigation', 'previous')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=2):
+        p=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        ids=[]
+        for i in range(8):
+            k=n+'-'+str(i);ids.append(k)
+            if i%2:self.add_arc(k,p[i],p[(i+1)%8],radius_x=r)
+            else:self.add_line(k,p[i],p[(i+1)%8])
+        self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+
+        self.add_polyline('arrowhead',(12,8),(4,16),(12,24))
+        self.add_line('shaft',(4,16),(22,16))
+        self.add_arc('bend',(22,16),(30,24),radius_x=8)
+        self.add_line('end',(30,24),(30,31))
+        self.add_contour('arrow','shaft','bend','end');self.relate('connect','arrowhead','arrow')
+        self.add_line('return-right',(44,8),(44,36))
+        self.add_arc('return-corner',(44,36),(40,40),radius_x=4)
+        self.add_line('return-bottom',(40,40),(22,40))
+        self.add_arc('return-left-corner',(22,40),(18,36),radius_x=4)
+        self.add_line('return-left',(18,36),(18,30))
+        self.add_contour('return','return-right','return-corner','return-bottom','return-left-corner','return-left')
+
+# Final visible bounds: (2, 6, 46, 42)
+# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
+# Final reductions: None.
+# Visual review: Return arrow and open trailing path remain distinct after shortening the return path’s left side. Matching round corners preserve smoothness.

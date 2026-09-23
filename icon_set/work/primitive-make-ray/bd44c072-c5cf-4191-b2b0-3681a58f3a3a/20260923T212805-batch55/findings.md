@@ -1,0 +1,18 @@
+# workflow data table increasing arrow
+
+Complete rising zigzag arrow and stepped data grid are retained: three columns, four row levels, and the elevated top-right portion. Integer shared nodes define all table intersections. Five-unit row spacing and the arrow/table gap fail MIC; the full grid was retained for manual review.
+
+Keyshape: SQUARE. The complete composition is balanced within visible bounds (4,4)-(44,44).
+
+Inspected local Lucide originals and their atomic-debug drawings inform the construction principles listed in references.
+
+No defining elements omitted.
+
+```text
+status: invalid
+  ERROR  mic [table]: parallel straight edges table-3, table-4 and row-27-1, row-27-2 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [row-27]: parallel straight edges row-27-1, row-27-2 and row-32-1, row-32-2, row-32-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [table]: parallel straight edges table-1 and row-32-1, row-32-2, row-32-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [row-32]: parallel straight edges row-32-1, row-32-2, row-32-3 and row-37-1, row-37-2, row-37-3 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [row-37]: parallel straight edges row-37-1, row-37-2, row-37-3 and table-11, table-10, table-9 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [growth]: growth and table are 4.32732 apart on centerlines nearest (20.7434, 19.1504)<->(24, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship```

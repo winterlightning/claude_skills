@@ -1,0 +1,33 @@
+{
+  "concept": "street view",
+  "source_uuid": "6498afd8-8355-4072-b42d-b96eef9111b1",
+  "reference_path": "icon_set/work/todo-references/street view_6498afd8-8355-4072-b42d-b96eef9111b1.svg",
+  "icon_id": "street-view",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/6498afd8-8355-4072-b42d-b96eef9111b1/20260923-batch48-gpt6",
+  "keyshape": "SQUARE",
+  "subject": "A standing person beside a location pin and street lines.",
+  "construction_plan": "Left aligned figure, right pin, two road levels. Head radius 4; torso starts exactly 8 below its lower centerline.",
+  "omissions": [],
+  "references": [
+    "supplied reference SVG",
+    "human_ref/user.svg and human_ref/full_body_ref.png: circular heads and smooth shoulders or limbs",
+    "lucide/original/map-pin.svg and atomic-debug/map-pin.svg: rounded crown and pointed base"
+  ],
+  "python": "street_view_6498afd8_8355_4072_b42d_b96eef9111b1.py",
+  "validation_status": "error",
+  "error": "Traceback (most recent call last):\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/work/primitive-make-ray/08acfc76-564e-418d-abde-1f5766d10cdc/20260923-batch48-gpt6/author_batch.py\", line 235, in main\n    svg=icon.to_svg();(out/(row['icon_id']+'.svg')).write_text(svg)\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/base.py\", line 257, in to_svg\n    return render_svg(self)\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py\", line 153, in render_svg\n    paths = build_paths(icon.draw())\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py\", line 86, in build_paths\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: element 'pin-point-1' belongs to contours 'pin-point' and 'pin'\n",
+  "visual_review_findings": "No emitted SVG or theme previews: export stopped on duplicate contour ownership of pin-point-1. Human geometry uses head center (14,10), radius 4, torso junction (14,22): 22-(10+4)=8 centerline gap, or exactly 4 ink units. Visual approval is unavailable.",
+  "visual_review_status": "unavailable",
+  "keyshape_reason": "A compact, approximately equal-width-and-height composition.",
+  "automatic_retry": false,
+  "environment_note": "Initial module loading needed PYTHONPATH=.; corrected the runner environment before geometry validation.",
+  "artifacts": {
+    "attempt-findings.json": "attempt-findings.json",
+    "reference.png": "reference.png",
+    "street-view.metadata.json": "street-view.metadata.json",
+    "street_view_6498afd8_8355_4072_b42d_b96eef9111b1.py": "street_view_6498afd8_8355_4072_b42d_b96eef9111b1.py",
+    "validation.txt": "validation.txt"
+  },
+  "human_construction": "Detached circular head radius4 centered (14,10); torso starts (14,22), exactly 8 centerline /4 ink gap, aligned on x14; head/torso flags recorded."
+}

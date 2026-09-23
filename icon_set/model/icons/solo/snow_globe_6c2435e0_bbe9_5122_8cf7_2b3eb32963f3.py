@@ -1,0 +1,39 @@
+from ...keyshapes import Keyshape
+from ._base import Solo48
+
+SOURCE_ICON_ID = '6c2435e0-bbe9-5122-8cf7-2b3eb32963f3'
+SOURCE_PATH = 'icon_set/work/todo-references/snow globe_6c2435e0-bbe9-5122-8cf7-2b3eb32963f3.svg'
+AUTHOR = 'gpt-6'
+# Plan: Snow globe with a pine tree inside and a broad pedestal below.
+# References: tree-pine: tiered triangular silhouette; circular globe and symmetric base.
+# Reduction: Reduced pine to a single triangular silhouette to preserve a clear globe opening; retained trunk and pedestal.
+
+class AuthoredIcon(Solo48):
+    icon_id = 'snow-globe'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects/general"
+    aliases = ()
+    keywords = ('snow', 'globe')
+
+    def build(self):
+        self.circle('globe',24,20,16)
+        self.add_polyline('base',(10,36),(38,36),(40,44),(8,44),closed=True)
+        self.relate('connect','base','globe')
+        self.add_polyline('tree',(24,13),(18,25),(30,25),closed=True)
+        self.add_line('trunk',(24,25),(24,27));self.relate('connect','trunk','tree')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,l,t,r,b,q=3):
+        pts=[(l+q,t),(r-q,t),(r,t+q),(r,b-q),(r-q,b),(l+q,b),(l,b-q),(l,t+q)]
+        ids=[]
+        for k in range(8):
+            ident=f'{n}-{k}';ids.append(ident)
+            if k%2:self.add_arc(ident,pts[k],pts[(k+1)%8],radius_x=q)
+            else:self.add_line(ident,pts[k],pts[(k+1)%8])
+        self.add_contour(n,*ids,closed=True)

@@ -1,0 +1,64 @@
+"""A card showing a bug protrudes from an open envelope.
+Plan: semantic components use coherent contours, shared nodes, and mirrored or repeated definitions.
+Keyshape SQUARE; full composition retained on SOLO48. Omissions: Antennae and legs reduced to the reference’s six radial strokes.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='0b79dbcd-029c-4c05-baad-34d720b23be7'
+SOURCE_PATH='icon_set/work/todo-references/mail card bug_0b79dbcd-029c-4c05-baad-34d720b23be7.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='mail-card-bug'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('mail', 'card', 'bug')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def heart(self):
+        # Shared bilateral lobe radius and mirrored flanks; exact square extremes.
+        self.add_arc('lobe-left',(24,15),(6,15),radius_x=9,sweep=False)
+        self.add_bezier('flank-left',(6,15),((6,28),(16,37),(24,42)))
+        self.add_bezier('flank-right',(24,42),((32,37),(42,28),(42,15)))
+        self.add_arc('lobe-right',(42,15),(24,15),radius_x=9,sweep=False)
+        self.add_contour('heart','lobe-left','flank-left','flank-right','lobe-right',closed=True)
+
+    def lens(self):
+        # Circle at (21,21), radius 15. Shared handle node (30,33): 9²+12²=15².
+        self.add_arc('lens-a',(30,33),(12,9),radius_x=15)
+        self.add_arc('lens-b',(12,9),(30,33),radius_x=15)
+        self.add_contour('lens','lens-a','lens-b',closed=True)
+        self.add_line('handle',(30,33),(42,42))
+        self.relate('connect','lens','handle')
+
+    def envelope(self):
+        # Complete card protruding from an open envelope; bilateral fold nodes.
+        self.add_polyline('body',(6,24),(6,42),(42,42),(42,24))
+        self.add_polyline('fold',(6,24),(12,28),(18,32),(30,32),(36,28),(42,24))
+        self.relate('connect','body','fold')
+        self.add_polyline('card',(12,28),(12,6),(36,6),(36,28))
+        self.relate('connect','card','fold')
+        self.add_line('seam-left',(18,32),(13,37))
+        self.add_line('seam-right',(30,32),(35,37))
+        self.relate('connect','seam-left','fold')
+        self.relate('connect','seam-right','fold')
+
+    def build(self):
+
+        self.envelope()
+        nodes=[(21,15),(27,15),(29,19),(27,23),(21,23),(19,19)]
+        members=[]
+        for j,a in enumerate(nodes):
+            n='bug-arc-'+str(j);members.append(n)
+            self.add_arc(n,a,nodes[(j+1)%6],radius_x=5)
+        self.add_contour('bug',*members,closed=True)
+        self.add_line('bug-divider',(19,19),(29,19));self.relate('connect','bug-divider','bug')
+        for j,(x,y) in enumerate(nodes):
+            dx=-3 if x<24 else 3;dy=-3 if y<19 else 3 if y>19 else 0
+            n='leg-'+str(j);self.add_line(n,(x,y),(x+dx,y+dy));self.relate('connect',n,'bug')

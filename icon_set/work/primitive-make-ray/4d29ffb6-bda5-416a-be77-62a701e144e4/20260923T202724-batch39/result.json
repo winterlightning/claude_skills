@@ -1,0 +1,55 @@
+{
+  "concept": "robbing",
+  "source_uuid": "4d29ffb6-bda5-416a-be77-62a701e144e4",
+  "reference_path": "icon_set/work/todo-references/robbing_4d29ffb6-bda5-416a-be77-62a701e144e4.svg",
+  "icon_id": "robbing",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/4d29ffb6-bda5-416a-be77-62a701e144e4/20260923T202724-batch39",
+  "keyshape": "SQUARE",
+  "subject": "A robber threatening another person with a knife for money.",
+  "symbol_plan": "Two shared circular heads with exact detached torso gap, bent threatening arm, blade and dollar symbol.",
+  "construction_reference": "human_ref/user.svg and full_body_ref.png: circular heads and coherent bent limbs",
+  "omissions": [
+    "Omitted tiny facial expressions; retained knife and money mark."
+  ],
+  "module": "robbing_4d29ffb6_bda5_416a_be77_62a701e144e4.py",
+  "validation_status": "invalid",
+  "validation_findings": "status: invalid\n  ERROR  canvas/keyshape bounds: visible ink (4, 4, 44.4682, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.4682, 0.0], tolerance 0.0)\n  ERROR  mic [money-stem]: parallel straight edges money-stem and victim-torso are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [knife]: parallel straight edges knife-1 and robber-torso are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [knife]: parallel straight edges knife-2 and knife-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [knife]: knife and victim-torso are 4 apart on centerlines nearest (32, 34)<->(36, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [knife]: knife and money are 5.31476 apart on centerlines nearest (32, 34)<->(36.7871, 31.6912); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [victim-torso]: victim-torso and money are 0.468753 apart on centerlines nearest (36, 30.3598)<->(36.4688, 30.3598); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [victim-torso]: victim-torso and money-stem are 4 apart on centerlines nearest (36, 26)<->(40, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [money]: money and money-stem are 0 apart on centerlines nearest (40, 28.3629)<->(40, 28.3629); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": {
+    "native_size": 48,
+    "enlarged_size": 192,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Two people, knife and money retained, but knife and dollar merge with torsos at native size. Human head/torso gaps are exactly 4 ink units; facial detail omitted. Scene not visually approved.",
+    "approved": false
+  },
+  "keyshape_reason": "Fits the balanced overall composition within visible bounds (4,4)-(44,44).",
+  "human_reference": {
+    "paths": [
+      "icon_set/references/human_ref/user.svg",
+      "icon_set/references/human_ref/full_body_ref.png"
+    ],
+    "detached_head_gap": {
+      "robber": "24 - (11 + 5) - 4 = 4 ink units",
+      "victim": "26 - (14 + 4) - 4 = 4 ink units"
+    },
+    "axis_alignment": "Both circular heads centered on vertical torso axes."
+  },
+  "artifacts": [
+    "dark-192.png",
+    "dark-48.png",
+    "error.txt",
+    "human-user.png",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "robbing.metadata.json",
+    "robbing.svg",
+    "robbing_4d29ffb6_bda5_416a_be77_62a701e144e4.py",
+    "validation.txt"
+  ],
+  "execution_notes": "An initial import-path error was corrected by running from the repository root. Any error.txt records superseded setup or contour assembly diagnostics; validation.txt is the final geometry verdict."
+}

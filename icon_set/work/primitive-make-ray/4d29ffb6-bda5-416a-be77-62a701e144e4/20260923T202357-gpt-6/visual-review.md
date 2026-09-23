@@ -1,0 +1,23 @@
+# robbing
+
+Robber facing victim, with forward gun and money mark; heads share size and body gap.
+
+SQUARE: Square overall composition; target visible extremes (4,4)-(44,44).
+
+Omitted tiny angry eyebrows and hand-outline folds; retained two people, weapon and money sign.
+
+Two heads remain clear, but gun/arms and dollar mark merge. Own head-to-torso centerline gaps are exactly 26-(12+6)=8, giving 4 ink units, and axes align vertically. Shared human head/limb vocabulary used; scene not visually approved.
+
+Construction references: human_ref/full_body_ref.png. Lucide principles used: coherent rounded enclosures, joined arrowheads, mirrored award tails, smooth heart lobes and repeated arcs, where relevant. The supplied reference owns the subject and arrangement.
+
+```text
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (4, 4, 44.2769, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.0, 0.0, 0.2769, 0.0], tolerance 0.0)
+  ERROR  mic [money-stem]: parallel straight edges money-stem and victim-torso are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [robber-torso]: parallel straight edges robber-torso and arm-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [arm]: parallel straight edges arm-1 and arm-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [gun]: gun and money are 6.51165 apart on centerlines nearest (28, 30.4177)<->(34.5117, 30.4177); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [victim-head]: victim-head and money-stem are 7.34185 apart on centerlines nearest (37.3146, 17.8542)<->(39, 25); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [victim-torso]: victim-torso and money-stem are 3 apart on centerlines nearest (36, 26)<->(39, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [victim-torso]: victim-torso and money are 0 apart on centerlines nearest (36, 33.2071)<->(36, 33.2071); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

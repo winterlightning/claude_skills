@@ -1,0 +1,37 @@
+{
+  "concept": "snorer",
+  "source_uuid": "f8998b5a-15d8-45ce-9679-4cac7ab954c3",
+  "reference_path": "icon_set/work/todo-references/snorer_f8998b5a-15d8-45ce-9679-4cac7ab954c3.svg",
+  "icon_id": "snorer",
+  "out": "icon_set/work/primitive-make-ray/f8998b5a-15d8-45ce-9679-4cac7ab954c3/20260923T204750549865-ray44",
+  "keyshape": "SQUARE",
+  "plan": "Sleeping person in bed with two hand-authored Z marks overhead.",
+  "construction_references": "bed: simple bedding silhouette; human_ref/user.svg and full_body_ref.png: circular head and smooth shoulder construction.",
+  "omissions": "Omitted minor pillow crease; retained pillow, blanket and both Zs.",
+  "module": "snorer_f8998b5a_15d8_45ce_9679_4cac7ab954c3.py",
+  "validation_status": "invalid",
+  "validation": "status: invalid\n  ERROR  mic [large]: parallel straight edges large-1 and large-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [small]: parallel straight edges small-1 and small-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [head]: head and pillow are 3.05584 apart on centerlines nearest (15.3368, 30.9628)<->(15, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [head]: head and small are 2.06242 apart on centerlines nearest (21.2181, 22.0385)<->(23, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [small]: small and large are 5 apart on centerlines nearest (29, 15)<->(33, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "author": "gpt-6",
+  "visual_review": "Sleeping head, pillow, blanket and both Zs retained. Own torso junction is at y39, exactly 8 centerline units below the head bottom at y31, giving 4 ink units. Pillow and Z lettering violate clearance; not approved.",
+  "keyshape_reason": "Square overall composition; target visible envelope (4,4)-(44,44).",
+  "human_references": [
+    "icon_set/skills/icon-design/human-reference.md",
+    "icon_set/references/human_ref/user.svg",
+    "icon_set/references/human_ref/full_body_ref.png"
+  ],
+  "human_gap_evidence": "Head center (16,25), radius 6, own torso junction (16,39): 39-(25+6)=8 centerline / 4 ink units. Pillow crowds head independently; overall scene invalid.",
+  "artifacts": [
+    "dark-192.png",
+    "dark-48.png",
+    "existing-source-matches.json",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "snorer.metadata.json",
+    "snorer.svg",
+    "snorer_f8998b5a_15d8_45ce_9679_4cac7ab954c3.py",
+    "validation.txt",
+    "visual-review.md"
+  ]
+}

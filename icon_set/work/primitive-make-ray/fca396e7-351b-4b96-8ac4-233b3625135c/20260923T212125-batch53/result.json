@@ -1,0 +1,62 @@
+{
+  "position": 4,
+  "concept": "user cash scale",
+  "source_uuid": "fca396e7-351b-4b96-8ac4-233b3625135c",
+  "reference_path": "icon_set/work/todo-references/user cash scale_fca396e7-351b-4b96-8ac4-233b3625135c.svg",
+  "icon_id": "user-cash-scale",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/fca396e7-351b-4b96-8ac4-233b3625135c/20260923T212125-batch53",
+  "family": "solo",
+  "profile": "SOLO48",
+  "keyshape": "SQUARE",
+  "subject": "A person and a dollar coin balanced on a seesaw.",
+  "validation_status": "invalid",
+  "validation": {
+    "status": "invalid",
+    "errors": 4,
+    "warnings": 1
+  },
+  "validation_errors": [
+    "ERROR  mic [person-body]: parallel straight edges person-bottom-left, person-bottom-right and beam-1, beam-2 are 2 apart on centerlines (ink gap -2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "ERROR  mic [person-body]: person-body and beam are 2 apart on centerlines nearest (6, 30)<->(6, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [beam]: beam and coin are 4 apart on centerlines nearest (34, 32)<->(34, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [beam]: beam and dollar-stem are 3 apart on centerlines nearest (34, 32)<->(34, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "WARN   mic [coin]: coin and dollar-stem are 0 apart on centerlines nearest (34, 12)<->(34, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "visual_review": {
+    "status": "needs-review",
+    "native_size": 48,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "enlarged_size": 240,
+    "findings": "The dollar overlaps the coin and the person nearly merges with the beam. The complete composition is retained, but the native negative space is inadequate."
+  },
+  "construction_reference": "scale: horizontal balance and fulcrum; human_ref/user.svg: circular head and shoulder apex.",
+  "omissions": "Small arm/leg outline steps simplified; coin, dollar and fulcrum retained.",
+  "human_review": {
+    "reference": "icon_set/skills/icon-design/human-reference.md; icon_set/references/human_ref/user.svg",
+    "head_bottom_centerline_y": 14,
+    "body_top_centerline_y": 22,
+    "centerline_gap": 8,
+    "visible_ink_gap": 4,
+    "construction": "Outlined head and torso; not a stick figure. Smooth shoulder vocabulary from the shared reference."
+  },
+  "artifacts": {
+    "python": "user_cash_scale_fca396e7_351b_4b96_8ac4_233b3625135c.py",
+    "svg": "user-cash-scale.svg",
+    "input_metadata": "user-cash-scale.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "plan": "plan.json",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-240.png",
+    "dark_enlarged": "dark-240.png",
+    "findings": "findings.md"
+  }
+}

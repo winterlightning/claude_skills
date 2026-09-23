@@ -1,0 +1,42 @@
+"""Crossed magic strokes float above a skull.
+Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
+SOLO48 SQUARE; omissions: Skull jaw fillets simplified; eyes and two tooth divisions retained.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='ad553f32-ceb4-4d38-80d0-f5cef462f6e3'
+SOURCE_PATH='icon_set/work/todo-references/necromancy reanimate 1_ad553f32-ceb4-4d38-80d0-f5cef462f6e3.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='necromancy-reanimate-1'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('necromancy', 'reanimate', '1')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=2):
+        p=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        ids=[]
+        for i in range(8):
+            k=n+'-'+str(i);ids.append(k)
+            if i%2:self.add_arc(k,p[i],p[(i+1)%8],radius_x=r)
+            else:self.add_line(k,p[i],p[(i+1)%8])
+        self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+
+        self.add_line('magic-a',(6,6),(24,10));self.add_line('magic-b',(24,10),(42,14))
+        self.add_line('magic-c',(6,14),(24,10));self.add_line('magic-d',(24,10),(42,6))
+        self.add_contour('magic-one','magic-a','magic-b');self.add_contour('magic-two','magic-c','magic-d');self.relate('connect','magic-one','magic-two')
+        self.add_arc('skull-top',(12,30),(36,30),radius_x=12)
+        self.add_polyline('jaw',(36,30),(36,34),(32,36),(32,42),(28,42),(20,42),(16,42),(16,36),(12,34),(12,30))
+        self.relate('connect','skull-top','jaw')
+        self.circle('eye-left',18,30,2);self.circle('eye-right',30,30,2)
+        for x in (20,28):self.add_line('tooth-'+str(x),(x,38),(x,42));self.relate('connect','tooth-'+str(x),'jaw')

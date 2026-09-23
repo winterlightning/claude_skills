@@ -1,0 +1,47 @@
+{
+  "concept": "passport globe",
+  "source_uuid": "df632f40-c8e3-4ae9-9986-caca559c4210",
+  "reference_path": "icon_set/work/todo-references/passport globe_df632f40-c8e3-4ae9-9986-caca559c4210.svg",
+  "icon_id": "passport-globe",
+  "result_dir": "icon_set/work/primitive-make-ray/df632f40-c8e3-4ae9-9986-caca559c4210/20260923T194904-batch31",
+  "keyshape": "SQUARE",
+  "description": "A passport showing a globe in front of a larger world globe.",
+  "plan": "Large globe is occluded by the foreground passport; the cover carries a small gridded globe. Ink extremes (4,4)-(44,44).",
+  "omissions": "Tiny continental bends reduced; both the world globe and passport-cover globe are retained.",
+  "construction_reference": "globe: circular outline, elliptical meridian and equator; book: foreground cover.",
+  "human_review": "Not applicable.",
+  "module": "passport_globe_df632f40_c8e3_4ae9_9986_caca559c4210.py",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": 5,
+  "validation_warnings": 0,
+  "validation_findings": "status: invalid\n  ERROR  mic [passport]: parallel straight edges passport-6 and continent-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [continent]: parallel straight edges continent-1 and continent-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [world]: world and globe are 5.40184 apart on centerlines nearest (20, 34)<->(25.2173, 32.6003); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [continent]: continent and passport are 6 apart on centerlines nearest (14, 26)<->(20, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [passport]: passport and globe are 5 apart on centerlines nearest (31, 42)<->(31, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "keyshape_reason": "Equal width and height fit the complete scene or enclosing frame.",
+  "visual_review": {
+    "inspected_themes": [
+      "light",
+      "dark"
+    ],
+    "native_size": 48,
+    "enlarged_size": 192,
+    "findings": "World globe and foreground passport remain recognizable as a composition, but the tiny cover globe loses its grid at 48px and reads as a solid disk. Not visually approved; retained as an unsuccessful fit.",
+    "approved": false
+  },
+  "artifacts": {
+    "python": "passport_globe_df632f40_c8e3_4ae9_9986_caca559c4210.py",
+    "svg": "passport-globe.svg",
+    "input_metadata": "passport-globe.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "reference_native": "reference-48.png",
+    "preview": "review.png",
+    "theme_renders": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt",
+    "findings": "README.md"
+  }
+}

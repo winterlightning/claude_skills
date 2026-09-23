@@ -1,0 +1,25 @@
+# sign language thank you
+
+Open hand with four upright fingers, left thumb and downward motion arrow by the palm.
+
+SQUARE: Square overall composition; visible envelope (4,4)-(44,44).
+
+hand: rounded fingertips and coherent palm; human_ref/user.svg and full_body_ref.png inspected for shared human vocabulary, no detached head in this subject.
+
+Omitted minor palm crease; retained four fingers, thumb and motion arrow.
+
+Hand, thumb, four fingers and downward motion arrow retained. Finger separations and palm/arrow spacing are too tight, and the arrow exceeds bounds. Not approved.
+
+```text
+status: invalid
+  ERROR  canvas/keyshape bounds: visible ink (3.78127, 4, 48, 44) does not match the SQUARE envelope (4, 4, 44, 44) (deltas [0.2187, 0.0, 4.0, 0.0], tolerance 0.0)
+  ERROR  mic [index-side]: index-side and middle-left are 0.196116 apart on centerlines nearest (19.8077, 15.9615)<->(20, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [palm]: palm and ring-right are 5 apart on centerlines nearest (36, 31)<->(33, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [palm]: palm and little-side are 3.60555 apart on centerlines nearest (36, 31)<->(39, 29); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [palm]: palm and motion are 1.62338 apart on centerlines nearest (36, 31)<->(36.7753, 29.5737); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [middle-right]: middle-right and ring-left are 0.737154 apart on centerlines nearest (27.2755, 12.8642)<->(28, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [middle-right]: middle-right and motion are 5 apart on centerlines nearest (25, 25)<->(29, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [ring-right]: ring-right and little-tip are 0.149906 apart on centerlines nearest (34.8539, 18.9663)<->(35, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [ring-right]: ring-right and motion are 1.30278 apart on centerlines nearest (33, 27)<->(32.7838, 28.2847); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [little-side]: little-side and motion are 1.68832 apart on centerlines nearest (39, 29)<->(37.9732, 30.3402); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

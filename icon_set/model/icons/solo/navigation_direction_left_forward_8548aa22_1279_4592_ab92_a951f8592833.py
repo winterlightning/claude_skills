@@ -1,0 +1,46 @@
+"""A broad left-pointing arrow bends upward from the right.
+Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
+SOLO48 HRECT_L; omissions: None.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID='8548aa22-1279-4592-ab92-a951f8592833'
+SOURCE_PATH='icon_set/work/todo-references/navigation direction left forward_8548aa22-1279-4592-ab92-a951f8592833.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='navigation-direction-left-forward'
+    keyshape=Keyshape.HRECT_L
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('navigation', 'direction', 'left', 'forward')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=2):
+        p=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        ids=[]
+        for i in range(8):
+            k=n+'-'+str(i);ids.append(k)
+            if i%2:self.add_arc(k,p[i],p[(i+1)%8],radius_x=r)
+            else:self.add_line(k,p[i],p[(i+1)%8])
+        self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+
+        self.add_polyline('arrow',(20,8),(12,16),(4,24),(12,32),(20,40))
+        self.add_line('outer-top',(12,16),(28,16))
+        self.add_arc('outer-bend',(28,16),(44,32),radius_x=16)
+        self.add_line('outer-end',(44,32),(44,40))
+        self.add_contour('outer','outer-top','outer-bend','outer-end')
+        self.add_bezier('inner',(12,32),((32,32),(34,28),(44,40)))
+        self.relate('connect','arrow','outer');self.relate('connect','arrow','inner');self.relate('connect','outer','inner')
+
+# Final visible bounds: (2, 6, 46, 42)
+# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
+# Final reductions: None.
+# Visual review: Broad bent left arrow reads clearly. Intentional asymmetry preserves turning direction; outer circular bend is tangent to adjoining straight runs.

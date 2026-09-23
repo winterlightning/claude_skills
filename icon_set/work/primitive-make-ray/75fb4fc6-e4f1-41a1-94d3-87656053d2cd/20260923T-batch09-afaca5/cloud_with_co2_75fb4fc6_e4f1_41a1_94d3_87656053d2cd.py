@@ -1,5 +1,5 @@
 """cloud with co2: complete reference reconstructed on SOLO48.
-Keyshape: VRECT_L, visible bounds (6, 2, 42, 46).
+Keyshape: SQUARE, visible bounds (4, 4, 44, 44).
 Construction reference: cloud. See build comments for symbols and relationships.
 """
 from icon_set.model.keyshapes import Keyshape
@@ -10,7 +10,7 @@ AUTHOR = 'gpt-6'
 
 class Drawing(Solo48):
     icon_id = 'cloud-with-co2'
-    keyshape = Keyshape.VRECT_L
+    keyshape = Keyshape.SQUARE
     semantic_role = 'MAIN'
     semantic_kind = 'noun'
     category = 'objects/symbols'
@@ -32,19 +32,18 @@ class Drawing(Solo48):
         self.add_contour(name,*members,closed=True)
 
     def build(self):
-        # Open cloud canopy; C, O and lowered 2 are independently authored glyphs.
-        self.add_arc('cloud-left',(10,29),(14,13),radius_x=9)
-        self.add_line('shoulder-left',(14,13),(15,13))
-        self.add_arc('cloud-top',(15,13),(35,13),radius_x=10)
-        self.add_line('shoulder-right',(35,13),(36,13))
-        self.add_arc('cloud-right',(36,13),(42,28),radius_x=8)
+         # Symmetric open cloud canopy above individually drawn C, O, and lowered 2.
+        self.add_arc('cloud-left',(12,28),(12,16),radius_x=6)
+        self.add_line('shoulder-left',(12,16),(14,16))
+        self.add_arc('cloud-top',(14,16),(34,16),radius_x=10)
+        self.add_line('shoulder-right',(34,16),(36,16))
+        self.add_arc('cloud-right',(36,16),(36,28),radius_x=6)
         self.add_contour('cloud','cloud-left','shoulder-left','cloud-top','shoulder-right','cloud-right')
-        self.add_arc('c-top',(19,28),(11,28),radius_x=4,sweep=False)
-        self.add_line('c-stem',(11,28),(11,36))
-        self.add_arc('c-bottom',(11,36),(19,36),radius_x=4,sweep=False)
+        self.add_arc('c-top',(20,30),(12,30),radius_x=4,sweep=False)
+        self.add_line('c-stem',(12,30),(12,34))
+        self.add_arc('c-bottom',(12,34),(20,34),radius_x=4,sweep=False)
         self.add_contour('c','c-top','c-stem','c-bottom')
-        self.rounded_rect('o',25,24,8,16,4)
-        self.add_arc('two-top',(38,36),(44,36),radius_x=3)
-        self.add_polyline('two-base',(44,36),(38,44),(44,44))
+        self.rounded_rect('o',25,26,8,12,4)
+        self.add_arc('two-top',(36,35),(42,35),radius_x=3)
+        self.add_polyline('two-base',(42,35),(36,42),(42,42))
         self.relate('connect','two-top','two-base')
-

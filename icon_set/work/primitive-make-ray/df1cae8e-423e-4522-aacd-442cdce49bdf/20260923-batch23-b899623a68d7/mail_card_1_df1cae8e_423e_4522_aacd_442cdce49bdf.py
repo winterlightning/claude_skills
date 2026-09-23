@@ -1,0 +1,58 @@
+"""A blank card protrudes from an open envelope.
+Plan: semantic components use coherent contours, shared nodes, and mirrored or repeated definitions.
+Keyshape SQUARE; full composition retained on SOLO48. Omissions: Small corner fillets reduced to round joins.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='df1cae8e-423e-4522-aacd-442cdce49bdf'
+SOURCE_PATH='icon_set/work/todo-references/mail card 1_df1cae8e-423e-4522-aacd-442cdce49bdf.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='mail-card-1'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('mail', 'card', '1')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def heart(self):
+        # Shared bilateral lobe radius and mirrored flanks; exact square extremes.
+        self.add_arc('lobe-left',(24,15),(6,15),radius_x=9,sweep=False)
+        self.add_bezier('flank-left',(6,15),((6,28),(16,37),(24,42)))
+        self.add_bezier('flank-right',(24,42),((32,37),(42,28),(42,15)))
+        self.add_arc('lobe-right',(42,15),(24,15),radius_x=9,sweep=False)
+        self.add_contour('heart','lobe-left','flank-left','flank-right','lobe-right',closed=True)
+
+    def lens(self):
+        # Circle at (21,21), radius 15. Shared handle node (30,33): 9²+12²=15².
+        self.add_arc('lens-a',(30,33),(12,9),radius_x=15)
+        self.add_arc('lens-b',(12,9),(30,33),radius_x=15)
+        self.add_contour('lens','lens-a','lens-b',closed=True)
+        self.add_line('handle',(30,33),(42,42))
+        self.relate('connect','lens','handle')
+
+    def envelope(self):
+        # Complete card protruding from an open envelope; bilateral fold nodes.
+        self.add_polyline('body',(6,24),(6,42),(42,42),(42,24))
+        self.add_polyline('fold',(6,24),(14,28),(18,30),(30,30),(34,28),(42,24))
+        self.relate('connect','body','fold')
+        self.add_polyline('card',(14,28),(14,6),(34,6),(34,28))
+        self.relate('connect','card','fold')
+        self.add_line('seam-left',(18,30),(12,36))
+        self.add_line('seam-right',(30,30),(36,36))
+        self.relate('connect','seam-left','fold')
+        self.relate('connect','seam-right','fold')
+
+    def build(self):
+
+        self.envelope()
+
+# Final review record: Card and envelope remain distinct. Card narrowed for parallel-wall clearance; folds have shared attachment nodes.
+# Visible keyshape bounds: (4, 4, 44, 44)
+# Construction: Coherent enclosure and shared fold nodes.

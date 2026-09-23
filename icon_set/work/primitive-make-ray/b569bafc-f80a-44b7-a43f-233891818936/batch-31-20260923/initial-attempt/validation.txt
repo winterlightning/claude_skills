@@ -1,0 +1,12 @@
+Traceback (most recent call last):
+  File "icon_set/work/primitive-make-ray/82791e1b-7e30-4905-85e9-1bf64f1e2489/batch-31-20260923/author_batch.py", line 228, in run
+    svg=icon.to_svg();(d/(row['icon_id']+'.svg')).write_text(svg)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/base.py", line 257, in to_svg
+    return render_svg(self)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py", line 153, in render_svg
+    paths = build_paths(icon.draw())
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py", line 82, in build_paths
+    raise ValueError(
+        f"contour {contour.contour_id!r} references unknown element {member!r}"
+    )
+ValueError: contour 'binding-outline' references unknown element 'binding'

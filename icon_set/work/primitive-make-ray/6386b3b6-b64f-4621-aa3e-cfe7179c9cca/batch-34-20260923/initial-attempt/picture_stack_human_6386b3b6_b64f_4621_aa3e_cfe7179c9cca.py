@@ -1,0 +1,70 @@
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID='6386b3b6-b64f-4621-aa3e-cfe7179c9cca'
+SOURCE_PATH='icon_set/work/todo-references/picture stack human_6386b3b6-b64f-4621-aa3e-cfe7179c9cca.svg'
+AUTHOR='gpt-6'
+PLAN='Stacked portrait pictures: front rounded panel with detached round head and smooth shoulders, rear panel visible at right.'
+CONSTRUCTION_REFERENCES='Shared human-reference.md and human_ref/user.svg own head/shoulders; Lucide image supplies enclosure construction.'
+OMISSIONS='Facial detail absent in source; none added. Rear picture is an exposed outline only.'
+KEYSHAPE_INK_BOUNDS=(4, 4, 44, 44)
+
+class Drawing(Solo48):
+    icon_id='picture-stack-human'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects/general'
+    aliases=()
+    keywords=('picture', 'stack', 'human')
+
+    def circle(self,name,cx,cy,r):
+        self.add_arc(name+'-top',(cx-r,cy),(cx+r,cy),radius_x=r)
+        self.add_arc(name+'-bottom',(cx+r,cy),(cx-r,cy),radius_x=r)
+        self.add_contour(name,name+'-top',name+'-bottom',closed=True)
+
+    def box(self,name,x,y,w,h,r=3):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i,a in enumerate(points):
+            b=points[(i+1)%8];part=f'{name}-{i}';members.append(part)
+            if i%2:self.add_arc(part,a,b,radius_x=r)
+            else:self.add_line(part,a,b)
+        self.add_contour(name,*members,closed=True)
+
+    def cross(self,name,cx,cy,rx,ry,diagonal=True):
+        if diagonal:
+            self.add_polyline(name+'-a',(cx-rx,cy-ry),(cx,cy),(cx+rx,cy+ry))
+            self.add_polyline(name+'-b',(cx+rx,cy-ry),(cx,cy),(cx-rx,cy+ry))
+        else:
+            self.add_polyline(name+'-a',(cx-rx,cy),(cx,cy),(cx+rx,cy))
+            self.add_polyline(name+'-b',(cx,cy-ry),(cx,cy),(cx,cy+ry))
+        self.relate('connect',name+'-a',name+'-b')
+
+    def pin(self,name,cx,top,r,tip,style='broad'):
+        cy=top+r
+        self.add_arc(name+'-dome',(cx-r,cy),(cx+r,cy),radius_x=r)
+        if style=='narrow':
+            self.add_bezier(name+'-right',(cx+r,cy),((cx+r,cy+8),(cx+r-4,cy+11),(cx+7,tip-9)),((cx+3,tip-6),(cx+2,tip-4),(cx,tip)))
+            self.add_bezier(name+'-left',(cx,tip),((cx-2,tip-4),(cx-3,tip-6),(cx-7,tip-9)),((cx-r+4,cy+11),(cx-r,cy+8),(cx-r,cy)))
+        else:
+            self.add_bezier(name+'-right',(cx+r,cy),((cx+r,cy+7),(cx+7,tip-6),(cx,tip)))
+            self.add_bezier(name+'-left',(cx,tip),((cx-7,tip-6),(cx-r,cy+7),(cx-r,cy)))
+        self.add_contour(name,name+'-dome',name+'-right',name+'-left',closed=True)
+
+    def aircraft(self):
+        # Intentionally oblique silhouette: shared wing roots and tapered tail.
+        self.add_polyline('plane',(8,12),(12,11),(17,13),(23,11),(16,6),(20,4),(29,8),(35,6))
+        self.add_arc('nose',(35,6),(39,10),radius_x=3)
+        self.add_polyline('plane-bottom',(39,10),(31,13),(27,20),(23,20),(25,15),(13,18),(8,12))
+        self.add_contour('aircraft','plane-1','plane-2','plane-3','plane-4','plane-5','plane-6','plane-7','nose','plane-bottom-1','plane-bottom-2','plane-bottom-3','plane-bottom-4','plane-bottom-5','plane-bottom-6',closed=True)
+
+    def build(self):
+        self.box('front',6,6,28,36,6)
+        self.add_arc('rear-top',(34,14),(42,22),radius_x=8)
+        self.add_line('rear-side',(42,22),(42,26))
+        self.add_arc('rear-bottom',(42,26),(34,34),radius_x=8)
+        self.add_contour('rear','rear-top','rear-side','rear-bottom');self.relate('connect','front','rear')
+        self.circle('head',20,18,4)
+        self.add_bezier('shoulders',(12,42),((12,35),(15,30),(20,30)),((25,30),(28,35),(28,42)))
+        self.relate('connect','front','shoulders')
+        # Head bottom 22; shoulder apex 30: exactly 8 centerline / 4 ink.

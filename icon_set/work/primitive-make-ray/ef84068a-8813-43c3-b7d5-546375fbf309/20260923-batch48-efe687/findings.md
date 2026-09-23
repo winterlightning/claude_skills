@@ -1,0 +1,44 @@
+# start your machine learning journey
+
+Open book at upper left beside a four-node learning network.
+
+## Keyshape
+
+SQUARE: The full composition uses a balanced 36 by 36 centerline envelope, visible ink (4,4)–(44,44).
+
+## References
+
+Input: `icon_set/work/todo-references/start your machine learning journey_ef84068a-8813-43c3-b7d5-546375fbf309.svg`.
+
+Construction: book-open and network: central book fold and repeated connected nodes. Local Lucide original and atomic-debug geometry were inspected where used; the human construction reference owns anatomy.
+
+## Reduction
+
+No defining feature intentionally omitted.
+
+## Visual review
+
+Open book and four-node network retained. Several links crowd the node outlines; not visually approved. Reviewed at native 48px and enlarged size in both themes.
+
+## Validation
+
+```text
+status: invalid
+  ERROR  mic [fold]: fold and hub are 4.2196 apart on centerlines nearest (16, 23)<->(19.214, 25.7341); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [book]: book and top are 7.19804 apart on centerlines nearest (26, 17)<->(33.0576, 18.4147); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [book]: book and hub-top are 7.55418 apart on centerlines nearest (26, 17)<->(30.8361, 22.8033); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [right]: right and top are 6.36932 apart on centerlines nearest (38.2711, 28.0899)<->(36.7289, 21.9101); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [right]: right and bottom are 3.43562 apart on centerlines nearest (37.3804, 33.5242)<->(35.5423, 36.4268); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [right]: right and top-right are 0.16317 apart on centerlines nearest (39.9488, 28.1549)<->(40, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [right]: right and right-bottom are 0.16317 apart on centerlines nearest (38.0512, 33.8451)<->(38, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [top]: top and hub-top are 0.605561 apart on centerlines nearest (33.5056, 20.6667)<->(33, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [bottom]: bottom and hub-bottom are 0.605561 apart on centerlines nearest (31.5056, 37.3333)<->(31, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [hub-top]: hub-top and hub-bottom are 6 apart on centerlines nearest (27, 26)<->(27, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [hub-top]: hub-top and top-right are 5 apart on centerlines nearest (33, 21)<->(38, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [hub-bottom]: hub-bottom and right-bottom are 5 apart on centerlines nearest (31, 37)<->(36, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [top-right]: top-right and right-bottom are 6.32456 apart on centerlines nearest (40, 28)<->(38, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [hub]: hub and hub-top are 0.000257233 apart on centerlines nearest (26.9998, 26.0002)<->(27, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [hub]: hub and hub-bottom are 0.000257233 apart on centerlines nearest (26.9998, 31.9998)<->(27, 32); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [top]: top and top-right are 0 apart on centerlines nearest (38.0532, 21.1862)<->(38.0532, 21.1862); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  WARN   mic [bottom]: bottom and right-bottom are 0 apart on centerlines nearest (36.0966, 36.8551)<->(36.0966, 36.8551); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

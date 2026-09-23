@@ -1,0 +1,86 @@
+{
+  "concept": "rectangle two persons",
+  "source_uuid": "d96343a5-e841-44ec-86db-6217d2856341",
+  "reference_path": "icon_set/work/todo-references/rectangle two persons_d96343a5-e841-44ec-86db-6217d2856341.svg",
+  "icon_id": "rectangle-two-persons",
+  "result_dir": "icon_set/work/primitive-make-ray/d96343a5-e841-44ec-86db-6217d2856341/batch-38-20260923",
+  "author": "gpt-6",
+  "module": "rectangle_two_persons_d96343a5_e841_44ec_86db_6217d2856341.py",
+  "keyshape": "HRECT_L",
+  "keyshape_ink_bounds": [
+    2,
+    6,
+    46,
+    42
+  ],
+  "subject_and_plan": "Two equivalent portrait busts inside a wide rounded panel. Shared head radius, shoulder widths and vertical positions preserve equality.",
+  "construction_references": "Shared human-reference.md/user.svg: equal circular heads and smooth shoulders; Lucide rectangle-ellipsis: frame.",
+  "omissions": "None; both people retained.",
+  "validation_status": "invalid",
+  "keyshape_reason": "The wide composition uses centerline extremes (4,8)\u2013(44,40).",
+  "svg": "rectangle-two-persons.svg",
+  "validation_findings": "status: invalid\n  ERROR  mic [panel]: panel and left-head are 7 apart on centerlines nearest (15, 8)<->(15, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [panel]: panel and left-shoulders are 4 apart on centerlines nearest (4, 33)<->(8, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [panel]: panel and right-head are 7 apart on centerlines nearest (33, 8)<->(33, 15); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [panel]: panel and right-shoulders are 4 apart on centerlines nearest (44, 33)<->(40, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [left-shoulders]: left-shoulders and right-shoulders are 4 apart on centerlines nearest (22, 33)<->(26, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "validation_errors": 5,
+  "validation_warnings": 0,
+  "visual_review": {
+    "inspected_native_light_and_dark": true,
+    "inspected_enlarged_light_and_dark": true,
+    "findings": "Two equal busts remain identifiable, but shoulder-to-shoulder and shoulder-to-frame gaps are too tight. Each head still has exactly 4 ink units to its own shoulders. Manual repair required.",
+    "manual_review_recommended": true
+  },
+  "human_construction": [
+    {
+      "figure": "left",
+      "guide": "icon_set/skills/icon-design/human-reference.md",
+      "reference": "icon_set/references/human_ref/user.svg",
+      "head_center": [
+        15,
+        18
+      ],
+      "head_radius": 3,
+      "head_bottom": 21,
+      "shoulder_apex": [
+        15,
+        29
+      ],
+      "centerline_gap": 8,
+      "ink_gap": 4,
+      "construction": "Detached framed bust, no stick-figure torso. Cardinal ellipse upper bound and circle lower bound establish exact vertical head-to-shoulder clearance."
+    },
+    {
+      "figure": "right",
+      "guide": "icon_set/skills/icon-design/human-reference.md",
+      "reference": "icon_set/references/human_ref/user.svg",
+      "head_center": [
+        33,
+        18
+      ],
+      "head_radius": 3,
+      "head_bottom": 21,
+      "shoulder_apex": [
+        33,
+        29
+      ],
+      "centerline_gap": 8,
+      "ink_gap": 4,
+      "construction": "Detached framed bust, no stick-figure torso. Cardinal ellipse upper bound and circle lower bound establish exact vertical head-to-shoulder clearance."
+    }
+  ],
+  "registered_context": "No matching registered Python filename found.",
+  "artifacts": [
+    "dark-240.png",
+    "dark-48.png",
+    "light-240.png",
+    "light-48.png",
+    "rectangle-two-persons.metadata.json",
+    "rectangle-two-persons.svg",
+    "rectangle_two_persons_d96343a5_e841_44ec_86db_6217d2856341.py",
+    "reference-48.png",
+    "reference.png",
+    "reference.svg",
+    "review-draft.json",
+    "validation.txt",
+    "result.json"
+  ],
+  "scope": "Standalone result folder only. No published, gallery, registry, metadata catalog, queue or runtime-state updates."
+}

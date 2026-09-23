@@ -1,0 +1,37 @@
+{
+  "concept": "shoemaker",
+  "source_uuid": "4a1b8b06-db68-40b2-adfe-7ecac75aaa72",
+  "reference_path": "icon_set/work/todo-references/shoemaker_4a1b8b06-db68-40b2-adfe-7ecac75aaa72.svg",
+  "icon_id": "shoemaker",
+  "out": "icon_set/work/primitive-make-ray/4a1b8b06-db68-40b2-adfe-7ecac75aaa72/20260923T203915884942-ray42",
+  "keyshape": "SQUARE",
+  "plan": "Shoemaker with a circular head, apron and a shoe in the lower right foreground.",
+  "construction_references": "human_ref/user.svg and full_body_ref.png: circular head and broad smooth shoulders; no exact shoe match.",
+  "omissions": "Omitted small apron side seam; retained apron, shoulder outline and shoe.",
+  "module": "shoemaker_4a1b8b06_db68_40b2_adfe_7ecac75aaa72.py",
+  "validation_status": "invalid",
+  "validation": "status: invalid\n  ERROR  mic [shoulder-right]: shoulder-right and shoe are 1.14414 apart on centerlines nearest (34, 34)<->(34.0407, 35.1434); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [apron]: apron and shoe are 1 apart on centerlines nearest (22, 42)<->(23, 42); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "author": "gpt-6",
+  "visual_review": "Circular head has exact gap 28-(13+7)=8 centerline units, 4 ink units, above its own shoulder junction. Apron and foreground shoe crowd each other; not approved.",
+  "keyshape_reason": "Square overall composition; visible envelope (4,4)-(44,44).",
+  "human_references": [
+    "icon_set/skills/icon-design/human-reference.md",
+    "icon_set/references/human_ref/user.svg",
+    "icon_set/references/human_ref/full_body_ref.png"
+  ],
+  "human_gap_evidence": "Head radius 7 at (20,13), own shoulder junction (20,28). 28-(13+7)=8 centerline / 4 ink units. Shoe/apron clearance remains invalid.",
+  "artifacts": [
+    "dark-192.png",
+    "dark-48.png",
+    "existing-source-matches.json",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "shoemaker.metadata.json",
+    "shoemaker.svg",
+    "shoemaker_4a1b8b06_db68_40b2_adfe_7ecac75aaa72.py",
+    "validation.txt",
+    "visual-review.md"
+  ]
+}

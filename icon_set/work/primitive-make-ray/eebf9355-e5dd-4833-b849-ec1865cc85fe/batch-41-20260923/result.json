@@ -1,0 +1,62 @@
+{
+  "concept": "seeker",
+  "source_uuid": "eebf9355-e5dd-4833-b849-ec1865cc85fe",
+  "reference_path": "icon_set/work/todo-references/seeker_eebf9355-e5dd-4833-b849-ec1865cc85fe.svg",
+  "icon_id": "seeker",
+  "result_dir": "icon_set/work/primitive-make-ray/eebf9355-e5dd-4833-b849-ec1865cc85fe/batch-41-20260923",
+  "author": "gpt-6",
+  "module": "seeker_eebf9355_e5dd_4833_b849_ec1865cc85fe.py",
+  "keyshape": "SQUARE",
+  "keyshape_ink_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "subject_and_plan": "Partial person silhouette with a large magnifier in front at lower right. Preserve head, shoulder and visible torso edges.",
+  "construction_references": "Shared human-reference.md/user.svg: circular head and shoulder; Lucide search: lens/handle.",
+  "omissions": "No major components omitted; shoulder is deliberately interrupted by the magnifier.",
+  "validation_status": "invalid",
+  "keyshape_reason": "The complete composition uses centerline extremes (6,6)\u2013(42,42).",
+  "svg": "seeker.svg",
+  "validation_findings": "status: invalid\n  ERROR  mic [arm-edge]: parallel straight edges arm-edge and body-side-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [head]: head and lens are 5.26121 apart on centerlines nearest (19.9832, 16.4865)<->(23.4683, 20.4279); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [body]: body and arm-edge are 5.99955 apart on centerlines nearest (6.0009, 33.9264)<->(12, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [body-right]: body-right and lens are 2.16579 apart on centerlines nearest (28, 40)<->(28.347, 37.8622); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [body]: body and lens are 0 apart on centerlines nearest (20.2025, 26)<->(20.2025, 26); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "validation_errors": 4,
+  "validation_warnings": 1,
+  "visual_review": {
+    "inspected_native_light_and_dark": true,
+    "inspected_enlarged_light_and_dark": true,
+    "findings": "Head, shoulders, arm edge and foreground magnifier remain recognizable, but the lens intersects the shoulder and crowds head/torso details. Manual repair required. Human head-to-shoulder gap is exactly 4 ink units.",
+    "manual_review_recommended": true
+  },
+  "human_construction": {
+    "guide": "icon_set/skills/icon-design/human-reference.md",
+    "reference": "icon_set/references/human_ref/user.svg",
+    "head_center": [
+      16,
+      12
+    ],
+    "head_radius": 6,
+    "head_bottom": 18,
+    "shoulder_y": 26,
+    "centerline_gap": 8,
+    "ink_gap": 4,
+    "evidence": "Horizontal shoulder from (14,26) to (22,26) lies below the head axis; nearest head/body pair is (16,18) to (16,26). No stick torso in this partial portrait."
+  },
+  "registered_context": "No matching registered Python filename found.",
+  "artifacts": [
+    "dark-240.png",
+    "dark-48.png",
+    "light-240.png",
+    "light-48.png",
+    "reference-48.png",
+    "reference.png",
+    "reference.svg",
+    "review-draft.json",
+    "seeker.metadata.json",
+    "seeker.svg",
+    "seeker_eebf9355_e5dd_4833_b849_ec1865cc85fe.py",
+    "validation.txt",
+    "result.json"
+  ],
+  "scope": "Standalone result folder only. No published, gallery, registry, metadata catalog, queue or runtime-state updates."
+}

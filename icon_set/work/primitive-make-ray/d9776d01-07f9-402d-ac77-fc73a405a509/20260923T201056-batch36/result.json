@@ -1,0 +1,48 @@
+{
+  "concept": "rating booklet",
+  "source_uuid": "d9776d01-07f9-402d-ac77-fc73a405a509",
+  "reference_path": "icon_set/work/todo-references/rating booklet_d9776d01-07f9-402d-ac77-fc73a405a509.svg",
+  "icon_id": "rating-booklet",
+  "result_dir": "icon_set/work/primitive-make-ray/d9776d01-07f9-402d-ac77-fc73a405a509/20260923T201056-batch36",
+  "keyshape": "VRECT_L",
+  "description": "A rating booklet with an outlined star and text lines.",
+  "plan": "Tall cover with a raised rear leaf contains a central star and two lower rules. Ink extremes (6,2)-(42,46).",
+  "omissions": "None; star and both text rules retained.",
+  "construction_reference": "star: five-point outline with purposeful corners; book: upright cover and offset leaf.",
+  "human_review": "Not applicable.",
+  "module": "rating_booklet_d9776d01_07f9_402d_ac77_fc73a405a509.py",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": 9,
+  "validation_warnings": 0,
+  "validation_findings": "status: invalid\n  ERROR  mic [text-0]: parallel straight edges text-0 and text-1 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [text-0]: parallel straight edges text-0 and cover-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (overlap-fallback)\n  ERROR  mic [text-1]: parallel straight edges text-1 and cover-4 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [cover]: cover and rating-star are 6 apart on centerlines nearest (24, 12)<->(24, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [cover]: cover and text-0 are 6 apart on centerlines nearest (20, 44)<->(20, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [cover]: cover and text-1 are 3 apart on centerlines nearest (20, 44)<->(20, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [rating-star]: rating-star and text-0 are 4.47214 apart on centerlines nearest (18, 34)<->(20, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [rating-star]: rating-star and text-1 are 7.28011 apart on centerlines nearest (18, 34)<->(20, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [text-0]: text-0 and text-1 are 3 apart on centerlines nearest (20, 38)<->(20, 41); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": {
+    "inspected_themes": [
+      "light",
+      "dark"
+    ],
+    "native_size": 48,
+    "enlarged_size": 192,
+    "findings": "Booklet, raised rear leaf and star are identifiable, but lower text rules merge and crowd the cover bottom. Star-to-cover spacing is also insufficient. Not visually approved.",
+    "approved": false
+  },
+  "outcome": "failed-validation",
+  "keyshape_reason": "The tall envelope preserves the stacked head, page, or book arrangement.",
+  "artifacts": {
+    "python": "rating_booklet_d9776d01_07f9_402d_ac77_fc73a405a509.py",
+    "svg": "rating-booklet.svg",
+    "input_metadata": "rating-booklet.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "reference_native": "reference-48.png",
+    "preview": "review.png",
+    "theme_renders": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt",
+    "findings": "README.md"
+  }
+}

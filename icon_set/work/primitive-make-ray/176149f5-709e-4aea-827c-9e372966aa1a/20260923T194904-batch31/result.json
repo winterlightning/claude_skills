@@ -1,0 +1,47 @@
+{
+  "concept": "outdoors dog house",
+  "source_uuid": "176149f5-709e-4aea-827c-9e372966aa1a",
+  "reference_path": "icon_set/work/todo-references/outdoors dog house_176149f5-709e-4aea-827c-9e372966aa1a.svg",
+  "icon_id": "outdoors-dog-house",
+  "result_dir": "icon_set/work/primitive-make-ray/176149f5-709e-4aea-827c-9e372966aa1a/20260923T194904-batch31",
+  "keyshape": "SQUARE",
+  "description": "A standing dog underneath a sloping outdoor shelter.",
+  "plan": "One lean-to outline encloses a coherent dog silhouette with ear, muzzle, back, belly and legs. Ink extremes (4,4)-(44,44).",
+  "omissions": "Rear far leg omitted; near hind leg and front leg retained.",
+  "construction_reference": "dog: coherent animal contour and purposeful pointed ear; input owns the full-body pose.",
+  "human_review": "Not applicable.",
+  "module": "outdoors_dog_house_176149f5_709e_4aea_827c_9e372966aa1a.py",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "validation_errors": 4,
+  "validation_warnings": 0,
+  "validation_findings": "status: invalid\n  ERROR  mic [dog]: parallel straight edges dog-hind-leg-2 and shelter-2 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [dog]: parallel straight edges dog-hind-leg-1 and shelter-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [dog]: parallel straight edges dog-front-leg-2 and shelter-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [shelter]: shelter and dog are 4 apart on centerlines nearest (13, 42)<->(13, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "keyshape_reason": "Equal width and height fit the complete scene or enclosing frame.",
+  "visual_review": {
+    "inspected_themes": [
+      "light",
+      "dark"
+    ],
+    "native_size": 48,
+    "enlarged_size": 192,
+    "findings": "The dog and shelter remain identifiable, but paws merge toward the floor and the rear leg crowds the wall. Not visually approved; MIC failures are retained.",
+    "approved": false
+  },
+  "artifacts": {
+    "python": "outdoors_dog_house_176149f5_709e_4aea_827c_9e372966aa1a.py",
+    "svg": "outdoors-dog-house.svg",
+    "input_metadata": "outdoors-dog-house.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "reference_native": "reference-48.png",
+    "preview": "review.png",
+    "theme_renders": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt",
+    "findings": "README.md"
+  }
+}

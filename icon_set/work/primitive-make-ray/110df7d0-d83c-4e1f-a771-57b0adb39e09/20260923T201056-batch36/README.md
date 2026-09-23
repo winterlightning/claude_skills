@@ -1,0 +1,45 @@
+# real estate market calculator house
+
+A four-operation calculator in front of a house.
+
+Keyshape: SQUARE. Equal width and height preserve the full scene or enclosing composition.
+
+A two-by-two calculator grid contains plus, minus, multiply and equals; roof and wall sit behind it. Ink extremes (4,4)-(44,44).
+
+Construction reference: calculator: grouped controls within one enclosure; house: roof and rear wall.
+
+Omissions/reductions: None; all four operators and house components retained.
+
+Visual review: House and calculator grid remain identifiable, but all four operator cells are too dense. Equals bars and other controls merge at native size. Not visually approved.
+
+Human construction: Not applicable.
+
+Validation: **invalid**; outcome: **failed-validation**
+
+```text
+status: invalid
+  ERROR  mic [vertical-divider]: parallel straight edges vertical-divider-1, vertical-divider-2 and plus-bottom are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [vertical-divider]: parallel straight edges vertical-divider-1, vertical-divider-2 and plus-top are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [plus-bottom]: parallel straight edges plus-bottom and calculator-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [plus-top]: parallel straight edges plus-top and calculator-6 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [calculator]: parallel straight edges calculator-0 and minus are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [calculator]: parallel straight edges calculator-0 and plus-left are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [calculator]: parallel straight edges calculator-0 and plus-right are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [minus]: parallel straight edges minus and horizontal-divider-1, horizontal-divider-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [plus-left]: parallel straight edges plus-left and horizontal-divider-1, horizontal-divider-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [plus-right]: parallel straight edges plus-right and horizontal-divider-1, horizontal-divider-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [horizontal-divider]: parallel straight edges horizontal-divider-1, horizontal-divider-2 and equals-0 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [equals-0]: parallel straight edges equals-0 and equals-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [equals-1]: parallel straight edges equals-1 and calculator-4 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [roof]: roof and house-wall are 4.47214 apart on centerlines nearest (42, 16)<->(40, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [roof]: roof and calculator are 2 apart on centerlines nearest (18, 16)<->(18, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [house-wall]: house-wall and calculator are 2 apart on centerlines nearest (34, 28)<->(32, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [calculator]: calculator and plus-left are 4 apart on centerlines nearest (6, 24)<->(10, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [vertical-divider]: vertical-divider and minus are 4 apart on centerlines nearest (19, 24)<->(23, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [calculator]: calculator and multiply-b are 3.9997 apart on centerlines nearest (9.46172, 41.9633)<->(10, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [vertical-divider]: vertical-divider and equals-0 are 4 apart on centerlines nearest (19, 34)<->(23, 34); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [calculator]: calculator and equals-1 are 4 apart on centerlines nearest (23, 42)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [equals-0]: equals-0 and equals-1 are 4 apart on centerlines nearest (23, 34)<->(23, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```
+
+Author: `gpt-6`. Source UUID: `110df7d0-d83c-4e1f-a771-57b0adb39e09`.

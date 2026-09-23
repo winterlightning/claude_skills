@@ -1,0 +1,46 @@
+"""Two peanut kernels crossed by an allergy prohibition slash.
+Construction: none. Kernel vein marks are reduced to one per visible lobe.
+Keyshape SQUARE; extremes are fixed by SOLO48. All dimensions are authored locally.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '588d68f8-b31a-4c4c-97e2-20473cedb4a3'
+SOURCE_PATH = 'icon_set/work/todo-references/food allegic vegan meal 1_588d68f8-b31a-4c4c-97e2-20473cedb4a3.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'food-allegic-vegan-meal-1'
+    keyshape = Keyshape.SQUARE
+    # Declared visible-ink extrema: (4, 4, 44, 44).
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('food', 'allegic', 'vegan', 'meal', '1')
+
+    def circle(self, name, cx, cy, r):
+        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r)
+        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r)
+        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+    def rect(self, name, x, y, w, h, r=2):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
+                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i,a in enumerate(points):
+            b=points[(i+1)%8]; n=f'{name}-{i}'
+            if i%2: self.add_arc(n,a,b,radius_x=r)
+            else: self.add_line(n,a,b)
+            members.append(n)
+        self.add_contour(name,*members,closed=True)
+
+    def build(self):
+
+        # Plan: two diagonal peanut silhouettes separated visually by the slash.
+        self.add_bezier('upper-nut',(18,12),((22,2),(33,6),(33,15)),((33,21),(28,22),(28,22)))
+        self.add_bezier('lower-nut',(17,23),((6,25),(6,38),(15,38)),((20,38),(22,32),(22,32)))
+        self.add_bezier('right-nut',(29,22),((39,17),(46,29),(38,34)))
+        self.add_bezier('bottom-nut',(22,34),((20,44),(30,43),(33,38)))
+        self.add_line('slash',(6,6),(42,42))
+        self.add_line('vein-upper',(25,14),(27,12))
+        self.add_line('vein-lower',(13,31),(15,29))

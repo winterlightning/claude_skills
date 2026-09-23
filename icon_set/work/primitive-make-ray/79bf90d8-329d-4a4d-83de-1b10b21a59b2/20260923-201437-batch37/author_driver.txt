@@ -1,0 +1,45 @@
+def run():
+    for r,(key,lucide,plan,omit,body) in zip(ROWS,DESIGNS):
+        out=Path(r['out']);ident=r['icon_id'];source=out/(ident.replace('-','_')+'_'+r['source_uuid'].replace('-','_')+'.py')
+        source.write_text(f'''from icon_set.model.icons.solo._base import Solo48
+from icon_set.model.keyshapes import Keyshape
+SOURCE_ICON_ID={r['source_uuid']!r}
+SOURCE_PATH={r['reference_path']!r}
+AUTHOR={AUTHOR!r}
+PLAN={plan!r}
+OMISSIONS={omit!r}
+LUCIDE_REFERENCE={lucide!r}
+HUMAN_REFERENCE={'icon_set/references/human_ref/user.svg' if r['order'] in (5,6,8,9,16,17) else None!r}
+class Drawing(Solo48):
+    icon_id={ident!r}
+    keyshape=Keyshape.{key}
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords={tuple(r['concept'].split())!r}
+{HELPERS}
+    def build(self):
+        # {plan}
+{body}
+''')
+        r.update(source=source.name,keyshape=key,lucide=lucide,subject=plan,omissions=omit)
+        try:
+            spec=importlib.util.spec_from_file_location('candidate',source);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);icon=m.Drawing();report=icon.validate_icon();r['validation_status']=report.status;(out/'validation.txt').write_text(report.describe());svg=icon.to_svg();(out/(ident+'.svg')).write_text(svg)
+            for size in (48,192):
+                p=out/f'light-{size}.png';cairosvg.svg2png(bytestring=svg.encode(),write_to=str(p),output_width=size,output_height=size,background_color='white');ImageOps.invert(Image.open(p).convert('RGB')).save(out/f'dark-{size}.png')
+        except Exception as e:
+            r['validation_status']='error';r['error']=str(e);(out/'error.txt').write_text(str(e))
+        print(r['order'],ident,r['validation_status'],r.get('error',''),flush=True)
+    (ROOT/'attempts.json').write_text(json.dumps(ROWS,indent=2))
+    for start in (0,10):
+        sheet=Image.new('RGB',(1000,550),'#ccc');d=ImageDraw.Draw(sheet)
+        for j,r in enumerate(ROWS[start:start+10]):
+            x=j%5*200;y=j//5*275;out=Path(r['out'])
+            for theme,dx in [('light',0),('dark',100)]:
+                if (out/f'{theme}-192.png').exists():
+                    sheet.paste(Image.open(out/f'{theme}-192.png').resize((96,96)),(x+dx,y+20));sheet.paste(Image.open(out/f'{theme}-48.png'),(x+dx+24,y+135))
+            d.text((x+3,y+205),f"{r['order']}. {r['concept'][:25]}",fill='black');d.text((x+3,y+225),r['validation_status'],fill='black')
+        sheet.save(ROOT/f'review-{start}.png')
+
+if __name__=='__main__':run()

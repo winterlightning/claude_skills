@@ -1,0 +1,31 @@
+# noise pollution traffic
+
+Two cars beneath a lightning bolt and noise marks.
+
+Keyshape: HRECT_L. Horizontal scene; target centerline extremes (4,8)-(44,40).
+
+Plan: A repeated pair of compact car silhouettes; an asymmetric lightning zigzag centered above.
+
+References: car-front: repeated car body and paired wheel placement.
+
+Omissions: Minor noise strokes reduced; tiny vehicle contour details simplified.
+
+Visual review: Two cars and the bolt remain recognizable, but wheel recesses and bolt interior close at 48px. Noise marks crowd the bolt. Not visually approved.
+
+```text
+status: invalid
+  ERROR  mic [car-1]: parallel straight edges car-1-7 and car-1-9 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-1]: parallel straight edges car-1-7 and car-1-11 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [car-1]: parallel straight edges car-1-9 and car-1-11 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-1]: parallel straight edges car-1-9 and car-1-13 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [car-1]: parallel straight edges car-1-11 and car-1-13 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-0]: parallel straight edges car-0-7 and car-0-9 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-0]: parallel straight edges car-0-7 and car-0-11 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [car-0]: parallel straight edges car-0-9 and car-0-11 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-0]: parallel straight edges car-0-9 and car-0-13 are 7 apart on centerlines (ink gap 3); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [car-0]: parallel straight edges car-0-11 and car-0-13 are 3 apart on centerlines (ink gap -1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [car-0]: car-0 and lightning are 7.07107 apart on centerlines nearest (17, 29)<->(22, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [car-0]: car-0 and noise-left are 7 apart on centerlines nearest (8, 28)<->(8, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [lightning]: lightning and noise-left are 6.08276 apart on centerlines nearest (18, 18)<->(12, 17); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [lightning]: lightning and noise-right are 4 apart on centerlines nearest (32, 14)<->(36, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

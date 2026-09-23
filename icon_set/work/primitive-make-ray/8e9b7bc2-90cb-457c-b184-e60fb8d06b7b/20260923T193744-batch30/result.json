@@ -1,0 +1,48 @@
+{
+  "concept": "noise pollution traffic",
+  "source_uuid": "8e9b7bc2-90cb-457c-b184-e60fb8d06b7b",
+  "reference_path": "icon_set/work/todo-references/noise pollution traffic_8e9b7bc2-90cb-457c-b184-e60fb8d06b7b.svg",
+  "icon_id": "noise-pollution-traffic",
+  "result_dir": "icon_set/work/primitive-make-ray/8e9b7bc2-90cb-457c-b184-e60fb8d06b7b/20260923T193744-batch30",
+  "keyshape": "HRECT_L",
+  "description": "Two cars below lightning and noise zigzags.",
+  "plan": "Two repeated car silhouettes; central lightning and mirrored side noise marks. HRECT_L ink extremes (2,6)-(46,42).",
+  "omissions": "No defining component omitted; wheel and noise detail retained.",
+  "construction_reference": "car-front: coherent rounded body and paired wheel placement.",
+  "human_review": "",
+  "module": "noise_pollution_traffic_8e9b7bc2_90cb_457c_b184_e60fb8d06b7b.py",
+  "author": "gpt-6",
+  "validation_status": "invalid",
+  "keyshape_reason": "Horizontal room for the paired cars and noise marks.",
+  "visual_review": {
+    "inspected_themes": [
+      "light",
+      "dark"
+    ],
+    "native_size": 48,
+    "enlarged_size": 192,
+    "findings": "Two cars and three noise motifs remain recognizable, but the lightning interior and wheel lobes are visually tight at 48px. Not visually approved; MIC blocks the adjacent marks and cars.",
+    "approved": false
+  },
+  "validation_findings": "status: invalid\n  ERROR  mic [noise-left]: parallel straight edges noise-left-3 and noise-left-1 are 4.94975 apart on centerlines (ink gap 0.949747); requires at least 8 centerline / 4 ink (overlap-fallback)\n  ERROR  mic [car-0-outline]: car-0-outline and lightning are 6.84198 apart on centerlines nearest (16.0745, 27.4207)<->(22, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [car-0-outline]: car-0-outline and noise-left are 6.64225 apart on centerlines nearest (9.28069, 26.2384)<->(7, 20); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [car-1-outline]: car-1-outline and noise-right are 4.0528 apart on centerlines nearest (37.7026, 26.0419)<->(38, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [lightning]: lightning and noise-left are 5.09902 apart on centerlines nearest (18, 18)<->(13, 19); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [lightning]: lightning and noise-right are 7.28011 apart on centerlines nearest (31, 14)<->(38, 16); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "construction_reference_paths": [
+    "icon_set/references/lucide/original/",
+    "icon_set/references/lucide/atomic-debug/"
+  ],
+  "artifacts": {
+    "python": "noise_pollution_traffic_8e9b7bc2_90cb_457c_b184_e60fb8d06b7b.py",
+    "svg": "noise-pollution-traffic.svg",
+    "input_metadata": "noise-pollution-traffic.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "reference_native": "reference-48.png",
+    "preview": "review.png",
+    "theme_renders": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "validation": "validation.txt"
+  }
+}

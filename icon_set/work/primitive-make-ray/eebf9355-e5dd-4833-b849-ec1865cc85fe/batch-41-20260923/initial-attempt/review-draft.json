@@ -1,0 +1,21 @@
+{
+  "concept": "seeker",
+  "source_uuid": "eebf9355-e5dd-4833-b849-ec1865cc85fe",
+  "reference_path": "icon_set/work/todo-references/seeker_eebf9355-e5dd-4833-b849-ec1865cc85fe.svg",
+  "icon_id": "seeker",
+  "result_dir": "icon_set/work/primitive-make-ray/eebf9355-e5dd-4833-b849-ec1865cc85fe/batch-41-20260923",
+  "author": "gpt-6",
+  "module": "seeker_eebf9355_e5dd_4833_b849_ec1865cc85fe.py",
+  "keyshape": "SQUARE",
+  "keyshape_ink_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "subject_and_plan": "Partial person silhouette with a large magnifier in front at lower right. Preserve head, shoulder and visible torso edges.",
+  "construction_references": "Shared human-reference.md/user.svg: circular head and shoulder; Lucide search: lens/handle.",
+  "omissions": "No major components omitted; shoulder is deliberately interrupted by the magnifier.",
+  "validation_status": "error",
+  "error": "Traceback (most recent call last):\n  File \"icon_set/work/primitive-make-ray/0918c48a-7ee6-4895-9035-4645fdc17ae1/batch-41-20260923/author_batch.py\", line 226, in run\n    spec=importlib.util.spec_from_file_location('batch41_'+row['source_uuid'],p);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);icon=m.Drawing();report=icon.validate_icon();rec['validation_status']=report.status;(d/'validation.txt').write_text(report.describe());svg=icon.to_svg();(d/(row['icon_id']+'.svg')).write_text(svg)\n                                                                                                                                                                                                                                                                                               ~~~~~~~~~~~^^\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/base.py\", line 257, in to_svg\n    return render_svg(self)\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py\", line 153, in render_svg\n    paths = build_paths(icon.draw())\n  File \"/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py\", line 86, in build_paths\n    raise ValueError(\n    ...<2 lines>...\n    )\nValueError: element 'body-side-1' belongs to contours 'body-side' and 'body'\n"
+}

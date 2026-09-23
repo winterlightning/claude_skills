@@ -1,0 +1,15 @@
+# square person confined
+
+Head, enclosing square, closed shoulders and both arm divisions preserved. The arm openings remain pinched; visual approval withheld. Exact detached head/body gap: (28-(16+4))-4 = 4. The frame and arm spacing fail MIC.
+
+Keyshape: SQUARE. The square enclosure defines the overall silhouette.
+
+No defining features omitted.
+
+```text
+status: invalid
+  ERROR  mic [body]: parallel straight edges body-right and arm-29 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [arm-19]: parallel straight edges arm-19 and body-left are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [body]: parallel straight edges body-base-l, body-base-mid, body-base-r and frame-4 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [frame]: frame and head are 6 apart on centerlines nearest (24, 6)<->(24, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [frame]: frame and body are 6 apart on centerlines nearest (34, 42)<->(34, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship```

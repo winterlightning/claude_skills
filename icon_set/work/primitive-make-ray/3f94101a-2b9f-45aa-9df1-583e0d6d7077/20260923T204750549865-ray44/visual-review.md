@@ -1,0 +1,26 @@
+# solar charging car 3
+
+Solar panel and sun beside a charging column marked with a lightning bolt.
+
+SQUARE: Square overall composition; target visible envelope (4,4)-(44,44).
+
+sun: circular center and radial rays; simple panel grid and rounded charging enclosure.
+
+Reduced sun to four cardinal rays; retained four panel cells and charging bolt.
+
+Solar panel, sun and charging station remain identifiable, but rays, bolt and grid cells are too crowded. Not approved.
+
+```text
+status: invalid
+  ERROR  mic [panel]: parallel straight edges panel-1 and row are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [row]: parallel straight edges row and panel-3 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [bolt]: parallel straight edges bolt-1 and bolt-3 are 3.67658 apart on centerlines (ink gap -0.32342); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [charger]: charger and bolt are 4 apart on centerlines nearest (42, 22)<->(38, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [charger]: charger and east are 6 apart on centerlines nearest (30, 14)<->(24, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [charger]: charger and panel are 5.48875 apart on centerlines nearest (30.0899, 39.7289)<->(24.765, 41.0602); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [sun]: sun and north are 3 apart on centerlines nearest (15, 10)<->(15, 7); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [sun]: sun and west are 4 apart on centerlines nearest (11, 14)<->(7, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [sun]: sun and east are 4 apart on centerlines nearest (19, 14)<->(23, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [sun]: sun and south are 4 apart on centerlines nearest (15, 18)<->(15, 22); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [south]: south and panel are 7 apart on centerlines nearest (15, 23)<->(15, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

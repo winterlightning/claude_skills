@@ -1,0 +1,50 @@
+"""A bob-haired female portrait in a frame between two horizontal rules.
+Construction: square-user-round. Small hair parting and neck corners reduced; bob silhouette retained.
+Keyshape VRECT_L; extremes are fixed by SOLO48. All dimensions are authored locally.
+"""
+from icon_set.model.keyshapes import Keyshape
+from icon_set.model.icons.solo._base import Solo48
+SOURCE_ICON_ID = '0289cf64-76d2-5178-94b9-4767e8076f59'
+SOURCE_PATH = 'icon_set/work/todo-references/frame woman_0289cf64-76d2-5178-94b9-4767e8076f59.svg'
+AUTHOR = 'gpt-6'
+
+class Drawing(Solo48):
+    icon_id = 'frame-woman'
+    keyshape = Keyshape.VRECT_L
+    semantic_role = "MAIN"
+    semantic_kind = "noun"
+    category = "objects"
+    aliases = ()
+    keywords = ('frame', 'woman')
+
+    def circle(self, name, cx, cy, r):
+        self.add_arc(name+'-top', (cx-r,cy), (cx+r,cy), radius_x=r)
+        self.add_arc(name+'-bottom', (cx+r,cy), (cx-r,cy), radius_x=r)
+        self.add_contour(name, name+'-top', name+'-bottom', closed=True)
+
+    def rect(self, name, x, y, w, h, r=2):
+        points=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),
+                (x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        members=[]
+        for i,a in enumerate(points):
+            b=points[(i+1)%8]; n=f'{name}-{i}'
+            if i%2: self.add_arc(n,a,b,radius_x=r)
+            else: self.add_line(n,a,b)
+            members.append(n)
+        self.add_contour(name,*members,closed=True)
+
+    def build(self):
+
+        # Plan: nested frame, detached rules, circular jaw and a flared bob.
+        self.add_line('top-rule',(8,4),(40,4))
+        self.add_line('bottom-rule',(8,44),(40,44))
+        self.rect('frame',8,12,32,24)
+        self.circle('head',24,21,4)
+        self.add_bezier('hair',(16,29),((19,24),(15,15),(24,15)),((33,15),(29,24),(32,29)))
+        self.add_line('hair-left-tip',(16,29),(19,29))
+        self.add_line('hair-right-tip',(32,29),(29,29))
+        self.relate('connect','hair','hair-left-tip')
+        self.relate('connect','hair','hair-right-tip')
+        # Head bottom 25; shoulder crest 33: exact detached ink gap 4.
+        self.add_arc('shoulders',(15,36),(33,36),radius_x=9,radius_y=3)
+        self.relate('connect','shoulders','frame')

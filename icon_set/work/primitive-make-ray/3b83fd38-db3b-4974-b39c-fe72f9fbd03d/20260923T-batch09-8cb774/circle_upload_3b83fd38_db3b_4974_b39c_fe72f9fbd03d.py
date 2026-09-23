@@ -34,8 +34,8 @@ class Drawing(Solo48):
     def build(self):
         self.circle('ring',24,24,20)
         # Tray and upward shaft are independent; arrowhead shares its tip.
-        self.add_line('shaft',(24,14),(24,25))
+        self.add_line('shaft',(24,14),(24,24))
         self.add_polyline('arrow',(18,20),(24,14),(30,20))
         self.relate('connect','shaft','arrow')
-        self.add_polyline('tray',(15,27),(15,33),(33,33),(33,27))
+        self.add_polyline('tray',(16,28),(16,32),(32,32),(32,28))
 

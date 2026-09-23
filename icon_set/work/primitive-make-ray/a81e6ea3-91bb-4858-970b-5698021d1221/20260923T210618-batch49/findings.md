@@ -1,0 +1,17 @@
+# tasks
+
+Clipboard retains the raised rounded clip, two checkmarks and two diagonal text strokes. The two rows are visibly separate, but their spacing and clip margins still fail MIC. Visual approval withheld.
+
+Keyshape: SQUARE. Balanced complete composition, with visible extremes (4,4)-(44,44).
+
+Omissions/reductions: No defining elements omitted.
+
+```text
+status: invalid
+  ERROR  mic [check-0]: parallel straight edges check-0-2 and check-1-2 are 6.91399 apart on centerlines (ink gap 2.91399); requires at least 8 centerline / 4 ink (overlap-fallback)
+  ERROR  mic [clip]: clip and check-0 are 5 apart on centerlines nearest (23, 18)<->(23, 23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [clip]: clip and text-0 are 6.32456 apart on centerlines nearest (32, 18)<->(34, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [board]: board and check-1 are 5 apart on centerlines nearest (17, 42)<->(17, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [board]: board and text-1 are 6 apart on centerlines nearest (31, 42)<->(31, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [check-0]: check-0 and check-1 are 6.91399 apart on centerlines nearest (17, 28)<->(21.4262, 33.3115); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [text-0]: text-0 and text-1 are 6.7082 apart on centerlines nearest (31, 27)<->(34, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship```

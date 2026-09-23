@@ -1,0 +1,66 @@
+{
+  "concept": "sense of stability",
+  "source_uuid": "0257fd69-7a18-40fc-a7d2-903d1b421449",
+  "reference_path": "icon_set/work/todo-references/sense of stability_0257fd69-7a18-40fc-a7d2-903d1b421449.svg",
+  "icon_id": "sense-of-stability",
+  "result_dir": "icon_set/work/primitive-make-ray/0257fd69-7a18-40fc-a7d2-903d1b421449/batch-41-20260923",
+  "author": "gpt-6",
+  "module": "sense_of_stability_0257fd69_7a18_40fc_a7d2_903d1b421449.py",
+  "keyshape": "SQUARE",
+  "keyshape_ink_bounds": [
+    4,
+    4,
+    44,
+    44
+  ],
+  "subject_and_plan": "Person with outstretched arms in an open-front cylindrical enclosure. Rim, side bands, window edges and figure are one complete scene.",
+  "construction_references": "Shared human-reference.md/full_body_ref.png: round head and coherent torso/limbs. Cylinder reconstructed from source.",
+  "omissions": "Tiny upper rim ticks omitted; front opening, side bands and person retained.",
+  "validation_status": "invalid",
+  "keyshape_reason": "The complete composition uses centerline extremes (6,6)\u2013(42,42).",
+  "svg": "sense-of-stability.svg",
+  "validation_findings": "status: invalid\n  ERROR  mic [wall-right]: parallel straight edges wall-right-1, wall-right-2 and window-right-1, window-right-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [window-left]: parallel straight edges window-left-1, window-left-2 and wall-left-1, wall-left-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)\n  ERROR  mic [bottom]: bottom and legs are 3.9077 apart on centerlines nearest (21.645, 41.8915)<->(22, 38); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  WARN   mic [rim-top]: rim-top and head are 7.99998 apart on centerlines nearest (24.0164, 6.00003)<->(24, 14); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "validation_errors": 3,
+  "validation_warnings": 1,
+  "visual_review": {
+    "inspected_native_light_and_dark": true,
+    "inspected_enlarged_light_and_dark": true,
+    "findings": "Open-front cylinder, side bands and outstretched figure remain present. Cylinder wall/window gaps and legs near the lower rim are crowded; manual repair required. Human head/torso gap itself is exactly 4 ink units.",
+    "manual_review_recommended": true
+  },
+  "human_construction": {
+    "guide": "icon_set/skills/icon-design/human-reference.md",
+    "reference": "icon_set/references/human_ref/full_body_ref.png",
+    "figure": "person",
+    "head_center": [
+      24,
+      18
+    ],
+    "head_radius": 4,
+    "head_bottom": 22,
+    "torso_junction": [
+      24,
+      30
+    ],
+    "centerline_gap": 8,
+    "ink_gap": 4,
+    "evidence": "Head, torso and arm junction share x=24. Arms lie on y=30; mark_human_figure person emitted."
+  },
+  "registered_context": "No matching registered Python filename found.",
+  "artifacts": [
+    "dark-240.png",
+    "dark-48.png",
+    "light-240.png",
+    "light-48.png",
+    "reference-48.png",
+    "reference.png",
+    "reference.svg",
+    "review-draft.json",
+    "sense-of-stability.metadata.json",
+    "sense-of-stability.svg",
+    "sense_of_stability_0257fd69_7a18_40fc_a7d2_903d1b421449.py",
+    "validation.txt",
+    "result.json"
+  ],
+  "scope": "Standalone result folder only. No published, gallery, registry, metadata catalog, queue or runtime-state updates."
+}

@@ -1,0 +1,22 @@
+# 5G lettering is framed by paired network brackets and side ticks.
+
+SQUARE, (4, 4, 44, 44): Balanced complete composition uses the square envelope.
+
+Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
+
+References: []
+
+Omissions/reductions: None; hand-authored 5 and G plus all framing marks retained.
+
+Native and enlarged light/dark review: 5G and surrounding brackets remain recognizable, but ticks merge into letters at native size. Letter/frame and interletter MIC failures retained; not approved.
+
+```text
+status: invalid
+  ERROR  mic [bottom--1]: bottom--1 and five-bowl are 7.46489 apart on centerlines nearest (18, 38)<->(16.9373, 30.6111); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [tick--1-16]: tick--1-16 and five-top are 2.82843 apart on centerlines nearest (10, 16)<->(12, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [tick--1-32]: tick--1-32 and five-bowl are 2.82843 apart on centerlines nearest (10, 32)<->(12, 30); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [bottom-1]: bottom-1 and g are 6.25635 apart on centerlines nearest (30, 38)<->(31.5045, 31.9272); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [tick-1-16]: tick-1-16 and g are 4.41067 apart on centerlines nearest (38, 16)<->(35.4877, 19.6253); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [tick-1-32]: tick-1-32 and g are 2.92387 apart on centerlines nearest (38, 32)<->(35.4089, 30.6452); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [five-bowl]: five-bowl and g are 7.02408 apart on centerlines nearest (20.9975, 26.6268)<->(28.0103, 26.23); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

@@ -35,12 +35,12 @@ class Drawing(Solo48):
         self.circle('ring',24,24,20)
         # Symmetric domed skull, open jaw ends, and central mouth stroke.
         self.add_arc('dome',(14,23),(34,23),radius_x=10)
-        self.add_arc('cheek-right',(34,23),(30,31),radius_x=10)
-        self.add_line('jaw-right',(30,31),(30,35))
-        self.add_arc('cheek-left',(18,31),(14,23),radius_x=10)
-        self.add_line('jaw-left',(18,35),(18,31))
+        self.add_arc('cheek-right',(34,23),(32,29),radius_x=10)
+        self.add_line('jaw-right',(32,29),(32,32))
+        self.add_arc('cheek-left',(16,29),(14,23),radius_x=10)
+        self.add_line('jaw-left',(16,32),(16,29))
         self.add_contour('skull','jaw-left','cheek-left','dome','cheek-right','jaw-right')
-        self.add_line('mouth',(24,32),(24,35))
+        self.add_line('mouth',(24,30),(24,33))
         for side in (-1,1):
             self.add_line('eye-'+str(side),(24+side*6,23),(24+side*3,26))
 

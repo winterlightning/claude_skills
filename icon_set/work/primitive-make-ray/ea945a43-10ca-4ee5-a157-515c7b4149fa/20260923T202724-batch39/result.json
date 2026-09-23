@@ -1,0 +1,44 @@
+{
+  "concept": "road lock",
+  "source_uuid": "ea945a43-10ca-4ee5-a157-515c7b4149fa",
+  "reference_path": "icon_set/work/todo-references/road lock_ea945a43-10ca-4ee5-a157-515c7b4149fa.svg",
+  "icon_id": "road-lock",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/ea945a43-10ca-4ee5-a157-515c7b4149fa/20260923T202724-batch39",
+  "keyshape": "VRECT_L",
+  "subject": "A padlock containing a receding road.",
+  "symbol_plan": "Symmetric lock body and arched shackle contain a trapezoidal road.",
+  "construction_reference": "lock: arched shackle above rounded body",
+  "omissions": [
+    "Reduced road center dashes to one."
+  ],
+  "module": "road_lock_ea945a43_10ca_4ee5_a157_515c7b4149fa.py",
+  "validation_status": "invalid",
+  "validation_findings": "status: invalid\n  ERROR  mic [body]: body and road-dash are 4 apart on centerlines nearest (24, 44)<->(24, 40); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": {
+    "native_size": 48,
+    "enlarged_size": 192,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "Lock and receding road retained; central road dash crowds the lower body boundary.",
+    "approved": false
+  },
+  "keyshape_reason": "Fits the upright composition within visible bounds (6,2)-(42,46).",
+  "human_reference": null,
+  "artifacts": [
+    "dark-192.png",
+    "dark-48.png",
+    "error.txt",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "road-lock.metadata.json",
+    "road-lock.svg",
+    "road_lock_ea945a43_10ca_4ee5_a157_515c7b4149fa.py",
+    "validation.txt"
+  ],
+  "execution_notes": "An initial import-path error was corrected by running from the repository root. Any error.txt records superseded setup or contour assembly diagnostics; validation.txt is the final geometry verdict."
+}

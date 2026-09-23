@@ -1,0 +1,48 @@
+{
+  "source_uuid": "69067a56-4a6a-4f02-bdcf-fc3b45bb66ac",
+  "source_path": "pictographic-primitives/other/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg",
+  "icon_id": "monitor-art-palette-brush",
+  "author": "gpt-6",
+  "keyshape": "HRECT_L",
+  "description": "A desktop monitor displaying a paint palette beside a pointed brush.",
+  "symbol_plan": "Horizontal screen with centered foot; bean-shaped palette on the left, separate slanted brush on the right. Ink extremes (2,6)-(46,42).",
+  "omissions": [
+    "Three tiny paint wells omitted because each would collide with the palette outline at SOLO48."
+  ],
+  "references": [
+    "Source reference: monitor, asymmetrical kidney-shaped palette and separate brush.",
+    "Lucide monitor and palette: tangent screen corners, centered stand and flowing palette contour."
+  ],
+  "python": "monitor_art_palette_brush_69067a56_4a6a_4f02_bdcf_fc3b45bb66ac.py",
+  "validation_status": "invalid",
+  "reference_path": "pictographic-primitives/other/monitor painting_69067a56-4a6a-4f02-bdcf-fc3b45bb66ac.svg",
+  "keyshape_reason": "HRECT_L prioritizes screen width for the side-by-side palette and brush, but the content still fails clearance.",
+  "visual_review": {
+    "native_light_reviewed": true,
+    "native_dark_reviewed": true,
+    "enlarged_light_reviewed": true,
+    "enlarged_dark_reviewed": true,
+    "approved": false,
+    "findings": "Not visually approved. Palette and pointed brush remain identifiable at enlarged size, but the handle crowds the screen bottom and the palette is too tight beside the brush. The reference arrangement cannot be certified in this attempted HRECT_L fit; retained as invalid for manual review."
+  },
+  "validation_report": "validation.txt",
+  "status": "authored-invalid",
+  "human_subject": false,
+  "blocker": "status: invalid\n  ERROR  mic [screen]: screen and palette-outline are 6.95969 apart on centerlines nearest (16.5785, 32)<->(16.5785, 25.0403); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [screen]: screen and brush-handle are 4 apart on centerlines nearest (29, 32)<->(29, 28); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [palette-outline]: palette-outline and brush-outline are 7.83864 apart on centerlines nearest (22.5904, 18.1357)<->(30.0758, 20.4622); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "artifacts": [
+    "README.md",
+    "candidate.json",
+    "dark-288.png",
+    "dark-48.png",
+    "existing-source-matches.txt",
+    "light-288.png",
+    "light-48.png",
+    "monitor-art-palette-brush.metadata.json",
+    "monitor-art-palette-brush.svg",
+    "monitor_art_palette_brush_69067a56_4a6a_4f02_bdcf_fc3b45bb66ac.py",
+    "reference.png",
+    "reference.svg",
+    "retrieval.metadata.json",
+    "validation.txt"
+  ]
+}

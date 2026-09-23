@@ -1,0 +1,54 @@
+{
+  "concept": "square bubble user",
+  "source_uuid": "262dd529-82e6-4744-ac57-ec46c428f624",
+  "reference_path": "icon_set/work/todo-references/square bubble user_262dd529-82e6-4744-ac57-ec46c428f624.svg",
+  "icon_id": "square-bubble-user",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/262dd529-82e6-4744-ac57-ec46c428f624/20260923T204956-batch45",
+  "subject": "A square speech bubble containing a user bust.",
+  "plan": "Rounded bubble with lower-left tail encloses circular head and symmetric shoulder arch; detached head/shoulder ink gap exactly four.",
+  "construction_reference": "human_ref/user.svg: circular head and broad shoulder arch; message-square: integrated speech tail",
+  "keyshape": "SQUARE",
+  "omissions": [],
+  "module": "square_bubble_user_262dd529_82e6_4744_ac57_ec46c428f624.py",
+  "validation_status": "invalid",
+  "validation_findings": "status: invalid\n  ERROR  mic [bubble]: bubble and head are 7 apart on centerlines nearest (24, 6)<->(24, 13); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship\n  ERROR  mic [bubble]: bubble and shoulders are 3 apart on centerlines nearest (32, 36)<->(32, 33); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+  "visual_review": {
+    "native_size": 48,
+    "enlarged_size": 192,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "findings": "User and speech bubble remain recognizable, but shoulders collide visually with the bubble bottom. Head is relatively small. Exact detached head/shoulder ink gap is four units; enclosure spacing fails. Not visually approved.",
+    "approved": false
+  },
+  "keyshape_reason": "SQUARE, visible bounds (4,4)-(44,44), preserves the square overall composition and equal outer margins.",
+  "human_reference": {
+    "path": "icon_set/references/human_ref/user.svg",
+    "head_center": [
+      24,
+      16
+    ],
+    "head_radius": 3,
+    "shoulder_apex": [
+      24,
+      27
+    ],
+    "ink_gap_calculation": "27 - (16 + 3) - 4 = 4",
+    "proportions": "Circular head and broad symmetric shoulders follow shared bust construction; compact enclosure forces a small head. Enclosure collisions unresolved."
+  },
+  "artifacts": [
+    "dark-192.png",
+    "dark-48.png",
+    "human-reference.png",
+    "light-192.png",
+    "light-48.png",
+    "reference.png",
+    "reference.svg",
+    "square-bubble-user.metadata.json",
+    "square-bubble-user.svg",
+    "square_bubble_user_262dd529_82e6_4744_ac57_ec46c428f624.py",
+    "validation.txt"
+  ]
+}

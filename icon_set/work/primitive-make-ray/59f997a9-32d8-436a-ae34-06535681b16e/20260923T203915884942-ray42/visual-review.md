@@ -1,0 +1,20 @@
+# shipment approve smartphone
+
+Parcel cube behind a smartphone with an approval tick and bottom home mark.
+
+SQUARE: Square overall composition; visible envelope (4,4)-(44,44).
+
+package: three visible faces with a shared center seam; rounded phone contour.
+
+Omitted box seam hidden behind phone; retained tick and home mark.
+
+Parcel and smartphone remain identifiable, but tick and home line crowd phone borders and each other. Not approved.
+
+```text
+status: invalid
+  ERROR  mic [home]: parallel straight edges home and phone-4 are 5 apart on centerlines (ink gap 1); requires at least 8 centerline / 4 ink (midpoint-normal)
+  ERROR  mic [box-edge]: box-edge and phone are 5 apart on centerlines nearest (30, 16)<->(30, 21); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [phone]: phone and check are 4 apart on centerlines nearest (42, 27)<->(38, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [phone]: phone and home are 5 apart on centerlines nearest (32, 42)<->(32, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+  ERROR  mic [check]: check and home are 5 apart on centerlines nearest (33, 32)<->(33, 37); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship
+```

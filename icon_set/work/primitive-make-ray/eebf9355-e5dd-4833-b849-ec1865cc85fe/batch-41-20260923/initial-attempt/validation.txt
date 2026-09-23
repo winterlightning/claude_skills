@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "icon_set/work/primitive-make-ray/0918c48a-7ee6-4895-9035-4645fdc17ae1/batch-41-20260923/author_batch.py", line 226, in run
+    spec=importlib.util.spec_from_file_location('batch41_'+row['source_uuid'],p);m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);icon=m.Drawing();report=icon.validate_icon();rec['validation_status']=report.status;(d/'validation.txt').write_text(report.describe());svg=icon.to_svg();(d/(row['icon_id']+'.svg')).write_text(svg)
+                                                                                                                                                                                                                                                                                               ~~~~~~~~~~~^^
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/model/icons/base.py", line 257, in to_svg
+    return render_svg(self)
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py", line 153, in render_svg
+    paths = build_paths(icon.draw())
+  File "/Applications/Workspaces/pictographic/claude_skills/icon_set/renderers/svg.py", line 86, in build_paths
+    raise ValueError(
+    ...<2 lines>...
+    )
+ValueError: element 'body-side-1' belongs to contours 'body-side' and 'body'

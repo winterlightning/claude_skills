@@ -1,0 +1,66 @@
+{
+  "position": 16,
+  "concept": "veterinarian",
+  "source_uuid": "16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a",
+  "reference_path": "icon_set/work/todo-references/veterinarian_16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a.svg",
+  "icon_id": "veterinarian",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/16ebf22c-f2dd-4834-bf5b-3033fd6dbd8a/20260923T212125-batch53",
+  "family": "solo",
+  "profile": "SOLO48",
+  "keyshape": "SQUARE",
+  "subject": "A veterinarian with a stethoscope and cat badge.",
+  "validation_status": "invalid",
+  "validation": {
+    "status": "invalid",
+    "errors": 6,
+    "warnings": 3
+  },
+  "validation_errors": [
+    "ERROR  mic [shoulders]: shoulders and stethoscope-tube are 0.544138 apart on centerlines nearest (13.8883, 26.4674)<->(14, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [collar]: collar and stethoscope-tube are 2.23607 apart on centerlines nearest (16, 26)<->(14, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [collar]: collar and badge are 2.40181 apart on centerlines nearest (24, 26)<->(25.9049, 27.4629); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [collar]: collar and cat-ears are 4.12311 apart on centerlines nearest (24, 26)<->(28, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [stethoscope-bell]: stethoscope-bell and badge are 7.2362 apart on centerlines nearest (16.9675, 35.5598)<->(24.1118, 34.4103); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [badge]: badge and cat-ears are 1.18916 apart on centerlines nearest (38.7656, 26.0901)<->(38, 27); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [
+    "WARN   mic [shoulders]: shoulders and collar are 0 apart on centerlines nearest (16.1453, 26.1453)<->(16.1453, 26.1453); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "WARN   mic [shoulders]: shoulders and badge are 0 apart on centerlines nearest (26.4069, 26.8747)<->(26.4069, 26.8747); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "WARN   mic [shoulders]: shoulders and cat-ears are 0 apart on centerlines nearest (28, 27.5323)<->(28, 27.5323); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "visual_review": {
+    "status": "needs-review",
+    "native_size": 48,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "enlarged_size": 240,
+    "findings": "Clinician head remains clear, but collar, stethoscope and cat badge overlap heavily. Cat identity is weak at native size; unsuccessful attempt retained."
+  },
+  "construction_reference": "human_ref/user.svg: circular head and shoulders; stethoscope: tubing and bell; source supplies cat badge.",
+  "omissions": "Fine facial detail omitted; collar, stethoscope and cat retained.",
+  "human_review": {
+    "reference": "icon_set/skills/icon-design/human-reference.md; icon_set/references/human_ref/user.svg",
+    "head_bottom_centerline_y": 18,
+    "body_top_centerline_y": 26,
+    "centerline_gap": 8,
+    "visible_ink_gap": 4,
+    "construction": "Outlined head and torso; not a stick figure. Smooth shoulder vocabulary from the shared reference."
+  },
+  "artifacts": {
+    "python": "veterinarian_16ebf22c_f2dd_4834_bf5b_3033fd6dbd8a.py",
+    "svg": "veterinarian.svg",
+    "input_metadata": "veterinarian.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "plan": "plan.json",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-240.png",
+    "dark_enlarged": "dark-240.png",
+    "findings": "findings.md"
+  }
+}

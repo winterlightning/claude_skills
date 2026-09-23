@@ -1,0 +1,58 @@
+{
+  "concept": "truck moving",
+  "source_uuid": "1bdf40bf-9d96-43bd-a767-f5237c9e61eb",
+  "reference_path": "icon_set/work/todo-references/truck moving_1bdf40bf-9d96-43bd-a767-f5237c9e61eb.svg",
+  "icon_id": "truck-moving",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/1bdf40bf-9d96-43bd-a767-f5237c9e61eb/20260923-batch52-b9b21e",
+  "module": "truck_moving_1bdf40bf_9d96_43bd_a767_f5237c9e61eb.py",
+  "keyshape": "SQUARE",
+  "subject": "Moving truck carrying a house above its cargo box.",
+  "construction_reference": "truck and house: wheel pair, peaked roof and doorway",
+  "omissions": [],
+  "validation_status": "invalid",
+  "validation_findings": [
+    "  ERROR  mic [house-walls]: parallel straight edges house-walls-3 and door-3 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [door]: parallel straight edges door-3 and door-1 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [door]: parallel straight edges door-1 and house-walls-1 are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [door]: parallel straight edges door-2 and house-walls-2 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [cargo]: parallel straight edges cargo-2 and chassis are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "  ERROR  mic [house-roof]: house-roof and house-walls are 0.312348 apart on centerlines nearest (10.8049, 11.7561)<->(11, 12); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "keyshape_reason": "Full composition uses centerline extremes (6,6)\u2013(42,42), visible ink (4,4)\u2013(44,44).",
+  "visual_review": {
+    "reviewed": true,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "sizes": [
+      48,
+      192
+    ],
+    "findings": "House, doorway, cargo body and both wheels retained. Door and lower chassis clearances close at native size; not approved.",
+    "status": "not-approved"
+  },
+  "status": "authored-invalid",
+  "artifacts": {
+    "module": "truck_moving_1bdf40bf_9d96_43bd_a767_f5237c9e61eb.py",
+    "svg": "truck-moving.svg",
+    "metadata": "truck-moving.metadata.json",
+    "reference": "reference.svg",
+    "reference_previews": [
+      "reference-48.png",
+      "reference-192.png"
+    ],
+    "previews": [
+      "light-48.png",
+      "light-192.png",
+      "dark-48.png",
+      "dark-192.png"
+    ],
+    "comparison": "comparison.png",
+    "validation": "validation.txt",
+    "findings": "findings.md",
+    "initial_attempt": "initial-attempt/",
+    "result": "result.json"
+  }
+}

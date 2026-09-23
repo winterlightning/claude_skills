@@ -43,15 +43,11 @@ class Drawing(Solo48):
         self.add_arc('page-tr',(40,16),(36,12),radius_x=4,sweep=False)
         self.add_line('page-top',(36,12),(32,12))
         self.add_contour('page','page-tl','page-lt','page-left','page-bl','page-bottom','page-br','page-right','page-tr','page-top')
-        # Raised tab preserves the reference's lobed top rather than a capsule.
-        self.add_polyline('clip-bottom',(16,12),(16,16),(32,16),(32,12),(29,12),(29,9))
-        self.add_arc('clip-dome',(29,9),(19,9),radius_x=5,sweep=False)
-        self.add_polyline('clip-left',(19,9),(19,12),(16,12))
+        # Raised dome tab; tiny shoulders reduced to preserve the clip opening.
+        self.add_polyline('clip-bottom',(16,12),(16,16),(32,16),(32,12))
+        self.add_arc('clip-dome',(32,12),(16,12),radius_x=8,sweep=False)
         self.relate('connect','clip-bottom','clip-dome')
-        self.relate('connect','clip-dome','clip-left')
-        self.relate('connect','clip-bottom','clip-left')
         self.relate('connect','page','clip-bottom')
-        self.relate('connect','page','clip-left')
+        self.relate('connect','page','clip-dome')
         for i,(end,y) in enumerate(((31,25),(26,35))):
             self.add_line('text-'+str(i),(17,y),(end,y))
-

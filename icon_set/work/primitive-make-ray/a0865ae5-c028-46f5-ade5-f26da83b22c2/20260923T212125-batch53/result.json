@@ -1,0 +1,56 @@
+{
+  "position": 9,
+  "concept": "vaisakhi harvest",
+  "source_uuid": "a0865ae5-c028-46f5-ade5-f26da83b22c2",
+  "reference_path": "icon_set/work/todo-references/vaisakhi harvest_a0865ae5-c028-46f5-ade5-f26da83b22c2.svg",
+  "icon_id": "vaisakhi-harvest",
+  "author": "gpt-6",
+  "result_dir": "icon_set/work/primitive-make-ray/a0865ae5-c028-46f5-ade5-f26da83b22c2/20260923T212125-batch53",
+  "family": "solo",
+  "profile": "SOLO48",
+  "keyshape": "SQUARE",
+  "subject": "A Vaisakhi drum with two beaters and a wheat sprig.",
+  "validation_status": "invalid",
+  "validation": {
+    "status": "invalid",
+    "errors": 7,
+    "warnings": 0
+  },
+  "validation_errors": [
+    "ERROR  mic [grain-high]: parallel straight edges grain-high and grain-middle are 4 apart on centerlines (ink gap 0); requires at least 8 centerline / 4 ink (overlap-fallback)",
+    "ERROR  mic [drum]: parallel straight edges drum-top and hoop-0 are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "ERROR  mic [hoop-1]: parallel straight edges hoop-1 and drum-bottom are 6 apart on centerlines (ink gap 2); requires at least 8 centerline / 4 ink (midpoint-normal)",
+    "ERROR  mic [beater-left]: beater-left and drum are 6 apart on centerlines nearest (16, 12)<->(16, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [beater-right]: beater-right and drum are 6 apart on centerlines nearest (26, 12)<->(26, 18); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [drum]: drum and hoop-0 are 0.573174 apart on centerlines nearest (10.4371, 23.8919)<->(11, 24); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship",
+    "ERROR  mic [drum]: drum and hoop-1 are 0.780911 apart on centerlines nearest (10.2315, 36.1384)<->(11, 36); SOLO48 requires at least 8 (ink clearance 4) unless the contact is declared with a scoped `connect` relationship"
+  ],
+  "validation_warnings": [],
+  "visual_review": {
+    "status": "needs-review",
+    "native_size": 48,
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "enlarged_size": 240,
+    "findings": "Drum, beaters and wheat are recognizable. Hoop endpoints are not joined cleanly to the curved wall; hoop and grain spacing remain insufficient."
+  },
+  "construction_reference": "drum: barrel silhouette and hoops; wheat: repeated diagonal stalk branches.",
+  "omissions": "None; drum, both beaters and stalk retained.",
+  "human_review": null,
+  "artifacts": {
+    "python": "vaisakhi_harvest_a0865ae5_c028_46f5_ade5_f26da83b22c2.py",
+    "svg": "vaisakhi-harvest.svg",
+    "input_metadata": "vaisakhi-harvest.metadata.json",
+    "reference_svg": "reference.svg",
+    "reference_render": "reference.png",
+    "validation": "validation.txt",
+    "plan": "plan.json",
+    "light_native": "light-48.png",
+    "dark_native": "dark-48.png",
+    "light_enlarged": "light-240.png",
+    "dark_enlarged": "dark-240.png",
+    "findings": "findings.md"
+  }
+}

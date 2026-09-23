@@ -33,7 +33,7 @@ class Drawing(Solo48):
 
     def build(self):
         # Eight teeth derive from one quarter; paired dimensions stay equal.
-        quarter=[(-4,-18),(4,-18),(4,-14),(8,-12),(12,-14),(14,-12),(12,-8),(14,-4)]
+        quarter=[(-4,-18),(4,-18),(4,-16),(9,-14),(12,-16),(16,-12),(14,-9),(16,-4)]
         pts=[]
         for turn in range(4):
             for x,y in quarter:
@@ -41,13 +41,13 @@ class Drawing(Solo48):
                 pts.append((24+x,24+y))
         self.add_polyline('gear',*pts,closed=True)
         # S bowl is split at shared endpoints for the two exposed currency stems.
-        self.add_arc('s-top',(29,16),(24,15),radius_x=8)
-        self.add_arc('s-upper',(24,15),(24,24),radius_x=6,radius_y=5,sweep=False)
-        self.add_arc('s-lower',(24,24),(24,33),radius_x=6,radius_y=5)
-        self.add_arc('s-bottom',(24,33),(19,32),radius_x=8)
+        self.add_arc('s-top',(28,18),(24,17),radius_x=8)
+        self.add_arc('s-upper',(24,17),(24,24),radius_x=6,radius_y=5,sweep=False)
+        self.add_arc('s-lower',(24,24),(24,31),radius_x=6,radius_y=5)
+        self.add_arc('s-bottom',(24,31),(20,30),radius_x=8)
         self.add_contour('s','s-top','s-upper','s-lower','s-bottom')
-        self.add_line('stem-top',(24,11),(24,15))
-        self.add_line('stem-bottom',(24,33),(24,37))
+        self.add_line('stem-top',(24,15),(24,17))
+        self.add_line('stem-bottom',(24,31),(24,33))
         self.relate('connect','s','stem-top')
         self.relate('connect','s','stem-bottom')
 

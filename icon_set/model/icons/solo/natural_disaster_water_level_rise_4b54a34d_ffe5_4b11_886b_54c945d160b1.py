@@ -1,0 +1,47 @@
+"""Two upward arrows rise above waves of floodwater.
+Plan: complete reference composition, coherent strokes and parameterized repeat definitions.
+SOLO48 SQUARE; omissions: Middle wave row and enclosing basin sides omitted to retain clear water and rise directions.
+"""
+from ...keyshapes import Keyshape
+from ._base import Solo48
+SOURCE_ICON_ID='4b54a34d-ffe5-4b11-886b-54c945d160b1'
+SOURCE_PATH='icon_set/work/todo-references/natural disaster water level rise_4b54a34d-ffe5-4b11-886b-54c945d160b1.svg'
+AUTHOR='gpt-6'
+class Drawing(Solo48):
+    icon_id='natural-disaster-water-level-rise'
+    keyshape=Keyshape.SQUARE
+    semantic_role='MAIN'
+    semantic_kind='noun'
+    category='objects'
+    aliases=()
+    keywords=('natural', 'disaster', 'water', 'level', 'rise')
+
+    def circle(self,n,x,y,r):
+        self.add_arc(n+'-a',(x-r,y),(x+r,y),radius_x=r)
+        self.add_arc(n+'-b',(x+r,y),(x-r,y),radius_x=r)
+        self.add_contour(n,n+'-a',n+'-b',closed=True)
+
+    def box(self,n,x,y,w,h,r=2):
+        p=[(x+r,y),(x+w-r,y),(x+w,y+r),(x+w,y+h-r),(x+w-r,y+h),(x+r,y+h),(x,y+h-r),(x,y+r)]
+        ids=[]
+        for i in range(8):
+            k=n+'-'+str(i);ids.append(k)
+            if i%2:self.add_arc(k,p[i],p[(i+1)%8],radius_x=r)
+            else:self.add_line(k,p[i],p[(i+1)%8])
+        self.add_contour(n,*ids,closed=True)
+
+    def build(self):
+
+        for x in (16,32):
+            self.add_line('stem-'+str(x),(x,18),(x,6))
+            self.add_polyline('tip-'+str(x),(x-4,10),(x,6),(x+4,10));self.relate('connect','stem-'+str(x),'tip-'+str(x))
+        for row,y in enumerate((26,39)):
+            ids=[]
+            for j,x in enumerate((6,18,30)):
+                n=f'wave-{row}-{j}';ids.append(n);self.add_arc(n,(x,y),(x+12,y),radius_x=6,radius_y=3,sweep=False)
+            self.add_contour('wave-'+str(row),*ids)
+
+# Final visible bounds: (4, 4, 44, 44)
+# Construction: No useful local Lucide match was used; the supplied reference and shared geometric construction guidance informed this composition.
+# Final reductions: Middle wave row and enclosing basin sides omitted to retain clear water and rise directions.
+# Visual review: Two rise arrows and two wave rows remain clear. Middle wave and basin sides omitted; paired arrows share dimensions and wave arcs share radii.
