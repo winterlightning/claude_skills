@@ -15,7 +15,7 @@ disapproved icons. Concepts and the state table are in
 
 ```bash
 API_BASE='https://<production>'
-WORKER='mac-a/claude-fable-5-1'
+WORKER='thuan-mac'
 ```
 
 ## 1. Fetch the disapproved icons
@@ -74,7 +74,7 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 HTTP 201
 {
   "saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
-  "work": {"state": "working", "worker": "mac-a/claude-fable-5-1", "note": "",
+  "work": {"state": "working", "worker": "thuan-mac", "note": "",
            "claimed_at": "2026-09-23T07:00:00+00:00", "updated_at": "2026-09-23T07:00:00+00:00",
            "expires_at": "2026-09-23T10:00:00+00:00", "svg_sha256": "5a1c…e9"},
   "item": { "...the same object as in step 1, now with work.state = working..." }
@@ -93,10 +93,10 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 
 ```json
 HTTP 200
-{"saved": true, "worker": "mac-a/claude-fable-5-1",
+{"saved": true, "worker": "thuan-mac",
  "claimed": [ { "key": "sub/plus", "...": "..." } ],
- "refused": [ {"icon": "sub/minus", "status": 409, "error": "mac-b/claude is working on this icon.",
-               "work": {"state": "working", "worker": "mac-b/claude", "...": "..."}} ]}
+ "refused": [ {"icon": "sub/minus", "status": 409, "error": "mac-mini is working on this icon.",
+               "work": {"state": "working", "worker": "mac-mini", "...": "..."}} ]}
 ```
 
 Refusals you will see:
@@ -164,7 +164,7 @@ icon's canvas). Read it back with
 ```json
 HTTP 200
 {"saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
- "result": {"stage": "after", "worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T08:05:00+00:00",
+ "result": {"stage": "after", "worker": "thuan-mac", "saved_at": "2026-09-23T08:05:00+00:00",
             "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true},
  "work": {"state": "working", "...": "..."}}
 ```
@@ -181,7 +181,7 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 HTTP 200
 {
   "saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9", "status": "ready",
-  "work": {"state": "done", "worker": "mac-a/claude-fable-5-1", "note": "sub/plus-v3, commit 2c1c69d",
+  "work": {"state": "done", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d",
            "claimed_at": "2026-09-23T07:00:00+00:00", "updated_at": "2026-09-23T08:10:00+00:00",
            "expires_at": null, "svg_sha256": "5a1c…e9"}
 }
@@ -212,7 +212,7 @@ curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"
 
 ```json
 {"icon": "sub/plus", "svg_sha256": "5a1c…e9", "status": "ready",
- "work": {"state": "done", "worker": "mac-a/claude-fable-5-1", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."}}
+ "work": {"state": "done", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."}}
 ```
 
 **Everything that happened to it** (revisions, reviews, feedback, claims, log):
@@ -229,21 +229,21 @@ curl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"
               "work": {"state": "none"}},
   "revisions": [
     {"svg_sha256": "5a1c…e9", "current": false,
-     "review": {"status": "ready", "updated_by": "mac-a/claude-fable-5-1", "updated_at": "2026-09-23T08:10:00+00:00"},
-     "claim": {"state": "superseded", "worker": "mac-a/claude-fable-5-1", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."},
+     "review": {"status": "ready", "updated_by": "thuan-mac", "updated_at": "2026-09-23T08:10:00+00:00"},
+     "claim": {"state": "superseded", "worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."},
      "feedback": [{"id": 41, "reason": "bad-stroke", "feedback": "Bad stroke drawn\n\nThe arms are not equal.",
                    "author": "hina", "created_at": "2026-09-23T06:20:37+00:00", "edited_by": null, "edited_at": null}],
      "snapshot": true,
-     "results": {"before": {"worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T07:00:01+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "first version, before the fix", "has_python": true, "has_validation": false},
-                 "after": {"worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T08:05:00+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true}}},
+     "results": {"before": {"worker": "thuan-mac", "saved_at": "2026-09-23T07:00:01+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "first version, before the fix", "has_python": true, "has_validation": false},
+                 "after": {"worker": "thuan-mac", "saved_at": "2026-09-23T08:05:00+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true}}},
     {"svg_sha256": "9f02…b1", "current": true,
      "review": {"status": "ready", "updated_by": null, "updated_at": null}, "claim": null, "feedback": [], "snapshot": false}
   ],
   "events": [
     {"at": "2026-09-23T06:20:37+00:00", "user": "hina", "action": "feedback", "details": {"status": "pending", "reason": "bad-stroke", "feedback_id": 41}},
-    {"at": "2026-09-23T07:00:00+00:00", "user": "system", "action": "work_claim", "details": {"worker": "mac-a/claude-fable-5-1", "expires_at": "2026-09-23T10:00:00+00:00", "lease_hours": 3}},
-    {"at": "2026-09-23T08:10:00+00:00", "user": "system", "action": "work_done", "details": {"worker": "mac-a/claude-fable-5-1", "note": "sub/plus-v3, commit 2c1c69d"}},
-    {"at": "2026-09-23T08:10:00+00:00", "user": "mac-a/claude-fable-5-1", "action": "review", "details": {"status": "ready", "source": "work_done", "feedback_kept": true}}
+    {"at": "2026-09-23T07:00:00+00:00", "user": "system", "action": "work_claim", "details": {"worker": "thuan-mac", "expires_at": "2026-09-23T10:00:00+00:00", "lease_hours": 3}},
+    {"at": "2026-09-23T08:10:00+00:00", "user": "system", "action": "work_done", "details": {"worker": "thuan-mac", "note": "sub/plus-v3, commit 2c1c69d"}},
+    {"at": "2026-09-23T08:10:00+00:00", "user": "thuan-mac", "action": "review", "details": {"status": "ready", "source": "work_done", "feedback_kept": true}}
   ]
 }
 ```

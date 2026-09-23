@@ -1,7 +1,7 @@
 ---
 name: fix-icon-queue
 description: Take the next disapproved Pictographic icon from the shared production work queue, fix it, and report the result. Claims the icon on production first so no other machine or agent fixes the same one, then repairs it with the matching family skill, publishes, and reports done (the revision returns to Ready) or cannot-fix. Use when asked to work through disapproved icons, process review feedback, or run the fix queue. Hand-authored; edit this file directly.
-argument-hint: [--family sub|solo|container] [--worker hostname/agent]
+argument-hint: [--family sub|solo|container] [--worker thuan-mac]
 ---
 
 # /fix-icon-queue — claim, fix, report one disapproved icon
