@@ -30,6 +30,7 @@
     $('docBuild').textContent = 'python3 -m icon_set build --icon icon_set/model/icons/sub/plus_v3.py --no-png --no-report   # this icon only\npython3 -m icon_set publish --no-build                                                  # compact catalogs + release.json, no rebuild\ngit add icon_set/model/icons/sub/plus_v3.py published/sub32 published/gallery/icons.json published/release.json\ngit commit -m "Fix sub/plus" && git push origin icon-lib';
     $('docHeartbeat').textContent = post('/api/work/heartbeat', claim);
     $('docDone').textContent = post('/api/work/done', {...claim, note: 'sub/plus-v3, commit abc1234'});
+    $('docUpload').textContent = 'python3 icon_set/scripts/work_queue.py upload --worker ' + quote(me) + ' --icon sub/plus --stage after \\\n  --svg published/sub32/plus.svg --python icon_set/model/icons/sub/plus.py --validation validation.txt --note "equalised the arms"\n\n# raw API: POST /api/work/result {icon, svg_sha256, worker, stage: "before"|"after", svg, python_path, python_source, validation, note}\n# read back: GET /api/work/result?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1&stage=after&part=svg|python|validation';
     $('docResult').textContent = 'curl --fail-with-body "$API_BASE/api/work?icon=sub/plus"                      # status + work state now\ncurl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"              # revisions, claims, feedback, change log\ncurl "$API_BASE/api/work/snapshot?icon=sub/plus&svg_sha256=HASH_FROM_STEP_1" -o before.svg\ncurl "$API_BASE/api/icon-artwork/svg?icon=sub/plus" -o now.svg\ncurl --fail-with-body "$API_BASE/api/work/review?state=done"                 # every fixed icon awaiting review';
     $('docCli').textContent = 'export PICTOGRAPHIC_API=' + quote(base) + '\nexport PICTOGRAPHIC_WORKER=' + quote(me) + '\n\npython3 icon_set/scripts/work_queue.py next --limit 1 --offset 0 --disapprove-status bad-stroke   # fetch + claim, prints the brief; exit 3 = nothing to claim\npython3 icon_set/scripts/work_queue.py next --family sub --limit 3 --out fix-input.txt            # three sub icons at once\npython3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus\npython3 icon_set/scripts/work_queue.py done --icon sub/plus --note "sub/plus-v3"\npython3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --note "why"\npython3 icon_set/scripts/work_queue.py abandon --icon sub/plus\npython3 icon_set/scripts/work_queue.py status --icon sub/plus';
   }
@@ -146,7 +147,9 @@
       feedback.append(summaryLine, text);
       disapproval.append(meta, feedback);
       tr.append(cell(disapproval));
-      tr.append(cell(badge('state', row.work.state, STATE_LABELS[row.work.state] || row.work.state)));
+      const stateCell = cell(badge('state', row.work.state, STATE_LABELS[row.work.state] || row.work.state));
+      if ((row.work.results || []).includes('after')) stateCell.append(badge('result', 'after', 'fix uploaded'));
+      tr.append(stateCell);
       tr.append(cell(row.work.worker ? (row.work.worker === worker() ? row.work.worker + ' (you)' : row.work.worker) : '—'));
       tr.append(cell(when(row.work.claimed_at) || '—'));
       let lease = '—';
@@ -199,11 +202,16 @@
     panel.append(heading);
     const claimed = [...history.revisions].reverse().find(rev => rev.claim);
     const figures = document.createElement('div'); figures.className = 'work-figures';
+    const resultUrl = (rev, stage, part) => '/api/work/result?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(rev.svg_sha256) + '&stage=' + stage + '&part=' + part;
     if (claimed) {
-      const before = claimed.snapshot ? '/api/work/snapshot?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(claimed.svg_sha256) : '';
+      const results = claimed.results || {};
+      const before = claimed.snapshot ? '/api/work/snapshot?icon=' + encodeURIComponent(history.icon) + '&svg_sha256=' + encodeURIComponent(claimed.svg_sha256)
+        : results.before ? resultUrl(claimed, 'before', 'svg') : '';
       const claimNote = 'Claimed by ' + claimed.claim.worker + ' · ' + when(claimed.claim.claimed_at) + (claimed.claim.note ? ' · ' + claimed.claim.note : '');
       if (before) figures.append(figure(before, 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote));
       else figures.append(figure('', 'Before the fix · revision ' + short(claimed.svg_sha256), claimNote + ' · no snapshot saved (claimed before snapshots existed)'));
+      if (results.after) figures.append(figure(resultUrl(claimed, 'after', 'svg'), 'Fixed · uploaded by ' + results.after.worker,
+        when(results.after.saved_at) + (results.after.note ? ' · ' + results.after.note : '') + (results.after.python_path ? ' · ' + results.after.python_path : '')));
     }
     const currentNote = STATUS_LABELS[history.current.status] + (history.current.updated_by ? ' · by ' + history.current.updated_by : '') + (history.current.updated_at ? ' · ' + when(history.current.updated_at) : '');
     figures.append(figure('/api/icon-artwork/svg?icon=' + encodeURIComponent(history.icon), 'Now · revision ' + short(history.current.svg_sha256), currentNote));
@@ -213,8 +221,32 @@
     else if (claimed.current) verdict.textContent = claimed.claim.state === 'done'
       ? 'Reported fixed by ' + claimed.claim.worker + ', but the new drawing has not reached production yet (same revision). The change will appear after the next production pull.'
       : 'This revision is ' + STATE_LABELS[claimed.claim.state].toLowerCase() + '; the drawing has not changed on production yet.';
-    else verdict.textContent = 'The fix was deployed: the current revision differs from the one that was claimed. Compare the two drawings above.';
+    else verdict.textContent = 'The fix was deployed: the current revision differs from the one that was claimed. Compare the drawings above.';
     panel.append(verdict);
+    if (claimed && claimed.results && (claimed.results.before?.has_python || claimed.results.after?.has_python || claimed.results.after?.has_validation)) {
+      const sources = document.createElement('details'); sources.className = 'work-sources';
+      const summary = document.createElement('summary'); summary.textContent = 'Python source and validation (uploaded)';
+      const columns = document.createElement('div'); columns.className = 'work-source-columns';
+      for (const [stage, label] of [['before', 'Before'], ['after', 'After']]) {
+        const info = claimed.results[stage];
+        if (!info || !info.has_python) continue;
+        const column = document.createElement('div');
+        const heading = document.createElement('h4'); heading.textContent = label + ' · ' + (info.python_path || 'module');
+        const pre = document.createElement('pre'); pre.textContent = 'Loading…';
+        fetch(resultUrl(claimed, stage, 'python'), {cache: 'no-store'}).then(r => r.ok ? r.text() : Promise.reject(Error('HTTP ' + r.status)))
+          .then(text => { pre.textContent = text; }).catch(error => { pre.textContent = 'Could not load: ' + error.message; });
+        column.append(heading, pre); columns.append(column);
+      }
+      sources.append(summary, columns);
+      if (claimed.results.after?.has_validation) {
+        const heading = document.createElement('h4'); heading.textContent = 'Validation after the fix';
+        const pre = document.createElement('pre'); pre.textContent = 'Loading…';
+        fetch(resultUrl(claimed, 'after', 'validation'), {cache: 'no-store'}).then(r => r.ok ? r.text() : Promise.reject(Error('HTTP ' + r.status)))
+          .then(text => { pre.textContent = text; }).catch(error => { pre.textContent = 'Could not load: ' + error.message; });
+        sources.append(heading, pre);
+      }
+      panel.append(sources);
+    }
     return panel;
   }
 

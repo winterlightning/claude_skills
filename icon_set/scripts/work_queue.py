@@ -11,6 +11,7 @@ Ready for the reviewer); ``cannot-fix`` and ``abandon`` release it.
     python3 icon_set/scripts/work_queue.py cannot-fix --icon sub/plus --worker "$WORKER" --note "why"
     python3 icon_set/scripts/work_queue.py abandon --icon sub/plus --worker "$WORKER"
     python3 icon_set/scripts/work_queue.py heartbeat --icon sub/plus --worker "$WORKER"
+    python3 icon_set/scripts/work_queue.py upload --icon sub/plus --stage after --svg fixed.svg --python icon_set/model/icons/sub/plus.py
     python3 icon_set/scripts/work_queue.py status [--icon sub/plus]
     python3 icon_set/scripts/work_queue.py queue [--family sub] [--limit 20]
 
@@ -106,6 +107,20 @@ def brief(item, work=None):
     return '\n'.join(lines) + '\n'
 
 
+def upload_result(base_url, worker, key, sha, stage, svg_path, python_path=None, validation_path=None, note=''):
+    """POST one stage of a fix result; file contents are read here, paths are reported relative to the repo."""
+    body = {'icon': key, 'svg_sha256': sha, 'worker': worker, 'stage': stage,
+            'svg': Path(svg_path).read_text(encoding='utf-8'), 'note': note or ''}
+    if python_path:
+        python_path = Path(python_path)
+        body['python_source'] = python_path.read_text(encoding='utf-8')
+        resolved = python_path.resolve()
+        body['python_path'] = resolved.relative_to(REPO_ROOT).as_posix() if resolved.is_relative_to(REPO_ROOT) else python_path.as_posix()
+    if validation_path:
+        body['validation'] = Path(validation_path).read_text(encoding='utf-8')
+    return call(base_url, 'POST', '/api/work/result', body)
+
+
 def take_next(base_url, worker, family=None, category=None, icon_type=None, lease_hours=None, *,
               limit=1, offset=0, reason=None):
     """Claim up to ``limit`` claimable icons starting at ``offset``; skip rows another machine wins."""
@@ -169,6 +184,14 @@ def main(argv=None):
         sub.add_argument('--note', required=note, default='')
         if name == 'heartbeat':
             sub.add_argument('--lease-hours', type=int)
+    upload = commands.add_parser('upload', help='upload the before or after result of a fix to production', parents=[shared])
+    upload.add_argument('--icon', required=True)
+    upload.add_argument('--svg-sha256', help='revision (default: the current production revision)')
+    upload.add_argument('--stage', required=True, choices=('before', 'after'))
+    upload.add_argument('--svg', required=True, type=Path, help='SVG file to upload')
+    upload.add_argument('--python', type=Path, help='the icon\'s Python module')
+    upload.add_argument('--validation', type=Path, help='validation report text')
+    upload.add_argument('--note', default='')
     status = commands.add_parser('status', help='show claims (all, or one icon)', parents=[shared])
     status.add_argument('--icon')
     args = parser.parse_args(argv)
@@ -218,6 +241,14 @@ def main(argv=None):
         sha = args.svg_sha256
         if not sha:
             sha = call(base_url, 'GET', '/api/work', query={'icon': args.icon})['svg_sha256']
+        if args.command == 'upload':
+            data = upload_result(base_url, worker, args.icon, sha, args.stage, args.svg, args.python, args.validation, args.note)
+            if args.json:
+                json.dump(data, sys.stdout, indent=2)
+                print()
+            else:
+                print(f"{args.icon}: {args.stage} result uploaded ({data['result']['saved_at']}); work={data['work']['state']}")
+            return 0
         body = {'icon': args.icon, 'svg_sha256': sha, 'worker': worker}
         if args.note:
             body['note'] = args.note

@@ -33,6 +33,11 @@ def primitive_results_dir(root=REPO_ROOT):
     return Path(root) / 'icon_set' / 'work' / 'primitive-make-ray'
 
 
+def primitive_fix_results_dir(root=REPO_ROOT):
+    """Standalone before/after records of in-place fixes (primitive-fix-thuan)."""
+    return Path(root) / 'icon_set' / 'work' / 'primitive-fix-thuan'
+
+
 def side_main_results_dir(root=REPO_ROOT):
     """Standalone side-main results, separate from published catalogs and runtime state."""
     return Path(root) / 'icon_set' / 'work' / 'side-main-make-thuan'

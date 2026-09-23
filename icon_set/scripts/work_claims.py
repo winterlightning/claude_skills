@@ -51,6 +51,82 @@ def init_work_claims(connection) -> None:
     connection.execute('''CREATE TABLE IF NOT EXISTS work_snapshots (
         icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL, svg TEXT NOT NULL, saved_at TEXT NOT NULL,
         PRIMARY KEY(icon, svg_sha256))''')
+    init_work_results(connection)
+
+
+def init_work_results(connection) -> None:
+    """Fix results a worker uploads for a claimed revision: the drawing before and after the fix."""
+    connection.execute('''CREATE TABLE IF NOT EXISTS work_results (
+        icon TEXT NOT NULL, svg_sha256 TEXT NOT NULL,
+        stage TEXT NOT NULL CHECK(stage IN ('before','after')),
+        worker TEXT NOT NULL, svg TEXT NOT NULL, python_path TEXT, python_source TEXT,
+        validation TEXT, note TEXT NOT NULL DEFAULT '', saved_at TEXT NOT NULL,
+        PRIMARY KEY(icon, svg_sha256, stage))''')
+
+
+RESULT_STAGES = ('before', 'after')
+MAX_RESULT_TEXT = 512 * 1024
+
+
+def validate_text(value, name, *, required=False):
+    if value is None or value == '':
+        if required:
+            raise WorkError(f'{name} is required.', 400)
+        return None
+    if not isinstance(value, str) or len(value.encode('utf-8')) > MAX_RESULT_TEXT:
+        raise WorkError(f'{name} must be text of at most {MAX_RESULT_TEXT // 1024} KB.', 400)
+    return value
+
+
+def save_result(connection, key, sha, stage, worker, *, svg, python_path=None, python_source=None,
+                validation=None, note=None, decision, now, record, user) -> dict:
+    """Store one stage of a fix for the worker's own claim; ``after`` may follow ``done``."""
+    if stage not in RESULT_STAGES:
+        raise WorkError('stage must be before or after.', 400)
+    worker = validate_worker(worker)
+    svg = validate_text(svg, 'svg', required=True)
+    python_source, validation = validate_text(python_source, 'python_source'), validate_text(validation, 'validation')
+    if python_path is not None and (not isinstance(python_path, str) or len(python_path) > 512):
+        raise WorkError('python_path must be a short path string.', 400)
+    note = validate_note(note)
+    existing, state = _current(connection, key, sha, decision, now)
+    allowed = ('working',) if stage == 'before' else ('working', 'done', 'cannot-fix')
+    if not existing or state not in allowed:
+        raise WorkError(f'Upload the {stage} result while you hold the claim; this revision is {state}.', 409,
+                        work_field(existing, state))
+    if existing['worker'] != worker:
+        raise WorkError(f'This claim belongs to {existing["worker"]}, not {worker}.', 409, work_field(existing, state))
+    stamp = now.isoformat()
+    connection.execute('''INSERT INTO work_results(icon, svg_sha256, stage, worker, svg, python_path, python_source, validation, note, saved_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON CONFLICT(icon, svg_sha256, stage) DO UPDATE SET worker=excluded.worker, svg=excluded.svg,
+        python_path=excluded.python_path, python_source=excluded.python_source, validation=excluded.validation,
+        note=excluded.note, saved_at=excluded.saved_at''',
+                       (key, sha, stage, worker, svg, python_path, python_source, validation, note, stamp))
+    record(connection, user, 'work_result', key, svg_sha256=sha, stage=stage, worker=worker, python_path=python_path,
+           has_python=python_source is not None, has_validation=validation is not None, note=note)
+    return {'stage': stage, 'worker': worker, 'saved_at': stamp, 'python_path': python_path, 'note': note,
+            'has_python': python_source is not None, 'has_validation': validation is not None}
+
+
+def load_result(connection, key, sha, stage):
+    row = connection.execute('SELECT worker, svg, python_path, python_source, validation, note, saved_at FROM work_results '
+                             'WHERE icon=? AND svg_sha256=? AND stage=?', (key, sha, stage)).fetchone()
+    if not row:
+        return None
+    return dict(zip(('worker', 'svg', 'python_path', 'python_source', 'validation', 'note', 'saved_at'), row))
+
+
+def result_summaries(connection, key=None) -> dict:
+    """(icon, sha) -> {stage: summary} without the large text fields."""
+    query = 'SELECT icon, svg_sha256, stage, worker, python_path, note, saved_at, python_source IS NOT NULL, validation IS NOT NULL FROM work_results'
+    rows = connection.execute(query + (' WHERE icon=?' if key else ''), (key,) if key else ()).fetchall()
+    summaries = {}
+    for icon, sha, stage, worker, python_path, note, saved_at, has_python, has_validation in rows:
+        summaries.setdefault((icon, sha), {})[stage] = {
+            'worker': worker, 'python_path': python_path, 'note': note, 'saved_at': saved_at,
+            'has_python': bool(has_python), 'has_validation': bool(has_validation)}
+    return summaries
 
 
 def save_snapshot(connection, key, sha, svg, now) -> None:
@@ -346,8 +422,11 @@ def review_listing(connection, catalog, decisions, query, now) -> dict:
         item['work']['claimed_svg_sha256'] = sha
         item['work']['snapshot'] = (key, sha) in snapshots
         rows[key] = item
+    summaries = result_summaries(connection)
     for item in rows.values():
         item['work'].setdefault('snapshot', False)
+        sha = item['work'].get('claimed_svg_sha256') or item.get('svg_sha256') or ''
+        item['work']['results'] = sorted(summaries.get((item['key'], sha), {}))
     ordered = sorted(rows.values(), key=lambda item: (item['work'].get('updated_at') or item['disapproved_at'] or '', item['key']), reverse=True)
     one = lambda name: (query.get(name) or [None])[0]  # noqa: E731
     family, state, status, reason = one('family'), one('state'), one('status'), one('reason')
@@ -381,7 +460,7 @@ def history(connection, catalog, decisions, key, now) -> dict:
 
     def revision(sha):
         return revisions.setdefault(sha, {'svg_sha256': sha, 'current': sha == current_sha, 'review': None, 'claim': None,
-                                          'feedback': [], 'snapshot': False, 'first_seen': None})
+                                          'feedback': [], 'snapshot': False, 'results': {}, 'first_seen': None})
 
     def seen(entry, stamp):
         if stamp and (entry['first_seen'] is None or stamp < entry['first_seen']):
@@ -408,6 +487,11 @@ def history(connection, catalog, decisions, key, now) -> dict:
         entry = revision(sha)
         entry['snapshot'] = True
         seen(entry, saved_at)
+    for (_, sha), stages in result_summaries(connection, key).items():
+        entry = revision(sha)
+        entry['results'] = stages
+        for summary in stages.values():
+            seen(entry, summary['saved_at'])
     current = revision(current_sha)
     if current['review'] is None:
         current['review'] = {'status': 'disapprove' if decision[0] == 'pending' else decision[0], 'updated_by': decision[1], 'updated_at': decision[2]}

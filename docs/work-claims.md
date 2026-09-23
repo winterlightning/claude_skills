@@ -33,6 +33,10 @@ Rules that follow from the table:
   is logged as `work_expired`.
 - **Claim** also saves a snapshot of the displayed SVG for that revision, so
   the reviewer can still see the disapproved drawing after the fix replaces it.
+- **Results** are what a worker uploads: the drawing, module and validation
+  `before` the fix (the first version) and `after` it. The Fix queue History
+  panel shows Before / Fixed / Now from them; `history` lists them per
+  revision under `results`.
 - **Done** updates the claim to `done` **and** sets that revision's review
   status to Ready in the same transaction, attributed to the worker. The
   disapproval feedback is kept so the reviewer can compare the fix against the
@@ -79,6 +83,8 @@ record and must match on every later call.
 | `/api/work/disapproved` | GET | same filters as the queue | every Disapproved icon, claimable or not, each with `status` and `work` (`open`, `working`, `expired`, `done`, `cannot-fix`) |
 | `/api/work/review` | GET | `family`, `state`, `status`, `limit`, `offset` | every icon that is disapproved or carries a claim, newest work first, with `counts` per state; a claim on a revision that is no longer current is `superseded` (fix deployed) |
 | `/api/work/history` | GET | `icon` | the icon's revisions (review, claim, feedback, snapshot flag per hash) and its full change log from `activity_log` |
+| `/api/work/result` | POST | `icon`, `svg_sha256`, `worker`, `stage` (`before`/`after`), `svg`, optional `python_path`, `python_source`, `validation`, `note` | stores a fix result for the worker's own claim (`before` while working; `after` while working or after done); each ≤ 512 KB; the SVG must be a clean 0 0 N N document for the icon's canvas |
+| `/api/work/result` | GET | `icon`, `svg_sha256`, `stage`, `part` = `svg` (default), `python`, `validation` | the uploaded drawing (`image/svg+xml`) or text |
 | `/api/work/snapshot` | GET | `icon`, `svg_sha256` | `image/svg+xml`: the drawing as displayed when that revision was claimed (saved automatically on claim) |
 | `/api/work` | GET | optional `icon` | all claims joined to the catalog (`current`, `status`), or one icon's `{status, svg_sha256, work}` |
 | `/api/work/claim` | POST | `icon`, `svg_sha256`, `worker`, optional `lease_hours` | `201 {saved, work, item}`; `409` with the current `work` when taken, done or cannot-fix |
@@ -126,8 +132,12 @@ python3 icon_set/scripts/work_queue.py status [--icon sub/plus]
 `next` reads a small queue page and claims the first icon it wins; when another
 machine claims the same row first it moves on to the next row. Every report
 command looks up production's current hash unless `--svg-sha256` is given.
-`--json` prints the raw response. The `/fix-icon-queue` skill wraps this
-procedure for agents.
+`upload --icon KEY --stage before|after --svg FILE [--python FILE] [--validation FILE] [--note]`
+sends a fix result. `--json` prints the raw response. The `/fix-icon-queue`
+skill wraps this procedure for agents; `/primitive-fix-thuan <count>` runs the
+whole loop for solo icons through `icon_set/scripts/primitive_fix.py`
+(`start` claims and records the first version, `finish` validates, uploads
+the after result and reports done or cannot-fix).
 
 ## The Fix queue page
 
@@ -136,9 +146,11 @@ every icon that is disapproved or carries a fix claim, with review status, work
 state, worker, claim time, lease and note, plus family / state / status filters,
 search and paging. **History** on a row opens:
 
-- **What changed**: the drawing saved when the icon was claimed (before) next
-  to the current drawing (now), with a sentence saying whether the fix has
-  reached production yet;
+- **What changed**: the drawing saved when the icon was claimed (before), the
+  uploaded fixed drawing (fixed) when the worker uploaded one, and the current
+  drawing (now), with a sentence saying whether the fix has reached production
+  yet; the uploaded Python source before/after and the validation text open
+  underneath;
 - **Revisions**: every `svg_sha256` the icon has had, with its review decision,
   claim and feedback entries;
 - **Change log**: every logged event for the icon, newest first (reviews,

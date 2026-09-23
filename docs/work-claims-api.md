@@ -143,6 +143,32 @@ curl --fail-with-body -H 'Content-Type: application/json' --data '{
 }' "$API_BASE/api/work/heartbeat"
 ```
 
+## 4a. Upload the result
+
+Before reporting, upload the fixed drawing so the Fix queue page shows it next
+to the before drawing at once (the deployed drawing only changes after the
+production pull). The same call with `stage: "before"` stores the first
+version; `primitive_fix.py start` does that automatically when it claims.
+
+```bash
+python3 icon_set/scripts/work_queue.py upload --worker "$WORKER" --icon sub/plus --stage after \
+  --svg published/sub32/plus.svg --python icon_set/model/icons/sub/plus.py --validation validation.txt --note "equalised the arms"
+```
+
+Raw API: `POST /api/work/result` with `{icon, svg_sha256, worker, stage, svg, python_path?, python_source?, validation?, note?}`
+(`before` only while the claim is `working`; `after` while working or after
+`done`; each text ≤ 512 KB; the SVG must be a clean `0 0 N N` document for the
+icon's canvas). Read it back with
+`GET /api/work/result?icon=sub/plus&svg_sha256=5a1c…e9&stage=after&part=svg|python|validation`.
+
+```json
+HTTP 200
+{"saved": true, "icon": "sub/plus", "svg_sha256": "5a1c…e9",
+ "result": {"stage": "after", "worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T08:05:00+00:00",
+            "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true},
+ "work": {"state": "working", "...": "..."}}
+```
+
 ## 4. Mark done
 
 ```bash
@@ -207,7 +233,9 @@ curl --fail-with-body "$API_BASE/api/work/history?icon=sub/plus"
      "claim": {"state": "superseded", "worker": "mac-a/claude-fable-5-1", "note": "sub/plus-v3, commit 2c1c69d", "...": "..."},
      "feedback": [{"id": 41, "reason": "bad-stroke", "feedback": "Bad stroke drawn\n\nThe arms are not equal.",
                    "author": "hina", "created_at": "2026-09-23T06:20:37+00:00", "edited_by": null, "edited_at": null}],
-     "snapshot": true},
+     "snapshot": true,
+     "results": {"before": {"worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T07:00:01+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "first version, before the fix", "has_python": true, "has_validation": false},
+                 "after": {"worker": "mac-a/claude-fable-5-1", "saved_at": "2026-09-23T08:05:00+00:00", "python_path": "icon_set/model/icons/sub/plus.py", "note": "equalised the arms", "has_python": true, "has_validation": true}}},
     {"svg_sha256": "9f02…b1", "current": true,
      "review": {"status": "ready", "updated_by": null, "updated_at": null}, "claim": null, "feedback": [], "snapshot": false}
   ],
@@ -260,6 +288,7 @@ this call plus `history`, rendered.
 | fetch claimable | `GET /api/work/queue?…` |
 | claim one / many | `POST /api/work/claim` `{icon, svg_sha256, worker}` or `{worker, icons: [...]}` |
 | extend lease | `POST /api/work/heartbeat` `{icon, svg_sha256, worker}` |
+| upload before / after | `POST /api/work/result` `{icon, svg_sha256, worker, stage, svg, python_path?, python_source?, validation?, note?}` · `GET /api/work/result?icon=&svg_sha256=&stage=&part=` |
 | mark done → Ready | `POST /api/work/done` `{icon, svg_sha256, worker, note?}` |
 | give up | `POST /api/work/cannot-fix` `{…, note}` · `POST /api/work/abandon` `{…}` |
 | one icon now | `GET /api/work?icon=` |
@@ -268,4 +297,6 @@ this call plus `history`, rendered.
 | everything tracked | `GET /api/work/review?state=&status=&family=&limit=&offset=` |
 | all claims raw | `GET /api/work` |
 
-CLI equivalents: `work_queue.py next | queue | heartbeat | done | cannot-fix | abandon | status`.
+CLI equivalents: `work_queue.py next | queue | upload | heartbeat | done | cannot-fix | abandon | status`.
+Whole loop for solo icons: `/primitive-fix-thuan <count> [--offset N] [--disapprove-status R] [--worker name]`
+(`primitive_fix.py start` / `finish`).

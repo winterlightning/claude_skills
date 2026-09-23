@@ -160,14 +160,26 @@ def init_database_tables(connection):
 
 
 class ServerBase(unittest.TestCase):
-    def start(self, folder, production, sync_source=None):
+    def start(self, folder, production, sync_source=None, *, family='sub', folder_name='sub32', names=('square',),
+              canvas=None, svg=None):
         dist = folder / 'dist'
         dist.mkdir()
-        manifest(dist, 'sub', 'sub32', 'square')
+        if svg is None and names == ('square',) and family == 'sub':
+            manifest(dist, family, folder_name, 'square')
+        else:
+            directory = dist / folder_name
+            directory.mkdir(parents=True, exist_ok=True)
+            rows = [{'family': family, 'icon_id': name, 'name': name, 'svg_sha256': 'abc'} for name in names]
+            if canvas:
+                for row in rows:
+                    row['canvas_size'] = canvas
+            (directory / 'manifest.json').write_text(json.dumps({'icons': rows}))
+            for name in names:
+                (directory / (name + '.svg')).write_text(svg or '<svg xmlns="http://www.w3.org/2000/svg"/>')
         # The fixture must not depend on the live icon registry.
         with patch('icon_set.model.icons.registry.factories', return_value={}), \
                 patch('icon_set.scripts.symbol_family.stage', side_effect=lambda target, records: records):
-            stage_gallery(dist, dist, ['sub32'])
+            stage_gallery(dist, dist, [folder_name])
         database = folder / 'data' / 'feedback.sqlite3'
         kwargs = {'production': production}
         if sync_source:

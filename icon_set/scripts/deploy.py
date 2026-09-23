@@ -93,7 +93,8 @@ DEFAULT_SYNC_SOURCE = os.environ.get('PICTOGRAPHIC_SYNC_SOURCE', 'https://suffer
 MAX_SYNC_BYTES = 1024 * 1024 * 1024
 SYNC_TIMEOUT = 120
 # Work claims live only in the production database; a development server forwards these.
-WORK_ROUTES = ('/api/work/claim', '/api/work/heartbeat', '/api/work/done', '/api/work/cannot-fix', '/api/work/abandon')
+WORK_ROUTES = ('/api/work/claim', '/api/work/heartbeat', '/api/work/done', '/api/work/cannot-fix', '/api/work/abandon', '/api/work/result')
+MAX_WORK_RESULT_BODY = 1536 * 1024
 WORK_FORWARD_TIMEOUT = 30
 WORK_CACHE_SECONDS = 10
 SYNC_COUNTED_TABLES = ('feedback', 'reviews', 'icon_flags', 'activity_log')
@@ -1041,7 +1042,7 @@ class GalleryHandler(SimpleHTTPRequestHandler):
             size = int(self.headers.get('Content-Length', '0'))
         except ValueError:
             size = 0
-        limit = {'/api/combination-experiment': 3 * 1024 * 1024, '/api/icons/upload': 2 * 1024 * 1024, '/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY}.get(route, MAX_BODY)
+        limit = {'/api/combination-experiment': 3 * 1024 * 1024, '/api/icons/upload': 2 * 1024 * 1024, '/api/icon-artwork': 2 * 1024 * 1024, '/api/generation': 131072, '/api/reference-images': MAX_REFERENCE_BODY, '/api/work/result': MAX_WORK_RESULT_BODY}.get(route, MAX_BODY)
         if self.headers.get('Transfer-Encoding') or not 0 < size <= limit:
             return self.json_response({'error': 'Invalid request size' if route != '/api/reference-images' else 'Reference image is too large.'}, 413)
         try:
@@ -1312,11 +1313,29 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                 if parsed.path == '/api/work/review':
                     return self.json_response(work_claims.review_listing(connection, catalog, decisions, query, now))
                 key = query.get('icon', [''])[0]
-                if parsed.path in ('/api/work/history', '/api/work/snapshot'):
+                if parsed.path in ('/api/work/history', '/api/work/snapshot', '/api/work/result'):
                     if key not in catalog:
                         return self.json_response({'error': 'Unknown icon'}, 404)
                     if parsed.path == '/api/work/history':
                         return self.json_response(work_claims.history(connection, catalog, decisions, key, now))
+                    if parsed.path == '/api/work/result':
+                        stage, part = query.get('stage', [''])[0], query.get('part', ['svg'])[0]
+                        row = work_claims.load_result(connection, key, query.get('svg_sha256', [''])[0], stage)
+                        if row is None or part not in ('svg', 'python', 'validation'):
+                            return self.json_response({'error': 'No uploaded result for this revision and stage.'}, 404)
+                        text = row['svg'] if part == 'svg' else row['python_source' if part == 'python' else 'validation']
+                        if text is None:
+                            return self.json_response({'error': f'The {stage} result has no {part} part.'}, 404)
+                        content = text.encode('utf-8')
+                        self.send_response(200)
+                        self.send_header('Content-Type', 'image/svg+xml' if part == 'svg' else 'text/plain; charset=utf-8')
+                        self.send_header('Content-Length', str(len(content)))
+                        self.send_header('Cache-Control', 'no-store')
+                        self.send_header('X-Content-Type-Options', 'nosniff')
+                        self.send_header('Content-Security-Policy', "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+                        self.end_headers()
+                        self.wfile.write(content)
+                        return
                     svg = work_claims.load_snapshot(connection, key, query.get('svg_sha256', [''])[0])
                     if svg is None:
                         return self.json_response({'error': 'No snapshot was saved for this revision.'}, 404)
@@ -1430,6 +1449,15 @@ class GalleryHandler(SimpleHTTPRequestHandler):
                         result = {'work': work_claims.heartbeat(connection, key, sha, worker, lease_hours=data.get('lease_hours'), **common)}
                     elif action in ('done', 'cannot-fix'):
                         result = work_claims.finish(connection, key, sha, worker, action, note=data.get('note'), **common)
+                    elif action == 'result':
+                        try:
+                            svg = safe_svg(data.get('svg'), icon.get('canvas_size') or 48)
+                        except ValueError as error:
+                            raise work_claims.WorkError(f'Result SVG refused: {error}', 400)
+                        result = {'result': work_claims.save_result(
+                            connection, key, sha, data.get('stage'), worker, svg=svg, python_path=data.get('python_path'),
+                            python_source=data.get('python_source'), validation=data.get('validation'), note=data.get('note'), **common)}
+                        result['work'] = work_claims.work_field(*work_claims._current(connection, key, sha, decision, now))
                     else:
                         result = work_claims.abandon(connection, key, sha, worker, admin=user != 'system', **common)
                     connection.execute('COMMIT')
